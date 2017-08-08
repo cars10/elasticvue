@@ -1,20 +1,25 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { ELASTICSEARCH_API_VERSIONS } from '../consts'
+import { CONNECTION_STATES, DEFAULT_VERSION } from '../consts'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    connection: CONNECTION_STATES.UNKNOWN,
     elasticsearchClient: null,
-    elasticsearchVersion: ELASTICSEARCH_API_VERSIONS[0]
+    elasticsearchVersion: DEFAULT_VERSION
   },
   mutations: {
     setElasticsearchClient (state, client) {
       state.elasticsearchClient = client
+      state.connection = CONNECTION_STATES.SUCCESS
     },
     setElasticsearchVersion (state, version) {
       state.elasticsearchVersion = version
+    },
+    setErrorState (state) {
+      state.connection = CONNECTION_STATES.ERROR
     }
   }
 })
