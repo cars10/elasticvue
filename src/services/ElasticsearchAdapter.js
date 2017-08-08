@@ -6,7 +6,8 @@ export default class ElasticsearchAdapter {
    * @type {{requestTimeout: number}}
    */
   requestDefaults = {
-    requestTimeout: 3000
+    requestTimeout: 3000,
+    format: 'json'
   }
 
   constructor (client) {
@@ -19,5 +20,9 @@ export default class ElasticsearchAdapter {
 
   getClientInfo () {
     return this.client.info(this.requestDefaults)
+  }
+
+  getCatIndices () {
+    return this.client.cat.indices(this.requestDefaults)
   }
 }
