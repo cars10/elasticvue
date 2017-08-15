@@ -1,14 +1,20 @@
 <template>
   <div class="app">
-    <header class="navbar" :class="'navbar--'+this.$store.state.connection">
-      <div class="container">
-        Elasticvue
-        <connect></connect>
-      </div>
-    </header>
-    <div class="container">
-      <router-view></router-view>
-    </div>
+    <md-toolbar>
+      <md-layout>
+        <md-layout md-align="start">
+          <router-link class="md-title" to="/">Elasticvue</router-link>
+        </md-layout>
+        <md-layout md-align="end">
+          <connect></connect>
+        </md-layout>
+      </md-layout>
+    </md-toolbar>
+    <main class="container">
+      <md-layout class="p1">
+        <router-view></router-view>
+      </md-layout>
+    </main>
   </div>
 </template>
 
@@ -36,16 +42,8 @@
     margin-right: auto;
   }
 
-  .navbar {
-    height: 50px;
-    background-color: lightgray;
-  }
-
-  .navbar--success {
-    background-color: lightgreen;
-  }
-
-  .navbar--error {
-    background-color: red;
+  a.md-title {
+    color: #fff !important;
+    text-decoration: none !important;
   }
 </style>
