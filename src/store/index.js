@@ -8,7 +8,8 @@ export default new Vuex.Store({
   state: {
     connection: CONNECTION_STATES.UNKNOWN,
     elasticsearchClient: null,
-    elasticsearchVersion: DEFAULT_VERSION
+    elasticsearchVersion: DEFAULT_VERSION,
+    indices: []
   },
   mutations: {
     setElasticsearchClient (state, client) {
@@ -20,6 +21,9 @@ export default new Vuex.Store({
     },
     setErrorState (state) {
       state.connection = CONNECTION_STATES.ERROR
+    },
+    setIndices (state, indices) {
+      state.indices = indices
     }
   }
 })
