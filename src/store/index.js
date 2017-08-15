@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { CONNECTION_STATES, DEFAULT_VERSION } from '../consts'
+import { CONNECTION_STATES, DEFAULT_VERSION, DEFAULT_HOST } from '../consts'
 
 Vue.use(Vuex)
 
@@ -9,6 +9,7 @@ export default new Vuex.Store({
     connection: CONNECTION_STATES.UNKNOWN,
     elasticsearchClient: null,
     elasticsearchVersion: DEFAULT_VERSION,
+    elasticsearchHost: DEFAULT_HOST,
     indices: []
   },
   mutations: {
@@ -18,6 +19,9 @@ export default new Vuex.Store({
     },
     setElasticsearchVersion (state, version) {
       state.elasticsearchVersion = version
+    },
+    setElasticsearchHost (state, host) {
+      state.elasticsearchHost = host
     },
     setErrorState (state) {
       state.connection = CONNECTION_STATES.ERROR

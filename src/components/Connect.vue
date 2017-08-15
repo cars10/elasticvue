@@ -1,7 +1,7 @@
 <template>
   <div>
     <form v-on:submit.prevent="connect()">
-      <input type="text" name="host" id="host" v-model="host">
+      <input type="text" name="host" id="host" v-model="elasticsearchHost">
       <select name="versions" id="versions" v-model="elasticsearchVersion">
         <option :value="version" v-for="version in versions">{{version}}</option>
       </select>
@@ -13,12 +13,11 @@
 <script>
   import ElasticsearchAdapter from '../services/ElasticsearchAdapter'
   import ConnectService from '../services/elasticsearch/ConnectService'
-  import { ELASTICSEARCH_API_VERSIONS, DEFAULT_HOST } from '../consts'
+  import { ELASTICSEARCH_API_VERSIONS } from '../consts'
 
   export default {
     data () {
       return {
-        host: DEFAULT_HOST,
         versions: ELASTICSEARCH_API_VERSIONS
       }
     },
@@ -47,6 +46,14 @@
         },
         set (value) {
           this.$store.commit('setElasticsearchVersion', value)
+        }
+      },
+      elasticsearchHost: {
+        get () {
+          return this.$store.state.elasticsearchHost
+        },
+        set (value) {
+          this.$store.commit('setElasticsearchHost', value)
         }
       }
     }
