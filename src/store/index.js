@@ -28,6 +28,15 @@ export default new Vuex.Store({
     },
     setIndices (state, indices) {
       state.indices = indices
+    },
+    sortIndices (state, sortObject) {
+      state.indices = state.indices.sort((a, b) => {
+        if (sortObject.order === 'asc') {
+          return (a[sortObject.prop] > b[sortObject.prop]) ? 1 : ((b[sortObject.prop] > a[sortObject.prop]) ? -1 : 0)
+        } else {
+          return (a[sortObject.prop] > b[sortObject.prop]) ? -1 : ((b[sortObject.prop] > a[sortObject.prop]) ? 1 : 0)
+        }
+      })
     }
   }
 })

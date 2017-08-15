@@ -1,23 +1,34 @@
 <template>
   <div>
-    <table>
-      <thead>
-      <tr>
-        <th>Name</th>
-        <th>Health</th>
-        <th>Status</th>
-        <th>UUID</th>
-        <th>Pri</th>
-        <th>Rep</th>
-        <th>Docs</th>
-        <th>Store size</th>
-        <th>Pri Store size</th>
-      </tr>
-      </thead>
-      <tbody>
-        <index v-for="index in this.$store.state.indices" :key="index.index" :index="index"></index>
-      </tbody>
-    </table>
+    <md-table @sort="onSort">
+      <md-table-header>
+        <md-table-row>
+          <md-table-head md-sort-by="index">Name</md-table-head>
+          <md-table-head md-sort-by="health">Health</md-table-head>
+          <md-table-head md-sort-by="status">Status</md-table-head>
+          <md-table-head md-sort-by="uuid">UUID</md-table-head>
+          <md-table-head md-sort-by="pri">Pri</md-table-head>
+          <md-table-head md-sort-by="rep">Rep</md-table-head>
+          <md-table-head md-sort-by="docs.count">Docs</md-table-head>
+          <md-table-head md-sort-by="store.size">Store size</md-table-head>
+          <md-table-head md-sort-by="pri.store.size">Pri Store size</md-table-head>
+        </md-table-row>
+      </md-table-header>
+
+      <md-table-body>
+        <md-table-row v-for="index in this.$store.state.indices" :key="index.index">
+          <md-table-cell>{{index.index}}</md-table-cell>
+          <md-table-cell>{{index.health}}</md-table-cell>
+          <md-table-cell>{{index.status}}</md-table-cell>
+          <md-table-cell>{{index.uuid}}</md-table-cell>
+          <md-table-cell>{{index.pri}}</md-table-cell>
+          <md-table-cell>{{index.rep}}</md-table-cell>
+          <md-table-cell>{{index['docs.count']}}</md-table-cell>
+          <md-table-cell>{{index['store.size']}}</md-table-cell>
+          <md-table-cell>{{index['pri.store.size']}}</md-table-cell>
+        </md-table-row>
+      </md-table-body>
+    </md-table>
   </div>
 </template>
 
@@ -27,6 +38,11 @@
   export default {
     components: {
       Index
+    },
+    methods: {
+      onSort (sort) {
+        this.$store.commit('sortIndices', {prop: sort.name, order: sort.type})
+      }
     }
   }
 </script>

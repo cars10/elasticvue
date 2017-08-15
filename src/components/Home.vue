@@ -1,7 +1,7 @@
 <template>
   <indices v-if="this.$store.state.elasticsearchClient"></indices>
 
-  <md-layout md-align="center" v-else>
+  <md-layout class="p4" md-align="center" v-else>
     <connect></connect>
   </md-layout>
 </template>
