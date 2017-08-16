@@ -1,0 +1,21 @@
+.app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
+}
+
+.container {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+a.md-title {
+  color: #fff !important;
+  text-decoration: none !important;
+}
+
+a.router-link-active {
+  font-weight: bold;
+}

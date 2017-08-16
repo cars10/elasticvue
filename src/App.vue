@@ -12,9 +12,9 @@
         </md-layout>
 
         <md-layout md-align="end">
-          <md-button @click.native="$router.push({ name: 'Home'})">Home</md-button>
-          <md-button @click.native="$router.push({ name: 'Browse'})">Browse</md-button>
-          <md-button @click.native="$router.push({ name: 'Search'})">Search</md-button>
+          <router-link to="/" class="md-button">Home</router-link>
+          <router-link to="/browse" class="md-button">Browse</router-link>
+          <router-link to="/search" class="md-button">Search</router-link>
         </md-layout>
       </md-layout>
     </md-toolbar>
@@ -35,23 +35,3 @@
     }
   }
 </script>
-
-<style>
-  .app {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    color: #2c3e50;
-  }
-
-  .container {
-    width: 80%;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  a.md-title {
-    color: #fff !important;
-    text-decoration: none !important;
-  }
-</style>
