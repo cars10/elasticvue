@@ -5,8 +5,15 @@
         <md-layout md-align="start">
           <router-link class="md-title" to="/">Elasticvue</router-link>
         </md-layout>
-        <md-layout md-align="end">
+
+        <md-layout md-align="center" md-vertical-align="center">
           <connect></connect>
+        </md-layout>
+
+        <md-layout md-align="end">
+          <md-button @click.native="$router.push({ name: 'Home'})">Home</md-button>
+          <md-button @click.native="$router.push({ name: 'Browse'})">Browse</md-button>
+          <md-button @click.native="$router.push({ name: 'Search'})">Search</md-button>
         </md-layout>
       </md-layout>
     </md-toolbar>
