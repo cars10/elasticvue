@@ -23,7 +23,7 @@
     },
     methods: {
       connect () {
-        let connectService = new ConnectService(this.host, this.$store.state.elasticsearchVersion)
+        let connectService = new ConnectService(this.$store.state.elasticsearchHost, this.$store.state.elasticsearchVersion)
         connectService.connect().then(
           client => {
             this.$store.commit('setElasticsearchClient', client)
