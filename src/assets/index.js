@@ -1,9 +1,6 @@
 import Vue from 'vue'
 import VueMaterial from 'vue-material'
 
-// Base styles
-import './stylesheets/style.scss'
-
 // Vue-Material
 import 'vue-material/dist/components/mdCore/index.css'
 import 'vue-material/dist/components/mdButton/index.css'
@@ -24,8 +21,11 @@ Vue.use(VueMaterial.MdProgress)
 Vue.use(VueMaterial.MdTable)
 Vue.use(VueMaterial.MdToolbar)
 
+// Base styles
+import './stylesheets/style.scss'
+
 Vue.material.registerTheme('default', {
   primary: 'teal',
-  accent: 'red',
+  accent: 'purple',
   warn: 'red'
 })

@@ -4,7 +4,7 @@
       <md-layout>
         <md-layout md-align="start" md-vertical-align="center">
           <router-link class="md-title" to="/">Elasticvue</router-link>
-          &nbsp;&nbsp;<md-chip class="md-accent">Accent</md-chip>
+          &nbsp;&nbsp;<md-chip :class="'md-'+this.$store.state.connection">{{this.$store.state.connection}}</md-chip>
         </md-layout>
 
         <md-layout md-align="center" md-vertical-align="center">
