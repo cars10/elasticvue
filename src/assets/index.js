@@ -7,6 +7,7 @@ import './stylesheets/style.scss'
 // Vue-Material
 import 'vue-material/dist/components/mdCore/index.css'
 import 'vue-material/dist/components/mdButton/index.css'
+import 'vue-material/dist/components/mdChips/index.css'
 import 'vue-material/dist/components/mdInputContainer/index.css'
 import 'vue-material/dist/components/mdLayout/index.css'
 import 'vue-material/dist/components/mdProgress/index.css'
@@ -15,6 +16,7 @@ import 'vue-material/dist/components/mdToolbar/index.css'
 
 Vue.use(VueMaterial.MdCore)
 Vue.use(VueMaterial.MdButton)
+Vue.use(VueMaterial.MdChips)
 Vue.use(VueMaterial.MdIcon)
 Vue.use(VueMaterial.MdInputContainer)
 Vue.use(VueMaterial.MdLayout)
