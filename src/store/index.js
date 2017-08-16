@@ -23,7 +23,8 @@ export default new Vuex.Store({
     setElasticsearchHost (state, host) {
       state.elasticsearchHost = host
     },
-    setErrorState (state) {
+    setErrorState (state, error) {
+      console.error('## ERROR', error)
       state.connection = CONNECTION_STATES.ERROR
     },
     setIndices (state, indices) {

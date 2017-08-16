@@ -32,10 +32,10 @@
               body => {
                 this.$store.commit('setIndices', body)
               },
-              () => this.$store.commit('setErrorState')
+              error => this.$store.commit('setErrorState', error)
             )
           },
-          () => this.$store.commit('setErrorState')
+          error => this.$store.commit('setErrorState', error)
         )
       }
     },

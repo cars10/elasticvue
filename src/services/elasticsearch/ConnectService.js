@@ -27,8 +27,8 @@ export default class ConnectService {
 
     return new Promise((resolve, reject) => {
       adapter.ping().then(
-        body => body === true ? resolve(client) : reject('Could not connect:', body),
-        error => reject('NOPE:', error)
+        body => body === true ? resolve(client) : reject(body),
+        error => reject(error)
       )
     })
   }
