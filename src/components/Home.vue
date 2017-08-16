@@ -1,8 +1,13 @@
 <template>
-  <indices v-if="this.$store.state.elasticsearchClient"></indices>
+  <div v-if="this.$store.state.elasticsearchClient">
+    <h1>Indices</h1>
+    <indices></indices>
+  </div>
 
-  <md-layout class="p4" md-align="center" v-else>
-    <connect></connect>
+  <md-layout class="p3" md-column v-else>
+    <md-layout md-align="center">
+      <connect></connect>
+    </md-layout>
   </md-layout>
 </template>
 
