@@ -13,5 +13,5 @@ export const CONNECTION_STATES = {
   ERROR: 'error'
 }
 
-export const DEFAULT_HOST = 'localhost:9200'
+export const DEFAULT_HOST = 'http://localhost:9200'
 export const DEFAULT_VERSION = ELASTICSEARCH_API_VERSIONS[0]
