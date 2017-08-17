@@ -6,7 +6,7 @@
 }
 
 .container {
-  width: 80%;
+  width: 90%;
   margin-left: auto;
   margin-right: auto;
 }
@@ -18,4 +18,14 @@ a.md-title {
 
 a.router-link-active {
   font-weight: bold;
+}
+
+body,
+.md-select .md-select-value {
+  font-size: 12px !important;
+}
+
+.md-input-container label,
+.md-list-item .md-list-item-container {
+  font-size: 14px !important;
 }
