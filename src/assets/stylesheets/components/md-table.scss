@@ -1,0 +1,18 @@
+.md-table--condensed {
+  table .md-table-cell .md-table-cell-container {
+    padding: 0 16px 0 12px; // 50% of original
+  }
+  table .md-table-cell {
+    height: 36px;
+  }
+}
+
+.md-table--striped {
+  table .md-table-row:nth-child(even) {
+    background-color: #eee;
+  }
+}
+
+.md-table tbody .md-table-row:hover .md-table-cell {
+  background-color: #e0f2f1;
+}

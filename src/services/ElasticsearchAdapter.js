@@ -3,7 +3,7 @@ export default class ElasticsearchAdapter {
 
   /**
    * Defaults used in each request
-   * @type {{requestTimeout: number}}
+   * @type {{requestTimeout: number, format: string}}
    */
   requestDefaults = {
     requestTimeout: 3000,

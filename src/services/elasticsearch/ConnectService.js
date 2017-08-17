@@ -19,8 +19,8 @@ export default class ConnectService {
   connect () {
     let client = new elasticsearch.Client({
       host: this.host,
-      apiVersion: this.version,
-      log: 'trace'
+      apiVersion: this.version// ,
+      // log: 'trace'
     })
 
     let adapter = new ElasticsearchAdapter(client)

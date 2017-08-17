@@ -1,0 +1,11 @@
+.form-inline {
+  display: flex;
+
+  div.md-input-container:not(last-child) {
+    margin-right: 20px;
+  }
+
+  button.md-button {
+    height: 36px;
+  }
+}
