@@ -33,12 +33,7 @@
 </template>
 
 <script>
-  import Index from '@/components/Home/Index'
-
   export default {
-    components: {
-      Index
-    },
     methods: {
       onSort (sort) {
         this.$store.commit('sortIndices', {prop: sort.name, order: sort.type})

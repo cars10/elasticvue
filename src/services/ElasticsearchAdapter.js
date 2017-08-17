@@ -11,7 +11,11 @@ export default class ElasticsearchAdapter {
   }
 
   constructor (client) {
-    this.client = client
+    if (client === undefined || client === null) {
+      console.error('Client must not be null')
+    } else {
+      this.client = client
+    }
   }
 
   ping () {
@@ -24,5 +28,9 @@ export default class ElasticsearchAdapter {
 
   getCatIndices () {
     return this.client.cat.indices(this.requestDefaults)
+  }
+
+  search (params) {
+    return this.client.search(Object.assign(this.requestDefaults, params))
   }
 }
