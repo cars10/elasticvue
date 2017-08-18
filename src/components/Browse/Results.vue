@@ -11,7 +11,7 @@
       </md-table-header>
 
       <md-table-body>
-        <md-table-row v-for="hit in hits" :key="hit._id">
+        <md-table-row v-for="hit in hits" :key="hit._id" @click.native="onClick(hit)">
           <md-table-cell>{{hit._index}}</md-table-cell>
           <md-table-cell>{{hit._id}}</md-table-cell>
           <md-table-cell>{{hit._type}}</md-table-cell>
@@ -24,6 +24,12 @@
 
 <script>
   export default {
-    props: ['hits']
+    props: ['hits'],
+    methods: {
+      onClick (el) {
+        console.log(el)
+        this.$router.push({name: 'Document', params: {index: el._index, type: el._type, id: el._id}})
+      }
+    }
   }
 </script>

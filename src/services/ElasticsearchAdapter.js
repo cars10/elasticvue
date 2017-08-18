@@ -33,4 +33,8 @@ export default class ElasticsearchAdapter {
   search (params) {
     return this.client.search(Object.assign(this.requestDefaults, params))
   }
+
+  get (params) {
+    return this.client.get(Object.assign(this.requestDefaults, params))
+  }
 }

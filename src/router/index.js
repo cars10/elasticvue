@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Home from '@/components/Home'
 import Browse from '@/components/Browse'
 import Search from '@/components/Search'
+import Document from '@/components/Browse/Document'
 
 Vue.use(Router)
 
@@ -23,6 +24,11 @@ export default new Router({
       path: '/search',
       name: 'Search',
       component: Search
+    },
+    {
+      path: '/documents/:index/:type/:id',
+      name: 'Document',
+      component: Document
     }
   ]
 })
