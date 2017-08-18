@@ -28,7 +28,7 @@
       <md-button class="md-raised" type="submit">Submit</md-button>
     </form>
 
-    <results v-if="results && results.hits && results.hits.hits" :hits="results.hits.hits"></results>
+    <results v-if="result && result.hits && result.hits.hits" :hits="result.hits.hits"></results>
   </div>
 </template>
 
@@ -40,7 +40,7 @@
     data () {
       return {
         indices: [],
-        results: [],
+        result: [],
         size: 25,
         from: 0,
         q: '*'
@@ -51,10 +51,12 @@
     },
     methods: {
       onSubmit () {
-        console.log('loading')
         let adapter = new ElasticsearchAdapter(this.$store.state.elasticsearchClient)
+        if (this.q === '') {
+          this.q = '*'
+        }
         adapter.search({index: this.indices, q: this.q, size: parseInt(this.size), from: parseInt(this.from)}).then(
-          (body) => (this.results = body),
+          (body) => (this.result = body),
           (error) => this.$store.commit('setErrorState', error)
         )
       }
