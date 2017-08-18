@@ -11,14 +11,19 @@
         </md-select>
       </md-input-container>
 
-      <md-input-container class="width-auto">
+      <md-input-container class="md-input-container--sm">
         <label for="from">From</label>
         <md-input v-model="from" id="from"></md-input>
       </md-input-container>
 
-      <md-input-container class="width-auto">
+      <md-input-container class="md-input-container--sm">
         <label for="size">Size</label>
         <md-input v-model="size" id="size"></md-input>
+      </md-input-container>
+
+      <md-input-container class="width-auto">
+        <label for="q">Query</label>
+        <md-input v-model="q" id="q"></md-input>
       </md-input-container>
       <md-button class="md-raised" type="submit">Submit</md-button>
     </form>
@@ -37,7 +42,8 @@
         indices: [],
         results: [],
         size: 25,
-        from: 0
+        from: 0,
+        q: '*'
       }
     },
     components: {
@@ -47,7 +53,7 @@
       onSubmit () {
         console.log('loading')
         let adapter = new ElasticsearchAdapter(this.$store.state.elasticsearchClient)
-        adapter.search({index: this.indices, q: '*', size: parseInt(this.size), from: parseInt(this.from)}).then(
+        adapter.search({index: this.indices, q: this.q, size: parseInt(this.size), from: parseInt(this.from)}).then(
           (body) => (this.results = body),
           (error) => this.$store.commit('setErrorState', error)
         )
