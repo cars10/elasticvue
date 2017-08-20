@@ -16,3 +16,9 @@
 .md-table tbody .md-table-row:hover .md-table-cell {
   background-color: #e0f2f1;
 }
+
+.md-table--clickable {
+  table .md-table-row:hover {
+    cursor: pointer
+  }
+}

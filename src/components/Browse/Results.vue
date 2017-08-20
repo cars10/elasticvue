@@ -1,6 +1,6 @@
 <template>
   <div>
-    <md-table v-if="hits && hits.length > 0" class="white-space--nowrap md-table--condensed md-table--striped">
+    <md-table v-if="hits && hits.length > 0" class="white-space--nowrap md-table--condensed md-table--striped md-table--clickable">
       <md-table-header>
         <md-table-row>
           <md-table-head md-sort-by="_index">_index</md-table-head>
