@@ -15,3 +15,5 @@ export const CONNECTION_STATES = {
 
 export const DEFAULT_HOST = 'http://localhost:9200'
 export const DEFAULT_VERSION = ELASTICSEARCH_API_VERSIONS[0]
+
+export const LOCALSTORAGE_KEY = 'elasticvue_vuex'

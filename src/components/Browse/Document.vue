@@ -16,7 +16,6 @@
       }
     },
     created () {
-      console.log(this.$route.params)
       let adapter = new ElasticsearchAdapter(this.$store.state.elasticsearchClient)
       adapter.get({index: this.params.index, type: this.params.type, id: this.params.id}).then(
         (body) => (this.document = body),

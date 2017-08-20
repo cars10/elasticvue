@@ -28,7 +28,6 @@
     props: ['hits'],
     methods: {
       onClick (el) {
-        console.log(el)
         this.$router.push({name: 'Document', params: {index: el._index, type: el._type, id: el._id}})
       }
     }

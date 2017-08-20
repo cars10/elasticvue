@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form v-on:submit.prevent="connect()">
+    <form v-on:submit.prevent="connectWithClient()">
       <input type="text" name="host" id="host" v-model="elasticsearchHost">
       <select name="versions" id="versions" v-model="elasticsearchVersion">
         <option :value="version" v-for="version in versions">{{version}}</option>
@@ -11,9 +11,8 @@
 </template>
 
 <script>
-  import ElasticsearchAdapter from '../services/ElasticsearchAdapter'
-  import ConnectService from '../services/elasticsearch/ConnectService'
   import { ELASTICSEARCH_API_VERSIONS } from '../consts'
+  import ConnectMixin from '../mixins/ConnectMixin'
 
   export default {
     data () {
@@ -21,24 +20,7 @@
         versions: ELASTICSEARCH_API_VERSIONS
       }
     },
-    methods: {
-      connect () {
-        let connectService = new ConnectService(this.$store.state.elasticsearchHost, this.$store.state.elasticsearchVersion)
-        connectService.connect().then(
-          client => {
-            this.$store.commit('setElasticsearchClient', client)
-            let adapter = new ElasticsearchAdapter(client)
-            adapter.getCatIndices().then(
-              body => {
-                this.$store.commit('setIndices', body)
-              },
-              error => this.$store.commit('setErrorState', error)
-            )
-          },
-          error => this.$store.commit('setErrorState', error)
-        )
-      }
-    },
+    mixins: [ConnectMixin],
     computed: {
       elasticsearchVersion: {
         get () {

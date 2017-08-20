@@ -1,10 +1,20 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { CONNECTION_STATES, DEFAULT_VERSION, DEFAULT_HOST } from '../consts'
+import createPersistedState from 'vuex-persistedstate'
+import { CONNECTION_STATES, DEFAULT_VERSION, DEFAULT_HOST, LOCALSTORAGE_KEY } from '../consts'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
+  plugins: [
+    createPersistedState({
+      key: LOCALSTORAGE_KEY,
+      paths: [
+        'elasticsearchVersion',
+        'elasticsearchHost'
+      ]
+    })
+  ],
   state: {
     connection: CONNECTION_STATES.UNKNOWN,
     elasticsearchClient: null,
