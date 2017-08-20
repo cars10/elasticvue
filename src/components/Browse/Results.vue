@@ -11,11 +11,12 @@
       </md-table-header>
 
       <md-table-body>
-        <md-table-row v-for="hit in hits" :key="hit._id" @click.native="onClick(hit)">
+        <md-table-row v-for="hit in hits" :key="hit._type + '_' + hit._id" @click.native="onClick(hit)">
           <md-table-cell>{{hit._index}}</md-table-cell>
           <md-table-cell>{{hit._id}}</md-table-cell>
           <md-table-cell>{{hit._type}}</md-table-cell>
-          <md-table-cell v-for="key in Object.keys(hit._source)" :key="key">{{hit._source[key]}}</md-table-cell>
+          <md-table-cell v-for="key in Object.keys(hit._source)" :key="hit._index + '_' + key">{{hit._source[key]}}
+          </md-table-cell>
         </md-table-row>
       </md-table-body>
     </md-table>
