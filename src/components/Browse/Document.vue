@@ -1,6 +1,10 @@
 <template>
   <div>
-    <dl v-html="printProxy(document, 'blockquote')"></dl>
+    <md-card>
+      <md-card-content>
+        <dl v-html="printProxy(document, 'blockquote')"></dl>
+      </md-card-content>
+    </md-card>
   </div>
 </template>
 

@@ -1,32 +1,37 @@
 <template>
   <div class="width-100">
-    <h1>Browse</h1>
-    <form v-on:submit.prevent="onSubmit" class="form-inline">
-      <md-input-container class="width-auto">
-        <label for="indices">Indices</label>
-        <md-select multiple name="indices" id="indices" v-model="search.index">
-          <md-option :value="index.index" :key="index.index" v-for="index in this.$store.state.indices">
-            {{ index.index }}
-          </md-option>
-        </md-select>
-      </md-input-container>
+    <md-card>
+      <md-card-content>
+        <h1>Browse</h1>
+        <form v-on:submit.prevent="onSubmit" class="form-inline">
+          <md-input-container class="width-auto">
+            <label for="indices">Indices</label>
+            <md-select multiple name="indices" id="indices" v-model="search.index">
+              <md-option :value="index.index" :key="index.index" v-for="index in this.$store.state.indices">
+                {{ index.index }}
+              </md-option>
+            </md-select>
+          </md-input-container>
 
-      <md-input-container class="md-input-container--sm">
-        <label for="from">From</label>
-        <md-input v-model="search.from" id="from"></md-input>
-      </md-input-container>
+          <md-input-container class="md-input-container--sm">
+            <label for="from">From</label>
+            <md-input v-model="search.from" id="from"></md-input>
+          </md-input-container>
 
-      <md-input-container class="md-input-container--sm">
-        <label for="size">Size</label>
-        <md-input v-model="search.size" id="size"></md-input>
-      </md-input-container>
+          <md-input-container class="md-input-container--sm">
+            <label for="size">Size</label>
+            <md-input v-model="search.size" id="size"></md-input>
+          </md-input-container>
 
-      <md-input-container class="width-auto">
-        <label for="q">Query</label>
-        <md-input v-model="search.q" id="q"></md-input>
-      </md-input-container>
-      <md-button class="md-raised" type="submit">Submit</md-button>
-    </form>
+          <md-input-container class="width-auto">
+            <label for="q">Query</label>
+            <md-input v-model="search.q" id="q"></md-input>
+          </md-input-container>
+          <md-button class="md-raised" type="submit">Submit</md-button>
+        </form>
+      </md-card-content>
+    </md-card>
+    <br>
 
     <results v-if="result && result.hits && result.hits.hits" :hits="result.hits.hits"></results>
   </div>

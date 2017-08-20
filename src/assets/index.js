@@ -5,6 +5,7 @@ import VueMaterial from 'vue-material'
 import 'vue-material/dist/components/mdCore/index.css'
 import 'vue-material/dist/components/mdBackdrop/index.css'
 import 'vue-material/dist/components/mdButton/index.css'
+import 'vue-material/dist/components/mdCard/index.css'
 import 'vue-material/dist/components/mdCheckbox/index.css'
 import 'vue-material/dist/components/mdChips/index.css'
 import 'vue-material/dist/components/mdInputContainer/index.css'
@@ -19,6 +20,7 @@ import 'vue-material/dist/components/mdToolbar/index.css'
 Vue.use(VueMaterial.MdCore)
 Vue.use(VueMaterial.MdBackdrop)
 Vue.use(VueMaterial.MdButton)
+Vue.use(VueMaterial.MdCard)
 Vue.use(VueMaterial.MdCheckbox)
 Vue.use(VueMaterial.MdChips)
 Vue.use(VueMaterial.MdIcon)
