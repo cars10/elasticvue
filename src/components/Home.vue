@@ -1,5 +1,5 @@
 <template>
-  <div v-if="this.$store.state.elasticsearchClient">
+  <div v-if="this.$store.state.elasticsearchClient" class="width-100">
     <h1>Indices</h1>
     <indices></indices>
   </div>

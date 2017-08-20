@@ -12,7 +12,7 @@
         </md-layout>
 
         <md-layout md-align="end">
-          <router-link to="/" class="md-button">Home</router-link>
+          <router-link to="/" class="md-button" exact>Home</router-link>
           <router-link to="/browse" class="md-button">Browse</router-link>
           <router-link to="/search" class="md-button">Search</router-link>
         </md-layout>
