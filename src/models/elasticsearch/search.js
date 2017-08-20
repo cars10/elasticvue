@@ -7,10 +7,11 @@ export default class Search {
   index
 
   constructor (params) {
-    this.q = params.q || '*'
-    this.from = isEmpty(params.from) ? 0 : parseInt(params.from)
-    this.size = isEmpty(params.size) ? 25 : parseInt(params.size)
-    this.index = [] || params.index
+    this.q = params.q
+    this.from = params.from
+    this.size = params.size
+    this.index = params.index
+    return this.evaluate()
   }
 
   evaluate () {
