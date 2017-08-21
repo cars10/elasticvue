@@ -11,7 +11,7 @@ export function printNestedObject (object, domElement) {
   if ((typeof object === 'object') && (typeof object !== undefined) && (object !== null)) {
     for (let key of Object.keys(object)) {
       if (typeof object[key] === 'object') {
-        string += `<${declaredParentElement}>${key}: ${printNestedObject(object[key], declaredParentElement)}</${declaredParentElement}>`
+        string += `${key}:<${declaredParentElement}>${printNestedObject(object[key], declaredParentElement)}</${declaredParentElement}>`
       } else {
         string += `${key}: ` + `${object[key]}<br />`
       }
