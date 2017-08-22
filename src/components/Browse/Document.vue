@@ -2,7 +2,7 @@
   <div>
     <md-card>
       <md-card-content>
-        <dl v-html="printProxy(document, 'blockquote')"></dl>
+        <nested-object></nested-object>
       </md-card-content>
     </md-card>
   </div>
@@ -10,7 +10,7 @@
 
 <script>
   import ElasticsearchAdapter from '../../services/ElasticsearchAdapter'
-  import { printNestedObject } from '../../helpers'
+  import NestedObject from '@/components/NestedObject/NestedObject'
 
   export default {
     data () {
@@ -26,10 +26,8 @@
         (error) => this.$store.commit('setErrorState', error)
       )
     },
-    methods: {
-      printProxy (object, domElement) {
-        return printNestedObject(object, domElement)
-      }
+    components: {
+      NestedObject
     }
   }
 </script>
