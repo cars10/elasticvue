@@ -43,9 +43,9 @@ export default new Vuex.Store({
     sortIndices (state, sortObject) {
       state.indices = state.indices.sort((a, b) => {
         if (sortObject.order === 'asc') {
-          return (a[sortObject.prop] > b[sortObject.prop]) ? 1 : ((b[sortObject.prop] > a[sortObject.prop]) ? -1 : 0)
+          return a[sortObject.prop].localeCompare(b[sortObject.prop])
         } else {
-          return (a[sortObject.prop] > b[sortObject.prop]) ? -1 : ((b[sortObject.prop] > a[sortObject.prop]) ? 1 : 0)
+          return b[sortObject.prop].localeCompare(a[sortObject.prop])
         }
       })
     }

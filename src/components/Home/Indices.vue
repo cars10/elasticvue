@@ -10,9 +10,9 @@
             <md-table-head md-sort-by="uuid">UUID</md-table-head>
             <md-table-head md-sort-by="pri">Pri</md-table-head>
             <md-table-head md-sort-by="rep">Rep</md-table-head>
-            <md-table-head md-sort-by="docs.count">Docs</md-table-head>
-            <md-table-head md-sort-by="store.size">Store size</md-table-head>
-            <md-table-head md-sort-by="pri.store.size">Pri Store size</md-table-head>
+            <md-table-head>Docs</md-table-head>
+            <md-table-head>Store size</md-table-head>
+            <md-table-head>Pri Store size</md-table-head>
           </md-table-row>
         </md-table-header>
 
