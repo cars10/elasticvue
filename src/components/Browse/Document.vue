@@ -2,7 +2,7 @@
   <div>
     <md-card>
       <md-card-content>
-        <nested-object></nested-object>
+        <nested-object :object="document"></nested-object>
       </md-card-content>
     </md-card>
   </div>
