@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 function printObject (object, showKey) {
   let string = '<span class="show_more" style="display: none"> ... </span>'
   string += '<div class="nested_object">'
