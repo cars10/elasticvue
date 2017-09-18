@@ -20,7 +20,7 @@
       }
     },
     created () {
-      let adapter = new ElasticsearchAdapter(this.$store.state.elasticsearchClient)
+      let adapter = new ElasticsearchAdapter(this.$store.state.connection.elasticsearchClient)
       adapter.get({index: this.params.index, type: this.params.type, id: this.params.id}).then(
         (body) => (this.document = body),
         (error) => this.$store.commit('setErrorState', error)

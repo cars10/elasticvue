@@ -17,7 +17,7 @@
         </md-table-header>
 
         <md-table-body>
-          <md-table-row v-for="index in this.$store.state.indices" :key="index.index">
+          <md-table-row v-for="index in this.$store.state.connection.indices" :key="index.index">
             <md-table-cell>{{index.index}}</md-table-cell>
             <md-table-cell>{{index.health}}</md-table-cell>
             <md-table-cell>{{index.status}}</md-table-cell>

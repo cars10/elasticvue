@@ -24,7 +24,7 @@
     computed: {
       elasticsearchVersion: {
         get () {
-          return this.$store.state.elasticsearchVersion
+          return this.$store.state.connection.elasticsearchVersion
         },
         set (value) {
           this.$store.commit('setElasticsearchVersion', value)
@@ -32,7 +32,7 @@
       },
       elasticsearchHost: {
         get () {
-          return this.$store.state.elasticsearchHost
+          return this.$store.state.connection.elasticsearchHost
         },
         set (value) {
           this.$store.commit('setElasticsearchHost', value)
