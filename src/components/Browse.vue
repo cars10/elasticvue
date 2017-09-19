@@ -42,6 +42,11 @@
   import ElasticsearchAdapter from '../services/ElasticsearchAdapter'
 
   export default {
+    data () {
+      return {
+        results: []
+      }
+    },
     components: {
       Results
     },
@@ -85,14 +90,6 @@
         },
         set (value) {
           this.$store.commit('setSearchIndex', value)
-        }
-      },
-      results: {
-        get () {
-          return this.$store.state.browse.results
-        },
-        set (value) {
-          this.$store.commit('setBrowseResults', value)
         }
       }
     }
