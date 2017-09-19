@@ -23,6 +23,7 @@ export const browse = {
       state.search.evaluate()
     },
     setBrowseResults (state, results) {
+      results.hits.hits = results.hits.hits.slice(0, 100)
       state.results = results
     }
   }
