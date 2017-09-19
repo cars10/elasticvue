@@ -30,11 +30,7 @@
         type: String,
         default: ']'
       },
-      object: {
-        default: () => {
-          return {test: 'value', asd: 'qwe', obj: {name: 'carsten'}, arr: [1, 2]}
-        }
-      }
+      object: {}
     },
     components: {
       Identifier,
@@ -57,7 +53,6 @@
 
 <style scoped>
   .nested_object {
-    margin-left: 2em;
     display: inline-block;
   }
 </style>
