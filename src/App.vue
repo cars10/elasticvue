@@ -4,7 +4,7 @@
       <md-layout>
         <md-layout md-align="start" md-vertical-align="center">
           <router-link class="md-title" to="/">Elasticvue</router-link>
-          &nbsp;&nbsp;<md-chip :class="'md-'+this.$store.state.connection.status">{{this.$store.state.connection.status}}</md-chip>
+          &nbsp;&nbsp;<md-chip :class="'md-'+this.$store.state.connection.status">{{this.connectionStateName}}</md-chip>
         </md-layout>
 
         <md-layout md-align="center" md-vertical-align="center">
@@ -29,7 +29,7 @@
 <script>
   import Connect from '@/components/Connect'
   import ConnectMixin from './mixins/ConnectMixin'
-  import { LOCALSTORAGE_KEY } from './consts'
+  import { LOCALSTORAGE_KEY, CONNECTION_STATE_NAMES } from './consts'
 
   export default {
     components: {
@@ -41,6 +41,11 @@
       // We naively check by checking if something was saved to localStorage already.
       if (localStorage.getItem(LOCALSTORAGE_KEY)) {
         this.connectWithClient()
+      }
+    },
+    computed: {
+      connectionStateName () {
+        return CONNECTION_STATE_NAMES[this.$store.state.connection.status]
       }
     }
   }
