@@ -1,4 +1,4 @@
-import { CONNECTION_STATES, DEFAULT_VERSION, DEFAULT_HOST } from '../../consts'
+import { CONNECTION_STATES, DEFAULT_VERSION, DEFAULT_HOST, LOCALSTORAGE_KEY } from '../../consts'
 
 export const connection = {
   state: {
@@ -21,6 +21,7 @@ export const connection = {
     },
     setErrorState (state, error) {
       console.error('## ERROR', error)
+      localStorage.removeItem(LOCALSTORAGE_KEY)
       state.status = CONNECTION_STATES.ERROR
     },
     setIndices (state, indices) {
