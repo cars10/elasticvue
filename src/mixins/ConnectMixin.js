@@ -4,7 +4,7 @@ import ElasticsearchAdapter from '../services/ElasticsearchAdapter'
 const ConnectMixin = {
   methods: {
     connectWithClient () {
-      let connectService = new ConnectService(this.$store.state.connection.elasticsearchHost, this.$store.state.connection.elasticsearchVersion)
+      let connectService = new ConnectService(this.$store.state.connection.elasticsearchHost)
       connectService.connect().then(
         client => {
           this.$store.commit('setElasticsearchClient', client)

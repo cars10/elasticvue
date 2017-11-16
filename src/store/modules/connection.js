@@ -1,10 +1,9 @@
-import { CONNECTION_STATES, DEFAULT_VERSION, DEFAULT_HOST, LOCALSTORAGE_KEY } from '../../consts'
+import { CONNECTION_STATES, DEFAULT_HOST, LOCALSTORAGE_KEY } from '../../consts'
 
 export const connection = {
   state: {
     status: CONNECTION_STATES.UNKNOWN,
     elasticsearchClient: null,
-    elasticsearchVersion: DEFAULT_VERSION,
     elasticsearchHost: DEFAULT_HOST,
     indices: []
   },
@@ -12,9 +11,6 @@ export const connection = {
     setElasticsearchClient (state, client) {
       state.elasticsearchClient = client
       state.status = CONNECTION_STATES.SUCCESS
-    },
-    setElasticsearchVersion (state, version) {
-      state.elasticsearchVersion = version
     },
     setElasticsearchHost (state, host) {
       state.elasticsearchHost = host

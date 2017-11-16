@@ -3,12 +3,8 @@ import ElasticsearchAdapter from '../ElasticsearchAdapter'
 let elasticsearch = require('elasticsearch')
 
 export default class ConnectService {
-  host
-  apiVersion
-
-  constructor (host, version) {
+  constructor (host) {
     this.host = host
-    this.version = version
   }
 
   /**
@@ -16,10 +12,12 @@ export default class ConnectService {
    * Promise resolves to the client and rejects with an error.
    * @returns {Promise}
    */
-  connect () {
+  async connect () {
+    let apiVersion = await this.getApiVersion()
+
     let client = new elasticsearch.Client({
       host: this.host,
-      apiVersion: this.version
+      apiVersion: apiVersion
     })
 
     let adapter = new ElasticsearchAdapter(client)
@@ -30,5 +28,15 @@ export default class ConnectService {
         error => reject(error)
       )
     })
+  }
+
+  async getApiVersion () {
+    try {
+      let response = await fetch(this.host)
+      let info = await response.json()
+      return info.version.number.slice(0, 3)
+    } catch (error) {
+      throw Error(error)
+    }
   }
 }
