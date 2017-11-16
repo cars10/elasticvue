@@ -1,4 +1,6 @@
 export const ELASTICSEARCH_API_VERSIONS = [
+  '6.0',
+  '5.6',
   '5.5',
   '5.4',
   '5.3',
