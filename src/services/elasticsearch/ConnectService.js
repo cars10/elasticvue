@@ -30,11 +30,16 @@ export default class ConnectService {
     })
   }
 
+  /**
+   * getApiVersion
+   * Returns the api version of a running elasticsearch at +host+
+   * @returns {Promise<version>}
+   */
   async getApiVersion () {
     try {
       let response = await fetch(this.host)
-      let info = await response.json()
-      return info.version.number.slice(0, 3)
+      let json = await response.json()
+      return json.version.number.slice(0, 3)
     } catch (error) {
       throw Error(error)
     }
