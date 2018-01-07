@@ -1,29 +1,29 @@
 <template>
-  <div class="app">
-    <md-toolbar>
-      <md-layout>
-        <md-layout md-align="start" md-vertical-align="center">
-          <router-link class="md-title" to="/">Elasticvue</router-link>
-          &nbsp;&nbsp;<md-chip :class="'md-'+this.$store.state.connection.status">{{this.connectionStateName}}</md-chip>
-        </md-layout>
+  <v-app class="app">
+    <v-toolbar>
+      <v-toolbar-title>
+        <router-link to="/">Elasticvue</router-link>
+      </v-toolbar-title>
 
-        <md-layout md-align="center" md-vertical-align="center">
-          <connect></connect>
-        </md-layout>
+      <v-chip color="green">{{this.connectionStateName}}</v-chip>
 
-        <md-layout md-align="end">
-          <router-link to="/" class="md-button" exact>Home</router-link>
-          <router-link to="/browse" class="md-button">Browse</router-link>
-          <router-link to="/search" class="md-button">Search</router-link>
-        </md-layout>
-      </md-layout>
-    </md-toolbar>
-    <main class="container">
-      <md-layout class="p1">
+      <connect></connect>
+
+      <v-spacer></v-spacer>
+      <v-toolbar-items>
+        <v-btn flat to="/" exact>Home</v-btn>
+        <v-btn flat to="/browse" exact>Browse</v-btn>
+        <v-btn flat to="/search" exact>Search</v-btn>
+      </v-toolbar-items>
+    </v-toolbar>
+
+
+    <v-content>
+      <v-container>
         <router-view></router-view>
-      </md-layout>
-    </main>
-  </div>
+      </v-container>
+    </v-content>
+  </v-app>
 </template>
 
 <script>

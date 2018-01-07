@@ -1,9 +1,9 @@
 <template>
   <div>
-    <form v-on:submit.prevent="connectWithClient()">
+    <v-form v-on:submit.prevent="connectWithClient()">
       <input type="text" name="host" id="host" v-model="elasticsearchHost">
-      <button type="submit">Connect</button>
-    </form>
+      <v-btn type="submit">Connect</v-btn>
+    </v-form>
   </div>
 </template>
 
