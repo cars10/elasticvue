@@ -1,4 +1,5 @@
 import ElasticsearchAdapter from '../ElasticsearchAdapter'
+import { mapElasticsearchApiVersion } from '../../helpers/index'
 
 let elasticsearch = require('elasticsearch')
 
@@ -14,10 +15,11 @@ export default class ConnectService {
    */
   async connect () {
     let apiVersion = await this.getApiVersion()
+    let mappedVersion = mapElasticsearchApiVersion(apiVersion)
 
     let client = new elasticsearch.Client({
       host: this.host,
-      apiVersion: apiVersion
+      apiVersion: mappedVersion
     })
 
     let adapter = new ElasticsearchAdapter(client)

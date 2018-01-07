@@ -1,3 +1,5 @@
+import { ELASTICSEARCH_API_VERSIONS } from '../consts'
+
 /**
  * Returns true if given value is
  * * undefined
@@ -23,5 +25,22 @@ export function isEmpty (value) {
     }
   } else {
     return (typeof value === 'undefined') || (value === '')
+  }
+}
+
+/**
+ * Return the correct api version for the elasticsearch version.
+ * For example elasticsearch version '6.1' uses api version '6.x'
+ * @param version
+ * @returns {string}
+ */
+export function mapElasticsearchApiVersion (version) {
+  switch (version) {
+    case ELASTICSEARCH_API_VERSIONS:
+      return version
+    case '6.1':
+      return '6.x'
+    default:
+      return '6.x'
   }
 }
