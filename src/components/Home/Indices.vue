@@ -1,41 +1,42 @@
 <template>
   <div>
-    <md-table-card>
-      <md-table @sort="onSort">
-        <md-table-header>
-          <md-table-row>
-            <md-table-head md-sort-by="index">Name</md-table-head>
-            <md-table-head md-sort-by="health">Health</md-table-head>
-            <md-table-head md-sort-by="status">Status</md-table-head>
-            <md-table-head md-sort-by="uuid">UUID</md-table-head>
-            <md-table-head md-sort-by="pri">Pri</md-table-head>
-            <md-table-head md-sort-by="rep">Rep</md-table-head>
-            <md-table-head>Docs</md-table-head>
-            <md-table-head>Store size</md-table-head>
-            <md-table-head>Pri Store size</md-table-head>
-          </md-table-row>
-        </md-table-header>
-
-        <md-table-body>
-          <md-table-row v-for="index in this.$store.state.connection.indices" :key="index.index">
-            <md-table-cell>{{index.index}}</md-table-cell>
-            <md-table-cell>{{index.health}}</md-table-cell>
-            <md-table-cell>{{index.status}}</md-table-cell>
-            <md-table-cell>{{index.uuid}}</md-table-cell>
-            <md-table-cell>{{index.pri}}</md-table-cell>
-            <md-table-cell>{{index.rep}}</md-table-cell>
-            <md-table-cell>{{index['docs.count']}}</md-table-cell>
-            <md-table-cell>{{index['store.size']}}</md-table-cell>
-            <md-table-cell>{{index['pri.store.size']}}</md-table-cell>
-          </md-table-row>
-        </md-table-body>
-      </md-table>
-    </md-table-card>
+    <v-card>
+      <v-data-table :rows-per-page-items="[10, 25, 100]"
+                    v-bind:headers="headers"
+                    v-bind:items="this.$store.state.connection.indices">
+        <template slot="items" slot-scope="props">
+          <td>{{props.item.index}}</td>
+          <td class="text-xs-right">{{props.item.health}}</td>
+          <td class="text-xs-right">{{props.item.status}}</td>
+          <td class="text-xs-right">{{props.item.uuid}}</td>
+          <td class="text-xs-right">{{props.item.pri}}</td>
+          <td class="text-xs-right">{{props.item.rep}}</td>
+          <td class="text-xs-right">{{props.item['docs.count']}}</td>
+          <td class="text-xs-right">{{props.item['store.size']}}</td>
+          <td class="text-xs-right">{{props.item['pri.store.size']}}</td>
+        </template>
+      </v-data-table>
+    </v-card>
   </div>
 </template>
 
 <script>
   export default {
+    data () {
+      return {
+        headers: [
+          {text: 'Name', value: 'index', align: 'left'},
+          {text: 'Health', value: 'health'},
+          {text: 'Status', value: 'status'},
+          {text: 'UUID', value: 'uuid'},
+          {text: 'Pri', value: 'pri'},
+          {text: 'Rep', value: 'rep'},
+          {text: 'Docs', value: 'docs.count'},
+          {text: 'Store size', value: 'store.size'},
+          {text: 'Pri Store size', value: 'pri.store.size'}
+        ]
+      }
+    },
     methods: {
       onSort (sort) {
         this.$store.commit('sortIndices', {prop: sort.name, order: sort.type})

@@ -4,11 +4,9 @@
     <indices></indices>
   </div>
 
-  <md-layout class="p3" md-column v-else>
-    <md-layout md-align="center">
-      <connect></connect>
-    </md-layout>
-  </md-layout>
+  <div class="p3" md-column v-else>
+    <connect></connect>
+  </div>
 </template>
 
 <script>
