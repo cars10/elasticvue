@@ -6,6 +6,7 @@ import VChip from 'vuetify/es5/components/VChip'
 import VDataTable from 'vuetify/es5/components/VDataTable'
 import VGrid from 'vuetify/es5/components/VGrid'
 import VForm from 'vuetify/es5/components/VForm'
+import VSelect from 'vuetify/es5/components/VSelect'
 import VTextField from 'vuetify/es5/components/VTextField'
 import VToolbar from 'vuetify/es5/components/VToolbar'
 import Vuetify from 'vuetify/es5/components/Vuetify'
@@ -25,5 +26,6 @@ Vue.use(VChip)
 Vue.use(VDataTable)
 Vue.use(VGrid)
 Vue.use(VForm)
+Vue.use(VSelect)
 Vue.use(VTextField)
 Vue.use(VToolbar)

@@ -1,36 +1,31 @@
 <template>
   <div class="width-100">
-    <md-card>
-      <md-card-content>
+    <v-card>
+      <v-card-text>
         <h1>Browse</h1>
-        <form v-on:submit.prevent="onSubmit" class="form-inline">
-          <md-input-container class="width-auto">
-            <label for="indices">Indices</label>
-            <md-select multiple name="indices" id="indices" v-model="index">
-              <md-option :value="index.index" :key="index.index" v-for="index in this.$store.state.connection.indices">
-                {{ index.index }}
-              </md-option>
-            </md-select>
-          </md-input-container>
+        <v-form v-on:submit.prevent="onSubmit" class="form-inline">
+          <label for="indices">Indices</label>
+          <v-select multiple
+                    name="indices"
+                    id="indices"
+                    v-model="index"
+                    v-bind:items="this.$store.state.connection.indices"
+                    item-value="index"
+                    item-text="index">
+          </v-select>
 
-          <md-input-container class="md-input-container--sm">
-            <label for="from">From</label>
-            <md-input v-model="from" id="from"></md-input>
-          </md-input-container>
+          <label for="from">From</label>
+          <v-text-field v-model="from" id="from"></v-text-field>
 
-          <md-input-container class="md-input-container--sm">
-            <label for="size">Size</label>
-            <md-input v-model="size" id="size"></md-input>
-          </md-input-container>
+          <label for="size">Size</label>
+          <v-text-field v-model="size" id="size"></v-text-field>
 
-          <md-input-container class="width-auto">
-            <label for="q">Query</label>
-            <md-input v-model="q" id="q"></md-input>
-          </md-input-container>
-          <md-button class="md-raised" type="submit">Submit</md-button>
-        </form>
-      </md-card-content>
-    </md-card>
+          <label for="q">Query</label>
+          <v-text-field v-model="q" id="q"></v-text-field>
+          <v-btn type="submit">Submit</v-btn>
+        </v-form>
+      </v-card-text>
+    </v-card>
     <br>
 
     <results v-if="results && results.hits && results.hits.hits" :hits="results.hits.hits"></results>
