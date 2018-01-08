@@ -44,3 +44,24 @@ export function mapElasticsearchApiVersion (version) {
       return '6.x'
   }
 }
+
+/**
+ * Returns the unique keys every object of an array of objects
+ * Example:
+ *   var array = [{a: 1, b: {b1: 1, b2: 2}}, {b: {b2: 2, b3: 3}, c: 4}]
+ *   objectArrayUniqueKeys (array)      => ['a', 'b', 'c']
+ *   objectArrayUniqueKeys (array, 'b') => ['b1', 'b2', 'b3']
+ * @param array
+ * @param key - Optional
+ * @returns {*[]}
+ */
+export function objectArrayUniqueKeys (array, key) {
+  let nested = []
+  if (key !== undefined) {
+    nested = array.map(value => (Object.keys(value[key])))
+  } else {
+    nested = array.map(value => (Object.keys(value)))
+  }
+  let flattened = [].concat.apply([], nested)
+  return [...new Set(flattened)]
+}
