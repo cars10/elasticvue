@@ -1,36 +1,11 @@
-.app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.application {
   color: #2c3e50;
-}
-
-//.container {
-//  width: 100%;
-//  margin-left: auto;
-//  margin-right: auto;
-//}
-
-a.md-title {
-  color: #fff !important;
-  text-decoration: none !important;
 }
 
 a.router-link-active {
   font-weight: bold;
 }
 
-// decrease font sizes a bit
-body,
-.md-select .md-select-value {
-  font-size: 12px !important;
-}
-
-.md-input-container label,
-.md-list-item .md-list-item-container {
-  font-size: 14px !important;
-}
-
-.md-list-item .md-list-item-container {
-  min-height:36px;
+table {
+  font-family: monospace
 }

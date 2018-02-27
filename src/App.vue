@@ -1,5 +1,5 @@
 <template>
-  <v-app class="app">
+  <v-app>
     <v-toolbar>
       <v-toolbar-title>
         <router-link to="/">Elasticvue</router-link>
