@@ -27,3 +27,10 @@ export const ELASTICSEARCH_API_VERSIONS = [
   '1.7',
   '0.90'
 ]
+
+export const NORMALIZED_SEARCH_PARAMS = {
+  q: '*',
+  from: 0,
+  size: 25,
+  index: []
+}

@@ -1,4 +1,4 @@
-import { ELASTICSEARCH_API_VERSIONS } from '../consts'
+import { ELASTICSEARCH_API_VERSIONS, NORMALIZED_SEARCH_PARAMS } from '../consts'
 
 /**
  * Returns true if given value is
@@ -64,4 +64,11 @@ export function objectArrayUniqueKeys (array, key) {
   }
   let flattened = [].concat.apply([], nested)
   return [...new Set(flattened)]
+}
+
+export function normalizeSearchParams (params) {
+  params.q = isEmpty(params.q) ? NORMALIZED_SEARCH_PARAMS.q : params.q
+  params.from = isEmpty(params.from) ? NORMALIZED_SEARCH_PARAMS.from : parseInt(params.from)
+  params.size = isEmpty(params.size) ? NORMALIZED_SEARCH_PARAMS.size : parseInt(params.size)
+  params.index = isEmpty(params.index) ? NORMALIZED_SEARCH_PARAMS.index : params.index
 }

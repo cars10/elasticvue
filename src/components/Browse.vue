@@ -8,20 +8,20 @@
           <v-select multiple
                     name="indices"
                     id="indices"
-                    v-model="index"
+                    v-model="search.index"
                     v-bind:items="this.$store.state.connection.indices"
                     item-value="index"
                     item-text="index">
           </v-select>
 
           <label for="from">From</label>
-          <v-text-field v-model="from" id="from"></v-text-field>
+          <v-text-field v-model="search.from" id="from"></v-text-field>
 
           <label for="size">Size</label>
-          <v-text-field v-model="size" id="size"></v-text-field>
+          <v-text-field v-model="search.size" id="size"></v-text-field>
 
           <label for="q">Query</label>
-          <v-text-field v-model="q" id="q"></v-text-field>
+          <v-text-field v-model="search.q" id="q"></v-text-field>
           <v-btn type="submit">Submit</v-btn>
         </v-form>
       </v-card-text>
@@ -35,11 +35,13 @@
 <script>
   import Results from '@/components/Browse/Results'
   import ElasticsearchAdapter from '../services/ElasticsearchAdapter'
+  import { NORMALIZED_SEARCH_PARAMS } from '../consts'
 
   export default {
     data () {
       return {
-        results: []
+        results: [],
+        search: Object.assign({}, NORMALIZED_SEARCH_PARAMS)
       }
     },
     components: {
@@ -48,44 +50,10 @@
     methods: {
       onSubmit () {
         let adapter = new ElasticsearchAdapter(this.$store.state.connection.elasticsearchClient)
-        adapter.search(this.$store.state.browse.search).then(
+        adapter.search(this.search).then(
           (body) => (this.results = body),
           (error) => this.$store.commit('setErrorState', error)
         )
-      }
-    },
-    computed: {
-      q: {
-        get () {
-          return this.$store.state.browse.search.q
-        },
-        set (value) {
-          this.$store.commit('setSearchQ', value)
-        }
-      },
-      size: {
-        get () {
-          return this.$store.state.browse.search.size
-        },
-        set (value) {
-          this.$store.commit('setSearchSize', value)
-        }
-      },
-      from: {
-        get () {
-          return this.$store.state.browse.search.from
-        },
-        set (value) {
-          this.$store.commit('setSearchFrom', value)
-        }
-      },
-      index: {
-        get () {
-          return this.$store.state.browse.search.index
-        },
-        set (value) {
-          this.$store.commit('setSearchIndex', value)
-        }
       }
     }
   }

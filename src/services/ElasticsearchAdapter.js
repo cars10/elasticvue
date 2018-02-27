@@ -1,3 +1,5 @@
+import { normalizeSearchParams } from '../helpers'
+
 export default class ElasticsearchAdapter {
   client
 
@@ -31,6 +33,7 @@ export default class ElasticsearchAdapter {
   }
 
   search (params) {
+    normalizeSearchParams(params)
     return this.client.search(Object.assign(this.requestDefaults, params))
   }
 
