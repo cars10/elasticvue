@@ -4,7 +4,10 @@
       <v-data-table v-if="hits && hits.length > 0"
                     :rows-per-page-items="[10, 25, 100]"
                     v-bind:headers="headers"
-                    v-bind:items="[]">
+                    v-bind:items="hits">
+        <template slot="items" slot-scope="item">
+          <td v-for="key in Object.keys(item.item._source)" :key="item.item._index + '_' + key">{{item.item._source[key]}}</td>
+        </template>
       </v-data-table>
     </v-card>
   </div>
