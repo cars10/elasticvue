@@ -31,6 +31,6 @@ export const ELASTICSEARCH_API_VERSIONS = [
 export const NORMALIZED_SEARCH_PARAMS = {
   q: '*',
   from: 0,
-  size: 25,
+  size: 1000,
   index: []
 }

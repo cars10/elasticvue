@@ -1,12 +1,4 @@
-* {
-  box-sizing: border-box;
-}
-
-body, html {
-  margin: 0;
-  padding: 0;
-}
-
 @import 'components/base';
-@import 'components/spacing';
+@import 'components/form';
 @import 'components/helpers';
+@import 'components/spacing';
