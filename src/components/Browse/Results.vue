@@ -48,7 +48,6 @@
     },
     data () {
       return {
-        keys: objectArrayUniqueKeys(this.hits, '_source'),
         filter: ''
       }
     },
@@ -61,6 +60,9 @@
       headers () {
         let defaultKeyHeaders = DEFAULT_KEYS.map(value => ({text: value, value: value}))
         return defaultKeyHeaders.concat(this.keys.map(value => ({text: value, value: value})))
+      },
+      keys () {
+        return objectArrayUniqueKeys(this.hits, '_source')
       }
     }
   }
