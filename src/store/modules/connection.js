@@ -21,7 +21,15 @@ export const connection = {
       state.status = CONNECTION_STATES.ERROR
     },
     setIndices (state, indices) {
-      state.indices = indices
+      state.indices = indices.sort((a, b) => {
+        if (a.index > b.index) {
+          return 1
+        }
+        if (a.index < b.index) {
+          return -1
+        }
+        return 0
+      })
     },
     sortIndices (state, sortObject) {
       state.indices = state.indices.sort((a, b) => {

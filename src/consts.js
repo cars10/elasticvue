@@ -11,7 +11,7 @@ CONNECTION_STATE_NAMES[CONNECTION_STATES.ERROR] = 'disconnected'
 
 export const DEFAULT_HOST = 'http://localhost:9200'
 
-export const LOCALSTORAGE_KEY = 'elasticvue_vuex'
+export const LOCALSTORAGE_KEY = 'elasticvuex'
 
 export const ELASTICSEARCH_API_VERSIONS = [
   '6.x',
