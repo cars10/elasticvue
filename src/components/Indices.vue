@@ -1,7 +1,12 @@
 <template>
   <div>
-    <h1>Indices</h1>
-    <indices-table></indices-table>
+    <v-card>
+      <v-card-title>
+        <h2>Indices</h2>
+      </v-card-title>
+      <v-divider></v-divider>
+      <indices-table></indices-table>
+    </v-card>
   </div>
 </template>
 
