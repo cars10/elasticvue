@@ -10,14 +10,14 @@
 
       <v-data-table :rows-per-page-items="[10, 25, 100, {text: 'All',value:-1}]"
                     :headers="headers"
-                    :items="hits"
+                    :items="flattenedHits"
                     :loading="loading"
                     :search="filter">
         <template slot="items" slot-scope="item">
           <td>{{ item.item._index }}</td>
           <td>{{ item.item._id}}</td>
           <td>{{ item.item._type}}</td>
-          <td v-for="key in keys" :key="item.item._index + '_' + key">{{item.item._source[key]}}</td>
+          <td v-for="key in keys" :key="item.item._index + '_' + key">{{item.item[key]}}</td>
         </template>
 
         <template slot="no-data">
@@ -31,7 +31,7 @@
 </template>
 
 <script>
-  import { objectArrayUniqueKeys } from '../../helpers'
+  import { flattenObject, objectArrayUniqueKeys } from '../../helpers/utilities'
 
   const DEFAULT_KEYS = ['_index', '_id', '_type']
 
@@ -64,6 +64,9 @@
       },
       keys () {
         return objectArrayUniqueKeys(this.hits, '_source')
+      },
+      flattenedHits () {
+        return this.hits.map((hit) => flattenObject(hit))
       }
     }
   }
