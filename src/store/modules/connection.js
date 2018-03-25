@@ -3,7 +3,7 @@ import { CONNECTION_STATES, DEFAULT_HOST, LOCALSTORAGE_KEY } from '../../consts'
 export const connection = {
   state: {
     status: CONNECTION_STATES.UNKNOWN,
-    elasticsearchClient: null, // TODO remove
+    elasticsearchClient: null,
     elasticsearchHost: DEFAULT_HOST,
     indices: []
   },
