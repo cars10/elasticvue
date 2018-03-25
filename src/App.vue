@@ -12,6 +12,7 @@
       <v-spacer></v-spacer>
       <v-toolbar-items>
         <v-btn flat to="/" exact>Home</v-btn>
+        <v-btn flat to="indices" exact>Indices</v-btn>
         <v-btn flat to="/browse" exact>Browse</v-btn>
         <v-btn flat to="/search" exact>Search</v-btn>
       </v-toolbar-items>
@@ -29,7 +30,7 @@
 <script>
   import Connect from '@/components/Connect'
   import ConnectMixin from './mixins/ConnectMixin'
-  import { LOCALSTORAGE_KEY, CONNECTION_STATE_NAMES } from './consts'
+  import { CONNECTION_STATE_NAMES, LOCALSTORAGE_KEY } from './consts'
 
   export default {
     components: {

@@ -1,7 +1,16 @@
 <template>
   <div v-if="this.$store.state.connection.elasticsearchClient" class="width-100">
-    <h1>Indices</h1>
-    <indices></indices>
+    <v-container grid-list-md text-xs-center>
+      <v-layout row wrap>
+        <v-flex xs3 offset-xs3>
+          <client-information></client-information>
+        </v-flex>
+
+        <v-flex xs3>
+          <cluster-health></cluster-health>
+        </v-flex>
+      </v-layout>
+    </v-container>
   </div>
 
   <div class="p3" md-column v-else>
@@ -10,12 +19,14 @@
 </template>
 
 <script>
-  import Indices from '@/components/Home/Indices'
+  import ClientInformation from '@/components/Home/ClientInformation'
+  import ClusterHealth from '@/components/Home/ClusterHealth'
   import Connect from '@/components/Connect'
 
   export default {
     components: {
-      Indices,
+      ClientInformation,
+      ClusterHealth,
       Connect
     }
   }

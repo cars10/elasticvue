@@ -64,16 +64,37 @@ export function objectArrayUniqueKeys (array, key) {
  *   var deepObject = {id: 1, data: {name: 'test', address: {zip: 123}}}
  *   flattenObject(object)       => {id: 1, name: 'test', address: {zip: 123}}
  *   flattenObject(object, true) => {id: 1, name: 'test', zip: 123}
+ *   flattenObject(object, true, true) => {id: 1, data.name: 'test', data.address.zip: 123}
  * @param object
  * @param deep {boolean} - set to true if you want to flatten deep
+ * @param concatNames {boolean} - set to true if you want to concat flattened keys
  * @returns {object} the flattened object
  */
-export function flattenObject (object, deep) {
+export function flattenObject (object, deep, concatNames) {
   Object.entries(object).forEach(([key, value]) => {
     if (typeof value === 'object' && value !== null) {
-      deep ? Object.assign(object, flattenObject(value)) : Object.assign(object, value)
+      if (concatNames) {
+        deep ? Object.assign(object, flattenObject(appendStringToAllObjectKeys(value, key), deep, concatNames))
+          : Object.assign(object, appendStringToAllObjectKeys(value, key))
+      } else {
+        deep ? Object.assign(object, flattenObject(value)) : Object.assign(object, value)
+      }
       delete object[key]
     }
   })
   return object
+}
+
+function appendStringToAllObjectKeys (object, append) {
+  for (let key of Object.keys(object)) {
+    renameKey(object, append + '.' + key, key)
+  }
+  return object
+}
+
+function renameKey (object, newKey, oldKey) {
+  if (newKey !== oldKey) {
+    Object.defineProperty(object, newKey, Object.getOwnPropertyDescriptor(object, oldKey))
+    delete object[oldKey]
+  }
 }

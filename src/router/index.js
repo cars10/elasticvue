@@ -4,6 +4,7 @@ import Home from '@/components/Home'
 import Browse from '@/components/Browse'
 import Search from '@/components/Search'
 import Document from '@/components/Browse/Document'
+import Indices from '@/components/Indices'
 
 Vue.use(Router)
 
@@ -14,6 +15,11 @@ export default new Router({
       path: '/',
       name: 'Home',
       component: Home
+    },
+    {
+      path: '/indices',
+      name: 'Indices',
+      component: Indices
     },
     {
       path: '/browse',
