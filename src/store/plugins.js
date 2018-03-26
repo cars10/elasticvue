@@ -6,7 +6,8 @@ export const plugins = [
     key: LOCALSTORAGE_KEY,
     paths: [
       'elasticsearchHost',
-      'browse'
+      'browse',
+      'theme'
     ]
   })
 ]
