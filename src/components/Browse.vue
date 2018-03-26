@@ -6,7 +6,8 @@
         <v-form v-on:submit.prevent="loadIndices" class="form-inline">
           <v-text-field class="input--sm" label="Query" v-model="search.q" id="q"></v-text-field>
           <v-select multiple
-                    label="indices"
+                    autocomplete
+                    label="Indices"
                     name="Indices"
                     id="indices"
                     v-model="search.index"
