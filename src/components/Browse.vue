@@ -30,7 +30,6 @@
 
 <script>
   import Results from '@/components/Browse/Results'
-  import ElasticsearchAdapter from '../services/ElasticsearchAdapter'
   import { NORMALIZED_SEARCH_PARAMS } from '../consts'
 
   export default {
@@ -47,8 +46,7 @@
     methods: {
       loadIndices () {
         this.loading = true
-        let adapter = new ElasticsearchAdapter(this.$store.state.connection.elasticsearchClient)
-        adapter.search(this.search).then(
+        this.getElasticsearchAdapter().search(this.search).then(
           body => {
             this.results = body
             this.loading = false

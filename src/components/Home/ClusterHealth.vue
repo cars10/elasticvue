@@ -25,7 +25,6 @@
 </template>
 
 <script>
-  import ElasticsearchAdapter from '../../services/ElasticsearchAdapter'
   import { flattenObject } from '../../helpers/utilities'
 
   export default {
@@ -41,8 +40,7 @@
     methods: {
       loadClusterHealth () {
         this.loading = true
-        let adapter = new ElasticsearchAdapter(this.$store.state.connection.elasticsearchClient)
-        adapter.getClusterHealth().then(
+        this.getElasticsearchAdapter().getClusterHealth().then(
           body => {
             this.clusterHealth = flattenObject(body, true, true)
             this.loading = false

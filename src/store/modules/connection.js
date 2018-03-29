@@ -4,6 +4,7 @@ export const connection = {
   state: {
     status: CONNECTION_STATES.UNKNOWN,
     elasticsearchClient: null,
+    elasticsearchAdapter: null,
     elasticsearchHost: DEFAULT_HOST,
     indices: []
   },
@@ -11,6 +12,9 @@ export const connection = {
     setElasticsearchClient (state, client) {
       state.elasticsearchClient = client
       state.status = CONNECTION_STATES.SUCCESS
+    },
+    setElasticsearchAdapter (state, adapter) {
+      state.elasticsearchAdapter = adapter
     },
     setElasticsearchHost (state, host) {
       state.elasticsearchHost = host

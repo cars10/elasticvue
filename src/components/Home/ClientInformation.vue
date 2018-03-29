@@ -22,7 +22,6 @@
 </template>
 
 <script>
-  import ElasticsearchAdapter from '../../services/ElasticsearchAdapter'
   import { flattenObject } from '../../helpers/utilities'
 
   export default {
@@ -38,8 +37,7 @@
     methods: {
       loadClientInfo () {
         this.loading = true
-        let adapter = new ElasticsearchAdapter(this.$store.state.connection.elasticsearchClient)
-        adapter.getClientInfo().then(
+        this.getElasticsearchAdapter().getClientInfo().then(
           body => {
             this.clientInformation = flattenObject(body, true, true)
             this.loading = false

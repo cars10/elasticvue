@@ -9,7 +9,6 @@
 </template>
 
 <script>
-  import ElasticsearchAdapter from '../../services/ElasticsearchAdapter'
   import NestedObject from '@/components/NestedObject/NestedObject'
 
   export default {
@@ -20,8 +19,7 @@
       }
     },
     created () {
-      let adapter = new ElasticsearchAdapter(this.$store.state.connection.elasticsearchClient)
-      adapter.get({index: this.params.index, type: this.params.type, id: this.params.id}).then(
+      this.getElasticsearchAdapter().get({index: this.params.index, type: this.params.type, id: this.params.id}).then(
         (body) => (this.document = body),
         (error) => this.$store.commit('setErrorState', error)
       )
