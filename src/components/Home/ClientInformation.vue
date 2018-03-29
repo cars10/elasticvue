@@ -3,9 +3,14 @@
     <v-card>
       <v-card-title>
         <h2>Node Information</h2>
+        <v-btn flat icon class="ml-a" v-on:click="loadClientInfo">
+          <v-icon>cached</v-icon>
+        </v-btn>
       </v-card-title>
       <v-divider></v-divider>
-      <v-list dense>
+
+      <v-progress-linear v-if="loading" color="blue" indeterminate></v-progress-linear>
+      <v-list v-else dense>
         <v-list-tile v-for="key in Object.keys(clientInformation)" :key="key">
           <v-list-tile-content>{{key}}</v-list-tile-content>
           <v-list-tile-content class="align-end">{{clientInformation[key]}}</v-list-tile-content>
@@ -22,15 +27,25 @@
   export default {
     data () {
       return {
-        clientInformation: {}
+        clientInformation: {},
+        loading: false
       }
     },
     created () {
-      let adapter = new ElasticsearchAdapter(this.$store.state.connection.elasticsearchClient)
-      adapter.getClientInfo().then(
-        body => (this.clientInformation = flattenObject(body, true, true)),
-        error => this.$store.commit('setErrorState', error)
-      )
+      this.loadClientInfo()
+    },
+    methods: {
+      loadClientInfo () {
+        this.loading = true
+        let adapter = new ElasticsearchAdapter(this.$store.state.connection.elasticsearchClient)
+        adapter.getClientInfo().then(
+          body => {
+            this.clientInformation = flattenObject(body, true, true)
+            this.loading = false
+          },
+          error => this.$store.commit('setErrorState', error)
+        )
+      }
     }
   }
 </script>

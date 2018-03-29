@@ -3,9 +3,14 @@
     <v-card>
       <v-card-title>
         <h2>Cluster Health</h2>
+        <v-btn flat icon class="ml-a" v-on:click="loadClusterHealth">
+          <v-icon>cached</v-icon>
+        </v-btn>
       </v-card-title>
       <v-divider></v-divider>
-      <v-list dense>
+
+      <v-progress-linear v-if="loading" color="blue" indeterminate></v-progress-linear>
+      <v-list v-else dense>
         <v-list-tile v-for="key in Object.keys(clusterHealth)" :key="key">
           <v-list-tile-content>{{key}}</v-list-tile-content>
           <v-list-tile-content class="align-end">
@@ -25,15 +30,25 @@
   export default {
     data () {
       return {
-        clusterHealth: {}
+        clusterHealth: {},
+        loading: false
       }
     },
     created () {
-      let adapter = new ElasticsearchAdapter(this.$store.state.connection.elasticsearchClient)
-      adapter.getClusterHealth().then(
-        body => (this.clusterHealth = flattenObject(body, true, true)),
-        error => this.$store.commit('setErrorState', error)
-      )
+      this.loadClusterHealth()
+    },
+    methods: {
+      loadClusterHealth () {
+        this.loading = true
+        let adapter = new ElasticsearchAdapter(this.$store.state.connection.elasticsearchClient)
+        adapter.getClusterHealth().then(
+          body => {
+            this.clusterHealth = flattenObject(body, true, true)
+            this.loading = false
+          },
+          error => this.$store.commit('setErrorState', error)
+        )
+      }
     }
   }
 </script>

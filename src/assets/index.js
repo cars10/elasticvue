@@ -8,6 +8,7 @@ import VDivider from 'vuetify/es5/components/VDivider'
 import VForm from 'vuetify/es5/components/VForm'
 import VFooter from 'vuetify/es5/components/VFooter'
 import VGrid from 'vuetify/es5/components/VGrid'
+import VIcon from 'vuetify/es5/components/VIcon'
 import VList from 'vuetify/es5/components/VList'
 import VProgressLinear from 'vuetify/es5/components/VProgressLinear'
 import VSelect from 'vuetify/es5/components/VSelect'
@@ -30,6 +31,7 @@ Vue.use(VDivider)
 Vue.use(VForm)
 Vue.use(VFooter)
 Vue.use(VGrid)
+Vue.use(VIcon)
 Vue.use(VList)
 Vue.use(VProgressLinear)
 Vue.use(VSelect)
