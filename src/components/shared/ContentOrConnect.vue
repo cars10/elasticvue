@@ -50,7 +50,7 @@
         return (this.$store.state.connection.status === CONNECTION_STATES.ERROR)
       },
       domain () {
-        return window.location.href
+        return window.location.origin
       }
     }
   }
