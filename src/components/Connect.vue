@@ -1,10 +1,10 @@
 <template>
-  <div>
-    <v-form v-on:submit.prevent="connectWithClient()">
-      <input type="text" name="host" id="host" v-model="elasticsearchHost">
+  <v-form v-on:submit.prevent="connectWithClient()">
+    <v-flex text-xs-center>
+      <input title="host" type="text" id="host" v-model="elasticsearchHost">
       <v-btn type="submit">Connect</v-btn>
-    </v-form>
-  </div>
+    </v-flex>
+  </v-form>
 </template>
 
 <script>

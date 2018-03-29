@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <content-or-connect>
     <v-card>
       <v-card-title>
         <h2>Indices</h2>
@@ -7,7 +7,7 @@
       <v-divider></v-divider>
       <indices-table></indices-table>
     </v-card>
-  </div>
+  </content-or-connect>
 </template>
 
 <script>
