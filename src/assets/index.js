@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import VAlert from 'vuetify/es5/components/VAlert'
 import VApp from 'vuetify/es5/components/VApp'
 import VBtn from 'vuetify/es5/components/VBtn'
 import VCard from 'vuetify/es5/components/VCard'
@@ -22,6 +23,7 @@ import './stylesheets/style.scss'
 import './stylesheets/vuetify.styl'
 
 Vue.use(Vuetify)
+Vue.use(VAlert)
 Vue.use(VApp)
 Vue.use(VBtn)
 Vue.use(VCard)
