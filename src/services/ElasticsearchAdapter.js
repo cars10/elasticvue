@@ -58,7 +58,7 @@ export default class ElasticsearchAdapter {
    * @param params
    */
   get (params) {
-    return this.client.get(Object.assign(this.requestDefaults, params))
+    return this.client.get(Object.assign({}, this.requestDefaults, params))
   }
 
   /**
@@ -68,6 +68,6 @@ export default class ElasticsearchAdapter {
    */
   search (params) {
     normalizeSearchParams(params)
-    return this.client.search(Object.assign(this.requestDefaults, params))
+    return this.client.search(Object.assign({}, this.requestDefaults, params))
   }
 }
