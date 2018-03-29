@@ -27,7 +27,7 @@
             </ul>
 
             Alternatively you can pass a regex as the allowed origins, for example
-            <code>http.cors.allow-origin: /https?:\/\/localhost(:[0-9]+)?)/</code>
+            <code>http.cors.allow-origin: /https?:\/\/{{hostname}}(:[0-9]+)?)/</code>
           </v-alert>
         </v-flex>
       </v-layout>
@@ -51,6 +51,9 @@
       },
       domain () {
         return window.location.origin
+      },
+      hostname () {
+        return window.location.hostname
       }
     }
   }
