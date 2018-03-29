@@ -5,7 +5,7 @@
         <router-link to="/">Elasticvue</router-link>
       </v-toolbar-title>
 
-      <v-chip color="green">{{this.connectionStateName}}</v-chip>
+      <v-chip :color="connectionStateClass">{{connectionStateName}}</v-chip>
 
       <connect></connect>
 
@@ -44,7 +44,7 @@
 <script>
   import Connect from '@/components/shared/Connect'
   import ConnectMixin from './mixins/ConnectMixin'
-  import { CONNECTION_STATE_NAMES, LOCALSTORAGE_KEY } from './consts'
+  import { CONNECTION_STATE_CLASSES, CONNECTION_STATE_NAMES, LOCALSTORAGE_KEY } from './consts'
 
   export default {
     components: {
@@ -61,6 +61,9 @@
     computed: {
       connectionStateName () {
         return CONNECTION_STATE_NAMES[this.$store.state.connection.status]
+      },
+      connectionStateClass () {
+        return CONNECTION_STATE_CLASSES[this.$store.state.connection.status]
       },
       theme: {
         get () {
