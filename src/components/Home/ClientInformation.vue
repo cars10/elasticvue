@@ -9,13 +9,14 @@
       </v-card-title>
       <v-divider></v-divider>
 
-      <v-progress-linear v-if="loading" color="blue" indeterminate></v-progress-linear>
-      <v-list v-else dense>
-        <v-list-tile v-for="key in Object.keys(clientInformation)" :key="key">
-          <v-list-tile-content>{{key}}</v-list-tile-content>
-          <v-list-tile-content class="align-end">{{clientInformation[key]}}</v-list-tile-content>
-        </v-list-tile>
-      </v-list>
+      <content-or-loading :loading="loading">
+        <v-list dense>
+          <v-list-tile v-for="key in Object.keys(clientInformation)" :key="key">
+            <v-list-tile-content>{{key}}</v-list-tile-content>
+            <v-list-tile-content class="align-end">{{clientInformation[key]}}</v-list-tile-content>
+          </v-list-tile>
+        </v-list>
+      </content-or-loading>
     </v-card>
   </div>
 </template>

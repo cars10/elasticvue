@@ -8,7 +8,7 @@
 </template>
 
 <script>
-  import ConnectMixin from '../mixins/ConnectMixin'
+  import ConnectMixin from '../../mixins/ConnectMixin'
 
   export default {
     mixins: [ConnectMixin],

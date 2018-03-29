@@ -42,7 +42,7 @@
 </template>
 
 <script>
-  import Connect from '@/components/Connect'
+  import Connect from '@/components/shared/Connect'
   import ConnectMixin from './mixins/ConnectMixin'
   import { CONNECTION_STATE_NAMES, LOCALSTORAGE_KEY } from './consts'
 

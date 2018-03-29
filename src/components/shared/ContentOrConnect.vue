@@ -9,8 +9,8 @@
 </template>
 
 <script>
-  import Connect from '@/components/Connect'
-  import IsConnected from './../mixins/IsConnected'
+  import Connect from '@/components/shared/Connect'
+  import IsConnected from '../../mixins/IsConnected'
 
   export default {
     components: {
