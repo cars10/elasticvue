@@ -34,7 +34,7 @@
         </v-flex>
 
         <v-flex xs4 text-xs-right>
-          <a href="https://github.com/cars10/elasticvue">Github</a>
+          <a href="https://github.com/cars10/elasticvue" target="_blank" rel="nofollow">Github</a>
         </v-flex>
       </v-layout>
     </v-footer>
