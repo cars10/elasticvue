@@ -64,3 +64,10 @@ npm run build
 # build for production and view the bundle analyzer report
 npm run build --report
 ```
+
+## TODO
+
+1. Index loading on index page and not on connect + index ordering
+2. Save browse parameters
+3. Document show view
+4. Search page
