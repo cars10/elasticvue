@@ -7,9 +7,10 @@
 
       <v-chip :color="connectionStateClass">{{connectionStateName}}</v-chip>
 
-      <connect></connect>
-
       <v-spacer></v-spacer>
+      <connect :useToolbar="true"></connect>
+      <v-spacer></v-spacer>
+
       <v-toolbar-items>
         <v-btn flat to="/" exact>Home</v-btn>
         <v-btn flat to="indices" exact>Indices</v-btn>
