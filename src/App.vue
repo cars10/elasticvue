@@ -44,20 +44,11 @@
 
 <script>
   import Connect from '@/components/shared/Connect'
-  import ConnectWithServer from './mixins/ConnectWithServer'
   import { CONNECTION_STATE_CLASSES, CONNECTION_STATE_NAMES } from './consts'
 
   export default {
     components: {
       Connect
-    },
-    mixins: [ConnectWithServer],
-    created () {
-      // We want to automatically connect if the user was connected before.
-      // We naively check by checking if something was saved to localStorage already.
-      if (this.$store.state.connection.wasConnected) {
-        this.connectWithServer()
-      }
     },
     computed: {
       connectionStateName () {

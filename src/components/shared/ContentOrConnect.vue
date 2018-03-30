@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isConnected()">
+  <div v-if="isConnected() || wasConnected()">
     <slot></slot>
   </div>
 

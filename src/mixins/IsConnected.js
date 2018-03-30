@@ -5,6 +5,9 @@ const IsConnected = {
     isConnected () {
       return (this.$store.state.connection.elasticsearchClient != null) &&
         (this.$store.state.connection.status === CONNECTION_STATES.SUCCESS)
+    },
+    wasConnected () {
+      return this.$store.state.connection.wasConnected
     }
   }
 }

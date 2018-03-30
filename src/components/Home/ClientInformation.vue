@@ -37,13 +37,12 @@
     methods: {
       loadClientInfo () {
         this.loading = true
-        this.getElasticsearchAdapter().getClientInfo().then(
+        this.getElasticsearchAdapter().then(adapter => adapter.getClientInfo()).then(
           body => {
             this.clientInformation = flattenObject(body, true, true)
             this.loading = false
-          },
-          error => this.$store.commit('setErrorState', error)
-        )
+          }
+        ).catch(error => this.$store.commit('setErrorState', error))
       }
     }
   }

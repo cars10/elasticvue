@@ -8,9 +8,10 @@
     </div>
     <v-data-table :rows-per-page-items="[10, 25, 100]"
                   :headers="headers"
-                  :items="this.$store.state.connection.indices"
+                  :items="indices"
                   :custom-sort="sortIndices"
-                  :search="filter">
+                  :search="filter"
+                  :loading="loading">
       <template slot="items" slot-scope="props">
         <td>{{props.item.index}}</td>
         <td>{{props.item.health}}</td>
@@ -28,6 +29,14 @@
 
 <script>
   export default {
+    props: {
+      indices: {
+        default: () => []
+      },
+      loading: {
+        default: false
+      }
+    },
     data () {
       return {
         headers: [

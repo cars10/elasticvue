@@ -40,13 +40,12 @@
     methods: {
       loadClusterHealth () {
         this.loading = true
-        this.getElasticsearchAdapter().getClusterHealth().then(
+        this.getElasticsearchAdapter().then(adapter => adapter.getClusterHealth()).then(
           body => {
             this.clusterHealth = flattenObject(body, true, true)
             this.loading = false
-          },
-          error => this.$store.commit('setErrorState', error)
-        )
+          }
+        ).catch(error => this.$store.commit('setErrorState', error))
       }
     }
   }

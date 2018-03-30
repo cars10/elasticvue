@@ -5,7 +5,10 @@ const ConnectWithServer = {
     connectWithServer () {
       let connectService = new ConnectService(this.$store.state.connection.elasticsearchHost)
       connectService.connect().then(
-        client => this.$store.commit('setElasticsearchClient', client),
+        client => {
+          this.$store.commit('setElasticsearchClient', client)
+          return client
+        },
         error => this.$store.commit('setErrorState', error)
       )
     }
