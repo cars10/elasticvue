@@ -8,7 +8,7 @@
       <v-chip :color="connectionStateClass">{{connectionStateName}}</v-chip>
 
       <v-spacer></v-spacer>
-      <connect :useToolbar="true" v-if="isConnected"></connect>
+      <connect :useToolbar="true" v-if="isConnected()"></connect>
       <v-spacer></v-spacer>
 
       <v-toolbar-items>
