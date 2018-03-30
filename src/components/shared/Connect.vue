@@ -3,7 +3,7 @@
     <v-toolbar-items>
       <v-text-field title="Host" type="text" auto-grow v-model="elasticsearchHost"></v-text-field>
     </v-toolbar-items>
-    <v-btn type="submit" v-on:click="connectWithClient">Connect</v-btn>
+    <v-btn type="submit" v-on:click="connectWithServer">Connect</v-btn>
   </div>
 
   <v-container v-else>
@@ -14,7 +14,7 @@
             <v-text-field title="Host" type="text" v-model="elasticsearchHost"></v-text-field>
           </v-flex>
           <v-flex>
-            <v-btn type="submit" v-on:click="connectWithClient">Connect</v-btn>
+            <v-btn type="submit" v-on:click="connectWithServer">Connect</v-btn>
           </v-flex>
         </v-layout>
       </v-flex>
@@ -23,11 +23,11 @@
 </template>
 
 <script>
-  import ConnectMixin from '../../mixins/ConnectMixin'
+  import ConnectWithServer from '../../mixins/ConnectWithServer'
 
   export default {
     props: ['useToolbar'],
-    mixins: [ConnectMixin],
+    mixins: [ConnectWithServer],
     computed: {
       elasticsearchHost: {
         get () {

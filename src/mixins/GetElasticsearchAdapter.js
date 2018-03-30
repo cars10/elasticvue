@@ -1,6 +1,6 @@
 import ElasticsearchAdapter from '../services/ElasticsearchAdapter'
 
-const getElasticsearchAdapter = {
+const GetElasticsearchAdapter = {
   methods: {
     getElasticsearchAdapter () {
       if (this.$store.state.connection.elasticsearchAdapter !== null) {
@@ -14,4 +14,4 @@ const getElasticsearchAdapter = {
   }
 }
 
-export default getElasticsearchAdapter
+export default GetElasticsearchAdapter

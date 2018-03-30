@@ -1,9 +1,9 @@
 import ConnectService from '../services/elasticsearch/ConnectService'
 import ElasticsearchAdapter from '../services/ElasticsearchAdapter'
 
-const ConnectMixin = {
+const ConnectWithServer = {
   methods: {
-    connectWithClient () {
+    connectWithServer () {
       let connectService = new ConnectService(this.$store.state.connection.elasticsearchHost)
       connectService.connect().then(
         client => {
@@ -20,4 +20,4 @@ const ConnectMixin = {
   }
 }
 
-export default ConnectMixin
+export default ConnectWithServer
