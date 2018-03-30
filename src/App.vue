@@ -1,7 +1,7 @@
 <template>
   <v-app v-bind="this.$store.state.theme">
     <v-toolbar>
-      <v-toolbar-title>
+      <v-toolbar-title class="mr-5">
         <router-link to="/">Elasticvue</router-link>
       </v-toolbar-title>
 
