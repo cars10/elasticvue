@@ -27,26 +27,6 @@ export const connection = {
       localStorage.removeItem(LOCALSTORAGE_KEY)
       state.wasConnected = false
       state.status = CONNECTION_STATES.ERROR
-    },
-    setIndices (state, indices) {
-      state.indices = indices.sort((a, b) => {
-        if (a.index > b.index) {
-          return 1
-        }
-        if (a.index < b.index) {
-          return -1
-        }
-        return 0
-      })
-    },
-    sortIndices (state, sortObject) {
-      state.indices = state.indices.sort((a, b) => {
-        if (sortObject.order === 'asc') {
-          return a[sortObject.prop].localeCompare(b[sortObject.prop])
-        } else {
-          return b[sortObject.prop].localeCompare(a[sortObject.prop])
-        }
-      })
     }
   }
 }

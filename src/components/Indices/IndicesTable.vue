@@ -1,8 +1,7 @@
 <template>
   <div>
     <div class="inline-block px-3 pull-right" style="width: 250px;">
-      <v-text-field class=""
-                    append-icon="search"
+      <v-text-field append-icon="search"
                     label="Filter"
                     v-model="filter"></v-text-field>
     </div>
@@ -54,9 +53,6 @@
       }
     },
     methods: {
-      onSort (sort) {
-        this.$store.commit('sortIndices', {prop: sort.name, order: sort.type})
-      },
       sortIndices (items, index, isDescending) {
         const NUMBER_KIND_VALUES = ['pri', 'rep', 'docs.count', 'store.size', 'pri.store.size']
         return items.sort((a, b) => {
@@ -70,9 +66,9 @@
           }
 
           if (valA < valB) {
-            return isDescending ? -1 : 1
-          } else if (valA > valB) {
             return isDescending ? 1 : -1
+          } else if (valA > valB) {
+            return isDescending ? -1 : 1
           } else {
             return 0
           }
