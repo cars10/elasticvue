@@ -26,19 +26,19 @@
 
     <v-footer height="auto">
       <v-layout row wrap py-3 px-3>
-        <v-flex xs4>
+        <v-flex xs4 align-center class="display-flex">
           <v-switch label="Dark theme" v-model="theme" hide-details></v-switch>
         </v-flex>
 
         <v-flex xs4 text-xs-center>
-          &copy;{{ new Date().getFullYear()}}
+          &copy;{{ new Date().getFullYear()}}<br/>
+          <v-btn v-on:click="resetLocalStorage()">Reset</v-btn>
         </v-flex>
 
-        <v-flex xs4 text-xs-right>
-          <a href="https://github.com/cars10/elasticvue" target="_blank" rel="nofollow">Github</a>
-        </v-flex>
-        <v-flex text-xs-center>
-          <v-btn v-on:click="resetLocalStorage()">Reset</v-btn>
+        <v-flex xs4 text-xs-right align-center class="display-flex">
+          <v-flex>
+            <a href="https://github.com/cars10/elasticvue" target="_blank" rel="nofollow">Github</a>
+          </v-flex>
         </v-flex>
       </v-layout>
     </v-footer>
