@@ -71,18 +71,19 @@ export function objectArrayUniqueKeys (array, key) {
  * @returns {object} the flattened object
  */
 export function flattenObject (object, deep, concatNames) {
-  Object.entries(object).forEach(([key, value]) => {
+  let duplicatedObject = Object.assign({}, object) // copy so we do not change the original object
+  Object.entries(duplicatedObject).forEach(([key, value]) => {
     if (typeof value === 'object' && value !== null) {
       if (concatNames) {
-        deep ? Object.assign(object, flattenObject(appendStringToAllObjectKeys(value, key), deep, concatNames))
-          : Object.assign(object, appendStringToAllObjectKeys(value, key))
+        deep ? Object.assign(duplicatedObject, flattenObject(appendStringToAllObjectKeys(value, key), deep, concatNames))
+          : Object.assign(duplicatedObject, appendStringToAllObjectKeys(value, key))
       } else {
-        deep ? Object.assign(object, flattenObject(value)) : Object.assign(object, value)
+        deep ? Object.assign(duplicatedObject, flattenObject(value)) : Object.assign(duplicatedObject, value)
       }
-      delete object[key]
+      delete duplicatedObject[key]
     }
   })
-  return object
+  return duplicatedObject
 }
 
 function appendStringToAllObjectKeys (object, append) {

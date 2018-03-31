@@ -38,7 +38,6 @@
   export default {
     props: {
       hits: {
-        // TODO flatten
         default: () => {
           return []
         }
