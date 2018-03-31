@@ -67,7 +67,7 @@ npm run build --report
 
 ## TODO
 
-1. Index loading on index page and not on connect + index ordering
+1. -Index loading on index page and not on connect + index ordering-
 2. Save browse parameters
 3. Document show view
 4. Search page
