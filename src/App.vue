@@ -37,6 +37,9 @@
         <v-flex xs4 text-xs-right>
           <a href="https://github.com/cars10/elasticvue" target="_blank" rel="nofollow">Github</a>
         </v-flex>
+        <v-flex text-xs-center>
+          <v-btn v-on:click="resetLocalStorage()">Reset</v-btn>
+        </v-flex>
       </v-layout>
     </v-footer>
   </v-app>
@@ -64,6 +67,12 @@
         set (value) {
           this.$store.commit('setTheme', value)
         }
+      }
+    },
+    methods: {
+      resetLocalStorage () {
+        localStorage.clear()
+        window.location.replace('/')
       }
     }
   }
