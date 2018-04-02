@@ -1,0 +1,14 @@
+.code--block {
+  display: inline-block;
+  padding: 5px 6px;
+  font-family: monospace;
+
+  &:before, &:after {
+    content: initial;
+  }
+
+}
+
+.code--comment {
+  color: grey;
+}

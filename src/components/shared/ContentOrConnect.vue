@@ -20,14 +20,19 @@
           <v-alert :type="isErrorState ? 'error' : 'info'" :value="true" class="text-bigger">
             <p v-if="isErrorState"><strong>Could not connect.</strong></p>
             <p>Please make sure that your elasticsearch server is configured correctly.</p>
-            To enable access from {{domain}} you have to make the following configurations in your <strong>elasticsearch.yml</strong>:
-            <ul class="pl-3 mb-1">
-              <li>to allow CORS requests, add <code>http.cors.enabled: true</code></li>
-              <li>to allow requests from {{domain}}, add <code>http.cors.allow-origin: {{domain}}</code></li>
-            </ul>
+            To enable access from {{domain}} you have to add the following configurations to your <strong>elasticsearch.yml</strong>:
 
-            Alternatively you can pass a regex as the allowed origins, for example
-            <code>http.cors.allow-origin: /https?:\/\/{{hostname}}(:[0-9]+)?)/</code>
+            <div>
+              <!-- @formatter:off -->
+<code class="code--block"><span class="code--comment"># allow CORS requests</span>
+http.cors.enabled: true
+<span class="code--comment"># allow CORS requests from {{domain}}</span>
+http.cors.allow-origin: {{domain}}
+
+<span class="code--comment"># Alternatively you can pass a regex as the allowed origins</span>
+<span class="code--comment" style="display: block"># http.cors.allow-origin: /https?:\/\/{{hostname}}(:[0-9]+)?)/</span></code>
+              <!-- @formatter:on -->
+            </div>
           </v-alert>
         </v-flex>
       </v-layout>
