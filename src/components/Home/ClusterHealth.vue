@@ -1,27 +1,25 @@
 <template>
-  <div>
-    <v-card>
-      <v-card-title>
-        <h2>Cluster Health</h2>
-        <v-btn flat icon class="ml-a" v-on:click="loadClusterHealth">
-          <v-icon>cached</v-icon>
-        </v-btn>
-      </v-card-title>
-      <v-divider></v-divider>
+  <v-card>
+    <v-card-title>
+      <h2>Cluster Health</h2>
+      <v-btn flat icon class="ml-a" v-on:click="loadClusterHealth">
+        <v-icon>cached</v-icon>
+      </v-btn>
+    </v-card-title>
+    <v-divider></v-divider>
 
-      <content-or-loading :loading="loading">
-        <v-list dense>
-          <v-list-tile v-for="key in Object.keys(clusterHealth)" :key="key">
-            <v-list-tile-content>{{key}}</v-list-tile-content>
-            <v-list-tile-content class="align-end">
-              <v-chip :class="clusterHealth[key]" v-if="key === 'status'">{{clusterHealth[key]}}</v-chip>
-              <span v-else>{{clusterHealth[key]}}</span>
-            </v-list-tile-content>
-          </v-list-tile>
-        </v-list>
-      </content-or-loading>
-    </v-card>
-  </div>
+    <content-or-loading :loading="loading">
+      <v-list dense>
+        <v-list-tile v-for="key in Object.keys(clusterHealth)" :key="key">
+          <v-list-tile-content>{{key}}</v-list-tile-content>
+          <v-list-tile-content class="align-end">
+            <v-chip :class="clusterHealth[key]" v-if="key === 'status'">{{clusterHealth[key]}}</v-chip>
+            <span v-else>{{clusterHealth[key]}}</span>
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
+    </content-or-loading>
+  </v-card>
 </template>
 
 <script>
