@@ -1,11 +1,9 @@
 <template>
-  <div>
-    <md-card>
-      <md-card-content>
-        <nested-object :object="document"></nested-object>
-      </md-card-content>
-    </md-card>
-  </div>
+  <md-card>
+    <md-card-content>
+      <nested-object :object="document"></nested-object>
+    </md-card-content>
+  </md-card>
 </template>
 
 <script>
