@@ -1,9 +1,9 @@
 <template>
-  <md-card>
-    <md-card-content>
-      <nested-object :object="document"></nested-object>
-    </md-card-content>
-  </md-card>
+  <v-card>
+    <v-card-title>
+      {{this.params.index}} / {{this.params.type}} / {{this.params.id}}
+    </v-card-title>
+  </v-card>
 </template>
 
 <script>
@@ -17,7 +17,9 @@
       }
     },
     created () {
-      this.getElasticsearchAdapter().get({index: this.params.index, type: this.params.type, id: this.params.id}).then(
+      this.getElasticsearchAdapter().then(
+        adapter => adapter.get({index: this.params.index, type: this.params.type, id: this.params.id})
+      ).then(
         (body) => (this.document = body),
         (error) => this.$store.commit('setErrorState', error)
       )

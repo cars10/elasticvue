@@ -13,10 +13,12 @@
                   :loading="loading"
                   :search="filter">
       <template slot="items" slot-scope="item">
-        <td>{{ item.item._index }}</td>
-        <td>{{ item.item._id}}</td>
-        <td>{{ item.item._type}}</td>
-        <td v-for="key in keys" :key="item.item._index + '_' + key">{{item.item[key]}}</td>
+        <tr @click="openDocument(item.item)">
+          <td>{{ item.item._index }}</td>
+          <td>{{ item.item._id}}</td>
+          <td>{{ item.item._type}}</td>
+          <td v-for="key in keys" :key="item.item._index + '_' + key">{{item.item[key]}}</td>
+        </tr>
       </template>
 
       <template slot="no-data">
@@ -50,8 +52,8 @@
       }
     },
     methods: {
-      onClick (el) {
-        this.$router.push({name: 'Document', params: {index: el._index, type: el._type, id: el._id}})
+      openDocument (item) {
+        this.$router.push({name: 'Document', params: {index: item._index, type: item._type, id: item._id}})
       }
     },
     computed: {
