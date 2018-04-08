@@ -39,14 +39,12 @@
 
 <script>
   import Results from '@/components/Browse/Results'
-  import { NORMALIZED_SEARCH_PARAMS } from '../../consts'
 
   export default {
     data () {
       return {
         indices: [],
         results: [],
-        search: Object.assign({}, NORMALIZED_SEARCH_PARAMS),
         resultsLoading: false,
         indicesLoading: false
       }
@@ -76,6 +74,16 @@
             this.resultsLoading = false
           }
         ).catch(error => this.$store.commit('setErrorState', error))
+      }
+    },
+    computed: {
+      search: {
+        get () {
+          return this.$store.state.browse.search
+        },
+        set (search) {
+          this.$store.commit('setSearch', search)
+        }
       }
     }
   }
