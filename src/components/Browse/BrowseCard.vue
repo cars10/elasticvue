@@ -3,9 +3,14 @@
     <v-layout row wrap>
       <v-flex xs12>
         <v-card>
+          <v-card-title>
+            <h2>Browse</h2>
+            <v-btn flat icon v-on:click="loadIndices">
+              <v-icon>cached</v-icon>
+            </v-btn>
+          </v-card-title>
           <v-card-text>
-            <h1>Browse</h1>
-            <v-form v-on:submit.prevent="loadIndices" class="form-inline">
+            <v-form v-on:submit.prevent="loadResults" class="form-inline">
               <v-text-field class="input--sm" label="Query" v-model="search.q" id="q"></v-text-field>
               <v-select multiple
                         autocomplete
@@ -13,9 +18,10 @@
                         name="Indices"
                         id="indices"
                         v-model="search.index"
-                        v-bind:items="this.$store.state.connection.indices"
+                        :items="indices"
                         item-value="index"
-                        item-text="index">
+                        item-text="index"
+                        :loading="indicesLoading">
               </v-select>
 
               <v-btn type="submit">Submit</v-btn>
@@ -25,7 +31,7 @@
       </v-flex>
 
       <v-flex xs12>
-        <results :hits="results.hits && results.hits.hits || results" :loading="loading"></results>
+        <results :hits="results.hits && results.hits.hits || results" :loading="resultsLoading"></results>
       </v-flex>
     </v-layout>
   </v-container>
@@ -38,24 +44,38 @@
   export default {
     data () {
       return {
+        indices: [],
         results: [],
         search: Object.assign({}, NORMALIZED_SEARCH_PARAMS),
-        loading: false
+        resultsLoading: false,
+        indicesLoading: false
       }
     },
     components: {
       Results
     },
+    created () {
+      this.loadIndices()
+    },
     methods: {
       loadIndices () {
-        this.loading = true
-        this.getElasticsearchAdapter().search(this.search).then(
+        this.indicesLoading = true
+        this.getElasticsearchAdapter().then(adapter => adapter.getCatIndices()).then(
+          indices => {
+            this.indices = indices
+            this.indicesLoading = false
+          }
+        ).catch(error => this.$store.commit('setErrorState', error))
+      },
+      loadResults () {
+        this.resultsLoading = true
+
+        this.getElasticsearchAdapter().then(adapter => adapter.search(this.search)).then(
           body => {
             this.results = body
-            this.loading = false
-          },
-          error => this.$store.commit('setErrorState', error)
-        )
+            this.resultsLoading = false
+          }
+        ).catch(error => this.$store.commit('setErrorState', error))
       }
     }
   }
