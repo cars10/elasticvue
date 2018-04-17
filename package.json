@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "Elasticsearch frontend",
   "author": "Carsten König <carstenkoenig92@gmail.com>",
-  "private": true,
   "scripts": {
     "dev": "node build/dev-server.js",
     "start": "node build/dev-server.js",
