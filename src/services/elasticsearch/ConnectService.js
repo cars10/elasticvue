@@ -19,7 +19,8 @@ export default class ConnectService {
 
     let client = new elasticsearch.Client({
       host: this.host,
-      apiVersion: mappedVersion
+      apiVersion: mappedVersion,
+      log: false // process.env.NODE_ENV === 'production' ? false : 'trace'
     })
 
     let adapter = new ElasticsearchAdapter(client)

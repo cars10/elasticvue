@@ -1,32 +1,5 @@
-import { ELASTICSEARCH_API_VERSIONS } from '../consts'
-
-/**
- * Returns true if given value is
- * * undefined
- * * null
- * * empty string
- * * empty array
- * * empty object
- * @param value
- * @returns {boolean}
- */
-export function isEmpty (value) {
-  if (typeof value === 'object') {
-    // array or object or null
-    if (Array.isArray(value)) {
-      // array
-      return value.length === 0
-    } else if (value === null) {
-      // null
-      return true
-    } else {
-      // object
-      return Object.keys(value).length === 0
-    }
-  } else {
-    return (typeof value === 'undefined') || (value === '')
-  }
-}
+import { ELASTICSEARCH_API_VERSIONS, NORMALIZED_SEARCH_PARAMS } from '../consts'
+import { isEmpty } from './utilities'
 
 /**
  * Return the correct api version for the elasticsearch version.
@@ -43,4 +16,11 @@ export function mapElasticsearchApiVersion (version) {
     default:
       return '6.x'
   }
+}
+
+export function normalizeSearchParams (params) {
+  params.q = isEmpty(params.q) ? NORMALIZED_SEARCH_PARAMS.q : params.q
+  params.from = isEmpty(params.from) ? NORMALIZED_SEARCH_PARAMS.from : parseInt(params.from)
+  params.size = isEmpty(params.size) ? NORMALIZED_SEARCH_PARAMS.size : parseInt(params.size)
+  params.index = isEmpty(params.index) ? NORMALIZED_SEARCH_PARAMS.index : params.index
 }

@@ -1,43 +1,42 @@
 import Vue from 'vue'
-import VueMaterial from 'vue-material'
-
+import VAlert from 'vuetify/es5/components/VAlert'
+import VApp from 'vuetify/es5/components/VApp'
+import VBtn from 'vuetify/es5/components/VBtn'
+import VCard from 'vuetify/es5/components/VCard'
+import VChip from 'vuetify/es5/components/VChip'
+import VDataTable from 'vuetify/es5/components/VDataTable'
+import VDivider from 'vuetify/es5/components/VDivider'
+import VForm from 'vuetify/es5/components/VForm'
+import VFooter from 'vuetify/es5/components/VFooter'
+import VGrid from 'vuetify/es5/components/VGrid'
+import VIcon from 'vuetify/es5/components/VIcon'
+import VList from 'vuetify/es5/components/VList'
+import VProgressLinear from 'vuetify/es5/components/VProgressLinear'
+import VSelect from 'vuetify/es5/components/VSelect'
+import VSwitch from 'vuetify/es5/components/VSwitch'
+import VTextField from 'vuetify/es5/components/VTextField'
+import VToolbar from 'vuetify/es5/components/VToolbar'
+import Vuetify from 'vuetify/es5/components/Vuetify'
 // Base styles
 import './stylesheets/style.scss'
 
-// Vue-Material
-import 'vue-material/dist/components/mdCore/index.css'
-import 'vue-material/dist/components/mdBackdrop/index.css'
-import 'vue-material/dist/components/mdButton/index.css'
-import 'vue-material/dist/components/mdCard/index.css'
-import 'vue-material/dist/components/mdCheckbox/index.css'
-import 'vue-material/dist/components/mdChips/index.css'
-import 'vue-material/dist/components/mdInputContainer/index.css'
-import 'vue-material/dist/components/mdLayout/index.css'
-import 'vue-material/dist/components/mdList/index.css'
-import 'vue-material/dist/components/mdMenu/index.css'
-import 'vue-material/dist/components/mdProgress/index.css'
-import 'vue-material/dist/components/mdSelect/index.css'
-import 'vue-material/dist/components/mdTable/index.css'
-import 'vue-material/dist/components/mdToolbar/index.css'
+import './stylesheets/vuetify.styl'
 
-Vue.use(VueMaterial.MdCore)
-Vue.use(VueMaterial.MdBackdrop)
-Vue.use(VueMaterial.MdButton)
-Vue.use(VueMaterial.MdCard)
-Vue.use(VueMaterial.MdCheckbox)
-Vue.use(VueMaterial.MdChips)
-Vue.use(VueMaterial.MdIcon)
-Vue.use(VueMaterial.MdInputContainer)
-Vue.use(VueMaterial.MdLayout)
-Vue.use(VueMaterial.MdList)
-Vue.use(VueMaterial.MdMenu)
-Vue.use(VueMaterial.MdProgress)
-Vue.use(VueMaterial.MdSelect)
-Vue.use(VueMaterial.MdTable)
-Vue.use(VueMaterial.MdToolbar)
-
-Vue.material.registerTheme('default', {
-  primary: 'teal',
-  accent: 'purple',
-  warn: 'red'
-})
+Vue.use(Vuetify)
+Vue.use(VAlert)
+Vue.use(VApp)
+Vue.use(VBtn)
+Vue.use(VCard)
+Vue.use(VChip)
+Vue.use(VDataTable)
+Vue.use(VDivider)
+Vue.use(VForm)
+Vue.use(VFooter)
+Vue.use(VGrid)
+Vue.use(VIcon)
+Vue.use(VList)
+Vue.use(VProgressLinear)
+Vue.use(VSelect)
+Vue.use(VSwitch)
+Vue.use(VTextField)
+Vue.use(VToolbar)

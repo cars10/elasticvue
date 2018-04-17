@@ -1,26 +1,13 @@
-import Search from '../../models/elasticsearch/search'
+import { NORMALIZED_SEARCH_PARAMS } from '../../consts'
 
 export const browse = {
   state: {
-    search: new Search({}),
-    results: []
+    results: [],
+    search: Object.assign({}, NORMALIZED_SEARCH_PARAMS)
   },
   mutations: {
-    setSearchQ (state, q) {
-      state.search.q = q
-      state.search.evaluate()
-    },
-    setSearchSize (state, size) {
-      state.search.size = size
-      state.search.evaluate()
-    },
-    setSearchFrom (state, from) {
-      state.search.from = from
-      state.search.evaluate()
-    },
-    setSearchIndex (state, index) {
-      state.search.index = index
-      state.search.evaluate()
+    setSearch (state, search) {
+      state.search = search
     }
   }
 }

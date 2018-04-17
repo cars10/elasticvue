@@ -1,37 +1,71 @@
 <template>
-  <div>
-    <md-table-card>
-      <md-table v-if="hits && hits.length > 0"
-                class="white-space--nowrap md-table--condensed md-table--striped md-table--clickable">
-        <md-table-header>
-          <md-table-row>
-            <md-table-head md-sort-by="_index">_index</md-table-head>
-            <md-table-head md-sort-by="_id">_id</md-table-head>
-            <md-table-head md-sort-by="_type">_type</md-table-head>
-            <md-table-head v-for="key in Object.keys(hits[0]._source)" :key="key">{{key}}</md-table-head>
-          </md-table-row>
-        </md-table-header>
+  <v-card>
+    <div class="inline-block px-3 pull-right" style="width: 250px;">
+      <v-text-field class=""
+                    append-icon="search"
+                    label="Filter"
+                    v-model="filter"></v-text-field>
+    </div>
 
-        <md-table-body>
-          <md-table-row v-for="hit in hits" :key="hit._type + '_' + hit._id" @click.native="onClick(hit)">
-            <md-table-cell>{{hit._index}}</md-table-cell>
-            <md-table-cell>{{hit._id}}</md-table-cell>
-            <md-table-cell>{{hit._type}}</md-table-cell>
-            <md-table-cell v-for="key in Object.keys(hit._source)" :key="hit._index + '_' + key">{{hit._source[key]}}
-            </md-table-cell>
-          </md-table-row>
-        </md-table-body>
-      </md-table>
-    </md-table-card>
-  </div>
+    <v-data-table :rows-per-page-items="[10, 25, 100, {text: 'All',value:-1}]"
+                  :headers="headers"
+                  :items="flattenedHits"
+                  :loading="loading"
+                  :search="filter">
+      <template slot="items" slot-scope="item">
+        <tr @click="openDocument(item.item)">
+          <td>{{ item.item._index }}</td>
+          <td>{{ item.item._id}}</td>
+          <td>{{ item.item._type}}</td>
+          <td v-for="key in keys" :key="item.item._index + '_' + key">{{item.item[key]}}</td>
+        </tr>
+      </template>
+
+      <template slot="no-data">
+        Nothing found.
+      </template>
+
+      <v-progress-linear slot="progress" color="blue" indeterminate></v-progress-linear>
+    </v-data-table>
+  </v-card>
 </template>
 
 <script>
+  import { flattenObject, objectArrayUniqueKeys } from '../../helpers/utilities'
+
+  const DEFAULT_KEYS = ['_index', '_id', '_type']
+
   export default {
-    props: ['hits'],
+    props: {
+      hits: {
+        default: () => {
+          return []
+        }
+      },
+      loading: {
+        default: false
+      }
+    },
+    data () {
+      return {
+        filter: ''
+      }
+    },
     methods: {
-      onClick (el) {
-        this.$router.push({name: 'Document', params: {index: el._index, type: el._type, id: el._id}})
+      openDocument (item) {
+        this.$router.push({name: 'Document', params: {index: item._index, type: item._type, id: item._id}})
+      }
+    },
+    computed: {
+      headers () {
+        let defaultKeyHeaders = DEFAULT_KEYS.map(value => ({text: value, value: value}))
+        return defaultKeyHeaders.concat(this.keys.map(value => ({text: value, value: value})))
+      },
+      keys () {
+        return objectArrayUniqueKeys(this.hits, '_source')
+      },
+      flattenedHits () {
+        return this.hits.map((hit) => flattenObject(hit))
       }
     }
   }

@@ -1,15 +1,15 @@
 <template>
-  <div>
-    <md-card>
-      <md-card-content>
-        <nested-object :object="document"></nested-object>
-      </md-card-content>
-    </md-card>
-  </div>
+  <v-card>
+    <v-card-title>
+      {{this.params.index}} / {{this.params.type}} / {{this.params.id}}
+    </v-card-title>
+    <v-card-text>
+      <object-pretty-print :object="document" v-if="document"></object-pretty-print>
+    </v-card-text>
+  </v-card>
 </template>
 
 <script>
-  import ElasticsearchAdapter from '../../services/ElasticsearchAdapter'
   import NestedObject from '@/components/NestedObject/NestedObject'
 
   export default {
@@ -20,10 +20,11 @@
       }
     },
     created () {
-      let adapter = new ElasticsearchAdapter(this.$store.state.connection.elasticsearchClient)
-      adapter.get({index: this.params.index, type: this.params.type, id: this.params.id}).then(
-        (body) => (this.document = body),
-        (error) => this.$store.commit('setErrorState', error)
+      this.getElasticsearchAdapter().then(
+        adapter => adapter.get({index: this.params.index, type: this.params.type, id: this.params.id})
+      ).then(
+        body => (this.document = body),
+        error => this.$store.commit('setErrorState', error)
       )
     },
     components: {

@@ -1,15 +1,15 @@
-.form-inline {
+form.form-inline {
   display: flex;
 
-  div.md-input-container:not(last-child) {
-    margin-right: 20px;
-  }
-
-  button.md-button {
-    height: 36px;
+  .input-group {
+    margin: 0 10px;
   }
 }
 
-.md-input-container--sm {
-  width: 50px;
+.input--sm {
+  flex: 0.25
+}
+
+.input--md {
+  flex: 0.5
 }

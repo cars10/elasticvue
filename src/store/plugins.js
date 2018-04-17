@@ -5,8 +5,10 @@ export const plugins = [
   createPersistedState({
     key: LOCALSTORAGE_KEY,
     paths: [
-      'elasticsearchHost',
-      'browse'
+      'connection.wasConnected',
+      'connection.elasticsearchHost',
+      'browse',
+      'theme'
     ]
   })
 ]

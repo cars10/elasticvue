@@ -1,15 +1,15 @@
 <template>
   <content-or-connect>
-    <browse-card></browse-card>
+    <indices-card></indices-card>
   </content-or-connect>
 </template>
 
 <script>
-  import BrowseCard from '@/components/Browse/BrowseCard'
+  import IndicesCard from '@/components/Indices/IndicesCard'
 
   export default {
     components: {
-      BrowseCard
+      IndicesCard
     }
   }
 </script>
