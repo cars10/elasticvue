@@ -11,8 +11,11 @@ RUN yarn install
 # Copy application code
 COPY . .
 
-# Expose port 8090 for webpack-dev-server
+# Build production assets
+RUN yarn build
+
+# Expose port 8090 for express server
 EXPOSE 8090
 
-# Run dev server
-CMD ["yarn", "start"]
+# Run production server
+CMD ["yarn", "prod"]
