@@ -15,7 +15,17 @@ Use one of the following ways to run elasticvue:
 
 **Docker**
 
-*TODO*
+Use the existing image:
+
+* `docker run -p 8090:8090 cars10/elasticvue`
+
+Or build the image locally:
+
+* Checkout the repo `git clone https://github.com/cars10/elasticvue.git`
+* Open the folder `cd elasticvue`
+* Build `docker build -t elasticvue .`
+* Run `docker run -p 8090:8090 elasticvue`
+ 
 
 **Online version**
 
@@ -23,7 +33,7 @@ Use one of the following ways to run elasticvue:
 
 **Chrome extension**
 
-TOOD
+TODO
 
 
 ## Elasticsearch configuration
@@ -46,12 +56,22 @@ Now simply restart elasticsearch and you should be able to connect.
 
 ## Development
 
+Setup and running
+
 ``` bash
 # install dependencies
 yarn install
 
 # serve with hot reload at localhost:8080
 yarn dev
+```
+
+
+Other commands
+
+```bash
+# Linting
+yarn lint
 
 # minimized build for production
 yarn build
