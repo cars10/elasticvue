@@ -17,7 +17,7 @@ Use one of the following ways to run elasticvue:
 
 Use the existing image:
 
-* `docker run -p 8090:8090 cars10/elasticvue`
+* `docker run -p 8090:8090 -d cars10/elasticvue`
 
 Or build the image locally:
 
