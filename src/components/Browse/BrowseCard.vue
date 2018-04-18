@@ -41,6 +41,11 @@
   import Results from '@/components/Browse/Results'
 
   export default {
+    props: {
+      executeSearch: {
+        default: false
+      }
+    },
     data () {
       return {
         indices: [],
@@ -54,6 +59,7 @@
     },
     created () {
       this.loadIndices()
+      if (this.executeSearch) this.loadResults()
     },
     methods: {
       loadIndices () {

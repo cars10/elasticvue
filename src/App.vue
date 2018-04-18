@@ -13,8 +13,8 @@
 
       <v-toolbar-items>
         <v-btn flat to="/" exact>Home</v-btn>
-        <v-btn flat to="indices" exact>Indices</v-btn>
-        <v-btn flat to="/browse" exact>Browse</v-btn>
+        <v-btn flat to="/indices">Indices</v-btn>
+        <v-btn flat to="/browse">Browse</v-btn>
       </v-toolbar-items>
     </v-toolbar>
 
@@ -32,7 +32,7 @@
 
         <v-flex xs4 text-xs-center>
           &copy;{{ new Date().getFullYear()}}<br/>
-          <v-btn v-on:click="resetLocalStorage()">Reset</v-btn>
+          <v-btn @click="reset()">Reset</v-btn>
         </v-flex>
 
         <v-flex xs4 text-xs-right align-center class="display-flex">
@@ -70,7 +70,7 @@
       }
     },
     methods: {
-      resetLocalStorage () {
+      reset () {
         localStorage.clear()
         window.location.replace('/')
       }

@@ -10,14 +10,14 @@ Use one of the following ways to run elasticvue:
 
 * Checkout the repo `git clone https://github.com/cars10/elasticvue.git`
 * Open the folder `cd elasticvue`
-* Install dependencies `yarn install` or `npm install`
+* Install dependencies `yarn install`
 * Run the server `yarn prod`
 
 **Docker**
 
 Use the existing image:
 
-* `docker run -p 8090:8090 cars10/elasticvue`
+* `docker run -p 8090:8090 -d cars10/elasticvue`
 
 Or build the image locally:
 

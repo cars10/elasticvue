@@ -1,6 +1,6 @@
 <template>
   <content-or-connect>
-    <browse-card></browse-card>
+    <browse-card :executeSearch="executeSearch"></browse-card>
   </content-or-connect>
 </template>
 
@@ -8,6 +8,11 @@
   import BrowseCard from '@/components/Browse/BrowseCard'
 
   export default {
+    props: {
+      executeSearch: {
+        default: false
+      }
+    },
     components: {
       BrowseCard
     }
