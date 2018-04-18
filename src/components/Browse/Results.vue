@@ -15,7 +15,7 @@
                   :customFilter="customTableFilter"
                   class="table__condensed">
       <template slot="items" slot-scope="item">
-        <tr @click="openDocument(item.item)">
+        <tr @click="openDocument(item.item)" class="tr--clickable">
           <td>{{ item.item._index }}</td>
           <td>{{ item.item._id}}</td>
           <td>{{ item.item._type}}</td>

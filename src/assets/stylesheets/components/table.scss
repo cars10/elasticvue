@@ -20,3 +20,9 @@
     font-family: monospace
   }
 }
+
+table {
+  tr.tr--clickable:hover {
+    cursor: pointer
+  }
+}
