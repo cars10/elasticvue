@@ -2,9 +2,7 @@
   <v-card>
     <v-card-title>
       <h2>Node Information</h2>
-      <v-btn flat icon class="ml-a" v-on:click="loadClientInfo">
-        <v-icon>cached</v-icon>
-      </v-btn>
+      <reload-button :action="loadClientInfo"></reload-button>
     </v-card-title>
     <v-divider></v-divider>
 
@@ -20,6 +18,7 @@
 </template>
 
 <script>
+  import ReloadButton from '@/components/shared/ReloadButton'
   import { flattenObject } from '../../helpers/utilities'
 
   export default {
@@ -28,6 +27,9 @@
         clientInformation: {},
         loading: false
       }
+    },
+    components: {
+      ReloadButton
     },
     created () {
       this.loadClientInfo()

@@ -2,9 +2,7 @@
   <v-card>
     <v-card-title>
       <h2>Indices</h2>
-      <v-btn flat icon v-on:click="loadIndices">
-        <v-icon>cached</v-icon>
-      </v-btn>
+      <reload-button alignLeft :action="loadIndices"></reload-button>
     </v-card-title>
     <v-divider></v-divider>
     <indices-table :indices="indices" :loading="loading"></indices-table>
@@ -13,6 +11,7 @@
 
 <script>
   import IndicesTable from '@/components/Indices/IndicesTable'
+  import ReloadButton from '@/components/shared/ReloadButton'
 
   export default {
     data () {
@@ -22,7 +21,8 @@
       }
     },
     components: {
-      IndicesTable
+      IndicesTable,
+      ReloadButton
     },
     created () {
       this.loadIndices()
