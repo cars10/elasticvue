@@ -1,5 +1,6 @@
 <template>
   <v-card>
+    <v-btn @click="returnToSearch">Back to search</v-btn>
     <v-card-title>
       {{this.params.index}} / {{this.params.type}} / {{this.params.id}}
     </v-card-title>
@@ -29,6 +30,11 @@
     },
     components: {
       NestedObject
+    },
+    methods: {
+      returnToSearch () {
+        this.$router.push({name: 'Browse', params: {executeSearch: true}})
+      }
     }
   }
 </script>

@@ -23,7 +23,8 @@ export default new Router({
     {
       path: '/browse',
       name: 'Browse',
-      component: Browse
+      component: Browse,
+      props: true
     },
     {
       path: '/documents/:index/:type/:id',

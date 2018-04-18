@@ -82,7 +82,7 @@
         return objectArrayUniqueKeys(this.hits, '_source')
       },
       flattenedHits () {
-        return this.hits.map((hit) => flattenObject(hit))
+        return this.hits.map(hit => flattenObject(hit))
       }
     }
   }
