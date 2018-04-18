@@ -10,7 +10,7 @@
 
     <content-or-loading :loading="loading">
       <v-list dense>
-        <v-list-tile v-for="key in Object.keys(clientInformation)" :key="key">
+        <v-list-tile class="list__tile--selectable" v-for="key in Object.keys(clientInformation)" :key="key">
           <v-list-tile-content>{{key}}</v-list-tile-content>
           <v-list-tile-content class="align-end">{{clientInformation[key]}}</v-list-tile-content>
         </v-list-tile>
