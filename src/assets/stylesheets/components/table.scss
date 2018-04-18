@@ -1,0 +1,21 @@
+.table__condensed {
+  table.table {
+    td, th {
+      &:not(:nth-child(1)), &:first-child {
+        padding: 0 12px
+      }
+    }
+
+    tbody td, tbody th {
+      height: 40px;
+    }
+
+    td {
+      max-width: 500px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    white-space: nowrap;
+  }
+}

@@ -7,11 +7,12 @@
                     v-model="filter"></v-text-field>
     </div>
 
-    <v-data-table :rows-per-page-items="[10, 25, 100, {text: 'All',value:-1}]"
+    <v-data-table :rows-per-page-items="[10, 20, 100, {text: 'All',value:-1}]"
                   :headers="headers"
                   :items="flattenedHits"
                   :loading="loading"
-                  :search="filter">
+                  :search="filter"
+                  class="table__condensed">
       <template slot="items" slot-scope="item">
         <tr @click="openDocument(item.item)">
           <td>{{ item.item._index }}</td>
