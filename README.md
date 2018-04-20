@@ -6,12 +6,9 @@
 
 Use one of the following ways to run elasticvue:
 
-**Locally**
+**Online version**
 
-* Checkout the repo `git clone https://github.com/cars10/elasticvue.git`
-* Open the folder `cd elasticvue`
-* Install dependencies `yarn install`
-* Run a production server via `yarn prod` or dev server `yarn dev`
+* Visit [http://elasticvue.cars10k.de](http://elasticvue.cars10k.de) or [https://elasticvue.cars10k.de](https://elasticvue.cars10k.de)
 
 **Docker**
 
@@ -25,11 +22,13 @@ Or build the image locally:
 * Open the folder `cd elasticvue`
 * Build `docker build -t elasticvue .`
 * Run `docker run -p 8090:8090 elasticvue`
- 
 
-**Online version**
+**Run locally**
 
-* Visit [http://elasticvue.cars10k.de](http://elasticvue.cars10k.de) or [https://elasticvue.cars10k.de](https://elasticvue.cars10k.de)
+* Checkout the repo `git clone https://github.com/cars10/elasticvue.git`
+* Open the folder `cd elasticvue`
+* Install dependencies `yarn install`
+* Run a production server via `yarn prod` or dev server `yarn dev`
 
 **Chrome extension**
 
@@ -70,7 +69,6 @@ yarn install
 yarn dev
 ```
 
-
 Other commands
 
 ```bash
@@ -83,3 +81,4 @@ yarn build
 # build for production and view the bundle analyzer report
 yarn build --report
 ```
+
