@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "Elasticsearch frontend",
   "author": "Carsten König <carstenkoenig92@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cars10/elasticvue.git"
+  },
   "license": "MIT",
   "scripts": {
     "dev": "node build/dev-server.js",

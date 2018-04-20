@@ -15,12 +15,14 @@ const app = express()
 const path = require('path')
 const port = process.env.PORT || 8090
 
+const dist_path = path.resolve(__dirname, '..', 'dist')
+
 // serve static assets from /dist
-app.use(express.static(path.join(__dirname, '/dist')))
+app.use(express.static(dist_path))
 
 // respond to every other request with index.html
 app.get('*', (request, response) => {
-  response.sendFile(path.resolve(__dirname, 'index.html'))
+  response.sendFile(path.join(dist_path, 'index.html'))
 })
 
 app.listen(port)
