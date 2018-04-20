@@ -5,9 +5,7 @@
         <v-card>
           <v-card-title>
             <h2>Browse</h2>
-            <v-btn flat icon v-on:click="loadIndices">
-              <v-icon>cached</v-icon>
-            </v-btn>
+            <reload-button alignLeft :title="'Reload indices'" :action="loadIndices"></reload-button>
           </v-card-title>
           <v-card-text>
             <v-form v-on:submit.prevent="loadResults" class="form-inline">
@@ -39,6 +37,7 @@
 
 <script>
   import Results from '@/components/Browse/Results'
+  import ReloadButton from '@/components/shared/ReloadButton'
 
   export default {
     props: {
@@ -55,7 +54,8 @@
       }
     },
     components: {
-      Results
+      Results,
+      ReloadButton
     },
     created () {
       this.loadIndices()

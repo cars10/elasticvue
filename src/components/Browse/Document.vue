@@ -5,13 +5,13 @@
       {{this.params.index}} / {{this.params.type}} / {{this.params.id}}
     </v-card-title>
     <v-card-text>
-      <object-pretty-print :object="document" v-if="document"></object-pretty-print>
+      <nested-object :object="document" v-if="document"></nested-object>
     </v-card-text>
   </v-card>
 </template>
 
 <script>
-  import NestedObject from '@/components/NestedObject/NestedObject'
+  import NestedObject from '@/components/shared/NestedObject'
 
   export default {
     data () {

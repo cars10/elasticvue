@@ -11,7 +11,7 @@ Use one of the following ways to run elasticvue:
 * Checkout the repo `git clone https://github.com/cars10/elasticvue.git`
 * Open the folder `cd elasticvue`
 * Install dependencies `yarn install`
-* Run the server `yarn prod`
+* Run a production server via `yarn prod` or dev server `yarn dev`
 
 **Docker**
 
@@ -58,11 +58,15 @@ Now simply restart elasticsearch and you should be able to connect.
 
 Setup and running
 
-``` bash
+```bash
+# clone
+git clone https://github.com/cars10/elasticvue.git
+cd elasticvue
+
 # install dependencies
 yarn install
 
-# serve with hot reload at localhost:8080
+# serve with hot reload at localhost:8090
 yarn dev
 ```
 
