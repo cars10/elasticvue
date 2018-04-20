@@ -40,7 +40,7 @@ You have to set some settings to allow connection to your elasticsearch cluster,
 
 Find your elasticsearch config (for example `/etc/elasticsearch/elasticsearch.yml`) and add the following lines:
 
-```bash
+```yaml
 # see https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-http.html
 # Enable 'Access-Control-Allow-Origin' header
 http.cors.enabled: true
