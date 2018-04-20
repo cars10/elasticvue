@@ -14,6 +14,8 @@ Use one of the following ways to run elasticvue:
 
 Use the existing image:
 
+[https://hub.docker.com/r/cars10/elasticvue/](Image at Docker Hub)
+
 * `docker run -p 8090:8090 -d cars10/elasticvue`
 
 Or build the image locally:
@@ -23,6 +25,10 @@ Or build the image locally:
 * Build `docker build -t elasticvue .`
 * Run `docker run -p 8090:8090 elasticvue`
 
+**Chrome extension**
+
+TODO
+
 **Run locally**
 
 * Checkout the repo `git clone https://github.com/cars10/elasticvue.git`
@@ -30,17 +36,13 @@ Or build the image locally:
 * Install dependencies `yarn install`
 * Run a production server via `yarn prod` or dev server `yarn dev`
 
-**Chrome extension**
-
-TODO
-
 
 ## Elasticsearch configuration
 You have to set some settings to allow connection to your elasticsearch cluster, even if you run the app locally.
 
 Find your elasticsearch config (for example `/etc/elasticsearch/elasticsearch.yml`) and add the following lines:
 
-```bash
+```yaml
 # see https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-http.html
 # Enable 'Access-Control-Allow-Origin' header
 http.cors.enabled: true
