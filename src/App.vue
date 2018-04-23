@@ -20,7 +20,9 @@
 
     <v-content>
       <v-container>
-        <router-view></router-view>
+        <content-or-connect>
+          <router-view></router-view>
+        </content-or-connect>
       </v-container>
     </v-content>
 
@@ -47,11 +49,13 @@
 
 <script>
   import Connect from '@/components/shared/Connect'
+  import ContentOrConnect from '@/components/shared/ContentOrConnect'
   import { CONNECTION_STATE_CLASSES, CONNECTION_STATE_NAMES } from './consts'
 
   export default {
     components: {
-      Connect
+      Connect,
+      ContentOrConnect
     },
     computed: {
       connectionStateName () {
