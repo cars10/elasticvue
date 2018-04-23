@@ -3,26 +3,18 @@ FROM node:9.11
 # Folder for our application code
 WORKDIR /usr/src/app
 
-# Install dependencies
-COPY package.json ./
-COPY yarn.lock ./
-RUN yarn install --silent
-
-# Copy application code
+# Copy application
 COPY . .
 
-# Build production assets
-RUN yarn build
-
-# Remove dependencies to save space
-RUN rm -rf node_modules
+# Install dependencies and run build script
+RUN yarn install --silent \
+    && yarn build \
+    && rm -rf node_modules \
+    && yarn cache clean
 
 # re-install local express so we can run the prod server
-RUN npm install express --no-package-lock
-
-# Clean caches
-RUN yarn cache clean
-RUN npm cache clean --force
+RUN npm install express --no-package-lock \
+    && npm cache clean --force
 
 # Expose port 8090 for express server
 EXPOSE 8090
