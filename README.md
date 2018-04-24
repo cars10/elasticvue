@@ -2,6 +2,16 @@
 
 > Elasticsearch frontend written in vue.js. [http://elasticvue.cars10k.de](http://elasticvue.cars10k.de)
 
+## About
+
+**Elasticvue** is a frontend for elasticsearch allowing you to search and filter your clusters data right in your browser.
+
+It works with every elasticsearch version supported by the [official elasticsearch javascript client](https://www.npmjs.com/package/elasticsearch):
+
+* 6.X
+* 5.X
+* 2.X
+
 ## Usage
 
 Use one of the following ways to run elasticvue:
@@ -14,7 +24,7 @@ Use one of the following ways to run elasticvue:
 
 Use the existing image:
 
-* `docker run -p 8090:8090 -d cars10/elasticvue` [Image at Docker Hub](https://hub.docker.com/r/cars10/elasticvue)
+* `docker run -p 8090:8090 -d cars10/elasticvue` [Image at Docker Hub](https://hub.docker.com/r/cars10/elasticvue) (~50mb compressed)
 
 Or build the image locally:
 
