@@ -17,6 +17,9 @@ import VSwitch from 'vuetify/es5/components/VSwitch'
 import VTextField from 'vuetify/es5/components/VTextField'
 import VToolbar from 'vuetify/es5/components/VToolbar'
 import Vuetify from 'vuetify/es5/components/Vuetify'
+
+import 'vue-print-object/dist/vue-print-object.css'
+
 // Base styles
 import './stylesheets/style.scss'
 

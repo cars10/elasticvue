@@ -5,13 +5,13 @@
       {{this.params.index}} / {{this.params.type}} / {{this.params.id}}
     </v-card-title>
     <v-card-text>
-      <nested-object :object="document" v-if="document"></nested-object>
+      <vue-print-object :printableObject="document" v-if="document"></vue-print-object>
     </v-card-text>
   </v-card>
 </template>
 
 <script>
-  import NestedObject from '@/components/shared/NestedObject'
+  import VuePrintObject from 'vue-print-object'
 
   export default {
     data () {
@@ -29,7 +29,7 @@
       )
     },
     components: {
-      NestedObject
+      VuePrintObject
     },
     methods: {
       returnToSearch () {
