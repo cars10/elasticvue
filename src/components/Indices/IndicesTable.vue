@@ -21,12 +21,24 @@
         <td class="text-xs-right">{{props.item['docs.count']}}</td>
         <td class="text-xs-right">{{props.item['store.size']}}</td>
         <td class="text-xs-right">{{props.item['pri.store.size']}}</td>
+        <td>
+          <btn-group small>
+            <v-btn flat>
+              <v-icon>info_outline</v-icon>
+            </v-btn>
+            <v-btn flat @click.native="deleteIndex(props.item.index)">
+              <v-icon>delete</v-icon>
+            </v-btn>
+          </btn-group>
+        </td>
       </template>
     </v-data-table>
   </div>
 </template>
 
 <script>
+  import BtnGroup from '@/components/shared/BtnGroup'
+
   export default {
     props: {
       indices: {
@@ -47,10 +59,14 @@
           {text: 'Rep', value: 'rep', align: 'right'},
           {text: 'Docs', value: 'docs.count', align: 'right'},
           {text: 'Store size', value: 'store.size', align: 'right'},
-          {text: 'Pri Store size', value: 'pri.store.size', align: 'right'}
+          {text: 'Pri Store size', value: 'pri.store.size', align: 'right'},
+          {text: 'Actions', value: 'actions', sortable: false}
         ],
         filter: ''
       }
+    },
+    components: {
+      BtnGroup
     },
     methods: {
       sortIndices (items, index, isDescending) {
@@ -73,6 +89,13 @@
             return 0
           }
         })
+      },
+      deleteIndex (index) {
+        if (confirm('Are you sure? This will remove ALL data in your index!')) {
+          this.getElasticsearchAdapter().then(adapter => adapter.indicesDelete(index)).then(
+            this.$emit('deleteIndex', index)
+          ).catch(error => this.$store.commit('setErrorState', error))
+        }
       }
     }
   }

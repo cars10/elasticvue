@@ -5,7 +5,7 @@
       <reload-button alignLeft :action="loadIndices"></reload-button>
     </v-card-title>
     <v-divider></v-divider>
-    <indices-table :indices="indices" :loading="loading"></indices-table>
+    <indices-table :indices="indices" :loading="loading" v-on:deleteIndex="removeIndex"></indices-table>
   </v-card>
 </template>
 
@@ -37,6 +37,9 @@
             this.loading = false
           }
         ).catch(error => this.$store.commit('setErrorState', error))
+      },
+      removeIndex (index) {
+        this.indices = this.indices.filter(value => value.index !== index)
       }
     }
   }

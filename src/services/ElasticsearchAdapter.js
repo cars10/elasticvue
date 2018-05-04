@@ -53,6 +53,15 @@ export default class ElasticsearchAdapter {
   }
 
   /**
+   * Will delete a specific index
+   * @param index {String}
+   * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-indices-delete
+   */
+  indicesDelete (index) {
+    return this.client.indices.delete(Object.assign({}, this.requestDefaults, {index}))
+  }
+
+  /**
    * Get a document
    * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-get
    * @param params
