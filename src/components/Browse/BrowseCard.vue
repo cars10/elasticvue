@@ -5,7 +5,7 @@
         <v-card>
           <v-card-title>
             <h2>Browse</h2>
-            <reload-button alignLeft :title="'Reload indices'" :action="loadIndices"></reload-button>
+            <reload-button alignLeft title="Reload indices" :action="loadIndices"></reload-button>
           </v-card-title>
           <v-card-text>
             <v-form v-on:submit.prevent="loadResults" class="form-inline">

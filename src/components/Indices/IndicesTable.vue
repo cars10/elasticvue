@@ -23,7 +23,7 @@
         <td class="text-xs-right">{{props.item['pri.store.size']}}</td>
         <td>
           <btn-group small>
-            <v-btn flat>
+            <v-btn flat @click.native="openIndex(props.item.index)">
               <v-icon>info_outline</v-icon>
             </v-btn>
             <v-btn flat @click.native="deleteIndex(props.item.index)">
@@ -89,6 +89,9 @@
             return 0
           }
         })
+      },
+      openIndex (index) {
+        this.$router.push({name: 'Index', params: {index: index}})
       },
       deleteIndex (index) {
         if (confirm('Are you sure? This will remove ALL data in your index!')) {

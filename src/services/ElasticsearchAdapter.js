@@ -62,6 +62,15 @@ export default class ElasticsearchAdapter {
   }
 
   /**
+   * Get information about an index
+   * @param index {String}
+   * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-indices-get
+   */
+  indicesGet (index) {
+    return this.client.indices.get(Object.assign({}, this.requestDefaults, {index}))
+  }
+
+  /**
    * Get a document
    * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-get
    * @param params

@@ -1,18 +1,13 @@
+.vpo-wrapper {
+  display: inline-block
+}
+
 .vpo-object {
   padding-left: 1em
 }
 
 .vpo-key {
   margin-right: 4px
-}
-
-.vpo-row {
-  padding-left: 1px;
-  border-left: 1px solid #ddd
-}
-
-.vpo-key__object:hover {
-  cursor: pointer
 }
 
 .vpo-value--number {
@@ -31,7 +26,16 @@
   color: purple
 }
 
-.vpo-row__hover {
+.vpo-key-value {
+  padding-left: 1px;
+  border-left: 1px solid #ddd
+}
+
+.vpo-key__object:hover {
+  cursor: pointer
+}
+
+.vpo-key-value__hover {
   background-color: #d3d3d3
 }
 
@@ -52,11 +56,11 @@
     color: #ffa8ff
   }
 
-  .vpo-row__hover {
+  .vpo-key-value__hover {
     background-color: #333
   }
 
-  .vpo-row {
+  .vpo-key-value {
     border-left: 1px solid #777
   }
 }

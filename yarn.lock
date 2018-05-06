@@ -7821,9 +7821,9 @@ vue-loader@^14.2.2:
     vue-style-loader "^4.0.1"
     vue-template-es2015-compiler "^1.6.0"
 
-vue-print-object@^0.0.3:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/vue-print-object/-/vue-print-object-0.0.3.tgz#e01ab741a45bd53ebf8fc9dfaa342eda19b4a847"
+vue-print-object@^0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/vue-print-object/-/vue-print-object-0.0.5.tgz#7c0accb3151b485cdce4dd3b754433f09b6b7520"
 
 vue-router@^3.0.1:
   version "3.0.1"
