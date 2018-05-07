@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-btn @click="returnToSearch">Back to search</v-btn>
+    <back-button alignLeft :route="{name: 'Browse', params: {executeSearch: true}}" text="Back to search"></back-button>
     <v-card-title>
       {{this.params.index}} / {{this.params.type}} / {{this.params.id}}
     </v-card-title>
@@ -11,6 +11,7 @@
 </template>
 
 <script>
+  import BackButton from '@/components/shared/BackButton'
   import VuePrintObject from 'vue-print-object'
 
   export default {
@@ -29,12 +30,8 @@
       )
     },
     components: {
+      BackButton,
       VuePrintObject
-    },
-    methods: {
-      returnToSearch () {
-        this.$router.push({name: 'Browse', params: {executeSearch: true}})
-      }
     }
   }
 </script>

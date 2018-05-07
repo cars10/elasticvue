@@ -5,7 +5,7 @@
         <v-card-title>
           <h2>Index</h2>
           <reload-button alignLeft :action="loadIndex"></reload-button>
-          <back-button route="/indices"></back-button>
+          <back-button :route="{name: 'Indices'}"></back-button>
         </v-card-title>
         <v-divider></v-divider>
 

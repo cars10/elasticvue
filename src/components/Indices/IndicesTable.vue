@@ -12,25 +12,30 @@
                   :search="filter"
                   :loading="loading">
       <template slot="items" slot-scope="props">
-        <td>{{props.item.index}}</td>
-        <td>{{props.item.health}}</td>
-        <td>{{props.item.status}}</td>
-        <td>{{props.item.uuid}}</td>
-        <td class="text-xs-right">{{props.item.pri}}</td>
-        <td class="text-xs-right">{{props.item.rep}}</td>
-        <td class="text-xs-right">{{props.item['docs.count']}}</td>
-        <td class="text-xs-right">{{props.item['store.size']}}</td>
-        <td class="text-xs-right">{{props.item['pri.store.size']}}</td>
-        <td>
-          <btn-group small>
-            <v-btn flat @click.native="openIndex(props.item.index)">
-              <v-icon>info_outline</v-icon>
-            </v-btn>
-            <v-btn flat @click.native="deleteIndex(props.item.index)">
-              <v-icon>delete</v-icon>
-            </v-btn>
-          </btn-group>
-        </td>
+        <tr @click="showDocuments(props.item.index)" class="tr--clickable">
+          <td>{{props.item.index}}</td>
+          <td>{{props.item.health}}</td>
+          <td>{{props.item.status}}</td>
+          <td>{{props.item.uuid}}</td>
+          <td class="text-xs-right">{{props.item.pri}}</td>
+          <td class="text-xs-right">{{props.item.rep}}</td>
+          <td class="text-xs-right">{{props.item['docs.count']}}</td>
+          <td class="text-xs-right">{{props.item['store.size']}}</td>
+          <td class="text-xs-right">{{props.item['pri.store.size']}}</td>
+          <td>
+            <btn-group small>
+              <v-btn flat @click.native.stop="showDocuments(props.item.index)">
+                <v-icon>view_list</v-icon>
+              </v-btn>
+              <v-btn flat @click.native.stop="openIndex(props.item.index)">
+                <v-icon>info_outline</v-icon>
+              </v-btn>
+              <v-btn flat @click.native.stop="deleteIndex(props.item.index)">
+                <v-icon>delete</v-icon>
+              </v-btn>
+            </btn-group>
+          </td>
+        </tr>
       </template>
     </v-data-table>
   </div>
@@ -89,6 +94,10 @@
             return 0
           }
         })
+      },
+      showDocuments (index) {
+        this.$store.commit('setIndices', [index])
+        this.$router.push({name: 'Browse', params: {executeSearch: true}})
       },
       openIndex (index) {
         this.$router.push({name: 'Index', params: {index: index}})

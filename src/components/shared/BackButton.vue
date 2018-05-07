@@ -9,8 +9,11 @@
   export default {
     props: {
       route: {
-        type: String,
-        default: '/'
+        type: Object,
+        default: {
+          name: 'Home',
+          params: {}
+        }
       },
       text: {
         type: String,
