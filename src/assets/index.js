@@ -14,6 +14,7 @@ import VList from 'vuetify/es5/components/VList'
 import VProgressLinear from 'vuetify/es5/components/VProgressLinear'
 import VSelect from 'vuetify/es5/components/VSelect'
 import VSwitch from 'vuetify/es5/components/VSwitch'
+import VTabs from 'vuetify/es5/components/VTabs'
 import VTextField from 'vuetify/es5/components/VTextField'
 import VToolbar from 'vuetify/es5/components/VToolbar'
 import Vuetify from 'vuetify/es5/components/Vuetify'
@@ -39,5 +40,6 @@ Vue.use(VList)
 Vue.use(VProgressLinear)
 Vue.use(VSelect)
 Vue.use(VSwitch)
+Vue.use(VTabs)
 Vue.use(VTextField)
 Vue.use(VToolbar)
