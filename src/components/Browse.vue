@@ -29,14 +29,14 @@
       </v-flex>
 
       <v-flex xs12>
-        <results :hits="results.hits && results.hits.hits || results" :loading="resultsLoading"></results>
+        <results-table :hits="results.hits && results.hits.hits || results" :loading="resultsLoading"></results-table>
       </v-flex>
     </v-layout>
   </v-container>
 </template>
 
 <script>
-  import Results from '@/components/Browse/Results'
+  import ResultsTable from '@/components/Browse/ResultsTable'
   import ReloadButton from '@/components/shared/ReloadButton'
 
   export default {
@@ -54,7 +54,7 @@
       }
     },
     components: {
-      Results,
+      ResultsTable,
       ReloadButton
     },
     created () {
