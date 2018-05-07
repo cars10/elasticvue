@@ -1,8 +1,12 @@
 .table__condensed {
+  table.table thead tr {
+    height: 36px
+  }
+
   table.table {
     td, th {
       &:not(:nth-child(1)), &:first-child {
-        padding: 0 12px
+        padding: 0 8px
       }
     }
 
