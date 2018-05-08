@@ -24,13 +24,13 @@
           <td class="text-xs-right">{{props.item['pri.store.size']}}</td>
           <td>
             <btn-group small>
-              <v-btn flat @click.native.stop="showDocuments(props.item.index)">
+              <v-btn flat @click.native.stop="showDocuments(props.item.index)" title="Browse documents">
                 <v-icon>view_list</v-icon>
               </v-btn>
-              <v-btn flat @click.native.stop="openIndex(props.item.index)">
+              <v-btn flat @click.native.stop="openIndex(props.item.index)" title="Show">
                 <v-icon>info_outline</v-icon>
               </v-btn>
-              <v-btn flat @click.native.stop="deleteIndex(props.item.index)">
+              <v-btn flat @click.native.stop="deleteIndex(props.item.index)" title="Delete">
                 <v-icon>delete</v-icon>
               </v-btn>
             </btn-group>
