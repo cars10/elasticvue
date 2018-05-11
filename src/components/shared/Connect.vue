@@ -1,5 +1,5 @@
 <template>
-  <v-form class="display-flex align-center" v-if="useToolbar" v-on:submit.prevent="connectWithServer">
+  <v-form class="display-flex align-center" v-if="isToolbar" v-on:submit.prevent="connectAndEmitHostChanged">
     <v-toolbar-items>
       <v-text-field solo
                     title="Host"
@@ -14,7 +14,7 @@
   <v-container v-else>
     <v-layout row wrap>
       <v-flex text-xs-center xs6 offset-xs3>
-        <v-form v-on:submit.prevent="connectWithServer">
+        <v-form v-on:submit.prevent="connectAndEmitHostChanged">
           <v-layout row wrap>
             <v-flex d-inline-flex>
               <v-text-field solo
@@ -37,7 +37,9 @@
   import { DEFAULT_HOST } from '../../consts'
 
   export default {
-    props: ['useToolbar'],
+    props: {
+      isToolbar: Boolean
+    },
     mixins: [ConnectWithServer],
     computed: {
       elasticsearchHost: {
@@ -52,6 +54,9 @@
     methods: {
       resetElasticsearchHost () {
         this.elasticsearchHost = DEFAULT_HOST
+      },
+      connectAndEmitHostChanged () {
+        this.connectWithServer(() => this.$emit('hostChanged'))
       }
     }
   }

@@ -2,12 +2,12 @@ import ConnectService from '../services/elasticsearch/ConnectService'
 
 const ConnectWithServer = {
   methods: {
-    connectWithServer () {
+    connectWithServer (callback) {
       let connectService = new ConnectService(this.$store.state.connection.elasticsearchHost)
       connectService.connect().then(
         client => {
           this.$store.commit('setElasticsearchClient', client)
-          return client
+          callback()
         },
         error => this.$store.commit('setErrorState', error)
       )

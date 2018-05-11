@@ -1,0 +1,70 @@
+.vpo-wrapper {
+  font-family: monospace;
+}
+
+.vpo-wrapper {
+  display: inline-block
+}
+
+.vpo-object {
+  padding-left: 1em
+}
+
+.vpo-key {
+  margin-right: 4px
+}
+
+.vpo-value--number {
+  color: blue
+}
+
+.vpo-value--string {
+  color: green
+}
+
+.vpo-value--boolean {
+  color: red
+}
+
+.vpo-value--null {
+  color: purple
+}
+
+.vpo-key-value {
+  padding-left: 1px;
+  border-left: 1px solid #ddd
+}
+
+.vpo-key__object:hover {
+  cursor: pointer
+}
+
+.vpo-key-value__hover {
+  background-color: #d3d3d3
+}
+
+.theme--dark {
+  .vpo-value--number {
+    color: lightblue
+  }
+
+  .vpo-value--string {
+    color: #44ff2f
+  }
+
+  .vpo-value--boolean {
+    color: #ff7070
+  }
+
+  .vpo-value--null {
+    color: #ffa8ff
+  }
+
+  .vpo-key-value__hover {
+    background-color: #333
+  }
+
+  .vpo-key-value {
+    border-left: 1px solid #777
+  }
+}

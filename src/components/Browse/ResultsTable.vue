@@ -19,6 +19,7 @@
           <td>{{ item.item._index }}</td>
           <td>{{ item.item._id}}</td>
           <td>{{ item.item._type}}</td>
+          <td>{{ item.item._score}}</td>
           <td v-for="key in keys" :key="item.item._index + '_' + key">{{item.item[key]}}</td>
         </tr>
       </template>
@@ -35,7 +36,7 @@
 <script>
   import { flattenObject, objectArrayUniqueKeys } from '../../helpers/utilities'
 
-  const DEFAULT_KEYS = ['_index', '_id', '_type']
+  const DEFAULT_KEYS = ['_index', '_id', '_type', '_score']
 
   export default {
     props: {
