@@ -8,7 +8,7 @@
       <v-chip :color="connectionStateClass">{{connectionStateName}}</v-chip>
 
       <v-spacer></v-spacer>
-      <connect :useToolbar="true" v-if="isConnected()"></connect>
+      <connect isToolbar v-if="isConnected()" v-on:hostChanged="rerender"></connect>
       <v-spacer></v-spacer>
 
       <v-toolbar-items>
@@ -21,7 +21,7 @@
     <v-content>
       <v-container>
         <content-or-connect>
-          <router-view></router-view>
+          <router-view v-if="renderRouterView"></router-view>
         </content-or-connect>
       </v-container>
     </v-content>
@@ -53,6 +53,11 @@
   import { CONNECTION_STATE_CLASSES, CONNECTION_STATE_NAMES } from './consts'
 
   export default {
+    data () {
+      return {
+        renderRouterView: true
+      }
+    },
     components: {
       Connect,
       ContentOrConnect
@@ -77,6 +82,10 @@
       reset () {
         localStorage.clear()
         window.location.replace('/')
+      },
+      rerender () {
+        this.renderRouterView = false
+        this.$nextTick(() => (this.renderRouterView = true))
       }
     }
   }

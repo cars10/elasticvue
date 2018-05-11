@@ -11,6 +11,7 @@ export const connection = {
   },
   mutations: {
     setElasticsearchClient (state, client) {
+      state.elasticsearchAdapter = null
       state.elasticsearchClient = client
       state.wasConnected = true
       state.status = CONNECTION_STATES.SUCCESS
