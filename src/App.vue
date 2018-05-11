@@ -22,6 +22,7 @@
       <v-container>
         <content-or-connect>
           <router-view v-if="renderRouterView"></router-view>
+          <snackbar></snackbar>
         </content-or-connect>
       </v-container>
     </v-content>
@@ -51,6 +52,7 @@
   import Connect from '@/components/shared/Connect'
   import ContentOrConnect from '@/components/shared/ContentOrConnect'
   import { CONNECTION_STATE_CLASSES, CONNECTION_STATE_NAMES } from './consts'
+  import Snackbar from '@/components/Snackbar'
 
   export default {
     data () {
@@ -60,7 +62,8 @@
     },
     components: {
       Connect,
-      ContentOrConnect
+      ContentOrConnect,
+      Snackbar
     },
     computed: {
       connectionStateName () {

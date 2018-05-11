@@ -4,6 +4,7 @@ import { plugins } from './plugins'
 import { search } from './modules/search'
 import { connection } from './modules/connection'
 import { theme } from './modules/theme'
+import { snackbar } from './modules/snackbar'
 
 Vue.use(Vuex)
 
@@ -12,6 +13,7 @@ export default new Vuex.Store({
   modules: {
     search: search,
     connection: connection,
-    theme: theme
+    theme: theme,
+    snackbar: snackbar
   }
 })
