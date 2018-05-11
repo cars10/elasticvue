@@ -1,11 +1,13 @@
 import Vue from 'vue'
-import ContentOrLoading from '@/components/shared/ContentOrLoading'
+import DataLoader from '@/components/shared/DataLoader'
+import ReloadButton from '@/components/shared/ReloadButton'
 import GetElasticsearchAdapter from './mixins/GetElasticsearchAdapter'
 import IsConnected from './mixins/IsConnected'
 import ShowSnackbar from './mixins/ShowSnackbar'
 
 // Global components
-Vue.component('content-or-loading', ContentOrLoading)
+Vue.component('data-loader', DataLoader)
+Vue.component('reload-button', ReloadButton)
 
 // Global mixins
 Vue.mixin(GetElasticsearchAdapter)
