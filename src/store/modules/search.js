@@ -11,6 +11,10 @@ export const search = {
     },
     setIndices (state, indices) {
       state.indices = indices
+    },
+    resetSearch (state) {
+      state.q = DEFAULT_SEARCH_PARAMS.q
+      state.indices = DEFAULT_SEARCH_PARAMS.index
     }
   }
 }
