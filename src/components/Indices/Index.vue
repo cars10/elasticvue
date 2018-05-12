@@ -10,7 +10,7 @@
         <v-divider></v-divider>
 
         <v-card-text>
-          <data-loader method="indicesGet" :methodParams="indexName" ref="dataLoader">
+          <data-loader method="indicesGet" :methodParams="{index: indexName}" ref="dataLoader">
             <template slot-scope="data">
               <print-pretty-or-raw :document="data.body"></print-pretty-or-raw>
             </template>

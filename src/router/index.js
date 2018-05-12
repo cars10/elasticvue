@@ -5,6 +5,7 @@ import Browse from '@/components/Browse'
 import Document from '@/components/Browse/Document'
 import Indices from '@/components/Indices'
 import Index from '@/components/Indices/Index'
+import Utilities from '@/components/Utilities'
 
 Vue.use(Router)
 
@@ -36,6 +37,10 @@ export default new Router({
       path: '/documents/:index/:type/:id',
       name: 'Document',
       component: Document
+    }, {
+      path: '/utilities',
+      name: 'Utilities',
+      component: Utilities
     }
   ]
 })

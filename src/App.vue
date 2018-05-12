@@ -15,6 +15,7 @@
         <v-btn flat to="/" exact>Home</v-btn>
         <v-btn flat to="/indices">Indices</v-btn>
         <v-btn flat to="/browse">Browse</v-btn>
+        <v-btn flat to="/utilities">Utilities</v-btn>
       </v-toolbar-items>
     </v-toolbar>
 

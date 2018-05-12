@@ -53,21 +53,57 @@ export default class ElasticsearchAdapter {
   }
 
   /**
+   * Will create a new index
+   * @param params
+   * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-indices-create
+   */
+  indicesCreate (params) {
+    return this.client.indices.create(Object.assign({}, this.requestDefaults, params))
+  }
+
+  /**
    * Will delete a specific index
-   * @param index {String}
+   * @param params
    * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-indices-delete
    */
-  indicesDelete (index) {
-    return this.client.indices.delete(Object.assign({}, this.requestDefaults, {index}))
+  indicesDelete (params) {
+    return this.client.indices.delete(Object.assign({}, this.requestDefaults, params))
   }
 
   /**
    * Get information about an index
-   * @param index {String}
+   * @param params
    * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-indices-get
    */
-  indicesGet (index) {
-    return this.client.indices.get(Object.assign({}, this.requestDefaults, {index}))
+  indicesGet (params) {
+    return this.client.indices.get(Object.assign({}, this.requestDefaults, params))
+  }
+
+  /**
+   * Find out if an index exists
+   * @param params
+   * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-indices-exists
+   */
+  indicesExists (params) {
+    return this.client.indices.exists(Object.assign({}, this.requestDefaults, params))
+  }
+
+  /**
+   * Flush all or specific indices
+   * @param params
+   * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-indices-flush
+   */
+  indicesFlush (params) {
+    return this.client.indices.flush(Object.assign({}, this.requestDefaults, params))
+  }
+
+  /**
+   * Set settings
+   * @param params
+   * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-indices-flush
+   */
+  indicesPutSettings (params) {
+    return this.client.indices.putSettings(Object.assign({}, this.requestDefaults, params))
   }
 
   /**
@@ -87,5 +123,24 @@ export default class ElasticsearchAdapter {
   search (params) {
     normalizeSearchParams(params)
     return this.client.search(Object.assign({}, this.requestDefaults, params))
+  }
+
+  /********/
+
+  /**
+   * Creates multiple indices, one for each word. Only creates if they do not already exists
+   * @param generateWords {function}
+   */
+  async createIndices (generateWords) {
+    let words = generateWords()
+    for (let word of [...new Set(words)]) {
+      await this.indicesExists({index: word}).then(
+        exists => {
+          if (!exists) {
+            this.indicesCreate({index: word})
+          }
+        }
+      )
+    }
   }
 }
