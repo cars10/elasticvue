@@ -1,6 +1,11 @@
 <template>
-  <v-snackbar :timeout="timeout" v-model="visible" :color="color" right>
+  <v-snackbar :timeout="timeout" v-model="visible" :color="color" right auto-height
+              :multi-line="additionalText !== undefined">
     {{text}}
+    <template v-if="additionalText">
+      <br/>
+      {{additionalText}}
+    </template>
     <v-btn flat @click.native="visible = false">Close</v-btn>
   </v-snackbar>
 </template>
@@ -11,6 +16,11 @@
       text: {
         get () {
           return this.$store.state.snackbar.text
+        }
+      },
+      additionalText: {
+        get () {
+          return this.$store.state.snackbar.additionalText
         }
       },
       timeout: {

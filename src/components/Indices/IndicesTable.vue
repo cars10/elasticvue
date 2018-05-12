@@ -105,7 +105,10 @@
       deleteIndex (index) {
         if (confirm('Are you sure? This will remove ALL data in your index!')) {
           this.getElasticsearchAdapter().then(adapter => adapter.indicesDelete(index)).then(
-            this.$emit('deleteIndex', index)
+            (body) => {
+              this.$emit('deleteIndex', index)
+              this.showSuccessSnackbar({text: `The index '${index}' was successfully deleted.`, additionalText: body})
+            }
           ).catch(error => this.$store.commit('setErrorState', error))
         }
       }

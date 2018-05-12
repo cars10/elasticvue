@@ -1,7 +1,9 @@
 <template>
   <div>
     <slot name="error" v-if="hasError" :errorMessage="errorMessage">
-      <v-alert :value="true">{{errorMessage}}</v-alert>
+      <div class="pa-3">
+        <v-alert :value="true">{{errorMessage}}</v-alert>
+      </div>
     </slot>
     <slot name="progress" v-else-if="loading">
       <v-progress-linear color="blue" indeterminate></v-progress-linear>
@@ -36,6 +38,9 @@
     methods: {
       loadData () {
         this.loading = true
+        this.hasError = false
+        this.errorMessage = ''
+
         this.getElasticsearchAdapter().then(adapter => adapter[this.method](this.methodParams)).then(
           body => {
             this.loading = false
@@ -48,6 +53,7 @@
           this.hasError = true
           this.errorMessage = error.message
           this.responseBody = ''
+          this.showErrorSnackbar({text: 'Error:', additionalText: error.message})
         })
       }
     },
