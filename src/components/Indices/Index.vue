@@ -9,13 +9,13 @@
         </v-card-title>
         <v-divider></v-divider>
 
-        <data-loader method="indicesGet" :methodParams="indexName" ref="dataLoader">
-          <template slot-scope="data">
-            <v-card-text>
-              <vue-print-object :printableObject="data.body"></vue-print-object>
-            </v-card-text>
-          </template>
-        </data-loader>
+        <v-card-text>
+          <data-loader method="indicesGet" :methodParams="indexName" ref="dataLoader">
+            <template slot-scope="data">
+              <print-pretty-or-raw :document="data.body"></print-pretty-or-raw>
+            </template>
+          </data-loader>
+        </v-card-text>
       </v-card>
     </v-flex>
   </v-layout>
@@ -23,11 +23,11 @@
 
 <script>
   import BackButton from '@/components/shared/BackButton'
-  import VuePrintObject from 'vue-print-object'
+  import PrintPrettyOrRaw from '@/components/shared/PrintPrettyOrRaw'
 
   export default {
     components: {
-      VuePrintObject,
+      PrintPrettyOrRaw,
       BackButton
     },
     computed: {
