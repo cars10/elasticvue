@@ -1,17 +1,7 @@
 import { normalizeSearchParams } from '../helpers'
+import { REQUEST_DEFAULTS } from '../consts'
 
 export default class ElasticsearchAdapter {
-  client
-
-  /**
-   * Defaults used in each request
-   * @type {{requestTimeout: number, format: string}}
-   */
-  requestDefaults = {
-    requestTimeout: 3000,
-    format: 'json'
-  }
-
   constructor (client) {
     if (client === undefined || client === null) {
       console.error('Client must not be null')
@@ -25,7 +15,7 @@ export default class ElasticsearchAdapter {
    * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-ping
    */
   ping () {
-    return this.client.ping(this.requestDefaults)
+    return this.client.ping(REQUEST_DEFAULTS)
   }
 
   /**
@@ -33,7 +23,7 @@ export default class ElasticsearchAdapter {
    * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-info
    */
   getClientInfo () {
-    return this.client.info(this.requestDefaults)
+    return this.client.info(REQUEST_DEFAULTS)
   }
 
   /**
@@ -41,7 +31,7 @@ export default class ElasticsearchAdapter {
    * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-cluster-health
    */
   getClusterHealth () {
-    return this.client.cluster.health(this.requestDefaults)
+    return this.client.cluster.health(REQUEST_DEFAULTS)
   }
 
   /**
@@ -49,7 +39,7 @@ export default class ElasticsearchAdapter {
    * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-cat-indices
    */
   getCatIndices () {
-    return this.client.cat.indices(this.requestDefaults)
+    return this.client.cat.indices(REQUEST_DEFAULTS)
   }
 
   /**
@@ -58,7 +48,7 @@ export default class ElasticsearchAdapter {
    * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-indices-create
    */
   indicesCreate (params) {
-    return this.client.indices.create(Object.assign({}, this.requestDefaults, params))
+    return this.client.indices.create(Object.assign({}, REQUEST_DEFAULTS, params))
   }
 
   /**
@@ -67,7 +57,7 @@ export default class ElasticsearchAdapter {
    * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-indices-delete
    */
   indicesDelete (params) {
-    return this.client.indices.delete(Object.assign({}, this.requestDefaults, params))
+    return this.client.indices.delete(Object.assign({}, REQUEST_DEFAULTS, params))
   }
 
   /**
@@ -76,7 +66,7 @@ export default class ElasticsearchAdapter {
    * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-indices-get
    */
   indicesGet (params) {
-    return this.client.indices.get(Object.assign({}, this.requestDefaults, params))
+    return this.client.indices.get(Object.assign({}, REQUEST_DEFAULTS, params))
   }
 
   /**
@@ -85,7 +75,7 @@ export default class ElasticsearchAdapter {
    * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-indices-exists
    */
   indicesExists (params) {
-    return this.client.indices.exists(Object.assign({}, this.requestDefaults, params))
+    return this.client.indices.exists(Object.assign({}, REQUEST_DEFAULTS, params))
   }
 
   /**
@@ -94,7 +84,7 @@ export default class ElasticsearchAdapter {
    * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-indices-flush
    */
   indicesFlush (params) {
-    return this.client.indices.flush(Object.assign({}, this.requestDefaults, params))
+    return this.client.indices.flush(Object.assign({}, REQUEST_DEFAULTS, params))
   }
 
   /**
@@ -103,7 +93,7 @@ export default class ElasticsearchAdapter {
    * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-indices-flush
    */
   indicesPutSettings (params) {
-    return this.client.indices.putSettings(Object.assign({}, this.requestDefaults, params))
+    return this.client.indices.putSettings(Object.assign({}, REQUEST_DEFAULTS, params))
   }
 
   /**
@@ -112,7 +102,7 @@ export default class ElasticsearchAdapter {
    * @param params
    */
   get (params) {
-    return this.client.get(Object.assign({}, this.requestDefaults, params))
+    return this.client.get(Object.assign({}, REQUEST_DEFAULTS, params))
   }
 
   /**
@@ -122,7 +112,7 @@ export default class ElasticsearchAdapter {
    */
   search (params) {
     normalizeSearchParams(params)
-    return this.client.search(Object.assign({}, this.requestDefaults, params))
+    return this.client.search(Object.assign({}, REQUEST_DEFAULTS, params))
   }
 
   /********/

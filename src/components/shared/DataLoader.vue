@@ -41,20 +41,21 @@
         this.hasError = false
         this.errorMessage = ''
 
-        this.getElasticsearchAdapter().then(adapter => adapter[this.method](this.methodParams)).then(
-          body => {
+        this.getElasticsearchAdapter()
+          .then(adapter => adapter[this.method](this.methodParams))
+          .then(body => {
             this.loading = false
             this.hasError = false
             this.errorMessage = ''
             this.responseBody = this.flatten ? flattenObject(body, true, true) : body
-          }
-        ).catch(error => {
-          this.loading = false
-          this.hasError = true
-          this.errorMessage = error.message
-          this.responseBody = ''
-          this.showErrorSnackbar({text: 'Error:', additionalText: error.message})
-        })
+          })
+          .catch(error => {
+            this.loading = false
+            this.hasError = true
+            this.errorMessage = error.message
+            this.responseBody = ''
+            this.showErrorSnackbar({text: 'Error:', additionalText: error.message})
+          })
       }
     },
     created () {
