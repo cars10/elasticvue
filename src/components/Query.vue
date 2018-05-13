@@ -14,6 +14,7 @@
             <v-flex xs6>
               <v-flex d-inline-flex>
                 <v-select autocomplete
+                          auto
                           multi-line
                           max-height="500"
                           label="Method"
