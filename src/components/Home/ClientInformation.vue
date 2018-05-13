@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title>
-      <h2>Node Information</h2>
+      <h2 class="headline">Node Information</h2>
       <reload-button :action="() => this.$refs.dataLoader.loadData()"></reload-button>
     </v-card-title>
     <v-divider></v-divider>
