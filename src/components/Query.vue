@@ -94,6 +94,7 @@
         this.getElasticsearchAdapter().then(adapter => {
           let client = adapter.client
 
+          this.methods.push({header: 'general'})
           for (let name of Object.getOwnPropertyNames(Object.getPrototypeOf(client))) {
             let method = client[name]
             if (typeof method !== 'function') continue
