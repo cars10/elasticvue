@@ -17,8 +17,6 @@
                         id="indices"
                         v-model="searchIndices"
                         :items="indices"
-                        item-value="index"
-                        item-text="index"
                         :loading="indicesLoading">
               </v-select>
 
@@ -66,7 +64,7 @@
         this.indicesLoading = true
         this.getElasticsearchAdapter().then(adapter => adapter.getCatIndices()).then(
           indices => {
-            this.indices = indices
+            this.indices = indices.map(index => index.index).sort()
             this.indicesLoading = false
           }
         ).catch(error => this.$store.commit('setErrorState', error))
