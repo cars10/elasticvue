@@ -18,9 +18,8 @@
         <v-btn flat to="/query">Query</v-btn>
         <v-btn flat to="/utilities">Utilities</v-btn>
         <v-btn flat href="https://github.com/cars10/elasticvue" target="_blank">
-          <img src="../static/GitHub-Mark-Light-64px.png" alt="GithubIcon" height="40px"
-               v-if="this.$store.state.theme.dark">
-          <img src="../static/GitHub-Mark-64px.png" alt="GithubIcon" height="40px" v-else>
+          <img src="../static/GitHub-Mark-Light.png" alt="GithubIcon" v-if="this.$store.state.theme.dark">
+          <img src="../static/GitHub-Mark.png" alt="GithubIcon" v-else>
         </v-btn>
       </v-toolbar-items>
     </v-toolbar>
