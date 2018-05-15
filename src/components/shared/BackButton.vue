@@ -7,6 +7,7 @@
 
 <script>
   export default {
+    name: 'BackButton',
     props: {
       route: {
         type: Object,

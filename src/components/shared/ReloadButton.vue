@@ -6,6 +6,7 @@
 
 <script>
   export default {
+    name: 'ReloadButton',
     props: {
       action: {
         type: Function,

@@ -23,6 +23,14 @@
 
   export default {
     name: 'DataLoader',
+    data () {
+      return {
+        body: null,
+        loading: false,
+        hasError: false,
+        errorMessage: ''
+      }
+    },
     props: {
       method: {
         type: String,
@@ -37,14 +45,6 @@
       },
       flatten: Boolean,
       renderContentWhileLoading: Boolean
-    },
-    data () {
-      return {
-        body: null,
-        loading: false,
-        hasError: false,
-        errorMessage: ''
-      }
     },
     methods: {
       loadData () {
