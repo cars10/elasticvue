@@ -93,7 +93,7 @@
       },
       rerender () {
         this.renderRouterView = false
-        this.$store.commit('resetSearch')
+        this.$store.commit('resetBrowse')
         this.$store.commit('resetConnection')
         this.$nextTick(() => (this.renderRouterView = true))
       }

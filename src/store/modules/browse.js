@@ -1,18 +1,22 @@
 import { DEFAULT_SEARCH_PARAMS } from '../../consts'
 
-export const search = {
+export const browse = {
   state: {
     q: DEFAULT_SEARCH_PARAMS.q,
-    indices: DEFAULT_SEARCH_PARAMS.index
+    indices: DEFAULT_SEARCH_PARAMS.index,
+    filter: ''
   },
   mutations: {
-    setQ (state, q) {
+    setBrowseQ (state, q) {
       state.q = q
     },
-    setIndices (state, indices) {
+    setBrowseIndices (state, indices) {
       state.indices = indices
     },
-    resetSearch (state) {
+    setBrowseFilter (state, filter) {
+      state.filter = filter
+    },
+    resetBrowse (state) {
       state.q = DEFAULT_SEARCH_PARAMS.q
       state.indices = DEFAULT_SEARCH_PARAMS.index
     }

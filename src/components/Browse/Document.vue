@@ -1,13 +1,14 @@
 <template>
   <v-card>
-    <back-button alignLeft :route="{name: 'Browse', params: {executeSearch: true}}" text="Back to search"></back-button>
     <v-card-title>
-      <h2>{{this.params.index}} / {{this.params.type}} / {{this.params.id}}</h2>
-      <reload-button alignLeft :action="() => this.$refs.dataLoader.loadData()"></reload-button>
+      <h1 class="headline">Document</h1>
+      <reload-button alignLeft :action="() => $refs.dataLoader.loadData()"></reload-button>
+      <back-button :route="{name: 'Browse', params: {executeSearch: true}}"></back-button>
     </v-card-title>
     <v-divider></v-divider>
 
     <v-card-text>
+      <h2 class="subheading">{{this.params.index}} / {{this.params.type}} / {{this.params.id}}</h2>
       <data-loader method="get" :methodParams="methodParams" ref="dataLoader">
         <template slot-scope="data">
           <print-pretty-or-raw :document="data.body"></print-pretty-or-raw>
@@ -22,6 +23,7 @@
   import PrintPrettyOrRaw from '@/components/shared/PrintPrettyOrRaw'
 
   export default {
+    name: 'Document',
     computed: {
       params () {
         return this.$route.params

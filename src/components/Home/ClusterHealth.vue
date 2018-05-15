@@ -2,7 +2,7 @@
   <v-card>
     <v-card-title>
       <h2 class="headline">Cluster Health</h2>
-      <reload-button :action="() => this.$refs.dataLoader.loadData()"></reload-button>
+      <reload-button :action="() => $refs.dataLoader.loadData()"></reload-button>
     </v-card-title>
     <v-divider></v-divider>
 

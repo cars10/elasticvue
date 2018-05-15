@@ -107,7 +107,7 @@
         })
       },
       showDocuments (index) {
-        this.$store.commit('setIndices', [index]) // to pre-select right index on "Browse" page
+        this.$store.commit('setBrowseIndices', [index]) // to pre-select right index on "Browse" page
         this.$router.push({name: 'Browse', params: {executeSearch: true}})
       },
       openIndex (index) {

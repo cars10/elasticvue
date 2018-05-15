@@ -7,7 +7,6 @@ export const plugins = [
     paths: [
       'connection.wasConnected',
       'connection.elasticsearchHost',
-      'browse',
       'theme'
     ]
   })

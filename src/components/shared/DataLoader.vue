@@ -1,7 +1,7 @@
 <template>
   <div>
     <template v-if="renderContentWhileLoading">
-      <slot :body="responseBody" :loading="loading">No data</slot>
+      <slot :body="body" :loading="loading">No data</slot>
     </template>
 
     <template v-else>
@@ -13,7 +13,7 @@
       <slot name="progress" v-else-if="loading">
         <v-progress-linear color="blue" indeterminate></v-progress-linear>
       </slot>
-      <slot v-else :body="responseBody">No data</slot>
+      <slot v-else :body="body">No data</slot>
     </template>
   </div>
 </template>
@@ -22,6 +22,7 @@
   import { flattenObject } from '../../helpers/utilities'
 
   export default {
+    name: 'DataLoader',
     props: {
       method: {
         type: String,
@@ -31,12 +32,15 @@
         default: () => {
         }
       },
+      execute: {
+        default: true
+      },
       flatten: Boolean,
       renderContentWhileLoading: Boolean
     },
     data () {
       return {
-        responseBody: null,
+        body: null,
         loading: false,
         hasError: false,
         errorMessage: ''
@@ -54,19 +58,19 @@
             this.loading = false
             this.hasError = false
             this.errorMessage = ''
-            this.responseBody = this.flatten ? flattenObject(body, true, true) : body
+            this.body = this.flatten ? flattenObject(body, true, true) : body
           })
           .catch(error => {
             this.loading = false
             this.hasError = true
             this.errorMessage = error.message
-            this.responseBody = ''
+            this.body = ''
             this.showErrorSnackbar({text: 'Error:', additionalText: error.message})
           })
       }
     },
     created () {
-      this.loadData()
+      if (this.execute) this.loadData()
     }
   }
 </script>

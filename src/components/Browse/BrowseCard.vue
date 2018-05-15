@@ -9,13 +9,13 @@
           </v-card-title>
           <v-card-text>
             <v-form v-on:submit.prevent="loadResults" class="form-inline">
-              <v-text-field class="input--sm" label="Query" v-model="search.q" id="q"></v-text-field>
+              <v-text-field class="input--sm" label="Query" v-model="browse.q" id="q"></v-text-field>
               <v-select multiple
                         autocomplete
                         label="Indices"
                         name="Indices"
                         id="indices"
-                        v-model="search.index"
+                        v-model="browse.index"
                         :items="indices"
                         item-value="index"
                         item-text="index"
