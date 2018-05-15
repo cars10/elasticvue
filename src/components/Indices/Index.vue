@@ -3,13 +3,14 @@
     <v-flex xs6 offset-xs3>
       <v-card>
         <v-card-title>
-          <h2>Index</h2>
+          <h1 class="headline">Index</h1>
           <reload-button alignLeft :action="() => this.$refs.dataLoader.loadData()"></reload-button>
           <back-button :route="{name: 'Indices'}"></back-button>
         </v-card-title>
         <v-divider></v-divider>
 
         <v-card-text>
+          <h2 class="subheading">{{indexName}}</h2>
           <data-loader method="indicesGet" :methodParams="{index: indexName}" ref="dataLoader">
             <template slot-scope="data">
               <print-pretty-or-raw :document="data.body"></print-pretty-or-raw>
