@@ -2,8 +2,11 @@
   <v-layout>
     <v-flex xs8 offset-xs2>
       <v-card>
-        <v-card-title><h2>Utilities</h2></v-card-title>
+        <v-card-title>
+          <h1 class="headline">Utilities</h1>
+        </v-card-title>
         <v-divider></v-divider>
+
         <v-card-text>
           <v-layout row wrap>
             <v-flex xs6>
@@ -56,6 +59,7 @@
   import { WORDS } from '../consts'
 
   export default {
+    name: 'Utilities',
     data () {
       return {
         utilities: {
@@ -91,15 +95,15 @@
         }
       }
     },
-    components: {
-      Utility
-    },
     methods: {
       getRandomWords (amount) {
         return [...Array(amount)].map(() => {
           return WORDS[Math.floor(Math.random() * WORDS.length)]
         })
       }
+    },
+    components: {
+      Utility
     }
   }
 </script>

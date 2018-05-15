@@ -1,5 +1,9 @@
 <template>
-  <v-snackbar :timeout="timeout" v-model="visible" :color="color" right auto-height
+  <v-snackbar :timeout="timeout"
+              :color="color"
+              v-model="visible"
+              right
+              auto-height
               :multi-line="additionalText !== undefined">
     {{text}}
     <template v-if="additionalText">
@@ -12,6 +16,7 @@
 
 <script>
   export default {
+    name: 'Snackbar',
     computed: {
       text: {
         get () {

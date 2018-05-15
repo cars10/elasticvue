@@ -9,6 +9,7 @@
 
 <script>
   export default {
+    class: 'Utility',
     data () {
       return {
         loading: false,
@@ -22,6 +23,11 @@
         default: undefined
       },
       confirmMessage: String
+    },
+    computed: {
+      color () {
+        return this.error ? 'error' : null
+      }
     },
     methods: {
       confirmMethod () {
@@ -48,11 +54,6 @@
             this.error = true
             this.showErrorSnackbar({text: 'Error.', additionalText: error})
           })
-      }
-    },
-    computed: {
-      color () {
-        return this.error ? 'error' : null
       }
     }
   }
