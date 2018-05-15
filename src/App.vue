@@ -64,15 +64,11 @@
   import Snackbar from '@/components/Snackbar'
 
   export default {
+    name: 'App',
     data () {
       return {
         renderRouterView: true
       }
-    },
-    components: {
-      Connect,
-      ContentOrConnect,
-      Snackbar
     },
     computed: {
       connectionStateName () {
@@ -101,6 +97,11 @@
         this.$store.commit('resetConnection')
         this.$nextTick(() => (this.renderRouterView = true))
       }
+    },
+    components: {
+      Connect,
+      ContentOrConnect,
+      Snackbar
     }
   }
 </script>

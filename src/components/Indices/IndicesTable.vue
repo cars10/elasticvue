@@ -1,10 +1,12 @@
 <template>
   <div>
-    <div class="inline-block px-3 pull-right" style="width: 250px;">
-      <v-text-field append-icon="search"
-                    label="Filter"
-                    v-model="filter"></v-text-field>
-    </div>
+    <v-card-text>
+      <v-flex right d-inline-flex>
+        <v-text-field append-icon="search"
+                      label="Filter"
+                      v-model="filter"></v-text-field>
+      </v-flex>
+    </v-card-text>
     <v-data-table :rows-per-page-items="[10, 25, 100]"
                   :headers="headers"
                   :items="indices"
@@ -45,14 +47,7 @@
   import BtnGroup from '@/components/shared/BtnGroup'
 
   export default {
-    props: {
-      indices: {
-        default: () => []
-      },
-      loading: {
-        default: false
-      }
-    },
+    name: 'IndicesTable',
     data () {
       return {
         headers: [
@@ -69,8 +64,23 @@
         ]
       }
     },
-    components: {
-      BtnGroup
+    props: {
+      indices: {
+        default: () => []
+      },
+      loading: {
+        default: false
+      }
+    },
+    computed: {
+      filter: {
+        get () {
+          return this.$store.state.indices.filter
+        },
+        set (filter) {
+          this.$store.commit('setFilter', filter)
+        }
+      }
     },
     methods: {
       sortIndices (items, index, isDescending) {
@@ -95,7 +105,7 @@
         })
       },
       showDocuments (index) {
-        this.$store.commit('setIndices', [index])
+        this.$store.commit('setIndices', [index]) // to pre-select right index on "Browse" page
         this.$router.push({name: 'Browse', params: {executeSearch: true}})
       },
       openIndex (index) {
@@ -103,24 +113,18 @@
       },
       deleteIndex (index) {
         if (confirm('Are you sure? This will remove ALL data in your index!')) {
-          this.getElasticsearchAdapter().then(adapter => adapter.indicesDelete({index})).then(
-            (body) => {
+          this.getElasticsearchAdapter()
+            .then(adapter => adapter.indicesDelete({index}))
+            .then(body => {
               this.$emit('deleteIndex', index)
               this.showSuccessSnackbar({text: `The index '${index}' was successfully deleted.`, additionalText: body})
-            }
-          ).catch(error => this.$store.commit('setErrorState', error))
+            })
+            .catch(error => this.$store.commit('setErrorState', error))
         }
       }
     },
-    computed: {
-      filter: {
-        get () {
-          return this.$store.state.indices.filter
-        },
-        set (filter) {
-          this.$store.commit('setFilter', filter)
-        }
-      }
+    components: {
+      BtnGroup
     }
   }
 </script>

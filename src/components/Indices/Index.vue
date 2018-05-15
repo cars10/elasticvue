@@ -26,14 +26,15 @@
   import PrintPrettyOrRaw from '@/components/shared/PrintPrettyOrRaw'
 
   export default {
-    components: {
-      PrintPrettyOrRaw,
-      BackButton
-    },
+    name: 'Index',
     computed: {
       indexName () {
         return this.$route.params.index
       }
+    },
+    components: {
+      PrintPrettyOrRaw,
+      BackButton
     }
   }
 </script>

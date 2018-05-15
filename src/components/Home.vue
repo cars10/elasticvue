@@ -15,6 +15,7 @@
   import ClusterHealth from '@/components/Home/ClusterHealth'
 
   export default {
+    name: 'Home',
     components: {
       ClientInformation,
       ClusterHealth
