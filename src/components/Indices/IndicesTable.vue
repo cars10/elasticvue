@@ -4,6 +4,8 @@
       <v-flex right d-inline-flex>
         <v-text-field append-icon="search"
                       label="Filter"
+                      name="Filter"
+                      id="filter"
                       v-model="filter"></v-text-field>
       </v-flex>
     </v-card-text>
