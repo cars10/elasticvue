@@ -66,8 +66,7 @@
           {text: 'Store size', value: 'store.size', align: 'right'},
           {text: 'Pri Store size', value: 'pri.store.size', align: 'right'},
           {text: 'Actions', value: 'actions', sortable: false}
-        ],
-        filter: ''
+        ]
       }
     },
     components: {
@@ -110,6 +109,16 @@
               this.showSuccessSnackbar({text: `The index '${index}' was successfully deleted.`, additionalText: body})
             }
           ).catch(error => this.$store.commit('setErrorState', error))
+        }
+      }
+    },
+    computed: {
+      filter: {
+        get () {
+          return this.$store.state.indices.filter
+        },
+        set (filter) {
+          this.$store.commit('setFilter', filter)
         }
       }
     }

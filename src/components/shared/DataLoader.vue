@@ -1,14 +1,20 @@
 <template>
   <div>
-    <slot name="error" v-if="hasError" :errorMessage="errorMessage">
-      <div class="pa-3">
-        <v-alert :value="true">{{errorMessage}}</v-alert>
-      </div>
-    </slot>
-    <slot name="progress" v-else-if="loading">
-      <v-progress-linear color="blue" indeterminate></v-progress-linear>
-    </slot>
-    <slot v-else :body="responseBody">No data</slot>
+    <template v-if="renderContentWhileLoading">
+      <slot :body="responseBody" :loading="loading">No data</slot>
+    </template>
+
+    <template v-else>
+      <slot name="error" v-if="hasError" :errorMessage="errorMessage">
+        <div class="pa-3">
+          <v-alert :value="true">{{errorMessage}}</v-alert>
+        </div>
+      </slot>
+      <slot name="progress" v-else-if="loading">
+        <v-progress-linear color="blue" indeterminate></v-progress-linear>
+      </slot>
+      <slot v-else :body="responseBody">No data</slot>
+    </template>
   </div>
 </template>
 
@@ -25,7 +31,8 @@
         default: () => {
         }
       },
-      flatten: Boolean
+      flatten: Boolean,
+      renderContentWhileLoading: Boolean
     },
     data () {
       return {
