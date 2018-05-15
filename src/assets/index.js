@@ -26,24 +26,27 @@ import './stylesheets/style.scss'
 
 import './stylesheets/vuetify.styl'
 
-Vue.use(Vuetify)
-Vue.use(VAlert)
-Vue.use(VApp)
-Vue.use(VBtn)
-Vue.use(VCard)
-Vue.use(VChip)
-Vue.use(VDataTable)
-Vue.use(VDivider)
-Vue.use(VForm)
-Vue.use(VFooter)
-Vue.use(VGrid)
-Vue.use(VIcon)
-Vue.use(VList)
-Vue.use(VProgressLinear)
-Vue.use(VSelect)
-Vue.use(VSnackBar)
-Vue.use(VSubheader)
-Vue.use(VSwitch)
-Vue.use(VTabs)
-Vue.use(VTextField)
-Vue.use(VToolbar)
+Vue.use(Vuetify, {
+  components: {
+    VAlert,
+    VApp,
+    VBtn,
+    VCard,
+    VChip,
+    VDataTable,
+    VDivider,
+    VForm,
+    VFooter,
+    VGrid,
+    VIcon,
+    VList,
+    VProgressLinear,
+    VSelect,
+    VSnackBar,
+    VSubheader,
+    VSwitch,
+    VTabs,
+    VTextField,
+    VToolbar
+  }
+})
