@@ -35,7 +35,7 @@ export default new Router({
       props: true
     },
     {
-      path: '/documents/:index/:type/:id',
+      path: '/browse/:index/:type/:id',
       name: 'Document',
       component: Document
     },
