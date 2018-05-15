@@ -1,5 +1,5 @@
 <template>
-  <v-btn :to="route" :class="classes">
+  <v-btn :to="route" class="ml-a">
     <v-icon>{{icon}}</v-icon>
     {{text}}
   </v-btn>
@@ -23,14 +23,6 @@
       icon: {
         type: String,
         default: 'keyboard_arrow_left'
-      },
-      alignLeft: {
-        type: Boolean
-      }
-    },
-    computed: {
-      classes () {
-        return {'ml-a': !this.alignLeft}
       }
     }
   }

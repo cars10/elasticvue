@@ -23,13 +23,13 @@
 
             <div>
               <!-- @formatter:off -->
-<code class="code--block"><span class="code--comment"># allow CORS requests</span>
+<code class="code-block"><span class="code-comment"># allow CORS requests</span>
 http.cors.enabled: true
-<span class="code--comment"># allow CORS requests from {{domain}}</span>
+<span class="code-comment"># allow CORS requests from {{domain}}</span>
 http.cors.allow-origin: {{domain}}
 
-<span class="code--comment"># Alternatively you can pass a regex as the allowed origins</span>
-<span class="code--comment" style="display: block"># http.cors.allow-origin: /https?:\/\/{{hostname}}(:[0-9]+)?)/</span></code>
+<span class="code-comment"># Alternatively you can pass a regex as the allowed origins</span>
+<span class="code-comment" style="display: block"># http.cors.allow-origin: /https?:\/\/{{hostname}}(:[0-9]+)?)/</span></code>
             <!-- @formatter:on -->
             </div>
           </v-alert>

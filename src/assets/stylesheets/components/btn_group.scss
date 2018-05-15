@@ -2,11 +2,11 @@
   margin: 0;
 }
 
-.btn-group__small {
+.btn-group--small {
   height: 36px;
   display: inline-flex;
 }
 
-.btn-group__small > .btn {
+.btn-group--small > .btn {
   min-width: 32px;
 }

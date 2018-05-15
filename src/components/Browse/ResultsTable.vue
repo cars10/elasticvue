@@ -16,7 +16,7 @@
                   :loading="loading"
                   :search="browseFilter"
                   :customFilter="customTableFilter"
-                  class="table__condensed">
+                  class="table--condensed">
       <template slot="items" slot-scope="item">
         <tr @click="openDocument(item.item)" class="tr--clickable">
           <td>{{ item.item._index }}</td>

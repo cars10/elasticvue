@@ -2,7 +2,7 @@
   <v-card>
     <v-card-title>
       <h1 class="headline">Browse</h1>
-      <reload-button alignLeft title="Reload indices" :action="() => $refs.indicesLoader.loadData()"></reload-button>
+      <reload-button title="Reload indices" :action="() => $refs.indicesLoader.loadData()"></reload-button>
     </v-card-title>
     <v-divider></v-divider>
 
