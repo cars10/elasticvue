@@ -6,14 +6,14 @@
                       label="Filter"
                       name="Filter"
                       id="filter"
-                      v-model="filter"></v-text-field>
+                      v-model="indicesFilter"></v-text-field>
       </v-flex>
     </v-card-text>
     <v-data-table :rows-per-page-items="[10, 25, 100]"
                   :headers="headers"
                   :items="indices"
                   :custom-sort="sortIndices"
-                  :search="filter"
+                  :search="indicesFilter"
                   :loading="loading">
       <template slot="items" slot-scope="props">
         <tr @click="showDocuments(props.item.index)" class="tr--clickable">
@@ -75,12 +75,12 @@
       }
     },
     computed: {
-      filter: {
+      indicesFilter: {
         get () {
           return this.$store.state.indices.filter
         },
         set (filter) {
-          this.$store.commit('setFilter', filter)
+          this.$store.commit('setIndicesFilter', filter)
         }
       }
     },

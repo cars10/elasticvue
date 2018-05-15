@@ -3,7 +3,7 @@ export const indices = {
     filter: ''
   },
   mutations: {
-    setFilter (state, filter) {
+    setIndicesFilter (state, filter) {
       state.filter = filter
     }
   }
