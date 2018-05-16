@@ -1,54 +1,53 @@
 <template>
   <v-card>
-    <v-card-title><h2>Query</h2></v-card-title>
+    <v-card-title>
+      <h1 class="headline">Query</h1>
+    </v-card-title>
     <v-divider></v-divider>
     <v-card-text>
       <v-form v-on:submit.prevent="loadData">
-        <v-container grid-list-xs>
-          <v-layout row wrap>
-            <v-flex xs6 elevation>
-              <v-flex>
-                <v-text-field v-model="hostUrl" label="Host" name="Host"></v-text-field>
-              </v-flex>
+        <v-layout row wrap>
+          <v-flex xs6>
+            <v-flex>
+              <v-text-field v-model="hostUrl" label="Host" name="host" id="host"></v-text-field>
             </v-flex>
-            <v-flex xs6>
-              <v-flex d-inline-flex>
-                <v-select autocomplete
-                          auto
-                          multi-line
-                          max-height="500"
-                          label="Method"
-                          name="Method"
-                          v-model="method"
-                          :items="methods"
-                          item-text="name"
-                          item-value="name">
-                  <template slot="item" slot-scope="data">
-                    <v-list-tile-content v-text="data.item.name"></v-list-tile-content>
-                  </template>
-                </v-select>
-              </v-flex>
-              <v-flex d-inline-flex>
-                <v-btn :href="apiDocumentationUrl" target="_blank" :disabled="!apiDocumentationUrl">
-                  <v-icon>launch</v-icon>&nbsp;
-                  Documentation
-                </v-btn>
-              </v-flex>
+          </v-flex>
+          <v-flex xs6>
+            <v-flex d-inline-flex>
+              <v-select autocomplete
+                        auto
+                        multi-line
+                        max-height="500"
+                        label="Method"
+                        name="Method"
+                        v-model="method"
+                        :filter="filterMethods"
+                        :items="methods"
+                        item-text="name"
+                        item-value="name">
+              </v-select>
             </v-flex>
 
-            <v-flex xs12>
-              <v-text-field multi-line label="Params" name="Params" class="font-mono"
-                            v-model="stringifiedParams"
-                            :rules="[parseParams]">
-              </v-text-field>
+            <v-flex d-inline-flex>
+              <v-btn flat :href="apiDocumentationUrl" target="_blank" :disabled="!apiDocumentationUrl">
+                <v-icon>launch</v-icon>&nbsp;
+                {{method}} Documentation
+              </v-btn>
             </v-flex>
+          </v-flex>
 
-            <v-btn type="submit" :disabled="!isValid">Fetch</v-btn>
-          </v-layout>
-        </v-container>
+          <v-flex xs12>
+            <v-text-field multi-line label="Params" name="Params" id="params" class="font-mono"
+                          v-model="stringifiedParams"
+                          :rules="[parseParams]">
+            </v-text-field>
+          </v-flex>
+
+          <v-btn type="submit" :disabled="!isValid" :loading="loading">Fetch</v-btn>
+        </v-layout>
       </v-form>
 
-      <v-divider></v-divider>
+      <v-divider class="mt-3"></v-divider>
 
       <print-pretty-or-raw :document="response"></print-pretty-or-raw>
     </v-card-text>
@@ -60,8 +59,10 @@
   import { REQUEST_DEFAULTS } from '../consts'
 
   export default {
+    name: 'Query',
     data () {
       return {
+        loading: false,
         hostUrl: this.$store.state.connection.elasticsearchHost,
         method: null,
         methods: [],
@@ -71,23 +72,43 @@
         TYPES: ['cat', 'close', 'cluster', 'indices', 'ingest', 'nodes', 'snapshot', 'tasks', 'transport']
       }
     },
-    components: {
-      PrintPrettyOrRaw
-    },
-    created () {
-      this.getMethods()
+    computed: {
+      apiDocumentationUrl () {
+        return this.method ? `https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-${this.method.replace('.', '-')}` : null
+      },
+      parseParams () {
+        try {
+          JSON.parse(this.stringifiedParams)
+          this.hasError = false
+          return true
+        } catch (error) {
+          this.hasError = true
+          return error.message
+        }
+      },
+      isValid () {
+        return !!this.method && !this.hasError && this.hostUrl.length > 0
+      }
     },
     methods: {
       loadData () {
-        alert('loadData')
+        this.loading = true
         this.getElasticsearchAdapter()
-          .then(adapter => adapter.client[this.method.split('.')[0]][this.method.split('.')[1]]())
-          .then(
-            response => {
-              this.response = response
-            })
+          .then(adapter => {
+            const methodSplit = this.method.split('.')
+            if (methodSplit.length === 1) {
+              return adapter.client[methodSplit](this.parsedParams())
+            } else {
+              return adapter.client[methodSplit[0]][methodSplit[1]](this.parsedParams())
+            }
+          })
+          .then(response => {
+            this.loading = false
+            this.response = response
+          })
           .catch(error => {
-            this.response = ''
+            this.response = error.message
+            this.loading = false
             this.showErrorSnackbar({text: 'Error:', additionalText: error.message})
           })
       },
@@ -117,36 +138,23 @@
         try {
           return JSON.parse(this.stringifiedParams)
         } catch (error) {
-          return {}
+          return REQUEST_DEFAULTS
         }
       },
-      getNestedMethod (client) {
-        let methodNames = this.method.split('.')
-        let nestedClient = client
-        for (let methodName of methodNames) {
-          nestedClient = nestedClient[methodName]
-        }
-        console.log(nestedClient)
-        return nestedClient
+      filterMethods (item, queryText, itemText) {
+        const hasValue = val => val != null ? val.toString().toLowerCase() : ''
+        const query = hasValue(queryText)
+        if (query === '') return true
+        const text = hasValue(itemText)
+        const textWithoutDot = text.replace('.', '')
+        return text.indexOf(query) > -1 || textWithoutDot.indexOf(query) > -1
       }
     },
-    computed: {
-      apiDocumentationUrl () {
-        return this.method ? `https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-${this.method.replace('.', '-')}` : null
-      },
-      parseParams () {
-        try {
-          JSON.parse(this.stringifiedParams)
-          this.hasError = false
-          return true
-        } catch (error) {
-          this.hasError = true
-          return error.message
-        }
-      },
-      isValid () {
-        return !!this.method && !this.hasError && this.hostUrl.length > 0
-      }
+    created () {
+      this.getMethods()
+    },
+    components: {
+      PrintPrettyOrRaw
     }
   }
 </script>
