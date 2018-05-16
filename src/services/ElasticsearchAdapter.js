@@ -22,7 +22,7 @@ export default class ElasticsearchAdapter {
    * Get basic cluster information
    * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-info
    */
-  getClientInfo () {
+  clientInfo () {
     return this.client.info(REQUEST_DEFAULTS)
   }
 
@@ -30,7 +30,7 @@ export default class ElasticsearchAdapter {
    * Get cluster health information
    * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-cluster-health
    */
-  getClusterHealth () {
+  clusterHealth () {
     return this.client.cluster.health(REQUEST_DEFAULTS)
   }
 
@@ -38,7 +38,7 @@ export default class ElasticsearchAdapter {
    * Get a list of all indices
    * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-cat-indices
    */
-  getCatIndices () {
+  catIndices () {
     return this.client.cat.indices(REQUEST_DEFAULTS)
   }
 

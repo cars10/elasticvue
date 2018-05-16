@@ -14,7 +14,7 @@
           </v-flex>
 
           <v-flex>
-            <data-loader method="getCatIndices" ref="indicesLoader" renderContentWhileLoading>
+            <data-loader method="catIndices" ref="indicesLoader" renderContentWhileLoading>
               <template slot-scope="data">
                 <v-select multiple
                           auto

@@ -6,7 +6,7 @@
     </v-card-title>
     <v-divider></v-divider>
 
-    <data-loader method="getClusterHealth" ref="dataLoader">
+    <data-loader method="clusterHealth" ref="dataLoader">
       <template slot-scope="data">
         <v-list dense>
           <v-list-tile class="list__tile--selectable" v-for="key in Object.keys(data.body)" :key="key">
