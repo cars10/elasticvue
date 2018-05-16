@@ -28,9 +28,9 @@
       <v-container grid-list-md>
         <content-or-connect>
           <router-view v-if="renderRouterView"></router-view>
-          <snackbar></snackbar>
         </content-or-connect>
       </v-container>
+      <snackbar></snackbar>
     </v-content>
 
     <v-footer height="auto">
