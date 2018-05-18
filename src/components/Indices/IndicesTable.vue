@@ -3,8 +3,9 @@
     <v-card-text>
       <v-flex right d-inline-flex>
         <v-text-field append-icon="search"
-                      label="Filter"
-                      name="Filter"
+                      v-on:keyup.esc="indicesFilter = ''"
+                      label="Filter..."
+                      name="filter"
                       id="filter"
                       v-model="indicesFilter"></v-text-field>
       </v-flex>

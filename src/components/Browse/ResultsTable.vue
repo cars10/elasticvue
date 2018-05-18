@@ -3,8 +3,9 @@
     <v-card-text>
       <v-flex right d-inline-flex>
         <v-text-field append-icon="search"
+                      v-on:keyup.esc="browseFilter = ''"
                       label="Filter via column:query"
-                      name="Filter"
+                      name="filter"
                       id="filter"
                       v-model="browseFilter"></v-text-field>
       </v-flex>
