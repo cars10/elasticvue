@@ -1,15 +1,20 @@
 <template>
   <div>
-    <div class="inline-block px-3 pull-right" style="width: 250px;">
-      <v-text-field append-icon="search"
-                    label="Filter"
-                    v-model="filter"></v-text-field>
-    </div>
+    <v-card-text>
+      <v-flex right d-inline-flex>
+        <v-text-field append-icon="search"
+                      v-on:keyup.esc="indicesFilter = ''"
+                      label="Filter..."
+                      name="filter"
+                      id="filter"
+                      v-model="indicesFilter"></v-text-field>
+      </v-flex>
+    </v-card-text>
     <v-data-table :rows-per-page-items="[10, 25, 100]"
                   :headers="headers"
                   :items="indices"
                   :custom-sort="sortIndices"
-                  :search="filter"
+                  :search="indicesFilter"
                   :loading="loading">
       <template slot="items" slot-scope="props">
         <tr @click="showDocuments(props.item.index)" class="tr--clickable">
@@ -45,14 +50,7 @@
   import BtnGroup from '@/components/shared/BtnGroup'
 
   export default {
-    props: {
-      indices: {
-        default: () => []
-      },
-      loading: {
-        default: false
-      }
-    },
+    name: 'IndicesTable',
     data () {
       return {
         headers: [
@@ -66,12 +64,26 @@
           {text: 'Store size', value: 'store.size', align: 'right'},
           {text: 'Pri Store size', value: 'pri.store.size', align: 'right'},
           {text: 'Actions', value: 'actions', sortable: false}
-        ],
-        filter: ''
+        ]
       }
     },
-    components: {
-      BtnGroup
+    props: {
+      indices: {
+        default: () => []
+      },
+      loading: {
+        default: false
+      }
+    },
+    computed: {
+      indicesFilter: {
+        get () {
+          return this.$store.state.indices.filter
+        },
+        set (filter) {
+          this.$store.commit('setIndicesFilter', filter)
+        }
+      }
     },
     methods: {
       sortIndices (items, index, isDescending) {
@@ -96,7 +108,7 @@
         })
       },
       showDocuments (index) {
-        this.$store.commit('setIndices', [index])
+        this.$store.commit('setBrowseIndices', [index]) // to pre-select right index on "Browse" page
         this.$router.push({name: 'Browse', params: {executeSearch: true}})
       },
       openIndex (index) {
@@ -104,11 +116,18 @@
       },
       deleteIndex (index) {
         if (confirm('Are you sure? This will remove ALL data in your index!')) {
-          this.getElasticsearchAdapter().then(adapter => adapter.indicesDelete(index)).then(
-            this.$emit('deleteIndex', index)
-          ).catch(error => this.$store.commit('setErrorState', error))
+          this.getElasticsearchAdapter()
+            .then(adapter => adapter.indicesDelete({index}))
+            .then(body => {
+              this.$emit('deleteIndex', index)
+              this.showSuccessSnackbar({text: `The index '${index}' was successfully deleted.`, additionalText: body})
+            })
+            .catch(error => this.$store.commit('setErrorState', error))
         }
       }
+    },
+    components: {
+      BtnGroup
     }
   }
 </script>

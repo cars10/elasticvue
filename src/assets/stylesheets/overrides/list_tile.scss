@@ -3,3 +3,9 @@ div.list__tile--selectable {
     user-select: initial;
   }
 }
+
+.menu__content--select {
+  .list__tile {
+    height: 36px;
+  }
+}

@@ -1,68 +1,41 @@
 <template>
   <v-card>
-    <back-button alignLeft :route="{name: 'Browse', params: {executeSearch: true}}" text="Back to search"></back-button>
     <v-card-title>
-      <h2>{{this.params.index}} / {{this.params.type}} / {{this.params.id}}</h2>
-      <reload-button alignLeft :action="loadDocument"></reload-button>
+      <h1 class="headline">Document</h1>
+      <reload-button :action="() => $refs.dataLoader.loadData()"></reload-button>
+      <back-button :route="{name: 'Browse', params: {executeSearch: true}}"></back-button>
     </v-card-title>
     <v-divider></v-divider>
 
     <v-card-text>
-      <content-or-loading :loading="loading">
-        <v-tabs>
-          <v-tab key="tab1">Collapsible</v-tab>
-          <v-tab key="tab2">Raw</v-tab>
-
-          <v-tab-item key="tab1">
-            <v-flex pa-3>
-              <vue-print-object :printableObject="document" v-if="document"></vue-print-object>
-            </v-flex>
-          </v-tab-item>
-
-          <v-tab-item key="tab2">
-            <v-flex pa-3>
-              <pre class="scroll-y">{{document}}</pre>
-            </v-flex>
-          </v-tab-item>
-        </v-tabs>
-      </content-or-loading>
+      <h2 class="subheading">{{this.params.index}} / {{this.params.type}} / {{this.params.id}}</h2>
+      <data-loader method="get" :methodParams="methodParams" ref="dataLoader">
+        <template slot-scope="data">
+          <print-pretty-or-raw :document="data.body"></print-pretty-or-raw>
+        </template>
+      </data-loader>
     </v-card-text>
   </v-card>
 </template>
 
 <script>
   import BackButton from '@/components/shared/BackButton'
-  import ReloadButton from '@/components/shared/ReloadButton'
-  import VuePrintObject from 'vue-print-object'
+  import PrintPrettyOrRaw from '@/components/shared/PrintPrettyOrRaw'
 
   export default {
-    data () {
-      return {
-        document: null,
-        params: this.$route.params,
-        loading: false
-      }
-    },
-    created () {
-      this.loadDocument()
-    },
-    methods: {
-      loadDocument () {
-        this.loading = true
-        this.getElasticsearchAdapter().then(
-          adapter => adapter.get({index: this.params.index, type: this.params.type, id: this.params.id})
-        ).then(
-          body => {
-            this.document = body
-            this.loading = false
-          }
-        ).catch(error => this.$store.commit('setErrorState', error))
+    name: 'Document',
+    computed: {
+      params () {
+        return this.$route.params
+      },
+      methodParams () {
+        let params = this.params
+        return {index: params.index, type: params.type, id: params.id}
       }
     },
     components: {
       BackButton,
-      ReloadButton,
-      VuePrintObject
+      PrintPrettyOrRaw
     }
   }
 </script>

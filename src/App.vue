@@ -15,31 +15,41 @@
         <v-btn flat to="/" exact>Home</v-btn>
         <v-btn flat to="/indices">Indices</v-btn>
         <v-btn flat to="/browse">Browse</v-btn>
+        <v-btn flat to="/query">Query</v-btn>
+        <v-btn flat to="/utilities">Utilities</v-btn>
+        <v-btn flat href="https://github.com/cars10/elasticvue" target="_blank">
+          <img src="../static/GitHub-Mark-Light.png" alt="GithubIcon" v-if="this.$store.state.theme.dark">
+          <img src="../static/GitHub-Mark.png" alt="GithubIcon" v-else>
+        </v-btn>
       </v-toolbar-items>
     </v-toolbar>
 
     <v-content>
-      <v-container>
+      <v-container grid-list-md>
         <content-or-connect>
           <router-view v-if="renderRouterView"></router-view>
         </content-or-connect>
       </v-container>
+      <snackbar></snackbar>
     </v-content>
 
     <v-footer height="auto">
       <v-layout row wrap py-3 px-3>
-        <v-flex xs4 align-center class="display-flex">
+        <v-flex xs4 align-center d-inline-flex>
           <v-switch label="Dark theme" v-model="theme" hide-details></v-switch>
         </v-flex>
 
         <v-flex xs4 text-xs-center>
           &copy;{{ new Date().getFullYear()}}<br/>
-          <v-btn @click="reset()">Reset</v-btn>
+          <v-btn @click="reset">Reset</v-btn>
         </v-flex>
 
-        <v-flex xs4 text-xs-right align-center class="display-flex">
+        <v-flex xs4 text-xs-right align-center d-inline-flex>
           <v-flex>
-            <a href="https://github.com/cars10/elasticvue" target="_blank" rel="nofollow">Github</a>
+            <a href="https://github.com/cars10/elasticvue" target="_blank" rel="nofollow">
+              <img src="../static/GitHub_Logo_White.png" alt="GithubLogo" v-if="this.$store.state.theme.dark">
+              <img src="../static/GitHub_Logo.png" alt="GithubLogo" v-else>
+            </a>
           </v-flex>
         </v-flex>
       </v-layout>
@@ -51,16 +61,14 @@
   import Connect from '@/components/shared/Connect'
   import ContentOrConnect from '@/components/shared/ContentOrConnect'
   import { CONNECTION_STATE_CLASSES, CONNECTION_STATE_NAMES } from './consts'
+  import Snackbar from '@/components/Snackbar'
 
   export default {
+    name: 'App',
     data () {
       return {
         renderRouterView: true
       }
-    },
-    components: {
-      Connect,
-      ContentOrConnect
     },
     computed: {
       connectionStateName () {
@@ -85,8 +93,15 @@
       },
       rerender () {
         this.renderRouterView = false
+        this.$store.commit('resetBrowse')
+        this.$store.commit('resetConnection')
         this.$nextTick(() => (this.renderRouterView = true))
       }
+    },
+    components: {
+      Connect,
+      ContentOrConnect,
+      Snackbar
     }
   }
 </script>

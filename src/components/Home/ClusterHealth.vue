@@ -1,52 +1,29 @@
 <template>
   <v-card>
     <v-card-title>
-      <h2>Cluster Health</h2>
-      <reload-button :action="loadClusterHealth"></reload-button>
+      <h2 class="headline">Cluster Health</h2>
+      <reload-button :action="() => $refs.dataLoader.loadData()"></reload-button>
     </v-card-title>
     <v-divider></v-divider>
 
-    <content-or-loading :loading="loading">
-      <v-list dense>
-        <v-list-tile class="list__tile--selectable" v-for="key in Object.keys(clusterHealth)" :key="key">
-          <v-list-tile-content>{{key}}</v-list-tile-content>
-          <v-list-tile-content class="align-end">
-            <v-chip :class="clusterHealth[key]" v-if="key === 'status'">{{clusterHealth[key]}}</v-chip>
-            <span v-else>{{clusterHealth[key]}}</span>
-          </v-list-tile-content>
-        </v-list-tile>
-      </v-list>
-    </content-or-loading>
+    <data-loader method="clusterHealth" ref="dataLoader">
+      <template slot-scope="data">
+        <v-list dense>
+          <v-list-tile class="list__tile--selectable" v-for="key in Object.keys(data.body)" :key="key">
+            <v-list-tile-content>{{key}}</v-list-tile-content>
+            <v-list-tile-content class="align-end">
+              <v-chip :class="data.body[key]" v-if="key === 'status'">{{data.body[key]}}</v-chip>
+              <span v-else>{{data.body[key]}}</span>
+            </v-list-tile-content>
+          </v-list-tile>
+        </v-list>
+      </template>
+    </data-loader>
   </v-card>
 </template>
 
 <script>
-  import ReloadButton from '@/components/shared/ReloadButton'
-  import { flattenObject } from '../../helpers/utilities'
-
   export default {
-    data () {
-      return {
-        clusterHealth: {},
-        loading: false
-      }
-    },
-    components: {
-      ReloadButton
-    },
-    created () {
-      this.loadClusterHealth()
-    },
-    methods: {
-      loadClusterHealth () {
-        this.loading = true
-        this.getElasticsearchAdapter().then(adapter => adapter.getClusterHealth()).then(
-          body => {
-            this.clusterHealth = flattenObject(body, true, true)
-            this.loading = false
-          }
-        ).catch(error => this.$store.commit('setErrorState', error))
-      }
-    }
+    name: 'ClusterHealth'
   }
 </script>

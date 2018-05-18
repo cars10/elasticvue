@@ -1,38 +1,55 @@
 <template>
-  <v-container grid-list-md>
-    <v-layout row wrap>
-      <v-flex xs12>
-        <v-card>
-          <v-card-title>
-            <h2>Browse</h2>
-            <reload-button alignLeft title="Reload indices" :action="loadIndices"></reload-button>
-          </v-card-title>
-          <v-card-text>
-            <v-form v-on:submit.prevent="loadResults" class="form-inline">
-              <v-text-field class="input--sm" label="Query" v-model="searchQ" id="q"></v-text-field>
-              <v-select multiple
-                        autocomplete
-                        label="Indices"
-                        name="Indices"
-                        id="indices"
-                        v-model="searchIndices"
-                        :items="indices"
-                        item-value="index"
-                        item-text="index"
-                        :loading="indicesLoading">
-              </v-select>
+  <v-card>
+    <v-card-title>
+      <h1 class="headline">Browse</h1>
+      <reload-button title="Reload indices" :action="() => $refs.indicesLoader.loadData()"></reload-button>
+    </v-card-title>
+    <v-divider></v-divider>
 
+    <v-card-text>
+      <v-form v-on:submit.prevent="loadData">
+        <v-layout row wrap>
+          <v-flex xs2>
+            <v-text-field label="Query" name="Query" id="query" v-model="browseQ"></v-text-field>
+          </v-flex>
+
+          <v-flex>
+            <data-loader method="catIndices" ref="indicesLoader" renderContentWhileLoading>
+              <template slot-scope="data">
+                <v-select multiple
+                          auto
+                          autocomplete
+                          label="Indices"
+                          name="Indices"
+                          id="indices"
+                          v-model="browseIndices"
+                          :items="data.body | sortIndices"
+                          :loading="data.loading">
+                </v-select>
+              </template>
+            </data-loader>
+          </v-flex>
+
+          <v-flex xs1>
+            <v-flex right>
               <v-btn type="submit">Submit</v-btn>
-            </v-form>
-          </v-card-text>
-        </v-card>
-      </v-flex>
+            </v-flex>
+          </v-flex>
+        </v-layout>
+      </v-form>
+    </v-card-text>
 
-      <v-flex xs12>
-        <results-table :hits="results.hits && results.hits.hits || results" :loading="resultsLoading"></results-table>
-      </v-flex>
-    </v-layout>
-  </v-container>
+    <v-divider></v-divider>
+
+    <data-loader method="search" :methodParams="searchParams" ref="resultsLoader"
+                 :execute="executeSearch"
+                 renderContentWhileLoading>
+      <template slot-scope="data">
+        <results-table :hits="data.body && data.body.hits && data.body.hits.hits || []"
+                       :loading="data.loading"></results-table>
+      </template>
+    </data-loader>
+  </v-card>
 </template>
 
 <script>
@@ -40,65 +57,46 @@
   import ReloadButton from '@/components/shared/ReloadButton'
 
   export default {
+    name: 'Browse',
     props: {
       executeSearch: {
         default: false
       }
     },
-    data () {
-      return {
-        indices: [],
-        results: [],
-        resultsLoading: false,
-        indicesLoading: false
+    computed: {
+      browseQ: {
+        get () {
+          return this.$store.state.browse.q
+        },
+        set (q) {
+          this.$store.commit('setBrowseQ', q)
+        }
+      },
+      browseIndices: {
+        get () {
+          return this.$store.state.browse.indices
+        },
+        set (indices) {
+          this.$store.commit('setBrowseIndices', indices)
+        }
+      },
+      searchParams () {
+        return {q: this.browseQ, index: this.browseIndices}
+      }
+    },
+    methods: {
+      loadData () {
+        this.$refs.resultsLoader.loadData()
+      }
+    },
+    filters: {
+      sortIndices (indices) {
+        return indices ? indices.map(index => index.index).sort() : []
       }
     },
     components: {
       ResultsTable,
       ReloadButton
-    },
-    created () {
-      this.loadIndices()
-      if (this.executeSearch) this.loadResults()
-    },
-    methods: {
-      loadIndices () {
-        this.indicesLoading = true
-        this.getElasticsearchAdapter().then(adapter => adapter.getCatIndices()).then(
-          indices => {
-            this.indices = indices
-            this.indicesLoading = false
-          }
-        ).catch(error => this.$store.commit('setErrorState', error))
-      },
-      loadResults () {
-        this.resultsLoading = true
-
-        this.getElasticsearchAdapter().then(adapter => adapter.search({q: this.searchQ, index: this.searchIndices})).then(
-          body => {
-            this.results = body
-            this.resultsLoading = false
-          }
-        ).catch(error => this.$store.commit('setErrorState', error))
-      }
-    },
-    computed: {
-      searchQ: {
-        get () {
-          return this.$store.state.search.q
-        },
-        set (q) {
-          this.$store.commit('setQ', q)
-        }
-      },
-      searchIndices: {
-        get () {
-          return this.$store.state.search.indices
-        },
-        set (indices) {
-          this.$store.commit('setIndices', indices)
-        }
-      }
     }
   }
 </script>

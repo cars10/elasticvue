@@ -7,7 +7,8 @@ const ConnectWithServer = {
       connectService.connect().then(
         client => {
           this.$store.commit('setElasticsearchClient', client)
-          callback()
+          this.showSuccessSnackbar({text: 'Successfully connected.'})
+          if (typeof callback === 'function') callback()
         },
         error => this.$store.commit('setErrorState', error)
       )

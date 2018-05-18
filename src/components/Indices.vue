@@ -1,11 +1,16 @@
 <template>
   <v-card>
     <v-card-title>
-      <h2>Indices</h2>
-      <reload-button alignLeft :action="loadIndices"></reload-button>
+      <h2 class="headline">Indices</h2>
+      <reload-button :action="() => $refs.dataLoader.loadData()"></reload-button>
     </v-card-title>
     <v-divider></v-divider>
-    <indices-table :indices="indices" :loading="loading" v-on:deleteIndex="removeIndex"></indices-table>
+
+    <data-loader method="catIndices" ref="dataLoader" renderContentWhileLoading>
+      <template slot-scope="data">
+        <indices-table :indices="data.body || []" v-on:deleteIndex="removeIndex" :loading="data.loading"></indices-table>
+      </template>
+    </data-loader>
   </v-card>
 </template>
 
@@ -14,33 +19,15 @@
   import ReloadButton from '@/components/shared/ReloadButton'
 
   export default {
-    data () {
-      return {
-        indices: [],
-        loading: false
+    name: 'Indices',
+    methods: {
+      removeIndex () {
+        this.$refs.dataLoader.loadData()
       }
     },
     components: {
       IndicesTable,
       ReloadButton
-    },
-    created () {
-      this.loadIndices()
-    },
-    methods: {
-      loadIndices () {
-        this.loading = true
-
-        this.getElasticsearchAdapter().then(adapter => adapter.getCatIndices()).then(
-          indices => {
-            this.indices = indices
-            this.loading = false
-          }
-        ).catch(error => this.$store.commit('setErrorState', error))
-      },
-      removeIndex (index) {
-        this.indices = this.indices.filter(value => value.index !== index)
-      }
     }
   }
 </script>

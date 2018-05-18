@@ -1,19 +1,23 @@
 <template>
-  <v-card>
-    <div class="inline-block px-3 pull-right" style="width: 250px;">
-      <v-text-field class=""
-                    append-icon="search"
-                    label="Filter via column:query"
-                    v-model="filter"></v-text-field>
-    </div>
+  <div>
+    <v-card-text>
+      <v-flex right d-inline-flex>
+        <v-text-field append-icon="search"
+                      v-on:keyup.esc="browseFilter = ''"
+                      label="Filter via column:query"
+                      name="filter"
+                      id="filter"
+                      v-model="browseFilter"></v-text-field>
+      </v-flex>
+    </v-card-text>
 
     <v-data-table :rows-per-page-items="[10, 20, 100, {text: 'All',value:-1}]"
                   :headers="headers"
                   :items="flattenedHits"
                   :loading="loading"
-                  :search="filter"
+                  :search="browseFilter"
                   :customFilter="customTableFilter"
-                  class="table__condensed">
+                  class="table--condensed">
       <template slot="items" slot-scope="item">
         <tr @click="openDocument(item.item)" class="tr--clickable">
           <td>{{ item.item._index }}</td>
@@ -30,7 +34,7 @@
 
       <v-progress-linear slot="progress" color="blue" indeterminate></v-progress-linear>
     </v-data-table>
-  </v-card>
+  </div>
 </template>
 
 <script>
@@ -39,6 +43,7 @@
   const DEFAULT_KEYS = ['_index', '_id', '_type', '_score']
 
   export default {
+    name: 'ResultsTable',
     props: {
       hits: {
         default: () => {
@@ -49,9 +54,24 @@
         default: false
       }
     },
-    data () {
-      return {
-        filter: ''
+    computed: {
+      headers () {
+        let defaultKeyHeaders = DEFAULT_KEYS.map(value => ({text: value, value: value}))
+        return defaultKeyHeaders.concat(this.keys.map(value => ({text: value, value: value})))
+      },
+      keys () {
+        return objectArrayUniqueKeys(this.hits, '_source')
+      },
+      flattenedHits () {
+        return this.hits.map(hit => flattenObject(hit))
+      },
+      browseFilter: {
+        get () {
+          return this.$store.state.browse.filter
+        },
+        set (filter) {
+          this.$store.commit('setBrowseFilter', filter)
+        }
       }
     },
     methods: {
@@ -72,18 +92,6 @@
         } else {
           return items.filter(item => props.some(prop => filter(item[prop], search)))
         }
-      }
-    },
-    computed: {
-      headers () {
-        let defaultKeyHeaders = DEFAULT_KEYS.map(value => ({text: value, value: value}))
-        return defaultKeyHeaders.concat(this.keys.map(value => ({text: value, value: value})))
-      },
-      keys () {
-        return objectArrayUniqueKeys(this.hits, '_source')
-      },
-      flattenedHits () {
-        return this.hits.map(hit => flattenObject(hit))
       }
     }
   }
