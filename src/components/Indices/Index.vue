@@ -1,6 +1,6 @@
 <template>
   <v-layout>
-    <v-flex xs6 offset-xs3>
+    <v-flex lg8 offset-lg2>
       <v-card>
         <v-card-title>
           <h1 class="headline">Index</h1>

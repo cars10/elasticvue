@@ -7,12 +7,12 @@
     <v-card-text>
       <v-form v-on:submit.prevent="loadData">
         <v-layout row wrap>
-          <v-flex xs6>
+          <v-flex md6>
             <v-flex>
               <v-text-field v-model="hostUrl" label="Host" name="host" id="host"></v-text-field>
             </v-flex>
           </v-flex>
-          <v-flex xs6>
+          <v-flex md6>
             <v-flex d-inline-flex>
               <v-select autocomplete
                         auto
@@ -36,7 +36,7 @@
             </v-flex>
           </v-flex>
 
-          <v-flex xs12>
+          <v-flex md12>
             <v-text-field multi-line label="Params" name="Params" id="params" class="font-mono"
                           v-model="stringifiedParams"
                           :rules="[parseParams]">
