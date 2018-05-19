@@ -5,7 +5,7 @@
 
   <div class="p3" v-else>
     <v-layout row wrap>
-      <v-flex xs8 offset-xs2>
+      <v-flex md8 offset-md2>
         <v-card>
           <v-card-title>
             <h1 class="headline">Connect</h1>

@@ -1,10 +1,10 @@
 <template>
   <v-layout row wrap>
-    <v-flex xs3 offset-xs3>
+    <v-flex lg4 offset-lg2>
       <client-information></client-information>
     </v-flex>
 
-    <v-flex xs3>
+    <v-flex lg4>
       <cluster-health></cluster-health>
     </v-flex>
   </v-layout>

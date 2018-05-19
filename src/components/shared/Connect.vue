@@ -14,7 +14,7 @@
   </v-form>
 
   <v-layout v-else>
-    <v-flex text-xs-center xs6 offset-xs3>
+    <v-flex text-xs-center lg6 offset-lg3>
       <v-form v-on:submit.prevent="connectAndEmitHostChanged">
         <v-layout>
           <v-flex d-inline-flex>

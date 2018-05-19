@@ -1,6 +1,6 @@
 {
   "name": "elasticvue",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Elasticsearch frontend",
   "author": "Carsten König <carstenkoenig92@gmail.com>",
   "repository": {
@@ -18,7 +18,7 @@
   "dependencies": {
     "elasticsearch": "^14.2.1",
     "vue": "^2.5.16",
-    "vue-print-object": "^0.0.5",
+    "vue-print-object": "^0.0.7",
     "vue-router": "^3.0.1",
     "vuetify": "^1.0.17",
     "vuex": "^3.0.1",

@@ -1,57 +1,53 @@
 <template>
-  <v-layout>
-    <v-flex xs8 offset-xs2>
-      <v-card>
-        <v-card-title>
-          <h1 class="headline">Utilities</h1>
-        </v-card-title>
-        <v-divider></v-divider>
+  <v-card>
+    <v-card-title>
+      <h1 class="headline">Utilities</h1>
+    </v-card-title>
+    <v-divider></v-divider>
 
-        <v-card-text>
-          <v-layout row wrap>
-            <v-flex xs6>
-              <v-subheader>Create</v-subheader>
-              <v-list>
-                <template v-for="utility in utilities.create">
-                  <v-divider></v-divider>
-                  <utility :text="utility.text"
-                           :confirmMessage="utility.confirmMessage"
-                           :method="utility.method"
-                           :methodParams="utility.methodParams"></utility>
-                </template>
-              </v-list>
-            </v-flex>
+    <v-card-text>
+      <v-layout row wrap>
+        <v-flex md6>
+          <v-subheader>Create</v-subheader>
+          <v-list>
+            <template v-for="utility in utilities.create">
+              <v-divider></v-divider>
+              <utility :text="utility.text"
+                       :confirmMessage="utility.confirmMessage"
+                       :method="utility.method"
+                       :methodParams="utility.methodParams"></utility>
+            </template>
+          </v-list>
+        </v-flex>
 
-            <v-flex xs6>
-              <v-subheader>Delete</v-subheader>
-              <v-list>
-                <template v-for="utility in utilities.delete">
-                  <v-divider></v-divider>
-                  <utility :text="utility.text"
-                           :confirmMessage="utility.confirmMessage"
-                           :method="utility.method"
-                           :methodParams="utility.methodParams"></utility>
-                </template>
-              </v-list>
-            </v-flex>
+        <v-flex md6>
+          <v-subheader>Delete</v-subheader>
+          <v-list>
+            <template v-for="utility in utilities.delete">
+              <v-divider></v-divider>
+              <utility :text="utility.text"
+                       :confirmMessage="utility.confirmMessage"
+                       :method="utility.method"
+                       :methodParams="utility.methodParams"></utility>
+            </template>
+          </v-list>
+        </v-flex>
 
-            <v-flex xs6>
-              <v-subheader>Misc</v-subheader>
-              <v-list>
-                <template v-for="utility in utilities.misc">
-                  <v-divider></v-divider>
-                  <utility :text="utility.text"
-                           :confirmMessage="utility.confirmMessage"
-                           :method="utility.method"
-                           :methodParams="utility.methodParams"></utility>
-                </template>
-              </v-list>
-            </v-flex>
-          </v-layout>
-        </v-card-text>
-      </v-card>
-    </v-flex>
-  </v-layout>
+        <v-flex md6>
+          <v-subheader>Misc</v-subheader>
+          <v-list>
+            <template v-for="utility in utilities.misc">
+              <v-divider></v-divider>
+              <utility :text="utility.text"
+                       :confirmMessage="utility.confirmMessage"
+                       :method="utility.method"
+                       :methodParams="utility.methodParams"></utility>
+            </template>
+          </v-list>
+        </v-flex>
+      </v-layout>
+    </v-card-text>
+  </v-card>
 </template>
 
 <script>

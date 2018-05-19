@@ -9,7 +9,7 @@
     <v-card-text>
       <v-form v-on:submit.prevent="loadData">
         <v-layout row wrap>
-          <v-flex xs2>
+          <v-flex lg2>
             <v-text-field label="Query" name="Query" id="query" v-model="browseQ"></v-text-field>
           </v-flex>
 
@@ -30,7 +30,7 @@
             </data-loader>
           </v-flex>
 
-          <v-flex xs1>
+          <v-flex lg1>
             <v-flex right>
               <v-btn type="submit">Submit</v-btn>
             </v-flex>
