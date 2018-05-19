@@ -1,6 +1,6 @@
 {
   "name": "elasticvue",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "description": "Elasticsearch frontend",
   "author": "Carsten König <carstenkoenig92@gmail.com>",
   "repository": {
