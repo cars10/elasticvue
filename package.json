@@ -12,6 +12,7 @@
     "dev": "node build/dev-server.js",
     "prod": "node build/prod-server.js",
     "build": "node build/build.js",
+    "build_chrome_extension": "rm -rf dist && rm -rf chrome_extension/{static,index.html} && yarn && SKIP_PRODUCTION_GZIP=true yarn build && cp -r dist/* chrome_extension/",
     "test": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
     "lint": "eslint --ext .js,.vue src test/unit/specs"
   },

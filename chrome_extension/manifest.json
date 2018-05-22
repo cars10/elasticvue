@@ -1,0 +1,20 @@
+{
+  "name": "Elasticvue",
+  "version": "1.0",
+  "description": "Build an Extension!",
+  "manifest_version": 2,
+  "background": {
+    "scripts": [
+      "background.js"
+    ],
+    "persistent": true
+  },
+  "browser_action": {},
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+  "permissions": [
+    "http://*/*",
+    "https://*/*",
+    "webRequest",
+    "webRequestBlocking"
+  ]
+}

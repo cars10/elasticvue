@@ -8,6 +8,9 @@ test/unit/coverage
 test/e2e/reports
 selenium-debug.log
 
+chrome_extension/index.html
+chrome_extension/static/*
+
 # Editor directories and files
 .idea
 *.suo
