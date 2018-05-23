@@ -92,3 +92,9 @@ yarn build
 yarn build --report
 ```
 
+## TODO
+
+- Ping on page load
+- logo
+- help / info texts
+- rewrite connection workflow
