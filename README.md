@@ -15,7 +15,17 @@ It works with every elasticsearch version supported by the [official elasticsear
 * 5.X
 * 2.X
 
+### Features
+
+* Cluster overview
+* Indices overview, index detailed view
+* Browse documents by searching
+* Manually running every query supported by the official elasticsearch client
+* Utilities, e.g. deleting all indices
+
 ## Usage
+
+### Running
 
 Use one of the following ways to run elasticvue:
 
@@ -48,7 +58,7 @@ Install the extension from the [chrome webstore](https://chrome.google.com/webst
 * Run a production server via `yarn prod` or dev server `yarn dev`
 
 
-## Elasticsearch configuration
+### Elasticsearch configuration
 You have to set some settings to allow connection to your elasticsearch cluster, even if you run the app locally.
 
 Find your elasticsearch configuration (for example `/etc/elasticsearch/elasticsearch.yml`) and add the following lines:
