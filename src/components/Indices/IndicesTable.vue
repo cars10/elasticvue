@@ -15,7 +15,8 @@
                   :items="indices"
                   :custom-sort="sortIndices"
                   :search="indicesFilter"
-                  :loading="loading">
+                  :loading="loading"
+                  class="table--condensed">
       <template slot="items" slot-scope="props">
         <tr @click="showDocuments(props.item.index)" class="tr--clickable">
           <td>{{props.item.index}}</td>
