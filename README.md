@@ -127,3 +127,7 @@ zip -r elasticvue.zip chrome_extension/*
 - specs
 - performance
 - responsiveness
+
+## License
+
+MIT
