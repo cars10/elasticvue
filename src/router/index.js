@@ -48,6 +48,16 @@ export default new Router({
       path: '/query',
       name: 'Query',
       component: Query
+    },
+    {
+      path: '*',
+      beforeEnter: (to, from, next) => {
+        if (to.query && to.query.route) {
+          next(to.query.route)
+        } else {
+          next('/')
+        }
+      }
     }
   ]
 })

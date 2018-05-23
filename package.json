@@ -1,6 +1,6 @@
 {
   "name": "elasticvue",
-  "version": "1.0.0",
+  "version": "0.1",
   "description": "Elasticsearch frontend",
   "author": "Carsten König <carstenkoenig92@gmail.com>",
   "repository": {
@@ -12,6 +12,7 @@
     "dev": "node build/dev-server.js",
     "prod": "node build/prod-server.js",
     "build": "node build/build.js",
+    "build_chrome_extension": "rm -rf dist && rm -rf chrome_extension/{static,index.html} && SKIP_PRODUCTION_GZIP=true yarn build && cp -r dist/* chrome_extension/",
     "test": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
     "lint": "eslint --ext .js,.vue src test/unit/specs"
   },

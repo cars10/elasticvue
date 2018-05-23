@@ -27,13 +27,6 @@
                         item-value="name">
               </v-select>
             </v-flex>
-
-            <v-flex d-inline-flex>
-              <v-btn flat :href="apiDocumentationUrl" target="_blank" :disabled="!apiDocumentationUrl">
-                <v-icon>launch</v-icon>&nbsp;
-                {{method}} Documentation
-              </v-btn>
-            </v-flex>
           </v-flex>
 
           <v-flex md12>
@@ -43,7 +36,11 @@
             </v-text-field>
           </v-flex>
 
-          <v-btn type="submit" :disabled="!isValid" :loading="loading">Fetch</v-btn>
+          <v-btn type="submit" :disabled="!isValid" :loading="loading">Execute</v-btn>
+          <v-btn flat :href="apiDocumentationUrl" target="_blank" :disabled="!apiDocumentationUrl">
+            <v-icon>launch</v-icon>&nbsp;
+            {{method}} Documentation
+          </v-btn>
         </v-layout>
       </v-form>
 
