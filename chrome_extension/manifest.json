@@ -1,7 +1,7 @@
 {
   "name": "Elasticvue",
-  "version": "1.0",
-  "description": "Build an Extension!",
+  "version": "0.1",
+  "description": "Elasticsearch frontend",
   "manifest_version": 2,
   "background": {
     "scripts": [
