@@ -2,6 +2,9 @@
 
 > Elasticsearch frontend written in vue.js. [http://elasticvue.cars10k.de](http://elasticvue.cars10k.de)
 
+![Screenshot](screenshot.png)
+
+
 ## About
 
 **Elasticvue** is a frontend for elasticsearch allowing you to search and filter your clusters data right in your browser.
@@ -18,7 +21,7 @@ Use one of the following ways to run elasticvue:
 
 **Online version**
 
-* Visit [http://elasticvue.cars10k.de](http://elasticvue.cars10k.de) or [https://elasticvue.cars10k.de](https://elasticvue.cars10k.de)
+* Visit [http://elasticvue.cars10k.de](http://elasticvue.cars10k.de) or [h￼ttps://elasticvue.cars10k.de](https://elasticvue.cars10k.de) (if your cluster is only accessible through SSL)
 
 **Docker**
 
@@ -35,7 +38,7 @@ Or build the image locally:
 
 **Chrome extension**
 
-TODO
+Install the extension from the [chrome webstore](https://chrome.google.com/webstore/detail/elasticvue/hkedbapjpblbodpgbajblpnlpenaebaa).
 
 **Run locally**
 
@@ -48,17 +51,23 @@ TODO
 ## Elasticsearch configuration
 You have to set some settings to allow connection to your elasticsearch cluster, even if you run the app locally.
 
-Find your elasticsearch config (for example `/etc/elasticsearch/elasticsearch.yml`) and add the following lines:
+Find your elasticsearch configuration (for example `/etc/elasticsearch/elasticsearch.yml`) and add the following lines:
 
 ```yaml
 # see https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-http.html
 # Enable 'Access-Control-Allow-Origin' header
 http.cors.enabled: true
-# Add localhost to allowed hosts
-http.cors.allow-origin: /https?:\/\/localhost(:[0-9]+)?/
+# Then set the allowed origins based on how you run elasticvue:
 
-# or, if you use the online version:
-http.cors.allow-origin: /(https?:\/\/localhost(:[0-9]+)?)|(https?:\/\/elasticvue.cars10k.de)/
+# for docker / running locally
+http.cors.allow-origin: /https?:\/\/localhost(:[0-9]+)?/
+# online version
+http.cors.allow-origin: /https?:\/\/elasticvue.cars10k.de/
+# chrome extension
+http.cors.allow-origin: /chrome-extension:\/\/[a-z]+/
+
+# or to enable all sources:
+http.cors.allow-origin: /(https?:\/\/localhost(:[0-9]+)?)|(chrome-extension:\/\/[a-z]+)|(https?:\/\/elasticvue.cars10k.de)/
 ```
 
 Now simply restart elasticsearch and you should be able to connect.
@@ -92,9 +101,19 @@ yarn build
 yarn build --report
 ```
 
+Building the chrome extension
+
+```bash
+yarn build_chrome_extension 
+zip -r elasticvue.zip chrome_extension/*
+```
+
 ## TODO
 
-- Ping on page load
+- ping on page load
 - logo
 - help / info texts
 - rewrite connection workflow
+- specs
+- performance
+- responsiveness
