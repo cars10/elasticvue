@@ -65,7 +65,13 @@
             this.hasError = true
             this.errorMessage = error.message
             this.body = ''
-            this.showErrorSnackbar({text: 'Error:', additionalText: error.message})
+            if (error.status === 403) {
+              const hint = 'You did not configure your elasticsearch server correctly. ' +
+                'Please hit the "RESET" button in the footer to see the correct settings.'
+              this.showErrorSnackbar({text: 'Error: ' + error.message, additionalText: hint, timeout: 12000})
+            } else {
+              this.showErrorSnackbar({text: 'Error:', additionalText: error.message})
+            }
           })
       }
     },

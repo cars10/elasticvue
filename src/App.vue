@@ -41,7 +41,7 @@
 
         <v-flex xs4 text-xs-center>
           &copy;{{ new Date().getFullYear()}}<br/>
-          <v-btn @click="reset">Reset</v-btn>
+          <v-btn @click="reset" title="Reset saved settings">Reset</v-btn>
         </v-flex>
 
         <v-flex xs4 text-xs-right align-center d-inline-flex>
