@@ -21,10 +21,8 @@ import VTextField from 'vuetify/es5/components/VTextField'
 import VToolbar from 'vuetify/es5/components/VToolbar'
 import Vuetify from 'vuetify/es5/components/Vuetify'
 
-// Base styles
-import './stylesheets/style.scss'
-
 import './stylesheets/vuetify.styl'
+import './stylesheets/style.scss'
 
 Vue.use(Vuetify, {
   components: {
