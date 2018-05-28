@@ -30,7 +30,7 @@ http.cors.enabled: true
 http.cors.allow-origin: "{{domain}}"
 
 <span class="code-comment"># Alternatively you can pass a regex as the allowed origins, e.g.:</span>
-<span class="code-comment" style="display: block"># http.cors.allow-origin: /(https?:\/\/localhost(:[0-9]+)?)|(chrome-extension:\/\/[a-z]+)/</span></code>
+<span class="code-comment" style="display: block"># http.cors.allow-origin: /(https?:\/\/localhost(:[0-9]+)?)|(chrome-extension:\/\/[a-z]+)|(https?:\/\/elasticvue.cars10k.de)/</span></code>
             <!-- @formatter:on -->
             </div>
           </v-alert>
