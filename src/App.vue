@@ -36,11 +36,11 @@
     <v-footer height="auto">
       <v-layout row wrap py-3 px-3>
         <v-flex xs4 align-center d-inline-flex>
-          <v-switch label="Dark theme" v-model="theme" hide-details></v-switch>
+          <v-switch label="Dark theme" v-model="theme"></v-switch>
         </v-flex>
 
         <v-flex xs4 text-xs-center>
-          &copy;{{ new Date().getFullYear()}}<br/>
+          {{version}} - &copy; {{ new Date().getFullYear()}}<br/>
           <v-btn @click="reset" title="Reset saved settings">Reset</v-btn>
         </v-flex>
 
@@ -71,6 +71,10 @@
       }
     },
     computed: {
+      version () {
+        /* eslint-disable no-undef */
+        return `v${VERSION}`
+      },
       connectionStateName () {
         return CONNECTION_STATE_NAMES[this.$store.state.connection.status]
       },
