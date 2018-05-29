@@ -16,16 +16,15 @@
           <v-flex>
             <data-loader method="catIndices" ref="indicesLoader" renderContentWhileLoading>
               <template slot-scope="data">
-                <v-select multiple
-                          auto
-                          autocomplete
-                          label="Indices"
-                          name="Indices"
-                          id="indices"
-                          v-model="browseIndices"
-                          :items="data.body | sortIndices"
-                          :loading="data.loading">
-                </v-select>
+                <v-autocomplete multiple
+                                auto
+                                label="Indices"
+                                name="Indices"
+                                id="indices"
+                                v-model="browseIndices"
+                                :items="data.body | sortIndices"
+                                :loading="data.loading">
+                </v-autocomplete>
               </template>
             </data-loader>
           </v-flex>

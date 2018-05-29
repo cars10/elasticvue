@@ -14,26 +14,23 @@
           </v-flex>
           <v-flex md6>
             <v-flex d-inline-flex>
-              <v-select autocomplete
-                        auto
-                        multi-line
-                        max-height="500"
-                        label="Method"
-                        name="Method"
-                        v-model="method"
-                        :filter="filterMethods"
-                        :items="methods"
-                        item-text="name"
-                        item-value="name">
-              </v-select>
+              <v-autocomplete auto
+                              label="Method"
+                              name="Method"
+                              v-model="method"
+                              :filter="filterMethods"
+                              :items="methods"
+                              item-text="name"
+                              item-value="name">
+              </v-autocomplete>
             </v-flex>
           </v-flex>
 
           <v-flex md12>
-            <v-text-field multi-line label="Params" name="Params" id="params" class="font-mono"
-                          v-model="stringifiedParams"
-                          :rules="[parseParams]">
-            </v-text-field>
+            <v-textarea label="Params" name="Params" id="params" class="font-mono"
+                        v-model="stringifiedParams"
+                        :rules="[parseParams]">
+            </v-textarea>
           </v-flex>
 
           <v-btn type="submit" :disabled="!isValid" :loading="loading">Execute</v-btn>

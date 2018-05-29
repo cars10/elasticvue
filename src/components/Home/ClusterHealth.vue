@@ -9,7 +9,7 @@
     <data-loader method="clusterHealth" ref="dataLoader">
       <template slot-scope="data">
         <v-list dense>
-          <v-list-tile class="list__tile--selectable" v-for="key in Object.keys(data.body)" :key="key">
+          <v-list-tile v-for="key in Object.keys(data.body)" :key="key">
             <v-list-tile-content>{{key}}</v-list-tile-content>
             <v-list-tile-content class="align-end">
               <v-chip :class="data.body[key]" v-if="key === 'status'">{{data.body[key]}}</v-chip>
