@@ -8,7 +8,6 @@
       <v-chip :color="connectionStateClass">{{connectionStateName}}</v-chip>
 
       <v-spacer></v-spacer>
-      <connect isToolbar v-if="isConnected()" v-on:hostChanged="rerender"></connect>
       <v-spacer></v-spacer>
 
       <v-toolbar-items>
@@ -26,9 +25,9 @@
 
     <v-content>
       <v-container grid-list-md>
-        <content-or-connect>
+        <content-or-setup>
           <router-view v-if="renderRouterView"></router-view>
-        </content-or-connect>
+        </content-or-setup>
       </v-container>
       <snackbar></snackbar>
     </v-content>
@@ -58,10 +57,10 @@
 </template>
 
 <script>
-  import Connect from '@/components/shared/Connect'
-  import ContentOrConnect from '@/components/shared/ContentOrConnect'
+  import ContentOrSetup from '@/components/shared/ContentOrSetup'
   import { CONNECTION_STATE_CLASSES, CONNECTION_STATE_NAMES } from './consts'
   import Snackbar from '@/components/Snackbar'
+  import IsConnected from './mixins/IsConnected'
 
   export default {
     name: 'App',
@@ -103,9 +102,11 @@
       }
     },
     components: {
-      Connect,
-      ContentOrConnect,
+      ContentOrSetup,
       Snackbar
-    }
+    },
+    mixins: [
+      IsConnected
+    ]
   }
 </script>

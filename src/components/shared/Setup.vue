@@ -1,0 +1,36 @@
+<template>
+  <v-layout row wrap>
+    <v-flex xl8 offset-xl2 lg10 offset-lg1>
+      <v-card>
+        <v-card-title>
+          <h1 class="headline">Setup</h1>
+        </v-card-title>
+
+        <v-divider></v-divider>
+
+        <v-card-text>
+          <configure></configure>
+        </v-card-text>
+
+        <v-divider></v-divider>
+
+        <v-card-text>
+          <test-and-connect></test-and-connect>
+        </v-card-text>
+      </v-card>
+    </v-flex>
+  </v-layout>
+</template>
+
+<script>
+  import Configure from '@/components/shared/Setup/Configure'
+  import TestAndConnect from '@/components/shared/Setup/TestAndConnect'
+
+  export default {
+    name: 'setup',
+    components: {
+      Configure,
+      TestAndConnect
+    }
+  }
+</script>

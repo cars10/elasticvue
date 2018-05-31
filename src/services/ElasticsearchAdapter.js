@@ -3,10 +3,23 @@ import { REQUEST_DEFAULTS } from '../consts'
 
 export default class ElasticsearchAdapter {
   constructor (client) {
-    if (client === undefined || client === null) {
-      console.error('Client must not be null')
-    } else {
-      this.client = client
+    this.client = client
+  }
+
+  /**
+   * testAdapter
+   * * first tries to ping
+   * * then tries to search to test post requests
+   * @returns Promise
+   */
+  async testAdapter () {
+    // use async/await here because chaining both methods leads to weird error handling
+    try {
+      await this.ping()
+      await this.search({size: 0})
+      return Promise.resolve(true)
+    } catch (error) {
+      return Promise.reject(error)
     }
   }
 
@@ -108,9 +121,10 @@ export default class ElasticsearchAdapter {
   /**
    * Search api
    * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-search
-   * @param params
+   * @param searchParams
    */
-  search (params) {
+  search (searchParams) {
+    let params = searchParams || {}
     normalizeSearchParams(params)
     return this.client.search(Object.assign({}, REQUEST_DEFAULTS, params))
   }

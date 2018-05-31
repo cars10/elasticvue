@@ -9,13 +9,9 @@ export const connection = {
     elasticsearchHost: DEFAULT_HOST
   },
   mutations: {
-    setElasticsearchClient (state, client) {
-      state.elasticsearchAdapter = null
-      state.elasticsearchClient = client
+    setElasticsearchAdapter (state, adapter) {
       state.wasConnected = true
       state.status = CONNECTION_STATES.SUCCESS
-    },
-    setElasticsearchAdapter (state, adapter) {
       state.elasticsearchAdapter = adapter
     },
     setElasticsearchHost (state, host) {
