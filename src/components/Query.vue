@@ -5,6 +5,18 @@
     </v-card-title>
     <v-divider></v-divider>
     <v-card-text>
+      <v-flex d-inline-flex mb-2>
+        <v-alert :value="true" type="info">
+          This is not a curl-like interface.<br/>
+          You only have access to the elasticsearch javascript client. Example for "search" method: <br/>
+          <ul class="pl-3">
+            <li>host: localhost:9200</li>
+            <li>method: search</li>
+            <li>params: {"index": "myIndex", "q": "something"}</li>
+          </ul>
+        </v-alert>
+      </v-flex>
+
       <v-form v-on:submit.prevent="loadData">
         <v-layout row wrap>
           <v-flex md6>
