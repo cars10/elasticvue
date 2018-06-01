@@ -13,6 +13,8 @@
         testError: false,
         testSuccess: false,
         testLoading: false,
+        connectLoading: false,
+        connectError: false,
         testErrorCode: 0
       }
     },
@@ -56,7 +58,18 @@
           })
       },
       connect () {
-        this.connectWithServer().then(this.showSuccessSnackbar({text: 'Successfully connected.'}))
+        this.connectLoading = true
+        this.connectWithServer()
+          .then(() => {
+            this.connectLoading = false
+            this.connectError = false
+            this.showSuccessSnackbar({text: 'Successfully connected.'})
+          })
+          .catch(() => {
+            this.connectLoading = false
+            this.connectError = true
+            this.showErrorSnackbar({text: 'Error: could not connect.'})
+          })
       }
     },
     mixins: [ConnectWithServer]

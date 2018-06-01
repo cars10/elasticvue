@@ -22,20 +22,11 @@
 </template>
 
 <script>
-  import { CONNECTION_STATE_CLASSES, CONNECTION_STATE_NAMES } from '../../consts'
   import TestAndConnectToolbar from '@/components/Setup/TestAndConnectToolbar'
   import IsConnected from '../../mixins/IsConnected'
 
   export default {
     name: 'app-header',
-    computed: {
-      connectionStateName () {
-        return CONNECTION_STATE_NAMES[this.$store.state.connection.status]
-      },
-      connectionStateClass () {
-        return CONNECTION_STATE_CLASSES[this.$store.state.connection.status]
-      }
-    },
     components: {
       TestAndConnectToolbar
     },

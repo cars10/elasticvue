@@ -17,10 +17,17 @@
       Test connection
     </v-btn>
 
-    <v-btn v-if="isConnected && testSuccess && isSameHost" type="button" @click.native="connectAndEmitHostChanged">
+    <v-btn v-if="isConnected && testSuccess && isSameHost"
+           type="button"
+           :loading="connectLoading"
+           @click.native="connectAndEmitHostChanged">
       Reconnect
     </v-btn>
-    <v-btn v-else :disabled="!testSuccess" type="button" @click.native="connectAndEmitHostChanged">Connect</v-btn>
+    <v-btn v-else
+           :disabled="!testSuccess"
+           type="button"
+           :loading="connectLoading"
+           @click.native="connectAndEmitHostChanged">Connect</v-btn>
   </v-form>
 </template>
 
@@ -44,8 +51,18 @@
     },
     methods: {
       connectAndEmitHostChanged () {
-        this.connect()
-        this.$emit('hostChanged')
+        this.connectLoading = true
+        this.connectWithServer()
+          .then(() => {
+            this.connectLoading = false
+            this.showSuccessSnackbar({text: 'Successfully connected.'})
+            this.$emit('hostChanged')
+          })
+          .catch(error => {
+            this.connectLoading = false
+            this.$store.commit('setErrorState', error)
+            this.showErrorSnackbar({text: 'Error: could not connect.'})
+          })
       }
     },
     mixins: [

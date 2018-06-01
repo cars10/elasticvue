@@ -21,11 +21,15 @@
           Test connection
         </v-btn>
 
-        <v-btn :disabled="!testSuccess" color="success" type="button" @click.native="connect">Connect</v-btn>
+        <v-btn :disabled="!testSuccess"
+               :color="connectColor"
+               type="button"
+               :loading="connectLoading"
+               @click.native="connect">Connect</v-btn>
       </v-form>
     </v-flex>
 
-    <v-flex px-3 v-if="testError">
+    <v-flex px-3 v-if="testError || connectError">
       <v-alert :value="true" type="error">
         Could not connect. Please make sure that
         <ol class="pl-3">
@@ -46,6 +50,9 @@
     computed: {
       testConnectionColor () {
         return this.testError ? 'error' : 'primary'
+      },
+      connectColor () {
+        return this.connectError ? 'error' : 'success'
       }
     }
   }

@@ -34,6 +34,7 @@ export default class ConnectionService {
           let adapter = new ElasticsearchAdapter(this.client)
           adapter.testAdapter().then(response => response === true ? resolve(adapter) : reject(response))
         })
+        .catch(error => reject(error))
     })
   }
 }
