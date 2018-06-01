@@ -7,7 +7,7 @@
     <v-card-text>
       <v-flex d-inline-flex mb-2>
         <v-alert :value="true" type="info">
-          This is not a curl-like interface.<br/>
+          This is not a curl-like interface.
           You only have access to the elasticsearch javascript client. Example for "search" method: <br/>
           <ul class="pl-3">
             <li>host: localhost:9200</li>
