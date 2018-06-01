@@ -1,7 +1,3 @@
-<template>
-  <!-- we define a template in each component that extends this one -->
-</template>
-
 <script>
   import ConnectWithServer from '../../mixins/ConnectWithServer'
   import ConnectionService from '../../services/elasticsearch/ConnectionService'
