@@ -1,25 +1,5 @@
 <template>
-  <v-form v-on:submit.prevent="testConnection">
-    <v-flex d-inline-flex>
-      <v-text-field title="Host"
-                    label="Host"
-                    id="host"
-                    type="text"
-                    autofocus
-                    v-model="elasticsearchHost"
-                    :rules="[hostValid]"
-                    append-icon="clear"
-                    :append-icon-cb="resetElasticsearchHost"></v-text-field>
-    </v-flex>
-    <v-btn type="submit"
-           :color="testConnectionColor"
-           :loading="testLoading"
-           :disabled="hostValid !== true">
-      Test connection
-    </v-btn>
-
-    <v-btn :disabled="!testSuccess" color="success" type="button" @click.native="connect">Connect</v-btn>
-  </v-form>
+  <!-- we define a template in each component that extends this one -->
 </template>
 
 <script>
@@ -47,9 +27,6 @@
           this.testLoading = false
           this.$store.commit('setElasticsearchHost', value)
         }
-      },
-      testConnectionColor () {
-        return this.testError ? 'error' : 'primary'
       },
       hostValid () {
         return this.elasticsearchHost.match(/https?:\/\//) ? true : 'Host most contain a valid scheme'

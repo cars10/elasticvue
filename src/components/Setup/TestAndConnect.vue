@@ -42,6 +42,11 @@
 
   export default {
     name: 'test-and-connect',
-    extends: ConnectBase
+    extends: ConnectBase,
+    computed: {
+      testConnectionColor () {
+        return this.testError ? 'error' : 'primary'
+      }
+    }
   }
 </script>
