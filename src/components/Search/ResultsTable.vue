@@ -3,11 +3,11 @@
     <v-card-text>
       <v-flex right d-inline-flex>
         <v-text-field append-icon="search"
-                      v-on:keyup.esc="browseFilter = ''"
+                      v-on:keyup.esc="searchFilter = ''"
                       label="Filter via column:query"
                       name="filter"
                       id="filter"
-                      v-model="browseFilter"></v-text-field>
+                      v-model="searchFilter"></v-text-field>
       </v-flex>
     </v-card-text>
 
@@ -15,7 +15,7 @@
                   :headers="headers"
                   :items="flattenedHits"
                   :loading="loading"
-                  :search="browseFilter"
+                  :search="searchFilter"
                   :customFilter="customTableFilter"
                   class="table--condensed">
       <template slot="items" slot-scope="item">
@@ -65,12 +65,12 @@
       flattenedHits () {
         return this.hits.map(hit => flattenObject(hit))
       },
-      browseFilter: {
+      searchFilter: {
         get () {
-          return this.$store.state.browse.filter
+          return this.$store.state.search.filter
         },
         set (filter) {
-          this.$store.commit('setBrowseFilter', filter)
+          this.$store.commit('setSearchFilter', filter)
         }
       }
     },

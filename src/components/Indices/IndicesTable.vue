@@ -30,7 +30,7 @@
           <td class="text-xs-right">{{props.item['pri.store.size']}}</td>
           <td>
             <btn-group small>
-              <v-btn flat @click.native.stop="showDocuments(props.item.index)" title="Browse documents">
+              <v-btn flat @click.native.stop="showDocuments(props.item.index)" title="Search documents">
                 <v-icon>view_list</v-icon>
               </v-btn>
               <v-btn flat @click.native.stop="openIndex(props.item.index)" title="Show">
@@ -109,8 +109,8 @@
         })
       },
       showDocuments (index) {
-        this.$store.commit('setBrowseIndices', [index]) // to pre-select right index on "Browse" page
-        this.$router.push({name: 'Browse', params: {executeSearch: true}})
+        this.$store.commit('setSearchIndices', [index]) // to pre-select right index on "Search" page
+        this.$router.push({name: 'Search', params: {executeSearch: true}})
       },
       openIndex (index) {
         this.$router.push({name: 'Index', params: {index: index}})

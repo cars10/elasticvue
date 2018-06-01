@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Home'
-import Browse from '@/components/Browse'
-import Document from '@/components/Browse/Document'
+import Search from '@/components/Search'
+import Document from '@/components/Search/Document'
 import Indices from '@/components/Indices'
 import Index from '@/components/Indices/Index'
 import Utilities from '@/components/Utilities'
@@ -29,13 +29,13 @@ export default new Router({
       component: Index
     },
     {
-      path: '/browse',
-      name: 'Browse',
-      component: Browse,
+      path: '/search',
+      name: 'Search',
+      component: Search,
       props: true
     },
     {
-      path: '/browse/:index/:type/:id',
+      path: '/search/:index/:type/:id',
       name: 'Document',
       component: Document
     },

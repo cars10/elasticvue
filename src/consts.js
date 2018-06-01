@@ -40,7 +40,7 @@ export const ELASTICSEARCH_API_VERSIONS = [
 ]
 
 /**
- * Default search parameters for search and browse pages.
+ * Default search parameters for search and search pages.
  * @type {{q: string, from: number, size: number, index: Array}}
  */
 export const DEFAULT_SEARCH_PARAMS = {

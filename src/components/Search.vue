@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title>
-      <h1 class="headline">Browse</h1>
+      <h1 class="headline">Search</h1>
       <reload-button title="Reload indices" :action="() => $refs.indicesLoader.loadData()"></reload-button>
     </v-card-title>
     <v-divider></v-divider>
@@ -10,7 +10,7 @@
       <v-form v-on:submit.prevent="loadData">
         <v-layout row wrap>
           <v-flex lg2>
-            <v-text-field label="Query" name="Query" id="query" v-model="browseQ"></v-text-field>
+            <v-text-field label="Query" name="Query" id="query" v-model="searchQ"></v-text-field>
           </v-flex>
 
           <v-flex>
@@ -21,7 +21,7 @@
                                 label="Indices"
                                 name="Indices"
                                 id="indices"
-                                v-model="browseIndices"
+                                v-model="searchIndices"
                                 :items="data.body | sortIndices"
                                 :loading="data.loading">
                 </v-autocomplete>
@@ -52,35 +52,35 @@
 </template>
 
 <script>
-  import ResultsTable from '@/components/Browse/ResultsTable'
+  import ResultsTable from '@/components/Search/ResultsTable'
   import ReloadButton from '@/components/shared/ReloadButton'
 
   export default {
-    name: 'Browse',
+    name: 'Search',
     props: {
       executeSearch: {
         default: false
       }
     },
     computed: {
-      browseQ: {
+      searchQ: {
         get () {
-          return this.$store.state.browse.q
+          return this.$store.state.search.q
         },
         set (q) {
-          this.$store.commit('setBrowseQ', q)
+          this.$store.commit('setSearchQ', q)
         }
       },
-      browseIndices: {
+      searchIndices: {
         get () {
-          return this.$store.state.browse.indices
+          return this.$store.state.search.indices
         },
         set (indices) {
-          this.$store.commit('setBrowseIndices', indices)
+          this.$store.commit('setSearchIndices', indices)
         }
       },
       searchParams () {
-        return {q: this.browseQ, index: this.browseIndices}
+        return {q: this.searchQ, index: this.searchIndices}
       }
     },
     methods: {

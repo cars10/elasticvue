@@ -12,7 +12,7 @@
     <v-toolbar-items>
       <v-btn flat to="/" exact>Home</v-btn>
       <v-btn flat to="/indices">Indices</v-btn>
-      <v-btn flat to="/browse">Browse</v-btn>
+      <v-btn flat to="/search">Search</v-btn>
       <v-btn flat to="/query">Query</v-btn>
       <v-btn flat to="/utilities">Utilities</v-btn>
       <v-btn flat class="hidden-sm-and-down" href="https://github.com/cars10/elasticvue" target="_blank">
