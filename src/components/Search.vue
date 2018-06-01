@@ -16,15 +16,14 @@
           <v-flex>
             <data-loader method="catIndices" ref="indicesLoader" renderContentWhileLoading>
               <template slot-scope="data">
-                <v-autocomplete multiple
-                                auto
-                                label="Indices"
-                                name="Indices"
-                                id="indices"
-                                v-model="searchIndices"
-                                :items="data.body | sortIndices"
-                                :loading="data.loading">
-                </v-autocomplete>
+                <custom-v-autocomplete multiple
+                                       label="Indices"
+                                       name="Indices"
+                                       id="indices"
+                                       v-model="searchIndices"
+                                       :items="data.body | sortIndices"
+                                       :loading="data.loading">
+                </custom-v-autocomplete>
               </template>
             </data-loader>
           </v-flex>
@@ -54,6 +53,7 @@
 <script>
   import ResultsTable from '@/components/Search/ResultsTable'
   import ReloadButton from '@/components/shared/ReloadButton'
+  import CustomVAutocomplete from '@/components/shared/CustomVAutocomplete'
 
   export default {
     name: 'Search',
@@ -95,7 +95,8 @@
     },
     components: {
       ResultsTable,
-      ReloadButton
+      ReloadButton,
+      CustomVAutocomplete
     }
   }
 </script>

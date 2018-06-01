@@ -26,15 +26,14 @@
           </v-flex>
           <v-flex md6>
             <v-flex d-inline-flex>
-              <v-autocomplete auto
-                              label="Method"
-                              name="Method"
-                              v-model="method"
-                              :filter="filterMethods"
-                              :items="methods"
-                              item-text="name"
-                              item-value="name">
-              </v-autocomplete>
+              <custom-v-autocomplete label="Method"
+                                     name="Method"
+                                     v-model="method"
+                                     :filter="filterMethods"
+                                     :items="methods"
+                                     item-text="name"
+                                     item-value="name">
+              </custom-v-autocomplete>
             </v-flex>
           </v-flex>
 
@@ -63,6 +62,7 @@
 <script>
   import PrintPrettyOrRaw from '@/components/shared/PrintPrettyOrRaw'
   import { REQUEST_DEFAULTS } from '../consts'
+  import CustomVAutocomplete from '@/components/shared/CustomVAutocomplete'
 
   export default {
     name: 'Query',
@@ -160,7 +160,8 @@
       this.getMethods()
     },
     components: {
-      PrintPrettyOrRaw
+      PrintPrettyOrRaw,
+      CustomVAutocomplete
     }
   }
 </script>
