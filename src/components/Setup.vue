@@ -23,8 +23,8 @@
 </template>
 
 <script>
-  import Configure from '@/components/shared/Setup/Configure'
-  import TestAndConnect from '@/components/shared/Setup/TestAndConnect'
+  import Configure from '@/components/Setup/Configure'
+  import TestAndConnect from '@/components/Setup/TestAndConnect'
 
   export default {
     name: 'setup',

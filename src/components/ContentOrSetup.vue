@@ -6,8 +6,8 @@
 </template>
 
 <script>
-  import Setup from '@/components/shared/Setup'
-  import IsConnected from '../../mixins/IsConnected'
+  import Setup from '@/components//Setup'
+  import IsConnected from '../mixins/IsConnected'
 
   export default {
     name: 'content-or-setup',

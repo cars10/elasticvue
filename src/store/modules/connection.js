@@ -4,7 +4,6 @@ export const connection = {
   state: {
     status: CONNECTION_STATES.UNKNOWN,
     wasConnected: false,
-    elasticsearchClient: null,
     elasticsearchAdapter: null,
     elasticsearchHost: DEFAULT_HOST
   },
@@ -26,7 +25,6 @@ export const connection = {
     },
     resetConnection (state) {
       state.status = CONNECTION_STATES.UNKNOWN
-      state.elasticsearchClient = null
       state.elasticsearchAdapter = null
     }
   }
