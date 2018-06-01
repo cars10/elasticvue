@@ -122,10 +122,8 @@ zip -r elasticvue.zip chrome_extension/*
 
 - ping on page load
 - logo
-- help / info texts
 - specs
 - performance
-- responsiveness
 - fuzzy matching for selects and filters
 
 ## License

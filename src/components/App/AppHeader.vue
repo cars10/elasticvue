@@ -2,7 +2,6 @@
   <v-toolbar :dense="this.$vuetify.breakpoint.sm">
     <v-toolbar-title class="mr-4 hidden-xs-only">
       <router-link to="/">Elasticvue</router-link>
-      {{this.$vuetify.breakpoint.name}}
     </v-toolbar-title>
 
     <test-and-connect-toolbar class="hidden-md-and-down" v-if="isConnected"
