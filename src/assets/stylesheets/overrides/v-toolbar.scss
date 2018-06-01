@@ -1,0 +1,10 @@
+.v-toolbar__title > a {
+  text-decoration: none
+}
+
+.v-toolbar--dense {
+  .v-btn {
+    min-width: 0;
+    padding: 0 12px;
+  }
+}

@@ -123,7 +123,6 @@ zip -r elasticvue.zip chrome_extension/*
 - ping on page load
 - logo
 - help / info texts
-- rewrite connection workflow
 - specs
 - performance
 - responsiveness
