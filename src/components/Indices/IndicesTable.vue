@@ -4,7 +4,7 @@
       <v-flex right d-inline-flex>
         <v-text-field append-icon="search"
                       v-on:keyup.esc="indicesFilter = ''"
-                      label="Filter..."
+                      label="Filter via 'column:query'"
                       name="filter"
                       id="filter"
                       v-model="indicesFilter"></v-text-field>
