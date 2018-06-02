@@ -25,9 +25,33 @@ It works with every elasticsearch version supported by the [official elasticsear
 
 ## Usage
 
+### Elasticsearch configuration
+You have to set some settings to allow connection to your elasticsearch cluster, even if you run the app locally.
+
+Find your elasticsearch configuration (for example `/etc/elasticsearch/elasticsearch.yml`) and add the following lines:
+
+```yaml
+# see https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-http.html
+# Enable 'Access-Control-Allow-Origin' header
+http.cors.enabled: true
+# Then set the allowed origins based on how you run elasticvue:
+
+# for docker / running locally
+http.cors.allow-origin: /https?:\/\/localhost(:[0-9]+)?/
+# online version
+http.cors.allow-origin: /https?:\/\/elasticvue.cars10k.de/
+# chrome extension
+http.cors.allow-origin: /chrome-extension:\/\/[a-z]+/
+
+# or to enable all sources:
+http.cors.allow-origin: /(https?:\/\/localhost(:[0-9]+)?)|(chrome-extension:\/\/[a-z]+)|(https?:\/\/elasticvue.cars10k.de)/
+```
+
+Now simply restart elasticsearch and you should be able to connect.
+
 ### Running
 
-Use one of the following ways to run elasticvue:
+After configuring use one of the following ways to run elasticvue:
 
 **Online version**
 
@@ -56,31 +80,6 @@ Install the extension from the [chrome webstore](https://chrome.google.com/webst
 * Open the folder `cd elasticvue`
 * Install dependencies `yarn install`
 * Run a production server via `yarn prod` or dev server `yarn dev`
-
-
-### Elasticsearch configuration
-You have to set some settings to allow connection to your elasticsearch cluster, even if you run the app locally.
-
-Find your elasticsearch configuration (for example `/etc/elasticsearch/elasticsearch.yml`) and add the following lines:
-
-```yaml
-# see https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-http.html
-# Enable 'Access-Control-Allow-Origin' header
-http.cors.enabled: true
-# Then set the allowed origins based on how you run elasticvue:
-
-# for docker / running locally
-http.cors.allow-origin: /https?:\/\/localhost(:[0-9]+)?/
-# online version
-http.cors.allow-origin: /https?:\/\/elasticvue.cars10k.de/
-# chrome extension
-http.cors.allow-origin: /chrome-extension:\/\/[a-z]+/
-
-# or to enable all sources:
-http.cors.allow-origin: /(https?:\/\/localhost(:[0-9]+)?)|(chrome-extension:\/\/[a-z]+)|(https?:\/\/elasticvue.cars10k.de)/
-```
-
-Now simply restart elasticsearch and you should be able to connect.
 
 ## Tips
 
