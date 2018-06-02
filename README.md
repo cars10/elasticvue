@@ -135,7 +135,6 @@ zip -r elasticvue.zip chrome_extension/*
 - logo
 - specs
 - performance
-- fuzzy matching for selects and filters
 
 ## License
 
