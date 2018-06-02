@@ -29,10 +29,12 @@
               <custom-v-autocomplete label="Method"
                                      name="Method"
                                      v-model="method"
-                                     :filter="filterMethods"
                                      :items="methods"
                                      item-text="name"
                                      item-value="name">
+                <template slot="item" slot-scope="data">
+                  {{data.item.name}}
+                </template>
               </custom-v-autocomplete>
             </v-flex>
           </v-flex>
@@ -146,14 +148,6 @@
         } catch (error) {
           return REQUEST_DEFAULTS
         }
-      },
-      filterMethods (item, queryText, itemText) {
-        const hasValue = val => val != null ? val.toString().toLowerCase() : ''
-        const query = hasValue(queryText)
-        if (query === '') return true
-        const text = hasValue(itemText)
-        const textWithoutDot = text.replace('.', '')
-        return text.indexOf(query) > -1 || textWithoutDot.indexOf(query) > -1
       }
     },
     created () {

@@ -4,6 +4,7 @@ import VApp from 'vuetify/es5/components/VApp'
 import VAutocomplete from 'vuetify/es5/components/VAutocomplete'
 import VBtn from 'vuetify/es5/components/VBtn'
 import VCard from 'vuetify/es5/components/VCard'
+import VCheckbox from 'vuetify/es5/components/VCheckbox'
 import VChip from 'vuetify/es5/components/VChip'
 import VDataTable from 'vuetify/es5/components/VDataTable'
 import VDivider from 'vuetify/es5/components/VDivider'
@@ -33,6 +34,7 @@ Vue.use(Vuetify, {
     VAutocomplete,
     VBtn,
     VCard,
+    VCheckbox,
     VChip,
     VDataTable,
     VDivider,
