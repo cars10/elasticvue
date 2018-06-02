@@ -9,7 +9,7 @@
     <data-loader method="clientInfo" flatten ref="dataLoader">
       <template slot-scope="data">
         <v-list dense>
-          <v-list-tile class="list__tile--selectable" v-for="key in Object.keys(data.body)" :key="key">
+          <v-list-tile v-for="key in Object.keys(data.body)" :key="key">
             <v-list-tile-content>{{key}}</v-list-tile-content>
             <v-list-tile-content class="align-end">{{data.body[key]}}
             </v-list-tile-content>

@@ -1,8 +1,10 @@
 import Vue from 'vue'
 import VAlert from 'vuetify/es5/components/VAlert'
 import VApp from 'vuetify/es5/components/VApp'
+import VAutocomplete from 'vuetify/es5/components/VAutocomplete'
 import VBtn from 'vuetify/es5/components/VBtn'
 import VCard from 'vuetify/es5/components/VCard'
+import VCheckbox from 'vuetify/es5/components/VCheckbox'
 import VChip from 'vuetify/es5/components/VChip'
 import VDataTable from 'vuetify/es5/components/VDataTable'
 import VDivider from 'vuetify/es5/components/VDivider'
@@ -17,21 +19,22 @@ import VSnackBar from 'vuetify/es5/components/VSnackbar'
 import VSubheader from 'vuetify/es5/components/VSubheader'
 import VSwitch from 'vuetify/es5/components/VSwitch'
 import VTabs from 'vuetify/es5/components/VTabs'
+import VTextarea from 'vuetify/es5/components/VTextarea'
 import VTextField from 'vuetify/es5/components/VTextField'
 import VToolbar from 'vuetify/es5/components/VToolbar'
 import Vuetify from 'vuetify/es5/components/Vuetify'
 
-// Base styles
-import './stylesheets/style.scss'
-
 import './stylesheets/vuetify.styl'
+import './stylesheets/style.scss'
 
 Vue.use(Vuetify, {
   components: {
     VAlert,
     VApp,
+    VAutocomplete,
     VBtn,
     VCard,
+    VCheckbox,
     VChip,
     VDataTable,
     VDivider,
@@ -46,6 +49,7 @@ Vue.use(Vuetify, {
     VSubheader,
     VSwitch,
     VTabs,
+    VTextarea,
     VTextField,
     VToolbar
   }

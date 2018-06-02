@@ -7,7 +7,7 @@ export default {
       this.$store.commit('showSnackbar', Object.assign({}, {timeout: 5000, color: 'success'}, props))
     },
     showErrorSnackbar (props) {
-      this.$store.commit('showSnackbar', Object.assign({}, {timeout: 7000, color: 'error'}, props))
+      this.$store.commit('showSnackbar', Object.assign({}, {timeout: 10000, color: 'error'}, props))
     }
   }
 }

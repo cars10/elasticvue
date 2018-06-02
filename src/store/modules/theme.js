@@ -1,6 +1,6 @@
 export const theme = {
   state: {
-    dark: false
+    dark: true
   },
   mutations: {
     setTheme (state, flag) {

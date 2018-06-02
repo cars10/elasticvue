@@ -4,18 +4,13 @@ export const connection = {
   state: {
     status: CONNECTION_STATES.UNKNOWN,
     wasConnected: false,
-    elasticsearchClient: null,
     elasticsearchAdapter: null,
     elasticsearchHost: DEFAULT_HOST
   },
   mutations: {
-    setElasticsearchClient (state, client) {
-      state.elasticsearchAdapter = null
-      state.elasticsearchClient = client
+    setElasticsearchAdapter (state, adapter) {
       state.wasConnected = true
       state.status = CONNECTION_STATES.SUCCESS
-    },
-    setElasticsearchAdapter (state, adapter) {
       state.elasticsearchAdapter = adapter
     },
     setElasticsearchHost (state, host) {
@@ -30,7 +25,6 @@ export const connection = {
     },
     resetConnection (state) {
       state.status = CONNECTION_STATES.UNKNOWN
-      state.elasticsearchClient = null
       state.elasticsearchAdapter = null
     }
   }

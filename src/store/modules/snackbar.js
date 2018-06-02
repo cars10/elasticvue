@@ -1,7 +1,7 @@
 export const snackbar = {
   state: {
     visible: false,
-    timeout: 5000,
+    timeout: 6000,
     color: null,
     text: '',
     additionalText: ''

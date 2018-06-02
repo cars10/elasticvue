@@ -19,7 +19,7 @@ It works with every elasticsearch version supported by the [official elasticsear
 
 * Cluster overview
 * Indices overview, index detailed view
-* Browse documents by searching
+* Search documents
 * Manually running every query supported by the official elasticsearch client
 * Utilities, e.g. deleting all indices
 
@@ -82,6 +82,17 @@ http.cors.allow-origin: /(https?:\/\/localhost(:[0-9]+)?)|(chrome-extension:\/\/
 
 Now simply restart elasticsearch and you should be able to connect.
 
+## Tips
+
+* All table filters use fuzzy matching. You can also specify a single column to search in. Examples:
+
+```bash
+myquery # search in all columns for "myQuery"
+index:myQuery # only search the "index" column for "myQuery"
+```
+
+* All select inputs are filterable and use fuzzy matching
+
 ## Development
 
 Setup and running
@@ -122,11 +133,8 @@ zip -r elasticvue.zip chrome_extension/*
 
 - ping on page load
 - logo
-- help / info texts
-- rewrite connection workflow
 - specs
 - performance
-- responsiveness
 
 ## License
 

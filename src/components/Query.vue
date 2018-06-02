@@ -5,6 +5,18 @@
     </v-card-title>
     <v-divider></v-divider>
     <v-card-text>
+      <v-flex d-inline-flex mb-2>
+        <v-alert :value="true" type="info">
+          This is not a curl-like interface.
+          You only have access to the elasticsearch javascript client. Example for "search" method: <br/>
+          <ul class="pl-3">
+            <li>host: localhost:9200</li>
+            <li>method: search</li>
+            <li>params: {"index": "myIndex", "q": "something"}</li>
+          </ul>
+        </v-alert>
+      </v-flex>
+
       <v-form v-on:submit.prevent="loadData">
         <v-layout row wrap>
           <v-flex md6>
@@ -14,26 +26,24 @@
           </v-flex>
           <v-flex md6>
             <v-flex d-inline-flex>
-              <v-select autocomplete
-                        auto
-                        multi-line
-                        max-height="500"
-                        label="Method"
-                        name="Method"
-                        v-model="method"
-                        :filter="filterMethods"
-                        :items="methods"
-                        item-text="name"
-                        item-value="name">
-              </v-select>
+              <custom-v-autocomplete label="Method"
+                                     name="Method"
+                                     v-model="method"
+                                     :items="methods"
+                                     item-text="name"
+                                     item-value="name">
+                <template slot="item" slot-scope="data">
+                  {{data.item.name}}
+                </template>
+              </custom-v-autocomplete>
             </v-flex>
           </v-flex>
 
           <v-flex md12>
-            <v-text-field multi-line label="Params" name="Params" id="params" class="font-mono"
-                          v-model="stringifiedParams"
-                          :rules="[parseParams]">
-            </v-text-field>
+            <v-textarea label="Params" name="Params" id="params" class="font-mono"
+                        v-model="stringifiedParams"
+                        :rules="[parseParams]">
+            </v-textarea>
           </v-flex>
 
           <v-btn type="submit" :disabled="!isValid" :loading="loading">Execute</v-btn>
@@ -54,6 +64,7 @@
 <script>
   import PrintPrettyOrRaw from '@/components/shared/PrintPrettyOrRaw'
   import { REQUEST_DEFAULTS } from '../consts'
+  import CustomVAutocomplete from '@/components/shared/CustomVAutocomplete'
 
   export default {
     name: 'Query',
@@ -137,21 +148,14 @@
         } catch (error) {
           return REQUEST_DEFAULTS
         }
-      },
-      filterMethods (item, queryText, itemText) {
-        const hasValue = val => val != null ? val.toString().toLowerCase() : ''
-        const query = hasValue(queryText)
-        if (query === '') return true
-        const text = hasValue(itemText)
-        const textWithoutDot = text.replace('.', '')
-        return text.indexOf(query) > -1 || textWithoutDot.indexOf(query) > -1
       }
     },
     created () {
       this.getMethods()
     },
     components: {
-      PrintPrettyOrRaw
+      PrintPrettyOrRaw,
+      CustomVAutocomplete
     }
   }
 </script>

@@ -1,6 +1,6 @@
 {
   "name": "elasticvue",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Elasticsearch frontend",
   "author": "Carsten König <carstenkoenig92@gmail.com>",
   "repository": {
@@ -12,16 +12,17 @@
     "dev": "node build/dev-server.js",
     "prod": "node build/prod-server.js",
     "build": "node build/build.js",
-    "build_chrome_extension": "rm -rf dist && rm -rf chrome_extension/{static,index.html} && SKIP_PRODUCTION_GZIP=true yarn build && cp -r dist/* chrome_extension/",
+    "build_chrome_extension": "SKIP_PRODUCTION_GZIP=true yarn build && cp -r dist/* chrome_extension/",
     "test": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
     "lint": "eslint --ext .js,.vue src test/unit/specs"
   },
   "dependencies": {
     "elasticsearch": "^14.2.1",
+    "fuzzysort": "^1.1.2",
     "vue": "^2.5.16",
     "vue-print-object": "^0.0.7",
     "vue-router": "^3.0.1",
-    "vuetify": "^1.0.17",
+    "vuetify": "^1.1.0-beta.0",
     "vuex": "^3.0.1",
     "vuex-persistedstate": "^2.5.1"
   },

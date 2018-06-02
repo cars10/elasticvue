@@ -2,7 +2,6 @@ import Vue from 'vue'
 import DataLoader from '@/components/shared/DataLoader'
 import ReloadButton from '@/components/shared/ReloadButton'
 import GetElasticsearchAdapter from './mixins/GetElasticsearchAdapter'
-import IsConnected from './mixins/IsConnected'
 import ShowSnackbar from './mixins/ShowSnackbar'
 
 // Global components
@@ -11,5 +10,4 @@ Vue.component('reload-button', ReloadButton)
 
 // Global mixins
 Vue.mixin(GetElasticsearchAdapter)
-Vue.mixin(IsConnected)
 Vue.mixin(ShowSnackbar)

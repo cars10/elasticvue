@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.3
+
+* updates dependencies
+* show version in footer
+* renamed "browse" to "search"
+* enabled fuzzy matching for all filters (tables and selects)
+* reworked connection workflow
+
 ## 0.0.2
 
 * Adds tooltip to reset button

@@ -31,7 +31,7 @@ export function isEmpty (value) {
 }
 
 /**
- * Returns the unique keys every object of an array of objects
+ * Returns the unique keys of every object of an array of objects
  * Example:
  *   var array = [{a: 1, b: {b1: 1, b2: 2}}, {b: {b2: 2, b3: 3}, c: 4}]
  *   objectArrayUniqueKeys (array)      => ['a', 'b', 'c']

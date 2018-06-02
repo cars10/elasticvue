@@ -1,5 +1,5 @@
 <template>
-  <v-list-tile class="list__tile--selectable">
+  <v-list-tile>
     <v-list-tile-content>{{text}}</v-list-tile-content>
     <v-list-tile-action>
       <v-btn @click.native="confirmMethod" :loading="loading" :color="color">Run</v-btn>

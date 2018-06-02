@@ -1,11 +1,9 @@
-div.list__tile--selectable {
-  div.list__tile {
-    user-select: initial;
-  }
+div.v-list__tile {
+  user-select: initial;
 }
 
-.menu__content--select {
-  .list__tile {
+.v-autocomplete__content {
+  .v-list__tile {
     height: 36px;
   }
 }

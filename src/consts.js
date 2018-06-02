@@ -15,16 +15,6 @@ export const CONNECTION_STATES = {
   ERROR: 'error'
 }
 
-export const CONNECTION_STATE_NAMES = {}
-CONNECTION_STATE_NAMES[CONNECTION_STATES.UNKNOWN] = 'unknown'
-CONNECTION_STATE_NAMES[CONNECTION_STATES.SUCCESS] = 'connected'
-CONNECTION_STATE_NAMES[CONNECTION_STATES.ERROR] = 'disconnected'
-
-export const CONNECTION_STATE_CLASSES = {}
-CONNECTION_STATE_CLASSES[CONNECTION_STATES.UNKNOWN] = ''
-CONNECTION_STATE_CLASSES[CONNECTION_STATES.SUCCESS] = 'green'
-CONNECTION_STATE_CLASSES[CONNECTION_STATES.ERROR] = 'red'
-
 /**
  * Some defaults used for initial setup.
  */
@@ -50,7 +40,7 @@ export const ELASTICSEARCH_API_VERSIONS = [
 ]
 
 /**
- * Default search parameters for search and browse pages.
+ * Default search parameters for search and search pages.
  * @type {{q: string, from: number, size: number, index: Array}}
  */
 export const DEFAULT_SEARCH_PARAMS = {
