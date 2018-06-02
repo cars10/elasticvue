@@ -16,7 +16,7 @@
                   :items="flattenedHits"
                   :loading="loading"
                   :search="searchFilter"
-                  :customFilter="customTableFilter"
+                  :custom-filter="callFuzzyTableFilter"
                   class="table--condensed">
       <template slot="items" slot-scope="item">
         <tr @click="openDocument(item.item)" class="tr--clickable">
@@ -39,6 +39,7 @@
 
 <script>
   import { flattenObject, objectArrayUniqueKeys } from '../../helpers/utilities'
+  import { fuzzyTableFilter } from '../../helpers/filters'
 
   const DEFAULT_KEYS = ['_index', '_id', '_type', '_score']
 
@@ -78,20 +79,8 @@
       openDocument (item) {
         this.$router.push({name: 'Document', params: {index: item._index, type: item._type, id: item._id}})
       },
-      customTableFilter (items, search, filter, headers) {
-        search = search.toString().toLowerCase()
-        if (search.trim() === '') return items
-
-        const props = headers.map(h => h.value)
-        const searchSplit = search.split(':')
-
-        if (searchSplit.length > 1 && props.includes(searchSplit[0])) {
-          const column = searchSplit[0]
-          const query = searchSplit[1]
-          return items.filter(item => filter(item[column], query))
-        } else {
-          return items.filter(item => props.some(prop => filter(item[prop], search)))
-        }
+      callFuzzyTableFilter (items, search, filter, headers) {
+        return fuzzyTableFilter(items, search, filter, headers)
       }
     }
   }

@@ -14,6 +14,7 @@
                   :headers="headers"
                   :items="indices"
                   :custom-sort="sortIndices"
+                  :custom-filter="callFuzzyTableFilter"
                   :search="indicesFilter"
                   :loading="loading"
                   class="table--condensed">
@@ -49,13 +50,14 @@
 
 <script>
   import BtnGroup from '@/components/shared/BtnGroup'
+  import { fuzzyTableFilter } from '../../helpers/filters'
 
   export default {
     name: 'IndicesTable',
     data () {
       return {
         headers: [
-          {text: 'Name', value: 'index'},
+          {text: 'Index', value: 'index'},
           {text: 'Health', value: 'health'},
           {text: 'Status', value: 'status'},
           {text: 'UUID', value: 'uuid'},
@@ -125,6 +127,9 @@
             })
             .catch(error => this.$store.commit('setErrorState', error))
         }
+      },
+      callFuzzyTableFilter (items, search, filter, headers) {
+        return fuzzyTableFilter(items, search, filter, headers)
       }
     },
     components: {
