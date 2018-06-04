@@ -10,7 +10,12 @@
       <v-form v-on:submit.prevent="loadData">
         <v-layout row wrap>
           <v-flex lg2>
-            <v-text-field label="Query" name="Query" id="query" v-model="searchQ"></v-text-field>
+            <v-text-field label="Query"
+                          name="Query"
+                          id="query"
+                          v-model="searchQ"
+                          append-icon="clear"
+                          :append-icon-cb="resetQuery"></v-text-field>
           </v-flex>
 
           <v-flex>
@@ -94,6 +99,9 @@
     methods: {
       loadData () {
         this.$refs.resultsLoader.loadData()
+      },
+      resetQuery () {
+        this.searchQ = '*'
       }
     },
     filters: {
