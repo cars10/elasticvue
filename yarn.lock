@@ -1143,6 +1143,10 @@ brace-expansion@^1.1.7:
     balanced-match "^1.0.0"
     concat-map "0.0.1"
 
+brace@^0.11.1:
+  version "0.11.1"
+  resolved "https://registry.yarnpkg.com/brace/-/brace-0.11.1.tgz#4896fcc9d544eef45f4bb7660db320d3b379fe58"
+
 braces@^0.1.2:
   version "0.1.5"
   resolved "https://registry.yarnpkg.com/braces/-/braces-0.1.5.tgz#c085711085291d8b75fdd74eab0f8597280711e6"
@@ -7469,8 +7473,8 @@ vue@^2.5.16:
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.5.16.tgz#07edb75e8412aaeed871ebafa99f4672584a0085"
 
 vuetify@^1.1.0-beta.0:
-  version "1.1.0-beta.0"
-  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-1.1.0-beta.0.tgz#4ac3c6f9d98626cf9767ba0e2840c048a058d933"
+  version "1.1.0-beta.2"
+  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-1.1.0-beta.2.tgz#834339b16dab94ca9f47c4acfee7b61d2ec5300a"
 
 vuex-persistedstate@^2.5.1:
   version "2.5.4"
