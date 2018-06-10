@@ -32,15 +32,18 @@ export default {
     },
     setEditorValue (value) {
       if (typeof value === 'string') {
-        this.editor.setValue(value)
+        this.editor.setValue(value, 1)
       } else {
-        this.editor.setValue(JSON.stringify(value, null, '\t'))
+        this.editor.setValue(JSON.stringify(value, null, '\t'), 1)
       }
     }
   },
   watch: {
     darkTheme (value) {
       this.setTheme(value)
+    },
+    code (value) {
+      if (this.readOnly) this.setEditorValue(value)
     }
   },
   mounted () {
