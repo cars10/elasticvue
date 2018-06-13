@@ -86,30 +86,6 @@ export function flattenObject (object, deep, concatNames) {
   return duplicatedObject
 }
 
-export function flattenObjectAndStringifyValues (object) {
-  let duplicatedObject = Object.assign({}, object) // copy so we do not change the original object
-  Object.entries(duplicatedObject).forEach(([key, value]) => {
-    if (typeof value === 'object' && value !== null) {
-      Object.assign(duplicatedObject, flattenObjectAndStringifyValues(value))
-      delete duplicatedObject[key]
-    } else {
-      duplicatedObject[key] = stringifyValue(value)
-    }
-  })
-  return duplicatedObject
-}
-
-function stringifyValue (value) {
-  if (typeof value === 'object' && value === null) return ''
-  if (typeof value === 'object') {
-    if (value === null) return ''
-    if (Array.isArray(value)) return value.join('')
-  }
-  if (typeof value === 'undefined') return ''
-  if (typeof value === 'boolean' || typeof value === 'number') return String(value)
-  return value
-}
-
 function appendStringToAllObjectKeys (object, append) {
   for (let key of Object.keys(object)) {
     renameKey(object, append + '.' + key, key)

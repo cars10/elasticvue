@@ -51,7 +51,7 @@
 <script>
   import BtnGroup from '@/components/shared/BtnGroup'
   import { fuzzyTableFilter } from '../../helpers/filters'
-  import { flattenObjectAndStringifyValues } from '../../helpers/utilities'
+  import { flattenObject } from '../../helpers/utilities'
 
   export default {
     name: 'IndicesTable',
@@ -89,7 +89,7 @@
         }
       },
       flattenedItems () {
-        return this.indices.map(hit => flattenObjectAndStringifyValues(hit))
+        return this.indices.map(hit => flattenObject(hit))
       }
     },
     methods: {
