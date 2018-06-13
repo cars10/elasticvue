@@ -2,7 +2,7 @@
   <v-footer height="auto">
     <v-layout row wrap py-3 px-3>
       <v-flex xs4 align-center d-inline-flex>
-        <v-switch label="Dark theme" v-model="theme"></v-switch>
+        <v-switch id="theme_select" label="Dark theme" v-model="theme"></v-switch>
       </v-flex>
 
       <v-flex xs4 text-xs-center>

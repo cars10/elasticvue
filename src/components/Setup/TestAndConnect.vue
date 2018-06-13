@@ -15,6 +15,7 @@
                         @click:append="resetElasticsearchHost"></v-text-field>
         </v-flex>
         <v-btn type="submit"
+               id="test_connection"
                :color="testConnectionColor"
                :loading="testLoading"
                :disabled="hostValid !== true">
@@ -22,6 +23,7 @@
         </v-btn>
 
         <v-btn :disabled="!testSuccess"
+               id="connect"
                :color="connectColor"
                type="button"
                :loading="connectLoading"
