@@ -3161,9 +3161,9 @@ functional-red-black-tree@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/functional-red-black-tree/-/functional-red-black-tree-1.0.1.tgz#1b0ab3bd553b2a0d6399d29c0e3ea0b252078327"
 
-fuzzysort@^1.1.2:
+"fuzzysort@git://github.com/cars10/fuzzysort.git#master":
   version "1.1.2"
-  resolved "https://registry.yarnpkg.com/fuzzysort/-/fuzzysort-1.1.2.tgz#0df31da9d1a2b5c645fa80b18736f7e320d8a29f"
+  resolved "git://github.com/cars10/fuzzysort.git#6f3a8206daf8a2c3de6fdc7fcd551d048cd36dd5"
 
 gauge@~2.7.3:
   version "2.7.4"
