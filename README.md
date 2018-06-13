@@ -134,6 +134,7 @@ zip -r elasticvue.zip chrome_extension/*
 - logo
 - specs
 - performance
+- form submit with ctrl+enter
 
 ## License
 

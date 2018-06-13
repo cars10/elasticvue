@@ -1,6 +1,6 @@
 {
   "name": "elasticvue",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Elasticsearch frontend",
   "author": "Carsten König <carstenkoenig92@gmail.com>",
   "repository": {
@@ -17,12 +17,13 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs"
   },
   "dependencies": {
+    "brace": "^0.11.1",
     "elasticsearch": "^14.2.1",
-    "fuzzysort": "^1.1.2",
+    "fuzzysort": "git://github.com/cars10/fuzzysort.git#master",
     "vue": "^2.5.16",
     "vue-print-object": "^0.0.7",
     "vue-router": "^3.0.1",
-    "vuetify": "^1.1.0-beta.0",
+    "vuetify": "^1.1.0-beta.3",
     "vuex": "^3.0.1",
     "vuex-persistedstate": "^2.5.1"
   },
@@ -76,6 +77,7 @@
     "optimize-css-assets-webpack-plugin": "^3.2.0",
     "ora": "^2.0.0",
     "phantomjs-prebuilt": "^2.1.14",
+    "puppeteer": "^1.5.0",
     "rimraf": "^2.6.0",
     "sass-loader": "^6.0.7",
     "semver": "^5.3.0",

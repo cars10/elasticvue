@@ -1,0 +1,7 @@
+.bordered {
+  border: 2px solid #ccc;
+}
+
+.theme--dark .bordered {
+  border: 2px solid #212121;
+}

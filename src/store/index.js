@@ -6,6 +6,7 @@ import { connection } from './modules/connection'
 import { theme } from './modules/theme'
 import { snackbar } from './modules/snackbar'
 import { indices } from './modules/indices'
+import { query } from './modules/query'
 
 Vue.use(Vuex)
 
@@ -16,6 +17,7 @@ export default new Vuex.Store({
     connection,
     theme,
     snackbar,
-    indices
+    indices,
+    query
   }
 })

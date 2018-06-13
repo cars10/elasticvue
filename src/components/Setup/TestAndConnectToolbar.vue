@@ -9,7 +9,7 @@
                     solo
                     v-model="elasticsearchHost"
                     append-icon="clear"
-                    :append-icon-cb="resetElasticsearchHost"></v-text-field>
+                    @click:append="resetElasticsearchHost"></v-text-field>
     </v-toolbar-items>
     <v-btn type="submit"
            :loading="testLoading"

@@ -5,7 +5,9 @@
 
     <v-tab-item key="pretty">
       <v-flex pa-3>
-        <vue-print-object :printableObject="document"></vue-print-object>
+        <div style="height: 800px; width: 100%">
+          <code-editor readOnly :code="document"></code-editor>
+        </div>
       </v-flex>
     </v-tab-item>
 
@@ -19,16 +21,19 @@
 
 <script>
   import VuePrintObject from 'vue-print-object'
+  import CodeEditor from '@/components/shared/CodeEditor'
 
   export default {
     name: 'PrintPrettyOrRaw',
     props: {
       document: {
-        default: () => {}
+        default: () => {
+        }
       }
     },
     components: {
-      VuePrintObject
+      VuePrintObject,
+      CodeEditor
     }
   }
 </script>

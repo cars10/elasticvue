@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.0
+
+* updates dependencies
+* fixed some bugs regarding fuzzy matching
+* add better editor to view query results (ace)
+
 ## 0.0.3
 
 * updates dependencies

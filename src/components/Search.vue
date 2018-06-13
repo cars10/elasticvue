@@ -10,7 +10,12 @@
       <v-form v-on:submit.prevent="loadData">
         <v-layout row wrap>
           <v-flex lg2>
-            <v-text-field label="Query" name="Query" id="query" v-model="searchQ"></v-text-field>
+            <v-text-field label="Query"
+                          name="Query"
+                          id="query"
+                          v-model="searchQ"
+                          append-icon="clear"
+                          @click:append="resetQuery"></v-text-field>
           </v-flex>
 
           <v-flex>
@@ -25,7 +30,7 @@
                                        :loading="data.loading">
                   <template slot="item" slot-scope="data">
                     <v-list-tile-action>
-                      <v-checkbox color="primary" :value="searchIndices.includes(data.item)"></v-checkbox>
+                      <v-checkbox color="primary" :input-value="searchIndices.includes(data.item)"></v-checkbox>
                     </v-list-tile-action>
                     <v-list-tile-content>
                       {{data.item}}
@@ -94,6 +99,12 @@
     methods: {
       loadData () {
         this.$refs.resultsLoader.loadData()
+      },
+      resetQuery () {
+        this.searchQ = '*'
+      },
+      isChecked (item) {
+        return this.searchIndices.includes(item)
       }
     },
     filters: {
