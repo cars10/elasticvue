@@ -30,7 +30,7 @@
                                        :loading="data.loading">
                   <template slot="item" slot-scope="data">
                     <v-list-tile-action>
-                      <v-checkbox color="primary" :value="searchIndices.includes(data.item)"></v-checkbox>
+                      <v-checkbox color="primary" :input-value="searchIndices.includes(data.item)"></v-checkbox>
                     </v-list-tile-action>
                     <v-list-tile-content>
                       {{data.item}}
@@ -102,6 +102,9 @@
       },
       resetQuery () {
         this.searchQ = '*'
+      },
+      isChecked (item) {
+        return this.searchIndices.includes(item)
       }
     },
     filters: {
