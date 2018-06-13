@@ -38,7 +38,7 @@
 </template>
 
 <script>
-  import { flattenObject, objectArrayUniqueKeys } from '../../helpers/utilities'
+  import { flattenObjectAndStringifyValues, objectArrayUniqueKeys } from '../../helpers/utilities'
   import { fuzzyTableFilter } from '../../helpers/filters'
 
   const DEFAULT_KEYS = ['_index', '_id', '_type', '_score']
@@ -64,7 +64,7 @@
         return objectArrayUniqueKeys(this.hits, '_source')
       },
       flattenedHits () {
-        return this.hits.map(hit => flattenObject(hit))
+        return this.hits.map(hit => flattenObjectAndStringifyValues(hit))
       },
       searchFilter: {
         get () {

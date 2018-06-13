@@ -12,7 +12,7 @@
     </v-card-text>
     <v-data-table :rows-per-page-items="[10, 25, 100]"
                   :headers="headers"
-                  :items="indices"
+                  :items="flattenedItems"
                   :custom-sort="sortIndices"
                   :custom-filter="callFuzzyTableFilter"
                   :search="indicesFilter"
@@ -51,22 +51,23 @@
 <script>
   import BtnGroup from '@/components/shared/BtnGroup'
   import { fuzzyTableFilter } from '../../helpers/filters'
+  import { flattenObjectAndStringifyValues } from '../../helpers/utilities'
 
   export default {
     name: 'IndicesTable',
     data () {
       return {
         headers: [
-          {text: 'Index', value: 'index'},
-          {text: 'Health', value: 'health'},
-          {text: 'Status', value: 'status'},
-          {text: 'UUID', value: 'uuid'},
-          {text: 'Pri', value: 'pri', align: 'right'},
-          {text: 'Rep', value: 'rep', align: 'right'},
-          {text: 'Docs', value: 'docs.count', align: 'right'},
-          {text: 'Store size', value: 'store.size', align: 'right'},
-          {text: 'Pri Store size', value: 'pri.store.size', align: 'right'},
-          {text: 'Actions', value: 'actions', sortable: false}
+          {text: 'index', value: 'index'},
+          {text: 'health', value: 'health'},
+          {text: 'status', value: 'status'},
+          {text: 'uuid', value: 'uuid'},
+          {text: 'pri', value: 'pri', align: 'right'},
+          {text: 'rep', value: 'rep', align: 'right'},
+          {text: 'docs.count', value: 'docs.count', align: 'right'},
+          {text: 'store.size', value: 'store.size', align: 'right'},
+          {text: 'pri.store.size', value: 'pri.store.size', align: 'right'},
+          {text: '', value: 'actions', sortable: false}
         ]
       }
     },
@@ -86,6 +87,9 @@
         set (filter) {
           this.$store.commit('setIndicesFilter', filter)
         }
+      },
+      flattenedItems () {
+        return this.indices.map(hit => flattenObjectAndStringifyValues(hit))
       }
     },
     methods: {
