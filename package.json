@@ -1,6 +1,6 @@
 {
   "name": "elasticvue",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Elasticsearch frontend",
   "author": "Carsten König <carstenkoenig92@gmail.com>",
   "repository": {
@@ -19,7 +19,7 @@
   "dependencies": {
     "brace": "^0.11.1",
     "elasticsearch": "^14.2.1",
-    "fuzzysort": "git://github.com/cars10/fuzzysort.git#master",
+    "fuzzysort": "cars10/fuzzysort#master",
     "vue": "^2.5.16",
     "vue-print-object": "^0.0.7",
     "vue-router": "^3.0.1",

@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.1
+
+* fix github dependency in package.json because docker image did not build
+
 ## 0.1.0
 
 * updates dependencies
