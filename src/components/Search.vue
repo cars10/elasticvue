@@ -15,7 +15,7 @@
                           id="query"
                           v-model="searchQ"
                           append-icon="clear"
-                          :append-icon-cb="resetQuery"></v-text-field>
+                          @click:append="resetQuery"></v-text-field>
           </v-flex>
 
           <v-flex>

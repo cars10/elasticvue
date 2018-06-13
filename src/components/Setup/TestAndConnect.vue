@@ -12,7 +12,7 @@
                         v-model="elasticsearchHost"
                         :rules="[hostValid]"
                         append-icon="clear"
-                        :append-icon-cb="resetElasticsearchHost"></v-text-field>
+                        @click:append="resetElasticsearchHost"></v-text-field>
         </v-flex>
         <v-btn type="submit"
                :color="testConnectionColor"
