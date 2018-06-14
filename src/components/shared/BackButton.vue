@@ -11,9 +11,11 @@
     props: {
       route: {
         type: Object,
-        default: {
-          name: 'Home',
-          params: {}
+        default: () => {
+          return {
+            name: 'Home',
+            params: {}
+          }
         }
       },
       text: {
