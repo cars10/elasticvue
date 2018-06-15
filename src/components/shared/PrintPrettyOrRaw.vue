@@ -20,8 +20,7 @@
 </template>
 
 <script>
-  import VuePrintObject from 'vue-print-object'
-  import CodeEditor from '@/components/shared/CodeEditor'
+  import Loading from '@/components/shared/Loading'
 
   export default {
     name: 'PrintPrettyOrRaw',
@@ -32,8 +31,10 @@
       }
     },
     components: {
-      VuePrintObject,
-      CodeEditor
+      'code-editor': () => ({
+        component: import('@/components/shared/CodeEditor'),
+        loading: Loading
+      })
     }
   }
 </script>
