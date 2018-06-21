@@ -40,7 +40,7 @@ describe('BackButton.vue', () => {
     expect(wrapper.text()).contains(text)
   })
 
-  it('should render custom item', () => {
+  it('should render custom icon', () => {
     const icon = 'cached'
     const wrapper = mount(BackButton, {
       localVue: localVue,
