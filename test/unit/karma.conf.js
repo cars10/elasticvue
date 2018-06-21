@@ -4,15 +4,11 @@
 //   https://github.com/webpack/karma-webpack
 
 process.env.CHROME_BIN = require('puppeteer').executablePath()
-var webpackConfig = require('../../build/webpack.test.conf')
+const webpackConfig = require('../../build/webpack.test.conf')
 
 module.exports = function (config) {
   config.set({
-    // to run in additional browsers:
-    // 1. install corresponding karma launcher
-    //    http://karma-runner.github.io/0.13/config/browsers.html
-    // 2. add it to the `browsers` array below.
-    browsers: ['ChromeHeadlessWithoutSecurity'],
+    browsers: ['ChromeHeadlessWithoutSecurity', 'FirefoxHeadless'],
     frameworks: ['mocha'],
     reporters: ['spec', 'coverage'],
     files: ['./index.js'],
@@ -26,14 +22,18 @@ module.exports = function (config) {
     coverageReporter: {
       dir: './coverage',
       reporters: [
-        { type: 'lcov', subdir: '.' },
-        { type: 'text-summary' }
+        {type: 'lcov', subdir: '.'},
+        {type: 'text-summary'}
       ]
     },
     customLaunchers: {
       ChromeHeadlessWithoutSecurity: {
         base: 'ChromeHeadless',
         flags: ['--no-sandbox']
+      },
+      FirefoxHeadless: {
+        base: 'Firefox',
+        flags: ['-headless']
       }
     }
   })

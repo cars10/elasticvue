@@ -2,26 +2,56 @@ import Vuetify from 'vuetify'
 import VBtn from 'vuetify/es5/components/VBtn'
 import VIcon from 'vuetify/es5/components/VIcon'
 import BackButton from '@/components/shared/BackButton'
-import { mount, createLocalVue, RouterLinkStub } from '@vue/test-utils'
+import { createLocalVue, mount, RouterLinkStub } from '@vue/test-utils'
 
 describe('BackButton.vue', () => {
-  it('should render correct contents', () => {
-    let localVue = createLocalVue()
-    localVue.use(Vuetify, {
-      components: {
-        VBtn,
-        VIcon
-      }
-    })
+  let localVue = createLocalVue()
+  localVue.use(Vuetify, {
+    components: {
+      VBtn,
+      VIcon
+    }
+  })
 
+  it('should render correct default contents', () => {
     const wrapper = mount(BackButton, {
       localVue: localVue,
       stubs: {
         'router-link': RouterLinkStub
       }
     })
-    expect(wrapper.find('div').text()).contains('keyboard_arrow_left')
-    expect(wrapper.find('div').text()).contains('Back')
+    expect(wrapper.text()).contains('keyboard_arrow_left')
+    expect(wrapper.text()).contains('Back')
     expect(wrapper.find('div').text()).to.not.be.empty
+  })
+
+  it('should render custom text', () => {
+    const text = 'myCustom Text'
+    const wrapper = mount(BackButton, {
+      localVue: localVue,
+      stubs: {
+        'router-link': RouterLinkStub
+      },
+      propsData: {
+        text
+      }
+    })
+
+    expect(wrapper.text()).contains(text)
+  })
+
+  it('should render custom item', () => {
+    const icon = 'cached'
+    const wrapper = mount(BackButton, {
+      localVue: localVue,
+      stubs: {
+        'router-link': RouterLinkStub
+      },
+      propsData: {
+        icon
+      }
+    })
+
+    expect(wrapper.text()).contains(icon)
   })
 })

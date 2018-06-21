@@ -8,9 +8,7 @@ global.expect = expect
 const testsContext = require.context('./specs', true, /\.spec$/)
 testsContext.keys().forEach(testsContext)
 
-// require all src files except main.js for coverage.
-// you can also change this to match only the subset of files that
-// you want coverage for.
+// require all relevant src files
 const componentsSrcContext = require.context('../../src/components', true)
 componentsSrcContext.keys().forEach(componentsSrcContext)
 
