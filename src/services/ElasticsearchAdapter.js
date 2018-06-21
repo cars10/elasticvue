@@ -124,8 +124,7 @@ export default class ElasticsearchAdapter {
    * @param searchParams
    */
   search (searchParams) {
-    let params = searchParams || {}
-    normalizeSearchParams(params)
+    let params = normalizeSearchParams(searchParams)
     return this.client.search(Object.assign({}, REQUEST_DEFAULTS, params))
   }
 
