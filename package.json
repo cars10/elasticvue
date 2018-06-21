@@ -13,7 +13,8 @@
     "prod": "node build/prod-server.js",
     "build": "node build/build.js",
     "build_chrome_extension": "SKIP_PRODUCTION_GZIP=true yarn build && rm -rf chrome_extension/{index.html,static} && cp -r dist/* chrome_extension/",
-    "test": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
+    "test": "cross-env BABEL_ENV=test BROWSERS=all karma start test/unit/karma.conf.js --single-run",
+    "test-watch": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --watch",
     "lint": "eslint --ext .js,.vue src test/unit/specs"
   },
   "dependencies": {

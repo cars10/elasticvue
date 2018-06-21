@@ -4,11 +4,12 @@
 //   https://github.com/webpack/karma-webpack
 
 process.env.CHROME_BIN = require('puppeteer').executablePath()
+const useAllBrowsers = process.env.BROWSERS === 'all'
 const webpackConfig = require('../../build/webpack.test.conf')
 
 module.exports = function (config) {
   config.set({
-    browsers: ['ChromeHeadlessWithoutSecurity', 'FirefoxHeadless'],
+    browsers: useAllBrowsers ? ['ChromeHeadlessWithoutSecurity', 'FirefoxHeadless'] : ['ChromeHeadlessWithoutSecurity'],
     frameworks: ['mocha'],
     reporters: ['spec', 'coverage'],
     files: ['./index.js'],
