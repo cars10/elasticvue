@@ -80,7 +80,7 @@
         this.$router.push({name: 'Document', params: {index: item._index, type: item._type, id: item._id}})
       },
       callFuzzyTableFilter (items, search, filter, headers) {
-        return fuzzyTableFilter(items, search, filter, headers)
+        return fuzzyTableFilter(items, search, headers)
       }
     }
   }

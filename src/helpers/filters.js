@@ -1,6 +1,6 @@
 import Fuzzysort from 'fuzzysort'
 
-export function fuzzyTableFilter (items, search, filter, headers) {
+export function fuzzyTableFilter (items, search, headers) {
   search = search.toString().toLowerCase()
   if (search.trim() === '') return items
 
