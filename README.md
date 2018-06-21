@@ -1,6 +1,8 @@
 # elasticvue
 
-> Elasticsearch frontend written in vue.js. [http://elasticvue.cars10k.de](http://elasticvue.cars10k.de)
+[![Build Status](https://travis-ci.org/cars10/elasticvue.svg?branch=develop)](https://travis-ci.org/cars10/elasticvue)
+
+> Elasticsearch frontend for your browser[http://elasticvue.cars10k.de](http://elasticvue.cars10k.de)
 
 ![Screenshot](screenshot.png)
 
