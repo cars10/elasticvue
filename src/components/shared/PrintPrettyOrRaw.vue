@@ -27,7 +27,9 @@
     props: {
       document: {
         default: () => {
-        }
+          return {}
+        },
+        type: Object
       }
     },
     components: {

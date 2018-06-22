@@ -15,7 +15,10 @@ export default {
         return {}
       }
     },
-    readOnly: Boolean
+    readOnly: {
+      type: Boolean,
+      default: false
+    }
   },
   computed: {
     darkTheme () {

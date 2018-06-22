@@ -49,7 +49,8 @@
       hits: {
         default: () => {
           return []
-        }
+        },
+        type: Array
       },
       loading: {
         default: false

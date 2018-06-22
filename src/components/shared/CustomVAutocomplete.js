@@ -11,7 +11,8 @@ export default {
   },
   props: {
     maxHeight: {
-      default: '385px'
+      default: '385px',
+      type: String
     }
   },
   computed: {

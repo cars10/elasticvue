@@ -72,7 +72,8 @@
     name: 'Search',
     props: {
       executeSearch: {
-        default: false
+        default: false,
+        type: Boolean
       }
     },
     computed: {

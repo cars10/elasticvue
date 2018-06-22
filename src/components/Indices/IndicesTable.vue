@@ -73,7 +73,10 @@
     },
     props: {
       indices: {
-        default: () => []
+        default: () => {
+          return []
+        },
+        type: Array
       },
       loading: {
         default: false
