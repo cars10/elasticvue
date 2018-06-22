@@ -10,7 +10,7 @@ http.cors.enabled: true
 http.cors.allow-origin: "{{domain}}"
 
 <span class="code-comment"># Alternatively you can pass a regex to allow all relevant origins:</span>
-<span class="code-comment" style="display: block"># /(https?:\/\/localhost(:[0-9]+)?)|(chrome-extension:\/\/[a-z]+)|(https?:\/\/elasticvue.cars10k.de)/</span></code>
+<span class="code-comment" style="display: block"># /(https?:\/\/localhost(:[0-9]+)?)|(chrome-extension:\/\/[a-z]+)|(https?:\/\/app.elasticvue.com)/</span></code>
 <!-- @formatter:on -->
     </v-flex>
   </div>
