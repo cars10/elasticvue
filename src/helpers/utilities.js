@@ -41,6 +41,7 @@ export function isEmpty (value) {
  * @returns {*[]}
  */
 export function objectArrayUniqueKeys (array, key) {
+  if (typeof array === 'undefined' || array.length === 0) return []
   let nested = []
   if (key !== undefined) {
     nested = array.map(value => (Object.keys(value[key])))

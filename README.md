@@ -1,6 +1,9 @@
 # elasticvue
 
-> Elasticsearch frontend written in vue.js. [http://elasticvue.cars10k.de](http://elasticvue.cars10k.de)
+[![Build Status](https://travis-ci.org/cars10/elasticvue.svg?branch=develop)](https://travis-ci.org/cars10/elasticvue)
+[![Dependency Status](https://david-dm.org/cars10/elasticvue.svg)](https://david-dm.org/cars10/elasticvue.svg)
+
+> Elasticsearch frontend for your browser [https://elasticvue.com](https://elasticvue.com)
 
 ![Screenshot](screenshot.png)
 
@@ -34,17 +37,17 @@ Find your elasticsearch configuration (for example `/etc/elasticsearch/elasticse
 # see https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-http.html
 # Enable 'Access-Control-Allow-Origin' header
 http.cors.enabled: true
-# Then set the allowed origins based on how you run elasticvue:
+# Then set the allowed origins based on how you run elasticvue. Chose only one:
 
 # for docker / running locally
 http.cors.allow-origin: /https?:\/\/localhost(:[0-9]+)?/
 # online version
-http.cors.allow-origin: /https?:\/\/elasticvue.cars10k.de/
+http.cors.allow-origin: /https?:\/\/app.elasticvue.com/
 # chrome extension
 http.cors.allow-origin: /chrome-extension:\/\/[a-z]+/
 
 # or to enable all sources:
-http.cors.allow-origin: /(https?:\/\/localhost(:[0-9]+)?)|(chrome-extension:\/\/[a-z]+)|(https?:\/\/elasticvue.cars10k.de)/
+http.cors.allow-origin: /(https?:\/\/localhost(:[0-9]+)?)|(chrome-extension:\/\/[a-z]+)|(https?:\/\/app.elasticvue.com)/
 ```
 
 Now simply restart elasticsearch and you should be able to connect.
@@ -55,7 +58,7 @@ After configuring use one of the following ways to run elasticvue:
 
 **Online version**
 
-* Visit [http://elasticvue.cars10k.de](http://elasticvue.cars10k.de) or [h￼ttps://elasticvue.cars10k.de](https://elasticvue.cars10k.de) (if your cluster is only accessible through SSL)
+* Visit [http://app.elasticvue.com](http://app.elasticvue.com) or [https://app.elasticvue.com](https://app.elasticvue.com) (if your cluster is only accessible through SSL)
 
 **Docker**
 

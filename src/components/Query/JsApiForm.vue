@@ -71,8 +71,8 @@
 <script>
   import PrintPrettyOrRaw from '@/components/shared/PrintPrettyOrRaw'
   import CustomVAutocomplete from '@/components/shared/CustomVAutocomplete'
-  import CodeEditor from '@/components/shared/CodeEditor'
   import QueryFormBase from '@/components/Query/QueryFormBase'
+  import Loading from '@/components/shared/Loading'
 
   export default {
     name: 'js-api-form',
@@ -80,12 +80,10 @@
     components: {
       PrintPrettyOrRaw,
       CustomVAutocomplete,
-      CodeEditor
-    },
-    methods: {
-      logEditorCodeChange (data) {
-        console.log(data)
-      }
+      'code-editor': () => ({
+        component: import('@/components/shared/CodeEditor'),
+        loading: Loading
+      })
     }
   }
 </script>

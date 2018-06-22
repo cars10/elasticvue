@@ -133,7 +133,7 @@
         }
       },
       callFuzzyTableFilter (items, search, filter, headers) {
-        return fuzzyTableFilter(items, search, filter, headers)
+        return fuzzyTableFilter(items, search, headers)
       }
     },
     components: {

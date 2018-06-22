@@ -12,7 +12,8 @@ elasticvue.zip
 chrome_extension/index.html
 chrome_extension/static/*
 
-tools/screenshots
+tools/chrome_ext_screenshots/*
+tools/website_screenshots/*
 
 # Editor directories and files
 .idea
