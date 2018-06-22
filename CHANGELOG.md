@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.2
+
+* adds some basic specs
+* changes urls to point to elasticvue.com
+* load editor component async
+
 ## 0.1.1
 
 * fix github dependency in package.json because docker image did not build
