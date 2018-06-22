@@ -84,6 +84,14 @@ Install the extension from the [chrome webstore](https://chrome.google.com/webst
 * Install dependencies `yarn install`
 * Run a production server via `yarn prod` or dev server `yarn dev`
 
+## Browser Support
+
+Development is done on chrome. Firefox, Safari and Edge should work but are mostly untested.
+
+| IE | Edge | Safari | Firefox | Chrome |
+|----|------|--------|---------|--------|
+| None | 16+ | 11+ | 50+ | 50+ |
+
 ## Tips
 
 * All table filters use fuzzy matching. You can also specify a single column to search in. Examples:
