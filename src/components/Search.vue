@@ -15,6 +15,7 @@
                           id="query"
                           v-model="searchQ"
                           append-icon="clear"
+                          autofocus
                           @click:append="resetQuery"></v-text-field>
           </v-flex>
 

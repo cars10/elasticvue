@@ -9,7 +9,11 @@
             <v-layout row wrap>
               <v-flex md8>
                 <v-flex>
-                  <v-text-field v-model="host" label="Host" name="host" id="host"></v-text-field>
+                  <v-text-field v-model="host"
+                                label="Host"
+                                name="host"
+                                autofocus
+                                id="host"></v-text-field>
                 </v-flex>
               </v-flex>
               <v-flex md4>

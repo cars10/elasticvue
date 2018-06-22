@@ -7,6 +7,7 @@
                       label="Filter via 'column:query'"
                       name="filter"
                       id="filter"
+                      autofocus
                       v-model="indicesFilter"></v-text-field>
       </v-flex>
     </v-card-text>
