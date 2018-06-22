@@ -1,8 +1,9 @@
 # elasticvue
 
 [![Build Status](https://travis-ci.org/cars10/elasticvue.svg?branch=develop)](https://travis-ci.org/cars10/elasticvue)
+[![Dependency Status](https://david-dm.org/cars10/elasticvue.svg)](https://david-dm.org/cars10/elasticvue.svg)
 
-> Elasticsearch frontend for your browser[http://elasticvue.cars10k.de](http://elasticvue.cars10k.de)
+> Elasticsearch frontend for your browser [http://elasticvue.cars10k.de](http://elasticvue.cars10k.de)
 
 ![Screenshot](screenshot.png)
 
