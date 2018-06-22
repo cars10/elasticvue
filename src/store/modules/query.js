@@ -1,10 +1,10 @@
-import { DEFAULT_HOST } from '../../consts'
+import { DEFAULT_HOST, REQUEST_DEFAULTS } from '../../consts'
 
 export const query = {
   state: {
     host: DEFAULT_HOST,
     method: null,
-    stringifiedParams: JSON.stringify({})
+    stringifiedParams: JSON.stringify(REQUEST_DEFAULTS)
   },
   mutations: {
     setQueryHost (state, host) {
