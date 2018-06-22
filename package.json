@@ -99,6 +99,6 @@
   "browserslist": [
     "> 5%",
     "last 2 versions",
-    "not ie"
+    "not ie <= 11"
   ]
 }
