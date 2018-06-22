@@ -133,10 +133,14 @@ zip -r elasticvue.zip chrome_extension/*
 
 ## TODO
 
-- ping on page load
-- logo
-- specs
-- performance
+* specs
+* remove 1000 items limit on search page
+* filter options for search page
+* curl-like query page
+* more utilities
+* ping on page load
+* performance
+* logo
 
 ## License
 
