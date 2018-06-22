@@ -2,7 +2,7 @@ import Vuetify from 'vuetify'
 import VBtn from 'vuetify/es5/components/VBtn'
 import VIcon from 'vuetify/es5/components/VIcon'
 import ReloadButton from '@/components/shared/ReloadButton'
-import { createLocalVue, mount, RouterLinkStub } from '@vue/test-utils'
+import { createLocalVue, mount } from '@vue/test-utils'
 
 describe('ReloadButton.vue', () => {
   let localVue = createLocalVue()
@@ -15,10 +15,7 @@ describe('ReloadButton.vue', () => {
 
   it('should render correct default contents', () => {
     const wrapper = mount(ReloadButton, {
-      localVue: localVue,
-      stubs: {
-        'router-link': RouterLinkStub
-      }
+      localVue: localVue
     })
 
     expect(wrapper.attributes().title).equals('Reload')
@@ -29,9 +26,6 @@ describe('ReloadButton.vue', () => {
     const title = 'myCustom title'
     const wrapper = mount(ReloadButton, {
       localVue: localVue,
-      stubs: {
-        'router-link': RouterLinkStub
-      },
       propsData: {
         title
       }

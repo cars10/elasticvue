@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import { expect } from 'chai'
 
+Vue.config.ignoredElements.push('router-link')
 Vue.config.productionTip = false
 global.expect = expect
 

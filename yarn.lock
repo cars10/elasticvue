@@ -78,9 +78,9 @@
     lodash "^4.2.0"
     to-fast-properties "^2.0.0"
 
-"@vue/test-utils@1.0.0-beta.14":
-  version "1.0.0-beta.14"
-  resolved "https://registry.yarnpkg.com/@vue/test-utils/-/test-utils-1.0.0-beta.14.tgz#bbb65868cc3f3235d44c29e4faa82fb5f393203a"
+"@vue/test-utils@1.0.0-beta.19":
+  version "1.0.0-beta.19"
+  resolved "https://registry.yarnpkg.com/@vue/test-utils/-/test-utils-1.0.0-beta.19.tgz#a1ec452081f6c7a9fa245478e2de227953a30455"
   dependencies:
     lodash "^4.17.4"
 
