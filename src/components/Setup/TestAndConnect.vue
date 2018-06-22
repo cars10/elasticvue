@@ -12,6 +12,7 @@
                         v-model="elasticsearchHost"
                         :rules="[hostValid]"
                         append-icon="clear"
+                        @keyup.ctrl.enter="connectIfTestSuccessfull"
                         @click:append="resetElasticsearchHost"></v-text-field>
         </v-flex>
         <v-btn type="submit"
@@ -27,8 +28,10 @@
                :color="connectColor"
                type="button"
                :loading="connectLoading"
-               @click.native="connect">Connect</v-btn>
+               @click.native="connectIfTestSuccessfull">Connect
+        </v-btn>
       </v-form>
+      <span class="grey--text">Hint: use <i>enter</i> to test connection, <i>ctrl+enter</i> to connect</span>
     </v-flex>
 
     <v-flex px-3 v-if="testError || connectError">

@@ -9,6 +9,7 @@
                     solo
                     v-model="elasticsearchHost"
                     append-icon="clear"
+                    @keyup.ctrl.enter="connectAndEmitHostChangedIfTestSuccess"
                     @click:append="resetElasticsearchHost"></v-text-field>
     </v-toolbar-items>
     <v-btn type="submit"
@@ -20,14 +21,15 @@
     <v-btn v-if="isConnected && testSuccess && isSameHost"
            type="button"
            :loading="connectLoading"
-           @click.native="connectAndEmitHostChanged">
+           @click.native="connectAndEmitHostChangedIfTestSuccess">
       Reconnect
     </v-btn>
     <v-btn v-else
            :disabled="!testSuccess"
            type="button"
            :loading="connectLoading"
-           @click.native="connectAndEmitHostChanged">Connect</v-btn>
+           @click.native="connectAndEmitHostChangedIfTestSuccess">Connect
+    </v-btn>
   </v-form>
 </template>
 
@@ -50,6 +52,11 @@
       }
     },
     methods: {
+      connectAndEmitHostChangedIfTestSuccess () {
+        if (this.testSuccess) {
+          this.connectAndEmitHostChanged()
+        }
+      },
       connectAndEmitHostChanged () {
         this.connectLoading = true
         this.connectWithServer()
