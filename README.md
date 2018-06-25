@@ -147,7 +147,7 @@ zip -r elasticvue.zip chrome_extension/*
 * curl-like query page
 * more utilities
 * ping on page load
-* performance
+* performance - web workers? requestIdleCallback?
 * logo
 
 ## License

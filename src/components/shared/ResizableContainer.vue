@@ -84,7 +84,7 @@
         })
       },
       triggerResize () {
-        window.dispatchEvent(new Event('resize'))
+        if (window !== undefined) window.dispatchEvent(new Event('resize'))
       },
       onDragStart (e) {
         this.resizing = true
