@@ -4,7 +4,7 @@ export const query = {
   state: {
     host: DEFAULT_HOST,
     method: null,
-    stringifiedParams: JSON.stringify(REQUEST_DEFAULTS)
+    stringifiedParams: JSON.stringify(REQUEST_DEFAULTS, null, '\t')
   },
   mutations: {
     setQueryHost (state, host) {

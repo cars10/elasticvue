@@ -44,7 +44,7 @@
       <div class="mx-1 mb-2">
         <label>Method options</label>
 
-        <resizable-container :initial-height="250">
+        <resizable-container :initial-height="150">
           <code-editor :code="stringifiedParams" v-bind:code.sync="stringifiedParams"></code-editor>
         </resizable-container>
         <i class="grey--text">Language: JSON</i>

@@ -7,7 +7,7 @@
     <v-card-text>
       <v-tabs>
         <v-tab key="js">js client</v-tab>
-        <v-tab key="fetch" disabled>fetch/curl</v-tab>
+        <v-tab key="fetch">fetch/curl</v-tab>
 
         <v-tab-item key="js">
           <v-flex pa-3>
