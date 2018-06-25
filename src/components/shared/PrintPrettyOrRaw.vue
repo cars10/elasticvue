@@ -5,9 +5,9 @@
 
     <v-tab-item key="pretty">
       <v-flex pa-3>
-        <div style="height: 800px; width: 100%">
+        <resizable-container :initial-height="600">
           <code-editor readOnly :code="document"></code-editor>
-        </div>
+        </resizable-container>
       </v-flex>
     </v-tab-item>
 
@@ -20,6 +20,7 @@
 </template>
 
 <script>
+  import ResizableContainer from '@/components/shared/ResizableContainer'
   import Loading from '@/components/shared/Loading'
 
   export default {
@@ -36,7 +37,8 @@
       'code-editor': () => ({
         component: import('@/components/shared/CodeEditor'),
         loading: Loading
-      })
+      }),
+      ResizableContainer
     }
   }
 </script>

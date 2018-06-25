@@ -43,9 +43,10 @@
 
       <div class="mx-1 mb-2">
         <label>Method options</label>
-        <div style="height: 250px; width: 100%;">
+
+        <resizable-container :initial-height="250">
           <code-editor :code="stringifiedParams" v-bind:code.sync="stringifiedParams"></code-editor>
-        </div>
+        </resizable-container>
         <i class="grey--text">Language: JSON</i>
       </div>
 
@@ -64,6 +65,7 @@
 </template>
 
 <script>
+  import ResizableContainer from '@/components/shared/ResizableContainer'
   import PrintPrettyOrRaw from '@/components/shared/PrintPrettyOrRaw'
   import CustomVAutocomplete from '@/components/shared/CustomVAutocomplete'
   import QueryFormBase from '@/components/Query/QueryFormBase'
@@ -74,6 +76,7 @@
     extends: QueryFormBase,
     components: {
       PrintPrettyOrRaw,
+      ResizableContainer,
       CustomVAutocomplete,
       'code-editor': () => ({
         component: import('@/components/shared/CodeEditor'),
