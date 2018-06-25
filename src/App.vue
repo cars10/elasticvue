@@ -1,6 +1,6 @@
 <template>
   <v-app v-bind="this.$store.state.theme">
-    <the-header v-on:hostChanged="rerender"></the-header>
+    <the-header @hostChanged="rerender"></the-header>
 
     <v-content>
       <v-container grid-list-md>

@@ -1,5 +1,5 @@
 <template>
-  <v-form class="d-flex align-center" v-on:submit.prevent="testConnection">
+  <v-form class="d-flex align-center" @submit.prevent="testConnection">
     <v-toolbar-items class="mr-2">
       <v-text-field title="Host"
                     label="Host"

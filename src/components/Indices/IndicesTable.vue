@@ -3,7 +3,7 @@
     <v-card-text>
       <v-flex right d-inline-flex>
         <v-text-field append-icon="search"
-                      v-on:keyup.esc="indicesFilter = ''"
+                      @keyup.esc="indicesFilter = ''"
                       label="Filter via 'column:query'"
                       name="filter"
                       id="filter"

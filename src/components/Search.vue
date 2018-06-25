@@ -7,7 +7,7 @@
     <v-divider></v-divider>
 
     <v-card-text>
-      <v-form v-on:submit.prevent="loadData">
+      <v-form @submit.prevent="loadData">
         <v-layout row wrap>
           <v-flex lg2>
             <v-text-field label="Query"

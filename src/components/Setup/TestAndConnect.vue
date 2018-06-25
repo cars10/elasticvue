@@ -2,7 +2,7 @@
   <div>
     <h2 class="title mb-1">2. Test and connect</h2>
     <v-flex px-3>
-      <v-form v-on:submit.prevent="testConnection">
+      <v-form @submit.prevent="testConnection">
         <v-flex d-inline-flex>
           <v-text-field title="Host"
                         label="Host"

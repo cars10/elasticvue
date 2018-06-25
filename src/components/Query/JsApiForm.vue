@@ -14,7 +14,7 @@
 
     <h2 class="subheading">Build query</h2>
     <v-divider class="my-2"></v-divider>
-    <v-form v-on:submit.prevent="loadData">
+    <v-form @submit.prevent="loadData">
       <v-layout row wrap>
         <v-flex md4>
           <v-flex>

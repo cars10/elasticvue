@@ -8,7 +8,7 @@
 
     <data-loader method="catIndices" ref="dataLoader" renderContentWhileLoading>
       <template slot-scope="data">
-        <indices-table :indices="data.body || []" v-on:deleteIndex="removeIndex" :loading="data.loading"></indices-table>
+        <indices-table :indices="data.body || []" @deleteIndex="removeIndex" :loading="data.loading"></indices-table>
       </template>
     </data-loader>
   </v-card>
