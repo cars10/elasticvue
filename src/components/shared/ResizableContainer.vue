@@ -19,6 +19,12 @@
                @click.native="increaseHeight">
           <v-icon>arrow_downward</v-icon>
         </v-btn>
+        <v-btn flat
+               class="v-btn--dense ma-0"
+               title="Resize"
+               @mousedown="onDragStart">
+          <v-icon>vertical_align_center</v-icon>
+        </v-btn>
       </btn-group>
     </v-flex>
   </div>
@@ -46,7 +52,10 @@
     data () {
       return {
         width: this.initialWidth,
-        height: this.initialHeight
+        height: this.initialHeight,
+        dragStartY: 0,
+        dragStartHeight: this.initialHeight,
+        resizing: false
       }
     },
     computed: {
@@ -76,6 +85,38 @@
       },
       triggerResize () {
         window.dispatchEvent(new Event('resize'))
+      },
+      onDragStart (e) {
+        this.resizing = true
+        this.dragStartY = e.pageY
+        this.dragStartHeight = this.height
+      },
+      onDrag (e) {
+        if (this.resizing) {
+          const newHeight = this.dragStartHeight + e.pageY - this.dragStartY
+          if (newHeight > this.initialHeight) this.height = newHeight
+        }
+      },
+      onDragEnd () {
+        this.resizing = false
+        this.dragStartY = 0
+        this.$nextTick(() => {
+          if (window !== undefined) {
+            this.triggerResize()
+          }
+        })
+      }
+    },
+    mounted () {
+      if (window !== undefined) {
+        window.addEventListener('mouseup', this.onDragEnd)
+        window.addEventListener('mousemove', this.onDrag)
+      }
+    },
+    destroyed () {
+      if (window !== undefined) {
+        window.removeEventListener('mouseup', this.onDragEnd)
+        window.removeEventListener('mousemove', this.onDrag)
       }
     },
     components: {
