@@ -71,19 +71,29 @@
           console.log(error)
           return false
         }
+      },
+      fetchOptionsHash () {
+        let fetchOptions = {method: this.method, headers: JSON.parse(this.stringifiedHeaders)}
+        if (this.method !== 'GET' && this.method !== 'HEAD') {
+          fetchOptions.body = this.stringifiedParams
+        }
+        return fetchOptions
       }
     },
     methods: {
       fetchData () {
-        if (this.method === 'GET' || this.method === 'HEAD') {
-          fetch(this.host, {method: this.method, headers: JSON.parse(this.stringifiedHeaders)})
-            .then(response => response.json())
-            .then(json => (this.response = json))
-        } else {
-          fetch(this.host, {body: this.stringifiedParams, method: this.method, headers: JSON.parse(this.stringifiedHeaders)})
-            .then(response => response.json())
-            .then(json => (this.response = json))
-        }
+        this.loading = true
+        this.response = {}
+        fetch(this.host, this.fetchOptionsHash)
+          .then(response => response.json())
+          .then(json => {
+            this.loading = false
+            this.response = json
+          })
+          .catch(error => {
+            this.showErrorSnackbar({text: 'Error.', additionalText: error})
+            this.response = error
+          })
       },
       httpMethods () {
         return ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS']

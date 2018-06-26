@@ -17,7 +17,7 @@
         default: () => {
           return {}
         },
-        type: Object
+        type: [Object, Array]
       }
     },
     components: {
