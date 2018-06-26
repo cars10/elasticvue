@@ -1,44 +1,38 @@
 <template>
   <div>
     <v-form @submit.prevent="fetchData">
-      <v-layout row wrap>
-        <v-flex md10>
-          <v-flex>
-            <v-text-field v-model="host"
-                          label="Url"
-                          name="Url"
-                          autofocus
-                          id="url"></v-text-field>
-          </v-flex>
+      <v-flex md2>
+        <v-select label="HTTP Method"
+                  name="http_method"
+                  v-model="method"
+                  :items="httpMethods()">
+        </v-select>
+      </v-flex>
+      <v-text-field v-model="host"
+                    label="Url"
+                    name="Url"
+                    autofocus
+                    id="url"></v-text-field>
+
+      <v-layout>
+        <v-flex md6>
+          <label>Request body</label>
+          <resizable-container :initial-height="150">
+            <code-editor :code="stringifiedParams" v-bind:code.sync="stringifiedParams"></code-editor>
+          </resizable-container>
+          <i class="grey--text">Language: JSON</i>
         </v-flex>
-        <v-flex md2>
-          <v-flex>
-            <v-select label="HTTP Method"
-                      name="http_method"
-                      v-model="HTTPMethod"
-                      :items="httpMethods()">
-            </v-select>
-          </v-flex>
+
+        <v-flex md6>
+          <label>Request headers</label>
+          <resizable-container :initial-height="150">
+            <code-editor :code="stringifiedHeaders" v-bind:code.sync="stringifiedHeaders"></code-editor>
+          </resizable-container>
+          <i class="grey--text">Language: JSON</i>
         </v-flex>
       </v-layout>
 
-      <div class="mx-1 mb-2">
-        <label>Headers</label>
-        <resizable-container :initial-height="150">
-          <code-editor :code="headers" v-bind:code.sync="headers"></code-editor>
-        </resizable-container>
-        <i class="grey--text">Language: JSON</i>
-      </div>
-
-      <div class="mx-1 mb-2">
-        <label>Data</label>
-        <resizable-container :initial-height="150">
-          <code-editor :code="stringifiedParams" v-bind:code.sync="stringifiedParams"></code-editor>
-        </resizable-container>
-        <i class="grey--text">Language: JSON</i>
-      </div>
-
-      <v-btn type="submit" :disabled="!isValid" :loading="loading">Execute</v-btn>
+      <v-btn type="submit" :disabled="!isValid" :loading="loading" color="primary">Execute query</v-btn>
     </v-form>
 
     <h2 class="subheading mt-4">Response</h2>
@@ -57,28 +51,38 @@
   export default {
     name: 'fetch-form',
     extends: QueryFormBase,
-    data () {
-      return {
-        HTTPMethod: 'GET',
-        headers: {
-          'Accept': 'application/json'
+    computed: {
+      isValid () {
+        return !!this.method && this.host.length > 0 && this.headersValid && this.paramsValid
+      },
+      headersValid () {
+        try {
+          JSON.parse(this.stringifiedHeaders)
+          return true
+        } catch (error) {
+          return false
+        }
+      },
+      paramsValid () {
+        try {
+          JSON.parse(this.stringifiedParams)
+          return true
+        } catch (error) {
+          console.log(error)
+          return false
         }
       }
     },
     methods: {
       fetchData () {
-        if (this.HTTPMethod === 'GET' || this.HTTPMethod === 'HEAD') {
-          fetch(this.host, {method: this.HTTPMethod, headers: this.headers})
+        if (this.method === 'GET' || this.method === 'HEAD') {
+          fetch(this.host, {method: this.method, headers: JSON.parse(this.stringifiedHeaders)})
             .then(response => response.json())
-            .then(json => {
-              this.response = json
-            })
+            .then(json => (this.response = json))
         } else {
-          fetch(this.host, {body: this.stringifiedParams, method: this.HTTPMethod, headers: this.headers})
+          fetch(this.host, {body: this.stringifiedParams, method: this.method, headers: JSON.parse(this.stringifiedHeaders)})
             .then(response => response.json())
-            .then(json => {
-              this.response = json
-            })
+            .then(json => (this.response = json))
         }
       },
       httpMethods () {
