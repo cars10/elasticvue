@@ -37,13 +37,13 @@
 
     <h2 class="subheading mt-4">Response</h2>
     <v-divider class="my-2"></v-divider>
-    <print-pretty-or-raw :document="response"></print-pretty-or-raw>
+    <print-pretty :document="response"></print-pretty>
   </div>
 </template>
 
 <script>
   import ResizableContainer from '@/components/shared/ResizableContainer'
-  import PrintPrettyOrRaw from '@/components/shared/PrintPrettyOrRaw'
+  import PrintPretty from '@/components/shared/PrintPretty'
   import CustomVAutocomplete from '@/components/shared/CustomVAutocomplete'
   import QueryFormBase from '@/components/Query/QueryFormBase'
   import Loading from '@/components/shared/Loading'
@@ -90,7 +90,7 @@
       }
     },
     components: {
-      PrintPrettyOrRaw,
+      PrintPretty,
       ResizableContainer,
       CustomVAutocomplete,
       'code-editor': () => ({

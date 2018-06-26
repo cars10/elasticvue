@@ -19,96 +19,22 @@ describe('ResizableContainer.vue', () => {
 
   it('should render correct default contents', () => {
     const wrapper = mount(ResizableContainer, {localVue})
+    const resizedWrapper = wrapper.find({ref: 'resizedWrapper'})
+    const height = '350px;'
 
-    expect(wrapper.text()).contains('arrow_upward')
-    expect(wrapper.text()).contains('arrow_downward')
+    expect(wrapper.text()).contains('vertical_align_center')
+    expect(resizedWrapper.attributes().style).contains(height)
   })
 
-  it('should increase the height when clicking the arrow_upward', () => {
-    const wrapper = mount(ResizableContainer, {localVue})
-    const increaseHeightButton = wrapper.find({ref: 'increaseHeightButton'})
+  it('should render correct initialHeight', () => {
+    const height = '500px;'
+    const wrapper = mount(ResizableContainer, {
+      localVue: localVue,
+      propsData: {
+        initialHeight: 500
+      }
+    })
     const resizedWrapper = wrapper.find({ref: 'resizedWrapper'})
-
-    const initialHeight = wrapper.props().initialHeight
-    const stepSize = wrapper.props().stepSize
-    const expectedInitial = heightString(initialHeight)
-    const expected = heightString(initialHeight + stepSize)
-
-    expect(resizedWrapper.attributes().style).contains(expectedInitial)
-    increaseHeightButton.trigger('click')
-    expect(resizedWrapper.attributes().style).contains(expected)
-  })
-
-  it('should increase the height twice when clicking the arrow_upward twice', () => {
-    const wrapper = mount(ResizableContainer, {localVue})
-    const increaseHeightButton = wrapper.find({ref: 'increaseHeightButton'})
-    const resizedWrapper = wrapper.find({ref: 'resizedWrapper'})
-
-    const initialHeight = wrapper.props().initialHeight
-    const stepSize = wrapper.props().stepSize
-    const expectedInitial = heightString(initialHeight)
-    const expectedOnce = heightString(initialHeight + stepSize)
-    const expectedTwice = heightString(initialHeight + (stepSize * 2))
-
-    expect(resizedWrapper.attributes().style).contains(expectedInitial)
-    increaseHeightButton.trigger('click')
-    expect(resizedWrapper.attributes().style).contains(expectedOnce)
-    increaseHeightButton.trigger('click')
-    expect(resizedWrapper.attributes().style).contains(expectedTwice)
-  })
-
-  it('does not decrease the height when it only has the initial height', () => {
-    const wrapper = mount(ResizableContainer, {localVue})
-    const decreaseHeightButton = wrapper.find({ref: 'decreaseHeightButton'})
-    const resizedWrapper = wrapper.find({ref: 'resizedWrapper'})
-
-    const initialHeight = wrapper.props().initialHeight
-    const expected = heightString(initialHeight)
-
-    expect(resizedWrapper.attributes().style).contains(expected)
-    decreaseHeightButton.trigger('click')
-    expect(resizedWrapper.attributes().style).contains(expected)
-  })
-
-  it('decreases the height when the height is above initial height', () => {
-    const wrapper = mount(ResizableContainer, {localVue})
-    const increaseHeightButton = wrapper.find({ref: 'increaseHeightButton'})
-    const decreaseHeightButton = wrapper.find({ref: 'decreaseHeightButton'})
-    const resizedWrapper = wrapper.find({ref: 'resizedWrapper'})
-
-    const initialHeight = wrapper.props().initialHeight
-    const stepSize = wrapper.props().stepSize
-    const expectedInitial = heightString(initialHeight)
-    const expectedIncreased = heightString(initialHeight + stepSize)
-
-    expect(resizedWrapper.attributes().style).contains(expectedInitial)
-    increaseHeightButton.trigger('click')
-    expect(resizedWrapper.attributes().style).contains(expectedIncreased)
-    decreaseHeightButton.trigger('click')
-    expect(resizedWrapper.attributes().style).contains(expectedInitial)
-  })
-
-  it('does not decrease the height below the initial height', () => {
-    const wrapper = mount(ResizableContainer, {localVue})
-    const increaseHeightButton = wrapper.find({ref: 'increaseHeightButton'})
-    const decreaseHeightButton = wrapper.find({ref: 'decreaseHeightButton'})
-    const resizedWrapper = wrapper.find({ref: 'resizedWrapper'})
-
-    const initialHeight = wrapper.props().initialHeight
-    const stepSize = wrapper.props().stepSize
-    const expectedInitial = heightString(initialHeight)
-    const expectedIncreased = heightString(initialHeight + stepSize)
-
-    expect(resizedWrapper.attributes().style).contains(expectedInitial)
-    increaseHeightButton.trigger('click')
-    expect(resizedWrapper.attributes().style).contains(expectedIncreased)
-    decreaseHeightButton.trigger('click')
-    expect(resizedWrapper.attributes().style).contains(expectedInitial)
-    decreaseHeightButton.trigger('click')
-    expect(resizedWrapper.attributes().style).contains(expectedInitial)
+    expect(resizedWrapper.attributes().style).contains(height)
   })
 })
-
-function heightString (height) {
-  return `height: ${height}px;`
-}
