@@ -9,9 +9,9 @@
       <v-layout row wrap>
         <v-flex md6>
           <v-subheader>Create</v-subheader>
+          <v-divider></v-divider>
           <v-list>
             <template v-for="utility in utilities.create">
-              <v-divider></v-divider>
               <utility :text="utility.text"
                        :confirmMessage="utility.confirmMessage"
                        :method="utility.method"
@@ -22,9 +22,9 @@
 
         <v-flex md6>
           <v-subheader>Delete</v-subheader>
+          <v-divider></v-divider>
           <v-list>
             <template v-for="utility in utilities.delete">
-              <v-divider></v-divider>
               <utility :text="utility.text"
                        :confirmMessage="utility.confirmMessage"
                        :method="utility.method"
@@ -35,9 +35,9 @@
 
         <v-flex md6>
           <v-subheader>Misc</v-subheader>
+          <v-divider></v-divider>
           <v-list>
             <template v-for="utility in utilities.misc">
-              <v-divider></v-divider>
               <utility :text="utility.text"
                        :confirmMessage="utility.confirmMessage"
                        :method="utility.method"
