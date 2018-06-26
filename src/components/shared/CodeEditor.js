@@ -18,6 +18,11 @@ export default {
     readOnly: {
       type: Boolean,
       default: false
+    },
+    externalHandler: {
+      type: Function,
+      default: () => {
+      }
     }
   },
   computed: {
@@ -59,7 +64,15 @@ export default {
     this.setTheme(this.$store.state.theme.dark)
 
     this.setEditorValue(this.code)
-    if (this.readOnly) this.editor.setReadOnly(true)
+    if (this.readOnly) {
+      this.editor.setReadOnly(true)
+    } else {
+      this.editor.commands.addCommand({
+        name: 'externalHandler',
+        bindKey: {win: 'Ctrl+ENTER', mac: 'Command+ENTER', linux: 'Ctrl+ENTER'},
+        exec: this.externalHandler
+      })
+    }
 
     this.editor.on('change', () => {
       this.$emit('update:code', this.editor.getValue())

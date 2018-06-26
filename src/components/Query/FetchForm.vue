@@ -18,7 +18,9 @@
         <v-flex md6>
           <label>Request body</label>
           <resizable-container :initial-height="150">
-            <code-editor :code="stringifiedParams" v-bind:code.sync="stringifiedParams"></code-editor>
+            <code-editor :code="stringifiedParams"
+                         v-bind:code.sync="stringifiedParams"
+                         :external-handler="fetchData"></code-editor>
           </resizable-container>
           <i class="grey--text">Language: JSON</i>
         </v-flex>
@@ -26,7 +28,9 @@
         <v-flex md6>
           <label>Request headers</label>
           <resizable-container :initial-height="150">
-            <code-editor :code="stringifiedHeaders" v-bind:code.sync="stringifiedHeaders"></code-editor>
+            <code-editor :code="stringifiedHeaders"
+                         v-bind:code.sync="stringifiedHeaders"
+                         :external-handler="fetchData"></code-editor>
           </resizable-container>
           <i class="grey--text">Language: JSON</i>
         </v-flex>
