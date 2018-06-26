@@ -23,7 +23,7 @@
     "fuzzysort": "cars10/fuzzysort#master",
     "vue": "^2.5.16",
     "vue-router": "^3.0.1",
-    "vuetify": "^1.1.0-beta.3",
+    "vuetify": "1.1.0-rc.3",
     "vuex": "^3.0.1",
     "vuex-persistedstate": "^2.5.1"
   },

@@ -51,6 +51,7 @@
   import CustomVAutocomplete from '@/components/shared/CustomVAutocomplete'
   import QueryFormBase from '@/components/Query/QueryFormBase'
   import Loading from '@/components/shared/Loading'
+  import { HTTP_METHODS } from '../../consts'
 
   export default {
     name: 'fetch-form',
@@ -100,7 +101,7 @@
           })
       },
       httpMethods () {
-        return ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS']
+        return HTTP_METHODS
       }
     },
     components: {
