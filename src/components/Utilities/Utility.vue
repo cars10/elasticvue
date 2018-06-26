@@ -35,7 +35,7 @@
     },
     computed: {
       color () {
-        return this.error ? 'error' : null
+        return this.error ? 'error' : 'primary'
       }
     },
     methods: {

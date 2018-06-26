@@ -32,7 +32,7 @@
         </v-flex>
       </v-layout>
 
-      <v-btn type="submit" :disabled="!isValid" :loading="loading" color="primary">Execute query</v-btn>
+      <v-btn type="submit" :disabled="!isValid" :loading="loading" color="primary" class="mx-0">Execute query</v-btn>
     </v-form>
 
     <h2 class="subheading mt-4">Response</h2>

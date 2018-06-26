@@ -44,7 +44,7 @@
 
           <v-flex lg1>
             <v-flex right>
-              <v-btn type="submit">Submit</v-btn>
+              <v-btn type="submit" color="primary">Submit</v-btn>
             </v-flex>
           </v-flex>
         </v-layout>
