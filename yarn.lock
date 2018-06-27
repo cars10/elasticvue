@@ -78,9 +78,9 @@
     lodash "^4.2.0"
     to-fast-properties "^2.0.0"
 
-"@vue/test-utils@1.0.0-beta.14":
-  version "1.0.0-beta.14"
-  resolved "https://registry.yarnpkg.com/@vue/test-utils/-/test-utils-1.0.0-beta.14.tgz#bbb65868cc3f3235d44c29e4faa82fb5f393203a"
+"@vue/test-utils@1.0.0-beta.19":
+  version "1.0.0-beta.19"
+  resolved "https://registry.yarnpkg.com/@vue/test-utils/-/test-utils-1.0.0-beta.19.tgz#a1ec452081f6c7a9fa245478e2de227953a30455"
   dependencies:
     lodash "^4.17.4"
 
@@ -7385,9 +7385,9 @@ vue@^2.5.16:
   version "2.5.16"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.5.16.tgz#07edb75e8412aaeed871ebafa99f4672584a0085"
 
-vuetify@^1.1.0-beta.3:
-  version "1.1.0-beta.3"
-  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-1.1.0-beta.3.tgz#cf0fc374b73a44253dc1235ff131f73a4eecc8fb"
+vuetify@1.1.0-rc.3:
+  version "1.1.0-rc.3"
+  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-1.1.0-rc.3.tgz#73246376c85afd5692b8246b9f0783d127ea85c0"
 
 vuex-persistedstate@^2.5.1:
   version "2.5.4"

@@ -5,7 +5,7 @@
     </v-toolbar-title>
 
     <test-and-connect-toolbar class="hidden-md-and-down" v-if="isConnected"
-                              v-on:hostChanged="$emit('hostChanged')"></test-and-connect-toolbar>
+                              @hostChanged="$emit('hostChanged')"></test-and-connect-toolbar>
     <v-spacer></v-spacer>
 
     <v-toolbar-items>

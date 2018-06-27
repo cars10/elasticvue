@@ -8,7 +8,10 @@
   export default {
     name: 'BtnGroup',
     props: {
-      small: Boolean
+      small: {
+        default: false,
+        type: Boolean
+      }
     },
     computed: {
       classes () {

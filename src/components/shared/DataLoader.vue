@@ -38,13 +38,22 @@
       },
       methodParams: {
         default: () => {
-        }
+          return {}
+        },
+        type: Object
       },
       execute: {
-        default: true
+        default: true,
+        type: Boolean
       },
-      flatten: Boolean,
-      renderContentWhileLoading: Boolean
+      flatten: {
+        default: false,
+        type: Boolean
+      },
+      renderContentWhileLoading: {
+        default: false,
+        type: Boolean
+      }
     },
     methods: {
       loadData () {

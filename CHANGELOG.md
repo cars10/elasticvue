@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.3
+
+* can connect via ctrl+enter during initial setup
+* rewrote query page - you can now directly fetch your cluster
+* can resize code editors
+* some internal changes to be more compliant to vue best practices
+
 ## 0.1.2
 
 * adds some basic specs

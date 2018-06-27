@@ -1,6 +1,6 @@
 <template>
   <v-app v-bind="this.$store.state.theme">
-    <app-header v-on:hostChanged="rerender"></app-header>
+    <the-header @hostChanged="rerender"></the-header>
 
     <v-content>
       <v-container grid-list-md>
@@ -11,13 +11,13 @@
       <snackbar></snackbar>
     </v-content>
 
-    <app-footer></app-footer>
+    <the-footer></the-footer>
   </v-app>
 </template>
 
 <script>
-  import AppHeader from '@/components/App/AppHeader'
-  import AppFooter from '@/components/App/AppFooter'
+  import TheHeader from '@/components/App/TheHeader'
+  import TheFooter from '@/components/App/TheFooter'
   import ContentOrSetup from '@/components/ContentOrSetup'
   import Snackbar from '@/components/Snackbar'
 
@@ -37,8 +37,8 @@
       }
     },
     components: {
-      AppHeader,
-      AppFooter,
+      TheHeader,
+      TheFooter,
       ContentOrSetup,
       Snackbar
     }

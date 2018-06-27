@@ -11,7 +11,7 @@
       <h2 class="subheading">{{this.params.index}} / {{this.params.type}} / {{this.params.id}}</h2>
       <data-loader method="get" :methodParams="methodParams" ref="dataLoader">
         <template slot-scope="data">
-          <print-pretty-or-raw :document="data.body"></print-pretty-or-raw>
+          <print-pretty :document="data.body"></print-pretty>
         </template>
       </data-loader>
     </v-card-text>
@@ -20,7 +20,7 @@
 
 <script>
   import BackButton from '@/components/shared/BackButton'
-  import PrintPrettyOrRaw from '@/components/shared/PrintPrettyOrRaw'
+  import PrintPretty from '@/components/shared/PrintPretty'
 
   export default {
     name: 'Document',
@@ -35,7 +35,7 @@
     },
     components: {
       BackButton,
-      PrintPrettyOrRaw
+      PrintPretty
     }
   }
 </script>

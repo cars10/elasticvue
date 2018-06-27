@@ -17,16 +17,25 @@
       }
     },
     props: {
-      text: String,
-      method: String,
+      text: {
+        default: '',
+        type: String
+      },
+      method: {
+        default: '',
+        type: String
+      },
       methodParams: {
         default: undefined
       },
-      confirmMessage: String
+      confirmMessage: {
+        default: '',
+        type: String
+      }
     },
     computed: {
       color () {
-        return this.error ? 'error' : null
+        return this.error ? 'error' : 'primary'
       }
     },
     methods: {

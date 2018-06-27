@@ -2,3 +2,15 @@
   margin-top: 0;
   margin-bottom: 0
 }
+
+.v-btn-absolute-bottom-right {
+  min-width: 20px;
+  max-width: 20px;
+  margin: 0;
+  position: absolute;
+  bottom: 0;
+  right: 20px;
+  &:hover, &:focus {
+    position: absolute;
+  }
+}

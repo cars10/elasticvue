@@ -3,7 +3,7 @@
     <v-card-text>
       <v-flex right d-inline-flex>
         <v-text-field append-icon="search"
-                      v-on:keyup.esc="searchFilter = ''"
+                      @keyup.esc="searchFilter = ''"
                       label="Filter via 'column:query'"
                       name="filter"
                       id="filter"
@@ -49,7 +49,8 @@
       hits: {
         default: () => {
           return []
-        }
+        },
+        type: Array
       },
       loading: {
         default: false

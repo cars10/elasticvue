@@ -7,7 +7,7 @@
     <v-divider></v-divider>
 
     <v-card-text>
-      <v-form v-on:submit.prevent="loadData">
+      <v-form @submit.prevent="loadData">
         <v-layout row wrap>
           <v-flex lg2>
             <v-text-field label="Query"
@@ -15,6 +15,7 @@
                           id="query"
                           v-model="searchQ"
                           append-icon="clear"
+                          autofocus
                           @click:append="resetQuery"></v-text-field>
           </v-flex>
 
@@ -43,7 +44,7 @@
 
           <v-flex lg1>
             <v-flex right>
-              <v-btn type="submit">Submit</v-btn>
+              <v-btn type="submit" color="primary">Submit</v-btn>
             </v-flex>
           </v-flex>
         </v-layout>
@@ -72,7 +73,8 @@
     name: 'Search',
     props: {
       executeSearch: {
-        default: false
+        default: false,
+        type: Boolean
       }
     },
     computed: {
