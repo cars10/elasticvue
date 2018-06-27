@@ -33,6 +33,8 @@ if [ $? -eq 0 ]; then
 
   # push tags
   git push --tags
+
+  git checkout develop
 else
     echo "Failed. test_all.sh return a non-zero exit status."
 fi
