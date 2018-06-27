@@ -147,7 +147,7 @@ zip -r elasticvue.zip chrome_extension/*
 * filter options for search page
 * more utilities
 * ping on page load
-* performance - web workers? requestIdleCallback?
+* performance - web workers? wasm? requestIdleCallback?
 * logo
 
 ## License
