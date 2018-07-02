@@ -73,7 +73,6 @@
           JSON.parse(this.stringifiedParams)
           return true
         } catch (error) {
-          console.log(error)
           return false
         }
       },
@@ -96,8 +95,8 @@
             this.response = json
           })
           .catch(error => {
-            this.showErrorSnackbar({text: 'Error.', additionalText: error})
-            this.response = error
+            this.showErrorSnackbar({text: 'Error.', additionalText: error.message})
+            this.response = error.message
           })
       },
       httpMethods () {
