@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.4
+
+* fixes grid sizes
+* makes table headers sticky and tables scrollable
+* adds filters for source includes and size on search view
+* save table pagination and sort settings in store
+* updates dependencies
+
 ## 0.1.3
 
 * can connect via ctrl+enter during initial setup
