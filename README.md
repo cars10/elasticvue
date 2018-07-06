@@ -144,7 +144,7 @@ zip -r elasticvue.zip chrome_extension/*
 * save table settings (sort & pagination) in store
 * specs
 * remove 1000 items limit on search page
-* filter options for search page
+* only include used icons
 * more utilities
 * ping on page load
 * performance - web workers? wasm? requestIdleCallback?

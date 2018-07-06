@@ -15,12 +15,13 @@
       </div>
     </v-card-text>
 
-    <v-data-table :rows-per-page-items="[10, 20, 100, {text: 'All',value:-1}]"
+    <v-data-table :rows-per-page-items="defaultRowsPerPage()"
                   :headers="headers"
                   :items="flattenedHits"
                   :loading="loading"
                   :search="searchFilter"
                   :custom-filter="callFuzzyTableFilter"
+                  :pagination.sync="searchPagination"
                   class="table--condensed fixed-header">
       <template slot="items" slot-scope="item">
         <tr @click="openDocument(item.item)" class="tr--clickable">
@@ -45,6 +46,7 @@
   import { flattenObject, objectArrayUniqueKeys } from '../../helpers/utilities'
   import { fuzzyTableFilter } from '../../helpers/filters'
   import FixedHeaderTable from '@/mixins/FixedHeaderTable'
+  import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
 
   const DEFAULT_KEYS = ['_index', '_id', '_type', '_score']
 
@@ -79,6 +81,14 @@
         set (filter) {
           this.$store.commit('setSearchFilter', filter)
         }
+      },
+      searchPagination: {
+        get () {
+          return this.$store.state.search.pagination
+        },
+        set (pagination) {
+          this.$store.commit('setSearchPagination', pagination)
+        }
       }
     },
     methods: {
@@ -87,6 +97,9 @@
       },
       callFuzzyTableFilter (items, search, filter, headers) {
         return fuzzyTableFilter(items, search, headers)
+      },
+      defaultRowsPerPage () {
+        return DEFAULT_ROWS_PER_PAGE
       }
     },
     mounted () {

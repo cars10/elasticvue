@@ -15,11 +15,12 @@
         </v-flex>
       </div>
     </v-card-text>
-    <v-data-table :rows-per-page-items="[10, 25, 100]"
+    <v-data-table :rows-per-page-items="defaultRowsPerPage()"
                   :headers="headers"
                   :items="flattenedItems"
                   :custom-sort="sortIndices"
                   :custom-filter="callFuzzyTableFilter"
+                  :pagination.sync="indicesPagination"
                   :search="indicesFilter"
                   :loading="loading"
                   class="table--condensed fixed-header">
@@ -58,6 +59,7 @@
   import { fuzzyTableFilter } from '../../helpers/filters'
   import { flattenObject } from '../../helpers/utilities'
   import FixedHeaderTable from '@/mixins/FixedHeaderTable'
+  import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
 
   export default {
     name: 'IndicesTable',
@@ -95,6 +97,14 @@
         },
         set (filter) {
           this.$store.commit('setIndicesFilter', filter)
+        }
+      },
+      indicesPagination: {
+        get () {
+          return this.$store.state.indices.pagination
+        },
+        set (pagination) {
+          this.$store.commit('setIndicesPagination', pagination)
         }
       },
       flattenedItems () {
@@ -143,6 +153,9 @@
       },
       callFuzzyTableFilter (items, search, filter, headers) {
         return fuzzyTableFilter(items, search, headers)
+      },
+      defaultRowsPerPage () {
+        return DEFAULT_ROWS_PER_PAGE
       }
     },
     components: {
