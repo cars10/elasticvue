@@ -147,6 +147,9 @@
     mounted () {
       this.fixedHeaderTableOnMount()
     },
+    beforeDestroy () {
+      this.fixedHeaderTableOnBeforeDestroy()
+    },
     mixins: [
       FixedHeaderTable
     ]
