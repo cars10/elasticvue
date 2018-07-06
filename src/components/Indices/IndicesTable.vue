@@ -18,7 +18,7 @@
                   :custom-filter="callFuzzyTableFilter"
                   :search="indicesFilter"
                   :loading="loading"
-                  class="table--condensed">
+                  class="table--condensed fixed-header">
       <template slot="items" slot-scope="props">
         <tr @click="showDocuments(props.item.index)" class="tr--clickable">
           <td>{{props.item.index}}</td>
@@ -53,6 +53,7 @@
   import BtnGroup from '@/components/shared/BtnGroup'
   import { fuzzyTableFilter } from '../../helpers/filters'
   import { flattenObject } from '../../helpers/utilities'
+  import FixedHeaderTable from '@/mixins/FixedHeaderTable'
 
   export default {
     name: 'IndicesTable',
@@ -142,6 +143,12 @@
     },
     components: {
       BtnGroup
-    }
+    },
+    mounted () {
+      this.fixedHeaderTableOnMount()
+    },
+    mixins: [
+      FixedHeaderTable
+    ]
   }
 </script>

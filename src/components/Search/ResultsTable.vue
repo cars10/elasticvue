@@ -17,7 +17,7 @@
                   :loading="loading"
                   :search="searchFilter"
                   :custom-filter="callFuzzyTableFilter"
-                  class="table--condensed">
+                  class="table--condensed fixed-header">
       <template slot="items" slot-scope="item">
         <tr @click="openDocument(item.item)" class="tr--clickable">
           <td>{{ item.item._index }}</td>
@@ -40,6 +40,7 @@
 <script>
   import { flattenObject, objectArrayUniqueKeys } from '../../helpers/utilities'
   import { fuzzyTableFilter } from '../../helpers/filters'
+  import FixedHeaderTable from '@/mixins/FixedHeaderTable'
 
   const DEFAULT_KEYS = ['_index', '_id', '_type', '_score']
 
@@ -83,6 +84,12 @@
       callFuzzyTableFilter (items, search, filter, headers) {
         return fuzzyTableFilter(items, search, headers)
       }
-    }
+    },
+    mounted () {
+      this.fixedHeaderTableOnMount()
+    },
+    mixins: [
+      FixedHeaderTable
+    ]
   }
 </script>
