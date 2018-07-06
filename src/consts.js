@@ -47,6 +47,7 @@ export const DEFAULT_SEARCH_PARAMS = {
   q: '*',
   from: 0,
   size: 1000,
+  _sourceInclude: '',
   index: []
 }
 
