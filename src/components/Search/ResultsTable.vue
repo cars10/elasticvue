@@ -1,14 +1,18 @@
 <template>
   <div>
     <v-card-text>
-      <v-flex right d-inline-flex>
-        <v-text-field append-icon="search"
-                      @keyup.esc="searchFilter = ''"
-                      label="Filter via 'column:query'"
-                      name="filter"
-                      id="filter"
-                      v-model="searchFilter"></v-text-field>
-      </v-flex>
+      <div class="clearfix">
+        <v-flex right d-inline-flex>
+          <v-text-field append-icon="search"
+                        @keyup.esc="searchFilter = ''"
+                        label="Filter..."
+                        messages="Filter via 'column:query'"
+                        name="filter"
+                        id="filter"
+                        class="mt-0"
+                        v-model="searchFilter"></v-text-field>
+        </v-flex>
+      </div>
     </v-card-text>
 
     <v-data-table :rows-per-page-items="[10, 20, 100, {text: 'All',value:-1}]"

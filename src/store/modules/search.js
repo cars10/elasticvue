@@ -4,6 +4,7 @@ export const search = {
   state: {
     q: DEFAULT_SEARCH_PARAMS.q,
     indices: DEFAULT_SEARCH_PARAMS.index,
+    sourceInclude: '',
     filter: ''
   },
   mutations: {
@@ -12,6 +13,9 @@ export const search = {
     },
     setSearchIndices (state, indices) {
       state.indices = indices
+    },
+    setSearchSourceInclude (state, sourceInclude) {
+      state.sourceInclude = sourceInclude
     },
     setSearchFilter (state, filter) {
       state.filter = filter

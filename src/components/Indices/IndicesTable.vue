@@ -1,15 +1,19 @@
 <template>
   <div>
     <v-card-text>
-      <v-flex right d-inline-flex>
-        <v-text-field append-icon="search"
-                      @keyup.esc="indicesFilter = ''"
-                      label="Filter via 'column:query'"
-                      name="filter"
-                      id="filter"
-                      autofocus
-                      v-model="indicesFilter"></v-text-field>
-      </v-flex>
+      <div class="clearfix">
+        <v-flex right d-inline-flex>
+          <v-text-field append-icon="search"
+                        @keyup.esc="indicesFilter = ''"
+                        label="Filter..."
+                        name="filter"
+                        id="filter"
+                        class="mt-0"
+                        messages="Filter via 'column:query'"
+                        autofocus
+                        v-model="indicesFilter"></v-text-field>
+        </v-flex>
+      </div>
     </v-card-text>
     <v-data-table :rows-per-page-items="[10, 25, 100]"
                   :headers="headers"
