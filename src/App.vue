@@ -3,7 +3,7 @@
     <the-header @hostChanged="rerender"></the-header>
 
     <v-content>
-      <v-container grid-list-md>
+      <v-container fluid grid-list-md>
         <content-or-setup>
           <router-view v-if="renderRouterView"></router-view>
         </content-or-setup>
