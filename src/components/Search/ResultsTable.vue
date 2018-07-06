@@ -1,23 +1,28 @@
 <template>
   <div>
     <v-card-text>
-      <v-flex right d-inline-flex>
-        <v-text-field append-icon="search"
-                      @keyup.esc="searchFilter = ''"
-                      label="Filter via 'column:query'"
-                      name="filter"
-                      id="filter"
-                      v-model="searchFilter"></v-text-field>
-      </v-flex>
+      <div class="clearfix">
+        <v-flex right d-inline-flex>
+          <v-text-field append-icon="search"
+                        @keyup.esc="searchFilter = ''"
+                        label="Filter..."
+                        messages="Filter via 'column:query'"
+                        name="filter"
+                        id="filter"
+                        class="mt-0"
+                        v-model="searchFilter"></v-text-field>
+        </v-flex>
+      </div>
     </v-card-text>
 
-    <v-data-table :rows-per-page-items="[10, 20, 100, {text: 'All',value:-1}]"
+    <v-data-table :rows-per-page-items="defaultRowsPerPage()"
                   :headers="headers"
                   :items="flattenedHits"
                   :loading="loading"
                   :search="searchFilter"
                   :custom-filter="callFuzzyTableFilter"
-                  class="table--condensed">
+                  :pagination.sync="searchPagination"
+                  class="table--condensed fixed-header">
       <template slot="items" slot-scope="item">
         <tr @click="openDocument(item.item)" class="tr--clickable">
           <td>{{ item.item._index }}</td>
@@ -40,6 +45,8 @@
 <script>
   import { flattenObject, objectArrayUniqueKeys } from '../../helpers/utilities'
   import { fuzzyTableFilter } from '../../helpers/filters'
+  import FixedHeaderTable from '@/mixins/FixedHeaderTable'
+  import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
 
   const DEFAULT_KEYS = ['_index', '_id', '_type', '_score']
 
@@ -74,6 +81,14 @@
         set (filter) {
           this.$store.commit('setSearchFilter', filter)
         }
+      },
+      searchPagination: {
+        get () {
+          return this.$store.state.search.pagination
+        },
+        set (pagination) {
+          this.$store.commit('setSearchPagination', pagination)
+        }
       }
     },
     methods: {
@@ -82,7 +97,19 @@
       },
       callFuzzyTableFilter (items, search, filter, headers) {
         return fuzzyTableFilter(items, search, headers)
+      },
+      defaultRowsPerPage () {
+        return DEFAULT_ROWS_PER_PAGE
       }
-    }
+    },
+    mounted () {
+      this.fixedHeaderTableOnMount()
+    },
+    beforeDestroy () {
+      this.fixedHeaderTableOnBeforeDestroy()
+    },
+    mixins: [
+      FixedHeaderTable
+    ]
   }
 </script>

@@ -16,6 +16,7 @@ describe('normalizeSearchParams', () => {
       q: 'query',
       from: DEFAULT_SEARCH_PARAMS.from,
       size: 3,
+      _sourceInclude: '',
       index: DEFAULT_SEARCH_PARAMS.index
     }
     expect(normalizeSearchParams(params)).to.eql(expected)
@@ -26,12 +27,14 @@ describe('normalizeSearchParams', () => {
       q: 'query',
       from: 5,
       size: 20,
+      _sourceInclude: 'col1',
       index: 'myIndex'
     }
     const expected = {
       q: 'query',
       from: 5,
       size: 20,
+      _sourceInclude: '',
       index: 'myIndex'
     }
     expect(normalizeSearchParams(params)).to.eql(expected)
@@ -42,12 +45,14 @@ describe('normalizeSearchParams', () => {
       q: 'query',
       from: '5',
       size: '20',
+      _sourceInclude: null,
       index: 'myIndex'
     }
     const expected = {
       q: 'query',
       from: 5,
       size: 20,
+      _sourceInclude: '',
       index: 'myIndex'
     }
     expect(normalizeSearchParams(params)).to.eql(expected)

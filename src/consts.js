@@ -47,6 +47,7 @@ export const DEFAULT_SEARCH_PARAMS = {
   q: '*',
   from: 0,
   size: 1000,
+  _sourceInclude: '',
   index: []
 }
 
@@ -62,6 +63,15 @@ export const REQUEST_DEFAULT_BODY = {
 export const REQUEST_DEFAULT_HEADERS = {
   'Accept': 'application/json',
   'Content-Type': 'application/json'
+}
+
+export const DEFAULT_ROWS_PER_PAGE = [10, 20, 100, {text: 'All', value: -1}]
+export const DEFAULT_DATA_TABLE_PAGINATION = {
+  descending: false,
+  page: 1,
+  rowsPerPage: DEFAULT_ROWS_PER_PAGE[0],
+  sortBy: null,
+  totalItems: 0
 }
 
 export const HTTP_METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS']

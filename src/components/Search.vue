@@ -24,7 +24,7 @@
               <template slot-scope="data">
                 <custom-v-autocomplete multiple
                                        label="Indices"
-                                       name="Indices"
+                                       name="indices"
                                        id="indices"
                                        v-model="searchIndices"
                                        :items="data.body | sortIndices"
@@ -48,12 +48,37 @@
             </v-flex>
           </v-flex>
         </v-layout>
+
+        <v-layout row wrap v-if="optionsCollapsed">
+          <v-flex lg10>
+            <v-text-field label="Source includes"
+                          name="source_includes"
+                          messages="Enter a comma separated list of columns"
+                          v-model="searchSourceInclude"></v-text-field>
+          </v-flex>
+
+          <v-flex lg2>
+            <v-text-field label="Size"
+                          name="size"
+                          v-model="searchSize"></v-text-field>
+          </v-flex>
+        </v-layout>
+
+        <div class="clearfix">
+          <v-flex d-inline-flex right>
+            <a @click="showOptions" class="grey--text user-select--none">More options...
+              <v-icon small>{{optionsCollapsed ? 'arrow_upwards' : 'arrow_downwards'}}</v-icon>
+            </a>
+          </v-flex>
+        </div>
       </v-form>
     </v-card-text>
 
     <v-divider></v-divider>
 
-    <data-loader method="search" :methodParams="searchParams" ref="resultsLoader"
+    <data-loader method="search"
+                 :methodParams="searchParams"
+                 ref="resultsLoader"
                  :execute="executeSearch"
                  renderContentWhileLoading>
       <template slot-scope="data">
@@ -71,6 +96,11 @@
 
   export default {
     name: 'Search',
+    data () {
+      return {
+        optionsCollapsed: false
+      }
+    },
     props: {
       executeSearch: {
         default: false,
@@ -94,8 +124,29 @@
           this.$store.commit('setSearchIndices', indices)
         }
       },
+      searchSize: {
+        get () {
+          return this.$store.state.search.size
+        },
+        set (size) {
+          this.$store.commit('setSearchSize', size)
+        }
+      },
+      searchSourceInclude: {
+        get () {
+          return this.$store.state.search.sourceInclude
+        },
+        set (sourceInclude) {
+          this.$store.commit('setSearchSourceInclude', sourceInclude)
+        }
+      },
       searchParams () {
-        return {q: this.searchQ, index: this.searchIndices}
+        return {
+          q: this.searchQ,
+          index: this.searchIndices,
+          sourceInclude: this.searchSourceInclude,
+          size: this.searchSize
+        }
       }
     },
     methods: {
@@ -107,6 +158,9 @@
       },
       isChecked (item) {
         return this.searchIndices.includes(item)
+      },
+      showOptions () {
+        this.optionsCollapsed = !this.optionsCollapsed
       }
     },
     filters: {

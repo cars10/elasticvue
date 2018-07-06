@@ -1,24 +1,29 @@
 <template>
   <div>
     <v-card-text>
-      <v-flex right d-inline-flex>
-        <v-text-field append-icon="search"
-                      @keyup.esc="indicesFilter = ''"
-                      label="Filter via 'column:query'"
-                      name="filter"
-                      id="filter"
-                      autofocus
-                      v-model="indicesFilter"></v-text-field>
-      </v-flex>
+      <div class="clearfix">
+        <v-flex right d-inline-flex>
+          <v-text-field append-icon="search"
+                        @keyup.esc="indicesFilter = ''"
+                        label="Filter..."
+                        name="filter"
+                        id="filter"
+                        class="mt-0"
+                        messages="Filter via 'column:query'"
+                        autofocus
+                        v-model="indicesFilter"></v-text-field>
+        </v-flex>
+      </div>
     </v-card-text>
-    <v-data-table :rows-per-page-items="[10, 25, 100]"
+    <v-data-table :rows-per-page-items="defaultRowsPerPage()"
                   :headers="headers"
                   :items="flattenedItems"
                   :custom-sort="sortIndices"
                   :custom-filter="callFuzzyTableFilter"
+                  :pagination.sync="indicesPagination"
                   :search="indicesFilter"
                   :loading="loading"
-                  class="table--condensed">
+                  class="table--condensed fixed-header">
       <template slot="items" slot-scope="props">
         <tr @click="showDocuments(props.item.index)" class="tr--clickable">
           <td>{{props.item.index}}</td>
@@ -53,6 +58,8 @@
   import BtnGroup from '@/components/shared/BtnGroup'
   import { fuzzyTableFilter } from '../../helpers/filters'
   import { flattenObject } from '../../helpers/utilities'
+  import FixedHeaderTable from '@/mixins/FixedHeaderTable'
+  import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
 
   export default {
     name: 'IndicesTable',
@@ -90,6 +97,14 @@
         },
         set (filter) {
           this.$store.commit('setIndicesFilter', filter)
+        }
+      },
+      indicesPagination: {
+        get () {
+          return this.$store.state.indices.pagination
+        },
+        set (pagination) {
+          this.$store.commit('setIndicesPagination', pagination)
         }
       },
       flattenedItems () {
@@ -138,10 +153,22 @@
       },
       callFuzzyTableFilter (items, search, filter, headers) {
         return fuzzyTableFilter(items, search, headers)
+      },
+      defaultRowsPerPage () {
+        return DEFAULT_ROWS_PER_PAGE
       }
     },
     components: {
       BtnGroup
-    }
+    },
+    mounted () {
+      this.fixedHeaderTableOnMount()
+    },
+    beforeDestroy () {
+      this.fixedHeaderTableOnBeforeDestroy()
+    },
+    mixins: [
+      FixedHeaderTable
+    ]
   }
 </script>
