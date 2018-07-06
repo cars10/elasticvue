@@ -4,6 +4,7 @@ export const search = {
   state: {
     q: DEFAULT_SEARCH_PARAMS.q,
     indices: DEFAULT_SEARCH_PARAMS.index,
+    size: DEFAULT_SEARCH_PARAMS.size,
     sourceInclude: '',
     filter: '',
     pagination: DEFAULT_DATA_TABLE_PAGINATION
@@ -14,6 +15,9 @@ export const search = {
     },
     setSearchIndices (state, indices) {
       state.indices = indices
+    },
+    setSearchSize (state, size) {
+      state.size = size
     },
     setSearchSourceInclude (state, sourceInclude) {
       state.sourceInclude = sourceInclude

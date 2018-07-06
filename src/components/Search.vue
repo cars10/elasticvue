@@ -50,10 +50,18 @@
         </v-layout>
 
         <v-layout row wrap v-if="optionsCollapsed">
-          <v-text-field label="Source includes"
-                        name="source_includes"
-                        messages="Enter a comma separated list of columns"
-                        v-model="searchSourceInclude"></v-text-field>
+          <v-flex lg10>
+            <v-text-field label="Source includes"
+                          name="source_includes"
+                          messages="Enter a comma separated list of columns"
+                          v-model="searchSourceInclude"></v-text-field>
+          </v-flex>
+
+          <v-flex lg2>
+            <v-text-field label="Size"
+                          name="size"
+                          v-model="searchSize"></v-text-field>
+          </v-flex>
         </v-layout>
 
         <div class="clearfix">
@@ -116,6 +124,14 @@
           this.$store.commit('setSearchIndices', indices)
         }
       },
+      searchSize: {
+        get () {
+          return this.$store.state.search.size
+        },
+        set (size) {
+          this.$store.commit('setSearchSize', size)
+        }
+      },
       searchSourceInclude: {
         get () {
           return this.$store.state.search.sourceInclude
@@ -125,7 +141,12 @@
         }
       },
       searchParams () {
-        return {q: this.searchQ, index: this.searchIndices, sourceInclude: this.searchSourceInclude}
+        return {
+          q: this.searchQ,
+          index: this.searchIndices,
+          sourceInclude: this.searchSourceInclude,
+          size: this.searchSize
+        }
       }
     },
     methods: {
