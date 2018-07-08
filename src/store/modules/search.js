@@ -31,6 +31,10 @@ export const search = {
     resetSearch (state) {
       state.q = DEFAULT_SEARCH_PARAMS.q
       state.indices = DEFAULT_SEARCH_PARAMS.index
+      state.size = DEFAULT_SEARCH_PARAMS.size
+      state.sourceInclude = ''
+      state.filter = ''
+      state.pagination = DEFAULT_DATA_TABLE_PAGINATION
     }
   }
 }
