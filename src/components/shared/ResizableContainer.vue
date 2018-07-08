@@ -1,15 +1,13 @@
 <template>
-  <div>
-    <div :style="style" ref="resizedWrapper" class="position--relative">
-      <slot></slot>
+  <div :style="style" ref="resizedWrapper" class="position--relative">
+    <slot></slot>
 
-      <v-btn flat
-             class="v-btn-absolute-bottom-right"
-             title="Resize"
-             @mousedown="onDragStart">
-        <v-icon>vertical_align_center</v-icon>
-      </v-btn>
-    </div>
+    <v-btn flat
+           class="v-btn-absolute-bottom-right"
+           title="Resize"
+           @mousedown="onDragStart">
+      <v-icon>vertical_align_center</v-icon>
+    </v-btn>
   </div>
 </template>
 
