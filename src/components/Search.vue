@@ -13,6 +13,7 @@
             <v-text-field label="Query"
                           name="Query"
                           id="query"
+                          messages="Querying supports the <a target='_blank' rel='noopener' href='https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html'>query string DSL</a>"
                           v-model="searchQ"
                           append-icon="clear"
                           autofocus
@@ -53,7 +54,7 @@
           <v-flex lg10>
             <v-text-field label="Source includes"
                           name="source_includes"
-                          messages="Enter a comma separated list of columns"
+                          messages="Enter a comma separated list of columns to load"
                           v-model="searchSourceInclude"></v-text-field>
           </v-flex>
 
