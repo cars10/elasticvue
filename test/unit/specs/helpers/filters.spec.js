@@ -17,86 +17,88 @@ const headers = [
   {value: 'type'}
 ]
 
-describe('filters.js default searches', () => {
-  it('should return all items on empty search', () => {
-    let results = fuzzyTableFilter(items, '', headers)
-    expect(results.length).to.equal(items.length)
+describe('helpers/filters.js', () => {
+  describe('filters.js default searches', () => {
+    it('should return all items on empty search', () => {
+      let results = fuzzyTableFilter(items, '', headers)
+      expect(results.length).to.equal(items.length)
+    })
+
+    it('should return all items on whitespace search', () => {
+      let results = fuzzyTableFilter(items, '   ', headers)
+      expect(results.length).to.equal(items.length)
+    })
+
+    it('should return no items on unmatched search', () => {
+      let results = fuzzyTableFilter(items, 'xxxxxxxxxxxxxx', headers)
+      expect(results).to.be.empty
+    })
+
+    it('should return all persons on person search', () => {
+      const persons = items.filter(item => item.type === 'person')
+      const personNames = persons.map(person => person.name)
+
+      const results = fuzzyTableFilter(items, 'person', headers)
+      const resultNames = results.map(result => result.name)
+
+      expect(results.length).to.equal(persons.length)
+      expect(resultNames).to.have.members(personNames)
+    })
+
+    it('should fuzzy match on "da" search', () => {
+      const results = fuzzyTableFilter(items, 'da', headers)
+      const resultNames = results.map(result => result.name)
+      const expected = ['dagobah', 'darth vader', 'yoda']
+      expect(resultNames).to.have.members(expected)
+    })
+
+    it('should fuzzy match on "dar" search', () => {
+      const results = fuzzyTableFilter(items, 'dar', headers)
+      const resultNames = results.map(result => result.name)
+      const expected = ['darth vader']
+      expect(resultNames).to.have.members(expected)
+    })
+
+    it('should filter all things with s on s search', () => {
+      const expected = ['milenium falcon', 'x-wing', 'starfighter', 'luke skywalker', 'darth vader', 'yoda', 'qui-gon jin', 'coruscant']
+
+      const results = fuzzyTableFilter(items, 's', headers)
+      const resultNames = results.map(result => result.name)
+
+      expect(resultNames).to.have.members(expected)
+    })
   })
 
-  it('should return all items on whitespace search', () => {
-    let results = fuzzyTableFilter(items, '   ', headers)
-    expect(results.length).to.equal(items.length)
-  })
+  describe('filters.js column searches', () => {
+    it('should return all items on empty column search', () => {
+      const results = fuzzyTableFilter(items, 'type:', headers)
+      expect(results.length).to.equal(items.length)
+    })
 
-  it('should return no items on unmatched search', () => {
-    let results = fuzzyTableFilter(items, 'xxxxxxxxxxxxxx', headers)
-    expect(results).to.be.empty
-  })
+    it('should return all items on whitespace column search', () => {
+      const results = fuzzyTableFilter(items, 'type:   ', headers)
+      expect(results.length).to.equal(items.length)
+    })
 
-  it('should return all persons on person search', () => {
-    const persons = items.filter(item => item.type === 'person')
-    const personNames = persons.map(person => person.name)
+    it('should return all persons on type:person search', () => {
+      const persons = items.filter(item => item.type === 'person')
+      const personNames = persons.map(person => person.name)
 
-    const results = fuzzyTableFilter(items, 'person', headers)
-    const resultNames = results.map(result => result.name)
+      const results = fuzzyTableFilter(items, 'type:person', headers)
+      const resultNames = results.map(result => result.name)
 
-    expect(results.length).to.equal(persons.length)
-    expect(resultNames).to.have.members(personNames)
-  })
+      expect(results.length).to.equal(persons.length)
+      expect(resultNames).to.have.members(personNames)
+    })
 
-  it('should fuzzy match on "da" search', () => {
-    const results = fuzzyTableFilter(items, 'da', headers)
-    const resultNames = results.map(result => result.name)
-    const expected = ['dagobah', 'darth vader', 'yoda']
-    expect(resultNames).to.have.members(expected)
-  })
+    it('should filter all ships and persons on type:s search', () => {
+      const shipsAndPersons = items.filter(item => item.type !== 'location')
+      const itemNames = shipsAndPersons.map(item => item.name)
 
-  it('should fuzzy match on "dar" search', () => {
-    const results = fuzzyTableFilter(items, 'dar', headers)
-    const resultNames = results.map(result => result.name)
-    const expected = ['darth vader']
-    expect(resultNames).to.have.members(expected)
-  })
+      const results = fuzzyTableFilter(items, 'type:s', headers)
+      const resultNames = results.map(result => result.name)
 
-  it('should filter all things with s on s search', () => {
-    const expected = ['milenium falcon', 'x-wing', 'starfighter', 'luke skywalker', 'darth vader', 'yoda', 'qui-gon jin', 'coruscant']
-
-    const results = fuzzyTableFilter(items, 's', headers)
-    const resultNames = results.map(result => result.name)
-
-    expect(resultNames).to.have.members(expected)
-  })
-})
-
-describe('filters.js column searches', () => {
-  it('should return all items on empty column search', () => {
-    const results = fuzzyTableFilter(items, 'type:', headers)
-    expect(results.length).to.equal(items.length)
-  })
-
-  it('should return all items on whitespace column search', () => {
-    const results = fuzzyTableFilter(items, 'type:   ', headers)
-    expect(results.length).to.equal(items.length)
-  })
-
-  it('should return all persons on type:person search', () => {
-    const persons = items.filter(item => item.type === 'person')
-    const personNames = persons.map(person => person.name)
-
-    const results = fuzzyTableFilter(items, 'type:person', headers)
-    const resultNames = results.map(result => result.name)
-
-    expect(results.length).to.equal(persons.length)
-    expect(resultNames).to.have.members(personNames)
-  })
-
-  it('should filter all ships and persons on type:s search', () => {
-    const shipsAndPersons = items.filter(item => item.type !== 'location')
-    const itemNames = shipsAndPersons.map(item => item.name)
-
-    const results = fuzzyTableFilter(items, 'type:s', headers)
-    const resultNames = results.map(result => result.name)
-
-    expect(resultNames).to.have.members(itemNames)
+      expect(resultNames).to.have.members(itemNames)
+    })
   })
 })
