@@ -2,12 +2,11 @@ const FixedHeaderTable = {
   methods: {
     updateFixedHeaderTableHeight () {
       const height = window.innerHeight
-      const initialTableHeight = 800
       const minHeight = 300
-      const offset = 120
+      const offset = 100
       const requiredTableHeight = height - offset
 
-      if (requiredTableHeight < initialTableHeight && requiredTableHeight > minHeight) {
+      if (requiredTableHeight > minHeight) {
         document.querySelector('.fixed-header .v-table__overflow').style.maxHeight = `${requiredTableHeight}px`
       }
     },
