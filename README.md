@@ -143,6 +143,7 @@ zip -r elasticvue.zip chrome_extension/*
 
 * specs
 * more utilities
+* refactor state to use actions and namespaced modules
 * ping on page load
 * performance - web workers? wasm? requestIdleCallback?
 * logo
