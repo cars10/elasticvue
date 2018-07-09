@@ -9,9 +9,11 @@ if [ $? -ne 0 ]; then
 fi
 
 # prepare
-rm -rf node_modules
 rm -rf dist
 yarn install
+
+# Run linter
+yarn lint
 
 # Run specs
 yarn test
