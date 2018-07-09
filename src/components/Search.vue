@@ -2,7 +2,7 @@
   <v-card>
     <v-card-title>
       <h1 class="headline">Search</h1>
-      <reload-button title="Reload indices" :action="() => $refs.indicesLoader.loadData()"></reload-button>
+      <reload-button title="Reload indices" :action="resetIndices"></reload-button>
     </v-card-title>
     <v-divider></v-divider>
 
@@ -162,6 +162,10 @@
       },
       showOptions () {
         this.optionsCollapsed = !this.optionsCollapsed
+      },
+      resetIndices () {
+        this.searchIndices = []
+        this.$refs.indicesLoader.loadData()
       }
     },
     filters: {
