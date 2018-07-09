@@ -17,7 +17,7 @@
 
     <v-data-table :rows-per-page-items="defaultRowsPerPage()"
                   :headers="headers"
-                  :items="hits"
+                  :items="flattenedHits"
                   :loading="loading"
                   :search="searchFilter"
                   :custom-filter="callFuzzyTableFilter"
@@ -29,7 +29,7 @@
           <td>{{ item.item._id}}</td>
           <td>{{ item.item._type}}</td>
           <td>{{ item.item._score}}</td>
-          <td v-for="key in keys" :key="item.item._index + '_' + key">{{item.item['_source'][key]}}</td>
+          <td v-for="key in keys" :key="item.item._index + '_' + key">{{item.item[key]}}</td>
         </tr>
       </template>
 
@@ -43,7 +43,7 @@
 </template>
 
 <script>
-  import { objectArrayUniqueKeys } from '../../helpers/utilities'
+  import { flattenObject, objectArrayUniqueKeys } from '../../helpers/utilities'
   import { fuzzyTableFilter } from '../../helpers/filters'
   import FixedHeaderTable from '@/mixins/FixedHeaderTable'
   import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
@@ -70,6 +70,9 @@
       },
       keys () {
         return objectArrayUniqueKeys(this.hits, '_source')
+      },
+      flattenedHits () {
+        return this.hits.map(hit => flattenObject(hit))
       },
       searchFilter: {
         get () {
