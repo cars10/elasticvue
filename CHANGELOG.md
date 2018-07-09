@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.6
+
+* fix column name filter on search page
+
 ## 0.1.5
 
 * text changes
