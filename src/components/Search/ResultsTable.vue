@@ -43,7 +43,7 @@
 </template>
 
 <script>
-  import { flattenObject, objectArrayUniqueKeys } from '../../helpers/utilities'
+  import { objectArrayUniqueKeys } from '../../helpers/utilities'
   import { fuzzyTableFilter } from '../../helpers/filters'
   import FixedHeaderTable from '@/mixins/FixedHeaderTable'
   import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
@@ -72,7 +72,11 @@
         return objectArrayUniqueKeys(this.hits, '_source')
       },
       flattenedHits () {
-        return this.hits.map(hit => flattenObject(hit))
+        return this.hits.map(hit => {
+          Object.assign(hit, hit['_source'])
+          delete hit['_source']
+          return hit
+        })
       },
       searchFilter: {
         get () {
