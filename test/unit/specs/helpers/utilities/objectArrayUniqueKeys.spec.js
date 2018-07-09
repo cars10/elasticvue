@@ -1,6 +1,6 @@
 import { objectArrayUniqueKeys } from '@/helpers/utilities'
 
-describe('utilities/objectArrayUniqueKeys', () => {
+describe('helpers/utilities/objectArrayUniqueKeys', () => {
   it('returns an empty array when called empty', () => {
     expect(objectArrayUniqueKeys()).to.eql([])
     expect(objectArrayUniqueKeys().length).to.eql(0)

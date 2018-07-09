@@ -1,4 +1,4 @@
-FROM node:9.11-alpine
+FROM node:10.6-alpine
 
 # Folder for our application code
 WORKDIR /usr/src/app

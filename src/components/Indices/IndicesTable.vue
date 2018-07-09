@@ -5,7 +5,7 @@
         <v-flex right d-inline-flex>
           <v-text-field append-icon="search"
                         @keyup.esc="indicesFilter = ''"
-                        label="Filter..."
+                        label="Filter results..."
                         name="filter"
                         id="filter"
                         class="mt-0"

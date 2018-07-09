@@ -1,7 +1,7 @@
 # elasticvue
 
 [![Build Status](https://travis-ci.org/cars10/elasticvue.svg?branch=develop)](https://travis-ci.org/cars10/elasticvue)
-[![Dependency Status](https://david-dm.org/cars10/elasticvue.svg)](https://david-dm.org/cars10/elasticvue.svg)
+[![Dependency Status](https://david-dm.org/cars10/elasticvue.svg)](https://david-dm.org/cars10/elasticvue)
 
 > Elasticsearch frontend for your browser [https://elasticvue.com](https://elasticvue.com)
 
@@ -141,10 +141,7 @@ zip -r elasticvue.zip chrome_extension/*
 
 ## TODO
 
-* save table settings (sort & pagination) in store
 * specs
-* remove 1000 items limit on search page
-* only include used icons
 * more utilities
 * ping on page load
 * performance - web workers? wasm? requestIdleCallback?

@@ -2,7 +2,7 @@
   <v-card>
     <v-card-title>
       <h1 class="headline">Search</h1>
-      <reload-button title="Reload indices" :action="() => $refs.indicesLoader.loadData()"></reload-button>
+      <reload-button title="Reload indices" :action="resetIndices"></reload-button>
     </v-card-title>
     <v-divider></v-divider>
 
@@ -10,9 +10,10 @@
       <v-form @submit.prevent="loadData">
         <v-layout row wrap>
           <v-flex lg2>
-            <v-text-field label="Query"
-                          name="Query"
+            <v-text-field label="Search query"
+                          name="query"
                           id="query"
+                          messages="Querying supports the <a target='_blank' rel='noopener' href='https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html'>query string DSL</a>"
                           v-model="searchQ"
                           append-icon="clear"
                           autofocus
@@ -53,7 +54,7 @@
           <v-flex lg10>
             <v-text-field label="Source includes"
                           name="source_includes"
-                          messages="Enter a comma separated list of columns"
+                          messages="Enter a comma separated list of columns to load"
                           v-model="searchSourceInclude"></v-text-field>
           </v-flex>
 
@@ -161,6 +162,10 @@
       },
       showOptions () {
         this.optionsCollapsed = !this.optionsCollapsed
+      },
+      resetIndices () {
+        this.searchIndices = []
+        this.$refs.indicesLoader.loadData()
       }
     },
     filters: {

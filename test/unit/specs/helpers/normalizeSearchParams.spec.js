@@ -1,7 +1,7 @@
 import { normalizeSearchParams } from '@/helpers'
 import { DEFAULT_SEARCH_PARAMS } from '@/consts'
 
-describe('normalizeSearchParams', () => {
+describe('helpers/normalizeSearchParams', () => {
   it('has correct default values', () => {
     expect(normalizeSearchParams({})).to.eql(DEFAULT_SEARCH_PARAMS)
   })

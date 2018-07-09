@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.5
+
+* text changes
+* fix bug when reloading indices on search
+* use node 10 for docker image
+* adds more specs
+* updates dependencies
+
 ## 0.1.4
 
 * fixes grid sizes
