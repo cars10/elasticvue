@@ -5,7 +5,7 @@
         <v-flex right d-inline-flex>
           <v-text-field append-icon="search"
                         @keyup.esc="searchFilter = ''"
-                        label="Filter..."
+                        label="Filter results..."
                         messages="Filter via 'column:query'"
                         name="filter"
                         id="filter"
