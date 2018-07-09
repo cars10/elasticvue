@@ -46,7 +46,8 @@
     },
     methods: {
       triggerResize () {
-        if (window !== undefined) window.dispatchEvent(new Event('resize'))
+        if (typeof window === 'undefined') return
+        window.dispatchEvent(new Event('resize'))
       },
       onDragStart (e) {
         this.resizing = true
@@ -63,23 +64,21 @@
         this.resizing = false
         this.dragStartY = 0
         this.$nextTick(() => {
-          if (window !== undefined) {
+          if (typeof window !== 'undefined') {
             this.triggerResize()
           }
         })
       }
     },
     mounted () {
-      if (window !== undefined) {
-        window.addEventListener('mouseup', this.onDragEnd)
-        window.addEventListener('mousemove', this.onDrag)
-      }
+      if (typeof window === 'undefined') return
+      window.addEventListener('mouseup', this.onDragEnd)
+      window.addEventListener('mousemove', this.onDrag)
     },
     destroyed () {
-      if (window !== undefined) {
-        window.removeEventListener('mouseup', this.onDragEnd)
-        window.removeEventListener('mousemove', this.onDrag)
-      }
+      if (typeof window === 'undefined') return
+      window.removeEventListener('mouseup', this.onDragEnd)
+      window.removeEventListener('mousemove', this.onDrag)
     },
     components: {
       BtnGroup
