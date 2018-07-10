@@ -32,6 +32,11 @@ if [ $? -eq 0 ]; then
   # push tags
   git push --tags
 
+  # build chrome extension
+  rm -f elasticvue.zip
+  yarn build_chrome_extension
+  zip -r elasticvue.zip chrome_extension/*
+
   git checkout develop
 else
     echo "Failed. test_all.sh return a non-zero exit status."
