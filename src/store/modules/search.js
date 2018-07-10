@@ -7,7 +7,9 @@ export const search = {
     size: DEFAULT_SEARCH_PARAMS.size,
     sourceInclude: '',
     filter: '',
-    pagination: DEFAULT_DATA_TABLE_PAGINATION
+    pagination: DEFAULT_DATA_TABLE_PAGINATION,
+    showIndex: true,
+    showScore: true
   },
   mutations: {
     setSearchQ (state, q) {
@@ -27,6 +29,12 @@ export const search = {
     },
     setSearchPagination (state, pagination) {
       state.pagination = pagination
+    },
+    setSearchShowIndex (state, val) {
+      state.showIndex = val
+    },
+    setSearchShowScore (state, val) {
+      state.showScore = val
     },
     resetSearch (state) {
       state.q = DEFAULT_SEARCH_PARAMS.q

@@ -50,20 +50,32 @@
           </v-flex>
         </v-layout>
 
-        <v-layout row wrap v-if="optionsCollapsed">
-          <v-flex lg10>
-            <v-text-field label="Source includes"
-                          name="source_includes"
-                          messages="Enter a comma separated list of columns to load"
-                          v-model="searchSourceInclude"></v-text-field>
-          </v-flex>
+        <div v-if="optionsCollapsed">
+          <v-layout row wrap>
+            <v-flex lg10>
+              <v-text-field label="Source includes"
+                            name="source_includes"
+                            messages="Enter a comma separated list of columns to load"
+                            v-model="searchSourceInclude"></v-text-field>
+            </v-flex>
 
-          <v-flex lg2>
-            <v-text-field label="Size"
-                          name="size"
-                          v-model="searchSize"></v-text-field>
-          </v-flex>
-        </v-layout>
+            <v-flex lg2>
+              <v-text-field label="Size"
+                            name="size"
+                            v-model="searchSize"></v-text-field>
+            </v-flex>
+          </v-layout>
+
+          <div>
+            <v-flex d-inline-flex>
+              <v-switch id="show_index" label="Show _index" v-model="showIndex" hide-details></v-switch>
+            </v-flex>
+
+            <v-flex d-inline-flex class="ml-5">
+              <v-switch id="show_score" label="Show _score" v-model="showScore" hide-details></v-switch>
+            </v-flex>
+          </div>
+        </div>
 
         <div class="clearfix">
           <v-flex d-inline-flex right>
@@ -139,6 +151,22 @@
         },
         set (sourceInclude) {
           this.$store.commit('setSearchSourceInclude', sourceInclude)
+        }
+      },
+      showIndex: {
+        get () {
+          return this.$store.state.search.showIndex
+        },
+        set (value) {
+          this.$store.commit('setSearchShowIndex', value)
+        }
+      },
+      showScore: {
+        get () {
+          return this.$store.state.search.showScore
+        },
+        set (value) {
+          this.$store.commit('setSearchShowScore', value)
         }
       },
       searchParams () {

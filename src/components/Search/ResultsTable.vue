@@ -25,10 +25,10 @@
                   class="table--condensed fixed-header">
       <template slot="items" slot-scope="item">
         <tr @click="openDocument(item.item)" class="tr--clickable">
-          <td>{{ item.item._index }}</td>
+          <td v-if="showIndex">{{ item.item._index }}</td>
+          <td v-if="showScore">{{ item.item._score}}</td>
           <td>{{ item.item._id}}</td>
           <td>{{ item.item._type}}</td>
-          <td>{{ item.item._score}}</td>
           <td v-for="key in keys" :key="item.item._index + '_' + key">{{item.item[key]}}</td>
         </tr>
       </template>
@@ -48,8 +48,6 @@
   import FixedHeaderTable from '@/mixins/FixedHeaderTable'
   import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
 
-  const DEFAULT_KEYS = ['_index', '_id', '_type', '_score']
-
   export default {
     name: 'ResultsTable',
     props: {
@@ -64,8 +62,16 @@
       }
     },
     computed: {
+      defaultKeys () {
+        let keys = []
+        if (this.showIndex) keys.push('_index')
+        if (this.showScore) keys.push('_score')
+        keys.push('_id')
+        keys.push('_type')
+        return keys
+      },
       headers () {
-        let defaultKeyHeaders = DEFAULT_KEYS.map(value => ({text: value, value: value}))
+        let defaultKeyHeaders = this.defaultKeys.map(value => ({text: value, value: value}))
         return defaultKeyHeaders.concat(this.keys.map(value => ({text: value, value: value})))
       },
       keys () {
@@ -93,6 +99,12 @@
         set (pagination) {
           this.$store.commit('setSearchPagination', pagination)
         }
+      },
+      showIndex () {
+        return this.$store.state.search.showIndex
+      },
+      showScore () {
+        return this.$store.state.search.showScore
       }
     },
     methods: {
