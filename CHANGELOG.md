@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.8
+
+* fix broken build
+
 ## 0.1.7
 
 * better table resizing
