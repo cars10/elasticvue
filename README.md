@@ -144,7 +144,7 @@ zip -r elasticvue.zip chrome_extension/*
 Current TODOs, more ore less ordered by importance.
 
 * specs
-* refactor state to use actions and namespaced modules
+* refactor state to use actions
 * more utilities
 * ping on page load
 * performance - web workers? wasm? requestIdleCallback?
