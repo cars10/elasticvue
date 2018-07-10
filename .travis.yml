@@ -1,6 +1,5 @@
 language: node_js
 node_js:
-  - "node"
-  - "9"
+  - "10"
 script: yarn lint && yarn test && yarn build
 cache: yarn
