@@ -144,6 +144,8 @@ zip -r elasticvue.zip chrome_extension/*
 Current TODOs, more ore less ordered by importance.
 
 * specs
+** use before() hook
+** use getStyle where it makes sense
 * refactor state to use actions and namespaced modules
 * more utilities
 * ping on page load
