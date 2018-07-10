@@ -126,7 +126,7 @@
           return this.$store.state.search.q
         },
         set (q) {
-          this.$store.commit('setSearchQ', q)
+          this.$store.commit('search/setQ', q)
         }
       },
       searchIndices: {
@@ -134,7 +134,7 @@
           return this.$store.state.search.indices
         },
         set (indices) {
-          this.$store.commit('setSearchIndices', indices)
+          this.$store.commit('search/setIndices', indices)
         }
       },
       searchSize: {
@@ -142,7 +142,7 @@
           return this.$store.state.search.size
         },
         set (size) {
-          this.$store.commit('setSearchSize', size)
+          this.$store.commit('search/setSize', size)
         }
       },
       searchSourceInclude: {
@@ -150,7 +150,7 @@
           return this.$store.state.search.sourceInclude
         },
         set (sourceInclude) {
-          this.$store.commit('setSearchSourceInclude', sourceInclude)
+          this.$store.commit('search/setSourceInclude', sourceInclude)
         }
       },
       showIndex: {
@@ -158,7 +158,7 @@
           return this.$store.state.search.showIndex
         },
         set (value) {
-          this.$store.commit('setSearchShowIndex', value)
+          this.$store.commit('search/setShowIndex', value)
         }
       },
       showScore: {
@@ -166,7 +166,7 @@
           return this.$store.state.search.showScore
         },
         set (value) {
-          this.$store.commit('setSearchShowScore', value)
+          this.$store.commit('search/setShowScore', value)
         }
       },
       searchParams () {

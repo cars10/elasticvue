@@ -89,7 +89,7 @@
           return this.$store.state.search.filter
         },
         set (filter) {
-          this.$store.commit('setSearchFilter', filter)
+          this.$store.commit('search/setFilter', filter)
         }
       },
       searchPagination: {
@@ -97,7 +97,7 @@
           return this.$store.state.search.pagination
         },
         set (pagination) {
-          this.$store.commit('setSearchPagination', pagination)
+          this.$store.commit('search/setPagination', pagination)
         }
       },
       showIndex () {

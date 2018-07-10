@@ -13,7 +13,7 @@ export default {
         return this.$store.state.query.host
       },
       set (host) {
-        this.$store.commit('setQueryHost', host)
+        this.$store.commit('query/setHost', host)
       }
     },
     method: {
@@ -21,7 +21,7 @@ export default {
         return this.$store.state.query.method
       },
       set (method) {
-        this.$store.commit('setQueryMethod', method)
+        this.$store.commit('query/setMethod', method)
       }
     },
     stringifiedParams: {
@@ -29,7 +29,7 @@ export default {
         return this.$store.state.query.stringifiedParams
       },
       set (params) {
-        this.$store.commit('setQueryStringifiedParams', params)
+        this.$store.commit('query/setStringifiedParams', params)
       }
     },
     stringifiedHeaders: {
@@ -37,7 +37,7 @@ export default {
         return this.$store.state.query.stringifiedHeaders
       },
       set (params) {
-        this.$store.commit('setQueryStringifiedHeaders', params)
+        this.$store.commit('query/setStringifiedHeaders', params)
       }
     }
   }

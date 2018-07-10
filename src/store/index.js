@@ -11,7 +11,6 @@ import { query } from './modules/query'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  strict: process.env.NODE_ENV !== 'production',
   plugins: plugins,
   modules: {
     search,

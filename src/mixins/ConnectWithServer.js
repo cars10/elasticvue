@@ -5,7 +5,7 @@ const ConnectWithServer = {
     connectWithServer () {
       let connectionService = new ConnectionService(this.$store.state.connection.elasticsearchHost)
       return connectionService.getAdapter()
-        .then(adapter => this.$store.commit('setElasticsearchAdapter', adapter))
+        .then(adapter => this.$store.commit('connection/setElasticsearchAdapter', adapter))
     }
   }
 }

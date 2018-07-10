@@ -96,7 +96,7 @@
           return this.$store.state.indices.filter
         },
         set (filter) {
-          this.$store.commit('setIndicesFilter', filter)
+          this.$store.commit('indices/setFilter', filter)
         }
       },
       indicesPagination: {
@@ -104,7 +104,7 @@
           return this.$store.state.indices.pagination
         },
         set (pagination) {
-          this.$store.commit('setIndicesPagination', pagination)
+          this.$store.commit('indices/setPagination', pagination)
         }
       },
       flattenedItems () {
@@ -134,7 +134,7 @@
         })
       },
       showDocuments (index) {
-        this.$store.commit('setSearchIndices', [index]) // to pre-select right index on "Search" page
+        this.$store.commit('search/setIndices', [index]) // to pre-select right index on "Search" page
         this.$router.push({name: 'Search', params: {executeSearch: true}})
       },
       openIndex (index) {
@@ -148,7 +148,7 @@
               this.$emit('deleteIndex', index)
               this.showSuccessSnackbar({text: `The index '${index}' was successfully deleted.`, additionalText: body})
             })
-            .catch(error => this.$store.commit('setErrorState', error))
+            .catch(error => this.$store.commit('connection/setErrorState', error))
         }
       },
       callFuzzyTableFilter (items, search, filter, headers) {

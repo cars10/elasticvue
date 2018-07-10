@@ -1,6 +1,7 @@
 import { CONNECTION_STATES, DEFAULT_HOST, LOCALSTORAGE_KEY } from '../../consts'
 
 export const connection = {
+  namespaced: true,
   state: {
     status: CONNECTION_STATES.UNKNOWN,
     wasConnected: false,
