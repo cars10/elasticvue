@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.7
+
+* better table resizing
+* fix bug where sourceIncludes option was deleted automatically
+* small performance improvement
+
 ## 0.1.6
 
 * fix column name filter on search page

@@ -80,4 +80,12 @@ describe('ResizableContainer.vue', () => {
     expect(resizedWrapper.attributes().style).to.not.include(heightStyle)
     expect(resizedWrapper.attributes().style).to.include(initialHeightStyle)
   })
+
+  it('can be destroyed', () => {
+    const wrapper = mount(ResizableContainer, {
+      localVue: localVue,
+      attachToDocument: true
+    })
+    expect(wrapper.destroy())
+  })
 })
