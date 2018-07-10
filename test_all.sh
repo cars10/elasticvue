@@ -23,6 +23,8 @@ yarn build
 
 # build chrome extension
 yarn build_chrome_extension
+rm elasticvue.zip
+zip -r elasticvue.zip chrome_extension/*
 
 # Try to build docker container
 docker build --no-cache -t elasticvue .

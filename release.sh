@@ -7,7 +7,6 @@ set -e
 sh ./test_all.sh
 
 if [ $? -eq 0 ]; then
-  OLD_VERSION=$(grep version package.json | head -n 1 | cut -d ' ' -f 4 | sed -e 's/"//g' | sed -e 's/,//')
   # bump version to $VERSION
   sed -e "s/\"version\":\s\".*\"/\"version\": \"$VERSION\"/" -i package.json
   sed -e "s/\"version\":\s\".*\"/\"version\": \"$VERSION\"/" -i chrome_extension/manifest.json
