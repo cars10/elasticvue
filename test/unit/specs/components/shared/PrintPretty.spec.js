@@ -34,7 +34,6 @@ describe('PrintPretty.vue', () => {
 
   it('should render correct default contents', () => {
     const wrapper = mount(PrintPretty, {localVue, store})
-    const height = 'height: 600px'
-    expect(wrapper.find('div > div').attributes().style).contains(height)
+    expect(wrapper.find('div > div').element.style.height).to.eql('600px')
   })
 })

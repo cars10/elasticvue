@@ -5,12 +5,16 @@ import ReloadButton from '@/components/shared/ReloadButton'
 import { createLocalVue, mount } from '@vue/test-utils'
 
 describe('ReloadButton.vue', () => {
-  let localVue = createLocalVue()
-  localVue.use(Vuetify, {
-    components: {
-      VBtn,
-      VIcon
-    }
+  let localVue
+
+  before(() => {
+    localVue = createLocalVue()
+    localVue.use(Vuetify, {
+      components: {
+        VBtn,
+        VIcon
+      }
+    })
   })
 
   it('should render correct default contents', () => {

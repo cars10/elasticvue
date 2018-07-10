@@ -7,14 +7,18 @@ import BtnGroup from '@/components/shared/BtnGroup'
 import { createLocalVue, mount } from '@vue/test-utils'
 
 describe('ResizableContainer.vue', () => {
-  let localVue = createLocalVue()
-  localVue.use(Vuetify, {
-    components: {
-      BtnGroup,
-      VBtn,
-      VIcon,
-      VGrid
-    }
+  let localVue
+
+  before(() => {
+    localVue = createLocalVue()
+    localVue.use(Vuetify, {
+      components: {
+        BtnGroup,
+        VBtn,
+        VIcon,
+        VGrid
+      }
+    })
   })
 
   it('should render correct default contents', () => {
@@ -23,12 +27,11 @@ describe('ResizableContainer.vue', () => {
     const initialHeight = wrapper.props().initialHeight
 
     expect(wrapper.text()).contains('vertical_align_center')
-    expect(resizedWrapper.attributes().style).to.include(initialHeight)
+    expect(resizedWrapper.element.style.height).to.eql(`${initialHeight}px`)
   })
 
   it('should render correct initialHeight', () => {
     const height = 500
-    const heightStyle = `height: ${height}px`
     const wrapper = mount(ResizableContainer, {
       localVue: localVue,
       propsData: {
@@ -36,7 +39,7 @@ describe('ResizableContainer.vue', () => {
       }
     })
     const resizedWrapper = wrapper.find({ref: 'resizedWrapper'})
-    expect(resizedWrapper.attributes().style).to.include(heightStyle)
+    expect(resizedWrapper.element.style.height).to.eql(`${height}px`)
   })
 
   it('should increase the height on drag', () => {
@@ -51,12 +54,12 @@ describe('ResizableContainer.vue', () => {
     const endY = 100
     const distance = endY - startY
     const initialHeight = wrapper.props().initialHeight
-    const heightStyle = `height: ${initialHeight + distance}px`
+    const expectedHeight = initialHeight + distance
 
     button.trigger('mousedown', {pageY: startY})
     button.trigger('mousemove', {pageY: endY})
     button.trigger('mouseup')
-    expect(resizedWrapper.attributes().style).to.include(heightStyle)
+    expect(resizedWrapper.element.style.height).to.eql(`${expectedHeight}px`)
   })
 
   it('should not decrease the height lower then intialHeight', () => {
@@ -71,14 +74,13 @@ describe('ResizableContainer.vue', () => {
     const endY = 0
     const distance = endY - startY
     const initialHeight = wrapper.props().initialHeight
-    const initialHeightStyle = `height: ${initialHeight}px`
-    const heightStyle = `height: ${initialHeight + distance}px`
+    const notExpectedHeight = initialHeight + distance
 
     button.trigger('mousedown', {pageY: startY})
     button.trigger('mousemove', {pageY: endY})
     button.trigger('mouseup')
-    expect(resizedWrapper.attributes().style).to.not.include(heightStyle)
-    expect(resizedWrapper.attributes().style).to.include(initialHeightStyle)
+    expect(resizedWrapper.element.style.height).to.not.eql(`${notExpectedHeight}px`)
+    expect(resizedWrapper.element.style.height).to.eql(`${initialHeight}px`)
   })
 
   it('can be destroyed', () => {
