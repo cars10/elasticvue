@@ -50,31 +50,33 @@
           </v-flex>
         </v-layout>
 
-        <div v-if="optionsCollapsed">
+        <div v-if="optionsCollapsed" class="my-2 pa-2 lowered">
           <v-layout row wrap>
-            <v-flex lg10>
+            <v-flex xl6>
               <v-text-field label="Source includes"
                             name="source_includes"
                             messages="Enter a comma separated list of columns to load"
                             v-model="searchSourceInclude"></v-text-field>
             </v-flex>
 
-            <v-flex lg2>
+            <v-flex xl2>
               <v-text-field label="Size"
                             name="size"
                             v-model="searchSize"></v-text-field>
             </v-flex>
+
+            <v-flex xl4>
+              <v-layout row wrap>
+                <v-flex md6>
+                  <v-switch id="show_index" label="Show _index column" v-model="showIndex" hide-details></v-switch>
+                </v-flex>
+
+                <v-flex md6 class="">
+                  <v-switch id="show_score" label="Show _score column" v-model="showScore" hide-details></v-switch>
+                </v-flex>
+              </v-layout>
+            </v-flex>
           </v-layout>
-
-          <div>
-            <v-flex d-inline-flex>
-              <v-switch id="show_index" label="Show _index" v-model="showIndex" hide-details></v-switch>
-            </v-flex>
-
-            <v-flex d-inline-flex class="ml-5">
-              <v-switch id="show_score" label="Show _score" v-model="showScore" hide-details></v-switch>
-            </v-flex>
-          </div>
         </div>
 
         <div class="text-xs-center">
