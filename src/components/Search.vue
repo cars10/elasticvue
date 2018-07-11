@@ -77,12 +77,10 @@
           </div>
         </div>
 
-        <div class="clearfix">
-          <v-flex d-inline-flex right>
-            <a @click="showOptions" class="grey--text user-select--none">More options...
-              <v-icon small>{{optionsCollapsed ? 'arrow_upwards' : 'arrow_downwards'}}</v-icon>
-            </a>
-          </v-flex>
+        <div class="text-xs-center">
+          <a @click="showOptions" class="grey--text user-select--none">More options...
+            <v-icon small>{{optionsCollapsed ? 'arrow_upwards' : 'arrow_downwards'}}</v-icon>
+          </a>
         </div>
       </v-form>
     </v-card-text>
