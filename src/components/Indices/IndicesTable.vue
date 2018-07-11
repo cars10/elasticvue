@@ -4,14 +4,14 @@
       <div class="clearfix">
         <v-flex right d-inline-flex>
           <v-text-field append-icon="search"
-                        @keyup.esc="indicesFilter = ''"
+                        @keyup.esc="filter = ''"
                         label="Filter results..."
                         name="filter"
                         id="filter"
                         class="mt-0"
                         messages="Filter via 'column:query'"
                         autofocus
-                        v-model="indicesFilter"></v-text-field>
+                        v-model="filter"></v-text-field>
         </v-flex>
       </div>
     </v-card-text>
@@ -20,8 +20,8 @@
                   :items="flattenedItems"
                   :custom-sort="sortIndices"
                   :custom-filter="callFuzzyTableFilter"
-                  :pagination.sync="indicesPagination"
-                  :search="indicesFilter"
+                  :pagination.sync="pagination"
+                  :search="filter"
                   :loading="loading"
                   class="table--condensed fixed-header">
       <template slot="items" slot-scope="props">
@@ -60,6 +60,7 @@
   import { flattenObject } from '../../helpers/utilities'
   import FixedHeaderTable from '@/mixins/FixedHeaderTable'
   import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
+  import { mapVuexAccessors } from '../../helpers/store'
 
   export default {
     name: 'IndicesTable',
@@ -91,25 +92,10 @@
       }
     },
     computed: {
-      indicesFilter: {
-        get () {
-          return this.$store.state.indices.filter
-        },
-        set (filter) {
-          this.$store.commit('indices/setFilter', filter)
-        }
-      },
-      indicesPagination: {
-        get () {
-          return this.$store.state.indices.pagination
-        },
-        set (pagination) {
-          this.$store.commit('indices/setPagination', pagination)
-        }
-      },
       flattenedItems () {
         return this.indices.map(hit => flattenObject(hit))
-      }
+      },
+      ...mapVuexAccessors('indices', ['filter', 'pagination'])
     },
     methods: {
       sortIndices (items, index, isDescending) {

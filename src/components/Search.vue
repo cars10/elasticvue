@@ -14,7 +14,7 @@
                           name="query"
                           id="query"
                           messages="Querying supports the <a target='_blank' rel='noopener' href='https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html'>query string DSL</a>"
-                          v-model="searchQ"
+                          v-model="q"
                           append-icon="clear"
                           autofocus
                           @click:append="resetQuery"></v-text-field>
@@ -27,12 +27,12 @@
                                        label="Indices"
                                        name="indices"
                                        id="indices"
-                                       v-model="searchIndices"
+                                       v-model="indices"
                                        :items="data.body | sortIndices"
                                        :loading="data.loading">
                   <template slot="item" slot-scope="data">
                     <v-list-tile-action>
-                      <v-checkbox color="primary" :input-value="searchIndices.includes(data.item)"></v-checkbox>
+                      <v-checkbox color="primary" :input-value="indices.includes(data.item)"></v-checkbox>
                     </v-list-tile-action>
                     <v-list-tile-content>
                       {{data.item}}
@@ -56,13 +56,13 @@
               <v-text-field label="Source includes"
                             name="source_includes"
                             messages="Enter a comma separated list of columns to load"
-                            v-model="searchSourceInclude"></v-text-field>
+                            v-model="sourceInclude"></v-text-field>
             </v-flex>
 
             <v-flex xl2>
               <v-text-field label="Size"
                             name="size"
-                            v-model="searchSize"></v-text-field>
+                            v-model="size"></v-text-field>
             </v-flex>
 
             <v-flex xl4>
@@ -106,6 +106,7 @@
   import ResultsTable from '@/components/Search/ResultsTable'
   import ReloadButton from '@/components/shared/ReloadButton'
   import CustomVAutocomplete from '@/components/shared/CustomVAutocomplete'
+  import { mapVuexAccessors } from '../helpers/store'
 
   export default {
     name: 'Search',
@@ -121,78 +122,31 @@
       }
     },
     computed: {
-      searchQ: {
-        get () {
-          return this.$store.state.search.q
-        },
-        set (q) {
-          this.$store.commit('search/setQ', q)
-        }
-      },
-      searchIndices: {
-        get () {
-          return this.$store.state.search.indices
-        },
-        set (indices) {
-          this.$store.commit('search/setIndices', indices)
-        }
-      },
-      searchSize: {
-        get () {
-          return this.$store.state.search.size
-        },
-        set (size) {
-          this.$store.commit('search/setSize', size)
-        }
-      },
-      searchSourceInclude: {
-        get () {
-          return this.$store.state.search.sourceInclude
-        },
-        set (sourceInclude) {
-          this.$store.commit('search/setSourceInclude', sourceInclude)
-        }
-      },
-      showIndex: {
-        get () {
-          return this.$store.state.search.showIndex
-        },
-        set (value) {
-          this.$store.commit('search/setShowIndex', value)
-        }
-      },
-      showScore: {
-        get () {
-          return this.$store.state.search.showScore
-        },
-        set (value) {
-          this.$store.commit('search/setShowScore', value)
-        }
-      },
       searchParams () {
         return {
-          q: this.searchQ,
-          index: this.searchIndices,
-          sourceInclude: this.searchSourceInclude,
-          size: this.searchSize
+          q: this.q,
+          index: this.indices,
+          sourceInclude: this.sourceInclude,
+          size: this.size
         }
-      }
+      },
+      ...mapVuexAccessors('search', ['q', 'indices', 'size', 'sourceInclude', 'showIndex', 'showScore'])
     },
     methods: {
       loadData () {
         this.$refs.resultsLoader.loadData()
       },
       resetQuery () {
-        this.searchQ = '*'
+        this.q = '*'
       },
       isChecked (item) {
-        return this.searchIndices.includes(item)
+        return this.indices.includes(item)
       },
       showOptions () {
         this.optionsCollapsed = !this.optionsCollapsed
       },
       resetIndices () {
-        this.searchIndices = []
+        this.indices = []
         this.$refs.indicesLoader.loadData()
       }
     },

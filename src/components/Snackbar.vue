@@ -15,37 +15,14 @@
 </template>
 
 <script>
+  import { mapVuexAccessors } from '../helpers/store'
+  import { mapState } from 'vuex'
+
   export default {
     name: 'Snackbar',
     computed: {
-      text: {
-        get () {
-          return this.$store.state.snackbar.text
-        }
-      },
-      additionalText: {
-        get () {
-          return this.$store.state.snackbar.additionalText
-        }
-      },
-      timeout: {
-        get () {
-          return this.$store.state.snackbar.timeout
-        }
-      },
-      color: {
-        get () {
-          return this.$store.state.snackbar.color
-        }
-      },
-      visible: {
-        get () {
-          return this.$store.state.snackbar.visible
-        },
-        set (visible) {
-          this.$store.commit('setSnackbarVisible', visible)
-        }
-      }
+      ...mapVuexAccessors('snackbar', ['visible']),
+      ...mapState('snackbar', ['text', 'additionalText', 'timeout', 'color'])
     }
   }
 </script>

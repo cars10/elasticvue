@@ -32,10 +32,10 @@ describe('CodeEditor.vue', () => {
       const vm = wrapper.vm
       expect(vm.editor.getTheme()).to.eql('ace/theme/monokai')
 
-      vm.$store.commit('setTheme', false)
+      vm.$store.commit('theme/setDark', false)
       expect(vm.editor.getTheme()).to.eql('ace/theme/textmate')
 
-      vm.$store.commit('setTheme', true)
+      vm.$store.commit('theme/setDark', true)
       expect(vm.editor.getTheme()).to.eql('ace/theme/monokai')
     })
   })

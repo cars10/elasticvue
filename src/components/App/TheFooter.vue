@@ -3,7 +3,7 @@
     <v-layout row wrap pa-4>
       <v-flex xs4>
         <div class="subheading">Settings</div>
-        <v-switch id="theme_select" class="my-2" label="Dark theme" v-model="theme" hide-details></v-switch>
+        <v-switch id="theme_select" class="my-2" label="Dark theme" v-model="dark" hide-details></v-switch>
         <a @click="reset" title="Reset saved settings">Disconnect and reset</a>
       </v-flex>
 
@@ -25,6 +25,8 @@
 </template>
 
 <script>
+  import { mapVuexAccessors } from '../../helpers/store'
+
   export default {
     name: 'app-footer',
     computed: {
@@ -32,14 +34,7 @@
         /* eslint-disable no-undef */
         return VERSION
       },
-      theme: {
-        get () {
-          return this.$store.state.theme.dark
-        },
-        set (value) {
-          this.$store.commit('setTheme', value)
-        }
-      }
+      ...mapVuexAccessors('theme', ['dark'])
     },
     methods: {
       reset () {

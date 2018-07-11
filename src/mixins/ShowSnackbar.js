@@ -1,13 +1,13 @@
 export default {
   methods: {
     showSnackbar (props) {
-      this.$store.commit('showSnackbar', props)
+      this.$store.commit('snackbar/show', props)
     },
     showSuccessSnackbar (props) {
-      this.$store.commit('showSnackbar', Object.assign({}, {timeout: 5000, color: 'success'}, props))
+      this.$store.commit('snackbar/show', Object.assign({}, {timeout: 5000, color: 'success'}, props))
     },
     showErrorSnackbar (props) {
-      this.$store.commit('showSnackbar', Object.assign({}, {timeout: 10000, color: 'error'}, props))
+      this.$store.commit('snackbar/show', Object.assign({}, {timeout: 10000, color: 'error'}, props))
     }
   }
 }

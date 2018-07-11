@@ -4,13 +4,13 @@
       <div class="clearfix">
         <v-flex right d-inline-flex>
           <v-text-field append-icon="search"
-                        @keyup.esc="searchFilter = ''"
+                        @keyup.esc="filter = ''"
                         label="Filter results..."
                         messages="Filter via 'column:query'"
                         name="filter"
                         id="filter"
                         class="mt-0"
-                        v-model="searchFilter"></v-text-field>
+                        v-model="filter"></v-text-field>
         </v-flex>
       </div>
     </v-card-text>
@@ -19,9 +19,9 @@
                   :headers="headers"
                   :items="flattenedHits"
                   :loading="loading"
-                  :search="searchFilter"
+                  :search="filter"
                   :custom-filter="callFuzzyTableFilter"
-                  :pagination.sync="searchPagination"
+                  :pagination.sync="pagination"
                   class="table--condensed fixed-header">
       <template slot="items" slot-scope="item">
         <tr @click="openDocument(item.item)" class="tr--clickable">
@@ -47,6 +47,8 @@
   import { fuzzyTableFilter } from '../../helpers/filters'
   import FixedHeaderTable from '@/mixins/FixedHeaderTable'
   import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
+  import { mapVuexAccessors } from '../../helpers/store'
+  import { mapState } from 'vuex'
 
   export default {
     name: 'ResultsTable',
@@ -84,28 +86,8 @@
           return hit
         })
       },
-      searchFilter: {
-        get () {
-          return this.$store.state.search.filter
-        },
-        set (filter) {
-          this.$store.commit('search/setFilter', filter)
-        }
-      },
-      searchPagination: {
-        get () {
-          return this.$store.state.search.pagination
-        },
-        set (pagination) {
-          this.$store.commit('search/setPagination', pagination)
-        }
-      },
-      showIndex () {
-        return this.$store.state.search.showIndex
-      },
-      showScore () {
-        return this.$store.state.search.showScore
-      }
+      ...mapVuexAccessors('search', ['filter', 'pagination']),
+      ...mapState('search', ['showIndex', 'showScore'])
     },
     methods: {
       openDocument (item) {
