@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.2
+
+* fix fixed table headers
+
 ## 0.2.1
 
 * use a different lib to stringify params
