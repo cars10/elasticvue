@@ -143,6 +143,8 @@ zip -r elasticvue.zip chrome_extension/*
 
 Current TODOs, more ore less ordered by importance.
 
+* resizableContainer: auto scroll page during resize
+* query: rewrite body to get params 
 * specs
 * refactor state to use actions
 * more utilities
