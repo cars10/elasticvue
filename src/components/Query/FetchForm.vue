@@ -1,18 +1,22 @@
 <template>
   <div>
     <v-form @submit.prevent="fetchData">
-      <v-flex md2>
-        <v-select label="HTTP Method"
-                  name="http_method"
-                  v-model="method"
-                  :items="httpMethods()">
-        </v-select>
-      </v-flex>
-      <v-text-field v-model="host"
-                    label="Url"
-                    name="Url"
-                    autofocus
-                    id="url"></v-text-field>
+      <v-layout>
+        <v-flex xl1 lg2>
+          <v-select label="HTTP Method"
+                    name="http_method"
+                    v-model="method"
+                    :items="httpMethods()">
+          </v-select>
+        </v-flex>
+        <v-flex xl4 lg6>
+          <v-text-field v-model="host"
+                        label="Url"
+                        name="Url"
+                        autofocus
+                        id="url"></v-text-field>
+        </v-flex>
+      </v-layout>
 
       <v-layout>
         <v-flex md6>
