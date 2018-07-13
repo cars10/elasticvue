@@ -45,7 +45,7 @@
 <script>
   import { objectArrayUniqueKeys } from '../../helpers/utilities'
   import { fuzzyTableFilter } from '../../helpers/filters'
-  import FixedHeaderTable from '@/mixins/FixedHeaderTable'
+  import FixedTableHeader from '@/mixins/FixedTableHeader'
   import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
   import { mapVuexAccessors } from '../../helpers/store'
   import { mapState } from 'vuex'
@@ -101,13 +101,13 @@
       }
     },
     mounted () {
-      this.fixedHeaderTableOnMount()
+      this.fixedTableHeaderOnEnable()
     },
     beforeDestroy () {
-      this.fixedHeaderTableOnBeforeDestroy()
+      this.fixedTableHeaderOnDisable()
     },
     mixins: [
-      FixedHeaderTable
+      FixedTableHeader
     ]
   }
 </script>

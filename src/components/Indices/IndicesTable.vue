@@ -23,7 +23,7 @@
                   :pagination.sync="pagination"
                   :search="filter"
                   :loading="loading"
-                  class="table--condensed fixed-header">
+                  class="table--condensed table--fixed-header">
       <template slot="items" slot-scope="props">
         <tr @click="showDocuments(props.item.index)" class="tr--clickable">
           <td>{{props.item.index}}</td>
@@ -58,7 +58,7 @@
   import BtnGroup from '@/components/shared/BtnGroup'
   import { fuzzyTableFilter } from '../../helpers/filters'
   import { flattenObject } from '../../helpers/utilities'
-  import FixedHeaderTable from '@/mixins/FixedHeaderTable'
+  import FixedTableHeader from '@/mixins/FixedTableHeader'
   import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
   import { mapVuexAccessors } from '../../helpers/store'
 
@@ -148,13 +148,13 @@
       BtnGroup
     },
     mounted () {
-      this.fixedHeaderTableOnMount()
+      this.fixedTableHeaderOnEnable()
     },
     beforeDestroy () {
-      this.fixedHeaderTableOnBeforeDestroy()
+      this.fixedTableHeaderOnDisable()
     },
     mixins: [
-      FixedHeaderTable
+      FixedTableHeader
     ]
   }
 </script>

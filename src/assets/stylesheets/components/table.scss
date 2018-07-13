@@ -32,21 +32,21 @@ table {
   }
 }
 
-.fixed-header th {
+.table--fixed-header th {
   box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2);
   position: sticky;
   top: -2px;
 }
 
-.fixed-header th {
+.table--fixed-header th {
   background-color: #fff;
 }
 
-.theme--dark .fixed-header th {
+.theme--dark .table--fixed-header th {
   background-color: #424242;
 }
 
-.fixed-header .v-table__overflow {
+.table--fixed-header .v-table__overflow {
   max-height: 800px;
   overflow-y: scroll;
 }

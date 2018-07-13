@@ -1,6 +1,6 @@
-const FixedHeaderTable = {
+const FixedTableHeader = {
   methods: {
-    updateFixedHeaderTableHeight () {
+    updateFixedTableHeaderHeight () {
       const height = window.innerHeight
       const minHeight = 300
       const offset = 100
@@ -10,18 +10,18 @@ const FixedHeaderTable = {
         document.querySelector('.fixed-header .v-table__overflow').style.maxHeight = `${requiredTableHeight}px`
       }
     },
-    fixedHeaderTableOnMount () {
+    fixedTableHeaderOnEnable () {
       // call in mounted
       if (typeof window !== 'undefined') {
-        this.updateFixedHeaderTableHeight()
-        window.addEventListener('resize', this.updateFixedHeaderTableHeight)
+        this.updateFixedTableHeaderHeight()
+        window.addEventListener('resize', this.updateFixedTableHeaderHeight)
       }
     },
-    fixedHeaderTableOnBeforeDestroy () {
+    fixedTableHeaderOnDisable () {
       // call in beforeDestroy
-      window.removeEventListener('resize', this.updateFixedHeaderTableHeight)
+      window.removeEventListener('resize', this.updateFixedTableHeaderHeight)
     }
   }
 }
 
-export default FixedHeaderTable
+export default FixedTableHeader
