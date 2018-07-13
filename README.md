@@ -143,7 +143,6 @@ zip -r elasticvue.zip chrome_extension/*
 
 Current TODOs, more ore less ordered by importance.
 
-* query: rewrite body to get params 
 * specs
 * refactor state to use actions
 * more utilities
