@@ -50,6 +50,7 @@
   import QueryFormBase from '@/components/Query/QueryFormBase'
   import Loading from '@/components/shared/Loading'
   import { HTTP_METHODS } from '../../consts'
+  import { stringify } from 'query-string'
 
   export default {
     name: 'fetch-form',
@@ -74,6 +75,13 @@
           return false
         }
       },
+      fetchUrl () {
+        if (this.method === 'GET' || this.method === 'HEAD') {
+          return this.host + '?' + stringify(JSON.parse(this.stringifiedParams))
+        } else {
+          return this.host
+        }
+      },
       fetchOptionsHash () {
         let fetchOptions = {method: this.method, headers: JSON.parse(this.stringifiedHeaders)}
         if (this.method !== 'GET' && this.method !== 'HEAD') {
@@ -86,7 +94,7 @@
       fetchData () {
         this.loading = true
         this.response = {}
-        fetch(this.host, this.fetchOptionsHash)
+        fetch(this.fetchUrl, this.fetchOptionsHash)
           .then(response => response.json())
           .then(json => {
             this.loading = false
