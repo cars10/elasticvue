@@ -22,7 +22,7 @@
                   :search="filter"
                   :custom-filter="callFuzzyTableFilter"
                   :pagination.sync="pagination"
-                  class="table--condensed fixed-header">
+                  class="table--condensed table--fixed-header">
       <template slot="items" slot-scope="item">
         <tr @click="openDocument(item.item)" class="tr--clickable">
           <td v-if="showIndex">{{ item.item._index }}</td>

@@ -7,7 +7,7 @@ const FixedTableHeader = {
       const requiredTableHeight = height - offset
 
       if (requiredTableHeight > minHeight) {
-        document.querySelector('.fixed-header .v-table__overflow').style.maxHeight = `${requiredTableHeight}px`
+        document.querySelector('.table--fixed-header .v-table__overflow').style.maxHeight = `${requiredTableHeight}px`
       }
     },
     fixedTableHeaderOnEnable () {
