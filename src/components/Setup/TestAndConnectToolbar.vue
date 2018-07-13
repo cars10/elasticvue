@@ -67,7 +67,7 @@
           })
           .catch(error => {
             this.connectLoading = false
-            this.$store.commit('setErrorState', error)
+            this.$store.commit('connection/setErrorState', error)
             this.showErrorSnackbar({text: 'Error: could not connect.'})
           })
       }

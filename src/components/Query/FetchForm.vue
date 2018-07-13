@@ -39,7 +39,7 @@
 
     <h2 class="subheading mt-4">Response</h2>
     <v-divider class="my-2"></v-divider>
-    <print-pretty :document="response"></print-pretty>
+    <print-pretty :document="response" :initialHeight="800"></print-pretty>
   </div>
 </template>
 
@@ -50,6 +50,7 @@
   import QueryFormBase from '@/components/Query/QueryFormBase'
   import Loading from '@/components/shared/Loading'
   import { HTTP_METHODS } from '../../consts'
+  import { stringify } from 'query-string'
 
   export default {
     name: 'fetch-form',
@@ -74,6 +75,13 @@
           return false
         }
       },
+      fetchUrl () {
+        if (this.method === 'GET' || this.method === 'HEAD') {
+          return this.host + '?' + stringify(JSON.parse(this.stringifiedParams))
+        } else {
+          return this.host
+        }
+      },
       fetchOptionsHash () {
         let fetchOptions = {method: this.method, headers: JSON.parse(this.stringifiedHeaders)}
         if (this.method !== 'GET' && this.method !== 'HEAD') {
@@ -86,13 +94,14 @@
       fetchData () {
         this.loading = true
         this.response = {}
-        fetch(this.host, this.fetchOptionsHash)
+        fetch(this.fetchUrl, this.fetchOptionsHash)
           .then(response => response.json())
           .then(json => {
             this.loading = false
             this.response = json
           })
           .catch(error => {
+            this.loading = false
             this.showErrorSnackbar({text: 'Error.', additionalText: error.message})
             this.response = error.message
           })

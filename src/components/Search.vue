@@ -14,7 +14,7 @@
                           name="query"
                           id="query"
                           messages="Querying supports the <a target='_blank' rel='noopener' href='https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html'>query string DSL</a>"
-                          v-model="searchQ"
+                          v-model="q"
                           append-icon="clear"
                           autofocus
                           @click:append="resetQuery"></v-text-field>
@@ -27,12 +27,12 @@
                                        label="Indices"
                                        name="indices"
                                        id="indices"
-                                       v-model="searchIndices"
+                                       v-model="indices"
                                        :items="data.body | sortIndices"
                                        :loading="data.loading">
                   <template slot="item" slot-scope="data">
                     <v-list-tile-action>
-                      <v-checkbox color="primary" :input-value="searchIndices.includes(data.item)"></v-checkbox>
+                      <v-checkbox color="primary" :input-value="indices.includes(data.item)"></v-checkbox>
                     </v-list-tile-action>
                     <v-list-tile-content>
                       {{data.item}}
@@ -50,27 +50,39 @@
           </v-flex>
         </v-layout>
 
-        <v-layout row wrap v-if="optionsCollapsed">
-          <v-flex lg10>
-            <v-text-field label="Source includes"
-                          name="source_includes"
-                          messages="Enter a comma separated list of columns to load"
-                          v-model="searchSourceInclude"></v-text-field>
-          </v-flex>
+        <div v-if="optionsCollapsed" class="my-2 pa-2 lowered">
+          <v-layout row wrap>
+            <v-flex xl6>
+              <v-text-field label="Source includes"
+                            name="source_includes"
+                            messages="Enter a comma separated list of columns to load"
+                            v-model="sourceInclude"></v-text-field>
+            </v-flex>
 
-          <v-flex lg2>
-            <v-text-field label="Size"
-                          name="size"
-                          v-model="searchSize"></v-text-field>
-          </v-flex>
-        </v-layout>
+            <v-flex xl2>
+              <v-text-field label="Size"
+                            name="size"
+                            v-model="size"></v-text-field>
+            </v-flex>
 
-        <div class="clearfix">
-          <v-flex d-inline-flex right>
-            <a @click="showOptions" class="grey--text user-select--none">More options...
-              <v-icon small>{{optionsCollapsed ? 'arrow_upwards' : 'arrow_downwards'}}</v-icon>
-            </a>
-          </v-flex>
+            <v-flex xl4>
+              <v-layout row wrap>
+                <v-flex md6>
+                  <v-switch id="show_index" label="Show _index column" v-model="showIndex" hide-details></v-switch>
+                </v-flex>
+
+                <v-flex md6 class="">
+                  <v-switch id="show_score" label="Show _score column" v-model="showScore" hide-details></v-switch>
+                </v-flex>
+              </v-layout>
+            </v-flex>
+          </v-layout>
+        </div>
+
+        <div class="text-xs-center">
+          <a @click="showOptions" class="grey--text user-select--none">More options...
+            <v-icon small>{{optionsCollapsed ? 'arrow_upwards' : 'arrow_downwards'}}</v-icon>
+          </a>
         </div>
       </v-form>
     </v-card-text>
@@ -94,6 +106,7 @@
   import ResultsTable from '@/components/Search/ResultsTable'
   import ReloadButton from '@/components/shared/ReloadButton'
   import CustomVAutocomplete from '@/components/shared/CustomVAutocomplete'
+  import { mapVuexAccessors } from '../helpers/store'
 
   export default {
     name: 'Search',
@@ -109,62 +122,31 @@
       }
     },
     computed: {
-      searchQ: {
-        get () {
-          return this.$store.state.search.q
-        },
-        set (q) {
-          this.$store.commit('setSearchQ', q)
-        }
-      },
-      searchIndices: {
-        get () {
-          return this.$store.state.search.indices
-        },
-        set (indices) {
-          this.$store.commit('setSearchIndices', indices)
-        }
-      },
-      searchSize: {
-        get () {
-          return this.$store.state.search.size
-        },
-        set (size) {
-          this.$store.commit('setSearchSize', size)
-        }
-      },
-      searchSourceInclude: {
-        get () {
-          return this.$store.state.search.sourceInclude
-        },
-        set (sourceInclude) {
-          this.$store.commit('setSearchSourceInclude', sourceInclude)
-        }
-      },
       searchParams () {
         return {
-          q: this.searchQ,
-          index: this.searchIndices,
-          sourceInclude: this.searchSourceInclude,
-          size: this.searchSize
+          q: this.q,
+          index: this.indices,
+          sourceInclude: this.sourceInclude,
+          size: this.size
         }
-      }
+      },
+      ...mapVuexAccessors('search', ['q', 'indices', 'size', 'sourceInclude', 'showIndex', 'showScore'])
     },
     methods: {
       loadData () {
         this.$refs.resultsLoader.loadData()
       },
       resetQuery () {
-        this.searchQ = '*'
+        this.q = '*'
       },
       isChecked (item) {
-        return this.searchIndices.includes(item)
+        return this.indices.includes(item)
       },
       showOptions () {
         this.optionsCollapsed = !this.optionsCollapsed
       },
       resetIndices () {
-        this.searchIndices = []
+        this.indices = []
         this.$refs.indicesLoader.loadData()
       }
     },

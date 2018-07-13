@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.0
+
+* adds options to hide `_index` and `_score` columns on search page
+* autoscroll page when resizing editors
+* correctly build request on query page when using GET and params together
+* internal state refactorings
+
+
 ## 0.1.8
 
 * fix broken build

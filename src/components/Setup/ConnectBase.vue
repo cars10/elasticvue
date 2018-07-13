@@ -23,7 +23,7 @@
           this.testError = false
           this.testSuccess = false
           this.testLoading = false
-          this.$store.commit('setElasticsearchHost', value)
+          this.$store.commit('connection/setElasticsearchHost', value)
         }
       },
       hostValid () {

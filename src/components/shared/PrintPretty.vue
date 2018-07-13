@@ -1,6 +1,6 @@
 <template>
   <v-flex py-2>
-    <resizable-container :initial-height="600">
+    <resizable-container :initial-height="initialHeight">
       <code-editor readOnly :code="document"></code-editor>
     </resizable-container>
   </v-flex>
@@ -18,6 +18,10 @@
           return {}
         },
         type: [Object, Array]
+      },
+      initialHeight: {
+        default: 600,
+        type: Number
       }
     },
     components: {

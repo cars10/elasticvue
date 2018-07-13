@@ -1,4 +1,5 @@
 export const snackbar = {
+  namespaced: true,
   state: {
     visible: false,
     timeout: 6000,
@@ -7,14 +8,14 @@ export const snackbar = {
     additionalText: ''
   },
   mutations: {
-    showSnackbar (state, props) {
+    show (state, props) {
       state.text = props.text || ''
       state.additionalText = props.additionalText || ''
       if (props.timeout) state.timeout = props.timeout
       if (props.color) state.color = props.color
       state.visible = true
     },
-    setSnackbarVisible (state, visible) {
+    setVisible (state, visible) {
       state.visible = visible
     }
   }

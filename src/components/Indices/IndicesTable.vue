@@ -4,14 +4,14 @@
       <div class="clearfix">
         <v-flex right d-inline-flex>
           <v-text-field append-icon="search"
-                        @keyup.esc="indicesFilter = ''"
+                        @keyup.esc="filter = ''"
                         label="Filter results..."
                         name="filter"
                         id="filter"
                         class="mt-0"
                         messages="Filter via 'column:query'"
                         autofocus
-                        v-model="indicesFilter"></v-text-field>
+                        v-model="filter"></v-text-field>
         </v-flex>
       </div>
     </v-card-text>
@@ -20,10 +20,10 @@
                   :items="flattenedItems"
                   :custom-sort="sortIndices"
                   :custom-filter="callFuzzyTableFilter"
-                  :pagination.sync="indicesPagination"
-                  :search="indicesFilter"
+                  :pagination.sync="pagination"
+                  :search="filter"
                   :loading="loading"
-                  class="table--condensed fixed-header">
+                  class="table--condensed table--fixed-header">
       <template slot="items" slot-scope="props">
         <tr @click="showDocuments(props.item.index)" class="tr--clickable">
           <td>{{props.item.index}}</td>
@@ -58,8 +58,9 @@
   import BtnGroup from '@/components/shared/BtnGroup'
   import { fuzzyTableFilter } from '../../helpers/filters'
   import { flattenObject } from '../../helpers/utilities'
-  import FixedHeaderTable from '@/mixins/FixedHeaderTable'
+  import FixedTableHeader from '@/mixins/FixedTableHeader'
   import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
+  import { mapVuexAccessors } from '../../helpers/store'
 
   export default {
     name: 'IndicesTable',
@@ -91,25 +92,10 @@
       }
     },
     computed: {
-      indicesFilter: {
-        get () {
-          return this.$store.state.indices.filter
-        },
-        set (filter) {
-          this.$store.commit('setIndicesFilter', filter)
-        }
-      },
-      indicesPagination: {
-        get () {
-          return this.$store.state.indices.pagination
-        },
-        set (pagination) {
-          this.$store.commit('setIndicesPagination', pagination)
-        }
-      },
       flattenedItems () {
         return this.indices.map(hit => flattenObject(hit))
-      }
+      },
+      ...mapVuexAccessors('indices', ['filter', 'pagination'])
     },
     methods: {
       sortIndices (items, index, isDescending) {
@@ -134,7 +120,7 @@
         })
       },
       showDocuments (index) {
-        this.$store.commit('setSearchIndices', [index]) // to pre-select right index on "Search" page
+        this.$store.commit('search/setIndices', [index]) // to pre-select right index on "Search" page
         this.$router.push({name: 'Search', params: {executeSearch: true}})
       },
       openIndex (index) {
@@ -148,7 +134,7 @@
               this.$emit('deleteIndex', index)
               this.showSuccessSnackbar({text: `The index '${index}' was successfully deleted.`, additionalText: body})
             })
-            .catch(error => this.$store.commit('setErrorState', error))
+            .catch(error => this.$store.commit('connection/setErrorState', error))
         }
       },
       callFuzzyTableFilter (items, search, filter, headers) {
@@ -162,13 +148,13 @@
       BtnGroup
     },
     mounted () {
-      this.fixedHeaderTableOnMount()
+      this.fixedTableHeaderOnEnable()
     },
     beforeDestroy () {
-      this.fixedHeaderTableOnBeforeDestroy()
+      this.fixedTableHeaderOnDisable()
     },
     mixins: [
-      FixedHeaderTable
+      FixedTableHeader
     ]
   }
 </script>

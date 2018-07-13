@@ -9,10 +9,10 @@ const GetElasticsearchAdapter = {
         let connectionService = new ConnectionService(this.$store.state.connection.elasticsearchHost)
         return connectionService.getAdapter().then(
           adapter => {
-            this.$store.commit('setElasticsearchAdapter', adapter)
+            this.$store.commit('connection/setElasticsearchAdapter', adapter)
             return adapter
           },
-          error => this.$store.commit('setErrorState', error)
+          error => this.$store.commit('connection/setErrorState', error)
         )
       }
     }

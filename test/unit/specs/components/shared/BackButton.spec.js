@@ -5,12 +5,16 @@ import BackButton from '@/components/shared/BackButton'
 import { createLocalVue, mount, RouterLinkStub } from '@vue/test-utils'
 
 describe('BackButton.vue', () => {
-  let localVue = createLocalVue()
-  localVue.use(Vuetify, {
-    components: {
-      VBtn,
-      VIcon
-    }
+  let localVue
+
+  before(() => {
+    localVue = createLocalVue()
+    localVue.use(Vuetify, {
+      components: {
+        VBtn,
+        VIcon
+      }
+    })
   })
 
   it('should render correct default contents', () => {

@@ -1,9 +1,10 @@
 export const theme = {
+  namespaced: true,
   state: {
     dark: true
   },
   mutations: {
-    setTheme (state, flag) {
+    setDark (state, flag) {
       state.dark = flag
     }
   }

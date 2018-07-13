@@ -1,23 +1,24 @@
-import { DEFAULT_HOST, HTTP_METHODS, REQUEST_DEFAULT_BODY, REQUEST_DEFAULT_HEADERS } from '../../consts'
+import { DEFAULT_HOST, HTTP_METHODS, REQUEST_DEFAULT_HEADERS } from '../../consts'
 
 export const query = {
+  namespaced: true,
   state: {
     host: DEFAULT_HOST,
     method: HTTP_METHODS[0],
-    stringifiedParams: JSON.stringify(REQUEST_DEFAULT_BODY, null, '\t'),
+    stringifiedParams: JSON.stringify({format: 'json'}, null, '\t'),
     stringifiedHeaders: JSON.stringify(REQUEST_DEFAULT_HEADERS, null, '\t')
   },
   mutations: {
-    setQueryHost (state, host) {
+    setHost (state, host) {
       state.host = host
     },
-    setQueryMethod (state, method) {
+    setMethod (state, method) {
       state.method = method
     },
-    setQueryStringifiedParams (state, params) {
+    setStringifiedParams (state, params) {
       state.stringifiedParams = params
     },
-    setQueryStringifiedHeaders (state, headers) {
+    setStringifiedHeaders (state, headers) {
       state.stringifiedHeaders = headers
     }
   }

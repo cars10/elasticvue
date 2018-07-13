@@ -31,8 +31,8 @@
     methods: {
       rerender () {
         this.renderRouterView = false
-        this.$store.commit('resetSearch')
-        this.$store.commit('resetConnection')
+        this.$store.commit('search/reset')
+        this.$store.commit('connection/resetConnection')
         this.$nextTick(() => (this.renderRouterView = true))
       }
     },

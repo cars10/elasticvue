@@ -1,34 +1,43 @@
 import { DEFAULT_DATA_TABLE_PAGINATION, DEFAULT_SEARCH_PARAMS } from '../../consts'
 
 export const search = {
+  namespaced: true,
   state: {
     q: DEFAULT_SEARCH_PARAMS.q,
     indices: DEFAULT_SEARCH_PARAMS.index,
     size: DEFAULT_SEARCH_PARAMS.size,
     sourceInclude: '',
     filter: '',
-    pagination: DEFAULT_DATA_TABLE_PAGINATION
+    pagination: DEFAULT_DATA_TABLE_PAGINATION,
+    showIndex: true,
+    showScore: true
   },
   mutations: {
-    setSearchQ (state, q) {
+    setQ (state, q) {
       state.q = q
     },
-    setSearchIndices (state, indices) {
+    setIndices (state, indices) {
       state.indices = indices
     },
-    setSearchSize (state, size) {
+    setSize (state, size) {
       state.size = size
     },
-    setSearchSourceInclude (state, sourceInclude) {
+    setSourceInclude (state, sourceInclude) {
       state.sourceInclude = sourceInclude
     },
-    setSearchFilter (state, filter) {
+    setFilter (state, filter) {
       state.filter = filter
     },
-    setSearchPagination (state, pagination) {
+    setPagination (state, pagination) {
       state.pagination = pagination
     },
-    resetSearch (state) {
+    setShowIndex (state, val) {
+      state.showIndex = val
+    },
+    setShowScore (state, val) {
+      state.showScore = val
+    },
+    reset (state) {
       state.q = DEFAULT_SEARCH_PARAMS.q
       state.indices = DEFAULT_SEARCH_PARAMS.index
       state.size = DEFAULT_SEARCH_PARAMS.size
