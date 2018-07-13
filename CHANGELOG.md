@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.1
+
+* use a different lib to stringify params
+
 ## 0.2.0
 
 * adds options to hide `_index` and `_score` columns on search page

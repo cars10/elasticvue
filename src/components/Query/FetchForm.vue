@@ -50,7 +50,7 @@
   import QueryFormBase from '@/components/Query/QueryFormBase'
   import Loading from '@/components/shared/Loading'
   import { HTTP_METHODS } from '../../consts'
-  import { stringify } from 'query-string'
+  import qs from 'querystringify'
 
   export default {
     name: 'fetch-form',
@@ -77,7 +77,7 @@
       },
       fetchUrl () {
         if (this.method === 'GET' || this.method === 'HEAD') {
-          return this.host + '?' + stringify(JSON.parse(this.stringifiedParams))
+          return this.host + '?' + qs.stringify(JSON.parse(this.stringifiedParams), '')
         } else {
           return this.host
         }
