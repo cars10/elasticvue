@@ -39,7 +39,7 @@
 
     <h2 class="subheading mt-4">Response</h2>
     <v-divider class="my-2"></v-divider>
-    <print-pretty :document="response"></print-pretty>
+    <print-pretty :document="response" :initialHeight="800"></print-pretty>
   </div>
 </template>
 
@@ -93,6 +93,7 @@
             this.response = json
           })
           .catch(error => {
+            this.loading = false
             this.showErrorSnackbar({text: 'Error.', additionalText: error.message})
             this.response = error.message
           })
