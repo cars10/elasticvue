@@ -57,7 +57,17 @@
       onDrag (e) {
         if (this.resizing) {
           const newHeight = this.dragStartHeight + e.pageY - this.dragStartY
-          if (newHeight > this.initialHeight) this.height = newHeight
+          if (newHeight > this.initialHeight) {
+            this.height = newHeight
+            const distanceToTop = e.clientY
+            const distanceToBottom = window.innerHeight - e.clientY
+            const scrollOffset = 100
+            if (distanceToBottom < scrollOffset) {
+              window.scrollBy(0, scrollOffset - distanceToBottom)
+            } else if (distanceToTop < 100) {
+              window.scrollBy(0, -(scrollOffset - distanceToTop))
+            }
+          }
         }
       },
       onDragEnd () {
