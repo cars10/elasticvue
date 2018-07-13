@@ -36,4 +36,16 @@ describe('PrintPretty.vue', () => {
     const wrapper = mount(PrintPretty, {localVue, store})
     expect(wrapper.find('div > div').element.style.height).to.eql('600px')
   })
+
+  it('correctly sets the initialHeight of its resizableContainer', () => {
+    const height = 250
+    const wrapper = mount(PrintPretty, {
+      localVue: localVue,
+      store: store,
+      propsData: {
+        initialHeight: height
+      }
+    })
+    expect(wrapper.find('div > div').element.style.height).to.eql(`${height}px`)
+  })
 })
