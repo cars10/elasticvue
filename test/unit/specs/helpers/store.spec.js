@@ -19,13 +19,13 @@ describe('helpers/mapVuexAccessors', () => {
     })
   })
 
-  describe('creates correct output', () => {
+  describe('creates correct output without namespace', () => {
     it('returns a correct object when called with states object', () => {
       const states = {search: 'setSearch'}
       const expected = {
         search: {
           get () {
-            return this.$store.state['']
+            return this.$store.state['search']
           },
           set (value) {
             this.$store.commit('setSearch', value)
@@ -42,7 +42,7 @@ describe('helpers/mapVuexAccessors', () => {
       const expected = {
         search: {
           get () {
-            return this.$store.state['']
+            return this.$store.state['search']
           },
           set (value) {
             this.$store.commit('setSearch', value)
@@ -52,6 +52,48 @@ describe('helpers/mapVuexAccessors', () => {
       const actual = mapVuexAccessors(states)
       expect(Object.keys(actual)).to.eql(Object.keys(expected))
       expect(Object.keys(actual.search)).to.eql(Object.keys(expected.search))
+    })
+  })
+
+  describe('creates correct output with namespace', () => {
+    it('returns a correct object when called with states object', () => {
+      const namespace = 'search'
+      const state = 'filter'
+      const stateUpcase = 'Filter'
+      const states = {[state]: `set${stateUpcase}`}
+      const expected = {
+        [state]: {
+          get () {
+            return this.$store.state[namespace][state]
+          },
+          set (value) {
+            this.$store.commit(`${namespace}/set${stateUpcase}`, value)
+          }
+        }
+      }
+      const actual = mapVuexAccessors(namespace, states)
+      expect(Object.keys(actual)).to.eql(Object.keys(expected))
+      expect(Object.keys(actual.filter)).to.eql(Object.keys(expected.filter))
+    })
+
+    it('returns a correct object when called with states array', () => {
+      const namespace = 'search'
+      const state = 'filter'
+      const stateUpcase = 'Filter'
+      const states = ['filter']
+      const expected = {
+        [state]: {
+          get () {
+            return this.$store.state[namespace][state]
+          },
+          set (value) {
+            this.$store.commit(`${namespace}/set${stateUpcase}`, value)
+          }
+        }
+      }
+      const actual = mapVuexAccessors(namespace, states)
+      expect(Object.keys(actual)).to.eql(Object.keys(expected))
+      expect(Object.keys(actual.filter)).to.eql(Object.keys(expected.filter))
     })
   })
 })
