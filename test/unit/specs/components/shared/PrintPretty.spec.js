@@ -9,7 +9,7 @@ import PrintPretty from '@/components/shared/PrintPretty'
 import { createLocalVue, mount } from '@vue/test-utils'
 import { theme } from '@/store/modules/theme'
 
-describe('PrintPretty.vue', () => {
+describe('components/shared/PrintPretty.vue', () => {
   let localVue
   let store
 

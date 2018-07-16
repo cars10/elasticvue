@@ -4,7 +4,7 @@ import VIcon from 'vuetify/es5/components/VIcon'
 import BackButton from '@/components/shared/BackButton'
 import { createLocalVue, mount, RouterLinkStub } from '@vue/test-utils'
 
-describe('BackButton.vue', () => {
+describe('components/shared/BackButton.vue', () => {
   let localVue
 
   before(() => {

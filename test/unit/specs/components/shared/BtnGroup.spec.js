@@ -1,7 +1,7 @@
 import BtnGroup from '@/components/shared/BtnGroup'
 import { mount } from '@vue/test-utils'
 
-describe('BtnGroup.vue', () => {
+describe('components/shared/BtnGroup.vue', () => {
   it('should render correct default contents', () => {
     const wrapper = mount(BtnGroup)
     expect(wrapper.classes()).contains('elevation-1')

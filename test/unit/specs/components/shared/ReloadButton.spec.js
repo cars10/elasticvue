@@ -4,7 +4,7 @@ import VIcon from 'vuetify/es5/components/VIcon'
 import ReloadButton from '@/components/shared/ReloadButton'
 import { createLocalVue, mount } from '@vue/test-utils'
 
-describe('ReloadButton.vue', () => {
+describe('components/shared/ReloadButton.vue', () => {
   let localVue
 
   before(() => {

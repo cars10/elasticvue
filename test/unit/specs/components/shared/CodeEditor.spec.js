@@ -3,7 +3,7 @@ import CodeEditor from '@/components/shared/CodeEditor'
 import { createLocalVue, mount } from '@vue/test-utils'
 import { theme } from '@/store/modules/theme'
 
-describe('CodeEditor.vue', () => {
+describe('components/shared/CodeEditor.vue', () => {
   let localVue
   let store
 

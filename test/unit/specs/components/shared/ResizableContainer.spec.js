@@ -6,7 +6,7 @@ import ResizableContainer from '@/components/shared/ResizableContainer'
 import BtnGroup from '@/components/shared/BtnGroup'
 import { createLocalVue, mount } from '@vue/test-utils'
 
-describe('ResizableContainer.vue', () => {
+describe('components/shared/ResizableContainer.vue', () => {
   let localVue
 
   before(() => {
