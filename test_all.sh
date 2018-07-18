@@ -30,7 +30,7 @@ exitOnError
 
 # Run specs
 echo -ne "[2/4] Running tests..."
-yarn test > /dev/null
+yarn test:unit > /dev/null
 exitOnError
 
 # Build for production
