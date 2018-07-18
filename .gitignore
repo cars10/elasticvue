@@ -2,8 +2,10 @@
 node_modules
 /dist
 
-chrome_extension/index.html
-chrome_extension/static/*
+chrome_extension/*
+!chrome_extension/manifest.json
+!chrome_extension/background.js
+elasticvue.zip
 
 # local env files
 .env.local
