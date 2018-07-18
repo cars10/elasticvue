@@ -5,13 +5,13 @@
     </template>
 
     <template v-else>
-      <slot name="error" v-if="hasError" :errorMessage="errorMessage">
+      <slot v-if="hasError" :errorMessage="errorMessage" name="error">
         <div class="pa-3">
           <v-alert :value="true">{{errorMessage}}</v-alert>
         </div>
       </slot>
-      <slot name="progress" v-else-if="loading">
-        <v-progress-linear color="blue" indeterminate></v-progress-linear>
+      <slot v-else-if="loading" name="progress">
+        <v-progress-linear color="blue" indeterminate/>
       </slot>
       <slot v-else :body="body">No data</slot>
     </template>
@@ -23,14 +23,6 @@
 
   export default {
     name: 'DataLoader',
-    data () {
-      return {
-        body: null,
-        loading: false,
-        hasError: false,
-        errorMessage: ''
-      }
-    },
     props: {
       method: {
         type: String,
@@ -54,6 +46,17 @@
         default: false,
         type: Boolean
       }
+    },
+    data () {
+      return {
+        body: null,
+        loading: false,
+        hasError: false,
+        errorMessage: ''
+      }
+    },
+    created () {
+      if (this.execute) this.loadData()
     },
     methods: {
       loadData () {
@@ -83,9 +86,6 @@
             }
           })
       }
-    },
-    created () {
-      if (this.execute) this.loadData()
     }
   }
 </script>

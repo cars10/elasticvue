@@ -1,27 +1,36 @@
-// http://eslint.org/docs/user-guide/configuring
-
 module.exports = {
   root: true,
-  parser: 'babel-eslint',
-  parserOptions: {
-    sourceType: 'module'
-  },
   env: {
-    browser: true,
+    node: true
   },
-  // https://github.com/feross/standard/blob/master/RULES.md#javascript-standard-style
-  extends: 'standard',
-  // required to lint *.vue files
-  plugins: [
-    'html'
+  'extends': [
+    'plugin:vue/essential',
+    '@vue/standard',
+    'standard'
   ],
-  // add your custom rules here
-  'rules': {
-    // allow paren-less arrow functions
-    'arrow-parens': 0,
-    // allow async-await
-    'generator-star-spacing': 0,
-    // allow debugger during development
-    'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0
+  rules: {
+    'indent': 'off',
+    'vue/script-indent': ['error', 2, {
+      'baseIndent': 1
+    }],
+    'no-console': 'off',
+    'no-debugger': 'off',
+    'vue/attribute-hyphenation': [
+      'error',
+      'always'
+    ],
+    'vue/html-end-tags': 'error',
+    'vue/html-self-closing': 'error',
+    'vue/require-default-prop': 'error',
+    'vue/require-prop-types': 'error',
+    'vue/attributes-order': 'error',
+    'vue/html-quotes': [
+      'error',
+      'double'
+    ],
+    'vue/order-in-components': 'error'
+  },
+  parserOptions: {
+    parser: 'babel-eslint'
   }
 }

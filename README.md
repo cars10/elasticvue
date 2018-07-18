@@ -116,7 +116,11 @@ cd elasticvue
 yarn install
 
 # serve with hot reload at localhost:8090
-yarn dev
+yarn serve
+
+# tests
+yarn test:unit   # add --watch to watch test files
+yarn test:e2e
 ```
 
 Other commands
@@ -127,9 +131,6 @@ yarn lint
 
 # minimized build for production
 yarn build
-
-# build for production and view the bundle analyzer report
-yarn build --report
 ```
 
 Building the chrome extension

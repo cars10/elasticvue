@@ -3,18 +3,17 @@
     <v-form @submit.prevent="fetchData">
       <v-layout>
         <v-flex xl1 lg2>
-          <v-select label="HTTP Method"
-                    name="http_method"
-                    v-model="method"
-                    :items="httpMethods()">
-          </v-select>
+          <v-select v-model="method"
+                    :items="httpMethods()"
+                    label="HTTP Method"
+                    name="http_method"/>
         </v-flex>
         <v-flex xl4 lg6>
-          <v-text-field v-model="host"
+          <v-text-field id="url"
+                        v-model="host"
                         label="Url"
                         name="Url"
-                        autofocus
-                        id="url"></v-text-field>
+                        autofocus/>
         </v-flex>
       </v-layout>
 
@@ -23,7 +22,7 @@
           <label>Request body</label>
           <resizable-container :initial-height="150">
             <code-editor :code.sync="stringifiedParams"
-                         :external-handler="fetchData"></code-editor>
+                         :external-handler="fetchData"/>
           </resizable-container>
           <i class="grey--text">Language: JSON</i>
         </v-flex>
@@ -32,18 +31,18 @@
           <label>Request headers</label>
           <resizable-container :initial-height="150">
             <code-editor :code.sync="stringifiedHeaders"
-                         :external-handler="fetchData"></code-editor>
+                         :external-handler="fetchData"/>
           </resizable-container>
           <i class="grey--text">Language: JSON</i>
         </v-flex>
       </v-layout>
 
-      <v-btn type="submit" :disabled="!isValid" :loading="loading" color="primary" class="mx-0">Execute query</v-btn>
+      <v-btn :disabled="!isValid" :loading="loading" type="submit" color="primary" class="mx-0">Execute query</v-btn>
     </v-form>
 
     <h2 class="subheading mt-4">Response</h2>
-    <v-divider class="my-2"></v-divider>
-    <print-pretty :document="response" :initialHeight="800"></print-pretty>
+    <v-divider class="my-2"/>
+    <print-pretty :document="response" :initial-height="800"/>
   </div>
 </template>
 
@@ -58,6 +57,15 @@
 
   export default {
     name: 'fetch-form',
+    components: {
+      PrintPretty,
+      ResizableContainer,
+      CustomVAutocomplete,
+      'code-editor': () => ({
+        component: import('@/components/shared/CodeEditor'),
+        loading: Loading
+      })
+    },
     extends: QueryFormBase,
     computed: {
       isValid () {
@@ -113,15 +121,6 @@
       httpMethods () {
         return HTTP_METHODS
       }
-    },
-    components: {
-      PrintPretty,
-      ResizableContainer,
-      CustomVAutocomplete,
-      'code-editor': () => ({
-        component: import('@/components/shared/CodeEditor'),
-        loading: Loading
-      })
     }
   }
 </script>

@@ -2,11 +2,11 @@
   <v-card>
     <v-card-title>
       <h2 class="headline">Node Information</h2>
-      <reload-button :action="() => $refs.dataLoader.loadData()"></reload-button>
+      <reload-button :action="() => $refs.dataLoader.loadData()"/>
     </v-card-title>
-    <v-divider></v-divider>
+    <v-divider/>
 
-    <data-loader method="clientInfo" flatten ref="dataLoader">
+    <data-loader ref="dataLoader" method="clientInfo" flatten>
       <template slot-scope="data">
         <v-list dense>
           <v-list-tile v-for="key in Object.keys(data.body)" :key="key">

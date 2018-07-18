@@ -1,8 +1,8 @@
 <template>
   <div v-if="isConnected || wasConnected">
-    <slot></slot>
+    <slot/>
   </div>
-  <setup v-else></setup>
+  <setup v-else/>
 </template>
 
 <script>

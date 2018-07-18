@@ -3,14 +3,14 @@
     <v-card-text>
       <div class="clearfix">
         <v-flex right d-inline-flex>
-          <v-text-field append-icon="search"
-                        @keyup.esc="filter = ''"
+          <v-text-field id="filter"
+                        v-model="filter"
+                        append-icon="search"
                         label="Filter results..."
                         messages="Filter via 'column:query'"
                         name="filter"
-                        id="filter"
                         class="mt-0"
-                        v-model="filter"></v-text-field>
+                        @keyup.esc="filter = ''"/>
         </v-flex>
       </div>
     </v-card-text>
@@ -24,7 +24,7 @@
                   :pagination.sync="pagination"
                   class="table--condensed table--fixed-header">
       <template slot="items" slot-scope="item">
-        <tr @click="openDocument(item.item)" class="tr--clickable">
+        <tr class="tr--clickable" @click="openDocument(item.item)">
           <td v-if="showIndex">{{ item.item._index }}</td>
           <td v-if="showScore">{{ item.item._score}}</td>
           <td>{{ item.item._id}}</td>
@@ -37,7 +37,7 @@
         Nothing found.
       </template>
 
-      <v-progress-linear slot="progress" color="blue" indeterminate></v-progress-linear>
+      <v-progress-linear slot="progress" color="blue" indeterminate/>
     </v-data-table>
   </div>
 </template>
@@ -52,6 +52,9 @@
 
   export default {
     name: 'ResultsTable',
+    mixins: [
+      FixedTableHeader
+    ],
     props: {
       hits: {
         default: () => {
@@ -60,7 +63,8 @@
         type: Array
       },
       loading: {
-        default: false
+        default: false,
+        type: Boolean
       }
     },
     computed: {
@@ -89,6 +93,12 @@
       ...mapVuexAccessors('search', ['filter', 'pagination']),
       ...mapState('search', ['showIndex', 'showScore'])
     },
+    mounted () {
+      this.fixedTableHeaderOnEnable()
+    },
+    beforeDestroy () {
+      this.fixedTableHeaderOnDisable()
+    },
     methods: {
       openDocument (item) {
         this.$router.push({name: 'Document', params: {index: item._index, type: item._type, id: item._id}})
@@ -99,15 +109,6 @@
       defaultRowsPerPage () {
         return DEFAULT_ROWS_PER_PAGE
       }
-    },
-    mounted () {
-      this.fixedTableHeaderOnEnable()
-    },
-    beforeDestroy () {
-      this.fixedTableHeaderOnDisable()
-    },
-    mixins: [
-      FixedTableHeader
-    ]
+    }
   }
 </script>

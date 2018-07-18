@@ -2,17 +2,17 @@
   <v-card>
     <v-card-title>
       <h2 class="headline">Cluster Health</h2>
-      <reload-button :action="() => $refs.dataLoader.loadData()"></reload-button>
+      <reload-button :action="() => $refs.dataLoader.loadData()"/>
     </v-card-title>
-    <v-divider></v-divider>
+    <v-divider/>
 
-    <data-loader method="clusterHealth" ref="dataLoader">
+    <data-loader ref="dataLoader" method="clusterHealth">
       <template slot-scope="data">
         <v-list dense>
           <v-list-tile v-for="key in Object.keys(data.body)" :key="key">
             <v-list-tile-content>{{key}}</v-list-tile-content>
             <v-list-tile-content class="align-end">
-              <v-chip :class="data.body[key]" v-if="key === 'status'">{{data.body[key]}}</v-chip>
+              <v-chip v-if="key === 'status'" :class="data.body[key]">{{data.body[key]}}</v-chip>
               <span v-else>{{data.body[key]}}</span>
             </v-list-tile-content>
           </v-list-tile>
