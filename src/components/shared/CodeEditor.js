@@ -58,7 +58,7 @@ export default {
     this.editor = Brace.edit(this.$el, {autoScrollEditorIntoView: true})
     this.$emit('init', this.editor)
     this.editor.getSession().setMode('ace/mode/json')
-    this.editor.setFontSize(14)
+    this.editor.setFontSize('14px')
     this.editor.$blockScrolling = Infinity
 
     this.setTheme(this.$store.state.theme.dark)

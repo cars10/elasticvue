@@ -100,7 +100,7 @@
     },
     computed: {
       flattenedItems () {
-        return this.indices.map(hit => flattenObject(hit))
+        return this.indices.map(hit => flattenObject(hit, false))
       },
       ...mapVuexAccessors('indices', ['filter', 'pagination'])
     },

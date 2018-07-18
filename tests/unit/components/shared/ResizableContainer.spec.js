@@ -26,7 +26,7 @@ describe('components/shared/ResizableContainer.vue', () => {
     const resizedWrapper = wrapper.find({ref: 'resizedWrapper'})
     const initialHeight = wrapper.props().initialHeight
 
-    expect(wrapper.find({ref: 'resizedWrapper'})).to.exist
+    expect(wrapper.find({ref: 'resizedWrapper'}).html()).not.to.be.empty
     expect(resizedWrapper.element.style.height).to.eql(`${initialHeight}px`)
   })
 
