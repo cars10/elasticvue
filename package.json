@@ -4,7 +4,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "rm -rf dist && vue-cli-service build --mode=production --modern",
-    "build_chrome_extension": "vue-cli-service build --mode=production && rm -rf chrome_extension/{index.html,static} && cp -r dist/* chrome_extension/",
+    "build_chrome_extension": "rm -rf dist && vue-cli-service build --mode=production && rm -rf chrome_extension/{index.html,static} && cp -r dist/* chrome_extension/",
     "lint": "vue-cli-service lint",
     "prod": "node scripts/express-server.js",
     "test:unit": "vue-cli-service test:unit",
