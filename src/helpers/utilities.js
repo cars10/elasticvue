@@ -77,7 +77,7 @@ export function flattenObject (object, deep, concatNames) {
     if (typeof value === 'object' && value !== null) {
       if (concatNames) {
         deep ? Object.assign(duplicatedObject, flattenObject(appendStringToAllObjectKeys(value, key), deep, concatNames))
-          : Object.assign(duplicatedObject, appendStringToAllObjectKeys(value, key))
+        : Object.assign(duplicatedObject, appendStringToAllObjectKeys(value, key))
       } else {
         deep ? Object.assign(duplicatedObject, flattenObject(value)) : Object.assign(duplicatedObject, value)
       }

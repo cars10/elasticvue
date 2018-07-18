@@ -110,6 +110,16 @@
 
   export default {
     name: 'Search',
+    filters: {
+      sortIndices (indices) {
+        return indices ? indices.map(index => index.index).sort() : []
+      }
+    },
+    components: {
+      ResultsTable,
+      ReloadButton,
+      CustomVAutocomplete
+    },
     props: {
       executeSearch: {
         default: false,
@@ -149,16 +159,6 @@
         this.indices = []
         this.$refs.indicesLoader.loadData()
       }
-    },
-    filters: {
-      sortIndices (indices) {
-        return indices ? indices.map(index => index.index).sort() : []
-      }
-    },
-    components: {
-      ResultsTable,
-      ReloadButton,
-      CustomVAutocomplete
     }
   }
 </script>
