@@ -1,6 +1,6 @@
 {
   "name": "elasticvue",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "rm -rf dist && vue-cli-service build --mode=production --modern",
