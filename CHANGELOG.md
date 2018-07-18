@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.3
+
+* switch to vue-cli-3
+* refactor resizing code editors
+
 ## 0.2.2
 
 * fix fixed table headers

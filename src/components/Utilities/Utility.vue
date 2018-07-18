@@ -2,7 +2,7 @@
   <v-list-tile>
     <v-list-tile-content>{{text}}</v-list-tile-content>
     <v-list-tile-action>
-      <v-btn @click.native="confirmMethod" :loading="loading" :color="color">Run</v-btn>
+      <v-btn :loading="loading" :color="color" @click.native="confirmMethod">Run</v-btn>
     </v-list-tile-action>
   </v-list-tile>
 </template>
@@ -10,12 +10,6 @@
 <script>
   export default {
     class: 'Utility',
-    data () {
-      return {
-        loading: false,
-        error: false
-      }
-    },
     props: {
       text: {
         default: '',
@@ -26,11 +20,20 @@
         type: String
       },
       methodParams: {
-        default: undefined
+        default: () => {
+          return {}
+        },
+        type: Object
       },
       confirmMessage: {
         default: '',
         type: String
+      }
+    },
+    data () {
+      return {
+        loading: false,
+        error: false
       }
     },
     computed: {

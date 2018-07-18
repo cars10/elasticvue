@@ -6,16 +6,16 @@
           <h1 class="headline">Setup</h1>
         </v-card-title>
 
-        <v-divider></v-divider>
+        <v-divider/>
 
         <v-card-text>
-          <configure></configure>
+          <configure/>
         </v-card-text>
 
-        <v-divider></v-divider>
+        <v-divider/>
 
         <v-card-text>
-          <test-and-connect></test-and-connect>
+          <test-and-connect/>
         </v-card-text>
       </v-card>
     </v-flex>

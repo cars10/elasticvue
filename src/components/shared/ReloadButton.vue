@@ -1,5 +1,5 @@
 <template>
-  <v-btn flat icon @click="action" :title="title">
+  <v-btn :title="title" flat icon @click="action">
     <v-icon>cached</v-icon>
   </v-btn>
 </template>

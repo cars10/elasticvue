@@ -3,15 +3,15 @@
     <v-card-text>
       <div class="clearfix">
         <v-flex right d-inline-flex>
-          <v-text-field append-icon="search"
-                        @keyup.esc="filter = ''"
+          <v-text-field id="filter"
+                        v-model="filter"
+                        append-icon="search"
                         label="Filter results..."
                         name="filter"
-                        id="filter"
                         class="mt-0"
                         messages="Filter via 'column:query'"
                         autofocus
-                        v-model="filter"></v-text-field>
+                        @keyup.esc="filter = ''"/>
         </v-flex>
       </div>
     </v-card-text>
@@ -25,7 +25,7 @@
                   :loading="loading"
                   class="table--condensed table--fixed-header">
       <template slot="items" slot-scope="props">
-        <tr @click="showDocuments(props.item.index)" class="tr--clickable">
+        <tr class="tr--clickable" @click="showDocuments(props.item.index)">
           <td>{{props.item.index}}</td>
           <td>{{props.item.health}}</td>
           <td>{{props.item.status}}</td>
@@ -37,13 +37,13 @@
           <td class="text-xs-right">{{props.item['pri.store.size']}}</td>
           <td>
             <btn-group small>
-              <v-btn flat @click.native.stop="showDocuments(props.item.index)" title="Search documents">
+              <v-btn flat title="Search documents" @click.native.stop="showDocuments(props.item.index)">
                 <v-icon>view_list</v-icon>
               </v-btn>
-              <v-btn flat @click.native.stop="openIndex(props.item.index)" title="Show">
+              <v-btn flat title="Show" @click.native.stop="openIndex(props.item.index)">
                 <v-icon>info_outline</v-icon>
               </v-btn>
-              <v-btn flat @click.native.stop="deleteIndex(props.item.index)" title="Delete">
+              <v-btn flat title="Delete" @click.native.stop="deleteIndex(props.item.index)">
                 <v-icon>delete</v-icon>
               </v-btn>
             </btn-group>
@@ -64,6 +64,24 @@
 
   export default {
     name: 'IndicesTable',
+    components: {
+      BtnGroup
+    },
+    mixins: [
+      FixedTableHeader
+    ],
+    props: {
+      indices: {
+        default: () => {
+          return []
+        },
+        type: Array
+      },
+      loading: {
+        default: false,
+        type: Boolean
+      }
+    },
     data () {
       return {
         headers: [
@@ -80,22 +98,17 @@
         ]
       }
     },
-    props: {
-      indices: {
-        default: () => {
-          return []
-        },
-        type: Array
-      },
-      loading: {
-        default: false
-      }
-    },
     computed: {
       flattenedItems () {
         return this.indices.map(hit => flattenObject(hit))
       },
       ...mapVuexAccessors('indices', ['filter', 'pagination'])
+    },
+    mounted () {
+      this.fixedTableHeaderOnEnable()
+    },
+    beforeDestroy () {
+      this.fixedTableHeaderOnDisable()
     },
     methods: {
       sortIndices (items, index, isDescending) {
@@ -143,18 +156,6 @@
       defaultRowsPerPage () {
         return DEFAULT_ROWS_PER_PAGE
       }
-    },
-    components: {
-      BtnGroup
-    },
-    mounted () {
-      this.fixedTableHeaderOnEnable()
-    },
-    beforeDestroy () {
-      this.fixedTableHeaderOnDisable()
-    },
-    mixins: [
-      FixedTableHeader
-    ]
+    }
   }
 </script>

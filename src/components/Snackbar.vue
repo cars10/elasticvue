@@ -2,12 +2,12 @@
   <v-snackbar :timeout="timeout"
               :color="color"
               v-model="visible"
+              :multi-line="additionalText !== undefined"
               right
-              auto-height
-              :multi-line="additionalText !== undefined">
+              auto-height>
     {{text}}
     <template v-if="additionalText">
-      <br/>
+      <br>
       {{additionalText}}
     </template>
     <v-btn flat @click.native="visible = false">Close</v-btn>

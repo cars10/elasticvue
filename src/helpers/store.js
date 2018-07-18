@@ -1,3 +1,5 @@
+import { capitalize } from './'
+
 /**
  * Generates get() and set() functions for vuex states. It does *not* check if your states and mutations actually exist.
  * Accepts an optional namespace and an object containing the get/set pairs like this:
@@ -59,8 +61,4 @@ export const mapVuexAccessors = function (namespace, states) {
   }
 
   return methods
-}
-
-function capitalize (string) {
-  return string[0].toUpperCase() + string.slice(1)
 }

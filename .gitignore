@@ -1,23 +1,26 @@
 .DS_Store
-node_modules/
-dist/
+node_modules
+/dist
+
+chrome_extension/*
+!chrome_extension/manifest.json
+!chrome_extension/background.js
+elasticvue.zip
+
+# local env files
+.env.local
+.env.*.local
+
+# Log files
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-test/unit/coverage
-test/e2e/reports
-selenium-debug.log
-elasticvue.zip
-
-chrome_extension/index.html
-chrome_extension/static/*
-
-tools/chrome_ext_screenshots/*
-tools/website_screenshots/*
 
 # Editor directories and files
 .idea
+.vscode
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
+*.sw*

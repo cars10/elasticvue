@@ -1,7 +1,7 @@
 <template>
   <v-flex py-2>
     <resizable-container :initial-height="initialHeight">
-      <code-editor readOnly :code="document"></code-editor>
+      <code-editor :code="document" read-only/>
     </resizable-container>
   </v-flex>
 </template>
@@ -12,6 +12,13 @@
 
   export default {
     name: 'PrintPretty',
+    components: {
+      'code-editor': () => ({
+        component: import('@/components/shared/CodeEditor'),
+        loading: Loading
+      }),
+      ResizableContainer
+    },
     props: {
       document: {
         default: () => {
@@ -23,13 +30,6 @@
         default: 600,
         type: Number
       }
-    },
-    components: {
-      'code-editor': () => ({
-        component: import('@/components/shared/CodeEditor'),
-        loading: Loading
-      }),
-      ResizableContainer
     }
   }
 </script>

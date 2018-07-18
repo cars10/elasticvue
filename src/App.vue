@@ -1,17 +1,17 @@
 <template>
   <v-app v-bind="this.$store.state.theme">
-    <the-header @hostChanged="rerender"></the-header>
+    <the-header @hostChanged="rerender"/>
 
     <v-content>
       <v-container fluid grid-list-md>
         <content-or-setup>
-          <router-view v-if="renderRouterView"></router-view>
+          <router-view v-if="renderRouterView"/>
         </content-or-setup>
       </v-container>
-      <snackbar></snackbar>
+      <snackbar/>
     </v-content>
 
-    <the-footer></the-footer>
+    <the-footer/>
   </v-app>
 </template>
 
@@ -23,6 +23,12 @@
 
   export default {
     name: 'App',
+    components: {
+      TheHeader,
+      TheFooter,
+      ContentOrSetup,
+      Snackbar
+    },
     data () {
       return {
         renderRouterView: true
@@ -35,12 +41,6 @@
         this.$store.commit('connection/resetConnection')
         this.$nextTick(() => (this.renderRouterView = true))
       }
-    },
-    components: {
-      TheHeader,
-      TheFooter,
-      ContentOrSetup,
-      Snackbar
     }
   }
 </script>
