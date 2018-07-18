@@ -5,13 +5,13 @@
         <v-card-title>
           <h1 class="headline">Utilities</h1>
         </v-card-title>
-        <v-divider></v-divider>
+        <v-divider/>
 
         <v-card-text>
           <v-layout row wrap>
             <v-flex md6>
               <v-subheader>Create</v-subheader>
-              <v-divider></v-divider>
+              <v-divider/>
               <v-list>
                 <template v-for="utility in utilities.create">
                   <utility :text="utility.text"
@@ -24,7 +24,7 @@
 
             <v-flex md6>
               <v-subheader>Delete</v-subheader>
-              <v-divider></v-divider>
+              <v-divider/>
               <v-list>
                 <template v-for="utility in utilities.delete">
                   <utility :text="utility.text"
@@ -37,7 +37,7 @@
 
             <v-flex md6>
               <v-subheader>Misc</v-subheader>
-              <v-divider></v-divider>
+              <v-divider/>
               <v-list>
                 <template v-for="utility in utilities.misc">
                   <utility :text="utility.text"
@@ -60,6 +60,9 @@
 
   export default {
     name: 'Utilities',
+    components: {
+      Utility
+    },
     data () {
       return {
         utilities: {
@@ -101,9 +104,6 @@
           return WORDS[Math.floor(Math.random() * WORDS.length)]
         })
       }
-    },
-    components: {
-      Utility
     }
   }
 </script>

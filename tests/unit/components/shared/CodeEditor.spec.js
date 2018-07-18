@@ -56,20 +56,20 @@ describe('components/shared/CodeEditor.vue', () => {
   })
 
   describe('code handling', () => {
-// it('changes the code when typing', () => {
-//   let myCode = JSON.stringify({some: 'code'})
-//   const wrapper = mount(CodeEditor, {
-//     localVue: localVue,
-//     store: store,
-//     propsData: {
-//       'code.sync': myCode
-//     },
-//     attachToDocument: true
-//   })
-//
-//   // FIXME
-//   expect(wrapper.find('.ace_text-layer').html()).to.include(myCode)
-// })
+    // it('changes the code when typing', () => {
+    //   let myCode = JSON.stringify({some: 'code'})
+    //   const wrapper = mount(CodeEditor, {
+    //     localVue: localVue,
+    //     store: store,
+    //     propsData: {
+    //       'code.sync': myCode
+    //     },
+    //     attachToDocument: true
+    //   })
+    //
+    //   // FIXME
+    //   expect(wrapper.find('.ace_text-layer').html()).to.include(myCode)
+    // })
   })
 
   describe('destroying', () => {
