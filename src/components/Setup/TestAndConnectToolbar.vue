@@ -1,33 +1,33 @@
 <template>
   <v-form class="d-flex align-center" @submit.prevent="testConnection">
     <v-toolbar-items class="mr-2">
-      <v-text-field title="Host"
+      <v-text-field id="toolbarHost"
+                    v-model="elasticsearchHost"
+                    title="Host"
                     label="Host"
-                    id="toolbarHost"
                     type="text"
                     class="v-text-field--condensed"
                     solo
-                    v-model="elasticsearchHost"
                     append-icon="clear"
                     @keyup.ctrl.enter="connectAndEmitHostChangedIfTestSuccess"
-                    @click:append="resetElasticsearchHost"></v-text-field>
+                    @click:append="resetElasticsearchHost"/>
     </v-toolbar-items>
-    <v-btn type="submit"
-           :loading="testLoading"
-           :disabled="hostValid !== true">
+    <v-btn :loading="testLoading"
+           :disabled="hostValid !== true"
+           type="submit">
       Test connection
     </v-btn>
 
     <v-btn v-if="isConnected && testSuccess && isSameHost"
-           type="button"
            :loading="connectLoading"
+           type="button"
            @click.native="connectAndEmitHostChangedIfTestSuccess">
       Reconnect
     </v-btn>
     <v-btn v-else
            :disabled="!testSuccess"
-           type="button"
            :loading="connectLoading"
+           type="button"
            @click.native="connectAndEmitHostChangedIfTestSuccess">Connect
     </v-btn>
   </v-form>
@@ -40,6 +40,9 @@
   export default {
     name: 'test-and-connect-toolbar',
     extends: ConnectBase,
+    mixins: [
+      IsConnected
+    ],
     data () {
       return {
         testSuccess: true
@@ -71,9 +74,6 @@
             this.showErrorSnackbar({text: 'Error: could not connect.'})
           })
       }
-    },
-    mixins: [
-      IsConnected
-    ]
+    }
   }
 </script>

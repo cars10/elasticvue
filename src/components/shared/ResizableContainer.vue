@@ -1,8 +1,8 @@
 <template>
-  <div :style="style" ref="resizedWrapper" class="resizable-container">
-    <slot></slot>
+  <div ref="resizedWrapper" :style="style" class="resizable-container">
+    <slot/>
 
-    <div class="resizable-container__vertical-handler" @mousedown="onDragStart"></div>
+    <div class="resizable-container__vertical-handler" @mousedown="onDragStart"/>
   </div>
 </template>
 
@@ -11,6 +11,9 @@
 
   export default {
     name: 'resizable-container',
+    components: {
+      BtnGroup
+    },
     props: {
       initialWidth: {
         default: '100%',
@@ -78,9 +81,6 @@
         window.removeEventListener('mouseup', this.onDragEnd)
         window.removeEventListener('mousemove', this.onDrag)
       }
-    },
-    components: {
-      BtnGroup
     }
   }
 </script>

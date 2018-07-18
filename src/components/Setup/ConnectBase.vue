@@ -4,6 +4,7 @@
 
   export default {
     name: 'connect-base',
+    mixins: [ConnectWithServer],
     data () {
       return {
         testError: false,
@@ -72,7 +73,6 @@
           this.connect()
         }
       }
-    },
-    mixins: [ConnectWithServer]
+    }
   }
 </script>

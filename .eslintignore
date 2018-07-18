@@ -1,4 +1,1 @@
-build/*.js
-config/*.js
 chrome_extension/*
-tools/*

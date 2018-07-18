@@ -4,37 +4,37 @@
     <v-flex px-3>
       <v-form @submit.prevent="testConnection">
         <v-flex d-inline-flex>
-          <v-text-field title="Host"
-                        label="Host"
-                        id="host"
-                        type="text"
-                        autofocus
+          <v-text-field id="host"
                         v-model="elasticsearchHost"
                         :rules="[hostValid]"
+                        title="Host"
+                        label="Host"
+                        type="text"
+                        autofocus
                         append-icon="clear"
                         @keyup.ctrl.enter="connectIfTestSuccessfull"
-                        @click:append="resetElasticsearchHost"></v-text-field>
+                        @click:append="resetElasticsearchHost"/>
         </v-flex>
-        <v-btn type="submit"
-               id="test_connection"
+        <v-btn id="test_connection"
                :color="testConnectionColor"
                :loading="testLoading"
-               :disabled="hostValid !== true">
+               :disabled="hostValid !== true"
+               type="submit">
           Test connection
         </v-btn>
 
-        <v-btn :disabled="!testSuccess"
-               id="connect"
+        <v-btn id="connect"
+               :disabled="!testSuccess"
                :color="connectColor"
-               type="button"
                :loading="connectLoading"
+               type="button"
                @click.native="connectIfTestSuccessfull">Connect
         </v-btn>
       </v-form>
       <span class="grey--text">Hint: use <i>enter</i> to test connection, <i>ctrl+enter</i> to connect</span>
     </v-flex>
 
-    <v-flex px-3 v-if="testError || connectError">
+    <v-flex v-if="testError || connectError" px-3>
       <v-alert :value="true" type="error">
         Could not connect. Please make sure that
         <ol class="pl-3">

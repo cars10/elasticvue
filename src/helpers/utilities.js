@@ -16,13 +16,13 @@
  */
 export function isEmpty (value) {
   if (typeof value === 'object') {
-    // array or object or null
+// array or object or null
     if (Array.isArray(value)) {
       return value.length === 0
     } else if (value === null) {
       return true
     } else {
-      // object
+// object
       return Object.keys(value).length === 0
     }
   } else {
