@@ -26,7 +26,7 @@ describe('components/shared/ResizableContainer.vue', () => {
     const resizedWrapper = wrapper.find({ref: 'resizedWrapper'})
     const initialHeight = wrapper.props().initialHeight
 
-    expect(wrapper.text()).contains('vertical_align_center')
+    expect(wrapper.find({ref: 'resizedWrapper'})).to.exist
     expect(resizedWrapper.element.style.height).to.eql(`${initialHeight}px`)
   })
 
@@ -47,7 +47,7 @@ describe('components/shared/ResizableContainer.vue', () => {
       localVue: localVue,
       attachToDocument: true
     })
-    const button = wrapper.find('button')
+    const handler = wrapper.find('div.resizable-container__vertical-handler')
     const resizedWrapper = wrapper.find({ref: 'resizedWrapper'})
 
     const startY = 0
@@ -56,9 +56,9 @@ describe('components/shared/ResizableContainer.vue', () => {
     const initialHeight = wrapper.props().initialHeight
     const expectedHeight = initialHeight + distance
 
-    button.trigger('mousedown', {pageY: startY})
-    button.trigger('mousemove', {pageY: endY})
-    button.trigger('mouseup')
+    handler.trigger('mousedown', {pageY: startY})
+    handler.trigger('mousemove', {pageY: endY})
+    handler.trigger('mouseup')
     expect(resizedWrapper.element.style.height).to.eql(`${expectedHeight}px`)
   })
 
@@ -67,7 +67,7 @@ describe('components/shared/ResizableContainer.vue', () => {
       localVue: localVue,
       attachToDocument: true
     })
-    const button = wrapper.find('button')
+    const handler = wrapper.find('div.resizable-container__vertical-handler')
     const resizedWrapper = wrapper.find({ref: 'resizedWrapper'})
 
     const startY = 100
@@ -76,9 +76,9 @@ describe('components/shared/ResizableContainer.vue', () => {
     const initialHeight = wrapper.props().initialHeight
     const notExpectedHeight = initialHeight + distance
 
-    button.trigger('mousedown', {pageY: startY})
-    button.trigger('mousemove', {pageY: endY})
-    button.trigger('mouseup')
+    handler.trigger('mousedown', {pageY: startY})
+    handler.trigger('mousemove', {pageY: endY})
+    handler.trigger('mouseup')
     expect(resizedWrapper.element.style.height).to.not.eql(`${notExpectedHeight}px`)
     expect(resizedWrapper.element.style.height).to.eql(`${initialHeight}px`)
   })

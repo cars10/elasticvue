@@ -1,0 +1,14 @@
+$vertical-handler-height: 10px;
+
+.resizable-container {
+  position: relative;
+}
+
+.resizable-container__vertical-handler {
+  width: 100%;
+  height: $vertical-handler-height;
+  cursor: n-resize;
+  position: absolute;
+  bottom: -$vertical-handler-height/2;
+  z-index: 10
+}

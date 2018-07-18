@@ -1,13 +1,8 @@
 <template>
-  <div :style="style" ref="resizedWrapper" class="position--relative">
+  <div :style="style" ref="resizedWrapper" class="resizable-container">
     <slot></slot>
 
-    <v-btn flat
-           class="v-btn-absolute-bottom-right"
-           title="Resize"
-           @mousedown="onDragStart">
-      <v-icon>vertical_align_center</v-icon>
-    </v-btn>
+    <div class="resizable-container__vertical-handler" @mousedown="onDragStart"></div>
   </div>
 </template>
 
@@ -50,6 +45,8 @@
         window.dispatchEvent(new Event('resize'))
       },
       onDragStart (e) {
+        window.addEventListener('mouseup', this.onDragEnd)
+        window.addEventListener('mousemove', this.onDrag)
         this.resizing = true
         this.dragStartY = e.pageY
         this.dragStartHeight = this.height
@@ -78,17 +75,9 @@
             this.triggerResize()
           }
         })
+        window.removeEventListener('mouseup', this.onDragEnd)
+        window.removeEventListener('mousemove', this.onDrag)
       }
-    },
-    mounted () {
-      if (typeof window === 'undefined') return
-      window.addEventListener('mouseup', this.onDragEnd)
-      window.addEventListener('mousemove', this.onDrag)
-    },
-    destroyed () {
-      if (typeof window === 'undefined') return
-      window.removeEventListener('mouseup', this.onDragEnd)
-      window.removeEventListener('mousemove', this.onDrag)
     },
     components: {
       BtnGroup
