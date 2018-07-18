@@ -13,7 +13,7 @@ try {
 const express = require('express')
 const app = express()
 const path = require('path')
-const port = process.env.PORT || 8090
+const port = process.env.PORT || 8080
 
 const dist_path = path.resolve(__dirname, '..', 'dist')
 

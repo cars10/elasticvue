@@ -64,14 +64,14 @@ After configuring use one of the following ways to run elasticvue:
 
 Use the existing image:
 
-* `docker run -p 8090:8090 -d cars10/elasticvue` [Image at Docker Hub](https://hub.docker.com/r/cars10/elasticvue) (~50mb compressed)
+* `docker run -p 8080:8080 -d cars10/elasticvue` [Image at Docker Hub](https://hub.docker.com/r/cars10/elasticvue) (~50mb compressed)
 
 Or build the image locally:
 
 * Checkout the repo `git clone https://github.com/cars10/elasticvue.git`
 * Open the folder `cd elasticvue`
 * Build `docker build -t elasticvue .`
-* Run `docker run -p 8090:8090 elasticvue`
+* Run `docker run -p 8080:8080 elasticvue`
 
 **Chrome extension**
 
@@ -115,7 +115,7 @@ cd elasticvue
 # install dependencies
 yarn install
 
-# serve with hot reload at localhost:8090
+# serve with hot reload at localhost:8080
 yarn serve
 
 # tests
