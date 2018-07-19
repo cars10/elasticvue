@@ -52,20 +52,20 @@
 
         <div v-if="optionsCollapsed" class="my-2 pa-2 lowered">
           <v-layout row wrap>
-            <v-flex xl6>
+            <v-flex lg6>
               <v-text-field v-model="sourceInclude"
                             label="Source includes"
                             name="source_includes"
                             messages="Enter a comma separated list of columns to load"/>
             </v-flex>
 
-            <v-flex xl2>
+            <v-flex lg2>
               <v-text-field v-model="size"
                             label="Size"
                             name="size"/>
             </v-flex>
 
-            <v-flex xl4>
+            <v-flex lg4>
               <v-layout row wrap>
                 <v-flex md6>
                   <v-switch id="show_index" v-model="showIndex" label="Show _index column" hide-details/>
