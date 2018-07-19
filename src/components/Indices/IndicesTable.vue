@@ -2,6 +2,7 @@
   <div>
     <v-card-text>
       <div class="clearfix">
+        <new-index @reloadIndices="() => this.$emit('reloadIndices')"/>
         <v-flex right d-inline-flex>
           <v-text-field id="filter"
                         v-model="filter"
@@ -61,11 +62,13 @@
   import FixedTableHeader from '@/mixins/FixedTableHeader'
   import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
   import { mapVuexAccessors } from '../../helpers/store'
+  import NewIndex from '@/components/Indices/NewIndex'
 
   export default {
     name: 'IndicesTable',
     components: {
-      BtnGroup
+      BtnGroup,
+      NewIndex
     },
     mixins: [
       FixedTableHeader
@@ -144,7 +147,7 @@
           this.getElasticsearchAdapter()
             .then(adapter => adapter.indicesDelete({index}))
             .then(body => {
-              this.$emit('deleteIndex', index)
+              this.$emit('reloadIndices')
               this.showSuccessSnackbar({text: `The index '${index}' was successfully deleted.`, additionalText: body})
             })
             .catch(error => this.$store.commit('connection/setErrorState', error))

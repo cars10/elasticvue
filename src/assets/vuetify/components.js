@@ -7,6 +7,7 @@ import VCard from 'vuetify/es5/components/VCard'
 import VCheckbox from 'vuetify/es5/components/VCheckbox'
 import VChip from 'vuetify/es5/components/VChip'
 import VDataTable from 'vuetify/es5/components/VDataTable'
+import VDialog from 'vuetify/es5/components/VDialog'
 import VDivider from 'vuetify/es5/components/VDivider'
 import VForm from 'vuetify/es5/components/VForm'
 import VFooter from 'vuetify/es5/components/VFooter'
@@ -34,6 +35,7 @@ Vue.use(Vuetify, {
     VCheckbox,
     VChip,
     VDataTable,
+    VDialog,
     VDivider,
     VForm,
     VFooter,
