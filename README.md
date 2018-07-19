@@ -58,7 +58,7 @@ After configuring use one of the following ways to run elasticvue:
 
 **Online version**
 
-* Visit [http://app.elasticvue.com](http://app.elasticvue.com) or [https://app.elasticvue.com](https://app.elasticvue.com) (if your cluster is only accessible through SSL)
+* Visit [https://app.elasticvue.com](https://app.elasticvue.com)
 
 **Docker**
 
