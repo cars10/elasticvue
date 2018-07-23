@@ -5,12 +5,13 @@
         <v-flex right d-inline-flex>
           <v-text-field id="filter"
                         v-model="filter"
+                        title="Filter via 'column:query'"
                         append-icon="search"
-                        label="Filter results..."
-                        messages="Filter via 'column:query'"
+                        label="Filter..."
                         name="filter"
                         class="mt-0"
                         @keyup.esc="filter = ''"/>
+
         </v-flex>
       </div>
     </v-card-text>

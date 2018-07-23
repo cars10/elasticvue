@@ -7,10 +7,10 @@
           <v-text-field id="filter"
                         v-model="filter"
                         append-icon="search"
-                        label="Filter results..."
+                        label="Filter..."
                         name="filter"
                         class="mt-0"
-                        messages="Filter via 'column:query'"
+                        title="Filter via 'column:query'"
                         autofocus
                         @keyup.esc="filter = ''"/>
         </v-flex>
@@ -87,6 +87,7 @@
     },
     data () {
       return {
+        rows: [],
         headers: [
           {text: 'index', value: 'index'},
           {text: 'health', value: 'health'},
