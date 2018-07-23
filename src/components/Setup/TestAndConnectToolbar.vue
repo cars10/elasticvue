@@ -18,7 +18,7 @@
       Test connection
     </v-btn>
 
-    <v-btn v-if="isConnected && testSuccess && isSameHost"
+    <v-btn v-if="isConnected && testSuccess"
            :loading="connectLoading"
            type="button"
            @click.native="connectAndEmitHostChangedIfTestSuccess">
@@ -35,23 +35,17 @@
 
 <script>
   import ConnectBase from '@/components/Setup/ConnectBase'
-  import IsConnected from '../../mixins/IsConnected'
+  import ConnectionStatus from '@/mixins/ConnectionStatus'
 
   export default {
     name: 'test-and-connect-toolbar',
     extends: ConnectBase,
     mixins: [
-      IsConnected
+      ConnectionStatus
     ],
     data () {
       return {
         testSuccess: true
-      }
-    },
-    computed: {
-      isSameHost () {
-        return this.$store.state.connection.elasticsearchHost ===
-          this.$store.state.connection.elasticsearchAdapter.client.transport._config.host
       }
     },
     methods: {

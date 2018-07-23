@@ -45,6 +45,7 @@
           <li>Your cluster is reachable via {{elasticsearchHost}}</li>
           <li>You added the correct settings to your <strong>elasticserach.yml</strong> and restarted your cluster</li>
         </ol>
+        {{errorMessage}}
       </v-alert>
     </v-flex>
   </div>

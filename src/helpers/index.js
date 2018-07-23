@@ -17,3 +17,8 @@ export function capitalize (string) {
   if (string.length === 0) return ''
   return string[0].toUpperCase() + string.slice(1)
 }
+
+export function handleFetchResponse (response) {
+  if (!response.ok) throw new Error(response.statusText)
+  return response
+}

@@ -23,7 +23,7 @@
 
 <script>
   import TestAndConnectToolbar from '@/components/Setup/TestAndConnectToolbar'
-  import IsConnected from '../../mixins/IsConnected'
+  import ConnectionStatus from '@/mixins/ConnectionStatus'
 
   export default {
     name: 'app-header',
@@ -31,7 +31,7 @@
       TestAndConnectToolbar
     },
     mixins: [
-      IsConnected
+      ConnectionStatus
     ],
     data () {
       return {

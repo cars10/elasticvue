@@ -12,7 +12,7 @@
         testLoading: false,
         connectLoading: false,
         connectError: false,
-        testErrorCode: 0
+        errorMessage: ''
       }
     },
     computed: {
@@ -37,6 +37,8 @@
       },
       testConnection () {
         this.testLoading = true
+        this.testSuccess = false
+        this.testError = false
         new ConnectionService(this.$store.state.connection.elasticsearchHost).testConnection()
           .then(() => {
             this.testLoading = false
@@ -47,11 +49,15 @@
               additionalText: 'You cluster is reachable and configured correctly.'
             })
           })
-          .catch(() => {
+          .catch((e) => {
             this.testLoading = false
             this.testSuccess = false
             this.testError = true
-            this.showErrorSnackbar({text: 'Error: could not connect.'})
+            if (e instanceof TypeError) {
+              this.errorMessage = 'typerror'
+            } else {
+              this.errorMessage = 'randomError'
+            }
           })
       },
       connect () {
