@@ -28,7 +28,7 @@
         }
       },
       hostValid () {
-        return this.elasticsearchHost.match(/https?:\/\//) ? true : 'Host most contain a valid scheme'
+        return this.elasticsearchHost.match(/^https?:\/\//) ? true : 'Host most contain a valid scheme'
       }
     },
     methods: {
@@ -39,7 +39,7 @@
         this.testLoading = true
         this.testSuccess = false
         this.testError = false
-        new ConnectionService(this.$store.state.connection.elasticsearchHost).testConnection()
+        new ConnectionService(this.elasticsearchHost).testConnection()
           .then(() => {
             this.testLoading = false
             this.testSuccess = true
@@ -62,6 +62,7 @@
       },
       connect () {
         this.connectLoading = true
+        this.connectError = false
         this.connectWithServer()
           .then(() => {
             this.connectLoading = false
