@@ -4,7 +4,7 @@ export const indices = {
   namespaced: true,
   state: {
     filter: '',
-    pagination: DEFAULT_DATA_TABLE_PAGINATION
+    pagination: Object.assign({}, DEFAULT_DATA_TABLE_PAGINATION, {sortBy: 'index'})
   },
   mutations: {
     setFilter (state, filter) {
