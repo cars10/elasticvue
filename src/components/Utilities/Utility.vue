@@ -23,7 +23,7 @@
         default: () => {
           return {}
         },
-        type: Object
+        type: [Object, Function]
       },
       confirmMessage: {
         default: '',
