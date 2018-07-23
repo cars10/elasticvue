@@ -12,7 +12,7 @@
           <v-flex lg2>
             <v-text-field id="query"
                           v-model="q"
-                          label="Search query"
+                          label="Search"
                           name="query"
                           messages="Querying supports the <a tabindex='-1' target='_blank' rel='noopener' href='https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html'>query string DSL</a>"
                           append-icon="clear"
