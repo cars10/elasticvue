@@ -13,6 +13,10 @@
                         title="Filter via 'column:query'"
                         autofocus
                         @keyup.esc="filter = ''"/>
+
+          <settings-dropdown>
+            <single-setting v-model="stickyTableHeader" name="Sticky table header"/>
+          </settings-dropdown>
         </v-flex>
       </div>
     </v-card-text>
@@ -24,7 +28,7 @@
                   :pagination.sync="pagination"
                   :search="filter"
                   :loading="loading"
-                  class="table--condensed table--fixed-header">
+                  :class="tableClasses">
       <template slot="items" slot-scope="props">
         <tr class="tr--clickable" @click="showDocuments(props.item.index)">
           <td>{{props.item.index}}</td>
@@ -63,12 +67,18 @@
   import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
   import { mapVuexAccessors } from '../../helpers/store'
   import NewIndex from '@/components/Indices/NewIndex'
+  import SettingsDropdown from '@/components/shared/SettingsDropdown'
+  import SingleSetting from '@/components/shared/SingleSetting'
+  import MultiSetting from '@/components/shared/MultiSetting'
 
   export default {
     name: 'IndicesTable',
     components: {
       BtnGroup,
-      NewIndex
+      NewIndex,
+      SettingsDropdown,
+      SingleSetting,
+      MultiSetting
     },
     mixins: [
       FixedTableHeader
@@ -106,7 +116,13 @@
       flattenedItems () {
         return this.indices.map(hit => flattenObject(hit, false))
       },
-      ...mapVuexAccessors('indices', ['filter', 'pagination'])
+      tableClasses () {
+        return [
+          'table--condensed',
+          {'table--fixed-header': this.stickyTableHeader}
+        ]
+      },
+      ...mapVuexAccessors('indices', ['filter', 'pagination', 'stickyTableHeader'])
     },
     mounted () {
       this.fixedTableHeaderOnEnable()
