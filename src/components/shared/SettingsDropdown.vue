@@ -41,7 +41,7 @@
       toggleMenu () {
         this.open = !this.open
       },
-      closeMenu() {
+      closeMenu () {
         this.open = false
       }
     }
