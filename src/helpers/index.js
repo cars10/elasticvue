@@ -17,3 +17,19 @@ export function capitalize (string) {
   if (string.length === 0) return ''
   return string[0].toUpperCase() + string.slice(1)
 }
+
+export function handleFetchResponse (response) {
+  if (!response.ok) throw new Error(response.statusText)
+  return response
+}
+
+export function truncate (text, limit) {
+  if (!text) return ''
+  if (typeof text !== 'string') text = text.toString()
+
+  if (text.length > limit) {
+    return text.slice(0, limit) + ' ...'
+  } else {
+    return text
+  }
+}

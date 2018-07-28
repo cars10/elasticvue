@@ -2,16 +2,21 @@
   <div>
     <v-card-text>
       <div class="clearfix">
+        <new-index @reloadIndices="() => this.$emit('reloadIndices')"/>
         <v-flex right d-inline-flex>
           <v-text-field id="filter"
                         v-model="filter"
                         append-icon="search"
-                        label="Filter results..."
+                        label="Filter..."
                         name="filter"
                         class="mt-0"
-                        messages="Filter via 'column:query'"
+                        title="Filter via 'column:query'"
                         autofocus
                         @keyup.esc="filter = ''"/>
+
+          <settings-dropdown>
+            <single-setting v-model="stickyTableHeader" name="Sticky table header"/>
+          </settings-dropdown>
         </v-flex>
       </div>
     </v-card-text>
@@ -23,7 +28,7 @@
                   :pagination.sync="pagination"
                   :search="filter"
                   :loading="loading"
-                  class="table--condensed table--fixed-header">
+                  :class="tableClasses">
       <template slot="items" slot-scope="props">
         <tr class="tr--clickable" @click="showDocuments(props.item.index)">
           <td>{{props.item.index}}</td>
@@ -61,11 +66,17 @@
   import FixedTableHeader from '@/mixins/FixedTableHeader'
   import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
   import { mapVuexAccessors } from '../../helpers/store'
+  import NewIndex from '@/components/Indices/NewIndex'
+  import SettingsDropdown from '@/components/shared/SettingsDropdown'
+  import SingleSetting from '@/components/shared/SingleSetting'
 
   export default {
     name: 'IndicesTable',
     components: {
-      BtnGroup
+      BtnGroup,
+      NewIndex,
+      SettingsDropdown,
+      SingleSetting
     },
     mixins: [
       FixedTableHeader
@@ -84,6 +95,7 @@
     },
     data () {
       return {
+        rows: [],
         headers: [
           {text: 'index', value: 'index'},
           {text: 'health', value: 'health'},
@@ -100,7 +112,22 @@
     },
     computed: {
       flattenedItems () {
-        return this.indices.map(hit => flattenObject(hit))
+        return this.indices.map(hit => flattenObject(hit, false))
+      },
+      stickyTableHeader: {
+        get () {
+          return this.$store.state.indices.stickyTableHeader
+        },
+        set (value) {
+          this.resetTableHeight()
+          this.$store.commit('indices/setStickyTableHeader', value)
+        }
+      },
+      tableClasses () {
+        return [
+          'table--condensed',
+          {'table--fixed-header': this.stickyTableHeader}
+        ]
       },
       ...mapVuexAccessors('indices', ['filter', 'pagination'])
     },
@@ -144,8 +171,11 @@
           this.getElasticsearchAdapter()
             .then(adapter => adapter.indicesDelete({index}))
             .then(body => {
-              this.$emit('deleteIndex', index)
-              this.showSuccessSnackbar({text: `The index '${index}' was successfully deleted.`, additionalText: body})
+              this.$emit('reloadIndices')
+              this.showSuccessSnackbar({
+                text: `The index '${index}' was successfully deleted.`,
+                additionalText: JSON.stringify(body)
+              })
             })
             .catch(error => this.$store.commit('connection/setErrorState', error))
         }

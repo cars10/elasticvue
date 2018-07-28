@@ -3,9 +3,9 @@ chrome.browserAction.onClicked.addListener(function () {
 });
 
 chrome.webRequest.onBeforeRequest.addListener(function (info) {
-    var runtimeId = chrome.runtime.id
-    var urlWithoutProtocol = info.url.split('//')[1]
-    var path = urlWithoutProtocol.substring(runtimeId.length)
+    let runtimeId = chrome.runtime.id
+    let urlWithoutProtocol = info.url.split('//')[1]
+    let path = urlWithoutProtocol.substring(runtimeId.length)
 
     /**
      * We have to redirect every actual navigational request to index.html because we do not have a webserver
@@ -20,8 +20,8 @@ chrome.webRequest.onBeforeRequest.addListener(function (info) {
      * Hint: this behavior is only triggered on page refresh (e.g. "F5"). Navigation normally will trigger vue-router
      * directly and is not handled by listener.
      */
-    var ext = path.split('.').pop()
-    var STATIC_EXTENSIONS = ['html', 'js', 'css', 'gz', 'png', 'woff2', 'ttf']
+    let ext = path.split('.').pop()
+    let STATIC_EXTENSIONS = ['html', 'js', 'css', 'gz', 'png', 'woff2', 'ttf']
     if (STATIC_EXTENSIONS.indexOf(ext) < 0) {
       return {redirectUrl: "chrome-extension://" + runtimeId + '/index.html' + '?route=' + path}
     }

@@ -4,7 +4,8 @@ export const indices = {
   namespaced: true,
   state: {
     filter: '',
-    pagination: DEFAULT_DATA_TABLE_PAGINATION
+    pagination: Object.assign({}, DEFAULT_DATA_TABLE_PAGINATION, {sortBy: 'index'}),
+    stickyTableHeader: true
   },
   mutations: {
     setFilter (state, filter) {
@@ -12,6 +13,9 @@ export const indices = {
     },
     setPagination (state, pagination) {
       state.pagination = pagination
+    },
+    setStickyTableHeader (state, sticky) {
+      state.stickyTableHeader = sticky
     }
   }
 }

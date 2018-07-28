@@ -21,9 +21,8 @@
       },
       methodParams: {
         default: () => {
-          return {}
         },
-        type: Object
+        type: [Object, Array]
       },
       confirmMessage: {
         default: '',
@@ -59,12 +58,12 @@
           .then(body => {
             this.loading = false
             this.error = false
-            this.showSuccessSnackbar({text: 'Success.', additionalText: body})
+            this.showSuccessSnackbar({text: 'Success', additionalText: JSON.stringify(body)})
           })
           .catch(error => {
             this.loading = false
             this.error = true
-            this.showErrorSnackbar({text: 'Error.', additionalText: error})
+            this.showErrorSnackbar({text: 'Error', additionalText: JSON.stringify(error)})
           })
       }
     }

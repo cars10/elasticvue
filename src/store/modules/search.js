@@ -8,7 +8,8 @@ export const search = {
     size: DEFAULT_SEARCH_PARAMS.size,
     sourceInclude: '',
     filter: '',
-    pagination: DEFAULT_DATA_TABLE_PAGINATION,
+    pagination: Object.assign({}, DEFAULT_DATA_TABLE_PAGINATION),
+    stickyTableHeader: true,
     showIndex: true,
     showScore: true
   },
@@ -30,6 +31,9 @@ export const search = {
     },
     setPagination (state, pagination) {
       state.pagination = pagination
+    },
+    setStickyTableHeader (state, sticky) {
+      state.stickyTableHeader = sticky
     },
     setShowIndex (state, val) {
       state.showIndex = val

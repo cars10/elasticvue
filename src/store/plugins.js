@@ -8,7 +8,10 @@ export const plugins = [
       'connection.wasConnected',
       'connection.elasticsearchHost',
       'theme',
-      'query'
+      'query',
+      'indices',
+      'search.pagination',
+      'search.stickyTableHeader'
     ]
   })
 ]

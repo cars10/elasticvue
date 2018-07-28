@@ -7,7 +7,7 @@ export default class ElasticsearchVersionService {
   }
 
   getApiVersion () {
-    return this.getRawApiVersion().then(this.mapApiVersion())
+    return this.getRawApiVersion().then(() => this.mapApiVersion())
   }
 
   /**

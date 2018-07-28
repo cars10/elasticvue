@@ -4,7 +4,7 @@ const puppeteer = require('puppeteer');
   const browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']})
   const page = await browser.newPage()
   page.setViewport({width: 1280, height: 800})
-  await page.goto('http://localhost:8090')
+  await page.goto('http://localhost:8080')
 
   await connectWithServer(page)
   await removeSnackbar(page)

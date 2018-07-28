@@ -16,8 +16,8 @@ RUN yarn install --silent \
 RUN npm install express --no-package-lock \
     && npm cache clean --force
 
-# Expose port 8090 for express server
-EXPOSE 8090
+# Expose port 8080 for express server
+EXPOSE 8080
 
 # Run production server
 CMD ["yarn", "prod"]

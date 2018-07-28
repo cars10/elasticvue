@@ -11,7 +11,23 @@ module.exports = {
   },
   pluginOptions: {
     karma: {
+      files: [
+        'tests/**/*.spec.js',
+        'src/components/**/*',
+        'src/helpers/**/*',
+        'src/mixins/**/*',
+        'src/services/**/*',
+        'src/views/**/*'
+      ],
       karmaConfig: {
+        reporters: ['mocha', 'coverage'],
+        coverageReporter: {
+          dir: './tests/coverage',
+          reporters: [
+            {type: 'lcov', subdir: '.'},
+            {type: 'text-summary'}
+          ]
+        },
         browsers: ['ChromeHeadlessWithoutSecurity', 'FirefoxHeadless'],
         customLaunchers: {
           ChromeHeadlessWithoutSecurity: {

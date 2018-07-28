@@ -12,7 +12,7 @@
         testLoading: false,
         connectLoading: false,
         connectError: false,
-        testErrorCode: 0
+        errorMessage: ''
       }
     },
     computed: {
@@ -28,7 +28,7 @@
         }
       },
       hostValid () {
-        return this.elasticsearchHost.match(/https?:\/\//) ? true : 'Host most contain a valid scheme'
+        return this.elasticsearchHost.match(/^https?:\/\//) ? true : 'Host most contain a valid scheme'
       }
     },
     methods: {
@@ -37,7 +37,9 @@
       },
       testConnection () {
         this.testLoading = true
-        new ConnectionService(this.$store.state.connection.elasticsearchHost).testConnection()
+        this.testSuccess = false
+        this.testError = false
+        new ConnectionService(this.elasticsearchHost).testConnection()
           .then(() => {
             this.testLoading = false
             this.testSuccess = true
@@ -47,15 +49,20 @@
               additionalText: 'You cluster is reachable and configured correctly.'
             })
           })
-          .catch(() => {
+          .catch((e) => {
             this.testLoading = false
             this.testSuccess = false
             this.testError = true
-            this.showErrorSnackbar({text: 'Error: could not connect.'})
+            if (e instanceof TypeError) {
+              this.errorMessage = 'typerror'
+            } else {
+              this.errorMessage = 'randomError'
+            }
           })
       },
       connect () {
         this.connectLoading = true
+        this.connectError = false
         this.connectWithServer()
           .then(() => {
             this.connectLoading = false

@@ -1,13 +1,14 @@
 {
   "name": "elasticvue",
-  "version": "0.2.3",
+  "version": "0.3.0",
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "rm -rf dist && vue-cli-service build --mode=production --modern",
-    "build_chrome_extension": "vue-cli-service build --mode=production && rm -rf chrome_extension/{index.html,static} && cp -r dist/* chrome_extension/",
+    "build": "rm -rf dist && vue-cli-service build --modern",
+    "build_chrome_extension": "rm -rf dist && vue-cli-service build && rm -rf chrome_extension/{index.html,static} && cp -r dist/* chrome_extension/",
     "lint": "vue-cli-service lint",
     "prod": "node scripts/express-server.js",
     "test:unit": "vue-cli-service test:unit",
+    "test:unit:watch": "vue-cli-service test:unit --watch",
     "test:e2e": "vue-cli-service test:e2e"
   },
   "dependencies": {
@@ -17,7 +18,7 @@
     "querystringify": "^2.0.0",
     "vue": "^2.5.16",
     "vue-router": "^3.0.1",
-    "vuetify": "^1.1.5",
+    "vuetify": "^1.1.8",
     "vuex": "^3.0.1",
     "vuex-persistedstate": "^2.5.4"
   },
@@ -29,7 +30,10 @@
     "@vue/cli-service": "^3.0.0-rc.5",
     "@vue/eslint-config-standard": "^3.0.0-rc.5",
     "@vue/test-utils": "^1.0.0-beta.20",
+    "babel-plugin-istanbul": "^5.0.0",
     "chai": "^4.1.2",
+    "karma-coverage": "^1.1.2",
+    "karma-webpack": "^3.0.0",
     "mocha": "^5.0.5",
     "node-sass": "^4.9.0",
     "puppeteer": "^1.6.0",

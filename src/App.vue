@@ -20,6 +20,8 @@
   import TheFooter from '@/components/App/TheFooter'
   import ContentOrSetup from '@/components/ContentOrSetup'
   import Snackbar from '@/components/Snackbar'
+  import ConnectionStatus from '@/mixins/ConnectionStatus'
+  import ConnectWithServer from '@/mixins/ConnectWithServer'
 
   export default {
     name: 'App',
@@ -29,9 +31,18 @@
       ContentOrSetup,
       Snackbar
     },
+    mixins: [
+      ConnectionStatus,
+      ConnectWithServer
+    ],
     data () {
       return {
         renderRouterView: true
+      }
+    },
+    created () {
+      if (this.wasConnected) {
+        this.connectWithServer()
       }
     },
     methods: {

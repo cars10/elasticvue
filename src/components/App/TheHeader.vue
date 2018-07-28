@@ -4,8 +4,7 @@
       <router-link to="/">Elasticvue</router-link>
     </v-toolbar-title>
 
-    <test-and-connect-toolbar v-if="isConnected" class="hidden-md-and-down"
-                              @hostChanged="$emit('hostChanged')"/>
+    <test-and-connect-toolbar v-if="isConnected" class="hidden-md-and-down" @hostChanged="$emit('hostChanged')"/>
     <v-spacer/>
 
     <v-toolbar-items>
@@ -24,7 +23,7 @@
 
 <script>
   import TestAndConnectToolbar from '@/components/Setup/TestAndConnectToolbar'
-  import IsConnected from '../../mixins/IsConnected'
+  import ConnectionStatus from '@/mixins/ConnectionStatus'
 
   export default {
     name: 'app-header',
@@ -32,7 +31,7 @@
       TestAndConnectToolbar
     },
     mixins: [
-      IsConnected
+      ConnectionStatus
     ],
     data () {
       return {

@@ -7,7 +7,7 @@
 
 <script>
   import Setup from '@/components//Setup'
-  import IsConnected from '../mixins/IsConnected'
+  import ConnectionStatus from '@/mixins/ConnectionStatus'
 
   export default {
     name: 'content-or-setup',
@@ -15,7 +15,7 @@
       Setup
     },
     mixins: [
-      IsConnected
+      ConnectionStatus
     ]
   }
 </script>

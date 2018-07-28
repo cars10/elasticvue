@@ -53,8 +53,6 @@ describe('helpers/utilities/isEmpty', () => {
   describe('isEmpty with arrays', () => {
     it('returns true when called with empty array', () => {
       expect(isEmpty([])).to.be.true
-      /* eslint-disable no-array-constructor */
-      expect(isEmpty(new Array())).to.be.true
     })
 
     it('returns false when called with non-empty array', () => {

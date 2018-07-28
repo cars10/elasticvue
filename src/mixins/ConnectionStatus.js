@@ -1,6 +1,6 @@
 import { CONNECTION_STATES } from '../consts'
 
-const IsConnected = {
+const ConnectionStatus = {
   computed: {
     isConnected () {
       return this.$store.state.connection.status === CONNECTION_STATES.SUCCESS
@@ -11,4 +11,4 @@ const IsConnected = {
   }
 }
 
-export default IsConnected
+export default ConnectionStatus

@@ -60,6 +60,7 @@
 <script>
   import Utility from '@/components/Utilities/Utility'
   import { WORDS } from '../consts'
+  import data from '../data'
 
   export default {
     name: 'Utilities',
@@ -71,9 +72,14 @@
         utilities: {
           create: [
             {
-              text: 'Create 10 random indices',
+              text: 'Create 10 empty indices',
               method: 'createIndices',
-              methodParams: () => this.getRandomWords(10)
+              methodParams: this.getRandomWords(10)
+            },
+            {
+              text: 'Create twitter index and add 100 tweets',
+              method: 'bulk',
+              methodParams: {body: data}
             }
           ],
           delete: [
