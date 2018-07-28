@@ -11,8 +11,8 @@ Contents
 
 1. [About](#about)
 2. [Usage](#usage)
-2.1 [Elasticsearch Configuration](#elasticsearch-configuration)
-2.1 [Running elasticvue](#running)
+    * [Elasticsearch Configuration](#elasticsearch-configuration)
+    * [Running elasticvue](#running)
 3. [Browser support](#browser-support)
 4. [Tips](#tips)
 5. [Comparing with other frontends](#comparing-with-other-frontends)
