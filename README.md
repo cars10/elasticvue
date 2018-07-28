@@ -21,9 +21,9 @@ It works with every elasticsearch version supported by the [official elasticsear
 ### Features
 
 * Cluster overview
-* Indices overview, index detailed view
-* Search documents
-* Manually running every query supported by the official elasticsearch client
+* Indices overview, detailed view and index creation
+* Searching and filtering documents
+* Manually running any query against your cluster
 * Utilities, e.g. deleting all indices
 
 ## Usage
@@ -103,6 +103,61 @@ index:myQuery # only search the "index" column for "myQuery"
 
 * All select inputs are filterable and use fuzzy matching
 
+## Comparing with other frontends
+
+### [elasticsearch-head](https://github.com/mobz/elasticsearch-head)
+
+pros 
+
+* lightweight
+* great query builder
+
+cons
+
+* Seems to be unmaintained
+* no pagination or sort functionality while browsing data
+* no error handling or information to help users
+* not all installation methods working for newest version of elasticsearch (docker image for example)
+
+
+### [dejavu](https://github.com/appbaseio/dejavu)
+
+pros
+
+* maintained
+* import/export of data
+* cool query builder
+
+cons
+
+* docker image is huge
+* does only provide functionality for browsing data (one index at a time), nothing more
+* no error handling or information to help users
+
+
+### [kibana](https://www.elastic.co/de/products/kibana)
+
+pros
+
+* official client by elastic
+* integration with elasticsearch services
+* does way more then showing your data (for example analytics and cluster management)
+
+cons
+
+* very complex and (in my experience) hard to use
+
+
+### elasticvue
+
+Elasticvue tries to solve most of the *cons* mentioned above. Namely:
+
+* actively maintained and all deployment methods work with the latest versions of elasticsearch
+* tries to be as small as possible. (the chrome extension for example is < 1mb, docker image is half the size of dejavu)
+* handles errors and shows help and explanation for users, making it easier to use
+* has all features needed to browse a big table of data (pagination, sorting, filtering, sticky table headers, ..)
+* shows basic cluster information and provides an interface to run any query against your cluster
+
 ## Development
 
 Setup and running
@@ -151,6 +206,7 @@ Current TODOs, more ore less ordered by importance.
 * add logo
 * create firefox addon?
 * save *all* settings in local storage? add settings overview page?
+* data import/export
 
 ## License
 
