@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.3
+
+* switch to port 8080 in development builds and docker container
+* fixes some responsiveness errors
+* adds ability to create indices
+* adds setting to enable/disable sticky table headers
+* internal refactorings to match vue style guide
+* adds utility to create some test data
+
 ## 0.2.3
 
 * switch to vue-cli-3

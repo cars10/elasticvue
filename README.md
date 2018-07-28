@@ -212,7 +212,6 @@ Current TODOs, more ore less ordered by importance.
 
 * add more specs
 * refactor vuex state to use actions?
-* add more utilities
 * performance - use web workers? wasm? ~~requestIdleCallback~~?
 * add logo
 * create firefox addon?
