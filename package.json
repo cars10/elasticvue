@@ -8,6 +8,7 @@
     "lint": "vue-cli-service lint",
     "prod": "node scripts/express-server.js",
     "test:unit": "vue-cli-service test:unit",
+    "test:unit:watch": "vue-cli-service test:unit --watch",
     "test:e2e": "vue-cli-service test:e2e"
   },
   "dependencies": {
