@@ -66,7 +66,7 @@
           .then(body => {
             this.showSuccessSnackbar({
               text: `The index '${this.indexName}' was successfully created.`,
-              additionalText: body
+              additionalText: JSON.stringify(body)
             })
             this.dialog = false
             this.$emit('reloadIndices')

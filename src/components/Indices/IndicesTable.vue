@@ -165,7 +165,10 @@
             .then(adapter => adapter.indicesDelete({index}))
             .then(body => {
               this.$emit('reloadIndices')
-              this.showSuccessSnackbar({text: `The index '${index}' was successfully deleted.`, additionalText: body})
+              this.showSuccessSnackbar({
+                text: `The index '${index}' was successfully deleted.`,
+                additionalText: JSON.stringify(body)
+              })
             })
             .catch(error => this.$store.commit('connection/setErrorState', error))
         }
