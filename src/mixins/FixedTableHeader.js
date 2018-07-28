@@ -13,6 +13,12 @@ const FixedTableHeader = {
         }
       }
     },
+    resetTableHeight () {
+      const header = document.querySelector('.table--fixed-header .v-table__overflow')
+      if (header) {
+        header.style.maxHeight = ''
+      }
+    },
     fixedTableHeaderOnEnable () {
       // call in mounted
       if (typeof window !== 'undefined') {

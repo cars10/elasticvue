@@ -12,6 +12,9 @@
                         class="mt-0"
                         @keyup.esc="filter = ''"/>
 
+          <settings-dropdown>
+            <single-setting v-model="stickyTableHeader" name="Sticky table header"/>
+          </settings-dropdown>
         </v-flex>
       </div>
     </v-card-text>
@@ -23,7 +26,7 @@
                   :search="filter"
                   :custom-filter="callFuzzyTableFilter"
                   :pagination.sync="pagination"
-                  class="table--condensed table--fixed-header">
+                  :class="tableClasses">
       <template slot="items" slot-scope="item">
         <tr class="tr--clickable" @click="openDocument(item.item)">
           <td v-if="showIndex">{{ item.item._index }}</td>
@@ -47,12 +50,18 @@
   import { objectArrayUniqueKeys } from '../../helpers/utilities'
   import { fuzzyTableFilter } from '../../helpers/filters'
   import FixedTableHeader from '@/mixins/FixedTableHeader'
+  import SettingsDropdown from '@/components/shared/SettingsDropdown'
+  import SingleSetting from '@/components/shared/SingleSetting'
   import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
   import { mapVuexAccessors } from '../../helpers/store'
   import { mapState } from 'vuex'
 
   export default {
     name: 'ResultsTable',
+    components: {
+      SettingsDropdown,
+      SingleSetting
+    },
     mixins: [
       FixedTableHeader
     ],
@@ -90,6 +99,21 @@
           delete hit['_source']
           return hit
         })
+      },
+      stickyTableHeader: {
+        get () {
+          return this.$store.state.search.stickyTableHeader
+        },
+        set (value) {
+          this.resetTableHeight()
+          this.$store.commit('search/setStickyTableHeader', value)
+        }
+      },
+      tableClasses () {
+        return [
+          'table--condensed',
+          {'table--fixed-header': this.stickyTableHeader}
+        ]
       },
       ...mapVuexAccessors('search', ['filter', 'pagination']),
       ...mapState('search', ['showIndex', 'showScore'])

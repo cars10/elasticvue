@@ -9,7 +9,9 @@ export const plugins = [
       'connection.elasticsearchHost',
       'theme',
       'query',
-      'indices'
+      'indices',
+      'search.pagination',
+      'search.stickyTableHeader'
     ]
   })
 ]

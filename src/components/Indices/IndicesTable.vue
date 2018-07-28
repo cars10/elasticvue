@@ -69,7 +69,6 @@
   import NewIndex from '@/components/Indices/NewIndex'
   import SettingsDropdown from '@/components/shared/SettingsDropdown'
   import SingleSetting from '@/components/shared/SingleSetting'
-  import MultiSetting from '@/components/shared/MultiSetting'
 
   export default {
     name: 'IndicesTable',
@@ -77,8 +76,7 @@
       BtnGroup,
       NewIndex,
       SettingsDropdown,
-      SingleSetting,
-      MultiSetting
+      SingleSetting
     },
     mixins: [
       FixedTableHeader
@@ -116,13 +114,22 @@
       flattenedItems () {
         return this.indices.map(hit => flattenObject(hit, false))
       },
+      stickyTableHeader: {
+        get () {
+          return this.$store.state.indices.stickyTableHeader
+        },
+        set (value) {
+          this.resetTableHeight()
+          this.$store.commit('indices/setStickyTableHeader', value)
+        }
+      },
       tableClasses () {
         return [
           'table--condensed',
           {'table--fixed-header': this.stickyTableHeader}
         ]
       },
-      ...mapVuexAccessors('indices', ['filter', 'pagination', 'stickyTableHeader'])
+      ...mapVuexAccessors('indices', ['filter', 'pagination'])
     },
     mounted () {
       this.fixedTableHeaderOnEnable()
