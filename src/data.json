@@ -1,0 +1,1202 @@
+[
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 69,
+    "author_name": "Edgar Brush",
+    "message": "Geology rocks, but Geography is where it's at!",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 43,
+    "author_name": "Elvira Rain",
+    "message": "I really want to buy one of those supermarket checkout dividers, but the cashier keeps putting it back.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 71,
+    "author_name": "Junie Gerard",
+    "message": "Why did the girl smear peanut butter on the road? To go with the traffic jam.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 97,
+    "author_name": "Kayla Vanguilder",
+    "message": "Why was the broom late for the meeting? He overswept.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 43,
+    "author_name": "Claud Granderson",
+    "message": "I went to the doctor today and he told me I had type A blood but it was a type O.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 25,
+    "author_name": "Fleta Figgins",
+    "message": "Why do you never see elephants hiding in trees? Because they're so good at it.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 64,
+    "author_name": "Glenna Pizarro",
+    "message": "What’s the advantage of living in Switzerland? Well, the flag is a big plus.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 92,
+    "author_name": "Jared Mcelravy",
+    "message": "A book just fell on my head. I only have my shelf to blame.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 38,
+    "author_name": "Dong Rierson",
+    "message": "I went to a Foo Fighters Concert once... It was Everlong...",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 99,
+    "author_name": "Jules Basch",
+    "message": "Two peanuts were walking down the street. One was a salted.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 2,
+    "author_name": "Brigid Wine",
+    "message": "What’s E.T. short for? He’s only got little legs.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 50,
+    "author_name": "Cinda Debelak",
+    "message": "This is my step ladder. I never knew my real ladder.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 61,
+    "author_name": "Raguel Palacios",
+    "message": "If you walk into a forest and cut down a tree, but the tree doesn't understand why you cut it down, do you think it's stumped?",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 6,
+    "author_name": "Raphael Gossett",
+    "message": "Atheism is a non-prophet organisation.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 95,
+    "author_name": "Mara Broadbent",
+    "message": "How do you tell the difference between a crocodile and an alligator? You will see one later and one in a while.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 4,
+    "author_name": "Rolland Bonura",
+    "message": "How come a man driving a train got struck by lightning? He was a good conductor.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 46,
+    "author_name": "Kimbra Fowkes",
+    "message": "Parallel lines have so much in common. It’s a shame they’ll never meet.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 25,
+    "author_name": "Mao Pendley",
+    "message": "This morning I was wondering where the sun was, but then it dawned on me.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 15,
+    "author_name": "Regenia Burse",
+    "message": "Shout out to my grandma, that's the only way she can hear.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 82,
+    "author_name": "Nickole Paules",
+    "message": "Can you make me a sandwich? Poof, you're a sandwich.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 70,
+    "author_name": "My Tatem",
+    "message": "Can you make me a sandwich? Poof, you're a sandwich.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 51,
+    "author_name": "Krystina Corriveau",
+    "message": "R.I.P. boiled water. You will be mist.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 75,
+    "author_name": "Tana Haubert",
+    "message": "I had a dream that I was a muffler last night. I woke up exhausted!",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 99,
+    "author_name": "Verdie Meier",
+    "message": "What do you call a fat psychic? A four-chin teller.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 75,
+    "author_name": "Yolande Weissman",
+    "message": "I gave all my dead batteries away today, free of charge.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 13,
+    "author_name": "Claudine Hindle",
+    "message": "What's the difference between a poorly dressed man on a tricycle and a well dressed man on a bicycle? Attire.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 22,
+    "author_name": "Colby Suder",
+    "message": "Two peanuts were walking down the street. One was a salted.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 41,
+    "author_name": "Lorretta Alessi",
+    "message": "What do you call a cow with no legs? Ground beef.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 16,
+    "author_name": "Mac Beckman",
+    "message": "I'm practicing for a bug-eating contest and I've got butterflies in my stomach.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 75,
+    "author_name": "Ghislaine Faul",
+    "message": "So, I heard this pun about cows, but it’s kinda offensive so I won’t say it. I don’t want there to be any beef between us. ",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 85,
+    "author_name": "Dena Storer",
+    "message": "What did the fish say when it swam into a wall? Damn!",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 66,
+    "author_name": "Donnie Dumbleton",
+    "message": "What do you call a nervous javelin thrower? Shakespeare.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 31,
+    "author_name": "Joe Urbanek",
+    "message": "I needed a password eight characters long so I picked Snow White and the Seven Dwarfs.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 31,
+    "author_name": "Mari Barlowe",
+    "message": "I knew i shouldn’t have ate that seafood. Because now i’m feeling a little… Eel",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 35,
+    "author_name": "Jeremiah Donohue",
+    "message": "Why did the scarecrow win an award? Because he was outstanding in his field.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 70,
+    "author_name": "Rochell Siddiqi",
+    "message": "My cat was just sick on the carpet, I don’t think it’s feline well.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 35,
+    "author_name": "Jacques Goldie",
+    "message": "I just got fired from a florist, apparently I took too many leaves.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 68,
+    "author_name": "Chun Goe",
+    "message": "A book just fell on my head. I only have my shelf to blame.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 33,
+    "author_name": "Rosa Lacombe",
+    "message": "What happens to a frog's car when it breaks down? It gets toad.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 69,
+    "author_name": "Sanjuanita Luis",
+    "message": "My cat was just sick on the carpet, I don’t think it’s feline well.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 76,
+    "author_name": "Suzanne Gannaway",
+    "message": "Did you hear that the police have a warrant out on a midget psychic ripping people off? It reads “Small medium at large.”",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 12,
+    "author_name": "Alda Radford",
+    "message": "Nurse: Doctor, there's a patient that says he's invisible. Doctor: Well, tell him I can't see him right now!",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 47,
+    "author_name": "Andy Chesney",
+    "message": "“Hold on, I have something in my shoe”  “I’m pretty sure it’s a foot”",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 66,
+    "author_name": "Bobbie Nestle",
+    "message": "Why are skeletons so calm? Because nothing gets under their skin.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 84,
+    "author_name": "Charmaine Wafford",
+    "message": "What do you get when you cross a chicken with a skunk? A fowl smell!",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 27,
+    "author_name": "Loreta Blair",
+    "message": "Breaking news! Energizer Bunny arrested – charged with battery.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 8,
+    "author_name": "Loreta Morelli",
+    "message": "What kind of dog lives in a particle accelerator? A Fermilabrador Retriever.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 91,
+    "author_name": "Mallie Durgan",
+    "message": "Did you hear that the police have a warrant out on a midget psychic ripping people off? It reads “Small medium at large.”",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 18,
+    "author_name": "Kory Bouie",
+    "message": "The other day, my wife asked me to pass her lipstick but I accidentally passed her a glue stick. She still isn't talking to me.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 77,
+    "author_name": "Gaynelle Schaub",
+    "message": "Why does a chicken coop only have two doors? Because if it had four doors it would be a chicken sedan.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 36,
+    "author_name": "Maryann Schweigert",
+    "message": "A red and a blue ship have just collided in the Caribbean. Apparently the survivors are marooned.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 36,
+    "author_name": "Bertram Pellegrino",
+    "message": "I couldn't get a reservation at the library. They were completely booked.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 91,
+    "author_name": "Marjory Rugh",
+    "message": "It doesn't matter how much you push the envelope. It will still be stationary.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 60,
+    "author_name": "Johnie Huebner",
+    "message": "If two vegans are having an argument, is it still considered beef?",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 20,
+    "author_name": "Horace Barbara",
+    "message": "What do you call a fat psychic? A four-chin teller.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 96,
+    "author_name": "Melisa Cincotta",
+    "message": "Why did Sweden start painting barcodes on the sides of their battleships? So they could Scandinavian.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 23,
+    "author_name": "Usha Fazzino",
+    "message": "What do you call an eagle who can play the piano? Talonted!",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 72,
+    "author_name": "Vincent Bouska",
+    "message": "Geology rocks, but Geography is where it's at!",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 43,
+    "author_name": "Winnie Moises",
+    "message": "Have you heard about corduroy pillows?  They're making headlines!",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 13,
+    "author_name": "Yung Seefeldt",
+    "message": "How do you steal a coat? You jacket.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 79,
+    "author_name": "Jimmy Lilley",
+    "message": "I'm tired of following my dreams. I'm just going to ask them where they are going and meet up with them later.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 79,
+    "author_name": "Joann Pippenger",
+    "message": "Have you heard of the band 1023MB? They haven't got a gig yet.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 78,
+    "author_name": "Althea Booker",
+    "message": "What do you get when you cross a snowman with a vampire? Frostbite.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 54,
+    "author_name": "Annamae Capron",
+    "message": "Where’s the bin? Dad: I haven’t been anywhere!",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 29,
+    "author_name": "Kelly Allinder",
+    "message": "Wife told me to take the spider out instead of killing it... We had some drinks, cool guy, wants to be a web developer.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 31,
+    "author_name": "Josefa Krueger",
+    "message": "Did you hear the news? FedEx and UPS are merging. They’re going to go by the name Fed-Up from now on.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 97,
+    "author_name": "Cythia Gholson",
+    "message": "Want to hear a joke about construction? Nah, I'm still working on it.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 9,
+    "author_name": "Kanisha Wojtczak",
+    "message": "A book just fell on my head. I only have my shelf to blame.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 63,
+    "author_name": "Jazmin Gatewood",
+    "message": "What did the ocean say to the shore? Nothing, it just waved.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 86,
+    "author_name": "Audry Kula",
+    "message": "What do prisoners use to call each other? Cell phones.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 60,
+    "author_name": "Gianna Pasco",
+    "message": "Why was ten scared of seven? Because seven ate nine.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 85,
+    "author_name": "Desiree Temblador",
+    "message": "What do you call a fly without wings? A walk.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 95,
+    "author_name": "Maribel Weideman",
+    "message": "I fear for the calendar, it’s days are numbered.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 68,
+    "author_name": "Racquel Buckwalter",
+    "message": "What did the 0 say to the 8? Nice belt.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 26,
+    "author_name": "Selma Mattox",
+    "message": "Writing with a broken pencil is pointless.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 90,
+    "author_name": "Shirely Gin",
+    "message": "Did you know you should always take an extra pair of pants golfing? Just in case you get a hole in one.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 100,
+    "author_name": "Susanna Curnutte",
+    "message": "A book just fell on my head. I only have my shelf to blame.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 76,
+    "author_name": "Tierra Droz",
+    "message": "A Skeleton walked into a bar he said I need a beer and a mop",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 55,
+    "author_name": "Tomoko Rushford",
+    "message": "I got a reversible jacket for Christmas, I can't wait to see how it turns out.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 68,
+    "author_name": "Zackary Dandy",
+    "message": "Two satellites decided to get married. The wedding wasn't much, but the reception was incredible.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 93,
+    "author_name": "Hazel Krohn",
+    "message": "What kind of dog lives in a particle accelerator? A Fermilabrador Retriever.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 81,
+    "author_name": "Heike Hollander",
+    "message": "They're making a movie about clocks. It's about time",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 68,
+    "author_name": "Isaias Silverio",
+    "message": "What did celery say when he broke up with his girlfriend? She wasn't right for me, so I really don't carrot all.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 55,
+    "author_name": "Andy Chesney",
+    "message": "I dreamed about drowning in an ocean made out of orange soda last night. It took me a while to work out it was just a Fanta sea.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 51,
+    "author_name": "Gilberte Robin",
+    "message": "What did the Zen Buddist say to the hotdog vendor? Make me one with everything.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 6,
+    "author_name": "Juliann Risch",
+    "message": "I used to work for a soft drink can crusher. It was soda pressing.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 53,
+    "author_name": "Annemarie Lorch",
+    "message": "What do you call a troublesome Canadian high schooler? A poutine.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 84,
+    "author_name": "Corina Lastinger",
+    "message": "There’s a new type of broom out, it’s sweeping the nation.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 84,
+    "author_name": "Francisco Paladino",
+    "message": "What do you call a monkey in a mine field? A babooooom!",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 30,
+    "author_name": "Mckenzie Dorner",
+    "message": "What is the hardest part about sky diving? The ground.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 21,
+    "author_name": "Alda Radford",
+    "message": "Two guys walked into a bar, the third one ducked.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 16,
+    "author_name": "Mertie Cudney",
+    "message": "What kind of bagel can fly? A plain bagel.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 70,
+    "author_name": "Oliver Weisz",
+    "message": "What’s the advantage of living in Switzerland? Well, the flag is a big plus.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 29,
+    "author_name": "Reed Sammons",
+    "message": "This is my step ladder. I never knew my real ladder.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 25,
+    "author_name": "Shavon Mcarthur",
+    "message": "I used to work for a soft drink can crusher. It was soda pressing.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 69,
+    "author_name": "Shayne Goewey",
+    "message": "A beekeeper was indicted after he confessed to years of stealing at work. They charged him with emBEEzlement",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 38,
+    "author_name": "Stephany Rudman",
+    "message": "Child: Dad, make me a sandwich. Dad: Poof! You're a sandwich.",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 43,
+    "author_name": "Terrilyn Knittel",
+    "message": "Why did the burglar hang his mugshot on the wall? To prove that he was framed!",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 8,
+    "author_name": "Yuette Skowron",
+    "message": "Did you hear about the Mexican train killer? He had loco motives",
+    "created_at": "2009-11-15T14:12:12"
+  },
+  {
+    "index": {
+      "_index": "twitter",
+      "_type": "tweet"
+    }
+  },
+  {
+    "author_id": 78,
+    "author_name": "Althea Booker",
+    "message": "Which side of the chicken has more feathers? The outside.",
+    "created_at": "2009-11-15T14:12:12"
+  }
+]

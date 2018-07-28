@@ -32,6 +32,14 @@ export default class ElasticsearchAdapter {
   }
 
   /**
+   * Bulk index data
+   * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-bulk
+   */
+  bulk (params) {
+    return this.client.bulk(Object.assign({}, REQUEST_DEFAULT_BODY, params))
+  }
+
+  /**
    * Get basic cluster information
    * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-info
    */
@@ -132,18 +140,16 @@ export default class ElasticsearchAdapter {
 
   /**
    * Creates multiple indices, one for each word. Only creates if they do not already exists
-   * @param generateWords {function}
+   * @param words {Array}
    */
-  async createIndices (generateWords) {
-    let words = generateWords()
+  async createIndices (words) {
     for (let word of [...new Set(words)]) {
-      await this.indicesExists({index: word}).then(
-        exists => {
+      await this.indicesExists({index: word})
+        .then(exists => {
           if (!exists) {
             this.indicesCreate({index: word})
           }
-        }
-      )
+        })
     }
   }
 }
