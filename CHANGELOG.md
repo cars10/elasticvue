@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.3
+## 0.3.0
 
 * switch to port 8080 in development builds and docker container
 * fixes some responsiveness errors
