@@ -29,21 +29,24 @@ export function truncate (text, limit) {
   }
 }
 
-export function extractUrlCredsToAuthHeader (url) {
+export function urlWithoutCredentials (url) {
   if (url.includes('@')) {
-    let creds = url.match(/https?:\/\/(.*(:.*)?)@/)[1]
-    let newUrl = url.replace(creds + '@', '')
-    let splitCreds = creds.split(':')
-    let header
-
-    if (splitCreds.length === 2) {
-      header = {'Authorization': 'Basic ' + Buffer.from(splitCreds[0] + ':' + splitCreds[1]).toString('base64')}
-    } else {
-      header = {'Authorization': 'Basic ' + Buffer.from(splitCreds[0]).toString('base64')}
-    }
-
-    return {url: newUrl, header: header}
+    let credentials = url.match(/https?:\/\/(.*(:.*)?)@/)[1]
+    return url.replace(credentials + '@', '')
   } else {
-    return {url: url, header: {}}
+    return url
+  }
+}
+
+export function buildFetchAuthHeaderFromUrl (url) {
+  if (url.includes('@')) {
+    let credentials = url.match(/https?:\/\/(.*(:.*)?)@/)[1].split(':')
+    if (credentials.length === 2) {
+      return {'Authorization': 'Basic ' + Buffer.from(credentials[0] + ':' + credentials[1]).toString('base64')}
+    } else {
+      return {'Authorization': 'Basic ' + Buffer.from(credentials[0]).toString('base64')}
+    }
+  } else {
+    return {}
   }
 }
