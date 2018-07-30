@@ -10,6 +10,7 @@ export default {
     }
   },
   computed: {
-    ...mapVuexAccessors('query', ['host', 'method', 'stringifiedParams', 'stringifiedHeaders'])
+    ...mapVuexAccessors('query', ['method', 'stringifiedParams', 'stringifiedHeaders']),
+    ...mapVuexAccessors('connection', ['elasticsearchHost'])
   }
 }

@@ -10,7 +10,7 @@
         </v-flex>
         <v-flex xl4 lg6>
           <v-text-field id="url"
-                        v-model="host"
+                        v-model="elasticsearchHost"
                         label="Url"
                         name="Url"
                         autofocus/>
@@ -54,6 +54,7 @@
   import Loading from '@/components/shared/Loading'
   import { HTTP_METHODS } from '../../consts'
   import qs from 'querystringify'
+  import { buildFetchAuthHeaderFromUrl, urlWithoutCredentials } from '../../helpers'
 
   export default {
     name: 'fetch-form',
@@ -69,7 +70,7 @@
     extends: QueryFormBase,
     computed: {
       isValid () {
-        return !!this.method && this.host.length > 0 && this.headersValid && this.paramsValid
+        return !!this.method && this.elasticsearchHost.length > 0 && this.headersValid && this.paramsValid
       },
       headersValid () {
         try {
@@ -88,14 +89,18 @@
         }
       },
       fetchUrl () {
+        let host = urlWithoutCredentials(this.elasticsearchHost)
         if (this.method === 'GET' || this.method === 'HEAD') {
-          return this.host + '?' + qs.stringify(JSON.parse(this.stringifiedParams), '')
+          return host + '?' + qs.stringify(JSON.parse(this.stringifiedParams), '')
         } else {
-          return this.host
+          return host
         }
       },
       fetchOptionsHash () {
-        let fetchOptions = {method: this.method, headers: JSON.parse(this.stringifiedHeaders)}
+        let fetchOptions = {
+          method: this.method,
+          headers: Object.assign(buildFetchAuthHeaderFromUrl(this.elasticsearchHost), JSON.parse(this.stringifiedHeaders))
+        }
         if (this.method !== 'GET' && this.method !== 'HEAD') {
           fetchOptions.body = this.stringifiedParams
         }
