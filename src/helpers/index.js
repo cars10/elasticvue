@@ -18,11 +18,6 @@ export function capitalize (string) {
   return string[0].toUpperCase() + string.slice(1)
 }
 
-export function handleFetchResponse (response) {
-  if (!response.ok) throw new Error(response.statusText)
-  return response
-}
-
 export function truncate (text, limit) {
   if (!text) return ''
   if (typeof text !== 'string') text = text.toString()
@@ -31,5 +26,24 @@ export function truncate (text, limit) {
     return text.slice(0, limit) + ' ...'
   } else {
     return text
+  }
+}
+
+export function extractUrlCredsToAuthHeader (url) {
+  if (url.includes('@')) {
+    let creds = url.match(/https?:\/\/(.*(:.*)?)@/)[1]
+    let newUrl = url.replace(creds + '@', '')
+    let splitCreds = creds.split(':')
+    let header
+
+    if (splitCreds.length === 2) {
+      header = {'Authorization': 'Basic ' + Buffer.from(splitCreds[0] + ':' + splitCreds[1]).toString('base64')}
+    } else {
+      header = {'Authorization': 'Basic ' + Buffer.from(splitCreds[0]).toString('base64')}
+    }
+
+    return {url: newUrl, header: header}
+  } else {
+    return {url: url, header: {}}
   }
 }
