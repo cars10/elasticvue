@@ -35,7 +35,7 @@
           </v-flex>
         </v-layout>
       </v-form>
-      <span class="grey--text">Hint: use <i>enter</i> to test connection, <i>ctrl+enter</i> to connect</span>
+      <p class="grey--text">To connect with credentials use http://username:password@host syntax.</p>
     </v-flex>
 
     <v-flex v-if="testError || connectError" px-3>
