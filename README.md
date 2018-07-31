@@ -69,7 +69,7 @@ After configuration restart your cluster and you should be able to connect.
 
 ### Running
 
-After configuring use one of the following ways to run elasticvue:
+You can use one of the following ways to run elasticvue:
 
 **Online version**
 
