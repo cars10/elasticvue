@@ -125,7 +125,7 @@ pros
 
 cons
 
-* Seems to be unmaintained
+* seems to be unmaintained
 * no pagination or sort functionality while browsing data
 * no error handling or information to help users
 * not all installation methods working for newest version of elasticsearch (docker image for example)
@@ -141,8 +141,7 @@ pros
 
 cons
 
-* docker image is huge
-* does only provide functionality for browsing data (one index at a time), nothing more
+* does only provide functionality for browsing data (one index at a time?), nothing more
 * no error handling or information to help users
 
 
