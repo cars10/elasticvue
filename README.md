@@ -56,14 +56,16 @@ http.cors.allow-origin: /https?:\/\/app.elasticvue.com/
 # chrome extension
 http.cors.allow-origin: /chrome-extension:\/\/[a-z]+/
 
-# or to enable all sources:
-http.cors.allow-origin: /(https?:\/\/localhost(:[0-9]+)?)|(chrome-extension:\/\/[a-z]+)|(https?:\/\/app.elasticvue.com)/
-
 # and if your cluster uses authorization you also have to add:
 http.cors.allow-headers : X-Requested-With,Content-Type,Content-Length,Authorization
 ```
 
-Now simply restart elasticsearch and you should be able to connect.
+You can also use a regex to enable all sources at once:
+```
+http.cors.allow-origin: /(https?:\/\/localhost(:[0-9]+)?)|(chrome-extension:\/\/[a-z]+)|(https?:\/\/app.elasticvue.com)/
+```
+
+After configuration restart your cluster and you should be able to connect.
 
 ### Running
 
