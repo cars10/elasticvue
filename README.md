@@ -40,16 +40,15 @@ It works with every elasticsearch version supported by the [official elasticsear
 ## Usage
 
 ### Elasticsearch configuration
-You have to set some settings to allow connection to your elasticsearch cluster, even if you run the app locally.
+You have [enable CORS](https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-http.html) to allow connection to your elasticsearch cluster, even if you run the app locally.
 
 Find your elasticsearch configuration (for example `/etc/elasticsearch/elasticsearch.yml`) and add the following lines:
 
 ```yaml
-# see https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-http.html
-# Enable 'Access-Control-Allow-Origin' header
+# enable CORS
 http.cors.enabled: true
-# Then set the allowed origins based on how you run elasticvue. Chose only one:
 
+# Then set the allowed origins based on how you run elasticvue. Chose only one:
 # for docker / running locally
 http.cors.allow-origin: /https?:\/\/localhost(:[0-9]+)?/
 # online version
@@ -59,6 +58,9 @@ http.cors.allow-origin: /chrome-extension:\/\/[a-z]+/
 
 # or to enable all sources:
 http.cors.allow-origin: /(https?:\/\/localhost(:[0-9]+)?)|(chrome-extension:\/\/[a-z]+)|(https?:\/\/app.elasticvue.com)/
+
+# and if your cluster uses authorization you also have to add:
+http.cors.allow-headers : X-Requested-With,Content-Type,Content-Length,Authorization
 ```
 
 Now simply restart elasticsearch and you should be able to connect.
@@ -69,7 +71,7 @@ After configuring use one of the following ways to run elasticvue:
 
 **Online version**
 
-* Visit [https://app.elasticvue.com](https://app.elasticvue.com)
+Visit [https://app.elasticvue.com](https://app.elasticvue.com)
 
 **Docker**
 
@@ -86,14 +88,14 @@ Or build the image locally:
 
 **Chrome extension**
 
-Install the extension from the [chrome webstore](https://chrome.google.com/webstore/detail/elasticvue/hkedbapjpblbodpgbajblpnlpenaebaa).
+Install the extension from the [chrome webstore](https://chrome.google.com/webstore/detail/elasticvue/hkedbapjpblbodpgbajblpnlpenaebaa). Start elasticvue by clicking on the icon in your toolbar.
 
 **Run locally**
 
 * Checkout the repo `git clone https://github.com/cars10/elasticvue.git`
 * Open the folder `cd elasticvue`
 * Install dependencies `yarn install`
-* Run a production server via `yarn prod` or dev server `yarn dev`
+* Run a production server via `yarn prod` or dev server `yarn serve`
 
 ## Browser Support
 

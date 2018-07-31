@@ -54,9 +54,9 @@
             this.testSuccess = false
             this.testError = true
             if (e instanceof TypeError) {
-              this.errorMessage = 'typerror'
+              this.errorMessage = 'Either your cluster is not reachable or you did not configure CORS correctly.'
             } else {
-              this.errorMessage = 'randomError'
+              this.errorMessage = e.message
             }
           })
       },

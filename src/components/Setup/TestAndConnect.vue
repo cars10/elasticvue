@@ -45,7 +45,10 @@
           <li>Your cluster is reachable via {{elasticsearchHost}}</li>
           <li>You added the correct settings to your <strong>elasticserach.yml</strong> and restarted your cluster</li>
         </ol>
-        {{errorMessage}}
+
+        <div class="mt-2">
+          {{errorMessage}}
+        </div>
       </v-alert>
     </v-flex>
   </div>
