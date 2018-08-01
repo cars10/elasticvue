@@ -4,8 +4,8 @@ import { mount } from '@vue/test-utils'
 describe('components/shared/BtnGroup.vue', () => {
   it('should render correct default contents', () => {
     const wrapper = mount(BtnGroup)
-    expect(wrapper.classes()).contains('elevation-1')
-    expect(wrapper.classes()).contains('btn-group')
+    expect(wrapper.classes()).toContainEqual('elevation-1')
+    expect(wrapper.classes()).toContainEqual('btn-group')
   })
 
   it('should add the small group', () => {
@@ -14,6 +14,6 @@ describe('components/shared/BtnGroup.vue', () => {
         small: true
       }
     })
-    expect(wrapper.classes()).contains('btn-group--small')
+    expect(wrapper.classes()).toContain('btn-group--small')
   })
 })

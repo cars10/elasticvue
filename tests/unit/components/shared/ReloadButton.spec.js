@@ -7,7 +7,7 @@ import { createLocalVue, mount } from '@vue/test-utils'
 describe('components/shared/ReloadButton.vue', () => {
   let localVue
 
-  before(() => {
+  beforeEach(() => {
     localVue = createLocalVue()
     localVue.use(Vuetify, {
       components: {
@@ -22,8 +22,8 @@ describe('components/shared/ReloadButton.vue', () => {
       localVue: localVue
     })
 
-    expect(wrapper.attributes().title).equals('Reload')
-    expect(wrapper.html()).to.not.be.empty
+    expect(wrapper.attributes().title).toEqual('Reload')
+    expect(wrapper.html()).not.toBeNull()
   })
 
   it('renders a custom title', () => {
@@ -35,6 +35,6 @@ describe('components/shared/ReloadButton.vue', () => {
       }
     })
 
-    expect(wrapper.attributes().title).equals(title)
+    expect(wrapper.attributes().title).toEqual(title)
   })
 })

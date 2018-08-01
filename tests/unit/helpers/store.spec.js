@@ -3,19 +3,19 @@ import { mapVuexAccessors } from '@/helpers/store'
 describe('helpers/mapVuexAccessors', () => {
   describe('empty args', () => {
     it('returns empty object when no args are passed', () => {
-      expect(mapVuexAccessors()).to.eql({})
+      expect(mapVuexAccessors()).toEqual({})
     })
 
     it('returns empty object when empty object is passed', () => {
-      expect(mapVuexAccessors({})).to.eql({})
+      expect(mapVuexAccessors({})).toEqual({})
     })
 
     it('returns empty object when empty array is passed', () => {
-      expect(mapVuexAccessors([])).to.eql({})
+      expect(mapVuexAccessors([])).toEqual({})
     })
 
     it('returns empty object when empty namespace object is passed', () => {
-      expect(mapVuexAccessors('', {})).to.eql({})
+      expect(mapVuexAccessors('', {})).toEqual({})
     })
   })
 
@@ -33,8 +33,8 @@ describe('helpers/mapVuexAccessors', () => {
         }
       }
       const actual = mapVuexAccessors(states)
-      expect(Object.keys(actual)).to.eql(Object.keys(expected))
-      expect(Object.keys(actual.search)).to.eql(Object.keys(expected.search))
+      expect(Object.keys(actual)).toEqual(Object.keys(expected))
+      expect(Object.keys(actual.search)).toEqual(Object.keys(expected.search))
     })
 
     it('returns a correct object when called with states array', () => {
@@ -50,8 +50,8 @@ describe('helpers/mapVuexAccessors', () => {
         }
       }
       const actual = mapVuexAccessors(states)
-      expect(Object.keys(actual)).to.eql(Object.keys(expected))
-      expect(Object.keys(actual.search)).to.eql(Object.keys(expected.search))
+      expect(Object.keys(actual)).toEqual(Object.keys(expected))
+      expect(Object.keys(actual.search)).toEqual(Object.keys(expected.search))
     })
   })
 
@@ -72,8 +72,8 @@ describe('helpers/mapVuexAccessors', () => {
         }
       }
       const actual = mapVuexAccessors(namespace, states)
-      expect(Object.keys(actual)).to.eql(Object.keys(expected))
-      expect(Object.keys(actual.filter)).to.eql(Object.keys(expected.filter))
+      expect(Object.keys(actual)).toEqual(Object.keys(expected))
+      expect(Object.keys(actual.filter)).toEqual(Object.keys(expected.filter))
     })
 
     it('returns a correct object when called with states array', () => {
@@ -92,8 +92,8 @@ describe('helpers/mapVuexAccessors', () => {
         }
       }
       const actual = mapVuexAccessors(namespace, states)
-      expect(Object.keys(actual)).to.eql(Object.keys(expected))
-      expect(Object.keys(actual.filter)).to.eql(Object.keys(expected.filter))
+      expect(Object.keys(actual)).toEqual(Object.keys(expected))
+      expect(Object.keys(actual.filter)).toEqual(Object.keys(expected.filter))
     })
   })
 })

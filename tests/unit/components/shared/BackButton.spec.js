@@ -10,7 +10,7 @@ Vue.config.ignoredElements.push('router-link')
 describe('components/shared/BackButton.vue', () => {
   let localVue
 
-  before(() => {
+  beforeEach(() => {
     localVue = createLocalVue()
     localVue.use(Vuetify, {
       components: {
@@ -27,9 +27,9 @@ describe('components/shared/BackButton.vue', () => {
         'router-link': RouterLinkStub
       }
     })
-    expect(wrapper.text()).contains('keyboard_arrow_left')
-    expect(wrapper.text()).contains('Back')
-    expect(wrapper.find('div').text()).to.not.be.empty
+    expect(wrapper.text()).toContain('keyboard_arrow_left')
+    expect(wrapper.text()).toContain('Back')
+    expect(wrapper.find('div').text()).not.toBeNull()
   })
 
   it('should render custom text', () => {
@@ -44,7 +44,7 @@ describe('components/shared/BackButton.vue', () => {
       }
     })
 
-    expect(wrapper.text()).contains(text)
+    expect(wrapper.text()).toContain(text)
   })
 
   it('should render custom icon', () => {
@@ -59,6 +59,6 @@ describe('components/shared/BackButton.vue', () => {
       }
     })
 
-    expect(wrapper.text()).contains(icon)
+    expect(wrapper.text()).toContain(icon)
   })
 })

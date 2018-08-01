@@ -4,8 +4,8 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "rm -rf dist && vue-cli-service build --modern",
-    "build_chrome_extension": "rm -rf dist && vue-cli-service build && rm -rf chrome_extension/{index.html,static} && cp -r dist/* chrome_extension/",
     "lint": "vue-cli-service lint",
+    "build_chrome_extension": "rm -rf dist && vue-cli-service build && rm -rf chrome_extension/{index.html,static} && cp -r dist/* chrome_extension/",
     "prod": "node scripts/express-server.js",
     "test:unit": "vue-cli-service test:unit",
     "test:unit:watch": "vue-cli-service test:unit --watch",
@@ -25,8 +25,12 @@
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.0.0-rc.5",
     "@vue/cli-plugin-eslint": "^3.0.0-rc.5",
+    "@vue/cli-plugin-unit-jest": "^3.0.0-rc.10",
     "@vue/cli-service": "^3.0.0-rc.5",
     "@vue/eslint-config-standard": "^3.0.0-rc.5",
+    "@vue/test-utils": "^1.0.0-beta.20",
+    "babel-core": "7.0.0-bridge.0",
+    "babel-jest": "^23.0.1",
     "node-sass": "^4.9.0",
     "sass-loader": "^7.0.1",
     "stylus": "^0.54.5",

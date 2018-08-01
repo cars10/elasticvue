@@ -9,7 +9,7 @@ import { createLocalVue, mount } from '@vue/test-utils'
 describe('components/shared/ResizableContainer.vue', () => {
   let localVue
 
-  before(() => {
+  beforeEach(() => {
     localVue = createLocalVue()
     localVue.use(Vuetify, {
       components: {
@@ -26,8 +26,8 @@ describe('components/shared/ResizableContainer.vue', () => {
     const resizedWrapper = wrapper.find({ref: 'resizedWrapper'})
     const initialHeight = wrapper.props().initialHeight
 
-    expect(wrapper.find({ref: 'resizedWrapper'}).html()).not.to.be.empty
-    expect(resizedWrapper.element.style.height).to.eql(`${initialHeight}px`)
+    expect(wrapper.find({ref: 'resizedWrapper'}).html()).not.toBeNull()
+    expect(resizedWrapper.element.style.height).toEqual(`${initialHeight}px`)
   })
 
   it('should render correct initialHeight', () => {
@@ -39,7 +39,7 @@ describe('components/shared/ResizableContainer.vue', () => {
       }
     })
     const resizedWrapper = wrapper.find({ref: 'resizedWrapper'})
-    expect(resizedWrapper.element.style.height).to.eql(`${height}px`)
+    expect(resizedWrapper.element.style.height).toEqual(`${height}px`)
   })
 
   it('should increase the height on drag', () => {
@@ -59,7 +59,7 @@ describe('components/shared/ResizableContainer.vue', () => {
     handler.trigger('mousedown', {pageY: startY})
     handler.trigger('mousemove', {pageY: endY})
     handler.trigger('mouseup')
-    expect(resizedWrapper.element.style.height).to.eql(`${expectedHeight}px`)
+    expect(resizedWrapper.element.style.height).toEqual(`${expectedHeight}px`)
   })
 
   it('should not decrease the height lower then intialHeight', () => {
@@ -79,8 +79,8 @@ describe('components/shared/ResizableContainer.vue', () => {
     handler.trigger('mousedown', {pageY: startY})
     handler.trigger('mousemove', {pageY: endY})
     handler.trigger('mouseup')
-    expect(resizedWrapper.element.style.height).to.not.eql(`${notExpectedHeight}px`)
-    expect(resizedWrapper.element.style.height).to.eql(`${initialHeight}px`)
+    expect(resizedWrapper.element.style.height).not.toEqual(`${notExpectedHeight}px`)
+    expect(resizedWrapper.element.style.height).toEqual(`${initialHeight}px`)
   })
 
   it('can be destroyed', () => {

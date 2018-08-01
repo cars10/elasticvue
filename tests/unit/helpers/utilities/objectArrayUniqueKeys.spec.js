@@ -2,20 +2,20 @@ import { objectArrayUniqueKeys } from '@/helpers/utilities'
 
 describe('helpers/utilities/objectArrayUniqueKeys', () => {
   it('returns an empty array when called empty', () => {
-    expect(objectArrayUniqueKeys()).to.eql([])
-    expect(objectArrayUniqueKeys().length).to.eql(0)
+    expect(objectArrayUniqueKeys()).toEqual([])
+    expect(objectArrayUniqueKeys().length).toEqual(0)
   })
 
   it('returns an empty array when called with an empty array', () => {
-    expect(objectArrayUniqueKeys([])).to.eql([])
-    expect(objectArrayUniqueKeys().length).to.eql(0)
+    expect(objectArrayUniqueKeys([])).toEqual([])
+    expect(objectArrayUniqueKeys().length).toEqual(0)
   })
 
   it('returns all keys when called with single object and unique keys', () => {
     const myObject = {a: 1, b: 2}
     const myKeys = Object.keys(myObject)
 
-    expect(objectArrayUniqueKeys([myObject])).to.have.members(myKeys)
+    expect(objectArrayUniqueKeys([myObject])).toEqual(expect.arrayContaining(myKeys))
   })
 
   it('returns all keys unique when called with multiple objects', () => {
@@ -27,7 +27,7 @@ describe('helpers/utilities/objectArrayUniqueKeys', () => {
       {'b.a': 7}
     ]
 
-    expect(objectArrayUniqueKeys(myObjects)).to.have.members(['a', 'b', 'c', 'asd:qwe', 'b.a'])
+    expect(objectArrayUniqueKeys(myObjects)).toEqual(expect.arrayContaining(['a', 'b', 'c', 'asd:qwe', 'b.a']))
   })
 
   it('only returns the keys of objects on the first level', () => {
@@ -36,8 +36,8 @@ describe('helpers/utilities/objectArrayUniqueKeys', () => {
       {d: 1}
     ]
 
-    expect(objectArrayUniqueKeys(myObjects)).to.have.members(['a', 'b', 'd'])
-    expect(objectArrayUniqueKeys(myObjects)).to.not.have.members(['c', 'f', 'e'])
+    expect(objectArrayUniqueKeys(myObjects)).toEqual(expect.arrayContaining(['a', 'b', 'd']))
+    expect(objectArrayUniqueKeys(myObjects)).not.toEqual(expect.arrayContaining(['c', 'f', 'e']))
   })
 
   it('returns one level nested keys when called with key argument', () => {
@@ -46,7 +46,7 @@ describe('helpers/utilities/objectArrayUniqueKeys', () => {
       {d: 1, b: {qwe: 3, c: 1}}
     ]
 
-    expect(objectArrayUniqueKeys(myObjects, 'b')).to.have.members(['c', 'd', 'f', 'qwe'])
-    expect(objectArrayUniqueKeys(myObjects, 'b')).to.not.have.members(['a', 'b', 'e'])
+    expect(objectArrayUniqueKeys(myObjects, 'b')).toEqual(expect.arrayContaining(['c', 'd', 'f', 'qwe']))
+    expect(objectArrayUniqueKeys(myObjects, 'b')).not.toEqual(expect.arrayContaining(['a', 'b', 'e']))
   })
 })

@@ -23,6 +23,10 @@ export default {
       type: Function,
       default: () => {
       }
+    },
+    useWorker: {
+      type: Boolean,
+      default: true
     }
   },
   computed: {
@@ -57,6 +61,7 @@ export default {
   mounted () {
     this.editor = Brace.edit(this.$el, {autoScrollEditorIntoView: true})
     this.$emit('init', this.editor)
+    this.editor.getSession().setUseWorker(this.useWorker)
     this.editor.getSession().setMode('ace/mode/json')
     this.editor.setFontSize('14px')
     this.editor.$blockScrolling = Infinity
