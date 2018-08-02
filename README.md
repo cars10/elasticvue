@@ -141,7 +141,7 @@ pros
 
 * maintained
 * import/export of data
-* cool query builder
+* great query builder and filter options
 
 cons
 
