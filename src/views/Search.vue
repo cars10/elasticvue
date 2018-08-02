@@ -71,7 +71,7 @@
                   <v-switch id="show_index" v-model="showIndex" label="Show _index column" hide-details/>
                 </v-flex>
 
-                <v-flex md6 class="">
+                <v-flex md6>
                   <v-switch id="show_score" v-model="showScore" label="Show _score column" hide-details/>
                 </v-flex>
               </v-layout>
