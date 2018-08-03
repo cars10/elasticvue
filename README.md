@@ -166,6 +166,7 @@ cons
 
 Elasticvue tries to solve most of the *cons* mentioned above. Namely:
 
+* dark theme!
 * actively maintained and all deployment methods work with the latest versions of elasticsearch
 * tries to be as small as possible. (the chrome extension for example is < 1mb, docker image is half the size of dejavu)
 * handles errors and shows help and explanation for users, making it easier to use
