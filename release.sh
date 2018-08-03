@@ -39,5 +39,5 @@ if [ $? -eq 0 ]; then
 
   git checkout develop
 else
-    echo "Failed. test_all.sh return a non-zero exit status."
+    echo "Tests failed. test_all.sh returned a non-zero exit status."
 fi
