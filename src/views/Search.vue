@@ -79,7 +79,7 @@
 
     <data-loader ref="resultsLoader"
                  :method-params="searchParams"
-                 :execute="executeSearch"
+                 :execute="executeSearch || indices.length > 0"
                  method="search"
                  render-content-while-loading>
       <template slot-scope="data">

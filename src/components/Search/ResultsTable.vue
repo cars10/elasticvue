@@ -13,9 +13,9 @@
                         class="mt-0"
                         @keyup.esc="filter = ''"/>
 
-          <settings-dropdown :badge="keys.length > filteredKeys.length">
+          <settings-dropdown :badge="mappings.length > filteredMappings.length">
             <single-setting v-model="stickyTableHeader" name="Sticky table header"/>
-            <multi-setting v-model="selectedKeys" :settings="keys" name="Columns"/>
+            <multi-setting v-model="selectedMappings" :settings="mappings" name="Columns"/>
           </settings-dropdown>
         </v-flex>
       </div>
@@ -31,7 +31,7 @@
                   :class="tableClasses">
       <template slot="items" slot-scope="item">
         <tr class="tr--clickable" @click="openDocument(item.item)">
-          <td v-for="key in filteredKeys" :key="key">{{item.item[key]}}</td>
+          <td v-for="key in filteredMappings" :key="key">{{item.item[key]}}</td>
         </tr>
       </template>
 
@@ -79,16 +79,15 @@
     data () {
       return {
         flattenedHits: [],
-        keys: [],
         settingsBadge: false
       }
     },
     computed: {
-      filteredKeys () {
-        return this.keys.filter(k => this.selectedKeys.includes(k))
+      filteredMappings () {
+        return this.mappings.filter(k => this.selectedMappings.includes(k))
       },
       headers () {
-        return this.filteredKeys.map(value => ({text: value, value: value}))
+        return this.filteredMappings.map(value => ({text: value, value: value}))
       },
       stickyTableHeader: {
         get () {
@@ -105,17 +104,15 @@
           {'table--fixed-header': this.stickyTableHeader}
         ]
       },
-      ...mapVuexAccessors('search', ['filter', 'pagination', 'selectedKeys'])
+      ...mapVuexAccessors('search', ['filter', 'pagination', 'selectedMappings', 'mappings'])
     },
     watch: {
       hits () {
-        const oldKeys = this.keys
+        const oldMappings = this.mappings
         const results = new Results(this.hits)
-        this.keys = results.uniqueColumns
-        // if (this.selectedKeys.length === 0) {
-        //   this.selectedKeys = this.keys
-        // }
-        this.selectedKeys = this.selectedKeys.concat(this.keys.filter(k => !oldKeys.includes(k)))
+        this.mappings = results.uniqueColumns
+        const newMappings = this.mappings.filter(m => !oldMappings.includes(m))
+        this.selectedMappings = this.selectedMappings.concat(newMappings)
         this.flattenedHits = results.results
       }
     },
