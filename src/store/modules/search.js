@@ -10,8 +10,7 @@ export const search = {
     filter: '',
     pagination: Object.assign({}, DEFAULT_DATA_TABLE_PAGINATION),
     stickyTableHeader: true,
-    showIndex: true,
-    showScore: true
+    selectedKeys: []
   },
   mutations: {
     setQ (state, q) {
@@ -19,6 +18,7 @@ export const search = {
     },
     setIndices (state, indices) {
       state.indices = indices
+      // state.selectedKeys = []
     },
     setSize (state, size) {
       state.size = size
@@ -35,11 +35,8 @@ export const search = {
     setStickyTableHeader (state, sticky) {
       state.stickyTableHeader = sticky
     },
-    setShowIndex (state, val) {
-      state.showIndex = val
-    },
-    setShowScore (state, val) {
-      state.showScore = val
+    setSelectedKeys (state, val) {
+      state.selectedKeys = val
     },
     reset (state) {
       state.q = DEFAULT_SEARCH_PARAMS.q
@@ -47,7 +44,9 @@ export const search = {
       state.size = DEFAULT_SEARCH_PARAMS.size
       state.sourceInclude = ''
       state.filter = ''
-      state.pagination = DEFAULT_DATA_TABLE_PAGINATION
+      state.pagination = Object.assign({}, DEFAULT_DATA_TABLE_PAGINATION)
+      state.stickyTableHeader = true
+      state.selectedKeys = []
     }
   }
 }

@@ -1,16 +1,22 @@
 <template>
-  <div class="mb-2">
+  <div v-if="settings.length > 0" class="mb-1">
     <slot name="multi-setting__header">
-      <v-subheader>{{name}}</v-subheader>
+      <v-subheader>
+        {{name}}
+        <v-btn class="ml-a grey--text mr-0 pr-0" small flat @click.native="reset">
+          reset
+          <v-icon>clear</v-icon>
+        </v-btn>
+      </v-subheader>
     </slot>
 
-    <div v-for="key in Object.keys(settings)" :key="key">
+    <div v-for="setting in settings" :key="setting">
       <slot name="multi-setting__item">
         <v-flex px-3>
-          <v-checkbox :value="settings[key].value"
-                      :label="settings[key].text"
+          <v-checkbox :value="setting"
+                      :label="setting"
                       v-model="ownValue"
-                      hide-details class="mt-2 mb-1"/>
+                      hide-details class="my-0 v-input--checkbox--full-labels"/>
         </v-flex>
       </slot>
     </div>
@@ -30,14 +36,13 @@
         default: () => []
       },
       settings: {
-        type: Object,
-        default: () => {
-        }
+        type: Array,
+        default: () => []
       }
     },
     data () {
       return {
-        ownValue: []
+        ownValue: this.value
       }
     },
     watch: {
@@ -48,6 +53,9 @@
     methods: {
       updateValue () {
         this.$emit('input', this.ownValue)
+      },
+      reset () {
+        this.ownValue = this.settings
       }
     }
   }

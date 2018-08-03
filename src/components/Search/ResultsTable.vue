@@ -13,8 +13,9 @@
                         class="mt-0"
                         @keyup.esc="filter = ''"/>
 
-          <settings-dropdown>
+          <settings-dropdown :badge="keys.length > filteredKeys.length">
             <single-setting v-model="stickyTableHeader" name="Sticky table header"/>
+            <multi-setting v-model="selectedKeys" :settings="keys" name="Columns"/>
           </settings-dropdown>
         </v-flex>
       </div>
@@ -30,7 +31,7 @@
                   :class="tableClasses">
       <template slot="items" slot-scope="item">
         <tr class="tr--clickable" @click="openDocument(item.item)">
-          <td v-for="key in keys" :key="key">{{item.item[key]}}</td>
+          <td v-for="key in filteredKeys" :key="key">{{item.item[key]}}</td>
         </tr>
       </template>
 
@@ -48,16 +49,17 @@
   import FixedTableHeader from '@/mixins/FixedTableHeader'
   import SettingsDropdown from '@/components/shared/SettingsDropdown'
   import SingleSetting from '@/components/shared/SingleSetting'
+  import MultiSetting from '@/components/shared/MultiSetting'
   import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
   import { mapVuexAccessors } from '../../helpers/store'
-  import { mapState } from 'vuex'
   import Results from '../../models/Results'
 
   export default {
     name: 'ResultsTable',
     components: {
       SettingsDropdown,
-      SingleSetting
+      SingleSetting,
+      MultiSetting
     },
     mixins: [
       FixedTableHeader
@@ -78,12 +80,15 @@
       return {
         flattenedHits: [],
         keys: [],
-        filterTimer: null
+        settingsBadge: false
       }
     },
     computed: {
+      filteredKeys () {
+        return this.keys.filter(k => this.selectedKeys.includes(k))
+      },
       headers () {
-        return this.keys.map(value => ({text: value, value: value}))
+        return this.filteredKeys.map(value => ({text: value, value: value}))
       },
       stickyTableHeader: {
         get () {
@@ -100,13 +105,17 @@
           {'table--fixed-header': this.stickyTableHeader}
         ]
       },
-      ...mapVuexAccessors('search', ['filter', 'pagination']),
-      ...mapState('search', ['showIndex', 'showScore'])
+      ...mapVuexAccessors('search', ['filter', 'pagination', 'selectedKeys'])
     },
     watch: {
       hits () {
+        const oldKeys = this.keys
         const results = new Results(this.hits)
         this.keys = results.uniqueColumns
+        // if (this.selectedKeys.length === 0) {
+        //   this.selectedKeys = this.keys
+        // }
+        this.selectedKeys = this.selectedKeys.concat(this.keys.filter(k => !oldKeys.includes(k)))
         this.flattenedHits = results.results
       }
     },

@@ -1,13 +1,15 @@
 .settings-dropdown {
-  position: relative
+  position: relative;
 }
 
 .settings-dropdown__dropdown {
   position: absolute;
-  min-width: 200px;
+  min-width: 220px;
   z-index: 10;
   right: 0;
   background-color: #fff;
+  max-height: 600px;
+  overflow-y: scroll;
 }
 
 .settings-dropdown__dropdown:before {
