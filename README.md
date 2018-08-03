@@ -214,6 +214,7 @@ zip -r elasticvue.zip chrome_extension/*
 Current TODOs, more ore less ordered by importance.
 
 * add more specs
+* when searching check if indices still exists
 * refactor vuex state to use actions?
 * performance - use web workers? wasm? ~~requestIdleCallback~~?
 * add logo
