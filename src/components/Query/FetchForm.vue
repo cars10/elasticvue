@@ -2,13 +2,13 @@
   <div>
     <v-form @submit.prevent="fetchData">
       <v-layout>
-        <v-flex xl1 lg2>
+        <v-flex xl1 lg2 sm3>
           <v-select v-model="method"
                     :items="httpMethods()"
                     label="HTTP Method"
                     name="http_method"/>
         </v-flex>
-        <v-flex xl4 lg6>
+        <v-flex xl11 lg10 sm9>
           <v-text-field id="url"
                         v-model="elasticsearchHost"
                         label="Url"
