@@ -3,7 +3,7 @@
     <slot name="multi-setting__header">
       <v-subheader>
         {{name}}
-        <v-btn class="ml-a grey--text mr-0 pr-0" small flat @click.native="reset">
+        <v-btn v-if="hasChanges" class="ml-a grey--text mr-0 pr-0" small flat @click.native="reset">
           reset
           <v-icon>clear</v-icon>
         </v-btn>
@@ -43,6 +43,11 @@
     data () {
       return {
         ownValue: this.value
+      }
+    },
+    computed: {
+      hasChanges () {
+        return this.settings.length !== this.value.length
       }
     },
     watch: {
