@@ -1,7 +1,7 @@
 <template>
   <v-flex py-2>
     <resizable-container :initial-height="initialHeight">
-      <code-editor :code="document" :use-worker="false" read-only/>
+      <code-editor :value="document" :use-worker="false" read-only/>
     </resizable-container>
   </v-flex>
 </template>

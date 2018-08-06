@@ -10,10 +10,11 @@ export default {
     }
   },
   props: {
-    code: {
+    value: {
       default: () => {
         return {}
-      }
+      },
+      type: [Object, String]
     },
     readOnly: {
       type: Boolean,
@@ -48,29 +49,32 @@ export default {
       } else {
         this.editor.setValue(JSON.stringify(value, null, '\t'), 1)
       }
+    },
+    setupAceEditor () {
+      this.editor = Brace.edit(this.$el, {autoScrollEditorIntoView: true})
+      this.$emit('init', this.editor)
+      this.editor.getSession().setUseWorker(this.useWorker)
+      this.editor.getSession().setMode('ace/mode/json')
+      this.editor.setFontSize('14px')
+      this.editor.$blockScrolling = Infinity
+      this.setTheme(this.$store.state.theme.dark)
     }
   },
   watch: {
     darkTheme (value) {
       this.setTheme(value)
     },
-    code (value) {
+    value (value) {
       if (this.readOnly) this.setEditorValue(value)
     }
   },
   mounted () {
-    this.editor = Brace.edit(this.$el, {autoScrollEditorIntoView: true})
-    this.$emit('init', this.editor)
-    this.editor.getSession().setUseWorker(this.useWorker)
-    this.editor.getSession().setMode('ace/mode/json')
-    this.editor.setFontSize('14px')
-    this.editor.$blockScrolling = Infinity
+    this.setupAceEditor()
 
-    this.setTheme(this.$store.state.theme.dark)
-
-    this.setEditorValue(this.code)
+    this.setEditorValue(this.value)
     if (this.readOnly) {
       this.editor.setReadOnly(true)
+      this.editor.setShowPrintMargin(false)
     } else {
       this.editor.commands.addCommand({
         name: 'externalHandler',
@@ -80,7 +84,7 @@ export default {
     }
 
     this.editor.on('change', () => {
-      this.$emit('update:code', this.editor.getValue())
+      this.$emit('input', this.editor.getValue())
     })
   },
   beforeDestroy () {

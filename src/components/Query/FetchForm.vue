@@ -21,8 +21,7 @@
         <v-flex md6>
           <label>Request body</label>
           <resizable-container :initial-height="150">
-            <code-editor :code.sync="stringifiedParams"
-                         :external-handler="fetchData"/>
+            <code-editor v-model="stringifiedParams" :external-handler="fetchData"/>
           </resizable-container>
           <i class="grey--text">Language: JSON</i>
         </v-flex>
@@ -30,8 +29,7 @@
         <v-flex md6>
           <label>Request headers</label>
           <resizable-container :initial-height="150">
-            <code-editor :code.sync="stringifiedHeaders"
-                         :external-handler="fetchData"/>
+            <code-editor v-model="stringifiedHeaders" :external-handler="fetchData"/>
           </resizable-container>
           <i class="grey--text">Language: JSON</i>
         </v-flex>
