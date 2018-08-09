@@ -2,6 +2,8 @@
 node_modules
 /dist
 tests/coverage
+tests/e2e/screenshots
+tests/e2e/videos
 
 chrome_extension/*
 !chrome_extension/manifest.json
