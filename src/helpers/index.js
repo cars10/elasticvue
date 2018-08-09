@@ -18,11 +18,6 @@ export function capitalize (string) {
   return string[0].toUpperCase() + string.slice(1)
 }
 
-export function handleFetchResponse (response) {
-  if (!response.ok) throw new Error(response.statusText)
-  return response
-}
-
 export function truncate (text, limit) {
   if (!text) return ''
   if (typeof text !== 'string') text = text.toString()
@@ -31,5 +26,27 @@ export function truncate (text, limit) {
     return text.slice(0, limit) + ' ...'
   } else {
     return text
+  }
+}
+
+export function urlWithoutCredentials (url) {
+  if (url.includes('@')) {
+    let credentials = url.match(/https?:\/\/(.*(:.*)?)@/)[1]
+    return url.replace(credentials + '@', '')
+  } else {
+    return url
+  }
+}
+
+export function buildFetchAuthHeaderFromUrl (url) {
+  if (url.includes('@')) {
+    let credentials = url.match(/https?:\/\/(.*(:.*)?)@/)[1].split(':')
+    if (credentials.length === 2) {
+      return {'Authorization': 'Basic ' + Buffer.from(credentials[0] + ':' + credentials[1]).toString('base64')}
+    } else {
+      return {'Authorization': 'Basic ' + Buffer.from(credentials[0]).toString('base64')}
+    }
+  } else {
+    return {}
   }
 }

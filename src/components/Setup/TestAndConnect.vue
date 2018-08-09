@@ -35,7 +35,7 @@
           </v-flex>
         </v-layout>
       </v-form>
-      <span class="grey--text">Hint: use <i>enter</i> to test connection, <i>ctrl+enter</i> to connect</span>
+      <p class="grey--text">To connect with credentials use http://username:password@host syntax.</p>
     </v-flex>
 
     <v-flex v-if="testError || connectError" px-3>
@@ -45,7 +45,10 @@
           <li>Your cluster is reachable via {{elasticsearchHost}}</li>
           <li>You added the correct settings to your <strong>elasticserach.yml</strong> and restarted your cluster</li>
         </ol>
-        {{errorMessage}}
+
+        <div class="mt-2">
+          {{errorMessage}}
+        </div>
       </v-alert>
     </v-flex>
   </div>

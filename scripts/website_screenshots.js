@@ -44,5 +44,5 @@ async function clickToNavigateAndScreenshot (page, selector, screenshot) {
   await page.waitFor(selector)
   await page.click(selector)
   await page.waitFor(200)
-  await page.screenshot({path: 'tools/website_screenshots/' + screenshot})
+  await page.screenshot({path: 'scripts/website_screenshots/' + screenshot})
 }

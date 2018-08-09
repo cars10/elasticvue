@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VAlert from 'vuetify/es5/components/VAlert'
 import VApp from 'vuetify/es5/components/VApp'
 import VAutocomplete from 'vuetify/es5/components/VAutocomplete'
+import VBadge from 'vuetify/es5/components/VBadge'
 import VBtn from 'vuetify/es5/components/VBtn'
 import VCard from 'vuetify/es5/components/VCard'
 import VCheckbox from 'vuetify/es5/components/VCheckbox'
@@ -30,6 +31,7 @@ Vue.use(Vuetify, {
     VAlert,
     VApp,
     VAutocomplete,
+    VBadge,
     VBtn,
     VCard,
     VCheckbox,

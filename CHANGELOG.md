@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.0
+
+* can use authorized clusters (via `username:password@host` syntax)
+* can toggle table columns during search
+* switch from karma to jest specs
+
 ## 0.3.0
 
 * switch to port 8080 in development builds and docker container

@@ -1,7 +1,10 @@
 <template>
   <div class="settings-dropdown">
     <v-btn class="mt-0" icon @click.native="toggleMenu">
-      <v-icon>settings</v-icon>
+      <v-badge :value="badge" color="green" overlap>
+        <v-icon slot="badge" small>filter_list</v-icon>
+        <v-icon>settings</v-icon>
+      </v-badge>
     </v-btn>
     <div v-if="open" class="settings-dropdown__dropdown elevation-2">
       <slot>
@@ -14,6 +17,12 @@
 <script>
   export default {
     name: 'settings-dropdown',
+    props: {
+      badge: {
+        type: Boolean,
+        default: false
+      }
+    },
     data () {
       return {
         open: false

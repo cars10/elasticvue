@@ -40,16 +40,15 @@ It works with every elasticsearch version supported by the [official elasticsear
 ## Usage
 
 ### Elasticsearch configuration
-You have to set some settings to allow connection to your elasticsearch cluster, even if you run the app locally.
+You have [enable CORS](https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-http.html) to allow connection to your elasticsearch cluster, even if you run the app locally.
 
 Find your elasticsearch configuration (for example `/etc/elasticsearch/elasticsearch.yml`) and add the following lines:
 
 ```yaml
-# see https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-http.html
-# Enable 'Access-Control-Allow-Origin' header
+# enable CORS
 http.cors.enabled: true
-# Then set the allowed origins based on how you run elasticvue. Chose only one:
 
+# Then set the allowed origins based on how you run elasticvue. Chose only one:
 # for docker / running locally
 http.cors.allow-origin: /https?:\/\/localhost(:[0-9]+)?/
 # online version
@@ -57,19 +56,24 @@ http.cors.allow-origin: /https?:\/\/app.elasticvue.com/
 # chrome extension
 http.cors.allow-origin: /chrome-extension:\/\/[a-z]+/
 
-# or to enable all sources:
+# and if your cluster uses authorization you also have to add:
+http.cors.allow-headers : X-Requested-With,Content-Type,Content-Length,Authorization
+```
+
+You can also use a regex to enable all sources at once:
+```yaml
 http.cors.allow-origin: /(https?:\/\/localhost(:[0-9]+)?)|(chrome-extension:\/\/[a-z]+)|(https?:\/\/app.elasticvue.com)/
 ```
 
-Now simply restart elasticsearch and you should be able to connect.
+After configuration restart your cluster and you should be able to connect.
 
 ### Running
 
-After configuring use one of the following ways to run elasticvue:
+You can use one of the following ways to run elasticvue:
 
 **Online version**
 
-* Visit [https://app.elasticvue.com](https://app.elasticvue.com)
+Visit [https://app.elasticvue.com](https://app.elasticvue.com)
 
 **Docker**
 
@@ -86,14 +90,14 @@ Or build the image locally:
 
 **Chrome extension**
 
-Install the extension from the [chrome webstore](https://chrome.google.com/webstore/detail/elasticvue/hkedbapjpblbodpgbajblpnlpenaebaa).
+Install the extension from the [chrome webstore](https://chrome.google.com/webstore/detail/elasticvue/hkedbapjpblbodpgbajblpnlpenaebaa). Start elasticvue by clicking on the icon in your toolbar.
 
 **Run locally**
 
 * Checkout the repo `git clone https://github.com/cars10/elasticvue.git`
 * Open the folder `cd elasticvue`
 * Install dependencies `yarn install`
-* Run a production server via `yarn prod` or dev server `yarn dev`
+* Run a production server via `yarn prod` or dev server `yarn serve`
 
 ## Browser Support
 
@@ -125,7 +129,7 @@ pros
 
 cons
 
-* Seems to be unmaintained
+* seems to be unmaintained
 * no pagination or sort functionality while browsing data
 * no error handling or information to help users
 * not all installation methods working for newest version of elasticsearch (docker image for example)
@@ -137,12 +141,11 @@ pros
 
 * maintained
 * import/export of data
-* cool query builder
+* great query builder and filter options
 
 cons
 
-* docker image is huge
-* does only provide functionality for browsing data (one index at a time), nothing more
+* does only provide functionality for browsing data (one index at a time?), nothing more
 * no error handling or information to help users
 
 
@@ -163,6 +166,7 @@ cons
 
 Elasticvue tries to solve most of the *cons* mentioned above. Namely:
 
+* dark theme!
 * actively maintained and all deployment methods work with the latest versions of elasticsearch
 * tries to be as small as possible. (the chrome extension for example is < 1mb, docker image is half the size of dejavu)
 * handles errors and shows help and explanation for users, making it easier to use
@@ -211,6 +215,7 @@ zip -r elasticvue.zip chrome_extension/*
 Current TODOs, more ore less ordered by importance.
 
 * add more specs
+* when searching check if indices still exists
 * refactor vuex state to use actions?
 * performance - use web workers? wasm? ~~requestIdleCallback~~?
 * add logo

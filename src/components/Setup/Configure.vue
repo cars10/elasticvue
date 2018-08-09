@@ -9,9 +9,11 @@
 http.cors.enabled: true
 http.cors.allow-origin: "{{domain}}"
 
-<span class="code-comment"># Alternatively you can pass a regex to allow all relevant origins:</span>
-<span class="code-comment" style="display: block"># /(https?:\/\/localhost(:[0-9]+)?)|(chrome-extension:\/\/[a-z]+)|(https?:\/\/app.elasticvue.com)/</span></code>
+<span class="code-comment"># and if your cluster uses authorization:</span>
+http.cors.allow-headers : X-Requested-With,Content-Type,Content-Length,Authorization
+</code>
 <!-- @formatter:on -->
+      <p class="mt-2 mb-0">Then restart your cluster.</p>
     </v-flex>
   </div>
 </template>

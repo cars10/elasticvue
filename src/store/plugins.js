@@ -11,7 +11,10 @@ export const plugins = [
       'query',
       'indices',
       'search.pagination',
-      'search.stickyTableHeader'
+      'search.stickyTableHeader',
+      'search.indices',
+      'search.selectedMappings',
+      'search.mappings'
     ]
   })
 ]

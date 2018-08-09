@@ -3,11 +3,11 @@ import { DEFAULT_SEARCH_PARAMS } from '@/consts'
 
 describe('helpers/normalizeSearchParams', () => {
   it('has correct default values', () => {
-    expect(normalizeSearchParams({})).to.eql(DEFAULT_SEARCH_PARAMS)
+    expect(normalizeSearchParams({})).toEqual(DEFAULT_SEARCH_PARAMS)
   })
 
   it('returns the correct params when called without arguments', () => {
-    expect(normalizeSearchParams()).to.eql(DEFAULT_SEARCH_PARAMS)
+    expect(normalizeSearchParams()).toEqual(DEFAULT_SEARCH_PARAMS)
   })
 
   it('normalizes correctly when some params are missing', () => {
@@ -19,7 +19,7 @@ describe('helpers/normalizeSearchParams', () => {
       _sourceInclude: '',
       index: DEFAULT_SEARCH_PARAMS.index
     }
-    expect(normalizeSearchParams(params)).to.eql(expected)
+    expect(normalizeSearchParams(params)).toEqual(expected)
   })
 
   it('normalizes correctly when all params are given', () => {
@@ -37,7 +37,7 @@ describe('helpers/normalizeSearchParams', () => {
       _sourceInclude: '',
       index: 'myIndex'
     }
-    expect(normalizeSearchParams(params)).to.eql(expected)
+    expect(normalizeSearchParams(params)).toEqual(expected)
   })
 
   it('normalizes correctly when all params are given with wrong types', () => {
@@ -55,6 +55,6 @@ describe('helpers/normalizeSearchParams', () => {
       _sourceInclude: '',
       index: 'myIndex'
     }
-    expect(normalizeSearchParams(params)).to.eql(expected)
+    expect(normalizeSearchParams(params)).toEqual(expected)
   })
 })

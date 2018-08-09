@@ -52,29 +52,17 @@
 
         <div v-if="optionsCollapsed" class="my-2 pa-2 lowered">
           <v-layout row wrap>
-            <v-flex lg6>
+            <v-flex lg9>
               <v-text-field v-model="sourceInclude"
                             label="Source includes"
                             name="source_includes"
                             messages="Enter a comma separated list of columns to load"/>
             </v-flex>
 
-            <v-flex lg2>
+            <v-flex lg3>
               <v-text-field v-model="size"
                             label="Size"
                             name="size"/>
-            </v-flex>
-
-            <v-flex lg4>
-              <v-layout row wrap>
-                <v-flex md6>
-                  <v-switch id="show_index" v-model="showIndex" label="Show _index column" hide-details/>
-                </v-flex>
-
-                <v-flex md6 class="">
-                  <v-switch id="show_score" v-model="showScore" label="Show _score column" hide-details/>
-                </v-flex>
-              </v-layout>
             </v-flex>
           </v-layout>
         </div>
@@ -91,7 +79,7 @@
 
     <data-loader ref="resultsLoader"
                  :method-params="searchParams"
-                 :execute="executeSearch"
+                 :execute="executeSearch || indices.length > 0"
                  method="search"
                  render-content-while-loading>
       <template slot-scope="data">
@@ -140,7 +128,7 @@
           size: this.size
         }
       },
-      ...mapVuexAccessors('search', ['q', 'indices', 'size', 'sourceInclude', 'showIndex', 'showScore'])
+      ...mapVuexAccessors('search', ['q', 'indices', 'size', 'sourceInclude'])
     },
     methods: {
       loadData () {

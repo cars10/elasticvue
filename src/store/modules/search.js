@@ -10,8 +10,8 @@ export const search = {
     filter: '',
     pagination: Object.assign({}, DEFAULT_DATA_TABLE_PAGINATION),
     stickyTableHeader: true,
-    showIndex: true,
-    showScore: true
+    selectedMappings: [],
+    mappings: []
   },
   mutations: {
     setQ (state, q) {
@@ -35,11 +35,11 @@ export const search = {
     setStickyTableHeader (state, sticky) {
       state.stickyTableHeader = sticky
     },
-    setShowIndex (state, val) {
-      state.showIndex = val
+    setSelectedMappings (state, val) {
+      state.selectedMappings = val
     },
-    setShowScore (state, val) {
-      state.showScore = val
+    setMappings (state, val) {
+      state.mappings = val
     },
     reset (state) {
       state.q = DEFAULT_SEARCH_PARAMS.q
@@ -47,7 +47,10 @@ export const search = {
       state.size = DEFAULT_SEARCH_PARAMS.size
       state.sourceInclude = ''
       state.filter = ''
-      state.pagination = DEFAULT_DATA_TABLE_PAGINATION
+      state.pagination = Object.assign({}, DEFAULT_DATA_TABLE_PAGINATION)
+      state.stickyTableHeader = true
+      state.selectedMappings = []
+      state.mappings = []
     }
   }
 }

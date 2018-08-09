@@ -127,6 +127,16 @@ export default class ElasticsearchAdapter {
   }
 
   /**
+   * Delete a document
+   * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-delete
+   * @param params {Object} { index, type, id }
+   */
+  delete (params) {
+    console.log(params)
+    return this.client.delete(Object.assign({}, REQUEST_DEFAULT_BODY, params))
+  }
+
+  /**
    * Search api
    * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-search
    * @param searchParams

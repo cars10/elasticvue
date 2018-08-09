@@ -39,5 +39,5 @@ async function removeSnackbar (page) {
 async function clickToNavigateAndScreenshot (page, selector, screenshot) {
   await page.click(selector)
   await page.waitFor(200)
-  await page.screenshot({path: 'tools/chrome_ext_screenshots/' + screenshot})
+  await page.screenshot({path: 'scripts/chrome_ext_screenshots/' + screenshot})
 }

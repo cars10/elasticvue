@@ -1,1 +1,3 @@
-chrome_extension/*
+node_modules
+chrome_extension
+tests/coverage

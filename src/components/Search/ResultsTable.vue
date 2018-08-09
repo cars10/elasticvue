@@ -5,6 +5,7 @@
         <v-flex right d-inline-flex>
           <v-text-field id="filter"
                         v-model="filter"
+                        :disabled="flattenedHits.length === 0"
                         title="Filter via 'column:query'"
                         append-icon="search"
                         label="Filter..."
@@ -12,8 +13,9 @@
                         class="mt-0"
                         @keyup.esc="filter = ''"/>
 
-          <settings-dropdown>
+          <settings-dropdown :badge="mappings.length > filteredMappings.length">
             <single-setting v-model="stickyTableHeader" name="Sticky table header"/>
+            <multi-setting v-model="selectedMappings" :settings="mappings" name="Columns"/>
           </settings-dropdown>
         </v-flex>
       </div>
@@ -29,11 +31,7 @@
                   :class="tableClasses">
       <template slot="items" slot-scope="item">
         <tr class="tr--clickable" @click="openDocument(item.item)">
-          <td v-if="showIndex">{{ item.item._index }}</td>
-          <td v-if="showScore">{{ item.item._score}}</td>
-          <td>{{ item.item._id}}</td>
-          <td>{{ item.item._type}}</td>
-          <td v-for="key in keys" :key="item.item._index + '_' + key">{{item.item[key]}}</td>
+          <td v-for="key in filteredMappings" :key="key">{{item.item[key]}}</td>
         </tr>
       </template>
 
@@ -47,20 +45,21 @@
 </template>
 
 <script>
-  import { objectArrayUniqueKeys } from '../../helpers/utilities'
   import { fuzzyTableFilter } from '../../helpers/filters'
   import FixedTableHeader from '@/mixins/FixedTableHeader'
   import SettingsDropdown from '@/components/shared/SettingsDropdown'
   import SingleSetting from '@/components/shared/SingleSetting'
+  import MultiSetting from '@/components/shared/MultiSetting'
   import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
   import { mapVuexAccessors } from '../../helpers/store'
-  import { mapState } from 'vuex'
+  import Results from '../../models/Results'
 
   export default {
     name: 'ResultsTable',
     components: {
       SettingsDropdown,
-      SingleSetting
+      SingleSetting,
+      MultiSetting
     },
     mixins: [
       FixedTableHeader
@@ -77,28 +76,18 @@
         type: Boolean
       }
     },
+    data () {
+      return {
+        flattenedHits: [],
+        settingsBadge: false
+      }
+    },
     computed: {
-      defaultKeys () {
-        let keys = []
-        if (this.showIndex) keys.push('_index')
-        if (this.showScore) keys.push('_score')
-        keys.push('_id')
-        keys.push('_type')
-        return keys
+      filteredMappings () {
+        return this.mappings.filter(k => this.selectedMappings.includes(k))
       },
       headers () {
-        let defaultKeyHeaders = this.defaultKeys.map(value => ({text: value, value: value}))
-        return defaultKeyHeaders.concat(this.keys.map(value => ({text: value, value: value})))
-      },
-      keys () {
-        return objectArrayUniqueKeys(this.hits, '_source')
-      },
-      flattenedHits () {
-        return this.hits.map(hit => {
-          Object.assign(hit, hit['_source'])
-          delete hit['_source']
-          return hit
-        })
+        return this.filteredMappings.map(value => ({text: value, value: value}))
       },
       stickyTableHeader: {
         get () {
@@ -115,8 +104,17 @@
           {'table--fixed-header': this.stickyTableHeader}
         ]
       },
-      ...mapVuexAccessors('search', ['filter', 'pagination']),
-      ...mapState('search', ['showIndex', 'showScore'])
+      ...mapVuexAccessors('search', ['filter', 'pagination', 'selectedMappings', 'mappings'])
+    },
+    watch: {
+      hits () {
+        const oldMappings = this.mappings
+        const results = new Results(this.hits)
+        this.mappings = results.uniqueColumns
+        const newMappings = this.mappings.filter(m => !oldMappings.includes(m))
+        this.selectedMappings = this.selectedMappings.concat(newMappings)
+        this.flattenedHits = results.results
+      }
     },
     mounted () {
       this.fixedTableHeaderOnEnable()

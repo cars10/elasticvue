@@ -6,10 +6,11 @@ export default {
     return {
       loading: false,
       hasError: false,
-      response: {}
+      response: {},
+      elasticsearchHost: this.$store.state.connection.elasticsearchHost
     }
   },
   computed: {
-    ...mapVuexAccessors('query', ['host', 'method', 'stringifiedParams', 'stringifiedHeaders'])
+    ...mapVuexAccessors('query', ['method', 'stringifiedParams', 'stringifiedHeaders'])
   }
 }

@@ -1,4 +1,5 @@
 import { ELASTICSEARCH_API_VERSIONS } from '../../consts'
+import { buildFetchAuthHeaderFromUrl, urlWithoutCredentials } from '../../helpers'
 
 export default class ElasticsearchVersionService {
   constructor (host) {
@@ -16,7 +17,7 @@ export default class ElasticsearchVersionService {
    * @returns {Promise<version>}
    */
   getRawApiVersion () {
-    return fetch(this.host)
+    return fetch(urlWithoutCredentials(this.host), {headers: buildFetchAuthHeaderFromUrl(this.host)})
       .then(response => response.json())
       .then(json => {
         this.apiVersion = json.version.number.slice(0, 3)

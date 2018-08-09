@@ -8,6 +8,9 @@ chrome_extension/*
 !chrome_extension/background.js
 elasticvue.zip
 
+scripts/chrome_ext_screenshots/*
+scripts/website_screenshots/*
+
 # local env files
 .env.local
 .env.*.local
