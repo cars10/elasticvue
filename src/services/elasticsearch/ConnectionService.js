@@ -1,6 +1,7 @@
 import ElasticsearchAdapter from '../ElasticsearchAdapter'
 import ElasticsearchVersionService from './ElasticsearchVersionService'
-import Elasticsearch from 'elasticsearch'
+
+const Elasticsearch = import('elasticsearch')
 
 export default class ConnectionService {
   constructor (host) {

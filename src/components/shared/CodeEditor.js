@@ -1,7 +1,6 @@
-import Brace from 'brace'
-
-require('brace/mode/json')
-require('brace/theme/monokai')
+const Brace = import('brace')
+import('brace/mode/json')
+import('brace/theme/monokai')
 
 export default {
   data () {
