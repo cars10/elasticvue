@@ -23,3 +23,9 @@
 //
 // -- This is will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+
+Cypress.Commands.add('connect', () => {
+  cy.get('#host').type('http://localhost:9200')
+  cy.get('#test_connection').click()
+  cy.get('#connect:not([disabled])').click()
+})
