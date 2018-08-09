@@ -12,34 +12,40 @@ function exitOnError {
   else
     echo " Failed."
     exit 1
-fi
+  fi
 }
 
 echo "## Testing Elasticvue ##"
 
 # prepare
-echo -ne "[0/4] Prepare..."
+echo -ne "[0/5] Prepare..."
 rm -rf dist
 yarn install --silent > /dev/null
 echo " Done."
 
 # Run linter
-echo -ne "[1/4] Lint..."
+echo -ne "[1/5] Lint..."
 yarn lint > /dev/null
 exitOnError
 
 # Run specs
-echo -ne "[2/4] Running tests..."
+echo -ne "[2/5] Running unit tests..."
 yarn test:unit > /dev/null
 exitOnError
 
+# Run e2e
+echo -ne "[2/5] Running e2e tests..."
+./test_e2e.sh > /dev/null
+exitOnError
+
+
 # Build for production
-echo "[3/4] Building for production..."
+echo "[3/5] Building for production..."
 yarn build > /dev/null
 exitOnError
 
 # Try to build docker container
-echo -ne "[4/4] Building docker image..."
+echo -ne "[4/5] Building docker image..."
 docker build --no-cache --quiet -t elasticvue . > /dev/null
 exitOnError
 
