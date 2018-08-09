@@ -14,7 +14,7 @@
     name: 'PrintPretty',
     components: {
       'code-editor': () => ({
-        component: import('@/components/shared/CodeEditor'),
+        component: import(/* webpackChunkName: "code-editor" */ '@/components/shared/CodeEditor'),
         loading: Loading
       }),
       ResizableContainer
