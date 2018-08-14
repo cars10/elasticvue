@@ -4,7 +4,7 @@
       <v-flex xs4>
         <div class="subheading">Settings</div>
         <v-switch id="theme_select" v-model="dark" class="my-2" label="Dark theme" hide-details/>
-        <a title="Reset saved settings" @click="reset">Disconnect and reset</a>
+        <a id="resetSettings" title="Reset saved settings" @click="reset">Disconnect and reset</a>
       </v-flex>
 
       <v-flex xs4 text-xs-center>
