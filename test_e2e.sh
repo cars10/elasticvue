@@ -1,8 +1,10 @@
 #!/bin/bash
 
-TMP_PATH='./tmp/e2e'
+TMP_PATH=./tmp/e2e
 VERSIONS=( elasticsearch-6.3.2 elasticsearch-5.6.10 )
 PID=0
+ES_PID_FILE=${TMP_PATH}/pid
+ES_PORT=$(cat cypress.json|grep ES_PORT|awk '{print $2}')
 
 function testVersion {
   prepare $1
@@ -11,40 +13,51 @@ function testVersion {
 
 function prepare {
   VERSION=$1
-  echo "> Preparing $1..."
   downloadElasticsearch ${VERSION}
   configureElasticsearch ${VERSION}
   startElasticsearch ${VERSION}
-  echo "> $1 is up and running."
+  echo ">> $VERSION is up and running."
 }
-
 
 function downloadElasticsearch {
   VERSION=$1
-  wget -q -P ${TMP_PATH} "https://artifacts.elastic.co/downloads/elasticsearch/$VERSION.tar.gz"
+  echo ">> Downloading $VERSION..."
+
+  # delete possible existing folder
+  rm -rf ${TMP_PATH}/${VERSION}
+
+  if [[ ! -f ${TMP_PATH}/${VERSION}.tar.gz ]]; then
+    wget -q -P ${TMP_PATH} "https://artifacts.elastic.co/downloads/elasticsearch/$VERSION.tar.gz"
+  fi
   tar -xzf "$TMP_PATH/$VERSION.tar.gz" -C ${TMP_PATH}
 }
 
 function configureElasticsearch {
   VERSION=$1
+  echo ">> Configuring $VERSION..."
+
   CONFIG="${TMP_PATH}/${VERSION}/config/elasticsearch.yml"
+  echo "http.port: ${ES_PORT}" > ${CONFIG}
   echo "http.cors.enabled: true" >> ${CONFIG}
   echo "http.cors.allow-origin: '*'" >> ${CONFIG}
 }
 
 function startElasticsearch {
   VERSION=$1
+
+  echo ">> Starting $VERSION..."
+
   ${TMP_PATH}/${VERSION}/bin/elasticsearch > /dev/null 2>&1 &
   PID=$!
+  echo ${PID} > ${ES_PID_FILE}
 
-  retry curl -s 'http://localhost:9200' > /dev/null 2>&1
+  retry curl -s "http://localhost:${ES_PORT}" > /dev/null 2>&1
 }
 
 function stopElasticsearch {
   kill -15 ${PID}
-  retryNegative curl -s 'http://localhost:9200' > /dev/null 2>&1
+  retryNegative curl -s "http://localhost:${ES_PORT}" > /dev/null 2>&1
 }
-
 
 function retry {
   TIMEOUT=60

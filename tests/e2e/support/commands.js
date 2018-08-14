@@ -28,7 +28,7 @@ Cypress.Commands.add('connect', () => {
   cy.clearLocalStorage()
   cy.visit('/')
   cy.get('#host').clear()
-  cy.get('#host').type('http://localhost:9200')
+  cy.get('#host').type('http://localhost:' + Cypress.env('ES_PORT').toString())
   cy.get('#test_connection').click()
   cy.get('#connect:not([disabled])').click()
 })
