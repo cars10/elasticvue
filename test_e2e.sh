@@ -52,7 +52,7 @@ function startElasticsearch {
   echo ${PID} > ${ES_PID_FILE}
 
   retry curl -s "http://localhost:${ES_PORT}" > /dev/null 2>&1
-  VERSION_NUMBER=$(curl -s localhost:9200 | grep number | awk '{print $3}'| sed -e 's/"//g' | sed -e 's/,//')
+  VERSION_NUMBER=$(curl -s localhost:${ES_PORT} | grep number | awk '{print $3}'| sed -e 's/"//g' | sed -e 's/,//')
   echo ">> Got version number: ${VERSION_NUMBER}"
 }
 
