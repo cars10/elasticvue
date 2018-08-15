@@ -29,7 +29,7 @@
     "@vue/cli-plugin-unit-jest": "^3.0.0-rc.10",
     "@vue/cli-service": "^3.0.0-rc.5",
     "@vue/eslint-config-standard": "^3.0.0-rc.5",
-    "@vue/test-utils": "^1.0.0-beta.20",
+    "@vue/test-utils": "^1.0.0-beta.24",
     "babel-core": "7.0.0-bridge.0",
     "babel-jest": "^23.0.1",
     "node-sass": "^4.9.0",
