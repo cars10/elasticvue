@@ -190,7 +190,9 @@ yarn serve
 
 # tests
 yarn test:unit   # add --watch to watch test files
-yarn test:e2e
+
+# for e2e tests you need a running elasticsearch server on port 9123
+yarn test:e2e    # add --headless for headless mode
 ```
 
 Other commands
