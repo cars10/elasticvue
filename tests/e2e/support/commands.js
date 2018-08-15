@@ -33,3 +33,15 @@ Cypress.Commands.add('connect', () => {
   cy.get('#connect:not([disabled])').click()
   cy.contains('cluster_uuid') // wait until first page is loaded
 })
+
+Cypress.Commands.add('cleanupElasticsearch', () => {
+  cy.request('DELETE', 'http://localhost:' + Cypress.env('ES_PORT').toString() + '/_all')
+})
+
+Cypress.Commands.add('createIndex', indexName => {
+  cy.visit('/indices')
+  cy.get('#new_index').click()
+  cy.get('#index_name').clear()
+  cy.get('#index_name').type(indexName)
+  cy.get('#create_index').click()
+})
