@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 docker info > /dev/null
 if [ $? -ne 0 ]; then

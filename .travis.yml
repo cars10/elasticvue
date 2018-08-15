@@ -1,5 +1,5 @@
 language: node_js
 node_js:
   - "10"
-script: yarn lint && yarn test:unit && yarn build
+script: yarn lint && yarn test:unit && yarn build && ./test_e2e.sh
 cache: yarn

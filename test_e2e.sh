@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 TMP_PATH=./tmp/e2e
 VERSIONS=( elasticsearch-6.3.2 elasticsearch-5.6.10 )
