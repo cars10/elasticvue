@@ -1,7 +1,7 @@
 describe('Indices Page', () => {
   beforeEach(() => {
-    cy.connect()
     cy.cleanupElasticsearch()
+    cy.connect()
   })
 
   describe('managing indices', () => {
