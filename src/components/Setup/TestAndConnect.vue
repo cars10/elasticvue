@@ -56,23 +56,19 @@
 
 <script>
   import ConnectBase from '@/components/Setup/ConnectBase'
-  import { CONNECTION_STATES } from '../../consts'
 
   export default {
     name: 'test-and-connect',
     extends: ConnectBase,
     computed: {
       hasError () {
-        return this.testError || this.connectError || this.connectionError
+        return this.testError || this.connectError
       },
       testConnectionColor () {
         return this.testError ? 'error' : 'primary'
       },
       connectColor () {
         return this.connectError ? 'error' : 'success'
-      },
-      connectionError () {
-        return this.$store.state.connection.status === CONNECTION_STATES.ERROR
       }
     }
   }

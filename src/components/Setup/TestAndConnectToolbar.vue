@@ -19,7 +19,7 @@
       Test connection
     </v-btn>
 
-    <v-btn v-if="isConnected && testSuccess"
+    <v-btn v-if="isConnected && testSuccess && hostEqual"
            id="toolbar_reconnect_button"
            :loading="connectLoading"
            type="button"
@@ -62,6 +62,7 @@
         this.connectWithServer()
           .then(() => {
             this.connectLoading = false
+            this.hostEqual = true
             this.showSuccessSnackbar({text: 'Successfully connected.'})
             this.$emit('hostChanged')
           })

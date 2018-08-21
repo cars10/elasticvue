@@ -1,5 +1,9 @@
 describe('Header', () => {
   describe('connect and reconnect', () => {
+    beforeEach(() => {
+      cy.clearLocalStorage()
+    })
+
     it('cannot reconnect when not connected', () => {
       cy.visit('/')
       cy.get('toolbar_host').should('not.exist')
@@ -22,7 +26,7 @@ describe('Header', () => {
       cy.get('#toolbar_connect_button').should('be.disabled')
       cy.get('#toolbar_test_connection_button').click()
       cy.get('#toolbar_connect_button').should('not.be.disabled')
-      cy.get('#toolbar_reconnect_button').click()
+      cy.get('#toolbar_connect_button').click()
       cy.get('#toolbar_connect_button').should('not.be.disabled')
     })
 
