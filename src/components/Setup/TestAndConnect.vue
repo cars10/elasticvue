@@ -38,7 +38,7 @@
       <p class="grey--text">To connect with credentials use http://username:password@host syntax.</p>
     </v-flex>
 
-    <v-flex v-if="testError || connectError" px-3>
+    <v-flex v-if="hasError" px-3>
       <v-alert :value="true" type="error">
         Could not connect. Please make sure that
         <ol class="pl-3">
@@ -56,16 +56,23 @@
 
 <script>
   import ConnectBase from '@/components/Setup/ConnectBase'
+  import { CONNECTION_STATES } from '../../consts'
 
   export default {
     name: 'test-and-connect',
     extends: ConnectBase,
     computed: {
+      hasError () {
+        return this.testError || this.connectError || this.connectionError
+      },
       testConnectionColor () {
         return this.testError ? 'error' : 'primary'
       },
       connectColor () {
         return this.connectError ? 'error' : 'success'
+      },
+      connectionError () {
+        return this.$store.state.connection.status === CONNECTION_STATES.ERROR
       }
     }
   }

@@ -17,10 +17,8 @@ describe('Indices page', () => {
       const indexName = 'name-1'
       cy.createIndex(indexName)
       cy.get('table').contains(indexName).closest('tr').get('button[title="Show"]').click()
-      cy.location().should(location => {
-        expect(location.pathname).to.equal('/indices/' + indexName)
-      })
-      cy.contains(indexName)
+      cy.url().should('include', '/indices/' + indexName)
+      cy.contains(indexName).should('exist')
     })
 
     it('can delete indices', () => {

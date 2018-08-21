@@ -44,6 +44,7 @@
             this.testLoading = false
             this.testSuccess = true
             this.testError = false
+            this.$store.commit('connection/resetConnection')
             this.showSuccessSnackbar({
               text: 'Test successfull',
               additionalText: 'You cluster is reachable and configured correctly.'

@@ -31,7 +31,7 @@ Cypress.Commands.add('connect', () => {
   cy.get('#host').type('http://localhost:' + Cypress.env('ES_PORT').toString())
   cy.get('#test_connection').click()
   cy.get('#connect:not([disabled])').click()
-  cy.contains('cluster_uuid') // wait until first page is loaded
+  cy.contains('Node Information').should('exist') // wait until first page is loaded
 })
 
 Cypress.Commands.add('cleanupElasticsearch', () => {
