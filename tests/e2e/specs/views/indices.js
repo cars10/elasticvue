@@ -1,4 +1,4 @@
-describe('Indices Page', () => {
+describe('Indices page', () => {
   beforeEach(() => {
     cy.cleanupElasticsearch()
     cy.connect()
