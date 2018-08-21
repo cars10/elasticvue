@@ -18,7 +18,7 @@ describe('Indices Page', () => {
       cy.createIndex(indexName)
       cy.get('table').contains(indexName).closest('tr').get('button[title="Show"]').click()
       cy.location().should(location => {
-        expect(location.pathname).to.match(/\/indices\/[a-z0-9]*/)
+        expect(location.pathname).to.equal('/indices/' + indexName)
       })
       cy.contains(indexName)
     })
