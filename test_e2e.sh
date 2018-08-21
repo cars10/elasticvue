@@ -98,7 +98,7 @@ function retryNegative {
 }
 
 function runTests {
-  yarn test:e2e --headless
+  yarn test:e2e --config video=false --headless
 }
 
 mkdir -p ${TMP_PATH}
