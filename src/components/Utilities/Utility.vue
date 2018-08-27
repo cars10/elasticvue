@@ -2,7 +2,7 @@
   <v-list-tile>
     <v-list-tile-content>{{text}}</v-list-tile-content>
     <v-list-tile-action>
-      <v-btn :loading="loading" :color="color" @click.native="confirmMethod">Run</v-btn>
+      <v-btn :id="name" :loading="loading" :color="color" @click.native="confirmMethod">Run</v-btn>
     </v-list-tile-action>
   </v-list-tile>
 </template>
@@ -26,6 +26,10 @@
       },
       confirmMessage: {
         default: '',
+        type: String
+      },
+      name: {
+        default: 'utility',
         type: String
       }
     },

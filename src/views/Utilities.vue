@@ -18,7 +18,8 @@
                            :text="utility.text"
                            :confirm-message="utility.confirmMessage"
                            :method="utility.method"
-                           :method-params="utility.methodParams"/>
+                           :method-params="utility.methodParams"
+                           :name="'utility_create_' + utility.method"/>
                 </template>
               </v-list>
             </v-flex>
@@ -32,7 +33,8 @@
                            :text="utility.text"
                            :confirm-message="utility.confirmMessage"
                            :method="utility.method"
-                           :method-params="utility.methodParams"/>
+                           :method-params="utility.methodParams"
+                           :name="'utility_delete_' + utility.method"/>
                 </template>
               </v-list>
             </v-flex>
@@ -46,7 +48,8 @@
                            :text="utility.text"
                            :confirm-message="utility.confirmMessage"
                            :method="utility.method"
-                           :method-params="utility.methodParams"/>
+                           :method-params="utility.methodParams"
+                           :name="'utility_misc_' + utility.method"/>
                 </template>
               </v-list>
             </v-flex>
@@ -59,7 +62,6 @@
 
 <script>
   import Utility from '@/components/Utilities/Utility'
-  import { WORDS } from '../consts'
   import data from '../data'
 
   export default {
@@ -74,7 +76,7 @@
             {
               text: 'Create 10 empty indices',
               method: 'createIndices',
-              methodParams: this.getRandomWords(10)
+              methodParams: ['articles', 'comments', 'documents', 'images', 'orders', 'posts', 'profiles', 'tweets', 'users', 'vendors']
             },
             {
               text: 'Create twitter index and add 100 tweets',
@@ -105,13 +107,6 @@
             }
           ]
         }
-      }
-    },
-    methods: {
-      getRandomWords (amount) {
-        return [...Array(amount)].map(() => {
-          return WORDS[Math.floor(Math.random() * WORDS.length)]
-        })
       }
     }
   }

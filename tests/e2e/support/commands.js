@@ -45,3 +45,14 @@ Cypress.Commands.add('createIndex', indexName => {
   cy.get('#index_name').type(indexName)
   cy.get('#create_index').click()
 })
+
+Cypress.Commands.add('catIndices', () => {
+  cy.request({
+    method: 'GET',
+    url: 'http://localhost:' + Cypress.env('ES_PORT').toString() + '/_cat/indices',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    }
+  })
+})
