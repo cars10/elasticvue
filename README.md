@@ -216,14 +216,19 @@ zip -r elasticvue.zip chrome_extension/*
 
 Current TODOs, more ore less ordered by importance.
 
+### Features
+
+* add logo
+* data import/export
+* save *all* settings in local storage? add settings overview page?
+* firefox addon?
+
+### Internal stuff and refactorings
+
 * add more specs
 * when searching check if indices still exists
 * refactor vuex state to use actions?
 * performance - use web workers? wasm? ~~requestIdleCallback~~?
-* add logo
-* create firefox addon?
-* save *all* settings in local storage? add settings overview page?
-* data import/export
 
 ## License
 
