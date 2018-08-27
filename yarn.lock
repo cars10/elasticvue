@@ -8624,8 +8624,8 @@ vue@^2.5.16:
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.5.17.tgz#0f8789ad718be68ca1872629832ed533589c6ada"
 
 vuetify@^1.1.8:
-  version "1.1.13"
-  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-1.1.13.tgz#42bc2a18fd7e3c610358b7a4f54ee3fe748b9676"
+  version "1.1.14"
+  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-1.1.14.tgz#a45b6cd659e31edc8ca8dd2094562f1763f1f223"
 
 vuex-persistedstate@^2.5.4:
   version "2.5.4"
