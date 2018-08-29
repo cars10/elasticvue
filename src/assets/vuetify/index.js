@@ -17,7 +17,7 @@ import VIcon from 'vuetify/es5/components/VIcon'
 import VList from 'vuetify/es5/components/VList'
 import VProgressLinear from 'vuetify/es5/components/VProgressLinear'
 import VSelect from 'vuetify/es5/components/VSelect'
-import VSnackBar from 'vuetify/es5/components/VSnackbar'
+import VSnackbar from 'vuetify/es5/components/VSnackbar'
 import VSubheader from 'vuetify/es5/components/VSubheader'
 import VSwitch from 'vuetify/es5/components/VSwitch'
 import VTabs from 'vuetify/es5/components/VTabs'
@@ -47,7 +47,7 @@ Vue.use(Vuetify, {
     VList,
     VProgressLinear,
     VSelect,
-    VSnackBar,
+    VSnackbar,
     VSubheader,
     VSwitch,
     VTabs,
