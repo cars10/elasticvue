@@ -34,6 +34,15 @@ Cypress.Commands.add('connect', () => {
   cy.contains('Node Information').should('exist') // wait until first page is loaded
 })
 
+Cypress.Commands.add('quickConnect', () => {
+  cy.clearLocalStorage()
+  cy.visit('/', {
+    onBeforeLoad: window => {
+      window.localStorage.setItem('elasticvuex', '{"connection":{"wasConnected":true,"elasticsearchHost":"http://localhost:9123"}}')
+    }
+  })
+})
+
 Cypress.Commands.add('cleanupElasticsearch', () => {
   cy.request('DELETE', 'http://localhost:' + Cypress.env('ES_PORT').toString() + '/_all')
 })
@@ -50,6 +59,17 @@ Cypress.Commands.add('catIndices', () => {
   cy.request({
     method: 'GET',
     url: 'http://localhost:' + Cypress.env('ES_PORT').toString() + '/_cat/indices',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    }
+  })
+})
+
+Cypress.Commands.add('flushIndices', () => {
+  return cy.request({
+    method: 'POST',
+    url: 'http://localhost:' + Cypress.env('ES_PORT').toString() + '/_all/_flush',
     headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json'

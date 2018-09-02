@@ -1,6 +1,6 @@
 describe('Footer', () => {
   beforeEach(() => {
-    cy.connect()
+    cy.quickConnect()
   })
 
   describe('theme handling', () => {

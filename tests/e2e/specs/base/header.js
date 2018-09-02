@@ -10,7 +10,7 @@ describe('Header', () => {
     })
 
     it('can reconnect when connected', () => {
-      cy.connect()
+      cy.quickConnect()
       cy.visit('/indices')
       cy.get('#toolbar_host').should('exist')
       cy.get('#toolbar_reconnect_button').click()
@@ -19,7 +19,7 @@ describe('Header', () => {
     })
 
     it('can only reconnect after testing when changing host', () => {
-      cy.connect()
+      cy.quickConnect()
       cy.get('#toolbar_host').clear()
       cy.get('#toolbar_host').type('http://localhost:' + Cypress.env('ES_PORT').toString())
       cy.get('#toolbar_reconnect_button').should('not.exist')
@@ -34,32 +34,31 @@ describe('Header', () => {
   })
 
   describe('menu links', () => {
+    beforeEach(() => {
+      cy.quickConnect()
+    })
+
     it('can navigate to home page', () => {
-      cy.connect()
       cy.get('#navbar_home').click()
       cy.url().should('include', '/')
     })
 
     it('can navigate to indices page', () => {
-      cy.connect()
       cy.get('#navbar_indices').click()
       cy.url().should('include', '/indices')
     })
 
     it('can navigate to search page', () => {
-      cy.connect()
       cy.get('#navbar_search').click()
       cy.url().should('include', '/search')
     })
 
     it('can navigate to query page', () => {
-      cy.connect()
       cy.get('#navbar_query').click()
       cy.url().should('include', '/query')
     })
 
     it('can navigate to utilities page', () => {
-      cy.connect()
       cy.get('#navbar_utilities').click()
       cy.url().should('include', '/utilities')
     })

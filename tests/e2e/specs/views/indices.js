@@ -1,7 +1,7 @@
 describe('Indices page', () => {
   beforeEach(() => {
     cy.cleanupElasticsearch()
-    cy.connect()
+    cy.quickConnect()
   })
 
   describe('managing indices', () => {
@@ -16,9 +16,12 @@ describe('Indices page', () => {
     it('can show indices', () => {
       const indexName = 'name-1'
       cy.createIndex(indexName)
-      cy.get('table').contains(indexName).closest('tr').get('button[title="Show"]').click()
-      cy.url().should('include', '/indices/' + indexName)
-      cy.contains(indexName).should('exist')
+      cy.flushIndices().then(() => {
+        cy.get('table').contains(indexName).closest('tr').get('button[title="Show"]').click()
+        cy.url().should('include', '/indices/' + indexName)
+        cy.contains(indexName).should('exist')
+        cy.contains('mappings').should('exist')
+      })
     })
 
     it('can delete indices', () => {
