@@ -26,10 +26,7 @@ describe('Footer', () => {
       cy.location().should(location => {
         expect(location.pathname).to.eq('/')
       })
-      cy.get('h1', {timeout: 10000}).contains('Setup').then(h1 => {
-        expect(h1).not.to.be.null
-        expect(localStorage.getItem('elasticvuex')).to.be.null
-      })
+      expect(localStorage.getItem('elasticvuex')).to.be.null
     })
 
     it('redirects to base url', () => {
