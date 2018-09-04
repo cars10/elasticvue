@@ -18,10 +18,13 @@ describe('Footer', () => {
 
   describe('reset settings', () => {
     it('does reset localStorage and disconnect', () => {
-      expect(JSON.parse(localStorage.getItem('elasticvuex'))['connection']['wasConnected']).to.be.true
-
+      cy.visit('/indices')
       cy.get('#resetSettings').click()
-      cy.get('#host').then(() => {
+      cy.location().should(location => {
+        expect(location.pathname).to.eq('/')
+      })
+      cy.get('h1', {timeout: 10000}).contains('Setup').then(h1 => {
+        expect(h1).not.to.be.null
         expect(localStorage.getItem('elasticvuex')).to.be.null
       })
     })

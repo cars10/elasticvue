@@ -25,7 +25,6 @@
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
 Cypress.Commands.add('connect', () => {
-  cy.clearLocalStorage()
   cy.visit('/')
   cy.get('#host').clear()
   cy.get('#host').type('http://localhost:' + Cypress.env('ES_PORT').toString())
@@ -35,12 +34,12 @@ Cypress.Commands.add('connect', () => {
 })
 
 Cypress.Commands.add('quickConnect', () => {
-  cy.clearLocalStorage()
   cy.visit('/', {
     onBeforeLoad: window => {
       window.localStorage.setItem('elasticvuex', '{"connection":{"wasConnected":true,"elasticsearchHost":"http://localhost:9123"}}')
     }
   })
+  cy.wait(75)
 })
 
 Cypress.Commands.add('cleanupElasticsearch', () => {
