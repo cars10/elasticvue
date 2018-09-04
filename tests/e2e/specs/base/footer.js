@@ -1,9 +1,8 @@
 describe('Footer', () => {
-  beforeEach(() => {
-    cy.quickConnect()
-  })
-
   describe('theme handling', () => {
+    beforeEach(() => {
+      cy.quickConnect()
+    })
     it('defaults to the dark theme', () => {
       cy.get('#app').should('have.class', 'theme--dark')
     })
@@ -17,6 +16,10 @@ describe('Footer', () => {
   })
 
   describe('reset settings', () => {
+    beforeEach(() => {
+      cy.connect()
+    })
+
     it('does reset localStorage and disconnect', () => {
       cy.visit('/indices')
       cy.get('#resetSettings').click()
