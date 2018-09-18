@@ -2,7 +2,6 @@
   <v-card>
     <v-card-title>
       <h1 class="headline">Search</h1>
-      <reload-button :action="resetIndices" title="Reload indices"/>
     </v-card-title>
     <v-divider/>
 
@@ -27,9 +26,11 @@
                                        v-model="indices"
                                        :items="data.body | sortIndices"
                                        :loading="data.loading"
+                                       append-icon="cached"
                                        multiple
                                        label="Indices"
-                                       name="indices">
+                                       name="indices"
+                                       @click:append="resetIndices">
                   <template slot="item" slot-scope="data">
                     <v-list-tile-action>
                       <v-checkbox :input-value="indices.includes(data.item)" color="primary"/>
@@ -45,7 +46,7 @@
 
           <v-flex lg1>
             <v-flex right>
-              <v-btn type="submit" color="primary">Submit</v-btn>
+              <v-btn type="submit" color="primary">Search</v-btn>
             </v-flex>
           </v-flex>
         </v-layout>

@@ -1,20 +1,20 @@
 import { fuzzyTableFilter } from '@/helpers/filters'
 
 const items = [
-  {name: 'x-wing', type: 'ship'},
-  {name: 'darth vader', type: 'person'},
-  {name: 'milenium falcon', type: 'ship'},
-  {name: 'luke skywalker', type: 'person'},
-  {name: 'tatooine', type: 'location'},
-  {name: 'qui-gon jin', type: 'person'},
-  {name: 'coruscant', type: 'location'},
-  {name: 'yoda', type: 'person'},
-  {name: 'dagobah', type: 'location'},
-  {name: 'starfighter', type: 'ship'}
+  { name: 'x-wing', type: 'ship' },
+  { name: 'darth vader', type: 'person' },
+  { name: 'milenium falcon', type: 'ship' },
+  { name: 'luke skywalker', type: 'person' },
+  { name: 'tatooine', type: 'location' },
+  { name: 'qui-gon jin', type: 'person' },
+  { name: 'coruscant', type: 'location' },
+  { name: 'yoda', type: 'person' },
+  { name: 'dagobah', type: 'location' },
+  { name: 'starfighter', type: 'ship' }
 ]
 const headers = [
-  {value: 'name'},
-  {value: 'type'}
+  { value: 'name' },
+  { value: 'type' }
 ]
 
 describe('helpers/filters.js', () => {

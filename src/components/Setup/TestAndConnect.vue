@@ -38,7 +38,7 @@
       <p class="grey--text">To connect with credentials use http://username:password@host syntax.</p>
     </v-flex>
 
-    <v-flex v-if="testError || connectError" px-3>
+    <v-flex v-if="hasError" px-3>
       <v-alert :value="true" type="error">
         Could not connect. Please make sure that
         <ol class="pl-3">
@@ -61,6 +61,9 @@
     name: 'test-and-connect',
     extends: ConnectBase,
     computed: {
+      hasError () {
+        return this.testError || this.connectError
+      },
       testConnectionColor () {
         return this.testError ? 'error' : 'primary'
       },

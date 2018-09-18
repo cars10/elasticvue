@@ -21,9 +21,6 @@ export const connection = {
       localStorage.removeItem(LOCALSTORAGE_KEY)
       state.wasConnected = false
       state.status = CONNECTION_STATES.ERROR
-    },
-    resetConnection (state) {
-      state.status = CONNECTION_STATES.UNKNOWN
     }
   }
 }

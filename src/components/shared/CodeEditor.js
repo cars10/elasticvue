@@ -51,7 +51,7 @@ export default {
       }
     },
     setupAceEditor () {
-      this.editor = Brace.edit(this.$el, {autoScrollEditorIntoView: true})
+      this.editor = Brace.edit(this.$el, { autoScrollEditorIntoView: true })
       this.$emit('init', this.editor)
       this.editor.getSession().setUseWorker(this.useWorker)
       this.editor.getSession().setMode('ace/mode/json')
@@ -78,7 +78,7 @@ export default {
     } else {
       this.editor.commands.addCommand({
         name: 'externalHandler',
-        bindKey: {win: 'Ctrl+ENTER', mac: 'Command+ENTER', linux: 'Ctrl+ENTER'},
+        bindKey: { win: 'Ctrl+ENTER', mac: 'Command+ENTER', linux: 'Ctrl+ENTER' },
         exec: this.externalHandler
       })
     }
@@ -92,6 +92,6 @@ export default {
     this.editor.container.remove()
   },
   render: function (createElement) {
-    return createElement('div', {attrs: {style: 'height: 100%; width: 100%'}, class: 'bordered'})
+    return createElement('div', { attrs: { style: 'height: 100%; width: 100%' }, class: 'bordered' })
   }
 }

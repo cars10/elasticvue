@@ -1,6 +1,6 @@
 <template>
   <v-dialog v-model="dialog" width="500">
-    <v-btn slot="activator" color="primary">New index</v-btn>
+    <v-btn id="new_index" slot="activator" color="primary">New index</v-btn>
 
     <v-card>
       <v-card-title>
@@ -10,18 +10,18 @@
       <v-divider/>
       <v-card-text>
         <v-form>
-          <v-text-field id="indexName"
+          <v-text-field id="index_name"
                         v-model="indexName"
                         name="indexName"
                         label="Index name"/>
 
-          <v-text-field id="indexShards"
+          <v-text-field id="index_shards"
                         v-model="indexShards"
                         name="indexShards"
                         placeholder="5"
                         label="Number of shards"/>
 
-          <v-text-field id="indexReplicas"
+          <v-text-field id="index_replicas"
                         v-model="indexReplicas"
                         name="indexReplicas"
                         placeholder="1"
@@ -30,7 +30,7 @@
       </v-card-text>
 
       <v-card-actions>
-        <v-btn flat @click="createIndex">Create</v-btn>
+        <v-btn id="create_index" flat @click="createIndex">Create</v-btn>
         <v-btn flat @click="closeDialog">Cancel</v-btn>
       </v-card-actions>
     </v-card>

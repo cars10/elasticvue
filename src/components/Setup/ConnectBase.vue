@@ -12,7 +12,8 @@
         testLoading: false,
         connectLoading: false,
         connectError: false,
-        errorMessage: ''
+        errorMessage: '',
+        hostEqual: true
       }
     },
     computed: {
@@ -24,6 +25,7 @@
           this.testError = false
           this.testSuccess = false
           this.testLoading = false
+          this.hostEqual = false
           this.$store.commit('connection/setElasticsearchHost', value)
         }
       },
@@ -67,12 +69,12 @@
           .then(() => {
             this.connectLoading = false
             this.connectError = false
-            this.showSuccessSnackbar({text: 'Successfully connected.'})
+            this.showSuccessSnackbar({ text: 'Successfully connected.' })
           })
           .catch(() => {
             this.connectLoading = false
             this.connectError = true
-            this.showErrorSnackbar({text: 'Error: could not connect.'})
+            this.showErrorSnackbar({ text: 'Error: could not connect.' })
           })
       },
       connectIfTestSuccessfull () {

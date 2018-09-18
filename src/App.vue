@@ -49,7 +49,6 @@
       rerender () {
         this.renderRouterView = false
         this.$store.commit('search/reset')
-        this.$store.commit('connection/resetConnection')
         this.$nextTick(() => (this.renderRouterView = true))
       }
     }

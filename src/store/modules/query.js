@@ -5,7 +5,7 @@ export const query = {
   state: {
     host: DEFAULT_HOST,
     method: HTTP_METHODS[0],
-    stringifiedParams: JSON.stringify({format: 'json'}, null, '\t'),
+    stringifiedParams: JSON.stringify({ format: 'json' }, null, '\t'),
     stringifiedHeaders: JSON.stringify(REQUEST_DEFAULT_HEADERS, null, '\t')
   },
   mutations: {

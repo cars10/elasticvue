@@ -23,6 +23,7 @@ describe('components/shared/ReloadButton.vue', () => {
     })
 
     expect(wrapper.attributes().title).toEqual('Reload')
+    expect(wrapper.attributes().id).toEqual('reload-button')
     expect(wrapper.html()).not.toBeNull()
   })
 

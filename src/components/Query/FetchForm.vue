@@ -117,7 +117,7 @@
           })
           .catch(error => {
             this.loading = false
-            this.showErrorSnackbar({text: 'Error.', additionalText: error.message})
+            this.showErrorSnackbar({ text: 'Error.', additionalText: error.message })
             this.response = error.message
           })
       },

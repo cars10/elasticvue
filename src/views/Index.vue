@@ -4,7 +4,7 @@
       <v-card>
         <v-card-title>
           <h1 class="headline">Index</h1>
-          <reload-button :action="() => this.$refs.dataLoader.loadData()"/>
+          <reload-button id="reload-indices" :action="() => this.$refs.dataLoader.loadData()"/>
           <back-button :route="{name: 'Indices'}"/>
         </v-card-title>
         <v-divider/>

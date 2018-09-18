@@ -17,7 +17,7 @@ export default class ElasticsearchVersionService {
    * @returns {Promise<version>}
    */
   getRawApiVersion () {
-    return fetch(urlWithoutCredentials(this.host), {headers: buildFetchAuthHeaderFromUrl(this.host)})
+    return fetch(urlWithoutCredentials(this.host), { headers: buildFetchAuthHeaderFromUrl(this.host) })
       .then(response => response.json())
       .then(json => {
         this.apiVersion = json.version.number.slice(0, 3)

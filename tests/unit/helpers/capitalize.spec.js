@@ -8,7 +8,7 @@ describe('helpers/capitalize', () => {
     expect(() => capitalize(true)).toThrow(TypeError)
     expect(() => capitalize(1)).toThrow(TypeError)
     expect(() => capitalize([1])).toThrow(TypeError)
-    expect(() => capitalize({a: 1})).toThrow(TypeError)
+    expect(() => capitalize({ a: 1 })).toThrow(TypeError)
   })
 
   it('returns empty string when called with empty string', () => {

@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.5.0
+
+* adds logo
+* adds e2e specs
+
 ## 0.4.0
 
 * can use authorized clusters (via `username:password@host` syntax)

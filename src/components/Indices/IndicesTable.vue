@@ -97,16 +97,16 @@
       return {
         rows: [],
         headers: [
-          {text: 'index', value: 'index'},
-          {text: 'health', value: 'health'},
-          {text: 'status', value: 'status'},
-          {text: 'uuid', value: 'uuid'},
-          {text: 'pri', value: 'pri', align: 'right'},
-          {text: 'rep', value: 'rep', align: 'right'},
-          {text: 'docs.count', value: 'docs.count', align: 'right'},
-          {text: 'store.size', value: 'store.size', align: 'right'},
-          {text: 'pri.store.size', value: 'pri.store.size', align: 'right'},
-          {text: '', value: 'actions', sortable: false}
+          { text: 'index', value: 'index' },
+          { text: 'health', value: 'health' },
+          { text: 'status', value: 'status' },
+          { text: 'uuid', value: 'uuid' },
+          { text: 'pri', value: 'pri', align: 'right' },
+          { text: 'rep', value: 'rep', align: 'right' },
+          { text: 'docs.count', value: 'docs.count', align: 'right' },
+          { text: 'store.size', value: 'store.size', align: 'right' },
+          { text: 'pri.store.size', value: 'pri.store.size', align: 'right' },
+          { text: '', value: 'actions', sortable: false }
         ]
       }
     },
@@ -126,7 +126,7 @@
       tableClasses () {
         return [
           'table--condensed',
-          {'table--fixed-header': this.stickyTableHeader}
+          { 'table--fixed-header': this.stickyTableHeader }
         ]
       },
       ...mapVuexAccessors('indices', ['filter', 'pagination'])
@@ -161,15 +161,15 @@
       },
       showDocuments (index) {
         this.$store.commit('search/setIndices', [index]) // to pre-select right index on "Search" page
-        this.$router.push({name: 'Search', params: {executeSearch: true}})
+        this.$router.push({ name: 'Search', params: { executeSearch: true } })
       },
       openIndex (index) {
-        this.$router.push({name: 'Index', params: {index: index}})
+        this.$router.push({ name: 'Index', params: { index: index } })
       },
       deleteIndex (index) {
         if (confirm('Are you sure? This will remove ALL data in your index!')) {
           this.getElasticsearchAdapter()
-            .then(adapter => adapter.indicesDelete({index}))
+            .then(adapter => adapter.indicesDelete({ index }))
             .then(body => {
               this.$emit('reloadIndices')
               this.showSuccessSnackbar({

@@ -1,7 +1,7 @@
 <template>
   <v-form class="d-flex align-center" @submit.prevent="testConnection">
     <v-toolbar-items class="mr-2">
-      <v-text-field id="toolbarHost"
+      <v-text-field id="toolbar_host"
                     v-model="elasticsearchHost"
                     title="Host"
                     label="Host"
@@ -12,19 +12,22 @@
                     @keyup.ctrl.enter="connectAndEmitHostChangedIfTestSuccess"
                     @click:append="resetElasticsearchHost"/>
     </v-toolbar-items>
-    <v-btn :loading="testLoading"
+    <v-btn id="toolbar_test_connection_button"
+           :loading="testLoading"
            :disabled="hostValid !== true"
            type="submit">
       Test connection
     </v-btn>
 
-    <v-btn v-if="isConnected && testSuccess"
+    <v-btn v-if="isConnected && testSuccess && hostEqual"
+           id="toolbar_reconnect_button"
            :loading="connectLoading"
            type="button"
            @click.native="connectAndEmitHostChangedIfTestSuccess">
       Reconnect
     </v-btn>
     <v-btn v-else
+           id="toolbar_connect_button"
            :disabled="!testSuccess"
            :loading="connectLoading"
            type="button"
@@ -59,13 +62,14 @@
         this.connectWithServer()
           .then(() => {
             this.connectLoading = false
-            this.showSuccessSnackbar({text: 'Successfully connected.'})
+            this.hostEqual = true
+            this.showSuccessSnackbar({ text: 'Successfully connected.' })
             this.$emit('hostChanged')
           })
           .catch(error => {
             this.connectLoading = false
             this.$store.commit('connection/setErrorState', error)
-            this.showErrorSnackbar({text: 'Error: could not connect.'})
+            this.showErrorSnackbar({ text: 'Error: could not connect.' })
           })
       }
     }

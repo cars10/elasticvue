@@ -12,7 +12,7 @@ describe('components/shared/CodeEditor.vue', () => {
     localVue = createLocalVue()
     localVue.use(Vuex)
     store = new Vuex.Store({
-      modules: {theme}
+      modules: { theme }
     })
   })
 

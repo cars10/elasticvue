@@ -34,7 +34,7 @@
       },
       methodParams () {
         let params = this.params
-        return {index: params.index, type: params.type, id: params.id}
+        return { index: params.index, type: params.type, id: params.id }
       }
     }
   }

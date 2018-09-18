@@ -13,8 +13,8 @@ export function fuzzyTableFilter (items, search, headers) {
 
     if (query.trim() === '') return items
 
-    return Fuzzysort.go(query, items, {key: column, allowTypo: false}).map(i => i.obj)
+    return Fuzzysort.go(query, items, { key: column, allowTypo: false }).map(i => i.obj)
   } else {
-    return Fuzzysort.go(search, items, {keys: props, allowTypo: false}).map(i => i.obj)
+    return Fuzzysort.go(search, items, { keys: props, allowTypo: false }).map(i => i.obj)
   }
 }

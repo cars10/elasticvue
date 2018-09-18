@@ -2,7 +2,7 @@
   <v-list-tile>
     <v-list-tile-content>{{text}}</v-list-tile-content>
     <v-list-tile-action>
-      <v-btn :loading="loading" :color="color" @click.native="confirmMethod">Run</v-btn>
+      <v-btn :id="name" :loading="loading" :color="color" @click.native="confirmMethod">Run</v-btn>
     </v-list-tile-action>
   </v-list-tile>
 </template>
@@ -26,6 +26,10 @@
       },
       confirmMessage: {
         default: '',
+        type: String
+      },
+      name: {
+        default: 'utility',
         type: String
       }
     },
@@ -58,12 +62,12 @@
           .then(body => {
             this.loading = false
             this.error = false
-            this.showSuccessSnackbar({text: 'Success', additionalText: JSON.stringify(body)})
+            this.showSuccessSnackbar({ text: 'Success', additionalText: JSON.stringify(body) })
           })
           .catch(error => {
             this.loading = false
             this.error = true
-            this.showErrorSnackbar({text: 'Error', additionalText: JSON.stringify(error)})
+            this.showErrorSnackbar({ text: 'Error', additionalText: JSON.stringify(error) })
           })
       }
     }
