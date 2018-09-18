@@ -18,7 +18,7 @@
         return [
           'elevation-1',
           'btn-group',
-          {'btn-group--small': this.small}
+          { 'btn-group--small': this.small }
         ]
       }
     }

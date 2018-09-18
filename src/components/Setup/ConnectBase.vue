@@ -69,12 +69,12 @@
           .then(() => {
             this.connectLoading = false
             this.connectError = false
-            this.showSuccessSnackbar({text: 'Successfully connected.'})
+            this.showSuccessSnackbar({ text: 'Successfully connected.' })
           })
           .catch(() => {
             this.connectLoading = false
             this.connectError = true
-            this.showErrorSnackbar({text: 'Error: could not connect.'})
+            this.showErrorSnackbar({ text: 'Error: could not connect.' })
           })
       },
       connectIfTestSuccessfull () {

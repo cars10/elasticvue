@@ -22,11 +22,11 @@ describe('components/shared/ResizableContainer.vue', () => {
   })
 
   it('should render correct default contents', () => {
-    const wrapper = mount(ResizableContainer, {localVue})
-    const resizedWrapper = wrapper.find({ref: 'resizedWrapper'})
+    const wrapper = mount(ResizableContainer, { localVue })
+    const resizedWrapper = wrapper.find({ ref: 'resizedWrapper' })
     const initialHeight = wrapper.props().initialHeight
 
-    expect(wrapper.find({ref: 'resizedWrapper'}).html()).not.toBeNull()
+    expect(wrapper.find({ ref: 'resizedWrapper' }).html()).not.toBeNull()
     expect(resizedWrapper.element.style.height).toEqual(`${initialHeight}px`)
   })
 
@@ -38,7 +38,7 @@ describe('components/shared/ResizableContainer.vue', () => {
         initialHeight: height
       }
     })
-    const resizedWrapper = wrapper.find({ref: 'resizedWrapper'})
+    const resizedWrapper = wrapper.find({ ref: 'resizedWrapper' })
     expect(resizedWrapper.element.style.height).toEqual(`${height}px`)
   })
 
@@ -48,7 +48,7 @@ describe('components/shared/ResizableContainer.vue', () => {
       attachToDocument: true
     })
     const handler = wrapper.find('div.resizable-container__vertical-handler')
-    const resizedWrapper = wrapper.find({ref: 'resizedWrapper'})
+    const resizedWrapper = wrapper.find({ ref: 'resizedWrapper' })
 
     const startY = 0
     const endY = 100
@@ -56,8 +56,8 @@ describe('components/shared/ResizableContainer.vue', () => {
     const initialHeight = wrapper.props().initialHeight
     const expectedHeight = initialHeight + distance
 
-    handler.trigger('mousedown', {pageY: startY})
-    handler.trigger('mousemove', {pageY: endY})
+    handler.trigger('mousedown', { pageY: startY })
+    handler.trigger('mousemove', { pageY: endY })
     handler.trigger('mouseup')
     expect(resizedWrapper.element.style.height).toEqual(`${expectedHeight}px`)
   })
@@ -68,7 +68,7 @@ describe('components/shared/ResizableContainer.vue', () => {
       attachToDocument: true
     })
     const handler = wrapper.find('div.resizable-container__vertical-handler')
-    const resizedWrapper = wrapper.find({ref: 'resizedWrapper'})
+    const resizedWrapper = wrapper.find({ ref: 'resizedWrapper' })
 
     const startY = 100
     const endY = 0
@@ -76,8 +76,8 @@ describe('components/shared/ResizableContainer.vue', () => {
     const initialHeight = wrapper.props().initialHeight
     const notExpectedHeight = initialHeight + distance
 
-    handler.trigger('mousedown', {pageY: startY})
-    handler.trigger('mousemove', {pageY: endY})
+    handler.trigger('mousedown', { pageY: startY })
+    handler.trigger('mousemove', { pageY: endY })
     handler.trigger('mouseup')
     expect(resizedWrapper.element.style.height).not.toEqual(`${notExpectedHeight}px`)
     expect(resizedWrapper.element.style.height).toEqual(`${initialHeight}px`)

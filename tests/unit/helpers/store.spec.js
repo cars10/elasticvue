@@ -21,7 +21,7 @@ describe('helpers/mapVuexAccessors', () => {
 
   describe('creates correct output without namespace', () => {
     it('returns a correct object when called with states object', () => {
-      const states = {search: 'setSearch'}
+      const states = { search: 'setSearch' }
       const expected = {
         search: {
           get () {
@@ -60,7 +60,7 @@ describe('helpers/mapVuexAccessors', () => {
       const namespace = 'search'
       const state = 'filter'
       const stateUpcase = 'Filter'
-      const states = {[state]: `set${stateUpcase}`}
+      const states = { [state]: `set${stateUpcase}` }
       const expected = {
         [state]: {
           get () {

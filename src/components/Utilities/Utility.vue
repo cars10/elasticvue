@@ -62,12 +62,12 @@
           .then(body => {
             this.loading = false
             this.error = false
-            this.showSuccessSnackbar({text: 'Success', additionalText: JSON.stringify(body)})
+            this.showSuccessSnackbar({ text: 'Success', additionalText: JSON.stringify(body) })
           })
           .catch(error => {
             this.loading = false
             this.error = true
-            this.showErrorSnackbar({text: 'Error', additionalText: JSON.stringify(error)})
+            this.showErrorSnackbar({ text: 'Error', additionalText: JSON.stringify(error) })
           })
       }
     }

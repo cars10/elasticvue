@@ -24,6 +24,7 @@ describe('Footer', () => {
         expect(table).to.contain('No data available')
       })
       cy.get('#resetSettings').click()
+      cy.wait(250)
       cy.location().should(location => {
         expect(location.pathname).to.eq('/')
         expect(localStorage.getItem('elasticvuex')).to.be.null

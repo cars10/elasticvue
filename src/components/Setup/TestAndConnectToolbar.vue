@@ -63,13 +63,13 @@
           .then(() => {
             this.connectLoading = false
             this.hostEqual = true
-            this.showSuccessSnackbar({text: 'Successfully connected.'})
+            this.showSuccessSnackbar({ text: 'Successfully connected.' })
             this.$emit('hostChanged')
           })
           .catch(error => {
             this.connectLoading = false
             this.$store.commit('connection/setErrorState', error)
-            this.showErrorSnackbar({text: 'Error: could not connect.'})
+            this.showErrorSnackbar({ text: 'Error: could not connect.' })
           })
       }
     }

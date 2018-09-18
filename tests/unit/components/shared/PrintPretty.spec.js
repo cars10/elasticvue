@@ -29,12 +29,12 @@ describe('components/shared/PrintPretty.vue', () => {
       }
     })
     store = new Vuex.Store({
-      modules: {theme}
+      modules: { theme }
     })
   })
 
   it('should render correct default contents', () => {
-    const wrapper = mount(PrintPretty, {localVue, store})
+    const wrapper = mount(PrintPretty, { localVue, store })
     expect(wrapper.find('div > div').element.style.height).toEqual(`${wrapper.vm.initialHeight}px`)
   })
 

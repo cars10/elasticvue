@@ -12,7 +12,7 @@ export default class ConnectionService {
       let client = await this.buildClient()
       let adapter = new ElasticsearchAdapter(client)
       await adapter.ping()
-      await adapter.search({size: 0})
+      await adapter.search({ size: 0 })
       return Promise.resolve(adapter)
     } catch (e) {
       return Promise.reject(e)

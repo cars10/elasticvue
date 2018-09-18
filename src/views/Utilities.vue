@@ -81,7 +81,7 @@
             {
               text: 'Create twitter index and add 100 tweets',
               method: 'bulk',
-              methodParams: {body: data}
+              methodParams: { body: data }
             }
           ],
           delete: [
@@ -89,20 +89,20 @@
               text: 'Delete all indices',
               confirmMessage: 'Are you sure? This will delete ALL data in your cluster!',
               method: 'indicesDelete',
-              methodParams: {index: '_all'}
+              methodParams: { index: '_all' }
             }
           ],
           misc: [
             {
               text: 'Flush all indices to disk',
               method: 'indicesFlush',
-              methodParams: {index: '_all'}
+              methodParams: { index: '_all' }
             },
             {
               text: 'Set all indices to writable',
               method: 'indicesPutSettings',
               methodParams: {
-                index: '_all', body: {'index': {'blocks': {'read_only_allow_delete': 'false'}}}
+                index: '_all', body: { 'index': { 'blocks': { 'read_only_allow_delete': 'false' } } }
               }
             }
           ]

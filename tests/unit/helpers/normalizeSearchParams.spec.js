@@ -11,7 +11,7 @@ describe('helpers/normalizeSearchParams', () => {
   })
 
   it('normalizes correctly when some params are missing', () => {
-    const params = {q: 'query', size: '3'}
+    const params = { q: 'query', size: '3' }
     const expected = {
       q: 'query',
       from: DEFAULT_SEARCH_PARAMS.from,

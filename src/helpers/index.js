@@ -42,9 +42,9 @@ export function buildFetchAuthHeaderFromUrl (url) {
   if (url.includes('@')) {
     let credentials = url.match(/https?:\/\/(.*(:.*)?)@/)[1].split(':')
     if (credentials.length === 2) {
-      return {'Authorization': 'Basic ' + Buffer.from(credentials[0] + ':' + credentials[1]).toString('base64')}
+      return { 'Authorization': 'Basic ' + Buffer.from(credentials[0] + ':' + credentials[1]).toString('base64') }
     } else {
-      return {'Authorization': 'Basic ' + Buffer.from(credentials[0]).toString('base64')}
+      return { 'Authorization': 'Basic ' + Buffer.from(credentials[0]).toString('base64') }
     }
   } else {
     return {}

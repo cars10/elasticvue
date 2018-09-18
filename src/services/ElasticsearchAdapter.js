@@ -16,7 +16,7 @@ export default class ElasticsearchAdapter {
     // use async/await here because chaining both methods leads to weird error handling
     try {
       await this.ping()
-      await this.search({size: 0})
+      await this.search({ size: 0 })
       return Promise.resolve(true)
     } catch (error) {
       return Promise.reject(error)
@@ -154,10 +154,10 @@ export default class ElasticsearchAdapter {
    */
   async createIndices (words) {
     for (let word of [...new Set(words)]) {
-      await this.indicesExists({index: word})
+      await this.indicesExists({ index: word })
         .then(exists => {
           if (!exists) {
-            this.indicesCreate({index: word})
+            this.indicesCreate({ index: word })
           }
         })
     }

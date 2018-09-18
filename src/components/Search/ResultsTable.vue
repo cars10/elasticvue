@@ -87,7 +87,7 @@
         return this.mappings.filter(k => this.selectedMappings.includes(k))
       },
       headers () {
-        return this.filteredMappings.map(value => ({text: value, value: value}))
+        return this.filteredMappings.map(value => ({ text: value, value: value }))
       },
       stickyTableHeader: {
         get () {
@@ -101,7 +101,7 @@
       tableClasses () {
         return [
           'table--condensed',
-          {'table--fixed-header': this.stickyTableHeader}
+          { 'table--fixed-header': this.stickyTableHeader }
         ]
       },
       ...mapVuexAccessors('search', ['filter', 'pagination', 'selectedMappings', 'mappings'])
@@ -124,7 +124,7 @@
     },
     methods: {
       openDocument (item) {
-        this.$router.push({name: 'Document', params: {index: item._index, type: item._type, id: item._id}})
+        this.$router.push({ name: 'Document', params: { index: item._index, type: item._type, id: item._id } })
       },
       callFuzzyTableFilter (items, search, filter, headers) {
         return fuzzyTableFilter(items, search, headers)
