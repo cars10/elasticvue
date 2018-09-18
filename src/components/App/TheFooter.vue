@@ -10,7 +10,6 @@
       <v-flex xs4 text-xs-center>
         <div class="subheading">Elasticvue {{version}}</div>
         &copy;{{ new Date().getFullYear()}} - Carsten K&ouml;nig<br>
-        <a class="mt-2 d-inline-block" href="mailto:carstenkoenig92@gmail.com">carstenkoenig92@gmail.com</a><br>
       </v-flex>
 
       <v-flex xs4>
@@ -26,6 +25,7 @@
 
 <script>
   import { mapVuexAccessors } from '../../helpers/store'
+  import { LOCALSTORAGE_KEY } from '../../consts'
 
   export default {
     name: 'app-footer',
@@ -38,7 +38,7 @@
     },
     methods: {
       reset () {
-        localStorage.clear()
+        localStorage.removeItem(LOCALSTORAGE_KEY)
         window.location.replace('/')
       }
     }

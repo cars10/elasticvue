@@ -36,10 +36,12 @@ Cypress.Commands.add('connect', () => {
 Cypress.Commands.add('quickConnect', () => {
   cy.visit('/', {
     onBeforeLoad: window => {
+      window.localStorage.clear()
       window.localStorage.setItem('elasticvuex', '{"connection":{"wasConnected":true,"elasticsearchHost":"http://localhost:9123"}}')
     }
   })
-  cy.wait(75)
+  cy.visit('/')
+  cy.contains('cluster_uuid').should('exist')
 })
 
 Cypress.Commands.add('cleanupElasticsearch', () => {
@@ -66,7 +68,7 @@ Cypress.Commands.add('catIndices', () => {
 })
 
 Cypress.Commands.add('flushIndices', () => {
-  return cy.request({
+  cy.request({
     method: 'POST',
     url: 'http://localhost:' + Cypress.env('ES_PORT').toString() + '/_all/_flush',
     headers: {

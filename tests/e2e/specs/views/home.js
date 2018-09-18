@@ -1,6 +1,6 @@
 describe('Home page', () => {
   beforeEach(() => {
-    cy.quickConnect()
+    cy.connect()
   })
 
   describe('node information', () => {
