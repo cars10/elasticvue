@@ -218,7 +218,6 @@ Current TODOs, more ore less ordered by importance.
 
 ### Features
 
-* add logo
 * data import/export
 * save *all* settings in local storage? add settings overview page?
 * firefox addon?
