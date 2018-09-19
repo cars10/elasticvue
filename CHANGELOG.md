@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.0
+
+* fix chrome extension build script
+
 ## 0.5.0
 
 * adds logo

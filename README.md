@@ -209,7 +209,6 @@ Building the chrome extension
 
 ```bash
 yarn build_chrome_extension 
-zip -r elasticvue.zip chrome_extension/*
 ```
 
 ## TODO
