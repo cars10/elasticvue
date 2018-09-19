@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-yarn build
+npx vue-cli-service build
 
 # make chrome extension
 rm -rf chrome_extension/index.html chrome_extension/assets
