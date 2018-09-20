@@ -1,6 +1,6 @@
 <template>
   <div class="settings-dropdown">
-    <v-btn class="mt-0" icon @click.native="toggleMenu">
+    <v-btn icon @click.native="toggleMenu">
       <v-badge :value="badge" color="green" overlap>
         <v-icon slot="badge" small>filter_list</v-icon>
         <v-icon>settings</v-icon>

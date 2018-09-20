@@ -12,6 +12,7 @@
                         class="mt-0"
                         title="Filter via 'column:query'"
                         autofocus
+                        hide-details
                         @keyup.esc="filter = ''"/>
 
           <settings-dropdown>

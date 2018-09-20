@@ -11,6 +11,7 @@
                         label="Filter..."
                         name="filter"
                         class="mt-0"
+                        hide-details
                         @keyup.esc="filter = ''"/>
 
           <settings-dropdown :badge="mappings.length > filteredMappings.length">
