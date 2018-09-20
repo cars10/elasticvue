@@ -120,6 +120,8 @@ index:myQuery # only search the "index" column for "myQuery"
 
 ## Comparing with other frontends
 
+This is a list of some similar tools with some pros and cons to compare them to elasticvue. Please open an issue if you think an important tool or point is missing (or wrong).
+
 ### [elasticsearch-head](https://github.com/mobz/elasticsearch-head)
 
 pros 
@@ -161,17 +163,31 @@ cons
 
 * very complex and (in my experience) hard to use
 
+### [cerebro](https://github.com/lmenezes/cerebro)
+
+pros
+
+* great ui
+* cluster oriented: offers everything you need to manage your cluster settings
+
+cons
+
+* no easy way to browse your documents (only offers manual rest calls, no table views)
+* java dependency
+
 
 ### elasticvue
 
 Elasticvue tries to solve most of the *cons* mentioned above. Namely:
 
-* dark theme!
-* actively maintained and all deployment methods work with the latest versions of elasticsearch
-* tries to be as small as possible. (the chrome extension for example is < 1mb, docker image is half the size of dejavu)
-* handles errors and shows help and explanation for users, making it easier to use
-* has all features needed to browse a big table of data (pagination, sorting, filtering, sticky table headers, ..)
-* shows basic cluster information and provides an interface to run any query against your cluster
+* Elasticvue is "document oriented" rather then "cluster oriented":
+  * You can browse your documents in a table
+  * It has all features needed to browse a big dataset (pagination, sorting, filtering, sticky table headers, ..)
+* It is actively maintained and all deployment methods work with the latest versions of elasticsearch
+* It tries to be as small as possible. (the chrome extension for example is < 1mb, docker image is half the size of dejavu)
+* It handles errors and shows help and explanation for users, making it easier to use.
+* It also shows basic cluster information and provides an interface to run any custom query against your cluster
+* Dark and light theme
 
 ## Development
 
@@ -209,7 +225,6 @@ Building the chrome extension
 
 ```bash
 yarn build_chrome_extension 
-zip -r elasticvue.zip chrome_extension/*
 ```
 
 ## TODO
