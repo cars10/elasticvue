@@ -17,7 +17,7 @@ describe('Footer', () => {
     })
   })
 
-  describe('reset settings', () => {
+  /* describe('reset settings', () => {
     it('does reset localStorage and disconnect', () => {
       cy.visit('/indices')
       cy.get('table').should(table => {
@@ -40,5 +40,5 @@ describe('Footer', () => {
         expect(location.pathname).to.eq('/')
       })
     })
-  })
+  }) */
 })
