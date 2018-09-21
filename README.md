@@ -144,6 +144,7 @@ pros
 * maintained
 * import/export of data
 * great query builder and filter options
+* shows your documents in a table
 
 cons
 
@@ -162,6 +163,7 @@ pros
 cons
 
 * very complex and (in my experience) hard to use
+* cannot show your documents in a table (as far as i know)
 
 ### [cerebro](https://github.com/lmenezes/cerebro)
 
