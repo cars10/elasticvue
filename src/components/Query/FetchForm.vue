@@ -35,7 +35,9 @@
         </v-flex>
       </v-layout>
 
-      <v-btn :disabled="!isValid" :loading="loading" type="submit" color="primary" class="mx-0">Execute query</v-btn>
+      <v-btn id="execute_query" :disabled="!isValid" :loading="loading" type="submit" color="primary" class="mx-0">
+        Execute query
+      </v-btn>
     </v-form>
 
     <h2 class="subheading mt-4">Response</h2>

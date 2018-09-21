@@ -34,6 +34,7 @@
     "babel-jest": "^23.0.1",
     "favicons-webpack-plugin": "^0.0.9",
     "node-sass": "^4.9.0",
+    "puppeteer": "^1.8.0",
     "sass-loader": "^7.0.1",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",
