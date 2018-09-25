@@ -235,6 +235,10 @@ Current TODOs, more ore less ordered by importance.
 
 ### Features
 
+* snapshot management
+* nodes overview
+* show system resources
+
 * data import/export
 * save *all* settings in local storage? add settings overview page?
 * firefox addon?
