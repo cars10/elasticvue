@@ -2168,6 +2168,15 @@ babel-loader@8.0.2, babel-loader@^8.0.0-0:
     mkdirp "^0.5.1"
     util.promisify "^1.0.0"
 
+babel-loader@^8.0.4:
+  version "8.0.4"
+  resolved "https://registry.yarnpkg.com/babel-loader/-/babel-loader-8.0.4.tgz#7bbf20cbe4560629e2e41534147692d3fecbdce6"
+  dependencies:
+    find-cache-dir "^1.0.0"
+    loader-utils "^1.0.2"
+    mkdirp "^0.5.1"
+    util.promisify "^1.0.0"
+
 babel-messages@^6.23.0:
   version "6.23.0"
   resolved "https://registry.yarnpkg.com/babel-messages/-/babel-messages-6.23.0.tgz#f3cdf4703858035b2a2951c6ec5edf6c62f2630e"
@@ -9855,8 +9864,8 @@ vue@^2.5.16:
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.5.17.tgz#0f8789ad718be68ca1872629832ed533589c6ada"
 
 vuetify@^1.2.0:
-  version "1.2.4"
-  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-1.2.4.tgz#b03a634791b1627e7aab89ed4651a5cd1ea2f211"
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-1.2.5.tgz#91578367709b20e406f2cdc7a164dfd70df954d9"
 
 vuex-persistedstate@^2.5.4:
   version "2.5.4"
