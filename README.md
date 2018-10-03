@@ -235,6 +235,9 @@ Current TODOs, more ore less ordered by importance.
 
 ### Features
 
+* show views modal
+* reload button timer
+
 * snapshot management
 * nodes overview
 * show system resources

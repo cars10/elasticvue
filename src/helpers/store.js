@@ -8,15 +8,15 @@ import { capitalize } from './'
  * Alternatively pass an array of strings for states, this will generate {yourstring: setYourstring}
  *
  * @example
- *  genStateAccessors('search', {filter: 'setFilter'})
+ *  mapVuexAccessors('search', {filter: 'setFilter'})
  *  // is the same as:
- *  genStateAccessors('search', ['filter'])
+ *  mapVuexAccessors('search', ['filter'])
  * @usage
  *  use in combination with the spread operator ... in your computed properties:
  *  ...,
  *  computed () {
  *    something () {//..},
- *    ...genStateAccessors('search', {filter: 'setFilter'})
+ *    ...mapVuexAccessors('search', {filter: 'setFilter'})
  *  },
  *  ...
  * @param namespace (optional)

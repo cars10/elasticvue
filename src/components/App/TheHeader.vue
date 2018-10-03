@@ -15,6 +15,7 @@
 
     <v-toolbar-items>
       <v-btn id="navbar_home" flat to="/" exact>Home</v-btn>
+      <v-btn id="navbar_nodes" flat to="/nodes">Nodes</v-btn>
       <v-btn id="navbar_indices" flat to="/indices">Indices</v-btn>
       <v-btn id="navbar_search" flat to="/search">Search</v-btn>
       <v-btn id="navbar_query" flat to="/query">Query</v-btn>

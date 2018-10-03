@@ -4,9 +4,11 @@ import VApp from 'vuetify/es5/components/VApp'
 import VAutocomplete from 'vuetify/es5/components/VAutocomplete'
 import VBadge from 'vuetify/es5/components/VBadge'
 import VBtn from 'vuetify/es5/components/VBtn'
+import VBtnToggle from 'vuetify/es5/components/VBtnToggle'
 import VCard from 'vuetify/es5/components/VCard'
 import VCheckbox from 'vuetify/es5/components/VCheckbox'
 import VChip from 'vuetify/es5/components/VChip'
+import VDataIterator from 'vuetify/es5/components/VDataIterator'
 import VDataTable from 'vuetify/es5/components/VDataTable'
 import VDialog from 'vuetify/es5/components/VDialog'
 import VDivider from 'vuetify/es5/components/VDivider'
@@ -34,9 +36,11 @@ Vue.use(Vuetify, {
     VAutocomplete,
     VBadge,
     VBtn,
+    VBtnToggle,
     VCard,
     VCheckbox,
     VChip,
+    VDataIterator,
     VDataTable,
     VDialog,
     VDivider,

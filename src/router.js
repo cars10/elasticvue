@@ -7,6 +7,7 @@ import Indices from '@/views/Indices'
 import Index from '@/views/Index'
 import Utilities from '@/views/Utilities'
 import Query from '@/views/Query'
+import Nodes from '@/views/Nodes'
 
 Vue.use(Router)
 
@@ -17,6 +18,11 @@ export default new Router({
       path: '/',
       name: 'Home',
       component: Home
+    },
+    {
+      path: '/nodes',
+      name: 'Nodes',
+      component: Nodes
     },
     {
       path: '/indices',

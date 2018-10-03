@@ -10,6 +10,7 @@ export const plugins = [
       'theme',
       'query',
       'indices',
+      'nodes',
       'search.pagination',
       'search.stickyTableHeader',
       'search.indices',

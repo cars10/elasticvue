@@ -118,6 +118,15 @@ export default class ElasticsearchAdapter {
   }
 
   /**
+   * Cat nodes
+   * @param params
+   * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-cat-nodes
+   */
+  catNodes (params) {
+    return this.client.cat.nodes(Object.assign({}, REQUEST_DEFAULT_BODY, params))
+  }
+
+  /**
    * Get a document
    * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-get
    * @param params
