@@ -10,7 +10,7 @@
       <template slot="items" slot-scope="props">
         <tr>
           <td>
-            <node-icons :elasticsearch-node="props.item" />
+            <node-icons :elasticsearch-node="props.item"/>
           </td>
           <td>{{props.item.name}}</td>
           <td>{{props.item.ip}}</td>
@@ -20,19 +20,32 @@
             <span v-else>no</span>
           </td>
           <td>{{props.item.nodeRole}}</td>
-          <td>
-            {{props.item.ramPercent}}%
-            <v-progress-linear :value="props.item.ramPercent" height="3" class="my-0"/>
-          </td>
-          <td>
-            {{props.item.heapPercent}}%
-            <v-progress-linear :value="props.item.heapPercent" height="3" class="my-0"/>
-          </td>
+          <td>{{props.item.load_1m}} / {{props.item.load_5m}} / {{props.item.load_15m}}</td>
           <td>
             {{props.item.cpu}}%
-            <v-progress-linear :value="props.item.cpu" height="3" class="my-0"/>
+            <v-progress-linear :value="props.item.cpu" height="3" class="mt-1 mb-0"/>
           </td>
-          <td>{{props.item.load_1m}} / {{props.item.load_5m}} / {{props.item.load_15m}}</td>
+          <td>
+            <v-flex d-inline-flex>
+              <small>{{props.item.ramCurrent}}/{{props.item.ramMax}}</small>
+            </v-flex>
+            <v-flex d-inline-flex right>{{props.item.ramPercent}}%</v-flex>
+            <node-percent-bar :value="props.item.ramPercent" classes="mt-1 mb-0"/>
+          </td>
+          <td>
+            <v-flex d-inline-flex>
+              <small>{{props.item.heapCurrent}}/{{props.item.heapMax}}</small>
+            </v-flex>
+            <v-flex d-inline-flex right>{{props.item.heapPercent}}%</v-flex>
+            <node-percent-bar :value="props.item.heapPercent" classes="mt-1 mb-0"/>
+          </td>
+          <td>
+            <v-flex d-inline-flex>
+              <small>{{props.item.diskCurrent}}/{{props.item.diskMax}}</small>
+            </v-flex>
+            <v-flex d-inline-flex right>{{props.item.diskPercent}}%</v-flex>
+            <node-percent-bar :value="props.item.diskPercent" classes="mt-1 mb-0"/>
+          </td>
         </tr>
       </template>
     </v-data-table>
@@ -44,11 +57,13 @@
   import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
   import { fuzzyTableFilter } from '../../helpers/filters'
   import NodeIcons from '@/components/Nodes/NodeIcons'
+  import NodePercentBar from '@/components/Nodes/NodePercentBar'
 
   export default {
     name: 'nodes-table',
     components: {
-      NodeIcons
+      NodeIcons,
+      NodePercentBar
     },
     props: {
       items: {
@@ -74,10 +89,11 @@
           { text: 'ip', value: 'ip' },
           { text: 'master', value: 'master' },
           { text: 'node.role', value: 'nodeRole' },
+          { text: 'load', value: 'load_1m' },
+          { text: 'cpu', value: 'cpu' },
           { text: 'ram', value: 'ramPercent' },
           { text: 'heap', value: 'heapPercent' },
-          { text: 'cpu', value: 'cpu' },
-          { text: 'load', value: 'load_1m' }
+          { text: 'disk', value: 'diskPercent' }
         ]
       }
     },

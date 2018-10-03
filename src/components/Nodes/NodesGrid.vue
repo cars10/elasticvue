@@ -4,7 +4,7 @@
                    content-tag="v-layout"
                    row
                    wrap>
-    <v-flex slot="item" slot-scope="props" xs12 sm6 md4 lg4 xl3>
+    <v-flex slot="item" slot-scope="props" xs12 sm6 md4 lg4>
       <v-card>
         <v-card-title>
           <h3>{{ props.item.name }}</h3>
@@ -35,40 +35,51 @@
                 <v-list-tile-content>node.role</v-list-tile-content>
                 <v-list-tile-content class="align-end">{{ props.item.nodeRole }}</v-list-tile-content>
               </v-list-tile>
-            </v-list>
-          </v-flex>
-
-          <v-flex xs12 sm6 d-flex>
-            <v-list dense>
-              <v-list-tile>
-                <v-list-tile-content>ram</v-list-tile-content>
-                <v-list-tile-content class="align-end">
-                  {{ props.item.ramPercent }}%
-                  <v-progress-linear :value="props.item.ramPercent" height="3" class="my-0"/>
-                </v-list-tile-content>
-              </v-list-tile>
-
-              <v-list-tile>
-                <v-list-tile-content>heap</v-list-tile-content>
-                <v-list-tile-content class="align-end">
-                  {{ props.item.heapPercent }}%
-                  <v-progress-linear :value="props.item.heapPercent" height="3" class="my-0"/>
-                </v-list-tile-content>
-              </v-list-tile>
-
-              <v-list-tile>
-                <v-list-tile-content>cpu</v-list-tile-content>
-                <v-list-tile-content class="align-end">
-                  {{ props.item.cpu }}%
-                  <v-progress-linear :value="props.item.cpu" height="3" class="my-0"/>
-                </v-list-tile-content>
-              </v-list-tile>
 
               <v-list-tile>
                 <v-list-tile-content>load</v-list-tile-content>
                 <v-list-tile-content class="align-end">
                   {{props.item.load_1m}} / {{props.item.load_5m}} / {{props.item.load_15m}}
                 </v-list-tile-content>
+              </v-list-tile>
+            </v-list>
+          </v-flex>
+
+          <v-flex xs12 sm6 d-flex>
+            <v-list dense>
+              <v-list-tile>
+                <v-list-tile-action>cpu</v-list-tile-action>
+                <v-list-tile-content>
+                  <v-progress-linear :value="props.item.cpu" height="4" class="my-0"/>
+                </v-list-tile-content>
+                <v-list-tile-action>{{ props.item.cpu }}%</v-list-tile-action>
+              </v-list-tile>
+
+              <v-list-tile>
+                <v-list-tile-action>ram</v-list-tile-action>
+                <v-list-tile-content class="align-en">
+                  <small>{{props.item.ramCurrent}}/{{props.item.ramMax}}</small>
+                  <node-percent-bar :value="props.item.ramPercent" />
+                </v-list-tile-content>
+                <v-list-tile-action>{{ props.item.ramPercent }}%</v-list-tile-action>
+              </v-list-tile>
+
+              <v-list-tile>
+                <v-list-tile-action>heap</v-list-tile-action>
+                <v-list-tile-content>
+                  <small>{{props.item.heapCurrent}}/{{props.item.heapMax}}</small>
+                  <node-percent-bar :value="props.item.heapPercent" />
+                </v-list-tile-content>
+                <v-list-tile-action>{{ props.item.heapPercent }}%</v-list-tile-action>
+              </v-list-tile>
+
+              <v-list-tile>
+                <v-list-tile-action>disk</v-list-tile-action>
+                <v-list-tile-content>
+                  <small>{{props.item.diskCurrent}}/{{props.item.diskMax}}</small>
+                  <node-percent-bar :value="props.item.diskPercent" />
+                </v-list-tile-content>
+                <v-list-tile-action>{{ props.item.diskPercent }}%</v-list-tile-action>
               </v-list-tile>
             </v-list>
           </v-flex>
@@ -81,11 +92,13 @@
 <script>
   import { mapVuexAccessors } from '../../helpers/store'
   import NodeIcons from '@/components/Nodes/NodeIcons'
+  import NodePercentBar from '@/components/Nodes/NodePercentBar'
 
   export default {
     name: 'nodes-grid',
     components: {
-      NodeIcons
+      NodeIcons,
+      NodePercentBar
     },
     props: {
       items: {
