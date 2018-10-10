@@ -11,18 +11,17 @@ export default {
   },
   props: {
     value: {
-      default: () => {
-        return {}
-      },
-      type: [Object, String]
+      default: '',
+      type: [Object, Array, String]
     },
     readOnly: {
       type: Boolean,
       default: false
     },
-    externalHandler: {
-      type: Function,
+    externalCommands: {
+      type: Array,
       default: () => {
+        return []
       }
     },
     useWorker: {
@@ -76,11 +75,7 @@ export default {
       this.editor.setReadOnly(true)
       this.editor.setShowPrintMargin(false)
     } else {
-      this.editor.commands.addCommand({
-        name: 'externalHandler',
-        bindKey: { win: 'Ctrl+ENTER', mac: 'Command+ENTER', linux: 'Ctrl+ENTER' },
-        exec: this.externalHandler
-      })
+      this.editor.commands.addCommands(this.externalCommands)
     }
 
     this.editor.on('change', () => {

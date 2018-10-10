@@ -31,7 +31,7 @@
                   :loading="loading"
                   :class="tableClasses">
       <template slot="items" slot-scope="props">
-        <tr class="tr--clickable" @click="showDocuments(props.item.index)">
+        <tr>
           <td>{{props.item.index}}</td>
           <td>{{props.item.health}}</td>
           <td>{{props.item.status}}</td>
@@ -46,9 +46,14 @@
               <v-btn flat title="Search documents" @click.native.stop="showDocuments(props.item.index)">
                 <v-icon>view_list</v-icon>
               </v-btn>
-              <v-btn flat title="Show" @click.native.stop="openIndex(props.item.index)">
-                <v-icon>info_outline</v-icon>
-              </v-btn>
+              <modal-data-loader :to="{ name: 'Index', params: { index: props.item.index } }"
+                                 :method-params="{index: props.item.index}"
+                                 :modal-subtitle="props.item.index"
+                                 activator-title="Show index"
+                                 modal-title="Show index"
+                                 flat
+                                 activator-icon="info_outline"
+                                 method="indicesGet"/>
               <v-btn flat title="Delete" @click.native.stop="deleteIndex(props.item.index)">
                 <v-icon>delete</v-icon>
               </v-btn>
@@ -70,6 +75,7 @@
   import NewIndex from '@/components/Indices/NewIndex'
   import SettingsDropdown from '@/components/shared/SettingsDropdown'
   import SingleSetting from '@/components/shared/SingleSetting'
+  import ModalDataLoader from '@/components/shared/ModalDataLoader'
 
   export default {
     name: 'IndicesTable',
@@ -77,7 +83,8 @@
       BtnGroup,
       NewIndex,
       SettingsDropdown,
-      SingleSetting
+      SingleSetting,
+      ModalDataLoader
     },
     mixins: [
       FixedTableHeader
@@ -163,9 +170,6 @@
       showDocuments (index) {
         this.$store.commit('search/setIndices', [index]) // to pre-select right index on "Search" page
         this.$router.push({ name: 'Search', params: { executeSearch: true } })
-      },
-      openIndex (index) {
-        this.$router.push({ name: 'Index', params: { index: index } })
       },
       deleteIndex (index) {
         if (confirm('Are you sure? This will remove ALL data in your index!')) {

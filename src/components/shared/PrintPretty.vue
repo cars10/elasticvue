@@ -1,9 +1,12 @@
 <template>
-  <v-flex py-2>
+  <v-flex v-if="resizable" py-2>
     <resizable-container :initial-height="initialHeight">
       <code-editor :value="document" :use-worker="false" read-only/>
     </resizable-container>
   </v-flex>
+  <div v-else :style="style">
+    <code-editor :value="document" :use-worker="false" read-only/>
+  </div>
 </template>
 
 <script>
@@ -21,14 +24,21 @@
     },
     props: {
       document: {
-        default: () => {
-          return {}
-        },
-        type: [Object, Array]
+        default: '',
+        type: [Object, Array, String]
       },
       initialHeight: {
         default: 600,
         type: Number
+      },
+      resizable: {
+        default: true,
+        type: Boolean
+      }
+    },
+    computed: {
+      style () {
+        return `height: ${this.initialHeight}px`
       }
     }
   }

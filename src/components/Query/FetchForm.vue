@@ -4,7 +4,7 @@
       <v-layout>
         <v-flex xl1 lg2 sm3>
           <v-select v-model="method"
-                    :items="httpMethods()"
+                    :items="httpMethods"
                     label="HTTP Method"
                     name="http_method"/>
         </v-flex>
@@ -21,7 +21,7 @@
         <v-flex md6>
           <label>Request body</label>
           <resizable-container :initial-height="150">
-            <code-editor v-model="stringifiedParams" :external-handler="fetchData"/>
+            <code-editor v-model="stringifiedParams" :external-commands="editorCommands"/>
           </resizable-container>
           <i class="grey--text">Language: JSON</i>
         </v-flex>
@@ -29,7 +29,7 @@
         <v-flex md6>
           <label>Request headers</label>
           <resizable-container :initial-height="150">
-            <code-editor v-model="stringifiedHeaders" :external-handler="fetchData"/>
+            <code-editor v-model="stringifiedHeaders" :external-commands="editorCommands"/>
           </resizable-container>
           <i class="grey--text">Language: JSON</i>
         </v-flex>
@@ -68,6 +68,15 @@
       })
     },
     extends: QueryFormBase,
+    data () {
+      return {
+        httpMethods: HTTP_METHODS,
+        editorCommands: [{
+          bindKey: { win: 'Ctrl+ENTER', mac: 'Command+ENTER', linux: 'Ctrl+ENTER' },
+          exec: this.fetchData
+        }]
+      }
+    },
     computed: {
       isValid () {
         return !!this.method && this.elasticsearchHost.length > 0 && this.headersValid && this.paramsValid
@@ -122,9 +131,6 @@
             this.showErrorSnackbar({ text: 'Error.', additionalText: error.message })
             this.response = error.message
           })
-      },
-      httpMethods () {
-        return HTTP_METHODS
       }
     }
   }

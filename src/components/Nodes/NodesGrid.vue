@@ -1,9 +1,5 @@
 <template>
-  <v-data-iterator :items="items"
-                   :pagination.sync="pagination"
-                   content-tag="v-layout"
-                   row
-                   wrap>
+  <v-data-iterator :items="items" :pagination.sync="pagination" content-tag="v-layout" row wrap>
     <v-flex slot="item" slot-scope="props" xs12 sm6 md4 lg4>
       <v-card>
         <v-card-title>
@@ -59,7 +55,7 @@
                 <v-list-tile-action>ram</v-list-tile-action>
                 <v-list-tile-content class="align-en">
                   <small>{{props.item.ramCurrent}}/{{props.item.ramMax}}</small>
-                  <node-percent-bar :value="props.item.ramPercent" />
+                  <node-percent-bar :value="props.item.ramPercent"/>
                 </v-list-tile-content>
                 <v-list-tile-action>{{ props.item.ramPercent }}%</v-list-tile-action>
               </v-list-tile>
@@ -68,7 +64,7 @@
                 <v-list-tile-action>heap</v-list-tile-action>
                 <v-list-tile-content>
                   <small>{{props.item.heapCurrent}}/{{props.item.heapMax}}</small>
-                  <node-percent-bar :value="props.item.heapPercent" />
+                  <node-percent-bar :value="props.item.heapPercent"/>
                 </v-list-tile-content>
                 <v-list-tile-action>{{ props.item.heapPercent }}%</v-list-tile-action>
               </v-list-tile>
@@ -77,7 +73,7 @@
                 <v-list-tile-action>disk</v-list-tile-action>
                 <v-list-tile-content>
                   <small>{{props.item.diskCurrent}}/{{props.item.diskMax}}</small>
-                  <node-percent-bar :value="props.item.diskPercent" />
+                  <node-percent-bar :value="props.item.diskPercent"/>
                 </v-list-tile-content>
                 <v-list-tile-action>{{ props.item.diskPercent }}%</v-list-tile-action>
               </v-list-tile>
