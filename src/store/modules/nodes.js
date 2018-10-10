@@ -5,6 +5,7 @@ export const nodes = {
   state: {
     listType: 'grid',
     filter: '',
+    stickyTableHeader: true,
     pagination: Object.assign({}, DEFAULT_DATA_TABLE_PAGINATION, { sortBy: 'name' })
   },
   mutations: {
@@ -16,6 +17,9 @@ export const nodes = {
     },
     setPagination (state, pagination) {
       state.pagination = pagination
+    },
+    setStickyTableHeader (state, sticky) {
+      state.stickyTableHeader = sticky
     }
   }
 }

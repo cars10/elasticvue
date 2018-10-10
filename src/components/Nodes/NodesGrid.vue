@@ -1,5 +1,8 @@
 <template>
-  <v-data-iterator :items="items" :pagination.sync="pagination" content-tag="v-layout" row wrap>
+  <div v-if="loading">
+    <v-progress-linear indeterminate/>
+  </div>
+  <v-data-iterator v-else :items="items" :pagination.sync="pagination" content-tag="v-layout" row wrap>
     <v-flex slot="item" slot-scope="props" xs12 sm6 md4 lg4>
       <v-card>
         <v-card-title>
@@ -102,6 +105,10 @@
         default: () => {
           return []
         }
+      },
+      loading: {
+        default: true,
+        type: Boolean
       }
     },
     computed: {

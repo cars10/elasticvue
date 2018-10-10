@@ -11,13 +11,8 @@
       </v-btn>
     </v-btn-toggle>
 
-    <div v-if="loading">
-      <v-progress-linear indeterminate/>
-    </div>
-    <template v-else>
-      <nodes-grid v-if="renderGrid" :items="items"/>
-      <nodes-table v-else :items="items" :loading="loading"/>
-    </template>
+    <nodes-grid v-if="renderGrid" :items="items" :loading="loading"/>
+    <nodes-table v-else :items="items" :loading="loading" @reloadNodes="() => this.$emit('reloadNodes')"/>
   </div>
 </template>
 

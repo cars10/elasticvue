@@ -21,6 +21,7 @@
         </v-flex>
       </div>
     </v-card-text>
+
     <v-data-table :rows-per-page-items="defaultRowsPerPage()"
                   :headers="headers"
                   :items="flattenedItems"

@@ -1,12 +1,40 @@
 <template>
-  <v-flex>
+  <v-card>
+    <v-card-title>
+      <h2 class="headline">Nodes</h2>
+      <reload-button id="reload-nodes" :action="() => this.$emit('reloadNodes')"/>
+    </v-card-title>
+    <v-divider/>
+
+    <v-card-text>
+      <div class="clearfix">
+        <v-flex right d-inline-flex>
+          <v-text-field id="filter"
+                        v-model="filter"
+                        append-icon="search"
+                        label="Filter..."
+                        name="filter"
+                        class="mt-0"
+                        title="Filter via 'column:query'"
+                        autofocus
+                        hide-details
+                        @keyup.esc="filter = ''"/>
+
+          <settings-dropdown>
+            <single-setting v-model="stickyTableHeader" name="Sticky table header"/>
+          </settings-dropdown>
+        </v-flex>
+      </div>
+    </v-card-text>
+
     <v-data-table :rows-per-page-items="defaultRowsPerPage"
                   :headers="headers"
                   :items="items"
                   :custom-filter="callFuzzyTableFilter"
                   :pagination.sync="pagination"
                   :search="filter"
-                  :loading="loading">
+                  :loading="loading"
+                  :class="tableClasses">
       <template slot="items" slot-scope="props">
         <tr>
           <td>
@@ -49,7 +77,7 @@
         </tr>
       </template>
     </v-data-table>
-  </v-flex>
+  </v-card>
 </template>
 
 <script>
@@ -58,12 +86,16 @@
   import { fuzzyTableFilter } from '../../helpers/filters'
   import NodeIcons from '@/components/Nodes/NodeIcons'
   import NodePercentBar from '@/components/Nodes/NodePercentBar'
+  import SettingsDropdown from '@/components/shared/SettingsDropdown'
+  import SingleSetting from '@/components/shared/SingleSetting'
 
   export default {
     name: 'nodes-table',
     components: {
       NodeIcons,
-      NodePercentBar
+      NodePercentBar,
+      SettingsDropdown,
+      SingleSetting
     },
     props: {
       items: {
@@ -79,12 +111,26 @@
     },
     computed: {
       ...mapVuexAccessors('nodes', ['filter', 'pagination']),
+      stickyTableHeader: {
+        get () {
+          return this.$store.state.nodes.stickyTableHeader
+        },
+        set (value) {
+          this.resetTableHeight()
+          this.$store.commit('nodes/setStickyTableHeader', value)
+        }
+      },
+      tableClasses () {
+        return [
+          { 'table--fixed-header': this.stickyTableHeader }
+        ]
+      },
       defaultRowsPerPage () {
         return DEFAULT_ROWS_PER_PAGE
       },
       headers () {
         return [
-          { text: '', value: '', sortable: false },
+          { text: 'status', value: '', sortable: false },
           { text: 'name', value: 'name' },
           { text: 'ip', value: 'ip' },
           { text: 'master', value: 'master' },
