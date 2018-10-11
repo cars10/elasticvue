@@ -17,9 +17,7 @@ describe('Indices page', () => {
       const indexName = 'name-1'
       cy.createIndex(indexName)
       cy.flushIndices().then(() => {
-        cy.get('table').contains(indexName).closest('tr').get('button[title="Show"]').click()
-        cy.url().should('include', '/indices/' + indexName)
-        cy.contains(indexName).should('exist')
+        cy.get('table').contains(indexName).closest('tr').get('a[title="Show index"]').click()
         cy.contains('mappings').should('exist')
       })
     })
