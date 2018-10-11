@@ -1,7 +1,7 @@
 describe('Utilities page', () => {
   beforeEach(() => {
     cy.cleanupElasticsearch()
-    cy.connect()
+    cy.quickConnect()
   })
 
   describe('creating data', () => {

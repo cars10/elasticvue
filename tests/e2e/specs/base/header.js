@@ -10,7 +10,7 @@ describe('Header', () => {
     })
 
     it('can reconnect when connected', () => {
-      cy.connect()
+      cy.quickConnect()
       cy.visit('/indices')
       cy.get('#toolbar_host').should('exist')
       cy.get('#toolbar_reconnect_button').click()
@@ -19,7 +19,7 @@ describe('Header', () => {
     })
 
     it('can only reconnect after testing when changing host', () => {
-      cy.connect()
+      cy.quickConnect()
       cy.get('#toolbar_host').clear()
       cy.get('#toolbar_host').type('http://localhost:' + Cypress.env('ES_PORT').toString())
       cy.get('#toolbar_reconnect_button').should('not.exist')
@@ -36,7 +36,7 @@ describe('Header', () => {
   describe('menu links', () => {
     beforeEach(() => {
       cy.clearLocalStorage()
-      cy.connect()
+      cy.quickConnect()
     })
 
     it('can navigate to home page', () => {

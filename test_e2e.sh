@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 TMP_PATH=./tmp/e2e
-# VERSIONS=( elasticsearch-6.3.2 elasticsearch-5.6.10 )
-VERSIONS=( elasticsearch-6.3.2 )
+VERSIONS=( elasticsearch-6.3.2 elasticsearch-5.6.10 )
+# VERSIONS=( elasticsearch-6.3.2 )
 PID=0
 ES_PID_FILE=${TMP_PATH}/pid
 ES_PORT=$(cat cypress.json|grep ES_PORT|awk '{print $2}')
