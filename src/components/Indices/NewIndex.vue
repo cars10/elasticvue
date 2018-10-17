@@ -1,6 +1,6 @@
 <template>
   <v-dialog v-model="dialog" width="500">
-    <v-btn id="new_index" slot="activator" color="primary">New index</v-btn>
+    <v-btn id="new_index" slot="activator" color="primary" class="ml-0">New index</v-btn>
 
     <v-card>
       <v-card-title>
