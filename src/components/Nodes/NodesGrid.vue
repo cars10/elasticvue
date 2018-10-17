@@ -39,72 +39,84 @@
           </v-card-title>
           <v-divider/>
 
-          <v-layout row wrap>
-            <v-flex :class="nodeListClass" xs12 sm6 d-flex>
+          <v-layout row wrap class="ma-0 overflow-x--auto">
+            <v-flex :class="nodeListClass" xs12 sm6 d-flex pa-0>
               <v-list dense>
                 <v-list-tile>
                   <v-list-tile-content>ip</v-list-tile-content>
-                  <v-list-tile-content class="align-end">{{ props.item.ip }}</v-list-tile-content>
+                  <v-list-tile-content class="align-end">
+                    <small>{{ props.item.ip }}</small>
+                  </v-list-tile-content>
                 </v-list-tile>
 
                 <v-list-tile>
                   <v-list-tile-content>master</v-list-tile-content>
                   <v-list-tile-content class="align-end">
-                    <span v-if="props.item.master">yes</span>
-                    <span v-else-if="props.item.masterEligible">eligible</span>
-                    <span v-else>no</span>
+                    <small v-if="props.item.master">yes</small>
+                    <small v-else-if="props.item.masterEligible">eligible</small>
+                    <small v-else>no</small>
                   </v-list-tile-content>
                 </v-list-tile>
 
                 <v-list-tile>
                   <v-list-tile-content>node.role</v-list-tile-content>
-                  <v-list-tile-content class="align-end">{{ props.item.nodeRole }}</v-list-tile-content>
+                  <v-list-tile-content class="align-end">
+                    <small>{{ props.item.nodeRole }}</small>
+                  </v-list-tile-content>
                 </v-list-tile>
 
                 <v-list-tile>
                   <v-list-tile-content>load</v-list-tile-content>
                   <v-list-tile-content class="align-end">
-                    {{props.item.load_1m}} / {{props.item.load_5m}} / {{props.item.load_15m}}
+                    <small>{{props.item.load_1m}} / {{props.item.load_5m}} / {{props.item.load_15m}}</small>
                   </v-list-tile-content>
                 </v-list-tile>
               </v-list>
             </v-flex>
 
-            <v-flex xs12 sm6 d-flex>
+            <v-flex xs12 sm6 d-flex pa-0>
               <v-list dense>
                 <v-list-tile>
                   <v-list-tile-action>cpu</v-list-tile-action>
                   <v-list-tile-content>
                     <v-progress-linear :value="props.item.cpu" height="4" class="my-0"/>
                   </v-list-tile-content>
-                  <v-list-tile-action>{{ props.item.cpu }}%</v-list-tile-action>
+                  <v-list-tile-action>
+                    <small>{{ props.item.cpu }}%</small>
+                  </v-list-tile-action>
                 </v-list-tile>
 
                 <v-list-tile>
                   <v-list-tile-action>ram</v-list-tile-action>
-                  <v-list-tile-content class="align-en">
-                    <small>{{props.item.ramCurrent}}/{{props.item.ramMax}}</small>
+                  <v-list-tile-content>
+                    <small>{{props.item.ramCurrent}}/ {{props.item.ramMax}}</small>
                     <node-percent-bar :value="props.item.ramPercent"/>
                   </v-list-tile-content>
-                  <v-list-tile-action>{{ props.item.ramPercent }}%</v-list-tile-action>
+                  <v-list-tile-action>
+                    <small>{{ props.item.ramPercent }}%</small>
+                  </v-list-tile-action>
                 </v-list-tile>
 
                 <v-list-tile>
                   <v-list-tile-action>heap</v-list-tile-action>
                   <v-list-tile-content>
-                    <small>{{props.item.heapCurrent}}/{{props.item.heapMax}}</small>
+                    <small>{{props.item.heapCurrent}}/ {{props.item.heapMax}}</small>
                     <node-percent-bar :value="props.item.heapPercent"/>
                   </v-list-tile-content>
-                  <v-list-tile-action>{{ props.item.heapPercent }}%</v-list-tile-action>
+                  <v-list-tile-action>
+                    <small>{{ props.item.heapPercent }}%</small>
+                  </v-list-tile-action>
                 </v-list-tile>
 
                 <v-list-tile>
                   <v-list-tile-action>disk</v-list-tile-action>
                   <v-list-tile-content>
-                    <small>{{props.item.diskCurrent}}/{{props.item.diskMax}}</small>
+                    <small>{{props.item.diskCurrent}}/ {{props.item.diskMax}}</small>
                     <node-percent-bar :value="props.item.diskPercent"/>
                   </v-list-tile-content>
-                  <v-list-tile-action>{{ props.item.diskPercent }}%</v-list-tile-action>
+                  <v-list-tile-action>
+                    <small>{{ props.item.diskPercent }}%</small>
+                  </v-list-tile-action>
                 </v-list-tile>
               </v-list>
             </v-flex>
