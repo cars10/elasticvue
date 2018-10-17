@@ -28,7 +28,8 @@
     <div v-if="loading">
       <v-progress-linear indeterminate/>
     </div>
-    <v-data-iterator v-else :items="filteredItems" :pagination.sync="pagination" content-tag="v-layout" row wrap>
+    <v-data-iterator v-else :items="filteredItems" :pagination.sync="pagination" content-tag="div"
+                     content-class="row wrap layout">
       <v-flex slot="item" slot-scope="props" xs12 sm6 md4 lg4>
         <v-card>
           <v-card-title>

@@ -1,4 +1,5 @@
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
+const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
 
 module.exports = {
   assetsDir: 'assets',
@@ -10,6 +11,7 @@ module.exports = {
       maxAssetSize: 768000
     },
     plugins: [
+      new VuetifyLoaderPlugin(),
       new FaviconsWebpackPlugin({
         logo: './public/images/logo/logo_128_blue.png',
         icons: {
