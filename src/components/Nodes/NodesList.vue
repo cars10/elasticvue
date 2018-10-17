@@ -11,7 +11,7 @@
       </v-btn>
     </v-btn-toggle>
 
-    <nodes-grid v-if="renderGrid" :items="items" :loading="loading"/>
+    <nodes-grid v-if="renderGrid" :items="items" :loading="loading" @reloadNodes="() => this.$emit('reloadNodes')"/>
     <nodes-table v-else :items="items" :loading="loading" @reloadNodes="() => this.$emit('reloadNodes')"/>
   </div>
 </template>

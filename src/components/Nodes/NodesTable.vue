@@ -1,31 +1,32 @@
 <template>
   <v-card>
-    <v-card-title>
-      <h2 class="headline">Nodes</h2>
-      <reload-button id="reload-nodes" :action="() => this.$emit('reloadNodes')"/>
+    <v-card-title class="clearfix">
+      <v-layout row wrap>
+        <v-flex xs12 sm6 py-0 pl-0>
+            <h2 class="headline d-inline-flex vertical-align--middle">Nodes</h2>
+            <reload-button id="reload-nodes" :action="() => this.$emit('reloadNodes')"/>
+        </v-flex>
+        <v-flex xs12 sm6 py-0>
+            <v-flex right d-inline-flex>
+              <v-text-field id="filter"
+                            v-model="filter"
+                            append-icon="search"
+                            label="Filter..."
+                            name="filter"
+                            class="mt-0 pt-0"
+                            title="Filter via 'column:query'"
+                            autofocus
+                            hide-details
+                            @keyup.esc="filter = ''"/>
+
+              <settings-dropdown>
+                <single-setting v-model="stickyTableHeader" name="Sticky table header"/>
+              </settings-dropdown>
+            </v-flex>
+        </v-flex>
+      </v-layout>
     </v-card-title>
     <v-divider/>
-
-    <v-card-text>
-      <div class="clearfix">
-        <v-flex right d-inline-flex>
-          <v-text-field id="filter"
-                        v-model="filter"
-                        append-icon="search"
-                        label="Filter..."
-                        name="filter"
-                        class="mt-0"
-                        title="Filter via 'column:query'"
-                        autofocus
-                        hide-details
-                        @keyup.esc="filter = ''"/>
-
-          <settings-dropdown>
-            <single-setting v-model="stickyTableHeader" name="Sticky table header"/>
-          </settings-dropdown>
-        </v-flex>
-      </div>
-    </v-card-text>
 
     <v-data-table :rows-per-page-items="defaultRowsPerPage"
                   :headers="headers"
@@ -88,6 +89,7 @@
   import NodePercentBar from '@/components/Nodes/NodePercentBar'
   import SettingsDropdown from '@/components/shared/SettingsDropdown'
   import SingleSetting from '@/components/shared/SingleSetting'
+  import FixedTableHeader from '@/mixins/FixedTableHeader'
 
   export default {
     name: 'nodes-table',
@@ -97,6 +99,9 @@
       SettingsDropdown,
       SingleSetting
     },
+    mixins: [
+      FixedTableHeader
+    ],
     props: {
       items: {
         type: Array,
