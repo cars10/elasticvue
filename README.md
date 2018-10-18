@@ -235,12 +235,8 @@ Current TODOs, more ore less ordered by importance.
 
 ### Features
 
-* show views modal
-* reload button timer
-
 * snapshot management
-* nodes overview
-* show system resources
+* node management
 
 * data import/export
 * save *all* settings in local storage? add settings overview page?
