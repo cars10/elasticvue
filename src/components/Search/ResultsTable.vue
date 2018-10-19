@@ -33,6 +33,17 @@
       <template slot="items" slot-scope="item">
         <tr class="tr--clickable" @click="openDocument(item.item)">
           <td v-for="key in filteredMappings" :key="key">{{item.item[key]}}</td>
+          <td>
+            <router-link :to="documentRoute(item.item)"
+                         :class="openDocumentClasses"
+                         title="Show"
+                         event=""
+                         @click.native.prevent="openDocument(item.item)">
+              <div class="v-btn__content">
+                Show
+              </div>
+            </router-link>
+          </td>
         </tr>
       </template>
 
@@ -42,6 +53,7 @@
 
       <v-progress-linear slot="progress" color="blue" indeterminate/>
     </v-data-table>
+    <modal-data-loader v-model="modalOpen" :method-params="modalMethodParams" method="get"/>
   </div>
 </template>
 
@@ -51,6 +63,7 @@
   import SettingsDropdown from '@/components/shared/SettingsDropdown'
   import SingleSetting from '@/components/shared/SingleSetting'
   import MultiSetting from '@/components/shared/MultiSetting'
+  import ModalDataLoader from '@/components/shared/ModalDataLoader'
   import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
   import { mapVuexAccessors } from '../../helpers/store'
   import Results from '../../models/Results'
@@ -60,7 +73,8 @@
     components: {
       SettingsDropdown,
       SingleSetting,
-      MultiSetting
+      MultiSetting,
+      ModalDataLoader
     },
     mixins: [
       FixedTableHeader
@@ -80,7 +94,9 @@
     data () {
       return {
         flattenedHits: [],
-        settingsBadge: false
+        settingsBadge: false,
+        modalOpen: false,
+        modalMethodParams: {}
       }
     },
     computed: {
@@ -88,7 +104,11 @@
         return this.mappings.filter(k => this.selectedMappings.includes(k))
       },
       headers () {
-        return this.filteredMappings.map(value => ({ text: value, value: value }))
+        return this.filteredMappings.map(value => ({ text: value, value: value })).concat({
+          text: '',
+          value: 'actions',
+          sortable: false
+        })
       },
       stickyTableHeader: {
         get () {
@@ -103,6 +123,14 @@
         return [
           'table--condensed',
           { 'table--fixed-header': this.stickyTableHeader }
+        ]
+      },
+      openDocumentClasses () {
+        return [
+          'v-btn',
+          'v-btn--router',
+          { 'theme--dark': this.$store.state.theme.dark },
+          { 'theme--light': !this.$store.state.theme.dark }
         ]
       },
       ...mapVuexAccessors('search', ['filter', 'pagination', 'selectedMappings', 'mappings'])
@@ -125,13 +153,17 @@
     },
     methods: {
       openDocument (item) {
-        this.$router.push({ name: 'Document', params: { index: item._index, type: item._type, id: item._id } })
+        this.modalMethodParams = { index: item._index, type: item._type, id: item._id }
+        this.modalOpen = true
       },
       callFuzzyTableFilter (items, search, filter, headers) {
         return fuzzyTableFilter(items, search, headers)
       },
       defaultRowsPerPage () {
         return DEFAULT_ROWS_PER_PAGE
+      },
+      documentRoute (item) {
+        return { name: 'Document', params: { index: item._index, type: item._type, id: item._id } }
       }
     }
   }
