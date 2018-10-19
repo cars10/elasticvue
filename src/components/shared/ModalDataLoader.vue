@@ -1,47 +1,28 @@
 <template>
-  <div>
-    <router-link v-if="isLink"
-                 :to="to"
-                 :class="linkClasses"
-                 :title="activatorTitle"
-                 event=""
-                 @click.native.prevent="dialog = true">
-      <div class="v-btn__content">
-        <v-icon v-if="activatorIcon !== ''">{{activatorIcon}}</v-icon>
-        <span v-if="activatorText !== ''">{{activatorText}}</span>
-      </div>
-    </router-link>
+  <v-dialog v-model="dialog" :width="width" lazy>
+    <v-card>
+      <v-card-title>
+        <h2 class="headline">{{modalTitle}}</h2>
+        <div class="ml-a">
+          <v-btn icon @click.native="dialog = false">
+            <v-icon>close</v-icon>
+          </v-btn>
+        </div>
+      </v-card-title>
 
-    <v-btn v-else :title="activatorTitle" :flat="flat" @click.prevent="dialog = true">
-      <v-icon v-if="activatorIcon !== ''">{{activatorIcon}}</v-icon>
-      <span v-if="activatorText !== ''">{{activatorText}}</span>
-    </v-btn>
+      <v-card-text class="pt-0">
+        <h2 class="subheading">{{modalSubtitle}}</h2>
+      </v-card-text>
 
-    <v-dialog v-model="dialog" :width="width" lazy>
-      <v-card>
-        <v-card-title>
-          <h2 class="headline">{{modalTitle}}</h2>
-          <div class="ml-a">
-            <v-btn icon @click.native="dialog = false">
-              <v-icon>close</v-icon>
-            </v-btn>
-          </div>
-        </v-card-title>
-
-        <v-card-text class="pt-0">
-          <h2 class="subheading">{{modalSubtitle}}</h2>
-        </v-card-text>
-
-        <data-loader ref="dataLoader" :method="method" :method-params="methodParams">
-          <template slot-scope="data">
-            <slot name="content">
-              <print-pretty :document="data.body" :resizable="false" :initial-height="calculatedHeight()"/>
-            </slot>
-          </template>
-        </data-loader>
-      </v-card>
-    </v-dialog>
-  </div>
+      <data-loader ref="dataLoader" :method="method" :method-params="methodParams">
+        <template slot-scope="data">
+          <slot name="content">
+            <print-pretty :document="data.body" :resizable="false" :initial-height="calculatedHeight()"/>
+          </slot>
+        </template>
+      </data-loader>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script>
@@ -69,14 +50,6 @@
         },
         type: Object
       },
-      to: {
-        default: '',
-        type: [Object, String]
-      },
-      activatorTitle: {
-        default: '',
-        type: String
-      },
       modalTitle: {
         default: 'Show',
         type: String
@@ -85,15 +58,7 @@
         default: '',
         type: String
       },
-      activatorText: {
-        default: '',
-        type: String
-      },
-      activatorIcon: {
-        default: '',
-        type: String
-      },
-      flat: {
+      value: {
         default: false,
         type: Boolean
       }
@@ -103,33 +68,26 @@
         dialog: false
       }
     },
-    computed: {
-      isLink () {
-        return this.to !== ''
-      },
-      linkClasses () {
-        return [
-          'v-btn',
-          'v-btn--router',
-          { 'v-btn--flat': this.flat },
-          { 'theme--dark': this.$store.state.theme.dark },
-          { 'theme--light': !this.$store.state.theme.dark }
-        ]
-      }
-    },
     watch: {
       dialog (value) {
         if (value) {
           window.addEventListener('keydown', this.closeOnEsc)
         } else {
           window.removeEventListener('keydown', this.closeOnEsc)
+          this.$emit('input', value)
         }
+      },
+      value (value) {
+        if (value) this.open()
       }
     },
     beforeDestroy () {
       window.removeEventListener('keydown', this.closeOnEsc)
     },
     methods: {
+      open () {
+        this.dialog = true
+      },
       calculatedHeight () {
         return window.innerHeight * 0.8
       },

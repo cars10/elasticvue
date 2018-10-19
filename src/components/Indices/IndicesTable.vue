@@ -45,16 +45,16 @@
           <td>
             <btn-group small>
               <v-btn flat title="Search documents" @click.native.stop="showDocuments(props.item.index)">
-                <v-icon>view_list</v-icon>
+                <v-icon>search</v-icon>
               </v-btn>
-              <modal-data-loader :to="{ name: 'Index', params: { index: props.item.index } }"
-                                 :method-params="{index: props.item.index}"
-                                 :modal-subtitle="props.item.index"
-                                 activator-title="Show index"
-                                 modal-title="Show index"
-                                 flat
-                                 activator-icon="info_outline"
-                                 method="indicesGet"/>
+              <modal-data-loader-activator :to="{ name: 'Index', params: { index: props.item.index } }"
+                                           :method-params="{index: props.item.index}"
+                                           :modal-subtitle="props.item.index"
+                                           activator-title="Show index"
+                                           modal-title="Show index"
+                                           flat
+                                           activator-icon="info_outline"
+                                           method="indicesGet"/>
               <v-btn flat title="Delete" @click.native.stop="deleteIndex(props.item.index)">
                 <v-icon>delete</v-icon>
               </v-btn>
@@ -76,7 +76,7 @@
   import NewIndex from '@/components/Indices/NewIndex'
   import SettingsDropdown from '@/components/shared/SettingsDropdown'
   import SingleSetting from '@/components/shared/SingleSetting'
-  import ModalDataLoader from '@/components/shared/ModalDataLoader'
+  import ModalDataLoaderActivator from '@/components/shared/ModalDataLoaderActivator'
 
   export default {
     name: 'IndicesTable',
@@ -85,7 +85,7 @@
       NewIndex,
       SettingsDropdown,
       SingleSetting,
-      ModalDataLoader
+      ModalDataLoaderActivator
     },
     mixins: [
       FixedTableHeader
