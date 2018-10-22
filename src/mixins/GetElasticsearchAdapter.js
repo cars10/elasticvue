@@ -3,10 +3,18 @@ import ConnectionService from '../services/elasticsearch/ConnectionService'
 const GetElasticsearchAdapter = {
   methods: {
     getElasticsearchAdapter () {
-      let connectionService = new ConnectionService(this.$store.state.connection.elasticsearchHost)
-      return connectionService.getAdapter()
-        .then(adapter => adapter)
-        .catch(error => this.$store.commit('connection/setErrorState', error))
+      if (this.$store.state.connection.elasticsearchAdapter !== null) {
+        return Promise.resolve(this.$store.state.connection.elasticsearchAdapter)
+      } else {
+        let connectionService = new ConnectionService(this.$store.state.connection.elasticsearchHost)
+        return connectionService.getAdapter().then(
+          adapter => {
+            this.$store.commit('connection/setElasticsearchAdapter', adapter)
+            return adapter
+          },
+          error => this.$store.commit('connection/setErrorState', error)
+        )
+      }
     }
   }
 }

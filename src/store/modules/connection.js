@@ -5,7 +5,8 @@ export const connection = {
   state: {
     status: CONNECTION_STATES.UNKNOWN,
     wasConnected: false,
-    elasticsearchHost: DEFAULT_HOST
+    elasticsearchHost: DEFAULT_HOST,
+    elasticsearchAdapter: null
   },
   mutations: {
     setConnected (state) {
@@ -21,6 +22,9 @@ export const connection = {
       localStorage.removeItem(LOCALSTORAGE_KEY)
       state.wasConnected = false
       state.status = CONNECTION_STATES.ERROR
+    },
+    setElasticsearchAdapter (state, adapter) {
+      state.elasticsearchAdapter = adapter
     }
   }
 }
