@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-btn-toggle v-model="listType" mandatory class="mb-4">
+    <custom-v-btn-toggle v-model="listType" mandatory class="mb-4">
       <v-btn flat value="grid" @click="() => this.$emit('reloadNodes')">
         <span>Grid</span>
         <v-icon>dashboard</v-icon>
@@ -9,7 +9,7 @@
         <span>Table</span>
         <v-icon>table_chart</v-icon>
       </v-btn>
-    </v-btn-toggle>
+    </custom-v-btn-toggle>
 
     <nodes-grid v-if="renderGrid" :items="items" :loading="loading" @reloadNodes="() => this.$emit('reloadNodes')"/>
     <nodes-table v-else :items="items" :loading="loading" @reloadNodes="() => this.$emit('reloadNodes')"/>
@@ -21,12 +21,14 @@
   import NodesTable from '@/components/Nodes/NodesTable'
   import { mapVuexAccessors } from '../../helpers/store'
   import ElasticsearchNode from '../../models/ElasticsearchNode'
+  import CustomVBtnToggle from '@/components/shared/CustomVBtnToggle'
 
   export default {
     name: 'nodes-list',
     components: {
       NodesGrid,
-      NodesTable
+      NodesTable,
+      CustomVBtnToggle
     },
     props: {
       nodes: {

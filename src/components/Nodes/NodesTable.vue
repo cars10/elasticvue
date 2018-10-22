@@ -127,6 +127,7 @@
       },
       tableClasses () {
         return [
+          'table--condensed',
           { 'table--fixed-header': this.stickyTableHeader }
         ]
       },
