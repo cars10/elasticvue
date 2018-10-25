@@ -1,6 +1,6 @@
 import ConnectionService from '../services/elasticsearch/ConnectionService'
 
-const GetElasticsearchAdapter = {
+const ElasticsearchAdapter = {
   methods: {
     getElasticsearchAdapter () {
       if (this.$store.state.connection.elasticsearchAdapter !== null) {
@@ -15,8 +15,20 @@ const GetElasticsearchAdapter = {
           error => this.$store.commit('connection/setErrorState', error)
         )
       }
+    },
+    simpleRequest (options) {
+      this.getElasticsearchAdapter()
+        .then(adapter => adapter[options.method](options.args))
+        .then(body => {
+          if (typeof options.callback === 'function') options.callback.call(body)
+          this.showSuccessSnackbar({
+            text: options.text,
+            additionalText: JSON.stringify(body)
+          })
+        })
+        .catch(error => this.$store.commit('connection/setErrorState', error))
     }
   }
 }
 
-export default GetElasticsearchAdapter
+export default ElasticsearchAdapter

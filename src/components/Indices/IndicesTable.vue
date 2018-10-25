@@ -203,16 +203,12 @@
       },
       deleteIndex (index) {
         if (confirm('Are you sure? This will remove ALL data in your index!')) {
-          this.getElasticsearchAdapter()
-            .then(adapter => adapter.indicesDelete({ index }))
-            .then(body => {
-              this.$emit('reloadIndices')
-              this.showSuccessSnackbar({
-                text: `The index '${index}' was successfully deleted.`,
-                additionalText: JSON.stringify(body)
-              })
-            })
-            .catch(error => this.$store.commit('connection/setErrorState', error))
+          this.simpleRequest({
+            method: 'indicesDelete',
+            args: { index },
+            callback: () => this.$emit('reloadIndices'),
+            text: `The index '${index}' was successfully deleted.`
+          })
         }
       },
       callFuzzyTableFilter (items, search, filter, headers) {
@@ -222,28 +218,20 @@
         return DEFAULT_ROWS_PER_PAGE
       },
       closeIndex (index) {
-        this.getElasticsearchAdapter()
-          .then(adapter => adapter.indicesClose({ index }))
-          .then(body => {
-            this.$emit('reloadIndices')
-            this.showSuccessSnackbar({
-              text: `The index '${index}' was successfully closed.`,
-              additionalText: JSON.stringify(body)
-            })
-          })
-          .catch(error => this.$store.commit('connection/setErrorState', error))
+        this.simpleRequest({
+          method: 'indicesClose',
+          args: { index },
+          callback: () => this.$emit('reloadIndices'),
+          text: `The index '${index}' was successfully closed.`
+        })
       },
       openIndex (index) {
-        this.getElasticsearchAdapter()
-          .then(adapter => adapter.indicesOpen({ index }))
-          .then(body => {
-            this.$emit('reloadIndices')
-            this.showSuccessSnackbar({
-              text: `The index '${index}' was successfully opened.`,
-              additionalText: JSON.stringify(body)
-            })
-          })
-          .catch(error => this.$store.commit('connection/setErrorState', error))
+        this.simpleRequest({
+          method: 'indicesOpen',
+          args: { index },
+          callback: () => this.$emit('reloadIndices'),
+          text: `The index '${index}' was successfully opened.`
+        })
       },
       indexRoute (item, routeName) {
         return { name: routeName, params: { index: item.index } }
