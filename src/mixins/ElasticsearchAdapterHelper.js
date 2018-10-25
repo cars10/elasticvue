@@ -1,6 +1,6 @@
 import ConnectionService from '../services/elasticsearch/ConnectionService'
 
-const ElasticsearchAdapter = {
+const ElasticsearchAdapterHelper = {
   methods: {
     getElasticsearchAdapter () {
       if (this.$store.state.connection.elasticsearchAdapter !== null) {
@@ -31,4 +31,4 @@ const ElasticsearchAdapter = {
   }
 }
 
-export default ElasticsearchAdapter
+export default ElasticsearchAdapterHelper

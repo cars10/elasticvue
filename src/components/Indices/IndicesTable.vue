@@ -67,6 +67,12 @@
                   <list-tile-link v-else :action="() => openIndex(props.item.index)"
                                   icon="lock_open" link-title="Open index"/>
 
+                  <list-tile-link :action="() => forcemergeIndex(props.item.index)"
+                                  icon="merge_type" link-title="Forcemerge index"/>
+
+                  <list-tile-link :action="() => refreshIndex(props.item.index)"
+                                  icon="refresh" link-title="Refresh index"/>
+
                   <list-tile-link :action="() => deleteIndex(props.item.index)"
                                   icon="delete" link-title="Delete index"/>
                 </v-list>
@@ -231,6 +237,22 @@
           args: { index },
           callback: () => this.$emit('reloadIndices'),
           text: `The index '${index}' was successfully opened.`
+        })
+      },
+      forcemergeIndex (index) {
+        this.simpleRequest({
+          method: 'indicesForcemerge',
+          args: { index },
+          callback: () => this.$emit('reloadIndices'),
+          text: `The index '${index}' was successfully merged.`
+        })
+      },
+      refreshIndex (index) {
+        this.simpleRequest({
+          method: 'indicesRefresh',
+          args: { index },
+          callback: () => this.$emit('reloadIndices'),
+          text: `The index '${index}' was successfully refreshed.`
         })
       },
       indexRoute (item, routeName) {

@@ -118,6 +118,24 @@ export default class ElasticsearchAdapter {
   }
 
   /**
+   * Force merge for an index
+   * @param params
+   * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-indices-forcemerge
+   */
+  indicesForcemerge (params) {
+    return this.client.indices.forcemerge(Object.assign({}, REQUEST_DEFAULT_BODY, params))
+  }
+
+  /**
+   * Refresh an index
+   * @param params
+   * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-indices-refresh
+   */
+  indicesRefresh (params) {
+    return this.client.indices.refresh(Object.assign({}, REQUEST_DEFAULT_BODY, params))
+  }
+
+  /**
    * Find out if an index exists
    * @param params
    * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-indices-exists
