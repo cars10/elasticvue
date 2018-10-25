@@ -44,25 +44,43 @@
           <td class="text-xs-right">{{props.item['pri.store.size']}}</td>
           <td>
             <btn-group small>
-              <v-btn flat title="Search documents" @click.native.stop="showDocuments(props.item.index)">
+              <v-btn title="Search documents" @click.native.stop="showDocuments(props.item.index)">
                 <v-icon>search</v-icon>
               </v-btn>
-              <modal-data-loader-activator :to="{ name: 'Index', params: { index: props.item.index } }"
-                                           :method-params="{index: props.item.index}"
-                                           :modal-subtitle="props.item.index"
-                                           activator-title="Show index"
-                                           modal-title="Show index"
-                                           flat
-                                           activator-icon="info_outline"
-                                           method="indicesGet"/>
-              <v-btn flat title="Delete" @click.native.stop="deleteIndex(props.item.index)">
-                <v-icon>delete</v-icon>
-              </v-btn>
+
+              <v-menu offset-y>
+                <v-btn slot="activator" title="Options">
+                  <v-icon>settings</v-icon>
+                  <v-icon small>arrow_drop_down</v-icon>
+                </v-btn>
+                <v-list>
+                  <list-tile-modal-link :modal-action="() => openIndexModal(props.item, 'indicesGet')"
+                                        :to="indexRoute(props.item, 'Index')"
+                                        icon="info" link-title="Show index"/>
+
+                  <list-tile-modal-link :modal-action="() => openIndexModal(props.item, 'indicesStats')"
+                                        :to="indexRoute(props.item, 'IndexStats')"
+                                        icon="show_chart" link-title="Show stats"/>
+
+                  <list-tile-link v-if="props.item.status === 'open'" :action="() => closeIndex(props.item.index)"
+                                  icon="lock" link-title="Close index"/>
+                  <list-tile-link v-else :action="() => openIndex(props.item.index)"
+                                  icon="lock_open" link-title="Open index"/>
+
+                  <list-tile-link :action="() => deleteIndex(props.item.index)"
+                                  icon="delete" link-title="Delete index"/>
+                </v-list>
+              </v-menu>
             </btn-group>
           </td>
         </tr>
       </template>
     </v-data-table>
+    <modal-data-loader v-model="modalOpen"
+                       :method-params="modalMethodParams"
+                       :method="modalMethod"
+                       :modal-title="modalTitle"
+                       :modal-subtitle="modalSubtitle"/>
   </div>
 </template>
 
@@ -77,6 +95,9 @@
   import SettingsDropdown from '@/components/shared/SettingsDropdown'
   import SingleSetting from '@/components/shared/SingleSetting'
   import ModalDataLoaderActivator from '@/components/shared/ModalDataLoaderActivator'
+  import ModalDataLoader from '@/components/shared/ModalDataLoader'
+  import ListTileLink from '@/components/shared/ListTile/ListTileLink'
+  import ListTileModalLink from '@/components/shared/ListTile/ListTileModalLink'
 
   export default {
     name: 'IndicesTable',
@@ -85,7 +106,10 @@
       NewIndex,
       SettingsDropdown,
       SingleSetting,
-      ModalDataLoaderActivator
+      ModalDataLoaderActivator,
+      ModalDataLoader,
+      ListTileLink,
+      ListTileModalLink
     },
     mixins: [
       FixedTableHeader
@@ -116,7 +140,12 @@
           { text: 'store.size', value: 'store.size', align: 'right' },
           { text: 'pri.store.size', value: 'pri.store.size', align: 'right' },
           { text: '', value: 'actions', sortable: false }
-        ]
+        ],
+        modalOpen: false,
+        modalTitle: '',
+        modalMethod: '',
+        modalSubtitle: '',
+        modalMethodParams: {}
       }
     },
     computed: {
@@ -191,6 +220,40 @@
       },
       defaultRowsPerPage () {
         return DEFAULT_ROWS_PER_PAGE
+      },
+      closeIndex (index) {
+        this.getElasticsearchAdapter()
+          .then(adapter => adapter.indicesClose({ index }))
+          .then(body => {
+            this.$emit('reloadIndices')
+            this.showSuccessSnackbar({
+              text: `The index '${index}' was successfully closed.`,
+              additionalText: JSON.stringify(body)
+            })
+          })
+          .catch(error => this.$store.commit('connection/setErrorState', error))
+      },
+      openIndex (index) {
+        this.getElasticsearchAdapter()
+          .then(adapter => adapter.indicesOpen({ index }))
+          .then(body => {
+            this.$emit('reloadIndices')
+            this.showSuccessSnackbar({
+              text: `The index '${index}' was successfully opened.`,
+              additionalText: JSON.stringify(body)
+            })
+          })
+          .catch(error => this.$store.commit('connection/setErrorState', error))
+      },
+      indexRoute (item, routeName) {
+        return { name: routeName, params: { index: item.index } }
+      },
+      openIndexModal (item, method) {
+        this.modalTitle = method
+        this.modalSubtitle = item.index
+        this.modalMethod = method
+        this.modalMethodParams = { index: item.index }
+        this.modalOpen = true
       }
     }
   }

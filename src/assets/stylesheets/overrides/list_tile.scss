@@ -2,8 +2,14 @@ div.v-list__tile {
   user-select: initial;
 }
 
-.v-autocomplete__content {
+.v-autocomplete__content, .v-menu__content {
   .v-list__tile {
     height: 36px;
+  }
+}
+
+.v-menu__content {
+  .v-list__tile__action {
+    min-width: 24px;
   }
 }

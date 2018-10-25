@@ -91,6 +91,33 @@ export default class ElasticsearchAdapter {
   }
 
   /**
+   * Get stats for an index
+   * @param params
+   * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-indices-stats
+   */
+  indicesStats (params) {
+    return this.client.indices.stats(Object.assign({}, REQUEST_DEFAULT_BODY, params))
+  }
+
+  /**
+   * Close an index
+   * @param params
+   * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-indices-close
+   */
+  indicesClose (params) {
+    return this.client.indices.close(Object.assign({}, REQUEST_DEFAULT_BODY, params))
+  }
+
+  /**
+   * Open an index
+   * @param params
+   * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-indices-open
+   */
+  indicesOpen (params) {
+    return this.client.indices.open(Object.assign({}, REQUEST_DEFAULT_BODY, params))
+  }
+
+  /**
    * Find out if an index exists
    * @param params
    * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-indices-exists

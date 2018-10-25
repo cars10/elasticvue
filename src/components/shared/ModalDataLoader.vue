@@ -10,7 +10,7 @@
         </div>
       </v-card-title>
 
-      <v-card-text class="pt-0">
+      <v-card-text v-if="modalSubtitle" class="pt-0">
         <h2 class="subheading">{{modalSubtitle}}</h2>
       </v-card-text>
 
