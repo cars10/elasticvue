@@ -61,11 +61,7 @@
                   <list-tile-modal-link :modal-action="() => openIndexModal(props.item, 'indicesStats')"
                                         :to="indexRoute(props.item, 'IndexStats')"
                                         icon="show_chart" link-title="Show stats"/>
-
-                  <list-tile-link v-if="props.item.status === 'open'" :action="() => closeIndex(props.item.index)"
-                                  icon="lock" link-title="Close index"/>
-                  <list-tile-link v-else :action="() => openIndex(props.item.index)"
-                                  icon="lock_open" link-title="Open index"/>
+                  <v-divider/>
 
                   <list-tile-link :action="() => forcemergeIndex(props.item.index)"
                                   icon="merge_type" link-title="Forcemerge index"/>
@@ -73,6 +69,17 @@
                   <list-tile-link :action="() => refreshIndex(props.item.index)"
                                   icon="refresh" link-title="Refresh index"/>
 
+                  <list-tile-link :action="() => flushIndex(props.item.index)"
+                                  icon="save_alt" link-title="Flush index"/>
+
+                  <list-tile-link :action="() => clearCacheIndex(props.item.index)"
+                                  icon="clear_all" link-title="Clear index cache"/>
+
+                  <v-divider/>
+                  <list-tile-link v-if="props.item.status === 'open'" :action="() => closeIndex(props.item.index)"
+                                  icon="lock" link-title="Close index"/>
+                  <list-tile-link v-else :action="() => openIndex(props.item.index)"
+                                  icon="lock_open" link-title="Open index"/>
                   <list-tile-link :action="() => deleteIndex(props.item.index)"
                                   icon="delete" link-title="Delete index"/>
                 </v-list>
@@ -253,6 +260,22 @@
           args: { index },
           callback: () => this.$emit('reloadIndices'),
           text: `The index '${index}' was successfully refreshed.`
+        })
+      },
+      flushIndex (index) {
+        this.simpleRequest({
+          method: 'indicesFlush',
+          args: { index },
+          callback: () => this.$emit('reloadIndices'),
+          text: `The index '${index}' was successfully flushed.`
+        })
+      },
+      clearCacheIndex (index) {
+        this.simpleRequest({
+          method: 'indicesClearCache',
+          args: { index },
+          callback: () => this.$emit('reloadIndices'),
+          text: `The index '${index}' cache was successfully cleared.`
         })
       },
       indexRoute (item, routeName) {
