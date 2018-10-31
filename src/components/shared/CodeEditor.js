@@ -26,7 +26,11 @@ export default {
     },
     useWorker: {
       type: Boolean,
-      default: true
+      default: false
+    },
+    wrapLines: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
@@ -54,6 +58,7 @@ export default {
       this.$emit('init', this.editor)
       this.editor.getSession().setUseWorker(this.useWorker)
       this.editor.getSession().setMode('ace/mode/json')
+      this.editor.getSession().setUseWrapMode(this.wrapLines)
       this.editor.setFontSize('14px')
       this.editor.$blockScrolling = Infinity
       this.setTheme(this.$store.state.theme.dark)
@@ -62,6 +67,9 @@ export default {
   watch: {
     darkTheme (value) {
       this.setTheme(value)
+    },
+    wrapLines (value) {
+      this.editor.getSession().setUseWrapMode(value)
     },
     value (value) {
       if (this.readOnly) this.setEditorValue(value)
