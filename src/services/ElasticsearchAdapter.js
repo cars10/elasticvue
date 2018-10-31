@@ -136,15 +136,6 @@ export default class ElasticsearchAdapter {
   }
 
   /**
-   * Flush an index
-   * @param params
-   * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-indices-flush
-   */
-  indicesFlush (params) {
-    return this.client.indices.flush(Object.assign({}, REQUEST_DEFAULT_BODY, params))
-  }
-
-  /**
    * Clear index cache
    * @param params
    * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-indices-clearcache
