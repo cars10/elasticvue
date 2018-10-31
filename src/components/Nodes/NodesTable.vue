@@ -3,33 +3,33 @@
     <v-card-title class="clearfix">
       <v-layout row wrap>
         <v-flex xs12 sm6 py-0 pl-0>
-            <h2 class="headline d-inline-flex vertical-align--middle">Nodes</h2>
-            <reload-button id="reload-nodes" :action="() => this.$emit('reloadNodes')"/>
+          <h2 class="headline d-inline-flex vertical-align--middle">Nodes</h2>
+          <reload-button id="reload-nodes" :action="() => this.$emit('reloadNodes')"/>
         </v-flex>
         <v-flex xs12 sm6 py-0>
-            <v-flex right d-inline-flex>
-              <v-text-field id="filter"
-                            v-model="filter"
-                            append-icon="search"
-                            label="Filter..."
-                            name="filter"
-                            class="mt-0 pt-0"
-                            title="Filter via 'column:query'"
-                            autofocus
-                            hide-details
-                            @keyup.esc="filter = ''"/>
+          <v-flex right d-inline-flex>
+            <v-text-field id="filter"
+                          v-model="filter"
+                          append-icon="search"
+                          label="Filter..."
+                          name="filter"
+                          class="mt-0 pt-0"
+                          title="Filter via 'column:query'"
+                          autofocus
+                          hide-details
+                          @keyup.esc="filter = ''"/>
 
-              <settings-dropdown>
-                <single-setting v-model="stickyTableHeader" name="Sticky table header"/>
-              </settings-dropdown>
-            </v-flex>
+            <settings-dropdown>
+              <single-setting v-model="stickyTableHeader" name="Sticky table header"/>
+            </settings-dropdown>
+          </v-flex>
         </v-flex>
       </v-layout>
     </v-card-title>
     <v-divider/>
 
-    <v-data-table :rows-per-page-items="defaultRowsPerPage"
-                  :headers="headers"
+    <v-data-table :rows-per-page-items="DEFAULT_ROWS_PER_PAGE"
+                  :headers="HEADERS"
                   :items="items"
                   :custom-filter="callFuzzyTableFilter"
                   :pagination.sync="pagination"
@@ -90,6 +90,7 @@
   import SettingsDropdown from '@/components/shared/SettingsDropdown'
   import SingleSetting from '@/components/shared/SingleSetting'
   import FixedTableHeader from '@/mixins/FixedTableHeader'
+  import ModalLinkHelper from '@/mixins/ModalLinkHelper'
 
   export default {
     name: 'nodes-table',
@@ -100,7 +101,8 @@
       SingleSetting
     },
     mixins: [
-      FixedTableHeader
+      FixedTableHeader,
+      ModalLinkHelper
     ],
     props: {
       items: {
@@ -130,24 +132,24 @@
           'table--condensed',
           { 'table--fixed-header': this.stickyTableHeader }
         ]
-      },
-      defaultRowsPerPage () {
-        return DEFAULT_ROWS_PER_PAGE
-      },
-      headers () {
-        return [
-          { text: 'status', value: '', sortable: false },
-          { text: 'name', value: 'name' },
-          { text: 'ip', value: 'ip' },
-          { text: 'master', value: 'master' },
-          { text: 'node.role', value: 'nodeRole' },
-          { text: 'load', value: 'load_1m' },
-          { text: 'cpu', value: 'cpu' },
-          { text: 'ram', value: 'ramPercent' },
-          { text: 'heap', value: 'heapPercent' },
-          { text: 'disk', value: 'diskPercent' }
-        ]
       }
+    },
+    created () {
+      this.HEADERS = [
+        { text: 'status', value: '', sortable: false },
+        { text: 'name', value: 'name' },
+        { text: 'ip', value: 'ip' },
+        { text: 'master', value: 'master' },
+        { text: 'node.role', value: 'nodeRole' },
+        { text: 'load', value: 'load_1m' },
+        { text: 'cpu', value: 'cpu' },
+        { text: 'ram', value: 'ramPercent' },
+        { text: 'heap', value: 'heapPercent' },
+        { text: 'disk', value: 'diskPercent' },
+        { text: '', value: 'actions', sortable: false }
+      ]
+
+      this.DEFAULT_ROWS_PER_PAGE = DEFAULT_ROWS_PER_PAGE
     },
     methods: {
       callFuzzyTableFilter (items, search, filter, headers) {

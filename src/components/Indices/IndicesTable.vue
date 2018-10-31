@@ -22,8 +22,8 @@
       </div>
     </v-card-text>
 
-    <v-data-table :rows-per-page-items="defaultRowsPerPage()"
-                  :headers="headers"
+    <v-data-table :rows-per-page-items="DEFAULT_ROWS_PER_PAGE"
+                  :headers="HEADERS"
                   :items="flattenedItems"
                   :custom-sort="sortIndices"
                   :custom-filter="callFuzzyTableFilter"
@@ -54,13 +54,16 @@
                   <v-icon small>arrow_drop_down</v-icon>
                 </v-btn>
                 <v-list>
-                  <list-tile-modal-link :modal-action="() => openIndexModal(props.item, 'indicesGet')"
-                                        :to="indexRoute(props.item, 'Index')"
-                                        icon="info" link-title="Show index"/>
+                  <list-tile-modal-link
+                    :modal-action="() => openModal(props.item.index, 'indicesGet', {index: props.item.index})"
+                    :to="linkRoute('Index', {index: props.item.index})"
+                    icon="info" link-title="Show info"/>
 
-                  <list-tile-modal-link :modal-action="() => openIndexModal(props.item, 'indicesStats')"
-                                        :to="indexRoute(props.item, 'IndexStats')"
-                                        icon="show_chart" link-title="Show stats"/>
+                  <list-tile-modal-link
+                    :modal-action="() => openModal(props.item.index, 'indicesStats', {index: props.item.index} )"
+                    :to="linkRoute('IndexStats', {index: props.item.index})"
+                    icon="show_chart" link-title="Show stats"/>
+
                   <v-divider/>
 
                   <list-tile-link :action="() => forcemergeIndex(props.item.index)"
@@ -107,10 +110,8 @@
   import NewIndex from '@/components/Indices/NewIndex'
   import SettingsDropdown from '@/components/shared/SettingsDropdown'
   import SingleSetting from '@/components/shared/SingleSetting'
-  import ModalDataLoaderActivator from '@/components/shared/ModalDataLoaderActivator'
-  import ModalDataLoader from '@/components/shared/ModalDataLoader'
   import ListTileLink from '@/components/shared/ListTile/ListTileLink'
-  import ListTileModalLink from '@/components/shared/ListTile/ListTileModalLink'
+  import ModalLinkHelper from '@/mixins/ModalLinkHelper'
 
   export default {
     name: 'IndicesTable',
@@ -119,13 +120,11 @@
       NewIndex,
       SettingsDropdown,
       SingleSetting,
-      ModalDataLoaderActivator,
-      ModalDataLoader,
-      ListTileLink,
-      ListTileModalLink
+      ListTileLink
     },
     mixins: [
-      FixedTableHeader
+      FixedTableHeader,
+      ModalLinkHelper
     ],
     props: {
       indices: {
@@ -137,28 +136,6 @@
       loading: {
         default: false,
         type: Boolean
-      }
-    },
-    data () {
-      return {
-        rows: [],
-        headers: [
-          { text: 'index', value: 'index' },
-          { text: 'health', value: 'health' },
-          { text: 'status', value: 'status' },
-          { text: 'uuid', value: 'uuid' },
-          { text: 'pri', value: 'pri', align: 'right' },
-          { text: 'rep', value: 'rep', align: 'right' },
-          { text: 'docs.count', value: 'docs.count', align: 'right' },
-          { text: 'store.size', value: 'store.size', align: 'right' },
-          { text: 'pri.store.size', value: 'pri.store.size', align: 'right' },
-          { text: '', value: 'actions', sortable: false }
-        ],
-        modalOpen: false,
-        modalTitle: '',
-        modalMethod: '',
-        modalSubtitle: '',
-        modalMethodParams: {}
       }
     },
     computed: {
@@ -182,11 +159,20 @@
       },
       ...mapVuexAccessors('indices', ['filter', 'pagination'])
     },
-    mounted () {
-      this.fixedTableHeaderOnEnable()
-    },
-    beforeDestroy () {
-      this.fixedTableHeaderOnDisable()
+    created () {
+      this.HEADERS = [
+        { text: 'index', value: 'index' },
+        { text: 'health', value: 'health' },
+        { text: 'status', value: 'status' },
+        { text: 'uuid', value: 'uuid' },
+        { text: 'pri', value: 'pri', align: 'right' },
+        { text: 'rep', value: 'rep', align: 'right' },
+        { text: 'docs.count', value: 'docs.count', align: 'right' },
+        { text: 'store.size', value: 'store.size', align: 'right' },
+        { text: 'pri.store.size', value: 'pri.store.size', align: 'right' },
+        { text: '', value: 'actions', sortable: false }
+      ]
+      this.DEFAULT_ROWS_PER_PAGE = DEFAULT_ROWS_PER_PAGE
     },
     methods: {
       sortIndices (items, index, isDescending) {
@@ -226,9 +212,6 @@
       },
       callFuzzyTableFilter (items, search, filter, headers) {
         return fuzzyTableFilter(items, search, headers)
-      },
-      defaultRowsPerPage () {
-        return DEFAULT_ROWS_PER_PAGE
       },
       closeIndex (index) {
         this.simpleRequest({
@@ -277,16 +260,6 @@
           callback: () => this.$emit('reloadIndices'),
           text: `The index '${index}' cache was successfully cleared.`
         })
-      },
-      indexRoute (item, routeName) {
-        return { name: routeName, params: { index: item.index } }
-      },
-      openIndexModal (item, method) {
-        this.modalTitle = method
-        this.modalSubtitle = item.index
-        this.modalMethod = method
-        this.modalMethodParams = { index: item.index }
-        this.modalOpen = true
       }
     }
   }
