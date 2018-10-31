@@ -1,5 +1,5 @@
 <template>
-  <v-list-tile @click="action">
+  <v-list-tile @click="runSimpleRequest">
     <v-list-tile-action v-if="icon">
       <v-icon small>{{icon}}</v-icon>
     </v-list-tile-action>
@@ -13,11 +13,6 @@
   export default {
     name: 'list-tile-link',
     props: {
-      action: {
-        type: Function,
-        default: () => {
-        }
-      },
       icon: {
         type: String,
         default: ''
@@ -25,6 +20,40 @@
       linkTitle: {
         type: String,
         default: ''
+      },
+      method: {
+        type: String,
+        default: ''
+      },
+      methodParams: {
+        type: Object,
+        default: () => {
+          return {}
+        }
+      },
+      callback: {
+        type: Function,
+        default: () => {
+        }
+      },
+      growl: {
+        type: String,
+        default: ''
+      },
+      confirmMessage: {
+        type: String,
+        default: ''
+      }
+    },
+    methods: {
+      runSimpleRequest () {
+        this.simpleRequest({
+          method: this.method,
+          methodParams: this.methodParams,
+          callback: this.callback,
+          growl: this.growl,
+          confirmMessage: this.confirmMessage
+        })
       }
     }
   }

@@ -66,25 +66,36 @@
 
                   <v-divider/>
 
-                  <list-tile-link :action="() => forcemergeIndex(props.item.index)"
-                                  icon="merge_type" link-title="Forcemerge index"/>
+                  <list-tile-link :method-params="{index: props.item.index}" :callback="emitReloadIndices"
+                                  :growl="`The index '${props.item.index}' was successfully merged.`"
+                                  method="indicesForcemerge" icon="merge_type" link-title="Forcemerge index"/>
 
-                  <list-tile-link :action="() => refreshIndex(props.item.index)"
-                                  icon="refresh" link-title="Refresh index"/>
+                  <list-tile-link :method-params="{index: props.item.index}" :callback="emitReloadIndices"
+                                  :growl="`The index '${props.item.index}' was successfully refreshed.`"
+                                  method="indicesRefresh" icon="refresh" link-title="Refresh index"/>
 
-                  <list-tile-link :action="() => flushIndex(props.item.index)"
-                                  icon="save_alt" link-title="Flush index"/>
+                  <list-tile-link :method-params="{index: props.item.index}" :callback="emitReloadIndices"
+                                  :growl="`The index '${props.item.index}' was successfully flushed.`"
+                                  method="indicesFlush" icon="save_alt" link-title="Flush index"/>
 
-                  <list-tile-link :action="() => clearCacheIndex(props.item.index)"
-                                  icon="clear_all" link-title="Clear index cache"/>
+                  <list-tile-link :method-params="{index: props.item.index}" :callback="emitReloadIndices"
+                                  :growl="`The index '${props.item.index}' cache was successfully cleared.`"
+                                  method="indicesClearCache" icon="clear_all" link-title="Clear index cache"/>
 
                   <v-divider/>
-                  <list-tile-link v-if="props.item.status === 'open'" :action="() => closeIndex(props.item.index)"
-                                  icon="lock" link-title="Close index"/>
-                  <list-tile-link v-else :action="() => openIndex(props.item.index)"
-                                  icon="lock_open" link-title="Open index"/>
-                  <list-tile-link :action="() => deleteIndex(props.item.index)"
-                                  icon="delete" link-title="Delete index"/>
+
+                  <list-tile-link v-if="props.item.status === 'open'"
+                                  :method-params="{index: props.item.index}" :callback="emitReloadIndices"
+                                  :growl="`The index '${props.item.index}' was successfully closed.`"
+                                  method="indicesClose" icon="lock" link-title="Close index"/>
+                  <list-tile-link v-else :method-params="{index: props.item.index}" :callback="emitReloadIndices"
+                                  :growl="`The index '${props.item.index}' was successfully opened.`"
+                                  method="indicesOpen" icon="lock_open" link-title="Open index"/>
+
+                  <list-tile-link :method-params="{index: props.item.index}" :callback="emitReloadIndices"
+                                  :growl="`The index '${props.item.index}' was successfully deleted.`"
+                                  confirm-message="Are you sure? This will remove ALL data in your index!"
+                                  method="indicesDelete" icon="delete" link-title="Delete index"/>
                 </v-list>
               </v-menu>
             </btn-group>
@@ -200,66 +211,11 @@
         this.$store.commit('search/setIndices', [index]) // to pre-select right index on "Search" page
         this.$router.push({ name: 'Search', params: { executeSearch: true } })
       },
-      deleteIndex (index) {
-        if (confirm('Are you sure? This will remove ALL data in your index!')) {
-          this.simpleRequest({
-            method: 'indicesDelete',
-            args: { index },
-            callback: () => this.$emit('reloadIndices'),
-            text: `The index '${index}' was successfully deleted.`
-          })
-        }
-      },
       callFuzzyTableFilter (items, search, filter, headers) {
         return fuzzyTableFilter(items, search, headers)
       },
-      closeIndex (index) {
-        this.simpleRequest({
-          method: 'indicesClose',
-          args: { index },
-          callback: () => this.$emit('reloadIndices'),
-          text: `The index '${index}' was successfully closed.`
-        })
-      },
-      openIndex (index) {
-        this.simpleRequest({
-          method: 'indicesOpen',
-          args: { index },
-          callback: () => this.$emit('reloadIndices'),
-          text: `The index '${index}' was successfully opened.`
-        })
-      },
-      forcemergeIndex (index) {
-        this.simpleRequest({
-          method: 'indicesForcemerge',
-          args: { index },
-          callback: () => this.$emit('reloadIndices'),
-          text: `The index '${index}' was successfully merged.`
-        })
-      },
-      refreshIndex (index) {
-        this.simpleRequest({
-          method: 'indicesRefresh',
-          args: { index },
-          callback: () => this.$emit('reloadIndices'),
-          text: `The index '${index}' was successfully refreshed.`
-        })
-      },
-      flushIndex (index) {
-        this.simpleRequest({
-          method: 'indicesFlush',
-          args: { index },
-          callback: () => this.$emit('reloadIndices'),
-          text: `The index '${index}' was successfully flushed.`
-        })
-      },
-      clearCacheIndex (index) {
-        this.simpleRequest({
-          method: 'indicesClearCache',
-          args: { index },
-          callback: () => this.$emit('reloadIndices'),
-          text: `The index '${index}' cache was successfully cleared.`
-        })
+      emitReloadIndices () {
+        this.$emit('reloadIndices')
       }
     }
   }

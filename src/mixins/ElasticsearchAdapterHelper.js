@@ -17,12 +17,21 @@ const ElasticsearchAdapterHelper = {
       }
     },
     simpleRequest (options) {
+      if (options.confirmMessage.length !== 0) {
+        if (confirm(options.confirmMessage)) {
+          this.runRequest(options)
+        }
+      } else {
+        this.runRequest(options)
+      }
+    },
+    runRequest (options) {
       this.getElasticsearchAdapter()
-        .then(adapter => adapter[options.method](options.args))
+        .then(adapter => adapter[options.method](options.methodParams))
         .then(body => {
           if (typeof options.callback === 'function') options.callback.call(body)
           this.showSuccessSnackbar({
-            text: options.text,
+            text: options.growl,
             additionalText: JSON.stringify(body)
           })
         })
