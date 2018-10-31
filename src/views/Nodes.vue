@@ -1,11 +1,9 @@
 <template>
-  <div>
-    <data-loader ref="dataLoader" :method-params="catMethodParams" method="catNodes" render-content-while-loading>
-      <template slot-scope="data">
-        <nodes-list :nodes="data.body || []" :loading="data.loading" @reloadNodes="reloadNodes"/>
-      </template>
-    </data-loader>
-  </div>
+  <data-loader ref="dataLoader" :method-params="catMethodParams" method="catNodes" render-content-while-loading>
+    <template slot-scope="data">
+      <nodes-list :nodes="data.body || []" :loading="data.loading" @reloadNodes="reloadNodes"/>
+    </template>
+  </data-loader>
 </template>
 
 <script>
