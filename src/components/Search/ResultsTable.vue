@@ -145,12 +145,6 @@
         this.flattenedHits = results.results
       }
     },
-    mounted () {
-      this.fixedTableHeaderOnEnable()
-    },
-    beforeDestroy () {
-      this.fixedTableHeaderOnDisable()
-    },
     methods: {
       openDocument (item) {
         this.modalMethodParams = { index: item._index, type: item._type, id: item._id }
