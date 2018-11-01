@@ -11324,17 +11324,17 @@ vue@~2.5.17:
   integrity sha512-mFbcWoDIJi0w0Za4emyLiW72Jae0yjANHbCVquMKijcavBGypqlF7zHRgMa5k4sesdv7hv2rB4JPdZfR+TPfhQ==
 
 vuetify-loader@~1.0.4:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/vuetify-loader/-/vuetify-loader-1.0.5.tgz#da04cdab6b4fc49f9d14964ee23e6f26564ce310"
-  integrity sha512-eyvJx+VGqZwEEuuR7UhI/z4XV99bZqMSaesttENnjnOuWjjgtcR2gJEhmSDn2eQsrT943/FqFY69gkzLSuBp5A==
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/vuetify-loader/-/vuetify-loader-1.0.6.tgz#aadddbf8bfe0e383b54522dd5aa0fdae85fff6c9"
+  integrity sha512-oC4pA5EXLQvQnWZ6JzXpOCmQngXFW1/S6FUq08Ju8+6Eceuo2HgDtW5SM+lLlaSqJAL1NesMiE2ePRovTnk1hg==
   dependencies:
     gm "^1.23.1"
     loader-utils "^1.1.0"
 
 vuetify@~1.3.0:
-  version "1.3.4"
-  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-1.3.4.tgz#95518bddef0e2c6821acf050ba25df30dcd5bc7b"
-  integrity sha512-6zlbB0U3LLJLRtvOb7DqK+/df1vkQlF5HzxATDnAejErhnItHAyHK3JJuTivYyEifknVK7tyQaCud99gvY28QA==
+  version "1.3.5"
+  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-1.3.5.tgz#9f0466b83255e8b0aab76a7378039f12bb12f42a"
+  integrity sha512-81otPD6/hTiDGzFWyqATEMgsOsKdj+MLJrgOkR7zmwIDnKBlE04HWhhpTosKPugxI3g+SXdY8ha0cf3WWNhMzA==
 
 vuex-persistedstate@~2.5.4:
   version "2.5.4"
