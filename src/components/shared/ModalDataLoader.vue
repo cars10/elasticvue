@@ -4,7 +4,7 @@
       <v-card-title>
         <h2 class="headline">{{modalTitle}}</h2>
         <div class="ml-a">
-          <v-btn icon @click.native="dialog = false">
+          <v-btn icon @click.native="close">
             <v-icon>close</v-icon>
           </v-btn>
         </div>
@@ -88,12 +88,15 @@
       open () {
         this.dialog = true
       },
+      close () {
+        this.dialog = false
+      },
       calculatedHeight () {
         return window.innerHeight * 0.7
       },
       closeOnEsc (e) {
         if (e.keyCode === 27) {
-          this.dialog = false
+          this.close()
         }
       }
     }
