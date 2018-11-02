@@ -24,8 +24,7 @@
 
     <v-data-table :rows-per-page-items="DEFAULT_ROWS_PER_PAGE"
                   :headers="HEADERS"
-                  :items="flattenedItems"
-                  :custom-sort="sortIndices"
+                  :items="items"
                   :custom-filter="callFuzzyTableFilter"
                   :pagination.sync="pagination"
                   :search="filter"
@@ -39,9 +38,9 @@
           <td>{{props.item.uuid}}</td>
           <td class="text-xs-right">{{props.item.pri}}</td>
           <td class="text-xs-right">{{props.item.rep}}</td>
-          <td class="text-xs-right">{{props.item['docs.count']}}</td>
-          <td class="text-xs-right">{{props.item['store.size']}}</td>
-          <td class="text-xs-right">{{props.item['pri.store.size']}}</td>
+          <td class="text-xs-right">{{props.item.docsCount}}</td>
+          <td class="text-xs-right">{{props.item.storeSize}}</td>
+          <td class="text-xs-right">{{props.item.priStoreSize}}</td>
           <td>
             <btn-group small>
               <v-btn title="Search documents" @click.native.stop="showDocuments(props.item.index)">
@@ -107,7 +106,6 @@
 <script>
   import BtnGroup from '@/components/shared/BtnGroup'
   import { fuzzyTableFilter } from '../../helpers/filters'
-  import { flattenObject } from '../../helpers/utilities'
   import FixedTableHeader from '@/mixins/FixedTableHeader'
   import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
   import { mapVuexAccessors } from '../../helpers/store'
@@ -116,6 +114,7 @@
   import SingleSetting from '@/components/shared/SingleSetting'
   import ListTileLink from '@/components/shared/ListTile/ListTileLink'
   import ListTileModalLink from '@/components/shared/ListTile/ListTileModalLink'
+  import ElasticsearchIndex from '../../models/ElasticsearchIndex'
 
   export default {
     name: 'IndicesTable',
@@ -143,8 +142,8 @@
       }
     },
     computed: {
-      flattenedItems () {
-        return this.indices.map(hit => flattenObject(hit, false))
+      items () {
+        return this.indices.map(index => new ElasticsearchIndex(index))
       },
       stickyTableHeader: {
         get () {
@@ -169,37 +168,16 @@
         { text: 'health', value: 'health' },
         { text: 'status', value: 'status' },
         { text: 'uuid', value: 'uuid' },
-        { text: 'pri', value: 'pri', align: 'right' },
-        { text: 'rep', value: 'rep', align: 'right' },
-        { text: 'docs.count', value: 'docs.count', align: 'right' },
-        { text: 'store.size', value: 'store.size', align: 'right' },
-        { text: 'pri.store.size', value: 'pri.store.size', align: 'right' },
+        { text: 'pri', value: 'parsedPri', align: 'right' },
+        { text: 'rep', value: 'parsedRep', align: 'right' },
+        { text: 'docs.count', value: 'parsedDocsCount', align: 'right' },
+        { text: 'store.size', value: 'parsedStoreSize', align: 'right' },
+        { text: 'pri.store.size', value: 'parsedPriStoreSize', align: 'right' },
         { text: '', value: 'actions', sortable: false }
       ]
       this.DEFAULT_ROWS_PER_PAGE = DEFAULT_ROWS_PER_PAGE
     },
     methods: {
-      sortIndices (items, index, isDescending) {
-        const NUMBER_KIND_VALUES = ['pri', 'rep', 'docs.count', 'store.size', 'pri.store.size']
-        return items.sort((a, b) => {
-          let valA = a[index]
-          let valB = b[index]
-
-          // Parse the values to float because string sorting does not work right here.
-          if (NUMBER_KIND_VALUES.includes(index)) {
-            valA = parseFloat(a[index])
-            valB = parseFloat(b[index])
-          }
-
-          if (valA < valB) {
-            return isDescending ? 1 : -1
-          } else if (valA > valB) {
-            return isDescending ? -1 : 1
-          } else {
-            return 0
-          }
-        })
-      },
       showDocuments (index) {
         this.$store.commit('search/setIndices', [index]) // to pre-select right index on "Search" page
         this.$router.push({ name: 'Search', params: { executeSearch: true } })
