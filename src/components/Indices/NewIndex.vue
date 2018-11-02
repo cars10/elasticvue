@@ -9,7 +9,7 @@
 
       <v-divider/>
       <v-card-text>
-        <v-form ref="form" v-model="valid">
+        <v-form ref="form" v-model="valid" lazy-validation>
           <v-text-field id="index_name"
                         v-model="indexName"
                         :rules="[nameValidation]"
@@ -76,6 +76,10 @@
               additionalText: JSON.stringify(body)
             })
             this.dialog = false
+            this.indexName = ''
+            this.indexShards = ''
+            this.indexReplicas = ''
+            this.$refs.form.reset()
             this.$emit('reloadIndices')
           })
           .catch(error => this.$store.commit('connection/setErrorState', error))
