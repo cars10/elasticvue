@@ -4,8 +4,6 @@ set -e
 
 [ -z "$VERSION" ] && echo "You have to set a VERSION to run this script." && exit 1;
 
-sh ./test_all.sh
-
 if [ $? -eq 0 ]; then
   # bump version to $VERSION
   sed -e "s/\"version\":\s\".*\"/\"version\": \"$VERSION\"/" -i package.json
