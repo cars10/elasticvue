@@ -235,7 +235,6 @@ Current TODOs, more ore less ordered by importance.
 
 ### Features
 
-* add caption for printPretty component
 * snapshot management
 * node management
 

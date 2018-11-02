@@ -1,20 +1,23 @@
 <template>
   <div>
-    <div class="clearfix">
-      <v-flex right>
-        <v-btn-toggle v-model="wrapLines" class="ma-2">
+    <v-layout>
+      <v-flex md9 xs12 my-0 mx-2>
+        <h2 v-if="caption" class="subheading">{{caption}}</h2>
+      </v-flex>
+      <v-flex md3 xs12 my-0 mx-2>
+        <v-btn-toggle v-model="wrapLines" class="right">
           <v-btn :value="true" title="Wrap lines">
             <v-icon>wrap_text</v-icon>
           </v-btn>
         </v-btn-toggle>
       </v-flex>
-    </div>
+    </v-layout>
     <v-flex v-if="resizable" py-2>
       <resizable-container :initial-height="initialHeight">
         <code-editor :value="document" read-only/>
       </resizable-container>
     </v-flex>
-    <div v-else :style="style">
+    <div v-else :style="style" class="pt-2">
       <code-editor :value="document" :wrap-lines="wrapLines" read-only/>
     </div>
   </div>
@@ -35,16 +38,20 @@
     },
     props: {
       document: {
-        default: '',
-        type: [Object, Array, String]
+        type: [Object, Array, String],
+        default: ''
       },
       initialHeight: {
-        default: 600,
-        type: Number
+        type: Number,
+        default: 600
       },
       resizable: {
-        default: true,
-        type: Boolean
+        type: Boolean,
+        default: true
+      },
+      caption: {
+        type: String,
+        default: ''
       }
     },
     data () {

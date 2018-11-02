@@ -10,14 +10,13 @@
         </div>
       </v-card-title>
 
-      <v-card-text v-if="modalSubtitle" class="pt-0">
-        <h2 class="subheading">{{modalSubtitle}}</h2>
-      </v-card-text>
-
       <data-loader ref="dataLoader" :method="method" :method-params="methodParams">
         <template slot-scope="data">
           <slot name="content">
-            <print-pretty :document="data.body" :resizable="false" :initial-height="calculatedHeight()"/>
+            <print-pretty :document="data.body"
+                          :resizable="false"
+                          :initial-height="calculatedHeight()"
+                          :caption="modalSubtitle"/>
           </slot>
         </template>
       </data-loader>
@@ -90,7 +89,7 @@
         this.dialog = true
       },
       calculatedHeight () {
-        return window.innerHeight * 0.8
+        return window.innerHeight * 0.7
       },
       closeOnEsc (e) {
         if (e.keyCode === 27) {
