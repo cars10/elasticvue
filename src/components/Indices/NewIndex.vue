@@ -9,9 +9,11 @@
 
       <v-divider/>
       <v-card-text>
-        <v-form>
+        <v-form ref="form" v-model="valid">
           <v-text-field id="index_name"
                         v-model="indexName"
+                        :rules="[nameValidation]"
+                        required
                         name="indexName"
                         label="Index name"/>
 
@@ -43,6 +45,7 @@
     data () {
       return {
         dialog: false,
+        valid: false,
         indexName: '',
         indexShards: '',
         indexReplicas: ''
@@ -60,7 +63,11 @@
       }
     },
     methods: {
+      nameValidation () {
+        return !!this.indexName || 'Required'
+      },
       createIndex () {
+        if (!this.$refs.form.validate()) return
         this.getElasticsearchAdapter()
           .then(adapter => adapter.indicesCreate(this.createIndexParams))
           .then(body => {
