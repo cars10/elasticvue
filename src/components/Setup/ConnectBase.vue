@@ -22,6 +22,7 @@
           return this.$store.state.connection.elasticsearchHost
         },
         set (value) {
+          this.connectError = false
           this.testError = false
           this.testSuccess = false
           this.testLoading = false
