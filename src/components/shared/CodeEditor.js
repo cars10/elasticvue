@@ -86,6 +86,7 @@ export default {
       this.editor.commands.addCommands(this.externalCommands)
     }
 
+    /* istanbul ignore next */
     this.editor.on('change', () => {
       this.$emit('input', this.editor.getValue())
     })
