@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="to" class="v-list__tile v-list__tile--link" event="" @click.native.prevent="modalAction">
+  <router-link :to="to" class="v-list__tile v-list__tile--link" event="" @click.native.prevent="action">
     <v-list-tile-action v-if="icon">
       <v-icon small>{{icon}}</v-icon>
     </v-list-tile-action>
@@ -13,7 +13,7 @@
   export default {
     name: 'list-tile-modal-link',
     props: {
-      modalAction: {
+      action: {
         type: Function,
         default: () => {
         }

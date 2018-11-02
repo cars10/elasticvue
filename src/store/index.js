@@ -8,6 +8,7 @@ import { query } from './modules/query'
 import { search } from './modules/search'
 import { snackbar } from './modules/snackbar'
 import { theme } from './modules/theme'
+import { modal } from './modules/modal'
 
 Vue.use(Vuex)
 
@@ -17,6 +18,7 @@ export default new Vuex.Store({
     connection,
     indices,
     nodes,
+    modal,
     query,
     search,
     snackbar,

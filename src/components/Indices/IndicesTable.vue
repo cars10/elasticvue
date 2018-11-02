@@ -2,7 +2,7 @@
   <div>
     <v-card-text>
       <div class="clearfix">
-        <new-index @reloadIndices="() => this.$emit('reloadIndices')"/>
+        <new-index @reloadIndices="emitReloadIndices"/>
         <v-flex right d-inline-flex>
           <v-text-field id="filter"
                         v-model="filter"
@@ -54,15 +54,13 @@
                   <v-icon small>arrow_drop_down</v-icon>
                 </v-btn>
                 <v-list>
-                  <list-tile-modal-link
-                    :modal-action="() => openModal(props.item.index, 'indicesGet', {index: props.item.index})"
-                    :to="linkRoute('Index', {index: props.item.index})"
-                    icon="info" link-title="Show info"/>
+                  <list-tile-modal-link :action="() => openIndicesGetModal(props.item.index)"
+                                        :to="{name: 'Index', params: {index: props.item.index}}"
+                                        icon="info" link-title="Show info"/>
 
-                  <list-tile-modal-link
-                    :modal-action="() => openModal(props.item.index, 'indicesStats', {index: props.item.index} )"
-                    :to="linkRoute('IndexStats', {index: props.item.index})"
-                    icon="show_chart" link-title="Show stats"/>
+                  <list-tile-modal-link :action="() => openIndicesStatsModal(props.item.index)"
+                                        :to="{name: 'IndexStats', params: {index: props.item.index}}"
+                                        icon="show_chart" link-title="Show stats"/>
 
                   <v-divider/>
 
@@ -103,11 +101,6 @@
         </tr>
       </template>
     </v-data-table>
-    <modal-data-loader v-model="modalOpen"
-                       :method-params="modalMethodParams"
-                       :method="modalMethod"
-                       :modal-title="modalTitle"
-                       :modal-subtitle="modalSubtitle"/>
   </div>
 </template>
 
@@ -122,7 +115,7 @@
   import SettingsDropdown from '@/components/shared/SettingsDropdown'
   import SingleSetting from '@/components/shared/SingleSetting'
   import ListTileLink from '@/components/shared/ListTile/ListTileLink'
-  import ModalLinkHelper from '@/mixins/ModalLinkHelper'
+  import ListTileModalLink from '@/components/shared/ListTile/ListTileModalLink'
 
   export default {
     name: 'IndicesTable',
@@ -131,11 +124,11 @@
       NewIndex,
       SettingsDropdown,
       SingleSetting,
-      ListTileLink
+      ListTileLink,
+      ListTileModalLink
     },
     mixins: [
-      FixedTableHeader,
-      ModalLinkHelper
+      FixedTableHeader
     ],
     props: {
       indices: {
@@ -216,6 +209,22 @@
       },
       emitReloadIndices () {
         this.$emit('reloadIndices')
+      },
+      openIndicesGetModal (indexName) {
+        this.openModal({
+          method: 'indicesGet',
+          methodParams: { index: indexName },
+          title: 'indicesGet',
+          subtitle: indexName
+        })
+      },
+      openIndicesStatsModal (indexName) {
+        this.openModal({
+          method: 'indicesStats',
+          methodParams: { index: indexName },
+          title: 'indicesStats',
+          subtitle: indexName
+        })
       }
     }
   }

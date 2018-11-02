@@ -90,7 +90,6 @@
   import SettingsDropdown from '@/components/shared/SettingsDropdown'
   import SingleSetting from '@/components/shared/SingleSetting'
   import FixedTableHeader from '@/mixins/FixedTableHeader'
-  import ModalLinkHelper from '@/mixins/ModalLinkHelper'
 
   export default {
     name: 'nodes-table',
@@ -101,8 +100,7 @@
       SingleSetting
     },
     mixins: [
-      FixedTableHeader,
-      ModalLinkHelper
+      FixedTableHeader
     ],
     props: {
       items: {

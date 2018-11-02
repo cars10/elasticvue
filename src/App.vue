@@ -6,6 +6,12 @@
       <v-container fluid grid-list-md>
         <content-or-setup>
           <router-view v-if="renderRouterView"/>
+
+          <modal-data-loader v-model="modalOpen"
+                             :method-params="methodParams"
+                             :method="method"
+                             :modal-title="title"
+                             :modal-subtitle="subtitle"/>
         </content-or-setup>
       </v-container>
       <snackbar/>
@@ -22,6 +28,8 @@
   import Snackbar from '@/components/Snackbar'
   import ConnectionStatus from '@/mixins/ConnectionStatus'
   import ConnectWithServer from '@/mixins/ConnectWithServer'
+  import ModalDataLoader from '@/components/shared/ModalDataLoader'
+  import { mapVuexAccessors } from './helpers/store'
 
   export default {
     name: 'App',
@@ -29,6 +37,7 @@
       TheHeader,
       TheFooter,
       ContentOrSetup,
+      ModalDataLoader,
       Snackbar
     },
     mixins: [
@@ -39,6 +48,9 @@
       return {
         renderRouterView: true
       }
+    },
+    computed: {
+      ...mapVuexAccessors('modal', ['modalOpen', 'method', 'methodParams', 'title', 'subtitle'])
     },
     created () {
       if (this.wasConnected) {
