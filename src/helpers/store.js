@@ -35,13 +35,18 @@ export const mapVuexAccessors = function (namespace, states) {
     states.forEach(function (key) {
       methods[key] = {
         get () {
+          /* istanbul ignore next */
           return namespace ? this.$store.state[namespace][key] : this.$store.state[key]
         },
         set (value) {
+          /* istanbul ignore next */
           let capitalizedKey = capitalize(key)
+          /* istanbul ignore next */
           if (namespace) {
+            /* istanbul ignore next */
             this.$store.commit(`${namespace}/set${capitalizedKey}`, value)
           } else {
+            /* istanbul ignore next */
             this.$store.commit(`set${capitalizedKey}`, value)
           }
         }
@@ -51,9 +56,11 @@ export const mapVuexAccessors = function (namespace, states) {
     Object.keys(states).forEach(function (key) {
       methods[key] = {
         get () {
+          /* istanbul ignore next */
           return namespace ? this.$store.state[namespace][key] : this.$store.state[key]
         },
         set (value) {
+          /* istanbul ignore next */
           namespace ? this.$store.commit(`${namespace}/${states[key]}`, value) : this.$store.commit(states[key], value)
         }
       }
