@@ -44,6 +44,11 @@ describe('Header', () => {
       cy.url().should('include', '/')
     })
 
+    it('can navigate to nodes page', () => {
+      cy.get('#navbar_nodes').click()
+      cy.url().should('include', '/nodes')
+    })
+
     it('can navigate to indices page', () => {
       cy.get('#navbar_indices').click()
       cy.url().should('include', '/indices')

@@ -76,11 +76,6 @@
             this.connectError = true
             this.showErrorSnackbar({ text: 'Error: could not connect.' })
           })
-      },
-      connectIfTestSuccessfull () {
-        if (this.testSuccess) {
-          this.connect()
-        }
       }
     }
   }
