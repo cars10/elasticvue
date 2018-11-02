@@ -45,26 +45,22 @@
     data () {
       return {
         timerSetting: null,
-        timer: null
+        intervalID: null
       }
     },
     watch: {
       timerSetting (value) {
-        clearTimeout(this.timer)
-        if (value) this.setTimer()
+        clearInterval(this.intervalID)
+        if (value) this.setInterval()
       }
     },
-    created () {
-      // this.setTimer()
-    },
     destroyed () {
-      clearTimeout(this.timer)
+      clearInterval(this.intervalID)
     },
     methods: {
-      setTimer () {
-        this.timer = setTimeout(() => {
-          this.action()
-          this.setTimer()
+      setInterval () {
+        this.intervalID = setInterval(() => {
+          this.action.call()
         }, this.timerSetting * 1000)
       }
     }
