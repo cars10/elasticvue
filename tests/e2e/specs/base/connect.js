@@ -6,6 +6,8 @@ describe('Connection', () => {
 
   it('cannot connect to a non existing cluster', () => {
     cy.visit('/')
+    cy.clearLocalStorage()
+    cy.reload(true)
     cy.get('#host').clear()
     cy.get('#host').type('http://localhost:9999')
     cy.get('#test_connection').click()
