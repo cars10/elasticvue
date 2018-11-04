@@ -11,8 +11,7 @@ const ElasticsearchAdapterHelper = {
           adapter => {
             this.$store.commit('connection/setElasticsearchAdapter', adapter)
             return adapter
-          },
-          error => this.$store.commit('connection/setErrorState', error)
+          }
         )
       }
     },
@@ -35,7 +34,7 @@ const ElasticsearchAdapterHelper = {
             additionalText: JSON.stringify(body)
           })
         })
-        .catch(error => this.$store.commit('connection/setErrorState', error))
+        .catch(error => this.showErrorSnackbar({ text: 'Error:', additionalText: error.message }))
     }
   }
 }

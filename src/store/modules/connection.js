@@ -1,4 +1,4 @@
-import { CONNECTION_STATES, DEFAULT_HOST, LOCALSTORAGE_KEY } from '../../consts'
+import { CONNECTION_STATES, DEFAULT_HOST } from '../../consts'
 
 export const connection = {
   namespaced: true,
@@ -16,12 +16,6 @@ export const connection = {
     setElasticsearchHost (state, host) {
       state.wasConnected = false
       state.elasticsearchHost = host
-    },
-    setErrorState (state, error) {
-      console.error('## ERROR', error)
-      localStorage.removeItem(LOCALSTORAGE_KEY)
-      state.wasConnected = false
-      state.status = CONNECTION_STATES.ERROR
     },
     setElasticsearchAdapter (state, adapter) {
       state.elasticsearchAdapter = adapter

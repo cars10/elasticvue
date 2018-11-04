@@ -82,7 +82,7 @@
             this.$refs.form.reset()
             this.$emit('reloadIndices')
           })
-          .catch(error => this.$store.commit('connection/setErrorState', error))
+          .catch(error => this.showErrorSnackbar({ text: 'Error:', additionalText: error.message }))
       },
       closeDialog () {
         this.dialog = false
