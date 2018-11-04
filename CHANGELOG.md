@@ -5,6 +5,7 @@
 * added node overview
 * added management options for indices
 * adds timer setting to reload buttons for interval querying
+* can always connect to cluster without testing
 
 ## 0.6.0
 
