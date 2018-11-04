@@ -1,4 +1,4 @@
-import VAutocomplete from 'vuetify/es5/components/VAutocomplete'
+import { VAutocomplete } from 'vuetify/lib'
 import Fuzzysort from 'fuzzysort'
 
 export default {

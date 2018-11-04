@@ -11,23 +11,26 @@ export default {
   },
   props: {
     value: {
-      default: () => {
-        return {}
-      },
-      type: [Object, String]
+      default: '',
+      type: [Object, Array, String]
     },
     readOnly: {
       type: Boolean,
       default: false
     },
-    externalHandler: {
-      type: Function,
+    externalCommands: {
+      type: Array,
       default: () => {
+        return []
       }
     },
     useWorker: {
       type: Boolean,
-      default: true
+      default: false
+    },
+    wrapLines: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
@@ -55,6 +58,7 @@ export default {
       this.$emit('init', this.editor)
       this.editor.getSession().setUseWorker(this.useWorker)
       this.editor.getSession().setMode('ace/mode/json')
+      this.editor.getSession().setUseWrapMode(this.wrapLines)
       this.editor.setFontSize('14px')
       this.editor.$blockScrolling = Infinity
       this.setTheme(this.$store.state.theme.dark)
@@ -63,6 +67,9 @@ export default {
   watch: {
     darkTheme (value) {
       this.setTheme(value)
+    },
+    wrapLines (value) {
+      this.editor.getSession().setUseWrapMode(value)
     },
     value (value) {
       if (this.readOnly) this.setEditorValue(value)
@@ -76,13 +83,10 @@ export default {
       this.editor.setReadOnly(true)
       this.editor.setShowPrintMargin(false)
     } else {
-      this.editor.commands.addCommand({
-        name: 'externalHandler',
-        bindKey: { win: 'Ctrl+ENTER', mac: 'Command+ENTER', linux: 'Ctrl+ENTER' },
-        exec: this.externalHandler
-      })
+      this.editor.commands.addCommands(this.externalCommands)
     }
 
+    /* istanbul ignore next */
     this.editor.on('change', () => {
       this.$emit('input', this.editor.getValue())
     })

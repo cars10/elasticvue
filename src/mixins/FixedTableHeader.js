@@ -1,4 +1,10 @@
 const FixedTableHeader = {
+  mounted () {
+    this.fixedTableHeaderOnEnable()
+  },
+  beforeDestroy () {
+    this.fixedTableHeaderOnDisable()
+  },
   methods: {
     updateFixedTableHeaderHeight () {
       const header = document.querySelector('.table--fixed-header .v-table__overflow')
@@ -20,15 +26,15 @@ const FixedTableHeader = {
       }
     },
     fixedTableHeaderOnEnable () {
-      // call in mounted
       if (typeof window !== 'undefined') {
         this.updateFixedTableHeaderHeight()
         window.addEventListener('resize', this.updateFixedTableHeaderHeight)
       }
     },
     fixedTableHeaderOnDisable () {
-      // call in beforeDestroy
-      window.removeEventListener('resize', this.updateFixedTableHeaderHeight)
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('resize', this.updateFixedTableHeaderHeight)
+      }
     }
   }
 }

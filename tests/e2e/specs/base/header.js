@@ -10,24 +10,12 @@ describe('Header', () => {
     })
 
     it('can reconnect when connected', () => {
-      cy.connect()
+      cy.quickConnect()
       cy.visit('/indices')
       cy.get('#toolbar_host').should('exist')
       cy.get('#toolbar_reconnect_button').click()
       cy.get('#toolbar_host').should('exist')
       cy.url().should('include', '/indices')
-    })
-
-    it('can only reconnect after testing when changing host', () => {
-      cy.connect()
-      cy.get('#toolbar_host').clear()
-      cy.get('#toolbar_host').type('http://localhost:' + Cypress.env('ES_PORT').toString())
-      cy.get('#toolbar_reconnect_button').should('not.exist')
-      cy.get('#toolbar_connect_button').should('be.disabled')
-      cy.get('#toolbar_test_connection_button').click()
-      cy.get('#toolbar_connect_button').should('not.be.disabled')
-      cy.get('#toolbar_connect_button').click()
-      cy.get('#toolbar_connect_button').should('not.be.disabled')
     })
 
     // TODO: check that it does reset search
@@ -36,12 +24,17 @@ describe('Header', () => {
   describe('menu links', () => {
     beforeEach(() => {
       cy.clearLocalStorage()
-      cy.connect()
+      cy.quickConnect()
     })
 
     it('can navigate to home page', () => {
       cy.get('#navbar_home').click()
       cy.url().should('include', '/')
+    })
+
+    it('can navigate to nodes page', () => {
+      cy.get('#navbar_nodes').click()
+      cy.url().should('include', '/nodes')
     })
 
     it('can navigate to indices page', () => {

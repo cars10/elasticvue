@@ -10,10 +10,9 @@
         <v-divider/>
 
         <v-card-text>
-          <h2 class="subheading">{{indexName}}</h2>
           <data-loader ref="dataLoader" :method-params="{index: indexName}" method="indicesGet">
             <template slot-scope="data">
-              <print-pretty :document="data.body"/>
+              <print-pretty :document="data.body" :caption="indexName"/>
             </template>
           </data-loader>
         </v-card-text>

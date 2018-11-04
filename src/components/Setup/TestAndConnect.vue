@@ -26,11 +26,11 @@
             </v-btn>
 
             <v-btn id="connect"
-                   :disabled="!testSuccess"
+                   :disabled="hostValid !== true"
                    :color="connectColor"
                    :loading="connectLoading"
                    type="button"
-                   @click.native="connectIfTestSuccessfull">Connect
+                   @click.native="connect">Connect
             </v-btn>
           </v-flex>
         </v-layout>
@@ -68,7 +68,7 @@
         return this.testError ? 'error' : 'primary'
       },
       connectColor () {
-        return this.connectError ? 'error' : 'success'
+        return this.testSuccess ? 'success' : 'primary'
       }
     }
   }

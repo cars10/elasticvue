@@ -26,6 +26,8 @@
 
 Cypress.Commands.add('connect', () => {
   cy.visit('/')
+  cy.clearLocalStorage()
+  cy.reload(true)
   cy.get('#host').clear()
   cy.get('#host').type('http://localhost:' + Cypress.env('ES_PORT').toString())
   cy.get('#test_connection').click()
@@ -34,13 +36,14 @@ Cypress.Commands.add('connect', () => {
 })
 
 Cypress.Commands.add('quickConnect', () => {
+  cy.clearLocalStorage()
   cy.visit('/', {
     onBeforeLoad: window => {
       window.localStorage.clear()
       window.localStorage.setItem('elasticvuex', '{"connection":{"wasConnected":true,"elasticsearchHost":"http://localhost:9123"}}')
     }
   })
-  cy.visit('/')
+  cy.reload(true)
   cy.contains('cluster_uuid').should('exist')
 })
 

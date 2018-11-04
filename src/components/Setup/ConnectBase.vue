@@ -22,6 +22,7 @@
           return this.$store.state.connection.elasticsearchHost
         },
         set (value) {
+          this.connectError = false
           this.testError = false
           this.testSuccess = false
           this.testLoading = false
@@ -76,11 +77,6 @@
             this.connectError = true
             this.showErrorSnackbar({ text: 'Error: could not connect.' })
           })
-      },
-      connectIfTestSuccessfull () {
-        if (this.testSuccess) {
-          this.connect()
-        }
       }
     }
   }

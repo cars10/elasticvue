@@ -1,6 +1,6 @@
 <template>
   <v-dialog v-model="dialog" width="500">
-    <v-btn id="new_index" slot="activator" color="primary">New index</v-btn>
+    <v-btn id="new_index" slot="activator" color="primary" class="ml-0">New index</v-btn>
 
     <v-card>
       <v-card-title>
@@ -9,9 +9,11 @@
 
       <v-divider/>
       <v-card-text>
-        <v-form>
+        <v-form ref="form" v-model="valid" lazy-validation>
           <v-text-field id="index_name"
                         v-model="indexName"
+                        :rules="[nameValidation]"
+                        required
                         name="indexName"
                         label="Index name"/>
 
@@ -43,6 +45,7 @@
     data () {
       return {
         dialog: false,
+        valid: false,
         indexName: '',
         indexShards: '',
         indexReplicas: ''
@@ -60,7 +63,11 @@
       }
     },
     methods: {
+      nameValidation () {
+        return !!this.indexName || 'Required'
+      },
       createIndex () {
+        if (!this.$refs.form.validate()) return
         this.getElasticsearchAdapter()
           .then(adapter => adapter.indicesCreate(this.createIndexParams))
           .then(body => {
@@ -69,9 +76,13 @@
               additionalText: JSON.stringify(body)
             })
             this.dialog = false
+            this.indexName = ''
+            this.indexShards = ''
+            this.indexReplicas = ''
+            this.$refs.form.reset()
             this.$emit('reloadIndices')
           })
-          .catch(error => this.$store.commit('connection/setErrorState', error))
+          .catch(error => this.showErrorSnackbar({ text: 'Error:', additionalText: error.message }))
       },
       closeDialog () {
         this.dialog = false

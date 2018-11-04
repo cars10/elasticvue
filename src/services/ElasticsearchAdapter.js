@@ -91,6 +91,60 @@ export default class ElasticsearchAdapter {
   }
 
   /**
+   * Get stats for an index
+   * @param params
+   * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-indices-stats
+   */
+  indicesStats (params) {
+    return this.client.indices.stats(Object.assign({}, REQUEST_DEFAULT_BODY, params))
+  }
+
+  /**
+   * Close an index
+   * @param params
+   * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-indices-close
+   */
+  indicesClose (params) {
+    return this.client.indices.close(Object.assign({}, REQUEST_DEFAULT_BODY, params))
+  }
+
+  /**
+   * Open an index
+   * @param params
+   * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-indices-open
+   */
+  indicesOpen (params) {
+    return this.client.indices.open(Object.assign({}, REQUEST_DEFAULT_BODY, params))
+  }
+
+  /**
+   * Force merge for an index
+   * @param params
+   * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-indices-forcemerge
+   */
+  indicesForcemerge (params) {
+    return this.client.indices.forcemerge(Object.assign({}, REQUEST_DEFAULT_BODY, params))
+  }
+
+  /**
+   * Refresh an index
+   * @param params
+   * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-indices-refresh
+   */
+  indicesRefresh (params) {
+    return this.client.indices.refresh(Object.assign({}, REQUEST_DEFAULT_BODY, params))
+  }
+
+  /**
+   * Clear index cache
+   * @param params
+   * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-indices-clearcache
+   */
+  indicesClearCache (params) {
+    return this.client.indices.clearCache(Object.assign({}, REQUEST_DEFAULT_BODY, params))
+  }
+
+  /**
    * Find out if an index exists
    * @param params
    * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-indices-exists
@@ -115,6 +169,15 @@ export default class ElasticsearchAdapter {
    */
   indicesPutSettings (params) {
     return this.client.indices.putSettings(Object.assign({}, REQUEST_DEFAULT_BODY, params))
+  }
+
+  /**
+   * Cat nodes
+   * @param params
+   * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-cat-nodes
+   */
+  catNodes (params) {
+    return this.client.cat.nodes(Object.assign({}, REQUEST_DEFAULT_BODY, params))
   }
 
   /**

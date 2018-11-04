@@ -8,10 +8,9 @@
     <v-divider/>
 
     <v-card-text>
-      <h2 class="subheading">{{this.params.index}} / {{this.params.type}} / {{this.params.id}}</h2>
       <data-loader ref="dataLoader" :method-params="methodParams" method="get">
         <template slot-scope="data">
-          <print-pretty :document="data.body"/>
+          <print-pretty :document="data.body" :caption="caption"/>
         </template>
       </data-loader>
     </v-card-text>
@@ -33,8 +32,10 @@
         return this.$route.params
       },
       methodParams () {
-        let params = this.params
-        return { index: params.index, type: params.type, id: params.id }
+        return { index: this.params.index, type: this.params.type, id: this.params.id }
+      },
+      caption () {
+        return `${this.params.index} / ${this.params.type} / ${this.params.id}`
       }
     }
   }

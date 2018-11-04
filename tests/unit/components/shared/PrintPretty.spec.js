@@ -3,6 +3,7 @@ import Vuetify from 'vuetify'
 import VBtn from 'vuetify/es5/components/VBtn'
 import VIcon from 'vuetify/es5/components/VIcon'
 import VGrid from 'vuetify/es5/components/VGrid'
+import VBtnToggle from 'vuetify/es5/components/VBtnToggle'
 import CodeEditor from '@/components/shared/CodeEditor'
 import ResizableContainer from '@/components/shared/ResizableContainer'
 import PrintPretty from '@/components/shared/PrintPretty'
@@ -16,8 +17,6 @@ describe('components/shared/PrintPretty.vue', () => {
 
   beforeEach(() => {
     localVue = createLocalVue()
-
-    localVue = createLocalVue()
     localVue.use(Vuex)
     localVue.use(Vuetify, {
       components: {
@@ -25,7 +24,8 @@ describe('components/shared/PrintPretty.vue', () => {
         ResizableContainer,
         VBtn,
         VIcon,
-        VGrid
+        VGrid,
+        VBtnToggle
       }
     })
     store = new Vuex.Store({
@@ -35,7 +35,7 @@ describe('components/shared/PrintPretty.vue', () => {
 
   it('should render correct default contents', () => {
     const wrapper = mount(PrintPretty, { localVue, store })
-    expect(wrapper.find('div > div').element.style.height).toEqual(`${wrapper.vm.initialHeight}px`)
+    expect(wrapper.find('.resizable-container').element.style.height).toEqual(`${wrapper.vm.initialHeight}px`)
   })
 
   it('correctly sets the initialHeight of its resizableContainer', () => {
@@ -47,6 +47,6 @@ describe('components/shared/PrintPretty.vue', () => {
         initialHeight: height
       }
     })
-    expect(wrapper.find('div > div').element.style.height).toEqual(`${height}px`)
+    expect(wrapper.find('.resizable-container').element.style.height).toEqual(`${height}px`)
   })
 })

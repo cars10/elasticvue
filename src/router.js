@@ -5,8 +5,10 @@ import Search from '@/views/Search'
 import Document from '@/views/Document'
 import Indices from '@/views/Indices'
 import Index from '@/views/Index'
+import IndexStats from '@/views/IndexStats'
 import Utilities from '@/views/Utilities'
 import Query from '@/views/Query'
+import Nodes from '@/views/Nodes'
 
 Vue.use(Router)
 
@@ -19,6 +21,11 @@ export default new Router({
       component: Home
     },
     {
+      path: '/nodes',
+      name: 'Nodes',
+      component: Nodes
+    },
+    {
       path: '/indices',
       name: 'Indices',
       component: Indices
@@ -27,6 +34,11 @@ export default new Router({
       path: '/indices/:index',
       name: 'Index',
       component: Index
+    },
+    {
+      path: '/indices/:index/stats',
+      name: 'IndexStats',
+      component: IndexStats
     },
     {
       path: '/search',

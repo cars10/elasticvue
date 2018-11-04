@@ -14,9 +14,9 @@
     </v-toolbar-items>
     <v-btn id="toolbar_test_connection_button"
            :loading="testLoading"
-           :disabled="hostValid !== true"
+           :disabled="!hostValid"
            type="submit">
-      Test connection
+      Test
     </v-btn>
 
     <v-btn v-if="isConnected && testSuccess && hostEqual"
@@ -68,8 +68,7 @@
           })
           .catch(error => {
             this.connectLoading = false
-            this.$store.commit('connection/setErrorState', error)
-            this.showErrorSnackbar({ text: 'Error: could not connect.' })
+            this.showErrorSnackbar({ text: 'Error: could not connect.', additionalText: error.message })
           })
       }
     }

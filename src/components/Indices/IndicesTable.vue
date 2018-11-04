@@ -2,7 +2,7 @@
   <div>
     <v-card-text>
       <div class="clearfix">
-        <new-index @reloadIndices="() => this.$emit('reloadIndices')"/>
+        <new-index @reloadIndices="emitReloadIndices"/>
         <v-flex right d-inline-flex>
           <v-text-field id="filter"
                         v-model="filter"
@@ -21,37 +21,80 @@
         </v-flex>
       </div>
     </v-card-text>
-    <v-data-table :rows-per-page-items="defaultRowsPerPage()"
-                  :headers="headers"
-                  :items="flattenedItems"
-                  :custom-sort="sortIndices"
+
+    <v-data-table :rows-per-page-items="DEFAULT_ROWS_PER_PAGE"
+                  :headers="HEADERS"
+                  :items="items"
                   :custom-filter="callFuzzyTableFilter"
                   :pagination.sync="pagination"
                   :search="filter"
                   :loading="loading"
                   :class="tableClasses">
       <template slot="items" slot-scope="props">
-        <tr class="tr--clickable" @click="showDocuments(props.item.index)">
+        <tr>
           <td>{{props.item.index}}</td>
           <td>{{props.item.health}}</td>
           <td>{{props.item.status}}</td>
           <td>{{props.item.uuid}}</td>
           <td class="text-xs-right">{{props.item.pri}}</td>
           <td class="text-xs-right">{{props.item.rep}}</td>
-          <td class="text-xs-right">{{props.item['docs.count']}}</td>
-          <td class="text-xs-right">{{props.item['store.size']}}</td>
-          <td class="text-xs-right">{{props.item['pri.store.size']}}</td>
+          <td class="text-xs-right">{{props.item.docsCount}}</td>
+          <td class="text-xs-right">{{props.item.storeSize}}</td>
+          <td class="text-xs-right">{{props.item.priStoreSize}}</td>
           <td>
             <btn-group small>
-              <v-btn flat title="Search documents" @click.native.stop="showDocuments(props.item.index)">
-                <v-icon>view_list</v-icon>
+              <v-btn title="Search documents" @click.native.stop="showDocuments(props.item.index)">
+                <v-icon>search</v-icon>
               </v-btn>
-              <v-btn flat title="Show" @click.native.stop="openIndex(props.item.index)">
-                <v-icon>info_outline</v-icon>
-              </v-btn>
-              <v-btn flat title="Delete" @click.native.stop="deleteIndex(props.item.index)">
-                <v-icon>delete</v-icon>
-              </v-btn>
+
+              <v-menu offset-y>
+                <v-btn slot="activator" title="Options">
+                  <v-icon>settings</v-icon>
+                  <v-icon small>arrow_drop_down</v-icon>
+                </v-btn>
+                <v-list>
+                  <list-tile-modal-link :action="() => openIndicesGetModal(props.item.index)"
+                                        :to="{name: 'Index', params: {index: props.item.index}}"
+                                        icon="info" link-title="Show info"/>
+
+                  <list-tile-modal-link :action="() => openIndicesStatsModal(props.item.index)"
+                                        :to="{name: 'IndexStats', params: {index: props.item.index}}"
+                                        icon="show_chart" link-title="Show stats"/>
+
+                  <v-divider/>
+
+                  <list-tile-link :method-params="{index: props.item.index}" :callback="emitReloadIndices"
+                                  :growl="`The index '${props.item.index}' was successfully merged.`"
+                                  method="indicesForcemerge" icon="merge_type" link-title="Forcemerge index"/>
+
+                  <list-tile-link :method-params="{index: props.item.index}" :callback="emitReloadIndices"
+                                  :growl="`The index '${props.item.index}' was successfully refreshed.`"
+                                  method="indicesRefresh" icon="refresh" link-title="Refresh index"/>
+
+                  <list-tile-link :method-params="{index: props.item.index}" :callback="emitReloadIndices"
+                                  :growl="`The index '${props.item.index}' was successfully flushed.`"
+                                  method="indicesFlush" icon="save_alt" link-title="Flush index"/>
+
+                  <list-tile-link :method-params="{index: props.item.index}" :callback="emitReloadIndices"
+                                  :growl="`The index '${props.item.index}' cache was successfully cleared.`"
+                                  method="indicesClearCache" icon="clear_all" link-title="Clear index cache"/>
+
+                  <v-divider/>
+
+                  <list-tile-link v-if="props.item.status === 'open'"
+                                  :method-params="{index: props.item.index}" :callback="emitReloadIndices"
+                                  :growl="`The index '${props.item.index}' was successfully closed.`"
+                                  method="indicesClose" icon="lock" link-title="Close index"/>
+                  <list-tile-link v-else :method-params="{index: props.item.index}" :callback="emitReloadIndices"
+                                  :growl="`The index '${props.item.index}' was successfully opened.`"
+                                  method="indicesOpen" icon="lock_open" link-title="Open index"/>
+
+                  <list-tile-link :method-params="{index: props.item.index}" :callback="emitReloadIndices"
+                                  :growl="`The index '${props.item.index}' was successfully deleted.`"
+                                  confirm-message="Are you sure? This will remove ALL data in your index!"
+                                  method="indicesDelete" icon="delete" link-title="Delete index"/>
+                </v-list>
+              </v-menu>
             </btn-group>
           </td>
         </tr>
@@ -63,13 +106,15 @@
 <script>
   import BtnGroup from '@/components/shared/BtnGroup'
   import { fuzzyTableFilter } from '../../helpers/filters'
-  import { flattenObject } from '../../helpers/utilities'
   import FixedTableHeader from '@/mixins/FixedTableHeader'
   import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
   import { mapVuexAccessors } from '../../helpers/store'
   import NewIndex from '@/components/Indices/NewIndex'
   import SettingsDropdown from '@/components/shared/SettingsDropdown'
   import SingleSetting from '@/components/shared/SingleSetting'
+  import ListTileLink from '@/components/shared/ListTile/ListTileLink'
+  import ListTileModalLink from '@/components/shared/ListTile/ListTileModalLink'
+  import ElasticsearchIndex from '../../models/ElasticsearchIndex'
 
   export default {
     name: 'IndicesTable',
@@ -77,7 +122,9 @@
       BtnGroup,
       NewIndex,
       SettingsDropdown,
-      SingleSetting
+      SingleSetting,
+      ListTileLink,
+      ListTileModalLink
     },
     mixins: [
       FixedTableHeader
@@ -94,26 +141,9 @@
         type: Boolean
       }
     },
-    data () {
-      return {
-        rows: [],
-        headers: [
-          { text: 'index', value: 'index' },
-          { text: 'health', value: 'health' },
-          { text: 'status', value: 'status' },
-          { text: 'uuid', value: 'uuid' },
-          { text: 'pri', value: 'pri', align: 'right' },
-          { text: 'rep', value: 'rep', align: 'right' },
-          { text: 'docs.count', value: 'docs.count', align: 'right' },
-          { text: 'store.size', value: 'store.size', align: 'right' },
-          { text: 'pri.store.size', value: 'pri.store.size', align: 'right' },
-          { text: '', value: 'actions', sortable: false }
-        ]
-      }
-    },
     computed: {
-      flattenedItems () {
-        return this.indices.map(hit => flattenObject(hit, false))
+      items () {
+        return this.indices.map(index => new ElasticsearchIndex(index))
       },
       stickyTableHeader: {
         get () {
@@ -132,60 +162,47 @@
       },
       ...mapVuexAccessors('indices', ['filter', 'pagination'])
     },
-    mounted () {
-      this.fixedTableHeaderOnEnable()
-    },
-    beforeDestroy () {
-      this.fixedTableHeaderOnDisable()
+    created () {
+      this.HEADERS = [
+        { text: 'index', value: 'index' },
+        { text: 'health', value: 'health' },
+        { text: 'status', value: 'status' },
+        { text: 'uuid', value: 'uuid' },
+        { text: 'pri', value: 'parsedPri', align: 'right' },
+        { text: 'rep', value: 'parsedRep', align: 'right' },
+        { text: 'docs.count', value: 'parsedDocsCount', align: 'right' },
+        { text: 'store.size', value: 'parsedStoreSize', align: 'right' },
+        { text: 'pri.store.size', value: 'parsedPriStoreSize', align: 'right' },
+        { text: '', value: 'actions', sortable: false }
+      ]
+      this.DEFAULT_ROWS_PER_PAGE = DEFAULT_ROWS_PER_PAGE
     },
     methods: {
-      sortIndices (items, index, isDescending) {
-        const NUMBER_KIND_VALUES = ['pri', 'rep', 'docs.count', 'store.size', 'pri.store.size']
-        return items.sort((a, b) => {
-          let valA = a[index]
-          let valB = b[index]
-
-          // Parse the values to float because string sorting does not work right here.
-          if (NUMBER_KIND_VALUES.includes(index)) {
-            valA = parseFloat(a[index])
-            valB = parseFloat(b[index])
-          }
-
-          if (valA < valB) {
-            return isDescending ? 1 : -1
-          } else if (valA > valB) {
-            return isDescending ? -1 : 1
-          } else {
-            return 0
-          }
-        })
-      },
       showDocuments (index) {
         this.$store.commit('search/setIndices', [index]) // to pre-select right index on "Search" page
         this.$router.push({ name: 'Search', params: { executeSearch: true } })
       },
-      openIndex (index) {
-        this.$router.push({ name: 'Index', params: { index: index } })
-      },
-      deleteIndex (index) {
-        if (confirm('Are you sure? This will remove ALL data in your index!')) {
-          this.getElasticsearchAdapter()
-            .then(adapter => adapter.indicesDelete({ index }))
-            .then(body => {
-              this.$emit('reloadIndices')
-              this.showSuccessSnackbar({
-                text: `The index '${index}' was successfully deleted.`,
-                additionalText: JSON.stringify(body)
-              })
-            })
-            .catch(error => this.$store.commit('connection/setErrorState', error))
-        }
-      },
       callFuzzyTableFilter (items, search, filter, headers) {
         return fuzzyTableFilter(items, search, headers)
       },
-      defaultRowsPerPage () {
-        return DEFAULT_ROWS_PER_PAGE
+      emitReloadIndices () {
+        this.$emit('reloadIndices')
+      },
+      openIndicesGetModal (indexName) {
+        this.openModal({
+          method: 'indicesGet',
+          methodParams: { index: indexName },
+          title: 'indicesGet',
+          subtitle: indexName
+        })
+      },
+      openIndicesStatsModal (indexName) {
+        this.openModal({
+          method: 'indicesStats',
+          methodParams: { index: indexName },
+          title: 'indicesStats',
+          subtitle: indexName
+        })
       }
     }
   }

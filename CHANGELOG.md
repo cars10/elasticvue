@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.7.0
+
+* added node overview
+* added management options for indices
+* adds timer setting to reload buttons for interval querying
+* can always connect to cluster without testing
+
 ## 0.6.0
 
 * fix css for table settings button

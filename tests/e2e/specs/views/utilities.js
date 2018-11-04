@@ -1,7 +1,7 @@
 describe('Utilities page', () => {
   beforeEach(() => {
     cy.cleanupElasticsearch()
-    cy.connect()
+    cy.quickConnect()
   })
 
   describe('creating data', () => {
@@ -11,9 +11,9 @@ describe('Utilities page', () => {
         expect(response.body).to.be.empty
       })
       cy.get('#utility_create_createIndices').click()
-      cy.get('#utility_create_createIndices').should('not.have.class', 'v-btn v-btn--loader') // wait for all requests
+      cy.get('#utility_create_createIndices', { timeout: 10000 }).should('not.have.class', 'v-btn v-btn--loader') // wait for all requests
       cy.flushIndices().then(() => {
-        cy.wait(100)
+        cy.wait(250)
         cy.catIndices().then(response => {
           expect(response.body).not.to.be.empty
           expect(response.body).to.have.lengthOf(10)

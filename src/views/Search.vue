@@ -46,7 +46,7 @@
 
           <v-flex lg1>
             <v-flex right>
-              <v-btn type="submit" color="primary">Search</v-btn>
+              <v-btn id="search_submit" type="submit" color="primary">Search</v-btn>
             </v-flex>
           </v-flex>
         </v-layout>
