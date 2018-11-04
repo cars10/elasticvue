@@ -18,21 +18,6 @@ describe('Footer', () => {
   })
 
   describe('reset settings', () => {
-    it('does reset localStorage and disconnect', () => {
-      cy.visit('/indices')
-      cy.get('table').should(table => {
-        expect(table).to.contain('No data available')
-      })
-      cy.get('#resetSettings').click()
-      cy.wait(100)
-      cy.get('#resetSettings').click()
-      cy.wait(250)
-      cy.location().should(location => {
-        expect(location.pathname).to.eq('/')
-        expect(localStorage.getItem('elasticvuex')).to.be.null
-      })
-    })
-
     it('redirects to base url', () => {
       cy.visit('/indices')
       cy.get('#resetSettings').click()
