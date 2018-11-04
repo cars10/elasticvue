@@ -14,3 +14,8 @@ div.v-list__tile {
     min-width: 24px;
   }
 }
+
+.v-list__tile__content.align-end {
+  -webkit-box-align: end;
+  align-items: flex-end;
+}

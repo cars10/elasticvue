@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.7.1
+
+* fix css issue
+
 ## 0.7.0
 
 * added node overview
