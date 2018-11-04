@@ -245,7 +245,6 @@ Current TODOs, more ore less ordered by importance.
 ### Internal stuff and refactorings
 
 * add more specs
-* when searching check if indices still exists
 * refactor vuex state to use actions?
 * performance - use web workers? wasm? ~~requestIdleCallback~~?
 

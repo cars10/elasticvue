@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.8.0
+
+* only search still existing indices
+
 ## 0.7.1
 
 * fix css issue
