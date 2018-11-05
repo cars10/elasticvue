@@ -1,24 +1,20 @@
 <template>
-  <v-layout>
-    <v-flex lg8 offset-lg2>
-      <v-card>
-        <v-card-title>
-          <h1 class="headline">Index</h1>
-          <reload-button id="reload-indices" :action="() => this.$refs.dataLoader.loadData()"/>
-          <back-button :route="{name: 'Indices'}"/>
-        </v-card-title>
-        <v-divider/>
+  <v-card>
+    <v-card-title>
+      <h1 class="headline">Index</h1>
+      <reload-button id="reload-indices" :action="() => this.$refs.dataLoader.loadData()"/>
+      <back-button :route="{name: 'Indices'}"/>
+    </v-card-title>
+    <v-divider/>
 
-        <v-card-text>
-          <data-loader ref="dataLoader" :method-params="{index: indexName}" method="indicesGet">
-            <template slot-scope="data">
-              <print-pretty :document="data.body" :caption="indexName"/>
-            </template>
-          </data-loader>
-        </v-card-text>
-      </v-card>
-    </v-flex>
-  </v-layout>
+    <v-card-text>
+      <data-loader ref="dataLoader" :method-params="{index: indexName}" method="indicesGet">
+        <template slot-scope="data">
+          <print-pretty :document="data.body" :caption="indexName"/>
+        </template>
+      </data-loader>
+    </v-card-text>
+  </v-card>
 </template>
 
 <script>
