@@ -10,7 +10,6 @@
       </router-link>
     </v-toolbar-title>
 
-    <test-and-connect-toolbar v-if="wasConnected" class="hidden-md-and-down" @hostChanged="$emit('hostChanged')"/>
     <v-spacer/>
 
     <v-toolbar-items>
