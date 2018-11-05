@@ -3,12 +3,14 @@
     <v-btn :title="title" :id="id" flat icon @click="action">
       <v-icon>cached</v-icon>
     </v-btn>
-    <v-select :items="timerSettings"
-              v-model="timerSetting"
-              item-value="value"
-              item-text="text"
-              hide-details
-              class="mt-0 pt-0 d-inline-block"/>
+    <div class="d-inline-block" title="Auto reload">
+      <v-select :items="timerSettings"
+                v-model="timerSetting"
+                item-value="value"
+                item-text="text"
+                hide-details
+                class="mt-0 pt-0 d-inline-block"/>
+    </div>
   </div>
 </template>
 
