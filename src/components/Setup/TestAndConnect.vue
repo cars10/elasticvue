@@ -13,7 +13,7 @@
                           type="text"
                           autofocus
                           append-icon="clear"
-                          @keyup.ctrl.enter="connectIfTestSuccessfull"
+                          @keyup.ctrl.enter="connect"
                           @click:append="resetElasticsearchHost"/>
           </v-flex>
           <v-flex lg6>
