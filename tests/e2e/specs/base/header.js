@@ -1,29 +1,6 @@
 describe('Header', () => {
-  describe('connect and reconnect', () => {
-    beforeEach(() => {
-      cy.clearLocalStorage()
-    })
-
-    it('cannot reconnect when not connected', () => {
-      cy.visit('/')
-      cy.get('toolbar_host').should('not.exist')
-    })
-
-    it('can reconnect when connected', () => {
-      cy.quickConnect()
-      cy.visit('/indices')
-      cy.get('#toolbar_host').should('exist')
-      cy.get('#toolbar_reconnect_button').click()
-      cy.get('#toolbar_host').should('exist')
-      cy.url().should('include', '/indices')
-    })
-
-    // TODO: check that it does reset search
-  })
-
   describe('menu links', () => {
     beforeEach(() => {
-      cy.clearLocalStorage()
       cy.quickConnect()
     })
 

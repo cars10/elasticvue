@@ -2,6 +2,7 @@ describe('Indices page', () => {
   beforeEach(() => {
     cy.cleanupElasticsearch()
     cy.quickConnect()
+    cy.visit('/indices')
   })
 
   describe('managing indices', () => {
@@ -43,7 +44,7 @@ describe('Indices page', () => {
       })
 
       const indexName = 'name-1'
-      cy.request('PUT', 'http://localhost:' + Cypress.env('ES_PORT').toString() + '/' + indexName)
+      cy.createIndex(indexName)
       cy.get('#reload-indices').click()
 
       cy.get('table').should(table => {

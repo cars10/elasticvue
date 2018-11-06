@@ -1,6 +1,5 @@
 describe('Footer', () => {
   beforeEach(() => {
-    cy.cleanupElasticsearch()
     cy.quickConnect()
   })
 

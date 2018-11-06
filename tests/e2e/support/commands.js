@@ -24,31 +24,36 @@
 // -- This is will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
+const ELASTICSEARCH_URL = 'http://localhost:' + Cypress.env('ES_PORT').toString()
+
 Cypress.Commands.add('connect', () => {
-  cy.visit('/')
-  cy.clearLocalStorage()
-  cy.reload(true)
+  cy.visit('/', {
+    onBeforeLoad: window => {
+      window.localStorage.clear() // https://github.com/cypress-io/cypress/issues/2695#issuecomment-435147776
+      expect(window.localStorage.getItem('elasticvuex')).to.be.null
+    }
+  })
+
   cy.get('#host').clear()
-  cy.get('#host').type('http://localhost:' + Cypress.env('ES_PORT').toString())
+  cy.get('#host').type(ELASTICSEARCH_URL)
   cy.get('#test_connection').click()
   cy.get('#connect:not([disabled])').click()
   cy.contains('Node Information').should('exist') // wait until first page is loaded
 })
 
 Cypress.Commands.add('quickConnect', () => {
-  cy.clearLocalStorage()
   cy.visit('/', {
     onBeforeLoad: window => {
-      window.localStorage.clear()
-      window.localStorage.setItem('elasticvuex', '{"connection":{"wasConnected":true,"elasticsearchHost":"http://localhost:9123"}}')
+      window.localStorage.clear() // https://github.com/cypress-io/cypress/issues/2695#issuecomment-435147776
+      expect(window.localStorage.getItem('elasticvuex')).to.be.null
+      window.localStorage.setItem('elasticvuex', `{"connection":{"wasConnected":true,"elasticsearchHost":"${ELASTICSEARCH_URL}"}}`)
     }
   })
-  cy.reload(true)
   cy.contains('cluster_uuid').should('exist')
 })
 
 Cypress.Commands.add('cleanupElasticsearch', () => {
-  cy.request('DELETE', 'http://localhost:' + Cypress.env('ES_PORT').toString() + '/_all')
+  return cy.request('DELETE', ELASTICSEARCH_URL + '/_all')
 })
 
 Cypress.Commands.add('createIndex', indexName => {
@@ -60,9 +65,9 @@ Cypress.Commands.add('createIndex', indexName => {
 })
 
 Cypress.Commands.add('catIndices', () => {
-  cy.request({
+  return cy.request({
     method: 'GET',
-    url: 'http://localhost:' + Cypress.env('ES_PORT').toString() + '/_cat/indices',
+    url: ELASTICSEARCH_URL + '/_cat/indices',
     headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json'
@@ -70,10 +75,14 @@ Cypress.Commands.add('catIndices', () => {
   })
 })
 
+Cypress.Commands.add('createIndex', indexName => {
+  return cy.request('PUT', 'http://localhost:' + Cypress.env('ES_PORT').toString() + '/' + indexName)
+})
+
 Cypress.Commands.add('flushIndices', () => {
-  cy.request({
+  return cy.request({
     method: 'POST',
-    url: 'http://localhost:' + Cypress.env('ES_PORT').toString() + '/_all/_flush',
+    url: ELASTICSEARCH_URL + '/_all/_flush',
     headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json'

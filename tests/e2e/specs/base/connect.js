@@ -5,9 +5,12 @@ describe('Connection', () => {
   })
 
   it('cannot connect to a non existing cluster', () => {
-    cy.visit('/')
-    cy.clearLocalStorage()
-    cy.reload(true)
+    cy.visit('/', {
+      onBeforeLoad: window => {
+        window.localStorage.clear()
+        expect(window.localStorage.getItem(Cypress.env('LOCALSTORAGE_KEY').toString())).to.be.null
+      }
+    })
     cy.get('#host').clear()
     cy.get('#host').type('http://localhost:9999')
     cy.get('#test_connection').click()
