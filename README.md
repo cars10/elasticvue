@@ -221,6 +221,9 @@ yarn lint
 
 # minimized build for production
 yarn build
+
+# create bundle size report at dist/report.html, dist/legacy-report.html
+yarn build --report
 ```
 
 Building the chrome extension
