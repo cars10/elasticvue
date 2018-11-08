@@ -9,6 +9,8 @@ describe('Indices page', () => {
     it('can create indices', () => {
       const indexName = 'name-1'
       cy.createIndex(indexName)
+      cy.flushIndices()
+      cy.reload(true)
       cy.get('table').should(table => {
         expect(table).to.contain(indexName)
       })
