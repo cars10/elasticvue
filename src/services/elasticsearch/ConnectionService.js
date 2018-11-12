@@ -4,7 +4,6 @@ import ElasticsearchVersionService from './ElasticsearchVersionService'
 export default class ConnectionService {
   constructor (host) {
     this.host = host
-    this.client = null
   }
 
   async testConnection () {
@@ -34,6 +33,7 @@ export default class ConnectionService {
   }
 
   async getAdapter () {
-    return this.testConnection()
+    let client = await this.buildClient()
+    return new ElasticsearchAdapter(client)
   }
 }
