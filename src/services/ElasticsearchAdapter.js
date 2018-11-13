@@ -7,23 +7,6 @@ export default class ElasticsearchAdapter {
   }
 
   /**
-   * testAdapter
-   * * first tries to ping
-   * * then tries to search to test post requests
-   * @returns Promise
-   */
-  async testAdapter () {
-    // use async/await here because chaining both methods leads to weird error handling
-    try {
-      await this.ping()
-      await this.search({ size: 0 })
-      return Promise.resolve(true)
-    } catch (error) {
-      return Promise.reject(error)
-    }
-  }
-
-  /**
    * Pings to see if the host is available.
    * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-ping
    */
