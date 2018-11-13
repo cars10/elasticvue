@@ -19,7 +19,8 @@ export default class ConnectionService {
   }
 
   async buildClient () {
-    let apiVersion = await new ElasticsearchVersionService(this.host).getApiVersion().catch(e => {
+    let versionService = new ElasticsearchVersionService(this.host)
+    let apiVersion = await versionService.getApiVersion().catch(e => {
       throw new TypeError(e)
     })
 
