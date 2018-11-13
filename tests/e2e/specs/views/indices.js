@@ -9,10 +9,11 @@ describe('Indices page', () => {
     it('can create indices', () => {
       const indexName = 'name-1'
       cy.createIndex(indexName)
-      cy.flushIndices()
-      cy.reload(true)
-      cy.get('table').should(table => {
-        expect(table).to.contain(indexName)
+      cy.flushIndices().then(() => {
+        cy.reload(true)
+        cy.get('table').should(table => {
+          expect(table).to.contain(indexName)
+        })
       })
     })
 
@@ -20,6 +21,7 @@ describe('Indices page', () => {
       const indexName = 'name-1'
       cy.createIndex(indexName)
       cy.flushIndices().then(() => {
+        cy.reload(true)
         cy.get('table').contains(indexName).closest('tr').get('button[title="Options"]').click()
         cy.get('table').contains(indexName).closest('tr').get('a').contains('info').click()
         cy.contains('mappings').should('exist')
@@ -29,10 +31,13 @@ describe('Indices page', () => {
     it('can delete indices', () => {
       const indexName = 'name-1'
       cy.createIndex(indexName)
-      cy.get('table').contains(indexName).closest('tr').get('button[title="Options"]').click()
-      cy.get('table').contains(indexName).closest('tr').get('a').contains('Delete').click()
-      cy.get('table').should(table => {
-        expect(table).not.to.contain(indexName)
+      cy.flushIndices().then(() => {
+        cy.reload(true)
+        cy.get('table').contains(indexName).closest('tr').get('button[title="Options"]').click()
+        cy.get('table').contains(indexName).closest('tr').get('a').contains('Delete').click()
+        cy.get('table').should(table => {
+          expect(table).not.to.contain(indexName)
+        })
       })
     })
   })
