@@ -62,6 +62,9 @@ Cypress.Commands.add('createIndex', indexName => {
   cy.get('#index_name').clear()
   cy.get('#index_name').type(indexName)
   cy.get('#create_index').click()
+  cy.flushIndices().then(() => {
+    cy.reload(true)
+  })
 })
 
 Cypress.Commands.add('catIndices', () => {
