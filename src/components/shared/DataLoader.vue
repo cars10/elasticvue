@@ -1,15 +1,22 @@
 <template>
   <div>
-    <template v-if="renderContentWhileLoading">
-      <slot :body="body" :loading="loading">No data</slot>
+    <template v-if="hasError">
+      <template v-if="apiError" :apiErrorMessage="apiErrorMessage">
+        <div class="pa-3">
+          <v-alert :value="true">{{apiErrorMessage}}</v-alert>
+        </div>
+      </template>
+      <template v-else-if="networkError">
+        <div class="pa-3">
+          <v-alert :value="true" color="grey">Network error: failed to fetch</v-alert>
+        </div>
+      </template>
     </template>
 
     <template v-else>
-      <slot v-if="hasError" :errorMessage="errorMessage" name="error">
-        <div class="pa-3">
-          <v-alert :value="true">{{errorMessage}}</v-alert>
-        </div>
-      </slot>
+      <template v-if="renderContentWhileLoading">
+        <slot :body="body" :loading="loading">No data</slot>
+      </template>
       <slot v-else-if="loading" name="progress">
         <v-progress-linear color="blue" indeterminate/>
       </slot>
@@ -51,40 +58,48 @@
       return {
         body: null,
         loading: false,
-        hasError: false,
-        errorMessage: ''
+        networkError: false,
+        apiError: false,
+        apiErrorMessage: ''
+      }
+    },
+    computed: {
+      hasError () {
+        return this.networkError || this.apiError
       }
     },
     created () {
       if (this.execute) this.loadData()
     },
     methods: {
-      loadData () {
+      async loadData () {
         this.loading = true
-        this.hasError = false
-        this.errorMessage = ''
+        this.networkError = false
+        this.apiError = false
+        this.apiErrorMessage = ''
 
-        this.getElasticsearchAdapter()
-          .then(adapter => adapter[this.method](this.methodParams))
-          .then(body => {
-            this.loading = false
-            this.hasError = false
-            this.errorMessage = ''
+        try {
+          const adapter = await this.getElasticsearchAdapter()
+          await adapter.ping()
+
+          try {
+            const body = await adapter[this.method](this.methodParams)
+            this.networkError = false
+            this.apiError = false
+            this.apiErrorMessage = ''
             this.body = this.flatten ? flattenObject(body, true, true) : body
-          })
-          .catch(error => {
-            this.loading = false
-            this.hasError = true
-            this.errorMessage = error.message
+          } catch (error) {
+            // should be an api error
+            this.apiError = true
+            this.apiErrorMessage = error.message
             this.body = ''
-            if (error.status === 403) {
-              const hint = 'You did not configure your elasticsearch server correctly. ' +
-                'Please hit the "RESET" button in the footer to see the correct settings.'
-              this.showErrorSnackbar({ text: 'Error: ' + error.message, additionalText: hint, timeout: 12000 })
-            } else {
-              this.showErrorSnackbar({ text: 'Error:', additionalText: error.message })
-            }
-          })
+            this.showErrorSnackbar({ text: 'Error:', additionalText: error.message })
+          }
+        } catch (error) {
+          // at this point we assume some kind of network error
+          this.networkError = true
+        }
+        this.loading = false
       }
     }
   }

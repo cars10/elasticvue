@@ -12,7 +12,7 @@ export default class ConnectionService {
       let adapter = new ElasticsearchAdapter(client)
       await adapter.ping()
       await adapter.search({ size: 0 })
-      return Promise.resolve(adapter)
+      return adapter
     } catch (e) {
       return Promise.reject(e)
     }
@@ -20,9 +20,7 @@ export default class ConnectionService {
 
   async buildClient () {
     let versionService = new ElasticsearchVersionService(this.host)
-    let apiVersion = await versionService.getApiVersion().catch(e => {
-      throw new TypeError(e)
-    })
+    let apiVersion = await versionService.getApiVersion()
 
     return import(/* webpackChunkName: "elasticsearch-js" */ 'elasticsearch').then(Elasticsearch => {
       return new Elasticsearch.Client({
