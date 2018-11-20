@@ -15,7 +15,7 @@
                         @keyup.esc="filter = ''"/>
 
           <settings-dropdown :badge="mappings.length > filteredMappings.length">
-            <single-setting v-model="stickyTableHeader" name="Sticky table header"/>
+            <single-setting v-model="stickyTableHeader" name="Sticky table header" class="mb-1"/>
             <multi-setting v-model="selectedMappings" :settings="mappings" name="Columns"/>
           </settings-dropdown>
         </v-flex>

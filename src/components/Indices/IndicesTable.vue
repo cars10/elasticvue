@@ -16,7 +16,7 @@
                         @keyup.esc="filter = ''"/>
 
           <settings-dropdown>
-            <single-setting v-model="stickyTableHeader" name="Sticky table header"/>
+            <single-setting v-model="stickyTableHeader" name="Sticky table header" class="mb-1"/>
           </settings-dropdown>
         </v-flex>
       </div>
