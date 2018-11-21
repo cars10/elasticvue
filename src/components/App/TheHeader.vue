@@ -10,6 +10,11 @@
       </router-link>
     </v-toolbar-title>
 
+    <div v-if="isConnected" class="inline-block mt-1">
+      {{clusterInfo}}
+      <reload-button id="header-reload-button" :action="getHealth" :default-setting="30"/>
+    </div>
+
     <v-spacer/>
 
     <v-toolbar-items>
@@ -31,18 +36,38 @@
 <script>
   import TestAndConnectToolbar from '@/components/Setup/TestAndConnectToolbar'
   import ConnectionStatus from '@/mixins/ConnectionStatus'
+  import ReloadButton from '@/components/shared/ReloadButton'
 
   export default {
     name: 'app-header',
     components: {
-      TestAndConnectToolbar
+      TestAndConnectToolbar,
+      ReloadButton
     },
     mixins: [
       ConnectionStatus
     ],
     data () {
       return {
-        drawer: false
+        drawer: false,
+        clusterHealth: 'unknown'
+      }
+    },
+    computed: {
+      clusterInfo () {
+        return `${this.$store.state.connection.elasticsearchHost} (${this.clusterHealth})`
+      }
+    },
+    created () {
+      this.getHealth()
+    },
+    methods: {
+      getHealth () {
+        this.getElasticsearchAdapter()
+          .then(adapter => adapter.clusterHealth())
+          .then(result => {
+            this.clusterHealth = result.status
+          })
       }
     }
   }
