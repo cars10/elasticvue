@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title>
-      <h1 class="headline">Query</h1>
+      <h1 class="headline">Rest Query</h1>
     </v-card-title>
     <v-divider/>
     <v-card-text>
@@ -11,10 +11,10 @@
 </template>
 
 <script>
-  import FetchForm from '@/components/Query/FetchForm'
+  import FetchForm from '@/components/Query/Rest/FetchForm'
 
   export default {
-    name: 'Query',
+    name: 'QueryRest',
     components: {
       FetchForm
     }

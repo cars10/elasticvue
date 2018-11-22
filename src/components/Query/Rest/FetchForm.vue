@@ -36,7 +36,7 @@
       </v-layout>
 
       <v-btn id="execute_query" :disabled="!isValid" :loading="loading" type="submit" color="primary" class="mx-0">
-        Execute query
+        Run query
       </v-btn>
     </v-form>
 
@@ -50,11 +50,11 @@
   import ResizableContainer from '@/components/shared/ResizableContainer'
   import PrintPretty from '@/components/shared/PrintPretty'
   import CustomVAutocomplete from '@/components/shared/CustomVAutocomplete'
-  import QueryFormBase from '@/components/Query/QueryFormBase'
   import Loading from '@/components/shared/Loading'
-  import { HTTP_METHODS } from '../../consts'
+  import { HTTP_METHODS } from '../../../consts'
   import qs from 'querystringify'
-  import { buildFetchAuthHeaderFromUrl, urlWithoutCredentials } from '../../helpers'
+  import { buildFetchAuthHeaderFromUrl, urlWithoutCredentials } from '../../../helpers'
+  import { mapVuexAccessors } from '../../../helpers/store'
 
   export default {
     name: 'fetch-form',
@@ -67,14 +67,17 @@
         loading: Loading
       })
     },
-    extends: QueryFormBase,
     data () {
       return {
         httpMethods: HTTP_METHODS,
         editorCommands: [{
           bindKey: { win: 'Ctrl+ENTER', mac: 'Command+ENTER', linux: 'Ctrl+ENTER' },
           exec: this.fetchData
-        }]
+        }],
+        loading: false,
+        hasError: false,
+        response: {},
+        elasticsearchHost: this.$store.state.connection.elasticsearchHost
       }
     },
     computed: {
@@ -114,7 +117,8 @@
           fetchOptions.body = this.stringifiedParams
         }
         return fetchOptions
-      }
+      },
+      ...mapVuexAccessors('query', ['method', 'stringifiedParams', 'stringifiedHeaders'])
     },
     methods: {
       fetchData () {

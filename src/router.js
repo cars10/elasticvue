@@ -7,7 +7,7 @@ import Indices from '@/views/Indices'
 import Index from '@/views/Index'
 import IndexStats from '@/views/IndexStats'
 import Utilities from '@/views/Utilities'
-import Query from '@/views/Query'
+import QueryRest from '@/views/QueryRest'
 import Nodes from '@/views/Nodes'
 
 Vue.use(Router)
@@ -57,9 +57,9 @@ export default new Router({
       component: Utilities
     },
     {
-      path: '/query',
-      name: 'Query',
-      component: Query
+      path: '/query/rest',
+      name: 'QueryRest',
+      component: QueryRest
     },
     {
       path: '*',

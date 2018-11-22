@@ -22,7 +22,32 @@
       <v-btn id="navbar_nodes" flat to="/nodes">Nodes</v-btn>
       <v-btn id="navbar_indices" flat to="/indices">Indices</v-btn>
       <v-btn id="navbar_search" flat to="/search">Search</v-btn>
-      <v-btn id="navbar_query" flat to="/query">Query</v-btn>
+
+      <v-menu offset-y>
+        <v-btn id="navbar_query" slot="activator" flat>
+          Query
+          <v-icon>arrow_drop_down</v-icon>
+        </v-btn>
+
+        <v-list>
+          <v-list-tile @click="$router.push('/query/rest')">
+            <v-list-tile-content>
+              <v-list-tile-title>
+                REST
+              </v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+
+          <v-list-tile @click="$router.push('/query/api_browser')">
+            <v-list-tile-content>
+              <v-list-tile-title>
+                API BROWSER
+              </v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </v-list>
+      </v-menu>
+
       <v-btn id="navbar_utilities" flat to="/utilities">Utilities</v-btn>
       <v-btn flat class="hidden-sm-and-down" href="https://github.com/cars10/elasticvue" target="_blank">
         <img v-if="this.$store.state.theme.dark" src="../../../public/images/github/GitHub-Mark-Light.png"
