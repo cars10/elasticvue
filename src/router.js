@@ -8,6 +8,7 @@ import Index from '@/views/Index'
 import IndexStats from '@/views/IndexStats'
 import Utilities from '@/views/Utilities'
 import QueryRest from '@/views/QueryRest'
+import QueryApiBrowser from '@/views/QueryApiBrowser'
 import Nodes from '@/views/Nodes'
 
 Vue.use(Router)
@@ -60,6 +61,11 @@ export default new Router({
       path: '/query/rest',
       name: 'QueryRest',
       component: QueryRest
+    },
+    {
+      path: '/query/api_browser',
+      name: 'QueryApiBrowser',
+      component: QueryApiBrowser
     },
     {
       path: '*',
