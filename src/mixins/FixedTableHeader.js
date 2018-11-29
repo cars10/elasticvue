@@ -1,42 +1,33 @@
-const FixedTableHeader = {
-  mounted () {
-    this.fixedTableHeaderOnEnable()
-  },
-  beforeDestroy () {
-    this.fixedTableHeaderOnDisable()
-  },
-  methods: {
-    updateFixedTableHeaderHeight () {
-      const header = document.querySelector('.table--fixed-header .v-table__overflow')
-      if (header) {
-        const height = window.innerHeight
-        const minHeight = 300
-        const offset = 100
-        const requiredTableHeight = height - offset
+export const resetTableHeight = function () {
+  if (typeof document === 'undefined' || typeof window === 'undefined') return
+  const header = document.querySelector('.table--fixed-header .v-table__overflow')
+  if (header) header.style.maxHeight = ''
+}
 
-        if (requiredTableHeight > minHeight) {
-          header.style.maxHeight = `${requiredTableHeight}px`
-        }
-      }
-    },
-    resetTableHeight () {
-      const header = document.querySelector('.table--fixed-header .v-table__overflow')
-      if (header) {
-        header.style.maxHeight = ''
-      }
-    },
-    fixedTableHeaderOnEnable () {
-      if (typeof window !== 'undefined') {
-        this.updateFixedTableHeaderHeight()
-        window.addEventListener('resize', this.updateFixedTableHeaderHeight)
-      }
-    },
-    fixedTableHeaderOnDisable () {
-      if (typeof window !== 'undefined') {
-        window.removeEventListener('resize', this.updateFixedTableHeaderHeight)
-      }
+// call in mounted
+export const fixedTableHeaderOnEnable = function () {
+  if (typeof window === 'undefined') return
+  updateFixedTableHeaderHeight()
+  window.addEventListener('resize', updateFixedTableHeaderHeight)
+}
+
+// call in beforeDestroy
+export const fixedTableHeaderOnDisable = function () {
+  if (typeof window === 'undefined') return
+  window.removeEventListener('resize', updateFixedTableHeaderHeight)
+}
+
+const updateFixedTableHeaderHeight = function () {
+  if (typeof document === 'undefined' || typeof window === 'undefined') return
+  const header = document.querySelector('.table--fixed-header .v-table__overflow')
+  if (header) {
+    const height = window.innerHeight
+    const minHeight = 300
+    const offset = 100
+    const requiredTableHeight = height - offset
+
+    if (requiredTableHeight > minHeight) {
+      header.style.maxHeight = `${requiredTableHeight}px`
     }
   }
 }
-
-export default FixedTableHeader

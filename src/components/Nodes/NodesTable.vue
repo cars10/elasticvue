@@ -89,7 +89,7 @@
   import NodePercentBar from '@/components/Nodes/NodePercentBar'
   import SettingsDropdown from '@/components/shared/SettingsDropdown'
   import SingleSetting from '@/components/shared/SingleSetting'
-  import FixedTableHeader from '@/mixins/FixedTableHeader'
+  import { fixedTableHeaderOnDisable, fixedTableHeaderOnEnable, resetTableHeight } from '@/mixins/FixedTableHeader'
 
   export default {
     name: 'nodes-table',
@@ -99,9 +99,6 @@
       SettingsDropdown,
       SingleSetting
     },
-    mixins: [
-      FixedTableHeader
-    ],
     props: {
       items: {
         type: Array,
@@ -121,7 +118,7 @@
           return this.$store.state.nodes.stickyTableHeader
         },
         set (value) {
-          this.resetTableHeight()
+          if (!value) resetTableHeight()
           this.$store.commit('nodes/setStickyTableHeader', value)
         }
       },
@@ -131,6 +128,12 @@
           { 'table--fixed-header': this.stickyTableHeader }
         ]
       }
+    },
+    mounted () {
+      fixedTableHeaderOnEnable()
+    },
+    beforeDestroy () {
+      fixedTableHeaderOnDisable()
     },
     created () {
       this.HEADERS = [

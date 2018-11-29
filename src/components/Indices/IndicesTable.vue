@@ -106,7 +106,7 @@
 <script>
   import BtnGroup from '@/components/shared/BtnGroup'
   import { fuzzyTableFilter } from '../../helpers/filters'
-  import FixedTableHeader from '@/mixins/FixedTableHeader'
+  import { fixedTableHeaderOnDisable, fixedTableHeaderOnEnable, resetTableHeight } from '@/mixins/FixedTableHeader'
   import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
   import { mapVuexAccessors } from '../../helpers/store'
   import NewIndex from '@/components/Indices/NewIndex'
@@ -126,9 +126,6 @@
       ListTileLink,
       ListTileModalLink
     },
-    mixins: [
-      FixedTableHeader
-    ],
     props: {
       indices: {
         default: () => {
@@ -150,7 +147,7 @@
           return this.$store.state.indices.stickyTableHeader
         },
         set (value) {
-          this.resetTableHeight()
+          if (!value) resetTableHeight()
           this.$store.commit('indices/setStickyTableHeader', value)
         }
       },
@@ -161,6 +158,12 @@
         ]
       },
       ...mapVuexAccessors('indices', ['filter', 'pagination'])
+    },
+    mounted () {
+      fixedTableHeaderOnEnable()
+    },
+    beforeDestroy () {
+      fixedTableHeaderOnDisable()
     },
     created () {
       this.HEADERS = [
