@@ -1,6 +1,7 @@
 import Request from '../../mixins/Request'
 import ConnectionService from '../../services/elasticsearch/ConnectionService'
 import { getCachedAdapter } from '@/mixins/GetAdapter'
+import { showErrorSnackbar, showSuccessSnackbar } from '@/mixins/ShowSnackbar'
 
 export default {
   name: 'connect-base',
@@ -47,7 +48,7 @@ export default {
           this.testLoading = false
           this.testSuccess = true
           this.testError = false
-          this.showSuccessSnackbar({
+          showSuccessSnackbar({
             text: 'Test successfull',
             additionalText: 'You cluster is reachable and configured correctly.'
           })
@@ -71,13 +72,13 @@ export default {
           this.$store.commit('connection/setConnected')
           this.connectLoading = false
           this.connectError = false
-          this.showSuccessSnackbar({ text: 'Successfully connected.' })
+          showSuccessSnackbar({ text: 'Successfully connected.' })
           this.$router.push('/')
         })
         .catch(() => {
           this.connectLoading = false
           this.connectError = true
-          this.showErrorSnackbar({ text: 'Error: could not connect.' })
+          showErrorSnackbar({ text: 'Error: could not connect.' })
         })
     }
   }
