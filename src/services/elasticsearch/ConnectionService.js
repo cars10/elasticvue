@@ -6,16 +6,9 @@ export default class ConnectionService {
     this.host = host
   }
 
-  async testConnection () {
-    try {
-      let client = await this.buildClient()
-      let adapter = new ElasticsearchAdapter(client)
-      await adapter.ping()
-      await adapter.search({ size: 0 })
-      return adapter
-    } catch (e) {
-      return Promise.reject(e)
-    }
+  async getAdapter () {
+    let client = await this.buildClient()
+    return new ElasticsearchAdapter(client)
   }
 
   async buildClient () {
@@ -31,8 +24,15 @@ export default class ConnectionService {
     })
   }
 
-  async getAdapter () {
-    let client = await this.buildClient()
-    return new ElasticsearchAdapter(client)
+  async testConnection () {
+    try {
+      let client = await this.buildClient()
+      let adapter = new ElasticsearchAdapter(client)
+      await adapter.ping()
+      await adapter.search({ size: 0 })
+      return adapter
+    } catch (e) {
+      return Promise.reject(e)
+    }
   }
 }

@@ -10,9 +10,11 @@
       </router-link>
     </v-toolbar-title>
 
-    <div v-if="isConnected" class="inline-block mt-1">
-      {{clusterInfo}}
-      <reload-button id="header-reload-button" :action="getHealth" :default-setting="30"/>
+    <div v-if="wasConnected" class="inline-block mt-1">
+      <v-icon small>{{connectionIcon}}</v-icon>
+      <span class="mx-1">{{clusterInfo}}</span>
+      <v-chip :class="clusterHealthClasses" small>{{clusterHealth}}</v-chip>
+      <reload-button id="header-reload-button" :action="getHealth" :default-setting="5"/>
     </div>
 
     <v-spacer/>
@@ -49,49 +51,57 @@
       </v-menu>
 
       <v-btn id="navbar_utilities" flat to="/utilities">Utilities</v-btn>
-      <v-btn flat class="hidden-sm-and-down" href="https://github.com/cars10/elasticvue" target="_blank">
-        <img v-if="this.$store.state.theme.dark" src="../../../public/images/github/GitHub-Mark-Light.png"
-             alt="GithubIcon">
-        <img v-else src="../../../public/images/github/GitHub-Mark.png" alt="GithubIcon">
-      </v-btn>
     </v-toolbar-items>
   </v-toolbar>
 </template>
 
 <script>
-  import TestAndConnectToolbar from '@/components/Setup/TestAndConnectToolbar'
   import ConnectionStatus from '@/mixins/ConnectionStatus'
   import ReloadButton from '@/components/shared/ReloadButton'
+  import Request from '@/mixins/Request'
+  import { CONNECTION_STATES } from '../../consts'
 
   export default {
     name: 'app-header',
     components: {
-      TestAndConnectToolbar,
       ReloadButton
     },
     mixins: [
-      ConnectionStatus
+      ConnectionStatus,
+      Request
     ],
     data () {
       return {
         drawer: false,
-        clusterHealth: 'unknown'
+        clusterHealth: CONNECTION_STATES.UNKNOWN
       }
     },
     computed: {
       clusterInfo () {
-        return `${this.$store.state.connection.elasticsearchHost} (${this.clusterHealth})`
+        return `${this.$store.state.connection.elasticsearchHost}`
+      },
+      connectionIcon () {
+        if (this.isConnected) {
+          return 'link'
+        } else {
+          return 'link_off'
+        }
+      },
+      clusterHealthClasses () {
+        return [this.clusterHealth, 'ma-0']
       }
     },
     created () {
-      this.getHealth()
+      if (this.wasConnected) this.getHealth()
     },
     methods: {
       getHealth () {
-        this.getElasticsearchAdapter()
-          .then(adapter => adapter.clusterHealth())
+        this.callElasticsearch('clusterHealth')
           .then(result => {
             this.clusterHealth = result.status
+          })
+          .catch(() => {
+            this.clusterHealth = CONNECTION_STATES.UNKNOWN
           })
       }
     }

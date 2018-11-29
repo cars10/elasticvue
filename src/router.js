@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import Setup from '@/views/Setup'
 import Home from '@/views/Home'
 import Search from '@/views/Search'
 import Document from '@/views/Document'
@@ -10,16 +11,29 @@ import Utilities from '@/views/Utilities'
 import QueryRest from '@/views/QueryRest'
 import QueryApiBrowser from '@/views/QueryApiBrowser'
 import Nodes from '@/views/Nodes'
+import Store from '@/store'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   routes: [
     {
       path: '/',
       name: 'Home',
       component: Home
+    },
+    {
+      path: '/setup',
+      name: 'Setup',
+      component: Setup,
+      beforeEnter: (to, from, next) => {
+        if (Store.state.connection.wasConnected) {
+          next('/')
+        } else {
+          next()
+        }
+      }
     },
     {
       path: '/nodes',
@@ -79,3 +93,13 @@ export default new Router({
     }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  if (!Store.state.connection.wasConnected && to.name !== 'Setup') {
+    next('setup')
+  } else {
+    next()
+  }
+})
+
+export default router

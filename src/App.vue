@@ -1,18 +1,17 @@
 <template>
   <v-app v-bind="this.$store.state.theme">
-    <the-header @hostChanged="rerender"/>
+    <the-header/>
 
     <v-content>
       <v-container fluid grid-list-md>
-        <content-or-setup>
-          <router-view v-if="renderRouterView"/>
+        <router-view v-if="renderRouterView"/>
+        <loading v-else/>
 
-          <modal-data-loader v-model="modalOpen"
-                             :method-params="methodParams"
-                             :method="method"
-                             :modal-title="title"
-                             :modal-subtitle="subtitle"/>
-        </content-or-setup>
+        <modal-data-loader v-model="modalOpen"
+                           :method-params="methodParams"
+                           :method="method"
+                           :modal-title="title"
+                           :modal-subtitle="subtitle"/>
       </v-container>
       <snackbar/>
     </v-content>
@@ -24,11 +23,11 @@
 <script>
   import TheHeader from '@/components/App/TheHeader'
   import TheFooter from '@/components/App/TheFooter'
-  import ContentOrSetup from '@/components/ContentOrSetup'
   import Snackbar from '@/components/Snackbar'
   import ConnectionStatus from '@/mixins/ConnectionStatus'
-  import ConnectWithServer from '@/mixins/ConnectWithServer'
+  import { getCachedAdapter } from '@/mixins/GetAdapter'
   import ModalDataLoader from '@/components/shared/ModalDataLoader'
+  import Loading from '@/components/shared/Loading'
   import { mapVuexAccessors } from './helpers/store'
 
   export default {
@@ -36,14 +35,11 @@
     components: {
       TheHeader,
       TheFooter,
-      ContentOrSetup,
       ModalDataLoader,
+      Loading,
       Snackbar
     },
-    mixins: [
-      ConnectionStatus,
-      ConnectWithServer
-    ],
+    mixins: [ConnectionStatus],
     data () {
       return {
         renderRouterView: true
@@ -54,14 +50,12 @@
     },
     created () {
       if (this.wasConnected) {
-        this.connectWithServer()
-      }
-    },
-    methods: {
-      rerender () {
-        this.renderRouterView = false
-        this.$store.commit('search/reset')
-        this.$nextTick(() => (this.renderRouterView = true))
+        getCachedAdapter()
+          .catch(() => {
+          })
+          .finally(() => {
+            this.renderRouterView = true
+          })
       }
     }
   }

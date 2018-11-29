@@ -1,6 +1,6 @@
 <template>
   <div>
-    <template v-if="hasError">
+    <template v-if="hasAnyError">
       <template v-if="apiError" :apiErrorMessage="apiErrorMessage">
         <div class="pa-3">
           <v-alert :value="true">{{apiErrorMessage}}</v-alert>
@@ -20,16 +20,18 @@
       <slot v-else-if="loading" name="progress">
         <v-progress-linear color="blue" indeterminate/>
       </slot>
-      <slot v-else :body="body">No data</slot>
+      <slot v-else :body="body || {}">No data</slot>
     </template>
   </div>
 </template>
 
 <script>
+  import Request from '@/mixins/Request'
   import { flattenObject } from '../../helpers/utilities'
 
   export default {
     name: 'DataLoader',
+    mixins: [Request],
     props: {
       method: {
         type: String,
@@ -54,52 +56,15 @@
         type: Boolean
       }
     },
-    data () {
-      return {
-        body: null,
-        loading: false,
-        networkError: false,
-        apiError: false,
-        apiErrorMessage: ''
-      }
-    },
-    computed: {
-      hasError () {
-        return this.networkError || this.apiError
-      }
-    },
     created () {
       if (this.execute) this.loadData()
     },
     methods: {
-      async loadData () {
-        this.loading = true
-        this.networkError = false
-        this.apiError = false
-        this.apiErrorMessage = ''
-
-        try {
-          const adapter = await this.getElasticsearchAdapter()
-          await adapter.ping()
-
-          try {
-            const body = await adapter[this.method](this.methodParams)
-            this.networkError = false
-            this.apiError = false
-            this.apiErrorMessage = ''
-            this.body = this.flatten ? flattenObject(body, true, true) : body
-          } catch (error) {
-            // should be an api error
-            this.apiError = true
-            this.apiErrorMessage = error.message
-            this.body = ''
-            this.showErrorSnackbar({ text: 'Error:', additionalText: error.message })
-          }
-        } catch (error) {
-          // at this point we assume some kind of network error
-          this.networkError = true
-        }
-        this.loading = false
+      loadData () {
+        this.callElasticsearch(this.method, this.methodParams)
+          .then(response => {
+            this.body = this.flatten ? flattenObject(response, true, true) : response
+          })
       }
     }
   }
