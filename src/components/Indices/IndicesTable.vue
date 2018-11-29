@@ -115,6 +115,7 @@
   import ListTileLink from '@/components/shared/ListTile/ListTileLink'
   import ListTileModalLink from '@/components/shared/ListTile/ListTileModalLink'
   import ElasticsearchIndex from '../../models/ElasticsearchIndex'
+  import { openModal } from '@/mixins/OpenModal'
 
   export default {
     name: 'IndicesTable',
@@ -192,7 +193,7 @@
         this.$emit('reloadIndices')
       },
       openIndicesGetModal (indexName) {
-        this.openModal({
+        openModal({
           method: 'indicesGet',
           methodParams: { index: indexName },
           title: 'indicesGet',
@@ -200,7 +201,7 @@
         })
       },
       openIndicesStatsModal (indexName) {
-        this.openModal({
+        openModal({
           method: 'indicesStats',
           methodParams: { index: indexName },
           title: 'indicesStats',
