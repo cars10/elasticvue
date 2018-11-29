@@ -48,7 +48,10 @@
       }
     },
     created () {
-      if (this.defaultSetting) this.timerSetting = this.defaultSetting
+      if (this.defaultSetting) {
+        this.timerSetting = this.defaultSetting
+        this.action.call()
+      }
     },
     destroyed () {
       clearInterval(this.intervalID)
