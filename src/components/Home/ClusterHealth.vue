@@ -12,8 +12,7 @@
           <v-list-tile v-for="key in Object.keys(data.body)" :key="key">
             <v-list-tile-content>{{key}}</v-list-tile-content>
             <v-list-tile-content class="align-end">
-              <v-chip v-if="key === 'status'" :class="data.body[key]">{{data.body[key]}}</v-chip>
-              <span v-else>{{data.body[key]}}</span>
+              <span>{{data.body[key]}}</span>
             </v-list-tile-content>
           </v-list-tile>
         </v-list>
