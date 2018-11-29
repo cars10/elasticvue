@@ -5,7 +5,11 @@
               item-value="value"
               item-text="text"
               hide-details
-              class="mt-0 pt-0 d-inline-block"/>
+              class="mt-0 pt-0 d-inline-block v-select--dense-append">
+      <template slot="selection" slot-scope="{ item, index }">
+        <small v-if="item.value">{{item.text}}</small>
+      </template>
+    </v-select>
   </div>
 </template>
 
