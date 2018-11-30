@@ -13,7 +13,7 @@
     <div v-if="wasConnected" class="inline-block mt-1">
       <v-icon small>{{connectionIcon}}</v-icon>
       <span class="mx-1">{{clusterInfo}}</span>
-      <v-chip :class="clusterHealthClasses" small>{{clusterHealth}}</v-chip>
+      <v-chip :class="clusterHealthClasses" title="Health" small>{{clusterHealth}}</v-chip>
       <reload-button id="header-reload-button" :action="getHealth" :default-setting="5"/>
     </div>
 
