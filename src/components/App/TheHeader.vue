@@ -32,7 +32,7 @@
         </v-btn>
 
         <v-list>
-          <v-list-tile @click="$router.push('/query/rest')">
+          <v-list-tile to="/query/rest">
             <v-list-tile-content>
               <v-list-tile-title>
                 REST
@@ -40,7 +40,7 @@
             </v-list-tile-content>
           </v-list-tile>
 
-          <v-list-tile @click="$router.push('/query/api_browser')">
+          <v-list-tile to="/query/api_browser">
             <v-list-tile-content>
               <v-list-tile-title>
                 API BROWSER
