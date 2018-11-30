@@ -4,7 +4,8 @@ import { plugins } from './plugins'
 import { connection } from './modules/connection'
 import { indices } from './modules/indices'
 import { nodes } from './modules/nodes'
-import { query } from './modules/query'
+import { queryRest } from './modules/queryRest'
+import { queryApiBrowser } from './modules/queryApiBrowser'
 import { search } from './modules/search'
 import { snackbar } from './modules/snackbar'
 import { theme } from './modules/theme'
@@ -19,7 +20,8 @@ export default new Vuex.Store({
     indices,
     nodes,
     modal,
-    query,
+    queryRest,
+    queryApiBrowser,
     search,
     snackbar,
     theme

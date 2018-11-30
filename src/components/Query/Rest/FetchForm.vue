@@ -2,13 +2,13 @@
   <div>
     <v-form @submit.prevent="fetchData">
       <v-layout>
-        <v-flex xl1 lg2 sm3>
+        <v-flex xl1 lg2 sm3 pb-0>
           <v-select v-model="method"
                     :items="httpMethods"
                     label="HTTP Method"
                     name="http_method"/>
         </v-flex>
-        <v-flex xl11 lg10 sm9>
+        <v-flex xl11 lg10 sm9 pb-0>
           <v-text-field id="url"
                         v-model="elasticsearchHost"
                         label="Url"
@@ -17,8 +17,8 @@
         </v-flex>
       </v-layout>
 
-      <v-layout>
-        <v-flex md6>
+      <v-layout mb-1>
+        <v-flex md6 py-0>
           <label>Request body</label>
           <resizable-container :initial-height="150">
             <code-editor v-model="stringifiedParams" :external-commands="editorCommands"/>
@@ -26,7 +26,7 @@
           <i class="grey--text">Language: JSON</i>
         </v-flex>
 
-        <v-flex md6>
+        <v-flex md6 py-0>
           <label>Request headers</label>
           <resizable-container :initial-height="150">
             <code-editor v-model="stringifiedHeaders" :external-commands="editorCommands"/>
@@ -40,9 +40,7 @@
       </v-btn>
     </v-form>
 
-    <h2 class="subheading mt-4">Response</h2>
-    <v-divider class="my-2"/>
-    <print-pretty :document="response" :initial-height="800"/>
+    <print-pretty :document="response" :initial-height="800" caption="Response"/>
   </div>
 </template>
 
@@ -118,7 +116,7 @@
         }
         return fetchOptions
       },
-      ...mapVuexAccessors('query', ['method', 'stringifiedParams', 'stringifiedHeaders'])
+      ...mapVuexAccessors('queryRest', ['method', 'stringifiedParams', 'stringifiedHeaders'])
     },
     methods: {
       fetchData () {

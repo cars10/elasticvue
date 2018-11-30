@@ -1,8 +1,8 @@
 <template>
   <div>
     <v-layout>
-      <v-flex md9 xs12 my-0 mx-2>
-        <h2 v-if="caption" class="subheading">{{caption}}</h2>
+      <v-flex md9 xs12 my-0>
+        <h2 v-if="caption" class="title pt-3">{{caption}}</h2>
       </v-flex>
       <v-flex md3 xs12 my-0 mx-2>
         <v-btn-toggle v-model="wrapLines" class="right">

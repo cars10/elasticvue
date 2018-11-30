@@ -75,3 +75,4 @@ export const DEFAULT_DATA_TABLE_PAGINATION = {
 }
 
 export const HTTP_METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS']
+export const API_BASE_URI = 'https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html'

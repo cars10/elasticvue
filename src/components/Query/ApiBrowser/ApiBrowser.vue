@@ -1,83 +1,57 @@
 <template>
-  <v-layout>
-    <v-flex md6>
-      <v-card>
-        <v-card-text>
-          <h2 class="subheading">Build query</h2>
-          <v-divider class="my-2"/>
-          <v-form v-on:submit.prevent="loadData">
-            <v-layout row wrap>
-              <v-flex md8>
-                <v-flex>
-                  <v-text-field id="host" v-model="host" label="Host" name="host"/>
-                </v-flex>
-              </v-flex>
-              <v-flex md4>
-                <v-flex d-inline-flex>
-                  <custom-v-autocomplete v-model="method"
-                                         :items="methods"
-                                         label="Method"
-                                         name="Method"
-                                         item-text="name"
-                                         item-value="name">
-                    <template slot="item" slot-scope="data">
-                      {{data.item.name}}
-                    </template>
-                  </custom-v-autocomplete>
-                </v-flex>
-              </v-flex>
-            </v-layout>
+  <div>
+    <v-layout>
+      <v-flex md6 pb-0>
+        <v-form v-on:submit.prevent="loadData">
+          <v-flex d-inline-flex pa-0>
+            <custom-v-autocomplete v-model="method"
+                                   :items="methods"
+                                   label="Method"
+                                   name="Method"
+                                   item-text="name"
+                                   item-value="name">
+              <template slot="item" slot-scope="data">
+                {{data.item.name}}
+              </template>
+            </custom-v-autocomplete>
+          </v-flex>
+          <v-btn :href="apiDocumentationUrl" target="_blank" flat
+                 class="text-transform--none">
+            <v-icon small>launch</v-icon>&nbsp;
+            open {{method}} documentation
+          </v-btn>
 
-            <div class="mx-1 mb-2">
-              <label>Method options</label>
-              <div style="height: 500px; width: 100%;">
-                <code-editor :v-model="stringifiedParams"/>
-              </div>
-              <i class="grey--text">Language: JSON</i>
-            </div>
+          <div class="mb-1">
+            <label>Method options</label>
+            <resizable-container :initial-height="150">
+              <code-editor v-model="stringifiedParams"/>
+            </resizable-container>
+            <i class="grey--text">Language: JSON</i>
+          </div>
 
-            <v-btn :disabled="!isValid" :loading="loading" type="submit">Execute</v-btn>
-            <v-btn :href="apiDocumentationUrl" :disabled="!apiDocumentationUrl" flat target="_blank">
-              <v-icon>launch</v-icon>&nbsp;
-              {{method}} Documentation
-            </v-btn>
-          </v-form>
+          <v-btn :disabled="!isValid" :loading="loading" type="submit" color="primary" class="mx-0">Run query</v-btn>
+        </v-form>
+      </v-flex>
+    </v-layout>
 
-          <v-alert :value="true" type="info" class="mt-4">
-            This is not a curl-like interface.
-            You only have access to the elasticsearch javascript client. Example for "search" method: <br>
-            <ul class="pl-3">
-              <li>host: localhost:9200</li>
-              <li>method: search</li>
-              <li>method options: {"index": "myIndex", "q": "something"}</li>
-            </ul>
-          </v-alert>
-        </v-card-text>
-      </v-card>
-    </v-flex>
-
-    <v-flex md6>
-      <v-card>
-        <v-card-text>
-          <h2 class="subheading">Response</h2>
-          <v-divider class="my-2"/>
-          <print-pretty-or-raw :document="response"/>
-        </v-card-text>
-      </v-card>
-    </v-flex>
-  </v-layout>
+    <print-pretty :document="response" caption="Response"/>
+  </div>
 </template>
 
 <script>
-  import PrintPrettyOrRaw from '@/components/shared/PrintPretty'
+  import PrintPretty from '@/components/shared/PrintPretty'
   import CustomVAutocomplete from '@/components/shared/CustomVAutocomplete'
   import Loading from '@/components/shared/Loading'
-  import { REQUEST_DEFAULTS } from '../../../consts'
+  import ResizableContainer from '@/components/shared/ResizableContainer'
+  import { API_BASE_URI } from '@/consts'
+  import { mapVuexAccessors } from '@/helpers/store'
+  import { showErrorSnackbar } from '@/mixins/ShowSnackbar'
 
   export default {
     name: 'js-api-form',
     components: {
-      PrintPrettyOrRaw,
+      PrintPretty,
+      ResizableContainer,
       CustomVAutocomplete,
       'code-editor': () => ({
         component: import('@/components/shared/CodeEditor'),
@@ -89,43 +63,24 @@
         loading: false,
         methods: [],
         hasError: false,
-        response: {},
-        TYPES: ['cat', 'close', 'cluster', 'indices', 'ingest', 'nodes', 'snapshot', 'tasks', 'transport']
+        response: {}
       }
     },
     computed: {
       apiDocumentationUrl () {
-        return this.method ? `https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-${this.method.replace('.', '-')}` : null
+        if (this.method) {
+          return API_BASE_URI + `#api-${this.method.replace('.', '-').toLowerCase()}`
+        } else {
+          return API_BASE_URI
+        }
       },
       isValid () {
         return !!this.method && !this.hasError && this.host.length > 0
       },
-      host: {
-        get () {
-          return this.$store.state.query.host
-        },
-        set (host) {
-          this.$store.commit('setQueryHost', host)
-        }
-      },
-      method: {
-        get () {
-          return this.$store.state.query.method
-        },
-        set (method) {
-          this.$store.commit('setQueryMethod', method)
-        }
-      },
-      stringifiedParams: {
-        get () {
-          return this.$store.state.query.stringifiedParams
-        },
-        set (params) {
-          this.$store.commit('setQueryStringifiedParams', params)
-        }
-      }
+      ...mapVuexAccessors('queryApiBrowser', ['method', 'stringifiedParams'])
     },
     created () {
+      this.TYPES = ['cat', 'close', 'cluster', 'indices', 'ingest', 'nodes', 'snapshot', 'tasks', 'transport']
       this.getMethods()
       this.host = this.$store.state.connection.elasticsearchHost
     },
@@ -148,7 +103,7 @@
           .catch(error => {
             this.response = error.message
             this.loading = false
-            this.showErrorSnackbar({ text: 'Error:', additionalText: error.message })
+            showErrorSnackbar({ text: 'Error:', additionalText: error.message })
           })
       },
       getMethods () {
@@ -174,11 +129,7 @@
         })
       },
       parsedParams () {
-        try {
-          return JSON.parse(this.stringifiedParams)
-        } catch (error) {
-          return REQUEST_DEFAULTS
-        }
+        return JSON.parse(this.stringifiedParams)
       }
     }
   }

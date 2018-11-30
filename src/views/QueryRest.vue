@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title>
-      <h1 class="headline">Rest Query</h1>
+      <h1 class="headline">Rest</h1>
     </v-card-title>
     <v-divider/>
     <v-card-text>
