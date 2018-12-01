@@ -67,11 +67,6 @@
     },
     data () {
       return {
-        httpMethods: HTTP_METHODS,
-        editorCommands: [{
-          bindKey: { win: 'Ctrl+ENTER', mac: 'Command+ENTER', linux: 'Ctrl+ENTER' },
-          exec: this.fetchData
-        }],
         loading: false,
         hasError: false,
         response: {},
@@ -117,6 +112,13 @@
         return fetchOptions
       },
       ...mapVuexAccessors('queryRest', ['method', 'stringifiedParams', 'stringifiedHeaders'])
+    },
+    created () {
+      this.httpMethods = HTTP_METHODS
+      this.editorCommands = [{
+        bindKey: { win: 'Ctrl+ENTER', mac: 'Command+ENTER', linux: 'Ctrl+ENTER' },
+        exec: this.fetchData
+      }]
     },
     methods: {
       fetchData () {

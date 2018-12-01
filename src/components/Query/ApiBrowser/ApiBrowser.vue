@@ -24,7 +24,7 @@
           <div class="mb-1">
             <label>Method options</label>
             <resizable-container :initial-height="150">
-              <code-editor v-model="stringifiedParams"/>
+              <code-editor v-model="stringifiedParams" :external-commands="editorCommands"/>
             </resizable-container>
             <i class="grey--text">Language: JSON</i>
           </div>
@@ -83,6 +83,10 @@
       this.TYPES = ['cat', 'close', 'cluster', 'indices', 'ingest', 'nodes', 'snapshot', 'tasks', 'transport']
       this.getMethods()
       this.host = this.$store.state.connection.elasticsearchHost
+      this.editorCommands = [{
+        bindKey: { win: 'Ctrl+ENTER', mac: 'Command+ENTER', linux: 'Ctrl+ENTER' },
+        exec: this.loadData
+      }]
     },
     methods: {
       loadData () {
