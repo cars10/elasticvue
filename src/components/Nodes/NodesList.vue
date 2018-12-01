@@ -1,11 +1,11 @@
 <template>
   <div>
     <v-btn-toggle v-model="listType" mandatory class="mb-4">
-      <v-btn flat value="grid" @click="() => this.$emit('reloadNodes')">
+      <v-btn id="nodes_list_grid" flat value="grid" @click="() => this.$emit('reloadNodes')">
         <span>Grid</span>
         <v-icon>dashboard</v-icon>
       </v-btn>
-      <v-btn flat value="table" @click="() => this.$emit('reloadNodes')">
+      <v-btn id="nodes_list_table" flat value="table" @click="() => this.$emit('reloadNodes')">
         <span>Table</span>
         <v-icon>table_chart</v-icon>
       </v-btn>

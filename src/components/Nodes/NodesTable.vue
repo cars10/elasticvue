@@ -8,7 +8,7 @@
         </v-flex>
         <v-flex xs12 sm6 py-0>
           <v-flex right d-inline-flex>
-            <v-text-field id="filter"
+            <v-text-field id="nodes_table_filter"
                           v-model="filter"
                           append-icon="search"
                           label="Filter..."
@@ -125,6 +125,7 @@
       tableClasses () {
         return [
           'table--condensed',
+          'nodes_table',
           { 'table--fixed-header': this.stickyTableHeader }
         ]
       }

@@ -9,7 +9,7 @@
           </v-flex>
           <v-flex xs12 sm6 py-0>
             <v-flex right d-inline-flex>
-              <v-text-field id="filter"
+              <v-text-field id="nodes_grid_filter"
                             v-model="filter"
                             append-icon="search"
                             label="Filter..."
@@ -29,11 +29,11 @@
       <v-progress-linear indeterminate/>
     </div>
     <v-data-iterator v-else :items="filteredItems" :pagination.sync="pagination" content-tag="div"
-                     content-class="row wrap layout">
+                     content-class="row wrap layout nodes_grid">
       <v-flex slot="item" slot-scope="props" xs12 sm6 md4 lg4>
         <v-card>
           <v-card-title>
-            <h3>{{ props.item.name }}</h3>
+            <h3 class="node_name">{{ props.item.name }}</h3>
             <v-flex right class="text-xs-right">
               <node-icons :elasticsearch-node="props.item"/>
             </v-flex>
