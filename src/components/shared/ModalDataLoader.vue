@@ -9,17 +9,20 @@
           </v-btn>
         </div>
       </v-card-title>
+      <v-divider />
 
-      <data-loader ref="dataLoader" :method="method" :method-params="methodParams">
-        <template slot-scope="data">
-          <slot name="content">
-            <print-pretty :document="data.body"
-                          :resizable="false"
-                          :initial-height="calculatedHeight()"
-                          :caption="modalSubtitle"/>
-          </slot>
-        </template>
-      </data-loader>
+      <v-card-text>
+        <data-loader ref="dataLoader" :method="method" :method-params="methodParams">
+          <template slot-scope="data">
+            <slot name="content">
+              <print-pretty :document="data.body"
+                            :resizable="false"
+                            :initial-height="calculatedHeight()"
+                            :caption="modalSubtitle"/>
+            </slot>
+          </template>
+        </data-loader>
+      </v-card-text>
     </v-card>
   </v-dialog>
 </template>
