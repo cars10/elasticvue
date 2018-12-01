@@ -10,7 +10,7 @@
       </router-link>
     </v-toolbar-title>
 
-    <div v-if="wasConnected" class="inline-block mt-1">
+    <div v-if="wasConnected" id="navbar_cluster_health" class="inline-block mt-1">
       <v-icon small>{{connectionIcon}}</v-icon>
       <span class="mx-1">{{clusterInfo}}</span>
       <v-chip :class="clusterHealthClasses" title="Health" small>{{clusterHealth}}</v-chip>
@@ -32,7 +32,7 @@
         </v-btn>
 
         <v-list>
-          <v-list-tile to="/query/rest">
+          <v-list-tile id="navbar_query_rest" to="/query/rest">
             <v-list-tile-content>
               <v-list-tile-title>
                 REST
@@ -40,7 +40,7 @@
             </v-list-tile-content>
           </v-list-tile>
 
-          <v-list-tile to="/query/api_browser">
+          <v-list-tile id="navbar_query_api_browser" to="/query/api_browser">
             <v-list-tile-content>
               <v-list-tile-title>
                 API BROWSER
