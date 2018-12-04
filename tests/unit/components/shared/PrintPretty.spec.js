@@ -20,8 +20,8 @@ describe('components/shared/PrintPretty.vue', () => {
     localVue.use(Vuex)
     localVue.use(Vuetify, {
       components: {
-        CodeEditor,
-        ResizableContainer,
+        'code-editor': CodeEditor,
+        'resizable-container': ResizableContainer,
         VBtn,
         VIcon,
         VGrid,
