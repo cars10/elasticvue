@@ -67,10 +67,13 @@ describe('Indices page', () => {
 
       const indexName = 'name-1'
       cy.createIndex(indexName)
-      cy.get('#reload-indices').click()
 
-      cy.get('table').should(table => {
-        expect(table).to.contain(indexName)
+      cy.flushIndices().then(() => {
+        cy.get('#reload-indices').click()
+
+        cy.get('table').should(table => {
+          expect(table).to.contain(indexName)
+        })
       })
     })
 
