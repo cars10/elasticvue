@@ -13,7 +13,7 @@
 
       <v-flex xs4>
         <v-flex text-xs-right>
-          <a href="https://github.com/cars10/elasticvue" target="_blank" rel="nofollow">Github</a><br/>
+          <a href="https://github.com/cars10/elasticvue" target="_blank" rel="nofollow">Github</a><br>
           <a href="https://elasticvue.com" target="_blank" rel="nofollow">Homepage</a>
         </v-flex>
       </v-flex>
