@@ -53,7 +53,8 @@ Cypress.Commands.add('quickConnect', () => {
 })
 
 Cypress.Commands.add('cleanupElasticsearch', () => {
-  return cy.request('DELETE', ELASTICSEARCH_URL + '/_all')
+  cy.request('DELETE', ELASTICSEARCH_URL + '/_all')
+  return cy.flushIndices()
 })
 
 Cypress.Commands.add('catIndices', () => {
