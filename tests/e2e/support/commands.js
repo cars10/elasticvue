@@ -56,17 +56,6 @@ Cypress.Commands.add('cleanupElasticsearch', () => {
   return cy.request('DELETE', ELASTICSEARCH_URL + '/_all')
 })
 
-Cypress.Commands.add('createIndex', indexName => {
-  cy.visit('/indices')
-  cy.get('#new_index').click()
-  cy.get('#index_name').clear()
-  cy.get('#index_name').type(indexName)
-  cy.get('#create_index').click()
-  cy.flushIndices().then(() => {
-    cy.reload(true)
-  })
-})
-
 Cypress.Commands.add('catIndices', () => {
   return cy.request({
     method: 'GET',

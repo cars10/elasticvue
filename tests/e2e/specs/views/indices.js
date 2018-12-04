@@ -8,7 +8,11 @@ describe('Indices page', () => {
   describe('managing indices', () => {
     it('can create indices', () => {
       const indexName = 'name-1'
-      cy.createIndex(indexName)
+      cy.get('#new_index').click()
+      cy.get('#index_name').clear()
+      cy.get('#index_name').type(indexName)
+      cy.get('#create_index').click()
+
       cy.flushIndices().then(() => {
         cy.reload(true)
         cy.get('table').should(table => {
@@ -25,6 +29,17 @@ describe('Indices page', () => {
         cy.get('table').contains(indexName).closest('tr').get('button[title="Options"]').click()
         cy.get('table').contains(indexName).closest('tr').get('a').contains('info').click()
         cy.contains('mappings').should('exist')
+      })
+    })
+
+    it('can show index stats', () => {
+      const indexName = 'name-1'
+      cy.createIndex(indexName)
+      cy.flushIndices().then(() => {
+        cy.reload(true)
+        cy.get('table').contains(indexName).closest('tr').get('button[title="Options"]').click()
+        cy.get('table').contains(indexName).closest('tr').get('a').contains('stats').click()
+        cy.contains('_shards').should('exist')
       })
     })
 
