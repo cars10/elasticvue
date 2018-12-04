@@ -13,6 +13,9 @@ export const connection = {
       state.wasConnected = true
       state.status = CONNECTION_STATES.SUCCESS
     },
+    setDisconnected (state) {
+      state.status = CONNECTION_STATES.UNKNOWN
+    },
     setElasticsearchHost (state, host) {
       state.wasConnected = false
       state.elasticsearchHost = host

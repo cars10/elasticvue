@@ -2,13 +2,13 @@
   <div>
     <v-form @submit.prevent="fetchData">
       <v-layout>
-        <v-flex xl1 lg2 sm3>
+        <v-flex xl1 lg2 sm3 pb-0>
           <v-select v-model="method"
                     :items="httpMethods"
                     label="HTTP Method"
                     name="http_method"/>
         </v-flex>
-        <v-flex xl11 lg10 sm9>
+        <v-flex xl11 lg10 sm9 pb-0>
           <v-text-field id="url"
                         v-model="elasticsearchHost"
                         label="Url"
@@ -17,8 +17,8 @@
         </v-flex>
       </v-layout>
 
-      <v-layout>
-        <v-flex md6>
+      <v-layout mb-1>
+        <v-flex md6 py-0>
           <label>Request body</label>
           <resizable-container :initial-height="150">
             <code-editor v-model="stringifiedParams" :external-commands="editorCommands"/>
@@ -26,7 +26,7 @@
           <i class="grey--text">Language: JSON</i>
         </v-flex>
 
-        <v-flex md6>
+        <v-flex md6 py-0>
           <label>Request headers</label>
           <resizable-container :initial-height="150">
             <code-editor v-model="stringifiedHeaders" :external-commands="editorCommands"/>
@@ -36,13 +36,11 @@
       </v-layout>
 
       <v-btn id="execute_query" :disabled="!isValid" :loading="loading" type="submit" color="primary" class="mx-0">
-        Execute query
+        Run query
       </v-btn>
     </v-form>
 
-    <h2 class="subheading mt-4">Response</h2>
-    <v-divider class="my-2"/>
-    <print-pretty :document="response" :initial-height="800"/>
+    <print-pretty :document="response" :initial-height="800" caption="Response"/>
   </div>
 </template>
 
@@ -50,11 +48,11 @@
   import ResizableContainer from '@/components/shared/ResizableContainer'
   import PrintPretty from '@/components/shared/PrintPretty'
   import CustomVAutocomplete from '@/components/shared/CustomVAutocomplete'
-  import QueryFormBase from '@/components/Query/QueryFormBase'
   import Loading from '@/components/shared/Loading'
-  import { HTTP_METHODS } from '../../consts'
+  import { HTTP_METHODS } from '../../../consts'
   import qs from 'querystringify'
-  import { buildFetchAuthHeaderFromUrl, urlWithoutCredentials } from '../../helpers'
+  import { buildFetchAuthHeaderFromUrl, urlWithoutCredentials } from '../../../helpers'
+  import { mapVuexAccessors } from '../../../helpers/store'
 
   export default {
     name: 'fetch-form',
@@ -67,14 +65,12 @@
         loading: Loading
       })
     },
-    extends: QueryFormBase,
     data () {
       return {
-        httpMethods: HTTP_METHODS,
-        editorCommands: [{
-          bindKey: { win: 'Ctrl+ENTER', mac: 'Command+ENTER', linux: 'Ctrl+ENTER' },
-          exec: this.fetchData
-        }]
+        loading: false,
+        hasError: false,
+        response: {},
+        elasticsearchHost: this.$store.state.connection.elasticsearchHost
       }
     },
     computed: {
@@ -114,7 +110,15 @@
           fetchOptions.body = this.stringifiedParams
         }
         return fetchOptions
-      }
+      },
+      ...mapVuexAccessors('queryRest', ['method', 'stringifiedParams', 'stringifiedHeaders'])
+    },
+    created () {
+      this.httpMethods = HTTP_METHODS
+      this.editorCommands = [{
+        bindKey: { win: 'Ctrl+ENTER', mac: 'Command+ENTER', linux: 'Ctrl+ENTER' },
+        exec: this.fetchData
+      }]
     },
     methods: {
       fetchData () {

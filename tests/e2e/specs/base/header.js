@@ -1,29 +1,24 @@
 describe('Header', () => {
-  describe('connect and reconnect', () => {
+  describe('navbar cluster health', () => {
     beforeEach(() => {
-      cy.clearLocalStorage()
-    })
-
-    it('cannot reconnect when not connected', () => {
-      cy.visit('/')
-      cy.get('toolbar_host').should('not.exist')
-    })
-
-    it('can reconnect when connected', () => {
       cy.quickConnect()
-      cy.visit('/indices')
-      cy.get('#toolbar_host').should('exist')
-      cy.get('#toolbar_reconnect_button').click()
-      cy.get('#toolbar_host').should('exist')
-      cy.url().should('include', '/indices')
     })
 
-    // TODO: check that it does reset search
+    it('shows the current cluster url', () => {
+      cy.get('#navbar_cluster_health').contains('http://localhost:' + Cypress.env('ES_PORT').toString())
+    })
+
+    it('shows the current cluster health', () => {
+      cy.get('#navbar_cluster_health').contains(/(unknown)|(yellow)|(green)/)
+    })
+
+    it('defaults to 5 second reloading', () => {
+      cy.get('#navbar_cluster_health').contains('5s')
+    })
   })
 
   describe('menu links', () => {
     beforeEach(() => {
-      cy.clearLocalStorage()
       cy.quickConnect()
     })
 
@@ -47,9 +42,16 @@ describe('Header', () => {
       cy.url().should('include', '/search')
     })
 
-    it('can navigate to query page', () => {
+    it('can navigate to rest query page', () => {
       cy.get('#navbar_query').click()
-      cy.url().should('include', '/query')
+      cy.get('#navbar_query_rest').click()
+      cy.url().should('include', '/query/rest')
+    })
+
+    it('can navigate to api browser query page', () => {
+      cy.get('#navbar_query').click()
+      cy.get('#navbar_query_api_browser').click()
+      cy.url().should('include', '/query/api_browser')
     })
 
     it('can navigate to utilities page', () => {

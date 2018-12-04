@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.8.0
+
+* adds api-browser component
+* better handling of network errors
+* only search still existing indices
+* removes reconnect input in toolbar
+* adds/fixes some specs
+* updates dependencies
+
 ## 0.7.1
 
 * fix css issue

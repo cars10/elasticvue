@@ -1,10 +1,9 @@
 <template>
   <v-footer height="auto">
-    <v-layout row wrap pa-4>
+    <v-layout row wrap pa-3>
       <v-flex xs4>
-        <div class="subheading">Settings</div>
-        <v-switch id="theme_select" v-model="dark" class="my-2" label="Dark theme" hide-details/>
-        <a id="resetSettings" title="Reset saved settings" @click="reset">Disconnect and reset</a>
+        <v-switch id="theme_select" v-model="dark" class="mt-0 mb-2 pt-0" label="Dark theme" hide-details/>
+        <a id="resetSettings" title="Disconnect and reset saved settings" @click="reset">Disconnect and reset</a>
       </v-flex>
 
       <v-flex xs4 text-xs-center>
@@ -14,9 +13,8 @@
 
       <v-flex xs4>
         <v-flex text-xs-right>
-          <div class="subheading mb-2">Links</div>
-          <a href="https://elasticvue.com" target="_blank" rel="nofollow">Homepage</a><br>
-          <a href="https://github.com/cars10/elasticvue" target="_blank" rel="nofollow">Github</a>
+          <a href="https://github.com/cars10/elasticvue" target="_blank" rel="nofollow">Github</a><br>
+          <a href="https://elasticvue.com" target="_blank" rel="nofollow">Homepage</a>
         </v-flex>
       </v-flex>
     </v-layout>

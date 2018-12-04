@@ -1,5 +1,5 @@
 <template>
-  <div class="mb-1">
+  <div>
     <slot name="single-setting__item">
       <v-flex px-3>
         <v-checkbox :value="value"

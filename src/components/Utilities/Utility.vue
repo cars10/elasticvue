@@ -8,6 +8,8 @@
 </template>
 
 <script>
+  import { showErrorSnackbar, showSuccessSnackbar } from '@/mixins/ShowSnackbar'
+
   export default {
     class: 'Utility',
     props: {
@@ -62,12 +64,12 @@
           .then(body => {
             this.loading = false
             this.error = false
-            this.showSuccessSnackbar({ text: 'Success', additionalText: JSON.stringify(body) })
+            showSuccessSnackbar({ text: 'Success', additionalText: JSON.stringify(body) })
           })
           .catch(error => {
             this.loading = false
             this.error = true
-            this.showErrorSnackbar({ text: 'Error', additionalText: JSON.stringify(error) })
+            showErrorSnackbar({ text: 'Error', additionalText: JSON.stringify(error) })
           })
       }
     }

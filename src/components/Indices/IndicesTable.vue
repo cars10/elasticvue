@@ -16,7 +16,7 @@
                         @keyup.esc="filter = ''"/>
 
           <settings-dropdown>
-            <single-setting v-model="stickyTableHeader" name="Sticky table header"/>
+            <single-setting v-model="stickyTableHeader" name="Sticky table header" class="mb-1"/>
           </settings-dropdown>
         </v-flex>
       </div>
@@ -106,7 +106,7 @@
 <script>
   import BtnGroup from '@/components/shared/BtnGroup'
   import { fuzzyTableFilter } from '../../helpers/filters'
-  import FixedTableHeader from '@/mixins/FixedTableHeader'
+  import { fixedTableHeaderOnDisable, fixedTableHeaderOnEnable, resetTableHeight } from '@/mixins/FixedTableHeader'
   import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
   import { mapVuexAccessors } from '../../helpers/store'
   import NewIndex from '@/components/Indices/NewIndex'
@@ -115,6 +115,7 @@
   import ListTileLink from '@/components/shared/ListTile/ListTileLink'
   import ListTileModalLink from '@/components/shared/ListTile/ListTileModalLink'
   import ElasticsearchIndex from '../../models/ElasticsearchIndex'
+  import { openModal } from '@/mixins/OpenModal'
 
   export default {
     name: 'IndicesTable',
@@ -126,9 +127,6 @@
       ListTileLink,
       ListTileModalLink
     },
-    mixins: [
-      FixedTableHeader
-    ],
     props: {
       indices: {
         default: () => {
@@ -150,7 +148,7 @@
           return this.$store.state.indices.stickyTableHeader
         },
         set (value) {
-          this.resetTableHeight()
+          if (!value) resetTableHeight()
           this.$store.commit('indices/setStickyTableHeader', value)
         }
       },
@@ -161,6 +159,12 @@
         ]
       },
       ...mapVuexAccessors('indices', ['filter', 'pagination'])
+    },
+    mounted () {
+      fixedTableHeaderOnEnable()
+    },
+    beforeDestroy () {
+      fixedTableHeaderOnDisable()
     },
     created () {
       this.HEADERS = [
@@ -189,7 +193,7 @@
         this.$emit('reloadIndices')
       },
       openIndicesGetModal (indexName) {
-        this.openModal({
+        openModal({
           method: 'indicesGet',
           methodParams: { index: indexName },
           title: 'indicesGet',
@@ -197,7 +201,7 @@
         })
       },
       openIndicesStatsModal (indexName) {
-        this.openModal({
+        openModal({
           method: 'indicesStats',
           methodParams: { index: indexName },
           title: 'indicesStats',

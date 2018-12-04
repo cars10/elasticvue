@@ -40,6 +40,8 @@
 </template>
 
 <script>
+  import { showErrorSnackbar, showSuccessSnackbar } from '@/mixins/ShowSnackbar'
+
   export default {
     name: 'NewIndex',
     data () {
@@ -71,7 +73,7 @@
         this.getElasticsearchAdapter()
           .then(adapter => adapter.indicesCreate(this.createIndexParams))
           .then(body => {
-            this.showSuccessSnackbar({
+            showSuccessSnackbar({
               text: `The index '${this.indexName}' was successfully created.`,
               additionalText: JSON.stringify(body)
             })
@@ -82,7 +84,7 @@
             this.$refs.form.reset()
             this.$emit('reloadIndices')
           })
-          .catch(error => this.showErrorSnackbar({ text: 'Error:', additionalText: error.message }))
+          .catch(error => showErrorSnackbar({ text: 'Error:', additionalText: error.message }))
       },
       closeDialog () {
         this.dialog = false

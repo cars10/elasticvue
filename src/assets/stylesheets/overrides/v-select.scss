@@ -1,0 +1,20 @@
+.v-select--dense-append {
+  .v-input__append-inner {
+    padding-left: 0;
+  }
+
+  .v-input__icon {
+    width: 18px;
+    min-width: 18px;
+  }
+
+  .v-input__slot:before {
+    border: none !important;
+  }
+
+  .v-input__slot:hover:before {
+    border-color: #fff !important;
+    border-style: solid !important;
+    border-width: thin 0 0 0 !important;
+  }
+}

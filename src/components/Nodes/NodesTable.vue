@@ -8,7 +8,7 @@
         </v-flex>
         <v-flex xs12 sm6 py-0>
           <v-flex right d-inline-flex>
-            <v-text-field id="filter"
+            <v-text-field id="nodes_table_filter"
                           v-model="filter"
                           append-icon="search"
                           label="Filter..."
@@ -89,7 +89,7 @@
   import NodePercentBar from '@/components/Nodes/NodePercentBar'
   import SettingsDropdown from '@/components/shared/SettingsDropdown'
   import SingleSetting from '@/components/shared/SingleSetting'
-  import FixedTableHeader from '@/mixins/FixedTableHeader'
+  import { fixedTableHeaderOnDisable, fixedTableHeaderOnEnable, resetTableHeight } from '@/mixins/FixedTableHeader'
 
   export default {
     name: 'nodes-table',
@@ -99,9 +99,6 @@
       SettingsDropdown,
       SingleSetting
     },
-    mixins: [
-      FixedTableHeader
-    ],
     props: {
       items: {
         type: Array,
@@ -121,16 +118,23 @@
           return this.$store.state.nodes.stickyTableHeader
         },
         set (value) {
-          this.resetTableHeight()
+          if (!value) resetTableHeight()
           this.$store.commit('nodes/setStickyTableHeader', value)
         }
       },
       tableClasses () {
         return [
           'table--condensed',
+          'nodes_table',
           { 'table--fixed-header': this.stickyTableHeader }
         ]
       }
+    },
+    mounted () {
+      fixedTableHeaderOnEnable()
+    },
+    beforeDestroy () {
+      fixedTableHeaderOnDisable()
     },
     created () {
       this.HEADERS = [

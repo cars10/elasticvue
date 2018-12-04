@@ -80,7 +80,7 @@
 
     <data-loader ref="resultsLoader"
                  :method-params="searchParams"
-                 :execute="executeSearch || indices.length > 0"
+                 :execute="false"
                  method="search"
                  render-content-while-loading>
       <template slot-scope="data">
@@ -131,8 +131,12 @@
       },
       ...mapVuexAccessors('search', ['q', 'indices', 'size', 'sourceInclude'])
     },
+    created () {
+      if (this.executeSearch || this.indices.length > 0) this.loadData()
+    },
     methods: {
-      loadData () {
+      async loadData () {
+        await this.selectOnlyKnownIndices()
         this.$refs.resultsLoader.loadData()
       },
       resetQuery () {
@@ -143,6 +147,14 @@
       },
       showOptions () {
         this.optionsCollapsed = !this.optionsCollapsed
+      },
+      selectOnlyKnownIndices () {
+        return this.getElasticsearchAdapter()
+          .then(adapter => adapter.catIndices())
+          .then(body => {
+            const availableIndices = body.map(index => index.index)
+            this.indices = this.indices.filter(selectedIndex => availableIndices.includes(selectedIndex))
+          })
       },
       resetIndices () {
         this.indices = []

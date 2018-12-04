@@ -1,6 +1,6 @@
 import { DEFAULT_HOST, HTTP_METHODS, REQUEST_DEFAULT_HEADERS } from '../../consts'
 
-export const query = {
+export const queryRest = {
   namespaced: true,
   state: {
     host: DEFAULT_HOST,

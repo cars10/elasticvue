@@ -221,6 +221,9 @@ yarn lint
 
 # minimized build for production
 yarn build
+
+# create bundle size report at dist/report.html, dist/legacy-report.html
+yarn build --report
 ```
 
 Building the chrome extension
@@ -237,7 +240,6 @@ Current TODOs, more ore less ordered by importance.
 
 * snapshot management
 * change cluster settings
-
 * data import/export
 * save *all* settings in local storage? add settings overview page?
 * firefox addon?
@@ -245,7 +247,6 @@ Current TODOs, more ore less ordered by importance.
 ### Internal stuff and refactorings
 
 * add more specs
-* when searching check if indices still exists
 * refactor vuex state to use actions?
 * performance - use web workers? wasm? ~~requestIdleCallback~~?
 

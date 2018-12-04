@@ -4,25 +4,16 @@ import ElasticsearchVersionService from './ElasticsearchVersionService'
 export default class ConnectionService {
   constructor (host) {
     this.host = host
-    this.client = null
   }
 
-  async testConnection () {
-    try {
-      let client = await this.buildClient()
-      let adapter = new ElasticsearchAdapter(client)
-      await adapter.ping()
-      await adapter.search({ size: 0 })
-      return Promise.resolve(adapter)
-    } catch (e) {
-      return Promise.reject(e)
-    }
+  async getAdapter () {
+    let client = await this.buildClient()
+    return new ElasticsearchAdapter(client)
   }
 
   async buildClient () {
-    let apiVersion = await new ElasticsearchVersionService(this.host).getApiVersion().catch(e => {
-      throw new TypeError(e)
-    })
+    let versionService = new ElasticsearchVersionService(this.host)
+    let apiVersion = await versionService.getApiVersion()
 
     return import(/* webpackChunkName: "elasticsearch-js" */ 'elasticsearch').then(Elasticsearch => {
       return new Elasticsearch.Client({
@@ -33,7 +24,15 @@ export default class ConnectionService {
     })
   }
 
-  async getAdapter () {
-    return this.testConnection()
+  async testConnection () {
+    try {
+      let client = await this.buildClient()
+      let adapter = new ElasticsearchAdapter(client)
+      await adapter.ping()
+      await adapter.search({ size: 0 })
+      return adapter
+    } catch (e) {
+      return Promise.reject(e)
+    }
   }
 }

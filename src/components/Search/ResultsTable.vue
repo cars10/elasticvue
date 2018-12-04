@@ -15,7 +15,7 @@
                         @keyup.esc="filter = ''"/>
 
           <settings-dropdown :badge="mappings.length > filteredMappings.length">
-            <single-setting v-model="stickyTableHeader" name="Sticky table header"/>
+            <single-setting v-model="stickyTableHeader" name="Sticky table header" class="mb-1"/>
             <multi-setting v-model="selectedMappings" :settings="mappings" name="Columns"/>
           </settings-dropdown>
         </v-flex>
@@ -59,7 +59,7 @@
 
 <script>
   import { fuzzyTableFilter } from '../../helpers/filters'
-  import FixedTableHeader from '@/mixins/FixedTableHeader'
+  import { fixedTableHeaderOnDisable, fixedTableHeaderOnEnable, resetTableHeight } from '@/mixins/FixedTableHeader'
   import SettingsDropdown from '@/components/shared/SettingsDropdown'
   import SingleSetting from '@/components/shared/SingleSetting'
   import MultiSetting from '@/components/shared/MultiSetting'
@@ -76,9 +76,6 @@
       MultiSetting,
       ModalDataLoader
     },
-    mixins: [
-      FixedTableHeader
-    ],
     props: {
       hits: {
         default: () => {
@@ -115,7 +112,7 @@
           return this.$store.state.search.stickyTableHeader
         },
         set (value) {
-          this.resetTableHeight()
+          if (!value) resetTableHeight()
           this.$store.commit('search/setStickyTableHeader', value)
         }
       },
@@ -144,6 +141,12 @@
         this.selectedMappings = this.selectedMappings.concat(newMappings)
         this.flattenedHits = results.results
       }
+    },
+    mounted () {
+      fixedTableHeaderOnEnable()
+    },
+    beforeDestroy () {
+      fixedTableHeaderOnDisable()
     },
     methods: {
       openDocument (item) {

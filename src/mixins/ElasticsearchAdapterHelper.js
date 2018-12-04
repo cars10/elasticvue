@@ -1,4 +1,5 @@
 import ConnectionService from '../services/elasticsearch/ConnectionService'
+import { showErrorSnackbar, showSuccessSnackbar } from '@/mixins/ShowSnackbar'
 
 const ElasticsearchAdapterHelper = {
   methods: {
@@ -29,12 +30,12 @@ const ElasticsearchAdapterHelper = {
         .then(adapter => adapter[options.method](options.methodParams))
         .then(body => {
           if (typeof options.callback === 'function') options.callback.call(body)
-          this.showSuccessSnackbar({
+          showSuccessSnackbar({
             text: options.growl,
             additionalText: JSON.stringify(body)
           })
         })
-        .catch(error => this.showErrorSnackbar({ text: 'Error:', additionalText: error.message }))
+        .catch(error => showErrorSnackbar({ text: 'Error:', additionalText: error.message }))
     }
   }
 }

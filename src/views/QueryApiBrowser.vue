@@ -1,22 +1,22 @@
 <template>
   <v-card>
     <v-card-title>
-      <h1 class="headline">Query</h1>
+      <h1 class="headline">API Browser</h1>
     </v-card-title>
     <v-divider/>
     <v-card-text>
-      <fetch-form/>
+      <api-browser/>
     </v-card-text>
   </v-card>
 </template>
 
 <script>
-  import FetchForm from '@/components/Query/FetchForm'
+  import ApiBrowser from '@/components/Query/ApiBrowser/ApiBrowser'
 
   export default {
-    name: 'Query',
+    name: 'QueryApiBrowser',
     components: {
-      FetchForm
+      ApiBrowser
     }
   }
 </script>

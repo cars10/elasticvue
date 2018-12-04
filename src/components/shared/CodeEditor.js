@@ -56,7 +56,7 @@ export default {
     setupAceEditor () {
       this.editor = Brace.edit(this.$el, { autoScrollEditorIntoView: true })
       this.$emit('init', this.editor)
-      this.editor.getSession().setUseWorker(this.useWorker)
+      this.editor.getSession().setUseWorker(this.readOnly ? false : this.useWorker)
       this.editor.getSession().setMode('ace/mode/json')
       this.editor.getSession().setUseWrapMode(this.wrapLines)
       this.editor.setFontSize('14px')

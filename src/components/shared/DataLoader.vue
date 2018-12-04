@@ -1,28 +1,37 @@
 <template>
   <div>
-    <template v-if="renderContentWhileLoading">
-      <slot :body="body" :loading="loading">No data</slot>
+    <template v-if="hasAnyError">
+      <template v-if="apiError" :apiErrorMessage="apiErrorMessage">
+        <div class="pa-3">
+          <v-alert :value="true">{{apiErrorMessage}}</v-alert>
+        </div>
+      </template>
+      <template v-else-if="networkError">
+        <div class="pa-3">
+          <v-alert :value="true" color="grey">Network error: failed to fetch</v-alert>
+        </div>
+      </template>
     </template>
 
     <template v-else>
-      <slot v-if="hasError" :errorMessage="errorMessage" name="error">
-        <div class="pa-3">
-          <v-alert :value="true">{{errorMessage}}</v-alert>
-        </div>
-      </slot>
+      <template v-if="renderContentWhileLoading">
+        <slot :body="body" :loading="loading">No data</slot>
+      </template>
       <slot v-else-if="loading" name="progress">
         <v-progress-linear color="blue" indeterminate/>
       </slot>
-      <slot v-else :body="body">No data</slot>
+      <slot v-else :body="body || {}">No data</slot>
     </template>
   </div>
 </template>
 
 <script>
+  import Request from '@/mixins/Request'
   import { flattenObject } from '../../helpers/utilities'
 
   export default {
     name: 'DataLoader',
+    mixins: [Request],
     props: {
       method: {
         type: String,
@@ -47,43 +56,14 @@
         type: Boolean
       }
     },
-    data () {
-      return {
-        body: null,
-        loading: false,
-        hasError: false,
-        errorMessage: ''
-      }
-    },
     created () {
       if (this.execute) this.loadData()
     },
     methods: {
       loadData () {
-        this.loading = true
-        this.hasError = false
-        this.errorMessage = ''
-
-        this.getElasticsearchAdapter()
-          .then(adapter => adapter[this.method](this.methodParams))
-          .then(body => {
-            this.loading = false
-            this.hasError = false
-            this.errorMessage = ''
-            this.body = this.flatten ? flattenObject(body, true, true) : body
-          })
-          .catch(error => {
-            this.loading = false
-            this.hasError = true
-            this.errorMessage = error.message
-            this.body = ''
-            if (error.status === 403) {
-              const hint = 'You did not configure your elasticsearch server correctly. ' +
-                'Please hit the "RESET" button in the footer to see the correct settings.'
-              this.showErrorSnackbar({ text: 'Error: ' + error.message, additionalText: hint, timeout: 12000 })
-            } else {
-              this.showErrorSnackbar({ text: 'Error:', additionalText: error.message })
-            }
+        this.callElasticsearch(this.method, this.methodParams)
+          .then(response => {
+            this.body = this.flatten ? flattenObject(response, true, true) : response
           })
       }
     }
