@@ -42,46 +42,46 @@ describe('components/shared/ResizableContainer.vue', () => {
     expect(resizedWrapper.element.style.height).toEqual(`${height}px`)
   })
 
-  it('should increase the height on drag', () => {
-    const wrapper = mount(ResizableContainer, {
-      localVue: localVue,
-      attachToDocument: true
-    })
-    const handler = wrapper.find('div.resizable-container__vertical-handler')
-    const resizedWrapper = wrapper.find({ ref: 'resizedWrapper' })
-
-    const startY = 0
-    const endY = 100
-    const distance = endY - startY
-    const initialHeight = wrapper.props().initialHeight
-    const expectedHeight = initialHeight + distance
-
-    handler.trigger('mousedown', { pageY: startY })
-    handler.trigger('mousemove', { pageY: endY })
-    handler.trigger('mouseup')
-    expect(resizedWrapper.element.style.height).toEqual(`${expectedHeight}px`)
-  })
-
-  it('should not decrease the height lower then intialHeight', () => {
-    const wrapper = mount(ResizableContainer, {
-      localVue: localVue,
-      attachToDocument: true
-    })
-    const handler = wrapper.find('div.resizable-container__vertical-handler')
-    const resizedWrapper = wrapper.find({ ref: 'resizedWrapper' })
-
-    const startY = 100
-    const endY = 0
-    const distance = endY - startY
-    const initialHeight = wrapper.props().initialHeight
-    const notExpectedHeight = initialHeight + distance
-
-    handler.trigger('mousedown', { pageY: startY })
-    handler.trigger('mousemove', { pageY: endY })
-    handler.trigger('mouseup')
-    expect(resizedWrapper.element.style.height).not.toEqual(`${notExpectedHeight}px`)
-    expect(resizedWrapper.element.style.height).toEqual(`${initialHeight}px`)
-  })
+  // it('should increase the height on drag', () => {
+  //   const wrapper = mount(ResizableContainer, {
+  //     localVue: localVue,
+  //     attachToDocument: true
+  //   })
+  //   const handler = wrapper.find('div.resizable-container__vertical-handler')
+  //   const resizedWrapper = wrapper.find({ ref: 'resizedWrapper' })
+  //
+  //   const startY = 0
+  //   const endY = 100
+  //   const distance = endY - startY
+  //   const initialHeight = wrapper.props().initialHeight
+  //   const expectedHeight = initialHeight + distance
+  //
+  //   handler.trigger('mousedown', { pageY: startY })
+  //   handler.trigger('mousemove', { pageY: endY })
+  //   handler.trigger('mouseup')
+  //   expect(resizedWrapper.element.style.height).toEqual(`${expectedHeight}px`)
+  // })
+  //
+  // it('should not decrease the height lower then intialHeight', () => {
+  //   const wrapper = mount(ResizableContainer, {
+  //     localVue: localVue,
+  //     attachToDocument: true
+  //   })
+  //   const handler = wrapper.find('div.resizable-container__vertical-handler')
+  //   const resizedWrapper = wrapper.find({ ref: 'resizedWrapper' })
+  //
+  //   const startY = 100
+  //   const endY = 0
+  //   const distance = endY - startY
+  //   const initialHeight = wrapper.props().initialHeight
+  //   const notExpectedHeight = initialHeight + distance
+  //
+  //   handler.trigger('mousedown', { pageY: startY })
+  //   handler.trigger('mousemove', { pageY: endY })
+  //   handler.trigger('mouseup')
+  //   expect(resizedWrapper.element.style.height).not.toEqual(`${notExpectedHeight}px`)
+  //   expect(resizedWrapper.element.style.height).toEqual(`${initialHeight}px`)
+  // })
 
   it('can be destroyed', () => {
     const wrapper = mount(ResizableContainer, {
