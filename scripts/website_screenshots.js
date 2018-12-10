@@ -11,13 +11,13 @@ const puppeteer = require('puppeteer');
   await connectWithServer(page)
   await removeSnackbar(page)
   await clickToNavigateAndScreenshot(page, '#navbar_home', 'screenshot_1_home_white.png')
-  await clickToNavigateAndScreenshot(page, '#navbar_indices', 'screenshot_2_indices_white.png')
-  await clickToNavigateAndScreenshot(page, 'table > tbody > tr:nth-child(1) > td:nth-child(10) > div > button:nth-child(2)', 'screenshot_3_index_white.png')
-
   await page.click('#theme_select')
-  await page.click('#navbar_indices')
-  await clickToNavigateAndScreenshot(page, 'table > tbody > tr:nth-child(1) > td:nth-child(10) > div > button:nth-child(2)', 'screenshot_4_index_dark.png')
-  await clickToNavigateAndScreenshot(page, '#navbar_search', 'screenshot_5_search_dark.png', async (page) => {
+  await clickToNavigateAndScreenshot(page, '#navbar_nodes', 'screenshot_2_nodes.png')
+  await clickToNavigateAndScreenshot(page, '#navbar_indices', 'screenshot_3_indices.png')
+  await clickToNavigateAndScreenshot(page, ['button[title="Options"]', 'a[href$="/stats"]'], 'screenshot_4_index.png')
+
+  await page.reload()
+  await clickToNavigateAndScreenshot(page, '#navbar_search', 'screenshot_5_search_dark.png', async page => {
     await page.click('#indices')
     await page.waitFor(50)
     await page.click('input[type="checkbox"]')
@@ -26,7 +26,7 @@ const puppeteer = require('puppeteer');
     await page.click('th[aria-label="author_name: Not sorted. Activate to sort ascending."')
     await page.waitFor(250)
   })
-  await clickToNavigateAndScreenshot(page, '#navbar_query', 'screenshot_6_query_dark.png', async (page) => {
+  await clickToNavigateAndScreenshot(page, ['#navbar_query', '#navbar_query_rest'], 'screenshot_6_query_dark.png', async page => {
     await page.click('#execute_query')
     await page.waitFor(500)
   })
@@ -51,9 +51,17 @@ async function removeSnackbar (page) {
   })
 }
 
-async function clickToNavigateAndScreenshot (page, selector, screenshot, callback) {
-  await page.waitFor(selector)
-  await page.click(selector)
+async function clickToNavigateAndScreenshot (page, selectors, screenshot, callback) {
+  if (Array.isArray(selectors)) {
+    for (let selector of selectors) {
+      await page.waitFor(200)
+      await page.click(selector)
+    }
+  } else {
+    await page.waitFor(200)
+    await page.click(selectors)
+  }
+
   await page.waitFor(500)
   if (typeof callback === 'function') await callback(page)
   await page.screenshot({ path: 'scripts/website_screenshots/' + screenshot })
