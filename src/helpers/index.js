@@ -1,4 +1,4 @@
-import { DEFAULT_SEARCH_PARAMS } from '../consts'
+import { DEFAULT_SEARCH_PARAMS, REQUEST_DEFAULT_BODY } from '../consts'
 import { isEmpty } from './utilities'
 
 export function normalizeSearchParams (params) {
@@ -10,6 +10,10 @@ export function normalizeSearchParams (params) {
   params._sourceInclude = isEmpty(params.sourceInclude) ? '' : params.sourceInclude.replace(/\s/g, '')
   delete params.sourceInclude
   return params
+}
+
+export function paramsWithDefaults (params) {
+  return Object.assign({}, REQUEST_DEFAULT_BODY, params)
 }
 
 export function capitalize (string) {

@@ -17,7 +17,7 @@ const ElasticsearchAdapterHelper = {
       }
     },
     simpleRequest (options) {
-      if (options.confirmMessage.length !== 0) {
+      if (options.confirmMessage && options.confirmMessage.length !== 0) {
         if (confirm(options.confirmMessage)) {
           this.runRequest(options)
         }

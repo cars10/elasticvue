@@ -50,6 +50,7 @@
         </v-list>
       </v-menu>
 
+      <v-btn id="navbar_snapshots" flat to="/snapshots">Snapshots</v-btn>
       <v-btn id="navbar_utilities" flat to="/utilities">Utilities</v-btn>
     </v-toolbar-items>
   </v-toolbar>
