@@ -56,7 +56,7 @@ export const DEFAULT_SEARCH_PARAMS = {
  * @type {{requestTimeout: number, format: string}}
  */
 export const REQUEST_DEFAULT_BODY = {
-  requestTimeout: 3000,
+  requestTimeout: 10000,
   format: 'json'
 }
 

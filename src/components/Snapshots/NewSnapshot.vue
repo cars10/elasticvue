@@ -20,8 +20,6 @@
                         autocomplete="off"
                         autofocus
                         @keyup.esc="closeDialog"/>
-
-          <v-checkbox v-model="waitForCompletion" label="Wait for completion"/>
         </v-card-text>
 
         <v-card-actions>
@@ -46,8 +44,7 @@
       return {
         dialog: false,
         valid: false,
-        snapshotName: '',
-        waitForCompletion: true
+        snapshotName: ''
       }
     },
     methods: {
@@ -57,7 +54,7 @@
       createSnapshot () {
         if (!this.$refs.form.validate()) return
 
-        this.simpleRequest({
+        this.elasticsearchRequest({
           method: 'snapshotCreate',
           methodParams: this.buildCreateParams(),
           growl: `The snapshot '${this.snapshotName}' was successfully created.`,
@@ -70,8 +67,7 @@
       buildCreateParams () {
         return {
           repository: this.repository,
-          snapshot: this.snapshotName,
-          waitForCompletion: this.waitForCompletion
+          snapshot: this.snapshotName
         }
       },
       closeDialog () {

@@ -47,7 +47,7 @@
     },
     methods: {
       runSimpleRequest () {
-        this.simpleRequest({
+        this.elasticsearchRequest({
           method: this.method,
           methodParams: this.methodParams,
           callback: this.callback,

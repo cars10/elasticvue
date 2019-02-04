@@ -70,7 +70,7 @@
       createSnapshotRepository () {
         if (!this.$refs.form.validate()) return
 
-        this.simpleRequest({
+        this.elasticsearchRequest({
           method: 'snapshotCreateRepository',
           methodParams: this.buildCreateParams(),
           growl: `The repository '${this.repositoryName}' was successfully created.`,

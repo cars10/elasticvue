@@ -196,7 +196,16 @@ export default class ElasticsearchAdapter {
    * @returns {*}
    */
   catRepositories () {
-    return this.snapshotGetRepository({ repository: '*' })
+    return this.snapshotGetRepository({ })
+  }
+
+  /**
+   * Get a snapshot repository
+   * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-snapshot-getrepository
+   * @param params
+   */
+  snapshotGetRepository (params) {
+    return this.client.snapshot.getRepository(paramsWithDefaults(params))
   }
 
   /**
@@ -224,6 +233,15 @@ export default class ElasticsearchAdapter {
    */
   catSnapshots (params) {
     return this.client.cat.snapshots(paramsWithDefaults(params))
+  }
+
+  /**
+   * Get a snapshot in a repository
+   * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-snapshots-get
+   * @param params
+   */
+  getSnapshot (params) {
+    return this.client.snapshot.get(paramsWithDefaults(params))
   }
 
   /********/

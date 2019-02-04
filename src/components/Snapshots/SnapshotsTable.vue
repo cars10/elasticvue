@@ -35,7 +35,20 @@
           <td>{{props.item.start_time}} ({{props.item.start_epoch}})</td>
           <td>{{props.item.end_time}} ({{props.item.end_epoch}})</td>
           <td>{{props.item.duration}}</td>
-          <td>{{props.item.indices}}</td>
+          <td>
+            {{props.item.indices}}
+            <v-btn v-if="props.item.index_names_loaded" @click="loadIndexNames(props.item)">
+              <v-icon>keyboard_arrow_up</v-icon>
+              Hide
+            </v-btn>
+            <v-btn v-else @click="loadIndexNames(props.item)">
+              <v-icon>keyboard_arrow_down</v-icon>
+              Show
+            </v-btn>
+            <ul v-if="props.item.index_names">
+              <li v-for="name in props.item.index_names" :key="name">{{name}}</li>
+            </ul>
+          </td>
           <td>{{props.item.successful_shards}}</td>
           <td>{{props.item.failed_shards}}</td>
           <td>{{props.item.total_shards}}</td>
@@ -96,6 +109,21 @@
       },
       emitReloadData () {
         this.$emit('reloadData')
+      },
+      loadIndexNames (item) {
+        if (item.index_names_loaded) {
+          this.$set(item, 'index_names_loaded', false)
+          this.$set(item, 'index_names', [])
+        } else {
+          this.elasticsearchRequest({
+            method: 'getSnapshot',
+            methodParams: { repository: this.repository, snapshot: item.id },
+            callback: body => {
+              this.$set(item, 'index_names_loaded', true)
+              this.$set(item, 'index_names', body.snapshots[0].indices)
+            }
+          })
+        }
       }
     }
   }
