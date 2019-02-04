@@ -227,6 +227,15 @@ export default class ElasticsearchAdapter {
   }
 
   /**
+   * Delete a snapshot
+   * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-snapshot-delete
+   * @param params
+   */
+  snapshotDelete (params) {
+    return this.client.snapshot.delete(paramsWithDefaults(params))
+  }
+
+  /**
    * Cat snapshots in repository
    * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-cat-snapshots
    * @param params

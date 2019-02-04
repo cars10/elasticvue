@@ -52,6 +52,22 @@
           <td>{{props.item.successful_shards}}</td>
           <td>{{props.item.failed_shards}}</td>
           <td>{{props.item.total_shards}}</td>
+          <td>
+            <btn-group small>
+              <v-menu offset-y left>
+                <v-btn slot="activator" title="Options">
+                  <v-icon>settings</v-icon>
+                  <v-icon small>arrow_drop_down</v-icon>
+                </v-btn>
+                <v-list>
+                  <list-tile-link :method-params="{repository, snapshot: props.item.id}" :callback="emitReloadData"
+                                  :growl="`The snapshot '${props.item.id}' was successfully deleted.`"
+                                  :confirm-message="`Delete snapshot '${props.item.id}'?`"
+                                  method="snapshotDelete" icon="delete" link-title="Delete snapshot"/>
+                </v-list>
+              </v-menu>
+            </btn-group>
+          </td>
         </tr>
       </template>
     </v-data-table>
@@ -62,11 +78,15 @@
   import { DEFAULT_ROWS_PER_PAGE } from '@/consts'
   import { fuzzyTableFilter } from '@/helpers/filters'
   import NewSnapshot from '@/components/Snapshots/NewSnapshot'
+  import ListTileLink from '@/components/shared/ListTile/ListTileLink'
+  import BtnGroup from '@/components/shared/BtnGroup'
 
   export default {
     name: 'SnapshotsTable',
     components: {
-      NewSnapshot
+      NewSnapshot,
+      ListTileLink,
+      BtnGroup
     },
     props: {
       snapshots: {
@@ -99,7 +119,8 @@
         { text: 'indices', value: 'indices' },
         { text: 'successful_shards', value: 'successful_shards' },
         { text: 'failed_shards', value: 'failed_shards' },
-        { text: 'total_shards', value: 'total_shards' }
+        { text: 'total_shards', value: 'total_shards' },
+        { text: '', value: 'actions', sortable: false }
       ]
       this.DEFAULT_ROWS_PER_PAGE = DEFAULT_ROWS_PER_PAGE
     },
