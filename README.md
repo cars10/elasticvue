@@ -73,7 +73,7 @@ You can use one of the following ways to run elasticvue:
 
 **Online version**
 
-Visit [https://app.elasticvue.com](https://app.elasticvue.com)
+Visit [http://app.elasticvue.com](http://app.elasticvue.com) or [https://app.elasticvue.com](https://app.elasticvue.com).
 
 **Docker**
 
@@ -101,7 +101,7 @@ Install the extension from the [chrome webstore](https://chrome.google.com/webst
 
 ## Browser Support
 
-Development is done on chrome. Firefox, Safari and Edge should work but are mostly untested.
+Development is done on chrome. Firefox, safari and edge should work but are mostly untested.
 
 | IE | Edge | Safari | Firefox | Chrome |
 |----|------|--------|---------|--------|
