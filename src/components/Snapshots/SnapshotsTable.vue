@@ -37,11 +37,11 @@
           <td>{{props.item.duration}}</td>
           <td>
             {{props.item.indices}}
-            <v-btn v-if="props.item.index_names_loaded" @click="loadIndexNames(props.item)">
+            <v-btn v-if="props.item.index_names_loaded" flat @click="loadIndexNames(props.item)">
               <v-icon>keyboard_arrow_up</v-icon>
               Hide
             </v-btn>
-            <v-btn v-else @click="loadIndexNames(props.item)">
+            <v-btn v-else flat @click="loadIndexNames(props.item)">
               <v-icon>keyboard_arrow_down</v-icon>
               Show
             </v-btn>

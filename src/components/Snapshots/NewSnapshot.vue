@@ -20,6 +20,30 @@
                         autocomplete="off"
                         autofocus
                         @keyup.esc="closeDialog"/>
+
+          <data-loader ref="indicesLoader" method="catIndices" render-content-while-loading>
+            <template slot-scope="data">
+              <custom-v-autocomplete id="indices"
+                                     v-model="indices"
+                                     :items="data.body | sortIndices"
+                                     :loading="data.loading"
+                                     append-icon="arrow_drop_down"
+                                     multiple
+                                     chips
+                                     label="Indices"
+                                     name="indices"
+                                     prepend-inner-icon="cached"
+                                     @click:prepend-inner="resetIndices">
+
+                <template slot="selection" slot-scope="{ item, index }">
+                  <v-chip v-if="index <= 1">
+                    <span>{{ item }}</span>
+                  </v-chip>
+                  <span v-if="index === 2" class="grey--text caption">(+{{ indices.length - 1 }} others)</span>
+                </template>
+              </custom-v-autocomplete>
+            </template>
+          </data-loader>
         </v-card-text>
 
         <v-card-actions>
@@ -32,8 +56,18 @@
 </template>
 
 <script>
+  import CustomVAutocomplete from '@/components/shared/CustomVAutocomplete'
+
   export default {
     name: 'NewSnapshot',
+    components: {
+      CustomVAutocomplete
+    },
+    filters: {
+      sortIndices (indices) {
+        return indices ? indices.map(index => index.index).sort() : []
+      }
+    },
     props: {
       repository: {
         type: String,
@@ -44,7 +78,8 @@
       return {
         dialog: false,
         valid: false,
-        snapshotName: ''
+        snapshotName: '',
+        indices: []
       }
     },
     methods: {
@@ -67,13 +102,21 @@
       buildCreateParams () {
         return {
           repository: this.repository,
-          snapshot: this.snapshotName
+          snapshot: this.snapshotName,
+          body: {
+            indices: this.indices
+          }
         }
       },
       closeDialog () {
         this.snapshotName = ''
+        this.indices = []
         this.$refs.form.resetValidation()
         this.dialog = false
+      },
+      resetIndices () {
+        this.indices = []
+        this.$refs.indicesLoader.loadData()
       }
     }
   }
