@@ -26,12 +26,10 @@ export default class ElasticsearchVersionService {
 
   mapApiVersion () {
     switch (this.apiVersion) {
-    case ELASTICSEARCH_API_VERSIONS:
-      return this.apiVersion
     case '6.1':
       return '6.x'
     default:
-      return '6.x'
+      return this.apiVersion
     }
   }
 }
