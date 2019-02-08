@@ -1,4 +1,3 @@
-import { ELASTICSEARCH_API_VERSIONS } from '../../consts'
 import { buildFetchAuthHeaderFromUrl, urlWithoutCredentials } from '../../helpers'
 
 export default class ElasticsearchVersionService {
@@ -26,10 +25,10 @@ export default class ElasticsearchVersionService {
 
   mapApiVersion () {
     switch (this.apiVersion) {
-    case '6.1':
-      return '6.x'
-    default:
-      return this.apiVersion
+      case '6.1':
+        return '6.x'
+      default:
+        return this.apiVersion
     }
   }
 }

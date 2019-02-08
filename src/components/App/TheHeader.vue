@@ -11,7 +11,9 @@
     </v-toolbar-title>
 
     <div v-if="wasConnected" id="navbar_cluster_health" class="inline-block mt-1">
-      <v-icon small>{{connectionIcon}}</v-icon>
+      <v-btn icon class="ma-0" title="Disconnect and reset" @click="reset">
+        <v-icon small>{{connectionIcon}}</v-icon>
+      </v-btn>
       <span class="mx-1">{{clusterInfo}}</span>
       <v-chip :class="clusterHealthClasses" title="Health" small>{{clusterHealth}}</v-chip>
       <reload-button id="header-reload-button" :action="getHealth" :default-setting="5"/>
@@ -61,6 +63,7 @@
   import ReloadButton from '@/components/shared/ReloadButton'
   import Request from '@/mixins/Request'
   import { CONNECTION_STATES } from '../../consts'
+  import { LOCALSTORAGE_KEY } from '@/consts'
 
   export default {
     name: 'app-header',
@@ -104,6 +107,10 @@
           .catch(() => {
             this.clusterHealth = CONNECTION_STATES.UNKNOWN
           })
+      },
+      reset () {
+        localStorage.removeItem(LOCALSTORAGE_KEY)
+        window.location.replace('/')
       }
     }
   }
