@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.9.0
+
+* snapshot management
+** create and remove snapshot repositories
+** take and restore snapshots for all/specific indices
+* updates dependencies
+
 ## 0.8.0
 
 * adds api-browser component
