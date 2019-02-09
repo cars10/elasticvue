@@ -196,7 +196,7 @@ export default class ElasticsearchAdapter {
    * @returns {*}
    */
   catRepositories () {
-    return this.snapshotGetRepository({ })
+    return this.snapshotGetRepository({})
   }
 
   /**
@@ -218,6 +218,15 @@ export default class ElasticsearchAdapter {
   }
 
   /**
+   * Delete a snapshot repository
+   * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-snapshot-deleterepository
+   * @param params
+   */
+  snapshotDeleteRepository (params) {
+    return this.client.snapshot.deleteRepository(paramsWithDefaults(params))
+  }
+
+  /**
    * Create a snapshot
    * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-snapshot-create
    * @param params
@@ -236,6 +245,15 @@ export default class ElasticsearchAdapter {
   }
 
   /**
+   * Restore a snapshot
+   * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-snapshot-restore
+   * @param params
+   */
+  snapshotRestore (params) {
+    return this.client.snapshot.restore(paramsWithDefaults(params))
+  }
+
+  /**
    * Cat snapshots in repository
    * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-cat-snapshots
    * @param params
@@ -246,7 +264,7 @@ export default class ElasticsearchAdapter {
 
   /**
    * Get a snapshot in a repository
-   * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-snapshots-get
+   * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-snapshot-get
    * @param params
    */
   getSnapshot (params) {

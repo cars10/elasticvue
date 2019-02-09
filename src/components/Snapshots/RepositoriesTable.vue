@@ -42,6 +42,22 @@
           <td>{{props.item.name}}</td>
           <td>{{props.item.type}}</td>
           <td>{{props.item.settings}}</td>
+          <td>
+            <btn-group small>
+              <v-menu offset-y left @click.native.stop>
+                <v-btn slot="activator" title="Options">
+                  <v-icon>settings</v-icon>
+                  <v-icon small>arrow_drop_down</v-icon>
+                </v-btn>
+                <v-list>
+                  <list-tile-link :method-params="{repository: props.item.name}" :callback="emitReloadData"
+                                  :growl="`The repository '${props.item.name}' was successfully deleted.`"
+                                  :confirm-message="`Delete repository '${props.item.name}'?`"
+                                  method="snapshotDeleteRepository" icon="delete" link-title="Delete repository"/>
+                </v-list>
+              </v-menu>
+            </btn-group>
+          </td>
         </tr>
       </template>
       <template slot="expand" slot-scope="props">
@@ -64,6 +80,8 @@
   import SettingsDropdown from '@/components/shared/SettingsDropdown'
   import NewRepository from '@/components/Snapshots/NewRepository'
   import Repository from '@/components/Snapshots/Repository'
+  import ListTileLink from '@/components/shared/ListTile/ListTileLink'
+  import BtnGroup from '@/components/shared/BtnGroup'
 
   export default {
     name: 'SnapshotRepositoriesTable',
@@ -71,7 +89,9 @@
       SettingsDropdown,
       SingleSetting,
       NewRepository,
-      Repository
+      Repository,
+      ListTileLink,
+      BtnGroup
     },
     props: {
       repositories: {
@@ -126,7 +146,8 @@
         { text: '', value: 'expand-icon', sortable: false, width: '48px' },
         { text: 'name', value: 'name' },
         { text: 'type', value: 'type' },
-        { text: 'settings', value: 'settings', sortable: false }
+        { text: 'settings', value: 'settings', sortable: false },
+        { text: '', value: 'actions', sortable: false }
       ]
       this.DEFAULT_ROWS_PER_PAGE = DEFAULT_ROWS_PER_PAGE
     },
