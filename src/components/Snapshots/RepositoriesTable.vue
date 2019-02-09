@@ -52,7 +52,7 @@
                 <v-list>
                   <list-tile-link :method-params="{repository: props.item.name}" :callback="emitReloadData"
                                   :growl="`The repository '${props.item.name}' was successfully deleted.`"
-                                  :confirm-message="`Delete repository '${props.item.name}'?`"
+                                  :confirm-message="`Delete repository '${props.item.name}' and snapshots inside?`"
                                   method="snapshotDeleteRepository" icon="delete" link-title="Delete repository"/>
                 </v-list>
               </v-menu>
