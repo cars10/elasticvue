@@ -36,11 +36,11 @@
                         required
                         @keyup.esc="closeDialog"/>
 
-          <v-checkbox v-model="compress" label="Compress"/>
+          <v-checkbox v-model="compress" hide-details label="Compress"/>
         </v-card-text>
 
-        <v-card-actions>
-          <v-btn id="create_snapshot_repository" flat type="submit" @click="createSnapshotRepository">Create</v-btn>
+        <v-card-actions class="pa-3">
+          <v-btn id="create_snapshot_repository" color="success" type="submit">Create</v-btn>
           <v-btn flat @click="closeDialog">Cancel</v-btn>
         </v-card-actions>
       </v-form>

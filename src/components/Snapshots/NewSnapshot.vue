@@ -33,6 +33,7 @@
                                      label="Indices"
                                      name="indices"
                                      prepend-inner-icon="cached"
+                                     hide-details
                                      @click:prepend-inner="resetIndices">
 
                 <template slot="selection" slot-scope="{ item, index }">
@@ -46,8 +47,8 @@
           </data-loader>
         </v-card-text>
 
-        <v-card-actions>
-          <v-btn id="create_snapshot" flat @click="createSnapshot">Create</v-btn>
+        <v-card-actions class="pa-3">
+          <v-btn id="create_snapshot" color="success" type="submit">Create</v-btn>
           <v-btn flat @click="closeDialog">Cancel</v-btn>
         </v-card-actions>
       </v-form>
