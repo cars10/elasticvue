@@ -7,17 +7,16 @@ const puppeteer = require('puppeteer');
   await page.goto('http://localhost:8080')
 
   await page.click('#theme_select')
-  await clickToNavigateAndScreenshot(page, '#navbar_home', 'screenshot_0_connect_white.jpg')
   await connectWithServer(page)
   await removeSnackbar(page)
-  await clickToNavigateAndScreenshot(page, '#navbar_home', 'screenshot_1_home_white.jpg')
+  await clickToNavigateAndScreenshot(page, '#navbar_home', 'screenshot_0_home_white.jpg')
   await page.click('#theme_select')
-  await clickToNavigateAndScreenshot(page, '#navbar_nodes', 'screenshot_2_nodes.jpg')
-  await clickToNavigateAndScreenshot(page, '#navbar_indices', 'screenshot_3_indices.jpg')
-  await clickToNavigateAndScreenshot(page, ['button[title="Options"]', 'a[href$="/stats"]'], 'screenshot_4_index.jpg')
+  await clickToNavigateAndScreenshot(page, '#navbar_nodes', 'screenshot_1_nodes.jpg')
+  await clickToNavigateAndScreenshot(page, '#navbar_indices', 'screenshot_2_indices.jpg')
+  await clickToNavigateAndScreenshot(page, ['button[title="Options"]', 'a[href$="/stats"]'], 'screenshot_3_index.jpg')
 
   await page.reload()
-  await clickToNavigateAndScreenshot(page, '#navbar_search', 'screenshot_5_search_dark.jpg', async page => {
+  await clickToNavigateAndScreenshot(page, '#navbar_search', 'screenshot_4_search_dark.jpg', async page => {
     await page.click('#indices')
     await page.waitFor(50)
     await page.click('input[type="checkbox"]')
@@ -26,10 +25,11 @@ const puppeteer = require('puppeteer');
     await page.click('th[aria-label="author_name: Not sorted. Activate to sort ascending."')
     await page.waitFor(250)
   })
-  await clickToNavigateAndScreenshot(page, ['#navbar_query', '#navbar_query_rest'], 'screenshot_6_query_dark.jpg', async page => {
+  await clickToNavigateAndScreenshot(page, ['#navbar_query', '#navbar_query_rest'], 'screenshot_5_query_dark.jpg', async page => {
     await page.click('#execute_query')
     await page.waitFor(500)
   })
+  await clickToNavigateAndScreenshot(page, '#navbar_snapshots', 'screenshot_6_snapshots_dark.jpg')
   await clickToNavigateAndScreenshot(page, '#navbar_utilities', 'screenshot_7_utilities_dark.jpg')
 
   await browser.close()
