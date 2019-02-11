@@ -21,7 +21,7 @@
 
           <v-flex>
             <data-loader ref="indicesLoader" method="catIndices" render-content-while-loading>
-              <template slot-scope="data">
+              <template v-slot:default="data">
                 <custom-v-autocomplete id="indices"
                                        v-model="indices"
                                        :items="data.body | sortIndices"
@@ -31,7 +31,7 @@
                                        label="Indices"
                                        name="indices"
                                        @click:append="resetIndices">
-                  <template slot="item" slot-scope="data">
+                  <template v-slot:item="data">
                     <v-list-tile-action>
                       <v-checkbox :input-value="indices.includes(data.item)" color="primary"/>
                     </v-list-tile-action>
@@ -83,7 +83,7 @@
                  :execute="false"
                  method="search"
                  render-content-while-loading>
-      <template slot-scope="data">
+      <template v-slot:default="data">
         <results-table :hits="data.body && data.body.hits && data.body.hits.hits || []"
                        :loading="data.loading"/>
       </template>

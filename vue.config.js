@@ -5,6 +5,9 @@ module.exports = {
   assetsDir: 'assets',
   productionSourceMap: false,
   lintOnSave: false,
+  devServer: {
+    disableHostCheck: true
+  },
   configureWebpack: {
     performance: {
       maxEntrypointSize: 768000,

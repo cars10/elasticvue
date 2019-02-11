@@ -30,7 +30,7 @@
                   :custom-filter="callFuzzyTableFilter"
                   :pagination.sync="pagination"
                   :class="tableClasses">
-      <template slot="items" slot-scope="item">
+      <template v-slot:items="item">
         <tr class="tr--clickable" @click="openDocument(item.item)">
           <td v-for="key in filteredMappings" :key="key">{{item.item[key]}}</td>
           <td>

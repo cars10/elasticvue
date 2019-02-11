@@ -9,7 +9,7 @@
 
     <v-card-text>
       <data-loader ref="dataLoader" :method-params="methodParams" method="get">
-        <template slot-scope="data">
+        <template v-slot:default="data">
           <print-pretty :document="data.body" :caption="caption"/>
         </template>
       </data-loader>

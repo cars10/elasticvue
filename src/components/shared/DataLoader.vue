@@ -15,12 +15,12 @@
 
     <template v-else>
       <template v-if="renderContentWhileLoading">
-        <slot :body="body" :loading="loading">No data</slot>
+        <slot v-bind:body="body" v-bind:loading="loading">No data</slot>
       </template>
       <slot v-else-if="loading" name="progress">
         <v-progress-linear color="blue" indeterminate/>
       </slot>
-      <slot v-else :body="body || {}">No data</slot>
+      <slot v-else v-bind:body="body || {}">No data</slot>
     </template>
   </div>
 </template>

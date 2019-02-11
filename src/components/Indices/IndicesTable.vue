@@ -30,7 +30,7 @@
                   :search="filter"
                   :loading="loading"
                   :class="tableClasses">
-      <template slot="items" slot-scope="props">
+      <template v-slot:items="props">
         <tr>
           <td>{{props.item.index}}</td>
           <td>{{props.item.health}}</td>
@@ -47,7 +47,7 @@
                 <v-icon>search</v-icon>
               </v-btn>
 
-              <v-menu offset-y>
+              <v-menu offset-y left>
                 <v-btn slot="activator" title="Options">
                   <v-icon>settings</v-icon>
                   <v-icon small>arrow_drop_down</v-icon>

@@ -12,6 +12,7 @@ export const plugins = [
       'queryRest',
       'indices',
       'nodes',
+      'snapshotRepositories',
       'search.pagination',
       'search.stickyTableHeader',
       'search.indices',

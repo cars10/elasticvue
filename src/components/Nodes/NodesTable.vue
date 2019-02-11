@@ -36,7 +36,7 @@
                   :search="filter"
                   :loading="loading"
                   :class="tableClasses">
-      <template slot="items" slot-scope="props">
+      <template v-slot:items="props">
         <tr>
           <td>
             <node-icons :elasticsearch-node="props.item"/>

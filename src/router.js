@@ -7,6 +7,7 @@ import Document from '@/views/Document'
 import Indices from '@/views/Indices'
 import Index from '@/views/Index'
 import IndexStats from '@/views/IndexStats'
+import Snapshots from '@/views/Snapshots'
 import Utilities from '@/views/Utilities'
 import QueryRest from '@/views/QueryRest'
 import QueryApiBrowser from '@/views/QueryApiBrowser'
@@ -70,6 +71,11 @@ const router = new Router({
       path: '/utilities',
       name: 'Utilities',
       component: Utilities
+    },
+    {
+      path: '/snapshots',
+      name: 'Snapshots',
+      component: Snapshots
     },
     {
       path: '/query/rest',

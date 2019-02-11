@@ -16,8 +16,8 @@ const ElasticsearchAdapterHelper = {
         )
       }
     },
-    simpleRequest (options) {
-      if (options.confirmMessage.length !== 0) {
+    elasticsearchRequest (options) {
+      if (options.confirmMessage && options.confirmMessage.length !== 0) {
         if (confirm(options.confirmMessage)) {
           this.runRequest(options)
         }
@@ -29,11 +29,13 @@ const ElasticsearchAdapterHelper = {
       this.getElasticsearchAdapter()
         .then(adapter => adapter[options.method](options.methodParams))
         .then(body => {
-          if (typeof options.callback === 'function') options.callback.call(body)
-          showSuccessSnackbar({
-            text: options.growl,
-            additionalText: JSON.stringify(body)
-          })
+          if (typeof options.callback === 'function') options.callback(body)
+          if (options.growl) {
+            showSuccessSnackbar({
+              text: options.growl,
+              additionalText: JSON.stringify(body)
+            })
+          }
         })
         .catch(error => showErrorSnackbar({ text: 'Error:', additionalText: error.message }))
     }

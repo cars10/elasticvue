@@ -9,7 +9,7 @@
 
     <v-card-text>
       <data-loader ref="dataLoader" :method-params="{index: indexName}" method="indicesStats">
-        <template slot-scope="data">
+        <template v-slot:default="data">
           <print-pretty :document="data.body" :caption="indexName"/>
         </template>
       </data-loader>

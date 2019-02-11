@@ -10,7 +10,7 @@
                                    name="Method"
                                    item-text="name"
                                    item-value="name">
-              <template slot="item" slot-scope="data">
+              <template v-slot:item="data">
                 {{data.item.name}}
               </template>
             </custom-v-autocomplete>
