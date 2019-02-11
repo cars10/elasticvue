@@ -13,7 +13,7 @@ export default class ConnectionService {
 
   async buildClient () {
     let versionService = new ElasticsearchVersionService(this.host)
-    let apiVersion = await versionService.getApiVersion()
+    let apiVersion = await versionService.getRawApiVersion()
 
     return import(/* webpackChunkName: "elasticsearch-js" */ 'elasticsearch').then(Elasticsearch => {
       return new Elasticsearch.Client({

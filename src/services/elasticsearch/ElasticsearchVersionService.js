@@ -3,11 +3,6 @@ import { buildFetchAuthHeaderFromUrl, urlWithoutCredentials } from '../../helper
 export default class ElasticsearchVersionService {
   constructor (host) {
     this.host = host
-    this.apiVersion = '0'
-  }
-
-  getApiVersion () {
-    return this.getRawApiVersion().then(() => this.mapApiVersion())
   }
 
   /**
@@ -19,16 +14,7 @@ export default class ElasticsearchVersionService {
     return fetch(urlWithoutCredentials(this.host), { headers: buildFetchAuthHeaderFromUrl(this.host) })
       .then(response => response.json())
       .then(json => {
-        this.apiVersion = json.version.number.slice(0, 3)
+        return json.version.number.slice(0, 3)
       })
-  }
-
-  mapApiVersion () {
-    switch (this.apiVersion) {
-    case '6.1':
-      return '6.x'
-    default:
-      return this.apiVersion
-    }
   }
 }
