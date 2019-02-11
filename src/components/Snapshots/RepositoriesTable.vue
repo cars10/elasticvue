@@ -33,7 +33,7 @@
                   :class="tableClasses"
                   item-key="name"
                   expand>
-      <template slot="items" slot-scope="props">
+      <template v-slot:items="props">
         <tr class="tr--clickable" @click="() => expandRepository(props)">
           <td>
             <v-icon v-if="props.expanded">keyboard_arrow_up</v-icon>

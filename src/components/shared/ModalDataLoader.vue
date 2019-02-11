@@ -13,7 +13,7 @@
 
       <v-card-text>
         <data-loader ref="dataLoader" :method="method" :method-params="methodParams">
-          <template slot-scope="data">
+          <template v-slot:default="data">
             <slot name="content">
               <print-pretty :document="data.body"
                             :resizable="false"

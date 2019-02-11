@@ -1,6 +1,6 @@
 <template>
   <data-loader ref="dataLoader" :method-params="catMethodParams" method="catNodes" render-content-while-loading>
-    <template slot-scope="data">
+    <template v-slot:default="data">
       <nodes-list :nodes="data.body || []" :loading="data.loading" @reloadNodes="reloadNodes"/>
     </template>
   </data-loader>

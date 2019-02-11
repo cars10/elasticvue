@@ -30,7 +30,7 @@
                   :search="filter"
                   :loading="loading"
                   :class="tableClasses">
-      <template slot="items" slot-scope="props">
+      <template v-slot:items="props">
         <tr>
           <td>{{props.item.index}}</td>
           <td>{{props.item.health}}</td>

@@ -7,7 +7,7 @@
     <v-divider/>
 
     <data-loader ref="dataLoader" method="catIndices" render-content-while-loading>
-      <template slot-scope="data">
+      <template v-slot:default="data">
         <indices-table :indices="data.body || []" :loading="data.loading" @reloadIndices="reloadIndices"/>
       </template>
     </data-loader>

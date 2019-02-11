@@ -7,7 +7,7 @@
     <v-divider/>
 
     <data-loader ref="dataLoader" method="catRepositories" render-content-while-loading>
-      <template slot-scope="data">
+      <template v-slot:default="data">
         <repositories-table :repositories="data.body || {}"
                             :loading="data.loading"
                             @reloadData="reloadData"/>

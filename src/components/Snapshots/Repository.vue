@@ -1,6 +1,6 @@
 <template>
   <data-loader ref="dataLoader" :method-params="{repository}" method="catSnapshots" render-content-while-loading>
-    <template slot-scope="data">
+    <template v-slot:default="data">
       <snapshots-table :snapshots="data.body || []"
                        :loading="data.loading"
                        :repository="repository"

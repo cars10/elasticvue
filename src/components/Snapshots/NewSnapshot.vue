@@ -22,7 +22,7 @@
                         @keyup.esc="closeDialog"/>
 
           <data-loader ref="indicesLoader" method="catIndices" render-content-while-loading>
-            <template slot-scope="data">
+            <template v-slot:default="data">
               <custom-v-autocomplete id="indices"
                                      v-model="indices"
                                      :items="data.body | sortIndices"

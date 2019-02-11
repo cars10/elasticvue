@@ -28,7 +28,7 @@
                   :loading="loading"
                   class="table--condensed"
                   item-key="id">
-      <template slot="items" slot-scope="props">
+      <template v-slot:items="props">
         <tr>
           <td>{{props.item.id}}</td>
           <td>{{props.item.status}}</td>
