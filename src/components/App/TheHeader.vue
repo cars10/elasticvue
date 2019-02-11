@@ -28,7 +28,7 @@
       <v-btn id="navbar_search" flat to="/search">Search</v-btn>
 
       <v-menu offset-y>
-        <v-btn id="navbar_query" slot="activator" flat>
+        <v-btn id="navbar_query" slot="activator" :class="navbarQueryClasses" flat>
           Query
           <v-icon>arrow_drop_down</v-icon>
         </v-btn>
@@ -93,6 +93,11 @@
       },
       clusterHealthClasses () {
         return [this.clusterHealth, 'ma-0']
+      },
+      navbarQueryClasses () {
+        return {
+          'v-btn--active': /^\/query/.test(this.$route.path)
+        }
       }
     },
     created () {
