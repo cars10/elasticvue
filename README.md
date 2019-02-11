@@ -5,7 +5,7 @@
 
 > Elasticsearch frontend for your browser [https://elasticvue.com](https://elasticvue.com)
 
-![Screenshot](screenshot.png)
+![Screenshot](screenshot.jpg)
 
 Contents
 
