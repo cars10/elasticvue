@@ -25,9 +25,12 @@ Contents
 
 It works with every elasticsearch version supported by the [official elasticsearch javascript client](https://www.npmjs.com/package/elasticsearch):
 
+* 7.X
 * 6.X
-* 5.X
-* 2.X
+
+Older versions might or might not work, `elasticsearc-js` will fallback to `6.6` if an unsupported version is used.
+
+[Full list](https://github.com/elastic/elasticsearch-js/blob/master/src/lib/apis/browser_index.js)
 
 ### Features
 
@@ -35,6 +38,7 @@ It works with every elasticsearch version supported by the [official elasticsear
 * Indices overview, detailed view and index creation
 * Searching and filtering documents
 * Manually running any query against your cluster
+* Snapshot + repository management
 * Utilities, e.g. deleting all indices
 
 ## Usage
