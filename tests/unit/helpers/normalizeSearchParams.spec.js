@@ -16,7 +16,7 @@ describe('helpers/normalizeSearchParams', () => {
       q: 'query',
       from: DEFAULT_SEARCH_PARAMS.from,
       size: 3,
-      _sourceInclude: '',
+      _source: '',
       index: DEFAULT_SEARCH_PARAMS.index
     }
     expect(normalizeSearchParams(params)).toEqual(expected)
@@ -27,14 +27,14 @@ describe('helpers/normalizeSearchParams', () => {
       q: 'query',
       from: 5,
       size: 20,
-      _sourceInclude: 'col1',
+      _source: 'col1',
       index: 'myIndex'
     }
     const expected = {
       q: 'query',
       from: 5,
       size: 20,
-      _sourceInclude: '',
+      _source: '',
       index: 'myIndex'
     }
     expect(normalizeSearchParams(params)).toEqual(expected)
@@ -45,14 +45,14 @@ describe('helpers/normalizeSearchParams', () => {
       q: 'query',
       from: '5',
       size: '20',
-      _sourceInclude: null,
+      _source: null,
       index: 'myIndex'
     }
     const expected = {
       q: 'query',
       from: 5,
       size: 20,
-      _sourceInclude: '',
+      _source: '',
       index: 'myIndex'
     }
     expect(normalizeSearchParams(params)).toEqual(expected)
