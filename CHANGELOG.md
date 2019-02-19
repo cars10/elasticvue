@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.2
+
+* cleanup after source_includes changes
+
 ## 0.9.1
 
 * fix source_includes breaking search
@@ -7,8 +11,8 @@
 ## 0.9.0
 
 * snapshot management
-** create and remove snapshot repositories
-** take and restore snapshots for all/specific indices
+    * create and remove snapshot repositories
+    * take and restore snapshots for all/specific indices
 * updates dependencies (vue 2.6, vuetify 1.5)
 
 ## 0.8.0
