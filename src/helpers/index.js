@@ -7,8 +7,8 @@ export function normalizeSearchParams (params) {
   params.from = isEmpty(params.from) ? DEFAULT_SEARCH_PARAMS.from : parseInt(params.from)
   params.size = isEmpty(params.size) ? DEFAULT_SEARCH_PARAMS.size : parseInt(params.size)
   params.index = isEmpty(params.index) ? DEFAULT_SEARCH_PARAMS.index : params.index
-  params._sourceInclude = isEmpty(params.sourceInclude) ? '' : params.sourceInclude.replace(/\s/g, '')
-  delete params.sourceInclude
+  params._source = isEmpty(params.source) ? '' : params.source.replace(/\s/g, '')
+  delete params.source
   return params
 }
 

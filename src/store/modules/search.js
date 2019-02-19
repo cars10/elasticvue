@@ -6,7 +6,7 @@ export const search = {
     q: DEFAULT_SEARCH_PARAMS.q,
     indices: DEFAULT_SEARCH_PARAMS.index,
     size: DEFAULT_SEARCH_PARAMS.size,
-    sourceInclude: '',
+    source: '',
     filter: '',
     pagination: Object.assign({}, DEFAULT_DATA_TABLE_PAGINATION),
     stickyTableHeader: true,
@@ -23,8 +23,8 @@ export const search = {
     setSize (state, size) {
       state.size = size
     },
-    setSourceInclude (state, sourceInclude) {
-      state.sourceInclude = sourceInclude
+    setSource (state, source) {
+      state.source = source
     },
     setFilter (state, filter) {
       state.filter = filter
@@ -45,7 +45,7 @@ export const search = {
       state.q = DEFAULT_SEARCH_PARAMS.q
       state.indices = DEFAULT_SEARCH_PARAMS.index
       state.size = DEFAULT_SEARCH_PARAMS.size
-      state.sourceInclude = ''
+      state.source = ''
       state.filter = ''
       state.pagination = Object.assign({}, DEFAULT_DATA_TABLE_PAGINATION)
       state.stickyTableHeader = true
