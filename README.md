@@ -169,14 +169,16 @@ yarn build_chrome_extension
 
 ## TODO
 
-Current TODOs, more ore less ordered by importance.
+### 1.0
 
-### Features
+* document edit/delete
+* "select all" button for indices (in search, snapshots)
+* regex input for indices (in search, snapshots)
+* cluster settings
 
-* change cluster settings
+### Future
+
 * data import/export
-* save *all* settings in local storage? add settings overview page?
-* firefox addon?
 
 ### Internal stuff and refactorings
 
