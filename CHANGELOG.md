@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.1
+
+* fix source_includes breaking search
+
 ## 0.9.0
 
 * snapshot management
