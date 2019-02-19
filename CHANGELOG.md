@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.2
+
+* cleanup after source_includes changes
+
 ## 0.9.1
 
 * fix source_includes breaking search
