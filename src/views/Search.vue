@@ -54,7 +54,7 @@
         <div v-if="optionsCollapsed" class="my-2 pa-2 lowered">
           <v-layout row wrap>
             <v-flex lg9>
-              <v-text-field v-model="sourceInclude"
+              <v-text-field v-model="source"
                             label="Source includes"
                             name="source_includes"
                             messages="Enter a comma separated list of columns to load"/>
@@ -125,11 +125,11 @@
         return {
           q: this.q,
           index: this.indices,
-          sourceInclude: this.sourceInclude,
+          source: this.source,
           size: this.size
         }
       },
-      ...mapVuexAccessors('search', ['q', 'indices', 'size', 'sourceInclude'])
+      ...mapVuexAccessors('search', ['q', 'indices', 'size', 'source'])
     },
     created () {
       if (this.executeSearch || this.indices.length > 0) this.loadData()
