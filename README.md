@@ -176,6 +176,8 @@ yarn build_chrome_extension
 * regex input for indices (in search, snapshots)
 * cluster settings
 
+* extract indices select component
+
 ### Future
 
 * data import/export
