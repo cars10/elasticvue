@@ -40,6 +40,7 @@
 </template>
 
 <script>
+  import esAdapter from '@/mixins/GetAdapter'
   import { showErrorSnackbar, showSuccessSnackbar } from '@/mixins/ShowSnackbar'
 
   export default {
@@ -70,7 +71,7 @@
       },
       createIndex () {
         if (!this.$refs.form.validate()) return
-        this.getElasticsearchAdapter()
+        esAdapter()
           .then(adapter => adapter.indicesCreate(this.createIndexParams))
           .then(body => {
             showSuccessSnackbar({

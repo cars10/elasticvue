@@ -72,6 +72,7 @@
 <script>
   import ListTileLink from '@/components/shared/ListTile/ListTileLink'
   import CustomVAutocomplete from '@/components/shared/CustomVAutocomplete'
+  import { elasticsearchRequest } from '@/mixins/ElasticsearchAdapterHelper'
 
   export default {
     name: 'RestoreSnapshot',
@@ -110,7 +111,7 @@
       loadIndices () {
         this.indices = []
         this.loading = true
-        this.elasticsearchRequest({
+        elasticsearchRequest({
           method: 'getSnapshot',
           methodParams: { repository: this.repository, snapshot: this.snapshot },
           callback: body => {
@@ -122,7 +123,7 @@
       restoreSnapshot () {
         if (!this.$refs.form.validate()) return
 
-        this.elasticsearchRequest({
+        elasticsearchRequest({
           method: 'snapshotRestore',
           methodParams: this.buildRestoreParams(),
           growl: `The snapshot '${this.snapshot}' was successfully restored.`,

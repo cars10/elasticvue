@@ -1,6 +1,6 @@
 import Request from '../../mixins/Request'
 import ConnectionService from '../../services/elasticsearch/ConnectionService'
-import { getCachedAdapter } from '@/mixins/GetAdapter'
+import esAdapter from '@/mixins/GetAdapter'
 import { showErrorSnackbar, showSuccessSnackbar } from '@/mixins/ShowSnackbar'
 
 export default {
@@ -67,7 +67,7 @@ export default {
     connect () {
       this.connectLoading = true
       this.connectError = false
-      getCachedAdapter()
+      esAdapter()
         .then(() => {
           this.$store.commit('connection/setConnected')
           this.connectLoading = false

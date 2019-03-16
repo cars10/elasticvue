@@ -85,6 +85,7 @@
   import RestoreSnapshot from '@/components/Snapshots/RestoreSnapshot'
   import { DEFAULT_ROWS_PER_PAGE } from '@/consts'
   import { fuzzyTableFilter } from '@/helpers/filters'
+  import { elasticsearchRequest } from '@/mixins/ElasticsearchAdapterHelper'
 
   export default {
     name: 'snapshots-table',
@@ -144,7 +145,7 @@
           this.$set(item, 'index_names_loaded', false)
           this.$set(item, 'index_names', [])
         } else {
-          this.elasticsearchRequest({
+          elasticsearchRequest({
             method: 'getSnapshot',
             methodParams: { repository: this.repository, snapshot: item.id },
             callback: body => {

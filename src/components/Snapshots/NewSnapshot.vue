@@ -59,6 +59,7 @@
 <script>
   import CustomVAutocomplete from '@/components/shared/CustomVAutocomplete'
   import DataLoader from '@/components/shared/DataLoader'
+  import { elasticsearchRequest } from '@/mixins/ElasticsearchAdapterHelper'
 
   export default {
     name: 'new-snapshot',
@@ -92,7 +93,7 @@
       createSnapshot () {
         if (!this.$refs.form.validate()) return
 
-        this.elasticsearchRequest({
+        elasticsearchRequest({
           method: 'snapshotCreate',
           methodParams: this.buildCreateParams(),
           growl: `The snapshot '${this.snapshotName}' was successfully created.`,

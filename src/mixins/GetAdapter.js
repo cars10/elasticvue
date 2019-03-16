@@ -1,10 +1,9 @@
 import ConnectionService from '@/services/elasticsearch/ConnectionService'
 import store from '@/store'
 
-export const getCachedAdapter = async function () {
-  let cachedAdapter = store.state.connection.elasticsearchAdapter
-  if (cachedAdapter !== null) {
-    return Promise.resolve(cachedAdapter)
+export default async function esAdapter () {
+  if (store.state.connection.elasticsearchAdapter !== null) {
+    return store.state.connection.elasticsearchAdapter
   } else {
     let connectionService = new ConnectionService(store.state.connection.elasticsearchHost)
     let adapter = await connectionService.getAdapter()

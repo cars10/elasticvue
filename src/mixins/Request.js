@@ -1,4 +1,4 @@
-import { getCachedAdapter } from '@/mixins/GetAdapter'
+import esAdapter from '@/mixins/GetAdapter'
 
 export default {
   data () {
@@ -21,7 +21,7 @@ export default {
       this._setStartRequestData()
 
       try {
-        const adapter = await getCachedAdapter()
+        const adapter = await esAdapter()
         await adapter.ping()
 
         try {

@@ -46,6 +46,7 @@
   import { API_BASE_URI } from '@/consts'
   import { mapVuexAccessors } from '@/helpers/store'
   import { showErrorSnackbar } from '@/mixins/ShowSnackbar'
+  import esAdapter from '@/mixins/GetAdapter'
 
   export default {
     name: 'js-api-form',
@@ -91,7 +92,7 @@
     methods: {
       loadData () {
         this.loading = true
-        this.getElasticsearchAdapter()
+        esAdapter()
           .then(adapter => {
             const methodSplit = this.method.split('.')
             if (methodSplit.length === 1) {
@@ -111,7 +112,7 @@
           })
       },
       getMethods () {
-        this.getElasticsearchAdapter().then(adapter => {
+        esAdapter().then(adapter => {
           let client = adapter.client
 
           this.methods.push({ header: 'general' })

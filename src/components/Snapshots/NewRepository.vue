@@ -49,6 +49,8 @@
 </template>
 
 <script>
+  import { elasticsearchRequest } from '@/mixins/ElasticsearchAdapterHelper'
+
   export default {
     name: 'NewRepository',
     data () {
@@ -70,7 +72,7 @@
       createSnapshotRepository () {
         if (!this.$refs.form.validate()) return
 
-        this.elasticsearchRequest({
+        elasticsearchRequest({
           method: 'snapshotCreateRepository',
           methodParams: this.buildCreateParams(),
           growl: `The repository '${this.repositoryName}' was successfully created.`,

@@ -9,6 +9,7 @@
 
 <script>
   import { showErrorSnackbar, showSuccessSnackbar } from '@/mixins/ShowSnackbar'
+  import esAdapter from '@/mixins/GetAdapter'
 
   export default {
     class: 'Utility',
@@ -59,7 +60,7 @@
       runMethod () {
         this.loading = true
         this.error = false
-        this.getElasticsearchAdapter()
+        esAdapter()
           .then(adapter => adapter[this.method](this.methodParams))
           .then(body => {
             this.loading = false

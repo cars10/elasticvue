@@ -97,6 +97,7 @@
   import ReloadButton from '@/components/shared/ReloadButton'
   import ResultsTable from '@/components/Search/ResultsTable'
   import { mapVuexAccessors } from '../helpers/store'
+  import esAdapter from '@/mixins/GetAdapter'
 
   export default {
     name: 'Search',
@@ -151,7 +152,7 @@
         this.optionsCollapsed = !this.optionsCollapsed
       },
       selectOnlyKnownIndices () {
-        return this.getElasticsearchAdapter()
+        return esAdapter()
           .then(adapter => adapter.catIndices())
           .then(body => {
             const availableIndices = body.map(index => index.index)

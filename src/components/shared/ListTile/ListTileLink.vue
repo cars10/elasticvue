@@ -10,6 +10,8 @@
 </template>
 
 <script>
+  import { elasticsearchRequest } from '@/mixins/ElasticsearchAdapterHelper'
+
   export default {
     name: 'list-tile-link',
     props: {
@@ -47,7 +49,7 @@
     },
     methods: {
       runSimpleRequest () {
-        this.elasticsearchRequest({
+        elasticsearchRequest({
           method: this.method,
           methodParams: this.methodParams,
           callback: this.callback,

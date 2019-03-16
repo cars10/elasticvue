@@ -25,7 +25,7 @@
   import TheFooter from '@/components/App/TheFooter'
   import Snackbar from '@/components/Snackbar'
   import ConnectionStatus from '@/mixins/ConnectionStatus'
-  import { getCachedAdapter } from '@/mixins/GetAdapter'
+  import esAdapter from '@/mixins/GetAdapter'
   import ModalDataLoader from '@/components/shared/ModalDataLoader'
   import Loading from '@/components/shared/Loading'
   import { mapVuexAccessors } from './helpers/store'
@@ -50,7 +50,7 @@
     },
     created () {
       if (this.wasConnected) {
-        getCachedAdapter()
+        esAdapter()
           .catch(() => {
           })
           .finally(() => {
