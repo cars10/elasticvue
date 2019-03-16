@@ -1,18 +1,18 @@
 <template>
   <div>
     <v-btn-toggle v-model="listType" mandatory class="mb-4">
-      <v-btn id="nodes_list_grid" flat value="grid" @click="() => this.$emit('reloadNodes')">
+      <v-btn id="nodes_list_grid" flat value="grid" @click="$emit('reloadNodes')">
         <span>Grid</span>
         <v-icon>dashboard</v-icon>
       </v-btn>
-      <v-btn id="nodes_list_table" flat value="table" @click="() => this.$emit('reloadNodes')">
+      <v-btn id="nodes_list_table" flat value="table" @click="$emit('reloadNodes')">
         <span>Table</span>
         <v-icon>table_chart</v-icon>
       </v-btn>
     </v-btn-toggle>
 
-    <nodes-grid v-if="renderGrid" :items="items" :loading="loading" @reloadNodes="() => this.$emit('reloadNodes')"/>
-    <nodes-table v-else :items="items" :loading="loading" @reloadNodes="() => this.$emit('reloadNodes')"/>
+    <nodes-grid v-if="renderGrid" :items="items" :loading="loading" @reloadNodes="$emit('reloadNodes')"/>
+    <nodes-table v-else :items="items" :loading="loading" @reloadNodes="$emit('reloadNodes')"/>
   </div>
 </template>
 

@@ -82,13 +82,13 @@
 </template>
 
 <script>
-  import { mapVuexAccessors } from '../../helpers/store'
-  import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
-  import { fuzzyTableFilter } from '../../helpers/filters'
   import NodeIcons from '@/components/Nodes/NodeIcons'
   import NodePercentBar from '@/components/Nodes/NodePercentBar'
   import SettingsDropdown from '@/components/shared/SettingsDropdown'
   import SingleSetting from '@/components/shared/SingleSetting'
+  import { mapVuexAccessors } from '../../helpers/store'
+  import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
+  import { fuzzyTableFilter } from '../../helpers/filters'
   import { fixedTableHeaderOnDisable, fixedTableHeaderOnEnable, resetTableHeight } from '@/mixins/FixedTableHeader'
 
   export default {

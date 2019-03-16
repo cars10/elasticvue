@@ -129,9 +129,9 @@
 </template>
 
 <script>
-  import { mapVuexAccessors } from '../../helpers/store'
   import NodeIcons from '@/components/Nodes/NodeIcons'
   import NodePercentBar from '@/components/Nodes/NodePercentBar'
+  import { mapVuexAccessors } from '../../helpers/store'
   import { fuzzyTableFilter } from '../../helpers/filters'
 
   export default {

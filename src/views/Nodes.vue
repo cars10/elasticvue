@@ -1,5 +1,5 @@
 <template>
-  <data-loader ref="dataLoader" :method-params="catMethodParams" method="catNodes" render-content-while-loading>
+  <data-loader ref="dataLoader" :method-params="CAT_METHOD_PARAMS" method="catNodes" render-content-while-loading>
     <template v-slot:default="data">
       <nodes-list :nodes="data.body || []" :loading="data.loading" @reloadNodes="reloadNodes"/>
     </template>
@@ -14,29 +14,27 @@
     components: {
       NodesList
     },
-    data () {
-      return {
-        catMethodParams: {
-          h: [
-            'ip',
-            'name',
-            'heap.percent',
-            'heap.current',
-            'heap.max',
-            'ram.percent',
-            'ram.current',
-            'ram.max',
-            'node.role',
-            'master',
-            'cpu',
-            'load_1m',
-            'load_5m',
-            'load_15m',
-            'disk.used_percent',
-            'disk.used',
-            'disk.total'
-          ]
-        }
+    created () {
+      this.CAT_METHOD_PARAMS = {
+        h: [
+          'ip',
+          'name',
+          'heap.percent',
+          'heap.current',
+          'heap.max',
+          'ram.percent',
+          'ram.current',
+          'ram.max',
+          'node.role',
+          'master',
+          'cpu',
+          'load_1m',
+          'load_5m',
+          'load_15m',
+          'disk.used_percent',
+          'disk.used',
+          'disk.total'
+        ]
       }
     },
     methods: {
