@@ -38,7 +38,7 @@
     },
     props: {
       document: {
-        type: [Object, Array, String],
+        type: null, // any
         default: ''
       },
       initialHeight: {

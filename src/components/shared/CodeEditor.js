@@ -11,8 +11,8 @@ export default {
   },
   props: {
     value: {
-      default: '',
-      type: [Object, Array, String]
+      type: null, // any
+      default: ''
     },
     readOnly: {
       type: Boolean,
