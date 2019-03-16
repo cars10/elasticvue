@@ -12,7 +12,7 @@
           <v-list-tile v-for="key in Object.keys(data.body)" :key="key">
             <v-list-tile-content>{{key}}</v-list-tile-content>
             <v-list-tile-content class="align-end">
-              <span>{{data.body[key]}}</span>
+              {{data.body[key]}}
             </v-list-tile-content>
           </v-list-tile>
         </v-list>
@@ -20,9 +20,3 @@
     </data-loader>
   </v-card>
 </template>
-
-<script>
-  export default {
-    name: 'ClusterHealth'
-  }
-</script>
