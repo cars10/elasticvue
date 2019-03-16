@@ -21,6 +21,7 @@
   import BackButton from '@/components/shared/BackButton'
   import DataLoader from '@/components/shared/DataLoader'
   import PrintPretty from '@/components/shared/PrintPretty'
+  import ReloadButton from '@/components/shared/ReloadButton'
 
   export default {
     name: 'index-stats',
@@ -28,6 +29,7 @@
       BackButton,
       DataLoader,
       PrintPretty,
+      ReloadButton
     },
     computed: {
       indexName () {

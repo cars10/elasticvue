@@ -23,11 +23,13 @@
 
 <script>
   import DataLoader from '@/components/shared/DataLoader'
+  import ReloadButton from '@/components/shared/ReloadButton'
 
   export default {
     name: 'client-information',
     components: {
-      DataLoader
+      DataLoader,
+      ReloadButton
     }
   }
 </script>

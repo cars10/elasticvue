@@ -131,6 +131,7 @@
 <script>
   import NodeIcons from '@/components/Nodes/NodeIcons'
   import NodePercentBar from '@/components/Nodes/NodePercentBar'
+  import ReloadButton from '@/components/shared/ReloadButton'
   import { mapVuexAccessors } from '../../helpers/store'
   import { fuzzyTableFilter } from '../../helpers/filters'
 
@@ -138,7 +139,8 @@
     name: 'nodes-grid',
     components: {
       NodeIcons,
-      NodePercentBar
+      NodePercentBar,
+      ReloadButton
     },
     props: {
       items: {

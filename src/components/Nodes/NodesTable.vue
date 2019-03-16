@@ -84,6 +84,7 @@
 <script>
   import NodeIcons from '@/components/Nodes/NodeIcons'
   import NodePercentBar from '@/components/Nodes/NodePercentBar'
+  import ReloadButton from '@/components/shared/ReloadButton'
   import SettingsDropdown from '@/components/shared/SettingsDropdown'
   import SingleSetting from '@/components/shared/SingleSetting'
   import { mapVuexAccessors } from '../../helpers/store'
@@ -96,6 +97,7 @@
     components: {
       NodeIcons,
       NodePercentBar,
+      ReloadButton,
       SettingsDropdown,
       SingleSetting
     },

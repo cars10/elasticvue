@@ -81,6 +81,7 @@
   import DataLoader from '@/components/shared/DataLoader'
   import ListTileLink from '@/components/shared/ListTile/ListTileLink'
   import NewSnapshot from '@/components/Snapshots/NewSnapshot'
+  import ReloadButton from '@/components/shared/ReloadButton'
   import RestoreSnapshot from '@/components/Snapshots/RestoreSnapshot'
   import { DEFAULT_ROWS_PER_PAGE } from '@/consts'
   import { fuzzyTableFilter } from '@/helpers/filters'
@@ -92,6 +93,7 @@
       DataLoader,
       ListTileLink,
       NewSnapshot,
+      ReloadButton,
       RestoreSnapshot
     },
     props: {
