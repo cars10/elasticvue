@@ -10,11 +10,13 @@
 </template>
 
 <script>
+  import DataLoader from '@/components/shared/DataLoader'
   import SnapshotsTable from '@/components/Snapshots/SnapshotsTable'
 
   export default {
-    name: 'Repository',
+    name: 'repository',
     components: {
+      DataLoader,
       SnapshotsTable
     },
     props: {

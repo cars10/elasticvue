@@ -92,9 +92,10 @@
 </template>
 
 <script>
-  import ResultsTable from '@/components/Search/ResultsTable'
-  import ReloadButton from '@/components/shared/ReloadButton'
   import CustomVAutocomplete from '@/components/shared/CustomVAutocomplete'
+  import DataLoader from '@/components/shared/DataLoader'
+  import ReloadButton from '@/components/shared/ReloadButton'
+  import ResultsTable from '@/components/Search/ResultsTable'
   import { mapVuexAccessors } from '../helpers/store'
 
   export default {
@@ -105,9 +106,10 @@
       }
     },
     components: {
-      ResultsTable,
+      CustomVAutocomplete,
+      DataLoader,
       ReloadButton,
-      CustomVAutocomplete
+      ResultsTable
     },
     props: {
       executeSearch: {

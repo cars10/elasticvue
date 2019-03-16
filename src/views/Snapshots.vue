@@ -17,8 +17,10 @@
     <v-card-text>
       <v-flex d-inline-flex>
         <v-alert :value="true" type="info">
-          Note that you have to set <strong>path.repo</strong> in your <strong>elasticsearch.yml</strong> for snapshots to work.
-          <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-snapshots.html" target="_blank" rel="nofollow">Docs</a>
+          Note that you have to set <strong>path.repo</strong> in your <strong>elasticsearch.yml</strong> for snapshots
+          to work.
+          <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-snapshots.html"
+             target="_blank" rel="nofollow">Docs</a>
         </v-alert>
       </v-flex>
     </v-card-text>
@@ -26,12 +28,14 @@
 </template>
 
 <script>
+  import DataLoader from '@/components/shared/DataLoader'
   import ReloadButton from '@/components/shared/ReloadButton'
   import RepositoriesTable from '@/components/Snapshots/RepositoriesTable'
 
   export default {
     name: 'snapshots',
     components: {
+      DataLoader,
       ReloadButton,
       RepositoriesTable
     },

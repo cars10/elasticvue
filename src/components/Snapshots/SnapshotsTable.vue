@@ -77,19 +77,21 @@
 </template>
 
 <script>
+  import BtnGroup from '@/components/shared/BtnGroup'
+  import DataLoader from '@/components/shared/DataLoader'
+  import ListTileLink from '@/components/shared/ListTile/ListTileLink'
+  import NewSnapshot from '@/components/Snapshots/NewSnapshot'
+  import RestoreSnapshot from '@/components/Snapshots/RestoreSnapshot'
   import { DEFAULT_ROWS_PER_PAGE } from '@/consts'
   import { fuzzyTableFilter } from '@/helpers/filters'
-  import NewSnapshot from '@/components/Snapshots/NewSnapshot'
-  import ListTileLink from '@/components/shared/ListTile/ListTileLink'
-  import BtnGroup from '@/components/shared/BtnGroup'
-  import RestoreSnapshot from '@/components/Snapshots/RestoreSnapshot'
 
   export default {
-    name: 'SnapshotsTable',
+    name: 'snapshots-table',
     components: {
-      NewSnapshot,
-      ListTileLink,
       BtnGroup,
+      DataLoader,
+      ListTileLink,
+      NewSnapshot,
       RestoreSnapshot
     },
     props: {

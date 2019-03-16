@@ -19,12 +19,14 @@
 
 <script>
   import BackButton from '@/components/shared/BackButton'
+  import DataLoader from '@/components/shared/DataLoader'
   import PrintPretty from '@/components/shared/PrintPretty'
 
   export default {
     name: 'Document',
     components: {
       BackButton,
+      DataLoader,
       PrintPretty
     },
     computed: {

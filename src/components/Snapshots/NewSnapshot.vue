@@ -58,10 +58,12 @@
 
 <script>
   import CustomVAutocomplete from '@/components/shared/CustomVAutocomplete'
+  import DataLoader from '@/components/shared/DataLoader'
 
   export default {
-    name: 'NewSnapshot',
+    name: 'new-snapshot',
     components: {
+      DataLoader,
       CustomVAutocomplete
     },
     filters: {

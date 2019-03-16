@@ -20,3 +20,14 @@
     </data-loader>
   </v-card>
 </template>
+
+<script>
+  import DataLoader from '@/components/shared/DataLoader'
+
+  export default {
+    name: 'cluster-health',
+    components: {
+      DataLoader
+    }
+  }
+</script>

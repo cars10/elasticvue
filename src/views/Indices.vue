@@ -15,12 +15,14 @@
 </template>
 
 <script>
+  import DataLoader from '@/components/shared/DataLoader'
   import IndicesTable from '@/components/Indices/IndicesTable'
   import ReloadButton from '@/components/shared/ReloadButton'
 
   export default {
-    name: 'Indices',
+    name: 'indices',
     components: {
+      DataLoader,
       IndicesTable,
       ReloadButton
     },

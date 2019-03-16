@@ -7,11 +7,13 @@
 </template>
 
 <script>
+  import DataLoader from '@/components/shared/DataLoader'
   import NodesList from '@/components/Nodes/NodesList'
 
   export default {
     name: 'nodes',
     components: {
+      DataLoader,
       NodesList
     },
     created () {

@@ -72,26 +72,28 @@
 </template>
 
 <script>
+  import BtnGroup from '@/components/shared/BtnGroup'
+  import DataLoader from '@/components/shared/DataLoader'
+  import ListTileLink from '@/components/shared/ListTile/ListTileLink'
+  import NewRepository from '@/components/Snapshots/NewRepository'
+  import Repository from '@/components/Snapshots/Repository'
+  import SettingsDropdown from '@/components/shared/SettingsDropdown'
+  import SingleSetting from '@/components/shared/SingleSetting'
   import { fuzzyTableFilter } from '@/helpers/filters'
   import { fixedTableHeaderOnDisable, fixedTableHeaderOnEnable, resetTableHeight } from '@/mixins/FixedTableHeader'
   import { DEFAULT_ROWS_PER_PAGE } from '@/consts'
   import { mapVuexAccessors } from '@/helpers/store'
-  import SingleSetting from '@/components/shared/SingleSetting'
-  import SettingsDropdown from '@/components/shared/SettingsDropdown'
-  import NewRepository from '@/components/Snapshots/NewRepository'
-  import Repository from '@/components/Snapshots/Repository'
-  import ListTileLink from '@/components/shared/ListTile/ListTileLink'
-  import BtnGroup from '@/components/shared/BtnGroup'
 
   export default {
-    name: 'SnapshotRepositoriesTable',
+    name: 'snapshot-repositories-table',
     components: {
-      SettingsDropdown,
-      SingleSetting,
+      BtnGroup,
+      DataLoader,
+      ListTileLink,
       NewRepository,
       Repository,
-      ListTileLink,
-      BtnGroup
+      SettingsDropdown,
+      SingleSetting
     },
     props: {
       repositories: {
