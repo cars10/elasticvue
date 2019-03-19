@@ -178,6 +178,12 @@ yarn build_chrome_extension
 
 * extract indices select component
 
+* rest api: nur path und nicht URL als input
+* rest api: header ausblenden
+* rest api / api browser: format:json reinmergen
+* rest api / api browser: leeren body erlauben
+* navbar: nur url ohne creds anzeigen
+
 ### Future
 
 * data import/export
