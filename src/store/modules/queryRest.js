@@ -5,7 +5,7 @@ export const queryRest = {
   state: {
     host: DEFAULT_HOST,
     method: HTTP_METHODS[0],
-    stringifiedParams: JSON.stringify({ format: 'json' }, null, '\t'),
+    stringifiedParams: '{}'
   },
   mutations: {
     setHost (state, host) {

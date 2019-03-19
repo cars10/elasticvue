@@ -13,14 +13,14 @@
                         v-model="path"
                         label="Path"
                         name="path"
+                        placeholder="/_cat/indices"
                         autofocus/>
         </v-flex>
       </v-layout>
 
-      <resizable-container :initial-height="150">
+      <resizable-container :initial-height="150" class="mb-1">
         <code-editor v-model="stringifiedParams" :external-commands="editorCommands"/>
       </resizable-container>
-      <i class="grey--text">Language: JSON</i>
 
       <v-btn id="execute_query" :disabled="!isValid" :loading="loading" type="submit" color="primary" class="mx-0">
         Run query
@@ -73,6 +73,8 @@
         return !!this.method && this.paramsValid
       },
       paramsValid () {
+        if (this.stringifiedParams.trim().length === 0) return true
+
         try {
           JSON.parse(this.stringifiedParams)
           return true
@@ -82,7 +84,7 @@
       },
       fetchUrl () {
         let host = urlWithoutCredentials(this.url)
-        if (this.method === 'GET' || this.method === 'HEAD') {
+        if (this.stringifiedParams.trim().length !== 0 && (this.method === 'GET' || this.method === 'HEAD')) {
           return host + '?' + qs.stringify(JSON.parse(this.stringifiedParams), '')
         } else {
           return host
