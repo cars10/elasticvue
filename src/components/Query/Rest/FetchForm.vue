@@ -9,10 +9,10 @@
                     name="http_method"/>
         </v-flex>
         <v-flex xl11 lg10 sm9 pb-0>
-          <v-text-field id="url"
-                        v-model="elasticsearchHost"
-                        label="Url"
-                        name="Url"
+          <v-text-field id="path"
+                        v-model="path"
+                        label="Path"
+                        name="path"
                         autofocus/>
         </v-flex>
       </v-layout>
@@ -58,12 +58,19 @@
         loading: false,
         hasError: false,
         response: {},
-        elasticsearchHost: this.$store.state.connection.elasticsearchHost
+        path: ''
       }
     },
     computed: {
+      url () {
+        if (this.path.slice(0, 1) === '/') {
+          return this.$store.state.connection.elasticsearchHost + this.path
+        } else {
+          return this.$store.state.connection.elasticsearchHost + '/' + this.path
+        }
+      },
       isValid () {
-        return !!this.method && this.elasticsearchHost.length > 0 && this.paramsValid
+        return !!this.method && this.paramsValid
       },
       paramsValid () {
         try {
@@ -74,7 +81,7 @@
         }
       },
       fetchUrl () {
-        let host = urlWithoutCredentials(this.elasticsearchHost)
+        let host = urlWithoutCredentials(this.url)
         if (this.method === 'GET' || this.method === 'HEAD') {
           return host + '?' + qs.stringify(JSON.parse(this.stringifiedParams), '')
         } else {
@@ -84,7 +91,7 @@
       fetchOptionsHash () {
         let fetchOptions = {
           method: this.method,
-          headers: Object.assign(buildFetchAuthHeaderFromUrl(this.elasticsearchHost), REQUEST_DEFAULT_HEADERS)
+          headers: Object.assign(buildFetchAuthHeaderFromUrl(this.url), REQUEST_DEFAULT_HEADERS)
         }
         if (this.method !== 'GET' && this.method !== 'HEAD') {
           fetchOptions.body = this.stringifiedParams
