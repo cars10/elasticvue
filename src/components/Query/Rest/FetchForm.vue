@@ -17,23 +17,10 @@
         </v-flex>
       </v-layout>
 
-      <v-layout mb-1>
-        <v-flex md6 py-0>
-          <label>Request body</label>
-          <resizable-container :initial-height="150">
-            <code-editor v-model="stringifiedParams" :external-commands="editorCommands"/>
-          </resizable-container>
-          <i class="grey--text">Language: JSON</i>
-        </v-flex>
-
-        <v-flex md6 py-0>
-          <label>Request headers</label>
-          <resizable-container :initial-height="150">
-            <code-editor v-model="stringifiedHeaders" :external-commands="editorCommands"/>
-          </resizable-container>
-          <i class="grey--text">Language: JSON</i>
-        </v-flex>
-      </v-layout>
+      <resizable-container :initial-height="150">
+        <code-editor v-model="stringifiedParams" :external-commands="editorCommands"/>
+      </resizable-container>
+      <i class="grey--text">Language: JSON</i>
 
       <v-btn id="execute_query" :disabled="!isValid" :loading="loading" type="submit" color="primary" class="mx-0">
         Run query
@@ -53,6 +40,7 @@
   import qs from 'querystringify'
   import { buildFetchAuthHeaderFromUrl, urlWithoutCredentials } from '../../../helpers'
   import { mapVuexAccessors } from '../../../helpers/store'
+  import { REQUEST_DEFAULT_HEADERS } from '@/consts'
 
   export default {
     name: 'fetch-form',
@@ -75,15 +63,7 @@
     },
     computed: {
       isValid () {
-        return !!this.method && this.elasticsearchHost.length > 0 && this.headersValid && this.paramsValid
-      },
-      headersValid () {
-        try {
-          JSON.parse(this.stringifiedHeaders)
-          return true
-        } catch (error) {
-          return false
-        }
+        return !!this.method && this.elasticsearchHost.length > 0 && this.paramsValid
       },
       paramsValid () {
         try {
@@ -104,14 +84,14 @@
       fetchOptionsHash () {
         let fetchOptions = {
           method: this.method,
-          headers: Object.assign(buildFetchAuthHeaderFromUrl(this.elasticsearchHost), JSON.parse(this.stringifiedHeaders))
+          headers: Object.assign(buildFetchAuthHeaderFromUrl(this.elasticsearchHost), REQUEST_DEFAULT_HEADERS)
         }
         if (this.method !== 'GET' && this.method !== 'HEAD') {
           fetchOptions.body = this.stringifiedParams
         }
         return fetchOptions
       },
-      ...mapVuexAccessors('queryRest', ['method', 'stringifiedParams', 'stringifiedHeaders'])
+      ...mapVuexAccessors('queryRest', ['method', 'stringifiedParams'])
     },
     created () {
       this.httpMethods = HTTP_METHODS

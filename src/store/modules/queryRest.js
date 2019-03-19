@@ -1,4 +1,4 @@
-import { DEFAULT_HOST, HTTP_METHODS, REQUEST_DEFAULT_HEADERS } from '../../consts'
+import { DEFAULT_HOST, HTTP_METHODS } from '../../consts'
 
 export const queryRest = {
   namespaced: true,
@@ -6,7 +6,6 @@ export const queryRest = {
     host: DEFAULT_HOST,
     method: HTTP_METHODS[0],
     stringifiedParams: JSON.stringify({ format: 'json' }, null, '\t'),
-    stringifiedHeaders: JSON.stringify(REQUEST_DEFAULT_HEADERS, null, '\t')
   },
   mutations: {
     setHost (state, host) {
@@ -17,9 +16,6 @@ export const queryRest = {
     },
     setStringifiedParams (state, params) {
       state.stringifiedParams = params
-    },
-    setStringifiedHeaders (state, headers) {
-      state.stringifiedHeaders = headers
     }
   }
 }
