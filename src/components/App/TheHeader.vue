@@ -64,6 +64,7 @@
   import Request from '@/mixins/Request'
   import { CONNECTION_STATES } from '../../consts'
   import { LOCALSTORAGE_KEY } from '@/consts'
+  import { truncate, urlWithoutCredentials } from '@/helpers'
 
   export default {
     name: 'app-header',
@@ -82,7 +83,7 @@
     },
     computed: {
       clusterInfo () {
-        return `${this.$store.state.connection.elasticsearchHost}`
+        return truncate(urlWithoutCredentials(this.$store.state.connection.elasticsearchHost), 50)
       },
       connectionIcon () {
         if (this.isConnected) {

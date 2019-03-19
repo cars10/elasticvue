@@ -178,8 +178,6 @@ yarn build_chrome_extension
 
 * extract indices select component
 
-* navbar: nur url ohne creds anzeigen
-
 ### Future
 
 * data import/export
