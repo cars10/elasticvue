@@ -2,7 +2,7 @@ export const queryApiBrowser = {
   namespaced: true,
   state: {
     method: 'info',
-    stringifiedParams: JSON.stringify({ format: 'json' }, null, '\t')
+    stringifiedParams: '{}'
   },
   mutations: {
     setMethod (state, method) {

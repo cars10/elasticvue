@@ -1,10 +1,10 @@
 <template>
   <div>
-    <v-form @submit.prevent="fetchData">
+    <v-form @submit.prevent="loadData">
       <v-layout>
         <v-flex xl1 lg2 sm3 pb-0>
           <v-select v-model="method"
-                    :items="httpMethods"
+                    :items="HTTP_METHODS"
                     label="HTTP Method"
                     name="http_method"/>
         </v-flex>
@@ -27,7 +27,7 @@
       </v-btn>
     </v-form>
 
-    <print-pretty :document="response" :initial-height="800" caption="Response"/>
+    <print-pretty :document="response" caption="Response"/>
   </div>
 </template>
 
@@ -56,19 +56,11 @@
     data () {
       return {
         loading: false,
-        hasError: false,
-        response: {},
-        path: ''
+        path: '',
+        response: {}
       }
     },
     computed: {
-      url () {
-        if (this.path.slice(0, 1) === '/') {
-          return this.$store.state.connection.elasticsearchHost + this.path
-        } else {
-          return this.$store.state.connection.elasticsearchHost + '/' + this.path
-        }
-      },
       isValid () {
         return !!this.method && this.paramsValid
       },
@@ -80,6 +72,13 @@
           return true
         } catch (error) {
           return false
+        }
+      },
+      url () {
+        if (this.path.slice(0, 1) === '/') {
+          return this.$store.state.connection.elasticsearchHost + this.path
+        } else {
+          return this.$store.state.connection.elasticsearchHost + '/' + this.path
         }
       },
       fetchUrl () {
@@ -103,14 +102,14 @@
       ...mapVuexAccessors('queryRest', ['method', 'stringifiedParams'])
     },
     created () {
-      this.httpMethods = HTTP_METHODS
+      this.HTTP_METHODS = HTTP_METHODS
       this.editorCommands = [{
         bindKey: { win: 'Ctrl+ENTER', mac: 'Command+ENTER', linux: 'Ctrl+ENTER' },
-        exec: this.fetchData
+        exec: this.loadData
       }]
     },
     methods: {
-      fetchData () {
+      loadData () {
         this.loading = true
         this.response = {}
         fetch(this.fetchUrl, this.fetchOptionsHash)
@@ -121,8 +120,8 @@
           })
           .catch(error => {
             this.loading = false
-            this.showErrorSnackbar({ text: 'Error.', additionalText: error.message })
             this.response = error.message
+            this.showErrorSnackbar({ text: 'Error.', additionalText: error.message })
           })
       }
     }
