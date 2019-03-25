@@ -1,5 +1,5 @@
 <template>
-  <v-list-tile @click="runSimpleRequest">
+  <v-list-tile @click="run">
     <v-list-tile-action v-if="icon">
       <v-icon small>{{icon}}</v-icon>
     </v-list-tile-action>
@@ -48,7 +48,7 @@
       }
     },
     methods: {
-      runSimpleRequest () {
+      run () {
         elasticsearchRequest({
           method: this.method,
           methodParams: this.methodParams,
