@@ -36,7 +36,7 @@
   import CustomVAutocomplete from '@/components/shared/CustomVAutocomplete'
   import Loading from '@/components/shared/Loading'
   import ResizableContainer from '@/components/shared/ResizableContainer'
-  import { API_BASE_URI } from '@/consts'
+  import { API_DOC_URL } from '@/consts'
   import { mapVuexAccessors } from '@/helpers/store'
   import { showErrorSnackbar } from '@/mixins/ShowSnackbar'
   import esAdapter from '@/mixins/GetAdapter'
@@ -75,9 +75,9 @@
       },
       apiDocumentationUrl () {
         if (this.method) {
-          return API_BASE_URI + `#api-${this.method.replace('.', '-').toLowerCase()}`
+          return API_DOC_URL + `#api-${this.method.replace('.', '-').toLowerCase()}`
         } else {
-          return API_BASE_URI
+          return API_DOC_URL
         }
       },
       parsedParams () {
