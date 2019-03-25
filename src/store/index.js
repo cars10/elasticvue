@@ -9,7 +9,6 @@ import { queryApiBrowser } from './modules/queryApiBrowser'
 import { search } from './modules/search'
 import { snackbar } from './modules/snackbar'
 import { theme } from './modules/theme'
-import { modal } from './modules/modal'
 import { snapshotRepositories } from './modules/snapshotRepositories'
 
 Vue.use(Vuex)
@@ -20,7 +19,6 @@ export default new Vuex.Store({
     connection,
     indices,
     nodes,
-    modal,
     queryRest,
     queryApiBrowser,
     search,

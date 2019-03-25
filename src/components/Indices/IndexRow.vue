@@ -21,13 +21,25 @@
             <v-icon small>arrow_drop_down</v-icon>
           </v-btn>
           <v-list>
-            <list-tile-modal-link :action="() => openIndicesGetModal(index.index)"
-                                  :to="{name: 'Index', params: {index: index.index}}"
-                                  icon="info" link-title="Show info"/>
+            <router-link :to="{name: 'Index', params: {index: index.index}}" class="v-list__tile v-list__tile--link"
+                         event="" @click.native.prevent="openIndicesGetModal">
+              <v-list-tile-action>
+                <v-icon small>info</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title>Show info</v-list-tile-title>
+              </v-list-tile-content>
+            </router-link>
 
-            <list-tile-modal-link :action="() => openIndicesStatsModal(index.index)"
-                                  :to="{name: 'IndexStats', params: {index: index.index}}"
-                                  icon="show_chart" link-title="Show stats"/>
+            <router-link :to="{name: 'Index', params: {index: index.index}}" class="v-list__tile v-list__tile--link"
+                         event="" @click.native.prevent="openIndicesStatsModal">
+              <v-list-tile-action>
+                <v-icon small>show_chart</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title>Show stats</v-list-tile-title>
+              </v-list-tile-content>
+            </router-link>
 
             <v-divider/>
 
@@ -64,22 +76,27 @@
           </v-list>
         </v-menu>
       </btn-group>
+
+      <modal-data-loader v-model="modalOpen"
+                         :method-params="{ index: this.index.index }"
+                         :method="modalMethod"
+                         :modal-title="modalTitle"
+                         :modal-subtitle="index.index"/>
     </td>
   </tr>
 </template>
 
 <script>
-  import { openModal } from '@/mixins/OpenModal'
   import BtnGroup from '@/components/shared/BtnGroup'
   import ListTileLink from '@/components/shared/ListTile/ListTileLink'
-  import ListTileModalLink from '@/components/shared/ListTile/ListTileModalLink'
+  import ModalDataLoader from '@/components/shared/ModalDataLoader'
 
   export default {
     name: 'index-row',
     components: {
       BtnGroup,
       ListTileLink,
-      ListTileModalLink
+      ModalDataLoader
     },
     props: {
       index: {
@@ -87,6 +104,13 @@
           return {}
         },
         type: Object
+      }
+    },
+    data () {
+      return {
+        modalOpen: false,
+        modalMethod: '',
+        modalTitle: ''
       }
     },
     methods: {
@@ -97,21 +121,15 @@
       emitReloadIndices () {
         this.$emit('reloadIndices')
       },
-      openIndicesGetModal (indexName) {
-        openModal({
-          method: 'indicesGet',
-          methodParams: { index: indexName },
-          title: 'indicesGet',
-          subtitle: indexName
-        })
+      openIndicesGetModal () {
+        this.modalMethod = 'indicesGet'
+        this.modalTitle = 'indicesGet'
+        this.modalOpen = true
       },
-      openIndicesStatsModal (indexName) {
-        openModal({
-          method: 'indicesStats',
-          methodParams: { index: indexName },
-          title: 'indicesStats',
-          subtitle: indexName
-        })
+      openIndicesStatsModal () {
+        this.modalMethod = 'indicesStats'
+        this.modalTitle = 'indicesStats'
+        this.modalOpen = true
       }
     }
   }
