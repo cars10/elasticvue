@@ -1,5 +1,5 @@
 <template>
-  <div class="settings-dropdown">
+  <div class="settings-dropdown" @click.stop>
     <v-btn icon @click.native="toggleMenu">
       <v-badge :value="badge" color="green" overlap>
         <v-icon slot="badge" small>filter_list</v-icon>
@@ -29,22 +29,10 @@
       }
     },
     mounted () {
-      window.addEventListener('click', () => {
-        this.closeMenu()
-      })
-
-      this.$el.addEventListener('click', (e) => {
-        e.stopPropagation()
-      })
+      window.addEventListener('click', this.closeMenu)
     },
     destroyed () {
-      window.removeEventListener('click', () => {
-        this.closeMenu()
-      })
-
-      this.$el.removeEventListener('click', (e) => {
-        e.stopPropagation()
-      })
+      window.removeEventListener('click', this.closeMenu)
     },
     methods: {
       toggleMenu () {

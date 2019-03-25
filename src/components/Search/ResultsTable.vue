@@ -60,9 +60,9 @@
 <script>
   import { fuzzyTableFilter } from '../../helpers/filters'
   import { fixedTableHeaderOnDisable, fixedTableHeaderOnEnable, resetTableHeight } from '@/mixins/FixedTableHeader'
-  import SettingsDropdown from '@/components/shared/SettingsDropdown'
-  import SingleSetting from '@/components/shared/SingleSetting'
-  import MultiSetting from '@/components/shared/MultiSetting'
+  import SettingsDropdown from '@/components/shared/TableSettings/SettingsDropdown'
+  import SingleSetting from '@/components/shared/TableSettings/SingleSetting'
+  import MultiSetting from '@/components/shared/TableSettings/MultiSetting'
   import ModalDataLoader from '@/components/shared/ModalDataLoader'
   import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
   import { mapVuexAccessors } from '../../helpers/store'
