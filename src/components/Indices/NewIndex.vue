@@ -32,7 +32,7 @@
       </v-card-text>
 
       <v-card-actions>
-        <v-btn id="create_index" flat @click="createIndex">Create</v-btn>
+        <v-btn id="create_index" color="success" @click="createIndex">Create</v-btn>
         <v-btn flat @click="closeDialog">Cancel</v-btn>
       </v-card-actions>
     </v-card>
