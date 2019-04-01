@@ -2,7 +2,7 @@
   "name": "elasticvue",
   "version": "0.9.2",
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve": "npx --max_old_space_size=4096 vue-cli-service serve",
     "build": "rm -rf dist && vue-cli-service build --modern",
     "lint": "vue-cli-service lint",
     "build_chrome_extension": "./scripts/build_chrome_extension.sh",
