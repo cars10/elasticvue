@@ -22,27 +22,12 @@
                         @keyup.esc="closeDialog"/>
 
           <data-loader ref="indicesLoader" method="catIndices" render-content-while-loading>
-            <template v-slot:default="data">
-              <custom-v-autocomplete id="indices"
-                                     v-model="indices"
-                                     :items="data.body | sortIndices"
-                                     :loading="data.loading"
-                                     append-icon="arrow_drop_down"
-                                     multiple
-                                     chips
-                                     label="Indices"
-                                     name="indices"
-                                     prepend-inner-icon="cached"
-                                     hide-details
-                                     @click:prepend-inner="resetIndices">
-
-                <template slot="selection" slot-scope="{ item, index }">
-                  <v-chip v-if="index <= 1">
-                    <span>{{ item }}</span>
-                  </v-chip>
-                  <span v-if="index === 2" class="grey--text caption">(+{{ indices.length - 1 }} others)</span>
-                </template>
-              </custom-v-autocomplete>
+            <template v-slot:default="{body, loading}">
+              <index-select v-model="indices"
+                            :indices="body ? body.map(i => i.index) : []"
+                            :loading="loading"
+                            chips
+                            @reload="() => $refs.indicesLoader.loadData()"/>
             </template>
           </data-loader>
         </v-card-text>
@@ -57,20 +42,15 @@
 </template>
 
 <script>
-  import CustomVAutocomplete from '@/components/shared/CustomVAutocomplete'
   import DataLoader from '@/components/shared/DataLoader'
   import { elasticsearchRequest } from '@/mixins/ElasticsearchAdapterHelper'
+  import IndexSelect from '@/components/shared/IndexSelect'
 
   export default {
     name: 'new-snapshot',
     components: {
       DataLoader,
-      CustomVAutocomplete
-    },
-    filters: {
-      sortIndices (indices) {
-        return indices ? indices.map(index => index.index).sort() : []
-      }
+      IndexSelect
     },
     props: {
       repository: {
@@ -117,10 +97,6 @@
         this.indices = []
         this.$refs.form.resetValidation()
         this.dialog = false
-      },
-      resetIndices () {
-        this.indices = []
-        this.$refs.indicesLoader.loadData()
       }
     }
   }

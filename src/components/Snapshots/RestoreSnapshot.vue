@@ -18,26 +18,7 @@
 
         <v-form ref="form" v-model="valid" lazy-validation @submit.prevent="restoreSnapshot">
           <v-card-text>
-            <custom-v-autocomplete id="indices"
-                                   v-model="selectedIndices"
-                                   :items="indices"
-                                   :loading="loading"
-                                   append-icon="arrow_drop_down"
-                                   multiple
-                                   chips
-                                   label="Indices"
-                                   name="indices"
-                                   prepend-inner-icon="cached"
-                                   hide-details
-                                   @click:prepend-inner="loadIndices">
-
-              <template slot="selection" slot-scope="{ item, index }">
-                <v-chip v-if="index <= 1">
-                  <span>{{ item }}</span>
-                </v-chip>
-                <span v-if="index === 2" class="grey--text caption">(+{{ indices.length - 1 }} others)</span>
-              </template>
-            </custom-v-autocomplete>
+            <index-select v-model="selectedIndices" :indices="indices" :loading="loading" chips @reload="loadIndices"/>
             <v-checkbox v-model="ignore_unavailable" hide-details label="Ignore unavailable"/>
             <v-checkbox v-model="include_global_state" label="Include global state"/>
 
@@ -73,11 +54,13 @@
   import ListTileLink from '@/components/shared/ListTile/ListTileLink'
   import CustomVAutocomplete from '@/components/shared/CustomVAutocomplete'
   import { elasticsearchRequest } from '@/mixins/ElasticsearchAdapterHelper'
+  import IndexSelect from '@/components/shared/IndexSelect'
 
   export default {
     name: 'RestoreSnapshot',
     components: {
       CustomVAutocomplete,
+      IndexSelect,
       ListTileLink
     },
     props: {

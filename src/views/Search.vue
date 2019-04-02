@@ -21,25 +21,11 @@
 
           <v-flex>
             <data-loader ref="indicesLoader" method="catIndices" render-content-while-loading>
-              <template v-slot:default="data">
-                <custom-v-autocomplete id="indices"
-                                       v-model="indices"
-                                       :items="data.body | sortIndices"
-                                       :loading="data.loading"
-                                       append-icon="cached"
-                                       multiple
-                                       label="Indices"
-                                       name="indices"
-                                       @click:append="resetIndices">
-                  <template v-slot:item="data">
-                    <v-list-tile-action>
-                      <v-checkbox :input-value="indices.includes(data.item)" color="primary"/>
-                    </v-list-tile-action>
-                    <v-list-tile-content>
-                      {{data.item}}
-                    </v-list-tile-content>
-                  </template>
-                </custom-v-autocomplete>
+              <template v-slot:default="{body, loading}">
+                <index-select v-model="indices"
+                              :indices="body ? body.map(i => i.index) : []"
+                              :loading="loading"
+                              @reload="() => $refs.indicesLoader.loadData()"/>
               </template>
             </data-loader>
           </v-flex>
@@ -92,12 +78,12 @@
 </template>
 
 <script>
-  import CustomVAutocomplete from '@/components/shared/CustomVAutocomplete'
   import DataLoader from '@/components/shared/DataLoader'
   import ReloadButton from '@/components/shared/ReloadButton'
   import ResultsTable from '@/components/Search/ResultsTable'
   import { mapVuexAccessors } from '../helpers/store'
   import esAdapter from '@/mixins/GetAdapter'
+  import IndexSelect from '@/components/shared/IndexSelect'
 
   export default {
     name: 'Search',
@@ -107,8 +93,8 @@
       }
     },
     components: {
-      CustomVAutocomplete,
       DataLoader,
+      IndexSelect,
       ReloadButton,
       ResultsTable
     },
@@ -158,10 +144,6 @@
             const availableIndices = body.map(index => index.index)
             this.indices = this.indices.filter(selectedIndex => availableIndices.includes(selectedIndex))
           })
-      },
-      resetIndices () {
-        this.indices = []
-        this.$refs.indicesLoader.loadData()
       }
     }
   }
