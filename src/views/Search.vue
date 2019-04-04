@@ -8,7 +8,7 @@
     <v-card-text>
       <v-form @submit.prevent="loadData">
         <v-layout row wrap>
-          <v-flex lg2>
+          <v-flex lg3>
             <v-text-field id="query"
                           v-model="q"
                           label="Search"
@@ -20,14 +20,7 @@
           </v-flex>
 
           <v-flex>
-            <data-loader ref="indicesLoader" method="catIndices" render-content-while-loading>
-              <template v-slot:default="{body, loading}">
-                <index-select v-model="indices"
-                              :indices="body ? body.map(i => i.index) : []"
-                              :loading="loading"
-                              @reload="() => $refs.indicesLoader.loadData()"/>
-              </template>
-            </data-loader>
+            <index-filter v-model="indices" method="catIndices"/>
           </v-flex>
 
           <v-flex lg1>
@@ -47,9 +40,7 @@
             </v-flex>
 
             <v-flex lg3>
-              <v-text-field v-model="size"
-                            label="Size"
-                            name="size"/>
+              <v-text-field v-model="size" label="Size" name="size"/>
             </v-flex>
           </v-layout>
         </div>
@@ -83,7 +74,7 @@
   import ResultsTable from '@/components/Search/ResultsTable'
   import { mapVuexAccessors } from '../helpers/store'
   import esAdapter from '@/mixins/GetAdapter'
-  import IndexSelect from '@/components/shared/IndexSelect'
+  import IndexFilter from '@/components/shared/IndexFilter'
 
   export default {
     name: 'Search',
@@ -94,7 +85,7 @@
     },
     components: {
       DataLoader,
-      IndexSelect,
+      IndexFilter,
       ReloadButton,
       ResultsTable
     },
@@ -138,6 +129,7 @@
         this.optionsCollapsed = !this.optionsCollapsed
       },
       selectOnlyKnownIndices () {
+        if (!Array.isArray(this.indices)) return true
         return esAdapter()
           .then(adapter => adapter.catIndices())
           .then(body => {

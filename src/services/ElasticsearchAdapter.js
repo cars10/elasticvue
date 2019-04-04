@@ -42,8 +42,8 @@ export default class ElasticsearchAdapter {
    * Get a list of all indices
    * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-cat-indices
    */
-  catIndices () {
-    return this.client.cat.indices(REQUEST_DEFAULT_BODY)
+  catIndices (params) {
+    return this.client.cat.indices(paramsWithDefaults(params))
   }
 
   /**

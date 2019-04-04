@@ -4,15 +4,15 @@ import esAdapter from '@/mixins/GetAdapter'
 export const elasticsearchRequest = function (options) {
   if (options.confirmMessage && options.confirmMessage.length !== 0) {
     if (confirm(options.confirmMessage)) {
-      runRequest(options)
+      return runRequest(options)
     }
   } else {
-    runRequest(options)
+    return runRequest(options)
   }
 }
 
 const runRequest = function (options) {
-  esAdapter()
+  return esAdapter()
     .then(adapter => adapter[options.method](options.methodParams))
     .then(body => {
       if (typeof options.callback === 'function') options.callback(body)
@@ -22,6 +22,11 @@ const runRequest = function (options) {
           additionalText: JSON.stringify(body)
         })
       }
+      return Promise.resolve(body)
     })
-    .catch(error => showErrorSnackbar({ text: 'Error:', additionalText: error.message }))
+    .catch(error => {
+      if (!options.silenceError) {
+        showErrorSnackbar({ text: 'Error:', additionalText: error.message })
+      }
+    })
 }

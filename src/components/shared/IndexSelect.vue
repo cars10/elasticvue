@@ -6,7 +6,7 @@
                          prepend-inner-icon="cached"
                          append-icon="arrow_drop_down"
                          multiple
-                         label="Indices"
+                         label="Select indices"
                          name="indices"
                          @click:prepend-inner="resetSelection">
     <template v-slot:item="data">
