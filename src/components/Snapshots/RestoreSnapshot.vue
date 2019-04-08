@@ -18,7 +18,7 @@
 
         <v-form ref="form" v-model="valid" lazy-validation @submit.prevent="restoreSnapshot">
           <v-card-text>
-            <index-select v-model="selectedIndices" :indices="indices" :loading="loading" chips @reload="loadIndices"/>
+            <index-filter v-model="indices" :method-params="{ repository, snapshot }" method="getSnapshotIndices"/>
             <v-checkbox v-model="ignore_unavailable" hide-details label="Ignore unavailable"/>
             <v-checkbox v-model="include_global_state" label="Include global state"/>
 
@@ -54,13 +54,13 @@
   import ListTileLink from '@/components/shared/ListTile/ListTileLink'
   import CustomVAutocomplete from '@/components/shared/CustomVAutocomplete'
   import { elasticsearchRequest } from '@/mixins/ElasticsearchAdapterHelper'
-  import IndexSelect from '@/components/shared/IndexSelect'
+  import IndexFilter from '@/components/shared/IndexFilter'
 
   export default {
     name: 'RestoreSnapshot',
     components: {
       CustomVAutocomplete,
-      IndexSelect,
+      IndexFilter,
       ListTileLink
     },
     props: {
@@ -77,9 +77,7 @@
       return {
         dialog: false,
         valid: false,
-        loading: false,
         indices: [],
-        selectedIndices: [],
         ignore_unavailable: true,
         include_global_state: true,
         rename_pattern: '',
@@ -89,19 +87,6 @@
     methods: {
       toggle () {
         this.dialog = true
-        this.loadIndices()
-      },
-      loadIndices () {
-        this.indices = []
-        this.loading = true
-        elasticsearchRequest({
-          method: 'getSnapshot',
-          methodParams: { repository: this.repository, snapshot: this.snapshot },
-          callback: body => {
-            this.indices = body.snapshots[0].indices
-            this.loading = false
-          }
-        })
       },
       restoreSnapshot () {
         if (!this.$refs.form.validate()) return
@@ -118,7 +103,7 @@
           repository: this.repository,
           snapshot: this.snapshot,
           body: {
-            indices: this.selectedIndices,
+            indices: this.indices,
             ignore_unavailable: this.ignore_unavailable,
             include_global_state: this.include_global_state,
             rename_pattern: this.rename_pattern,
@@ -129,7 +114,7 @@
       closeDialog () {
         this.$refs.form.resetValidation()
         this.dialog = false
-        this.selectedIndices = []
+        this.indices = []
         this.ignore_unavailable = true
         this.include_global_state = true
         this.rename_pattern = ''

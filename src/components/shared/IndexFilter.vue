@@ -1,31 +1,31 @@
 <template>
   <content-toggle @changed="emitInput">
     <template slot="first">
-      <data-loader ref="indicesLoader" :method="method" render-content-while-loading>
+      <index-pattern v-model="localPattern"/>
+    </template>
+    <template slot="first-activator">
+      <a href="javascript:void(0)" class="ml-2">or use index pattern</a>
+    </template>
+
+    <template slot="last">
+      <data-loader ref="indicesLoader" :method="method" :method-params="methodParams" render-content-while-loading>
         <template v-slot:default="{body, loading}">
           <index-select v-model="localIndices"
-                        :indices="body ? body.map(i => i.index) : []"
+                        :indices="getIndexNames(body)"
                         :loading="loading"
                         @reload="() => $refs.indicesLoader.loadData()"/>
         </template>
       </data-loader>
     </template>
-    <template slot="first-activator">
-      <a href="javascript:void(0)" class="ml-2">or select indices</a>
-    </template>
-
-    <template slot="last">
-      <index-pattern v-model="localPattern"/>
-    </template>
     <template slot="last-activator">
-      <a href="javascript:void(0)" class="ml-2">or use index pattern</a>
+      <a href="javascript:void(0)" class="ml-2">or select indices</a>
     </template>
   </content-toggle>
 </template>
 
 <script>
-  import IndexSelect from '@/components/shared/IndexSelect'
-  import IndexPattern from '@/components/shared/IndexPattern'
+  import IndexSelect from '@/components/shared/IndexFilter/IndexSelect'
+  import IndexPattern from '@/components/shared/IndexFilter/IndexPattern'
   import DataLoader from '@/components/shared/DataLoader'
   import ContentToggle from '@/components/shared/ContentToggle'
 
@@ -41,6 +41,10 @@
       method: {
         type: String,
         default: ''
+      },
+      methodParams: {
+        type: Object,
+        default: () => ({})
       },
       value: {
         type: [String, Array],
@@ -67,6 +71,14 @@
           this.$emit('input', this.localIndices)
         } else {
           this.$emit('input', this.localPattern)
+        }
+      },
+      getIndexNames (indices) {
+        if (!indices) return []
+        if (typeof indices[0] === 'string') {
+          return indices
+        } else {
+          return indices.map(i => i.index)
         }
       }
     }

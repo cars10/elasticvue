@@ -271,18 +271,25 @@ export default class ElasticsearchAdapter {
     return this.client.snapshot.get(paramsWithDefaults(params))
   }
 
+  getSnapshotIndices (params) {
+    return this.client.snapshot.get(paramsWithDefaults(params))
+      .then(body => {
+        return Promise.resolve(body.snapshots[0].indices)
+      })
+  }
+
   /********/
 
   /**
    * Creates multiple indices, one for each word. Only creates if they do not already exists
-   * @param words {Array}
+   * @param name {Array}
    */
-  async createIndices (words) {
-    for (let word of [...new Set(words)]) {
-      await this.indicesExists({ index: word })
+  async createIndices (name) {
+    for (let name of [...new Set(name)]) {
+      await this.indicesExists({ index: name })
         .then(exists => {
           if (!exists) {
-            this.indicesCreate({ index: word })
+            this.indicesCreate({ index: name })
           }
         })
     }

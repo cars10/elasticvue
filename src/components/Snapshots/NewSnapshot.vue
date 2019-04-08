@@ -21,15 +21,7 @@
                         autofocus
                         @keyup.esc="closeDialog"/>
 
-          <data-loader ref="indicesLoader" method="catIndices" render-content-while-loading>
-            <template v-slot:default="{body, loading}">
-              <index-select v-model="indices"
-                            :indices="body ? body.map(i => i.index) : []"
-                            :loading="loading"
-                            chips
-                            @reload="() => $refs.indicesLoader.loadData()"/>
-            </template>
-          </data-loader>
+          <index-filter v-model="indices" method="catIndices"/>
         </v-card-text>
 
         <v-card-actions class="pa-3">
@@ -44,13 +36,13 @@
 <script>
   import DataLoader from '@/components/shared/DataLoader'
   import { elasticsearchRequest } from '@/mixins/ElasticsearchAdapterHelper'
-  import IndexSelect from '@/components/shared/IndexSelect'
+  import IndexFilter from '@/components/shared/IndexFilter'
 
   export default {
     name: 'new-snapshot',
     components: {
       DataLoader,
-      IndexSelect
+      IndexFilter
     },
     props: {
       repository: {

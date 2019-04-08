@@ -156,8 +156,6 @@ yarn build_chrome_extension
 ### 1.0
 
 * document edit/delete
-* "select all" button for indices (in search, snapshots), add ability to use index patterns
-* regex input for indices (in search, snapshots)
 * cluster settings
 
 ### Future

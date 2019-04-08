@@ -10,7 +10,9 @@
     </div>
 
     <div v-else ref="last" class="content-toggle__item flex pa-0">
-      <slot name="last">last</slot>
+      <div class="grow">
+        <slot name="last">last</slot>
+      </div>
       <span class="align-self-center" @click="setFirst">
         <slot name="first-activator">Use first</slot>
       </span>
