@@ -52,7 +52,7 @@
       }
     },
     created () {
-      if (this.defaultSetting) {
+      if (this.defaultSetting && process.env.NODE_ENV === 'production') {
         this.timerSetting = this.defaultSetting
         this.action.call()
       }
