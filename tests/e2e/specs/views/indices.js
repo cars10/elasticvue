@@ -79,7 +79,11 @@ describe('Indices page', () => {
 
     it('can filter', () => {
       const indexName = 'name-1'
+
       cy.createIndex(indexName).then(() => {
+        return cy.flushIndices()
+      }).then(() => {
+        cy.reload(true)
         cy.get('table').should(table => {
           expect(table).to.contain(indexName)
         })
