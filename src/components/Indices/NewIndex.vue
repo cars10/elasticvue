@@ -20,7 +20,7 @@
           <v-text-field id="index_shards"
                         v-model="indexShards"
                         name="indexShards"
-                        placeholder="5"
+                        placeholder="1"
                         label="Number of shards"/>
 
           <v-text-field id="index_replicas"
@@ -59,8 +59,10 @@
         return {
           index: this.indexName,
           body: {
-            number_of_shards: this.indexShards || 5,
-            number_of_replicas: this.indexReplicas || 1
+            settings: {
+              number_of_shards: this.indexShards || 1,
+              number_of_replicas: this.indexReplicas || 1
+            }
           }
         }
       }
