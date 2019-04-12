@@ -75,7 +75,7 @@
       },
       apiDocumentationUrl () {
         if (this.method) {
-          return API_DOC_URL + `#api-${this.method.replace('.', '-').toLowerCase()}`
+          return API_DOC_URL + `#_${this.method.replace('.', '_').toLowerCase()}`
         } else {
           return API_DOC_URL
         }
