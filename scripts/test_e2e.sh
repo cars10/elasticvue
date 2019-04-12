@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 TMP_PATH=./tmp/e2e
-VERSIONS=( elasticsearch-6.3.2 elasticsearch-6.6.0 )
+VERSIONS=( elasticsearch-6.6.0 elasticsearch-7.0.0-linux-x86_64 )
 PID=0
 ES_PID_FILE=${TMP_PATH}/pid
 ES_PORT=$(cat cypress.json|grep ES_PORT|awk '{print $2}' | cut -d ',' -f 1)
@@ -33,7 +33,7 @@ function downloadElasticsearch {
 }
 
 function configureElasticsearch {
-  VERSION=$1
+  VERSION=$(echo ${1} | awk '{print substr($0, 0, 19)}')
   echo ">> Configuring $VERSION..."
 
   CONFIG="${TMP_PATH}/${VERSION}/config/elasticsearch.yml"
@@ -68,7 +68,7 @@ function retry {
   for ((i=1;i<=$TIMEOUT;i+=$STEPS)); do
     $@
 
-    if [ $? -eq 0 ]; then
+    if [[ $? -eq 0 ]]; then
       return
     fi
 
@@ -86,7 +86,7 @@ function retryNegative {
   for ((i=1;i<=$TIMEOUT;i+=$STEPS)); do
     $@
 
-    if [ $? -ne 0 ]; then
+    if [[ $? -ne 0 ]]; then
       return
     fi
 
@@ -108,7 +108,7 @@ for VERSION in "${VERSIONS[@]}"; do
   RESULT=$?
   stopElasticsearch
   echo ''
-  if [ ${RESULT} -eq 0 ]; then
+  if [[ ${RESULT} -eq 0 ]]; then
     echo "> Testing of $VERSION succeeded."
     echo ''
   else
