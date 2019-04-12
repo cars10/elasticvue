@@ -79,23 +79,24 @@ describe('Indices page', () => {
 
     it('can filter', () => {
       const indexName = 'name-1'
-      cy.createIndex(indexName)
-      cy.get('table').should(table => {
-        expect(table).to.contain(indexName)
-      })
+      cy.createIndex(indexName).then(() => {
+        cy.get('table').should(table => {
+          expect(table).to.contain(indexName)
+        })
 
-      cy.get('#filter').clear()
-      cy.get('#filter').type('name-2')
+        cy.get('#filter').clear()
+        cy.get('#filter').type('name-2')
 
-      cy.get('table').should(table => {
-        expect(table).not.to.contain(indexName)
-      })
+        cy.get('table').should(table => {
+          expect(table).not.to.contain(indexName)
+        })
 
-      cy.get('#filter').clear()
-      cy.get('#filter').type('name-1')
+        cy.get('#filter').clear()
+        cy.get('#filter').type('name-1')
 
-      cy.get('table').should(table => {
-        expect(table).to.contain(indexName)
+        cy.get('table').should(table => {
+          expect(table).to.contain(indexName)
+        })
       })
     })
   })
