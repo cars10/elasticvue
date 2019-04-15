@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.10.0
+
+* fix redirect loop in chrome extension on macos and windows
+* you can now switch between index selection and index patterns
+* performance improvements (removes global components and mixins)
+* updates dependencies
+
 ## 0.9.2
 
 * cleanup after source_includes changes
