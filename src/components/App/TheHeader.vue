@@ -62,8 +62,7 @@
   import ConnectionStatus from '@/mixins/ConnectionStatus'
   import ReloadButton from '@/components/shared/ReloadButton'
   import Request from '@/mixins/Request'
-  import { CONNECTION_STATES } from '../../consts'
-  import { LOCALSTORAGE_KEY } from '@/consts'
+  import { BASE_URI, CONNECTION_STATES, LOCALSTORAGE_KEY } from '@/consts'
   import { truncate, urlWithoutCredentials } from '@/helpers'
 
   export default {
@@ -116,7 +115,7 @@
       },
       reset () {
         localStorage.removeItem(LOCALSTORAGE_KEY)
-        window.location.replace('/')
+        window.location.replace(BASE_URI)
       }
     }
   }

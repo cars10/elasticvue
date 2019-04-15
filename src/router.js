@@ -17,7 +17,7 @@ import Store from '@/store'
 Vue.use(Router)
 
 const router = new Router({
-  mode: 'history',
+  mode: process.env.VUE_APP_ROUTER_MODE || 'history',
   routes: [
     {
       path: '/',
@@ -90,11 +90,7 @@ const router = new Router({
     {
       path: '*',
       beforeEnter: (to, from, next) => {
-        if (to.query && to.query.route) {
-          next(to.query.route)
-        } else {
-          next('/')
-        }
+        next('/') // redirect "404" to root url
       }
     }
   ]

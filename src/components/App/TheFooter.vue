@@ -23,7 +23,7 @@
 
 <script>
   import { mapVuexAccessors } from '../../helpers/store'
-  import { LOCALSTORAGE_KEY } from '../../consts'
+  import { BASE_URI, LOCALSTORAGE_KEY } from '@/consts'
 
   export default {
     name: 'app-footer',
@@ -37,7 +37,7 @@
     methods: {
       reset () {
         localStorage.removeItem(LOCALSTORAGE_KEY)
-        window.location.replace('/')
+        window.location.replace(BASE_URI)
       }
     }
   }
