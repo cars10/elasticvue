@@ -168,7 +168,6 @@ yarn build_chrome_extension
 
 ### 1.0
 
-* add "exact match" option to all filters and selects (via enclosing quotation marks)
 * document edit/delete
 * cluster settings
 

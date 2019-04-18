@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.11.0
+* can filter exact with `"`
+
 ## 0.10.0
 
 * fix redirect loop in chrome extension on macos and windows
