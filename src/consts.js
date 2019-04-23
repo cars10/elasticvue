@@ -30,7 +30,7 @@ export const DEFAULT_SEARCH_PARAMS = {
   from: 0,
   size: 1000,
   _source: '',
-  index: []
+  index: ''
 }
 
 /**
