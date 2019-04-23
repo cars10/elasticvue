@@ -59,10 +59,28 @@ describe('helpers/filters.js', () => {
       expect(resultNames).toEqual(expect.arrayContaining(expected))
     })
 
-    it('should filter all things with s on s search', () => {
+    it('should filter all things on s search', () => {
       const expected = ['milenium falcon', 'x-wing', 'starfighter', 'luke skywalker', 'darth vader', 'yoda', 'qui-gon jin', 'coruscant']
 
       const results = fuzzyTableFilter(items, 's', headers)
+      const resultNames = results.map(result => result.name)
+
+      expect(resultNames).toEqual(expect.arrayContaining(expected))
+    })
+
+    it('should return exact matches', () => {
+      const expected = ['milenium falcon']
+
+      const results = fuzzyTableFilter(items, '"milenium falcon"', headers)
+      const resultNames = results.map(result => result.name)
+
+      expect(resultNames).toEqual(expect.arrayContaining(expected))
+    })
+
+    it('should not return anything if no exact match is found', () => {
+      const expected = []
+
+      const results = fuzzyTableFilter(items, '"milenium"', headers)
       const resultNames = results.map(result => result.name)
 
       expect(resultNames).toEqual(expect.arrayContaining(expected))
@@ -99,6 +117,25 @@ describe('helpers/filters.js', () => {
       const resultNames = results.map(result => result.name)
 
       expect(resultNames).toEqual(expect.arrayContaining(itemNames))
+    })
+
+    it('should return exact matches', () => {
+      const persons = items.filter(item => item.type === 'person')
+      const names = persons.map(item => item.name)
+
+      const results = fuzzyTableFilter(items, 'type:"person"', headers)
+      const resultNames = results.map(result => result.name)
+
+      expect(resultNames).toEqual(expect.arrayContaining(names))
+    })
+
+    it('should not return anything if no exact match is found', () => {
+      const expected = []
+
+      const results = fuzzyTableFilter(items, 'type:"perso"', headers)
+      const resultNames = results.map(result => result.name)
+
+      expect(resultNames).toEqual(expect.arrayContaining(expected))
     })
   })
 })
