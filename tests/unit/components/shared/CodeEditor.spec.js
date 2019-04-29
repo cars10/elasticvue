@@ -24,7 +24,7 @@ describe('components/shared/CodeEditor.vue', () => {
         useWorker: false
       }
     })
-    expect(wrapper.html()).not.toBeNull()
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   describe('theme handling', () => {
@@ -36,8 +36,7 @@ describe('components/shared/CodeEditor.vue', () => {
           useWorker: false
         }
       })
-      const vm = wrapper.vm
-      expect(vm.editor.getTheme()).toEqual('ace/theme/monokai')
+      expect(wrapper.vm.editor.getTheme()).toEqual('ace/theme/monokai')
     })
 
     it('changes the editor theme correctly', () => {
@@ -70,21 +69,7 @@ describe('components/shared/CodeEditor.vue', () => {
         }
       })
 
-      const vm = wrapper.vm
-      expect(vm.editor.getReadOnly()).toBeTruthy()
-    })
-  })
-
-  describe('destroying', () => {
-    it('destroys itself and the editor correctly', () => {
-      const wrapper = mount(CodeEditor, {
-        localVue: localVue,
-        store: store,
-        propsData: {
-          useWorker: false
-        }
-      })
-      expect(wrapper.destroy()).toBeFalsy()
+      expect(wrapper.vm.editor.getReadOnly()).toBeTruthy()
     })
   })
 })
