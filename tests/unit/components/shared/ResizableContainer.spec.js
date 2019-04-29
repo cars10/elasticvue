@@ -5,7 +5,7 @@ import VGrid from 'vuetify/es5/components/VGrid'
 import ResizableContainer from '@/components/shared/ResizableContainer'
 import BtnGroup from '@/components/shared/BtnGroup'
 import { createLocalVue, mount } from '@vue/test-utils'
-import '../../mocks/codeEditorMocks'
+import '../../mocks/resizableContainerMocks'
 
 describe('components/shared/ResizableContainer.vue', () => {
   let localVue
