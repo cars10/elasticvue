@@ -4,7 +4,7 @@
       <div class="grow">
         <slot name="first">first</slot>
       </div>
-      <span class="align-self-center" @click="setLast">
+      <span class="align-self-center content-toggle__last_activator" @click="setLast">
         <slot name="last-activator">Use last</slot>
       </span>
     </div>
@@ -13,7 +13,7 @@
       <div class="grow">
         <slot name="last">last</slot>
       </div>
-      <span class="align-self-center" @click="setFirst">
+      <span class="align-self-center content-toggle__first_activator" @click="setFirst">
         <slot name="first-activator">Use first</slot>
       </span>
     </div>

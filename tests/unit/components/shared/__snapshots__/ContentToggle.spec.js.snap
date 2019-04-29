@@ -1,0 +1,67 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/shared/ContentToggle.vue should render correct default contents 1`] = `
+<div
+  class="content-toggle"
+>
+  <div
+    class="content-toggle__item flex pa-0"
+  >
+    <div
+      class="grow"
+    >
+      first
+    </div>
+     
+    <span
+      class="align-self-center content-toggle__last_activator"
+    >
+      Use last
+    </span>
+  </div>
+</div>
+`;
+
+exports[`components/shared/ContentToggle.vue should render original content 1`] = `
+<div
+  class="content-toggle"
+>
+  <div
+    class="content-toggle__item flex pa-0"
+  >
+    <div
+      class="grow"
+    >
+      first
+    </div>
+     
+    <span
+      class="align-self-center content-toggle__last_activator"
+    >
+      Use last
+    </span>
+  </div>
+</div>
+`;
+
+exports[`components/shared/ContentToggle.vue should render toggled content 1`] = `
+<div
+  class="content-toggle"
+>
+  <div
+    class="content-toggle__item flex pa-0"
+  >
+    <div
+      class="grow"
+    >
+      last
+    </div>
+     
+    <span
+      class="align-self-center content-toggle__first_activator"
+    >
+      Use first
+    </span>
+  </div>
+</div>
+`;
