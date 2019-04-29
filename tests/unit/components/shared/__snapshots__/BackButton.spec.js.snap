@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/shared/BackButton.vue should render correct default contents 1`] = `
+<a
+  class="ml-a v-btn v-btn--router theme--light"
+>
+  <div
+    class="v-btn__content"
+  >
+    <i
+      aria-hidden="true"
+      class="v-icon material-icons theme--light"
+    >
+      keyboard_arrow_left
+    </i>
+    
+  Back
+
+  </div>
+</a>
+`;
+
+exports[`components/shared/BackButton.vue should render custom icon 1`] = `
+<a
+  class="ml-a v-btn v-btn--router theme--light"
+>
+  <div
+    class="v-btn__content"
+  >
+    <i
+      aria-hidden="true"
+      class="v-icon material-icons theme--light"
+    >
+      cached
+    </i>
+    
+  Back
+
+  </div>
+</a>
+`;
+
+exports[`components/shared/BackButton.vue should render custom text 1`] = `
+<a
+  class="ml-a v-btn v-btn--router theme--light"
+>
+  <div
+    class="v-btn__content"
+  >
+    <i
+      aria-hidden="true"
+      class="v-icon material-icons theme--light"
+    >
+      keyboard_arrow_left
+    </i>
+    
+  myCustom Text
+
+  </div>
+</a>
+`;

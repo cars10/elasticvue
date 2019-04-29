@@ -27,9 +27,8 @@ describe('components/shared/BackButton.vue', () => {
         'router-link': RouterLinkStub
       }
     })
-    expect(wrapper.text()).toContain('keyboard_arrow_left')
-    expect(wrapper.text()).toContain('Back')
-    expect(wrapper.find('div').text()).not.toBeNull()
+
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it('should render custom text', () => {
@@ -44,7 +43,7 @@ describe('components/shared/BackButton.vue', () => {
       }
     })
 
-    expect(wrapper.text()).toContain(text)
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it('should render custom icon', () => {
@@ -59,6 +58,6 @@ describe('components/shared/BackButton.vue', () => {
       }
     })
 
-    expect(wrapper.text()).toContain(icon)
+    expect(wrapper.element).toMatchSnapshot()
   })
 })

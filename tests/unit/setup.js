@@ -1,1 +1,1 @@
-console.log('hi from setupü')
+console.log('hi from setup')
