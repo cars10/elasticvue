@@ -20,8 +20,8 @@ describe('components/shared/PrintPretty.vue', () => {
     localVue.use(Vuex)
     localVue.use(Vuetify, {
       components: {
-        'code-editor': CodeEditor,
-        'resizable-container': ResizableContainer,
+        CodeEditor,
+        ResizableContainer,
         VBtn,
         VIcon,
         VGrid,
@@ -35,18 +35,17 @@ describe('components/shared/PrintPretty.vue', () => {
 
   it('should render correct default contents', () => {
     const wrapper = mount(PrintPretty, { localVue, store })
-    expect(wrapper.find('.resizable-container').element.style.height).toEqual(`${wrapper.vm.initialHeight}px`)
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   it('correctly sets the initialHeight of its resizableContainer', () => {
-    const height = 250
     const wrapper = mount(PrintPretty, {
       localVue: localVue,
       store: store,
       propsData: {
-        initialHeight: height
+        initialHeight: 250
       }
     })
-    expect(wrapper.find('.resizable-container').element.style.height).toEqual(`${height}px`)
+    expect(wrapper.element).toMatchSnapshot()
   })
 })
