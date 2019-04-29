@@ -27,7 +27,6 @@
 
 <script>
   import Request from '@/mixins/Request'
-  import { flattenObject } from '../../helpers/utilities'
 
   export default {
     name: 'DataLoader',
@@ -47,10 +46,6 @@
         default: true,
         type: Boolean
       },
-      flatten: {
-        default: false,
-        type: Boolean
-      },
       renderContentWhileLoading: {
         default: false,
         type: Boolean
@@ -63,7 +58,7 @@
       loadData () {
         this.callElasticsearch(this.method, this.methodParams)
           .then(response => {
-            this.body = this.flatten ? flattenObject(response, true, true) : response
+            this.body = response
           })
       }
     }
