@@ -63,8 +63,10 @@
             const distanceToBottom = window.innerHeight - e.clientY
             const scrollOffset = 100
             if (distanceToBottom < scrollOffset) {
+              // scroll down automatically
               window.scrollBy(0, scrollOffset - distanceToBottom)
             } else if (distanceToTop < 100) {
+              // scroll up automatically
               window.scrollBy(0, -(scrollOffset - distanceToTop))
             }
           }
