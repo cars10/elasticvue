@@ -151,7 +151,9 @@
     methods: {
       openDocument (item) {
         this.modalMethodParams = { index: item._index, type: item._type, id: item._id }
-        this.modalOpen = true
+        this.$nextTick(() => {
+          this.modalOpen = true
+        })
       },
       callFuzzyTableFilter (items, search, filter, headers) {
         return fuzzyTableFilter(items, search, headers)
