@@ -1,8 +1,12 @@
 # Changelog
 
+## 0.10.1
+
+* fix clicking search result item might open previous opened item. thx @foqq
+
 ## 0.10.0
 
-* fix redirect loop in chrome extension on macos and windows
+* fix redirect loop in chrome extension on macos and windows. thx @foqq
 * you can now switch between index selection and index patterns
 * performance improvements (removes global components and mixins)
 * updates dependencies
