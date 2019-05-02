@@ -1,18 +1,23 @@
 # Changelog
 
 ## 0.11.0
-* can filter exact with `"`
+* [feat] can filter exact with `"` in all filter and select inputs
+* updates dependencies
+
 
 ## 0.10.1
+* [bug] fix clicking search result item might open previous opened item. thx @foqq ([#4][i4])
 
-* fix clicking search result item might open previous opened item. thx @foqq
+[i4]: https://github.com/cars10/elasticvue/issues/4
 
 ## 0.10.0
 
-* fix redirect loop in chrome extension on macos and windows. thx @foqq
-* you can now switch between index selection and index patterns
+* [bug] fix redirect loop in chrome extension on macos and windows. thx @foqq ([#2][i2])
+* [feat] you can now switch between index selection and index patterns
 * performance improvements (removes global components and mixins)
 * updates dependencies
+
+[i2]: https://github.com/cars10/elasticvue/issues/2
 
 ## 0.9.2
 
