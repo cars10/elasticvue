@@ -1,0 +1,108 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/shared/Timer.vue snapshots should render correct default contents 1`] = `
+<div
+  class="d-inline-block"
+  title="Auto reload"
+>
+  <div
+    class="v-input mt-0 pt-0 d-inline-block v-select--dense-append v-text-field v-select v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light"
+    role="combobox"
+  >
+    <div
+      class="v-input__control"
+    >
+      <div
+        class="v-input__slot"
+      >
+        <div
+          class="v-select__slot"
+        >
+          <div
+            class="v-select__selections"
+          >
+            <input
+              aria-readonly="false"
+              autocomplete="on"
+              readonly="readonly"
+              type="text"
+            />
+          </div>
+          <div
+            class="v-input__append-inner"
+          >
+            <div
+              class="v-input__icon v-input__icon--append"
+            >
+              <i
+                aria-hidden="true"
+                class="v-icon material-icons theme--light"
+              >
+                $vuetify.icons.dropdown
+              </i>
+            </div>
+          </div>
+        </div>
+        <div
+          class="v-menu"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/shared/Timer.vue snapshots shows the selected setting 1`] = `
+<div
+  class="d-inline-block"
+  title="Auto reload"
+>
+  <div
+    class="v-input mt-0 pt-0 d-inline-block v-select--dense-append v-text-field v-select v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light"
+    role="combobox"
+  >
+    <div
+      class="v-input__control"
+    >
+      <div
+        class="v-input__slot"
+      >
+        <div
+          class="v-select__slot"
+        >
+          <div
+            class="v-select__selections"
+          >
+            <small>
+              5s
+            </small>
+            <input
+              aria-readonly="false"
+              autocomplete="on"
+              readonly="readonly"
+              type="text"
+            />
+          </div>
+          <div
+            class="v-input__append-inner"
+          >
+            <div
+              class="v-input__icon v-input__icon--append"
+            >
+              <i
+                aria-hidden="true"
+                class="v-icon material-icons theme--light"
+              >
+                $vuetify.icons.dropdown
+              </i>
+            </div>
+          </div>
+        </div>
+        <div
+          class="v-menu"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;

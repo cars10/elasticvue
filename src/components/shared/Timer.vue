@@ -47,24 +47,28 @@
     },
     watch: {
       timerSetting (value) {
-        clearInterval(this.intervalID)
-        if (value) this.setInterval()
+        this.destroyInterval()
+        if (value) this.createInterval()
       }
     },
     created () {
-      if (this.defaultSetting && process.env.NODE_ENV === 'production') {
+      if (this.defaultSetting && process.env.NODE_ENV !== 'development') {
         this.timerSetting = this.defaultSetting
         this.action.call()
       }
     },
     destroyed () {
-      clearInterval(this.intervalID)
+      this.destroyInterval()
     },
     methods: {
-      setInterval () {
+      createInterval () {
         this.intervalID = setInterval(() => {
           this.action.call()
         }, this.timerSetting * 1000)
+      },
+      destroyInterval () {
+        clearInterval(this.intervalID)
+        this.intervalID = null
       }
     }
   }
