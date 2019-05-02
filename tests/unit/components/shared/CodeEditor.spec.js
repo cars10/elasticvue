@@ -16,15 +16,70 @@ describe('components/shared/CodeEditor.vue', () => {
     })
   })
 
-  it('renders when empty', () => {
-    const wrapper = mount(CodeEditor, {
-      localVue: localVue,
-      store: store,
-      propsData: {
-        useWorker: false
-      }
+  describe('snapshots', () => {
+    it('renders when empty', () => {
+      const wrapper = mount(CodeEditor, {
+        localVue: localVue,
+        store: store,
+        propsData: {
+          useWorker: false
+        }
+      })
+      expect(wrapper.element).toMatchSnapshot()
     })
-    expect(wrapper.element).toMatchSnapshot()
+
+    it('renders string value', () => {
+      const wrapper = mount(CodeEditor, {
+        localVue: localVue,
+        store: store,
+        propsData: {
+          useWorker: false,
+          value: 'test'
+        }
+      })
+      expect(wrapper.element).toMatchSnapshot()
+    })
+
+    it('renders object value', () => {
+      const wrapper = mount(CodeEditor, {
+        localVue: localVue,
+        store: store,
+        propsData: {
+          useWorker: false,
+          value: { a: 'test' }
+        }
+      })
+      expect(wrapper.element).toMatchSnapshot()
+    })
+
+    it('changes its value', () => {
+      const wrapper = mount(CodeEditor, {
+        localVue: localVue,
+        store: store,
+        propsData: {
+          useWorker: false,
+          value: { a: 'test' }
+        }
+      })
+      wrapper.setProps({ value: 'test2' })
+      expect(wrapper.element).toMatchSnapshot()
+    })
+
+    it('removes itself from the dom on destroy', () => {
+      const wrapper = mount(CodeEditor, {
+        localVue: localVue,
+        store: store,
+        propsData: {
+          useWorker: false
+        },
+        attachToDocument: true
+      })
+      expect(wrapper.element.parentElement).toBeTruthy()
+      wrapper.destroy()
+      wrapper.vm.$nextTick(() => {
+        expect(wrapper.element.parentElement).toBeFalsy()
+      })
+    })
   })
 
   describe('theme handling', () => {
@@ -58,6 +113,31 @@ describe('components/shared/CodeEditor.vue', () => {
     })
   })
 
+  describe('wrapLines', () => {
+    it('does not wrap lines by default', () => {
+      const wrapper = mount(CodeEditor, {
+        localVue: localVue,
+        store: store,
+        propsData: {
+          useWorker: false
+        }
+      })
+      expect(wrapper.vm.editor.getSession().getUseWrapMode()).toBeFalsy()
+    })
+
+    it('changes wrapLines setting', () => {
+      const wrapper = mount(CodeEditor, {
+        localVue: localVue,
+        store: store,
+        propsData: {
+          useWorker: false
+        }
+      })
+      wrapper.setProps({ wrapLines: true })
+      expect(wrapper.vm.editor.getSession().getUseWrapMode()).toBeTruthy()
+    })
+  })
+
   describe('readonly editor', () => {
     it('correctly sets the editor to readonly', () => {
       const wrapper = mount(CodeEditor, {
@@ -69,6 +149,20 @@ describe('components/shared/CodeEditor.vue', () => {
         }
       })
 
+      expect(wrapper.vm.editor.getReadOnly()).toBeTruthy()
+    })
+
+    it('updates the value when readonly', () => {
+      const wrapper = mount(CodeEditor, {
+        localVue: localVue,
+        store: store,
+        propsData: {
+          readOnly: true,
+          useWorker: false
+        }
+      })
+
+      wrapper.setProps({ value: 'test' })
       expect(wrapper.vm.editor.getReadOnly()).toBeTruthy()
     })
   })
