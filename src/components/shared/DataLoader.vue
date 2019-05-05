@@ -37,9 +37,7 @@
         default: ''
       },
       methodParams: {
-        default: () => {
-          return {}
-        },
+        default: () => ({}),
         type: Object
       },
       execute: {
@@ -57,9 +55,7 @@
     methods: {
       loadData () {
         this.callElasticsearch(this.method, this.methodParams)
-          .then(response => {
-            this.body = response
-          })
+          .then(response => (this.body = response))
       }
     }
   }
