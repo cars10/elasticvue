@@ -6,7 +6,7 @@ describe('Indices page', () => {
   })
 
   describe('managing indices', () => {
-    it('can create indices', () => {
+    it('can create indices with default options', () => {
       const indexName = 'name-1'
       cy.get('#new_index').click()
       cy.get('#index_name').clear()
@@ -17,6 +17,33 @@ describe('Indices page', () => {
         cy.reload(true)
         cy.get('table').should(table => {
           expect(table).to.contain(indexName)
+        })
+      })
+    })
+
+    it('can create indices with changed options', () => {
+      const indexName = 'name-1'
+      const indexShards = '3'
+      const indexReplicas = '2'
+
+      cy.get('#new_index').click()
+      cy.get('#index_name').clear()
+      cy.get('#index_name').type(indexName)
+
+      cy.get('#index_shards').clear()
+      cy.get('#index_shards').type(indexShards)
+
+      cy.get('#index_replicas').clear()
+      cy.get('#index_replicas').type(indexReplicas)
+
+      cy.get('#create_index').click()
+
+      cy.flushIndices().then(() => {
+        cy.reload(true)
+        cy.get('table').should(table => {
+          expect(table).to.contain(indexName)
+          expect(table).to.contain(indexShards)
+          expect(table).to.contain(indexReplicas)
         })
       })
     })
@@ -59,8 +86,6 @@ describe('Indices page', () => {
 
   describe('table', () => {
     it('can reload', () => {
-      cy.visit('/indices')
-
       cy.get('table').should(table => {
         expect(table).to.contain('No data available')
       })
