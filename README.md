@@ -81,6 +81,8 @@ Alternatively run `yarn build` and host the assets yourself. Example nginx confi
   }
 ``` 
 
+Also see the [official vuejs deployment guide](https://cli.vuejs.org/guide/deployment.html#docker-nginx).
+
 
 ### Elasticsearch configuration
 You have [enable CORS](https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-http.html) to allow connection to your elasticsearch cluster, even if you run the app locally.
