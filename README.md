@@ -170,8 +170,11 @@ yarn build_chrome_extension
 
 ### 1.0
 
-* document edit/delete
+* document, index, snapshot repo, snapshot edit/delete
 * cluster settings
+* add more options for snapshot repository creation form
+* async table filter (workers, wasm)
+
 
 ### Future
 
