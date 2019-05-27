@@ -15,6 +15,7 @@ module.exports = {
     }],
     'no-console': 'off',
     'no-debugger': 'off',
+    'import/no-webpack-loader-syntax': 'off',
     'vue/attribute-hyphenation': [
       'error',
       'always'

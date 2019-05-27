@@ -174,6 +174,8 @@ yarn build_chrome_extension
 * cluster settings
 * add more options for snapshot repository creation form
 * async table filter (workers, wasm)
+* "show hidden indices": filter for indices with index: /\..*/ or .*
+* add "show hidden indices" to indices table
 
 
 ### Future
