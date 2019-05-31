@@ -61,8 +61,10 @@
           methodParams: { index: newValue, h: 'index' },
           silenceError: true
         }).then(body => {
-          this.indices = body || []
-          this.loading = false
+          if (newValue === this.localValue) {
+            this.indices = body || []
+            this.loading = false
+          }
         })
       }
     }
