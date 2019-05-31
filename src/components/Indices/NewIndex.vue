@@ -8,33 +8,38 @@
       </v-card-title>
 
       <v-divider/>
-      <v-card-text>
-        <v-form ref="form" v-model="valid" lazy-validation>
-          <v-text-field id="index_name"
+      <v-form ref="form" v-model="valid" lazy-validation @submit.prevent="createIndex">
+        <v-card-text>
+          <v-text-field v-if="dialog"
+                        id="index_name"
                         v-model="indexName"
                         :rules="[nameValidation]"
                         required
                         name="indexName"
-                        label="Index name"/>
+                        label="Index name"
+                        autofocus
+                        @keyup.esc="closeDialog"/>
 
           <v-text-field id="index_shards"
                         v-model="indexShards"
                         name="indexShards"
                         placeholder="1"
-                        label="Number of shards"/>
+                        label="Number of shards"
+                        @keyup.esc="closeDialog"/>
 
           <v-text-field id="index_replicas"
                         v-model="indexReplicas"
                         name="indexReplicas"
                         placeholder="1"
-                        label="Number of replicas"/>
-        </v-form>
-      </v-card-text>
+                        label="Number of replicas"
+                        @keyup.esc="closeDialog"/>
+        </v-card-text>
 
-      <v-card-actions>
-        <v-btn id="create_index" color="success" @click="createIndex">Create</v-btn>
-        <v-btn flat @click="closeDialog">Cancel</v-btn>
-      </v-card-actions>
+        <v-card-actions>
+          <v-btn id="create_index" color="success" type="submit">Create</v-btn>
+          <v-btn flat @click="closeDialog">Cancel</v-btn>
+        </v-card-actions>
+      </v-form>
     </v-card>
   </v-dialog>
 </template>
@@ -90,6 +95,10 @@
           .catch(error => showErrorSnackbar({ text: 'Error:', additionalText: error.message }))
       },
       closeDialog () {
+        this.indexName = ''
+        this.indexShards = ''
+        this.indexReplicas = ''
+        this.$refs.form.resetValidation()
         this.dialog = false
       }
     }
