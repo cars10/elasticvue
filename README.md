@@ -176,6 +176,7 @@ yarn build_chrome_extension
 * async table filter (workers, wasm)
 * "show hidden indices": filter for indices with index: /\..*/ or .*
 * add "show hidden indices" to indices table
+* catch elasticsearch 5xx errors
 
 
 ### Future

@@ -19,7 +19,7 @@ export function fuzzyTableFilter (items, search, headers) {
         return item[column] === query
       })
     } else {
-      return Fuzzysort.go(query, items, { key: column, allowTypo: false, threshold: -10000 }).map(i => i.obj)
+      return Fuzzysort.go(query, items, { key: column, allowTypo: false, threshold: -50000 }).map(i => i.obj)
     }
   } else {
     if (isExact(search)) {
@@ -30,7 +30,7 @@ export function fuzzyTableFilter (items, search, headers) {
         })
       })
     } else {
-      return Fuzzysort.go(search, items, { keys: props, allowTypo: false, threshold: -10000 }).map(i => i.obj)
+      return Fuzzysort.go(search, items, { keys: props, allowTypo: false, threshold: -50000 }).map(i => i.obj)
     }
   }
 }
