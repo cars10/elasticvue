@@ -170,12 +170,10 @@ yarn build_chrome_extension
 
 ### 1.0
 
-* document, index, snapshot repo, snapshot edit/delete
+* document, index, snapshot repo and snapshot: add edit/delete
 * cluster settings
 * add more options for snapshot repository creation form
 * async table filter (workers, wasm)
-* "show hidden indices": filter for indices with index: /\..*/ or .*
-* add "show hidden indices" to indices table
 * catch elasticsearch 5xx errors
 
 
