@@ -40,7 +40,7 @@
         </v-card-text>
 
         <v-card-actions class="pa-3">
-          <v-btn id="create_snapshot_repository" color="success" type="submit">Create</v-btn>
+          <v-btn id="create_snapshot_repository" color="success" type="submit" :loading="loading">Create</v-btn>
           <v-btn flat @click="closeDialog">Cancel</v-btn>
         </v-card-actions>
       </v-form>
@@ -55,6 +55,7 @@
     name: 'NewRepository',
     data () {
       return {
+        loading: false,
         dialog: false,
         valid: false,
         repositoryName: '',
@@ -71,12 +72,14 @@
       },
       createSnapshotRepository () {
         if (!this.$refs.form.validate()) return
+        this.loading = true
 
         elasticsearchRequest({
           method: 'snapshotCreateRepository',
           methodParams: this.buildCreateParams(),
           growl: `The repository '${this.repositoryName}' was successfully created.`,
           callback: () => {
+            this.loading = false
             this.$emit('reloadData')
             this.closeDialog()
           }
@@ -98,6 +101,7 @@
         this.repositoryName = ''
         this.repositoryLocation = ''
         this.compress = true
+        this.loading = false
         this.$refs.form.resetValidation()
         this.dialog = false
       }

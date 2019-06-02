@@ -170,6 +170,7 @@ yarn build_chrome_extension
 
 ### 1.0
 
+* refactor runRequest to use promises
 * document, index, snapshot repo and snapshot: add edit/delete
 * cluster settings
 * add more options for snapshot repository creation form
