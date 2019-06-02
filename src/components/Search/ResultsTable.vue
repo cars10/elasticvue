@@ -2,12 +2,13 @@
   <div>
     <v-card-text>
       <div class="clearfix">
+
         <v-flex right d-inline-flex>
           <v-text-field id="filter"
                         v-model="filter"
-                        :disabled="flattenedHits.length === 0"
-                        title="Filter via 'column:query'"
+                        :loading="filterLoading"
                         append-icon="search"
+                        title="Filter via 'column:query'"
                         label="Filter..."
                         name="filter"
                         class="mt-0"
@@ -22,12 +23,10 @@
       </div>
     </v-card-text>
 
-    <v-data-table :rows-per-page-items="defaultRowsPerPage()"
+    <v-data-table :rows-per-page-items="DEFAULT_ROWS_PER_PAGE"
                   :headers="headers"
-                  :items="flattenedHits"
+                  :items="items"
                   :loading="loading"
-                  :search="filter"
-                  :custom-filter="callFuzzyTableFilter"
                   :pagination.sync="pagination"
                   :class="tableClasses">
       <template v-slot:items="item">
@@ -58,7 +57,6 @@
 </template>
 
 <script>
-  import { fuzzyTableFilter } from '../../helpers/filters'
   import { fixedTableHeaderOnDisable, fixedTableHeaderOnEnable, resetTableHeight } from '@/mixins/FixedTableHeader'
   import SettingsDropdown from '@/components/shared/TableSettings/SettingsDropdown'
   import SingleSetting from '@/components/shared/TableSettings/SingleSetting'
@@ -67,6 +65,7 @@
   import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
   import { mapVuexAccessors } from '../../helpers/store'
   import Results from '../../models/Results'
+  import AsyncFilter from '@/mixins/AsyncFilter'
 
   export default {
     name: 'ResultsTable',
@@ -76,6 +75,7 @@
       MultiSetting,
       ModalDataLoader
     },
+    mixins: [AsyncFilter],
     props: {
       hits: {
         default: () => {
@@ -90,8 +90,7 @@
     },
     data () {
       return {
-        flattenedHits: [],
-        settingsBadge: false,
+        items: [],
         modalOpen: false,
         modalMethodParams: {}
       }
@@ -133,13 +132,13 @@
       ...mapVuexAccessors('search', ['filter', 'pagination', 'selectedMappings', 'mappings'])
     },
     watch: {
-      hits () {
-        const oldMappings = this.mappings
-        const results = new Results(this.hits)
-        this.mappings = results.uniqueColumns
-        const newMappings = this.mappings.filter(m => !oldMappings.includes(m))
-        this.selectedMappings = this.selectedMappings.concat(newMappings)
-        this.flattenedHits = results.results
+      hits (val) {
+        if (val.length === 0 && this.hits.length === 0) return // component creation
+
+        this.callFuzzyTableFilter(val, this.filter, true)
+      },
+      filter (val) {
+        this.callFuzzyTableFilter(this.hits, val, val.length === 0)
       }
     },
     mounted () {
@@ -148,18 +147,26 @@
     beforeDestroy () {
       fixedTableHeaderOnDisable()
     },
+    created () {
+      this.DEFAULT_ROWS_PER_PAGE = DEFAULT_ROWS_PER_PAGE
+    },
     methods: {
+      async callFuzzyTableFilter (items, filter, skipTimeout) {
+        this.debounceFilter(async () => {
+          let filteredResults = await this.filterTable(items, filter, this.headers, skipTimeout)
+          const oldMappings = this.mappings
+          const results = new Results(filteredResults)
+          this.mappings = results.uniqueColumns
+          const newMappings = this.mappings.filter(m => !oldMappings.includes(m))
+          this.selectedMappings = this.selectedMappings.concat(newMappings)
+          this.items = results.results
+        }, skipTimeout)
+      },
       openDocument (item) {
         this.modalMethodParams = { index: item._index, type: item._type, id: item._id }
         this.$nextTick(() => {
           this.modalOpen = true
         })
-      },
-      callFuzzyTableFilter (items, search, filter, headers) {
-        return fuzzyTableFilter(items, search, headers)
-      },
-      defaultRowsPerPage () {
-        return DEFAULT_ROWS_PER_PAGE
       },
       documentRoute (item) {
         return { name: 'Document', params: { index: item._index, type: item._type, id: item._id } }

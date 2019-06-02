@@ -124,8 +124,10 @@
     },
     methods: {
       async callFuzzyTableFilter (items, filter, skipTimeout) {
-        let result = await this.filterTable(items, filter, this.HEADERS, skipTimeout)
-        this.items = result.map(index => new ElasticsearchIndex(index))
+        this.debounceFilter(async () => {
+          let result = await this.filterTable(items, filter, this.HEADERS, skipTimeout)
+          this.items = result.map(index => new ElasticsearchIndex(index))
+        }, skipTimeout)
       },
       emitReloadIndices () {
         this.$emit('reloadIndices')
