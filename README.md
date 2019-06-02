@@ -173,7 +173,6 @@ yarn build_chrome_extension
 * document, index, snapshot repo and snapshot: add edit/delete
 * cluster settings
 * add more options for snapshot repository creation form
-* async table filter (workers, wasm)
 * catch elasticsearch 5xx errors
 
 

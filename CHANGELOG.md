@@ -2,6 +2,7 @@
 
 ## 0.11.0
 * [feat] can filter exact with `"` in all filter and select inputs
+* [feat] async filtering for indices table and search results table
 * updates dependencies
 
 
