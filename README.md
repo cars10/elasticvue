@@ -175,6 +175,7 @@ yarn build_chrome_extension
 * cluster settings
 * add more options for snapshot repository creation form
 * catch elasticsearch 5xx errors
+* add example bodies for api browser
 
 
 ### Future
