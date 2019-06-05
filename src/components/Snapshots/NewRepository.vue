@@ -40,7 +40,7 @@
         </v-card-text>
 
         <v-card-actions class="pa-3">
-          <v-btn id="create_snapshot_repository" color="success" type="submit" :loading="loading">Create</v-btn>
+          <v-btn id="create_snapshot_repository" :loading="loading" color="success" type="submit">Create</v-btn>
           <v-btn flat @click="closeDialog">Cancel</v-btn>
         </v-card-actions>
       </v-form>
