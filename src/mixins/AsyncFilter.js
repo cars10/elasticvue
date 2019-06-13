@@ -38,7 +38,8 @@ const AsyncFilter = {
         })
         return Promise.all(jobs).then(values => {
           this.filterLoading = false
-          return resolve(values.flat())
+          const flatValues = [].concat.apply([], values)
+          return resolve(flatValues)
         })
       })
     }
