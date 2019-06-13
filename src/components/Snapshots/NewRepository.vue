@@ -20,7 +20,7 @@
                         label="Repository name"
                         autocomplete="off"
                         autofocus
-                        @keyup.esc="closeDialog"/>
+                        @keydown.esc="closeDialog"/>
 
           <v-text-field id="repository_type"
                         value="fs"
@@ -33,10 +33,35 @@
                         :rules="[locationRules]"
                         name="repositoryLocation"
                         label="Repository location"
+                        placeholder="/some/path"
                         required
-                        @keyup.esc="closeDialog"/>
+                        @keydown.esc="closeDialog"/>
+
+          <v-text-field id="chunk_size"
+                        v-model="chunkSize"
+                        name="chunk_size"
+                        label="Chunk size"
+                        placeholder="e.g.: 1g, 10m, 5k"
+                        @keydown.esc="closeDialog"/>
+
+          <v-text-field id="max_restore_bytes_per_sec"
+                        v-model="maxRestoreBytesPerSec"
+                        :rules="[maxRestoreBytesPerSecRules]"
+                        name="maxRestoreBytesPerSec"
+                        label="max_restore_bytes_per_sec"
+                        required
+                        @keydown.esc="closeDialog"/>
+
+          <v-text-field id="max_snapshot_bytes_per_sec"
+                        v-model="maxSnapshotBytesPerSec"
+                        :rules="[maxSnapshotBytesPerSecRules]"
+                        name="max_snapshot_bytes_per_sec"
+                        label="max_snapshot_bytes_per_sec"
+                        required
+                        @keydown.esc="closeDialog"/>
 
           <v-checkbox v-model="compress" hide-details label="Compress"/>
+          <v-checkbox v-model="readonly" hide-details label="Readonly"/>
         </v-card-text>
 
         <v-card-actions class="pa-3">
@@ -60,7 +85,11 @@
         valid: false,
         repositoryName: '',
         repositoryLocation: '',
-        compress: true
+        compress: true,
+        chunkSize: null,
+        maxRestoreBytesPerSec: '40mb',
+        maxSnapshotBytesPerSec: '40mb',
+        readonly: false
       }
     },
     methods: {
@@ -69,6 +98,12 @@
       },
       locationRules () {
         return !!this.repositoryLocation || 'Required'
+      },
+      maxRestoreBytesPerSecRules () {
+        return !!this.maxRestoreBytesPerSec || 'Required'
+      },
+      maxSnapshotBytesPerSecRules () {
+        return !!this.maxSnapshotBytesPerSec || 'Required'
       },
       createSnapshotRepository () {
         if (!this.$refs.form.validate()) return
@@ -92,15 +127,24 @@
             type: 'fs',
             settings: {
               location: this.repositoryLocation,
-              compress: this.compress
+              compress: this.compress,
+              chunk_size: this.chunkSize,
+              max_restore_bytes_per_sec: this.maxRestoreBytesPerSec,
+              max_snapshot_bytes_per_sec: this.maxSnapshotBytesPerSec,
+              readonly: this.readonly
             }
           }
         }
       },
       closeDialog () {
+        console.log('running')
         this.repositoryName = ''
         this.repositoryLocation = ''
         this.compress = true
+        this.chunkSize = null
+        this.maxRestoreBytesPerSec = '40mb'
+        this.maxSnapshotBytesPerSec = '40mb'
+        this.readonly = false
         this.loading = false
         this.$refs.form.resetValidation()
         this.dialog = false

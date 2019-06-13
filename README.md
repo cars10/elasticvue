@@ -173,7 +173,6 @@ yarn build_chrome_extension
 * refactor runRequest to use promises
 * document, index, snapshot repo and snapshot: add edit/delete
 * cluster settings
-* add more options for snapshot repository creation form
 * catch elasticsearch 5xx errors
 * add example bodies for api browser
 
