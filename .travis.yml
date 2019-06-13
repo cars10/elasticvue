@@ -3,3 +3,7 @@ node_js:
   - 11
 script: yarn lint && yarn build && yarn test:unit && ./scripts/test_e2e.sh
 cache: yarn
+addons:
+  apt:
+    packages:
+      - libgconf-2-4
