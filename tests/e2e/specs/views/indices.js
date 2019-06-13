@@ -77,6 +77,7 @@ describe('Indices page', () => {
         cy.reload(true)
         cy.get('table').contains(indexName).closest('tr').get('button[title="Options"]').click()
         cy.get('table').contains(indexName).closest('tr').get('a').contains('Delete').click()
+        cy.reload(true)
         cy.get('table').should(table => {
           expect(table).not.to.contain(indexName)
         })
