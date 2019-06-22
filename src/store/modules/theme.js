@@ -4,8 +4,8 @@ export const theme = {
     dark: true
   },
   mutations: {
-    setDark (state, flag) {
-      state.dark = flag
+    setDark (state, dark) {
+      state.dark = dark
     }
   }
 }

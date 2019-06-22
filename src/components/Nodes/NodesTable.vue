@@ -10,7 +10,7 @@
           <v-flex right d-inline-flex>
             <v-text-field id="nodes_table_filter"
                           v-model="filter"
-                          append-icon="search"
+                          append-icon="mdi-magnify"
                           label="Filter..."
                           name="filter"
                           class="mt-0 pt-0"
@@ -28,15 +28,15 @@
     </v-card-title>
     <v-divider/>
 
-    <v-data-table :rows-per-page-items="DEFAULT_ROWS_PER_PAGE"
+    <v-data-table :rows-per-page-options="DEFAULT_ITEMS_PER_PAGE"
                   :headers="HEADERS"
                   :items="items"
                   :custom-filter="callFuzzyTableFilter"
-                  :pagination.sync="pagination"
+                  :options.sync="pagination"
                   :search="filter"
                   :loading="loading"
                   :class="tableClasses">
-      <template v-slot:items="props">
+      <template v-slot:item="props">
         <tr>
           <td>
             <node-icons :elasticsearch-node="props.item"/>
@@ -88,7 +88,7 @@
   import SettingsDropdown from '@/components/shared/TableSettings/SettingsDropdown'
   import SingleSetting from '@/components/shared/TableSettings/SingleSetting'
   import { mapVuexAccessors } from '../../helpers/store'
-  import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
+  import { DEFAULT_ITEMS_PER_PAGE } from '../../consts'
   import { fuzzyTableFilter } from '../../helpers/filters'
   import { fixedTableHeaderOnDisable, fixedTableHeaderOnEnable, resetTableHeight } from '@/mixins/FixedTableHeader'
 
@@ -153,7 +153,7 @@
         { text: '', value: 'actions', sortable: false }
       ]
 
-      this.DEFAULT_ROWS_PER_PAGE = DEFAULT_ROWS_PER_PAGE
+      this.DEFAULT_ITEMS_PER_PAGE = DEFAULT_ITEMS_PER_PAGE
     },
     methods: {
       callFuzzyTableFilter (items, search, filter, headers) {

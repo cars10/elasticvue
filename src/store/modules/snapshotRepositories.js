@@ -4,7 +4,7 @@ export const snapshotRepositories = {
   namespaced: true,
   state: {
     filter: '',
-    pagination: Object.assign({}, DEFAULT_DATA_TABLE_PAGINATION, { sortBy: 'name' }),
+    pagination: Object.assign({}, DEFAULT_DATA_TABLE_PAGINATION, { sortBy: ['name'] }),
     stickyTableHeader: true
   },
   mutations: {

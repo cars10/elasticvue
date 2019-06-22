@@ -14,7 +14,7 @@
                           label="Search"
                           name="query"
                           messages="Querying supports the <a tabindex='-1' target='_blank' rel='noopener' href='https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html'>query string DSL</a>"
-                          append-icon="clear"
+                          append-icon="mdi-close"
                           autofocus
                           @click:append="resetQuery"/>
           </v-flex>
@@ -47,7 +47,7 @@
 
         <div class="text-xs-center">
           <a class="grey--text user-select--none" @click="showOptions">More options...
-            <v-icon small>{{optionsCollapsed ? 'arrow_upwards' : 'arrow_downwards'}}</v-icon>
+            <v-icon small>{{optionsCollapsed ? 'mdi-chevron-up' : 'mdi-chevron-down'}}</v-icon>
           </a>
         </div>
       </v-form>

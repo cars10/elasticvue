@@ -7,7 +7,7 @@
           <v-text-field id="filter"
                         v-model="filter"
                         :loading="filterLoading"
-                        append-icon="search"
+                        append-icon="mdi-magnify"
                         title="Filter via 'column:query'"
                         label="Filter..."
                         name="filter"
@@ -23,13 +23,13 @@
       </div>
     </v-card-text>
 
-    <v-data-table :rows-per-page-items="DEFAULT_ROWS_PER_PAGE"
+    <v-data-table :rows-per-page-options="DEFAULT_ITEMS_PER_PAGE"
                   :headers="headers"
                   :items="items"
                   :loading="loading"
-                  :pagination.sync="pagination"
+                  :options.sync="pagination"
                   :class="tableClasses">
-      <template v-slot:items="item">
+      <template v-slot:item="item">
         <tr class="tr--clickable" @click="openDocument(item.item)">
           <td v-for="key in filteredMappings" :key="key">{{item.item[key]}}</td>
           <td>
@@ -62,7 +62,7 @@
   import SingleSetting from '@/components/shared/TableSettings/SingleSetting'
   import MultiSetting from '@/components/shared/TableSettings/MultiSetting'
   import ModalDataLoader from '@/components/shared/ModalDataLoader'
-  import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
+  import { DEFAULT_ITEMS_PER_PAGE } from '../../consts'
   import { mapVuexAccessors } from '../../helpers/store'
   import Results from '../../models/Results'
   import AsyncFilter from '@/mixins/AsyncFilter'
@@ -148,7 +148,7 @@
       fixedTableHeaderOnDisable()
     },
     created () {
-      this.DEFAULT_ROWS_PER_PAGE = DEFAULT_ROWS_PER_PAGE
+      this.DEFAULT_ITEMS_PER_PAGE = DEFAULT_ITEMS_PER_PAGE
     },
     methods: {
       async callFuzzyTableFilter (items, filter, skipTimeout) {

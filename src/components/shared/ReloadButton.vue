@@ -1,7 +1,7 @@
 <template>
   <div class="d-inline-block reload-button">
-    <v-btn :title="title" :id="id" flat icon class="mr-0" @click="action">
-      <v-icon>cached</v-icon>
+    <v-btn :title="title" :id="id" text icon class="mr-0" @click="action">
+      <v-icon>mdi-cached</v-icon>
     </v-btn>
     <timer :action="action" :default-setting="defaultSetting"/>
   </div>

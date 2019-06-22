@@ -14,9 +14,9 @@
         </custom-v-autocomplete>
       </v-flex>
 
-      <v-btn :href="apiDocumentationUrl" target="_blank" flat
+      <v-btn :href="apiDocumentationUrl" target="_blank" text
              class="text-transform--none">
-        <v-icon small>launch</v-icon>&nbsp;
+        <v-icon small>mdi-launch</v-icon>&nbsp;
         open {{method}} documentation
       </v-btn>
 

@@ -7,7 +7,7 @@
           <v-text-field id="filter"
                         v-model="filter"
                         :loading="filterLoading"
-                        append-icon="search"
+                        append-icon="mdi-magnify"
                         label="Filter..."
                         name="filter"
                         class="mt-0"
@@ -23,13 +23,13 @@
       </div>
     </v-card-text>
 
-    <v-data-table :rows-per-page-items="DEFAULT_ROWS_PER_PAGE"
+    <v-data-table :rows-per-page-options="DEFAULT_ITEMS_PER_PAGE"
                   :headers="HEADERS"
                   :items="items"
-                  :pagination.sync="pagination"
+                  :options.sync="pagination"
                   :loading="loading"
                   :class="tableClasses">
-      <template v-slot:items="props">
+      <template v-slot:item="props">
         <index-row :index="props.item" @reloadIndices="emitReloadIndices"/>
       </template>
     </v-data-table>
@@ -39,7 +39,7 @@
 <script>
   import ElasticsearchIndex from '../../models/ElasticsearchIndex'
   import { fixedTableHeaderOnDisable, fixedTableHeaderOnEnable, resetTableHeight } from '@/mixins/FixedTableHeader'
-  import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
+  import { DEFAULT_ITEMS_PER_PAGE } from '../../consts'
   import { mapVuexAccessors } from '../../helpers/store'
   import IndexRow from '@/components/Indices/IndexRow'
   import NewIndex from '@/components/Indices/NewIndex'
@@ -120,7 +120,7 @@
         { text: 'pri.store.size', value: 'parsedPriStoreSize', align: 'right' },
         { text: '', value: 'actions', sortable: false }
       ]
-      this.DEFAULT_ROWS_PER_PAGE = DEFAULT_ROWS_PER_PAGE
+      this.DEFAULT_ITEMS_PER_PAGE = DEFAULT_ITEMS_PER_PAGE
     },
     methods: {
       async callFuzzyTableFilter (items, filter, skipTimeout) {

@@ -12,7 +12,7 @@
                           label="Host"
                           type="text"
                           autofocus
-                          append-icon="clear"
+                          append-icon="mdi-close"
                           @keyup.ctrl.enter="connect"
                           @click:append="resetElasticsearchHost"/>
           </v-flex>

@@ -3,19 +3,19 @@
                          :items="indices | filteredIndices(showHidden)"
                          :loading="loading"
                          :chips="chips"
-                         prepend-inner-icon="cached"
-                         append-icon="arrow_drop_down"
+                         prepend-inner-icon="mdi-cached"
+                         append-icon="mdi-menu-down"
                          multiple
                          label="Select indices"
                          name="indices"
                          @click:prepend-inner="resetSelection">
     <template v-slot:item="data">
-      <v-list-tile-action>
+      <v-list-item-action>
         <v-checkbox :input-value="localValue.includes(data.item)" color="primary"/>
-      </v-list-tile-action>
-      <v-list-tile-content>
+      </v-list-item-action>
+      <v-list-item-content>
         {{data.item}}
-      </v-list-tile-content>
+      </v-list-item-content>
     </template>
 
     <template v-slot:selection="{ item, index }">

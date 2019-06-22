@@ -1,11 +1,11 @@
 <template>
   <router-link :to="to" class="v-list__tile v-list__tile--link" event="" @click.native.prevent="action">
-    <v-list-tile-action v-if="icon">
+    <v-list-item-action v-if="icon">
       <v-icon small>{{icon}}</v-icon>
-    </v-list-tile-action>
-    <v-list-tile-content>
-      <v-list-tile-title>{{linkTitle}}</v-list-tile-title>
-    </v-list-tile-content>
+    </v-list-item-action>
+    <v-list-item-content>
+      <v-list-item-title>{{linkTitle}}</v-list-item-title>
+    </v-list-item-content>
   </router-link>
 </template>
 

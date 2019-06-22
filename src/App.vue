@@ -1,5 +1,5 @@
 <template>
-  <v-app v-bind="this.$store.state.theme">
+  <v-app>
     <the-header/>
 
     <v-content>

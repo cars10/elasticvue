@@ -22,7 +22,6 @@
 </template>
 
 <script>
-  import { mapVuexAccessors } from '../../helpers/store'
   import { BASE_URI, LOCALSTORAGE_KEY } from '@/consts'
 
   export default {
@@ -32,7 +31,15 @@
         /* eslint-disable no-undef */
         return VERSION
       },
-      ...mapVuexAccessors('theme', ['dark'])
+      dark: {
+        get () {
+          return this.$store.state.theme.dark
+        },
+        set (val) {
+          this.$vuetify.theme.dark = val
+          this.$store.commit('theme/setDark', val)
+        }
+      }
     },
     methods: {
       reset () {

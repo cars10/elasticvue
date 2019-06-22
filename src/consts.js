@@ -47,13 +47,12 @@ export const REQUEST_DEFAULT_HEADERS = {
   'Content-Type': 'application/json'
 }
 
-export const DEFAULT_ROWS_PER_PAGE = [10, 20, 100, { text: 'All', value: -1 }]
+export const DEFAULT_ITEMS_PER_PAGE = [10, 20, 100, { text: 'All', value: -1 }]
 export const DEFAULT_DATA_TABLE_PAGINATION = {
-  descending: false,
   page: 1,
-  rowsPerPage: DEFAULT_ROWS_PER_PAGE[0],
-  sortBy: null,
-  totalItems: 0
+  itemsPerPage: DEFAULT_ITEMS_PER_PAGE[0],
+  sortBy: [],
+  sortByDesc: []
 }
 
 export const HTTP_METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS']

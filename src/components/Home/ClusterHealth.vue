@@ -9,12 +9,12 @@
     <data-loader ref="dataLoader" method="clusterHealth">
       <template v-slot:default="data">
         <v-list dense>
-          <v-list-tile v-for="key in Object.keys(data.body)" :key="key">
-            <v-list-tile-content>{{key}}</v-list-tile-content>
-            <v-list-tile-content class="align-end">
+          <v-list-item v-for="key in Object.keys(data.body)" :key="key">
+            <v-list-item-content>{{key}}</v-list-item-content>
+            <v-list-item-content class="align-end">
               {{data.body[key]}}
-            </v-list-tile-content>
-          </v-list-tile>
+            </v-list-item-content>
+          </v-list-item>
         </v-list>
       </template>
     </data-loader>
