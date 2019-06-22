@@ -16,9 +16,10 @@ export default class ConnectionService {
     let apiVersion = await versionService.getRawApiVersion()
 
     return import(/* webpackChunkName: "elasticsearch-js" */ 'elasticsearch').then(Elasticsearch => {
+      let clientApi = Object.keys(Elasticsearch.Client.apis).includes(apiVersion) ? apiVersion : '_default'
       return new Elasticsearch.Client({
         host: this.host,
-        apiVersion: apiVersion,
+        apiVersion: clientApi,
         log: false // process.env.NODE_ENV === 'production' ? false : 'trace'
       })
     })
