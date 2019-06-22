@@ -5,6 +5,10 @@
 * [feat] async filtering for indices table and search results table
 * updates dependencies
 
+## 0.10.2
+* [bug] fix usage with elasticsearch `7.1.1`. thx @iDmple ([#5][i5])
+
+[i5]: https://github.com/cars10/elasticvue/issues/5
 
 ## 0.10.1
 * [bug] fix clicking search result item might open previous opened item. thx @foqq ([#4][i4])
