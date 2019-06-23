@@ -13,7 +13,7 @@
                           v-model="q"
                           label="Search"
                           name="query"
-                          messages="Querying supports the <a tabindex='-1' target='_blank' rel='noopener' href='https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html'>query string DSL</a>"
+                          messages="Searching supports the <a tabindex='-1' target='_blank' rel='noopener' href='https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html'>query string DSL</a>"
                           append-icon="mdi-close"
                           autofocus
                           @click:append="resetQuery"/>

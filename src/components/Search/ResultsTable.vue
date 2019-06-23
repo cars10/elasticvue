@@ -124,7 +124,7 @@
       openDocumentClasses () {
         return [
           'v-btn',
-          'v-btn--router',
+          'v-size--default',
           { 'theme--dark': this.$store.state.theme.dark },
           { 'theme--light': !this.$store.state.theme.dark }
         ]

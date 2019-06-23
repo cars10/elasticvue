@@ -4,8 +4,8 @@ div.v-list-item {
 
 .v-autocomplete__content, .v-menu__content {
   .v-list-item {
-    min-height: 28px;
-    height: 28px;
+    min-height: 30px;
+    height: 30px;
     font-size: 1em;
   }
 }
@@ -16,7 +16,7 @@ div.v-list-item {
   }
 
   .v-list-item__action:first-child, .v-list-item__icon:first-child {
-    margin-right: 0;
+    margin-right: 8px;
   }
 }
 
