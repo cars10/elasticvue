@@ -1,7 +1,7 @@
 export const resetTableHeight = function () {
   if (typeof document === 'undefined' || typeof window === 'undefined') return
-  const header = document.querySelector('.table--fixed-header .v-table__overflow')
-  if (header) header.style.maxHeight = ''
+  const wrapper = document.querySelector('.table--fixed-header .v-data-table__wrapper')
+  if (wrapper) wrapper.style.maxHeight = ''
 }
 
 // call in mounted
@@ -19,15 +19,15 @@ export const fixedTableHeaderOnDisable = function () {
 
 const updateFixedTableHeaderHeight = function () {
   if (typeof document === 'undefined' || typeof window === 'undefined') return
-  const header = document.querySelector('.table--fixed-header .v-table__overflow')
-  if (header) {
+  const wrapper = document.querySelector('.table--fixed-header .v-data-table__wrapper')
+  if (wrapper) {
     const height = window.innerHeight
     const minHeight = 300
     const offset = 100
     const requiredTableHeight = height - offset
 
     if (requiredTableHeight > minHeight) {
-      header.style.maxHeight = `${requiredTableHeight}px`
+      wrapper.style.maxHeight = `${requiredTableHeight}px`
     }
   }
 }

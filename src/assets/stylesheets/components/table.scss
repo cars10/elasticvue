@@ -1,9 +1,9 @@
 .table--condensed {
-  table.v-table thead tr {
+  .v-data-table__wrapper table thead tr {
     height: 36px
   }
 
-  table.v-table {
+  .v-data-table__wrapper table {
     td, th {
       &:not(:nth-child(1)), &:first-child {
         padding: 0 8px
@@ -47,7 +47,7 @@ table {
   background-color: #424242;
 }
 
-.table--fixed-header .v-table__overflow {
+.table--fixed-header .v-data-table__wrapper {
   max-height: 800px;
   overflow-y: auto;
 }
