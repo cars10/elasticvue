@@ -2,16 +2,8 @@
   margin-left: auto
 }
 
-.text-bigger {
-  font-size: 1.2em;
-}
-
 .font--normal {
   font-family: 'Roboto', sans-serif !important;
-}
-
-.position--relative {
-  position: relative;
 }
 
 .clearfix::after {
@@ -32,10 +24,22 @@
   vertical-align: middle;
 }
 
+.vertical-align--top {
+  vertical-align: top;
+}
+
 .overflow-x--auto {
   overflow-x: auto
 }
 
 .text-transform--none {
   text-transform: none
+}
+
+.width--full {
+  width: 100% !important;
+}
+
+.display--flex {
+  display: flex;
 }

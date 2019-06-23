@@ -7,7 +7,7 @@
       </v-flex>
 
       <v-flex xs4 text-xs-center>
-        <div class="subheading">Elasticvue {{version}}</div>
+        <div class="subtitle-1">Elasticvue {{version}}</div>
         &copy;{{ new Date().getFullYear()}} - Carsten K&ouml;nig<br>
       </v-flex>
 

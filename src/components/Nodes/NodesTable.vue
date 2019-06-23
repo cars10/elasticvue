@@ -28,7 +28,7 @@
     </v-card-title>
     <v-divider/>
 
-    <v-data-table :rows-per-page-options="DEFAULT_ITEMS_PER_PAGE"
+    <v-data-table :footer-props="{itemsPerPageOptions: DEFAULT_ITEMS_PER_PAGE}"
                   :headers="HEADERS"
                   :items="items"
                   :custom-filter="callFuzzyTableFilter"

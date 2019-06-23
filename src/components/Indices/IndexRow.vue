@@ -23,7 +23,7 @@
             </v-btn>
           </template>
           <v-list>
-            <router-link :to="{name: 'Index', params: {index: index.index}}" class="v-list__tile v-list__tile--link"
+            <router-link :to="{name: 'Index', params: {index: index.index}}" class="v-list-item v-list-item--link"
                          event="" @click.native.prevent="openIndicesGetModal">
               <v-list-item-action>
                 <v-icon small>mdi-information</v-icon>
@@ -33,7 +33,7 @@
               </v-list-item-content>
             </router-link>
 
-            <router-link :to="{name: 'Index', params: {index: index.index}}" class="v-list__tile v-list__tile--link"
+            <router-link :to="{name: 'Index', params: {index: index.index}}" class="v-list-item v-list-item--link"
                          event="" @click.native.prevent="openIndicesStatsModal">
               <v-list-item-action>
                 <v-icon small>mdi-chart-line-variant</v-icon>

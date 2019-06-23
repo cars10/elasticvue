@@ -23,7 +23,7 @@
     </v-card-text>
 
     <v-data-table ref="repositoriesDataTable"
-                  :rows-per-page-options="DEFAULT_ITEMS_PER_PAGE"
+                  :footer-props="{itemsPerPageOptions: DEFAULT_ITEMS_PER_PAGE}"
                   :headers="HEADERS"
                   :items="items"
                   :custom-filter="callFuzzyTableFilter"

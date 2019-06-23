@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="to" class="v-list__tile v-list__tile--link" event="" @click.native.prevent="action">
+  <router-link :to="to" class="v-list-item v-list-item--link" event="" @click.native.prevent="action">
     <v-list-item-action v-if="icon">
       <v-icon small>{{icon}}</v-icon>
     </v-list-item-action>

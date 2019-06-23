@@ -23,7 +23,7 @@
       </div>
     </v-card-text>
 
-    <v-data-table :rows-per-page-options="DEFAULT_ITEMS_PER_PAGE"
+    <v-data-table :footer-props="{itemsPerPageOptions: DEFAULT_ITEMS_PER_PAGE}"
                   :headers="HEADERS"
                   :items="items"
                   :options.sync="pagination"

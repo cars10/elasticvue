@@ -2,7 +2,7 @@
   <div class="settings-dropdown" @click.stop>
     <v-btn icon @click.native="toggleMenu">
       <v-badge :value="badge" color="green" overlap>
-        <v-icon slot="badge" small>mdi-filter-list</v-icon>
+        <v-icon slot="badge" small>mdi-filter-variant</v-icon>
         <v-icon>mdi-settings</v-icon>
       </v-badge>
     </v-btn>

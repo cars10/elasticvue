@@ -1,7 +1,7 @@
 <template>
   <div class="font--normal lowered pa-2">
     <div class="px-2">
-      <h3 class="subheading py-2">Snapshots for '{{repository}}'</h3>
+      <h3 class="subtitle-1 py-2">Snapshots for '{{repository}}'</h3>
       <div class="clearfix">
         <new-snapshot :repository="repository" @reloadData="emitReloadData"/>
         <reload-button :action="emitReloadData"/>
@@ -20,7 +20,7 @@
       </div>
     </div>
 
-    <v-data-table :rows-per-page-options="DEFAULT_ITEMS_PER_PAGE"
+    <v-data-table :footer-props="{itemsPerPageOptions: DEFAULT_ITEMS_PER_PAGE}"
                   :headers="HEADERS"
                   :items="snapshots"
                   :custom-filter="callFuzzyTableFilter"
