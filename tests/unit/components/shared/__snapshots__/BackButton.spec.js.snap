@@ -2,20 +2,18 @@
 
 exports[`components/shared/BackButton.vue should render correct default contents 1`] = `
 <a
-  class="ml-a v-btn v-btn--router theme--light"
+  class="ml-a v-btn v-btn--contained v-btn--router theme--light v-size--default"
 >
-  <div
+  <span
     class="v-btn__content"
   >
     <i
       aria-hidden="true"
-      class="v-icon material-icons theme--light"
-    >
-      keyboard_arrow_left
-    </i>
+      class="v-icon mdi mdi-chevron-left theme--light"
+    />
     
   Back
 
-  </div>
+  </span>
 </a>
 `;

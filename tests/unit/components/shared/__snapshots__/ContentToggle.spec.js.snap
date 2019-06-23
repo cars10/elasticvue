@@ -2,10 +2,10 @@
 
 exports[`components/shared/ContentToggle.vue should render correct default contents 1`] = `
 <div
-  class="content-toggle"
+  class="width--full"
 >
   <div
-    class="content-toggle__item flex pa-0"
+    class="display--flex vertical-align--top flex pa-0"
   >
     <div
       class="grow"
@@ -24,10 +24,10 @@ exports[`components/shared/ContentToggle.vue should render correct default conte
 
 exports[`components/shared/ContentToggle.vue should render original content 1`] = `
 <div
-  class="content-toggle"
+  class="width--full"
 >
   <div
-    class="content-toggle__item flex pa-0"
+    class="display--flex vertical-align--top flex pa-0"
   >
     <div
       class="grow"
@@ -46,10 +46,10 @@ exports[`components/shared/ContentToggle.vue should render original content 1`] 
 
 exports[`components/shared/ContentToggle.vue should render toggled content 1`] = `
 <div
-  class="content-toggle"
+  class="width--full"
 >
   <div
-    class="content-toggle__item flex pa-0"
+    class="display--flex vertical-align--top flex pa-0"
   >
     <div
       class="grow"
