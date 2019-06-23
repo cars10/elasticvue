@@ -14,9 +14,17 @@ div.v-list-item {
   .v-list-item__action {
     min-width: 24px;
   }
+
+  .v-list-item__action:first-child, .v-list-item__icon:first-child {
+    margin-right: 0;
+  }
 }
 
 .v-list-item__content.align-end {
   -webkit-box-align: end;
   align-items: flex-end;
+}
+
+.v-list-item--link {
+  color: inherit;
 }
