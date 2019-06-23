@@ -44,9 +44,9 @@
           <td>{{props.item.settings}}</td>
           <td>
             <btn-group small>
-              <v-menu offset-y left @click.native.stop>
+              <v-menu offset-y left>
                 <template v-slot:activator="{on}">
-                  <v-btn title="Options" v-on="on">
+                  <v-btn title="Options" v-on="on" @click.native.stop>
                     <v-icon>mdi-settings</v-icon>
                     <v-icon small>mdi-menu-down</v-icon>
                   </v-btn>
@@ -63,11 +63,15 @@
         </tr>
       </template>
       <template v-slot:expanded-item="{item}">
-        <v-card text class="pl-5">
-          <v-card-text>
-            <repository :repository="item.name"/>
-          </v-card-text>
-        </v-card>
+        <tr>
+          <td :colspan="HEADERS.length">
+            <v-card text class="pl-5">
+              <v-card-text>
+                <repository :repository="item.name"/>
+              </v-card-text>
+            </v-card>
+          </td>
+        </tr>
       </template>
     </v-data-table>
   </div>

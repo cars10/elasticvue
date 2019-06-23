@@ -47,7 +47,7 @@
         </btn-group>
 
         <div class="right d-inline-block">
-          <v-checkbox v-model="showHidden" label="show hidden indices" hide-details class="mt-0" title="Show indices starting with a dot"/>
+          <v-checkbox v-model="showHidden" label="show hidden" hide-details class="mt-0" title="Show indices starting with a dot"/>
         </div>
       </div>
       <v-divider/>

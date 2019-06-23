@@ -139,7 +139,6 @@
         }
       },
       closeDialog () {
-        console.log('running')
         this.repositoryName = ''
         this.repositoryLocation = ''
         this.compress = true
