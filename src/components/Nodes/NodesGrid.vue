@@ -34,43 +34,43 @@
       <v-flex slot="item" slot-scope="props" xs12 sm6 md4 lg4>
         <v-card>
           <v-card-title>
-            <h3 class="node_name">{{ props.item.name }}</h3>
-            <v-flex right class="text-xs-right">
+            <span class="subtitle-1">{{ props.item.name }}</span>
+            <v-flex right class="d-inline-block text-xs-right">
               <node-icons :elasticsearch-node="props.item"/>
             </v-flex>
           </v-card-title>
           <v-divider/>
 
-          <v-layout row wrap class="ma-0 overflow-x--auto">
+          <v-layout row wrap class="ma-0 overflow-x--auto caption">
             <v-flex :class="nodeListClass" xs12 sm6 d-flex pa-0>
               <v-list dense>
                 <v-list-item>
                   <v-list-item-content>ip</v-list-item-content>
-                  <v-list-item-content class="align-end">
-                    <small>{{ props.item.ip }}</small>
+                  <v-list-item-content class="d-inline-block text-xs-right">
+                    {{ props.item.ip }}
                   </v-list-item-content>
                 </v-list-item>
 
                 <v-list-item>
                   <v-list-item-content>master</v-list-item-content>
-                  <v-list-item-content class="align-end">
-                    <small v-if="props.item.master">yes</small>
-                    <small v-else-if="props.item.masterEligible">eligible</small>
-                    <small v-else>no</small>
+                  <v-list-item-content class="d-inline-block text-xs-right">
+                    <template v-if="props.item.master">yes</template>
+                    <template v-else-if="props.item.masterEligible">eligible</template>
+                    <template v-else>no</template>
                   </v-list-item-content>
                 </v-list-item>
 
                 <v-list-item>
                   <v-list-item-content>node.role</v-list-item-content>
-                  <v-list-item-content class="align-end">
-                    <small>{{ props.item.nodeRole }}</small>
+                  <v-list-item-content class="d-inline-block text-xs-right">
+                    {{ props.item.nodeRole }}
                   </v-list-item-content>
                 </v-list-item>
 
                 <v-list-item>
                   <v-list-item-content>load</v-list-item-content>
-                  <v-list-item-content class="align-end">
-                    <small>{{props.item.load_1m}} / {{props.item.load_5m}} / {{props.item.load_15m}}</small>
+                  <v-list-item-content class="d-inline-block text-xs-right">
+                    {{props.item.load_1m}} / {{props.item.load_5m}} / {{props.item.load_15m}}
                   </v-list-item-content>
                 </v-list-item>
               </v-list>
@@ -79,45 +79,45 @@
             <v-flex xs12 sm6 d-flex pa-0>
               <v-list dense>
                 <v-list-item>
-                  <v-list-item-action>cpu</v-list-item-action>
+                  <v-list-item-action class="my-0">cpu</v-list-item-action>
                   <v-list-item-content>
                     <v-progress-linear :value="props.item.cpu" height="4" class="my-0"/>
                   </v-list-item-content>
-                  <v-list-item-action>
-                    <small>{{ props.item.cpu }}%</small>
+                  <v-list-item-action class="my-0">
+                    {{ props.item.cpu }}%
                   </v-list-item-action>
                 </v-list-item>
 
                 <v-list-item>
-                  <v-list-item-action>ram</v-list-item-action>
+                  <v-list-item-action class="my-0">ram</v-list-item-action>
                   <v-list-item-content>
-                    <small>{{props.item.ramCurrent}}/ {{props.item.ramMax}}</small>
+                    {{props.item.ramCurrent}}/ {{props.item.ramMax}}
                     <node-percent-bar :value="props.item.ramPercent"/>
                   </v-list-item-content>
-                  <v-list-item-action>
-                    <small>{{ props.item.ramPercent }}%</small>
+                  <v-list-item-action class="my-0">
+                    {{ props.item.ramPercent }}%
                   </v-list-item-action>
                 </v-list-item>
 
                 <v-list-item>
-                  <v-list-item-action>heap</v-list-item-action>
+                  <v-list-item-action class="my-0">heap</v-list-item-action>
                   <v-list-item-content>
-                    <small>{{props.item.heapCurrent}}/ {{props.item.heapMax}}</small>
+                    {{props.item.heapCurrent}}/ {{props.item.heapMax}}
                     <node-percent-bar :value="props.item.heapPercent"/>
                   </v-list-item-content>
-                  <v-list-item-action>
-                    <small>{{ props.item.heapPercent }}%</small>
+                  <v-list-item-action class="my-0">
+                    {{ props.item.heapPercent }}%
                   </v-list-item-action>
                 </v-list-item>
 
                 <v-list-item>
-                  <v-list-item-action>disk</v-list-item-action>
+                  <v-list-item-action class="my-0">disk</v-list-item-action>
                   <v-list-item-content>
-                    <small>{{props.item.diskCurrent}}/ {{props.item.diskMax}}</small>
+                    {{props.item.diskCurrent}}/ {{props.item.diskMax}}
                     <node-percent-bar :value="props.item.diskPercent"/>
                   </v-list-item-content>
-                  <v-list-item-action>
-                    <small>{{ props.item.diskPercent }}%</small>
+                  <v-list-item-action class="my-0">
+                    {{ props.item.diskPercent }}%
                   </v-list-item-action>
                 </v-list-item>
               </v-list>

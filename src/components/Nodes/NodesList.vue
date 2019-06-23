@@ -1,13 +1,13 @@
 <template>
   <div>
-    <v-btn-toggle v-model="listType" mandatory class="mb-4">
+    <v-btn-toggle v-model="listType" mandatory class="mb-4 v-btn-toggle--small">
       <v-btn id="nodes_list_grid" text value="grid" @click="$emit('reloadNodes')">
         <span>Grid</span>
-        <v-icon>mdi-view-dashboard</v-icon>
+        <v-icon small>mdi-view-dashboard</v-icon>
       </v-btn>
       <v-btn id="nodes_list_table" text value="table" @click="$emit('reloadNodes')">
         <span>Table</span>
-        <v-icon>mdi-table</v-icon>
+        <v-icon small>mdi-table</v-icon>
       </v-btn>
     </v-btn-toggle>
 
