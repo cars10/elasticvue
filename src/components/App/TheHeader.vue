@@ -14,7 +14,7 @@
       <v-btn icon class="ma-0" title="Disconnect and reset" @click="reset">
         <v-icon small>mdi-link</v-icon>
       </v-btn>
-      <span class="mx-1">{{clusterInfo}}</span>
+      <span class="mx-1" :title="apiVersion">{{clusterInfo}}</span>
       <v-chip :class="clusterHealthClasses" title="Health" small>{{clusterHealth}}</v-chip>
       <reload-button id="header-reload-button" :action="getHealth" :default-setting="5"/>
     </div>
@@ -85,6 +85,9 @@
     computed: {
       clusterInfo () {
         return truncate(urlWithoutCredentials(this.$store.state.connection.elasticsearchHost), 50)
+      },
+      apiVersion () {
+        return `Using api version ${this.$store.state.connection.apiVersion}`
       },
       clusterHealthClasses () {
         return [this.clusterHealth, 'ma-0']

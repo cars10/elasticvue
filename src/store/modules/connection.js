@@ -6,7 +6,8 @@ export const connection = {
     status: CONNECTION_STATES.UNKNOWN,
     wasConnected: false,
     elasticsearchHost: DEFAULT_HOST,
-    elasticsearchAdapter: null
+    elasticsearchAdapter: null,
+    apiVersion: ''
   },
   mutations: {
     setConnected (state) {
@@ -22,6 +23,9 @@ export const connection = {
     },
     setElasticsearchAdapter (state, adapter) {
       state.elasticsearchAdapter = adapter
+    },
+    setApiVersion (state, version) {
+      state.apiVersion = version
     }
   }
 }

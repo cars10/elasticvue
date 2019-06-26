@@ -22,7 +22,7 @@ Contents
 
 **Elasticvue** is a frontend for elasticsearch allowing you to search and filter your clusters data right in your browser.
 
-It officially works with elasticsearch `6.x` and `7.x`. Older versions might or might not work, `elasticsearch-js` will fallback to the `6.6` api if an unsupported version is used.
+It officially works with elasticsearch `6.x` and `7.x`. Older versions might or might not work, `elasticsearch-js` will fallback to the `6.7` api if an unsupported version is used.
 
 
 ### Features
