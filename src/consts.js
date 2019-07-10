@@ -1,8 +1,4 @@
 /**
- * Common constants that are used project-wide
- */
-
-/**
  * Different states to distinguish current connection status, also displayed in navbar.
  * - UNKNOWN: initial state
  * - SUCCESS: set after successful connection

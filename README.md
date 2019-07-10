@@ -183,7 +183,6 @@ yarn build_chrome_extension
 * document, index, snapshot repo and snapshot: add edit/delete
 * cluster settings
 * catch elasticsearch 5xx errors
-* add example bodies for api browser
 
 
 ### Future
