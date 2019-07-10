@@ -13,7 +13,7 @@
                         v-model="path"
                         label="Path"
                         name="path"
-                        placeholder="/_cat/indices"
+                        placeholder="/"
                         autofocus/>
         </v-flex>
       </v-layout>
