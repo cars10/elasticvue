@@ -14,7 +14,7 @@
       <v-btn icon class="ma-0" title="Disconnect and reset" @click="reset">
         <v-icon small>mdi-link</v-icon>
       </v-btn>
-      <span class="mx-1" :title="apiVersion">{{clusterInfo}}</span>
+      <span :title="apiVersion" class="mx-1">{{clusterInfo}}</span>
       <v-chip :class="clusterHealthClasses" title="Health" small>{{clusterHealth}}</v-chip>
       <reload-button id="header-reload-button" :action="getHealth" :default-setting="5"/>
     </div>
