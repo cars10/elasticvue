@@ -63,13 +63,9 @@
         </tr>
       </template>
       <template v-slot:expanded-item="{item}">
-        <tr>
-          <td :colspan="HEADERS.length">
-            <v-card text class="pl-5">
-              <v-card-text>
-                <repository :repository="item.name"/>
-              </v-card-text>
-            </v-card>
+        <tr class="v-data-table__expand-row">
+          <td :colspan="HEADERS.length" class="py-3 px-3">
+            <repository :repository="item.name"/>
           </td>
         </tr>
       </template>
