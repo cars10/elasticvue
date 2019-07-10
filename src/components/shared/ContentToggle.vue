@@ -23,9 +23,15 @@
 <script>
   export default {
     name: 'content-toggle',
+    props: {
+      firstSlotActive: {
+        type: Boolean,
+        default: true
+      }
+    },
     data () {
       return {
-        firstActive: true
+        firstActive: this.firstSlotActive
       }
     },
     methods: {
