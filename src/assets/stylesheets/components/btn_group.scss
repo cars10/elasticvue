@@ -1,6 +1,7 @@
 .btn-group .v-btn {
   margin: 0;
-  height: 32px;
+  height: 32px !important;
+  min-width: 48px !important;
   box-shadow: none;
 }
 
