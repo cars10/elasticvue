@@ -1,5 +1,5 @@
 <template>
-  <v-toolbar :dense="this.$vuetify.breakpoint.sm">
+  <v-app-bar :dense="this.$vuetify.breakpoint.sm" app>
     <router-link to="/" class="mt-2">
       <img v-if="this.$store.state.theme.dark" src="../../../public/images/logo/logo_48_white.png" alt="Logo">
       <img v-else src="../../../public/images/logo/logo_48_blue.png" alt="Logo">
@@ -57,7 +57,7 @@
       <v-btn id="navbar_snapshots" text to="/snapshots">Snapshots</v-btn>
       <v-btn id="navbar_utilities" text to="/utilities">Utilities</v-btn>
     </v-toolbar-items>
-  </v-toolbar>
+  </v-app-bar>
 </template>
 
 <script>
