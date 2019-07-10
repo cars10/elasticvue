@@ -8,10 +8,10 @@
 
     <data-loader ref="dataLoader" method="clusterHealth">
       <template v-slot:default="data">
-        <v-list dense>
+        <v-list dense class="text--small">
           <v-list-item v-for="key in Object.keys(data.body)" :key="key">
             <v-list-item-content>{{key}}</v-list-item-content>
-            <v-list-item-content class="align-end">
+            <v-list-item-content class="align-end pl-2">
               {{data.body[key]}}
             </v-list-item-content>
           </v-list-item>
