@@ -4,7 +4,7 @@
   box-shadow: none;
 }
 
-.btn-group .v-btn:not(:last-child) {
+.btn-group .v-btn:not(:last-of-type) {
   border-right: 1px solid #ccc;
   border-bottom-right-radius: 0;
   border-top-right-radius: 0;
@@ -15,7 +15,7 @@
   border-bottom-left-radius: 0;
 }
 
-.theme--dark .btn-group .v-btn:not(:last-child) {
+.theme--dark .btn-group .v-btn:not(:last-of-type) {
   border-right: 1px solid #666;
 }
 
