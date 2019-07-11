@@ -20,7 +20,7 @@
         open {{method}} documentation
       </v-btn>
 
-      <resizable-container :initial-height="180" class="mb-1">
+      <resizable-container :initial-height="200" class="mb-1">
         <code-editor v-model="stringifiedParams" :external-commands="editorCommands"/>
       </resizable-container>
 
