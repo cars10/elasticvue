@@ -5,6 +5,7 @@
 
   .v-data-table__wrapper table {
     td, th {
+
       &:not(:nth-child(1)), &:first-child {
         padding: 0 8px
       }
@@ -15,14 +16,19 @@
     }
 
     td {
+      font-size: 13px !important;
       max-width: 500px;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
 
+    .v-btn {
+      max-height: 32px;
+    }
+
     white-space: nowrap;
-    font-family: monospace
+    font-family: monospace;
   }
 }
 

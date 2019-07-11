@@ -42,22 +42,10 @@
           <td>{{props.item.type}}</td>
           <td>{{props.item.settings}}</td>
           <td>
-            <btn-group small>
-              <v-menu offset-y left>
-                <template v-slot:activator="{on}">
-                  <v-btn title="Options" v-on="on" @click.native.stop>
-                    <v-icon>mdi-settings</v-icon>
-                    <v-icon small>mdi-menu-down</v-icon>
-                  </v-btn>
-                </template>
-                <v-list>
-                  <list-tile-link :method-params="{repository: props.item.name}" :callback="emitReloadData"
-                                  :growl="`The repository '${props.item.name}' was successfully deleted.`"
-                                  :confirm-message="`Delete repository '${props.item.name}' and snapshots inside?`"
-                                  method="snapshotDeleteRepository" icon="mdi-delete" link-title="Delete repository"/>
-                </v-list>
-              </v-menu>
-            </btn-group>
+            <v-btn @click="deleteRepository(props.item.name)">
+              <v-icon>mdi-delete</v-icon>
+              Delete
+            </v-btn>
           </td>
         </tr>
       </template>
@@ -84,6 +72,7 @@
   import { fixedTableHeaderOnDisable, fixedTableHeaderOnEnable, resetTableHeight } from '@/mixins/FixedTableHeader'
   import { DEFAULT_ITEMS_PER_PAGE } from '@/consts'
   import { mapVuexAccessors } from '@/helpers/store'
+  import { elasticsearchRequest } from '@/mixins/ElasticsearchAdapterHelper'
 
   export default {
     name: 'snapshot-repositories-table',
@@ -164,6 +153,15 @@
       expandRepository (props) {
         props.expand.props.value = !props.expand.props.value
         props.expand.on.input(props.expand.props.value)
+      },
+      deleteRepository (name) {
+        elasticsearchRequest({
+          method: 'snapshotDeleteRepository',
+          methodParams: { repository: name },
+          callback: this.emitReloadData,
+          growl: `The repository '${name}' was successfully deleted.`,
+          confirmMessage: `Delete repository '${name}' and snapshots inside?`
+        })
       }
     }
   }
