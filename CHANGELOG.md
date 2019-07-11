@@ -3,7 +3,7 @@
 ## 0.11.0
 * [feat] can filter exact with `"` in all filter and select inputs
 * [feat] async filtering for indices table and search results table (using web workers)
-* [feat] adds examples to rest query form
+* [feat] adds examples to both query forms (rest and api browser)
 * [feat] adds more options to snapshot creation form
 * updates dependencies, most notably vuetify 2.x
 

@@ -20,11 +20,21 @@
         open {{method}} documentation
       </v-btn>
 
-      <resizable-container :initial-height="150" class="mb-1">
+      <resizable-container :initial-height="180" class="mb-1">
         <code-editor v-model="stringifiedParams" :external-commands="editorCommands"/>
       </resizable-container>
 
-      <v-btn :disabled="!isValid" :loading="loading" type="submit" color="primary" class="mx-0">Run query</v-btn>
+      <v-layout>
+        <v-flex>
+          <v-btn :disabled="!isValid" :loading="loading" type="submit" color="primary" class="mx-0">Run query</v-btn>
+        </v-flex>
+        <v-flex class="text-xs-right">
+          <a href="javascript:void(0)" @click="loadCatExample">Example #1 (_cat/indices)</a>
+          <a href="javascript:void(0)" class="ml-2" @click="loadCreateExample">Example #2 (create index)</a>
+          <a href="javascript:void(0)" class="ml-2" @click="loadDeleteExample">Example #3 (delete index)</a>
+          <a href="javascript:void(0)" class="ml-2" @click="reset">Reset</a>
+        </v-flex>
+      </v-layout>
     </v-form>
 
     <print-pretty :document="response" caption="Response"/>
@@ -95,6 +105,7 @@
     methods: {
       loadData () {
         this.loading = true
+        this.response = '// loading...'
         esAdapter().then(adapter => {
           const methodSplit = this.method.split('.')
           if (methodSplit.length === 1) {
@@ -110,6 +121,23 @@
           this.response = error.message
           showErrorSnackbar({ text: 'Error:', additionalText: error.message })
         })
+      },
+      loadCatExample () {
+        this.method = 'cat.indices'
+        this.stringifiedParams = '{\r\n\t"h": ["health", "index", "docs.count"]\r\n}'
+      },
+      loadCreateExample () {
+        this.method = 'indices.create'
+        this.stringifiedParams = '{\r\n\t"index": "example_test_index",\r\n\t"body": {\r\n\t\t"settings": {\r\n\t\t\t"index": {\r\n\t\t\t\t"number_of_shards": 3,\r\n\t\t\t\t"number_of_replicas": 2\r\n\t\t\t}\r\n\t\t}\r\n\t}\r\n}'
+      },
+      loadDeleteExample () {
+        this.method = 'indices.delete'
+        this.stringifiedParams = '{\r\n\t"index": "example_test_index"\r\n}'
+      },
+      reset () {
+        this.method = 'info'
+        this.stringifiedParams = '{}'
+        this.response = ''
       }
     }
   }
