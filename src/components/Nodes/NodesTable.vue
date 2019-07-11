@@ -51,28 +51,40 @@
           <td>{{props.item.nodeRole}}</td>
           <td>{{props.item.load_1m}} / {{props.item.load_5m}} / {{props.item.load_15m}}</td>
           <td>
-            {{props.item.cpu}}%
+            <small>{{props.item.cpu}}%</small>
             <v-progress-linear :value="props.item.cpu" height="3" class="mt-1 mb-0"/>
           </td>
           <td>
-            <v-flex d-inline-flex>
-              <small>{{props.item.ramCurrent}}/{{props.item.ramMax}}</small>
-            </v-flex>
-            <v-flex d-inline-flex right>{{props.item.ramPercent}}%</v-flex>
+            <v-layout>
+              <v-flex pb-0>
+                <small>{{props.item.ramCurrent}}/{{props.item.ramMax}}</small>
+              </v-flex>
+              <v-flex pb-0 class="text-xs-right">
+                <small>{{props.item.ramPercent}}%</small>
+              </v-flex>
+            </v-layout>
             <node-percent-bar :value="props.item.ramPercent" classes="mt-1 mb-0"/>
           </td>
           <td>
-            <v-flex d-inline-flex>
-              <small>{{props.item.heapCurrent}}/{{props.item.heapMax}}</small>
-            </v-flex>
-            <v-flex d-inline-flex right>{{props.item.heapPercent}}%</v-flex>
+            <v-layout>
+              <v-flex pb-0>
+                <small>{{props.item.heapCurrent}}/{{props.item.heapMax}}</small>
+              </v-flex>
+              <v-flex pb-0 class="text-xs-right">
+                <small>{{props.item.heapPercent}}%</small>
+              </v-flex>
+            </v-layout>
             <node-percent-bar :value="props.item.heapPercent" classes="mt-1 mb-0"/>
           </td>
           <td>
-            <v-flex d-inline-flex>
-              <small>{{props.item.diskCurrent}}/{{props.item.diskMax}}</small>
-            </v-flex>
-            <v-flex d-inline-flex right>{{props.item.diskPercent}}%</v-flex>
+            <v-layout>
+              <v-flex pb-0>
+                <small>{{props.item.diskCurrent}}/{{props.item.diskMax}}</small>
+              </v-flex>
+              <v-flex pb-0 class="text-xs-right">
+                <small>{{props.item.diskPercent}}%</small>
+              </v-flex>
+            </v-layout>
             <node-percent-bar :value="props.item.diskPercent" classes="mt-1 mb-0"/>
           </td>
         </tr>
