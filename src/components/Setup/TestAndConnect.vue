@@ -21,6 +21,7 @@
                    :color="testConnectionColor"
                    :loading="testLoading"
                    :disabled="hostValid !== true"
+                   class="mr-2 mt-2"
                    type="submit">
               Test connection
             </v-btn>
@@ -29,6 +30,7 @@
                    :disabled="hostValid !== true"
                    :color="connectColor"
                    :loading="connectLoading"
+                   class="mt-2"
                    type="button"
                    @click.native="connect">Connect
             </v-btn>
