@@ -3,6 +3,7 @@
 ## 0.11.0
 * [feat] can filter exact with `"` in all filter and select inputs
 * [feat] async filtering for indices table and search results table
+* [feat] adds examples to rest query form
 * updates dependencies
 
 ## 0.10.2
