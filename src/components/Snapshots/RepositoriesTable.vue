@@ -31,7 +31,6 @@
                   :search="filter"
                   :loading="loading"
                   :class="tableClasses"
-                  show-expand
                   item-key="name">
       <template v-slot:item="props">
         <tr class="tr--clickable" @click="() => expandRepository(props)">
