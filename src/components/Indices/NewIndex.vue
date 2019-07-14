@@ -37,7 +37,7 @@
                         @keyup.esc="closeDialog"/>
         </v-card-text>
 
-        <v-card-actions>
+        <v-card-actions class="pa-3">
           <v-btn id="create_index" color="success" type="submit">Create</v-btn>
           <v-btn text @click="closeDialog">Cancel</v-btn>
         </v-card-actions>
