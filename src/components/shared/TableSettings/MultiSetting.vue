@@ -3,9 +3,9 @@
     <slot name="multi-setting__header">
       <v-subheader>
         {{name}}
-        <v-btn v-if="hasChanges" class="ml-a grey--text mr-0 pr-0" small flat @click.native="reset">
+        <v-btn v-if="hasChanges" class="ml-a grey--text mr-0 pr-0" small text @click.native="reset">
           reset
-          <v-icon>clear</v-icon>
+          <v-icon>mdi-clear</v-icon>
         </v-btn>
       </v-subheader>
     </slot>

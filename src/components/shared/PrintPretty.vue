@@ -7,7 +7,7 @@
       <v-flex md3 xs12 my-0 mx-2>
         <v-btn-toggle v-model="wrapLines" class="right">
           <v-btn :value="true" title="Wrap lines">
-            <v-icon>wrap_text</v-icon>
+            <v-icon>mdi-wrap</v-icon>
           </v-btn>
         </v-btn-toggle>
       </v-flex>

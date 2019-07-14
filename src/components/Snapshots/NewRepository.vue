@@ -1,6 +1,8 @@
 <template>
   <v-dialog v-model="dialog" width="500">
-    <v-btn id="new_snapshot_repository" slot="activator" color="primary" class="ml-0">New repository</v-btn>
+    <template v-slot:activator="{on}">
+    <v-btn id="new_snapshot_repository" color="primary" class="ml-0" v-on="on">New repository</v-btn>
+    </template>
 
     <v-card>
       <v-card-title>
@@ -66,7 +68,7 @@
 
         <v-card-actions class="pa-3">
           <v-btn id="create_snapshot_repository" :loading="loading" color="success" type="submit">Create</v-btn>
-          <v-btn flat @click="closeDialog">Cancel</v-btn>
+          <v-btn text @click="closeDialog">Cancel</v-btn>
         </v-card-actions>
       </v-form>
     </v-card>
@@ -137,7 +139,6 @@
         }
       },
       closeDialog () {
-        console.log('running')
         this.repositoryName = ''
         this.repositoryLocation = ''
         this.compress = true

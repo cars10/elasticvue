@@ -7,7 +7,7 @@
       </v-flex>
 
       <v-flex xs4 text-xs-center>
-        <div class="subheading">Elasticvue {{version}}</div>
+        <div class="subtitle-1">Elasticvue {{version}}</div>
         &copy;{{ new Date().getFullYear()}} - Carsten K&ouml;nig<br>
       </v-flex>
 
@@ -22,7 +22,6 @@
 </template>
 
 <script>
-  import { mapVuexAccessors } from '../../helpers/store'
   import { BASE_URI, LOCALSTORAGE_KEY } from '@/consts'
 
   export default {
@@ -32,7 +31,15 @@
         /* eslint-disable no-undef */
         return VERSION
       },
-      ...mapVuexAccessors('theme', ['dark'])
+      dark: {
+        get () {
+          return this.$store.state.theme.dark
+        },
+        set (val) {
+          this.$vuetify.theme.dark = val
+          this.$store.commit('theme/setDark', val)
+        }
+      }
     },
     methods: {
       reset () {

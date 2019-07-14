@@ -1,15 +1,15 @@
 <template>
   <div>
-    <v-list-tile @click.stop="toggle">
-      <v-list-tile-action>
-        <v-icon small>restore</v-icon>
-      </v-list-tile-action>
-      <v-list-tile-content>
-        <v-list-tile-title>Restore</v-list-tile-title>
-      </v-list-tile-content>
-    </v-list-tile>
+    <v-list-item @click.stop="toggle">
+      <v-list-item-action>
+        <v-icon small>mdi-restore</v-icon>
+      </v-list-item-action>
+      <v-list-item-content>
+        <v-list-item-title>Restore</v-list-item-title>
+      </v-list-item-content>
+    </v-list-item>
 
-    <v-dialog v-model="dialog" width="500" lazy>
+    <v-dialog v-model="dialog" width="500">
       <v-card>
         <v-card-title>
           <h2 class="headline">Restore '{{snapshot}}'</h2>
@@ -42,7 +42,7 @@
 
           <v-card-actions class="pa-3">
             <v-btn id="restore_snapshot" color="success" type="submit">Restore</v-btn>
-            <v-btn flat @click="closeDialog">Cancel</v-btn>
+            <v-btn text @click="closeDialog">Cancel</v-btn>
           </v-card-actions>
         </v-form>
       </v-card>

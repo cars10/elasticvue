@@ -13,7 +13,7 @@
                         v-model="path"
                         label="Path"
                         name="path"
-                        placeholder="/_cat/indices"
+                        placeholder="/"
                         autofocus/>
         </v-flex>
       </v-layout>
@@ -22,9 +22,24 @@
         <code-editor v-model="stringifiedParams" :external-commands="editorCommands"/>
       </resizable-container>
 
-      <v-btn id="execute_query" :disabled="!isValid" :loading="loading" type="submit" color="primary" class="mx-0">
-        Run query
-      </v-btn>
+      <v-layout>
+        <v-flex>
+          <v-btn id="execute_query" :disabled="!isValid" :loading="loading" type="submit" color="primary" class="mx-0">
+            Run query
+          </v-btn>
+          <v-btn href="https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html" target="_blank" text
+                 class="text-transform--none ml-2">
+            <v-icon small>mdi-launch</v-icon>&nbsp;
+            api documentation
+          </v-btn>
+        </v-flex>
+        <v-flex class="text-xs-right">
+          <a href="javascript:void(0)" @click="loadCatExample">Example #1 (_cat/indices)</a>
+          <a href="javascript:void(0)" class="ml-2" @click="loadCreateExample">Example #2 (create index)</a>
+          <a href="javascript:void(0)" class="ml-2" @click="loadDeleteExample">Example #3 (delete index)</a>
+          <a href="javascript:void(0)" class="ml-2" @click="reset">Reset</a>
+        </v-flex>
+      </v-layout>
     </v-form>
 
     <print-pretty :document="response" caption="Response"/>
@@ -56,7 +71,6 @@
     data () {
       return {
         loading: false,
-        path: '',
         response: {}
       }
     },
@@ -99,7 +113,7 @@
         }
         return fetchOptions
       },
-      ...mapVuexAccessors('queryRest', ['method', 'stringifiedParams'])
+      ...mapVuexAccessors('queryRest', ['method', 'path', 'stringifiedParams'])
     },
     created () {
       this.HTTP_METHODS = HTTP_METHODS
@@ -111,7 +125,7 @@
     methods: {
       loadData () {
         this.loading = true
-        this.response = {}
+        this.response = '// loading...'
         fetch(this.fetchUrl, this.fetchOptionsHash)
           .then(response => response.json())
           .then(json => {
@@ -123,6 +137,27 @@
             this.response = error.message
             this.showErrorSnackbar({ text: 'Error.', additionalText: error.message })
           })
+      },
+      loadCatExample () {
+        this.method = 'GET'
+        this.stringifiedParams = '{\r\n\t"h": ["health", "index", "docs.count"]\r\n}'
+        this.path = '_cat/indices'
+      },
+      loadCreateExample () {
+        this.method = 'PUT'
+        this.stringifiedParams = '{\r\n\t"settings": {\r\n\t\t"index": {\r\n\t\t\t"number_of_shards": 3,\r\n\t\t\t"number_of_replicas": 2\r\n\t\t}\r\n\t}\r\n}'
+        this.path = 'example_test_index'
+      },
+      loadDeleteExample () {
+        this.method = 'DELETE'
+        this.stringifiedParams = '{}'
+        this.path = 'example_test_index'
+      },
+      reset () {
+        this.method = 'GET'
+        this.stringifiedParams = '{}'
+        this.path = ''
+        this.response = ''
       }
     }
   }

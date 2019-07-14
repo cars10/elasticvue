@@ -1,6 +1,8 @@
 <template>
   <v-dialog v-model="dialog" width="500">
-    <v-btn slot="activator" color="primary" class="ml-0">New snapshot</v-btn>
+    <template v-slot:activator="{on}">
+      <v-btn color="primary" class="ml-0" v-on="on">New snapshot</v-btn>
+    </template>
 
     <v-card>
       <v-card-title>
@@ -26,7 +28,7 @@
 
         <v-card-actions class="pa-3">
           <v-btn id="create_snapshot" color="success" type="submit">Create</v-btn>
-          <v-btn flat @click="closeDialog">Cancel</v-btn>
+          <v-btn text @click="closeDialog">Cancel</v-btn>
         </v-card-actions>
       </v-form>
     </v-card>

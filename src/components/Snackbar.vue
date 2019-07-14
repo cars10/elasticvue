@@ -10,7 +10,7 @@
       <br>
       {{additionalText}}
     </template>
-    <v-btn flat @click.native="visible = false">Close</v-btn>
+    <v-btn text @click.native="visible = false">Close</v-btn>
   </v-snackbar>
 </template>
 

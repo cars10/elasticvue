@@ -1,11 +1,11 @@
 <template>
-  <v-dialog v-model="dialog" :width="width" lazy>
+  <v-dialog v-model="dialog" :width="width">
     <v-card>
       <v-card-title>
         <h2 class="headline">{{modalTitle}}</h2>
         <div class="ml-a">
           <v-btn icon @click.native="close">
-            <v-icon>close</v-icon>
+            <v-icon>mdi-close</v-icon>
           </v-btn>
         </div>
       </v-card-title>

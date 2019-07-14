@@ -1,6 +1,6 @@
 <template>
-  <div class="content-toggle">
-    <div v-if="firstActive" ref="first" class="content-toggle__item flex pa-0">
+  <div class="width--full">
+    <div v-if="firstActive" ref="first" class="display--flex vertical-align--top flex pa-0">
       <div class="grow">
         <slot name="first">first</slot>
       </div>
@@ -9,7 +9,7 @@
       </span>
     </div>
 
-    <div v-else ref="last" class="content-toggle__item flex pa-0">
+    <div v-else ref="last" class="display--flex vertical-align--top flex pa-0">
       <div class="grow">
         <slot name="last">last</slot>
       </div>
@@ -23,9 +23,15 @@
 <script>
   export default {
     name: 'content-toggle',
+    props: {
+      firstSlotActive: {
+        type: Boolean,
+        default: true
+      }
+    },
     data () {
       return {
-        firstActive: true
+        firstActive: this.firstSlotActive
       }
     },
     methods: {

@@ -1,5 +1,5 @@
 <template>
-  <content-toggle @changed="emitInput">
+  <content-toggle :first-slot-active="typeof value === 'string'" @changed="emitInput">
     <template slot="first">
       <index-pattern v-model="localPattern"/>
     </template>

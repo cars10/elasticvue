@@ -8,6 +8,7 @@ export default async function esAdapter () {
     let connectionService = new ConnectionService(store.state.connection.elasticsearchHost)
     let adapter = await connectionService.getAdapter()
     store.commit('connection/setElasticsearchAdapter', adapter)
+    store.commit('connection/setApiVersion', adapter.client.transport._config.apiVersion)
     return adapter
   }
 }

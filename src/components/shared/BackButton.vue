@@ -24,7 +24,7 @@
       },
       icon: {
         type: String,
-        default: 'keyboard_arrow_left'
+        default: 'mdi-chevron-left'
       }
     }
   }

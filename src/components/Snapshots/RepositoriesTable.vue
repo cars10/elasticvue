@@ -6,7 +6,7 @@
         <v-flex right d-inline-flex>
           <v-text-field id="filter"
                         v-model="filter"
-                        append-icon="search"
+                        append-icon="mdi-magnify"
                         label="Filter..."
                         name="filter"
                         class="mt-0"
@@ -23,49 +23,38 @@
     </v-card-text>
 
     <v-data-table ref="repositoriesDataTable"
-                  :rows-per-page-items="DEFAULT_ROWS_PER_PAGE"
+                  :footer-props="{itemsPerPageOptions: DEFAULT_ITEMS_PER_PAGE}"
                   :headers="HEADERS"
                   :items="items"
                   :custom-filter="callFuzzyTableFilter"
-                  :pagination.sync="pagination"
+                  :options.sync="pagination"
                   :search="filter"
                   :loading="loading"
                   :class="tableClasses"
-                  item-key="name"
-                  expand>
-      <template v-slot:items="props">
+                  item-key="name">
+      <template v-slot:item="props">
         <tr class="tr--clickable" @click="() => expandRepository(props)">
           <td>
-            <v-icon v-if="props.expanded">keyboard_arrow_up</v-icon>
-            <v-icon v-else>keyboard_arrow_down</v-icon>
+            <v-icon v-if="props.expand.props.value">mdi-chevron-up</v-icon>
+            <v-icon v-else>mdi-chevron-down</v-icon>
           </td>
           <td>{{props.item.name}}</td>
           <td>{{props.item.type}}</td>
           <td>{{props.item.settings}}</td>
           <td>
-            <btn-group small>
-              <v-menu offset-y left @click.native.stop>
-                <v-btn slot="activator" title="Options">
-                  <v-icon>settings</v-icon>
-                  <v-icon small>arrow_drop_down</v-icon>
-                </v-btn>
-                <v-list>
-                  <list-tile-link :method-params="{repository: props.item.name}" :callback="emitReloadData"
-                                  :growl="`The repository '${props.item.name}' was successfully deleted.`"
-                                  :confirm-message="`Delete repository '${props.item.name}' and snapshots inside?`"
-                                  method="snapshotDeleteRepository" icon="delete" link-title="Delete repository"/>
-                </v-list>
-              </v-menu>
-            </btn-group>
+            <v-btn @click="deleteRepository(props.item.name)">
+              <v-icon>mdi-delete</v-icon>
+              Delete
+            </v-btn>
           </td>
         </tr>
       </template>
-      <template slot="expand" slot-scope="props">
-        <v-card flat class="pl-5">
-          <v-card-text>
-            <repository :repository="props.item.name"/>
-          </v-card-text>
-        </v-card>
+      <template v-slot:expanded-item="{item}">
+        <tr class="v-data-table__expand-row">
+          <td :colspan="HEADERS.length" class="py-3 px-3">
+            <repository :repository="item.name"/>
+          </td>
+        </tr>
       </template>
     </v-data-table>
   </div>
@@ -81,8 +70,9 @@
   import SingleSetting from '@/components/shared/TableSettings/SingleSetting'
   import { fuzzyTableFilter } from '@/helpers/filters'
   import { fixedTableHeaderOnDisable, fixedTableHeaderOnEnable, resetTableHeight } from '@/mixins/FixedTableHeader'
-  import { DEFAULT_ROWS_PER_PAGE } from '@/consts'
+  import { DEFAULT_ITEMS_PER_PAGE } from '@/consts'
   import { mapVuexAccessors } from '@/helpers/store'
+  import { elasticsearchRequest } from '@/mixins/ElasticsearchAdapterHelper'
 
   export default {
     name: 'snapshot-repositories-table',
@@ -131,10 +121,10 @@
     watch: {
       repositories () {
         // close all expanded rows on reloading repositories
-        let expanded = this.$refs.repositoriesDataTable.expanded
-        Object.keys(expanded).forEach(k => {
-          expanded[k] = false
-        })
+        // let expanded = this.$refs.repositoriesDataTable.expanded
+        // Object.keys(expanded).forEach(k => {
+        //   expanded[k] = false
+        // })
       }
     },
     mounted () {
@@ -151,7 +141,7 @@
         { text: 'settings', value: 'settings', sortable: false },
         { text: '', value: 'actions', sortable: false }
       ]
-      this.DEFAULT_ROWS_PER_PAGE = DEFAULT_ROWS_PER_PAGE
+      this.DEFAULT_ITEMS_PER_PAGE = DEFAULT_ITEMS_PER_PAGE
     },
     methods: {
       callFuzzyTableFilter (items, search, filter, headers) {
@@ -161,7 +151,17 @@
         this.$emit('reloadData')
       },
       expandRepository (props) {
-        props.expanded = !props.expanded
+        props.expand.props.value = !props.expand.props.value
+        props.expand.on.input(props.expand.props.value)
+      },
+      deleteRepository (name) {
+        elasticsearchRequest({
+          method: 'snapshotDeleteRepository',
+          methodParams: { repository: name },
+          callback: this.emitReloadData,
+          growl: `The repository '${name}' was successfully deleted.`,
+          confirmMessage: `Delete repository '${name}' and snapshots inside?`
+        })
       }
     }
   }

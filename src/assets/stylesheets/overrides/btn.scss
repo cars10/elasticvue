@@ -2,3 +2,16 @@
   margin-top: 0;
   margin-bottom: 0
 }
+
+
+.v-btn-toggle--small {
+  .v-btn {
+    height: 36px !important;
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+
+  .v-icon {
+    margin-left: 6px;
+  }
+}
