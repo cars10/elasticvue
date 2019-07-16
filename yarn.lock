@@ -3803,10 +3803,10 @@ ejs@^2.6.1:
   resolved "https://registry.yarnpkg.com/ejs/-/ejs-2.6.2.tgz#3a32c63d1cd16d11266cd4703b14fec4e74ab4f6"
   integrity sha512-PcW2a0tyTuPHz3tWyYqtK6r1fZ3gp+3Sop8Ph+ZYN81Ob5rwmbHEzaqs10N3BEsaGTkh/ooniXK+WwszGlc2+Q==
 
-elasticsearch@16.1.1:
-  version "16.1.1"
-  resolved "https://registry.yarnpkg.com/elasticsearch/-/elasticsearch-16.1.1.tgz#1eb657e4ffe6fa2a4b3107b6f24a4118fc3e8393"
-  integrity sha512-OF2fIjcTPfq/4Tj6k4/SZr2IIlfWlBBQoy/em225mfevYFW1abN3nyXKWldXGV+eWI6LWNqB8lb3hAP4d6Rh/Q==
+elasticsearch@16.3.0:
+  version "16.3.0"
+  resolved "https://registry.yarnpkg.com/elasticsearch/-/elasticsearch-16.3.0.tgz#d8268e5dcb0d01e76b705bac8f8665cc557d5163"
+  integrity sha512-Xy4vma+YJD2I3vudoV5RIgcMFnc/69SVef/BGOtmicvgUdzYs5mLY66FIANb5KnVS60i+zsnhvf/bYJYJklBsg==
   dependencies:
     agentkeepalive "^3.4.1"
     chalk "^1.0.0"
@@ -9577,10 +9577,10 @@ sass-loader@^7.1.0:
     pify "^3.0.0"
     semver "^5.5.0"
 
-sass@^1.22.3:
-  version "1.22.3"
-  resolved "https://registry.yarnpkg.com/sass/-/sass-1.22.3.tgz#b3591191ab0f3caece39ed9384c90caccacf471c"
-  integrity sha512-9ECcSAEgGStxZkpOCT+Z8F6jEJq+jjPonxgX52QVNeJbRL1CmrjN9qcoO78gob6M1bY4ocGVwPWjGDNMeOgvbg==
+sass@^1.22.5:
+  version "1.22.5"
+  resolved "https://registry.yarnpkg.com/sass/-/sass-1.22.5.tgz#0436ba64eaad4c9eb523480c141becc330ddd90b"
+  integrity sha512-Z06zPez82QqlQbqvGKMMEs2bBpLUsmFQxd+8wZJedkptMn8jyk+fccMhfUloD8HsfsYw572ca7Be3zbMBsip4A==
   dependencies:
     chokidar ">=2.0.0 <4.0.0"
 
@@ -10936,10 +10936,10 @@ vuetify-loader@1.2.2:
   dependencies:
     loader-utils "^1.1.0"
 
-vuetify@^2.0.0-beta.7:
-  version "2.0.0-beta.7"
-  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-2.0.0-beta.7.tgz#157a38531ea083ae5fec0a7022ca089e865fc2d8"
-  integrity sha512-+65qvCSeVFagkYuY4vRtI32H+K5MvNBbzrrKrUrwUXYZWpmfDa3idCMh3FjdJokX61fUhrIa2it6FoQecZiQJg==
+vuetify@^2.0.0-beta.8:
+  version "2.0.0-beta.8"
+  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-2.0.0-beta.8.tgz#3ac7e3ca65160b33dd5e3907326053753c82bd26"
+  integrity sha512-7dp72xU5i/1n103W/ycrXyZltj70UTh7M+ZgSa7oT0gT4pcOl26CykRYa8fdFp6eFHArZMxxi5A6dhZ8LllRoQ==
 
 vuex-persistedstate@2.5.4:
   version "2.5.4"

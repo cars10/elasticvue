@@ -25,13 +25,12 @@ Contents
 It officially works with the following elasticsearch versions:
 
 * `5.6`
-* `6.7`
 * `6.8`
 * `7.0`
 * `7.1`
 * `7.2`
 
-Other versions might or might not work, `elasticsearch-js` will fallback to the `7.1` api if an unsupported version is used.
+Other versions might or might not work, `elasticsearch-js` will fallback to the `7.2` api if an unsupported version is used.
 
 
 ### Features
