@@ -1,10 +1,10 @@
 <template>
-  <v-snackbar :timeout="timeout"
-              :color="color"
-              v-model="visible"
+  <v-snackbar :color="color"
               :multi-line="additionalText !== undefined"
-              right
-              auto-height>
+              :timeout="timeout"
+              v-model="visible"
+              auto-height
+              right>
     {{text}}
     <template v-if="additionalText">
       <br>

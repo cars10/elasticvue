@@ -3,34 +3,34 @@
     <v-card-text>
       <div class="clearfix">
         <new-repository @reloadData="emitReloadData"/>
-        <v-flex right d-inline-flex>
+        <v-col class="right d-inline-flex">
           <v-text-field id="filter"
                         v-model="filter"
                         append-icon="mdi-magnify"
+                        autofocus
+                        class="mt-0"
+                        hide-details
                         label="Filter..."
                         name="filter"
-                        class="mt-0"
                         title="Filter via 'column:query'"
-                        autofocus
-                        hide-details
                         @keyup.esc="filter = ''"/>
 
           <settings-dropdown>
-            <single-setting v-model="stickyTableHeader" name="Sticky table header" class="mb-1"/>
+            <single-setting v-model="stickyTableHeader" class="mb-1" name="Sticky table header"/>
           </settings-dropdown>
-        </v-flex>
+        </v-col>
       </div>
     </v-card-text>
 
     <v-data-table ref="repositoriesDataTable"
+                  :class="tableClasses"
+                  :custom-filter="callFuzzyTableFilter"
                   :footer-props="{itemsPerPageOptions: DEFAULT_ITEMS_PER_PAGE}"
                   :headers="HEADERS"
                   :items="items"
-                  :custom-filter="callFuzzyTableFilter"
+                  :loading="loading"
                   :options.sync="pagination"
                   :search="filter"
-                  :loading="loading"
-                  :class="tableClasses"
                   item-key="name">
       <template v-slot:item="props">
         <tr class="tr--clickable" @click="() => expandRepository(props)">
@@ -51,7 +51,7 @@
       </template>
       <template v-slot:expanded-item="{item}">
         <tr class="v-data-table__expand-row">
-          <td :colspan="HEADERS.length" class="py-3 px-3">
+          <td :colspan="HEADERS.length" class="py-4 px-4">
             <repository :repository="item.name"/>
           </td>
         </tr>

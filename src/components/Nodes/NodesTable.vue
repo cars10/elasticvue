@@ -1,41 +1,41 @@
 <template>
   <v-card>
     <v-card-title class="clearfix">
-      <v-layout row wrap>
-        <v-flex xs12 sm6 py-0 pl-0>
+      <v-row>
+        <v-col class="py-0 pl-0" cols="12" sm="6">
           <h2 class="headline d-inline-flex vertical-align--middle">Nodes</h2>
           <reload-button id="reload-nodes" :action="() => this.$emit('reloadNodes')"/>
-        </v-flex>
-        <v-flex xs12 sm6 py-0>
-          <v-flex right d-inline-flex>
+        </v-col>
+        <v-col class="py-0" cols="12" sm="6">
+          <v-col class="right d-inline-flex">
             <v-text-field id="nodes_table_filter"
                           v-model="filter"
                           append-icon="mdi-magnify"
+                          autofocus
+                          class="mt-0 pt-0"
+                          hide-details
                           label="Filter..."
                           name="filter"
-                          class="mt-0 pt-0"
                           title="Filter via 'column:query'"
-                          autofocus
-                          hide-details
                           @keyup.esc="filter = ''"/>
 
             <settings-dropdown>
               <single-setting v-model="stickyTableHeader" name="Sticky table header"/>
             </settings-dropdown>
-          </v-flex>
-        </v-flex>
-      </v-layout>
+          </v-col>
+        </v-col>
+      </v-row>
     </v-card-title>
     <v-divider/>
 
-    <v-data-table :footer-props="{itemsPerPageOptions: DEFAULT_ITEMS_PER_PAGE}"
+    <v-data-table :class="tableClasses"
+                  :custom-filter="callFuzzyTableFilter"
+                  :footer-props="{itemsPerPageOptions: DEFAULT_ITEMS_PER_PAGE}"
                   :headers="HEADERS"
                   :items="items"
-                  :custom-filter="callFuzzyTableFilter"
-                  :options.sync="pagination"
-                  :search="filter"
                   :loading="loading"
-                  :class="tableClasses">
+                  :options.sync="pagination"
+                  :search="filter">
       <template v-slot:item="props">
         <tr>
           <td>
@@ -52,39 +52,39 @@
           <td>{{props.item.load_1m}} / {{props.item.load_5m}} / {{props.item.load_15m}}</td>
           <td>
             <small>{{props.item.cpu}}%</small>
-            <v-progress-linear :value="props.item.cpu" height="3" class="mt-1 mb-0"/>
+            <v-progress-linear :value="props.item.cpu" class="mt-1 mb-0" height="3"/>
           </td>
           <td>
-            <v-layout>
-              <v-flex pb-0>
+            <v-row>
+              <v-col class="pb-0">
                 <small>{{props.item.ramCurrent}}/{{props.item.ramMax}}</small>
-              </v-flex>
-              <v-flex pb-0 class="text-xs-right">
+              </v-col>
+              <v-col class="text-right pb-0">
                 <small>{{props.item.ramPercent}}%</small>
-              </v-flex>
-            </v-layout>
+              </v-col>
+            </v-row>
             <node-percent-bar :value="props.item.ramPercent" classes="mt-1 mb-0"/>
           </td>
           <td>
-            <v-layout>
-              <v-flex pb-0>
+            <v-row>
+              <v-col class="pb-0">
                 <small>{{props.item.heapCurrent}}/{{props.item.heapMax}}</small>
-              </v-flex>
-              <v-flex pb-0 class="text-xs-right">
+              </v-col>
+              <v-col class="text-right pb-0">
                 <small>{{props.item.heapPercent}}%</small>
-              </v-flex>
-            </v-layout>
+              </v-col>
+            </v-row>
             <node-percent-bar :value="props.item.heapPercent" classes="mt-1 mb-0"/>
           </td>
           <td>
-            <v-layout>
-              <v-flex pb-0>
+            <v-row>
+              <v-col class="pb-0">
                 <small>{{props.item.diskCurrent}}/{{props.item.diskMax}}</small>
-              </v-flex>
-              <v-flex pb-0 class="text-xs-right">
+              </v-col>
+              <v-col class="text-right pb-0">
                 <small>{{props.item.diskPercent}}%</small>
-              </v-flex>
-            </v-layout>
+              </v-col>
+            </v-row>
             <node-percent-bar :value="props.item.diskPercent" classes="mt-1 mb-0"/>
           </td>
         </tr>

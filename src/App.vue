@@ -3,7 +3,7 @@
     <the-header/>
 
     <v-content>
-      <v-container fluid grid-list-md>
+      <v-container fluid>
         <router-view v-if="renderRouterView"/>
         <loading v-else/>
       </v-container>

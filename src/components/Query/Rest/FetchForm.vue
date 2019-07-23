@@ -1,45 +1,45 @@
 <template>
   <div>
     <v-form @submit.prevent="loadData">
-      <v-layout>
-        <v-flex xl1 lg2 sm3 pb-0>
-          <v-select v-model="method"
-                    :items="HTTP_METHODS"
+      <v-row>
+        <v-col class="pb-0" lg="2" sm="3" xl="1">
+          <v-select :items="HTTP_METHODS"
+                    v-model="method"
                     label="HTTP Method"
                     name="http_method"/>
-        </v-flex>
-        <v-flex xl11 lg10 sm9 pb-0>
+        </v-col>
+        <v-col class="pb-0" lg="10" sm="9" xl="11">
           <v-text-field id="path"
                         v-model="path"
+                        autofocus
                         label="Path"
                         name="path"
-                        placeholder="/"
-                        autofocus/>
-        </v-flex>
-      </v-layout>
+                        placeholder="/"/>
+        </v-col>
+      </v-row>
 
       <resizable-container :initial-height="150" class="mb-1">
-        <code-editor v-model="stringifiedParams" :external-commands="editorCommands"/>
+        <code-editor :external-commands="editorCommands" v-model="stringifiedParams"/>
       </resizable-container>
 
-      <v-layout>
-        <v-flex>
-          <v-btn id="execute_query" :disabled="!isValid" :loading="loading" type="submit" color="primary" class="mx-0">
+      <v-row>
+        <v-col>
+          <v-btn id="execute_query" :disabled="!isValid" :loading="loading" class="mx-0" color="primary" type="submit">
             Run query
           </v-btn>
-          <v-btn href="https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html" target="_blank" text
-                 class="text-transform--none ml-2">
+          <v-btn class="text-transform--none ml-2" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html" target="_blank"
+                 text>
             <v-icon small>mdi-launch</v-icon>&nbsp;
             api documentation
           </v-btn>
-        </v-flex>
-        <v-flex class="text-xs-right">
+        </v-col>
+        <v-col class="text-right">
           <a href="javascript:void(0)" @click="loadCatExample">Example #1 (_cat/indices)</a>
-          <a href="javascript:void(0)" class="ml-2" @click="loadCreateExample">Example #2 (create index)</a>
-          <a href="javascript:void(0)" class="ml-2" @click="loadDeleteExample">Example #3 (delete index)</a>
-          <a href="javascript:void(0)" class="ml-2" @click="reset">Reset</a>
-        </v-flex>
-      </v-layout>
+          <a class="ml-2" href="javascript:void(0)" @click="loadCreateExample">Example #2 (create index)</a>
+          <a class="ml-2" href="javascript:void(0)" @click="loadDeleteExample">Example #3 (delete index)</a>
+          <a class="ml-2" href="javascript:void(0)" @click="reset">Reset</a>
+        </v-col>
+      </v-row>
     </v-form>
 
     <print-pretty :document="response" caption="Response"/>

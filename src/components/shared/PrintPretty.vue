@@ -1,22 +1,22 @@
 <template>
   <div>
-    <v-layout>
-      <v-flex md9 xs12 my-0>
-        <h2 v-if="caption" class="title pt-3">{{caption}}</h2>
-      </v-flex>
-      <v-flex md3 xs12 my-0 mx-2>
+    <v-row>
+      <v-col class="my-0" cols="12" md="9">
+        <h2 v-if="caption" class="title pt-4">{{caption}}</h2>
+      </v-col>
+      <v-col class="my-0 mx-2" cols="12" md="3">
         <v-btn-toggle v-model="wrapLines" class="right">
           <v-btn :value="true" title="Wrap lines">
             <v-icon>mdi-wrap</v-icon>
           </v-btn>
         </v-btn-toggle>
-      </v-flex>
-    </v-layout>
-    <v-flex v-if="resizable" py-2>
+      </v-col>
+    </v-row>
+    <v-col v-if="resizable" class="py-2">
       <resizable-container :initial-height="initialHeight">
         <code-editor :value="document" read-only/>
       </resizable-container>
-    </v-flex>
+    </v-col>
     <div v-else :style="style" class="pt-2">
       <code-editor :value="document" :wrap-lines="wrapLines" read-only/>
     </div>

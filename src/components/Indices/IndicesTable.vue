@@ -3,32 +3,32 @@
     <v-card-text>
       <div class="clearfix">
         <new-index @reloadIndices="emitReloadIndices"/>
-        <v-flex right d-inline-flex>
+        <v-col class="right d-inline-flex">
           <v-text-field id="filter"
-                        v-model="filter"
                         :loading="filterLoading"
+                        v-model="filter"
                         append-icon="mdi-magnify"
+                        autofocus
+                        class="mt-0"
+                        hide-details
                         label="Filter..."
                         name="filter"
-                        class="mt-0"
                         title="Filter via 'column:query'"
-                        autofocus
-                        hide-details
                         @keyup.esc="filter = ''"/>
 
           <settings-dropdown>
-            <single-setting v-model="stickyTableHeader" name="Sticky table header" class="mb-1"/>
+            <single-setting v-model="stickyTableHeader" class="mb-1" name="Sticky table header"/>
           </settings-dropdown>
-        </v-flex>
+        </v-col>
       </div>
     </v-card-text>
 
-    <v-data-table :footer-props="{itemsPerPageOptions: DEFAULT_ITEMS_PER_PAGE}"
+    <v-data-table :class="tableClasses"
+                  :footer-props="{itemsPerPageOptions: DEFAULT_ITEMS_PER_PAGE}"
                   :headers="HEADERS"
                   :items="items"
-                  :options.sync="pagination"
                   :loading="loading"
-                  :class="tableClasses">
+                  :options.sync="pagination">
       <template v-slot:item="props">
         <index-row :index="props.item" @reloadIndices="emitReloadIndices"/>
       </template>

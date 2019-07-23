@@ -4,21 +4,21 @@
       <index-pattern v-model="localPattern"/>
     </template>
     <template slot="first-activator">
-      <a href="javascript:void(0)" class="ml-2">or use index pattern</a>
+      <a class="ml-2" href="javascript:void(0)">or use index pattern</a>
     </template>
 
     <template slot="last">
       <data-loader ref="indicesLoader" :method="method" :method-params="methodParams" render-content-while-loading>
         <template v-slot:default="{body, loading}">
-          <index-select v-model="localIndices"
-                        :indices="getIndexNames(body)"
+          <index-select :indices="getIndexNames(body)"
                         :loading="loading"
+                        v-model="localIndices"
                         @reload="() => $refs.indicesLoader.loadData()"/>
         </template>
       </data-loader>
     </template>
     <template slot="last-activator">
-      <a href="javascript:void(0)" class="ml-2">or select indices</a>
+      <a class="ml-2" href="javascript:void(0)">or select indices</a>
     </template>
   </content-toggle>
 </template>

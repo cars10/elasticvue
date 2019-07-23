@@ -1,7 +1,7 @@
 <template>
-  <v-text-field v-model="localValue"
-                :hint="matchHint"
+  <v-text-field :hint="matchHint"
                 :loading="loading"
+                v-model="localValue"
                 label="Index pattern"
                 persistent-hint
                 @input="loadMatches"

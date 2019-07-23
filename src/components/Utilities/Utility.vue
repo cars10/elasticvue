@@ -2,7 +2,7 @@
   <v-list-item>
     <v-list-item-content>{{text}}</v-list-item-content>
     <v-list-item-action>
-      <v-btn :id="name" :loading="loading" :color="color" @click.native="confirmMethod">Run</v-btn>
+      <v-btn :color="color" :id="name" :loading="loading" @click.native="confirmMethod">Run</v-btn>
     </v-list-item-action>
   </v-list-item>
 </template>

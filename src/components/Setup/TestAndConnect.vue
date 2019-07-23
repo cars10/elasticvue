@@ -1,49 +1,49 @@
 <template>
   <div>
     <h2 class="title mb-1">2. Test and connect</h2>
-    <v-flex px-3>
+    <v-col class="px-4">
       <v-form @submit.prevent="testConnection">
-        <v-layout row>
-          <v-flex lg6>
+        <v-row>
+          <v-col lg="6">
             <v-text-field id="host"
-                          v-model="elasticsearchHost"
                           :rules="[hostValid]"
-                          title="Host"
-                          label="Host"
-                          type="text"
-                          autofocus
+                          v-model="elasticsearchHost"
                           append-icon="mdi-close"
-                          @keyup.ctrl.enter="connect"
-                          @click:append="resetElasticsearchHost"/>
-          </v-flex>
-          <v-flex lg6>
+                          autofocus
+                          label="Host"
+                          title="Host"
+                          type="text"
+                          @click:append="resetElasticsearchHost"
+                          @keyup.ctrl.enter="connect"/>
+          </v-col>
+          <v-col lg="6">
             <v-btn id="test_connection"
                    :color="testConnectionColor"
-                   :loading="testLoading"
                    :disabled="hostValid !== true"
+                   :loading="testLoading"
                    class="mr-2 mt-2"
                    type="submit">
               Test connection
             </v-btn>
 
             <v-btn id="connect"
-                   :disabled="hostValid !== true"
                    :color="connectColor"
+                   :disabled="hostValid !== true"
                    :loading="connectLoading"
                    class="mt-2"
                    type="button"
                    @click.native="connect">Connect
             </v-btn>
-          </v-flex>
-        </v-layout>
+          </v-col>
+        </v-row>
       </v-form>
       <p class="grey--text">To connect with credentials use http://username:password@host syntax.</p>
-    </v-flex>
+    </v-col>
 
-    <v-flex v-if="hasError" px-3>
+    <v-col v-if="hasError" class="px-4">
       <v-alert :value="true" type="error">
         Could not connect. Please make sure that
-        <ol class="pl-3">
+        <ol class="pl-4">
           <li>Your cluster is reachable via {{elasticsearchHost}}</li>
           <li>You added the correct settings to your <strong>elasticserach.yml</strong> and restarted your cluster</li>
         </ol>
@@ -52,7 +52,7 @@
           {{errorMessage}}
         </div>
       </v-alert>
-    </v-flex>
+    </v-col>
   </div>
 </template>
 

@@ -3,40 +3,40 @@
     <v-card-text>
       <div class="clearfix">
 
-        <v-flex right d-inline-flex>
+        <v-col class="right d-inline-flex">
           <v-text-field id="filter"
-                        v-model="filter"
                         :loading="filterLoading"
+                        v-model="filter"
                         append-icon="mdi-magnify"
-                        title="Filter via 'column:query'"
-                        label="Filter..."
-                        name="filter"
                         class="mt-0"
                         hide-details
+                        label="Filter..."
+                        name="filter"
+                        title="Filter via 'column:query'"
                         @keyup.esc="filter = ''"/>
 
           <settings-dropdown :badge="mappings.length > filteredMappings.length">
-            <single-setting v-model="stickyTableHeader" name="Sticky table header" class="mb-1"/>
-            <multi-setting v-model="selectedMappings" :settings="mappings" name="Columns"/>
+            <single-setting v-model="stickyTableHeader" class="mb-1" name="Sticky table header"/>
+            <multi-setting :settings="mappings" v-model="selectedMappings" name="Columns"/>
           </settings-dropdown>
-        </v-flex>
+        </v-col>
       </div>
     </v-card-text>
 
-    <v-data-table :footer-props="{itemsPerPageOptions: DEFAULT_ITEMS_PER_PAGE}"
+    <v-data-table :class="tableClasses"
+                  :footer-props="{itemsPerPageOptions: DEFAULT_ITEMS_PER_PAGE}"
                   :headers="headers"
                   :items="items"
                   :loading="loading"
-                  :options.sync="pagination"
-                  :class="tableClasses">
+                  :options.sync="pagination">
       <template v-slot:item="item">
         <tr class="tr--clickable" @click="openDocument(item.item)">
           <td v-for="key in filteredMappings" :key="key">{{item.item[key]}}</td>
           <td>
-            <router-link :to="documentRoute(item.item)"
-                         :class="openDocumentClasses"
-                         title="Show"
+            <router-link :class="openDocumentClasses"
+                         :to="documentRoute(item.item)"
                          event=""
+                         title="Show"
                          @click.native.prevent="openDocument(item.item)">
               <div class="v-btn__content">
                 Show
@@ -52,7 +52,7 @@
 
       <v-progress-linear slot="progress" color="blue" indeterminate/>
     </v-data-table>
-    <modal-data-loader v-model="modalOpen" :method-params="modalMethodParams" method="get"/>
+    <modal-data-loader :method-params="modalMethodParams" v-model="modalOpen" method="get"/>
   </div>
 </template>
 

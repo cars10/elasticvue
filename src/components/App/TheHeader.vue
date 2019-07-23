@@ -1,28 +1,28 @@
 <template>
   <v-app-bar :dense="this.$vuetify.breakpoint.sm" app>
-    <router-link to="/" class="mt-2">
-      <img v-if="this.$store.state.theme.dark" src="../../../public/images/logo/logo_48_white.png" alt="Logo">
-      <img v-else src="../../../public/images/logo/logo_48_blue.png" alt="Logo">
+    <router-link class="mt-2" to="/">
+      <img v-if="this.$store.state.theme.dark" alt="Logo" src="../../../public/images/logo/logo_48_white.png">
+      <img v-else alt="Logo" src="../../../public/images/logo/logo_48_blue.png">
     </router-link>
-    <v-toolbar-title class="mr-4 ml-3 hidden-xs-only">
+    <v-toolbar-title class="mr-6 ml-4 hidden-xs-only">
       <router-link to="/">
         Elasticvue
       </router-link>
     </v-toolbar-title>
 
     <div v-if="wasConnected" id="navbar_cluster_health" class="inline-block mt-1">
-      <v-btn icon class="ma-0" title="Disconnect and reset" @click="reset">
+      <v-btn class="ma-0" icon title="Disconnect and reset" @click="reset">
         <v-icon small>mdi-link</v-icon>
       </v-btn>
       <span :title="apiVersion" class="mx-1">{{clusterInfo}}</span>
-      <v-chip :class="clusterHealthClasses" title="Health" small>{{clusterHealth}}</v-chip>
+      <v-chip :class="clusterHealthClasses" small title="Health">{{clusterHealth}}</v-chip>
       <reload-button id="header-reload-button" :action="getHealth" :default-setting="5"/>
     </div>
 
-    <v-spacer/>
+    <div class="flex-grow-1"/>
 
     <v-toolbar-items>
-      <v-btn id="navbar_home" text to="/" exact>Home</v-btn>
+      <v-btn id="navbar_home" exact text to="/">Home</v-btn>
       <v-btn id="navbar_nodes" text to="/nodes">Nodes</v-btn>
       <v-btn id="navbar_indices" text to="/indices">Indices</v-btn>
       <v-btn id="navbar_search" text to="/search">Search</v-btn>

@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="dialog" width="500">
     <template v-slot:activator="{on}">
-      <v-btn color="primary" class="ml-0" v-on="on">New snapshot</v-btn>
+      <v-btn class="ml-0" color="primary" v-on="on">New snapshot</v-btn>
     </template>
 
     <v-card>
@@ -14,19 +14,19 @@
         <v-card-text>
           <v-text-field v-if="dialog"
                         id="snapshot_name"
-                        v-model="snapshotName"
                         :rules="[nameRules]"
-                        required
-                        name="snapshotName"
-                        label="Snapshot name"
+                        v-model="snapshotName"
                         autocomplete="off"
                         autofocus
+                        label="Snapshot name"
+                        name="snapshotName"
+                        required
                         @keyup.esc="closeDialog"/>
 
           <index-filter v-model="indices" method="catIndices"/>
         </v-card-text>
 
-        <v-card-actions class="pa-3">
+        <v-card-actions class="pa-4">
           <v-btn id="create_snapshot" color="success" type="submit">Create</v-btn>
           <v-btn text @click="closeDialog">Cancel</v-btn>
         </v-card-actions>

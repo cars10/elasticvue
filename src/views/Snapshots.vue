@@ -8,21 +8,21 @@
 
     <data-loader ref="dataLoader" method="catRepositories" render-content-while-loading>
       <template v-slot:default="data">
-        <repositories-table :repositories="data.body || {}"
-                            :loading="data.loading"
+        <repositories-table :loading="data.loading"
+                            :repositories="data.body || {}"
                             @reloadData="reloadData"/>
       </template>
     </data-loader>
 
     <v-card-text>
-      <v-flex d-inline-flex>
+      <v-col class="d-inline-flex">
         <v-alert :value="true" type="info">
           Note that you have to set <strong>path.repo</strong> in your <strong>elasticsearch.yml</strong> for snapshots
           to work.
           <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-snapshots.html"
-             target="_blank" rel="nofollow">Docs</a>
+             rel="nofollow" target="_blank">Docs</a>
         </v-alert>
-      </v-flex>
+      </v-col>
     </v-card-text>
   </v-card>
 </template>

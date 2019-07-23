@@ -3,12 +3,18 @@ module.exports = {
   env: {
     node: true
   },
+  plugins: [
+    'vuetify'
+  ],
   'extends': [
     'plugin:vue/essential',
     '@vue/standard',
     'standard'
   ],
   rules: {
+    'vuetify/no-deprecated-classes': 'error',
+    'vuetify/grid-unknown-attributes': 'error',
+    'vuetify/no-legacy-grid': 'error',
     'indent': 'off',
     'vue/script-indent': ['error', 2, {
       'baseIndent': 1

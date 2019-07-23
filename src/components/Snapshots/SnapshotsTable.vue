@@ -5,27 +5,27 @@
       <div class="clearfix">
         <new-snapshot :repository="repository" @reloadData="emitReloadData"/>
         <reload-button :action="emitReloadData"/>
-        <v-flex right d-inline-flex>
+        <v-col class="right d-inline-flex">
           <v-text-field id="filter"
                         v-model="filter"
                         append-icon="mdi-magnify"
+                        autofocus
+                        class="mt-0"
+                        hide-details
                         label="Filter..."
                         name="filter"
-                        class="mt-0"
                         title="Filter via 'column:query'"
-                        autofocus
-                        hide-details
                         @keyup.esc="filter = ''"/>
-        </v-flex>
+        </v-col>
       </div>
     </div>
 
-    <v-data-table :footer-props="{itemsPerPageOptions: DEFAULT_ITEMS_PER_PAGE}"
+    <v-data-table :custom-filter="callFuzzyTableFilter"
+                  :footer-props="{itemsPerPageOptions: DEFAULT_ITEMS_PER_PAGE}"
                   :headers="HEADERS"
                   :items="snapshots"
-                  :custom-filter="callFuzzyTableFilter"
-                  :search="filter"
                   :loading="loading"
+                  :search="filter"
                   class="table--condensed"
                   item-key="id">
       <template v-slot:item="props">
@@ -54,7 +54,7 @@
           <td>{{props.item.total_shards}}</td>
           <td>
             <btn-group small>
-              <v-menu offset-y left>
+              <v-menu left offset-y>
                 <template v-slot:activator="{on}">
                   <v-btn title="Options" v-on="on">
                     <v-icon>mdi-settings</v-icon>
@@ -62,12 +62,12 @@
                   </v-btn>
                 </template>
                 <v-list>
-                  <restore-snapshot :snapshot="props.item.id" :repository="repository"/>
+                  <restore-snapshot :repository="repository" :snapshot="props.item.id"/>
 
-                  <list-tile-link :method-params="{repository, snapshot: props.item.id}" :callback="emitReloadData"
+                  <list-tile-link :callback="emitReloadData" :confirm-message="`Delete snapshot '${props.item.id}'?`"
                                   :growl="`The snapshot '${props.item.id}' was successfully deleted.`"
-                                  :confirm-message="`Delete snapshot '${props.item.id}'?`"
-                                  method="snapshotDelete" icon="mdi-delete" link-title="Delete snapshot"/>
+                                  :method-params="{repository, snapshot: props.item.id}"
+                                  icon="mdi-delete" link-title="Delete snapshot" method="snapshotDelete"/>
                 </v-list>
               </v-menu>
             </btn-group>

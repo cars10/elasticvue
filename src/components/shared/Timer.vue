@@ -2,10 +2,10 @@
   <div class="d-inline-block" title="Auto reload">
     <v-select :items="timerSettings"
               v-model="timerSetting"
-              item-value="value"
-              item-text="text"
+              class="mt-0 pt-0 d-inline-block v-select--dense-append"
               hide-details
-              class="mt-0 pt-0 d-inline-block v-select--dense-append">
+              item-text="text"
+              item-value="value">
       <template slot="selection" slot-scope="{ item, index }">
         <small v-if="item.value">{{item.text}}</small>
       </template>

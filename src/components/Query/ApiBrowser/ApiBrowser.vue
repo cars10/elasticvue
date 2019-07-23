@@ -1,40 +1,40 @@
 <template>
   <div>
     <v-form @submit.prevent="loadData">
-      <v-flex d-inline-flex pa-0>
-        <custom-v-autocomplete v-model="method"
-                               :items="ES_METHODS"
-                               label="Method"
-                               name="Method"
+      <v-col class="d-inline-flex pa-0">
+        <custom-v-autocomplete :items="ES_METHODS"
+                               v-model="method"
                                item-text="name"
-                               item-value="name">
+                               item-value="name"
+                               label="Method"
+                               name="Method">
           <template v-slot:item="data">
             {{data.item.name}}
           </template>
         </custom-v-autocomplete>
-      </v-flex>
+      </v-col>
 
-      <v-btn :href="apiDocumentationUrl" target="_blank" text
-             class="text-transform--none ml-2">
+      <v-btn :href="apiDocumentationUrl" class="text-transform--none ml-2" target="_blank"
+             text>
         <v-icon small>mdi-launch</v-icon>&nbsp;
         open {{method}} documentation
       </v-btn>
 
       <resizable-container :initial-height="200" class="mb-1">
-        <code-editor v-model="stringifiedParams" :external-commands="editorCommands"/>
+        <code-editor :external-commands="editorCommands" v-model="stringifiedParams"/>
       </resizable-container>
 
-      <v-layout>
-        <v-flex>
-          <v-btn :disabled="!isValid" :loading="loading" type="submit" color="primary" class="mx-0">Run query</v-btn>
-        </v-flex>
-        <v-flex class="text-xs-right">
+      <v-row>
+        <v-col>
+          <v-btn :disabled="!isValid" :loading="loading" class="mx-0" color="primary" type="submit">Run query</v-btn>
+        </v-col>
+        <v-col class="text-right">
           <a href="javascript:void(0)" @click="loadCatExample">Example #1 (_cat/indices)</a>
-          <a href="javascript:void(0)" class="ml-2" @click="loadCreateExample">Example #2 (create index)</a>
-          <a href="javascript:void(0)" class="ml-2" @click="loadDeleteExample">Example #3 (delete index)</a>
-          <a href="javascript:void(0)" class="ml-2" @click="reset">Reset</a>
-        </v-flex>
-      </v-layout>
+          <a class="ml-2" href="javascript:void(0)" @click="loadCreateExample">Example #2 (create index)</a>
+          <a class="ml-2" href="javascript:void(0)" @click="loadDeleteExample">Example #3 (delete index)</a>
+          <a class="ml-2" href="javascript:void(0)" @click="reset">Reset</a>
+        </v-col>
+      </v-row>
     </v-form>
 
     <print-pretty :document="response" caption="Response"/>

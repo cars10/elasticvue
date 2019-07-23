@@ -2,26 +2,26 @@
   <div>
     <v-card class="mb-2">
       <v-card-title class="clearfix">
-        <v-layout row wrap>
-          <v-flex xs12 sm6 py-0 pl-0>
+        <v-row>
+          <v-col class="py-0 pl-0" cols="12" sm="6">
             <h2 class="headline d-inline-flex vertical-align--middle">Nodes</h2>
             <reload-button id="reload-nodes" :action="() => this.$emit('reloadNodes')"/>
-          </v-flex>
-          <v-flex xs12 sm6 py-0>
-            <v-flex right d-inline-flex>
+          </v-col>
+          <v-col class="py-0" cols="12" sm="6">
+            <v-col class="right d-inline-flex">
               <v-text-field id="nodes_grid_filter"
                             v-model="filter"
                             append-icon="mdi-magnify"
+                            autofocus
+                            class="mt-0 pt-0"
+                            hide-details
                             label="Filter..."
                             name="filter"
-                            class="mt-0 pt-0"
                             title="Filter via 'column:query'"
-                            autofocus
-                            hide-details
                             @keyup.esc="filter = ''"/>
-            </v-flex>
-          </v-flex>
-        </v-layout>
+            </v-col>
+          </v-col>
+        </v-row>
       </v-card-title>
     </v-card>
 
@@ -31,29 +31,29 @@
     <v-data-iterator v-else
                      :items="filteredItems"
                      :options.sync="pagination">
-      <v-flex slot="item" slot-scope="props" xs12 sm6 md4 lg4>
+      <v-col slot="item" slot-scope="props" cols="12" lg="4" md="4" sm="6">
         <v-card>
           <v-card-title>
             <span class="subtitle-1">{{ props.item.name }}</span>
-            <v-flex right class="d-inline-block text-xs-right">
+            <v-col class="d-inline-block text-right right">
               <node-icons :elasticsearch-node="props.item"/>
-            </v-flex>
+            </v-col>
           </v-card-title>
           <v-divider/>
 
-          <v-layout row wrap class="ma-0 overflow-x--auto caption">
-            <v-flex :class="nodeListClass" xs12 sm6 d-flex pa-0>
+          <v-row class="ma-0 overflow-x--auto caption">
+            <v-col :class="nodeListClass" class="d-flex pa-0" cols="12" sm="6">
               <v-list dense>
                 <v-list-item>
                   <v-list-item-content>ip</v-list-item-content>
-                  <v-list-item-content class="d-inline-block text-xs-right">
+                  <v-list-item-content class="d-inline-block text-right">
                     {{ props.item.ip }}
                   </v-list-item-content>
                 </v-list-item>
 
                 <v-list-item>
                   <v-list-item-content>master</v-list-item-content>
-                  <v-list-item-content class="d-inline-block text-xs-right">
+                  <v-list-item-content class="d-inline-block text-right">
                     <template v-if="props.item.master">yes</template>
                     <template v-else-if="props.item.masterEligible">eligible</template>
                     <template v-else>no</template>
@@ -62,26 +62,26 @@
 
                 <v-list-item>
                   <v-list-item-content>node.role</v-list-item-content>
-                  <v-list-item-content class="d-inline-block text-xs-right">
+                  <v-list-item-content class="d-inline-block text-right">
                     {{ props.item.nodeRole }}
                   </v-list-item-content>
                 </v-list-item>
 
                 <v-list-item>
                   <v-list-item-content>load</v-list-item-content>
-                  <v-list-item-content class="d-inline-block text-xs-right">
+                  <v-list-item-content class="d-inline-block text-right">
                     {{props.item.load_1m}} / {{props.item.load_5m}} / {{props.item.load_15m}}
                   </v-list-item-content>
                 </v-list-item>
               </v-list>
-            </v-flex>
+            </v-col>
 
-            <v-flex xs12 sm6 d-flex pa-0>
+            <v-col class="d-flex pa-0" cols="12" sm="6">
               <v-list dense>
                 <v-list-item>
                   <v-list-item-action class="my-0">cpu</v-list-item-action>
                   <v-list-item-content>
-                    <v-progress-linear :value="props.item.cpu" height="4" class="my-0"/>
+                    <v-progress-linear :value="props.item.cpu" class="my-0" height="4"/>
                   </v-list-item-content>
                   <v-list-item-action class="my-0">
                     {{ props.item.cpu }}%
@@ -121,10 +121,10 @@
                   </v-list-item-action>
                 </v-list-item>
               </v-list>
-            </v-flex>
-          </v-layout>
+            </v-col>
+          </v-row>
         </v-card>
-      </v-flex>
+      </v-col>
     </v-data-iterator>
   </div>
 </template>

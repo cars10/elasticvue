@@ -1,23 +1,23 @@
 <template>
   <v-footer height="auto">
-    <v-layout row wrap pa-3>
-      <v-flex xs4>
-        <v-switch id="theme_select" v-model="dark" class="mt-0 mb-2 pt-0" label="Dark theme" hide-details/>
+    <v-row class="pa-4">
+      <v-col cols="4">
+        <v-switch id="theme_select" v-model="dark" class="mt-0 mb-2 pt-0" hide-details label="Dark theme"/>
         <a id="resetSettings" title="Disconnect and reset saved settings" @click="reset">Disconnect and reset</a>
-      </v-flex>
+      </v-col>
 
-      <v-flex xs4 text-xs-center>
+      <v-col class="text-center" cols="4">
         <div class="subtitle-1">Elasticvue {{version}}</div>
         &copy;{{ new Date().getFullYear()}} - Carsten K&ouml;nig<br>
-      </v-flex>
+      </v-col>
 
-      <v-flex xs4>
-        <v-flex text-xs-right>
-          <a href="https://github.com/cars10/elasticvue" target="_blank" rel="nofollow">Github</a><br>
-          <a href="https://elasticvue.com" target="_blank" rel="nofollow">Homepage</a>
-        </v-flex>
-      </v-flex>
-    </v-layout>
+      <v-col cols="4">
+        <v-col class="text-right">
+          <a href="https://github.com/cars10/elasticvue" rel="nofollow" target="_blank">Github</a><br>
+          <a href="https://elasticvue.com" rel="nofollow" target="_blank">Homepage</a>
+        </v-col>
+      </v-col>
+    </v-row>
   </v-footer>
 </template>
 

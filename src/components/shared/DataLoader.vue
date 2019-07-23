@@ -2,12 +2,12 @@
   <div>
     <template v-if="hasAnyError">
       <template v-if="apiError" :apiErrorMessage="apiErrorMessage">
-        <div class="pa-3">
+        <div class="pa-4">
           <v-alert :value="true">{{apiErrorMessage}}</v-alert>
         </div>
       </template>
       <template v-else-if="networkError">
-        <div class="pa-3">
+        <div class="pa-4">
           <v-alert :value="true" color="grey">Network error: failed to fetch</v-alert>
         </div>
       </template>

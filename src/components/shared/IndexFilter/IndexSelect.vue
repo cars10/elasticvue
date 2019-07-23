@@ -1,13 +1,13 @@
 <template>
-  <custom-v-autocomplete v-model="localValue"
+  <custom-v-autocomplete :chips="chips"
                          :items="indices | filteredIndices(showHidden)"
                          :loading="loading"
-                         :chips="chips"
-                         prepend-inner-icon="mdi-cached"
+                         v-model="localValue"
                          append-icon="mdi-menu-down"
-                         multiple
                          label="Select indices"
+                         multiple
                          name="indices"
+                         prepend-inner-icon="mdi-cached"
                          @click:prepend-inner="resetSelection">
     <template v-slot:item="data">
       <v-list-item-action>
@@ -35,7 +35,7 @@
     </template>
 
     <template v-slot:prepend-item>
-      <div class="px-3 mb-2">
+      <div class="px-4 mb-2">
         <btn-group class="d-inline-block">
           <v-btn small title="Select all indices" @click="selectAll">
             select all
@@ -47,7 +47,8 @@
         </btn-group>
 
         <div class="right d-inline-block">
-          <v-checkbox v-model="showHidden" label="show hidden" hide-details class="mt-0" title="Show indices starting with a dot"/>
+          <v-checkbox v-model="showHidden" class="mt-0" hide-details label="show hidden"
+                      title="Show indices starting with a dot"/>
         </div>
       </div>
       <v-divider/>

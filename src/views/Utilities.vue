@@ -1,6 +1,6 @@
 <template>
-  <v-layout>
-    <v-flex lg8 offset-lg2>
+  <v-row>
+    <v-col lg="8" offset-lg="2">
       <v-card>
         <v-card-title>
           <h1 class="headline">Utilities</h1>
@@ -8,56 +8,56 @@
         <v-divider/>
 
         <v-card-text>
-          <v-layout row wrap>
-            <v-flex md6>
+          <v-row>
+            <v-col md="6">
               <v-subheader>Create</v-subheader>
               <v-divider/>
               <v-list>
                 <template v-for="utility in utilities.create">
-                  <utility :key="utility.method"
-                           :text="utility.text"
-                           :confirm-message="utility.confirmMessage"
+                  <utility :confirm-message="utility.confirmMessage"
+                           :key="utility.method"
                            :method="utility.method"
                            :method-params="utility.methodParams"
-                           :name="'utility_create_' + utility.method"/>
+                           :name="'utility_create_' + utility.method"
+                           :text="utility.text"/>
                 </template>
               </v-list>
-            </v-flex>
+            </v-col>
 
-            <v-flex md6>
+            <v-col md="6">
               <v-subheader>Delete</v-subheader>
               <v-divider/>
               <v-list>
                 <template v-for="utility in utilities.delete">
-                  <utility :key="utility.method"
-                           :text="utility.text"
-                           :confirm-message="utility.confirmMessage"
+                  <utility :confirm-message="utility.confirmMessage"
+                           :key="utility.method"
                            :method="utility.method"
                            :method-params="utility.methodParams"
-                           :name="'utility_delete_' + utility.method"/>
+                           :name="'utility_delete_' + utility.method"
+                           :text="utility.text"/>
                 </template>
               </v-list>
-            </v-flex>
+            </v-col>
 
-            <v-flex md6>
+            <v-col md="6">
               <v-subheader>Misc</v-subheader>
               <v-divider/>
               <v-list>
                 <template v-for="utility in utilities.misc">
-                  <utility :key="utility.method"
-                           :text="utility.text"
-                           :confirm-message="utility.confirmMessage"
+                  <utility :confirm-message="utility.confirmMessage"
+                           :key="utility.method"
                            :method="utility.method"
                            :method-params="utility.methodParams"
-                           :name="'utility_misc_' + utility.method"/>
+                           :name="'utility_misc_' + utility.method"
+                           :text="utility.text"/>
                 </template>
               </v-list>
-            </v-flex>
-          </v-layout>
+            </v-col>
+          </v-row>
         </v-card-text>
       </v-card>
-    </v-flex>
-  </v-layout>
+    </v-col>
+  </v-row>
 </template>
 
 <script>

@@ -8,7 +8,7 @@
     </v-btn>
     <div v-if="open" class="settings-dropdown__dropdown elevation-2">
       <slot>
-        <v-flex pa-2><i>Empty</i></v-flex>
+        <v-col class="pa-2"><i>Empty</i></v-col>
       </slot>
     </div>
   </div>

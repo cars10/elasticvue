@@ -1,6 +1,6 @@
 <template>
-  <v-layout row wrap>
-    <v-flex xl8 offset-xl2 lg10 offset-lg1>
+  <v-row>
+    <v-col lg="10" offset-lg="1" offset-xl="2" xl="8">
       <v-card>
         <v-card-title>
           <h1 class="headline">Setup</h1>
@@ -18,8 +18,8 @@
           <test-and-connect/>
         </v-card-text>
       </v-card>
-    </v-flex>
-  </v-layout>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
