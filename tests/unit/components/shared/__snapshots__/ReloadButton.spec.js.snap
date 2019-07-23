@@ -4,72 +4,29 @@ exports[`components/shared/ReloadButton.vue has an empty default action 1`] = `
 <div
   class="d-inline-block reload-button"
 >
-  <button
-    class="mr-0 v-btn v-btn--flat v-btn--icon theme--light"
+  <v-btn
+    class="mr-0"
+    icon=""
     id="reload-button"
+    text=""
     title="Reload"
-    type="button"
   >
-    <div
-      class="v-btn__content"
-    >
-      <i
-        aria-hidden="true"
-        class="v-icon material-icons theme--light"
-      >
-        cached
-      </i>
-    </div>
-  </button>
+    <v-icon>
+      mdi-cached
+    </v-icon>
+  </v-btn>
    
   <div
     class="d-inline-block"
     title="Auto reload"
   >
-    <div
-      class="v-input mt-0 pt-0 d-inline-block v-select--dense-append v-text-field v-select v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light"
-      role="combobox"
-    >
-      <div
-        class="v-input__control"
-      >
-        <div
-          class="v-input__slot"
-        >
-          <div
-            class="v-select__slot"
-          >
-            <div
-              class="v-select__selections"
-            >
-              <input
-                aria-readonly="false"
-                autocomplete="on"
-                readonly="readonly"
-                type="text"
-              />
-            </div>
-            <div
-              class="v-input__append-inner"
-            >
-              <div
-                class="v-input__icon v-input__icon--append"
-              >
-                <i
-                  aria-hidden="true"
-                  class="v-icon material-icons theme--light"
-                >
-                  $vuetify.icons.dropdown
-                </i>
-              </div>
-            </div>
-          </div>
-          <div
-            class="v-menu"
-          />
-        </div>
-      </div>
-    </div>
+    <v-select
+      class="mt-0 pt-0 d-inline-block v-select--dense-append"
+      hide-details=""
+      item-text="text"
+      item-value="value"
+      items="[object Object],[object Object],[object Object],[object Object],[object Object]"
+    />
   </div>
 </div>
 `;

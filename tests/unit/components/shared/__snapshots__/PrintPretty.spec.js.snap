@@ -2,44 +2,37 @@
 
 exports[`components/shared/PrintPretty.vue correctly sets the initialHeight of its resizableContainer 1`] = `
 <div>
-  <div
-    class="layout"
-  >
-    <div
-      class="flex md9 xs12 my-0"
+  <v-row>
+    <v-col
+      class="my-0"
+      cols="12"
+      md="9"
     >
       <!---->
-    </div>
+    </v-col>
      
-    <div
-      class="flex md3 xs12 my-0 mx-2"
+    <v-col
+      class="my-0 mx-2"
+      cols="12"
+      md="3"
     >
-      <div
-        class="v-item-group right theme--light v-btn-toggle v-btn-toggle--only-child v-btn-toggle--selected"
+      <v-btn-toggle
+        class="right"
       >
-        <button
-          class="v-btn v-btn--active theme--light"
+        <v-btn
           title="Wrap lines"
-          type="button"
           value="true"
         >
-          <div
-            class="v-btn__content"
-          >
-            <i
-              aria-hidden="true"
-              class="v-icon material-icons theme--light"
-            >
-              wrap_text
-            </i>
-          </div>
-        </button>
-      </div>
-    </div>
-  </div>
+          <v-icon>
+            mdi-wrap
+          </v-icon>
+        </v-btn>
+      </v-btn-toggle>
+    </v-col>
+  </v-row>
    
-  <div
-    class="flex py-2"
+  <v-col
+    class="py-2"
   >
     <div
       class="resizable-container"
@@ -137,50 +130,48 @@ exports[`components/shared/PrintPretty.vue correctly sets the initialHeight of i
         class="resizable-container__vertical-handler"
       />
     </div>
-  </div>
+  </v-col>
 </div>
 `;
 
 exports[`components/shared/PrintPretty.vue should render correct default contents 1`] = `
 <div>
   <div
-    class="layout"
+    class="row"
   >
     <div
-      class="flex md9 xs12 my-0"
+      class="my-0 col-md-9 col-12"
     >
       <!---->
     </div>
      
     <div
-      class="flex md3 xs12 my-0 mx-2"
+      class="my-0 mx-2 col-md-3 col-12"
     >
       <div
-        class="v-item-group right theme--light v-btn-toggle"
+        class="right v-item-group theme--light v-btn-toggle"
       >
         <button
-          class="v-btn v-btn--active theme--light"
+          class="v-btn v-item--active v-btn--active v-btn--contained theme--light v-size--default"
           title="Wrap lines"
           type="button"
           value="true"
         >
-          <div
+          <span
             class="v-btn__content"
           >
             <i
               aria-hidden="true"
-              class="v-icon material-icons theme--light"
-            >
-              wrap_text
-            </i>
-          </div>
+              class="v-icon notranslate mdi mdi-wrap theme--light"
+            />
+          </span>
         </button>
       </div>
     </div>
   </div>
    
   <div
-    class="flex py-2"
+    class="py-2 col"
   >
     <div
       class="resizable-container"
