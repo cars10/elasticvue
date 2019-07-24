@@ -5,7 +5,7 @@
       <div class="clearfix">
         <new-snapshot :repository="repository" @reloadData="emitReloadData"/>
         <reload-button :action="emitReloadData"/>
-        <v-col class="right d-inline-flex">
+        <v-col class="float-right d-inline-flex">
           <v-text-field id="filter"
                         v-model="filter"
                         append-icon="mdi-magnify"

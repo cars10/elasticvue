@@ -34,7 +34,7 @@
         <v-card>
           <v-card-title>
             <span class="subtitle-1">{{ props.item.name }}</span>
-            <v-col class="d-inline-block text-right right">
+            <v-col class="d-inline-block text-right float-right">
               <node-icons :elasticsearch-node="props.item"/>
             </v-col>
           </v-card-title>

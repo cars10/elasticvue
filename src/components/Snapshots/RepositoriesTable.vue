@@ -3,7 +3,7 @@
     <v-card-text>
       <div class="clearfix">
         <new-repository @reloadData="emitReloadData"/>
-        <v-col class="right d-inline-flex">
+        <v-col class="float-right d-inline-flex">
           <v-text-field id="filter"
                         v-model="filter"
                         append-icon="mdi-magnify"

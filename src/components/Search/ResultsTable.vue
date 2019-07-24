@@ -3,7 +3,7 @@
     <v-card-text>
       <div class="clearfix">
 
-        <v-col class="right d-inline-flex">
+        <v-col class="float-right d-inline-flex">
           <v-text-field id="filter"
                         :loading="filterLoading"
                         v-model="filter"

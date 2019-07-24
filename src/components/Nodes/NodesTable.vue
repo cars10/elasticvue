@@ -7,7 +7,7 @@
           <reload-button id="reload-nodes" :action="() => this.$emit('reloadNodes')"/>
         </v-col>
         <v-col class="py-0" cols="12" sm="6">
-          <v-col class="right d-inline-flex">
+          <v-col class="float-right d-inline-flex">
             <v-text-field id="nodes_table_filter"
                           v-model="filter"
                           append-icon="mdi-magnify"

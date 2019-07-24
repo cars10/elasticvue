@@ -5,7 +5,7 @@
         <h2 v-if="caption" class="title pt-4">{{caption}}</h2>
       </v-col>
       <v-col class="my-0 mx-2" cols="12" md="3">
-        <v-btn-toggle v-model="wrapLines" class="right">
+        <v-btn-toggle v-model="wrapLines" class="float-right">
           <v-btn :value="true" title="Wrap lines">
             <v-icon>mdi-wrap</v-icon>
           </v-btn>

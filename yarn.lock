@@ -4067,10 +4067,10 @@ eslint-plugin-vue@^5.2.2:
   dependencies:
     vue-eslint-parser "^5.0.0"
 
-eslint-plugin-vuetify@^1.0.0-beta.1:
-  version "1.0.0-beta.1"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-vuetify/-/eslint-plugin-vuetify-1.0.0-beta.1.tgz#a1dd7170648490d723a69b7d26e2980bea266cc9"
-  integrity sha512-ykvm73Ge6WWhyIcXbUjC/BxRpI1M2f4KkUc5jTVX2L73kL5qJ146aMaV1uYkzMY/stkoSVgzdih2Dr9+BRWlRA==
+eslint-plugin-vuetify@^1.0.0-beta.3:
+  version "1.0.0-beta.3"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-vuetify/-/eslint-plugin-vuetify-1.0.0-beta.3.tgz#4c6668ff5e706a74815dfbc3d3394dc90474eba6"
+  integrity sha512-50KiHdJOfKf+AJqX1FZJj1HkLlQK36luSdi4Usu9MEe6f92QwTRlafe2yxT9YGLSSozhopezve79wE3o6yRd4A==
   dependencies:
     eslint-plugin-vue "^5.2.2"
     requireindex "^1.2.0"
@@ -10987,10 +10987,10 @@ vuetify-loader@^1.2.2:
   dependencies:
     loader-utils "^1.1.0"
 
-vuetify@^2.0.0-beta.9:
-  version "2.0.0-beta.9"
-  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-2.0.0-beta.9.tgz#bdb5430eac5f4d2c8f16ed046787f227343827bf"
-  integrity sha512-4xEqiwor93TDeDDTpp846ik6UvQEUk2TP7cRBt4cZpE5xIhpMjOM2oo4CajOoHOBkYKd6kNslYnsIXINkIYCSw==
+vuetify@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-2.0.0.tgz#58c72247251412b5e804c8c38a0e12bcb736d949"
+  integrity sha512-AbtHkWdvxF3QrR/xCpu2XL+KJ59Z7/KQQmbV4gPn6Q3VlQ5tXaGR4AJO1uNrvGCTlLlQxWHGcwMGOiHU7aIlqg==
 
 vuex-persistedstate@^2.5.4:
   version "2.5.4"
