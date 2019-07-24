@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title>
-      <h2 class="headline">Cluster Health</h2>
+      Cluster Health
       <reload-button :action="() => $refs.dataLoader.loadData()"/>
     </v-card-title>
     <v-divider/>

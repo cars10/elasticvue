@@ -3,23 +3,22 @@
     <v-card class="mb-2">
       <v-card-title class="clearfix">
         <v-row>
-          <v-col class="py-0 pl-0" cols="12" sm="6">
-            <h2 class="headline d-inline-flex vertical-align--middle">Nodes</h2>
+          <v-col class="py-0" cols="12" sm="6">
+            Nodes
             <reload-button id="reload-nodes" :action="() => this.$emit('reloadNodes')"/>
           </v-col>
+
           <v-col class="py-0" cols="12" sm="6">
-            <v-col class="right d-inline-flex">
-              <v-text-field id="nodes_grid_filter"
-                            v-model="filter"
-                            append-icon="mdi-magnify"
-                            autofocus
-                            class="mt-0 pt-0"
-                            hide-details
-                            label="Filter..."
-                            name="filter"
-                            title="Filter via 'column:query'"
-                            @keyup.esc="filter = ''"/>
-            </v-col>
+            <v-text-field id="nodes_grid_filter"
+                          v-model="filter"
+                          append-icon="mdi-magnify"
+                          autofocus
+                          class="mt-0 pt-0"
+                          hide-details
+                          label="Filter..."
+                          name="filter"
+                          title="Filter via 'column:query'"
+                          @keyup.esc="filter = ''"/>
           </v-col>
         </v-row>
       </v-card-title>

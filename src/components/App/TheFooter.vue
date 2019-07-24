@@ -1,6 +1,6 @@
 <template>
-  <v-footer height="auto">
-    <v-row class="pa-4">
+  <v-footer>
+    <v-row>
       <v-col cols="4">
         <v-switch id="theme_select" v-model="dark" class="mt-0 mb-2 pt-0" hide-details label="Dark theme"/>
         <a id="resetSettings" title="Disconnect and reset saved settings" @click="reset">Disconnect and reset</a>
@@ -12,10 +12,10 @@
       </v-col>
 
       <v-col cols="4">
-        <v-col class="text-right">
+        <div class="text-right">
           <a href="https://github.com/cars10/elasticvue" rel="nofollow" target="_blank">Github</a><br>
           <a href="https://elasticvue.com" rel="nofollow" target="_blank">Homepage</a>
-        </v-col>
+        </div>
       </v-col>
     </v-row>
   </v-footer>
