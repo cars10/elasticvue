@@ -11,7 +11,7 @@
     </v-toolbar-title>
 
     <div v-if="wasConnected" id="navbar_cluster_health" class="inline-block mt-1">
-      <v-btn class="ma-0" icon title="Disconnect and reset" @click="reset">
+      <v-btn small class="ma-0" icon title="Disconnect and reset" @click="reset">
         <v-icon small>mdi-link</v-icon>
       </v-btn>
       <span :title="apiVersion" class="mx-1">{{clusterInfo}}</span>
