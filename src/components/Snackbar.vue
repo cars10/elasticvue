@@ -3,7 +3,6 @@
               :multi-line="additionalText !== undefined"
               :timeout="timeout"
               v-model="visible"
-              auto-height
               right>
     {{text}}
     <template v-if="additionalText">
