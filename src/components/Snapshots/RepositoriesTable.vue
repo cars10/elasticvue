@@ -35,7 +35,7 @@
       <template v-slot:item="props">
         <tr class="tr--clickable" @click="() => expandRepository(props)">
           <td>
-            <v-icon v-if="props.expand.props.value">mdi-chevron-up</v-icon>
+            <v-icon v-if="props.isExpanded">mdi-chevron-up</v-icon>
             <v-icon v-else>mdi-chevron-down</v-icon>
           </td>
           <td>{{props.item.name}}</td>
@@ -151,8 +151,7 @@
         this.$emit('reloadData')
       },
       expandRepository (props) {
-        props.expand.props.value = !props.expand.props.value
-        props.expand.on.input(props.expand.props.value)
+        props.expand(!props.isExpanded)
       },
       deleteRepository (name) {
         elasticsearchRequest({
