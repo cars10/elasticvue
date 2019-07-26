@@ -7,12 +7,12 @@
           <reload-button id="reload-nodes" :action="() => this.$emit('reloadNodes')"/>
         </v-col>
         <v-col class="py-0" cols="12" sm="6">
-          <v-col class="float-right d-inline-flex">
+          <div class="float-right">
             <v-text-field id="nodes_table_filter"
                           v-model="filter"
                           append-icon="mdi-magnify"
                           autofocus
-                          class="mt-0 pt-0"
+                          class="mt-0 pt-0 v-text-field--small"
                           hide-details
                           label="Filter..."
                           name="filter"
@@ -22,7 +22,7 @@
             <settings-dropdown>
               <single-setting v-model="stickyTableHeader" name="Sticky table header"/>
             </settings-dropdown>
-          </v-col>
+          </div>
         </v-col>
       </v-row>
     </v-card-title>
