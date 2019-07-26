@@ -7,18 +7,19 @@
             Nodes
             <reload-button id="reload-nodes" :action="() => this.$emit('reloadNodes')"/>
           </v-col>
-
           <v-col class="py-0" cols="12" sm="6">
-            <v-text-field id="nodes_grid_filter"
-                          v-model="filter"
-                          append-icon="mdi-magnify"
-                          autofocus
-                          class="mt-0 pt-0"
-                          hide-details
-                          label="Filter..."
-                          name="filter"
-                          title="Filter via 'column:query'"
-                          @keyup.esc="filter = ''"/>
+            <div class="float-right">
+              <v-text-field id="nodes_grid_filter"
+                            v-model="filter"
+                            append-icon="mdi-magnify"
+                            autofocus
+                            class="mt-0 pt-0 v-text-field--small"
+                            hide-details
+                            label="Filter..."
+                            name="filter"
+                            title="Filter via 'column:query'"
+                            @keyup.esc="filter = ''"/>
+            </div>
           </v-col>
         </v-row>
       </v-card-title>

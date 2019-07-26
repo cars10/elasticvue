@@ -2,8 +2,8 @@
   <v-card>
     <v-card-title class="clearfix">
       <v-row>
-        <v-col class="py-0 pl-0" cols="12" sm="6">
-          <h2 class="headline d-inline-flex vertical-align--middle">Nodes</h2>
+        <v-col class="py-0" cols="12" sm="6">
+          Nodes
           <reload-button id="reload-nodes" :action="() => this.$emit('reloadNodes')"/>
         </v-col>
         <v-col class="py-0" cols="12" sm="6">
