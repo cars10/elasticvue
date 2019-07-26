@@ -33,19 +33,25 @@
                      :options.sync="pagination">
       <v-col slot="item" slot-scope="props" cols="12" lg="4" md="4" sm="6">
         <v-card>
-          <v-card-title>
-            <span class="subtitle-1">{{ props.item.name }}</span>
-            <v-col class="d-inline-block text-right float-right">
-              <node-icons :elasticsearch-node="props.item"/>
-            </v-col>
+          <v-card-title class="py-0">
+            <div class="row">
+              <div class="col">
+                <span class="subtitle-1">{{ props.item.name }}</span>
+              </div>
+              <div class="col">
+                <div class="d-inline-block float-right">
+                  <node-icons :elasticsearch-node="props.item"/>
+                </div>
+              </div>
+            </div>
           </v-card-title>
           <v-divider/>
 
           <v-row class="ma-0 overflow-x--auto caption">
-            <v-col :class="nodeListClass" class="d-flex pa-0" cols="12" sm="6">
-              <v-list dense>
+            <v-col :class="nodeListClass" class="pa-0" cols="12" sm="6">
+              <v-list dense class="py-0">
                 <v-list-item>
-                  <v-list-item-content>ip</v-list-item-content>
+                  <v-list-item-action>ip</v-list-item-action>
                   <v-list-item-content class="d-inline-block text-right">
                     {{ props.item.ip }}
                   </v-list-item-content>
@@ -76,8 +82,8 @@
               </v-list>
             </v-col>
 
-            <v-col class="d-flex pa-0" cols="12" sm="6">
-              <v-list dense>
+            <v-col class="pa-0" cols="12" sm="6">
+              <v-list dense class="py-0">
                 <v-list-item>
                   <v-list-item-action class="my-0">cpu</v-list-item-action>
                   <v-list-item-content>

@@ -56,10 +56,10 @@
           </td>
           <td>
             <v-row>
-              <v-col class="pb-0">
+              <v-col class="py-0">
                 <small>{{props.item.ramCurrent}}/{{props.item.ramMax}}</small>
               </v-col>
-              <v-col class="text-right pb-0">
+              <v-col class="text-right py-0">
                 <small>{{props.item.ramPercent}}%</small>
               </v-col>
             </v-row>
@@ -67,10 +67,10 @@
           </td>
           <td>
             <v-row>
-              <v-col class="pb-0">
+              <v-col class="py-0">
                 <small>{{props.item.heapCurrent}}/{{props.item.heapMax}}</small>
               </v-col>
-              <v-col class="text-right pb-0">
+              <v-col class="text-right py-0">
                 <small>{{props.item.heapPercent}}%</small>
               </v-col>
             </v-row>
@@ -78,10 +78,10 @@
           </td>
           <td>
             <v-row>
-              <v-col class="pb-0">
+              <v-col class="py-0">
                 <small>{{props.item.diskCurrent}}/{{props.item.diskMax}}</small>
               </v-col>
-              <v-col class="text-right pb-0">
+              <v-col class="text-right py-0">
                 <small>{{props.item.diskPercent}}%</small>
               </v-col>
             </v-row>
