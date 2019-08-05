@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-form @submit.prevent="loadData">
-      <v-col class="d-inline-flex pa-0">
+      <div class="d-inline-flex pa-0">
         <custom-v-autocomplete :items="ES_METHODS"
                                v-model="method"
                                item-text="name"
@@ -12,12 +12,12 @@
             {{data.item.name}}
           </template>
         </custom-v-autocomplete>
-      </v-col>
+      </div>
 
       <v-btn :href="apiDocumentationUrl" class="text-transform--none ml-2" target="_blank"
              text>
         <v-icon small>mdi-launch</v-icon>&nbsp;
-        open {{method}} documentation
+        open '{{method}}' documentation
       </v-btn>
 
       <resizable-container :initial-height="200" class="mb-1">
@@ -27,12 +27,12 @@
       <v-row>
         <v-col>
           <v-btn :disabled="!isValid" :loading="loading" class="mx-0" color="primary" type="submit">Run query</v-btn>
+          <a class="ml-2" href="javascript:void(0)" @click="reset">Reset form</a>
         </v-col>
         <v-col class="text-right">
           <a href="javascript:void(0)" @click="loadCatExample">Example #1 (_cat/indices)</a>
           <a class="ml-2" href="javascript:void(0)" @click="loadCreateExample">Example #2 (create index)</a>
           <a class="ml-2" href="javascript:void(0)" @click="loadDeleteExample">Example #3 (delete index)</a>
-          <a class="ml-2" href="javascript:void(0)" @click="reset">Reset</a>
         </v-col>
       </v-row>
     </v-form>

@@ -15,14 +15,14 @@
     </data-loader>
 
     <v-card-text>
-      <v-col class="d-inline-flex">
+      <div class="d-inline-flex">
         <v-alert :value="true" type="info">
           Note that you have to set <strong>path.repo</strong> in your <strong>elasticsearch.yml</strong> for snapshots
           to work.
           <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-snapshots.html"
              rel="nofollow" target="_blank">Docs</a>
         </v-alert>
-      </v-col>
+      </div>
     </v-card-text>
   </v-card>
 </template>

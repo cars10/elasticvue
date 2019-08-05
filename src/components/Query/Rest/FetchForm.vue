@@ -27,17 +27,12 @@
           <v-btn id="execute_query" :disabled="!isValid" :loading="loading" class="mx-0" color="primary" type="submit">
             Run query
           </v-btn>
-          <v-btn class="text-transform--none ml-2" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html" target="_blank"
-                 text>
-            <v-icon small>mdi-launch</v-icon>&nbsp;
-            api documentation
-          </v-btn>
+          <a class="ml-2" href="javascript:void(0)" @click="reset">Reset form</a>
         </v-col>
         <v-col class="text-right">
           <a href="javascript:void(0)" @click="loadCatExample">Example #1 (_cat/indices)</a>
           <a class="ml-2" href="javascript:void(0)" @click="loadCreateExample">Example #2 (create index)</a>
           <a class="ml-2" href="javascript:void(0)" @click="loadDeleteExample">Example #3 (delete index)</a>
-          <a class="ml-2" href="javascript:void(0)" @click="reset">Reset</a>
         </v-col>
       </v-row>
     </v-form>
