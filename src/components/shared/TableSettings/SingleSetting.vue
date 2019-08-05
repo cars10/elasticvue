@@ -1,12 +1,12 @@
 <template>
   <div>
     <slot name="single-setting__item">
-      <v-col class="px-4">
+      <div class="px-4">
         <v-checkbox :label="name"
                     :value="value"
                     v-model="ownValue"
-                    class="mt-2 mb-0" hide-details/>
-      </v-col>
+                    class="mt-0 mb-0" hide-details/>
+      </div>
     </slot>
   </div>
 </template>

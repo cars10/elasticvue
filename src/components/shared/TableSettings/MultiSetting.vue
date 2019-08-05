@@ -12,12 +12,12 @@
 
     <div v-for="setting in settings" :key="setting">
       <slot name="multi-setting__item">
-        <v-col class="px-4">
+        <div class="px-4">
           <v-checkbox :label="setting"
                       :value="setting"
                       v-model="ownValue"
                       class="my-0 v-input--checkbox--full-labels" hide-details/>
-        </v-col>
+        </div>
       </slot>
     </div>
   </div>
