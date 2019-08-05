@@ -4,7 +4,7 @@
   font-family: monospace;
 
   &:before, &:after {
-    content: initial;
+    content: initial !important;
   }
 }
 

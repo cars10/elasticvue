@@ -1,25 +1,29 @@
 <template>
   <div>
     <v-card-text>
-      <div class="clearfix">
-        <new-repository @reloadData="emitReloadData"/>
-        <v-col class="float-right d-inline-flex">
-          <v-text-field id="filter"
-                        v-model="filter"
-                        append-icon="mdi-magnify"
-                        autofocus
-                        class="mt-0"
-                        hide-details
-                        label="Filter..."
-                        name="filter"
-                        title="Filter via 'column:query'"
-                        @keyup.esc="filter = ''"/>
-
-          <settings-dropdown>
-            <single-setting v-model="stickyTableHeader" class="mb-1" name="Sticky table header"/>
-          </settings-dropdown>
+      <v-row>
+        <v-col>
+          <new-repository @reloadData="emitReloadData"/>
         </v-col>
-      </div>
+        <v-col>
+          <div class="d-inline-block float-right">
+            <v-text-field id="filter"
+                          v-model="filter"
+                          append-icon="mdi-magnify"
+                          autofocus
+                          class="mt-0 pt-0 v-text-field--small"
+                          hide-details
+                          label="Filter..."
+                          name="filter"
+                          title="Filter via 'column:query'"
+                          @keyup.esc="filter = ''"/>
+
+            <settings-dropdown>
+              <single-setting v-model="stickyTableHeader" class="mb-1" name="Sticky table header"/>
+            </settings-dropdown>
+          </div>
+        </v-col>
+      </v-row>
     </v-card-text>
 
     <v-data-table ref="repositoriesDataTable"

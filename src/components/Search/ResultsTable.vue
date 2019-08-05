@@ -2,8 +2,7 @@
   <div>
     <v-card-text>
       <div class="clearfix">
-
-        <v-col class="float-right d-inline-flex">
+        <div class="float-right d-inline-flex">
           <v-text-field id="filter"
                         :loading="filterLoading"
                         v-model="filter"
@@ -19,7 +18,7 @@
             <single-setting v-model="stickyTableHeader" class="mb-1" name="Sticky table header"/>
             <multi-setting :settings="mappings" v-model="selectedMappings" name="Columns"/>
           </settings-dropdown>
-        </v-col>
+        </div>
       </div>
     </v-card-text>
 

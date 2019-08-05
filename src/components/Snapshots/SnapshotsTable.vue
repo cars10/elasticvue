@@ -3,20 +3,26 @@
     <div class="px-2">
       <h3 class="subtitle-1 py-2">Snapshots for '{{repository}}'</h3>
       <div class="clearfix">
-        <new-snapshot :repository="repository" @reloadData="emitReloadData"/>
-        <reload-button :action="emitReloadData"/>
-        <v-col class="float-right d-inline-flex">
-          <v-text-field id="filter"
-                        v-model="filter"
-                        append-icon="mdi-magnify"
-                        autofocus
-                        class="mt-0"
-                        hide-details
-                        label="Filter..."
-                        name="filter"
-                        title="Filter via 'column:query'"
-                        @keyup.esc="filter = ''"/>
-        </v-col>
+        <v-row>
+          <v-col>
+            <new-snapshot :repository="repository" @reloadData="emitReloadData"/>
+            <reload-button :action="emitReloadData"/>
+          </v-col>
+          <v-col>
+            <div class="float-right d-inline-flex">
+              <v-text-field id="filter"
+                            v-model="filter"
+                            append-icon="mdi-magnify"
+                            autofocus
+                            class="mt-0 pt-0 v-text-field--small"
+                            hide-details
+                            label="Filter..."
+                            name="filter"
+                            title="Filter via 'column:query'"
+                            @keyup.esc="filter = ''"/>
+            </div>
+          </v-col>
+        </v-row>
       </div>
     </div>
 

@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2 class="title mb-1">2. Test and connect</h2>
-    <v-col class="px-4">
+    <div class="px-4">
       <v-form @submit.prevent="testConnection">
         <v-row>
           <v-col lg="6">
@@ -38,9 +38,9 @@
         </v-row>
       </v-form>
       <p class="grey--text">To connect with credentials use http://username:password@host syntax.</p>
-    </v-col>
+    </div>
 
-    <v-col v-if="hasError" class="px-4">
+    <div v-if="hasError" class="px-4">
       <v-alert :value="true" type="error">
         Could not connect. Please make sure that
         <ol class="pl-4">
@@ -52,7 +52,7 @@
           {{errorMessage}}
         </div>
       </v-alert>
-    </v-col>
+    </div>
   </div>
 </template>
 
