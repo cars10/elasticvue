@@ -7,6 +7,9 @@ html {
   overflow-y: initial;
 }
 
+$border-light-color: #ccc;
+$border-dark-color: #212121;
+
 @import 'components/bordered';
 @import 'components/btn_group';
 @import 'components/helpers';
