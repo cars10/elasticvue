@@ -2,12 +2,12 @@
   <div>
     <v-card-text>
       <div class="clearfix">
-        <div class="float-right d-inline-flex">
+        <div class="float-right d-inline-block">
           <v-text-field id="filter"
                         :loading="filterLoading"
                         v-model="filter"
                         append-icon="mdi-magnify"
-                        class="mt-0"
+                        class="mt-0 pt-0 v-text-field--small"
                         hide-details
                         label="Filter..."
                         name="filter"
