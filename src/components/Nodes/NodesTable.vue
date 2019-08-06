@@ -29,13 +29,11 @@
     <v-divider/>
 
     <v-data-table :class="tableClasses"
-                  :custom-filter="callFuzzyTableFilter"
                   :footer-props="{itemsPerPageOptions: DEFAULT_ITEMS_PER_PAGE}"
                   :headers="HEADERS"
-                  :items="items"
+                  :items="filteredItems"
                   :loading="loading"
-                  :options.sync="pagination"
-                  :search="filter">
+                  :options.sync="pagination">
       <template v-slot:item="props">
         <tr>
           <td>
@@ -101,8 +99,8 @@
   import SingleSetting from '@/components/shared/TableSettings/SingleSetting'
   import { mapVuexAccessors } from '../../helpers/store'
   import { DEFAULT_ITEMS_PER_PAGE } from '../../consts'
-  import { fuzzyTableFilter } from '../../helpers/filters'
   import { fixedTableHeaderOnDisable, fixedTableHeaderOnEnable, resetTableHeight } from '@/mixins/FixedTableHeader'
+  import { fuzzyTableFilter } from '@/helpers/filters'
 
   export default {
     name: 'nodes-table',
@@ -142,6 +140,9 @@
           'nodes_table',
           { 'table--fixed-header': this.stickyTableHeader }
         ]
+      },
+      filteredItems () {
+        return fuzzyTableFilter(this.items, this.filter, this.HEADERS)
       }
     },
     mounted () {
@@ -166,11 +167,6 @@
       ]
 
       this.DEFAULT_ITEMS_PER_PAGE = DEFAULT_ITEMS_PER_PAGE
-    },
-    methods: {
-      callFuzzyTableFilter (items, search, filter, headers) {
-        return fuzzyTableFilter(items, search, headers)
-      }
     }
   }
 </script>

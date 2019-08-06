@@ -12,6 +12,7 @@ export function fuzzyTableFilter (items, search, headers) {
     let query = searchSplit[1]
 
     if (query.trim() === '') return items
+    if (column.trim() === '') return items
 
     if (isExact(query)) {
       query = query.slice(1, -1)
