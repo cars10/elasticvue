@@ -9,7 +9,7 @@
 
         <v-card-text>
           <v-row>
-            <v-col md="6">
+            <v-col cols="12" md="6" sm="12">
               <v-subheader>Create</v-subheader>
               <v-divider/>
               <v-list>
@@ -24,7 +24,7 @@
               </v-list>
             </v-col>
 
-            <v-col md="6">
+            <v-col cols="12" md="6" sm="12">
               <v-subheader>Delete</v-subheader>
               <v-divider/>
               <v-list>
@@ -39,7 +39,7 @@
               </v-list>
             </v-col>
 
-            <v-col md="6">
+            <v-col cols="12" md="6" sm="12">
               <v-subheader>Misc</v-subheader>
               <v-divider/>
               <v-list>

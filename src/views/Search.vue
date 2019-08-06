@@ -8,7 +8,7 @@
     <v-card-text>
       <v-form @submit.prevent="loadData">
         <v-row>
-          <v-col lg="3">
+          <v-col cols="12" md="3" sm="12">
             <v-text-field id="query"
                           v-model="q"
                           append-icon="mdi-close"
@@ -19,11 +19,11 @@
                           @click:append="resetQuery"/>
           </v-col>
 
-          <v-col>
+          <v-col cols="12" md="8" sm="12">
             <index-filter v-model="indices" method="catIndices"/>
           </v-col>
 
-          <v-col lg="1">
+          <v-col cols="12" sm="1">
             <v-btn id="search_submit" class="mt-4" color="primary" type="submit">Search</v-btn>
           </v-col>
         </v-row>
