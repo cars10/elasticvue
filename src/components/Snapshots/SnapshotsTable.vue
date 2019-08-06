@@ -26,12 +26,10 @@
       </div>
     </div>
 
-    <v-data-table :custom-filter="callFuzzyTableFilter"
-                  :footer-props="{itemsPerPageOptions: DEFAULT_ITEMS_PER_PAGE}"
+    <v-data-table :footer-props="{itemsPerPageOptions: DEFAULT_ITEMS_PER_PAGE}"
                   :headers="HEADERS"
-                  :items="snapshots"
+                  :items="filteredSnapshots"
                   :loading="loading"
-                  :search="filter"
                   class="table--condensed"
                   item-key="id">
       <template v-slot:item="props">
@@ -126,6 +124,11 @@
         filter: ''
       }
     },
+    computed: {
+      filteredSnapshots () {
+        return fuzzyTableFilter(this.snapshots, this.filter, this.HEADERS)
+      }
+    },
     created () {
       this.HEADERS = [
         { text: 'id', value: 'id' },
@@ -142,9 +145,6 @@
       this.DEFAULT_ITEMS_PER_PAGE = DEFAULT_ITEMS_PER_PAGE
     },
     methods: {
-      callFuzzyTableFilter (items, search, filter, headers) {
-        return fuzzyTableFilter(items, search, headers)
-      },
       emitReloadData () {
         this.$emit('reloadData')
       },

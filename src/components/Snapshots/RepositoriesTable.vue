@@ -28,13 +28,11 @@
 
     <v-data-table ref="repositoriesDataTable"
                   :class="tableClasses"
-                  :custom-filter="callFuzzyTableFilter"
                   :footer-props="{itemsPerPageOptions: DEFAULT_ITEMS_PER_PAGE}"
                   :headers="HEADERS"
-                  :items="items"
+                  :items="filteredItems"
                   :loading="loading"
                   :options.sync="pagination"
-                  :search="filter"
                   item-key="name">
       <template v-slot:item="props">
         <tr class="tr--clickable" @click="() => expandRepository(props)">
@@ -120,6 +118,9 @@
           { 'table--fixed-header': this.stickyTableHeader }
         ]
       },
+      filteredItems () {
+        return fuzzyTableFilter(this.items, this.filter, this.HEADERS)
+      },
       ...mapVuexAccessors('snapshotRepositories', ['filter', 'pagination'])
     },
     watch: {
@@ -148,9 +149,6 @@
       this.DEFAULT_ITEMS_PER_PAGE = DEFAULT_ITEMS_PER_PAGE
     },
     methods: {
-      callFuzzyTableFilter (items, search, filter, headers) {
-        return fuzzyTableFilter(items, search, headers)
-      },
       emitReloadData () {
         this.$emit('reloadData')
       },
