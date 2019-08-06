@@ -3,7 +3,7 @@
     <v-card-title>
       <h1 class="headline">
         Rest
-        <v-btn class="text-transform--none ml-2"
+        <v-btn class="text-transform--none ml-2" small
                href="https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html" target="_blank"
                text>
           <v-icon small>mdi-launch</v-icon>&nbsp;

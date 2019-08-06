@@ -2,13 +2,13 @@
   <div>
     <v-form @submit.prevent="loadData">
       <v-row>
-        <v-col class="pb-0" lg="2" sm="3" xl="1">
+        <v-col class="py-0" lg="2" sm="3" xl="1">
           <v-select :items="HTTP_METHODS"
                     v-model="method"
                     label="HTTP Method"
                     name="http_method"/>
         </v-col>
-        <v-col class="pb-0" lg="10" sm="9" xl="11">
+        <v-col class="py-0" lg="10" sm="9" xl="11">
           <v-text-field id="path"
                         v-model="path"
                         autofocus
@@ -18,7 +18,7 @@
         </v-col>
       </v-row>
 
-      <resizable-container :initial-height="150" class="mb-1">
+      <resizable-container :initial-height="200" class="mb-1">
         <code-editor :external-commands="editorCommands" v-model="stringifiedParams"/>
       </resizable-container>
 
