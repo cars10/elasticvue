@@ -26,7 +26,7 @@
 
 const ELASTICSEARCH_URL = 'http://localhost:' + Cypress.env('ES_PORT').toString()
 
-Cypress.Commands.add('connect', () => {
+Cypress.Commands.add('connect', testCluster => {
   cy.visit('/', {
     onBeforeLoad: window => {
       window.localStorage.clear() // https://github.com/cypress-io/cypress/issues/2695#issuecomment-435147776
@@ -36,7 +36,7 @@ Cypress.Commands.add('connect', () => {
 
   cy.get('#host').clear()
   cy.get('#host').type(ELASTICSEARCH_URL)
-  cy.get('#test_connection').click()
+  if (testCluster) cy.get('#test_connection').click()
   cy.get('#connect:not([disabled])').click()
   cy.contains('Node Information').should('exist') // wait until first page is loaded
 })
