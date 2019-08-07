@@ -10,19 +10,19 @@ describe('Nodes', () => {
     })
 
     it('shows the current node in a grid', () => {
-      cy.get('.nodes_grid').contains('node.role')
+      cy.get('div.v-data-iterator').contains('node.role')
     })
 
     it('can filter', () => {
       cy.get('#nodes_grid_filter').clear()
       cy.get('#nodes_grid_filter').type('xxxxxxx')
 
-      cy.get('.nodes_grid').should(grid => {
+      cy.get('div.v-data-iterator').should(grid => {
         expect(grid).not.to.contain('node.role')
       })
 
       cy.get('#nodes_grid_filter').clear()
-      cy.get('.nodes_grid').should(grid => {
+      cy.get('div.v-data-iterator').should(grid => {
         expect(grid).to.contain('node.role')
       })
     })
