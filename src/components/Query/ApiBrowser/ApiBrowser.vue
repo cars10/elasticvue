@@ -27,17 +27,17 @@
       <v-row>
         <v-col>
           <v-btn :disabled="!isValid" :loading="loading" class="mx-0" color="primary" type="submit">Run query</v-btn>
-          <a class="ml-2" href="javascript:void(0)" @click="reset">Reset form</a>
+          <a id="reset-form" class="ml-2" href="javascript:void(0)" @click="reset">Reset form</a>
         </v-col>
         <v-col class="text-right">
-          <a href="javascript:void(0)" @click="loadCatExample">Example #1 (_cat/indices)</a>
-          <a class="ml-2" href="javascript:void(0)" @click="loadCreateExample">Example #2 (create index)</a>
-          <a class="ml-2" href="javascript:void(0)" @click="loadDeleteExample">Example #3 (delete index)</a>
+          <a id="example-1" href="javascript:void(0)" @click="loadCatExample">Example #1 (_cat/indices)</a>
+          <a id="example-2" class="ml-2" href="javascript:void(0)" @click="loadCreateExample">Example #2 (create index)</a>
+          <a id="example-3" class="ml-2" href="javascript:void(0)" @click="loadDeleteExample">Example #3 (delete index)</a>
         </v-col>
       </v-row>
     </v-form>
 
-    <print-pretty :document="response" caption="Response"/>
+    <print-pretty :document="response" caption="Response" class="response"/>
   </div>
 </template>
 
