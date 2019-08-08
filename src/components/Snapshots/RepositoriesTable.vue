@@ -35,7 +35,7 @@
                   :options.sync="pagination"
                   item-key="name">
       <template v-slot:item="props">
-        <tr class="tr--clickable" @click="() => expandRepository(props)">
+        <tr class="tr--clickable" @click="expandRepository(props)">
           <td>
             <v-icon v-if="props.isExpanded">mdi-chevron-up</v-icon>
             <v-icon v-else>mdi-chevron-down</v-icon>
@@ -44,7 +44,7 @@
           <td>{{props.item.type}}</td>
           <td>{{props.item.settings}}</td>
           <td>
-            <v-btn @click="deleteRepository(props.item.name)">
+            <v-btn @click.stop="deleteRepository(props.item.name)">
               <v-icon>mdi-delete</v-icon>
               Delete
             </v-btn>

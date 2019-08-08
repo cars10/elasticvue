@@ -1,6 +1,6 @@
 describe('Utilities page', () => {
   beforeEach(() => {
-    cy.cleanupElasticsearch()
+    cy.deleteAllIndices()
     cy.quickConnect()
     cy.visit('/utilities')
   })

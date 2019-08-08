@@ -62,8 +62,8 @@
                         required
                         @keydown.esc="closeDialog"/>
 
-          <v-checkbox v-model="compress" hide-details label="Compress"/>
-          <v-checkbox v-model="readonly" hide-details label="Readonly"/>
+          <v-checkbox id="compress" v-model="compress" hide-details label="Compress"/>
+          <v-checkbox id="readonly" v-model="readonly" hide-details label="Readonly"/>
         </v-card-text>
 
         <v-card-actions class="pa-4">

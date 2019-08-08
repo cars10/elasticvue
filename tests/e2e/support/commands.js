@@ -49,12 +49,32 @@ Cypress.Commands.add('quickConnect', () => {
       window.localStorage.setItem('elasticvuex', `{"connection":{"wasConnected":true,"elasticsearchHost":"${ELASTICSEARCH_URL}"}}`)
     }
   })
-  cy.contains('cluster_uuid').should('exist')
 })
 
-Cypress.Commands.add('cleanupElasticsearch', () => {
+Cypress.Commands.add('deleteAllIndices', () => {
   cy.request('DELETE', ELASTICSEARCH_URL + '/_all')
   return cy.flushIndices()
+})
+
+Cypress.Commands.add('deleteAllSnapshotRepositories', () => {
+  cy.request('GET', ELASTICSEARCH_URL + '/_snapshot').then(response => {
+    for (var repoName in response.body) {
+      cy.request('DELETE', ELASTICSEARCH_URL + '/_snapshot/' + repoName)
+    }
+  })
+})
+
+Cypress.Commands.add('getSnapshotRepository', name => {
+  cy.request('GET', ELASTICSEARCH_URL + '/_snapshot/' + name)
+})
+
+Cypress.Commands.add('createSnapshotRepository', name => {
+  cy.request('PUT', ELASTICSEARCH_URL + '/_snapshot/' + name, {
+    type: 'fs',
+    settings: {
+      location: name
+    }
+  })
 })
 
 Cypress.Commands.add('catIndices', () => {
@@ -69,7 +89,7 @@ Cypress.Commands.add('catIndices', () => {
 })
 
 Cypress.Commands.add('createIndex', indexName => {
-  return cy.request('PUT', 'http://localhost:' + Cypress.env('ES_PORT').toString() + '/' + indexName)
+  return cy.request('PUT', ELASTICSEARCH_URL + '/' + indexName)
 })
 
 Cypress.Commands.add('flushIndices', () => {

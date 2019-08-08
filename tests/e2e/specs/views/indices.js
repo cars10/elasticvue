@@ -1,6 +1,6 @@
 describe('Indices page', () => {
   beforeEach(() => {
-    cy.cleanupElasticsearch()
+    cy.deleteAllIndices()
     cy.quickConnect()
     cy.visit('/indices')
   })
@@ -21,7 +21,7 @@ describe('Indices page', () => {
       })
     })
 
-    it('can create indices with changed options', () => {
+    it('can create indices with custom options', () => {
       const indexName = 'name-1'
       const indexShards = '3'
       const indexReplicas = '2'

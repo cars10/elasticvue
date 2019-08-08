@@ -1,7 +1,7 @@
 describe('QueryRest', () => {
   beforeEach(() => {
     cy.quickConnect()
-    cy.cleanupElasticsearch()
+    cy.deleteAllIndices()
     cy.createIndex('testindex')
     cy.visit('/query/rest')
   })
