@@ -58,7 +58,12 @@ Cypress.Commands.add('deleteAllIndices', () => {
 
 Cypress.Commands.add('deleteAllSnapshotRepositories', () => {
   cy.request('GET', ELASTICSEARCH_URL + '/_snapshot').then(response => {
-    for (var repoName in response.body) {
+    for (var repoName of Object.keys(response.body)) {
+      cy.request('GET', ELASTICSEARCH_URL + '/_snapshot/' + repoName + '/_all').then(snapshots => {
+        for (var snapshot of snapshots.body.snapshots) {
+          cy.request('DELETE', ELASTICSEARCH_URL + '/_snapshot/' + repoName + '/' + snapshot.snapshot)
+        }
+      })
       cy.request('DELETE', ELASTICSEARCH_URL + '/_snapshot/' + repoName)
     }
   })
@@ -75,6 +80,10 @@ Cypress.Commands.add('createSnapshotRepository', name => {
       location: name
     }
   })
+})
+
+Cypress.Commands.add('createNewSnapshot', (repository, name) => {
+  cy.request('PUT', ELASTICSEARCH_URL + '/_snapshot/' + repository + '/' + name)
 })
 
 Cypress.Commands.add('catIndices', () => {

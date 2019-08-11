@@ -6,7 +6,7 @@
         <v-row>
           <v-col>
             <new-snapshot :repository="repository" @reloadData="emitReloadData"/>
-            <reload-button :action="emitReloadData"/>
+            <reload-button :action="emitReloadData" title="Reload snapshots"/>
           </v-col>
           <v-col>
             <div class="float-right d-inline-flex">
