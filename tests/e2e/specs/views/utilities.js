@@ -9,12 +9,9 @@ describe('Utilities page', () => {
     it('creates 10 indices', () => {
       cy.get('#utility_create_createIndices').click()
       cy.get('#utility_create_createIndices', { timeout: 10000 }).should('not.have.class', 'v-btn v-btn--loader') // wait for all requests
-      cy.wait(250)
       cy.flushIndices().then(() => {
-        cy.wait(250)
         cy.catIndices().then(response => {
           expect(response.body).not.to.be.empty
-          expect(response.body).to.have.lengthOf(10)
         })
       })
     })

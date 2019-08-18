@@ -22,13 +22,14 @@ describe('components/shared/PrintPretty.vue', () => {
   })
 
   it('should render correct default contents', () => {
-    const wrapper = mount(PrintPretty, { localVue, store })
+    const wrapper = mount(PrintPretty, { localVue, vuetify, store })
     expect(wrapper.element).toMatchSnapshot()
   })
 
   it('correctly sets the initialHeight of its resizableContainer', () => {
     const wrapper = mount(PrintPretty, {
-      localVue: localVue,
+      localVue,
+      vuetify,
       store: store,
       propsData: {
         initialHeight: 250

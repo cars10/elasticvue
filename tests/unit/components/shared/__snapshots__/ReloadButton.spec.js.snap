@@ -5,7 +5,7 @@ exports[`components/shared/ReloadButton.vue has an empty default action 1`] = `
   class="d-inline-block reload-button"
 >
   <button
-    class="mr-0 v-btn v-btn--fab v-btn--flat v-btn--icon v-btn--round v-btn--text theme--light v-size--small"
+    class="mr-0 v-btn v-btn--flat v-btn--icon v-btn--round v-btn--text theme--light v-size--small"
     id="reload-button"
     title="Reload"
     type="button"
@@ -83,7 +83,7 @@ exports[`components/shared/ReloadButton.vue should render correct default conten
   class="d-inline-block reload-button"
 >
   <button
-    class="mr-0 v-btn v-btn--fab v-btn--flat v-btn--icon v-btn--round v-btn--text theme--light v-size--small"
+    class="mr-0 v-btn v-btn--flat v-btn--icon v-btn--round v-btn--text theme--light v-size--small"
     id="reload-button"
     title="Reload"
     type="button"
