@@ -4,53 +4,20 @@ exports[`components/shared/ReloadButton.vue has an empty default action 1`] = `
 <div
   class="d-inline-block reload-button"
 >
-  <v-btn
-    class="mr-0"
-    icon=""
-    id="reload-button"
-    text=""
-    title="Reload"
-  >
-    <v-icon>
-      mdi-cached
-    </v-icon>
-  </v-btn>
-   
-  <div
-    class="d-inline-block"
-    title="Auto reload"
-  >
-    <v-select
-      class="mt-0 pt-0 d-inline-block v-select--dense-append"
-      hide-details=""
-      item-text="text"
-      item-value="value"
-      items="[object Object],[object Object],[object Object],[object Object],[object Object]"
-    />
-  </div>
-</div>
-`;
-
-exports[`components/shared/ReloadButton.vue should render correct default contents 1`] = `
-<div
-  class="d-inline-block reload-button"
->
   <button
-    class="mr-0 v-btn v-btn--flat v-btn--icon theme--light"
+    class="mr-0 v-btn v-btn--fab v-btn--flat v-btn--icon v-btn--round v-btn--text theme--light v-size--small"
     id="reload-button"
     title="Reload"
     type="button"
   >
-    <div
+    <span
       class="v-btn__content"
     >
       <i
         aria-hidden="true"
-        class="v-icon material-icons theme--light"
-      >
-        cached
-      </i>
-    </div>
+        class="v-icon notranslate mdi mdi-cached theme--light"
+      />
+    </span>
   </button>
    
   <div
@@ -58,14 +25,17 @@ exports[`components/shared/ReloadButton.vue should render correct default conten
     title="Auto reload"
   >
     <div
-      class="v-input mt-0 pt-0 d-inline-block v-select--dense-append v-text-field v-select v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light"
-      role="combobox"
+      class="v-input mt-0 pt-0 d-inline-block v-select--dense-append v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-text-field v-select"
     >
       <div
         class="v-input__control"
       >
         <div
+          aria-expanded="false"
+          aria-haspopup="listbox"
+          aria-owns="list-17"
           class="v-input__slot"
+          role="button"
         >
           <div
             class="v-select__slot"
@@ -74,8 +44,8 @@ exports[`components/shared/ReloadButton.vue should render correct default conten
               class="v-select__selections"
             >
               <input
-                aria-readonly="false"
-                autocomplete="on"
+                aria-readonly="true"
+                id="input-17"
                 readonly="readonly"
                 type="text"
               />
@@ -88,16 +58,97 @@ exports[`components/shared/ReloadButton.vue should render correct default conten
               >
                 <i
                   aria-hidden="true"
-                  class="v-icon material-icons theme--light"
-                >
-                  $vuetify.icons.dropdown
-                </i>
+                  class="v-icon notranslate mdi mdi-menu-down theme--light"
+                />
               </div>
             </div>
           </div>
           <div
             class="v-menu"
-          />
+          >
+            <div
+              class="v-menu__content theme--light "
+              style="max-height: 304px; min-width: 0px; max-width: auto; top: 12px; left: 0px; transform-origin: top left; z-index: 0; display: none;"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/shared/ReloadButton.vue should render correct default contents 1`] = `
+<div
+  class="d-inline-block reload-button"
+>
+  <button
+    class="mr-0 v-btn v-btn--fab v-btn--flat v-btn--icon v-btn--round v-btn--text theme--light v-size--small"
+    id="reload-button"
+    title="Reload"
+    type="button"
+  >
+    <span
+      class="v-btn__content"
+    >
+      <i
+        aria-hidden="true"
+        class="v-icon notranslate mdi mdi-cached theme--light"
+      />
+    </span>
+  </button>
+   
+  <div
+    class="d-inline-block"
+    title="Auto reload"
+  >
+    <div
+      class="v-input mt-0 pt-0 d-inline-block v-select--dense-append v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-text-field v-select"
+    >
+      <div
+        class="v-input__control"
+      >
+        <div
+          aria-expanded="false"
+          aria-haspopup="listbox"
+          aria-owns="list-6"
+          class="v-input__slot"
+          role="button"
+        >
+          <div
+            class="v-select__slot"
+          >
+            <div
+              class="v-select__selections"
+            >
+              <input
+                aria-readonly="true"
+                id="input-6"
+                readonly="readonly"
+                type="text"
+              />
+            </div>
+            <div
+              class="v-input__append-inner"
+            >
+              <div
+                class="v-input__icon v-input__icon--append"
+              >
+                <i
+                  aria-hidden="true"
+                  class="v-icon notranslate mdi mdi-menu-down theme--light"
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            class="v-menu"
+          >
+            <div
+              class="v-menu__content theme--light "
+              style="max-height: 304px; min-width: 0px; max-width: auto; top: 12px; left: 0px; transform-origin: top left; z-index: 0; display: none;"
+            />
+          </div>
         </div>
       </div>
     </div>

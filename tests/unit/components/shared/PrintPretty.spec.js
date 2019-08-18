@@ -1,11 +1,6 @@
+import Vue from 'vue'
 import Vuex from 'vuex'
 import Vuetify from 'vuetify'
-import VBtn from 'vuetify/es5/components/VBtn'
-import VIcon from 'vuetify/es5/components/VIcon'
-import VGrid from 'vuetify/es5/components/VGrid'
-import VBtnToggle from 'vuetify/es5/components/VBtnToggle'
-import CodeEditor from '@/components/shared/CodeEditor'
-import ResizableContainer from '@/components/shared/ResizableContainer'
 import PrintPretty from '@/components/shared/PrintPretty'
 import { createLocalVue, mount } from '@vue/test-utils'
 import { theme } from '@/store/modules/theme'
@@ -13,21 +8,14 @@ import '../../mocks/codeEditorMocks'
 
 describe('components/shared/PrintPretty.vue', () => {
   let localVue
+  let vuetify
   let store
 
   beforeEach(() => {
     localVue = createLocalVue()
+    vuetify = new Vuetify()
+    Vue.use(Vuetify)
     localVue.use(Vuex)
-    localVue.use(Vuetify, {
-      components: {
-        CodeEditor,
-        ResizableContainer,
-        VBtn,
-        VIcon,
-        VGrid,
-        VBtnToggle
-      }
-    })
     store = new Vuex.Store({
       modules: { theme }
     })

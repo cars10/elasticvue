@@ -1,35 +1,28 @@
+import Vue from 'vue'
 import Vuetify from 'vuetify'
-import VBtn from 'vuetify/es5/components/VBtn'
-import VIcon from 'vuetify/es5/components/VIcon'
-import VGrid from 'vuetify/es5/components/VGrid'
 import ResizableContainer from '@/components/shared/ResizableContainer'
-import BtnGroup from '@/components/shared/BtnGroup'
 import { createLocalVue, mount } from '@vue/test-utils'
 import '../../mocks/resizableContainerMocks'
 
 describe('components/shared/ResizableContainer.vue', () => {
   let localVue
+  let vuetify
 
   beforeEach(() => {
     localVue = createLocalVue()
-    localVue.use(Vuetify, {
-      components: {
-        BtnGroup,
-        VBtn,
-        VIcon,
-        VGrid
-      }
-    })
+    vuetify = new Vuetify()
+    Vue.use(Vuetify)
   })
 
   it('should render correct default contents', () => {
-    const wrapper = mount(ResizableContainer, { localVue })
+    const wrapper = mount(ResizableContainer, { localVue, vuetify })
     expect(wrapper.element).toMatchSnapshot()
   })
 
   it('should render correct initialHeight', () => {
     const wrapper = mount(ResizableContainer, {
-      localVue: localVue,
+      localVue,
+      vuetify,
       propsData: {
         initialHeight: 500
       }
@@ -39,7 +32,8 @@ describe('components/shared/ResizableContainer.vue', () => {
 
   it('should increase the height on drag', () => {
     const wrapper = mount(ResizableContainer, {
-      localVue: localVue,
+      localVue,
+      vuetify,
       attachToDocument: true
     })
     const handler = wrapper.find('div.resizable-container__vertical-handler')
@@ -55,7 +49,8 @@ describe('components/shared/ResizableContainer.vue', () => {
 
   it('should increase the height on drag and scroll if needed', () => {
     const wrapper = mount(ResizableContainer, {
-      localVue: localVue,
+      localVue,
+      vuetify,
       attachToDocument: true
     })
     const handler = wrapper.find('div.resizable-container__vertical-handler')
@@ -71,7 +66,8 @@ describe('components/shared/ResizableContainer.vue', () => {
 
   it('should not decrease the height lower then intialHeight', () => {
     const wrapper = mount(ResizableContainer, {
-      localVue: localVue,
+      localVue,
+      vuetify,
       attachToDocument: true
     })
     const handler = wrapper.find('div.resizable-container__vertical-handler')

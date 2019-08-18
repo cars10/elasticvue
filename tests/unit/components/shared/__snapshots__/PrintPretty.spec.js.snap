@@ -2,37 +2,42 @@
 
 exports[`components/shared/PrintPretty.vue correctly sets the initialHeight of its resizableContainer 1`] = `
 <div>
-  <v-row>
-    <v-col
-      class="my-0"
-      cols="12"
-      md="9"
+  <div
+    class="row"
+  >
+    <div
+      class="my-0 py-0 col-md-9 col-12"
     >
       <!---->
-    </v-col>
+    </div>
      
-    <v-col
-      class="my-0 mx-2"
-      cols="12"
-      md="3"
+    <div
+      class="my-0 py-0 col-md-3 col-12"
     >
-      <v-btn-toggle
-        class="right"
+      <div
+        class="float-right v-btn-toggle--small v-item-group theme--light v-btn-toggle"
       >
-        <v-btn
+        <button
+          class="v-btn v-item--active v-btn--active v-btn--contained theme--light v-size--default"
           title="Wrap lines"
+          type="button"
           value="true"
         >
-          <v-icon>
-            mdi-wrap
-          </v-icon>
-        </v-btn>
-      </v-btn-toggle>
-    </v-col>
-  </v-row>
+          <span
+            class="v-btn__content"
+          >
+            <i
+              aria-hidden="true"
+              class="v-icon notranslate mdi mdi-wrap theme--light"
+            />
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
    
-  <v-col
-    class="py-2"
+  <div
+    class="py-1"
   >
     <div
       class="resizable-container"
@@ -130,7 +135,7 @@ exports[`components/shared/PrintPretty.vue correctly sets the initialHeight of i
         class="resizable-container__vertical-handler"
       />
     </div>
-  </v-col>
+  </div>
 </div>
 `;
 
@@ -140,16 +145,16 @@ exports[`components/shared/PrintPretty.vue should render correct default content
     class="row"
   >
     <div
-      class="my-0 col-md-9 col-12"
+      class="my-0 py-0 col-md-9 col-12"
     >
       <!---->
     </div>
      
     <div
-      class="my-0 mx-2 col-md-3 col-12"
+      class="my-0 py-0 col-md-3 col-12"
     >
       <div
-        class="right v-item-group theme--light v-btn-toggle"
+        class="float-right v-btn-toggle--small v-item-group theme--light v-btn-toggle"
       >
         <button
           class="v-btn v-item--active v-btn--active v-btn--contained theme--light v-size--default"
@@ -171,7 +176,7 @@ exports[`components/shared/PrintPretty.vue should render correct default content
   </div>
    
   <div
-    class="py-2 col"
+    class="py-1"
   >
     <div
       class="resizable-container"
