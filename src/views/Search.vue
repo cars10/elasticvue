@@ -7,47 +7,45 @@
 
     <v-card-text>
       <v-form @submit.prevent="loadData">
-        <v-layout row wrap>
-          <v-flex lg3>
+        <v-row>
+          <v-col cols="12" md="3" sm="12">
             <v-text-field id="query"
                           v-model="q"
-                          label="Search"
-                          name="query"
-                          messages="Querying supports the <a tabindex='-1' target='_blank' rel='noopener' href='https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html'>query string DSL</a>"
-                          append-icon="clear"
+                          append-icon="mdi-close"
                           autofocus
+                          label="Search"
+                          messages="Searching supports the <a tabindex='-1' target='_blank' rel='noopener' href='https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html'>query string DSL</a>"
+                          name="query"
                           @click:append="resetQuery"/>
-          </v-flex>
+          </v-col>
 
-          <v-flex>
+          <v-col cols="12" md="8" sm="12">
             <index-filter v-model="indices" method="catIndices"/>
-          </v-flex>
+          </v-col>
 
-          <v-flex lg1>
-            <v-flex right>
-              <v-btn id="search_submit" type="submit" color="primary">Search</v-btn>
-            </v-flex>
-          </v-flex>
-        </v-layout>
+          <v-col cols="12" sm="1">
+            <v-btn id="search_submit" class="mt-4" color="primary" type="submit">Search</v-btn>
+          </v-col>
+        </v-row>
 
         <div v-if="optionsCollapsed" class="my-2 pa-2 lowered">
-          <v-layout row wrap>
-            <v-flex lg9>
+          <v-row>
+            <v-col lg="9">
               <v-text-field v-model="source"
                             label="Source includes"
-                            name="source_includes"
-                            messages="Enter a comma separated list of columns to load"/>
-            </v-flex>
+                            messages="Enter a comma separated list of columns to load"
+                            name="source_includes"/>
+            </v-col>
 
-            <v-flex lg3>
+            <v-col lg="3">
               <v-text-field v-model="size" label="Size" name="size"/>
-            </v-flex>
-          </v-layout>
+            </v-col>
+          </v-row>
         </div>
 
-        <div class="text-xs-center">
+        <div class="text-center">
           <a class="grey--text user-select--none" @click="showOptions">More options...
-            <v-icon small>{{optionsCollapsed ? 'arrow_upwards' : 'arrow_downwards'}}</v-icon>
+            <v-icon small>{{optionsCollapsed ? 'mdi-chevron-up' : 'mdi-chevron-down'}}</v-icon>
           </a>
         </div>
       </v-form>
@@ -56,8 +54,8 @@
     <v-divider/>
 
     <data-loader ref="resultsLoader"
-                 :method-params="searchParams"
                  :execute="false"
+                 :method-params="searchParams"
                  method="search"
                  render-content-while-loading>
       <template v-slot:default="data">

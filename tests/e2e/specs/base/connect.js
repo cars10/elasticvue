@@ -1,7 +1,12 @@
 describe('Connection', () => {
   it('can connect to a running cluster', () => {
+    cy.connect(true)
+    cy.contains('div.v-card__title', 'Node Information').should('exist')
+  })
+
+  it('can connect to a running cluster without testing first', () => {
     cy.connect()
-    cy.contains('h2', 'Node Information').should('exist')
+    cy.contains('div.v-card__title', 'Node Information').should('exist')
   })
 
   it('cannot connect to a non existing cluster', () => {

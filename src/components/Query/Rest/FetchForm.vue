@@ -1,33 +1,43 @@
 <template>
   <div>
     <v-form @submit.prevent="loadData">
-      <v-layout>
-        <v-flex xl1 lg2 sm3 pb-0>
-          <v-select v-model="method"
-                    :items="HTTP_METHODS"
+      <v-row>
+        <v-col class="py-0" lg="2" sm="3" xl="1">
+          <v-select :items="HTTP_METHODS"
+                    v-model="method"
                     label="HTTP Method"
                     name="http_method"/>
-        </v-flex>
-        <v-flex xl11 lg10 sm9 pb-0>
+        </v-col>
+        <v-col class="py-0" lg="10" sm="9" xl="11">
           <v-text-field id="path"
                         v-model="path"
+                        autofocus
                         label="Path"
                         name="path"
-                        placeholder="/_cat/indices"
-                        autofocus/>
-        </v-flex>
-      </v-layout>
+                        placeholder="/"/>
+        </v-col>
+      </v-row>
 
-      <resizable-container :initial-height="150" class="mb-1">
-        <code-editor v-model="stringifiedParams" :external-commands="editorCommands"/>
+      <resizable-container :initial-height="200" class="mb-1">
+        <code-editor :external-commands="editorCommands" v-model="stringifiedParams"/>
       </resizable-container>
 
-      <v-btn id="execute_query" :disabled="!isValid" :loading="loading" type="submit" color="primary" class="mx-0">
-        Run query
-      </v-btn>
+      <v-row>
+        <v-col>
+          <v-btn id="execute_query" :disabled="!isValid" :loading="loading" class="mx-0" color="primary" type="submit">
+            Run query
+          </v-btn>
+          <a id="reset-form" class="ml-2" href="javascript:void(0)" @click="reset">Reset form</a>
+        </v-col>
+        <v-col class="text-right">
+          <a id="example-1" href="javascript:void(0)" @click="loadCatExample">Example #1 (_cat/indices)</a>
+          <a id="example-2" class="ml-2" href="javascript:void(0)" @click="loadCreateExample">Example #2 (create index)</a>
+          <a id="example-3" class="ml-2" href="javascript:void(0)" @click="loadDeleteExample">Example #3 (delete index)</a>
+        </v-col>
+      </v-row>
     </v-form>
 
-    <print-pretty :document="response" caption="Response"/>
+    <print-pretty :document="response" caption="Response" class="response"/>
   </div>
 </template>
 
@@ -56,7 +66,6 @@
     data () {
       return {
         loading: false,
-        path: '',
         response: {}
       }
     },
@@ -99,7 +108,7 @@
         }
         return fetchOptions
       },
-      ...mapVuexAccessors('queryRest', ['method', 'stringifiedParams'])
+      ...mapVuexAccessors('queryRest', ['method', 'path', 'stringifiedParams'])
     },
     created () {
       this.HTTP_METHODS = HTTP_METHODS
@@ -111,7 +120,7 @@
     methods: {
       loadData () {
         this.loading = true
-        this.response = {}
+        this.response = '// loading...'
         fetch(this.fetchUrl, this.fetchOptionsHash)
           .then(response => response.json())
           .then(json => {
@@ -123,6 +132,27 @@
             this.response = error.message
             this.showErrorSnackbar({ text: 'Error.', additionalText: error.message })
           })
+      },
+      loadCatExample () {
+        this.method = 'GET'
+        this.stringifiedParams = '{\r\n\t"h": ["health", "index", "docs.count"]\r\n}'
+        this.path = '_cat/indices'
+      },
+      loadCreateExample () {
+        this.method = 'PUT'
+        this.stringifiedParams = '{\r\n\t"settings": {\r\n\t\t"index": {\r\n\t\t\t"number_of_shards": 3,\r\n\t\t\t"number_of_replicas": 2\r\n\t\t}\r\n\t}\r\n}'
+        this.path = 'example_test_index'
+      },
+      loadDeleteExample () {
+        this.method = 'DELETE'
+        this.stringifiedParams = '{}'
+        this.path = 'example_test_index'
+      },
+      reset () {
+        this.method = 'GET'
+        this.stringifiedParams = '{}'
+        this.path = ''
+        this.response = ''
       }
     }
   }

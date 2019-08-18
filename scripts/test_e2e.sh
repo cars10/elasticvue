@@ -40,6 +40,7 @@ function configureElasticsearch {
   echo "http.port: ${ES_PORT}" > ${CONFIG}
   echo "http.cors.enabled: true" >> ${CONFIG}
   echo "http.cors.allow-origin: '*'" >> ${CONFIG}
+  echo "path.repo: '/tmp/elasticdata'" >> ${CONFIG}
 }
 
 function startElasticsearch {

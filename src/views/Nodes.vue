@@ -1,7 +1,7 @@
 <template>
   <data-loader ref="dataLoader" :method-params="CAT_METHOD_PARAMS" method="catNodes" render-content-while-loading>
     <template v-slot:default="data">
-      <nodes-list :nodes="data.body || []" :loading="data.loading" @reloadNodes="reloadNodes"/>
+      <nodes-list :loading="data.loading" :nodes="data.body || []" @reloadNodes="reloadNodes"/>
     </template>
   </data-loader>
 </template>

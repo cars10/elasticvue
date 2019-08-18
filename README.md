@@ -22,7 +22,15 @@ Contents
 
 **Elasticvue** is a frontend for elasticsearch allowing you to search and filter your clusters data right in your browser.
 
-It officially works with elasticsearch `6.x` and `7.x`. Older versions might or might not work, `elasticsearch-js` will fallback to the `6.6` api if an unsupported version is used.
+It officially works with the following elasticsearch versions:
+
+* `5.6`
+* `6.8`
+* `7.0`
+* `7.1`
+* `7.2`
+
+Other versions might or might not work, `elasticsearch-js` will fallback to the `7.2` api if an unsupported version is used.
 
 
 ### Features
@@ -57,6 +65,8 @@ Or build the image locally:
 * Build `docker build -t elasticvue .`
 * Run `docker run -p 8080:8080 elasticvue`
 
+Then open [http://localhost:8080](http://localhost:8080) in your browser.
+
 **Chrome extension**
 
 Install the extension from the [chrome webstore](https://chrome.google.com/webstore/detail/elasticvue/hkedbapjpblbodpgbajblpnlpenaebaa). Start elasticvue by clicking on the icon in your toolbar.
@@ -67,6 +77,19 @@ Install the extension from the [chrome webstore](https://chrome.google.com/webst
 * Open the folder `cd elasticvue`
 * Install dependencies `yarn install`
 * Run a production server via `yarn prod` or dev server `yarn serve`
+
+Alternatively run `yarn build` and host the assets yourself. Example nginx config:
+
+```
+  listen 80;
+  server_name yourdomain.com;
+  root /var/www/elasticvue_app/dist;
+  location / {
+    try_files $uri $uri/ /index.html?$args;
+  }
+``` 
+
+Also see the [official vuejs deployment guide](https://cli.vuejs.org/guide/deployment.html#docker-nginx).
 
 
 ### Elasticsearch configuration
@@ -155,12 +178,13 @@ yarn build_chrome_extension
 
 ### 1.0
 
-* add "exact match" option to all filters and selects (via enclosing quotation marks)
-* document edit/delete
-* cluster settings
+* refactor runRequest to use promises
+* document, index, snapshot repo and snapshot: add edit/delete
+* catch elasticsearch 5xx errors
 
 ### Future
 
+* cluster settings
 * data import/export
 
 ### Internal stuff and refactorings

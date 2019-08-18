@@ -1,6 +1,8 @@
 <template>
   <v-dialog v-model="dialog" width="500">
-    <v-btn id="new_index" slot="activator" color="primary" class="ml-0">New index</v-btn>
+    <template v-slot:activator="{on}">
+      <v-btn id="new_index" class="ml-0" color="primary" v-on="on">New index</v-btn>
+    </template>
 
     <v-card>
       <v-card-title>
@@ -8,33 +10,38 @@
       </v-card-title>
 
       <v-divider/>
-      <v-card-text>
-        <v-form ref="form" v-model="valid" lazy-validation>
-          <v-text-field id="index_name"
-                        v-model="indexName"
+      <v-form ref="form" v-model="valid" lazy-validation @submit.prevent="createIndex">
+        <v-card-text>
+          <v-text-field v-if="dialog"
+                        id="index_name"
                         :rules="[nameValidation]"
-                        required
+                        v-model="indexName"
+                        autofocus
+                        label="Index name"
                         name="indexName"
-                        label="Index name"/>
+                        required
+                        @keyup.esc="closeDialog"/>
 
           <v-text-field id="index_shards"
                         v-model="indexShards"
+                        label="Number of shards"
                         name="indexShards"
                         placeholder="1"
-                        label="Number of shards"/>
+                        @keyup.esc="closeDialog"/>
 
           <v-text-field id="index_replicas"
                         v-model="indexReplicas"
+                        label="Number of replicas"
                         name="indexReplicas"
                         placeholder="1"
-                        label="Number of replicas"/>
-        </v-form>
-      </v-card-text>
+                        @keyup.esc="closeDialog"/>
+        </v-card-text>
 
-      <v-card-actions>
-        <v-btn id="create_index" color="success" @click="createIndex">Create</v-btn>
-        <v-btn flat @click="closeDialog">Cancel</v-btn>
-      </v-card-actions>
+        <v-card-actions class="pa-4">
+          <v-btn id="create_index" color="success" type="submit">Create</v-btn>
+          <v-btn text @click="closeDialog">Cancel</v-btn>
+        </v-card-actions>
+      </v-form>
     </v-card>
   </v-dialog>
 </template>
@@ -90,6 +97,10 @@
           .catch(error => showErrorSnackbar({ text: 'Error:', additionalText: error.message }))
       },
       closeDialog () {
+        this.indexName = ''
+        this.indexShards = ''
+        this.indexReplicas = ''
+        this.$refs.form.resetValidation()
         this.dialog = false
       }
     }

@@ -72,7 +72,9 @@ export default {
       this.editor.getSession().setUseWrapMode(value)
     },
     value (value) {
-      if (this.readOnly) this.setEditorValue(value)
+      if (this.editor.getValue() !== value) {
+        this.setEditorValue(value)
+      }
     }
   },
   mounted () {

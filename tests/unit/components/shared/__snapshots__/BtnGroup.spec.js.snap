@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/shared/BtnGroup.vue should add the small group 1`] = `
+<div
+  class="elevation-1 btn-group btn-group--small"
+/>
+`;
+
+exports[`components/shared/BtnGroup.vue should render correct default contents 1`] = `
+<div
+  class="elevation-1 btn-group"
+/>
+`;

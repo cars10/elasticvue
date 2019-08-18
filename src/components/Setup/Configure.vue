@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2 class="title mb-1">1. Configure</h2>
-    <v-flex px-3>
+    <div class="px-4">
       <p class="mb-1">Add the following lines to your <strong>elasticsearch.yml</strong>:</p>
 
       <!-- @formatter:off -->
@@ -14,7 +14,7 @@ http.cors.allow-headers : X-Requested-With,Content-Type,Content-Length,Authoriza
 </code>
 <!-- @formatter:on -->
       <p class="mt-2 mb-0">Then restart your cluster.</p>
-    </v-flex>
+    </div>
   </div>
 </template>
 

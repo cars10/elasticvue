@@ -1,14 +1,14 @@
 <template>
   <div class="settings-dropdown" @click.stop>
-    <v-btn icon @click.native="toggleMenu">
+    <v-btn small icon @click.native="toggleMenu">
       <v-badge :value="badge" color="green" overlap>
-        <v-icon slot="badge" small>filter_list</v-icon>
-        <v-icon>settings</v-icon>
+        <v-icon slot="badge" small>mdi-filter-variant</v-icon>
+        <v-icon>mdi-settings</v-icon>
       </v-badge>
     </v-btn>
-    <div v-if="open" class="settings-dropdown__dropdown elevation-2">
+    <div v-if="open" class="settings-dropdown__dropdown pt-2 elevation-2">
       <slot>
-        <v-flex pa-2><i>Empty</i></v-flex>
+        <div class="pa-2"><i>Empty</i></div>
       </slot>
     </div>
   </div>

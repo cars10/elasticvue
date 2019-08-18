@@ -2,12 +2,12 @@
   <div>
     <template v-if="hasAnyError">
       <template v-if="apiError" :apiErrorMessage="apiErrorMessage">
-        <div class="pa-3">
+        <div class="pa-4">
           <v-alert :value="true">{{apiErrorMessage}}</v-alert>
         </div>
       </template>
       <template v-else-if="networkError">
-        <div class="pa-3">
+        <div class="pa-4">
           <v-alert :value="true" color="grey">Network error: failed to fetch</v-alert>
         </div>
       </template>
@@ -27,7 +27,6 @@
 
 <script>
   import Request from '@/mixins/Request'
-  import { flattenObject } from '../../helpers/utilities'
 
   export default {
     name: 'DataLoader',
@@ -38,17 +37,11 @@
         default: ''
       },
       methodParams: {
-        default: () => {
-          return {}
-        },
+        default: () => ({}),
         type: Object
       },
       execute: {
         default: true,
-        type: Boolean
-      },
-      flatten: {
-        default: false,
         type: Boolean
       },
       renderContentWhileLoading: {
@@ -62,9 +55,7 @@
     methods: {
       loadData () {
         this.callElasticsearch(this.method, this.methodParams)
-          .then(response => {
-            this.body = this.flatten ? flattenObject(response, true, true) : response
-          })
+          .then(response => (this.body = response))
       }
     }
   }

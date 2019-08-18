@@ -1,7 +1,7 @@
 <template>
-  <v-text-field v-model="localValue"
-                :hint="matchHint"
+  <v-text-field :hint="matchHint"
                 :loading="loading"
+                v-model="localValue"
                 label="Index pattern"
                 persistent-hint
                 @input="loadMatches"
@@ -61,8 +61,10 @@
           methodParams: { index: newValue, h: 'index' },
           silenceError: true
         }).then(body => {
-          this.indices = body || []
-          this.loading = false
+          if (newValue === this.localValue) {
+            this.indices = body || []
+            this.loading = false
+          }
         })
       }
     }

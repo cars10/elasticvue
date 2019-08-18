@@ -1,8 +1,4 @@
 /**
- * Common constants that are used project-wide
- */
-
-/**
  * Different states to distinguish current connection status, also displayed in navbar.
  * - UNKNOWN: initial state
  * - SUCCESS: set after successful connection
@@ -30,7 +26,7 @@ export const DEFAULT_SEARCH_PARAMS = {
   from: 0,
   size: 1000,
   _source: '',
-  index: []
+  index: ''
 }
 
 /**
@@ -47,13 +43,12 @@ export const REQUEST_DEFAULT_HEADERS = {
   'Content-Type': 'application/json'
 }
 
-export const DEFAULT_ROWS_PER_PAGE = [10, 20, 100, { text: 'All', value: -1 }]
+export const DEFAULT_ITEMS_PER_PAGE = [10, 20, 100, { text: 'All', value: -1 }]
 export const DEFAULT_DATA_TABLE_PAGINATION = {
-  descending: false,
   page: 1,
-  rowsPerPage: DEFAULT_ROWS_PER_PAGE[0],
-  sortBy: null,
-  totalItems: 0
+  itemsPerPage: DEFAULT_ITEMS_PER_PAGE[0],
+  sortBy: [],
+  sortByDesc: []
 }
 
 export const HTTP_METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS']

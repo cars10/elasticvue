@@ -1,6 +1,6 @@
 describe('Utilities page', () => {
   beforeEach(() => {
-    cy.cleanupElasticsearch()
+    cy.deleteAllIndices()
     cy.quickConnect()
     cy.visit('/utilities')
   })
@@ -10,10 +10,8 @@ describe('Utilities page', () => {
       cy.get('#utility_create_createIndices').click()
       cy.get('#utility_create_createIndices', { timeout: 10000 }).should('not.have.class', 'v-btn v-btn--loader') // wait for all requests
       cy.flushIndices().then(() => {
-        cy.wait(250)
         cy.catIndices().then(response => {
           expect(response.body).not.to.be.empty
-          expect(response.body).to.have.lengthOf(10)
         })
       })
     })
@@ -21,11 +19,11 @@ describe('Utilities page', () => {
     it('creates twitter index and tweets', () => {
       cy.get('#utility_create_bulk').click()
       cy.get('#utility_create_bulk', { timeout: 1000 }).should('not.have.class', 'v-btn v-btn--loader')
+      cy.wait(250)
       cy.flushIndices().then(() => {
-        cy.catIndices().then(response => {
+        cy.getIndex('twitter').then(response => {
+          expect(response.status).to.equal(200)
           expect(response.body).not.to.be.empty
-          expect(response.body).to.have.lengthOf(1)
-          expect(response.body[0]['docs.count']).to.equal('100')
         })
       })
     })
@@ -37,6 +35,7 @@ describe('Utilities page', () => {
       cy.flushIndices().then(() => {
         cy.get('#utility_delete_indicesDelete').click()
         cy.get('#utility_delete_indicesDelete', { timeout: 1000 }).should('not.have.class', 'v-btn v-btn--loader')
+        cy.wait(250)
         cy.catIndices().then(response => {
           expect(response.body).to.be.empty
           expect(response.body).to.have.lengthOf(0)

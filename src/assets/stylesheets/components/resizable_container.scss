@@ -7,8 +7,16 @@ $vertical-handler-height: 10px;
 .resizable-container__vertical-handler {
   width: 100%;
   height: $vertical-handler-height;
-  cursor: n-resize;
   position: absolute;
   bottom: -$vertical-handler-height/2;
-  z-index: 10
+  z-index: 10;
+
+  &:hover {
+    cursor: n-resize;
+    background-color: $border-light-color;
+  }
+}
+
+.theme--dark .resizable-container__vertical-handler:hover {
+  background-color: $border-dark-color;
 }

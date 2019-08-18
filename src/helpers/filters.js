@@ -9,12 +9,33 @@ export function fuzzyTableFilter (items, search, headers) {
 
   if (searchSplit.length > 1 && props.includes(searchSplit[0])) {
     const column = searchSplit[0]
-    const query = searchSplit[1]
+    let query = searchSplit[1]
 
     if (query.trim() === '') return items
+    if (column.trim() === '') return items
 
-    return Fuzzysort.go(query, items, { key: column, allowTypo: false }).map(i => i.obj)
+    if (isExact(query)) {
+      query = query.slice(1, -1)
+      return items.filter(item => {
+        return item[column] === query
+      })
+    } else {
+      return Fuzzysort.go(query, items, { key: column, allowTypo: false, threshold: -50000 }).map(i => i.obj)
+    }
   } else {
-    return Fuzzysort.go(search, items, { keys: props, allowTypo: false }).map(i => i.obj)
+    if (isExact(search)) {
+      search = search.slice(1, -1)
+      return items.filter(item => {
+        return props.some(key => {
+          return item[key] === search
+        })
+      })
+    } else {
+      return Fuzzysort.go(search, items, { keys: props, allowTypo: false, threshold: -50000 }).map(i => i.obj)
+    }
   }
+}
+
+function isExact (query) {
+  return query.length > 2 && query[0] === '"' && query.slice(-1) === '"'
 }

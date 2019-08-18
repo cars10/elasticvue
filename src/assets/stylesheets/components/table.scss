@@ -1,28 +1,34 @@
 .table--condensed {
-  table.v-table thead tr {
+  .v-data-table__wrapper table thead tr {
     height: 36px
   }
 
-  table.v-table {
+  .v-data-table__wrapper table {
     td, th {
+
       &:not(:nth-child(1)), &:first-child {
         padding: 0 8px
       }
     }
 
-    tbody td, tbody th {
+    tbody td, thead th {
       height: 40px;
     }
 
     td {
+      font-size: 13px !important;
       max-width: 500px;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
 
+    .v-btn {
+      max-height: 32px;
+    }
+
     white-space: nowrap;
-    font-family: monospace
+    font-family: monospace;
   }
 }
 
@@ -47,7 +53,7 @@ table {
   background-color: #424242;
 }
 
-.table--fixed-header .v-table__overflow {
+.table--fixed-header .v-data-table__wrapper {
   max-height: 800px;
   overflow-y: auto;
 }

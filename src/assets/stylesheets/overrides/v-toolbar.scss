@@ -5,6 +5,7 @@
 .v-toolbar--dense {
   .v-btn {
     min-width: 0;
-    padding: 0 12px;
+    padding: 0 8px !important;
+    font-size: 80%;
   }
 }

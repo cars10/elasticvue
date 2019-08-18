@@ -2,42 +2,40 @@
   <div>
     <v-card-text>
       <div class="clearfix">
-        <v-flex right d-inline-flex>
+        <div class="float-right d-inline-block">
           <v-text-field id="filter"
+                        :loading="filterLoading"
                         v-model="filter"
-                        :disabled="flattenedHits.length === 0"
-                        title="Filter via 'column:query'"
-                        append-icon="search"
+                        append-icon="mdi-magnify"
+                        class="mt-0 pt-0 v-text-field--small"
+                        hide-details
                         label="Filter..."
                         name="filter"
-                        class="mt-0"
-                        hide-details
+                        title="Filter via 'column:query'"
                         @keyup.esc="filter = ''"/>
 
           <settings-dropdown :badge="mappings.length > filteredMappings.length">
-            <single-setting v-model="stickyTableHeader" name="Sticky table header" class="mb-1"/>
-            <multi-setting v-model="selectedMappings" :settings="mappings" name="Columns"/>
+            <single-setting v-model="stickyTableHeader" class="mb-1" name="Sticky table header"/>
+            <multi-setting :settings="mappings" v-model="selectedMappings" name="Columns"/>
           </settings-dropdown>
-        </v-flex>
+        </div>
       </div>
     </v-card-text>
 
-    <v-data-table :rows-per-page-items="defaultRowsPerPage()"
+    <v-data-table :class="tableClasses"
+                  :footer-props="{itemsPerPageOptions: DEFAULT_ITEMS_PER_PAGE}"
                   :headers="headers"
-                  :items="flattenedHits"
+                  :items="items"
                   :loading="loading"
-                  :search="filter"
-                  :custom-filter="callFuzzyTableFilter"
-                  :pagination.sync="pagination"
-                  :class="tableClasses">
-      <template v-slot:items="item">
+                  :options.sync="pagination">
+      <template v-slot:item="item">
         <tr class="tr--clickable" @click="openDocument(item.item)">
           <td v-for="key in filteredMappings" :key="key">{{item.item[key]}}</td>
           <td>
-            <router-link :to="documentRoute(item.item)"
-                         :class="openDocumentClasses"
-                         title="Show"
+            <router-link :class="openDocumentClasses"
+                         :to="documentRoute(item.item)"
                          event=""
+                         title="Show"
                          @click.native.prevent="openDocument(item.item)">
               <div class="v-btn__content">
                 Show
@@ -53,20 +51,20 @@
 
       <v-progress-linear slot="progress" color="blue" indeterminate/>
     </v-data-table>
-    <modal-data-loader v-model="modalOpen" :method-params="modalMethodParams" method="get"/>
+    <modal-data-loader :method-params="modalMethodParams" v-model="modalOpen" method="get"/>
   </div>
 </template>
 
 <script>
-  import { fuzzyTableFilter } from '../../helpers/filters'
   import { fixedTableHeaderOnDisable, fixedTableHeaderOnEnable, resetTableHeight } from '@/mixins/FixedTableHeader'
   import SettingsDropdown from '@/components/shared/TableSettings/SettingsDropdown'
   import SingleSetting from '@/components/shared/TableSettings/SingleSetting'
   import MultiSetting from '@/components/shared/TableSettings/MultiSetting'
   import ModalDataLoader from '@/components/shared/ModalDataLoader'
-  import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
+  import { DEFAULT_ITEMS_PER_PAGE } from '../../consts'
   import { mapVuexAccessors } from '../../helpers/store'
   import Results from '../../models/Results'
+  import AsyncFilter from '@/mixins/AsyncFilter'
 
   export default {
     name: 'ResultsTable',
@@ -76,6 +74,7 @@
       MultiSetting,
       ModalDataLoader
     },
+    mixins: [AsyncFilter],
     props: {
       hits: {
         default: () => {
@@ -90,8 +89,7 @@
     },
     data () {
       return {
-        flattenedHits: [],
-        settingsBadge: false,
+        items: [],
         modalOpen: false,
         modalMethodParams: {}
       }
@@ -125,7 +123,7 @@
       openDocumentClasses () {
         return [
           'v-btn',
-          'v-btn--router',
+          'v-size--default',
           { 'theme--dark': this.$store.state.theme.dark },
           { 'theme--light': !this.$store.state.theme.dark }
         ]
@@ -133,13 +131,13 @@
       ...mapVuexAccessors('search', ['filter', 'pagination', 'selectedMappings', 'mappings'])
     },
     watch: {
-      hits () {
-        const oldMappings = this.mappings
-        const results = new Results(this.hits)
-        this.mappings = results.uniqueColumns
-        const newMappings = this.mappings.filter(m => !oldMappings.includes(m))
-        this.selectedMappings = this.selectedMappings.concat(newMappings)
-        this.flattenedHits = results.results
+      hits (val) {
+        if (val.length === 0 && this.hits.length === 0) return // component creation
+
+        this.callFuzzyTableFilter(val, this.filter, true)
+      },
+      filter (val) {
+        this.callFuzzyTableFilter(this.hits, val, val.length === 0)
       }
     },
     mounted () {
@@ -148,18 +146,26 @@
     beforeDestroy () {
       fixedTableHeaderOnDisable()
     },
+    created () {
+      this.DEFAULT_ITEMS_PER_PAGE = DEFAULT_ITEMS_PER_PAGE
+    },
     methods: {
+      async callFuzzyTableFilter (items, filter, skipTimeout) {
+        this.debounceFilter(async () => {
+          let filteredResults = await this.filterTable(items, filter, this.headers, skipTimeout)
+          const oldMappings = this.mappings
+          const results = new Results(filteredResults)
+          this.mappings = results.uniqueColumns
+          const newMappings = this.mappings.filter(m => !oldMappings.includes(m))
+          this.selectedMappings = this.selectedMappings.concat(newMappings)
+          this.items = results.results
+        }, skipTimeout)
+      },
       openDocument (item) {
         this.modalMethodParams = { index: item._index, type: item._type, id: item._id }
         this.$nextTick(() => {
           this.modalOpen = true
         })
-      },
-      callFuzzyTableFilter (items, search, filter, headers) {
-        return fuzzyTableFilter(items, search, headers)
-      },
-      defaultRowsPerPage () {
-        return DEFAULT_ROWS_PER_PAGE
       },
       documentRoute (item) {
         return { name: 'Document', params: { index: item._index, type: item._type, id: item._id } }

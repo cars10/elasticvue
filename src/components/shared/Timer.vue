@@ -2,10 +2,10 @@
   <div class="d-inline-block" title="Auto reload">
     <v-select :items="timerSettings"
               v-model="timerSetting"
-              item-value="value"
-              item-text="text"
+              class="mt-0 pt-0 d-inline-block v-select--dense-append"
               hide-details
-              class="mt-0 pt-0 d-inline-block v-select--dense-append">
+              item-text="text"
+              item-value="value">
       <template slot="selection" slot-scope="{ item, index }">
         <small v-if="item.value">{{item.text}}</small>
       </template>
@@ -47,24 +47,28 @@
     },
     watch: {
       timerSetting (value) {
-        clearInterval(this.intervalID)
-        if (value) this.setInterval()
+        this.destroyInterval()
+        if (value) this.createInterval()
       }
     },
     created () {
-      if (this.defaultSetting && process.env.NODE_ENV === 'production') {
+      if (this.defaultSetting && process.env.NODE_ENV !== 'development') {
         this.timerSetting = this.defaultSetting
         this.action.call()
       }
     },
     destroyed () {
-      clearInterval(this.intervalID)
+      this.destroyInterval()
     },
     methods: {
-      setInterval () {
+      createInterval () {
         this.intervalID = setInterval(() => {
           this.action.call()
         }, this.timerSetting * 1000)
+      },
+      destroyInterval () {
+        clearInterval(this.intervalID)
+        this.intervalID = null
       }
     }
   }

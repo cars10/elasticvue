@@ -1,13 +1,13 @@
 <template>
-  <v-layout row wrap>
-    <v-flex lg4 offset-lg2>
+  <v-row>
+    <v-col lg="4" offset-lg="2">
       <client-information/>
-    </v-flex>
+    </v-col>
 
-    <v-flex lg4>
+    <v-col lg="4">
       <cluster-health/>
-    </v-flex>
-  </v-layout>
+    </v-col>
+  </v-row>
 </template>
 
 <script>

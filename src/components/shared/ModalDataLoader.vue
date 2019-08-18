@@ -1,24 +1,24 @@
 <template>
-  <v-dialog v-model="dialog" :width="width" lazy>
+  <v-dialog :width="width" v-model="dialog">
     <v-card>
       <v-card-title>
         <h2 class="headline">{{modalTitle}}</h2>
         <div class="ml-a">
           <v-btn icon @click.native="close">
-            <v-icon>close</v-icon>
+            <v-icon>mdi-close</v-icon>
           </v-btn>
         </div>
       </v-card-title>
-      <v-divider />
+      <v-divider/>
 
       <v-card-text>
         <data-loader ref="dataLoader" :method="method" :method-params="methodParams">
           <template v-slot:default="data">
             <slot name="content">
-              <print-pretty :document="data.body"
-                            :resizable="false"
+              <print-pretty :caption="modalSubtitle"
+                            :document="data.body"
                             :initial-height="calculatedHeight()"
-                            :caption="modalSubtitle"/>
+                            :resizable="false"/>
             </slot>
           </template>
         </data-loader>

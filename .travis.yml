@@ -1,5 +1,12 @@
 language: node_js
 node_js:
   - 11
-script: yarn lint && yarn test:unit && yarn build && ./scripts/test_e2e.sh
-cache: yarn
+script: yarn lint && yarn build && yarn test:unit && ./scripts/test_e2e.sh
+cache:
+  yarn: true
+  directories:
+    - /home/travis/.cache/Cypress
+addons:
+  apt:
+    packages:
+      - libgconf-2-4

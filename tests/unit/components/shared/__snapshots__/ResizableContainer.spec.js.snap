@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/shared/ResizableContainer.vue should increase the height on drag 1`] = `
+<div
+  class="resizable-container"
+  style="width: 100%; height: 450px;"
+>
+   
+  <div
+    class="resizable-container__vertical-handler"
+  />
+</div>
+`;
+
+exports[`components/shared/ResizableContainer.vue should increase the height on drag and scroll if needed 1`] = `
+<div
+  class="resizable-container"
+  style="width: 100%; height: 1350px;"
+>
+   
+  <div
+    class="resizable-container__vertical-handler"
+  />
+</div>
+`;
+
+exports[`components/shared/ResizableContainer.vue should not decrease the height lower then intialHeight 1`] = `
+<div
+  class="resizable-container"
+  style="width: 100%; height: 350px;"
+>
+   
+  <div
+    class="resizable-container__vertical-handler"
+  />
+</div>
+`;
+
+exports[`components/shared/ResizableContainer.vue should render correct default contents 1`] = `
+<div
+  class="resizable-container"
+  style="width: 100%; height: 350px;"
+>
+   
+  <div
+    class="resizable-container__vertical-handler"
+  />
+</div>
+`;
+
+exports[`components/shared/ResizableContainer.vue should render correct initialHeight 1`] = `
+<div
+  class="resizable-container"
+  style="width: 100%; height: 500px;"
+>
+   
+  <div
+    class="resizable-container__vertical-handler"
+  />
+</div>
+`;

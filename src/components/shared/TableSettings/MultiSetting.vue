@@ -3,21 +3,21 @@
     <slot name="multi-setting__header">
       <v-subheader>
         {{name}}
-        <v-btn v-if="hasChanges" class="ml-a grey--text mr-0 pr-0" small flat @click.native="reset">
+        <v-btn v-if="hasChanges" class="ml-a grey--text mr-0 pr-0" small text @click.native="reset">
           reset
-          <v-icon>clear</v-icon>
+          <v-icon>mdi-clear</v-icon>
         </v-btn>
       </v-subheader>
     </slot>
 
     <div v-for="setting in settings" :key="setting">
       <slot name="multi-setting__item">
-        <v-flex px-3>
-          <v-checkbox :value="setting"
-                      :label="setting"
+        <div class="px-4">
+          <v-checkbox :label="setting"
+                      :value="setting"
                       v-model="ownValue"
-                      hide-details class="my-0 v-input--checkbox--full-labels"/>
-        </v-flex>
+                      class="my-0 v-input--checkbox--full-labels" hide-details/>
+        </div>
       </slot>
     </div>
   </div>

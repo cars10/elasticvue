@@ -1,61 +1,63 @@
 <template>
-  <v-toolbar :dense="this.$vuetify.breakpoint.sm">
-    <router-link to="/" class="mt-2">
-      <img v-if="this.$store.state.theme.dark" src="../../../public/images/logo/logo_48_white.png" alt="Logo">
-      <img v-else src="../../../public/images/logo/logo_48_blue.png" alt="Logo">
+  <v-app-bar :dense="this.$vuetify.breakpoint.mdAndDown" app>
+    <router-link class="mt-2" to="/">
+      <img v-if="this.$store.state.theme.dark" alt="Logo" src="../../../public/images/logo/logo_48_white.png">
+      <img v-else alt="Logo" src="../../../public/images/logo/logo_48_blue.png">
     </router-link>
-    <v-toolbar-title class="mr-4 ml-3 hidden-xs-only">
+    <v-toolbar-title class="mr-6 ml-4 hidden-md-and-down">
       <router-link to="/">
         Elasticvue
       </router-link>
     </v-toolbar-title>
 
-    <div v-if="wasConnected" id="navbar_cluster_health" class="inline-block mt-1">
-      <v-btn icon class="ma-0" title="Disconnect and reset" @click="reset">
-        <v-icon small>{{connectionIcon}}</v-icon>
+    <div v-if="wasConnected" id="navbar_cluster_health" class="inline-block mt-1 hidden-xs-only">
+      <v-btn small class="ma-0 hidden-sm-and-down" icon title="Disconnect and reset" @click="reset">
+        <v-icon small>mdi-link</v-icon>
       </v-btn>
-      <span class="mx-1">{{clusterInfo}}</span>
-      <v-chip :class="clusterHealthClasses" title="Health" small>{{clusterHealth}}</v-chip>
+      <span :title="apiVersion" class="mx-1 hidden-sm-and-down">{{clusterInfo}}</span>
+      <v-chip :class="clusterHealthClasses" small title="Health">{{clusterHealth}}</v-chip>
       <reload-button id="header-reload-button" :action="getHealth" :default-setting="5"/>
     </div>
 
-    <v-spacer/>
+    <div class="flex-grow-1"/>
 
     <v-toolbar-items>
-      <v-btn id="navbar_home" flat to="/" exact>Home</v-btn>
-      <v-btn id="navbar_nodes" flat to="/nodes">Nodes</v-btn>
-      <v-btn id="navbar_indices" flat to="/indices">Indices</v-btn>
-      <v-btn id="navbar_search" flat to="/search">Search</v-btn>
+      <v-btn id="navbar_home" exact text to="/">Home</v-btn>
+      <v-btn id="navbar_nodes" text to="/nodes">Nodes</v-btn>
+      <v-btn id="navbar_indices" text to="/indices">Indices</v-btn>
+      <v-btn id="navbar_search" text to="/search">Search</v-btn>
 
       <v-menu offset-y>
-        <v-btn id="navbar_query" slot="activator" :class="navbarQueryClasses" flat>
-          Query
-          <v-icon>arrow_drop_down</v-icon>
-        </v-btn>
+        <template v-slot:activator="{on}">
+          <v-btn id="navbar_query" :class="navbarQueryClasses" text v-on="on">
+            Query
+            <v-icon>mdi-menu-down</v-icon>
+          </v-btn>
+        </template>
 
         <v-list>
-          <v-list-tile id="navbar_query_rest" to="/query/rest">
-            <v-list-tile-content>
-              <v-list-tile-title>
+          <v-list-item id="navbar_query_rest" to="/query/rest">
+            <v-list-item-content>
+              <v-list-item-title>
                 REST
-              </v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-tile>
+              </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
 
-          <v-list-tile id="navbar_query_api_browser" to="/query/api_browser">
-            <v-list-tile-content>
-              <v-list-tile-title>
+          <v-list-item id="navbar_query_api_browser" to="/query/api_browser">
+            <v-list-item-content>
+              <v-list-item-title>
                 API BROWSER
-              </v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-tile>
+              </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
         </v-list>
       </v-menu>
 
-      <v-btn id="navbar_snapshots" flat to="/snapshots">Snapshots</v-btn>
-      <v-btn id="navbar_utilities" flat to="/utilities">Utilities</v-btn>
+      <v-btn id="navbar_snapshots" text to="/snapshots">Snapshots</v-btn>
+      <v-btn id="navbar_utilities" text to="/utilities">Utilities</v-btn>
     </v-toolbar-items>
-  </v-toolbar>
+  </v-app-bar>
 </template>
 
 <script>
@@ -84,12 +86,8 @@
       clusterInfo () {
         return truncate(urlWithoutCredentials(this.$store.state.connection.elasticsearchHost), 50)
       },
-      connectionIcon () {
-        if (this.isConnected) {
-          return 'link'
-        } else {
-          return 'link_off'
-        }
+      apiVersion () {
+        return `Using api version ${this.$store.state.connection.apiVersion}`
       },
       clusterHealthClasses () {
         return [this.clusterHealth, 'ma-0']

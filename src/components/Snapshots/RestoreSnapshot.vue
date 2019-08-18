@@ -1,15 +1,15 @@
 <template>
   <div>
-    <v-list-tile @click.stop="toggle">
-      <v-list-tile-action>
-        <v-icon small>restore</v-icon>
-      </v-list-tile-action>
-      <v-list-tile-content>
-        <v-list-tile-title>Restore</v-list-tile-title>
-      </v-list-tile-content>
-    </v-list-tile>
+    <v-list-item @click.stop="toggle">
+      <v-list-item-action>
+        <v-icon small>mdi-restore</v-icon>
+      </v-list-item-action>
+      <v-list-item-content>
+        <v-list-item-title>Restore</v-list-item-title>
+      </v-list-item-content>
+    </v-list-item>
 
-    <v-dialog v-model="dialog" width="500" lazy>
+    <v-dialog v-model="dialog" width="500">
       <v-card>
         <v-card-title>
           <h2 class="headline">Restore '{{snapshot}}'</h2>
@@ -18,31 +18,31 @@
 
         <v-form ref="form" v-model="valid" lazy-validation @submit.prevent="restoreSnapshot">
           <v-card-text>
-            <index-filter v-model="indices" :method-params="{ repository, snapshot }" method="getSnapshotIndices"/>
+            <index-filter :method-params="{ repository, snapshot }" v-model="indices" method="getSnapshotIndices"/>
             <v-checkbox v-model="ignore_unavailable" hide-details label="Ignore unavailable"/>
             <v-checkbox v-model="include_global_state" label="Include global state"/>
 
             <v-text-field v-if="dialog"
                           id="rename_pattern"
                           v-model="rename_pattern"
-                          name="rename_pattern"
-                          label="Rename pattern"
                           autocomplete="off"
+                          label="Rename pattern"
+                          name="rename_pattern"
                           @keyup.esc="closeDialog"/>
 
             <v-text-field v-if="dialog"
                           id="rename_replacement"
                           v-model="rename_replacement"
-                          name="rename_replacement"
-                          label="Rename replacement"
                           autocomplete="off"
                           hide-details
+                          label="Rename replacement"
+                          name="rename_replacement"
                           @keyup.esc="closeDialog"/>
           </v-card-text>
 
-          <v-card-actions class="pa-3">
+          <v-card-actions class="pa-4">
             <v-btn id="restore_snapshot" color="success" type="submit">Restore</v-btn>
-            <v-btn flat @click="closeDialog">Cancel</v-btn>
+            <v-btn text @click="closeDialog">Cancel</v-btn>
           </v-card-actions>
         </v-form>
       </v-card>

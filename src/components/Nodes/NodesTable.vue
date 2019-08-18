@@ -1,42 +1,40 @@
 <template>
   <v-card>
     <v-card-title class="clearfix">
-      <v-layout row wrap>
-        <v-flex xs12 sm6 py-0 pl-0>
-          <h2 class="headline d-inline-flex vertical-align--middle">Nodes</h2>
+      <v-row>
+        <v-col class="py-0" cols="12" sm="6">
+          Nodes
           <reload-button id="reload-nodes" :action="() => this.$emit('reloadNodes')"/>
-        </v-flex>
-        <v-flex xs12 sm6 py-0>
-          <v-flex right d-inline-flex>
+        </v-col>
+        <v-col class="py-0" cols="12" sm="6">
+          <div class="float-right">
             <v-text-field id="nodes_table_filter"
                           v-model="filter"
-                          append-icon="search"
+                          append-icon="mdi-magnify"
+                          autofocus
+                          class="mt-0 pt-0 v-text-field--small"
+                          hide-details
                           label="Filter..."
                           name="filter"
-                          class="mt-0 pt-0"
                           title="Filter via 'column:query'"
-                          autofocus
-                          hide-details
                           @keyup.esc="filter = ''"/>
 
             <settings-dropdown>
               <single-setting v-model="stickyTableHeader" name="Sticky table header"/>
             </settings-dropdown>
-          </v-flex>
-        </v-flex>
-      </v-layout>
+          </div>
+        </v-col>
+      </v-row>
     </v-card-title>
     <v-divider/>
 
-    <v-data-table :rows-per-page-items="DEFAULT_ROWS_PER_PAGE"
+    <v-data-table :class="tableClasses"
+                  :footer-props="{itemsPerPageOptions: DEFAULT_ITEMS_PER_PAGE}"
                   :headers="HEADERS"
-                  :items="items"
-                  :custom-filter="callFuzzyTableFilter"
-                  :pagination.sync="pagination"
-                  :search="filter"
+                  :items="filteredItems"
                   :loading="loading"
-                  :class="tableClasses">
-      <template v-slot:items="props">
+                  :options.sync="pagination">
+      <template v-slot:item="props">
         <tr>
           <td>
             <node-icons :elasticsearch-node="props.item"/>
@@ -51,28 +49,40 @@
           <td>{{props.item.nodeRole}}</td>
           <td>{{props.item.load_1m}} / {{props.item.load_5m}} / {{props.item.load_15m}}</td>
           <td>
-            {{props.item.cpu}}%
-            <v-progress-linear :value="props.item.cpu" height="3" class="mt-1 mb-0"/>
+            <small>{{props.item.cpu}}%</small>
+            <v-progress-linear :value="props.item.cpu" class="mt-1 mb-0" height="3"/>
           </td>
           <td>
-            <v-flex d-inline-flex>
-              <small>{{props.item.ramCurrent}}/{{props.item.ramMax}}</small>
-            </v-flex>
-            <v-flex d-inline-flex right>{{props.item.ramPercent}}%</v-flex>
+            <v-row>
+              <v-col class="py-0">
+                <small>{{props.item.ramCurrent}}/{{props.item.ramMax}}</small>
+              </v-col>
+              <v-col class="text-right py-0">
+                <small>{{props.item.ramPercent}}%</small>
+              </v-col>
+            </v-row>
             <node-percent-bar :value="props.item.ramPercent" classes="mt-1 mb-0"/>
           </td>
           <td>
-            <v-flex d-inline-flex>
-              <small>{{props.item.heapCurrent}}/{{props.item.heapMax}}</small>
-            </v-flex>
-            <v-flex d-inline-flex right>{{props.item.heapPercent}}%</v-flex>
+            <v-row>
+              <v-col class="py-0">
+                <small>{{props.item.heapCurrent}}/{{props.item.heapMax}}</small>
+              </v-col>
+              <v-col class="text-right py-0">
+                <small>{{props.item.heapPercent}}%</small>
+              </v-col>
+            </v-row>
             <node-percent-bar :value="props.item.heapPercent" classes="mt-1 mb-0"/>
           </td>
           <td>
-            <v-flex d-inline-flex>
-              <small>{{props.item.diskCurrent}}/{{props.item.diskMax}}</small>
-            </v-flex>
-            <v-flex d-inline-flex right>{{props.item.diskPercent}}%</v-flex>
+            <v-row>
+              <v-col class="py-0">
+                <small>{{props.item.diskCurrent}}/{{props.item.diskMax}}</small>
+              </v-col>
+              <v-col class="text-right py-0">
+                <small>{{props.item.diskPercent}}%</small>
+              </v-col>
+            </v-row>
             <node-percent-bar :value="props.item.diskPercent" classes="mt-1 mb-0"/>
           </td>
         </tr>
@@ -88,9 +98,9 @@
   import SettingsDropdown from '@/components/shared/TableSettings/SettingsDropdown'
   import SingleSetting from '@/components/shared/TableSettings/SingleSetting'
   import { mapVuexAccessors } from '../../helpers/store'
-  import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
-  import { fuzzyTableFilter } from '../../helpers/filters'
+  import { DEFAULT_ITEMS_PER_PAGE } from '../../consts'
   import { fixedTableHeaderOnDisable, fixedTableHeaderOnEnable, resetTableHeight } from '@/mixins/FixedTableHeader'
+  import { fuzzyTableFilter } from '@/helpers/filters'
 
   export default {
     name: 'nodes-table',
@@ -130,6 +140,9 @@
           'nodes_table',
           { 'table--fixed-header': this.stickyTableHeader }
         ]
+      },
+      filteredItems () {
+        return fuzzyTableFilter(this.items, this.filter, this.HEADERS)
       }
     },
     mounted () {
@@ -153,12 +166,7 @@
         { text: '', value: 'actions', sortable: false }
       ]
 
-      this.DEFAULT_ROWS_PER_PAGE = DEFAULT_ROWS_PER_PAGE
-    },
-    methods: {
-      callFuzzyTableFilter (items, search, filter, headers) {
-        return fuzzyTableFilter(items, search, headers)
-      }
+      this.DEFAULT_ITEMS_PER_PAGE = DEFAULT_ITEMS_PER_PAGE
     }
   }
 </script>

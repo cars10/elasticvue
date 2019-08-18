@@ -1,21 +1,21 @@
 <template>
-  <custom-v-autocomplete v-model="localValue"
+  <custom-v-autocomplete :chips="chips"
                          :items="indices | filteredIndices(showHidden)"
                          :loading="loading"
-                         :chips="chips"
-                         prepend-inner-icon="cached"
-                         append-icon="arrow_drop_down"
-                         multiple
+                         v-model="localValue"
+                         append-icon="mdi-menu-down"
                          label="Select indices"
+                         multiple
                          name="indices"
+                         prepend-inner-icon="mdi-cached"
                          @click:prepend-inner="resetSelection">
     <template v-slot:item="data">
-      <v-list-tile-action>
+      <v-list-item-action>
         <v-checkbox :input-value="localValue.includes(data.item)" color="primary"/>
-      </v-list-tile-action>
-      <v-list-tile-content>
+      </v-list-item-action>
+      <v-list-item-content>
         {{data.item}}
-      </v-list-tile-content>
+      </v-list-item-content>
     </template>
 
     <template v-slot:selection="{ item, index }">
@@ -35,7 +35,7 @@
     </template>
 
     <template v-slot:prepend-item>
-      <div class="px-3 mb-2">
+      <div class="px-4 mb-2">
         <btn-group class="d-inline-block">
           <v-btn small title="Select all indices" @click="selectAll">
             select all
@@ -46,8 +46,9 @@
           </v-btn>
         </btn-group>
 
-        <div class="right d-inline-block">
-          <v-checkbox v-model="showHidden" label="show hidden indices" hide-details class="mt-0" title="Show indices starting with a dot"/>
+        <div class="float-right d-inline-block">
+          <v-checkbox v-model="showHidden" class="mt-0" hide-details label="show hidden"
+                      title="Show indices starting with a dot"/>
         </div>
       </div>
       <v-divider/>

@@ -1,36 +1,39 @@
 <template>
   <div>
     <v-card-text>
-      <div class="clearfix">
-        <new-index @reloadIndices="emitReloadIndices"/>
-        <v-flex right d-inline-flex>
-          <v-text-field id="filter"
-                        v-model="filter"
-                        append-icon="search"
-                        label="Filter..."
-                        name="filter"
-                        class="mt-0"
-                        title="Filter via 'column:query'"
-                        autofocus
-                        hide-details
-                        @keyup.esc="filter = ''"/>
+      <v-row>
+        <v-col>
+          <new-index @reloadIndices="emitReloadIndices"/>
+        </v-col>
+        <v-col>
+          <div class="d-inline-block float-right">
+            <v-text-field id="filter"
+                          :loading="filterLoading"
+                          v-model="filter"
+                          append-icon="mdi-magnify"
+                          autofocus
+                          class="mt-0 pt-0 v-text-field--small"
+                          hide-details
+                          label="Filter..."
+                          name="filter"
+                          title="Filter via 'column:query'"
+                          @keyup.esc="filter = ''"/>
 
-          <settings-dropdown>
-            <single-setting v-model="stickyTableHeader" name="Sticky table header" class="mb-1"/>
-          </settings-dropdown>
-        </v-flex>
-      </div>
+            <settings-dropdown>
+              <single-setting v-model="stickyTableHeader" class="mb-1" name="Sticky table header"/>
+            </settings-dropdown>
+          </div>
+        </v-col>
+      </v-row>
     </v-card-text>
 
-    <v-data-table :rows-per-page-items="DEFAULT_ROWS_PER_PAGE"
+    <v-data-table :class="tableClasses"
+                  :footer-props="{itemsPerPageOptions: DEFAULT_ITEMS_PER_PAGE}"
                   :headers="HEADERS"
                   :items="items"
-                  :custom-filter="callFuzzyTableFilter"
-                  :pagination.sync="pagination"
-                  :search="filter"
                   :loading="loading"
-                  :class="tableClasses">
-      <template v-slot:items="props">
+                  :options.sync="pagination">
+      <template v-slot:item="props">
         <index-row :index="props.item" @reloadIndices="emitReloadIndices"/>
       </template>
     </v-data-table>
@@ -39,14 +42,14 @@
 
 <script>
   import ElasticsearchIndex from '../../models/ElasticsearchIndex'
-  import { fuzzyTableFilter } from '../../helpers/filters'
   import { fixedTableHeaderOnDisable, fixedTableHeaderOnEnable, resetTableHeight } from '@/mixins/FixedTableHeader'
-  import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
+  import { DEFAULT_ITEMS_PER_PAGE } from '../../consts'
   import { mapVuexAccessors } from '../../helpers/store'
   import IndexRow from '@/components/Indices/IndexRow'
   import NewIndex from '@/components/Indices/NewIndex'
   import SettingsDropdown from '@/components/shared/TableSettings/SettingsDropdown'
   import SingleSetting from '@/components/shared/TableSettings/SingleSetting'
+  import AsyncFilter from '@/mixins/AsyncFilter'
 
   export default {
     name: 'IndicesTable',
@@ -56,6 +59,7 @@
       SettingsDropdown,
       SingleSetting
     },
+    mixins: [AsyncFilter],
     props: {
       indices: {
         default: () => {
@@ -68,10 +72,12 @@
         type: Boolean
       }
     },
+    data () {
+      return {
+        items: []
+      }
+    },
     computed: {
-      items () {
-        return this.indices.map(index => new ElasticsearchIndex(index))
-      },
       stickyTableHeader: {
         get () {
           return this.$store.state.indices.stickyTableHeader
@@ -88,6 +94,16 @@
         ]
       },
       ...mapVuexAccessors('indices', ['filter', 'pagination'])
+    },
+    watch: {
+      indices (val) {
+        if (val.length === 0 && this.indices.length === 0) return // component creation
+
+        this.callFuzzyTableFilter(val, this.filter, true)
+      },
+      filter (val) {
+        this.callFuzzyTableFilter(this.indices, val, val.length === 0)
+      }
     },
     mounted () {
       fixedTableHeaderOnEnable()
@@ -108,11 +124,14 @@
         { text: 'pri.store.size', value: 'parsedPriStoreSize', align: 'right' },
         { text: '', value: 'actions', sortable: false }
       ]
-      this.DEFAULT_ROWS_PER_PAGE = DEFAULT_ROWS_PER_PAGE
+      this.DEFAULT_ITEMS_PER_PAGE = DEFAULT_ITEMS_PER_PAGE
     },
     methods: {
-      callFuzzyTableFilter (items, search, filter, headers) {
-        return fuzzyTableFilter(items, search, headers)
+      async callFuzzyTableFilter (items, filter, skipTimeout) {
+        this.debounceFilter(async () => {
+          let result = await this.filterTable(items, filter, this.HEADERS, skipTimeout)
+          this.items = result.map(index => new ElasticsearchIndex(index))
+        }, skipTimeout)
       },
       emitReloadIndices () {
         this.$emit('reloadIndices')

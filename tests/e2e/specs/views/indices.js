@@ -1,12 +1,12 @@
 describe('Indices page', () => {
   beforeEach(() => {
-    cy.cleanupElasticsearch()
+    cy.deleteAllIndices()
     cy.quickConnect()
     cy.visit('/indices')
   })
 
   describe('managing indices', () => {
-    it('can create indices', () => {
+    it('can create indices with default options', () => {
       const indexName = 'name-1'
       cy.get('#new_index').click()
       cy.get('#index_name').clear()
@@ -21,13 +21,40 @@ describe('Indices page', () => {
       })
     })
 
+    it('can create indices with custom options', () => {
+      const indexName = 'name-1'
+      const indexShards = '3'
+      const indexReplicas = '2'
+
+      cy.get('#new_index').click()
+      cy.get('#index_name').clear()
+      cy.get('#index_name').type(indexName)
+
+      cy.get('#index_shards').clear()
+      cy.get('#index_shards').type(indexShards)
+
+      cy.get('#index_replicas').clear()
+      cy.get('#index_replicas').type(indexReplicas)
+
+      cy.get('#create_index').click()
+
+      cy.flushIndices().then(() => {
+        cy.reload(true)
+        cy.get('table').should(table => {
+          expect(table).to.contain(indexName)
+          expect(table).to.contain(indexShards)
+          expect(table).to.contain(indexReplicas)
+        })
+      })
+    })
+
     it('can show indices', () => {
       const indexName = 'name-1'
       cy.createIndex(indexName)
       cy.flushIndices().then(() => {
         cy.reload(true)
         cy.get('table').contains(indexName).closest('tr').get('button[title="Options"]').click()
-        cy.get('table').contains(indexName).closest('tr').get('a').contains('info').click()
+        cy.get('table').contains(indexName).closest('tr').get('div.v-list-item__content').contains('info').click()
         cy.contains('mappings').should('exist')
       })
     })
@@ -38,7 +65,7 @@ describe('Indices page', () => {
       cy.flushIndices().then(() => {
         cy.reload(true)
         cy.get('table').contains(indexName).closest('tr').get('button[title="Options"]').click()
-        cy.get('table').contains(indexName).closest('tr').get('a').contains('stats').click()
+        cy.get('table').contains(indexName).closest('tr').get('div.v-list-item__content').contains('stats').click()
         cy.contains('_shards').should('exist')
       })
     })
@@ -49,7 +76,8 @@ describe('Indices page', () => {
       cy.flushIndices().then(() => {
         cy.reload(true)
         cy.get('table').contains(indexName).closest('tr').get('button[title="Options"]').click()
-        cy.get('table').contains(indexName).closest('tr').get('a').contains('Delete').click()
+        cy.get('table').contains(indexName).closest('tr').get('div.v-list-item__content').contains('Delete').click()
+        cy.reload(true)
         cy.get('table').should(table => {
           expect(table).not.to.contain(indexName)
         })
@@ -59,8 +87,6 @@ describe('Indices page', () => {
 
   describe('table', () => {
     it('can reload', () => {
-      cy.visit('/indices')
-
       cy.get('table').should(table => {
         expect(table).to.contain('No data available')
       })
