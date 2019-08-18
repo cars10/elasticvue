@@ -1,5 +1,6 @@
 <template>
-  <v-text-field :hint="matchHint"
+  <v-text-field id="index-pattern"
+                :hint="matchHint"
                 :loading="loading"
                 v-model="localValue"
                 label="Index pattern"

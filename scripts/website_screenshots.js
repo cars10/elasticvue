@@ -4,7 +4,7 @@ const puppeteer = require('puppeteer');
   const browser = await puppeteer.launch({ args: ['--no-sandbox', '--disable-setuid-sandbox'] })
   const page = await browser.newPage()
   page.setViewport({ width: 1920, height: 1080 })
-  await page.goto('http://localhost:8080')
+  await page.goto('http://localhost:16326')
 
   await page.click('#theme_select')
   await connectWithServer(page)
@@ -13,11 +13,11 @@ const puppeteer = require('puppeteer');
   await page.click('#theme_select')
   await clickToNavigateAndScreenshot(page, '#navbar_nodes', 'screenshot_1_nodes.jpg')
   await clickToNavigateAndScreenshot(page, '#navbar_indices', 'screenshot_2_indices.jpg')
-  await clickToNavigateAndScreenshot(page, ['button[title="Options"]', 'a[href$="/stats"]'], 'screenshot_3_index.jpg')
-
+  await clickToNavigateAndScreenshot(page, ['button[title="Options"]', '#app > div.v-menu__content.theme--dark.menuable__content__active > div > div:nth-child(2) > div.v-list-item__content > div'], 'screenshot_3_index.jpg')
   await page.reload()
+  await page.click('#theme_select')
   await clickToNavigateAndScreenshot(page, '#navbar_search', 'screenshot_4_search_dark.jpg', async page => {
-    await page.click('#indices')
+    await page.click('#index-pattern')
     await page.waitFor(50)
     await page.click('input[type="checkbox"]')
     await page.click('#search_submit')
