@@ -178,6 +178,8 @@ yarn build_chrome_extension
 
 ### 1.0
 
+* add beautify for code editor
+* add searchbox for code editor
 * refactor runRequest to use promises
 * document, index, snapshot repo and snapshot: add edit/delete
 * catch elasticsearch 5xx errors
