@@ -98,7 +98,7 @@
     watch: {
       indices (val) {
         if (val.length === 0 && this.indices.length === 0) {
-          this.indices = []
+          this.items = []
           return
         }
 
