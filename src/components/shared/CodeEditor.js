@@ -2,6 +2,7 @@ import Brace from 'brace'
 
 require('brace/mode/json')
 require('brace/theme/monokai')
+require('brace/ext/searchbox')
 
 export default {
   data () {
