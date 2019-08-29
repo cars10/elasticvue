@@ -1,5 +1,11 @@
 # Changelog
 
+## unreleased
+* [bug] fix switching between index pattern and index selection ([#7][i7])
+
+[i7]: https://github.com/cars10/elasticvue/issues/7
+
+
 ## 0.11.0
 * [feat] can filter exact with `"` in all filter and select inputs
 * [feat] async filtering for indices table and search results table (using web workers)
