@@ -3,6 +3,7 @@
 ## unreleased
 * [bug] fix switching between index pattern and index selection ([#7][i7])
 * [feat] show different "no results" text in results table based on current filters. thx @georgeyeint (see discussion in [#7][i7])
+* [bug] fix indices & search table not showing empty results when search result is empty
 
 [i7]: https://github.com/cars10/elasticvue/issues/7
 

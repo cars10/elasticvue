@@ -97,7 +97,10 @@
     },
     watch: {
       indices (val) {
-        if (val.length === 0 && this.indices.length === 0) return // component creation
+        if (val.length === 0 && this.indices.length === 0) {
+          this.indices = []
+          return
+        }
 
         this.callFuzzyTableFilter(val, this.filter, true)
       },

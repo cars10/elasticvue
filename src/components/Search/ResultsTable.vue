@@ -139,7 +139,10 @@
     },
     watch: {
       hits (val) {
-        if (val.length === 0 && this.hits.length === 0) return // component creation
+        if (val.length === 0 && this.hits.length === 0) {
+          this.items = []
+          return
+        }
 
         this.callFuzzyTableFilter(val, this.filter, true)
       },
