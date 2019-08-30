@@ -1,7 +1,9 @@
 # Changelog
 
 ## unreleased
-* [feat] enable searchbox for code editor (json views)
+* improvements for the code editor:
+    * [feat] enable searchbox for code editor (json views)
+    * [feat] add beautify button to code editor (hotkey: ctrl+alt+l)
 * [feat] show different "no results" text in results table based on current filters. thx @georgeyeint (see discussion in [#7][i7])
 * [bug] fix switching between index pattern and index selection ([#7][i7])
 * [bug] fix indices & search table not showing empty results when search result is empty

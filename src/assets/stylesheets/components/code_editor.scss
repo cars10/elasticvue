@@ -1,0 +1,24 @@
+.code-editor {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.code-editor__actions {
+  position: absolute;
+  top: -2px;
+  right: 18px;
+  z-index: 2;
+  opacity: .4;
+  background-color: grey;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  .v-btn:not(.v-btn--round).v-size--small {
+    min-width: initial;
+  }
+}
+
+
