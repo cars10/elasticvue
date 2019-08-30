@@ -61,6 +61,7 @@ export default {
       this.editor.getSession().setMode('ace/mode/json')
       this.editor.getSession().setUseWrapMode(this.wrapLines)
       this.editor.setFontSize('14px')
+      this.editor.setShowPrintMargin(false)
       this.editor.$blockScrolling = Infinity
       this.setTheme(this.$store.state.theme.dark)
     }
@@ -84,7 +85,6 @@ export default {
     this.setEditorValue(this.value)
     if (this.readOnly) {
       this.editor.setReadOnly(true)
-      this.editor.setShowPrintMargin(false)
     } else {
       this.editor.commands.addCommands(this.externalCommands)
     }
