@@ -1,6 +1,6 @@
 # Changelog
 
-## unreleased
+## 0.12.0
 * improvements for the code editor (json views):
     * [feat] enable searchbox for code editor
     * [feat] add beautify button to code editor (hotkey: ctrl+alt+l)
