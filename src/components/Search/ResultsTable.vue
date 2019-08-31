@@ -102,7 +102,11 @@
     },
     computed: {
       filteredMappings () {
-        return this.mappings.filter(k => this.selectedMappings.includes(k))
+        if (this.mappings.length === this.selectedMappings.length) {
+          return this.mappings
+        } else {
+          return this.mappings.filter(k => this.selectedMappings.includes(k))
+        }
       },
       headers () {
         return this.filteredMappings.map(value => ({ text: value, value })).concat({
