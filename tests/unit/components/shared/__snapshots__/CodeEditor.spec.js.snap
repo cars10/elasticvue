@@ -2,89 +2,150 @@
 
 exports[`components/shared/CodeEditor.vue snapshots changes its value 1`] = `
 <div
-  class="bordered ace_editor ace-monokai ace_dark"
-  style="height: 100%; width: 100%; font-size: 14px;"
+  class="bordered code-editor"
 >
-  <textarea
-    autocapitalize="off"
-    autocorrect="off"
-    class="ace_text-input"
-    spellcheck="false"
-    style="opacity: 0;"
-    wrap="off"
-  />
   <div
-    aria-hidden="true"
-    class="ace_gutter"
+    class=" ace_editor ace-monokai ace_dark"
+    style="height: 100%; width: 100%; font-size: 14px;"
   >
-    <div
-      class="ace_layer ace_gutter-layer ace_folding-enabled"
+    <textarea
+      autocapitalize="off"
+      autocorrect="off"
+      class="ace_text-input"
+      spellcheck="false"
+      style="opacity: 0;"
+      wrap="off"
     />
     <div
-      class="ace_gutter-active-line"
-    />
-  </div>
-  <div
-    class="ace_scroller"
-  >
-    <div
-      class="ace_content"
+      aria-hidden="true"
+      class="ace_gutter"
     >
       <div
-        class="ace_layer ace_print-margin-layer"
+        class="ace_layer ace_gutter-layer ace_folding-enabled"
+      />
+      <div
+        class="ace_gutter-active-line"
+      />
+    </div>
+    <div
+      class="ace_scroller"
+    >
+      <div
+        class="ace_content"
       >
         <div
-          class="ace_print-margin"
-          style="left: 4px; visibility: visible;"
+          class="ace_layer ace_print-margin-layer"
+        >
+          <div
+            class="ace_print-margin"
+            style="left: 4px; visibility: hidden;"
+          />
+        </div>
+        <div
+          class="ace_layer ace_marker-layer"
         />
+        <div
+          class="ace_layer ace_text-layer"
+          style="padding: 0px 4px;"
+        />
+        <div
+          class="ace_layer ace_marker-layer"
+        />
+        <div
+          class="ace_layer ace_cursor-layer ace_hidden-cursors"
+        >
+          <div
+            class="ace_cursor"
+          />
+        </div>
       </div>
+    </div>
+    <div
+      class="ace_scrollbar ace_scrollbar-v"
+      style="display: none; width: 20px;"
+    >
       <div
-        class="ace_layer ace_marker-layer"
+        class="ace_scrollbar-inner"
+        style="width: 20px;"
+      />
+    </div>
+    <div
+      class="ace_scrollbar ace_scrollbar-h"
+      style="display: none; height: 20px;"
+    >
+      <div
+        class="ace_scrollbar-inner"
+        style="height: 20px;"
+      />
+    </div>
+    <div
+      style="height: auto; width: auto; top: 0px; left: 0px; visibility: hidden; position: absolute; white-space: pre; overflow: hidden;"
+    >
+      <div
+        style="height: auto; width: auto; top: 0px; left: 0px; visibility: hidden; position: absolute; white-space: pre; overflow: visible;"
       />
       <div
-        class="ace_layer ace_text-layer"
-        style="padding: 0px 4px;"
-      />
-      <div
-        class="ace_layer ace_marker-layer"
-      />
-      <div
-        class="ace_layer ace_cursor-layer ace_hidden-cursors"
+        style="height: auto; width: auto; top: 0px; left: 0px; visibility: hidden; position: absolute; white-space: pre; overflow: visible;"
       >
-        <div
-          class="ace_cursor"
-        />
+        XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
       </div>
     </div>
   </div>
+   
   <div
-    class="ace_scrollbar ace_scrollbar-v"
-    style="display: none; width: 20px;"
+    class="code-editor__actions pa-2"
   >
-    <div
-      class="ace_scrollbar-inner"
-      style="width: 20px;"
-    />
-  </div>
-  <div
-    class="ace_scrollbar ace_scrollbar-h"
-    style="display: none; height: 20px;"
-  >
-    <div
-      class="ace_scrollbar-inner"
-      style="height: 20px;"
-    />
-  </div>
-  <div
-    style="height: auto; width: auto; top: 0px; left: 0px; visibility: hidden; position: absolute; white-space: pre; overflow: hidden;"
-  >
-    <div
-      style="height: auto; width: auto; top: 0px; left: 0px; visibility: hidden; position: absolute; white-space: pre; overflow: visible;"
-    />
-    <div
-      style="height: auto; width: auto; top: 0px; left: 0px; visibility: hidden; position: absolute; white-space: pre; overflow: visible;"
+    <button
+      class="vertical-align--top mr-2 v-btn v-btn--contained v-btn--disabled theme--light v-size--small"
+      disabled="disabled"
+      title="Beautify (Ctrl+ALT+L)"
+      type="button"
     >
-      XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+      <span
+        class="v-btn__content"
+      >
+        <i
+          aria-hidden="true"
+          class="v-icon notranslate mdi mdi-code-braces theme--light"
+          style="font-size: 16px;"
+        />
+      </span>
+    </button>
+     
+    <div
+      class="v-item-group theme--light v-btn-toggle"
+    >
+      <button
+        class="v-btn v-btn--flat v-btn--text theme--light v-size--small"
+        title="Use 2 spaces for beautify (instead of tabs)"
+        type="button"
+      >
+        <span
+          class="v-btn__content"
+        >
+          <i
+            aria-hidden="true"
+            class="v-icon notranslate mdi mdi-keyboard-space theme--light"
+            style="font-size: 16px;"
+          />
+        </span>
+      </button>
+       
+      <button
+        class="v-btn v-btn--flat v-btn--text theme--light v-size--small"
+        title="Wrap lines"
+        type="button"
+      >
+        <span
+          class="v-btn__content"
+        >
+          <i
+            aria-hidden="true"
+            class="v-icon notranslate mdi mdi-wrap theme--light"
+            style="font-size: 16px;"
+          />
+        </span>
+      </button>
     </div>
   </div>
 </div>
@@ -92,89 +153,150 @@ exports[`components/shared/CodeEditor.vue snapshots changes its value 1`] = `
 
 exports[`components/shared/CodeEditor.vue snapshots renders object value 1`] = `
 <div
-  class="bordered ace_editor ace-monokai ace_dark"
-  style="height: 100%; width: 100%; font-size: 14px;"
+  class="bordered code-editor"
 >
-  <textarea
-    autocapitalize="off"
-    autocorrect="off"
-    class="ace_text-input"
-    spellcheck="false"
-    style="opacity: 0;"
-    wrap="off"
-  />
   <div
-    aria-hidden="true"
-    class="ace_gutter"
+    class=" ace_editor ace-monokai ace_dark"
+    style="height: 100%; width: 100%; font-size: 14px;"
   >
-    <div
-      class="ace_layer ace_gutter-layer ace_folding-enabled"
+    <textarea
+      autocapitalize="off"
+      autocorrect="off"
+      class="ace_text-input"
+      spellcheck="false"
+      style="opacity: 0;"
+      wrap="off"
     />
     <div
-      class="ace_gutter-active-line"
-    />
-  </div>
-  <div
-    class="ace_scroller"
-  >
-    <div
-      class="ace_content"
+      aria-hidden="true"
+      class="ace_gutter"
     >
       <div
-        class="ace_layer ace_print-margin-layer"
+        class="ace_layer ace_gutter-layer ace_folding-enabled"
+      />
+      <div
+        class="ace_gutter-active-line"
+      />
+    </div>
+    <div
+      class="ace_scroller"
+    >
+      <div
+        class="ace_content"
       >
         <div
-          class="ace_print-margin"
-          style="left: 4px; visibility: visible;"
+          class="ace_layer ace_print-margin-layer"
+        >
+          <div
+            class="ace_print-margin"
+            style="left: 4px; visibility: hidden;"
+          />
+        </div>
+        <div
+          class="ace_layer ace_marker-layer"
         />
+        <div
+          class="ace_layer ace_text-layer"
+          style="padding: 0px 4px;"
+        />
+        <div
+          class="ace_layer ace_marker-layer"
+        />
+        <div
+          class="ace_layer ace_cursor-layer ace_hidden-cursors"
+        >
+          <div
+            class="ace_cursor"
+          />
+        </div>
       </div>
+    </div>
+    <div
+      class="ace_scrollbar ace_scrollbar-v"
+      style="display: none; width: 20px;"
+    >
       <div
-        class="ace_layer ace_marker-layer"
+        class="ace_scrollbar-inner"
+        style="width: 20px;"
+      />
+    </div>
+    <div
+      class="ace_scrollbar ace_scrollbar-h"
+      style="display: none; height: 20px;"
+    >
+      <div
+        class="ace_scrollbar-inner"
+        style="height: 20px;"
+      />
+    </div>
+    <div
+      style="height: auto; width: auto; top: 0px; left: 0px; visibility: hidden; position: absolute; white-space: pre; overflow: hidden;"
+    >
+      <div
+        style="height: auto; width: auto; top: 0px; left: 0px; visibility: hidden; position: absolute; white-space: pre; overflow: visible;"
       />
       <div
-        class="ace_layer ace_text-layer"
-        style="padding: 0px 4px;"
-      />
-      <div
-        class="ace_layer ace_marker-layer"
-      />
-      <div
-        class="ace_layer ace_cursor-layer ace_hidden-cursors"
+        style="height: auto; width: auto; top: 0px; left: 0px; visibility: hidden; position: absolute; white-space: pre; overflow: visible;"
       >
-        <div
-          class="ace_cursor"
-        />
+        XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
       </div>
     </div>
   </div>
+   
   <div
-    class="ace_scrollbar ace_scrollbar-v"
-    style="display: none; width: 20px;"
+    class="code-editor__actions pa-2"
   >
-    <div
-      class="ace_scrollbar-inner"
-      style="width: 20px;"
-    />
-  </div>
-  <div
-    class="ace_scrollbar ace_scrollbar-h"
-    style="display: none; height: 20px;"
-  >
-    <div
-      class="ace_scrollbar-inner"
-      style="height: 20px;"
-    />
-  </div>
-  <div
-    style="height: auto; width: auto; top: 0px; left: 0px; visibility: hidden; position: absolute; white-space: pre; overflow: hidden;"
-  >
-    <div
-      style="height: auto; width: auto; top: 0px; left: 0px; visibility: hidden; position: absolute; white-space: pre; overflow: visible;"
-    />
-    <div
-      style="height: auto; width: auto; top: 0px; left: 0px; visibility: hidden; position: absolute; white-space: pre; overflow: visible;"
+    <button
+      class="vertical-align--top mr-2 v-btn v-btn--contained v-btn--disabled theme--light v-size--small"
+      disabled="disabled"
+      title="Beautify (Ctrl+ALT+L)"
+      type="button"
     >
-      XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+      <span
+        class="v-btn__content"
+      >
+        <i
+          aria-hidden="true"
+          class="v-icon notranslate mdi mdi-code-braces theme--light"
+          style="font-size: 16px;"
+        />
+      </span>
+    </button>
+     
+    <div
+      class="v-item-group theme--light v-btn-toggle"
+    >
+      <button
+        class="v-btn v-btn--flat v-btn--text theme--light v-size--small"
+        title="Use 2 spaces for beautify (instead of tabs)"
+        type="button"
+      >
+        <span
+          class="v-btn__content"
+        >
+          <i
+            aria-hidden="true"
+            class="v-icon notranslate mdi mdi-keyboard-space theme--light"
+            style="font-size: 16px;"
+          />
+        </span>
+      </button>
+       
+      <button
+        class="v-btn v-btn--flat v-btn--text theme--light v-size--small"
+        title="Wrap lines"
+        type="button"
+      >
+        <span
+          class="v-btn__content"
+        >
+          <i
+            aria-hidden="true"
+            class="v-icon notranslate mdi mdi-wrap theme--light"
+            style="font-size: 16px;"
+          />
+        </span>
+      </button>
     </div>
   </div>
 </div>
@@ -182,89 +304,150 @@ exports[`components/shared/CodeEditor.vue snapshots renders object value 1`] = `
 
 exports[`components/shared/CodeEditor.vue snapshots renders string value 1`] = `
 <div
-  class="bordered ace_editor ace-monokai ace_dark"
-  style="height: 100%; width: 100%; font-size: 14px;"
+  class="bordered code-editor"
 >
-  <textarea
-    autocapitalize="off"
-    autocorrect="off"
-    class="ace_text-input"
-    spellcheck="false"
-    style="opacity: 0;"
-    wrap="off"
-  />
   <div
-    aria-hidden="true"
-    class="ace_gutter"
+    class=" ace_editor ace-monokai ace_dark"
+    style="height: 100%; width: 100%; font-size: 14px;"
   >
-    <div
-      class="ace_layer ace_gutter-layer ace_folding-enabled"
+    <textarea
+      autocapitalize="off"
+      autocorrect="off"
+      class="ace_text-input"
+      spellcheck="false"
+      style="opacity: 0;"
+      wrap="off"
     />
     <div
-      class="ace_gutter-active-line"
-    />
-  </div>
-  <div
-    class="ace_scroller"
-  >
-    <div
-      class="ace_content"
+      aria-hidden="true"
+      class="ace_gutter"
     >
       <div
-        class="ace_layer ace_print-margin-layer"
+        class="ace_layer ace_gutter-layer ace_folding-enabled"
+      />
+      <div
+        class="ace_gutter-active-line"
+      />
+    </div>
+    <div
+      class="ace_scroller"
+    >
+      <div
+        class="ace_content"
       >
         <div
-          class="ace_print-margin"
-          style="left: 4px; visibility: visible;"
+          class="ace_layer ace_print-margin-layer"
+        >
+          <div
+            class="ace_print-margin"
+            style="left: 4px; visibility: hidden;"
+          />
+        </div>
+        <div
+          class="ace_layer ace_marker-layer"
         />
+        <div
+          class="ace_layer ace_text-layer"
+          style="padding: 0px 4px;"
+        />
+        <div
+          class="ace_layer ace_marker-layer"
+        />
+        <div
+          class="ace_layer ace_cursor-layer ace_hidden-cursors"
+        >
+          <div
+            class="ace_cursor"
+          />
+        </div>
       </div>
+    </div>
+    <div
+      class="ace_scrollbar ace_scrollbar-v"
+      style="display: none; width: 20px;"
+    >
       <div
-        class="ace_layer ace_marker-layer"
+        class="ace_scrollbar-inner"
+        style="width: 20px;"
+      />
+    </div>
+    <div
+      class="ace_scrollbar ace_scrollbar-h"
+      style="display: none; height: 20px;"
+    >
+      <div
+        class="ace_scrollbar-inner"
+        style="height: 20px;"
+      />
+    </div>
+    <div
+      style="height: auto; width: auto; top: 0px; left: 0px; visibility: hidden; position: absolute; white-space: pre; overflow: hidden;"
+    >
+      <div
+        style="height: auto; width: auto; top: 0px; left: 0px; visibility: hidden; position: absolute; white-space: pre; overflow: visible;"
       />
       <div
-        class="ace_layer ace_text-layer"
-        style="padding: 0px 4px;"
-      />
-      <div
-        class="ace_layer ace_marker-layer"
-      />
-      <div
-        class="ace_layer ace_cursor-layer ace_hidden-cursors"
+        style="height: auto; width: auto; top: 0px; left: 0px; visibility: hidden; position: absolute; white-space: pre; overflow: visible;"
       >
-        <div
-          class="ace_cursor"
-        />
+        XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
       </div>
     </div>
   </div>
+   
   <div
-    class="ace_scrollbar ace_scrollbar-v"
-    style="display: none; width: 20px;"
+    class="code-editor__actions pa-2"
   >
-    <div
-      class="ace_scrollbar-inner"
-      style="width: 20px;"
-    />
-  </div>
-  <div
-    class="ace_scrollbar ace_scrollbar-h"
-    style="display: none; height: 20px;"
-  >
-    <div
-      class="ace_scrollbar-inner"
-      style="height: 20px;"
-    />
-  </div>
-  <div
-    style="height: auto; width: auto; top: 0px; left: 0px; visibility: hidden; position: absolute; white-space: pre; overflow: hidden;"
-  >
-    <div
-      style="height: auto; width: auto; top: 0px; left: 0px; visibility: hidden; position: absolute; white-space: pre; overflow: visible;"
-    />
-    <div
-      style="height: auto; width: auto; top: 0px; left: 0px; visibility: hidden; position: absolute; white-space: pre; overflow: visible;"
+    <button
+      class="vertical-align--top mr-2 v-btn v-btn--contained v-btn--disabled theme--light v-size--small"
+      disabled="disabled"
+      title="Beautify (Ctrl+ALT+L)"
+      type="button"
     >
-      XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+      <span
+        class="v-btn__content"
+      >
+        <i
+          aria-hidden="true"
+          class="v-icon notranslate mdi mdi-code-braces theme--light"
+          style="font-size: 16px;"
+        />
+      </span>
+    </button>
+     
+    <div
+      class="v-item-group theme--light v-btn-toggle"
+    >
+      <button
+        class="v-btn v-btn--flat v-btn--text theme--light v-size--small"
+        title="Use 2 spaces for beautify (instead of tabs)"
+        type="button"
+      >
+        <span
+          class="v-btn__content"
+        >
+          <i
+            aria-hidden="true"
+            class="v-icon notranslate mdi mdi-keyboard-space theme--light"
+            style="font-size: 16px;"
+          />
+        </span>
+      </button>
+       
+      <button
+        class="v-btn v-btn--flat v-btn--text theme--light v-size--small"
+        title="Wrap lines"
+        type="button"
+      >
+        <span
+          class="v-btn__content"
+        >
+          <i
+            aria-hidden="true"
+            class="v-icon notranslate mdi mdi-wrap theme--light"
+            style="font-size: 16px;"
+          />
+        </span>
+      </button>
     </div>
   </div>
 </div>
@@ -272,89 +455,149 @@ exports[`components/shared/CodeEditor.vue snapshots renders string value 1`] = `
 
 exports[`components/shared/CodeEditor.vue snapshots renders when empty 1`] = `
 <div
-  class="bordered ace_editor ace-monokai ace_dark"
-  style="height: 100%; width: 100%; font-size: 14px;"
+  class="bordered code-editor"
 >
-  <textarea
-    autocapitalize="off"
-    autocorrect="off"
-    class="ace_text-input"
-    spellcheck="false"
-    style="opacity: 0;"
-    wrap="off"
-  />
   <div
-    aria-hidden="true"
-    class="ace_gutter"
+    class=" ace_editor ace-monokai ace_dark"
+    style="height: 100%; width: 100%; font-size: 14px;"
   >
-    <div
-      class="ace_layer ace_gutter-layer ace_folding-enabled"
+    <textarea
+      autocapitalize="off"
+      autocorrect="off"
+      class="ace_text-input"
+      spellcheck="false"
+      style="opacity: 0;"
+      wrap="off"
     />
     <div
-      class="ace_gutter-active-line"
-    />
-  </div>
-  <div
-    class="ace_scroller"
-  >
-    <div
-      class="ace_content"
+      aria-hidden="true"
+      class="ace_gutter"
     >
       <div
-        class="ace_layer ace_print-margin-layer"
+        class="ace_layer ace_gutter-layer ace_folding-enabled"
+      />
+      <div
+        class="ace_gutter-active-line"
+      />
+    </div>
+    <div
+      class="ace_scroller"
+    >
+      <div
+        class="ace_content"
       >
         <div
-          class="ace_print-margin"
-          style="left: 4px; visibility: visible;"
+          class="ace_layer ace_print-margin-layer"
+        >
+          <div
+            class="ace_print-margin"
+            style="left: 4px; visibility: hidden;"
+          />
+        </div>
+        <div
+          class="ace_layer ace_marker-layer"
         />
+        <div
+          class="ace_layer ace_text-layer"
+          style="padding: 0px 4px;"
+        />
+        <div
+          class="ace_layer ace_marker-layer"
+        />
+        <div
+          class="ace_layer ace_cursor-layer ace_hidden-cursors"
+        >
+          <div
+            class="ace_cursor"
+          />
+        </div>
       </div>
+    </div>
+    <div
+      class="ace_scrollbar ace_scrollbar-v"
+      style="display: none; width: 20px;"
+    >
       <div
-        class="ace_layer ace_marker-layer"
+        class="ace_scrollbar-inner"
+        style="width: 20px;"
+      />
+    </div>
+    <div
+      class="ace_scrollbar ace_scrollbar-h"
+      style="display: none; height: 20px;"
+    >
+      <div
+        class="ace_scrollbar-inner"
+        style="height: 20px;"
+      />
+    </div>
+    <div
+      style="height: auto; width: auto; top: 0px; left: 0px; visibility: hidden; position: absolute; white-space: pre; overflow: hidden;"
+    >
+      <div
+        style="height: auto; width: auto; top: 0px; left: 0px; visibility: hidden; position: absolute; white-space: pre; overflow: visible;"
       />
       <div
-        class="ace_layer ace_text-layer"
-        style="padding: 0px 4px;"
-      />
-      <div
-        class="ace_layer ace_marker-layer"
-      />
-      <div
-        class="ace_layer ace_cursor-layer ace_hidden-cursors"
+        style="height: auto; width: auto; top: 0px; left: 0px; visibility: hidden; position: absolute; white-space: pre; overflow: visible;"
       >
-        <div
-          class="ace_cursor"
-        />
+        XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
       </div>
     </div>
   </div>
+   
   <div
-    class="ace_scrollbar ace_scrollbar-v"
-    style="display: none; width: 20px;"
+    class="code-editor__actions pa-2"
   >
-    <div
-      class="ace_scrollbar-inner"
-      style="width: 20px;"
-    />
-  </div>
-  <div
-    class="ace_scrollbar ace_scrollbar-h"
-    style="display: none; height: 20px;"
-  >
-    <div
-      class="ace_scrollbar-inner"
-      style="height: 20px;"
-    />
-  </div>
-  <div
-    style="height: auto; width: auto; top: 0px; left: 0px; visibility: hidden; position: absolute; white-space: pre; overflow: hidden;"
-  >
-    <div
-      style="height: auto; width: auto; top: 0px; left: 0px; visibility: hidden; position: absolute; white-space: pre; overflow: visible;"
-    />
-    <div
-      style="height: auto; width: auto; top: 0px; left: 0px; visibility: hidden; position: absolute; white-space: pre; overflow: visible;"
+    <button
+      class="vertical-align--top mr-2 v-btn v-btn--contained theme--light v-size--small"
+      title="Beautify (Ctrl+ALT+L)"
+      type="button"
     >
-      XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+      <span
+        class="v-btn__content"
+      >
+        <i
+          aria-hidden="true"
+          class="v-icon notranslate mdi mdi-code-braces theme--light"
+          style="font-size: 16px;"
+        />
+      </span>
+    </button>
+     
+    <div
+      class="v-item-group theme--light v-btn-toggle"
+    >
+      <button
+        class="v-btn v-btn--flat v-btn--text theme--light v-size--small"
+        title="Use 2 spaces for beautify (instead of tabs)"
+        type="button"
+      >
+        <span
+          class="v-btn__content"
+        >
+          <i
+            aria-hidden="true"
+            class="v-icon notranslate mdi mdi-keyboard-space theme--light"
+            style="font-size: 16px;"
+          />
+        </span>
+      </button>
+       
+      <button
+        class="v-btn v-btn--flat v-btn--text theme--light v-size--small"
+        title="Wrap lines"
+        type="button"
+      >
+        <span
+          class="v-btn__content"
+        >
+          <i
+            aria-hidden="true"
+            class="v-icon notranslate mdi mdi-wrap theme--light"
+            style="font-size: 16px;"
+          />
+        </span>
+      </button>
     </div>
   </div>
 </div>

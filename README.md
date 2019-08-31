@@ -14,8 +14,9 @@ Contents
     * [Running elasticvue](#running)
     * [Elasticsearch Configuration](#elasticsearch-configuration)
 3. [Browser support](#browser-support)
-4. [Comparing with other frontends](#comparing-with-other-frontends)
-5. [Development](#development)
+4. [Troubleshooting](#troubleshooting)
+5. [Comparing with other frontends](#comparing-with-other-frontends)
+6. [Development](#development)
 
 
 ## About
@@ -87,7 +88,7 @@ Alternatively run `yarn build` and host the assets yourself. Example nginx confi
   location / {
     try_files $uri $uri/ /index.html?$args;
   }
-``` 
+```
 
 Also see the [official vuejs deployment guide](https://cli.vuejs.org/guide/deployment.html#docker-nginx).
 
@@ -129,9 +130,18 @@ Development is done on chrome. Firefox, safari and edge should work but are most
 |----|------|--------|---------|--------|
 | None | 16+ | 11+ | 50+ | 50+ |
 
+
+## Troubleshooting
+
+Before opening an issue please try to reset elasticvue to its default settings. To reset please click 
+`Disconnect and reset` in the footer, this will reset all your saved filters and you have to reconnect to your cluster.
+Feel free to open an [issue](https://github.com/cars10/elasticvue/issues/new/choose) if your problem persists.
+
+
 ## Comparing with other frontends
 
 See the Wiki. [Comparing to other frontends](https://github.com/cars10/elasticvue/wiki/Comparing-to-other-frontends)
+
 
 ## Development
 
@@ -171,7 +181,7 @@ yarn build --report
 Building the chrome extension
 
 ```bash
-yarn build_chrome_extension 
+yarn build_chrome_extension
 ```
 
 ## TODO

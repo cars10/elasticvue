@@ -17,17 +17,20 @@ module.exports = {
       new VuetifyLoaderPlugin(),
       new FaviconsWebpackPlugin({
         logo: './public/images/logo/logo_128_blue.png',
-        icons: {
-          android: false,
-          appleIcon: false,
-          appleStartup: false,
-          coast: false,
-          favicons: true,
-          firefox: false,
-          opengraph: false,
-          twitter: false,
-          yandex: false,
-          windows: false
+        prefix: 'assets/favicons/[hash]/',
+        favicons: {
+          icons: {
+            android: false,
+            appleIcon: false,
+            appleStartup: false,
+            coast: false,
+            favicons: true,
+            firefox: false,
+            opengraph: false,
+            twitter: false,
+            yandex: false,
+            windows: false
+          }
         }
       })
     ]

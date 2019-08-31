@@ -68,9 +68,9 @@
     methods: {
       emitInput (firstActive) {
         if (firstActive) {
-          this.$emit('input', this.localIndices)
-        } else {
           this.$emit('input', this.localPattern)
+        } else {
+          this.$emit('input', this.localIndices)
         }
       },
       getIndexNames (indices) {

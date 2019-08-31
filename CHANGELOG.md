@@ -1,5 +1,16 @@
 # Changelog
 
+## unreleased
+* improvements for the code editor (json views):
+    * [feat] enable searchbox for code editor
+    * [feat] add beautify button to code editor (hotkey: ctrl+alt+l)
+* [feat] show different "no results" text in results table based on current filters. thx @georgeyeint (see discussion in [#7][i7])
+* [bug] fix switching between index pattern and index selection ([#7][i7])
+* [bug] fix indices & search table not showing empty results when search result is empty
+
+[i7]: https://github.com/cars10/elasticvue/issues/7
+
+
 ## 0.11.0
 * [feat] can filter exact with `"` in all filter and select inputs
 * [feat] async filtering for indices table and search results table (using web workers)

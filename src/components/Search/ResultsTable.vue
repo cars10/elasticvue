@@ -46,7 +46,12 @@
       </template>
 
       <template slot="no-data">
-        Nothing found.
+        <template v-if="q !== '*' && filter !== ''">
+          No entries found that match your search <i>{{q}}</i> and your filter <i>{{filter}}</i>.
+        </template>
+        <template v-else-if="q !== '*'"> No entries found that match your search <i>{{q}}</i>.</template>
+        <template v-else-if="filter !== ''"> No entries found that match your filter <i>{{filter}}</i>.</template>
+        <template v-else>Nothing found.</template>
       </template>
 
       <v-progress-linear slot="progress" color="blue" indeterminate/>
@@ -65,6 +70,7 @@
   import { mapVuexAccessors } from '../../helpers/store'
   import Results from '../../models/Results'
   import AsyncFilter from '@/mixins/AsyncFilter'
+  import { mapState } from 'vuex'
 
   export default {
     name: 'ResultsTable',
@@ -96,10 +102,14 @@
     },
     computed: {
       filteredMappings () {
-        return this.mappings.filter(k => this.selectedMappings.includes(k))
+        if (this.mappings.length === this.selectedMappings.length) {
+          return this.mappings
+        } else {
+          return this.mappings.filter(k => this.selectedMappings.includes(k))
+        }
       },
       headers () {
-        return this.filteredMappings.map(value => ({ text: value, value: value })).concat({
+        return this.filteredMappings.map(value => ({ text: value, value })).concat({
           text: '',
           value: 'actions',
           sortable: false
@@ -128,11 +138,15 @@
           { 'theme--light': !this.$store.state.theme.dark }
         ]
       },
-      ...mapVuexAccessors('search', ['filter', 'pagination', 'selectedMappings', 'mappings'])
+      ...mapVuexAccessors('search', ['filter', 'pagination', 'selectedMappings', 'mappings']),
+      ...mapState('search', ['q'])
     },
     watch: {
       hits (val) {
-        if (val.length === 0 && this.hits.length === 0) return // component creation
+        if (val.length === 0 && this.hits.length === 0) {
+          this.items = []
+          return
+        }
 
         this.callFuzzyTableFilter(val, this.filter, true)
       },

@@ -82,7 +82,6 @@ Cypress.Commands.add('getIndex', index => {
   })
 })
 
-
 Cypress.Commands.add('createIndex', indexName => {
   return cy.request('PUT', ELASTICSEARCH_URL + '/' + indexName)
 })

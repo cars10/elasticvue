@@ -1,11 +1,16 @@
 ---
 name: Bug report
 about: Please report any issue you encountered.
-title: '[BUG]'
+title: '[BUG] - SHORT DESCRIPTION OF THE BUG'
 labels: unconfirmed
 assignees: cars10
 
 ---
+**READ BEFORE OPENING AN ISSUE**
+Before you submit an issue please try to reset elasticvue and see if you can reproduce the problem. 
+To reset please click `Disconnect and reset` in the footer, this will reset all your saved filters and you have to reconnect to your cluster.
+Proceed and open an issue if your problem persists.
+
 
 **Description**
 Please describe your problem here.

@@ -1,15 +1,20 @@
+import Vue from 'vue'
 import Vuex from 'vuex'
 import CodeEditor from '@/components/shared/CodeEditor'
 import { createLocalVue, mount } from '@vue/test-utils'
 import { theme } from '@/store/modules/theme'
 import '../../mocks/codeEditorMocks'
+import Vuetify from 'vuetify'
 
 describe('components/shared/CodeEditor.vue', () => {
   let localVue
+  let vuetify
   let store
 
   beforeEach(() => {
     localVue = createLocalVue()
+    vuetify = new Vuetify()
+    Vue.use(Vuetify)
     localVue.use(Vuex)
     store = new Vuex.Store({
       modules: { theme }
@@ -19,8 +24,9 @@ describe('components/shared/CodeEditor.vue', () => {
   describe('snapshots', () => {
     it('renders when empty', () => {
       const wrapper = mount(CodeEditor, {
-        localVue: localVue,
-        store: store,
+        localVue,
+        vuetify,
+        store,
         propsData: {
           useWorker: false
         }
@@ -30,8 +36,9 @@ describe('components/shared/CodeEditor.vue', () => {
 
     it('renders string value', () => {
       const wrapper = mount(CodeEditor, {
-        localVue: localVue,
-        store: store,
+        localVue,
+        vuetify,
+        store,
         propsData: {
           useWorker: false,
           value: 'test'
@@ -42,8 +49,9 @@ describe('components/shared/CodeEditor.vue', () => {
 
     it('renders object value', () => {
       const wrapper = mount(CodeEditor, {
-        localVue: localVue,
-        store: store,
+        localVue,
+        vuetify,
+        store,
         propsData: {
           useWorker: false,
           value: { a: 'test' }
@@ -54,8 +62,9 @@ describe('components/shared/CodeEditor.vue', () => {
 
     it('changes its value', () => {
       const wrapper = mount(CodeEditor, {
-        localVue: localVue,
-        store: store,
+        localVue,
+        vuetify,
+        store,
         propsData: {
           useWorker: false,
           value: { a: 'test' }
@@ -67,8 +76,9 @@ describe('components/shared/CodeEditor.vue', () => {
 
     it('removes itself from the dom on destroy', () => {
       const wrapper = mount(CodeEditor, {
-        localVue: localVue,
-        store: store,
+        localVue,
+        vuetify,
+        store,
         propsData: {
           useWorker: false
         },
@@ -85,8 +95,9 @@ describe('components/shared/CodeEditor.vue', () => {
   describe('theme handling', () => {
     it('uses the correct default theme', () => {
       const wrapper = mount(CodeEditor, {
-        localVue: localVue,
-        store: store,
+        localVue,
+        vuetify,
+        store,
         propsData: {
           useWorker: false
         }
@@ -96,8 +107,9 @@ describe('components/shared/CodeEditor.vue', () => {
 
     it('changes the editor theme correctly', () => {
       const wrapper = mount(CodeEditor, {
-        localVue: localVue,
-        store: store,
+        localVue,
+        vuetify,
+        store,
         propsData: {
           useWorker: false
         }
@@ -116,8 +128,9 @@ describe('components/shared/CodeEditor.vue', () => {
   describe('wrapLines', () => {
     it('does not wrap lines by default', () => {
       const wrapper = mount(CodeEditor, {
-        localVue: localVue,
-        store: store,
+        localVue,
+        vuetify,
+        store,
         propsData: {
           useWorker: false
         }
@@ -127,13 +140,14 @@ describe('components/shared/CodeEditor.vue', () => {
 
     it('changes wrapLines setting', () => {
       const wrapper = mount(CodeEditor, {
-        localVue: localVue,
-        store: store,
+        localVue,
+        vuetify,
+        store,
         propsData: {
           useWorker: false
         }
       })
-      wrapper.setProps({ wrapLines: true })
+      wrapper.setData({ settings: [1] })
       expect(wrapper.vm.editor.getSession().getUseWrapMode()).toBeTruthy()
     })
   })
@@ -141,8 +155,9 @@ describe('components/shared/CodeEditor.vue', () => {
   describe('readonly editor', () => {
     it('correctly sets the editor to readonly', () => {
       const wrapper = mount(CodeEditor, {
-        localVue: localVue,
-        store: store,
+        localVue,
+        vuetify,
+        store,
         propsData: {
           readOnly: true,
           useWorker: false
@@ -154,8 +169,9 @@ describe('components/shared/CodeEditor.vue', () => {
 
     it('updates the value when readonly', () => {
       const wrapper = mount(CodeEditor, {
-        localVue: localVue,
-        store: store,
+        localVue,
+        vuetify,
+        store,
         propsData: {
           readOnly: true,
           useWorker: false
