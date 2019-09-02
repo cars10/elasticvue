@@ -82,15 +82,17 @@ Install the extension from the [chrome webstore](https://chrome.google.com/webst
 Alternatively run `yarn build` and host the assets yourself. Example nginx config:
 
 ```
+server {
   listen 80;
   server_name yourdomain.com;
   root /var/www/elasticvue_app/dist;
   location / {
     try_files $uri $uri/ /index.html?$args;
   }
+}
 ```
 
-Also see the [official vuejs deployment guide](https://cli.vuejs.org/guide/deployment.html#docker-nginx).
+See the [official vuejs deployment guide](https://cli.vuejs.org/guide/deployment.html#docker-nginx) for more details.
 
 
 ### Elasticsearch configuration
@@ -104,11 +106,11 @@ http.cors.enabled: true
 
 # Then set the allowed origins based on how you run elasticvue. Chose only one:
 # for docker / running locally
-http.cors.allow-origin: /https?:\/\/localhost(:[0-9]+)?/
+http.cors.allow-origin: "http://localhost:8080"
 # online version
 http.cors.allow-origin: /https?:\/\/app.elasticvue.com/
 # chrome extension
-http.cors.allow-origin: /chrome-extension:\/\/[a-z]+/
+http.cors.allow-origin: "chrome-extension://hkedbapjpblbodpgbajblpnlpenaebaa"
 
 # and if your cluster uses authorization you also have to add:
 http.cors.allow-headers : X-Requested-With,Content-Type,Content-Length,Authorization
@@ -116,7 +118,7 @@ http.cors.allow-headers : X-Requested-With,Content-Type,Content-Length,Authoriza
 
 You can also use a regex to enable all sources at once:
 ```yaml
-http.cors.allow-origin: /(https?:\/\/localhost(:[0-9]+)?)|(chrome-extension:\/\/[a-z]+)|(https?:\/\/app.elasticvue.com)/
+http.cors.allow-origin: /(https?:\/\/localhost(:[0-9]+)?)|(chrome-extension://hkedbapjpblbodpgbajblpnlpenaebaa)|(https?:\/\/app.elasticvue.com)/
 ```
 
 After configuration restart your cluster and you should be able to connect.
