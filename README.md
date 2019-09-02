@@ -118,7 +118,7 @@ http.cors.allow-headers : X-Requested-With,Content-Type,Content-Length,Authoriza
 
 You can also use a regex to enable all sources at once:
 ```yaml
-http.cors.allow-origin: /(https?:\/\/localhost(:[0-9]+)?)|(chrome-extension://hkedbapjpblbodpgbajblpnlpenaebaa)|(https?:\/\/app.elasticvue.com)/
+http.cors.allow-origin: /(http:\/\/localhost:8080)|(chrome-extension:\/\/hkedbapjpblbodpgbajblpnlpenaebaa)|(https?:\/\/app.elasticvue.com)/
 ```
 
 After configuration restart your cluster and you should be able to connect.
