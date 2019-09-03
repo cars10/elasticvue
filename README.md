@@ -68,9 +68,12 @@ Or build the image locally:
 
 Then open [http://localhost:8080](http://localhost:8080) in your browser.
 
-**Chrome extension**
+**Browser extensions**
 
-Install the extension from the [chrome webstore](https://chrome.google.com/webstore/detail/elasticvue/hkedbapjpblbodpgbajblpnlpenaebaa). Start elasticvue by clicking on the icon in your toolbar.
+* Chrome: Install the extension from the [chrome webstore](https://chrome.google.com/webstore/detail/elasticvue/hkedbapjpblbodpgbajblpnlpenaebaa)
+* Firefox: Install the extension from [addons.mozilla.org](https://addons.mozilla.org/en-US/firefox/addon/elasticvue/)
+
+Start elasticvue by clicking on the icon in your toolbar.
 
 **Run locally**
 
@@ -111,6 +114,8 @@ http.cors.allow-origin: "http://localhost:8080"
 http.cors.allow-origin: /https?:\/\/app.elasticvue.com/
 # chrome extension
 http.cors.allow-origin: "chrome-extension://hkedbapjpblbodpgbajblpnlpenaebaa"
+# firefox extension
+http.cors.allow-origin: "TODO"
 
 # and if your cluster uses authorization you also have to add:
 http.cors.allow-headers : X-Requested-With,Content-Type,Content-Length,Authorization
