@@ -24,7 +24,7 @@ module.exports = {
   coverageDirectory: 'tests/coverage',
   coveragePathIgnorePatterns: [
     '<rootDir>/dist',
-    '<rootDir>/chrome_extension',
+    '<rootDir>/browser_extension',
     '<rootDir>/node_modules',
     '<rootDir>/tests/unit/mocks'
   ]
