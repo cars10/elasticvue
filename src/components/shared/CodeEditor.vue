@@ -85,6 +85,16 @@
         if (this.editor.getValue() !== value) {
           this.setEditorValue(value)
         }
+      },
+      settings (value) {
+        if (value.includes(0)) {
+          this.editor.getSession().setTabSize(2)
+          this.editor.getSession().setUseSoftTabs(true)
+        } else {
+          this.editor.getSession().setTabSize(4)
+          this.editor.getSession().setUseSoftTabs(false)
+          this.beautify()
+        }
       }
     },
     mounted () {
