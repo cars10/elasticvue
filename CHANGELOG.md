@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.13.0
+* [feat] can switch between vertical/horizontal layout in query/rest
+
+
 ## 0.12.0
 * improvements for the code editor (json views):
     * [feat] enable searchbox for code editor

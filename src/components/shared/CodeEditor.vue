@@ -137,7 +137,7 @@
         this.editor.getSession().setUseWorker(this.readOnly ? false : this.useWorker)
         this.editor.getSession().setMode('ace/mode/json')
         this.editor.getSession().setUseWrapMode(this.wrapLines)
-        this.editor.setFontSize('14px')
+        this.editor.setFontSize('13px')
         this.editor.setShowPrintMargin(false)
         this.editor.$blockScrolling = Infinity
         this.setTheme(this.$store.state.theme.dark)
