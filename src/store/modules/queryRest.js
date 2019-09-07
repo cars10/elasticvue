@@ -5,7 +5,8 @@ export const queryRest = {
   state: {
     path: '',
     method: HTTP_METHODS[0],
-    stringifiedParams: '{}'
+    stringifiedParams: '{}',
+    vertical: true
   },
   mutations: {
     setPath (state, path) {
@@ -16,6 +17,9 @@ export const queryRest = {
     },
     setStringifiedParams (state, params) {
       state.stringifiedParams = params
+    },
+    setVertical (state, vertical) {
+      state.vertical = vertical
     }
   }
 }

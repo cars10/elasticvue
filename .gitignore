@@ -6,13 +6,14 @@ tests/e2e/screenshots
 tests/e2e/videos
 tmp
 
-chrome_extension/*
-!chrome_extension/manifest.json
-!chrome_extension/background.js
+browser_extension/*
+!browser_extension/manifest.json
+!browser_extension/background.js
 elasticvue.zip
 
 scripts/chrome_ext_screenshots/*
 scripts/website_screenshots/*
+/artifacts
 
 # local env files
 .env.local

@@ -1,11 +1,11 @@
 {
   "name": "elasticvue",
-  "version": "0.12.0",
+  "version": "0.13.0",
   "scripts": {
     "serve": "npx --max_old_space_size=4096 vue-cli-service serve",
     "build": "rm -rf dist && vue-cli-service build --modern",
     "lint": "vue-cli-service lint",
-    "build_chrome_extension": "./scripts/build_chrome_extension.sh",
+    "build_browser_extensions": "./scripts/build_browser_extensions.sh",
     "prod": "node scripts/express-server.js",
     "test:unit": "vue-cli-service test:unit",
     "test:unit:watch": "vue-cli-service test:unit --watch",

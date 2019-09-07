@@ -16,7 +16,7 @@ exports[`components/shared/PrintPretty.vue correctly sets the initialHeight of i
       >
         <div
           class=" ace_editor ace-monokai ace_dark"
-          style="height: 100%; width: 100%; font-size: 14px;"
+          style="height: 100%; width: 100%; font-size: 13px;"
         >
           <textarea
             autocapitalize="off"
@@ -105,12 +105,40 @@ exports[`components/shared/PrintPretty.vue correctly sets the initialHeight of i
         <div
           class="code-editor__actions pa-2"
         >
-          <!---->
+          <button
+            class="vertical-align--top mr-2 v-btn v-btn--contained theme--light v-size--small"
+            title="Beautify (Ctrl+ALT+L)"
+            type="button"
+          >
+            <span
+              class="v-btn__content"
+            >
+              <i
+                aria-hidden="true"
+                class="v-icon notranslate mdi mdi-code-braces theme--light"
+                style="font-size: 16px;"
+              />
+            </span>
+          </button>
            
           <div
             class="v-item-group theme--light v-btn-toggle"
           >
-            <!---->
+            <button
+              class="v-btn v-btn--flat v-btn--text theme--light v-size--small"
+              title="Use 2 spaces for beautify (instead of tabs)"
+              type="button"
+            >
+              <span
+                class="v-btn__content"
+              >
+                <i
+                  aria-hidden="true"
+                  class="v-icon notranslate mdi mdi-keyboard-space theme--light"
+                  style="font-size: 16px;"
+                />
+              </span>
+            </button>
              
             <button
               class="v-btn v-btn--flat v-btn--text theme--light v-size--small"

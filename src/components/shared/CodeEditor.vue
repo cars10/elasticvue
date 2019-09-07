@@ -3,8 +3,7 @@
     <div ref="editor" style="height: 100%; width: 100%"/>
 
     <div class="code-editor__actions pa-2">
-      <v-btn v-if="!readOnly"
-             :disabled="!valid"
+      <v-btn :disabled="!valid"
              small
              title="Beautify (Ctrl+ALT+L)"
              class="vertical-align--top mr-2"
@@ -13,7 +12,7 @@
       </v-btn>
 
       <v-btn-toggle v-model="settings" multiple>
-        <v-btn v-if="!readOnly" text small title="Use 2 spaces for beautify (instead of tabs)">
+        <v-btn text small title="Use 2 spaces for beautify (instead of tabs)">
           <v-icon small>mdi-keyboard-space</v-icon>
         </v-btn>
         <v-btn text small title="Wrap lines">
@@ -66,6 +65,7 @@
       },
       valid () {
         if (this.value === '') return true
+        if (typeof this.value === 'object') return true
         try {
           (JSON.parse(this.value))
           return true
@@ -84,6 +84,16 @@
       value (value) {
         if (this.editor.getValue() !== value) {
           this.setEditorValue(value)
+        }
+      },
+      settings (value) {
+        if (value.includes(0)) {
+          this.editor.getSession().setTabSize(2)
+          this.editor.getSession().setUseSoftTabs(true)
+        } else {
+          this.editor.getSession().setTabSize(4)
+          this.editor.getSession().setUseSoftTabs(false)
+          this.beautify()
         }
       }
     },
@@ -137,7 +147,7 @@
         this.editor.getSession().setUseWorker(this.readOnly ? false : this.useWorker)
         this.editor.getSession().setMode('ace/mode/json')
         this.editor.getSession().setUseWrapMode(this.wrapLines)
-        this.editor.setFontSize('14px')
+        this.editor.setFontSize('13px')
         this.editor.setShowPrintMargin(false)
         this.editor.$blockScrolling = Infinity
         this.setTheme(this.$store.state.theme.dark)

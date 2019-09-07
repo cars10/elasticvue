@@ -4,7 +4,7 @@ const puppeteer = require('puppeteer');
   const browser = await puppeteer.launch({ args: ['--no-sandbox', '--disable-setuid-sandbox'] })
   const page = await browser.newPage()
   page.setViewport({ width: 1280, height: 800 })
-  await page.goto('http://localhost:16326')
+  await page.goto('http://localhost:8080')
 
   await connectWithServer(page)
   await removeSnackbar(page)
@@ -17,7 +17,7 @@ const puppeteer = require('puppeteer');
   await clickToNavigateAndScreenshot(page, '#navbar_nodes', 'screenshot_2_nodes.png')
   await clickToNavigateAndScreenshot(page, '#navbar_indices', 'screenshot_3_indices.png')
   await clickToNavigateAndScreenshot(page, ['#navbar_search', '#search_submit'], 'screenshot_4_search.png')
-  await clickToNavigateAndScreenshot(page, ['#navbar_query', '#navbar_query_rest'], 'screenshot_5_search.png')
+  await clickToNavigateAndScreenshot(page, ['#navbar_query', '#navbar_query_rest', '#example-2'], 'screenshot_5_search.png')
 
   await browser.close()
 })()

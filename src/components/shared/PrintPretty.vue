@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2 v-if="caption" class="title">{{caption}}</h2>
+    <h4 v-if="caption">{{caption}}</h4>
     <div v-if="resizable" class="py-1">
       <resizable-container :initial-height="initialHeight">
         <code-editor :value="document" read-only/>

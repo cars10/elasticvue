@@ -6,7 +6,7 @@ exports[`components/shared/CodeEditor.vue snapshots changes its value 1`] = `
 >
   <div
     class=" ace_editor ace-monokai ace_dark"
-    style="height: 100%; width: 100%; font-size: 14px;"
+    style="height: 100%; width: 100%; font-size: 13px;"
   >
     <textarea
       autocapitalize="off"
@@ -157,7 +157,7 @@ exports[`components/shared/CodeEditor.vue snapshots renders object value 1`] = `
 >
   <div
     class=" ace_editor ace-monokai ace_dark"
-    style="height: 100%; width: 100%; font-size: 14px;"
+    style="height: 100%; width: 100%; font-size: 13px;"
   >
     <textarea
       autocapitalize="off"
@@ -247,8 +247,7 @@ exports[`components/shared/CodeEditor.vue snapshots renders object value 1`] = `
     class="code-editor__actions pa-2"
   >
     <button
-      class="vertical-align--top mr-2 v-btn v-btn--contained v-btn--disabled theme--light v-size--small"
-      disabled="disabled"
+      class="vertical-align--top mr-2 v-btn v-btn--contained theme--light v-size--small"
       title="Beautify (Ctrl+ALT+L)"
       type="button"
     >
@@ -308,7 +307,7 @@ exports[`components/shared/CodeEditor.vue snapshots renders string value 1`] = `
 >
   <div
     class=" ace_editor ace-monokai ace_dark"
-    style="height: 100%; width: 100%; font-size: 14px;"
+    style="height: 100%; width: 100%; font-size: 13px;"
   >
     <textarea
       autocapitalize="off"
@@ -459,7 +458,7 @@ exports[`components/shared/CodeEditor.vue snapshots renders when empty 1`] = `
 >
   <div
     class=" ace_editor ace-monokai ace_dark"
-    style="height: 100%; width: 100%; font-size: 14px;"
+    style="height: 100%; width: 100%; font-size: 13px;"
   >
     <textarea
       autocapitalize="off"

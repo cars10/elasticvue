@@ -2,7 +2,7 @@ node_modules
 npm-debug.log
 yarn-*.log
 
-chrome_extension
+browser_extension
 dist
 tests
 tmp

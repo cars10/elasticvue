@@ -1,4 +1,4 @@
 dist
 node_modules
-chrome_extension
+browser_extension
 tests/coverage
