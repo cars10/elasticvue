@@ -7,6 +7,7 @@
                                item-text="name"
                                item-value="name"
                                label="Method"
+                               hide-details
                                name="Method">
           <template v-slot:item="data">
             {{data.item.name}}

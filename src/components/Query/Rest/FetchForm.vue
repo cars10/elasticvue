@@ -5,6 +5,7 @@
         <v-col class="py-0" lg="2" sm="3" xl="1">
           <v-select :items="HTTP_METHODS"
                     v-model="method"
+                    hide-details
                     label="HTTP Method"
                     name="http_method"/>
         </v-col>
@@ -12,6 +13,7 @@
           <v-text-field id="path"
                         v-model="path"
                         autofocus
+                        hide-details
                         label="Path"
                         name="path"
                         placeholder="/"/>
