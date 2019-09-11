@@ -2,7 +2,8 @@ export const queryApiBrowser = {
   namespaced: true,
   state: {
     method: 'info',
-    stringifiedParams: '{}'
+    stringifiedParams: '{}',
+    vertical: true
   },
   mutations: {
     setMethod (state, method) {
@@ -10,6 +11,9 @@ export const queryApiBrowser = {
     },
     setStringifiedParams (state, params) {
       state.stringifiedParams = params
+    },
+    setVertical (state, vertical) {
+      state.vertical = vertical
     }
   }
 }

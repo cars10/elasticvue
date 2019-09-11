@@ -19,21 +19,21 @@
       </v-row>
 
       <v-row>
-        <v-col :lg="vertical ? '12' : '6'" cols="12">
-          <h4 class="pb-1">Query body</h4>
+        <v-col :lg="vertical ? 12 : 6" cols="12">
+          <h4 class="pb-1">Request body</h4>
           <resizable-container ref="query_body" :initial-height="vertical ? 200 : 600" class="mb-1">
             <code-editor :external-commands="editorCommands" v-model="stringifiedParams"/>
           </resizable-container>
 
           <v-row>
-            <v-col :lg="vertical ? '6' : '12'" cols="12">
+            <v-col :lg="vertical ? 6 : 12" cols="12">
               <v-btn id="execute_query" :disabled="!isValid" :loading="loading" class="mx-0" color="primary"
                      type="submit">
                 Run query
               </v-btn>
               <a id="reset-form" class="ml-2" href="javascript:void(0)" @click="reset">Reset form</a>
             </v-col>
-            <v-col :lg="vertical ? '6' : '12'" :class="vertical ? 'text-right' : ''" cols="12">
+            <v-col :lg="vertical ? 6 : 12" :class="vertical ? 'text-right' : ''" cols="12">
               <a id="example-1" href="javascript:void(0)" @click="loadCatExample">Example #1 (_cat/indices)</a>
               <a id="example-2" class="ml-2" href="javascript:void(0)" @click="loadCreateExample">Example #2 (create
                 index)</a>
@@ -43,7 +43,7 @@
           </v-row>
         </v-col>
 
-        <v-col :lg="vertical ? '12' : '6'" cols="12">
+        <v-col :lg="vertical ? 12 : 6" cols="12">
           <print-pretty :document="response" caption="Response" class="response"/>
         </v-col>
       </v-row>
