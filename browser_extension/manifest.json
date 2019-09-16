@@ -4,9 +4,10 @@
   "description": "Elasticsearch frontend",
   "manifest_version": 2,
   "icons": {
-    "16": "./assets/img/logo/logo_16_blue.png",
-    "48": "./assets/img/logo/logo_48_blue.png",
-    "128": "./assets/img/logo/logo_128_blue.png"
+    "16": "./assets/img/logo/blue_16.png",
+    "32": "./assets/img/logo/blue_32.png",
+    "48": "./assets/img/logo/blue_48.png",
+    "128": "./assets/img/logo/blue_128.png"
   },
   "background": {
     "scripts": [

@@ -1,8 +1,9 @@
 <template>
-  <v-app-bar :dense="this.$vuetify.breakpoint.mdAndDown" app>
+  <v-app-bar :dense="dense" app>
     <router-link class="mt-2" to="/">
-      <img v-if="this.$store.state.theme.dark" alt="Logo" src="../../../public/images/logo/logo_48_white.png">
-      <img v-else alt="Logo" src="../../../public/images/logo/logo_48_blue.png">
+      <img v-if="this.$store.state.theme.dark" :height="logoSize" :width="logoSize"
+           alt="Logo" src="../../../public/images/logo/white_96.png">
+      <img v-else :height="logoSize" :width="logoSize" alt="Logo" src="../../../public/images/logo/blue_96.png">
     </router-link>
     <v-toolbar-title class="mr-6 ml-4 hidden-md-and-down">
       <router-link to="/">
@@ -79,7 +80,8 @@
     data () {
       return {
         drawer: false,
-        clusterHealth: CONNECTION_STATES.UNKNOWN
+        clusterHealth: CONNECTION_STATES.UNKNOWN,
+        scrolledDown: false
       }
     },
     computed: {
@@ -96,12 +98,29 @@
         return {
           'v-btn--active': /^\/query/.test(this.$route.path)
         }
+      },
+      dense () {
+        return this.$vuetify.breakpoint.mdAndDown || this.scrolledDown
+      },
+      logoSize () {
+        if (this.dense) {
+          return '32'
+        } else {
+          return '48'
+        }
       }
     },
     created () {
       if (this.wasConnected) this.getHealth()
+      if (typeof window !== 'undefined') window.addEventListener('scroll', this.setScrolledDown)
+    },
+    destroyed () {
+      if (typeof window !== 'undefined') window.removeEventListener('scroll', this.setScrolledDown)
     },
     methods: {
+      setScrolledDown () {
+        this.scrolledDown = window.pageYOffset > 0
+      },
       getHealth () {
         this.callElasticsearch('clusterHealth')
           .then(result => {

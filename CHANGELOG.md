@@ -3,6 +3,7 @@
 ## 0.14.0
 * [feat] adds reload button to modals
 * [feat] can switch between vertical/horizontal layout in query/api browser
+* [feat] decrease navbar size when scrolled down
 
 ## 0.13.0
 * firefox addon is now available on [addons.mozilla.org](https://addons.mozilla.org/en-US/firefox/addon/elasticvue/)!
