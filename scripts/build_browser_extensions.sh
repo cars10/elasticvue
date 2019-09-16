@@ -12,10 +12,9 @@ mkdir -p artifacts
 
 VUE_APP_ROUTER_MODE=hash vue-cli-service build
 
+rm -rf browser_extension/assets browser_extension/images
 git clean -xf browser_extension --quiet
 cp -r dist/* browser_extension/
-mkdir -p browser_extension/assets/img/logo
-cp -r public/images/logo/*_blue.png browser_extension/assets/img/logo
 
 # zip chrome extension
 zip -r artifacts/elasticvue-$PACKAGE_VERSION-chrome.zip browser_extension/*
