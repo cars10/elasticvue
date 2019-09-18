@@ -2,7 +2,7 @@
   <v-footer>
     <v-row>
       <v-col cols="4">
-        <v-switch id="theme_select" v-model="dark" class="mt-0 mb-2 pt-0" hide-details label="Dark theme"/>
+        <v-switch id="theme_select" v-model="dark" color="primary" class="mt-0 mb-2 pt-0" hide-details label="Dark theme"/>
         <a id="resetSettings" title="Disconnect and reset saved settings" @click="reset">Disconnect and reset</a>
       </v-col>
 

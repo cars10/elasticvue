@@ -5,6 +5,7 @@
         <v-checkbox :label="name"
                     :value="value"
                     v-model="ownValue"
+                    color="primary"
                     class="mt-0 mb-0" hide-details/>
       </div>
     </slot>
