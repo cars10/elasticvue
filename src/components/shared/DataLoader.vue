@@ -8,7 +8,9 @@
       </template>
       <template v-else-if="networkError">
         <div class="pa-4">
-          <v-alert :value="true" color="grey">Network error: failed to fetch</v-alert>
+          <v-alert :value="true" color="grey">
+            Network error: failed to fetch. <a href="javascript:void(0)" @click="loadData">Retry</a>
+          </v-alert>
         </div>
       </template>
     </template>

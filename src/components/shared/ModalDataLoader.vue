@@ -3,6 +3,7 @@
     <v-card>
       <v-card-title>
         <h2 class="headline">{{modalTitle}}</h2>
+        <reload-button id="reload-modal" :action="() => this.$refs.dataLoader.loadData()"/>
         <div class="ml-a">
           <v-btn icon @click.native="close">
             <v-icon>mdi-close</v-icon>
@@ -12,7 +13,7 @@
       <v-divider/>
 
       <v-card-text>
-        <data-loader ref="dataLoader" :method="method" :method-params="methodParams">
+        <data-loader ref="dataLoader" :method="method" :method-params="methodParams" render-content-while-loading>
           <template v-slot:default="data">
             <slot name="content">
               <print-pretty :caption="modalSubtitle"
@@ -30,12 +31,14 @@
 <script>
   import DataLoader from '@/components/shared/DataLoader'
   import PrintPretty from '@/components/shared/PrintPretty'
+  import ReloadButton from '@/components/shared/ReloadButton'
 
   export default {
     name: 'modal-data-loader',
     components: {
       DataLoader,
-      PrintPretty
+      PrintPretty,
+      ReloadButton
     },
     props: {
       width: {

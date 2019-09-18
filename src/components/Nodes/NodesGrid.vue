@@ -31,106 +31,110 @@
     <v-data-iterator v-else
                      :items="filteredItems"
                      :options.sync="pagination">
-      <v-col slot="item" slot-scope="props" cols="12" lg="4" md="4" sm="6">
-        <v-card>
-          <v-card-title class="py-0">
-            <div class="row">
-              <div class="col">
-                <span class="subtitle-1">{{ props.item.name }}</span>
-              </div>
-              <div class="col">
-                <div class="d-inline-block float-right">
-                  <node-icons :elasticsearch-node="props.item"/>
+      <template v-slot:default="props">
+        <v-row>
+          <v-col v-for="item in props.items" slot="item" :key="item.name" cols="12" lg="4" md="6" sm="12">
+            <v-card>
+              <v-card-title class="py-0">
+                <div class="row">
+                  <div class="col">
+                    <span class="subtitle-1">{{ item.name }}</span>
+                  </div>
+                  <div class="col">
+                    <div class="d-inline-block float-right">
+                      <node-icons :elasticsearch-node="item"/>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-          </v-card-title>
-          <v-divider/>
+              </v-card-title>
+              <v-divider/>
 
-          <v-row class="ma-0 overflow-x--auto caption">
-            <v-col :class="nodeListClass" class="pa-0" cols="12" sm="6">
-              <v-list dense class="py-0">
-                <v-list-item>
-                  <v-list-item-action>ip</v-list-item-action>
-                  <v-list-item-content class="d-inline-block text-right">
-                    {{ props.item.ip }}
-                  </v-list-item-content>
-                </v-list-item>
+              <v-row class="ma-0 overflow-x--auto caption">
+                <v-col :class="nodeListClass" class="pa-0" cols="12" sm="6">
+                  <v-list dense class="py-0">
+                    <v-list-item>
+                      <v-list-item-action>ip</v-list-item-action>
+                      <v-list-item-content class="d-inline-block text-right">
+                        {{ item.ip }}
+                      </v-list-item-content>
+                    </v-list-item>
 
-                <v-list-item>
-                  <v-list-item-content>master</v-list-item-content>
-                  <v-list-item-content class="d-inline-block text-right">
-                    <template v-if="props.item.master">yes</template>
-                    <template v-else-if="props.item.masterEligible">eligible</template>
-                    <template v-else>no</template>
-                  </v-list-item-content>
-                </v-list-item>
+                    <v-list-item>
+                      <v-list-item-content>master</v-list-item-content>
+                      <v-list-item-content class="d-inline-block text-right">
+                        <template v-if="item.master">yes</template>
+                        <template v-else-if="item.masterEligible">eligible</template>
+                        <template v-else>no</template>
+                      </v-list-item-content>
+                    </v-list-item>
 
-                <v-list-item>
-                  <v-list-item-content>node.role</v-list-item-content>
-                  <v-list-item-content class="d-inline-block text-right">
-                    {{ props.item.nodeRole }}
-                  </v-list-item-content>
-                </v-list-item>
+                    <v-list-item>
+                      <v-list-item-content>node.role</v-list-item-content>
+                      <v-list-item-content class="d-inline-block text-right">
+                        {{ item.nodeRole }}
+                      </v-list-item-content>
+                    </v-list-item>
 
-                <v-list-item>
-                  <v-list-item-content>load</v-list-item-content>
-                  <v-list-item-content class="d-inline-block text-right">
-                    {{props.item.load_1m}} / {{props.item.load_5m}} / {{props.item.load_15m}}
-                  </v-list-item-content>
-                </v-list-item>
-              </v-list>
-            </v-col>
+                    <v-list-item>
+                      <v-list-item-content>load</v-list-item-content>
+                      <v-list-item-content class="d-inline-block text-right">
+                        {{item.load_1m}} / {{item.load_5m}} / {{item.load_15m}}
+                      </v-list-item-content>
+                    </v-list-item>
+                  </v-list>
+                </v-col>
 
-            <v-col class="pa-0" cols="12" sm="6">
-              <v-list dense class="py-0">
-                <v-list-item>
-                  <v-list-item-action class="my-0">cpu</v-list-item-action>
-                  <v-list-item-content>
-                    <v-progress-linear :value="props.item.cpu" class="my-0" height="4"/>
-                  </v-list-item-content>
-                  <v-list-item-action class="my-0">
-                    {{ props.item.cpu }}%
-                  </v-list-item-action>
-                </v-list-item>
+                <v-col class="pa-0" cols="12" sm="6">
+                  <v-list dense class="py-0">
+                    <v-list-item>
+                      <v-list-item-action class="my-0">cpu</v-list-item-action>
+                      <v-list-item-content>
+                        <v-progress-linear :value="item.cpu" class="my-0" height="4"/>
+                      </v-list-item-content>
+                      <v-list-item-action class="my-0">
+                        {{ item.cpu }}%
+                      </v-list-item-action>
+                    </v-list-item>
 
-                <v-list-item>
-                  <v-list-item-action class="my-0">ram</v-list-item-action>
-                  <v-list-item-content>
-                    {{props.item.ramCurrent}}/ {{props.item.ramMax}}
-                    <node-percent-bar :value="props.item.ramPercent"/>
-                  </v-list-item-content>
-                  <v-list-item-action class="my-0">
-                    {{ props.item.ramPercent }}%
-                  </v-list-item-action>
-                </v-list-item>
+                    <v-list-item>
+                      <v-list-item-action class="my-0">ram</v-list-item-action>
+                      <v-list-item-content>
+                        {{item.ramCurrent}}/ {{item.ramMax}}
+                        <node-percent-bar :value="item.ramPercent"/>
+                      </v-list-item-content>
+                      <v-list-item-action class="my-0">
+                        {{ item.ramPercent }}%
+                      </v-list-item-action>
+                    </v-list-item>
 
-                <v-list-item>
-                  <v-list-item-action class="my-0">heap</v-list-item-action>
-                  <v-list-item-content>
-                    {{props.item.heapCurrent}}/ {{props.item.heapMax}}
-                    <node-percent-bar :value="props.item.heapPercent"/>
-                  </v-list-item-content>
-                  <v-list-item-action class="my-0">
-                    {{ props.item.heapPercent }}%
-                  </v-list-item-action>
-                </v-list-item>
+                    <v-list-item>
+                      <v-list-item-action class="my-0">heap</v-list-item-action>
+                      <v-list-item-content>
+                        {{item.heapCurrent}}/ {{item.heapMax}}
+                        <node-percent-bar :value="item.heapPercent"/>
+                      </v-list-item-content>
+                      <v-list-item-action class="my-0">
+                        {{ item.heapPercent }}%
+                      </v-list-item-action>
+                    </v-list-item>
 
-                <v-list-item>
-                  <v-list-item-action class="my-0">disk</v-list-item-action>
-                  <v-list-item-content>
-                    {{props.item.diskCurrent}}/ {{props.item.diskMax}}
-                    <node-percent-bar :value="props.item.diskPercent"/>
-                  </v-list-item-content>
-                  <v-list-item-action class="my-0">
-                    {{ props.item.diskPercent }}%
-                  </v-list-item-action>
-                </v-list-item>
-              </v-list>
-            </v-col>
-          </v-row>
-        </v-card>
-      </v-col>
+                    <v-list-item>
+                      <v-list-item-action class="my-0">disk</v-list-item-action>
+                      <v-list-item-content>
+                        {{item.diskCurrent}}/ {{item.diskMax}}
+                        <node-percent-bar :value="item.diskPercent"/>
+                      </v-list-item-content>
+                      <v-list-item-action class="my-0">
+                        {{ item.diskPercent }}%
+                      </v-list-item-action>
+                    </v-list-item>
+                  </v-list>
+                </v-col>
+              </v-row>
+            </v-card>
+          </v-col>
+        </v-row>
+      </template>
     </v-data-iterator>
   </div>
 </template>

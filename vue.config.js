@@ -16,7 +16,7 @@ module.exports = {
     plugins: [
       new VuetifyLoaderPlugin(),
       new FaviconsWebpackPlugin({
-        logo: './public/images/logo/logo_128_blue.png',
+        logo: './public/images/logo/favicon_128.png',
         prefix: 'assets/favicons/[hash]/',
         favicons: {
           icons: {
