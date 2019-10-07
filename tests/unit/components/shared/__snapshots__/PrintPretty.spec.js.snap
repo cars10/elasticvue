@@ -176,7 +176,7 @@ exports[`components/shared/PrintPretty.vue should render correct default content
   >
     <div
       class="resizable-container"
-      style="width: 100%; height: 600px;"
+      style="width: 100%; height: 500px;"
     >
       <!---->
        
