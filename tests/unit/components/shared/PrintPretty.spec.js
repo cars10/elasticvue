@@ -22,7 +22,7 @@ describe('components/shared/PrintPretty.vue', () => {
   })
 
   it('should render correct default contents', () => {
-    const wrapper = mount(PrintPretty, { localVue, vuetify, store })
+    const wrapper = mount(PrintPretty, { localVue, vuetify, store, sync: false })
     expect(wrapper.element).toMatchSnapshot()
   })
 
@@ -30,7 +30,8 @@ describe('components/shared/PrintPretty.vue', () => {
     const wrapper = mount(PrintPretty, {
       localVue,
       vuetify,
-      store: store,
+      store,
+      sync: false,
       propsData: {
         initialHeight: 250
       }

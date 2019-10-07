@@ -24,12 +24,12 @@ describe('components/shared/Timer.vue', () => {
 
   describe('snapshots', () => {
     it('should render correct default contents', () => {
-      const wrapper = mount(Timer, { localVue, vuetify })
+      const wrapper = mount(Timer, { localVue, vuetify, sync: false })
       expect(wrapper.element).toMatchSnapshot()
     })
 
     it('shows the selected setting', () => {
-      const wrapper = mount(Timer, { localVue, vuetify, propsData: { defaultSetting: 5 } })
+      const wrapper = mount(Timer, { localVue, vuetify, sync: false, propsData: { defaultSetting: 5 } })
       expect(wrapper.element).toMatchSnapshot()
     })
   })
@@ -37,7 +37,7 @@ describe('components/shared/Timer.vue', () => {
   describe('action calls', () => {
     it('does not call the action immediately if no defaultSetting is provided', () => {
       const myAction = jest.fn()
-      const wrapper = mount(Timer, { localVue, vuetify, propsData: { action: myAction } })
+      const wrapper = mount(Timer, { localVue, vuetify, sync: false, propsData: { action: myAction } })
 
       wrapper.vm.$nextTick(() => {
         expect(myAction).toHaveBeenCalledTimes(0)
@@ -46,7 +46,12 @@ describe('components/shared/Timer.vue', () => {
 
     it('calls the action immediately if a defaultSetting is provided', () => {
       const myAction = jest.fn()
-      const wrapper = mount(Timer, { localVue, vuetify, propsData: { defaultSetting: 5, action: myAction } })
+      const wrapper = mount(Timer, {
+        localVue,
+        vuetify,
+        sync: false,
+        propsData: { defaultSetting: 5, action: myAction }
+      })
 
       wrapper.vm.$nextTick(() => {
         expect(myAction).toHaveBeenCalledTimes(1)
@@ -56,7 +61,7 @@ describe('components/shared/Timer.vue', () => {
     it('does not call the action periodically if no defaultSetting is provided', () => {
       const myAction = jest.fn()
       const seconds = 5
-      const wrapper = mount(Timer, { localVue, vuetify, propsData: { action: myAction } })
+      const wrapper = mount(Timer, { localVue, vuetify, sync: false, propsData: { action: myAction } })
 
       wrapper.vm.$nextTick(() => {
         jest.advanceTimersByTime(seconds * 1000)
@@ -67,7 +72,12 @@ describe('components/shared/Timer.vue', () => {
     it('calls the action periodically if a defaultSetting is provided', () => {
       const myAction = jest.fn()
       const seconds = 5
-      const wrapper = mount(Timer, { localVue, vuetify, propsData: { defaultSetting: seconds, action: myAction } })
+      const wrapper = mount(Timer, {
+        localVue,
+        vuetify,
+        sync: false,
+        propsData: { defaultSetting: seconds, action: myAction }
+      })
 
       wrapper.vm.$nextTick(() => {
         jest.advanceTimersByTime(seconds * 1000)
@@ -78,26 +88,30 @@ describe('components/shared/Timer.vue', () => {
 
   describe('interval management', () => {
     it('starts the interval when a defaultSetting is passed', () => {
-      const wrapper = mount(Timer, { localVue, vuetify, propsData: { defaultSetting: 5 } })
+      const wrapper = mount(Timer, { localVue, vuetify, sync: false, propsData: { defaultSetting: 5 } })
       wrapper.vm.$nextTick(() => {
         expect(wrapper.vm.intervalID).toBeTruthy()
       })
     })
 
     it('stops the interval when no time is selected', () => {
-      const wrapper = mount(Timer, { localVue, vuetify, propsData: { defaultSetting: 5 } })
+      const wrapper = mount(Timer, { localVue, vuetify, sync: false, propsData: { defaultSetting: 5 } })
       wrapper.vm.$nextTick(() => {
         expect(wrapper.vm.intervalID).toBeTruthy()
         wrapper.setData({ timerSetting: null })
-        expect(wrapper.vm.intervalID).toBeFalsy()
+        wrapper.vm.$nextTick(() => {
+          expect(wrapper.vm.intervalID).toBeFalsy()
+        })
       })
     })
 
     it('clears the interval when timer is destroyed', () => {
-      const wrapper = mount(Timer, { localVue, vuetify, propsData: { defaultSetting: 5 } })
+      const wrapper = mount(Timer, { localVue, vuetify, sync: false, propsData: { defaultSetting: 5 } })
       wrapper.vm.$nextTick(() => {
         wrapper.destroy()
-        expect(wrapper.vm.intervalID).toBeFalsy()
+        wrapper.vm.$nextTick(() => {
+          expect(wrapper.vm.intervalID).toBeFalsy()
+        })
       })
     })
   })

@@ -96,8 +96,7 @@ exports[`components/shared/CodeEditor.vue snapshots changes its value 1`] = `
     class="code-editor__actions pa-2"
   >
     <button
-      class="vertical-align--top mr-2 v-btn v-btn--contained v-btn--disabled theme--light v-size--small"
-      disabled="disabled"
+      class="vertical-align--top mr-2 v-btn v-btn--contained theme--light v-size--small"
       title="Beautify (Ctrl+ALT+L)"
       type="button"
     >
