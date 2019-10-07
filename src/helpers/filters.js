@@ -17,7 +17,7 @@ export function fuzzyTableFilter (items, search, headers) {
     if (isExact(query)) {
       query = query.slice(1, -1)
       return items.filter(item => {
-        return item[column] && item[column] === query
+        return item[column] && item[column].toString() === query
       })
     } else {
       return Fuzzysort.go(query.toLowerCase(), items, {
@@ -31,7 +31,7 @@ export function fuzzyTableFilter (items, search, headers) {
       search = search.slice(1, -1)
       return items.filter(item => {
         return props.some(key => {
-          return item[key] && item[key] === search
+          return item[key] && item[key].toString() === search
         })
       })
     } else {
