@@ -26,7 +26,7 @@
                   :footer-props="{itemsPerPageOptions: DEFAULT_ITEMS_PER_PAGE}"
                   :headers="headers"
                   :items="items"
-                  :loading="loading"
+                  :loading="loading || filterLoading"
                   :options.sync="pagination">
       <template v-slot:item="item">
         <tr class="tr--clickable" @click="openDocument(item.item)">
@@ -148,6 +148,13 @@
           return
         }
 
+        // set mappings whenever hits change
+        const oldMappings = this.mappings
+        const results = new Results(this.hits)
+        this.mappings = results.uniqueColumns
+        const newMappings = this.mappings.filter(m => !oldMappings.includes(m))
+        this.selectedMappings = this.selectedMappings.concat(newMappings)
+
         this.callFuzzyTableFilter(val, this.filter, true)
       },
       filter (val) {
@@ -166,12 +173,8 @@
     methods: {
       async callFuzzyTableFilter (items, filter, skipTimeout) {
         this.debounceFilter(async () => {
-          let filteredResults = await this.filterTable(items, filter, this.headers, skipTimeout)
-          const oldMappings = this.mappings
+          let filteredResults = await this.filterTable(items, filter, this.mappings, skipTimeout)
           const results = new Results(filteredResults)
-          this.mappings = results.uniqueColumns
-          const newMappings = this.mappings.filter(m => !oldMappings.includes(m))
-          this.selectedMappings = this.selectedMappings.concat(newMappings)
           this.items = results.results
         }, skipTimeout)
       },
