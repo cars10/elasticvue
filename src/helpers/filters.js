@@ -17,7 +17,7 @@ export function fuzzyTableFilter (items, search, headers) {
     if (isExact(query)) {
       query = query.slice(1, -1)
       return items.filter(item => {
-        return item[column] === query
+        return item[column].toString().toLowerCase() === query
       })
     } else {
       return Fuzzysort.go(query, items, { key: column, allowTypo: false, threshold: -50000 }).map(i => i.obj)
