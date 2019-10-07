@@ -5,6 +5,7 @@
                          v-model="localValue"
                          append-icon="mdi-menu-down"
                          label="Select indices"
+                         autocomplete="off"
                          multiple
                          name="indices"
                          prepend-inner-icon="mdi-cached"
