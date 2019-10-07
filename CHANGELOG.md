@@ -4,6 +4,7 @@
 
 * [fix] fix [#8][i8]
 * [fix] fix exact filtering (using `"query"`) when filtering for fields that contain uppercase characters
+* [fix] fix filtering for numbers
 
 [i8]: https://github.com/cars10/elasticvue/issues/8
 
