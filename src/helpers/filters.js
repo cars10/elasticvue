@@ -27,7 +27,7 @@ export function fuzzyTableFilter (items, search, headers) {
       search = search.slice(1, -1)
       return items.filter(item => {
         return props.some(key => {
-          return item[key] === search
+          return item[key].toString().toLowerCase() === search
         })
       })
     } else {
