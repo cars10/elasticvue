@@ -16,6 +16,7 @@
           <v-checkbox :label="setting"
                       :value="setting"
                       v-model="ownValue"
+                      color="primary"
                       class="my-0 v-input--checkbox--full-labels" hide-details/>
         </div>
       </slot>

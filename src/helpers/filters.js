@@ -1,11 +1,11 @@
 import Fuzzysort from 'fuzzysort'
 
 export function fuzzyTableFilter (items, search, headers) {
-  search = search.toString().toLowerCase()
+  search = search.toString()
   if (search.trim() === '') return items
 
   const searchSplit = search.split(':')
-  const props = headers.map(h => h.value)
+  const props = typeof headers[0] === 'string' ? headers : headers.map(h => h.value)
 
   if (searchSplit.length > 1 && props.includes(searchSplit[0])) {
     const column = searchSplit[0]
@@ -17,21 +17,29 @@ export function fuzzyTableFilter (items, search, headers) {
     if (isExact(query)) {
       query = query.slice(1, -1)
       return items.filter(item => {
-        return item[column] === query
+        return item[column] && item[column].toString() === query
       })
     } else {
-      return Fuzzysort.go(query, items, { key: column, allowTypo: false, threshold: -50000 }).map(i => i.obj)
+      return Fuzzysort.go(query.toLowerCase(), items, {
+        key: column,
+        allowTypo: false,
+        threshold: -50000
+      }).map(i => i.obj)
     }
   } else {
     if (isExact(search)) {
       search = search.slice(1, -1)
       return items.filter(item => {
         return props.some(key => {
-          return item[key] === search
+          return item[key] && item[key].toString() === search
         })
       })
     } else {
-      return Fuzzysort.go(search, items, { keys: props, allowTypo: false, threshold: -50000 }).map(i => i.obj)
+      return Fuzzysort.go(search.toLowerCase(), items, {
+        keys: props,
+        allowTypo: false,
+        threshold: -50000
+      }).map(i => i.obj)
     }
   }
 }

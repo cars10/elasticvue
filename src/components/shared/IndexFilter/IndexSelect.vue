@@ -5,6 +5,7 @@
                          v-model="localValue"
                          append-icon="mdi-menu-down"
                          label="Select indices"
+                         autocomplete="off"
                          multiple
                          name="indices"
                          prepend-inner-icon="mdi-cached"
@@ -47,7 +48,7 @@
         </btn-group>
 
         <div class="float-right d-inline-block">
-          <v-checkbox v-model="showHidden" class="mt-0" hide-details label="show hidden"
+          <v-checkbox v-model="showHidden" class="mt-0" hide-details label="show hidden" color="primary"
                       title="Show indices starting with a dot"/>
         </div>
       </div>

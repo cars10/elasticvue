@@ -15,19 +15,19 @@ describe('components/shared/ReloadButton.vue', () => {
   })
 
   it('should render correct default contents', () => {
-    const wrapper = mount(ReloadButton, { localVue, vuetify })
+    const wrapper = mount(ReloadButton, { localVue, vuetify, sync: false })
     expect(wrapper.element).toMatchSnapshot()
   })
 
   it('has an empty default action', () => {
-    const wrapper = mount(ReloadButton, { localVue, vuetify })
+    const wrapper = mount(ReloadButton, { localVue, vuetify, sync: false })
     wrapper.find('#reload-button').trigger('click')
     expect(wrapper.element).toMatchSnapshot()
   })
 
   it('calls the assigned action on click', () => {
     const myAction = jest.fn()
-    const wrapper = mount(ReloadButton, { localVue, vuetify, propsData: { action: myAction } })
+    const wrapper = mount(ReloadButton, { localVue, vuetify, sync: false, propsData: { action: myAction } })
     wrapper.find('#reload-button').trigger('click')
     expect(myAction).toHaveBeenCalledTimes(1)
   })

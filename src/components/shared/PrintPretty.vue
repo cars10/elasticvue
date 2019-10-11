@@ -32,7 +32,7 @@
       },
       initialHeight: {
         type: Number,
-        default: 600
+        default: 500
       },
       resizable: {
         type: Boolean,

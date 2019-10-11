@@ -23,7 +23,7 @@
       <v-row>
         <v-col :lg="vertical ? 12 : 6" cols="12">
           <h4 class="pb-1">Request body</h4>
-          <resizable-container ref="query_body" :initial-height="vertical ? 200 : 600" class="mb-1">
+          <resizable-container ref="query_body" :initial-height="vertical ? 200 : 500" class="mb-1">
             <code-editor :external-commands="editorCommands" v-model="stringifiedParams"/>
           </resizable-container>
 

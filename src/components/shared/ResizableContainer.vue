@@ -42,6 +42,11 @@
         return `width: ${this.width}; height: ${this.height}px`
       }
     },
+    watch: {
+      initialHeight (value) {
+        this.height = value
+      }
+    },
     methods: {
       triggerResize () {
         if (typeof window === 'undefined') return

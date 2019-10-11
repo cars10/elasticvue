@@ -19,8 +19,8 @@
         <v-form ref="form" v-model="valid" lazy-validation @submit.prevent="restoreSnapshot">
           <v-card-text>
             <index-filter :method-params="{ repository, snapshot }" v-model="indices" method="getSnapshotIndices"/>
-            <v-checkbox v-model="ignore_unavailable" hide-details label="Ignore unavailable"/>
-            <v-checkbox v-model="include_global_state" label="Include global state"/>
+            <v-checkbox v-model="ignore_unavailable" hide-details label="Ignore unavailable" color="primary"/>
+            <v-checkbox v-model="include_global_state" label="Include global state" color="primary"/>
 
             <v-text-field v-if="dialog"
                           id="rename_pattern"

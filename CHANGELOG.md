@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.15.0
+
+* [fix] fix [#8][i8]
+* [fix] fix exact filtering (using `"query"`) when filtering for fields that contain uppercase characters
+* [fix] fix filtering for numbers
+
+[i8]: https://github.com/cars10/elasticvue/issues/8
+
 ## 0.14.0
 * [feat] adds reload button to modals
 * [feat] can switch between vertical/horizontal layout in query/api browser
