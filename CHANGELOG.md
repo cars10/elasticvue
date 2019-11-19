@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.16.0
+
+* [merge] merge fix, thx @cengler [#9][i9]
+* updates dependencies
+* supported elasticsearch versions: `5.6`, `6.8`, `7.0`, `7.1`, `7.2`, `7.3`, `7.4`, `7.5`
+
+[i9]: https://github.com/cars10/elasticvue/issues/9
+
 ## 0.15.0
 
 * [fix] fix [#8][i8]
