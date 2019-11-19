@@ -17,7 +17,7 @@
       </v-btn>
       <span :title="apiVersion" class="mx-1 hidden-sm-and-down">{{clusterInfo}}</span>
       <v-chip :class="clusterHealthClasses" small title="Health">{{clusterHealth}}</v-chip>
-      <reload-button id="header-reload-button" :action="getHealth" :default-setting="5"/>
+      <reload-button id="header-reload-button" :action="getHealth" :default-setting="5" title="Reload status"/>
     </div>
 
     <div class="flex-grow-1"/>
