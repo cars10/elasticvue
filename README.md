@@ -33,8 +33,11 @@ It officially works with the following elasticsearch versions:
 * `7.0`
 * `7.1`
 * `7.2`
+* `7.3`
+* `7.4`
+* `7.5`
 
-Other versions might or might not work, `elasticsearch-js` will fallback to the `7.2` api if an unsupported version is used.
+Other versions might or might not work, `elasticsearch-js` will fallback to the `7.4` api if an unsupported version is used.
 
 
 ### Features
