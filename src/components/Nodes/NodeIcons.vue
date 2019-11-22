@@ -2,7 +2,7 @@
   <span>
     <v-icon v-if="elasticsearchNode.master" title="master node">mdi-star</v-icon>
     <v-icon v-else-if="elasticsearchNode.masterEligible" style="width: 24px"
-            title="master eligible">mdi-star-bordered</v-icon>
+            title="master eligible">mdi-star-outline</v-icon>
     <v-icon v-if="elasticsearchNode.dataNode" title="data node">mdi-content-save</v-icon>
     <v-icon v-if="elasticsearchNode.ingestNode" title="ingest node">mdi-arrow-right-bold-box</v-icon>
     <v-icon v-if="elasticsearchNode.coordinatingNode"
