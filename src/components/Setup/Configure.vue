@@ -10,7 +10,7 @@ http.cors.enabled: true
 http.cors.allow-origin: "{{domain}}"
 
 <span class="code-comment"># and if your cluster uses authorization:</span>
-http.cors.allow-headers : X-Requested-With,Content-Type,Content-Length,Authorization
+http.cors.allow-headers: X-Requested-With,Content-Type,Content-Length,Authorization
 </code>
 <!-- @formatter:on -->
       <p class="mt-2 mb-0">Then restart your cluster.</p>

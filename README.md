@@ -124,7 +124,7 @@ http.cors.allow-origin: "chrome-extension://hkedbapjpblbodpgbajblpnlpenaebaa"
 http.cors.allow-origin: "moz-extension://4b05c928-89bb-4a48-af52-b871f123a06b"
 
 # and if your cluster uses authorization you also have to add:
-http.cors.allow-headers : X-Requested-With,Content-Type,Content-Length,Authorization
+http.cors.allow-headers: X-Requested-With,Content-Type,Content-Length,Authorization
 ```
 
 You can also use a regex to enable all sources at once:
