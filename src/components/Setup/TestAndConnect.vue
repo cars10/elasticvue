@@ -44,7 +44,7 @@
       <v-alert :value="true" type="error">
         Could not connect. Please make sure that
         <ol class="pl-4">
-          <li>Your cluster is reachable via {{elasticsearchHost}}</li>
+          <li>Your cluster is reachable via <a :href="elasticsearchHost" target="_blank">{{elasticsearchHost}}</a></li>
           <li>You added the correct settings to your <strong>elasticserach.yml</strong> and restarted your cluster</li>
         </ol>
 
