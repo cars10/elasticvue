@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.17.0
+
+* [fix] fix connecting with passwords with special characters [#10][i10]
+
+[i10]: https://github.com/cars10/elasticvue/issues/10
+
 ## 0.16.0
 
 * [merge] merge fix, thx @cengler [#9][i9]

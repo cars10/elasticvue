@@ -1,6 +1,7 @@
 import { normalizeSearchParams, paramsWithDefaults } from '../helpers'
 import { REQUEST_DEFAULT_BODY } from '../consts'
 
+// https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/16.x/quick-start.html
 export default class ElasticsearchAdapter {
   constructor (client) {
     this.client = client

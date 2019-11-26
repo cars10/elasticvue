@@ -37,7 +37,7 @@
           </v-col>
         </v-row>
       </v-form>
-      <p class="grey--text">To connect with credentials use http://username:password@host syntax.</p>
+      <p class="grey--text">To connect with credentials use http://username:password@host syntax. Don't encode special characters in the password!</p>
     </div>
 
     <div v-if="hasError" class="px-4">

@@ -1,5 +1,6 @@
 import ElasticsearchAdapter from '../ElasticsearchAdapter'
 import ElasticsearchVersionService from './ElasticsearchVersionService'
+import { buildFetchAuthHeaderFromUrl, urlWithoutCredentials } from '@/helpers'
 
 export default class ConnectionService {
   constructor (host) {
@@ -17,10 +18,18 @@ export default class ConnectionService {
 
     return import(/* webpackChunkName: "elasticsearch-js" */ 'elasticsearch').then(Elasticsearch => {
       let clientApi = Object.keys(Elasticsearch.Client.apis).includes(apiVersion) ? apiVersion : '7.1'
+      let parsedUrl = new URL(urlWithoutCredentials(this.host))
       return new Elasticsearch.Client({
-        host: this.host,
-        apiVersion: clientApi,
-        log: false // process.env.NODE_ENV === 'production' ? false : 'trace'
+        host: [
+          {
+            host: parsedUrl.hostname,
+            port: parsedUrl.port,
+            protocol: parsedUrl.protocol.replace(':', ''),
+            headers: buildFetchAuthHeaderFromUrl(this.host),
+            apiVersion: clientApi,
+            log: false // process.env.NODE_ENV === 'production' ? false : 'trace'}
+          }
+        ]
       })
     })
   }
