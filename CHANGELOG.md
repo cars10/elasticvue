@@ -33,7 +33,6 @@
 * [feat] can switch between vertical/horizontal layout in query/rest
 * [feat] can beautify code in readonly editor
 
-
 ## 0.12.0
 * improvements for the code editor (json views):
     * [feat] enable searchbox for code editor
@@ -43,7 +42,6 @@
 * [bug] fix indices & search table not showing empty results when search result is empty
 
 [i7]: https://github.com/cars10/elasticvue/issues/7
-
 
 ## 0.11.0
 * [feat] can filter exact with `"` in all filter and select inputs
