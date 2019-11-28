@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.17.0
+## 0.16.1
 
 * [fix] fix connecting with passwords with special characters [#10][i10]
 
