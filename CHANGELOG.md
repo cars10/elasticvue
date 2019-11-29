@@ -3,6 +3,7 @@
 ## 0.16.2
 
 * [fix] fix connecting to servers on port 80 and 443 [#11][i11]
+* increase width of `host` input field in setup form
 
 [i11]: https://github.com/cars10/elasticvue/issues/11
 
