@@ -23,8 +23,8 @@ export default class ConnectionService {
         host: [
           {
             host: parsedUrl.hostname,
-            port: parsedUrl.port,
-            protocol: parsedUrl.protocol.replace(':', ''),
+            port: getPort(parsedUrl),
+            protocol: parsedUrl.protocol,
             headers: buildFetchAuthHeaderFromUrl(this.host),
             apiVersion: clientApi,
             log: false // process.env.NODE_ENV === 'production' ? false : 'trace'}
@@ -44,5 +44,15 @@ export default class ConnectionService {
     } catch (e) {
       return Promise.reject(e)
     }
+  }
+}
+
+function getPort (parsedUrl) {
+  if (parsedUrl.port) return parsedUrl.port
+
+  if (parsedUrl.protocol === 'https:') {
+    return 443
+  } else {
+    return 80
   }
 }
