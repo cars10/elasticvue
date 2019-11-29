@@ -1,6 +1,6 @@
 {
   "name": "elasticvue",
-  "version": "0.16.1",
+  "version": "0.16.2",
   "scripts": {
     "serve": "npx --max_old_space_size=4096 vue-cli-service serve",
     "build": "rm -rf dist && vue-cli-service build --modern",
