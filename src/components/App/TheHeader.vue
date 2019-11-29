@@ -86,7 +86,7 @@
     },
     computed: {
       clusterInfo () {
-        return truncate(urlWithoutCredentials(this.$store.state.connection.elasticsearchHost), 50)
+        return truncate(urlWithoutCredentials(this.$store.state.connection.elasticsearchHost), 45)
       },
       apiVersion () {
         return `Using api version ${this.$store.state.connection.apiVersion}`
