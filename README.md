@@ -6,7 +6,7 @@
 [![Firefox addon](https://img.shields.io/amo/v/elasticvue?label=firefox%20add-on)](https://addons.mozilla.org/en-US/firefox/addon/elasticvue/)
 [![Docker build](https://img.shields.io/docker/automated/cars10/elasticvue)](https://hub.docker.com/r/cars10/elasticvue)
 
-> Elasticsearch frontend for your browser [https://elasticvue.com](https://elasticvue.com)
+> Elasticsearch gui for your browser [https://elasticvue.com](https://elasticvue.com)
 
 ![Screenshot](screenshot.jpg)
 
@@ -24,7 +24,7 @@ Contents
 
 ## About
 
-**Elasticvue** is a frontend for elasticsearch allowing you to search and filter your clusters data right in your browser.
+**Elasticvue** is a gui for elasticsearch allowing you to search and filter your clusters data right in your browser.
 
 It officially works with the following elasticsearch versions:
 
@@ -146,7 +146,7 @@ Development is done on chrome. Firefox, safari and edge should work but are most
 
 ## Troubleshooting
 
-Before opening an issue please try to reset elasticvue to its default settings. To reset please click 
+Before opening an issue please try to reset elasticvue to its default settings. To reset please click
 `Disconnect and reset` in the footer, this will reset all your saved filters and you have to reconnect to your cluster.
 Feel free to open an [issue](https://github.com/cars10/elasticvue/issues/new/choose) if your problem persists.
 
