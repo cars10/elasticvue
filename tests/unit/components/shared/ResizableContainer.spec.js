@@ -30,7 +30,7 @@ describe('components/shared/ResizableContainer.vue', () => {
     expect(wrapper.element).toMatchSnapshot()
   })
 
-  it('should increase the height on drag', () => {
+  it('should increase the height on drag', async () => {
     const wrapper = mount(ResizableContainer, {
       localVue,
       vuetify,
@@ -44,10 +44,11 @@ describe('components/shared/ResizableContainer.vue', () => {
     handler.trigger('mousedown', { pageY: startY })
     handler.trigger('mousemove', { pageY: endY })
     handler.trigger('mouseup')
+    await Vue.nextTick()
     expect(wrapper.element).toMatchSnapshot()
   })
 
-  it('should increase the height on drag and scroll if needed', () => {
+  it('should increase the height on drag and scroll if needed', async () => {
     const wrapper = mount(ResizableContainer, {
       localVue,
       vuetify,
@@ -61,10 +62,11 @@ describe('components/shared/ResizableContainer.vue', () => {
     handler.trigger('mousedown', { pageY: startY, clientY: startY })
     handler.trigger('mousemove', { pageY: endY, clientY: endY })
     handler.trigger('mouseup')
+    await Vue.nextTick()
     expect(wrapper.element).toMatchSnapshot()
   })
 
-  it('should not decrease the height lower then intialHeight', () => {
+  it('should not decrease the height lower then initialHeight', async () => {
     const wrapper = mount(ResizableContainer, {
       localVue,
       vuetify,
@@ -78,6 +80,7 @@ describe('components/shared/ResizableContainer.vue', () => {
     handler.trigger('mousedown', { pageY: startY })
     handler.trigger('mousemove', { pageY: endY })
     handler.trigger('mouseup')
+    await Vue.nextTick()
     expect(wrapper.element).toMatchSnapshot()
   })
 })
