@@ -120,6 +120,7 @@
         { text: 'health', value: 'health' },
         { text: 'status', value: 'status' },
         { text: 'uuid', value: 'uuid' },
+        { text: 'aliases', value: 'aliases', sortable: false },
         { text: 'pri', value: 'parsedPri', align: 'right' },
         { text: 'rep', value: 'parsedRep', align: 'right' },
         { text: 'docs.count', value: 'parsedDocsCount', align: 'right' },

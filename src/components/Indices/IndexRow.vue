@@ -4,6 +4,14 @@
     <td>{{index.health}}</td>
     <td>{{index.status}}</td>
     <td>{{index.uuid}}</td>
+    <td :title="aliasesTitle">
+      <template v-if="aliasesLoading">
+        <i>loading</i>
+      </template>
+      <template v-else>
+        {{aliases}}
+      </template>
+    </td>
     <td class="text-right">{{index.pri}}</td>
     <td class="text-right">{{index.rep}}</td>
     <td class="text-right">{{index.docsCount}}</td>
@@ -47,15 +55,18 @@
                             :method-params="{index: index.index}"
                             icon="mdi-call-merge" link-title="Forcemerge index" method="indicesForcemerge"/>
 
-            <list-tile-link :callback="emitReloadIndices" :growl="`The index '${index.index}' was successfully refreshed.`"
+            <list-tile-link :callback="emitReloadIndices"
+                            :growl="`The index '${index.index}' was successfully refreshed.`"
                             :method-params="{index: index.index}"
                             icon="mdi-refresh" link-title="Refresh index" method="indicesRefresh"/>
 
-            <list-tile-link :callback="emitReloadIndices" :growl="`The index '${index.index}' was successfully flushed.`"
+            <list-tile-link :callback="emitReloadIndices"
+                            :growl="`The index '${index.index}' was successfully flushed.`"
                             :method-params="{index: index.index}"
                             icon="mdi-inbox-arrow-down" link-title="Flush index" method="indicesFlush"/>
 
-            <list-tile-link :callback="emitReloadIndices" :growl="`The index '${index.index}' cache was successfully cleared.`"
+            <list-tile-link :callback="emitReloadIndices"
+                            :growl="`The index '${index.index}' cache was successfully cleared.`"
                             :method-params="{index: index.index}"
                             icon="mdi-notification-clear-all" link-title="Clear index cache"
                             method="indicesClearCache"/>
@@ -66,11 +77,13 @@
                             :callback="emitReloadIndices" :growl="`The index '${index.index}' was successfully closed.`"
                             :method-params="{index: index.index}"
                             icon="mdi-lock" link-title="Close index" method="indicesClose"/>
-            <list-tile-link v-else :callback="emitReloadIndices" :growl="`The index '${index.index}' was successfully opened.`"
+            <list-tile-link v-else :callback="emitReloadIndices"
+                            :growl="`The index '${index.index}' was successfully opened.`"
                             :method-params="{index: index.index}"
                             icon="mdi-lock-open" link-title="Open index" method="indicesOpen"/>
 
-            <list-tile-link :callback="emitReloadIndices" :growl="`The index '${index.index}' was successfully deleted.`"
+            <list-tile-link :callback="emitReloadIndices"
+                            :growl="`The index '${index.index}' was successfully deleted.`"
                             :method-params="{index: index.index}"
                             confirm-message="Are you sure? This will remove ALL data in your index!"
                             icon="mdi-delete" link-title="Delete index" method="indicesDelete"/>
@@ -91,6 +104,7 @@
   import BtnGroup from '@/components/shared/BtnGroup'
   import ListTileLink from '@/components/shared/ListTile/ListTileLink'
   import ModalDataLoader from '@/components/shared/ModalDataLoader'
+  import esAdapter from '@/mixins/GetAdapter'
 
   export default {
     name: 'index-row',
@@ -111,8 +125,23 @@
       return {
         modalOpen: false,
         modalMethod: '',
-        modalTitle: ''
+        modalTitle: '',
+        aliases: [],
+        aliasesLoading: true
       }
+    },
+    computed: {
+      aliasesTitle () {
+        return this.aliases.join('\n')
+      }
+    },
+    watch: {
+      index () {
+        this.loadAliases()
+      }
+    },
+    mounted () {
+      this.loadAliases()
     },
     methods: {
       showDocuments (index) {
@@ -131,6 +160,18 @@
         this.modalMethod = 'indicesStats'
         this.modalTitle = 'indicesStats'
         this.modalOpen = true
+      },
+      async loadAliases () {
+        this.aliasesLoading = true
+        let adapter = await esAdapter()
+        adapter.indexGetAlias({ index: this.index.index }).then(r => {
+          if (!r[this.index.index] || !r[this.index.index].aliases) {
+            this.aliases = []
+          } else {
+            this.aliases = Object.keys(r[this.index.index].aliases).sort()
+          }
+          this.aliasesLoading = false
+        })
       }
     }
   }

@@ -48,6 +48,13 @@ export default class ElasticsearchAdapter {
   }
 
   /**
+   * Get aliases for specific index
+   */
+  indexGetAlias (params) {
+    return this.client.indices.getAlias(paramsWithDefaults(params))
+  }
+
+  /**
    * Will create a new index
    * @param params
    * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-indices-create

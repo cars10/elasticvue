@@ -2,7 +2,10 @@
 
 ## 0.17.0
 
+* [feat] show index aliases on index overview, fixes [#13][i13]
 * use node 12
+
+[i13]: https://github.com/cars10/elasticvue/issues/i13
 
 ## 0.16.2
 
