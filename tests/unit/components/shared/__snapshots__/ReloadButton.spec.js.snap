@@ -62,6 +62,9 @@ exports[`components/shared/ReloadButton.vue has an empty default action 1`] = `
                 />
               </div>
             </div>
+            <input
+              type="hidden"
+            />
           </div>
           <div
             class="v-menu"
@@ -140,6 +143,9 @@ exports[`components/shared/ReloadButton.vue should render correct default conten
                 />
               </div>
             </div>
+            <input
+              type="hidden"
+            />
           </div>
           <div
             class="v-menu"

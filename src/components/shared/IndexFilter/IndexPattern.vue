@@ -6,7 +6,11 @@
                 label="Index pattern"
                 persistent-hint
                 @input="loadMatches"
-                @keyup.esc="localValue = '*'"/>
+                @keyup.esc="localValue = '*'">
+    <template v-slot:message="{ message, key }">
+      <span v-html="message" />
+    </template>
+  </v-text-field>
 </template>
 
 <script>

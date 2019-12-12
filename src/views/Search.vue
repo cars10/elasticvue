@@ -16,7 +16,11 @@
                           label="Search"
                           messages="Searching supports the <a tabindex='-1' target='_blank' rel='noopener' href='https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html'>query string DSL</a>"
                           name="query"
-                          @click:append="resetQuery"/>
+                          @click:append="resetQuery">
+              <template v-slot:message="{ message, key }">
+                <span v-html="message" />
+              </template>
+            </v-text-field>
           </v-col>
 
           <v-col cols="12" md="8" sm="12">
