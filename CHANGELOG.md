@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.17.0
+
+* use node 12
+
 ## 0.16.2
 
 * [fix] fix connecting to servers on port 80 and 443 [#11][i11]
