@@ -181,7 +181,7 @@ yarn test:e2e    # add --headless for headless mode
 Other commands
 
 ```bash
-# inting
+# linting
 yarn lint
 
 # minimized build for production
@@ -191,7 +191,7 @@ yarn build
 yarn build --report
 ```
 
-Building the chrome/firefox extensions: (Hint: you need `web-ext` for the firefox extension to build)
+Building the chrome/firefox extensions: (Hint: you need [web-ext](https://extensionworkshop.com/documentation/develop/getting-started-with-web-ext) for the firefox extension to build)
 
 ```bash
 yarn build_browser_extensions
