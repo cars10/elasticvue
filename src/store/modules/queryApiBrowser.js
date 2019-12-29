@@ -3,7 +3,7 @@ export const queryApiBrowser = {
   state: {
     method: 'info',
     stringifiedParams: '{}',
-    vertical: true
+    vertical: false
   },
   mutations: {
     setMethod (state, method) {

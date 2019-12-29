@@ -6,7 +6,7 @@ export const queryRest = {
     path: '',
     method: HTTP_METHODS[0],
     stringifiedParams: '{}',
-    vertical: true
+    vertical: false
   },
   mutations: {
     setPath (state, path) {
