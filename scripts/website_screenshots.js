@@ -4,7 +4,7 @@ const puppeteer = require('puppeteer');
   const browser = await puppeteer.launch({ args: ['--no-sandbox', '--disable-setuid-sandbox'] })
   const page = await browser.newPage()
   page.setViewport({ width: 1920, height: 1080 })
-  await page.goto('http://localhost:16326')
+  await page.goto('http://localhost:8080')
 
   await page.click('#theme_select')
   await connectWithServer(page)
@@ -12,8 +12,7 @@ const puppeteer = require('puppeteer');
   await clickToNavigateAndScreenshot(page, '#navbar_home', 'screenshot_0_home_white.jpg')
   await page.click('#theme_select')
   await clickToNavigateAndScreenshot(page, '#navbar_nodes', 'screenshot_1_nodes.jpg')
-  await clickToNavigateAndScreenshot(page, '#navbar_indices', 'screenshot_2_indices.jpg')
-  await clickToNavigateAndScreenshot(page, ['button[title="Options"]', '#app > div.v-menu__content.theme--dark.menuable__content__active > div > div:nth-child(2) > div.v-list-item__content > div'], 'screenshot_3_index.jpg')
+  await clickToNavigateAndScreenshot(page, ['#navbar_indices', 'button[title="Options"]'], 'screenshot_2_indices.jpg')
   await page.reload()
   await page.click('#theme_select')
   await clickToNavigateAndScreenshot(page, '#navbar_search', 'screenshot_4_search_dark.jpg', async page => {
@@ -29,7 +28,7 @@ const puppeteer = require('puppeteer');
     await page.click('#execute_query')
     await page.waitFor(500)
   })
-  await clickToNavigateAndScreenshot(page, '#navbar_snapshots', 'screenshot_6_snapshots_dark.jpg')
+  await clickToNavigateAndScreenshot(page, ['#navbar_snapshots', 'table tbody tr.tr--clickable'], 'screenshot_6_snapshots_dark.jpg')
   await clickToNavigateAndScreenshot(page, '#navbar_utilities', 'screenshot_7_utilities_dark.jpg')
 
   await browser.close()
@@ -52,10 +51,16 @@ async function removeSnackbar (page) {
 }
 
 async function clickToNavigateAndScreenshot (page, selectors, screenshot, callback) {
+  console.log(screenshot)
   if (Array.isArray(selectors)) {
     for (let selector of selectors) {
       await page.waitFor(200)
-      await page.click(selector)
+      try {
+        await page.click(selector)
+      } catch (e) {
+        console.log('error.')
+        await page.screenshot({ path: 'scripts/website_screenshots/error.jpg' })
+      }
     }
   } else {
     await page.waitFor(200)
