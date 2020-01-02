@@ -26,6 +26,7 @@ exports[`components/shared/Timer.vue snapshots should render correct default con
           >
             <input
               aria-readonly="true"
+              autocomplete="off"
               id="input-3"
               readonly="readonly"
               type="text"
@@ -90,6 +91,7 @@ exports[`components/shared/Timer.vue snapshots shows the selected setting 1`] = 
             </small>
             <input
               aria-readonly="true"
+              autocomplete="off"
               id="input-11"
               readonly="readonly"
               type="text"

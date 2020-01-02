@@ -45,6 +45,7 @@ exports[`components/shared/ReloadButton.vue has an empty default action 1`] = `
             >
               <input
                 aria-readonly="true"
+                autocomplete="off"
                 id="input-17"
                 readonly="readonly"
                 type="text"
@@ -126,6 +127,7 @@ exports[`components/shared/ReloadButton.vue should render correct default conten
             >
               <input
                 aria-readonly="true"
+                autocomplete="off"
                 id="input-6"
                 readonly="readonly"
                 type="text"
