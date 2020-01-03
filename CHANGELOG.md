@@ -1,5 +1,10 @@
 # Changelog
 
+# 0.18.0 [unreleased]
+
+* The docker image now uses nginx to host elasticvue instead of express. This decreases the image size and increases performance.
+
+
 ## 0.17.0
 
 * [feat] show index aliases on index overview, fixes [#13][i13]

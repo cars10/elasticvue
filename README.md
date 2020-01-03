@@ -8,7 +8,7 @@
 
 > Elasticsearch gui for your browser [https://elasticvue.com](https://elasticvue.com)
 
-![Screenshot](screenshot.jpg)
+![Screenshot](https://github.com/cars10/elasticvue/raw/master/screenshot.jpg)
 
 Contents
 
@@ -71,6 +71,10 @@ Or build the image locally:
 * Open the folder `cd elasticvue`
 * Build `docker build -t elasticvue .`
 * Run `docker run -p 8080:8080 elasticvue`
+
+Or use `docker-compose`:
+
+* `docker-compose up -d`
 
 Then open [http://localhost:8080](http://localhost:8080) in your browser.
 

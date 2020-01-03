@@ -1,23 +1,14 @@
-FROM node:12.13-alpine3.10
-
-# Folder for our application code
+FROM node:12.13-alpine3.10 AS builder
 WORKDIR /usr/src/app
 
-# Copy application
+COPY package.json .
+COPY yarn.lock .
+
+RUN yarn install
 COPY . .
+RUN yarn build
 
-# Install dependencies and run build script
-RUN yarn install --silent \
-    && yarn build \
-    && rm -rf node_modules \
-    && yarn cache clean
-
-# re-install local express so we can run the prod server
-RUN npm install express --no-package-lock \
-    && npm cache clean --force
-
-# Expose port 8080 for express server
-EXPOSE 8080
-
-# Run production server
-CMD ["yarn", "prod"]
+FROM nginx:1.17.3-alpine
+COPY --from=builder /usr/src/app/dist /usr/share/nginx/html
+RUN rm /etc/nginx/conf.d/default.conf
+COPY nginx/elasticvue.conf /etc/nginx/conf.d/
