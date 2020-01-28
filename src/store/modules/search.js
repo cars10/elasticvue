@@ -9,7 +9,7 @@ export const search = {
     source: '',
     filter: '',
     pagination: Object.assign({}, DEFAULT_DATA_TABLE_PAGINATION),
-    stickyTableHeader: true,
+    stickyTableHeader: false,
     selectedMappings: [],
     mappings: []
   },
