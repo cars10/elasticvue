@@ -79,14 +79,6 @@
               </v-list-item-title>
             </v-list-item-content>
           </v-list-item>
-
-          <v-list-item id="navbar_snapshots_policies" to="/snapshot_policies">
-            <v-list-item-content>
-              <v-list-item-title>
-                Policies
-              </v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
         </v-list>
       </v-menu>
 

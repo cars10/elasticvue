@@ -11443,15 +11443,15 @@ vuetify-loader@^1.4.3:
   dependencies:
     loader-utils "^1.2.0"
 
-vuetify@2.2.6:
-  version "2.2.6"
-  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-2.2.6.tgz#f1ea54bbc0410b6038384de7abd410ab492187e9"
-  integrity sha512-HrcdKLs4YYG/3HwcdJa+HMUoNtKt/0ePmdkPYj/ju3EmyeJZyUaxbX0kyW5cyeUTyysrFkBJHCU+24iPYP3+pQ==
+vuetify@2.2.10:
+  version "2.2.10"
+  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-2.2.10.tgz#42b970940b9ee779c32c2b3fdc4ac47360ee3732"
+  integrity sha512-3PIiOqilv3ioCO+2nK/dXd8CNxSGyab1r0GiF7RXDg4jEREed4O2fuejM0rbZCLr/qPhIT9cZTyEh9CC+OA4qw==
 
-vuex-persistedstate@^2.7.0:
-  version "2.7.0"
-  resolved "https://registry.yarnpkg.com/vuex-persistedstate/-/vuex-persistedstate-2.7.0.tgz#f60aae4e1163bf293696a625526dbffaa42e429e"
-  integrity sha512-mpko65DUMBY4mF4sSGsgrqjE7fwO373LFZeuNrC55glRuBBAK4dkgzjr4j4Bij7WtMoKuo2t2w0NGenjauISaQ==
+vuex-persistedstate@^2.7.1:
+  version "2.7.1"
+  resolved "https://registry.yarnpkg.com/vuex-persistedstate/-/vuex-persistedstate-2.7.1.tgz#25ced829ea5789a2ed7d71a1ba057eb01a5235ad"
+  integrity sha512-Ktvp6Bt6ApYj35MuxTClu+9Lpukcgl3Z/0o4PU12+Z4jU6lyOMzos0k6zGT5xrukAkGM1VV3EYNwz1TnHPhgFA==
   dependencies:
     deepmerge "^4.2.2"
     shvl "^2.0.0"
