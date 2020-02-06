@@ -8,6 +8,8 @@ import Indices from '@/views/Indices'
 import Index from '@/views/Index'
 import IndexStats from '@/views/IndexStats'
 import Snapshots from '@/views/Snapshots'
+import Repositories from '@/views/Repositories'
+import Policies from '@/views/Policies'
 import Utilities from '@/views/Utilities'
 import QueryRest from '@/views/QueryRest'
 import QueryApiBrowser from '@/views/QueryApiBrowser'
@@ -76,6 +78,16 @@ const router = new Router({
       path: '/snapshots',
       name: 'Snapshots',
       component: Snapshots
+    },
+    {
+      path: '/snapshot_repositories',
+      name: 'Repositories',
+      component: Repositories
+    },
+    {
+      path: '/snapshot_policies',
+      name: 'Policies',
+      component: Policies
     },
     {
       path: '/query/rest',

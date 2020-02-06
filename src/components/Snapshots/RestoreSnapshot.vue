@@ -41,7 +41,9 @@
           </v-card-text>
 
           <v-card-actions class="pa-4">
-            <v-btn id="restore_snapshot" color="success" type="submit">Restore</v-btn>
+            <v-btn id="restore_snapshot" :loading="loading" :disabled="loading" color="success" type="submit">
+              Restore
+            </v-btn>
             <v-btn text @click="closeDialog">Cancel</v-btn>
           </v-card-actions>
         </v-form>
@@ -77,6 +79,7 @@
       return {
         dialog: false,
         valid: false,
+        loading: false,
         indices: [],
         ignore_unavailable: true,
         include_global_state: true,
@@ -90,6 +93,7 @@
       },
       restoreSnapshot () {
         if (!this.$refs.form.validate()) return
+        this.loading = true
 
         elasticsearchRequest({
           method: 'snapshotRestore',
@@ -114,6 +118,7 @@
       closeDialog () {
         this.$refs.form.resetValidation()
         this.dialog = false
+        this.loading = false
         this.indices = []
         this.ignore_unavailable = true
         this.include_global_state = true

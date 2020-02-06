@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="dialog" width="500">
     <template v-slot:activator="{on}">
-      <v-btn class="ml-0" color="primary" v-on="on">New snapshot</v-btn>
+      <v-btn :disabled="!repository" class="ml-0" color="primary" v-on="on">New snapshot</v-btn>
     </template>
 
     <v-card>
@@ -12,6 +12,12 @@
       <v-divider/>
       <v-form ref="form" v-model="valid" lazy-validation @submit.prevent="createSnapshot">
         <v-card-text>
+          <v-text-field id="repository"
+                        :value="repository"
+                        disabled
+                        label="Repository"
+                        name="repository"/>
+
           <v-text-field v-if="dialog"
                         id="snapshot_name"
                         :rules="[nameRules]"
@@ -27,7 +33,9 @@
         </v-card-text>
 
         <v-card-actions class="pa-4">
-          <v-btn id="create_snapshot" color="success" type="submit">Create</v-btn>
+          <v-btn id="create_snapshot" :disabled="loading || !valid" :loading="loading" color="success" type="submit">
+            Create
+          </v-btn>
           <v-btn text @click="closeDialog">Cancel</v-btn>
         </v-card-actions>
       </v-form>
@@ -57,6 +65,7 @@
         dialog: false,
         valid: false,
         snapshotName: '',
+        loading: false,
         indices: []
       }
     },
@@ -66,6 +75,8 @@
       },
       createSnapshot () {
         if (!this.$refs.form.validate()) return
+
+        this.loading = true
 
         elasticsearchRequest({
           method: 'snapshotCreate',
@@ -89,6 +100,7 @@
       closeDialog () {
         this.snapshotName = ''
         this.indices = []
+        this.loading = false
         this.$refs.form.resetValidation()
         this.dialog = false
       }

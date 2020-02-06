@@ -9,7 +9,8 @@ import { queryApiBrowser } from './modules/queryApiBrowser'
 import { search } from './modules/search'
 import { snackbar } from './modules/snackbar'
 import { theme } from './modules/theme'
-import { snapshotRepositories } from './modules/snapshotRepositories'
+import { repositories } from './modules/repositories'
+import { snapshots } from './modules/snapshots'
 
 Vue.use(Vuex)
 
@@ -22,7 +23,8 @@ export default new Vuex.Store({
     queryRest,
     queryApiBrowser,
     search,
-    snapshotRepositories,
+    repositories,
+    snapshots,
     snackbar,
     theme
   }

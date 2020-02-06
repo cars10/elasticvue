@@ -1,6 +1,6 @@
 import { DEFAULT_DATA_TABLE_PAGINATION } from '../../consts'
 
-export const snapshotRepositories = {
+export const repositories = {
   namespaced: true,
   state: {
     filter: '',

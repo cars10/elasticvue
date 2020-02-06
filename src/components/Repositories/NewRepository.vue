@@ -67,7 +67,9 @@
         </v-card-text>
 
         <v-card-actions class="pa-4">
-          <v-btn id="create_snapshot_repository" :loading="loading" color="success" type="submit">Create</v-btn>
+          <v-btn id="create_snapshot_repository" :disabled="loading || !valid" :loading="loading" color="success"
+                 type="submit">Create
+          </v-btn>
           <v-btn text @click="closeDialog">Cancel</v-btn>
         </v-card-actions>
       </v-form>
