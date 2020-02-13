@@ -1,7 +1,12 @@
 <template>
   <tr>
     <td>{{index.index}}</td>
-    <td>{{index.health}}</td>
+    <td>
+      <svg height="14" width="14">
+        <circle :class="`health--${index.health}`" cx="7" cy="9" r="5"/>
+      </svg>
+      {{index.health}}
+    </td>
     <td>{{index.status}}</td>
     <td>{{index.uuid}}</td>
     <td :title="aliasesTitle">

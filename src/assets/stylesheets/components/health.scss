@@ -1,0 +1,21 @@
+.health--green {
+  fill: green;
+}
+
+.health--yellow {
+  fill: orange;
+}
+
+.health--red {
+  fill: red;
+}
+
+.health--unknown {
+  fill: grey;
+}
+
+.theme--dark {
+  .health--green {
+    fill: lightgreen;
+  }
+}
