@@ -12,11 +12,9 @@
         {{aliases}}
       </template>
     </td>
-    <td class="text-right">{{index.pri}}</td>
-    <td class="text-right">{{index.rep}}</td>
+    <td class="text-right"><span title="primary">{{index.pri}}</span> | <span title="replica">{{index.rep}}</span></td>
     <td class="text-right">{{index.docsCount}}</td>
     <td class="text-right">{{index.storeSize}}</td>
-    <td class="text-right">{{index.priStoreSize}}</td>
     <td>
       <btn-group small>
         <v-btn title="Search documents" @click.native.stop="showDocuments(index.index)">

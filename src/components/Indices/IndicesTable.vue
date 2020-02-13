@@ -116,16 +116,14 @@
     },
     created () {
       this.HEADERS = [
-        { text: 'index', value: 'index' },
-        { text: 'health', value: 'health' },
-        { text: 'status', value: 'status' },
-        { text: 'uuid', value: 'uuid' },
-        { text: 'aliases', value: 'aliases', sortable: false },
-        { text: 'pri', value: 'parsedPri', align: 'right' },
-        { text: 'rep', value: 'parsedRep', align: 'right' },
-        { text: 'docs.count', value: 'parsedDocsCount', align: 'right' },
-        { text: 'store.size', value: 'parsedStoreSize', align: 'right' },
-        { text: 'pri.store.size', value: 'parsedPriStoreSize', align: 'right' },
+        { text: 'Name', value: 'index' },
+        { text: 'Health', value: 'health' },
+        { text: 'Status', value: 'status' },
+        { text: 'UUID', value: 'uuid' },
+        { text: 'Aliases', value: 'aliases', sortable: false },
+        { text: 'Shards', value: 'parsedPri', align: 'right' },
+        { text: 'Docs', value: 'parsedDocsCount', align: 'right' },
+        { text: 'Storage size', value: 'parsedStoreSize', align: 'right' },
         { text: '', value: 'actions', sortable: false }
       ]
       this.DEFAULT_ITEMS_PER_PAGE = DEFAULT_ITEMS_PER_PAGE
