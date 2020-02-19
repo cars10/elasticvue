@@ -25,7 +25,7 @@ exports[`components/shared/Timer.vue snapshots should render correct default con
             class="v-select__selections"
           >
             <input
-              aria-readonly="true"
+              aria-readonly="false"
               autocomplete="off"
               id="input-3"
               readonly="readonly"
@@ -73,7 +73,7 @@ exports[`components/shared/Timer.vue snapshots shows the selected setting 1`] = 
       <div
         aria-expanded="false"
         aria-haspopup="listbox"
-        aria-owns="list-10"
+        aria-owns="list-9"
         class="v-input__slot"
         role="button"
       >
@@ -87,9 +87,9 @@ exports[`components/shared/Timer.vue snapshots shows the selected setting 1`] = 
               5s
             </small>
             <input
-              aria-readonly="true"
+              aria-readonly="false"
               autocomplete="off"
-              id="input-10"
+              id="input-9"
               readonly="readonly"
               type="text"
             />

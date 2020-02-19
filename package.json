@@ -12,7 +12,7 @@
     "test:e2e": "vue-cli-service test:e2e"
   },
   "dependencies": {
-    "@mdi/font": "^4.8.95",
+    "@mdi/font": "^4.9.95",
     "brace": "^0.11.1",
     "comlink": "^4.2.0",
     "elasticsearch": "^16.6.0",
@@ -20,7 +20,7 @@
     "querystringify": "^2.1.1",
     "vue": "^2.6.11",
     "vue-router": "^3.1.5",
-    "vuetify": "2.2.10",
+    "vuetify": "2.2.13",
     "vuetify-loader": "^1.4.3",
     "vuex": "^3.1.2",
     "vuex-persistedstate": "^2.7.1"

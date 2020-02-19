@@ -33,7 +33,7 @@ exports[`components/shared/ReloadButton.vue has an empty default action 1`] = `
         <div
           aria-expanded="false"
           aria-haspopup="listbox"
-          aria-owns="list-16"
+          aria-owns="list-15"
           class="v-input__slot"
           role="button"
         >
@@ -44,9 +44,9 @@ exports[`components/shared/ReloadButton.vue has an empty default action 1`] = `
               class="v-select__selections"
             >
               <input
-                aria-readonly="true"
+                aria-readonly="false"
                 autocomplete="off"
-                id="input-16"
+                id="input-15"
                 readonly="readonly"
                 type="text"
               />
@@ -123,7 +123,7 @@ exports[`components/shared/ReloadButton.vue should render correct default conten
               class="v-select__selections"
             >
               <input
-                aria-readonly="true"
+                aria-readonly="false"
                 autocomplete="off"
                 id="input-6"
                 readonly="readonly"
