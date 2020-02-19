@@ -12,17 +12,17 @@
     </v-toolbar-title>
 
     <div v-if="wasConnected" id="navbar_cluster_health" class="inline-block mt-1 hidden-xs-only">
-      <v-btn small class="ma-0 hidden-sm-and-down" icon title="Disconnect and reset" @click="reset">
-        <v-icon small>mdi-link</v-icon>
-      </v-btn>
       <span :title="apiVersion" class="mx-1 hidden-sm-and-down">{{clusterInfo}}</span>
-      <v-chip :class="clusterHealthClasses" small title="Health">{{clusterHealth}}</v-chip>
-      <reload-button id="header-reload-button" :action="getHealth" :default-setting="5" title="Reload status"/>
+      <div :title="`Cluster health: ${clusterHealth}`" class="d-inline-block mx-1">
+        <svg height="14" width="14">
+          <circle :class="`health--${clusterHealth}`" cx="7" cy="9" r="5"/>
+        </svg>
+      </div>
     </div>
 
     <div class="flex-grow-1"/>
 
-    <v-toolbar-items>
+    <v-toolbar-items v-if="wasConnected">
       <v-btn id="navbar_home" exact text to="/">Home</v-btn>
       <v-btn id="navbar_nodes" text to="/nodes">Nodes</v-btn>
       <v-btn id="navbar_indices" text to="/indices">Indices</v-btn>
@@ -89,15 +89,15 @@
 
 <script>
   import ConnectionStatus from '@/mixins/ConnectionStatus'
-  import ReloadButton from '@/components/shared/ReloadButton'
+  import Timer from '@/components/shared/Timer'
   import Request from '@/mixins/Request'
-  import { BASE_URI, CONNECTION_STATES, LOCALSTORAGE_KEY } from '@/consts'
+  import { CONNECTION_STATES } from '@/consts'
   import { truncate, urlWithoutCredentials } from '@/helpers'
 
   export default {
     name: 'app-header',
     components: {
-      ReloadButton
+      Timer
     },
     mixins: [
       ConnectionStatus,
@@ -141,8 +141,29 @@
         }
       }
     },
+    watch: {
+      wasConnected (val) {
+        if (val) {
+          this.getHealth()
+          if (!this.getHealthInterval) {
+            this.getHealthInterval = setInterval(() => {
+              this.getHealth()
+            }, 5000)
+          }
+        }
+      }
+    },
     created () {
-      if (this.wasConnected) this.getHealth()
+      this.getHealthInterval = null
+
+      if (this.wasConnected) {
+        this.getHealth()
+        if (!this.getHealthInterval) {
+          this.getHealthInterval = setInterval(() => {
+            this.getHealth()
+          }, 5000)
+        }
+      }
       if (typeof window !== 'undefined') window.addEventListener('scroll', this.setScrolledDown)
     },
     destroyed () {
@@ -154,16 +175,8 @@
       },
       getHealth () {
         this.callElasticsearch('clusterHealth')
-          .then(result => {
-            this.clusterHealth = result.status
-          })
-          .catch(() => {
-            this.clusterHealth = CONNECTION_STATES.UNKNOWN
-          })
-      },
-      reset () {
-        localStorage.removeItem(LOCALSTORAGE_KEY)
-        window.location.replace(BASE_URI)
+          .then(result => (this.clusterHealth = result.status))
+          .catch(() => (this.clusterHealth = CONNECTION_STATES.UNKNOWN))
       }
     }
   }
