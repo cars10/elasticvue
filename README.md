@@ -125,7 +125,7 @@ http.cors.allow-origin: /https?:\/\/app.elasticvue.com/
 # chrome extension
 http.cors.allow-origin: "chrome-extension://hkedbapjpblbodpgbajblpnlpenaebaa"
 # firefox extension
-http.cors.allow-origin: "moz-extension://bb237365-8f79-4377-b87f-41ae885bbae5"
+http.cors.allow-origin: "moz-extension://<addon-url>"
 
 # and if your cluster uses authorization you also have to add:
 http.cors.allow-headers: X-Requested-With,Content-Type,Content-Length,Authorization
@@ -205,6 +205,8 @@ yarn build_browser_extensions
 
 ### 1.0
 
+* switch to new elasticsearch javascript client
+* switch to vue-composition-api
 * refactor runRequest to use promises
 * document, index, snapshot repo and snapshot: add edit/delete
 * catch elasticsearch 5xx errors
