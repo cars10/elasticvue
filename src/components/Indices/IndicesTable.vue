@@ -123,7 +123,7 @@
         { text: 'Aliases', value: 'aliases', sortable: false },
         { text: 'Shards', value: 'parsedPri', align: 'right' },
         { text: 'Docs', value: 'parsedDocsCount', align: 'right' },
-        { text: 'Storage size', value: 'parsedStoreSize', align: 'right' },
+        { text: 'Storage', value: 'parsedStoreSize', align: 'right' },
         { text: '', value: 'actions', sortable: false }
       ]
       this.DEFAULT_ITEMS_PER_PAGE = DEFAULT_ITEMS_PER_PAGE

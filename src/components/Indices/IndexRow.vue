@@ -1,6 +1,6 @@
 <template>
   <tr>
-    <td>{{index.index}}</td>
+    <td :title="index.index">{{index.index}}</td>
     <td>
       <svg height="14" width="14">
         <circle :class="`health--${index.health}`" cx="7" cy="9" r="5"/>
@@ -17,7 +17,9 @@
         {{aliases}}
       </template>
     </td>
-    <td class="text-right"><span title="primary">{{index.pri}}</span> | <span title="replica">{{index.rep}}</span></td>
+    <td class="text-right">
+      <span :title="`${index.pri} primary\n${index.rep} replica`">{{index.pri}} / {{index.rep}}</span>
+    </td>
     <td class="text-right">{{index.docsCount}}</td>
     <td class="text-right">{{index.storeSize}}</td>
     <td>
