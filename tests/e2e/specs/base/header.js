@@ -7,14 +7,6 @@ describe('Header', () => {
     it('shows the current cluster url', () => {
       cy.get('#navbar_cluster_health').contains('http://localhost:' + Cypress.env('ES_PORT').toString())
     })
-
-    it('shows the current cluster health', () => {
-      cy.get('#navbar_cluster_health').contains(/(unknown)|(yellow)|(green)/)
-    })
-
-    it('defaults to 5 second reloading', () => {
-      cy.get('#navbar_cluster_health').contains('5s')
-    })
   })
 
   describe('menu links', () => {

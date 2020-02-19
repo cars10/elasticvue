@@ -2,7 +2,7 @@ describe('Snapshots', () => {
   beforeEach(() => {
     cy.deleteAllSnapshotRepositories()
     cy.quickConnect()
-    cy.visit('/snapshots')
+    cy.visit('/snapshot_repositories')
   })
 
   describe('Snapshot repositories', () => {
@@ -56,17 +56,6 @@ describe('Snapshots', () => {
       cy.get('tr').find('button').click()
       cy.get('tr').contains(repositoryName).should('not.exist')
     })
-
-    it('can collapse snapshot repositories', () => {
-      let repositoryName = 'test-1'
-      cy.createSnapshotRepository(repositoryName)
-      cy.get('#reload-snapshot-repositories').click()
-      cy.get('button').contains('New snapshot').should('not.exist')
-      cy.get('tr').contains(repositoryName).click()
-      cy.get('button').contains('New snapshot').should('exist')
-      cy.get('tr').contains(repositoryName).click()
-      cy.get('button').contains('New snapshot').should('not.exist')
-    })
   })
 
   describe('Snapshots', () => {
@@ -74,26 +63,26 @@ describe('Snapshots', () => {
 
     beforeEach(() => {
       cy.createSnapshotRepository(repositoryName)
+      cy.get('#reload-snapshot-repositories').click()
+      cy.get('tr').contains(repositoryName).click()
     })
 
     it('can create a new snapshot with default settings', () => {
-      cy.get('#reload-snapshot-repositories').click()
-      cy.get('tr').contains(repositoryName).click()
       cy.get('button').contains('New snapshot').click()
       let snapshotName = 'snap-1'
       cy.get('#snapshot_name').type(snapshotName)
       cy.get('#create_snapshot').click()
+      cy.get('#reload-button').click()
       cy.get('tr').contains(snapshotName).should('exist')
     })
 
     it('can delete a snapshot', () => {
       let snapshotName = 'snap-1'
       cy.createNewSnapshot(repositoryName, snapshotName)
-      cy.get('#reload-snapshot-repositories').click()
-      cy.get('tr').contains(repositoryName).click()
+      cy.get('#reload-button').click()
       cy.get('tr').contains(snapshotName).get('button[title="Options"]').click()
       cy.get('tr').contains(snapshotName).get('div.v-list-item__content').contains('Delete snapshot').click()
-      cy.get('tr').contains(snapshotName).get('button[title="Reload snapshots"]').click()
+      cy.get('#reload-button').click()
       cy.get('tr').contains(snapshotName).should('not.exist')
     })
   })
