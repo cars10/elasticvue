@@ -5,6 +5,7 @@
 * The docker image now uses nginx to host elasticvue instead of express. This decreases the image size and increases performance.
 * updates vuetify. this changes the colors of the dark theme, see [vuetify](https://github.com/vuetifyjs/vuetify/releases/tag/v2.2.6)
 * rework snapshot and repository management
+* ui improvements for navbar and indices table
 
 ## 0.17.0
 
