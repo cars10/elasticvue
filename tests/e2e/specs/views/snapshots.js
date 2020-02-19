@@ -72,6 +72,7 @@ describe('Snapshots', () => {
       let snapshotName = 'snap-1'
       cy.get('#snapshot_name').type(snapshotName)
       cy.get('#create_snapshot').click()
+      cy.wait(250)
       cy.get('#reload-button').click()
       cy.get('tr').contains(snapshotName).should('exist')
     })
