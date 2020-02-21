@@ -8,7 +8,7 @@
 
 > Elasticsearch gui for your browser [https://elasticvue.com](https://elasticvue.com)
 
-![Screenshot](https://github.com/cars10/elasticvue/raw/master/screenshot.jpg)
+![Screenshot](https://github.com/cars10/elasticvue/raw/develop/screenshot.jpg)
 
 Contents
 
