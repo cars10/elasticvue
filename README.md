@@ -131,6 +131,29 @@ http.cors.allow-origin: "moz-extension://<addon-url>"
 http.cors.allow-headers: X-Requested-With,Content-Type,Content-Length,Authorization
 ```
 
+If you use docker to run your elasticsearch cluster you can pass the options via environment variables:
+
+```bash
+docker run -p 9200:9200 \
+           -e "http.cors.enabled=true" \
+           -e "http.cors.allow-origin=/.*/" \
+           elasticsearch
+```
+
+This also works for `docker-compose`:
+
+```yaml
+services:
+  elasticsearch:
+    image: elasticsearch
+    environment:
+      - http.cors.enabled=true
+      - http.cors.allow-origin=/.*/
+    ports:
+      - 9200:9200
+```
+
+
 After configuration restart your cluster and you should be able to connect.
 
 

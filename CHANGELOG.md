@@ -2,6 +2,10 @@
 
 *Please check the [releases](https://github.com/cars10/elasticvue/releases) page if you need version release dates.*
 
+# **unreleased**
+
+* Add docker environment variables example to configure page
+
 # 0.18.0
 
 * The docker image now uses nginx to host elasticvue instead of express. This decreases the image size and increases performance.
