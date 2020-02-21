@@ -7,7 +7,7 @@ assignees: cars10
 
 ---
 **READ BEFORE OPENING AN ISSUE**
-Before you submit an issue please try to reset elasticvue and see if you can reproduce the problem. 
+Before you submit an issue please try to reset elasticvue and see if you can reproduce the problem.
 To reset please click `Disconnect and reset` in the footer, this will reset all your saved filters and you have to reconnect to your cluster.
 Proceed and open an issue if your problem persists.
 
@@ -28,7 +28,7 @@ If applicable, add screenshots to help explain your problem.
 * Operating system:
 * Browser + version:
 * Elasticvue version:
-* How are you running elasticvue? (docker, chrome extension, web app):
+* How are you running elasticvue? (docker, browser extension, web app):
 
 **Additional context**
 Anything else?
