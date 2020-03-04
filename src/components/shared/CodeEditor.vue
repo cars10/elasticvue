@@ -150,6 +150,11 @@
         this.editor.setFontSize('13px')
         this.editor.setShowPrintMargin(false)
         this.editor.$blockScrolling = Infinity
+        this.editor.on('paste', () => {
+          this.$nextTick(() => {
+            this.beautify()
+          })
+        })
         this.setTheme(this.$store.state.theme.dark)
       },
       stringifyJson (value) {

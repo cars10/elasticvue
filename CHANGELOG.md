@@ -4,6 +4,7 @@
 
 # **unreleased**
 
+* beautify code on paste (for rest and api browser)
 * Add docker environment variables example to configure page
 
 # 0.18.0
