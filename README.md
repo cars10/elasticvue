@@ -81,6 +81,7 @@ Then open [http://localhost:8080](http://localhost:8080) in your browser.
 **Browser extensions**
 
 * Chrome: Install the extension from the [chrome webstore](https://chrome.google.com/webstore/detail/elasticvue/hkedbapjpblbodpgbajblpnlpenaebaa)
+* Edge (2020): Install the extension from the [microsoft webstore](https://microsoftedge.microsoft.com/addons/detail/geifniocjfnfilcbeloeidajlfmhdlgo)
 * Firefox: Install the extension from [addons.mozilla.org](https://addons.mozilla.org/en-US/firefox/addon/elasticvue/)
 
 Start elasticvue by clicking on the icon in your toolbar.
@@ -124,6 +125,8 @@ http.cors.allow-origin: "http://localhost:8080"
 http.cors.allow-origin: /https?:\/\/app.elasticvue.com/
 # chrome extension
 http.cors.allow-origin: "chrome-extension://hkedbapjpblbodpgbajblpnlpenaebaa"
+# edge extension
+http.cors.allow-origin: "chrome-extension://geifniocjfnfilcbeloeidajlfmhdlgo"
 # firefox extension
 http.cors.allow-origin: "moz-extension://<addon-url>"
 
@@ -161,14 +164,14 @@ After configuration restart your cluster and you should be able to connect.
 
 Development is done on chrome. Firefox, safari and edge should work but are mostly untested.
 
-| IE | Edge | Safari | Firefox | Chrome |
+| IE | Edge (2020) | Safari | Firefox | Chrome |
 |----|------|--------|---------|--------|
-| None | 16+ | 11+ | 50+ | 50+ |
+| None | 80+ | 12+ | 60+ | 70+ |
 
 
 ## Troubleshooting
 
-Before opening an issue please try to reset elasticvue to its default settings. To reset please click
+Before opening an issue please try to reset elasticvue to its default settings. To reset click
 `Disconnect and reset` in the footer, this will reset all your saved filters and you have to reconnect to your cluster.
 Feel free to open an [issue](https://github.com/cars10/elasticvue/issues/new/choose) if your problem persists.
 
@@ -231,6 +234,9 @@ yarn build_browser_extensions
 
 ### Future
 
+* search manually via query dsl
+* home hover lines
+* display rest query results in table
 * cluster settings
 * data import/export
 
