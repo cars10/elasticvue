@@ -2,6 +2,15 @@
 
 *Please check the [releases](https://github.com/cars10/elasticvue/releases) page if you need version release dates.*
 
+# 0.19.0
+
+* beautify code on paste (for rest and api browser)
+* improve visibility of modal dialogs
+* add edge extension, thx @yoke88, fixes [#15][i15]
+* Add docker environment variables example to configure page
+
+[i15]: https://github.com/cars10/elasticvue/issues/i15
+
 # 0.18.0
 
 * The docker image now uses nginx to host elasticvue instead of express. This decreases the image size and increases performance.

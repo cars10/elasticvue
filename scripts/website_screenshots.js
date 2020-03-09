@@ -28,7 +28,7 @@ const puppeteer = require('puppeteer');
     await page.click('#execute_query')
     await page.waitFor(500)
   })
-  await clickToNavigateAndScreenshot(page, ['#navbar_snapshots', 'table tbody tr.tr--clickable'], 'screenshot_6_snapshots_dark.jpg')
+  await clickToNavigateAndScreenshot(page, ['#navbar_snapshots', '#navbar_snapshots_repositories', 'table tbody tr.tr--clickable'], 'screenshot_6_snapshots_dark.jpg')
   await clickToNavigateAndScreenshot(page, '#navbar_utilities', 'screenshot_7_utilities_dark.jpg')
 
   await browser.close()

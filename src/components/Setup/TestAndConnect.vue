@@ -42,7 +42,7 @@
         Could not connect. Please make sure that
         <ol class="pl-4">
           <li>Your cluster is reachable via <a :href="elasticsearchHost" target="_blank">{{elasticsearchHost}}</a></li>
-          <li>You added the correct settings to your <strong>elasticserach.yml</strong> and restarted your cluster</li>
+          <li>You added the correct settings to your <strong>elasticsearch.yml</strong> and restarted your cluster</li>
         </ol>
 
         <div class="mt-2">
