@@ -8,13 +8,15 @@
 
         <v-divider/>
 
-        <v-card-text>
+        <v-card-text v-if="enableCorsHint">
+          <h2 class="title mb-1">1. Configure</h2>
           <configure/>
         </v-card-text>
 
         <v-divider/>
 
         <v-card-text>
+          <h2 v-if="enableCorsHint" class="title mb-1">2. Test and connect</h2>
           <test-and-connect/>
         </v-card-text>
       </v-card>
@@ -31,6 +33,11 @@
     components: {
       Configure,
       TestAndConnect
+    },
+    data () {
+      return {
+        enableCorsHint: process.env.VUE_APP_DISABLE_CORS_HINT !== 'true'
+      }
     }
   }
 </script>

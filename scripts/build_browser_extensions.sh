@@ -10,7 +10,7 @@ PACKAGE_VERSION=$(cat package.json \
 rm -rf artifacts
 mkdir -p artifacts
 
-VUE_APP_ROUTER_MODE=hash vue-cli-service build
+VUE_APP_ROUTER_MODE=hash VUE_APP_DISABLE_CORS_HINT=true vue-cli-service build
 
 rm -rf browser_extension/assets browser_extension/images
 git clean -xf browser_extension --quiet

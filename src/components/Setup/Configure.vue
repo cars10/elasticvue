@@ -1,8 +1,7 @@
 <template>
   <div>
-    <h2 class="title mb-1">1. Configure</h2>
     <div class="px-4">
-      <p class="mb-1">Add the following lines to your <strong>elasticsearch.yml</strong>:</p>
+      <p class="mb-1">You have to setup CORS to use elasticvue. Add the following lines to your <strong>elasticsearch.yml</strong>:</p>
 
       <!-- @formatter:off -->
 <code class="code-block mb-2"><span class="code-comment"># allow CORS requests from {{domain}}</span>

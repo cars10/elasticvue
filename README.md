@@ -55,9 +55,13 @@ Other versions might or might not work, `elasticsearch-js` will fallback to the 
 
 You can use one of the following ways to run elasticvue:
 
-**Online version**
+**Browser extensions**
 
-Visit [http://app.elasticvue.com](http://app.elasticvue.com) or [https://app.elasticvue.com](https://app.elasticvue.com).
+* Chrome: Install the extension from the [chrome webstore](https://chrome.google.com/webstore/detail/elasticvue/hkedbapjpblbodpgbajblpnlpenaebaa)
+* Edge (2020): Install the extension from the [microsoft webstore](https://microsoftedge.microsoft.com/addons/detail/geifniocjfnfilcbeloeidajlfmhdlgo)
+* Firefox: Install the extension from [addons.mozilla.org](https://addons.mozilla.org/en-US/firefox/addon/elasticvue/)
+
+Start elasticvue by clicking on the icon in your toolbar.
 
 **Docker**
 
@@ -78,13 +82,9 @@ Or use `docker-compose`:
 
 Then open [http://localhost:8080](http://localhost:8080) in your browser.
 
-**Browser extensions**
+**Online version**
 
-* Chrome: Install the extension from the [chrome webstore](https://chrome.google.com/webstore/detail/elasticvue/hkedbapjpblbodpgbajblpnlpenaebaa)
-* Edge (2020): Install the extension from the [microsoft webstore](https://microsoftedge.microsoft.com/addons/detail/geifniocjfnfilcbeloeidajlfmhdlgo)
-* Firefox: Install the extension from [addons.mozilla.org](https://addons.mozilla.org/en-US/firefox/addon/elasticvue/)
-
-Start elasticvue by clicking on the icon in your toolbar.
+Visit [http://app.elasticvue.com](http://app.elasticvue.com) or [https://app.elasticvue.com](https://app.elasticvue.com).
 
 **Run locally**
 
@@ -110,7 +110,8 @@ See the [official vuejs deployment guide](https://cli.vuejs.org/guide/deployment
 
 
 ### Elasticsearch configuration
-You have [enable CORS](https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-http.html) to allow connection to your elasticsearch cluster, even if you run the app locally.
+
+You have to [enable CORS](https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-http.html) to allow connection to your elasticsearch cluster if you do not use the browser extensions.
 
 Find your elasticsearch configuration (for example `/etc/elasticsearch/elasticsearch.yml`) and add the following lines:
 
@@ -123,12 +124,6 @@ http.cors.enabled: true
 http.cors.allow-origin: "http://localhost:8080"
 # online version
 http.cors.allow-origin: /https?:\/\/app.elasticvue.com/
-# chrome extension
-http.cors.allow-origin: "chrome-extension://hkedbapjpblbodpgbajblpnlpenaebaa"
-# edge extension
-http.cors.allow-origin: "chrome-extension://geifniocjfnfilcbeloeidajlfmhdlgo"
-# firefox extension
-http.cors.allow-origin: "moz-extension://<addon-url>"
 
 # and if your cluster uses authorization you also have to add:
 http.cors.allow-headers: X-Requested-With,Content-Type,Content-Length,Authorization

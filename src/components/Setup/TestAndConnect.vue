@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h2 class="title mb-1">2. Test and connect</h2>
     <div class="px-4">
       <v-form @submit.prevent="testConnection">
         <v-text-field id="host"

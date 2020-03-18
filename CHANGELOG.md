@@ -2,43 +2,53 @@
 
 *Please check the [releases](https://github.com/cars10/elasticvue/releases) page if you need version release dates.*
 
-# 0.19.0
+*unreleased*
+
+This version removes the need to configure CORS **if you use one of the browser extensions**.
+I am not entirely happy with this change, but after some discussion ([#14][i14], [#17][p17]) i think we i should prioritize usability in this case.
+
+**You still have to configure CORS if you use the docker image or the web version of elasticvue.**
+
+[i14]: https://github.com/cars10/elasticvue/issues/14
+[p17]: https://github.com/cars10/elasticvue/pull/17
+
+## 0.19.0
 
 * beautify code on paste (for rest and api browser)
 * improve visibility of modal dialogs
 * add edge extension, thx @yoke88, fixes [#15][i15]
-* Add docker environment variables example to configure page
+* add docker environment variables example to configure page
 
-[i15]: https://github.com/cars10/elasticvue/issues/i15
+[i15]: https://github.com/cars10/elasticvue/issues/15
 
-# 0.18.0
+## 0.18.0
 
 * The docker image now uses nginx to host elasticvue instead of express. This decreases the image size and increases performance.
 * updates vuetify. this changes the colors of the dark theme, see [vuetify](https://github.com/vuetifyjs/vuetify/releases/tag/v2.2.6)
 * rework snapshot and repository management
 * ui improvements for navbar and indices table
 
-## 0.17.0
+### 0.17.0
 
 * [feat] show index aliases on index overview, fixes [#13][i13]
 * use node 12
 
-[i13]: https://github.com/cars10/elasticvue/issues/i13
+[i13]: https://github.com/cars10/elasticvue/issues/13
 
-## 0.16.2
+### 0.16.2
 
 * [fix] fix connecting to servers on port 80 and 443 [#11][i11]
 * increase width of `host` input field in setup form
 
 [i11]: https://github.com/cars10/elasticvue/issues/11
 
-## 0.16.1
+### 0.16.1
 
 * [fix] fix connecting with passwords with special characters [#10][i10]
 
 [i10]: https://github.com/cars10/elasticvue/issues/10
 
-## 0.16.0
+### 0.16.0
 
 * [merge] merge fix, thx @cengler [#9][i9]
 * updates dependencies
@@ -46,7 +56,7 @@
 
 [i9]: https://github.com/cars10/elasticvue/issues/9
 
-## 0.15.0
+### 0.15.0
 
 * [fix] fix [#8][i8]
 * [fix] fix exact filtering (using `"query"`) when filtering for fields that contain uppercase characters
@@ -54,18 +64,18 @@
 
 [i8]: https://github.com/cars10/elasticvue/issues/8
 
-## 0.14.0
+### 0.14.0
 * [feat] adds reload button to modals
 * [feat] can switch between vertical/horizontal layout in query/api browser
 * [feat] decrease navbar size when scrolled down
 * updates logos
 
-## 0.13.0
+### 0.13.0
 * firefox addon is now available on [addons.mozilla.org](https://addons.mozilla.org/en-US/firefox/addon/elasticvue/)!
 * [feat] can switch between vertical/horizontal layout in query/rest
 * [feat] can beautify code in readonly editor
 
-## 0.12.0
+### 0.12.0
 * improvements for the code editor (json views):
     * [feat] enable searchbox for code editor
     * [feat] add beautify button to code editor (hotkey: ctrl+alt+l)
@@ -75,24 +85,24 @@
 
 [i7]: https://github.com/cars10/elasticvue/issues/7
 
-## 0.11.0
+### 0.11.0
 * [feat] can filter exact with `"` in all filter and select inputs
 * [feat] async filtering for indices table and search results table (using web workers)
 * [feat] adds examples to both query forms (rest and api browser)
 * [feat] adds more options to snapshot creation form
 * updates dependencies, most notably vuetify 2.x
 
-## 0.10.2
+### 0.10.2
 * [bug] fix usage with elasticsearch `7.1.1`. thx @iDmple ([#5][i5])
 
 [i5]: https://github.com/cars10/elasticvue/issues/5
 
-## 0.10.1
+### 0.10.1
 * [bug] fix clicking search result item might open previous opened item. thx @foqq ([#4][i4])
 
 [i4]: https://github.com/cars10/elasticvue/issues/4
 
-## 0.10.0
+### 0.10.0
 
 * [bug] fix redirect loop in chrome extension on macos and windows. thx @foqq ([#2][i2])
 * [feat] you can now switch between index selection and index patterns
@@ -101,22 +111,22 @@
 
 [i2]: https://github.com/cars10/elasticvue/issues/2
 
-## 0.9.2
+### 0.9.2
 
 * cleanup after source_includes changes
 
-## 0.9.1
+### 0.9.1
 
 * fix source_includes breaking search
 
-## 0.9.0
+### 0.9.0
 
 * snapshot management
     * create and remove snapshot repositories
     * take and restore snapshots for all/specific indices
 * updates dependencies (vue 2.6, vuetify 1.5)
 
-## 0.8.0
+### 0.8.0
 
 * adds api-browser component
 * better handling of network errors
@@ -125,35 +135,35 @@
 * adds/fixes some specs
 * updates dependencies
 
-## 0.7.1
+### 0.7.1
 
 * fix css issue
 
-## 0.7.0
+### 0.7.0
 
 * added node overview
 * added management options for indices
 * adds timer setting to reload buttons for interval querying
 * can always connect to cluster without testing
 
-## 0.6.0
+### 0.6.0
 
 * fix css for table settings button
 * fix chrome extension build script
 * adds cerebro to readme
 
-## 0.5.0
+### 0.5.0
 
 * adds logo
 * adds e2e specs
 
-## 0.4.0
+### 0.4.0
 
 * can use authorized clusters (via `username:password@host` syntax)
 * can toggle table columns during search
 * switch from karma to jest specs
 
-## 0.3.0
+### 0.3.0
 
 * switch to port 8080 in development builds and docker container
 * fixes some responsiveness errors
@@ -162,20 +172,20 @@
 * internal refactorings to match vue style guide
 * adds utility to create some test data
 
-## 0.2.3
+### 0.2.3
 
 * switch to vue-cli-3
 * refactor resizing code editors
 
-## 0.2.2
+### 0.2.2
 
 * fix fixed table headers
 
-## 0.2.1
+### 0.2.1
 
 * use a different lib to stringify params
 
-## 0.2.0
+### 0.2.0
 
 * adds options to hide `_index` and `_score` columns on search page
 * autoscroll page when resizing editors
@@ -183,21 +193,21 @@
 * internal state refactorings
 
 
-## 0.1.8
+### 0.1.8
 
 * fix broken build
 
-## 0.1.7
+### 0.1.7
 
 * better table resizing
 * fix bug where sourceIncludes option was deleted automatically
 * small performance improvement
 
-## 0.1.6
+### 0.1.6
 
 * fix column name filter on search page
 
-## 0.1.5
+### 0.1.5
 
 * text changes
 * fix bug when reloading indices on search
@@ -205,7 +215,7 @@
 * adds more specs
 * updates dependencies
 
-## 0.1.4
+### 0.1.4
 
 * fixes grid sizes
 * makes table headers sticky and tables scrollable
@@ -213,30 +223,30 @@
 * save table pagination and sort settings in store
 * updates dependencies
 
-## 0.1.3
+### 0.1.3
 
 * can connect via ctrl+enter during initial setup
 * rewrote query page - you can now directly fetch your cluster
 * can resize code editors
 * some internal changes to be more compliant to vue best practices
 
-## 0.1.2
+### 0.1.2
 
 * adds some basic specs
 * changes urls to point to elasticvue.com
 * load editor component async
 
-## 0.1.1
+### 0.1.1
 
 * fix github dependency in package.json because docker image did not build
 
-## 0.1.0
+### 0.1.0
 
 * updates dependencies
 * fixed some bugs regarding fuzzy matching
 * add better editor to view query results (ace)
 
-## 0.0.3
+### 0.0.3
 
 * updates dependencies
 * show version in footer
@@ -244,11 +254,11 @@
 * enabled fuzzy matching for all filters (tables and selects)
 * reworked connection workflow
 
-## 0.0.2
+### 0.0.2
 
 * Adds tooltip to reset button
 * Adds more information on 403 errors
 
-## 0.0.1
+### 0.0.1
 
 * initial release
