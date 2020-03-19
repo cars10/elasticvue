@@ -111,7 +111,7 @@ See the [official vuejs deployment guide](https://cli.vuejs.org/guide/deployment
 
 ### Elasticsearch configuration
 
-You have to [enable CORS](https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-http.html) to allow connection to your elasticsearch cluster if you do not use the browser extensions.
+You have to [enable CORS](https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-http.html) to allow connection to your elasticsearch cluster **if you do not use the browser extensions**.
 
 Find your elasticsearch configuration (for example `/etc/elasticsearch/elasticsearch.yml`) and add the following lines:
 
