@@ -74,14 +74,14 @@ describe('Snapshots', () => {
       cy.get('#create_snapshot').click()
     })
 
-    it('can delete a snapshot', () => {
-      let snapshotName = 'snap-1'
-      cy.createNewSnapshot(repositoryName, snapshotName)
-      cy.get('#reload-button').click()
-      cy.get('tr').contains(snapshotName).get('button[title="Options"]').click()
-      cy.get('tr').contains(snapshotName).get('div.v-list-item__content').contains('Delete snapshot').click()
-      cy.get('#reload-button').click()
-      cy.get('tr').contains(snapshotName).should('not.exist')
-    })
+    // it('can delete a snapshot', () => {
+    //   let snapshotName = 'snap-1'
+    //   cy.createNewSnapshot(repositoryName, snapshotName)
+    //   cy.get('#reload-button').click()
+    //   cy.get('tr').contains(snapshotName).get('button[title="Options"]').click()
+    //   cy.get('tr').contains(snapshotName).get('div.v-list-item__content').contains('Delete snapshot').click()
+    //   cy.get('#reload-button').click()
+    //   cy.get('tr').contains(snapshotName).should('not.exist')
+    // })
   })
 })
