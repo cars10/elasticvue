@@ -2,7 +2,7 @@
 
 *Please check the [releases](https://github.com/cars10/elasticvue/releases) page if you need version release dates.*
 
-*unreleased*
+## 0.20.0
 
 This version removes the need to configure CORS **if you use one of the browser extensions**.
 I am not entirely happy with this change, but after some discussion ([#14][i14], [#17][p17]) i think we i should prioritize usability in this case.
