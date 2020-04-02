@@ -2,6 +2,12 @@
 
 *Please check the [releases](https://github.com/cars10/elasticvue/releases) page if you need version release dates.*
 
+## 0.21.0
+
+* adds support for hosts with path/subdirectory where elasticsearch is not available at the url root, for example `example.com/elasticsearch` ([#19][i19])
+
+[i19]: https://github.com/cars10/elasticvue/issues/19
+
 ## 0.20.0
 
 This version removes the need to configure CORS **if you use one of the browser extensions**.

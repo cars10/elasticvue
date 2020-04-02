@@ -4,7 +4,7 @@ import { buildFetchAuthHeaderFromUrl, urlWithoutCredentials } from '@/helpers'
 
 export default class ConnectionService {
   constructor (host) {
-    this.host = host
+    this.host = host[host.length - 1] === '/' ? host : host + '/'
   }
 
   async getAdapter () {
@@ -23,6 +23,7 @@ export default class ConnectionService {
         host: [
           {
             host: parsedUrl.hostname,
+            path: parsedUrl.pathname,
             port: getPort(parsedUrl),
             protocol: parsedUrl.protocol,
             headers: buildFetchAuthHeaderFromUrl(this.host),
