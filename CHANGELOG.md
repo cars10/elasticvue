@@ -2,9 +2,13 @@
 
 *Please check the [releases](https://github.com/cars10/elasticvue/releases) page if you need version release dates.*
 
+## 0.22.0
+
+* [feat]: can click on aliases on index overview to directly search
+
 ## 0.21.0
 
-* adds support for hosts with path/subdirectory where elasticsearch is not available at the url root, for example `example.com/elasticsearch` ([#19][i19])
+* [fix]: adds support for hosts with path/subdirectory where elasticsearch is not available at the url root, for example `example.com/elasticsearch` ([#19][i19])
 
 [i19]: https://github.com/cars10/elasticvue/issues/19
 

@@ -14,7 +14,12 @@
         <i>loading</i>
       </template>
       <template v-else>
-        {{aliases}}
+        [
+        <template v-for="(alias, index) in aliases">
+          <a :title="`Search ${alias}`" :key="alias" @click.stop="showDocuments(alias, true)">{{alias}}</a><span
+          v-if="index !== aliases.length-1">, </span>
+        </template>
+        ]
       </template>
     </td>
     <td class="text-right">
@@ -149,8 +154,12 @@
       this.loadAliases()
     },
     methods: {
-      showDocuments (index) {
-        this.$store.commit('search/setIndices', [index]) // to pre-select right index on "Search" page
+      showDocuments (index, usePattern) {
+        if (usePattern) {
+          this.$store.commit('search/setIndices', index)
+        } else {
+          this.$store.commit('search/setIndices', [index])
+        }
         this.$router.push({ name: 'Search', params: { executeSearch: true } })
       },
       emitReloadIndices () {
