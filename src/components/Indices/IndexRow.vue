@@ -15,10 +15,10 @@
       </template>
       <template v-else>
         [
-        <template v-for="(alias, index) in aliases">
+        <span v-for="(alias, index) in aliases" :key="`${index}-alias-${alias}`">
           <a :title="`Search ${alias}`" :key="alias" @click.stop="showDocuments(alias, true)">{{alias}}</a><span
           v-if="index !== aliases.length-1">, </span>
-        </template>
+        </span>
         ]
       </template>
     </td>
