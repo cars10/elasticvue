@@ -5,6 +5,7 @@
 ## 0.22.0
 
 * [feat]: can click on aliases on index overview to directly search
+* [fix]: fix showing index info/stats not always showing the correct result in modal
 
 ## 0.21.0
 
