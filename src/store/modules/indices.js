@@ -1,10 +1,10 @@
-import { DEFAULT_DATA_TABLE_PAGINATION } from '../../consts'
+import { DEFAULT_DATA_TABLE_OPTIONS } from '../../consts'
 
 export const indices = {
   namespaced: true,
   state: {
     filter: '',
-    pagination: Object.assign({}, DEFAULT_DATA_TABLE_PAGINATION, { sortBy: ['index'] }),
+    pagination: Object.assign({}, DEFAULT_DATA_TABLE_OPTIONS, { sortBy: ['index'] }),
     stickyTableHeader: false
   },
   mutations: {

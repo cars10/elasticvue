@@ -44,7 +44,7 @@ export const REQUEST_DEFAULT_HEADERS = {
 }
 
 export const DEFAULT_ITEMS_PER_PAGE = [10, 20, 100, { text: 'All', value: -1 }]
-export const DEFAULT_DATA_TABLE_PAGINATION = {
+export const DEFAULT_DATA_TABLE_OPTIONS = {
   page: 1,
   itemsPerPage: DEFAULT_ITEMS_PER_PAGE[0],
   sortBy: [],

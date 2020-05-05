@@ -1,4 +1,4 @@
-import { DEFAULT_DATA_TABLE_PAGINATION } from '../../consts'
+import { DEFAULT_DATA_TABLE_OPTIONS } from '../../consts'
 
 export const nodes = {
   namespaced: true,
@@ -6,7 +6,7 @@ export const nodes = {
     listType: 'grid',
     filter: '',
     stickyTableHeader: false,
-    pagination: Object.assign({}, DEFAULT_DATA_TABLE_PAGINATION, { sortBy: ['name'] })
+    pagination: Object.assign({}, DEFAULT_DATA_TABLE_OPTIONS, { sortBy: ['name'] })
   },
   mutations: {
     setListType (state, listType) {

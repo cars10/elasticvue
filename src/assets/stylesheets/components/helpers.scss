@@ -6,6 +6,10 @@
   font-family: 'Roboto', sans-serif !important;
 }
 
+.font--mono {
+  font-family: monospace
+}
+
 .clearfix::after {
   content: "";
   clear: both;

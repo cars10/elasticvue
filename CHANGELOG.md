@@ -2,10 +2,14 @@
 
 *Please check the [releases](https://github.com/cars10/elasticvue/releases) page if you need version release dates.*
 
-## 0.22.0
+## 0.22.0 (unreleased)
 
 * [feat]: can click on aliases on index overview to directly search
 * [fix]: fix showing index info/stats not always showing the correct result in modal
+* [feat]: change searching to use elasticsearch pagination+sort. **this limits the filter to the current page.** [#20][20]
+
+[20]: https://github.com/cars10/elasticvue/issues/20
+
 
 ## 0.21.0
 

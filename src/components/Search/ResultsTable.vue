@@ -2,6 +2,7 @@
   <div>
     <v-card-text>
       <div class="clearfix">
+        <span class="grey--text">Showing results for: <span class="font--mono">"{{q}}"</span></span>
         <div class="float-right d-inline-block">
           <v-text-field id="filter"
                         :loading="filterLoading"
@@ -9,7 +10,7 @@
                         append-icon="mdi-magnify"
                         class="mt-0 pt-0 v-text-field--small"
                         hide-details
-                        label="Filter..."
+                        label="Filter *current* page..."
                         name="filter"
                         title="Filter via 'column:query'"
                         @keyup.esc="filter = ''"/>
@@ -23,11 +24,12 @@
     </v-card-text>
 
     <v-data-table :class="tableClasses"
-                  :footer-props="{itemsPerPageOptions: DEFAULT_ITEMS_PER_PAGE}"
+                  :footer-props="{itemsPerPageOptions: [10, 20, 100, 1000, 10000]}"
                   :headers="headers"
                   :items="items"
+                  :server-items-length="totalHits"
                   :loading="loading || filterLoading"
-                  :options.sync="pagination">
+                  :options.sync="options">
       <template v-slot:item="item">
         <tr class="tr--clickable" @click="openDocument(item.item)">
           <td v-for="key in filteredMappings" :key="key">{{item.item[key]}}</td>
@@ -88,6 +90,10 @@
         },
         type: Array
       },
+      totalHits: {
+        default: 0,
+        type: Number
+      },
       loading: {
         default: false,
         type: Boolean
@@ -138,7 +144,7 @@
           { 'theme--light': !this.$store.state.theme.dark }
         ]
       },
-      ...mapVuexAccessors('search', ['filter', 'pagination', 'selectedMappings', 'mappings']),
+      ...mapVuexAccessors('search', ['filter', 'options', 'selectedMappings', 'mappings']),
       ...mapState('search', ['q'])
     },
     watch: {
