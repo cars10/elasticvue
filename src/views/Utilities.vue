@@ -88,19 +88,19 @@
             {
               text: 'Delete all indices',
               confirmMessage: 'Are you sure? This will delete ALL data in your cluster!',
-              method: 'indicesDelete',
+              method: 'indexDelete',
               methodParams: { index: '_all' }
             }
           ],
           misc: [
             {
               text: 'Flush all indices to disk',
-              method: 'indicesFlush',
+              method: 'indexFlush',
               methodParams: { index: '_all' }
             },
             {
               text: 'Set all indices to writable',
-              method: 'indicesPutSettings',
+              method: 'indexPutSettings',
               methodParams: {
                 index: '_all', body: { 'index': { 'blocks': { 'read_only_allow_delete': 'false' } } }
               }

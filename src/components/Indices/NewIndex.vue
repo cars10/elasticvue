@@ -81,7 +81,7 @@
       createIndex () {
         if (!this.$refs.form.validate()) return
         esAdapter()
-          .then(adapter => adapter.indicesCreate(this.createIndexParams))
+          .then(adapter => adapter.indexCreate(this.createIndexParams))
           .then(body => {
             showSuccessSnackbar({
               text: `The index '${this.indexName}' was successfully created.`,

@@ -8,7 +8,7 @@
     <v-divider/>
 
     <v-card-text>
-      <data-loader ref="dataLoader" :method-params="{index: indexName}" method="indicesGet">
+      <data-loader ref="dataLoader" :method-params="{index: indexName}" method="indexGet">
         <template v-slot:default="data">
           <print-pretty :caption="indexName" :document="data.body"/>
         </template>

@@ -15,7 +15,6 @@
     "@mdi/font": "^4.9.95",
     "brace": "^0.11.1",
     "comlink": "^4.2.0",
-    "elasticsearch": "^16.6.0",
     "fuzzysort": "cars10/fuzzysort#master",
     "querystringify": "^2.1.1",
     "vue": "^2.6.11",

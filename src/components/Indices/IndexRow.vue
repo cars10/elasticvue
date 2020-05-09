@@ -63,40 +63,40 @@
 
             <list-tile-link :callback="emitReloadIndices" :growl="`The index '${index.index}' was successfully merged.`"
                             :method-params="{index: index.index}"
-                            icon="mdi-call-merge" link-title="Forcemerge index" method="indicesForcemerge"/>
+                            icon="mdi-call-merge" link-title="Forcemerge index" method="indexForcemerge"/>
 
             <list-tile-link :callback="emitReloadIndices"
                             :growl="`The index '${index.index}' was successfully refreshed.`"
                             :method-params="{index: index.index}"
-                            icon="mdi-refresh" link-title="Refresh index" method="indicesRefresh"/>
+                            icon="mdi-refresh" link-title="Refresh index" method="indexRefresh"/>
 
             <list-tile-link :callback="emitReloadIndices"
                             :growl="`The index '${index.index}' was successfully flushed.`"
                             :method-params="{index: index.index}"
-                            icon="mdi-inbox-arrow-down" link-title="Flush index" method="indicesFlush"/>
+                            icon="mdi-inbox-arrow-down" link-title="Flush index" method="indexFlush"/>
 
             <list-tile-link :callback="emitReloadIndices"
                             :growl="`The index '${index.index}' cache was successfully cleared.`"
                             :method-params="{index: index.index}"
                             icon="mdi-notification-clear-all" link-title="Clear index cache"
-                            method="indicesClearCache"/>
+                            method="indexClearCache"/>
 
             <v-divider/>
 
             <list-tile-link v-if="index.status === 'open'"
                             :callback="emitReloadIndices" :growl="`The index '${index.index}' was successfully closed.`"
                             :method-params="{index: index.index}"
-                            icon="mdi-lock" link-title="Close index" method="indicesClose"/>
+                            icon="mdi-lock" link-title="Close index" method="indexClose"/>
             <list-tile-link v-else :callback="emitReloadIndices"
                             :growl="`The index '${index.index}' was successfully opened.`"
                             :method-params="{index: index.index}"
-                            icon="mdi-lock-open" link-title="Open index" method="indicesOpen"/>
+                            icon="mdi-lock-open" link-title="Open index" method="indexOpen"/>
 
             <list-tile-link :callback="emitReloadIndices"
                             :growl="`The index '${index.index}' was successfully deleted.`"
                             :method-params="{index: index.index}"
                             confirm-message="Are you sure? This will remove ALL data in your index!"
-                            icon="mdi-delete" link-title="Delete index" method="indicesDelete"/>
+                            icon="mdi-delete" link-title="Delete index" method="indexDelete"/>
           </v-list>
         </v-menu>
       </btn-group>
@@ -166,12 +166,12 @@
         this.$emit('reloadIndices')
       },
       openIndicesGetModal () {
-        this.modalMethod = 'indicesGet'
+        this.modalMethod = 'indexGet'
         this.modalTitle = 'indicesGet'
         this.modalOpen = true
       },
       openIndicesStatsModal () {
-        this.modalMethod = 'indicesStats'
+        this.modalMethod = 'indexStats'
         this.modalTitle = 'indicesStats'
         this.modalOpen = true
       },

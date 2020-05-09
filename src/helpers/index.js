@@ -1,4 +1,4 @@
-import { DEFAULT_SEARCH_PARAMS, REQUEST_DEFAULT_BODY } from '../consts'
+import { DEFAULT_SEARCH_PARAMS } from '../consts'
 
 export function normalizeSearchParams (params) {
   params = Object.assign({}, params)
@@ -9,10 +9,6 @@ export function normalizeSearchParams (params) {
   params._source = params && params.source ? params.source.replace(/\s/g, '') : ''
   delete params.source
   return params
-}
-
-export function paramsWithDefaults (params) {
-  return Object.assign({}, REQUEST_DEFAULT_BODY, params)
 }
 
 export function capitalize (string) {

@@ -37,7 +37,7 @@ It officially works with the following elasticsearch versions:
 * `7.4`
 * `7.5`
 
-Other versions might or might not work, `elasticsearch-js` will fallback to the `7.4` api if an unsupported version is used.
+Other versions might or might not work, elasticvue will fallback to the `7.5` api if an unsupported version is used.
 
 
 ### Features
@@ -217,13 +217,18 @@ Building the chrome/firefox extensions: (Hint: you need [web-ext](https://extens
 yarn build_browser_extensions
 ```
 
+## Project status and future
+
+As of 05/2020 this project is actively maintained and i plan to keep it that way.
+Technology wise i plan rewrite the project in vuejs 3 to make use of the new composition api. This should greatly improve performance and maintainability.
+
+I will contintue with the TODO's and new features after the rewrite is done.
+
 ## TODO
 
 ### 1.0
 
-* switch to new elasticsearch javascript client
 * switch to vue-composition-api
-* refactor runRequest to use promises
 * document, index, snapshot repo and snapshot: add edit/delete
 * catch elasticsearch 5xx errors
 
@@ -239,7 +244,6 @@ yarn build_browser_extensions
 
 * add more specs
 * refactor vuex state to use actions?
-* performance - use web workers? wasm? ~~requestIdleCallback~~?
 
 ## License
 

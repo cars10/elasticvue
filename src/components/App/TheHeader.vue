@@ -27,33 +27,7 @@
       <v-btn id="navbar_nodes" text to="/nodes">Nodes</v-btn>
       <v-btn id="navbar_indices" text to="/indices">Indices</v-btn>
       <v-btn id="navbar_search" text to="/search">Search</v-btn>
-
-      <v-menu offset-y>
-        <template v-slot:activator="{on}">
-          <v-btn id="navbar_query" :class="navbarQueryClasses" text v-on="on">
-            Query
-            <v-icon>mdi-menu-down</v-icon>
-          </v-btn>
-        </template>
-
-        <v-list>
-          <v-list-item id="navbar_query_rest" to="/query/rest">
-            <v-list-item-content>
-              <v-list-item-title>
-                REST
-              </v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-
-          <v-list-item id="navbar_query_api_browser" to="/query/api_browser">
-            <v-list-item-content>
-              <v-list-item-title>
-                API BROWSER
-              </v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list>
-      </v-menu>
+      <v-btn id="navbar_query_rest" text to="/query/rest">Rest</v-btn>
 
       <v-menu offset-y>
         <template v-slot:activator="{on}">

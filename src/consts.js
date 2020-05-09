@@ -29,15 +29,6 @@ export const DEFAULT_SEARCH_PARAMS = {
   index: ''
 }
 
-/**
- * Defaults used in each request
- * @type {{requestTimeout: number, format: string}}
- */
-export const REQUEST_DEFAULT_BODY = {
-  requestTimeout: 10000,
-  format: 'json'
-}
-
 export const REQUEST_DEFAULT_HEADERS = {
   'Accept': 'application/json',
   'Content-Type': 'application/json'
@@ -52,5 +43,4 @@ export const DEFAULT_DATA_TABLE_OPTIONS = {
 }
 
 export const HTTP_METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS']
-export const API_DOC_URL = 'https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html'
 export const BASE_URI = process.env.VUE_APP_ROUTER_MODE ? 'index.html' : '/'
