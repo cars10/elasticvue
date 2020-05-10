@@ -23,8 +23,8 @@ describe('Utilities page', () => {
     it('deletes all indices', () => {
       cy.createIndex('some-index')
       cy.flushIndices().then(() => {
-        cy.get('#utility_delete_indicesDelete').click()
-        cy.get('#utility_delete_indicesDelete', { timeout: 1000 }).should('not.have.class', 'v-btn v-btn--loader')
+        cy.get('#utility_delete_indexDelete').click()
+        cy.get('#utility_delete_indexDelete', { timeout: 1000 }).should('not.have.class', 'v-btn v-btn--loader')
         cy.wait(250)
         cy.catIndices().then(response => {
           expect(response.body).to.be.empty

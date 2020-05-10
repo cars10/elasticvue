@@ -303,7 +303,7 @@ export class Es7Client {
           } else {
             reject(response)
           }
-        })
+        }).catch(reject)
     })
   }
 }
