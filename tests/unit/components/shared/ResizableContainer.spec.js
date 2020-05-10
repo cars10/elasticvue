@@ -4,6 +4,17 @@ import ResizableContainer from '@/components/shared/ResizableContainer'
 import { createLocalVue, mount } from '@vue/test-utils'
 import '../../mocks/resizableContainerMocks'
 
+function createElement () {
+  if (document) {
+    const elem = document.createElement('div')
+
+    if (document.body) {
+      document.body.appendChild(elem)
+    }
+    return elem
+  }
+}
+
 describe('components/shared/ResizableContainer.vue', () => {
   let localVue
   let vuetify
@@ -34,7 +45,7 @@ describe('components/shared/ResizableContainer.vue', () => {
     const wrapper = mount(ResizableContainer, {
       localVue,
       vuetify,
-      attachToDocument: true
+      attachTo: createElement()
     })
     const handler = wrapper.find('div.resizable-container__vertical-handler')
 
@@ -52,7 +63,7 @@ describe('components/shared/ResizableContainer.vue', () => {
     const wrapper = mount(ResizableContainer, {
       localVue,
       vuetify,
-      attachToDocument: true
+      attachTo: createElement()
     })
     const handler = wrapper.find('div.resizable-container__vertical-handler')
 
@@ -70,7 +81,7 @@ describe('components/shared/ResizableContainer.vue', () => {
     const wrapper = mount(ResizableContainer, {
       localVue,
       vuetify,
-      attachToDocument: true
+      attachTo: createElement()
     })
     const handler = wrapper.find('div.resizable-container__vertical-handler')
 

@@ -6,6 +6,17 @@ import { theme } from '@/store/modules/theme'
 import '../../mocks/codeEditorMocks'
 import Vuetify from 'vuetify'
 
+function createElement () {
+  if (document) {
+    const elem = document.createElement('div')
+
+    if (document.body) {
+      document.body.appendChild(elem)
+    }
+    return elem
+  }
+}
+
 describe('components/shared/CodeEditor.vue', () => {
   let localVue
   let vuetify
@@ -87,7 +98,7 @@ describe('components/shared/CodeEditor.vue', () => {
         propsData: {
           useWorker: false
         },
-        attachToDocument: true
+        attachTo: createElement()
       })
       expect(wrapper.element.parentElement).toBeTruthy()
       wrapper.destroy()
