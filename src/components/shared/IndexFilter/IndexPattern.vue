@@ -4,6 +4,7 @@
                 :loading="loading"
                 v-model="localValue"
                 label="Index pattern"
+                autocomplete="off"
                 persistent-hint
                 @input="loadMatches"
                 @keyup.esc="localValue = '*'">

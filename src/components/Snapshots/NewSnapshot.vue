@@ -66,7 +66,7 @@
         valid: false,
         snapshotName: '',
         loading: false,
-        indices: []
+        indices: '*'
       }
     },
     methods: {
