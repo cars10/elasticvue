@@ -179,7 +179,8 @@ export class Es7Client {
     return this.request(`${index}`, 'DELETE')
   }
 
-  indexGet ({ index }) {
+  indexGet (params) {
+    const index = Array.isArray(params.index) ? params.index.join(',') : params.index
     return this.request(`${index}`, 'GET')
   }
 
@@ -230,7 +231,12 @@ export class Es7Client {
   search (params) {
     let index = Array.isArray(params.index) ? params.index.join(',') : params.index
     delete params.index
-    return this.request(`${index}/_search`, 'GET', params)
+
+    if (index.length > 0) {
+      return this.request(`${index}/_search`, 'POST', params)
+    } else {
+      return this.request('_search', 'POST', params)
+    }
   }
 
   catRepositories (params) {

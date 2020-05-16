@@ -10,8 +10,8 @@ export const search = {
     filter: '',
     options: Object.assign({}, DEFAULT_DATA_TABLE_OPTIONS),
     stickyTableHeader: false,
-    selectedMappings: [],
-    mappings: []
+    selectedColumns: [],
+    columns: []
   },
   mutations: {
     setQ (state, q) {
@@ -35,11 +35,11 @@ export const search = {
     setStickyTableHeader (state, sticky) {
       state.stickyTableHeader = sticky
     },
-    setSelectedMappings (state, val) {
-      state.selectedMappings = val
+    setSelectedColumns (state, val) {
+      state.selectedColumns = val
     },
-    setMappings (state, val) {
-      state.mappings = val
+    setColumns (state, val) {
+      state.columns = val
     },
     reset (state) {
       state.q = DEFAULT_SEARCH_PARAMS.q
@@ -49,8 +49,8 @@ export const search = {
       state.filter = ''
       state.options = Object.assign({}, DEFAULT_DATA_TABLE_OPTIONS)
       state.stickyTableHeader = true
-      state.selectedMappings = []
-      state.mappings = []
+      state.selectedColumns = []
+      state.columns = []
     }
   }
 }

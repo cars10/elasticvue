@@ -42,7 +42,7 @@
         </div>
 
         <div class="text-center">
-          <a class="grey--text user-select--none" @click="showOptions">
+          <a class="grey--text user-select--none" @click="optionsCollapsed = !optionsCollapsed">
             More options...
             <v-icon small>{{optionsCollapsed ? 'mdi-chevron-up' : 'mdi-chevron-down'}}</v-icon>
           </a>
@@ -59,7 +59,7 @@
                  render-content-while-loading>
       <template v-slot:default="data">
         <results-table :hits="data.body && data.body.hits && data.body.hits.hits || []"
-                       :total-hits="data.body && data.body.hits && data.body.hits.total.value || 0"
+                       :total-hits="data.body && data.body.hits && (data.body.hits.total && data.body.hits.total.value || data.body.hits.total || 0)"
                        :loading="data.loading"/>
       </template>
     </data-loader>
@@ -68,7 +68,6 @@
 
 <script>
   import DataLoader from '@/components/shared/DataLoader'
-  import ReloadButton from '@/components/shared/ReloadButton'
   import ResultsTable from '@/components/Search/ResultsTable'
   import { mapVuexAccessors } from '../helpers/store'
   import esAdapter from '@/mixins/GetAdapter'
@@ -76,15 +75,9 @@
 
   export default {
     name: 'Search',
-    filters: {
-      sortIndices (indices) {
-        return indices ? indices.map(index => index.index).sort() : []
-      }
-    },
     components: {
       DataLoader,
       IndexFilter,
-      ReloadButton,
       ResultsTable
     },
     props: {
@@ -99,10 +92,18 @@
       }
     },
     computed: {
+      sortBy () {
+        if (Array.isArray(this.options.sortBy) && this.options.sortBy.length > 0) {
+          return this.options.sortBy[0]
+        } else {
+          return null
+        }
+      },
       searchParams () {
-        let sort = '_score:desc'
-        if (Array.isArray(this.options.sortBy) && this.options.sortBy.length > 0 && Array.isArray(this.options.sortDesc) && this.options.sortDesc.length > 0) {
-          sort = this.options.sortBy[0] + (this.options.sortDesc[0] ? ':asc' : ':desc')
+        let order = null
+
+        if (Array.isArray(this.options.sortDesc) && this.options.sortDesc.length > 0) {
+          order = this.options.sortDesc[0] ? 'asc' : 'desc'
         }
 
         return {
@@ -111,7 +112,8 @@
           source: this.source,
           size: this.options.itemsPerPage,
           from: (this.options.page - 1) * this.options.itemsPerPage,
-          sort
+          sort: this.sortBy,
+          order
         }
       },
       ...mapVuexAccessors('search', ['q', 'indices', 'source', 'options', 'filter'])
@@ -132,16 +134,10 @@
       resetQuery () {
         this.q = '*'
       },
-      isChecked (item) {
-        return this.indices.includes(item)
-      },
-      showOptions () {
-        this.optionsCollapsed = !this.optionsCollapsed
-      },
       selectOnlyKnownIndices () {
         if (!Array.isArray(this.indices)) return true
         return esAdapter()
-          .then(adapter => adapter.catIndices())
+          .then(adapter => adapter.catIndices({ h: 'index' }))
           .then(body => {
             const availableIndices = body.map(index => index.index)
             this.indices = this.indices.filter(selectedIndex => availableIndices.includes(selectedIndex))

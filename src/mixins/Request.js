@@ -63,7 +63,7 @@ export default {
     async _callMethod (adapter, method, params) {
       const response = await adapter[method](params)
       this._setStopRequestData()
-      this.$store.commit('connection/setConnected')
+      if (!this.$store.state.connection.wasConnected) this.$store.commit('connection/setConnected')
       return Promise.resolve(response)
     },
     _handleApiError (error, rejectOnError) {

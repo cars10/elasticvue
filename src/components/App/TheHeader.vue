@@ -12,7 +12,7 @@
     </v-toolbar-title>
 
     <div v-if="wasConnected" id="navbar_cluster_health" class="inline-block mt-1 hidden-xs-only">
-      <span :title="apiVersion" class="mx-1 hidden-sm-and-down">{{clusterInfo}}</span>
+      <span class="mx-1 hidden-sm-and-down">{{clusterInfo}}</span>
       <div :title="`Cluster health: ${clusterHealth}`" class="d-inline-block mx-1">
         <svg height="14" width="14">
           <circle :class="`health--${clusterHealth}`" cx="7" cy="9" r="5"/>
@@ -88,17 +88,6 @@
       clusterInfo () {
         return truncate(urlWithoutCredentials(this.$store.state.connection.elasticsearchHost), 45)
       },
-      apiVersion () {
-        return `Using api version ${this.$store.state.connection.apiVersion}`
-      },
-      clusterHealthClasses () {
-        return [this.clusterHealth, 'ma-0']
-      },
-      navbarQueryClasses () {
-        return {
-          'v-btn--active': /^\/query/.test(this.$route.path)
-        }
-      },
       navbarSnapshotClasses () {
         return {
           'v-btn--active': /^\/snapshot/.test(this.$route.path)
@@ -122,7 +111,7 @@
           if (!this.getHealthInterval) {
             this.getHealthInterval = setInterval(() => {
               this.getHealth()
-            }, 5000)
+            }, 30000)
           }
         }
       }
@@ -135,7 +124,7 @@
         if (!this.getHealthInterval) {
           this.getHealthInterval = setInterval(() => {
             this.getHealth()
-          }, 5000)
+          }, 30000)
         }
       }
       if (typeof window !== 'undefined') window.addEventListener('scroll', this.setScrolledDown)

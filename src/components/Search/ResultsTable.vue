@@ -15,9 +15,9 @@
                         title="Filter via 'column:query'"
                         @keyup.esc="filter = ''"/>
 
-          <settings-dropdown :badge="mappings.length > filteredMappings.length">
+          <settings-dropdown :badge="columns.length > filteredColumns.length">
             <single-setting v-model="stickyTableHeader" class="mb-1" name="Sticky table header"/>
-            <multi-setting :settings="mappings" v-model="selectedMappings" name="Columns"/>
+            <multi-setting :settings="columns" v-model="selectedColumns" name="Columns"/>
           </settings-dropdown>
         </div>
       </div>
@@ -25,14 +25,14 @@
 
     <v-data-table :class="tableClasses"
                   :footer-props="{itemsPerPageOptions: [10, 20, 100, 1000, 10000]}"
-                  :headers="headers"
+                  :headers="filteredHeaders"
                   :items="items"
                   :server-items-length="totalHits"
                   :loading="loading || filterLoading"
                   :options.sync="options">
       <template v-slot:item="item">
         <tr class="tr--clickable" @click="openDocument(item.item)">
-          <td v-for="key in filteredMappings" :key="key">{{item.item[key]}}</td>
+          <td v-for="key in filteredColumns" :key="key">{{item.item[key]}}</td>
           <td>
             <router-link :class="openDocumentClasses"
                          :to="documentRoute(item.item)"
@@ -68,11 +68,12 @@
   import SingleSetting from '@/components/shared/TableSettings/SingleSetting'
   import MultiSetting from '@/components/shared/TableSettings/MultiSetting'
   import ModalDataLoader from '@/components/shared/ModalDataLoader'
-  import { DEFAULT_ITEMS_PER_PAGE } from '../../consts'
   import { mapVuexAccessors } from '../../helpers/store'
   import Results from '../../models/Results'
   import AsyncFilter from '@/mixins/AsyncFilter'
   import { mapState } from 'vuex'
+  import esAdapter from '../../mixins/GetAdapter'
+  import { sortableField } from '../../helpers'
 
   export default {
     name: 'ResultsTable',
@@ -103,19 +104,27 @@
       return {
         items: [],
         modalOpen: false,
-        modalMethodParams: {}
+        modalMethodParams: {},
+        headers: []
       }
     },
     computed: {
-      filteredMappings () {
-        if (this.mappings.length === this.selectedMappings.length) {
-          return this.mappings
+      filteredColumns () {
+        if (this.columns.length === this.selectedColumns.length) {
+          return this.columns
         } else {
-          return this.mappings.filter(k => this.selectedMappings.includes(k))
+          return this.columns.filter(k => this.selectedColumns.includes(k))
         }
       },
-      headers () {
-        return this.filteredMappings.map(value => ({ text: value, value })).concat({
+      filteredHeaders () {
+        let headers = []
+        if (this.headers.length === this.selectedColumns.length) {
+          headers = this.headers
+        } else {
+          headers = this.headers.filter(h => this.selectedColumns.includes(h.originalValue))
+        }
+
+        return headers.concat({
           text: '',
           value: 'actions',
           sortable: false
@@ -144,7 +153,7 @@
           { 'theme--light': !this.$store.state.theme.dark }
         ]
       },
-      ...mapVuexAccessors('search', ['filter', 'options', 'selectedMappings', 'mappings']),
+      ...mapVuexAccessors('search', ['filter', 'options', 'selectedColumns', 'columns']),
       ...mapState('search', ['q'])
     },
     watch: {
@@ -154,14 +163,45 @@
           return
         }
 
-        // set mappings whenever hits change
-        const oldMappings = this.mappings
+        const oldColumns = this.columns
         const results = new Results(this.hits)
-        this.mappings = results.uniqueColumns
-        const newMappings = this.mappings.filter(m => !oldMappings.includes(m))
-        this.selectedMappings = this.selectedMappings.concat(newMappings)
+        this.columns = results.uniqueColumns
+        const newColumns = this.columns.filter(m => !oldColumns.includes(m))
+        this.selectedColumns = this.selectedColumns.concat(newColumns)
+        const resultIndices = results.uniqueIndices
 
-        this.callFuzzyTableFilter(val, this.filter, true)
+        esAdapter()
+          .then(adapter => adapter.indexGet({ index: resultIndices }))
+          .then(indices => {
+            const allProperties = {}
+            Object.keys(indices).forEach(index => {
+              const mappings = indices[index].mappings
+              if (typeof mappings.properties === 'undefined') {
+                // ES < 7
+                let indexProperties = {}
+                Object.keys(mappings).forEach(mapping => {
+                  Object.assign(indexProperties, mappings[mapping].properties)
+                })
+                Object.assign(allProperties, indexProperties)
+              } else {
+                // ES >= 7
+                Object.assign(allProperties, mappings.properties)
+              }
+            })
+
+            this.headers = this.filteredColumns.map(value => {
+              let filterableCol = sortableField(value, allProperties[value])
+              let text
+
+              if (filterableCol) {
+                text = value === filterableCol ? value : `${value} (${filterableCol})`
+              } else {
+                text = value
+              }
+              return { value: filterableCol, text, sortable: !!filterableCol, originalValue: value }
+            })
+            this.callFuzzyTableFilter(val, this.filter, true)
+          })
       },
       filter (val) {
         this.callFuzzyTableFilter(this.hits, val, val.length === 0)
@@ -173,15 +213,11 @@
     beforeDestroy () {
       fixedTableHeaderOnDisable()
     },
-    created () {
-      this.DEFAULT_ITEMS_PER_PAGE = DEFAULT_ITEMS_PER_PAGE
-    },
     methods: {
       async callFuzzyTableFilter (items, filter, skipTimeout) {
         this.debounceFilter(async () => {
-          let filteredResults = await this.filterTable(items, filter, this.mappings, skipTimeout)
-          const results = new Results(filteredResults)
-          this.items = results.results
+          let filteredResults = await this.filterTable(items, filter, this.filteredColumns, skipTimeout)
+          this.items = filteredResults.map(el => Object.assign(el, el._source) && delete el._source && el)
         }, skipTimeout)
       },
       openDocument (item) {

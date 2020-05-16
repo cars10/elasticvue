@@ -29,7 +29,7 @@
     <td class="text-right">{{index.storeSize}}</td>
     <td>
       <btn-group small>
-        <v-btn title="Search documents" @click.native.stop="showDocuments(index.index)">
+        <v-btn v-if="index.status === 'open'" title="Search documents" @click.native.stop="showDocuments(index.index)">
           <v-icon>mdi-magnify</v-icon>
         </v-btn>
 
