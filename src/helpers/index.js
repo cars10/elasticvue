@@ -4,8 +4,10 @@ export function normalizeSearchParams (params) {
   const search = {}
   search.query = { query_string: { query: params.q || DEFAULT_SEARCH_PARAMS.q } }
   search.index = params.index || DEFAULT_SEARCH_PARAMS.index
-  search.sort = [{}]
-  if (params.sort) search.sort[0][`${params.sort}`] = { unmapped_type: 'keyword', order: params.order }
+  if (params.sort) {
+    search.sort = [{}]
+    search.sort[0][`${params.sort}`] = { unmapped_type: 'keyword', order: params.order }
+  }
 
   search.from = params.from ? parseInt(params.from) : DEFAULT_SEARCH_PARAMS.from
   search.size = params.size ? parseInt(params.size) : DEFAULT_SEARCH_PARAMS.size
