@@ -12,7 +12,7 @@
     </v-toolbar-title>
 
     <div v-if="wasConnected" id="navbar_cluster_health" class="inline-block mt-1 hidden-xs-only">
-      <span :title="apiVersion" class="mx-1 hidden-sm-and-down">{{clusterInfo}}</span>
+      <span class="mx-1 hidden-sm-and-down">{{clusterInfo}}</span>
       <div :title="`Cluster health: ${clusterHealth}`" class="d-inline-block mx-1">
         <svg height="14" width="14">
           <circle :class="`health--${clusterHealth}`" cx="7" cy="9" r="5"/>
@@ -27,33 +27,7 @@
       <v-btn id="navbar_nodes" text to="/nodes">Nodes</v-btn>
       <v-btn id="navbar_indices" text to="/indices">Indices</v-btn>
       <v-btn id="navbar_search" text to="/search">Search</v-btn>
-
-      <v-menu offset-y>
-        <template v-slot:activator="{on}">
-          <v-btn id="navbar_query" :class="navbarQueryClasses" text v-on="on">
-            Query
-            <v-icon>mdi-menu-down</v-icon>
-          </v-btn>
-        </template>
-
-        <v-list>
-          <v-list-item id="navbar_query_rest" to="/query/rest">
-            <v-list-item-content>
-              <v-list-item-title>
-                REST
-              </v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-
-          <v-list-item id="navbar_query_api_browser" to="/query/api_browser">
-            <v-list-item-content>
-              <v-list-item-title>
-                API BROWSER
-              </v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list>
-      </v-menu>
+      <v-btn id="navbar_query_rest" text to="/query/rest">Rest</v-btn>
 
       <v-menu offset-y>
         <template v-slot:activator="{on}">
@@ -114,17 +88,6 @@
       clusterInfo () {
         return truncate(urlWithoutCredentials(this.$store.state.connection.elasticsearchHost), 45)
       },
-      apiVersion () {
-        return `Using api version ${this.$store.state.connection.apiVersion}`
-      },
-      clusterHealthClasses () {
-        return [this.clusterHealth, 'ma-0']
-      },
-      navbarQueryClasses () {
-        return {
-          'v-btn--active': /^\/query/.test(this.$route.path)
-        }
-      },
       navbarSnapshotClasses () {
         return {
           'v-btn--active': /^\/snapshot/.test(this.$route.path)
@@ -148,7 +111,7 @@
           if (!this.getHealthInterval) {
             this.getHealthInterval = setInterval(() => {
               this.getHealth()
-            }, 5000)
+            }, 30000)
           }
         }
       }
@@ -161,7 +124,7 @@
         if (!this.getHealthInterval) {
           this.getHealthInterval = setInterval(() => {
             this.getHealth()
-          }, 5000)
+          }, 30000)
         }
       }
       if (typeof window !== 'undefined') window.addEventListener('scroll', this.setScrolledDown)

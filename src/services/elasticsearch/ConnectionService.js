@@ -1,6 +1,4 @@
-import ElasticsearchAdapter from '../ElasticsearchAdapter'
-import ElasticsearchVersionService from './ElasticsearchVersionService'
-import { buildFetchAuthHeaderFromUrl, urlWithoutCredentials } from '@/helpers'
+import ElasticsearchAdapter, { Es7Client } from '../ElasticsearchAdapter'
 
 export default class ConnectionService {
   constructor (host) {
@@ -8,52 +6,17 @@ export default class ConnectionService {
   }
 
   async getAdapter () {
-    let client = await this.buildClient()
-    return new ElasticsearchAdapter(client)
-  }
-
-  async buildClient () {
-    let versionService = new ElasticsearchVersionService(this.host)
-    let apiVersion = await versionService.getRawApiVersion()
-
-    return import(/* webpackChunkName: "elasticsearch-js" */ 'elasticsearch').then(Elasticsearch => {
-      let clientApi = Object.keys(Elasticsearch.Client.apis).includes(apiVersion) ? apiVersion : '7.1'
-      let parsedUrl = new URL(urlWithoutCredentials(this.host))
-      return new Elasticsearch.Client({
-        host: [
-          {
-            host: parsedUrl.hostname,
-            path: parsedUrl.pathname,
-            port: getPort(parsedUrl),
-            protocol: parsedUrl.protocol,
-            headers: buildFetchAuthHeaderFromUrl(this.host),
-            apiVersion: clientApi,
-            log: false // process.env.NODE_ENV === 'production' ? false : 'trace'}
-          }
-        ]
-      })
-    })
+    return new ElasticsearchAdapter(new Es7Client(this.host))
   }
 
   async testConnection () {
     try {
-      let client = await this.buildClient()
-      let adapter = new ElasticsearchAdapter(client)
+      let adapter = await this.getAdapter()
       await adapter.ping()
       await adapter.search({ size: 0 })
       return adapter
     } catch (e) {
       return Promise.reject(e)
     }
-  }
-}
-
-function getPort (parsedUrl) {
-  if (parsedUrl.port) return parsedUrl.port
-
-  if (parsedUrl.protocol === 'https:') {
-    return 443
-  } else {
-    return 80
   }
 }

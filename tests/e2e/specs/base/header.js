@@ -35,15 +35,8 @@ describe('Header', () => {
     })
 
     it('can navigate to rest query page', () => {
-      cy.get('#navbar_query').click()
       cy.get('#navbar_query_rest').click()
       cy.url().should('include', '/query/rest')
-    })
-
-    it('can navigate to api browser query page', () => {
-      cy.get('#navbar_query').click()
-      cy.get('#navbar_query_api_browser').click()
-      cy.url().should('include', '/query/api_browser')
     })
 
     it('can navigate to utilities page', () => {

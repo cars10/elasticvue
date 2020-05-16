@@ -14,7 +14,12 @@
         <i>loading</i>
       </template>
       <template v-else>
-        {{aliases}}
+        [
+        <span v-for="(alias, index) in aliases" :key="`${index}-alias-${alias}`">
+          <a :title="`Search ${alias}`" :key="alias" @click.stop="showDocuments(alias, true)">{{alias}}</a><span
+          v-if="index !== aliases.length-1">, </span>
+        </span>
+        ]
       </template>
     </td>
     <td class="text-right">
@@ -24,14 +29,14 @@
     <td class="text-right">{{index.storeSize}}</td>
     <td>
       <btn-group small>
-        <v-btn title="Search documents" @click.native.stop="showDocuments(index.index)">
+        <v-btn v-if="index.status === 'open'" title="Search documents" @click.native.stop="showDocuments(index.index)">
           <v-icon>mdi-magnify</v-icon>
         </v-btn>
 
         <v-menu left offset-y>
           <template v-slot:activator="{on}">
             <v-btn title="Options" v-on="on">
-              <v-icon>mdi-settings</v-icon>
+              <v-icon>mdi-cog</v-icon>
               <v-icon small>mdi-menu-down</v-icon>
             </v-btn>
           </template>
@@ -58,40 +63,40 @@
 
             <list-tile-link :callback="emitReloadIndices" :growl="`The index '${index.index}' was successfully merged.`"
                             :method-params="{index: index.index}"
-                            icon="mdi-call-merge" link-title="Forcemerge index" method="indicesForcemerge"/>
+                            icon="mdi-call-merge" link-title="Forcemerge index" method="indexForcemerge"/>
 
             <list-tile-link :callback="emitReloadIndices"
                             :growl="`The index '${index.index}' was successfully refreshed.`"
                             :method-params="{index: index.index}"
-                            icon="mdi-refresh" link-title="Refresh index" method="indicesRefresh"/>
+                            icon="mdi-refresh" link-title="Refresh index" method="indexRefresh"/>
 
             <list-tile-link :callback="emitReloadIndices"
                             :growl="`The index '${index.index}' was successfully flushed.`"
                             :method-params="{index: index.index}"
-                            icon="mdi-inbox-arrow-down" link-title="Flush index" method="indicesFlush"/>
+                            icon="mdi-inbox-arrow-down" link-title="Flush index" method="indexFlush"/>
 
             <list-tile-link :callback="emitReloadIndices"
                             :growl="`The index '${index.index}' cache was successfully cleared.`"
                             :method-params="{index: index.index}"
                             icon="mdi-notification-clear-all" link-title="Clear index cache"
-                            method="indicesClearCache"/>
+                            method="indexClearCache"/>
 
             <v-divider/>
 
             <list-tile-link v-if="index.status === 'open'"
                             :callback="emitReloadIndices" :growl="`The index '${index.index}' was successfully closed.`"
                             :method-params="{index: index.index}"
-                            icon="mdi-lock" link-title="Close index" method="indicesClose"/>
+                            icon="mdi-lock" link-title="Close index" method="indexClose"/>
             <list-tile-link v-else :callback="emitReloadIndices"
                             :growl="`The index '${index.index}' was successfully opened.`"
                             :method-params="{index: index.index}"
-                            icon="mdi-lock-open" link-title="Open index" method="indicesOpen"/>
+                            icon="mdi-lock-open" link-title="Open index" method="indexOpen"/>
 
             <list-tile-link :callback="emitReloadIndices"
                             :growl="`The index '${index.index}' was successfully deleted.`"
                             :method-params="{index: index.index}"
                             confirm-message="Are you sure? This will remove ALL data in your index!"
-                            icon="mdi-delete" link-title="Delete index" method="indicesDelete"/>
+                            icon="mdi-delete" link-title="Delete index" method="indexDelete"/>
           </v-list>
         </v-menu>
       </btn-group>
@@ -149,20 +154,24 @@
       this.loadAliases()
     },
     methods: {
-      showDocuments (index) {
-        this.$store.commit('search/setIndices', [index]) // to pre-select right index on "Search" page
+      showDocuments (index, usePattern) {
+        if (usePattern) {
+          this.$store.commit('search/setIndices', index)
+        } else {
+          this.$store.commit('search/setIndices', [index])
+        }
         this.$router.push({ name: 'Search', params: { executeSearch: true } })
       },
       emitReloadIndices () {
         this.$emit('reloadIndices')
       },
       openIndicesGetModal () {
-        this.modalMethod = 'indicesGet'
+        this.modalMethod = 'indexGet'
         this.modalTitle = 'indicesGet'
         this.modalOpen = true
       },
       openIndicesStatsModal () {
-        this.modalMethod = 'indicesStats'
+        this.modalMethod = 'indexStats'
         this.modalTitle = 'indicesStats'
         this.modalOpen = true
       },

@@ -1,289 +1,131 @@
-import { normalizeSearchParams, paramsWithDefaults } from '../helpers'
-import { REQUEST_DEFAULT_BODY } from '../consts'
+import { buildFetchAuthHeaderFromUrl, normalizeSearchParams, urlWithoutCredentials } from '../helpers'
+import { REQUEST_DEFAULT_HEADERS } from '../consts'
 
-// https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/16.x/quick-start.html
 export default class ElasticsearchAdapter {
   constructor (client) {
     this.client = client
   }
 
-  /**
-   * Pings to see if the host is available.
-   * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-ping
-   */
   ping () {
-    return this.client.ping(REQUEST_DEFAULT_BODY)
+    return this.client.ping()
   }
 
-  /**
-   * Bulk index data
-   * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-bulk
-   */
   bulk (params) {
-    return this.client.bulk(paramsWithDefaults(params))
+    return this.client.bulk(params)
   }
 
-  /**
-   * Get basic cluster information
-   * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-info
-   */
   clientInfo () {
-    return this.client.info(REQUEST_DEFAULT_BODY)
+    return this.client.clusterInfo()
   }
 
-  /**
-   * Get cluster health information
-   * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-cluster-health
-   */
   clusterHealth () {
-    return this.client.cluster.health(REQUEST_DEFAULT_BODY)
+    return this.client.clusterHealth()
   }
 
-  /**
-   * Get a list of all indices
-   * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-cat-indices
-   */
   catIndices (params) {
-    return this.client.cat.indices(paramsWithDefaults(params))
+    return this.client.catIndices(params)
   }
 
-  /**
-   * Get aliases for specific index
-   */
   indexGetAlias (params) {
-    return this.client.indices.getAlias(paramsWithDefaults(params))
+    return this.client.indexGetAlias(params)
   }
 
-  /**
-   * Will create a new index
-   * @param params
-   * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-indices-create
-   */
-  indicesCreate (params) {
-    return this.client.indices.create(paramsWithDefaults(params))
+  indexCreate (params) {
+    return this.client.indexCreate(params)
   }
 
-  /**
-   * Will delete a specific index
-   * @param params
-   * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-indices-delete
-   */
-  indicesDelete (params) {
-    return this.client.indices.delete(paramsWithDefaults(params))
+  indexDelete (params) {
+    return this.client.indexDelete(params)
   }
 
-  /**
-   * Get information about an index
-   * @param params
-   * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-indices-get
-   */
-  indicesGet (params) {
-    return this.client.indices.get(paramsWithDefaults(params))
+  indexGet (params) {
+    return this.client.indexGet(params)
   }
 
-  /**
-   * Get stats for an index
-   * @param params
-   * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-indices-stats
-   */
-  indicesStats (params) {
-    return this.client.indices.stats(paramsWithDefaults(params))
+  indexStats (params) {
+    return this.client.indexStats(params)
   }
 
-  /**
-   * Close an index
-   * @param params
-   * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-indices-close
-   */
-  indicesClose (params) {
-    return this.client.indices.close(paramsWithDefaults(params))
+  indexClose (params) {
+    return this.client.indexClose(params)
   }
 
-  /**
-   * Open an index
-   * @param params
-   * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-indices-open
-   */
-  indicesOpen (params) {
-    return this.client.indices.open(paramsWithDefaults(params))
+  indexOpen (params) {
+    return this.client.indexOpen(params)
   }
 
-  /**
-   * Force merge for an index
-   * @param params
-   * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-indices-forcemerge
-   */
-  indicesForcemerge (params) {
-    return this.client.indices.forcemerge(paramsWithDefaults(params))
+  indexForcemerge (params) {
+    return this.client.indexForcemerge(params)
   }
 
-  /**
-   * Refresh an index
-   * @param params
-   * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-indices-refresh
-   */
-  indicesRefresh (params) {
-    return this.client.indices.refresh(paramsWithDefaults(params))
+  indexRefresh (params) {
+    return this.client.indexRefresh(params)
   }
 
-  /**
-   * Clear index cache
-   * @param params
-   * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-indices-clearcache
-   */
-  indicesClearCache (params) {
-    return this.client.indices.clearCache(paramsWithDefaults(params))
+  indexClearCache (params) {
+    return this.client.indexClearCache(params)
   }
 
-  /**
-   * Find out if an index exists
-   * @param params
-   * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-indices-exists
-   */
-  indicesExists (params) {
-    return this.client.indices.exists(paramsWithDefaults(params))
+  indexFlush (params) {
+    return this.client.indexFlush(params)
   }
 
-  /**
-   * Flush all or specific indices
-   * @param params
-   * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-indices-flush
-   */
-  indicesFlush (params) {
-    return this.client.indices.flush(paramsWithDefaults(params))
+  indexExists (params) {
+    return this.client.indexExists(params)
   }
 
-  /**
-   * Set settings
-   * @param params
-   * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-indices-flush
-   */
-  indicesPutSettings (params) {
-    return this.client.indices.putSettings(paramsWithDefaults(params))
+  indexPutSettings (params) {
+    return this.client.indexPutSettings(params)
   }
 
-  /**
-   * Cat nodes
-   * @param params
-   * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-cat-nodes
-   */
   catNodes (params) {
-    return this.client.cat.nodes(paramsWithDefaults(params))
+    return this.client.catNodes(params)
   }
 
-  /**
-   * Get a document
-   * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-get
-   * @param params
-   */
   get (params) {
-    return this.client.get(paramsWithDefaults(params))
+    return this.client.get(params)
   }
 
-  /**
-   * Delete a document
-   * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-delete
-   * @param params {Object} { index, type, id }
-   */
-  delete (params) {
-    return this.client.delete(paramsWithDefaults(params))
-  }
-
-  /**
-   * Search api
-   * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-search
-   * @param searchParams
-   */
   search (searchParams) {
     let params = normalizeSearchParams(searchParams)
-    return this.client.search(paramsWithDefaults(params))
+    return this.client.search(params)
   }
 
-  /**
-   * Get all snapshot repositories
-   * @returns {*}
-   */
-  catRepositories () {
-    return this.snapshotGetRepository({})
+  catRepositories (params) {
+    return this.client.catRepositories(params)
   }
 
-  /**
-   * Get a snapshot repository
-   * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-snapshot-getrepository
-   * @param params
-   */
-  snapshotGetRepository (params) {
-    return this.client.snapshot.getRepository(paramsWithDefaults(params))
-  }
-
-  /**
-   * Create a snapshot repository
-   * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-snapshot-createrepository
-   * @param params
-   */
-  snapshotCreateRepository (params) {
-    return this.client.snapshot.createRepository(paramsWithDefaults(params))
-  }
-
-  /**
-   * Delete a snapshot repository
-   * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-snapshot-deleterepository
-   * @param params
-   */
-  snapshotDeleteRepository (params) {
-    return this.client.snapshot.deleteRepository(paramsWithDefaults(params))
-  }
-
-  /**
-   * Create a snapshot
-   * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-snapshot-create
-   * @param params
-   */
-  snapshotCreate (params) {
-    return this.client.snapshot.create(paramsWithDefaults(params))
-  }
-
-  /**
-   * Delete a snapshot
-   * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-snapshot-delete
-   * @param params
-   */
-  snapshotDelete (params) {
-    return this.client.snapshot.delete(paramsWithDefaults(params))
-  }
-
-  /**
-   * Restore a snapshot
-   * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-snapshot-restore
-   * @param params
-   */
-  snapshotRestore (params) {
-    return this.client.snapshot.restore(paramsWithDefaults(params))
-  }
-
-  /**
-   * Cat snapshots in repository
-   * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-cat-snapshots
-   * @param params
-   */
   catSnapshots (params) {
-    return this.client.cat.snapshots(paramsWithDefaults(params))
+    return this.client.catSnapshots(params)
   }
 
-  /**
-   * Get a snapshot in a repository
-   * @see https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-snapshot-get
-   * @param params
-   */
+  snapshotCreateRepository (params) {
+    return this.client.snapshotCreateRepository(params)
+  }
+
+  snapshotDeleteRepository (params) {
+    return this.client.snapshotDeleteRepository(params)
+  }
+
+  snapshotCreate (params) {
+    return this.client.snapshotCreate(params)
+  }
+
+  snapshotDelete (params) {
+    return this.client.snapshotDelete(params)
+  }
+
+  snapshotRestore (params) {
+    return this.client.snapshotRestore(params)
+  }
+
   getSnapshot (params) {
-    return this.client.snapshot.get(paramsWithDefaults(params))
+    return this.client.getSnapshot(params)
   }
 
   getSnapshotIndices (params) {
-    return this.client.snapshot.get(paramsWithDefaults(params))
-      .then(body => {
-        return Promise.resolve(body.snapshots[0].indices)
-      })
+    return this.client.getSnapshot(params)
+      .then(body => Promise.resolve(body.snapshots[0].indices))
   }
 
   /********/
@@ -294,12 +136,180 @@ export default class ElasticsearchAdapter {
    */
   async createIndices (name) {
     for (let name of [...new Set(name)]) {
-      await this.indicesExists({ index: name })
+      await this.indexExists({ index: name })
         .then(exists => {
           if (!exists) {
-            this.indicesCreate({ index: name })
+            this.indexCreate({ index: name })
           }
         })
     }
+  }
+}
+
+export class Es7Client {
+  constructor (host) {
+    this.host = host || 'http://localhost:9200'
+  }
+
+  ping () {
+    return this.request('', 'GET')
+  }
+
+  clusterInfo () {
+    return this.ping()
+  }
+
+  clusterHealth () {
+    return this.request('_cluster/health', 'GET')
+  }
+
+  catIndices (params) {
+    return this.request('_cat/indices', 'GET', params)
+  }
+
+  indexGetAlias ({ index }) {
+    return this.request(`${index}/_alias`, 'GET')
+  }
+
+  indexCreate ({ index, body }) {
+    return this.request(`${index}`, 'PUT', body)
+  }
+
+  indexDelete ({ index }) {
+    return this.request(`${index}`, 'DELETE')
+  }
+
+  indexGet (params) {
+    const index = Array.isArray(params.index) ? params.index.join(',') : params.index
+    return this.request(`${index}`, 'GET')
+  }
+
+  indexStats ({ index }) {
+    return this.request(`${index}/_stats`, 'GET')
+  }
+
+  indexClose ({ index }) {
+    return this.request(`${index}/_close`, 'POST')
+  }
+
+  indexOpen ({ index }) {
+    return this.request(`${index}/_open`, 'POST')
+  }
+
+  indexForcemerge ({ index }) {
+    return this.request(`${index}/_forcemerge`, 'POST')
+  }
+
+  indexRefresh ({ index }) {
+    return this.request(`${index}/_refresh`, 'POST')
+  }
+
+  indexClearCache ({ index }) {
+    return this.request(`${index}/_cache/clear`, 'POST')
+  }
+
+  indexFlush ({ index }) {
+    return this.request(`${index}/_flush`, 'POST')
+  }
+
+  indexExists ({ index }) {
+    return this.request(`${index}`, 'HEAD')
+  }
+
+  indexPutSettings ({ index, body }) {
+    return this.request(`${index}/_settings`, 'PUT', body)
+  }
+
+  catNodes (params) {
+    return this.request('_cat/nodes', 'GET', params)
+  }
+
+  get ({ index, type, id }) {
+    return this.request(`${index}/${type}/${id}`, 'GET')
+  }
+
+  search (params) {
+    let index = Array.isArray(params.index) ? params.index.join(',') : params.index
+    delete params.index
+
+    if (index.length > 0) {
+      return this.request(`${index}/_search`, 'POST', params)
+    } else {
+      return this.request('_search', 'POST', params)
+    }
+  }
+
+  catRepositories (params) {
+    return this.request('_snapshot', 'GET', params)
+  }
+
+  catSnapshots ({ repository }) {
+    return this.request(`_cat/snapshots/${repository}`, 'GET')
+  }
+
+  snapshotCreateRepository ({ repository, body }) {
+    return this.request(`_snapshot/${repository}`, 'PUT', body)
+  }
+
+  snapshotDeleteRepository ({ repository }) {
+    return this.request(`_snapshot/${repository}`, 'DELETE')
+  }
+
+  snapshotCreate ({ repository, snapshot, body }) {
+    return this.request(`_snapshot/${repository}/${snapshot}`, 'PUT', body)
+  }
+
+  snapshotDelete ({ repository, snapshot }) {
+    return this.request(`_snapshot/${repository}/${snapshot}`, 'DELETE')
+  }
+
+  snapshotRestore ({ repository, snapshot, body }) {
+    return this.request(`_snapshot/${repository}/${snapshot}/_restore`, 'POST', body)
+  }
+
+  getSnapshot ({ repository, snapshot }) {
+    return this.request(`_snapshot/${repository}/${snapshot}`, 'GET')
+  }
+
+  bulk ({ body }) {
+    let data = body.map(d => JSON.stringify(d)).join('\n') + '\n'
+    return this.request('_bulk', 'POST', data)
+  }
+
+  request (path, method, params) {
+    let url = new URL(urlWithoutCredentials(this.host) + path)
+
+    if (method === 'GET' && typeof params === 'object') {
+      Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
+    }
+
+    let body = null
+    if (method === 'PUT' || method === 'POST') body = params
+
+    let options = {
+      method,
+      body: body && typeof body !== 'string' ? JSON.stringify(body) : body,
+      headers: Object.assign({}, REQUEST_DEFAULT_HEADERS, buildFetchAuthHeaderFromUrl(this.host))
+    }
+
+    return new Promise((resolve, reject) => {
+      return fetch(url, options)
+        .then(response => {
+          if (options.method === 'HEAD') {
+            return resolve(response.ok)
+          }
+
+          if (response.ok) {
+            const contentType = response.headers.get('content-type')
+            if (contentType && contentType.includes('application/json')) {
+              resolve(response.json())
+            } else {
+              resolve(true)
+            }
+          } else {
+            reject(response)
+          }
+        }).catch(reject)
+    })
   }
 }

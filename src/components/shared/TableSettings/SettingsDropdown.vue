@@ -3,7 +3,7 @@
     <v-btn small icon @click.native="toggleMenu">
       <v-badge :value="badge" color="green" overlap>
         <v-icon slot="badge" small>mdi-filter-variant</v-icon>
-        <v-icon>mdi-settings</v-icon>
+        <v-icon>mdi-cog</v-icon>
       </v-badge>
     </v-btn>
     <div v-if="open" class="settings-dropdown__dropdown pt-2 elevation-2">

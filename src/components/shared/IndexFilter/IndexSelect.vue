@@ -14,7 +14,7 @@
       <v-list-item-action>
         <v-checkbox :input-value="localValue.includes(data.item)" color="primary"/>
       </v-list-item-action>
-      <v-list-item-content>
+      <v-list-item-content :title="data.item" class="text-truncate">
         {{data.item}}
       </v-list-item-content>
     </template>

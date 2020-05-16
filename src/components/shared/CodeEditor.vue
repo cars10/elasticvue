@@ -3,7 +3,7 @@
     <div ref="editor" style="height: 100%; width: 100%"/>
 
     <div class="code-editor__actions pa-2">
-      <v-btn :disabled="!valid"
+      <v-btn v-if="!readOnly" :disabled="!valid"
              small
              title="Beautify (Ctrl+ALT+L)"
              class="vertical-align--top mr-2"

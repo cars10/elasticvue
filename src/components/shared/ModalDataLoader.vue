@@ -76,7 +76,9 @@
     watch: {
       dialog (value) {
         if (value) {
-          if (this.$refs.dataLoader) this.$refs.dataLoader.loadData()
+          this.$nextTick(() => {
+            if (this.$refs.dataLoader) this.$refs.dataLoader.loadData()
+          })
           window.addEventListener('keydown', this.closeOnEsc)
         } else {
           window.removeEventListener('keydown', this.closeOnEsc)

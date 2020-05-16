@@ -105,21 +105,7 @@ exports[`components/shared/PrintPretty.vue correctly sets the initialHeight of i
         <div
           class="code-editor__actions pa-2"
         >
-          <button
-            class="vertical-align--top mr-2 v-btn v-btn--contained theme--light v-size--small"
-            title="Beautify (Ctrl+ALT+L)"
-            type="button"
-          >
-            <span
-              class="v-btn__content"
-            >
-              <i
-                aria-hidden="true"
-                class="v-icon notranslate mdi mdi-code-braces theme--light"
-                style="font-size: 16px;"
-              />
-            </span>
-          </button>
+          <!---->
            
           <div
             class="v-item-group theme--light v-btn-toggle"
