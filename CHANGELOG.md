@@ -2,7 +2,7 @@
 
 *Please check the [releases](https://github.com/cars10/elasticvue/releases) page if you need version release dates.*
 
-## 0.22.0 (unreleased)
+## 0.22.0
 
 * [feat]: change searching to use elasticsearch pagination+sort. **this limits the filter to the current page.** [#20][20]
 * [feat]: can click on index aliases on index overview to directly search
