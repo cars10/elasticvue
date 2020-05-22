@@ -63,7 +63,7 @@ const router = new Router({
       props: true
     },
     {
-      path: '/search/:index/:type/:id',
+      path: '/search/:index/:type?/:id',
       name: 'Document',
       component: Document
     },

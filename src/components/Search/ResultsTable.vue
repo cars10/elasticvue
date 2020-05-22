@@ -32,7 +32,10 @@
                   :options.sync="options">
       <template v-slot:item="item">
         <tr class="tr--clickable" @click="openDocument(item.item)">
-          <td v-for="key in filteredColumns" :key="key">{{item.item[key]}}</td>
+          <td v-for="key in filteredColumns" :key="key">
+            <template v-if="key === '_type'">{{item.item[key] || '_doc'}}</template>
+            <template v-else>{{item.item[key]}}</template>
+          </td>
           <td>
             <router-link :class="openDocumentClasses"
                          :to="documentRoute(item.item)"

@@ -2,6 +2,12 @@
 
 *Please check the [releases](https://github.com/cars10/elasticvue/releases) page if you need version release dates.*
 
+## 0.23.0
+
+* [feat]: initial support for elasticsearch 8, fix [#23][23]
+
+[23]: https://github.com/cars10/elasticvue/issues/23
+
 ## 0.22.0
 
 * [feat]: change searching to use elasticsearch pagination+sort. **this limits the filter to the current page.** [#20][20]
