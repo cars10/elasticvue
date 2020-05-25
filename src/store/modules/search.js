@@ -1,4 +1,4 @@
-import { DEFAULT_DATA_TABLE_PAGINATION, DEFAULT_SEARCH_PARAMS } from '../../consts'
+import { DEFAULT_DATA_TABLE_OPTIONS, DEFAULT_SEARCH_PARAMS } from '../../consts'
 
 export const search = {
   namespaced: true,
@@ -8,10 +8,10 @@ export const search = {
     size: DEFAULT_SEARCH_PARAMS.size,
     source: '',
     filter: '',
-    pagination: Object.assign({}, DEFAULT_DATA_TABLE_PAGINATION),
+    options: Object.assign({}, DEFAULT_DATA_TABLE_OPTIONS),
     stickyTableHeader: false,
-    selectedMappings: [],
-    mappings: []
+    selectedColumns: [],
+    columns: []
   },
   mutations: {
     setQ (state, q) {
@@ -29,17 +29,17 @@ export const search = {
     setFilter (state, filter) {
       state.filter = filter
     },
-    setPagination (state, pagination) {
-      state.pagination = pagination
+    setOptions (state, options) {
+      state.options = options
     },
     setStickyTableHeader (state, sticky) {
       state.stickyTableHeader = sticky
     },
-    setSelectedMappings (state, val) {
-      state.selectedMappings = val
+    setSelectedColumns (state, val) {
+      state.selectedColumns = val
     },
-    setMappings (state, val) {
-      state.mappings = val
+    setColumns (state, val) {
+      state.columns = val
     },
     reset (state) {
       state.q = DEFAULT_SEARCH_PARAMS.q
@@ -47,10 +47,10 @@ export const search = {
       state.size = DEFAULT_SEARCH_PARAMS.size
       state.source = ''
       state.filter = ''
-      state.pagination = Object.assign({}, DEFAULT_DATA_TABLE_PAGINATION)
+      state.options = Object.assign({}, DEFAULT_DATA_TABLE_OPTIONS)
       state.stickyTableHeader = true
-      state.selectedMappings = []
-      state.mappings = []
+      state.selectedColumns = []
+      state.columns = []
     }
   }
 }

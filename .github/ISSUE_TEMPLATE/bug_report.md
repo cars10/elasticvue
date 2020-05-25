@@ -25,6 +25,7 @@ List the steps to reproduce your problem:
 If applicable, add screenshots to help explain your problem.
 
 **Environment (please include the following information):**
+* Elasticsearch version:
 * Operating system:
 * Browser + version:
 * Elasticvue version:

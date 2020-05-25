@@ -11,7 +11,6 @@ import Snapshots from '@/views/Snapshots'
 import Repositories from '@/views/Repositories'
 import Utilities from '@/views/Utilities'
 import QueryRest from '@/views/QueryRest'
-import QueryApiBrowser from '@/views/QueryApiBrowser'
 import Nodes from '@/views/Nodes'
 import Store from '@/store'
 
@@ -87,11 +86,6 @@ const router = new Router({
       path: '/query/rest',
       name: 'QueryRest',
       component: QueryRest
-    },
-    {
-      path: '/query/api_browser',
-      name: 'QueryApiBrowser',
-      component: QueryApiBrowser
     },
     {
       path: '*',

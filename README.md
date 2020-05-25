@@ -30,14 +30,9 @@ It officially works with the following elasticsearch versions:
 
 * `5.6`
 * `6.8`
-* `7.0`
-* `7.1`
-* `7.2`
-* `7.3`
-* `7.4`
-* `7.5`
+* `7.x`
 
-Other versions might or might not work, `elasticsearch-js` will fallback to the `7.4` api if an unsupported version is used.
+Other versions might or might not work depending on the features you use.
 
 
 ### Features
@@ -151,23 +146,22 @@ services:
       - 9200:9200
 ```
 
-
 After configuration restart your cluster and you should be able to connect.
 
 
 ## Browser Support
 
-Development is done on chrome. Firefox, safari and edge should work but are mostly untested.
+Development is done on chrome. Firefox and edge should work but are mostly untested.
 
-| IE | Edge (2020) | Safari | Firefox | Chrome |
-|----|------|--------|---------|--------|
-| None | 80+ | 12+ | 60+ | 70+ |
+| IE | Edge (2020) | Firefox | Chrome |
+|----|------|--------|---------|
+| None | 80+ | 60+ | 70+ |
 
 
 ## Troubleshooting
 
-Before opening an issue please try to reset elasticvue to its default settings. To reset click
-`Disconnect and reset` in the footer, this will reset all your saved filters and you have to reconnect to your cluster.
+Before opening an issue please try to reset elasticvue to its default settings. To do so, click
+`Disconnect and reset` in the footer. This will reset all your saved filters and you have to reconnect to your cluster.
 Feel free to open an [issue](https://github.com/cars10/elasticvue/issues/new/choose) if your problem persists.
 
 
@@ -217,13 +211,21 @@ Building the chrome/firefox extensions: (Hint: you need [web-ext](https://extens
 yarn build_browser_extensions
 ```
 
+## Project status and future
+
+As of 05/2020 this project is actively maintained and i plan to keep it that way.
+Technology wise i will rewrite the project in vuejs 3 to make use of the new composition api. This should greatly improve performance and maintainability.
+
+I will contintue with the TODO's and new features after the rewrite is done.
+
 ## TODO
+
+* Search: Button "into Rest"
+* navbar cluster health: reload interval {red:1,yellow:10,green:30}
 
 ### 1.0
 
-* switch to new elasticsearch javascript client
 * switch to vue-composition-api
-* refactor runRequest to use promises
 * document, index, snapshot repo and snapshot: add edit/delete
 * catch elasticsearch 5xx errors
 
@@ -239,7 +241,6 @@ yarn build_browser_extensions
 
 * add more specs
 * refactor vuex state to use actions?
-* performance - use web workers? wasm? ~~requestIdleCallback~~?
 
 ## License
 

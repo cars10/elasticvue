@@ -8,22 +8,24 @@
     <v-card-text>
       <v-form @submit.prevent="loadData">
         <v-row>
-          <v-col cols="12" md="3" sm="12">
+          <v-col cols="12" md="5" sm="12">
             <v-text-field id="query"
                           v-model="q"
                           append-icon="mdi-close"
                           autofocus
                           label="Search"
+                          placeholder="John OR age:25"
                           messages="Searching supports the <a tabindex='-1' target='_blank' rel='noopener' href='https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html'>query string DSL</a>"
                           name="query"
+                          @keyup.esc="resetQuery"
                           @click:append="resetQuery">
-              <template v-slot:message="{ message, key }">
-                <span v-html="message" />
+              <template v-slot:message="{ message }">
+                <span v-html="message"/>
               </template>
             </v-text-field>
           </v-col>
 
-          <v-col cols="12" md="8" sm="12">
+          <v-col cols="12" md="6" sm="12">
             <index-filter v-model="indices" method="catIndices"/>
           </v-col>
 
@@ -33,22 +35,15 @@
         </v-row>
 
         <div v-if="optionsCollapsed" class="my-2 pa-2 lowered">
-          <v-row>
-            <v-col lg="9">
-              <v-text-field v-model="source"
-                            label="Source includes"
-                            messages="Enter a comma separated list of columns to load"
-                            name="source_includes"/>
-            </v-col>
-
-            <v-col lg="3">
-              <v-text-field v-model="size" label="Size" name="size"/>
-            </v-col>
-          </v-row>
+          <v-text-field v-model="source"
+                        label="Source includes"
+                        messages="Enter a comma separated list of columns to load"
+                        name="source_includes"/>
         </div>
 
         <div class="text-center">
-          <a class="grey--text user-select--none" @click="showOptions">More options...
+          <a class="grey--text user-select--none" @click="optionsCollapsed = !optionsCollapsed">
+            More options...
             <v-icon small>{{optionsCollapsed ? 'mdi-chevron-up' : 'mdi-chevron-down'}}</v-icon>
           </a>
         </div>
@@ -64,6 +59,7 @@
                  render-content-while-loading>
       <template v-slot:default="data">
         <results-table :hits="data.body && data.body.hits && data.body.hits.hits || []"
+                       :total-hits="data.body && data.body.hits && (data.body.hits.total && data.body.hits.total.value || data.body.hits.total || 0)"
                        :loading="data.loading"/>
       </template>
     </data-loader>
@@ -72,7 +68,6 @@
 
 <script>
   import DataLoader from '@/components/shared/DataLoader'
-  import ReloadButton from '@/components/shared/ReloadButton'
   import ResultsTable from '@/components/Search/ResultsTable'
   import { mapVuexAccessors } from '../helpers/store'
   import esAdapter from '@/mixins/GetAdapter'
@@ -80,15 +75,9 @@
 
   export default {
     name: 'Search',
-    filters: {
-      sortIndices (indices) {
-        return indices ? indices.map(index => index.index).sort() : []
-      }
-    },
     components: {
       DataLoader,
       IndexFilter,
-      ReloadButton,
       ResultsTable
     },
     props: {
@@ -103,15 +92,36 @@
       }
     },
     computed: {
+      sortBy () {
+        if (Array.isArray(this.options.sortBy) && this.options.sortBy.length > 0) {
+          return this.options.sortBy[0]
+        } else {
+          return null
+        }
+      },
       searchParams () {
+        let order = null
+
+        if (Array.isArray(this.options.sortDesc) && this.options.sortDesc.length > 0) {
+          order = this.options.sortDesc[0] ? 'asc' : 'desc'
+        }
+
         return {
           q: this.q,
           index: this.indices,
           source: this.source,
-          size: this.size
+          size: this.options.itemsPerPage,
+          from: (this.options.page - 1) * this.options.itemsPerPage,
+          sort: this.sortBy,
+          order
         }
       },
-      ...mapVuexAccessors('search', ['q', 'indices', 'size', 'source'])
+      ...mapVuexAccessors('search', ['q', 'indices', 'source', 'options', 'filter'])
+    },
+    watch: {
+      options () {
+        this.loadData()
+      }
     },
     created () {
       if (this.executeSearch || this.indices.length > 0) this.loadData()
@@ -124,16 +134,10 @@
       resetQuery () {
         this.q = '*'
       },
-      isChecked (item) {
-        return this.indices.includes(item)
-      },
-      showOptions () {
-        this.optionsCollapsed = !this.optionsCollapsed
-      },
       selectOnlyKnownIndices () {
         if (!Array.isArray(this.indices)) return true
         return esAdapter()
-          .then(adapter => adapter.catIndices())
+          .then(adapter => adapter.catIndices({ h: 'index' }))
           .then(body => {
             const availableIndices = body.map(index => index.index)
             this.indices = this.indices.filter(selectedIndex => availableIndices.includes(selectedIndex))

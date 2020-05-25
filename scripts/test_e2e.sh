@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 TMP_PATH=./tmp/e2e
-VERSIONS=( elasticsearch-6.6.0 elasticsearch-7.0.0-linux-x86_64 )
+VERSIONS=( elasticsearch-7.5.0-linux-x86_64 )
 PID=0
 ES_PID_FILE=${TMP_PATH}/pid
 ES_PORT=$(cat cypress.json|grep ES_PORT|awk '{print $2}' | cut -d ',' -f 1)
@@ -41,6 +41,9 @@ function configureElasticsearch {
   echo "http.cors.enabled: true" >> ${CONFIG}
   echo "http.cors.allow-origin: '*'" >> ${CONFIG}
   echo "path.repo: '/tmp/elasticdata'" >> ${CONFIG}
+  echo "node.name: 'e2e'" >> ${CONFIG}
+  echo "cluster.name: 'e2e-clust'" >> ${CONFIG}
+  echo "cluster.initial_master_nodes: 'e2e'" >> ${CONFIG}
 }
 
 function startElasticsearch {

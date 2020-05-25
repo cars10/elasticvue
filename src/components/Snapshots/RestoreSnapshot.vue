@@ -80,7 +80,7 @@
         dialog: false,
         valid: false,
         loading: false,
-        indices: [],
+        indices: '*',
         ignore_unavailable: true,
         include_global_state: true,
         rename_pattern: '',

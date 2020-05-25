@@ -2,7 +2,24 @@
 
 *Please check the [releases](https://github.com/cars10/elasticvue/releases) page if you need version release dates.*
 
-*unreleased*
+## 0.22.0 (unreleased)
+
+* [feat]: change searching to use elasticsearch pagination+sort. **this limits the filter to the current page.** [#20][20]
+* [feat]: can click on index aliases on index overview to directly search
+* [fix]: fix showing index info/stats not always showing the correct result in modal
+* remove the deprecated [elasticsearch](https://www.npmjs.com/package/elasticsearch) library and api browser page. see [#22][22] for details
+
+[20]: https://github.com/cars10/elasticvue/issues/20
+[22]: https://github.com/cars10/elasticvue/issues/22
+
+
+## 0.21.0
+
+* [fix]: adds support for hosts with path/subdirectory where elasticsearch is not available at the url root, for example `example.com/elasticsearch` ([#19][i19])
+
+[i19]: https://github.com/cars10/elasticvue/issues/19
+
+## 0.20.0
 
 This version removes the need to configure CORS **if you use one of the browser extensions**.
 I am not entirely happy with this change, but after some discussion ([#14][i14], [#17][p17]) i think we i should prioritize usability in this case.
