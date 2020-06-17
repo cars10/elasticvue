@@ -21,21 +21,38 @@
       </v-row>
 
       <v-row>
-        <v-col :lg="vertical ? 12 : 6" cols="12">
+        <v-col :md="vertical ? 12 : 6" cols="12">
           <h4 class="pb-1">Request body</h4>
-          <resizable-container ref="query_body" :initial-height="vertical ? 200 : 500" class="mb-1">
-            <code-editor :external-commands="editorCommands" v-model="stringifiedParams"/>
+          <resizable-container v-if="canSendBody" ref="query_body"
+                               :initial-height="vertical ? 200 : 500"
+                               class="mb-1">
+            <code-editor :external-commands="editorCommands"
+                         :read-only="method === 'GET' || method === 'HEAD'"
+                         v-model="stringifiedParams"/>
           </resizable-container>
 
+          <div v-else>
+            <v-alert :value="true" color="grey" class="mb-12">
+              <p>
+                You cannot send a request body via {{method}}.<br>
+                Please <a href="javascript:void(0)" role="button" @click="method = 'POST'">select POST</a> as your HTTP
+                method or use query parameters in the url.
+              </p>
+              <p class="mb-0">
+                You can use POST to search with the _search endpoint.
+              </p>
+            </v-alert>
+          </div>
+
           <v-row>
-            <v-col :lg="vertical ? 6 : 12" cols="12">
+            <v-col :md="vertical ? 6 : 12" cols="12">
               <v-btn id="execute_query" :disabled="!isValid" :loading="loading" class="mx-0" color="primary"
                      type="submit">
                 Run query
               </v-btn>
               <a id="reset-form" class="ml-2" href="javascript:void(0)" @click="reset">Reset form</a>
             </v-col>
-            <v-col :lg="vertical ? 6 : 12" :class="vertical ? 'text-right' : ''" cols="12">
+            <v-col :md="vertical ? 6 : 12" :class="vertical ? 'text-right' : ''" cols="12">
               <a id="example-1" href="javascript:void(0)" @click="loadCatExample">Example #1 (_cat/indices)</a>
               <a id="example-2" class="ml-2" href="javascript:void(0)" @click="loadCreateExample">Example #2 (create
                 index)</a>
@@ -45,7 +62,7 @@
           </v-row>
         </v-col>
 
-        <v-col :lg="vertical ? 12 : 6" cols="12">
+        <v-col :md="vertical ? 12 : 6" cols="12">
           <print-pretty :document="response" caption="Response" class="response"/>
         </v-col>
       </v-row>
@@ -58,11 +75,9 @@
   import PrintPretty from '@/components/shared/PrintPretty'
   import CustomVAutocomplete from '@/components/shared/CustomVAutocomplete'
   import Loading from '@/components/shared/Loading'
-  import { HTTP_METHODS } from '../../../consts'
-  import qs from 'querystringify'
+  import { HTTP_METHODS, REQUEST_DEFAULT_HEADERS } from '@/consts'
   import { buildFetchAuthHeaderFromUrl, urlWithoutCredentials } from '../../../helpers'
-  import { mapVuexAccessors } from '../../../helpers/store'
-  import { REQUEST_DEFAULT_HEADERS } from '@/consts'
+  import { mapVuexAccessors } from '@/helpers/store'
 
   export default {
     name: 'fetch-form',
@@ -103,22 +118,20 @@
         }
       },
       fetchUrl () {
-        let host = urlWithoutCredentials(this.url)
-        if (this.stringifiedParams.trim().length !== 0 && (this.method === 'GET' || this.method === 'HEAD')) {
-          return host + '?' + qs.stringify(JSON.parse(this.stringifiedParams), '')
-        } else {
-          return host
-        }
+        return urlWithoutCredentials(this.url)
       },
       fetchOptionsHash () {
         let fetchOptions = {
           method: this.method,
           headers: Object.assign(buildFetchAuthHeaderFromUrl(this.url), REQUEST_DEFAULT_HEADERS)
         }
-        if (this.method !== 'GET' && this.method !== 'HEAD') {
+        if (this.canSendBody) {
           fetchOptions.body = this.stringifiedParams
         }
         return fetchOptions
+      },
+      canSendBody () {
+        return this.method !== 'GET' && this.method !== 'HEAD'
       },
       ...mapVuexAccessors('queryRest', ['method', 'path', 'stringifiedParams', 'vertical'])
     },
