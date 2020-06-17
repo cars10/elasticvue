@@ -6,8 +6,11 @@
 
 * [feat]: initial support for elasticsearch 8, fix [#23][i23]
 * [feat]: hide the *request body* input when doing rest queries as GET or HEAD, fixes [#26][i26]
+* [fix]: fix sorting indices by storage. now takes units into consideration, fixes [#24][i24]
+
 
 [i23]: https://github.com/cars10/elasticvue/issues/23
+[i24]: https://github.com/cars10/elasticvue/issues/24
 [i26]: https://github.com/cars10/elasticvue/issues/26
 
 

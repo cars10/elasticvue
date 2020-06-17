@@ -43,8 +43,8 @@
 <script>
   import ElasticsearchIndex from '../../models/ElasticsearchIndex'
   import { fixedTableHeaderOnDisable, fixedTableHeaderOnEnable, resetTableHeight } from '@/mixins/FixedTableHeader'
-  import { DEFAULT_ITEMS_PER_PAGE } from '../../consts'
-  import { mapVuexAccessors } from '../../helpers/store'
+  import { DEFAULT_ITEMS_PER_PAGE } from '@/consts'
+  import { mapVuexAccessors } from '@/helpers/store'
   import IndexRow from '@/components/Indices/IndexRow'
   import NewIndex from '@/components/Indices/NewIndex'
   import SettingsDropdown from '@/components/shared/TableSettings/SettingsDropdown'

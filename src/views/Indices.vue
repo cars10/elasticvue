@@ -6,7 +6,9 @@
     </v-card-title>
     <v-divider/>
 
-    <data-loader ref="dataLoader" method="catIndices" render-content-while-loading>
+    <data-loader ref="dataLoader"
+                 :method-params="{h: 'index,health,status,uuid,pri,rep,docs.count,store.size', bytes: 'b'}"
+                 method="catIndices" render-content-while-loading>
       <template v-slot:default="data">
         <indices-table :indices="data.body || []" :loading="data.loading" @reloadIndices="reloadIndices"/>
       </template>

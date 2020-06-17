@@ -1,4 +1,4 @@
-import { normalizeSearchParams } from '../helpers'
+import { normalizeSearchParams } from '@/helpers'
 
 export default class ElasticsearchAdapter {
   constructor (client) {
