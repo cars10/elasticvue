@@ -3,7 +3,7 @@
     <v-col lg="8" offset-lg="2">
       <v-card>
         <v-card-title>
-          <h1 class="headline">Utilities</h1>
+          <h1 class="text-h5">Utilities</h1>
         </v-card-title>
         <v-divider/>
 

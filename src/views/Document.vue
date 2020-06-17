@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title>
-      <h1 class="headline">Document</h1>
+      <h1 class="text-h5">Document</h1>
       <reload-button :action="() => $refs.dataLoader.loadData()"/>
       <back-button :route="{name: 'Search', params: {executeSearch: true}}"/>
     </v-card-title>

@@ -3,7 +3,7 @@
     <v-card-title>
       <v-row>
         <v-col class="py-0">
-          <h1 class="headline">API Browser</h1>
+          <h1 class="text-h5">API Browser</h1>
         </v-col>
         <v-col class="text-right py-0">
           <v-btn-toggle v-model="vertical" mandatory>

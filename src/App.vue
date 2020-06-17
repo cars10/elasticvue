@@ -2,13 +2,13 @@
   <v-app>
     <the-header/>
 
-    <v-content>
+    <v-main>
       <v-container fluid>
         <router-view v-if="renderRouterView"/>
         <loading v-else/>
       </v-container>
       <snackbar/>
-    </v-content>
+    </v-main>
 
     <the-footer/>
   </v-app>

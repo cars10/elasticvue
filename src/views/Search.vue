@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title>
-      <h1 class="headline">Search</h1>
+      <h1 class="text-h5">Search</h1>
     </v-card-title>
     <v-divider/>
 

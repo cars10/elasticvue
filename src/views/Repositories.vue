@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title>
-      <h2 class="headline">Repositories</h2>
+      <h2 class="text-h5">Repositories</h2>
       <reload-button id="reload-snapshot-repositories" :action="reloadData"/>
     </v-card-title>
     <v-divider/>

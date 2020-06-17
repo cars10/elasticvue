@@ -2,7 +2,7 @@
   <v-dialog :width="width" v-model="dialog">
     <v-card>
       <v-card-title>
-        <h2 class="headline">{{modalTitle}}</h2>
+        <h2 class="text-h5">{{modalTitle}}</h2>
         <reload-button id="reload-modal" :action="() => this.$refs.dataLoader.loadData()"/>
         <div class="ml-a">
           <v-btn icon @click.native="close">

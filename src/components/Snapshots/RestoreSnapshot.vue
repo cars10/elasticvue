@@ -12,7 +12,7 @@
     <v-dialog v-model="dialog" width="500">
       <v-card>
         <v-card-title>
-          <h2 class="headline">Restore '{{snapshot}}'</h2>
+          <h2 class="text-h5">Restore '{{snapshot}}'</h2>
         </v-card-title>
         <v-divider/>
 

@@ -6,7 +6,7 @@
 
     <v-card>
       <v-card-title>
-        <h2 class="headline">New index</h2>
+        <h2 class="text-h5">New index</h2>
       </v-card-title>
 
       <v-divider/>

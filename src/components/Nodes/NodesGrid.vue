@@ -38,7 +38,7 @@
               <v-card-title class="py-0">
                 <div class="row">
                   <div class="col">
-                    <span class="subtitle-1">{{ item.name }}</span>
+                    <span class="text-subtitle-1">{{ item.name }}</span>
                   </div>
                   <div class="col">
                     <div class="d-inline-block float-right">

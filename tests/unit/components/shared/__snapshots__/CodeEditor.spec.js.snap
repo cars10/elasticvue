@@ -53,6 +53,7 @@ exports[`components/shared/CodeEditor.vue snapshots changes its value 1`] = `
         />
         <div
           class="ace_layer ace_cursor-layer ace_hidden-cursors"
+          style="opacity: 1;"
         >
           <div
             class="ace_cursor"
@@ -203,6 +204,7 @@ exports[`components/shared/CodeEditor.vue snapshots renders object value 1`] = `
         />
         <div
           class="ace_layer ace_cursor-layer ace_hidden-cursors"
+          style="opacity: 1;"
         >
           <div
             class="ace_cursor"
@@ -353,6 +355,7 @@ exports[`components/shared/CodeEditor.vue snapshots renders string value 1`] = `
         />
         <div
           class="ace_layer ace_cursor-layer ace_hidden-cursors"
+          style="opacity: 1;"
         >
           <div
             class="ace_cursor"
@@ -504,6 +507,7 @@ exports[`components/shared/CodeEditor.vue snapshots renders when empty 1`] = `
         />
         <div
           class="ace_layer ace_cursor-layer ace_hidden-cursors"
+          style="opacity: 1;"
         >
           <div
             class="ace_cursor"
