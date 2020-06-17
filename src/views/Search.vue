@@ -58,9 +58,7 @@
                  method="search"
                  render-content-while-loading>
       <template v-slot:default="data">
-        <results-table :hits="data.body && data.body.hits && data.body.hits.hits || []"
-                       :total-hits="data.body && data.body.hits && (data.body.hits.total && data.body.hits.total.value || data.body.hits.total || 0)"
-                       :loading="data.loading"/>
+        <results-table :body="data.body" :loading="data.loading"/>
       </template>
     </data-loader>
   </v-card>
@@ -69,7 +67,7 @@
 <script>
   import DataLoader from '@/components/shared/DataLoader'
   import ResultsTable from '@/components/Search/ResultsTable'
-  import { mapVuexAccessors } from '../helpers/store'
+  import { mapVuexAccessors } from '@/helpers/store'
   import esAdapter from '@/mixins/GetAdapter'
   import IndexFilter from '@/components/shared/IndexFilter'
 

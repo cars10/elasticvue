@@ -71,12 +71,12 @@
   import SingleSetting from '@/components/shared/TableSettings/SingleSetting'
   import MultiSetting from '@/components/shared/TableSettings/MultiSetting'
   import ModalDataLoader from '@/components/shared/ModalDataLoader'
-  import { mapVuexAccessors } from '../../helpers/store'
+  import { mapVuexAccessors } from '@/helpers/store'
   import Results from '../../models/Results'
   import AsyncFilter from '@/mixins/AsyncFilter'
   import { mapState } from 'vuex'
   import esAdapter from '../../mixins/GetAdapter'
-  import { sortableField } from '../../helpers'
+  import { sortableField } from '@/helpers'
 
   export default {
     name: 'ResultsTable',
@@ -88,15 +88,9 @@
     },
     mixins: [AsyncFilter],
     props: {
-      hits: {
-        default: () => {
-          return []
-        },
-        type: Array
-      },
-      totalHits: {
-        default: 0,
-        type: Number
+      body: {
+        default: () => ({}),
+        type: Object
       },
       loading: {
         default: false,
@@ -112,6 +106,19 @@
       }
     },
     computed: {
+      hits () {
+        if (!this.body) return []
+        if (!this.body.hits) return []
+
+        return this.body.hits.hits
+      },
+      totalHits () {
+        if (!this.body) return 0
+        if (!this.body.hits) return 0
+        if (typeof this.body.hits.total === 'object') return this.body.hits.total.value
+
+        return this.body.hits.total
+      },
       filteredColumns () {
         if (this.columns.length === this.selectedColumns.length) {
           return this.columns
