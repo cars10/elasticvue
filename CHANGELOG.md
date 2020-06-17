@@ -4,7 +4,7 @@
 
 ## 0.23.0
 
-* [feat]: initial support for elasticsearch 8, fixes [#23][i23]
+* [feat]: initial support for elasticsearch 8, fix [#23][i23]
 * [feat]: hide the *request body* input when doing rest queries as GET or HEAD, fixes [#26][i26]
 
 [i23]: https://github.com/cars10/elasticvue/issues/23
@@ -13,7 +13,7 @@
 
 ## 0.22.0
 
-* [feat]: change searching to use elasticsearch pagination+sort. **this limits the filter to the current page.** [#20][i20]
+* [feat]: change searching to use elasticsearch pagination+sort. **this limits the filter to the current page.** [#20][2i0]
 * [feat]: can click on index aliases on index overview to directly search
 * [fix]: fix showing index info/stats not always showing the correct result in modal
 * remove the deprecated [elasticsearch](https://www.npmjs.com/package/elasticsearch) library and api browser page. see [#22][i22] for details

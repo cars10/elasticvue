@@ -39,7 +39,8 @@
         return { index: this.params.index, type: this.params.type, id: this.params.id }
       },
       caption () {
-        return `${this.params.index}/${this.params.type}/${this.params.id}`
+        const docType = this.params.type || '_doc'
+        return `${this.params.index}/${docType}/${this.params.id}`
       }
     }
   }
