@@ -22,7 +22,7 @@
 
       <v-row>
         <v-col :md="vertical ? 12 : 6" cols="12">
-          <h4 class="pb-1">Request body</h4>
+          <h4 class="pb-1">Request body <span v-if="!canSendBody">(disabled)</span></h4>
           <resizable-container v-if="canSendBody" ref="query_body"
                                :initial-height="vertical ? 200 : 500"
                                class="mb-1">
@@ -32,16 +32,18 @@
           </resizable-container>
 
           <div v-else>
-            <v-alert :value="true" color="grey" class="mb-12">
-              <p>
-                You cannot send a request body via {{method}}.<br>
-                Please <a href="javascript:void(0)" role="button" @click="method = 'POST'">select POST</a> as your HTTP
-                method or use query parameters in the url.
-              </p>
-              <p class="mb-0">
-                You can use POST to search with the _search endpoint.
-              </p>
-            </v-alert>
+            <div :style="vertical ? 'height: 200px' : 'height: 500px'">
+              <v-alert :value="true" class="request-body-disabled-hint mb-12">
+                <p>
+                  You cannot send a request body via {{method}}.<br>
+                  Please <a href="javascript:void(0)" role="button" @click="method = 'POST'">use POST</a>
+                  if you want to send a request body, alternatively add query parameters to the url.
+                </p>
+                <p class="mb-0">
+                  You can use POST to search with the _search endpoint.
+                </p>
+              </v-alert>
+            </div>
           </div>
 
           <v-row>

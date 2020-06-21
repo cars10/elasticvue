@@ -32,6 +32,10 @@
   }
 }
 
+.v-data-table > .v-data-table__wrapper > table > tbody > tr > td {
+  height: 40px;
+}
+
 table {
   tr.tr--clickable:hover {
     cursor: pointer
