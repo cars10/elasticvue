@@ -1,5 +1,17 @@
 # Privacy
 
+## Usage of personal data
+
+Elasticvue does **not** collect or use any personal data at all.
+
+## Usage of your elasticsearch data
+
+Elasticvue does **not** analyze the data in your elasticsearch cluster.
+
+Elasticvue does **not** send data from your elasticsearch cluster to any other service.
+It runs independently in your browser and makes **no** requests to servers other than your cluster.
+
+
 ## Browser Addon Permissions
 
 The browser addon for chrome, firefox and edge requires the following permission:
