@@ -21,6 +21,7 @@ Contents
 4. [Troubleshooting](#troubleshooting)
 5. [Comparing with other frontends](#comparing-with-other-frontends)
 6. [Development](#development)
+7. [Contributing](#contributing)
 
 
 ## About
@@ -152,12 +153,11 @@ After configuration restart your cluster and you should be able to connect.
 
 ## Browser Support
 
-Development is done on chrome. Firefox and edge should work but are mostly untested.
+Please use an up-to-date version of:
 
-| IE | Edge (2020) | Firefox | Chrome |
-|----|------|--------|---------|
-| None | 80+ | 60+ | 70+ |
-
+* Chrome / Chromium
+* Firefox
+* Edge (2020, Chrome based)
 
 ## Troubleshooting
 
@@ -212,12 +212,9 @@ Building the chrome/firefox extensions: (Hint: you need [web-ext](https://extens
 yarn build_browser_extensions
 ```
 
-## Project status and future
+## Contributing
 
-As of 05/2020 this project is actively maintained and i plan to keep it that way.
-Technology wise i will rewrite the project in vuejs 3 to make use of the new composition api. This should greatly improve performance and maintainability.
-
-I will contintue with the TODO's and new features after the rewrite is done.
+See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## TODO
 
