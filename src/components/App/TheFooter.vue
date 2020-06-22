@@ -7,7 +7,7 @@
       </v-col>
 
       <v-col class="text-center" cols="4">
-        <div class="subtitle-1">Elasticvue {{version}}</div>
+        <div class="text-subtitle-1">Elasticvue {{version}}</div>
         &copy;{{ new Date().getFullYear()}} - Carsten K&ouml;nig<br>
       </v-col>
 

@@ -2,15 +2,26 @@
 
 *Please check the [releases](https://github.com/cars10/elasticvue/releases) page if you need version release dates.*
 
+## 0.23.0
+
+* [feat]: initial support for elasticsearch 8, fix [#23][i23]
+* [feat]: hide the *request body* input when doing rest queries as GET or HEAD, fixes [#26][i26]
+* [fix]: fix sorting indices by storage. now takes units into consideration, fixes [#24][i24]
+
+[i23]: https://github.com/cars10/elasticvue/issues/23
+[i24]: https://github.com/cars10/elasticvue/issues/24
+[i26]: https://github.com/cars10/elasticvue/issues/26
+
+
 ## 0.22.0
 
-* [feat]: change searching to use elasticsearch pagination+sort. **this limits the filter to the current page.** [#20][20]
+* [feat]: change searching to use elasticsearch pagination+sort. **this limits the filter to the current page.** [#20][i20]
 * [feat]: can click on index aliases on index overview to directly search
 * [fix]: fix showing index info/stats not always showing the correct result in modal
-* remove the deprecated [elasticsearch](https://www.npmjs.com/package/elasticsearch) library and api browser page. see [#22][22] for details
+* remove the deprecated [elasticsearch](https://www.npmjs.com/package/elasticsearch) library and api browser page. see [#22][i22] for details
 
-[20]: https://github.com/cars10/elasticvue/issues/20
-[22]: https://github.com/cars10/elasticvue/issues/22
+[i20]: https://github.com/cars10/elasticvue/issues/20
+[i22]: https://github.com/cars10/elasticvue/issues/22
 
 
 ## 0.21.0

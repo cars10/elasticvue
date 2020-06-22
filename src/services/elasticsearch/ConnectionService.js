@@ -1,4 +1,5 @@
-import ElasticsearchAdapter, { Es7Client } from '../ElasticsearchAdapter'
+import ElasticsearchAdapter from '../ElasticsearchAdapter'
+import { DefaultClient } from '../../models/clients/DefaultClient'
 
 export default class ConnectionService {
   constructor (host) {
@@ -6,7 +7,7 @@ export default class ConnectionService {
   }
 
   async getAdapter () {
-    return new ElasticsearchAdapter(new Es7Client(this.host))
+    return new ElasticsearchAdapter(new DefaultClient(this.host))
   }
 
   async testConnection () {

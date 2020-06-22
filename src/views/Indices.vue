@@ -1,12 +1,14 @@
 <template>
   <v-card>
     <v-card-title>
-      <h2 class="headline">Indices</h2>
+      <h2 class="text-h5">Indices</h2>
       <reload-button id="reload-indices" :action="() => $refs.dataLoader.loadData()"/>
     </v-card-title>
     <v-divider/>
 
-    <data-loader ref="dataLoader" method="catIndices" render-content-while-loading>
+    <data-loader ref="dataLoader"
+                 :method-params="{h: 'index,health,status,uuid,pri,rep,docs.count,store.size', bytes: 'b'}"
+                 method="catIndices" render-content-while-loading>
       <template v-slot:default="data">
         <indices-table :indices="data.body || []" :loading="data.loading" @reloadIndices="reloadIndices"/>
       </template>

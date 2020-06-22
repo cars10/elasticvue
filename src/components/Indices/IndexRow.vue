@@ -26,7 +26,7 @@
       <span :title="`${index.pri} primary\n${index.rep} replica`">{{index.pri}} / {{index.rep}}</span>
     </td>
     <td class="text-right">{{index.docsCount}}</td>
-    <td class="text-right">{{index.storeSize}}</td>
+    <td class="text-right">{{index.humanStoreSize}}</td>
     <td>
       <btn-group small>
         <v-btn v-if="index.status === 'open'" title="Search documents" @click.native.stop="showDocuments(index.index)">

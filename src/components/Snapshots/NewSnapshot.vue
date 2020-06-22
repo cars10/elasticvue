@@ -6,7 +6,7 @@
 
     <v-card>
       <v-card-title>
-        <h2 class="headline">New snapshot</h2>
+        <h2 class="text-h5">New snapshot</h2>
       </v-card-title>
 
       <v-divider/>

@@ -3,7 +3,7 @@
     <v-card-title>
       <v-row>
         <v-col class="py-0">
-          <h1 class="headline">
+          <h1 class="text-h5">
             Rest
             <v-btn class="text-transform--none ml-2" small
                    href="https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html" target="_blank"

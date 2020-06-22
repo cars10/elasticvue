@@ -1,10 +1,10 @@
-import { HTTP_METHODS } from '../../consts'
+import { HTTP_METHODS } from '@/consts'
 
 export const queryRest = {
   namespaced: true,
   state: {
     path: '',
-    method: HTTP_METHODS[0],
+    method: HTTP_METHODS[1],
     stringifiedParams: '{}',
     vertical: false
   },

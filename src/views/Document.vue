@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title>
-      <h1 class="headline">Document</h1>
+      <h1 class="text-h5">Document</h1>
       <reload-button :action="() => $refs.dataLoader.loadData()"/>
       <back-button :route="{name: 'Search', params: {executeSearch: true}}"/>
     </v-card-title>
@@ -39,7 +39,8 @@
         return { index: this.params.index, type: this.params.type, id: this.params.id }
       },
       caption () {
-        return `${this.params.index}/${this.params.type}/${this.params.id}`
+        const docType = this.params.type || '_doc'
+        return `${this.params.index}/${docType}/${this.params.id}`
       }
     }
   }

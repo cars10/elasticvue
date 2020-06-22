@@ -81,6 +81,9 @@
       wrapLines (value) {
         this.editor.getSession().setUseWrapMode(value)
       },
+      readOnly (value) {
+        this.setReadOnly(value)
+      },
       value (value) {
         if (this.editor.getValue() !== value) {
           this.setEditorValue(value)
@@ -101,15 +104,12 @@
       this.setupAceEditor()
 
       this.setEditorValue(this.value)
-      if (this.readOnly) {
-        this.editor.setReadOnly(true)
-      } else {
-        this.editor.commands.addCommands(this.externalCommands)
-        this.editor.commands.addCommand({
-          bindKey: { win: 'Ctrl+Alt+L', mac: 'Command+Alt+L', linux: 'Ctrl+Alt+L' },
-          exec: this.beautify
-        })
-      }
+      this.editor.commands.addCommands(this.externalCommands)
+      this.editor.commands.addCommand({
+        bindKey: { win: 'Ctrl+Alt+L', mac: 'Command+Alt+L', linux: 'Ctrl+Alt+L' },
+        exec: this.beautify
+      })
+      this.setReadOnly(this.readOnly)
 
       /* istanbul ignore next */
       this.editor.on('change', () => {
@@ -126,6 +126,15 @@
           let newValue = this.stringifyJson(JSON.parse(this.editor.getValue()))
           this.$emit('input', newValue)
         }
+      },
+      setReadOnly (value) {
+        this.editor.setOptions({
+          highlightActiveLine: !value,
+          highlightGutterLine: !value,
+          readOnly: value
+        })
+
+        this.editor.renderer.$cursorLayer.element.style.opacity = value ? 0 : 1
       },
       setTheme (dark) {
         if (dark) {

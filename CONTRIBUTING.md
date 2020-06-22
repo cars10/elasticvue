@@ -1,0 +1,16 @@
+# Contributing
+
+## Bugs / Feature requests
+
+Please use one of the provided [issue templates](https://github.com/cars10/elasticvue/issues/new/choose) and create an issue.
+
+
+## Development
+
+Please use the **develop** branch for any PR.
+
+1. Fork the repo [https://github.com/cars10/elasticvue/fork](https://github.com/cars10/elasticvue/fork)
+2. Checkout a new branch `git checkout -b my-feature develop`
+3. Commit your changes `git commit -am 'new feature'`
+4. Push your branch `git push origin my-feature`
+5. Create a pull request

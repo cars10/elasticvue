@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.org/cars10/elasticvue.svg?branch=develop)](https://travis-ci.org/cars10/elasticvue)
 [![Dependency Status](https://david-dm.org/cars10/elasticvue.svg)](https://david-dm.org/cars10/elasticvue)
 [![Chrome web store](https://img.shields.io/chrome-web-store/v/hkedbapjpblbodpgbajblpnlpenaebaa?label=chrome%20extension)](https://chrome.google.com/webstore/detail/elasticvue/hkedbapjpblbodpgbajblpnlpenaebaa)
+[![Edge extension](https://img.shields.io/badge/dynamic/json?label=microsoft%20edge%20add-on&query=%24.version&url=https%3A%2F%2Fmicrosoftedge.microsoft.com%2Faddons%2Fgetproductdetailsbycrxid%2Fgeifniocjfnfilcbeloeidajlfmhdlgo)](https://microsoftedge.microsoft.com/addons/detail/geifniocjfnfilcbeloeidajlfmhdlgo)
 [![Firefox addon](https://img.shields.io/amo/v/elasticvue?label=firefox%20add-on)](https://addons.mozilla.org/en-US/firefox/addon/elasticvue/)
 [![Docker build](https://img.shields.io/docker/automated/cars10/elasticvue)](https://hub.docker.com/r/cars10/elasticvue)
 
@@ -20,6 +21,7 @@ Contents
 4. [Troubleshooting](#troubleshooting)
 5. [Comparing with other frontends](#comparing-with-other-frontends)
 6. [Development](#development)
+7. [Contributing](#contributing)
 
 
 ## About
@@ -106,7 +108,7 @@ See the [official vuejs deployment guide](https://cli.vuejs.org/guide/deployment
 
 ### Elasticsearch configuration
 
-You have to [enable CORS](https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-http.html) to allow connection to your elasticsearch cluster if you do not use the browser extensions.
+You have to [enable CORS](https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-http.html) to allow connection to your elasticsearch cluster **if you do not use the browser extensions**.
 
 Find your elasticsearch configuration (for example `/etc/elasticsearch/elasticsearch.yml`) and add the following lines:
 
@@ -151,12 +153,11 @@ After configuration restart your cluster and you should be able to connect.
 
 ## Browser Support
 
-Development is done on chrome. Firefox and edge should work but are mostly untested.
+Please use an up-to-date version of:
 
-| IE | Edge (2020) | Firefox | Chrome |
-|----|------|--------|---------|
-| None | 80+ | 60+ | 70+ |
-
+* Chrome / Chromium
+* Firefox
+* Edge (2020, Chrome based)
 
 ## Troubleshooting
 
@@ -211,12 +212,9 @@ Building the chrome/firefox extensions: (Hint: you need [web-ext](https://extens
 yarn build_browser_extensions
 ```
 
-## Project status and future
+## Contributing
 
-As of 05/2020 this project is actively maintained and i plan to keep it that way.
-Technology wise i will rewrite the project in vuejs 3 to make use of the new composition api. This should greatly improve performance and maintainability.
-
-I will contintue with the TODO's and new features after the rewrite is done.
+See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## TODO
 
