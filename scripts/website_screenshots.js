@@ -21,10 +21,10 @@ const puppeteer = require('puppeteer');
     await page.click('input[type="checkbox"]')
     await page.click('#search_submit')
     await page.waitFor(250)
-    await page.click('th[aria-label="author_name: Not sorted. Activate to sort ascending."')
+    await page.click('th[aria-label="author_name (author_name.keyword): Not sorted. Activate to sort ascending."')
     await page.waitFor(250)
   })
-  await clickToNavigateAndScreenshot(page, ['#navbar_query', '#navbar_query_rest'], 'screenshot_5_query_dark.jpg', async page => {
+  await clickToNavigateAndScreenshot(page, '#navbar_query_rest', 'screenshot_5_query_dark.jpg', async page => {
     await page.click('#execute_query')
     await page.waitFor(500)
   })
@@ -58,7 +58,7 @@ async function clickToNavigateAndScreenshot (page, selectors, screenshot, callba
       try {
         await page.click(selector)
       } catch (e) {
-        console.log('error.')
+        console.log('error.', e)
         await page.screenshot({ path: 'scripts/website_screenshots/error.jpg' })
       }
     }
