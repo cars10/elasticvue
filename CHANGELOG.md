@@ -2,6 +2,13 @@
 
 *Please check the [releases](https://github.com/cars10/elasticvue/releases) page if you need version release dates.*
 
+## 0.23.1
+
+* [fix]: fix parsing issue when indices are closed [#28][i28]
+
+[i28]: https://github.com/cars10/elasticvue/issues/28
+
+
 ## 0.23.0
 
 * [feat]: initial support for elasticsearch 8, fix [#23][i23]

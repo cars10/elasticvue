@@ -19,15 +19,21 @@ export default class ElasticsearchIndex {
 }
 
 function parseIntValue (value) {
-  try {
-    return parseInt(value)
-  } catch (error) {
-    return value
+  if (typeof value === 'string') {
+    try {
+      return parseInt(value)
+    } catch (error) {
+      return value
+    }
+  } else {
+    return null
   }
 }
 
 function prettyPrintByteString (value) {
-  if (typeof value === 'number') {
+  if (!value) return ''
+
+  if (typeof value === 'number' && !isNaN(value)) {
     return prettyBytes(value)
   } else {
     return `${value} B`
