@@ -101,7 +101,7 @@
         let order = null
 
         if (Array.isArray(this.options.sortDesc) && this.options.sortDesc.length > 0) {
-          order = this.options.sortDesc[0] ? 'asc' : 'desc'
+          order = this.options.sortDesc[0] ? 'desc' : 'asc'
         }
 
         return {
