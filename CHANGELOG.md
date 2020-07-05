@@ -2,12 +2,18 @@
 
 *Please check the [releases](https://github.com/cars10/elasticvue/releases) page if you need version release dates.*
 
+## 0.23.1
+
+* [fix]: fix parsing issue when indices are closed [#28][i28]
+
+[i28]: https://github.com/cars10/elasticvue/issues/28
+
+
 ## 0.23.0
 
 * [feat]: initial support for elasticsearch 8, fix [#23][i23]
 * [feat]: hide the *request body* input when doing rest queries as GET or HEAD, fixes [#26][i26]
 * [fix]: fix sorting indices by storage. now takes units into consideration, fixes [#24][i24]
-
 
 [i23]: https://github.com/cars10/elasticvue/issues/23
 [i24]: https://github.com/cars10/elasticvue/issues/24
