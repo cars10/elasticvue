@@ -81,7 +81,7 @@ export class DefaultClient {
 
   get ({ index, type, id }) {
     const docType = type || '_doc'
-    return this.request(`${index}/${docType}/${id}`, 'GET')
+    return this.request(`${index}/${docType}/${encodeURIComponent(id)}`, 'GET')
   }
 
   search (params) {
