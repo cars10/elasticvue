@@ -2,6 +2,14 @@
 
 *Please check the [releases](https://github.com/cars10/elasticvue/releases) page if you need version release dates.*
 
+## 0.24.0
+
+* [fix]: fix sorting on search page ASC/DESC beeing the wrong way around
+* [fix]: fix opening documents with ids containing a forward slash (`/`), fixes [#29][i29]
+
+[i29]: https://github.com/cars10/elasticvue/issues/29
+
+
 ## 0.23.1
 
 * [fix]: fix parsing issue when indices are closed [#28][i28]

@@ -1,6 +1,6 @@
 {
   "name": "elasticvue",
-  "version": "0.23.1",
+  "version": "0.24",
   "scripts": {
     "serve": "npx --max_old_space_size=4096 vue-cli-service serve",
     "build": "rm -rf dist && vue-cli-service build --modern",
@@ -37,7 +37,7 @@
     "babel-loader": "^8.0.6",
     "eslint-plugin-vuetify": "^1.0.0-beta.6",
     "favicons-webpack-plugin": "^1.0.2",
-    "puppeteer": "^3.0.4",
+    "puppeteer": "^5.0.0",
     "sass": "^1.26.5",
     "sass-loader": "^7.3.1",
     "vue-template-compiler": "^2.6.11",

@@ -17,7 +17,7 @@ const puppeteer = require('puppeteer');
   await clickToNavigateAndScreenshot(page, '#navbar_nodes', 'screenshot_2_nodes.png')
   await clickToNavigateAndScreenshot(page, '#navbar_indices', 'screenshot_3_indices.png')
   await clickToNavigateAndScreenshot(page, ['#navbar_search', '#search_submit'], 'screenshot_4_search.png')
-  await clickToNavigateAndScreenshot(page, ['#navbar_query', '#navbar_query_rest', '#example-2'], 'screenshot_5_query.png')
+  await clickToNavigateAndScreenshot(page, ['#navbar_query_rest', '#example-2', '#execute_query'], 'screenshot_5_query.png')
 
   await browser.close()
 })()
