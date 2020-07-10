@@ -9,7 +9,7 @@
 
 > Elasticsearch gui for your browser [https://elasticvue.com](https://elasticvue.com)
 
-![Screenshot](https://github.com/cars10/elasticvue/raw/develop/screenshot.jpg)
+[![Demo](http://static.cars10k.de/demo.gif)](http://static.cars10k.de/demo.gif)
 
 Contents
 
@@ -27,6 +27,7 @@ Contents
 ## About
 
 **Elasticvue** is a gui for elasticsearch allowing you to search and filter your clusters data right in your browser.
+[Screenshots](https://elasticvue.com/features)
 
 It officially works with the following elasticsearch versions:
 
