@@ -2,6 +2,11 @@
 
 *Please check the [releases](https://github.com/cars10/elasticvue/releases) page if you need version release dates.*
 
+## 0.25.0
+
+This is a re-release of 0.24.0 because i made a mistake publishing it.
+
+
 ## 0.24.0
 
 * [fix]: fix sorting on search page ASC/DESC beeing the wrong way around
