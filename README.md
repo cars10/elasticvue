@@ -91,18 +91,43 @@ Visit [http://app.elasticvue.com](http://app.elasticvue.com) or [https://app.ela
 * Install dependencies `yarn install`
 * Run a production server via `yarn prod` or dev server `yarn serve`
 
-Alternatively run `yarn build` and host the assets yourself. Example nginx config:
+Alternatively run `yarn build` and host the assets yourself. Example nginx config for hosting on `example.com/`:
 
 ```
 server {
   listen 80;
-  server_name yourdomain.com;
-  root /var/www/elasticvue_app/dist;
+  server_name example.com;
+  root /var/www/elasticvue/dist;
   location / {
     try_files $uri $uri/ /index.html?$args;
   }
 }
 ```
+
+**Run locally with subdirectory**
+
+If you want to host elasticvue under a subdirectory (like `www.example.com/elasticvue`) then you have to set the
+`VUE_APP_PUBLIC_PATH` environment variable while building elasticvue.
+
+```bash
+VUE_APP_PUBLIC_PATH=/elasticvue/ yarn build
+```
+
+You also need to adjust your webserver config, for example:
+
+```
+server {
+    listen 80;
+    server_name _;
+
+    root /var/www/elasticvue/dist;
+    location ^~ /elasticvue {
+        alias /var/www/elasticvue/dist;
+        try_files $uri $uri/ /index.html?$args;
+    }
+}
+```
+
 
 See the [official vuejs deployment guide](https://cli.vuejs.org/guide/deployment.html#docker-nginx) for more details.
 

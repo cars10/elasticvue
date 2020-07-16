@@ -2,6 +2,13 @@
 
 *Please check the [releases](https://github.com/cars10/elasticvue/releases) page if you need version release dates.*
 
+## 0.26.0
+
+* [feat]: can host elasticvue inside subdirectory, fixes [#31][i31]
+
+[i31]: https://github.com/cars10/elasticvue/issues/31
+
+
 ## 0.25.0
 
 This is a re-release of 0.24.0 because i made a mistake publishing it.

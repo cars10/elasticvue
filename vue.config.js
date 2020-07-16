@@ -2,6 +2,7 @@ const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
 
 module.exports = {
+  publicPath: process.env.VUE_APP_PUBLIC_PATH || '/',
   assetsDir: 'assets',
   productionSourceMap: false,
   lintOnSave: false,
