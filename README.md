@@ -26,7 +26,7 @@ Contents
 
 ## About
 
-**Elasticvue** is a gui for elasticsearch allowing you to search and filter your clusters data right in your browser.
+**Elasticvue** is a free and open source gui for elasticsearch, allowing you to search and filter your clusters data right in your browser.
 [Screenshots](https://elasticvue.com/features)
 
 It officially works with the following elasticsearch versions:
