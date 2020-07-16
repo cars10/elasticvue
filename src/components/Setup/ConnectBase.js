@@ -49,7 +49,7 @@ export default {
           this.testSuccess = true
           this.testError = false
           showSuccessSnackbar({
-            text: 'Test successfull',
+            text: 'Success',
             additionalText: 'You cluster is reachable and configured correctly.'
           })
         })
