@@ -1,1 +1,3 @@
-console.log('hi from setup')
+import { buildLocalVue } from './mocks/helpers'
+
+global.buildLocalVue = buildLocalVue

@@ -2,34 +2,36 @@
   <v-card>
     <v-card-title>
       Cluster Health
-      <reload-button :action="() => $refs.dataLoader.loadData()"/>
+      <reload-button :action="load"/>
     </v-card-title>
     <v-divider/>
 
-    <data-loader ref="dataLoader" method="clusterHealth">
-      <template v-slot:default="data">
-        <v-list class="text--small" dense>
-          <v-list-item v-for="key in Object.keys(data.body)" :key="key">
-            <v-list-item-content>{{key}}</v-list-item-content>
-            <v-list-item-content>
-              <span class="text-right">{{data.body[key]}}</span>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list>
-      </template>
-    </data-loader>
+    <loader :request-state="requestState">
+      <v-list class="text--small" dense>
+        <v-list-item v-for="key in Object.keys(data)" :key="key">
+          <v-list-item-content>{{key}}</v-list-item-content>
+          <v-list-item-content>
+            <span class="text-right">{{data[key]}}</span>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </loader>
   </v-card>
 </template>
 
 <script>
-  import DataLoader from '@/components/shared/DataLoader'
+  import { callApi } from '@/mixins/RequestComposition'
   import ReloadButton from '@/components/shared/ReloadButton'
+  import Loader from '@/components/shared/Loader'
 
   export default {
     name: 'cluster-health',
     components: {
-      DataLoader,
-      ReloadButton
+      ReloadButton,
+      Loader
+    },
+    setup () {
+      return callApi('clusterHealth')
     }
   }
 </script>

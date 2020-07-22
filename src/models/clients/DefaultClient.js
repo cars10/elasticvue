@@ -1,5 +1,5 @@
 import { buildFetchAuthHeaderFromUrl, urlWithoutCredentials } from '../../helpers'
-import { REQUEST_DEFAULT_HEADERS } from '../../consts'
+import { REQUEST_DEFAULT_HEADERS } from '@/consts'
 
 export class DefaultClient {
   constructor (host) {

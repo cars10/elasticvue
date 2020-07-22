@@ -1,12 +1,12 @@
-import ElasticsearchAdapter from '../ElasticsearchAdapter'
-import { DefaultClient } from '../../models/clients/DefaultClient'
+import ElasticsearchAdapter from '@/services/ElasticsearchAdapter'
+import { DefaultClient } from '@/models/clients/DefaultClient'
 
 export default class ConnectionService {
   constructor (host) {
     this.host = host[host.length - 1] === '/' ? host : host + '/'
   }
 
-  async getAdapter () {
+  getAdapter () {
     return new ElasticsearchAdapter(new DefaultClient(this.host))
   }
 

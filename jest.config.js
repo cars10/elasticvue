@@ -14,6 +14,9 @@ module.exports = {
     '.+\\.(css|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$': 'jest-transform-stub',
     '^@/(.*)$': '<rootDir>/src/$1'
   },
+  setupFiles: [
+    './tests/unit/setup.js'
+  ],
   snapshotSerializers: [
     'jest-serializer-vue'
   ],
