@@ -20,18 +20,13 @@
     </template>
 
     <template v-slot:selection="{ item, index }">
-      <template v-if="chips">
-        <v-chip v-if="index < showMaxEntries">
-          <span>{{ item }}</span>
-        </v-chip>
-        <span v-if="index === showMaxEntries" class="grey--text caption">(+{{ localValue.length - showMaxEntries }} others)</span>
-      </template>
-
-      <template v-else>
-        <small v-if="index < showMaxEntries">
-          {{ item }}<span v-if="index + 1 < localValue.length">,&nbsp;</span>
-        </small>
-        <span v-if="index === showMaxEntries" class="grey--text caption">(+{{ localValue.length - showMaxEntries }} others)</span>
+      <template v-if="index === 0">
+        <template v-if="localValue.length === 1">
+          {{item}}
+        </template>
+        <template v-else>
+          {{localValue.length}} indices selected
+        </template>
       </template>
     </template>
 
@@ -92,10 +87,6 @@
       chips: {
         type: Boolean,
         default: false
-      },
-      showMaxEntries: {
-        type: Number,
-        default: 2
       }
     },
     data () {
