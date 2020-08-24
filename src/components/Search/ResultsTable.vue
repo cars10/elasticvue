@@ -2,7 +2,7 @@
   <div>
     <v-card-text>
       <div class="clearfix">
-        <span class="grey--text">Showing results for: <span class="font--mono">"{{q}}"</span></span>
+        <span class="grey--text">Showing results for: <span class="font--mono">"{{ q }}"</span></span>
         <div class="float-right d-inline-block">
           <v-text-field id="filter"
                         :loading="filterLoading"
@@ -31,31 +31,15 @@
                   :loading="loading || filterLoading"
                   :options.sync="options">
       <template v-slot:item="item">
-        <tr class="tr--clickable" @click="openDocument(item.item)">
-          <td v-for="key in filteredColumns" :key="key">
-            <template v-if="key === '_type'">{{item.item[key] || '_doc'}}</template>
-            <template v-else>{{item.item[key]}}</template>
-          </td>
-          <td>
-            <router-link :class="openDocumentClasses"
-                         :to="documentRoute(item.item)"
-                         event=""
-                         title="Show"
-                         @click.native.prevent="openDocument(item.item)">
-              <div class="v-btn__content">
-                Show
-              </div>
-            </router-link>
-          </td>
-        </tr>
+        <result :filtered-columns="filteredColumns" :document="item.item" @openDocument="openDocument"/>
       </template>
 
       <template slot="no-data">
         <template v-if="q !== '*' && filter !== ''">
-          No entries found that match your search <i>{{q}}</i> and your filter <i>{{filter}}</i>.
+          No entries found that match your search <i>{{ q }}</i> and your filter <i>{{ filter }}</i>.
         </template>
-        <template v-else-if="q !== '*'"> No entries found that match your search <i>{{q}}</i>.</template>
-        <template v-else-if="filter !== ''"> No entries found that match your filter <i>{{filter}}</i>.</template>
+        <template v-else-if="q !== '*'"> No entries found that match your search <i>{{ q }}</i>.</template>
+        <template v-else-if="filter !== ''"> No entries found that match your filter <i>{{ filter }}</i>.</template>
         <template v-else>Nothing found.</template>
       </template>
 
@@ -77,6 +61,7 @@
   import { mapState } from 'vuex'
   import esAdapter from '../../mixins/GetAdapter'
   import { sortableField } from '@/helpers'
+  import Result from '@/components/Search/Result'
 
   export default {
     name: 'ResultsTable',
@@ -84,7 +69,8 @@
       SettingsDropdown,
       SingleSetting,
       MultiSetting,
-      ModalDataLoader
+      ModalDataLoader,
+      Result
     },
     mixins: [AsyncFilter],
     props: {
@@ -155,14 +141,6 @@
           { 'table--fixed-header': this.stickyTableHeader }
         ]
       },
-      openDocumentClasses () {
-        return [
-          'v-btn',
-          'v-size--default',
-          { 'theme--dark': this.$store.state.theme.dark },
-          { 'theme--light': !this.$store.state.theme.dark }
-        ]
-      },
       ...mapVuexAccessors('search', ['filter', 'options', 'selectedColumns', 'columns']),
       ...mapState('search', ['q'])
     },
@@ -230,14 +208,11 @@
           this.items = filteredResults.map(el => Object.assign(el, el._source) && delete el._source && el)
         }, skipTimeout)
       },
-      openDocument (item) {
-        this.modalMethodParams = { index: item._index, type: item._type, id: item._id }
+      openDocument (params) {
+        this.modalMethodParams = params
         this.$nextTick(() => {
           this.modalOpen = true
         })
-      },
-      documentRoute (item) {
-        return { name: 'Document', params: { index: item._index, type: item._type, id: item._id } }
       }
     }
   }
