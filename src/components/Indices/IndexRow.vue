@@ -1,14 +1,16 @@
 <template>
   <tr>
-    <td :title="index.index">{{index.index}}</td>
+    <td :title="index.index">
+      <a :title="`Search ${index.index}`" @click.stop="showDocuments(index.index, true)">{{ index.index }}</a>
+    </td>
     <td>
       <svg height="14" width="14">
         <circle :class="`health--${index.health}`" cx="7" cy="9" r="5"/>
       </svg>
-      {{index.health}}
+      {{ index.health }}
     </td>
-    <td>{{index.status}}</td>
-    <td>{{index.uuid}}</td>
+    <td>{{ index.status }}</td>
+    <td>{{ index.uuid }}</td>
     <td :title="aliasesTitle">
       <template v-if="aliasesLoading">
         <i>loading</i>

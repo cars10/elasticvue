@@ -17,13 +17,13 @@ export const fixedTableHeaderOnDisable = function () {
   window.removeEventListener('resize', updateFixedTableHeaderHeight)
 }
 
-const updateFixedTableHeaderHeight = function () {
+export const updateFixedTableHeaderHeight = function () {
   if (typeof document === 'undefined' || typeof window === 'undefined') return
   const wrapper = document.querySelector('.table--fixed-header .v-data-table__wrapper')
   if (wrapper) {
     const height = window.innerHeight
     const minHeight = 300
-    const offset = 100
+    const offset = 200
     const requiredTableHeight = height - offset
 
     if (requiredTableHeight > minHeight) {

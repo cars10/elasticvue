@@ -2,6 +2,12 @@
 
 *Please check the [releases](https://github.com/cars10/elasticvue/releases) page if you need version release dates.*
 
+## unreleased
+
+* [feat]: adds "copy error" button to error messages
+* [feat]: can search indices by clicking on their name in the indices table
+* [feat]: cleanup indices table and remove "sticky header" option. The table now always uses a sticky header
+
 ## 0.26.0
 
 * [feat]: can host elasticvue inside subdirectory, fixes [#31][i31]

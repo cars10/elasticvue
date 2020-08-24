@@ -18,21 +18,17 @@
                           name="filter"
                           title="Filter via 'column:query'"
                           @keyup.esc="filter = ''"/>
-
-            <settings-dropdown>
-              <single-setting v-model="stickyTableHeader" class="mb-1" name="Sticky table header"/>
-            </settings-dropdown>
           </div>
         </v-col>
       </v-row>
     </v-card-text>
 
-    <v-data-table :class="tableClasses"
-                  :footer-props="{itemsPerPageOptions: DEFAULT_ITEMS_PER_PAGE}"
+    <v-data-table :footer-props="{itemsPerPageOptions: DEFAULT_ITEMS_PER_PAGE}"
                   :headers="HEADERS"
                   :items="items"
                   :loading="loading"
-                  :options.sync="pagination">
+                  :options.sync="pagination"
+                  class="table--condensed table--fixed-header">
       <template v-slot:item="props">
         <index-row :index="props.item" @reloadIndices="emitReloadIndices"/>
       </template>
@@ -41,23 +37,19 @@
 </template>
 
 <script>
-  import ElasticsearchIndex from '../../models/ElasticsearchIndex'
-  import { fixedTableHeaderOnDisable, fixedTableHeaderOnEnable, resetTableHeight } from '@/mixins/FixedTableHeader'
-  import { DEFAULT_ITEMS_PER_PAGE } from '@/consts'
-  import { mapVuexAccessors } from '@/helpers/store'
   import IndexRow from '@/components/Indices/IndexRow'
   import NewIndex from '@/components/Indices/NewIndex'
-  import SettingsDropdown from '@/components/shared/TableSettings/SettingsDropdown'
-  import SingleSetting from '@/components/shared/TableSettings/SingleSetting'
+  import ElasticsearchIndex from '@/models/ElasticsearchIndex'
+  import { DEFAULT_ITEMS_PER_PAGE } from '@/consts'
+  import { mapVuexAccessors } from '@/helpers/store'
   import AsyncFilter from '@/mixins/AsyncFilter'
+  import { updateFixedTableHeaderHeight } from '@/mixins/FixedTableHeader'
 
   export default {
     name: 'IndicesTable',
     components: {
       NewIndex,
-      IndexRow,
-      SettingsDropdown,
-      SingleSetting
+      IndexRow
     },
     mixins: [AsyncFilter],
     props: {
@@ -78,21 +70,6 @@
       }
     },
     computed: {
-      stickyTableHeader: {
-        get () {
-          return this.$store.state.indices.stickyTableHeader
-        },
-        set (value) {
-          if (!value) resetTableHeight()
-          this.$store.commit('indices/setStickyTableHeader', value)
-        }
-      },
-      tableClasses () {
-        return [
-          'table--condensed',
-          { 'table--fixed-header': this.stickyTableHeader }
-        ]
-      },
       ...mapVuexAccessors('indices', ['filter', 'pagination'])
     },
     watch: {
@@ -106,13 +83,10 @@
       },
       filter (val) {
         this.callFuzzyTableFilter(this.indices, val, val.length === 0)
+      },
+      pagination () {
+        updateFixedTableHeaderHeight()
       }
-    },
-    mounted () {
-      fixedTableHeaderOnEnable()
-    },
-    beforeDestroy () {
-      fixedTableHeaderOnDisable()
     },
     created () {
       this.HEADERS = [
