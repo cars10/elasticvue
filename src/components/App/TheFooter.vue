@@ -2,13 +2,14 @@
   <v-footer>
     <v-row>
       <v-col cols="4">
-        <v-switch id="theme_select" v-model="dark" color="primary" class="mt-0 mb-2 pt-0" hide-details label="Dark theme"/>
+        <v-switch id="theme_select" v-model="dark" color="primary" class="mt-0 mb-2 pt-0" hide-details
+                  label="Dark theme"/>
         <a id="resetSettings" title="Disconnect and reset saved settings" @click="reset">Disconnect and reset</a>
       </v-col>
 
       <v-col class="text-center" cols="4">
-        <div class="text-subtitle-1">Elasticvue {{version}}</div>
-        &copy;{{ new Date().getFullYear()}} - Carsten K&ouml;nig<br>
+        <div class="text-subtitle-1">Elasticvue {{ version }}</div>
+        &copy;{{ new Date().getFullYear() }} - Carsten K&ouml;nig<br>
       </v-col>
 
       <v-col cols="4">
@@ -23,28 +24,28 @@
 
 <script>
   import { BASE_URI, LOCALSTORAGE_KEY } from '@/consts'
+  import { ref, watch } from '@vue/composition-api'
+  import store from '@/store'
 
   export default {
     name: 'app-footer',
-    computed: {
-      version () {
-        /* eslint-disable no-undef */
-        return VERSION
-      },
-      dark: {
-        get () {
-          return this.$store.state.theme.dark
-        },
-        set (val) {
-          this.$vuetify.theme.dark = val
-          this.$store.commit('theme/setDark', val)
-        }
-      }
-    },
-    methods: {
-      reset () {
+    setup (props, context) {
+      const reset = () => {
         localStorage.removeItem(LOCALSTORAGE_KEY)
         window.location.replace(BASE_URI)
+      }
+
+      const dark = ref(context.root.$vuetify.theme.dark)
+      watch(dark, newValue => {
+        context.root.$vuetify.theme.dark = newValue
+        store.commit('theme/setDark', newValue)
+      })
+
+      return {
+        /* eslint-disable no-undef */
+        version: VERSION,
+        dark,
+        reset
       }
     }
   }
