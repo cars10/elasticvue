@@ -1,7 +1,7 @@
 <template>
   <v-app-bar :dense="dense" app>
     <router-link class="mt-2" to="/">
-      <img v-if="this.$store.state.theme.dark" :height="logoSize" :width="logoSize"
+      <img v-if="dark" :height="logoSize" :width="logoSize"
            alt="Logo" src="../../../public/images/logo/white_96.png">
       <img v-else :height="logoSize" :width="logoSize" alt="Logo" src="../../../public/images/logo/blue_96.png">
     </router-link>
@@ -12,7 +12,7 @@
     </v-toolbar-title>
 
     <div v-if="wasConnected" id="navbar_cluster_health" class="inline-block mt-1 hidden-xs-only">
-      <span class="mx-1 hidden-sm-and-down">{{clusterInfo}}</span>
+      <span class="mx-1 hidden-sm-and-down">{{ clusterInfo }}</span>
       <div :title="`Cluster health: ${clusterHealth}`" class="d-inline-block mx-1">
         <svg height="14" width="14">
           <circle :class="`health--${clusterHealth}`" cx="7" cy="9" r="5"/>
@@ -62,84 +62,84 @@
 </template>
 
 <script>
-  import ConnectionStatus from '@/mixins/ConnectionStatus'
   import Timer from '@/components/shared/Timer'
-  import Request from '@/mixins/Request'
+  import { computed, ref, watch } from '@vue/composition-api'
   import { CONNECTION_STATES } from '@/consts'
   import { truncate, urlWithoutCredentials } from '@/helpers'
+  import store from '@/store'
+  import { useRequest } from '@/mixins/RequestComposition'
 
   export default {
     name: 'app-header',
     components: {
       Timer
     },
-    mixins: [
-      ConnectionStatus,
-      Request
-    ],
-    data () {
-      return {
-        drawer: false,
-        clusterHealth: CONNECTION_STATES.UNKNOWN,
-        scrolledDown: false
-      }
-    },
-    computed: {
-      clusterInfo () {
-        return truncate(urlWithoutCredentials(this.$store.state.connection.elasticsearchHost), 45)
-      },
-      navbarSnapshotClasses () {
+    setup (props, context) {
+      const clusterHealth = ref(CONNECTION_STATES.UNKNOWN)
+      const scrolledDown = ref(false)
+      const { callElasticsearch } = useRequest()
+
+      const clusterInfo = computed(() => {
+        return truncate(urlWithoutCredentials(store.state.connection.elasticsearchHost), 45)
+      })
+
+      const navbarSnapshotClasses = computed(() => {
         return {
-          'v-btn--active': /^\/snapshot/.test(this.$route.path)
+          'v-btn--active': /^\/snapshot/.test(context.root.$route.path)
         }
-      },
-      dense () {
-        return this.$vuetify.breakpoint.mdAndDown || this.scrolledDown
-      },
-      logoSize () {
-        if (this.dense) {
+      })
+
+      const dense = computed(() => {
+        return context.root.$vuetify.breakpoint.mdAndDown || scrolledDown.value
+      })
+
+      const logoSize = computed(() => {
+        if (dense) {
           return '32'
         } else {
           return '48'
         }
-      }
-    },
-    watch: {
-      wasConnected (val) {
-        if (val) {
-          this.getHealth()
-          if (!this.getHealthInterval) {
-            this.getHealthInterval = setInterval(() => {
-              this.getHealth()
-            }, 30000)
-          }
-        }
-      }
-    },
-    created () {
-      this.getHealthInterval = null
+      })
 
-      if (this.wasConnected) {
-        this.getHealth()
-        if (!this.getHealthInterval) {
-          this.getHealthInterval = setInterval(() => {
-            this.getHealth()
+      let getHealthInterval = null
+
+      const getHealth = () => {
+        callElasticsearch('clusterHealth')
+          .then(result => (clusterHealth.value = result.status))
+          .catch(() => (clusterHealth.value = CONNECTION_STATES.UNKNOWN))
+      }
+
+      const wasConnected = computed(() => {
+        return store.state.connection.wasConnected
+      })
+
+      const setupHealthLoading = () => {
+        getHealth()
+        if (!getHealthInterval) {
+          getHealthInterval = setInterval(() => {
+            getHealth()
           }, 30000)
         }
       }
-      if (typeof window !== 'undefined') window.addEventListener('scroll', this.setScrolledDown)
-    },
-    destroyed () {
-      if (typeof window !== 'undefined') window.removeEventListener('scroll', this.setScrolledDown)
-    },
-    methods: {
-      setScrolledDown () {
-        this.scrolledDown = window.pageYOffset > 0
-      },
-      getHealth () {
-        this.callElasticsearch('clusterHealth')
-          .then(result => (this.clusterHealth = result.status))
-          .catch(() => (this.clusterHealth = CONNECTION_STATES.UNKNOWN))
+
+      watch(wasConnected, newValue => {
+        if (newValue) setupHealthLoading()
+      })
+
+      if (wasConnected.value) setupHealthLoading()
+
+      const dark = computed(() => {
+        return store.state.theme.dark
+      })
+
+      return {
+        clusterHealth,
+        clusterInfo,
+        navbarSnapshotClasses,
+        dense,
+        logoSize,
+        wasConnected,
+        dark
       }
     }
   }
