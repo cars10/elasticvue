@@ -1,5 +1,5 @@
 import createPersistedState from 'vuex-persistedstate'
-import { LOCALSTORAGE_KEY } from '../consts'
+import { LOCALSTORAGE_KEY } from '@/consts'
 
 export const plugins = [
   createPersistedState({
@@ -17,8 +17,8 @@ export const plugins = [
       'search.pagination',
       'search.stickyTableHeader',
       'search.indices',
-      'search.selectedMappings',
-      'search.mappings'
+      'search.selectedColumns',
+      'search.columns'
     ]
   })
 ]
