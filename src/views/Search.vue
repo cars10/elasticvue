@@ -121,9 +121,6 @@
         this.loadData()
       }
     },
-    created () {
-      if (this.executeSearch || this.indices.length > 0) this.loadData()
-    },
     methods: {
       async loadData () {
         await this.selectOnlyKnownIndices()
