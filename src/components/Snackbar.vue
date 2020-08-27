@@ -10,30 +10,33 @@
         {{ additionalText }}
       </p>
       <div v-if="color === 'red'" class="mt-2">
-        <v-btn color="" @click.native="copy">Copy error</v-btn>
-        <input ref="copyTextArea" :value="additionalText" type="text" style="width:1px">
+        <v-btn color="" class="mr-4" @click.native="copy">Copy error</v-btn>
+        <v-btn text @click.native="visible = false">Close</v-btn>
       </div>
+      <v-btn v-else text @click.native="visible = false">Close</v-btn>
     </template>
   </v-snackbar>
 </template>
 
 <script>
-  import { mapVuexAccessors } from '@/helpers/store'
-  import { mapState } from 'vuex'
+  import { compositionVuexAccessors } from '@/helpers/store'
 
   export default {
     name: 'Snackbar',
-    computed: {
-      ...mapVuexAccessors('snackbar', ['visible']),
-      ...mapState('snackbar', ['text', 'additionalText', 'timeout', 'color'])
-    },
-    methods: {
-      copy () {
-        const textarea = this.$refs.copyTextArea
-        textarea.select()
-        textarea.setSelectionRange(0, 99999)
-        document.execCommand('copy')
-        this.visible = false
+    setup () {
+      const { text, additionalText, timeout, color, visible } = compositionVuexAccessors('snackbar', ['text', 'additionalText', 'timeout', 'color', 'visible'])
+
+      const copy = () => {
+        navigator.clipboard.writeText(additionalText.value)
+      }
+
+      return {
+        visible,
+        text,
+        additionalText,
+        timeout,
+        color,
+        copy
       }
     }
   }
