@@ -8,7 +8,6 @@
         <v-col>
           <div class="d-inline-block float-right">
             <v-text-field id="filter"
-                          :loading="filterLoading"
                           v-model="filter"
                           append-icon="mdi-magnify"
                           autofocus
@@ -25,7 +24,7 @@
 
     <v-data-table :footer-props="{itemsPerPageOptions: DEFAULT_ITEMS_PER_PAGE}"
                   :headers="HEADERS"
-                  :items="items"
+                  :items="filteredIndices"
                   :loading="loading"
                   :options.sync="pagination"
                   class="table--condensed table--fixed-header">
@@ -41,9 +40,11 @@
   import NewIndex from '@/components/Indices/NewIndex'
   import ElasticsearchIndex from '@/models/ElasticsearchIndex'
   import { DEFAULT_ITEMS_PER_PAGE } from '@/consts'
-  import { mapVuexAccessors } from '@/helpers/store'
-  import AsyncFilter from '@/mixins/AsyncFilter'
+  import { compositionVuexAccessors } from '@/helpers/store'
+  import { useAsyncFilter } from '@/mixins/CompositionAsyncFilter'
   import { updateFixedTableHeaderHeight } from '@/mixins/FixedTableHeader'
+  import { ref, watch } from '@vue/composition-api'
+  import { debounce } from '@/helpers'
 
   export default {
     name: 'IndicesTable',
@@ -51,12 +52,9 @@
       NewIndex,
       IndexRow
     },
-    mixins: [AsyncFilter],
     props: {
       indices: {
-        default: () => {
-          return []
-        },
+        default: () => ([]),
         type: Array
       },
       loading: {
@@ -64,32 +62,13 @@
         type: Boolean
       }
     },
-    data () {
-      return {
-        items: []
-      }
-    },
-    computed: {
-      ...mapVuexAccessors('indices', ['filter', 'pagination'])
-    },
-    watch: {
-      indices (val) {
-        if (val.length === 0 && this.indices.length === 0) {
-          this.items = []
-          return
-        }
+    setup (props, context) {
+      const { filter, pagination } = compositionVuexAccessors('indices', ['filter', 'pagination'])
+      const filteredIndices = ref(props.indices)
 
-        this.callFuzzyTableFilter(val, this.filter, true)
-      },
-      filter (val) {
-        this.callFuzzyTableFilter(this.indices, val, val.length === 0)
-      },
-      pagination () {
-        updateFixedTableHeaderHeight()
-      }
-    },
-    created () {
-      this.HEADERS = [
+      watch(pagination, updateFixedTableHeaderHeight)
+
+      const HEADERS = [
         { text: 'Name', value: 'index' },
         { text: 'Health', value: 'health' },
         { text: 'Status', value: 'status' },
@@ -100,17 +79,39 @@
         { text: 'Storage', value: 'parsedStoreSize', align: 'right' },
         { text: '', value: 'actions', sortable: false }
       ]
-      this.DEFAULT_ITEMS_PER_PAGE = DEFAULT_ITEMS_PER_PAGE
-    },
-    methods: {
-      async callFuzzyTableFilter (items, filter, skipTimeout) {
-        this.debounceFilter(async () => {
-          let result = await this.filterTable(items, filter, this.HEADERS, skipTimeout)
-          this.items = result.map(index => new ElasticsearchIndex(index))
-        }, skipTimeout)
-      },
-      emitReloadIndices () {
-        this.$emit('reloadIndices')
+
+      const emitReloadIndices = () => {
+        context.emit('reloadIndices')
+      }
+
+      const { filterTable } = useAsyncFilter()
+
+      const fuzzyTableFilter = async (items, filter) => {
+        let result = await filterTable(items, filter, HEADERS)
+        filteredIndices.value = result.map(index => new ElasticsearchIndex(index))
+      }
+      const debouncedFuzzyTableFilter = debounce(fuzzyTableFilter, 500)
+
+      watch(() => props.indices, newValue => {
+        if (newValue.length === 0 && props.indices.length === 0) {
+          filteredIndices.value = []
+          return
+        }
+
+        fuzzyTableFilter(newValue, filter.value)
+      })
+
+      watch(filter, newValue => {
+        debouncedFuzzyTableFilter(props.indices, newValue)
+      })
+
+      return {
+        filter,
+        pagination,
+        filteredIndices,
+        HEADERS,
+        DEFAULT_ITEMS_PER_PAGE,
+        emitReloadIndices
       }
     }
   }

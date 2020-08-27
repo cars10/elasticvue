@@ -2,35 +2,35 @@
   <v-card>
     <v-card-title>
       <h2 class="text-h5">Indices</h2>
-      <reload-button id="reload-indices" :action="() => $refs.dataLoader.loadData()"/>
+      <reload-button id="reload-indices" :action="load"/>
     </v-card-title>
     <v-divider/>
 
-    <data-loader ref="dataLoader"
-                 :method-params="{h: 'index,health,status,uuid,pri,rep,docs.count,store.size', bytes: 'b'}"
-                 method="catIndices" render-content-while-loading>
-      <template v-slot:default="data">
-        <indices-table :indices="data.body || []" :loading="data.loading" @reloadIndices="reloadIndices"/>
-      </template>
-    </data-loader>
+    <indices-table :indices="data || []" :loading="requestState.loading" @reloadIndices="load"/>
   </v-card>
 </template>
 
 <script>
-  import DataLoader from '@/components/shared/DataLoader'
   import IndicesTable from '@/components/Indices/IndicesTable'
   import ReloadButton from '@/components/shared/ReloadButton'
+  import { setupElasticsearchRequest } from '@/mixins/RequestComposition'
+  import { onMounted } from '@vue/composition-api'
 
   export default {
     name: 'indices',
     components: {
-      DataLoader,
       IndicesTable,
       ReloadButton
     },
-    methods: {
-      reloadIndices () {
-        this.$refs.dataLoader.loadData()
+    setup () {
+      const CAT_INDICES_PARAMS = { h: 'index,health,status,uuid,pri,rep,docs.count,store.size', bytes: 'b' }
+      const { load, requestState, data } = setupElasticsearchRequest('catIndices', CAT_INDICES_PARAMS)
+      onMounted(load)
+
+      return {
+        load,
+        requestState,
+        data
       }
     }
   }

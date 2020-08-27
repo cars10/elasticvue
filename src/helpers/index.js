@@ -78,3 +78,14 @@ export function buildFetchAuthHeaderFromUrl (url) {
     return {}
   }
 }
+
+export const debounce = (fn, timeout, immediate) => {
+  let timerId
+
+  return function (...args) {
+    clearTimeout(timerId)
+    timerId = setTimeout(() => {
+      fn(...args)
+    }, immediate ? 0 : timeout)
+  }
+}

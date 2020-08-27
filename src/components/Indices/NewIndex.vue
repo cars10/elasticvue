@@ -49,59 +49,69 @@
 <script>
   import esAdapter from '@/mixins/GetAdapter'
   import { showErrorSnackbar, showSuccessSnackbar } from '@/mixins/ShowSnackbar'
+  import { computed, ref } from '@vue/composition-api'
 
   export default {
     name: 'NewIndex',
-    data () {
-      return {
-        dialog: false,
-        valid: false,
-        indexName: '',
-        indexShards: '',
-        indexReplicas: ''
-      }
-    },
-    computed: {
-      createIndexParams () {
+    setup (props, context) {
+      const dialog = ref(false)
+      const valid = ref(false)
+      const indexName = ref('')
+      const indexShards = ref('')
+      const indexReplicas = ref('')
+
+      const createIndexParams = computed(() => {
         return {
-          index: this.indexName,
+          index: indexName.value,
           body: {
             settings: {
-              number_of_shards: this.indexShards || 1,
-              number_of_replicas: this.indexReplicas || 1
+              number_of_shards: indexShards.value || 1,
+              number_of_replicas: indexReplicas.value || 1
             }
           }
         }
+      })
+
+      const nameValidation = () => {
+        return !!indexName.value || 'Required'
       }
-    },
-    methods: {
-      nameValidation () {
-        return !!this.indexName || 'Required'
-      },
-      createIndex () {
-        if (!this.$refs.form.validate()) return
+
+      const createIndex = () => {
+        if (!context.refs.form.validate()) return
         esAdapter()
-          .then(adapter => adapter.indexCreate(this.createIndexParams))
+          .then(adapter => adapter.indexCreate(createIndexParams.value))
           .then(body => {
             showSuccessSnackbar({
-              text: `The index '${this.indexName}' was successfully created.`,
+              text: `The index '${indexName.value}' was successfully created.`,
               additionalText: JSON.stringify(body)
             })
-            this.dialog = false
-            this.indexName = ''
-            this.indexShards = ''
-            this.indexReplicas = ''
-            this.$refs.form.reset()
-            this.$emit('reloadIndices')
+            dialog.value = false
+            indexName.value = ''
+            indexShards.value = ''
+            indexReplicas.value = ''
+            context.refs.form.reset()
+            context.emit('reloadIndices')
           })
           .catch(error => showErrorSnackbar({ text: 'Error:', additionalText: error.message }))
-      },
-      closeDialog () {
-        this.indexName = ''
-        this.indexShards = ''
-        this.indexReplicas = ''
-        this.$refs.form.resetValidation()
-        this.dialog = false
+      }
+
+      const closeDialog = () => {
+        indexName.value = ''
+        indexShards.value = ''
+        indexReplicas.value = ''
+        context.refs.form.resetValidation()
+        dialog.value = false
+      }
+
+      return {
+        dialog,
+        valid,
+        indexName,
+        indexShards,
+        indexReplicas,
+        nameValidation,
+        createIndex,
+        closeDialog
       }
     }
   }

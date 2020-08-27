@@ -1,7 +1,7 @@
 <template>
   <tr>
     <td :title="index.index">
-      <a :title="`Search ${index.index}`" @click.stop="showDocuments(index.index, true)">{{ index.index }}</a>
+      <a :title="`Search ${index.index}`" @click.stop="showDocuments(index.index)">{{ index.index }}</a>
     </td>
     <td>
       <svg height="14" width="14">
@@ -18,17 +18,17 @@
       <template v-else>
         [
         <span v-for="(alias, index) in aliases" :key="`${index}-alias-${alias}`">
-          <a :title="`Search ${alias}`" :key="alias" @click.stop="showDocuments(alias, true)">{{alias}}</a><span
+          <a :title="`Search ${alias}`" :key="alias" @click.stop="showDocuments(alias)">{{ alias }}</a><span
           v-if="index !== aliases.length-1">, </span>
         </span>
         ]
       </template>
     </td>
     <td class="text-right">
-      <span :title="`${index.pri} primary\n${index.rep} replica`">{{index.pri}} / {{index.rep}}</span>
+      <span :title="`${index.pri} primary\n${index.rep} replica`">{{ index.pri }} / {{ index.rep }}</span>
     </td>
-    <td class="text-right">{{index.docsCount}}</td>
-    <td class="text-right">{{index.humanStoreSize}}</td>
+    <td class="text-right">{{ index.docsCount }}</td>
+    <td class="text-right">{{ index.humanStoreSize }}</td>
     <td>
       <btn-group small>
         <v-btn v-if="index.status === 'open'" title="Search documents" @click.native.stop="showDocuments(index.index)">
@@ -104,7 +104,7 @@
       </btn-group>
 
       <modal-data-loader :method="modalMethod"
-                         :method-params="{ index: this.index.index }"
+                         :method-params="{ index: index.index }"
                          :modal-subtitle="index.index"
                          :modal-title="modalTitle"
                          v-model="modalOpen"/>
@@ -117,6 +117,8 @@
   import ListTileLink from '@/components/shared/ListTile/ListTileLink'
   import ModalDataLoader from '@/components/shared/ModalDataLoader'
   import esAdapter from '@/mixins/GetAdapter'
+  import { computed, onMounted, ref, watch } from '@vue/composition-api'
+  import store from '@/store'
 
   export default {
     name: 'index-row',
@@ -133,61 +135,63 @@
         type: Object
       }
     },
-    data () {
-      return {
-        modalOpen: false,
-        modalMethod: '',
-        modalTitle: '',
-        aliases: [],
-        aliasesLoading: true
-      }
-    },
-    computed: {
-      aliasesTitle () {
-        return this.aliases.join('\n')
-      }
-    },
-    watch: {
-      index () {
-        this.loadAliases()
-      }
-    },
-    mounted () {
-      this.loadAliases()
-    },
-    methods: {
-      showDocuments (index, usePattern) {
-        if (usePattern) {
-          this.$store.commit('search/setIndices', index)
-        } else {
-          this.$store.commit('search/setIndices', [index])
-        }
-        this.$router.push({ name: 'Search', params: { executeSearch: true } })
-      },
-      emitReloadIndices () {
-        this.$emit('reloadIndices')
-      },
-      openIndicesGetModal () {
-        this.modalMethod = 'indexGet'
-        this.modalTitle = 'indicesGet'
-        this.modalOpen = true
-      },
-      openIndicesStatsModal () {
-        this.modalMethod = 'indexStats'
-        this.modalTitle = 'indicesStats'
-        this.modalOpen = true
-      },
-      async loadAliases () {
-        this.aliasesLoading = true
+    setup (props, context) {
+      const modalOpen = ref(false)
+      const modalMethod = ref('')
+      const modalTitle = ref('')
+      const aliases = ref([])
+      const aliasesLoading = ref(true)
+
+      const aliasesTitle = computed(() => {
+        return aliases.value.join('\n')
+      })
+
+      const loadAliases = async () => {
+        aliasesLoading.value = true
         let adapter = await esAdapter()
-        adapter.indexGetAlias({ index: this.index.index }).then(r => {
-          if (!r[this.index.index] || !r[this.index.index].aliases) {
-            this.aliases = []
+        adapter.indexGetAlias({ index: props.index.index }).then(r => {
+          if (!r[props.index.index] || !r[props.index.index].aliases) {
+            aliases.value = []
           } else {
-            this.aliases = Object.keys(r[this.index.index].aliases).sort()
+            aliases.value = Object.keys(r[props.index.index].aliases).sort()
           }
-          this.aliasesLoading = false
+          aliasesLoading.value = false
         })
+      }
+
+      watch(() => props.index, loadAliases)
+      onMounted(loadAliases)
+
+      const showDocuments = (index) => {
+        store.commit('search/setIndices', index)
+        context.root.$router.push({ name: 'Search', params: { executeSearch: true } })
+      }
+
+      const emitReloadIndices = () => {
+        context.emit('reloadIndices')
+      }
+      const openIndicesGetModal = () => {
+        modalMethod.value = 'indexGet'
+        modalTitle.value = 'indicesGet'
+        modalOpen.value = true
+      }
+      const openIndicesStatsModal = () => {
+        modalMethod.value = 'indexStats'
+        modalTitle.value = 'indicesStats'
+        modalOpen.value = true
+      }
+
+      return {
+        modalOpen,
+        modalMethod,
+        modalTitle,
+        aliases,
+        aliasesLoading,
+        aliasesTitle,
+        showDocuments,
+        emitReloadIndices,
+        openIndicesGetModal,
+        openIndicesStatsModal
       }
     }
   }
