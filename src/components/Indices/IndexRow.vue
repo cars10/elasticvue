@@ -12,7 +12,7 @@
     <td>{{ index.status }}</td>
     <td>{{ index.uuid }}</td>
     <td :title="aliasesTitle">
-      <template v-if="aliasesLoading">
+      <template v-if="requestState.loading">
         <i>loading</i>
       </template>
       <template v-else>
@@ -116,9 +116,9 @@
   import BtnGroup from '@/components/shared/BtnGroup'
   import ListTileLink from '@/components/shared/ListTile/ListTileLink'
   import ModalDataLoader from '@/components/shared/ModalDataLoader'
-  import esAdapter from '@/mixins/GetAdapter'
   import { computed, onMounted, ref, watch } from '@vue/composition-api'
   import store from '@/store'
+  import { useElasticsearchRequest } from '@/mixins/RequestComposition'
 
   export default {
     name: 'index-row',
@@ -140,23 +140,22 @@
       const modalMethod = ref('')
       const modalTitle = ref('')
       const aliases = ref([])
-      const aliasesLoading = ref(true)
+
+      const { requestState, callElasticsearch } = useElasticsearchRequest()
 
       const aliasesTitle = computed(() => {
         return aliases.value.join('\n')
       })
 
-      const loadAliases = async () => {
-        aliasesLoading.value = true
-        let adapter = await esAdapter()
-        adapter.indexGetAlias({ index: props.index.index }).then(r => {
-          if (!r[props.index.index] || !r[props.index.index].aliases) {
-            aliases.value = []
-          } else {
-            aliases.value = Object.keys(r[props.index.index].aliases).sort()
-          }
-          aliasesLoading.value = false
-        })
+      const loadAliases = () => {
+        callElasticsearch('indexGetAlias', { index: props.index.index })
+          .then(r => {
+            if (!r[props.index.index] || !r[props.index.index].aliases) {
+              aliases.value = []
+            } else {
+              aliases.value = Object.keys(r[props.index.index].aliases).sort()
+            }
+          })
       }
 
       watch(() => props.index, loadAliases)
@@ -186,8 +185,8 @@
         modalMethod,
         modalTitle,
         aliases,
-        aliasesLoading,
         aliasesTitle,
+        requestState,
         showDocuments,
         emitReloadIndices,
         openIndicesGetModal,
