@@ -1,4 +1,4 @@
-import { onMounted, ref } from '@vue/composition-api'
+import { ref } from '@vue/composition-api'
 import esAdapter from '@/mixins/GetAdapter'
 import store from '@/store'
 
@@ -47,8 +47,6 @@ export function callApi (method, params) {
       .then(body => (data.value = body))
       .catch(() => (data.value = {}))
   }
-
-  onMounted(load)
 
   return {
     requestState,

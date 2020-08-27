@@ -9,9 +9,9 @@
     <loader :request-state="requestState">
       <v-list class="text--small" dense>
         <v-list-item v-for="key in Object.keys(data)" :key="key">
-          <v-list-item-content>{{key}}</v-list-item-content>
+          <v-list-item-content>{{ key }}</v-list-item-content>
           <v-list-item-content>
-            <span class="text-right">{{data[key]}}</span>
+            <span class="text-right">{{ data[key] }}</span>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -23,6 +23,7 @@
   import { callApi } from '@/mixins/RequestComposition'
   import ReloadButton from '@/components/shared/ReloadButton'
   import Loader from '@/components/shared/Loader'
+  import { onMounted } from '@vue/composition-api'
 
   export default {
     name: 'cluster-health',
@@ -31,7 +32,14 @@
       Loader
     },
     setup () {
-      return callApi('clusterHealth')
+      const { load, requestState, data } = callApi('clusterHealth')
+      onMounted(load)
+
+      return {
+        load,
+        requestState,
+        data
+      }
     }
   }
 </script>
