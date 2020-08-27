@@ -1,7 +1,7 @@
 language: node_js
 node_js:
   - 12
-script: yarn lint && yarn build && yarn test:unit && ./scripts/test_e2e.sh
+script: yarn lint && yarn build && ./scripts/test_e2e.sh
 cache:
   yarn: true
   directories:
