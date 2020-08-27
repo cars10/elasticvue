@@ -7,7 +7,7 @@
     <v-divider/>
 
     <loader :request-state="requestState">
-      <v-list class="text--small" dense>
+      <v-list v-if="data" class="text--small" dense>
         <v-list-item v-for="key in Object.keys(data)" :key="key">
           <v-list-item-content>{{ key }}</v-list-item-content>
           <v-list-item-content>

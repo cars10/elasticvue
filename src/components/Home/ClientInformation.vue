@@ -7,7 +7,7 @@
     <v-divider/>
 
     <loader :request-state="requestState">
-      <v-list v-if="data['version']" class="text--small" dense>
+      <v-list v-if="data && data['version']" class="text--small" dense>
         <v-list-item>
           <v-list-item-content>name</v-list-item-content>
           <v-list-item-content><span class="text-right">{{ data['name'] }}</span></v-list-item-content>
