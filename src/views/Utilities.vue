@@ -13,7 +13,7 @@
               <v-subheader>Create</v-subheader>
               <v-divider/>
               <v-list>
-                <template v-for="utility in utilities.create">
+                <template v-for="utility in UTILITIES.create">
                   <utility :confirm-message="utility.confirmMessage"
                            :key="utility.method"
                            :method="utility.method"
@@ -28,7 +28,7 @@
               <v-subheader>Delete</v-subheader>
               <v-divider/>
               <v-list>
-                <template v-for="utility in utilities.delete">
+                <template v-for="utility in UTILITIES.delete">
                   <utility :confirm-message="utility.confirmMessage"
                            :key="utility.method"
                            :method="utility.method"
@@ -43,7 +43,7 @@
               <v-subheader>Misc</v-subheader>
               <v-divider/>
               <v-list>
-                <template v-for="utility in utilities.misc">
+                <template v-for="utility in UTILITIES.misc">
                   <utility :confirm-message="utility.confirmMessage"
                            :key="utility.method"
                            :method="utility.method"
@@ -69,44 +69,46 @@
     components: {
       Utility
     },
-    data () {
+    setup () {
+      const UTILITIES = {
+        create: [
+          {
+            text: 'Create 10 empty indices',
+            method: 'createIndices',
+            methodParams: ['articles', 'comments', 'documents', 'images', 'orders', 'posts', 'profiles', 'tweets', 'users', 'vendors']
+          },
+          {
+            text: 'Create twitter index and add 100 tweets',
+            method: 'bulk',
+            methodParams: { body: data }
+          }
+        ],
+        delete: [
+          {
+            text: 'Delete all indices',
+            confirmMessage: 'Are you sure? This will delete ALL data in your cluster!',
+            method: 'indexDelete',
+            methodParams: { index: '_all' }
+          }
+        ],
+        misc: [
+          {
+            text: 'Flush all indices to disk',
+            method: 'indexFlush',
+            methodParams: { index: '_all' }
+          },
+          {
+            text: 'Set all indices to writable',
+            method: 'indexPutSettings',
+            methodParams: {
+              index: '_all', body: { 'index': { 'blocks': { 'read_only_allow_delete': 'false' } } }
+            }
+          }
+        ]
+      }
+
       return {
-        utilities: {
-          create: [
-            {
-              text: 'Create 10 empty indices',
-              method: 'createIndices',
-              methodParams: ['articles', 'comments', 'documents', 'images', 'orders', 'posts', 'profiles', 'tweets', 'users', 'vendors']
-            },
-            {
-              text: 'Create twitter index and add 100 tweets',
-              method: 'bulk',
-              methodParams: { body: data }
-            }
-          ],
-          delete: [
-            {
-              text: 'Delete all indices',
-              confirmMessage: 'Are you sure? This will delete ALL data in your cluster!',
-              method: 'indexDelete',
-              methodParams: { index: '_all' }
-            }
-          ],
-          misc: [
-            {
-              text: 'Flush all indices to disk',
-              method: 'indexFlush',
-              methodParams: { index: '_all' }
-            },
-            {
-              text: 'Set all indices to writable',
-              method: 'indexPutSettings',
-              methodParams: {
-                index: '_all', body: { 'index': { 'blocks': { 'read_only_allow_delete': 'false' } } }
-              }
-            }
-          ]
-        }
+        UTILITIES
       }
     }
   }

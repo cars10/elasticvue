@@ -1,6 +1,6 @@
 <template>
   <v-list-item>
-    <v-list-item-content>{{text}}</v-list-item-content>
+    <v-list-item-content>{{ text }}</v-list-item-content>
     <v-list-item-action>
       <v-btn :color="color" :id="name" :loading="loading" @click.native="confirmMethod">Run</v-btn>
     </v-list-item-action>
@@ -9,7 +9,8 @@
 
 <script>
   import { showErrorSnackbar, showSuccessSnackbar } from '@/mixins/ShowSnackbar'
-  import esAdapter from '@/mixins/GetAdapter'
+  import { computed, ref } from '@vue/composition-api'
+  import { useElasticsearchRequest } from '@/mixins/RequestComposition'
 
   export default {
     class: 'Utility',
@@ -36,42 +37,34 @@
         type: String
       }
     },
-    data () {
-      return {
-        loading: false,
-        error: false
+    setup (props) {
+      const loading = ref(false)
+      const { requestState, callElasticsearch } = useElasticsearchRequest()
+
+      const runMethod = () => {
+        callElasticsearch(props.method, props.methodParams)
+          .then(body => showSuccessSnackbar({ text: 'Success', additionalText: JSON.stringify(body) }))
+          .catch(error => showErrorSnackbar({ text: 'Error', additionalText: JSON.stringify(error) }))
       }
-    },
-    computed: {
-      color () {
-        return this.error ? 'error' : 'primary'
-      }
-    },
-    methods: {
-      confirmMethod () {
-        if (this.confirmMessage) {
-          if (confirm(this.confirmMessage)) {
-            this.runMethod()
+
+      const color = computed(() => {
+        return requestState.apiError || requestState.networkError ? 'red' : 'primary'
+      })
+
+      const confirmMethod = () => {
+        if (props.confirmMessage) {
+          if (confirm(props.confirmMessage)) {
+            runMethod()
           }
         } else {
-          this.runMethod()
+          runMethod()
         }
-      },
-      runMethod () {
-        this.loading = true
-        this.error = false
-        esAdapter()
-          .then(adapter => adapter[this.method](this.methodParams))
-          .then(body => {
-            this.loading = false
-            this.error = false
-            showSuccessSnackbar({ text: 'Success', additionalText: JSON.stringify(body) })
-          })
-          .catch(error => {
-            this.loading = false
-            this.error = true
-            showErrorSnackbar({ text: 'Error', additionalText: JSON.stringify(error) })
-          })
+      }
+
+      return {
+        loading,
+        color,
+        confirmMethod
       }
     }
   }
