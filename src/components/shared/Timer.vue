@@ -7,13 +7,15 @@
               item-text="text"
               item-value="value">
       <template slot="selection" slot-scope="{ item, index }">
-        <small v-if="item.value">{{item.text}}</small>
+        <small v-if="item.value">{{ item.text }}</small>
       </template>
     </v-select>
   </div>
 </template>
 
 <script>
+  import { onBeforeUnmount, ref, watch } from '@vue/composition-api'
+
   export default {
     name: 'Timer',
     props: {
@@ -39,36 +41,34 @@
         default: null
       }
     },
-    data () {
+    setup (props) {
+      const timerSetting = ref(null)
+      const intervalID = ref(null)
+
+      const createInterval = () => {
+        intervalID.value = setInterval(() => {
+          props.action.call()
+        }, timerSetting.value * 1000)
+      }
+      const destroyInterval = () => {
+        clearInterval(intervalID.value)
+        intervalID.value = null
+      }
+
+      watch(timerSetting, newValue => {
+        destroyInterval()
+        if (newValue) createInterval()
+      })
+
+      if (props.defaultSetting && process.env.NODE_ENV !== 'development') {
+        timerSetting.value = props.defaultSetting
+        props.action.call()
+      }
+
+      onBeforeUnmount(destroyInterval)
+
       return {
-        timerSetting: null,
-        intervalID: null
-      }
-    },
-    watch: {
-      timerSetting (value) {
-        this.destroyInterval()
-        if (value) this.createInterval()
-      }
-    },
-    created () {
-      if (this.defaultSetting && process.env.NODE_ENV !== 'development') {
-        this.timerSetting = this.defaultSetting
-        this.action.call()
-      }
-    },
-    destroyed () {
-      this.destroyInterval()
-    },
-    methods: {
-      createInterval () {
-        this.intervalID = setInterval(() => {
-          this.action.call()
-        }, this.timerSetting * 1000)
-      },
-      destroyInterval () {
-        clearInterval(this.intervalID)
-        this.intervalID = null
+        timerSetting
       }
     }
   }
