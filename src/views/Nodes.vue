@@ -4,14 +4,12 @@
 
 <script>
   import NodesList from '@/components/Nodes/NodesList'
-  import Loader from '@/components/shared/Loader'
   import { setupElasticsearchRequest } from '@/mixins/RequestComposition'
   import { onMounted } from '@vue/composition-api'
 
   export default {
     name: 'nodes',
     components: {
-      Loader,
       NodesList
     },
     setup () {
