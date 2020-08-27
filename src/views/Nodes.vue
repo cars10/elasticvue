@@ -5,7 +5,7 @@
 <script>
   import NodesList from '@/components/Nodes/NodesList'
   import Loader from '@/components/shared/Loader'
-  import { callApi } from '@/mixins/RequestComposition'
+  import { setupElasticsearchRequest } from '@/mixins/RequestComposition'
   import { onMounted } from '@vue/composition-api'
 
   export default {
@@ -37,7 +37,7 @@
         ]
       }
 
-      const { load, requestState, data } = callApi('catNodes', CAT_METHOD_PARAMS)
+      const { load, requestState, data } = setupElasticsearchRequest('catNodes', CAT_METHOD_PARAMS)
       onMounted(load)
 
       return {

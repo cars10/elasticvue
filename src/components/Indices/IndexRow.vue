@@ -179,7 +179,7 @@
       },
       async loadAliases () {
         this.aliasesLoading = true
-        let adapter = await esAdapter()
+        let adapter = esAdapter()
         adapter.indexGetAlias({ index: this.index.index }).then(r => {
           if (!r[this.index.index] || !r[this.index.index].aliases) {
             this.aliases = []

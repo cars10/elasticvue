@@ -2,7 +2,7 @@ import { ref } from '@vue/composition-api'
 import esAdapter from '@/mixins/GetAdapter'
 import store from '@/store'
 
-export function useRequest () {
+export function useElasticsearchRequest () {
   const requestState = ref({
     loading: false,
     networkError: false,
@@ -22,7 +22,7 @@ export function useRequest () {
         if (!store.state.connection.wasConnected) store.commit('connection/setConnected')
         return Promise.resolve(response)
       } catch (error) {
-        requestState.value = { loading: false, networkError: false, apiError: true, apiErrorMessage: error }
+        requestState.value = { loading: false, networkError: false, apiError: true, apiErrorMessage: error.message }
         return Promise.reject(Error('API Error'))
       }
     } catch (error) {
@@ -38,8 +38,8 @@ export function useRequest () {
   }
 }
 
-export function callApi (method, params) {
-  const { requestState, callElasticsearch } = useRequest()
+export function setupElasticsearchRequest (method, params) {
+  const { requestState, callElasticsearch } = useElasticsearchRequest()
   const data = ref(null)
 
   const load = () => {

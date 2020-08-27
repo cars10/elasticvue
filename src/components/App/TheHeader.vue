@@ -67,7 +67,7 @@
   import { CONNECTION_STATES } from '@/consts'
   import { truncate, urlWithoutCredentials } from '@/helpers'
   import store from '@/store'
-  import { useRequest } from '@/mixins/RequestComposition'
+  import { useElasticsearchRequest } from '@/mixins/RequestComposition'
 
   export default {
     name: 'app-header',
@@ -75,7 +75,7 @@
       Timer
     },
     setup (props, context) {
-      const { callElasticsearch } = useRequest()
+      const { callElasticsearch } = useElasticsearchRequest()
 
       const scrolledDown = ref(false)
       const setScrolledDown = () => {

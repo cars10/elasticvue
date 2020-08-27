@@ -77,7 +77,7 @@
 </template>
 
 <script>
-  import { callApi } from '@/mixins/RequestComposition'
+  import { setupElasticsearchRequest } from '@/mixins/RequestComposition'
   import ReloadButton from '@/components/shared/ReloadButton'
   import Loader from '@/components/shared/Loader'
   import { onMounted } from '@vue/composition-api'
@@ -89,7 +89,7 @@
       Loader
     },
     setup () {
-      const { load, requestState, data } = callApi('clientInfo')
+      const { load, requestState, data } = setupElasticsearchRequest('clientInfo')
       onMounted(load)
 
       return {
