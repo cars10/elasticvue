@@ -63,7 +63,7 @@
 
 <script>
   import Timer from '@/components/shared/Timer'
-  import { computed, ref, watch } from '@vue/composition-api'
+  import { computed, onBeforeUnmount, onMounted, ref, watch } from '@vue/composition-api'
   import { CONNECTION_STATES } from '@/consts'
   import { truncate, urlWithoutCredentials } from '@/helpers'
   import store from '@/store'
@@ -75,9 +75,18 @@
       Timer
     },
     setup (props, context) {
-      const clusterHealth = ref(CONNECTION_STATES.UNKNOWN)
-      const scrolledDown = ref(false)
       const { callElasticsearch } = useRequest()
+
+      const scrolledDown = ref(false)
+      const setScrolledDown = () => {
+        scrolledDown.value = window.pageYOffset > 0
+      }
+      onMounted(() => {
+        if (typeof window !== 'undefined') window.addEventListener('scroll', setScrolledDown)
+      })
+      onBeforeUnmount(() => {
+        if (typeof window !== 'undefined') window.removeEventListener('scroll', setScrolledDown)
+      })
 
       const clusterInfo = computed(() => {
         return truncate(urlWithoutCredentials(store.state.connection.elasticsearchHost), 45)
@@ -102,16 +111,12 @@
       })
 
       let getHealthInterval = null
-
+      const clusterHealth = ref(CONNECTION_STATES.UNKNOWN)
       const getHealth = () => {
         callElasticsearch('clusterHealth')
           .then(result => (clusterHealth.value = result.status))
           .catch(() => (clusterHealth.value = CONNECTION_STATES.UNKNOWN))
       }
-
-      const wasConnected = computed(() => {
-        return store.state.connection.wasConnected
-      })
 
       const setupHealthLoading = () => {
         getHealth()
@@ -122,6 +127,9 @@
         }
       }
 
+      const wasConnected = computed(() => {
+        return store.state.connection.wasConnected
+      })
       watch(wasConnected, newValue => {
         if (newValue) setupHealthLoading()
       })
