@@ -19,8 +19,10 @@
 <script>
   import NodesGrid from '@/components/Nodes/NodesGrid'
   import NodesTable from '@/components/Nodes/NodesTable'
-  import { mapVuexAccessors } from '../../helpers/store'
   import ElasticsearchNode from '../../models/ElasticsearchNode'
+  import { computed } from '@vue/composition-api'
+  import store from '@/store'
+  import { compositionVuexAccessors } from '@/helpers/store'
 
   export default {
     name: 'nodes-list',
@@ -40,13 +42,21 @@
         default: true
       }
     },
-    computed: {
-      ...mapVuexAccessors('nodes', ['listType']),
-      renderGrid () {
-        return this.listType === 'grid'
-      },
-      items () {
-        return this.nodes.map(node => new ElasticsearchNode(node))
+    setup (props) {
+      const { listType } = compositionVuexAccessors('nodes', ['listType'])
+
+      const renderGrid = computed(() => {
+        return store.state.nodes.listType === 'grid'
+      })
+
+      const items = computed(() => {
+        return props.nodes.map(node => new ElasticsearchNode(node))
+      })
+
+      return {
+        listType,
+        renderGrid,
+        items
       }
     }
   }

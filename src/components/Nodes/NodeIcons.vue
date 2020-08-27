@@ -11,7 +11,7 @@
 </template>
 
 <script>
-  import ElasticsearchNode from '../../models/ElasticsearchNode'
+  import ElasticsearchNode from '@/models/ElasticsearchNode'
 
   export default {
     name: 'node-icons',

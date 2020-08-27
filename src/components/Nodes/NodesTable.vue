@@ -18,47 +18,43 @@
                           name="filter"
                           title="Filter via 'column:query'"
                           @keyup.esc="filter = ''"/>
-
-            <settings-dropdown>
-              <single-setting v-model="stickyTableHeader" name="Sticky table header"/>
-            </settings-dropdown>
           </div>
         </v-col>
       </v-row>
     </v-card-title>
     <v-divider/>
 
-    <v-data-table :class="tableClasses"
-                  :footer-props="{itemsPerPageOptions: DEFAULT_ITEMS_PER_PAGE}"
+    <v-data-table :footer-props="{itemsPerPageOptions: DEFAULT_ITEMS_PER_PAGE}"
                   :headers="HEADERS"
                   :items="filteredItems"
                   :loading="loading"
-                  :options.sync="pagination">
+                  :options.sync="pagination"
+                  class="table--condensed nodes_table table--fixed-header">
       <template v-slot:item="props">
         <tr>
           <td>
             <node-icons :elasticsearch-node="props.item"/>
           </td>
-          <td>{{props.item.name}}</td>
-          <td>{{props.item.ip}}</td>
+          <td>{{ props.item.name }}</td>
+          <td>{{ props.item.ip }}</td>
           <td>
             <span v-if="props.item.master">yes</span>
             <span v-else-if="props.item.masterEligible">eligible</span>
             <span v-else>no</span>
           </td>
-          <td>{{props.item.nodeRole}}</td>
-          <td>{{props.item.load_1m}} / {{props.item.load_5m}} / {{props.item.load_15m}}</td>
+          <td>{{ props.item.nodeRole }}</td>
+          <td>{{ props.item.load_1m }} / {{ props.item.load_5m }} / {{ props.item.load_15m }}</td>
           <td>
-            <small>{{props.item.cpu}}%</small>
-            <v-progress-linear :value="props.item.cpu" class="mt-1 mb-0" height="3"/>
+            <small>{{ props.item.cpu }}%</small>
+            <node-percent-bar :value="props.item.cpu" class="mt-1 mb-0"/>
           </td>
           <td>
             <v-row>
               <v-col class="py-0">
-                <small>{{props.item.ramCurrent}}/{{props.item.ramMax}}</small>
+                <small>{{ props.item.ramCurrent }}/{{ props.item.ramMax }}</small>
               </v-col>
               <v-col class="text-right py-0">
-                <small>{{props.item.ramPercent}}%</small>
+                <small>{{ props.item.ramPercent }}%</small>
               </v-col>
             </v-row>
             <node-percent-bar :value="props.item.ramPercent" classes="mt-1 mb-0"/>
@@ -66,10 +62,10 @@
           <td>
             <v-row>
               <v-col class="py-0">
-                <small>{{props.item.heapCurrent}}/{{props.item.heapMax}}</small>
+                <small>{{ props.item.heapCurrent }}/{{ props.item.heapMax }}</small>
               </v-col>
               <v-col class="text-right py-0">
-                <small>{{props.item.heapPercent}}%</small>
+                <small>{{ props.item.heapPercent }}%</small>
               </v-col>
             </v-row>
             <node-percent-bar :value="props.item.heapPercent" classes="mt-1 mb-0"/>
@@ -77,10 +73,10 @@
           <td>
             <v-row>
               <v-col class="py-0">
-                <small>{{props.item.diskCurrent}}/{{props.item.diskMax}}</small>
+                <small>{{ props.item.diskCurrent }}/{{ props.item.diskMax }}</small>
               </v-col>
               <v-col class="text-right py-0">
-                <small>{{props.item.diskPercent}}%</small>
+                <small>{{ props.item.diskPercent }}%</small>
               </v-col>
             </v-row>
             <node-percent-bar :value="props.item.diskPercent" classes="mt-1 mb-0"/>
@@ -95,21 +91,17 @@
   import NodeIcons from '@/components/Nodes/NodeIcons'
   import NodePercentBar from '@/components/Nodes/NodePercentBar'
   import ReloadButton from '@/components/shared/ReloadButton'
-  import SettingsDropdown from '@/components/shared/TableSettings/SettingsDropdown'
-  import SingleSetting from '@/components/shared/TableSettings/SingleSetting'
-  import { mapVuexAccessors } from '../../helpers/store'
-  import { DEFAULT_ITEMS_PER_PAGE } from '../../consts'
-  import { fixedTableHeaderOnDisable, fixedTableHeaderOnEnable, resetTableHeight } from '@/mixins/FixedTableHeader'
+  import { compositionVuexAccessors } from '@/helpers/store'
+  import { DEFAULT_ITEMS_PER_PAGE } from '@/consts'
   import { fuzzyTableFilter } from '@/helpers/filters'
+  import { computed } from '@vue/composition-api'
 
   export default {
     name: 'nodes-table',
     components: {
       NodeIcons,
       NodePercentBar,
-      ReloadButton,
-      SettingsDropdown,
-      SingleSetting
+      ReloadButton
     },
     props: {
       items: {
@@ -123,36 +115,13 @@
         default: false
       }
     },
-    computed: {
-      ...mapVuexAccessors('nodes', ['filter', 'pagination']),
-      stickyTableHeader: {
-        get () {
-          return this.$store.state.nodes.stickyTableHeader
-        },
-        set (value) {
-          if (!value) resetTableHeight()
-          this.$store.commit('nodes/setStickyTableHeader', value)
-        }
-      },
-      tableClasses () {
-        return [
-          'table--condensed',
-          'nodes_table',
-          { 'table--fixed-header': this.stickyTableHeader }
-        ]
-      },
-      filteredItems () {
-        return fuzzyTableFilter(this.items, this.filter, this.HEADERS)
-      }
-    },
-    mounted () {
-      fixedTableHeaderOnEnable()
-    },
-    beforeDestroy () {
-      fixedTableHeaderOnDisable()
-    },
-    created () {
-      this.HEADERS = [
+    setup (props) {
+      const { filter, pagination } = compositionVuexAccessors('nodes', ['filter', 'pagination'])
+      const filteredItems = computed(() => {
+        return fuzzyTableFilter(props.items, filter.value, [{ value: 'name' }, { value: 'ip' }])
+      })
+
+      const HEADERS = [
         { text: 'status', value: '', sortable: false },
         { text: 'name', value: 'name' },
         { text: 'ip', value: 'ip' },
@@ -166,7 +135,13 @@
         { text: '', value: 'actions', sortable: false }
       ]
 
-      this.DEFAULT_ITEMS_PER_PAGE = DEFAULT_ITEMS_PER_PAGE
+      return {
+        filter,
+        pagination,
+        filteredItems,
+        HEADERS,
+        DEFAULT_ITEMS_PER_PAGE
+      }
     }
   }
 </script>

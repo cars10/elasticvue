@@ -78,7 +78,7 @@
                     <v-list-item>
                       <v-list-item-content>load</v-list-item-content>
                       <v-list-item-content class="d-inline-block text-right">
-                        {{item.load_1m}} / {{item.load_5m}} / {{item.load_15m}}
+                        {{ item.load_1m }} / {{ item.load_5m }} / {{ item.load_15m }}
                       </v-list-item-content>
                     </v-list-item>
                   </v-list>
@@ -89,7 +89,7 @@
                     <v-list-item>
                       <v-list-item-action class="my-0">cpu</v-list-item-action>
                       <v-list-item-content>
-                        <v-progress-linear :value="item.cpu" class="my-0" height="4"/>
+                        <node-percent-bar :value="item.cpu" class="my-0" height="4"/>
                       </v-list-item-content>
                       <v-list-item-action class="my-0">
                         {{ item.cpu }}%
@@ -99,7 +99,7 @@
                     <v-list-item>
                       <v-list-item-action class="my-0">ram</v-list-item-action>
                       <v-list-item-content>
-                        {{item.ramCurrent}}/ {{item.ramMax}}
+                        {{ item.ramCurrent }}/ {{ item.ramMax }}
                         <node-percent-bar :value="item.ramPercent"/>
                       </v-list-item-content>
                       <v-list-item-action class="my-0">
@@ -110,7 +110,7 @@
                     <v-list-item>
                       <v-list-item-action class="my-0">heap</v-list-item-action>
                       <v-list-item-content>
-                        {{item.heapCurrent}}/ {{item.heapMax}}
+                        {{ item.heapCurrent }}/ {{ item.heapMax }}
                         <node-percent-bar :value="item.heapPercent"/>
                       </v-list-item-content>
                       <v-list-item-action class="my-0">
@@ -121,7 +121,7 @@
                     <v-list-item>
                       <v-list-item-action class="my-0">disk</v-list-item-action>
                       <v-list-item-content>
-                        {{item.diskCurrent}}/ {{item.diskMax}}
+                        {{ item.diskCurrent }}/ {{ item.diskMax }}
                         <node-percent-bar :value="item.diskPercent"/>
                       </v-list-item-content>
                       <v-list-item-action class="my-0">
@@ -143,8 +143,9 @@
   import NodeIcons from '@/components/Nodes/NodeIcons'
   import NodePercentBar from '@/components/Nodes/NodePercentBar'
   import ReloadButton from '@/components/shared/ReloadButton'
-  import { mapVuexAccessors } from '../../helpers/store'
-  import { fuzzyTableFilter } from '../../helpers/filters'
+  import { compositionVuexAccessors } from '@/helpers/store'
+  import { fuzzyTableFilter } from '@/helpers/filters'
+  import { computed } from '@vue/composition-api'
 
   export default {
     name: 'nodes-grid',
@@ -165,15 +166,24 @@
         type: Boolean
       }
     },
-    computed: {
-      ...mapVuexAccessors('nodes', ['filter', 'pagination']),
-      nodeListClass () {
+    setup (props, context) {
+      const { filter, pagination } = compositionVuexAccessors('nodes', ['filter', 'pagination'])
+
+      const nodeListClass = computed(() => {
         return {
-          'border-right-1': !this.$vuetify.breakpoint.xs
+          'border-right-1': !context.root.$vuetify.breakpoint.xs
         }
-      },
-      filteredItems () {
-        return fuzzyTableFilter(this.items, this.filter, [{ value: 'name' }, { value: 'ip' }])
+      })
+
+      const filteredItems = computed(() => {
+        return fuzzyTableFilter(props.items, filter.value, [{ value: 'name' }, { value: 'ip' }])
+      })
+
+      return {
+        filter,
+        pagination,
+        nodeListClass,
+        filteredItems
       }
     }
   }

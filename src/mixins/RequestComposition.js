@@ -40,7 +40,7 @@ export function useRequest () {
 
 export function callApi (method, params) {
   const { requestState, callElasticsearch } = useRequest()
-  const data = ref({})
+  const data = ref(null)
 
   const load = () => {
     callElasticsearch(method, params)

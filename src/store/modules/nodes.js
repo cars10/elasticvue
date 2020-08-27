@@ -1,11 +1,10 @@
-import { DEFAULT_DATA_TABLE_OPTIONS } from '../../consts'
+import { DEFAULT_DATA_TABLE_OPTIONS } from '@/consts'
 
 export const nodes = {
   namespaced: true,
   state: {
     listType: 'grid',
     filter: '',
-    stickyTableHeader: false,
     pagination: Object.assign({}, DEFAULT_DATA_TABLE_OPTIONS, { sortBy: ['name'] })
   },
   mutations: {
@@ -17,9 +16,6 @@ export const nodes = {
     },
     setPagination (state, pagination) {
       state.pagination = pagination
-    },
-    setStickyTableHeader (state, sticky) {
-      state.stickyTableHeader = sticky
     }
   }
 }

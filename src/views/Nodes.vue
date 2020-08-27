@@ -1,23 +1,21 @@
 <template>
-  <data-loader ref="dataLoader" :method-params="CAT_METHOD_PARAMS" method="catNodes" render-content-while-loading>
-    <template v-slot:default="data">
-      <nodes-list :loading="data.loading" :nodes="data.body || []" @reloadNodes="reloadNodes"/>
-    </template>
-  </data-loader>
+  <nodes-list :loading="requestState.loading" :nodes="data || []" @reloadNodes="load"/>
 </template>
 
 <script>
-  import DataLoader from '@/components/shared/DataLoader'
   import NodesList from '@/components/Nodes/NodesList'
+  import Loader from '@/components/shared/Loader'
+  import { callApi } from '@/mixins/RequestComposition'
+  import { onMounted } from '@vue/composition-api'
 
   export default {
     name: 'nodes',
     components: {
-      DataLoader,
+      Loader,
       NodesList
     },
-    created () {
-      this.CAT_METHOD_PARAMS = {
+    setup () {
+      const CAT_METHOD_PARAMS = {
         h: [
           'ip',
           'name',
@@ -38,10 +36,14 @@
           'disk.total'
         ]
       }
-    },
-    methods: {
-      reloadNodes () {
-        this.$refs.dataLoader.loadData()
+
+      const { load, requestState, data } = callApi('catNodes', CAT_METHOD_PARAMS)
+      onMounted(load)
+
+      return {
+        load,
+        requestState,
+        data
       }
     }
   }

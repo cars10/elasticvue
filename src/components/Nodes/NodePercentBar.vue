@@ -3,6 +3,8 @@
 </template>
 
 <script>
+  import { computed } from '@vue/composition-api'
+
   export default {
     name: 'node-percent-bar',
     props: {
@@ -19,16 +21,20 @@
         default: 'my-0'
       }
     },
-    computed: {
-      color () {
-        let numberValue = parseFloat(this.value)
+    setup (props) {
+      const color = computed(() => {
+        let numberValue = parseFloat(props.value)
         if (numberValue >= 90) {
-          return 'error'
+          return 'red'
         } else if (numberValue < 90 && numberValue >= 80) {
-          return 'warning'
+          return 'orange'
         } else {
-          return 'primary'
+          return 'blue'
         }
+      })
+
+      return {
+        color
       }
     }
   }
