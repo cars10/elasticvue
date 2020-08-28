@@ -10,7 +10,7 @@
         {{ additionalText }}
       </p>
       <div v-if="color === 'red'" class="mt-2">
-        <v-btn color="" class="mr-4" @click.native="copy">Copy error</v-btn>
+        <v-btn class="mr-4" @click.native="copy">Copy error</v-btn>
         <v-btn text @click.native="visible = false">Close</v-btn>
       </div>
       <v-btn v-else text @click.native="visible = false">Close</v-btn>

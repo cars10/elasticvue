@@ -22,12 +22,14 @@ export function useElasticsearchRequest () {
         if (!store.state.connection.wasConnected) store.commit('connection/setConnected')
         return Promise.resolve(response)
       } catch (error) {
+        const errorJson = await error.json()
         requestState.value = {
           loading: false,
           networkError: false,
           apiError: true,
-          apiErrorMessage: JSON.stringify(await error.json())
+          apiErrorMessage: JSON.stringify(errorJson)
         }
+        console.error(errorJson)
         return Promise.reject(Error('API Error'))
       }
     } catch (error) {

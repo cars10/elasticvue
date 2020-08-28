@@ -2,7 +2,10 @@
   <div v-if="requestState.apiError || requestState.networkError">
     <template v-if="requestState.apiError">
       <div class="pa-4">
-        <v-alert :value="true">{{requestState.apiErrorMessage}}</v-alert>
+        <v-alert :value="true" type="error" color="red">
+          {{ requestState.apiErrorMessage }}<br>
+          <v-btn class="mr-4" @click.native="copy">Copy error</v-btn>
+        </v-alert>
       </div>
     </template>
     <template v-else-if="requestState.networkError">
@@ -30,7 +33,14 @@
         type: Object
       }
     },
-    setup () {
+    setup (props) {
+      const copy = () => {
+        navigator.clipboard.writeText(props.requestState.apiErrorMessage)
+      }
+
+      return {
+        copy
+      }
     }
   })
 </script>

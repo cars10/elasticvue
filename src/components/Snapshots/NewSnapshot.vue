@@ -33,7 +33,11 @@
         </v-card-text>
 
         <v-card-actions class="pa-4">
-          <v-btn id="create_snapshot" :disabled="loading || !valid" :loading="loading" color="success" type="submit">
+          <v-btn id="create_snapshot"
+                 :disabled="requestState.loading || !valid"
+                 :loading="requestState.loading"
+                 color="success"
+                 type="submit">
             Create
           </v-btn>
           <v-btn text @click="closeDialog">Cancel</v-btn>
@@ -44,14 +48,14 @@
 </template>
 
 <script>
-  import DataLoader from '@/components/shared/DataLoader'
-  import { elasticsearchRequest } from '@/mixins/ElasticsearchAdapterHelper'
   import IndexFilter from '@/components/shared/IndexFilter'
+  import { ref } from '@vue/composition-api'
+  import { showErrorSnackbar, showSuccessSnackbar } from '@/mixins/ShowSnackbar'
+  import { useElasticsearchRequest } from '@/mixins/RequestComposition'
 
   export default {
     name: 'new-snapshot',
     components: {
-      DataLoader,
       IndexFilter
     },
     props: {
@@ -60,49 +64,58 @@
         default: ''
       }
     },
-    data () {
-      return {
-        dialog: false,
-        valid: false,
-        snapshotName: '',
-        loading: false,
-        indices: '*'
+    setup (props, context) {
+      const dialog = ref(false)
+      const valid = ref(false)
+      const snapshotName = ref('')
+      const indices = ref('*')
+
+      const nameRules = () => {
+        return !!snapshotName.value || 'Required'
       }
-    },
-    methods: {
-      nameRules () {
-        return !!this.snapshotName || 'Required'
-      },
-      createSnapshot () {
-        if (!this.$refs.form.validate()) return
 
-        this.loading = true
+      const { requestState, callElasticsearch } = useElasticsearchRequest()
+      const createSnapshot = () => {
+        if (!context.refs.form.validate()) return
 
-        elasticsearchRequest({
-          method: 'snapshotCreate',
-          methodParams: this.buildCreateParams(),
-          growl: `The snapshot '${this.snapshotName}' was successfully created.`,
-          callback: () => {
-            this.$emit('reloadData')
-            this.closeDialog()
-          }
-        })
-      },
-      buildCreateParams () {
+        callElasticsearch('snapshotCreate', buildCreateParams())
+          .then(() => {
+            context.emit('reloadData')
+            showSuccessSnackbar({
+              text: 'Success',
+              additionalText: `The snapshot '${snapshotName.value}' was successfully created.`
+            })
+            closeDialog()
+          })
+          .catch(() => showErrorSnackbar({ text: 'Error:', additionalText: requestState.value.apiErrorMessage }))
+      }
+
+      const buildCreateParams = () => {
         return {
-          repository: this.repository,
-          snapshot: this.snapshotName,
+          repository: props.repository,
+          snapshot: snapshotName.value,
           body: {
-            indices: this.indices
+            indices: indices.value
           }
         }
-      },
-      closeDialog () {
-        this.snapshotName = ''
-        this.indices = []
-        this.loading = false
-        this.$refs.form.resetValidation()
-        this.dialog = false
+      }
+
+      const closeDialog = () => {
+        snapshotName.value = ''
+        indices.value = '*'
+        context.refs.form.resetValidation()
+        dialog.value = false
+      }
+
+      return {
+        dialog,
+        valid,
+        snapshotName,
+        indices,
+        nameRules,
+        createSnapshot,
+        closeDialog,
+        requestState
       }
     }
   }

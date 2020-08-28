@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-list-item @click.stop="toggle">
+    <v-list-item @click.stop="dialog = true">
       <v-list-item-action>
         <v-icon small>mdi-restore</v-icon>
       </v-list-item-action>
@@ -12,19 +12,19 @@
     <v-dialog v-model="dialog" width="500">
       <v-card>
         <v-card-title>
-          <h2 class="text-h5">Restore '{{snapshot}}'</h2>
+          <h2 class="text-h5">Restore '{{ snapshot }}'</h2>
         </v-card-title>
         <v-divider/>
 
         <v-form ref="form" v-model="valid" lazy-validation @submit.prevent="restoreSnapshot">
           <v-card-text>
             <index-filter :method-params="{ repository, snapshot }" v-model="indices" method="getSnapshotIndices"/>
-            <v-checkbox v-model="ignore_unavailable" hide-details label="Ignore unavailable" color="primary"/>
-            <v-checkbox v-model="include_global_state" label="Include global state" color="primary"/>
+            <v-checkbox v-model="ignoreUnavailable" hide-details label="Ignore unavailable" color="primary"/>
+            <v-checkbox v-model="includeGlobalState" label="Include global state" color="primary"/>
 
             <v-text-field v-if="dialog"
                           id="rename_pattern"
-                          v-model="rename_pattern"
+                          v-model="renamePattern"
                           autocomplete="off"
                           label="Rename pattern"
                           name="rename_pattern"
@@ -32,7 +32,7 @@
 
             <v-text-field v-if="dialog"
                           id="rename_replacement"
-                          v-model="rename_replacement"
+                          v-model="renameReplacement"
                           autocomplete="off"
                           hide-details
                           label="Rename replacement"
@@ -41,7 +41,8 @@
           </v-card-text>
 
           <v-card-actions class="pa-4">
-            <v-btn id="restore_snapshot" :loading="loading" :disabled="loading" color="success" type="submit">
+            <v-btn id="restore_snapshot" :loading="requestState.loading" :disabled="requestState.loading || !valid"
+                   color="success" type="submit">
               Restore
             </v-btn>
             <v-btn text @click="closeDialog">Cancel</v-btn>
@@ -55,8 +56,10 @@
 <script>
   import ListTileLink from '@/components/shared/ListTile/ListTileLink'
   import CustomVAutocomplete from '@/components/shared/CustomVAutocomplete'
-  import { elasticsearchRequest } from '@/mixins/ElasticsearchAdapterHelper'
   import IndexFilter from '@/components/shared/IndexFilter'
+  import { ref } from '@vue/composition-api'
+  import { useElasticsearchRequest } from '@/mixins/RequestComposition'
+  import { showErrorSnackbar, showSuccessSnackbar } from '@/mixins/ShowSnackbar'
 
   export default {
     name: 'RestoreSnapshot',
@@ -75,55 +78,65 @@
         type: String
       }
     },
-    data () {
-      return {
-        dialog: false,
-        valid: false,
-        loading: false,
-        indices: '*',
-        ignore_unavailable: true,
-        include_global_state: true,
-        rename_pattern: '',
-        rename_replacement: ''
-      }
-    },
-    methods: {
-      toggle () {
-        this.dialog = true
-      },
-      restoreSnapshot () {
-        if (!this.$refs.form.validate()) return
-        this.loading = true
+    setup (props, context) {
+      const dialog = ref(false)
+      const valid = ref(false)
+      const indices = ref('*')
+      const ignoreUnavailable = ref(true)
+      const includeGlobalState = ref(true)
+      const renamePattern = ref('')
+      const renameReplacement = ref('')
 
-        elasticsearchRequest({
-          method: 'snapshotRestore',
-          methodParams: this.buildRestoreParams(),
-          growl: `The snapshot '${this.snapshot}' was successfully restored.`,
-          callback: this.closeDialog
-        })
-      },
-      buildRestoreParams () {
+      const closeDialog = () => {
+        context.refs.form.resetValidation()
+        dialog.value = false
+        indices.value = '*'
+        ignoreUnavailable.value = true
+        includeGlobalState.value = true
+        renamePattern.value = ''
+        renameReplacement.value = ''
+      }
+
+      const buildRestoreParams = () => {
         return {
-          repository: this.repository,
-          snapshot: this.snapshot,
+          repository: props.repository,
+          snapshot: props.snapshot,
           body: {
-            indices: this.indices,
-            ignore_unavailable: this.ignore_unavailable,
-            include_global_state: this.include_global_state,
-            rename_pattern: this.rename_pattern,
-            rename_replacement: this.rename_replacement
+            indices: indices.value,
+            ignore_unavailable: ignoreUnavailable.value,
+            include_global_state: includeGlobalState.value,
+            rename_pattern: renamePattern.value,
+            rename_replacement: renameReplacement.value
           }
         }
-      },
-      closeDialog () {
-        this.$refs.form.resetValidation()
-        this.dialog = false
-        this.loading = false
-        this.indices = []
-        this.ignore_unavailable = true
-        this.include_global_state = true
-        this.rename_pattern = ''
-        this.rename_replacement = ''
+      }
+
+      const { requestState, callElasticsearch } = useElasticsearchRequest()
+      const restoreSnapshot = () => {
+        if (!context.refs.form.validate()) return
+
+        callElasticsearch('snapshotRestore', buildRestoreParams())
+          .then(() => {
+            showSuccessSnackbar({
+              text: 'Success',
+              additionalText: `The snapshot '${props.snapshot}' was successfully restored.`
+            })
+            closeDialog()
+          })
+          .catch(() => showErrorSnackbar({ text: 'Error:', additionalText: requestState.value.apiErrorMessage }))
+      }
+
+      return {
+        dialog,
+        valid,
+        indices,
+        ignoreUnavailable,
+        includeGlobalState,
+        renamePattern,
+        renameReplacement,
+        requestState,
+        closeDialog,
+        restoreSnapshot
       }
     }
   }
