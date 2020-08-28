@@ -8,7 +8,6 @@ export const plugins = [
       'connection.wasConnected',
       'connection.elasticsearchHost',
       'theme',
-      'queryApiBrowser',
       'queryRest',
       'indices',
       'nodes',
