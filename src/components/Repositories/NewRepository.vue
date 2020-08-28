@@ -14,7 +14,6 @@
         <v-card-text>
           <v-text-field v-if="dialog"
                         id="repository_name"
-                        ref="repositoryName"
                         :rules="[nameRules]"
                         v-model="repositoryName"
                         autocomplete="off"
@@ -67,7 +66,8 @@
         </v-card-text>
 
         <v-card-actions class="pa-4">
-          <v-btn id="create_snapshot_repository" :disabled="loading || !valid" :loading="loading" color="success"
+          <v-btn id="create_snapshot_repository" :disabled="requestState.loading || !valid"
+                 :loading="requestState.loading" color="success"
                  type="submit">Create
           </v-btn>
           <v-btn text @click="closeDialog">Cancel</v-btn>
@@ -78,79 +78,102 @@
 </template>
 
 <script>
-  import { elasticsearchRequest } from '@/mixins/ElasticsearchAdapterHelper'
+  import { ref } from '@vue/composition-api'
+  import { useElasticsearchRequest } from '@/mixins/RequestComposition'
+  import { showErrorSnackbar, showSuccessSnackbar } from '@/mixins/ShowSnackbar'
 
   export default {
     name: 'NewRepository',
-    data () {
-      return {
-        loading: false,
-        dialog: false,
-        valid: false,
-        repositoryName: '',
-        repositoryLocation: '',
-        compress: true,
-        chunkSize: null,
-        maxRestoreBytesPerSec: '40mb',
-        maxSnapshotBytesPerSec: '40mb',
-        readonly: false
-      }
-    },
-    methods: {
-      nameRules () {
-        return !!this.repositoryName || 'Required'
-      },
-      locationRules () {
-        return !!this.repositoryLocation || 'Required'
-      },
-      maxRestoreBytesPerSecRules () {
-        return !!this.maxRestoreBytesPerSec || 'Required'
-      },
-      maxSnapshotBytesPerSecRules () {
-        return !!this.maxSnapshotBytesPerSec || 'Required'
-      },
-      createSnapshotRepository () {
-        if (!this.$refs.form.validate()) return
-        this.loading = true
+    setup (props, context) {
+      const dialog = ref(false)
+      const valid = ref(false)
+      const repositoryName = ref('')
+      const repositoryLocation = ref('')
+      const compress = ref(true)
+      const chunkSize = ref(null)
+      const maxRestoreBytesPerSec = ref('40mb')
+      const maxSnapshotBytesPerSec = ref('40mb')
+      const readonly = ref(false)
 
-        elasticsearchRequest({
-          method: 'snapshotCreateRepository',
-          methodParams: this.buildCreateParams(),
-          growl: `The repository '${this.repositoryName}' was successfully created.`,
-          callback: () => {
-            this.loading = false
-            this.$emit('reloadData')
-            this.closeDialog()
-          }
-        })
-      },
-      buildCreateParams () {
+      const nameRules = () => {
+        return !!repositoryName.value || 'Required'
+      }
+
+      const locationRules = () => {
+        return !!repositoryLocation.value || 'Required'
+      }
+
+      const maxRestoreBytesPerSecRules = () => {
+        return !!maxRestoreBytesPerSec.value || 'Required'
+      }
+
+      const maxSnapshotBytesPerSecRules = () => {
+        return !!maxSnapshotBytesPerSec.value || 'Required'
+      }
+
+      const { requestState, callElasticsearch } = useElasticsearchRequest()
+
+      const createSnapshotRepository = () => {
+        if (!context.refs.form.validate()) return
+
+        callElasticsearch('snapshotCreateRepository', buildCreateParams())
+          .then(() => {
+            context.emit('reloadData')
+            showSuccessSnackbar({
+              text: 'Success',
+              additionalText: `The repository '${repositoryName.value}' was successfully created.`
+            })
+            closeDialog()
+          })
+          .catch(() => showErrorSnackbar({ text: 'Error:', additionalText: requestState.value.apiErrorMessage }))
+      }
+
+      const buildCreateParams = () => {
         return {
-          repository: this.repositoryName,
+          repository: repositoryName.value,
           body: {
             type: 'fs',
             settings: {
-              location: this.repositoryLocation,
-              compress: this.compress,
-              chunk_size: this.chunkSize,
-              max_restore_bytes_per_sec: this.maxRestoreBytesPerSec,
-              max_snapshot_bytes_per_sec: this.maxSnapshotBytesPerSec,
-              readonly: this.readonly
+              location: repositoryLocation.value,
+              compress: compress.value,
+              chunk_size: chunkSize.value,
+              max_restore_bytes_per_sec: maxRestoreBytesPerSec.value,
+              max_snapshot_bytes_per_sec: maxSnapshotBytesPerSec.value,
+              readonly: readonly.value
             }
           }
         }
-      },
-      closeDialog () {
-        this.repositoryName = ''
-        this.repositoryLocation = ''
-        this.compress = true
-        this.chunkSize = null
-        this.maxRestoreBytesPerSec = '40mb'
-        this.maxSnapshotBytesPerSec = '40mb'
-        this.readonly = false
-        this.loading = false
-        this.$refs.form.resetValidation()
-        this.dialog = false
+      }
+
+      const closeDialog = () => {
+        repositoryName.value = ''
+        repositoryLocation.value = ''
+        compress.value = true
+        chunkSize.value = null
+        maxRestoreBytesPerSec.value = '40mb'
+        maxSnapshotBytesPerSec.value = '40mb'
+        readonly.value = false
+        context.refs.form.resetValidation()
+        dialog.value = false
+      }
+
+      return {
+        dialog,
+        valid,
+        repositoryName,
+        repositoryLocation,
+        compress,
+        chunkSize,
+        maxRestoreBytesPerSec,
+        maxSnapshotBytesPerSec,
+        readonly,
+        nameRules,
+        locationRules,
+        maxRestoreBytesPerSecRules,
+        maxSnapshotBytesPerSecRules,
+        createSnapshotRepository,
+        closeDialog,
+        requestState
       }
     }
   }
