@@ -18,6 +18,10 @@ export class DefaultClient {
     return this.request('_cluster/health', 'GET')
   }
 
+  clusterSettings () {
+    return this.request('_cluster/settings', 'GET', { include_defaults: true })
+  }
+
   catIndices (params) {
     return this.request('_cat/indices', 'GET', params)
   }

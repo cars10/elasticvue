@@ -14,12 +14,7 @@
 
     <v-card-text>
       <div class="d-inline-flex">
-        <v-alert :value="true" type="info">
-          Note that you have to set <strong>path.repo</strong> in your <strong>elasticsearch.yml</strong> for snapshots
-          to work.
-          <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-snapshots.html"
-             rel="nofollow" target="_blank">Docs</a>
-        </v-alert>
+        <path-repo-info/>
       </div>
     </v-card-text>
   </v-card>
@@ -31,13 +26,15 @@
   import Loader from '@/components/shared/Loader'
   import { setupElasticsearchRequest } from '@/mixins/RequestComposition'
   import { onMounted } from '@vue/composition-api'
+  import PathRepoInfo from '@/components/shared/PathRepoInfo'
 
   export default {
     name: 'repositories',
     components: {
       Loader,
       ReloadButton,
-      RepositoriesTable
+      RepositoriesTable,
+      PathRepoInfo
     },
     setup () {
       const { load, requestState, data } = setupElasticsearchRequest('catRepositories')

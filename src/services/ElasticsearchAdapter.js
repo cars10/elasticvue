@@ -21,6 +21,10 @@ export default class ElasticsearchAdapter {
     return this.client.clusterHealth()
   }
 
+  clusterSettings () {
+    return this.client.clusterSettings()
+  }
+
   catIndices (params) {
     return this.client.catIndices(params)
   }
