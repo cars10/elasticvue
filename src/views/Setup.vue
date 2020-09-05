@@ -34,7 +34,7 @@
       Configure,
       TestAndConnect
     },
-    data () {
+    setup () {
       return {
         enableCorsHint: process.env.VUE_APP_DISABLE_CORS_HINT !== 'true'
       }

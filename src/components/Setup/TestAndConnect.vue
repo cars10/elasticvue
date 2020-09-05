@@ -11,7 +11,8 @@
                       title="Host"
                       type="text"
                       @click:append="resetElasticsearchHost"
-                      @keyup.ctrl.enter="connect"/>
+                      @keyup.ctrl.enter="connect"
+                      @keyup.esc="resetElasticsearchHost"/>
         <div class="mb-4">
           <v-btn id="test_connection"
                  :color="testConnectionColor"
@@ -40,12 +41,13 @@
       <v-alert :value="true" type="error">
         Could not connect. Please make sure that
         <ol class="pl-4">
-          <li>Your cluster is reachable via <a :href="elasticsearchHost" target="_blank">{{elasticsearchHost}}</a></li>
+          <li>Your cluster is reachable via <a :href="elasticsearchHost" target="_blank">{{ elasticsearchHost }}</a>
+          </li>
           <li>You added the correct settings to your <strong>elasticsearch.yml</strong> and restarted your cluster</li>
         </ol>
 
         <div class="mt-2">
-          {{errorMessage}}
+          {{ errorMessage }}
         </div>
       </v-alert>
     </div>
@@ -53,20 +55,106 @@
 </template>
 
 <script>
-  import ConnectBase from '@/components/Setup/ConnectBase'
+  import store from '@/store'
+  import { computed, ref } from '@vue/composition-api'
+  import ConnectionService from '@/services/elasticsearch/ConnectionService'
+  import { showErrorSnackbar, showSuccessSnackbar } from '@/mixins/ShowSnackbar'
+  import esAdapter from '@/mixins/GetAdapter'
+  import { compositionVuexAccessors } from '@/helpers/store'
 
   export default {
     name: 'test-and-connect',
-    extends: ConnectBase,
-    computed: {
-      hasError () {
-        return this.testError || this.connectError
-      },
-      testConnectionColor () {
-        return this.testError ? 'error' : 'primary'
-      },
-      connectColor () {
-        return this.testSuccess ? 'success' : 'primary'
+    setup (props, context) {
+      // data
+      const testError = ref(false)
+      const testSuccess = ref(false)
+      const testLoading = ref(false)
+      const connectLoading = ref(false)
+      const connectError = ref(false)
+      const errorMessage = ref('')
+
+      const hasError = computed(() => {
+        return testError.value || connectError.value
+      })
+
+      const testConnectionColor = computed(() => {
+        return testError.value ? 'error' : 'primary'
+      })
+
+      const connectColor = computed(() => {
+        return testSuccess.value ? 'success' : 'primary'
+      })
+
+      const { elasticsearchHost } = compositionVuexAccessors('connection', ['elasticsearchHost'])
+
+      const hostValid = computed(() => {
+        return elasticsearchHost.value.match(/^https?:\/\//) ? true : 'Host most contain a valid scheme'
+      })
+
+      const resetElasticsearchHost = () => {
+        connectError.value = false
+        testError.value = false
+        testSuccess.value = false
+        testLoading.value = false
+        elasticsearchHost.value = 'http://localhost:9200'
+      }
+
+      const testConnection = () => {
+        testLoading.value = true
+        testSuccess.value = false
+        testError.value = false
+        new ConnectionService(elasticsearchHost.value).testConnection()
+          .then(() => {
+            testLoading.value = false
+            testSuccess.value = true
+            testError.value = false
+            showSuccessSnackbar({
+              text: 'Success',
+              additionalText: 'You cluster is reachable and configured correctly.'
+            })
+          })
+          .catch(e => {
+            testLoading.value = false
+            testSuccess.value = false
+            testError.value = true
+            if (e instanceof TypeError) {
+              errorMessage.value = 'Either your cluster is not reachable or you did not configure CORS correctly.'
+            } else {
+              errorMessage.value = e.message
+            }
+          })
+      }
+
+      const connect = () => {
+        connectLoading.value = true
+        connectError.value = false
+        esAdapter()
+          .then(() => {
+            store.commit('connection/setConnected')
+            connectLoading.value = false
+            connectError.value = false
+            showSuccessSnackbar({ text: 'Successfully connected.' })
+            context.root.$router.push('/')
+          })
+          .catch(() => {
+            connectLoading.value = false
+            connectError.value = true
+            showErrorSnackbar({ text: 'Error: could not connect.' })
+          })
+      }
+
+      return {
+        hasError,
+        testConnectionColor,
+        connectColor,
+        hostValid,
+        elasticsearchHost,
+        resetElasticsearchHost,
+        testConnection,
+        connect,
+        testLoading,
+        connectLoading,
+        errorMessage
       }
     }
   }
