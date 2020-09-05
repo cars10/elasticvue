@@ -86,7 +86,7 @@ const router = new Router({
       component: Repositories
     },
     {
-      path: '/query/rest',
+      path: '/rest',
       name: 'QueryRest',
       component: QueryRest
     },

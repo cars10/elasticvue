@@ -27,7 +27,7 @@
       <v-btn id="navbar_nodes" text to="/nodes">Nodes</v-btn>
       <v-btn id="navbar_indices" text to="/indices">Indices</v-btn>
       <v-btn id="navbar_search" text to="/search">Search</v-btn>
-      <v-btn id="navbar_query_rest" text to="/query/rest">Rest</v-btn>
+      <v-btn id="navbar_query_rest" text to="/rest">Rest</v-btn>
 
       <v-menu offset-y>
         <template v-slot:activator="{on}">

@@ -28,22 +28,25 @@
     </v-card-title>
     <v-divider/>
     <v-card-text>
-      <fetch-form/>
+      <rest/>
     </v-card-text>
   </v-card>
 </template>
 
 <script>
-  import FetchForm from '@/components/Query/Rest/FetchForm'
-  import { mapVuexAccessors } from '@/helpers/store'
+  import Rest from '@/components/Query/Rest'
+  import { compositionVuexAccessors } from '@/helpers/store'
 
   export default {
     name: 'QueryRest',
     components: {
-      FetchForm
+      Rest
     },
-    computed: {
-      ...mapVuexAccessors('queryRest', ['vertical'])
+    setup () {
+      const { vertical } = compositionVuexAccessors('queryRest', ['vertical'])
+      return {
+        vertical
+      }
     }
   }
 </script>
