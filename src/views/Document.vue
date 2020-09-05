@@ -2,45 +2,57 @@
   <v-card>
     <v-card-title>
       <h1 class="text-h5">Document</h1>
-      <reload-button :action="() => $refs.dataLoader.loadData()"/>
+      <reload-button :action="load"/>
       <back-button :route="{name: 'Search', params: {executeSearch: true}}"/>
     </v-card-title>
     <v-divider/>
 
     <v-card-text>
-      <data-loader ref="dataLoader" :method-params="methodParams" method="get">
-        <template v-slot:default="data">
-          <print-pretty :caption="caption" :document="data.body"/>
-        </template>
-      </data-loader>
+      <loader :request-state="requestState">
+        <print-pretty :caption="caption" :document="data"/>
+      </loader>
     </v-card-text>
   </v-card>
 </template>
 
 <script>
   import BackButton from '@/components/shared/BackButton'
-  import DataLoader from '@/components/shared/DataLoader'
   import PrintPretty from '@/components/shared/PrintPretty'
   import ReloadButton from '@/components/shared/ReloadButton'
+  import Loader from '@/components/shared/Loader'
+  import { computed, onMounted } from '@vue/composition-api'
+  import { setupElasticsearchRequest } from '@/mixins/RequestComposition'
 
   export default {
     name: 'Document',
     components: {
       BackButton,
-      DataLoader,
+      Loader,
       PrintPretty,
       ReloadButton
     },
-    computed: {
-      params () {
-        return this.$route.params
-      },
-      methodParams () {
-        return { index: this.params.index, type: this.params.type, id: this.params.id }
-      },
-      caption () {
-        const docType = this.params.type || '_doc'
-        return `${this.params.index}/${docType}/${this.params.id}`
+    setup (props, context) {
+      const methodParams = computed(() => {
+        const routeParams = context.root.$route.params
+        return {
+          index: routeParams.index, type: routeParams.type, id: routeParams.id
+        }
+      })
+
+      const { load, requestState, data } = setupElasticsearchRequest('get', methodParams.value)
+      onMounted(load)
+
+      const caption = computed(() => {
+        const routeParams = context.root.$route.params
+        const docType = routeParams.type || '_doc'
+        return `routeParams/${docType}/routeParams`
+      })
+
+      return {
+        load,
+        requestState,
+        data,
+        caption
       }
     }
   }
