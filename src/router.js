@@ -5,8 +5,6 @@ import Home from '@/views/Home'
 import Search from '@/views/Search'
 import Document from '@/views/Document'
 import Indices from '@/views/Indices'
-import Index from '@/views/Index'
-import IndexStats from '@/views/IndexStats'
 import Snapshots from '@/views/Snapshots'
 import Repositories from '@/views/Repositories'
 import Utilities from '@/views/Utilities'
@@ -48,16 +46,6 @@ const router = new Router({
       path: '/indices',
       name: 'Indices',
       component: Indices
-    },
-    {
-      path: '/indices/:index',
-      name: 'Index',
-      component: Index
-    },
-    {
-      path: '/indices/:index/stats',
-      name: 'IndexStats',
-      component: IndexStats
     },
     {
       path: '/search',
