@@ -3,7 +3,7 @@ describe('QueryRest', () => {
     cy.quickConnect()
     cy.deleteAllIndices()
     cy.createIndex('testindex')
-    cy.visit('/query/rest')
+    cy.visit('/rest')
   })
 
   it('can execute with default settings', () => {
