@@ -1,6 +1,5 @@
 <template>
-  <custom-v-autocomplete :chips="chips"
-                         :items="indices | filteredIndices(showHidden)"
+  <custom-v-autocomplete :items="filteredIndices"
                          :loading="loading"
                          v-model="localValue"
                          append-icon="mdi-menu-down"
@@ -15,17 +14,17 @@
         <v-checkbox :input-value="localValue.includes(data.item)" color="primary"/>
       </v-list-item-action>
       <v-list-item-content :title="data.item" class="text-truncate">
-        {{data.item}}
+        {{ data.item }}
       </v-list-item-content>
     </template>
 
     <template v-slot:selection="{ item, index }">
       <template v-if="index === 0">
         <template v-if="localValue.length === 1">
-          {{item}}
+          {{ item }}
         </template>
         <template v-else>
-          {{localValue.length}} indices selected
+          {{ localValue.length }} indices selected
         </template>
       </template>
     </template>
@@ -55,21 +54,13 @@
 <script>
   import CustomVAutocomplete from '@/components/shared/CustomVAutocomplete'
   import BtnGroup from '@/components/shared/BtnGroup'
+  import { computed, ref } from '@vue/composition-api'
 
   export default {
     name: 'index-select',
     components: {
       BtnGroup,
       CustomVAutocomplete
-    },
-    filters: {
-      filteredIndices (data, showHidden) {
-        if (showHidden) {
-          return data.slice(0).sort()
-        } else {
-          return data.slice(0).filter(index => index[0] !== '.').sort()
-        }
-      }
     },
     props: {
       value: {
@@ -83,44 +74,56 @@
       loading: {
         type: Boolean,
         default: false
-      },
-      chips: {
-        type: Boolean,
-        default: false
       }
     },
-    data () {
-      return {
-        showHidden: true
-      }
-    },
-    computed: {
-      localValue: {
+    setup (props, context) {
+      const showHidden = ref(true)
+      const localValue = computed({
         get () {
-          return this.value
+          return props.value
         },
         set (value) {
-          this.$emit('input', value)
+          context.emit('input', value)
+        }
+      })
+
+      const filteredIndices = computed(() => {
+        if (showHidden.value) {
+          return props.indices.slice(0).sort()
+        } else {
+          return props.indices.slice(0).filter(index => index[0] !== '.').sort()
+        }
+      })
+
+      const resetSelection = () => {
+        localValue.value = []
+        context.emit('reload')
+      }
+
+      const selectAll = () => {
+        if (showHidden.value) {
+          localValue.value = props.indices
+        } else {
+          localValue.value = props.indices.filter(index => index[0] !== '.')
         }
       }
-    },
-    methods: {
-      resetSelection () {
-        this.localValue = []
-        this.$emit('reload')
-      },
-      selectAll () {
-        if (this.showHidden) {
-          this.localValue = this.indices
-        } else {
-          this.localValue = this.indices.filter(index => index[0] !== '.')
-        }
-      },
-      deselectAll () {
-        this.localValue = []
-      },
-      toggleHidden () {
-        this.showHidden = !this.showHidden
+
+      const deselectAll = () => {
+        localValue.value = []
+      }
+
+      const toggleHidden = () => {
+        showHidden.value = !showHidden.value
+      }
+
+      return {
+        showHidden,
+        localValue,
+        resetSelection,
+        selectAll,
+        deselectAll,
+        toggleHidden,
+        filteredIndices
       }
     }
   }

@@ -21,6 +21,8 @@
 </template>
 
 <script>
+  import { ref } from '@vue/composition-api'
+
   export default {
     name: 'content-toggle',
     props: {
@@ -29,19 +31,22 @@
         default: true
       }
     },
-    data () {
-      return {
-        firstActive: this.firstSlotActive
+    setup (props, context) {
+      const firstActive = ref(props.firstSlotActive)
+      const setFirst = () => {
+        firstActive.value = true
+        context.emit('changed', firstActive.value)
       }
-    },
-    methods: {
-      setFirst () {
-        this.firstActive = true
-        this.$emit('changed', this.firstActive)
-      },
-      setLast () {
-        this.firstActive = false
-        this.$emit('changed', this.firstActive)
+
+      const setLast = () => {
+        firstActive.value = false
+        context.emit('changed', firstActive.value)
+      }
+
+      return {
+        firstActive,
+        setFirst,
+        setLast
       }
     }
   }

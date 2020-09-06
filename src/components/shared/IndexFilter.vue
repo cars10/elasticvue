@@ -8,14 +8,7 @@
     </template>
 
     <template slot="last">
-      <data-loader ref="indicesLoader" :method="method" :method-params="methodParams" render-content-while-loading>
-        <template v-slot:default="{body, loading}">
-          <index-select :indices="getIndexNames(body)"
-                        :loading="loading"
-                        v-model="localIndices"
-                        @reload="() => $refs.indicesLoader.loadData()"/>
-        </template>
-      </data-loader>
+      <index-select :indices="indexNames" :loading="requestState.loading" v-model="localIndices" @reload="load"/>
     </template>
     <template slot="last-activator">
       <a class="ml-2" href="javascript:void(0)">or select indices</a>
@@ -26,14 +19,14 @@
 <script>
   import IndexSelect from '@/components/shared/IndexFilter/IndexSelect'
   import IndexPattern from '@/components/shared/IndexFilter/IndexPattern'
-  import DataLoader from '@/components/shared/DataLoader'
   import ContentToggle from '@/components/shared/ContentToggle'
+  import { computed, onMounted, ref, watch } from '@vue/composition-api'
+  import { setupElasticsearchRequest } from '@/mixins/RequestComposition'
 
   export default {
     name: 'index-filter',
     components: {
       ContentToggle,
-      DataLoader,
       IndexSelect,
       IndexPattern
     },
@@ -51,35 +44,46 @@
         default: () => ([])
       }
     },
-    data () {
-      return {
-        localIndices: Array.isArray(this.value) ? this.value : [],
-        localPattern: typeof this.value === 'string' ? this.value : ''
-      }
-    },
-    watch: {
-      localIndices (newValue) {
-        this.$emit('input', newValue)
-      },
-      localPattern (newValue) {
-        this.$emit('input', newValue)
-      }
-    },
-    methods: {
-      emitInput (firstActive) {
+    setup (props, context) {
+      const localIndices = Array.isArray(props.value) ? ref(props.value) : ref([])
+      const localPattern = typeof props.value === 'string' ? ref(props.value) : ref('')
+
+      const { load, requestState, data } = setupElasticsearchRequest(props.method, props.methodParams)
+      onMounted(load)
+
+      const emitInput = firstActive => {
         if (firstActive) {
-          this.$emit('input', this.localPattern)
+          context.emit('input', localPattern.value)
         } else {
-          this.$emit('input', this.localIndices)
+          context.emit('input', localIndices.value)
         }
-      },
-      getIndexNames (indices) {
-        if (!indices) return []
-        if (typeof indices[0] === 'string') {
-          return indices
+      }
+
+      const indexNames = computed(() => {
+        if (!data.value) return []
+        if (typeof data.value[0] === 'string') {
+          return data.value
         } else {
-          return indices.map(i => i.index)
+          return data.value.map(i => i.index)
         }
+      })
+
+      watch(localIndices, newValue => {
+        context.emit('input', newValue)
+      })
+
+      watch(localPattern, newValue => {
+        context.emit('input', newValue)
+      })
+
+      return {
+        localIndices,
+        localPattern,
+        emitInput,
+        indexNames,
+        load,
+        requestState,
+        data
       }
     }
   }
