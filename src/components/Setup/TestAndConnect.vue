@@ -65,7 +65,6 @@
   export default {
     name: 'test-and-connect',
     setup (props, context) {
-      // data
       const testError = ref(false)
       const testSuccess = ref(false)
       const testLoading = ref(false)
