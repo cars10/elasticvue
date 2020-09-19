@@ -3,7 +3,7 @@
     <v-card-title>
       <h1 class="text-h5">Document</h1>
       <reload-button :action="load"/>
-      <back-button :route="{name: 'Search', params: {executeSearch: true}}"/>
+      <back-button :route="{name: 'Search'}"/>
     </v-card-title>
     <v-divider/>
 

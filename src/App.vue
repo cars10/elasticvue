@@ -19,7 +19,7 @@
   import TheFooter from '@/components/App/TheFooter'
   import Snackbar from '@/components/Snackbar'
   import ConnectionStatus from '@/mixins/ConnectionStatus'
-  import esAdapter from '@/mixins/GetAdapter'
+  import { testAdapter } from '@/mixins/GetAdapter'
   import Loading from '@/components/shared/Loading'
 
   export default {
@@ -38,7 +38,7 @@
     },
     created () {
       if (this.wasConnected) {
-        esAdapter()
+        testAdapter()
           .catch(() => {
           })
           .finally(() => {

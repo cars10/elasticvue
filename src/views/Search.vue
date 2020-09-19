@@ -44,7 +44,7 @@
         <div class="text-center">
           <a class="grey--text user-select--none" @click="optionsCollapsed = !optionsCollapsed">
             More options...
-            <v-icon small>{{optionsCollapsed ? 'mdi-chevron-up' : 'mdi-chevron-down'}}</v-icon>
+            <v-icon small>{{ optionsCollapsed ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
           </a>
         </div>
       </v-form>
@@ -52,91 +52,108 @@
 
     <v-divider/>
 
-    <data-loader ref="resultsLoader"
-                 :execute="false"
-                 :method-params="searchParams"
-                 method="search"
-                 render-content-while-loading>
-      <template v-slot:default="data">
-        <results-table :body="data.body" :loading="data.loading"/>
-      </template>
-    </data-loader>
+    <div v-if="requestState.apiError">
+      <div class="d-inline-block mt-4 mx-4">
+        <v-alert v-if="requestState.status === 404" :value="true" type="warning">
+          404: No matching index found for "{{ indices }}"
+        </v-alert>
+        <v-alert v-else :value="true" type="error">
+          Error {{ requestState.status }}. <br>
+          {{ requestState.apiErrorMessage }}
+        </v-alert>
+      </div>
+    </div>
+    <results-table v-else :body="data" :loading="requestState.loading"/>
   </v-card>
 </template>
 
 <script>
-  import DataLoader from '@/components/shared/DataLoader'
   import ResultsTable from '@/components/Search/ResultsTable'
-  import { mapVuexAccessors } from '@/helpers/store'
-  import esAdapter from '@/mixins/GetAdapter'
+  import { compositionVuexAccessors } from '@/helpers/store'
   import IndexFilter from '@/components/shared/IndexFilter'
+  import { computed, ref, watch } from '@vue/composition-api'
+  import Loader from '@/components/shared/Loader'
+  import { useElasticsearchRequest } from '@/mixins/RequestComposition'
 
   export default {
     name: 'Search',
     components: {
-      DataLoader,
+      Loader,
       IndexFilter,
       ResultsTable
     },
-    props: {
-      executeSearch: {
-        default: false,
-        type: Boolean
-      }
-    },
-    data () {
-      return {
-        optionsCollapsed: false
-      }
-    },
-    computed: {
-      sortBy () {
-        if (Array.isArray(this.options.sortBy) && this.options.sortBy.length > 0) {
-          return this.options.sortBy[0]
+    setup () {
+      const { q, indices, source, options } = compositionVuexAccessors('search', ['q', 'indices', 'source', 'options'])
+
+      const optionsCollapsed = ref(false)
+      const sortBy = computed(() => {
+        if (Array.isArray(options.value.sortBy) && options.value.sortBy.length > 0) {
+          return options.value.sortBy[0]
         } else {
           return null
         }
-      },
-      searchParams () {
+      })
+
+      const searchParams = computed(() => {
         let order = null
 
-        if (Array.isArray(this.options.sortDesc) && this.options.sortDesc.length > 0) {
-          order = this.options.sortDesc[0] ? 'desc' : 'asc'
+        if (Array.isArray(options.value.sortDesc) && options.value.sortDesc.length > 0) {
+          order = options.value.sortDesc[0] ? 'desc' : 'asc'
         }
 
         return {
-          q: this.q,
-          index: this.indices,
-          source: this.source,
-          size: this.options.itemsPerPage,
-          from: (this.options.page - 1) * this.options.itemsPerPage,
-          sort: this.sortBy,
+          q: q.value,
+          index: indices.value,
+          source: source.value,
+          size: options.value.itemsPerPage,
+          from: (options.value.page - 1) * options.value.itemsPerPage,
+          sort: sortBy.value,
           order
         }
-      },
-      ...mapVuexAccessors('search', ['q', 'indices', 'source', 'options', 'filter'])
-    },
-    watch: {
-      options () {
-        this.loadData()
+      })
+
+      let searchDirty = false
+      watch(q, () => (searchDirty = true))
+
+      const data = ref({})
+      const { callElasticsearch, requestState } = useElasticsearchRequest()
+      const load = () => {
+        if (searchDirty) options.value.page = 1
+        callElasticsearch('search', searchParams.value)
+          .then(r => {
+            data.value = r
+            searchDirty = false
+          })
       }
-    },
-    methods: {
-      async loadData () {
-        await this.selectOnlyKnownIndices()
-        this.$refs.resultsLoader.loadData()
-      },
-      resetQuery () {
-        this.q = '*'
-      },
-      selectOnlyKnownIndices () {
-        if (!Array.isArray(this.indices)) return true
-        return esAdapter()
-          .then(adapter => adapter.catIndices({ h: 'index' }))
+
+      const loadData = async () => {
+        await selectOnlyKnownIndices()
+        load()
+      }
+      const selectOnlyKnownIndices = () => {
+        if (!Array.isArray(indices.value)) return true
+        return callElasticsearch('catIndices', { h: 'index' })
           .then(body => {
             const availableIndices = body.map(index => index.index)
-            this.indices = this.indices.filter(selectedIndex => availableIndices.includes(selectedIndex))
+            indices.value = indices.value.filter(selectedIndex => availableIndices.includes(selectedIndex))
           })
+      }
+
+      watch(options, (newOptions, oldOptions) => {
+        if (newOptions !== oldOptions) loadData()
+      })
+
+      const resetQuery = () => (q.value = '*')
+
+      return {
+        optionsCollapsed,
+        resetQuery,
+        q,
+        indices,
+        source,
+        loadData,
+        requestState,
+        data
       }
     }
   }

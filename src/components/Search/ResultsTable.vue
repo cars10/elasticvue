@@ -158,37 +158,38 @@
         this.selectedColumns = this.selectedColumns.concat(newColumns)
         const resultIndices = results.uniqueIndices
 
-        esAdapter()
-          .then(adapter => adapter.indexGet({ index: resultIndices }))
-          .then(indices => {
-            const allProperties = {}
-            Object.keys(indices).forEach(index => {
-              const mappings = indices[index].mappings
-              if (typeof mappings.properties === 'undefined') {
-                // ES < 7
-                let indexProperties = {}
-                Object.keys(mappings).forEach(mapping => {
-                  Object.assign(indexProperties, mappings[mapping].properties)
-                })
-                Object.assign(allProperties, indexProperties)
-              } else {
-                // ES >= 7
-                Object.assign(allProperties, mappings.properties)
-              }
-            })
+        esAdapter().indexGet({ index: resultIndices })
+          .then(data => {
+            data.json().then(indices => {
+              const allProperties = {}
+              Object.keys(indices).forEach(index => {
+                const mappings = indices[index].mappings
+                if (typeof mappings.properties === 'undefined') {
+                  // ES < 7
+                  let indexProperties = {}
+                  Object.keys(mappings).forEach(mapping => {
+                    Object.assign(indexProperties, mappings[mapping].properties)
+                  })
+                  Object.assign(allProperties, indexProperties)
+                } else {
+                  // ES >= 7
+                  Object.assign(allProperties, mappings.properties)
+                }
+              })
 
-            this.headers = this.filteredColumns.map(value => {
-              let filterableCol = sortableField(value, allProperties[value])
-              let text
+              this.headers = this.filteredColumns.map(value => {
+                let filterableCol = sortableField(value, allProperties[value])
+                let text
 
-              if (filterableCol) {
-                text = value === filterableCol ? value : `${value} (${filterableCol})`
-              } else {
-                text = value
-              }
-              return { value: filterableCol, text, sortable: !!filterableCol, originalValue: value }
+                if (filterableCol) {
+                  text = value === filterableCol ? value : `${value} (${filterableCol})`
+                } else {
+                  text = value
+                }
+                return { value: filterableCol, text, sortable: !!filterableCol, originalValue: value }
+              })
+              this.callFuzzyTableFilter(val, this.filter, true)
             })
-            this.callFuzzyTableFilter(val, this.filter, true)
           })
       },
       filter (val) {

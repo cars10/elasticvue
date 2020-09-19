@@ -1,7 +1,7 @@
 import ConnectionService from '@/services/elasticsearch/ConnectionService'
 import store from '@/store'
 
-export default async function esAdapter () {
+export default function esAdapter () {
   if (store.state.connection.elasticsearchAdapter !== null) {
     return store.state.connection.elasticsearchAdapter
   } else {
@@ -10,4 +10,9 @@ export default async function esAdapter () {
     store.commit('connection/setElasticsearchAdapter', adapter)
     return adapter
   }
+}
+
+export function testAdapter () {
+  const service = new ConnectionService(store.state.connection.elasticsearchHost)
+  return service.testAdapter()
 }

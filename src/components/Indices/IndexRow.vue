@@ -163,7 +163,7 @@
 
       const showDocuments = (index) => {
         store.commit('search/setIndices', index)
-        context.root.$router.push({ name: 'Search', params: { executeSearch: true } })
+        context.root.$router.push({ name: 'Search' })
       }
 
       const emitReloadIndices = () => {

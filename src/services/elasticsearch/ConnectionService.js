@@ -10,9 +10,9 @@ export default class ConnectionService {
     return new ElasticsearchAdapter(new DefaultClient(this.host))
   }
 
-  async testConnection () {
+  async testAdapter () {
     try {
-      let adapter = await this.getAdapter()
+      let adapter = this.getAdapter()
       await adapter.ping()
       await adapter.search({ size: 0 })
       return adapter

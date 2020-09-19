@@ -59,7 +59,7 @@
   import { computed, ref } from '@vue/composition-api'
   import ConnectionService from '@/services/elasticsearch/ConnectionService'
   import { showErrorSnackbar, showSuccessSnackbar } from '@/mixins/ShowSnackbar'
-  import esAdapter from '@/mixins/GetAdapter'
+  import { testAdapter } from '@/mixins/GetAdapter'
   import { compositionVuexAccessors } from '@/helpers/store'
 
   export default {
@@ -102,7 +102,7 @@
         testLoading.value = true
         testSuccess.value = false
         testError.value = false
-        new ConnectionService(elasticsearchHost.value).testConnection()
+        new ConnectionService(elasticsearchHost.value).testAdapter()
           .then(() => {
             testLoading.value = false
             testSuccess.value = true
@@ -127,7 +127,7 @@
       const connect = () => {
         connectLoading.value = true
         connectError.value = false
-        esAdapter()
+        testAdapter()
           .then(() => {
             store.commit('connection/setConnected')
             connectLoading.value = false
