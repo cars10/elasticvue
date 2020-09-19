@@ -4,14 +4,14 @@ export const indices = {
   namespaced: true,
   state: {
     filter: '',
-    pagination: Object.assign({}, DEFAULT_DATA_TABLE_OPTIONS, { sortBy: ['index'] })
+    options: Object.assign({}, DEFAULT_DATA_TABLE_OPTIONS, { sortBy: ['index'] })
   },
   mutations: {
     setFilter (state, filter) {
       state.filter = filter
     },
-    setPagination (state, pagination) {
-      state.pagination = pagination
+    setOptions (state, options) {
+      state.options = options
     }
   }
 }

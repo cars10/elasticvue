@@ -26,7 +26,7 @@
                   :headers="HEADERS"
                   :items="filteredIndices"
                   :loading="loading"
-                  :options.sync="pagination"
+                  :options.sync="options"
                   class="table--condensed table--fixed-header">
       <template v-slot:item="props">
         <index-row :index="props.item" @reloadIndices="emitReloadIndices"/>
@@ -63,10 +63,10 @@
       }
     },
     setup (props, context) {
-      const { filter, pagination } = compositionVuexAccessors('indices', ['filter', 'pagination'])
+      const { filter, options } = compositionVuexAccessors('indices', ['filter', 'options'])
       const filteredIndices = ref(props.indices)
 
-      watch(pagination, updateFixedTableHeaderHeight)
+      watch(options, updateFixedTableHeaderHeight)
 
       const HEADERS = [
         { text: 'Name', value: 'index' },
@@ -107,7 +107,7 @@
 
       return {
         filter,
-        pagination,
+        options,
         filteredIndices,
         HEADERS,
         DEFAULT_ITEMS_PER_PAGE,
