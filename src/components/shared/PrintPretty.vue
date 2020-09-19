@@ -41,9 +41,10 @@
         default: ''
       }
     },
-    computed: {
-      style () {
-        return `height: ${this.initialHeight}px`
+    setup (props) {
+      const style = `height: ${props.initialHeight}px`
+      return {
+        style
       }
     }
   }
