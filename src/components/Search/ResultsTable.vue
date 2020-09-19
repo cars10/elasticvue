@@ -24,7 +24,7 @@
 
     <v-data-table :footer-props="{itemsPerPageOptions: [10, 20, 100, 1000, 10000]}"
                   :headers="filteredHeaders"
-                  :items="items"
+                  :items="filteredItems"
                   :server-items-length="totalHits"
                   :loading="loading || filterLoading"
                   :options.sync="options"
@@ -52,13 +52,14 @@
   import SettingsDropdown from '@/components/shared/TableSettings/SettingsDropdown'
   import MultiSetting from '@/components/shared/TableSettings/MultiSetting'
   import ModalDataLoader from '@/components/shared/ModalDataLoader'
-  import { mapVuexAccessors } from '@/helpers/store'
-  import Results from '../../models/Results'
-  import AsyncFilter from '@/mixins/AsyncFilter'
-  import { mapState } from 'vuex'
-  import esAdapter from '../../mixins/GetAdapter'
-  import { sortableField } from '@/helpers'
+  import Results from '@/models/Results'
+  import { compositionVuexAccessors } from '@/helpers/store'
+  import { useAsyncFilter } from '@/mixins/CompositionAsyncFilter'
+  import { debounce, sortableField } from '@/helpers'
   import Result from '@/components/Search/Result'
+
+  import { computed, onBeforeUnmount, onMounted, ref, watch } from '@vue/composition-api'
+  import { useElasticsearchRequest } from '@/mixins/RequestComposition'
 
   export default {
     name: 'ResultsTable',
@@ -68,7 +69,6 @@
       ModalDataLoader,
       Result
     },
-    mixins: [AsyncFilter],
     props: {
       body: {
         default: () => ({}),
@@ -79,116 +79,131 @@
         type: Boolean
       }
     },
-    data () {
-      return {
-        items: [],
-        modalOpen: false,
-        modalMethodParams: {},
-        headers: []
-      }
-    },
-    computed: {
-      hits () {
-        if (!this.body) return []
-        if (!this.body.hits) return []
+    setup (props) {
+      const filteredItems = ref([])
+      const modalOpen = ref(false)
+      const modalMethodParams = ref({})
+      const headers = ref([])
+      const { q, filter, options, selectedColumns, columns } = compositionVuexAccessors('search', ['q', 'filter', 'options', 'selectedColumns', 'columns'])
+      const { filterLoading, filterTable } = useAsyncFilter()
 
-        return this.body.hits.hits
-      },
-      totalHits () {
-        if (!this.body) return 0
-        if (!this.body.hits) return 0
-        if (typeof this.body.hits.total === 'object') return this.body.hits.total.value
+      const hits = computed(() => {
+        if (!props.body) return []
+        if (!props.body.hits) return []
 
-        return this.body.hits.total
-      },
-      filteredColumns () {
-        if (this.columns.length === this.selectedColumns.length) {
-          return this.columns
+        return props.body.hits.hits
+      })
+
+      const totalHits = computed(() => {
+        if (!props.body) return 0
+        if (!props.body.hits) return 0
+        if (typeof props.body.hits.total === 'object') return props.body.hits.total.value
+
+        return props.body.hits.total
+      })
+
+      const filteredColumns = computed(() => {
+        if (columns.value.length === selectedColumns.value.length) {
+          return columns.value
         } else {
-          return this.columns.filter(k => this.selectedColumns.includes(k))
+          return columns.value.filter(k => selectedColumns.value.includes(k))
         }
-      },
-      filteredHeaders () {
-        let headers = []
-        if (this.headers.length === this.selectedColumns.length) {
-          headers = this.headers
+      })
+
+      const filteredHeaders = computed(() => {
+        let newHeaders = []
+        if (headers.length === selectedColumns.value.length) {
+          newHeaders = headers.value
         } else {
-          headers = this.headers.filter(h => this.selectedColumns.includes(h.originalValue))
+          newHeaders = headers.value.filter(h => selectedColumns.value.includes(h.originalValue))
         }
 
-        return headers.concat({
+        return newHeaders.concat({
           text: '',
           value: 'actions',
           sortable: false
         })
-      },
-      ...mapVuexAccessors('search', ['filter', 'options', 'selectedColumns', 'columns']),
-      ...mapState('search', ['q'])
-    },
-    watch: {
-      hits (val) {
-        if (val.length === 0 && this.hits.length === 0) {
-          this.items = []
+      })
+
+      const { callElasticsearch } = useElasticsearchRequest()
+
+      watch(hits, val => {
+        if (val.length === 0 && hits.value.length === 0) {
+          filteredItems.value = []
           return
         }
 
-        const oldColumns = this.columns
-        const results = new Results(this.hits)
-        this.columns = results.uniqueColumns
-        const newColumns = this.columns.filter(m => !oldColumns.includes(m))
-        this.selectedColumns = this.selectedColumns.concat(newColumns)
+        const oldColumns = columns.value
+        const results = new Results(hits.value)
+        columns.value = results.uniqueColumns
+        const newColumns = columns.value.filter(m => !oldColumns.includes(m))
+        selectedColumns.value = selectedColumns.value.concat(newColumns)
         const resultIndices = results.uniqueIndices
 
-        esAdapter().indexGet({ index: resultIndices })
-          .then(data => {
-            data.json().then(indices => {
-              const allProperties = {}
-              Object.keys(indices).forEach(index => {
-                const mappings = indices[index].mappings
-                if (typeof mappings.properties === 'undefined') {
-                  // ES < 7
-                  let indexProperties = {}
-                  Object.keys(mappings).forEach(mapping => {
-                    Object.assign(indexProperties, mappings[mapping].properties)
-                  })
-                  Object.assign(allProperties, indexProperties)
-                } else {
-                  // ES >= 7
-                  Object.assign(allProperties, mappings.properties)
-                }
-              })
-
-              this.headers = this.filteredColumns.map(value => {
-                let filterableCol = sortableField(value, allProperties[value])
-                let text
-
-                if (filterableCol) {
-                  text = value === filterableCol ? value : `${value} (${filterableCol})`
-                } else {
-                  text = value
-                }
-                return { value: filterableCol, text, sortable: !!filterableCol, originalValue: value }
-              })
-              this.callFuzzyTableFilter(val, this.filter, true)
+        callElasticsearch('indexGet', { index: resultIndices })
+          .then(indices => {
+            const allProperties = {}
+            Object.keys(indices).forEach(index => {
+              const mappings = indices[index].mappings
+              if (typeof mappings.properties === 'undefined') {
+                // ES < 7
+                let indexProperties = {}
+                Object.keys(mappings).forEach(mapping => {
+                  Object.assign(indexProperties, mappings[mapping].properties)
+                })
+                Object.assign(allProperties, indexProperties)
+              } else {
+                // ES >= 7
+                Object.assign(allProperties, mappings.properties)
+              }
             })
+
+            headers.value = filteredColumns.value.map(value => {
+              let filterableCol = sortableField(value, allProperties[value])
+              let text
+
+              if (filterableCol) {
+                text = value === filterableCol ? value : `${value} (${filterableCol})`
+              } else {
+                text = value
+              }
+              return { value: filterableCol, text, sortable: !!filterableCol, originalValue: value }
+            })
+            fuzzyTableFilter(val, filter.value)
           })
-      },
-      filter (val) {
-        this.callFuzzyTableFilter(this.hits, val, val.length === 0)
+      })
+
+      watch(filter, val => {
+        debouncedFuzzyTableFilter(hits.value, val, val.length === 0)
+      })
+
+      const fuzzyTableFilter = async (items, filter, skipTimeout) => {
+        let filteredResults = await filterTable(items, filter, filteredColumns.value, skipTimeout)
+        filteredItems.value = filteredResults.map(el => Object.assign(el, el._source) && delete el._source && el)
       }
-    },
-    methods: {
-      async callFuzzyTableFilter (items, filter, skipTimeout) {
-        this.debounceFilter(async () => {
-          let filteredResults = await this.filterTable(items, filter, this.filteredColumns, skipTimeout)
-          this.items = filteredResults.map(el => Object.assign(el, el._source) && delete el._source && el)
-        }, skipTimeout)
-      },
-      openDocument (params) {
-        this.modalMethodParams = params
-        this.$nextTick(() => {
-          this.modalOpen = true
-        })
+
+      const debouncedFuzzyTableFilter = debounce(fuzzyTableFilter, 500)
+
+      const openDocument = params => {
+        modalMethodParams.value = params
+        modalOpen.value = true
+      }
+
+      return {
+        filterLoading,
+        filteredItems,
+        hits,
+        modalOpen,
+        modalMethodParams,
+        totalHits,
+        filteredColumns,
+        filteredHeaders,
+        openDocument,
+        q,
+        filter,
+        options,
+        columns,
+        selectedColumns
       }
     }
   }

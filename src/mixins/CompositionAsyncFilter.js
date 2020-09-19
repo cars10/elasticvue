@@ -1,8 +1,10 @@
 import * as Comlink from 'comlink'
 import Worker from 'worker-loader!@/workers/FuzzyFilter'
-import { onBeforeUnmount } from '@vue/composition-api'
+import { onBeforeUnmount, ref } from '@vue/composition-api'
 
 export const useAsyncFilter = () => {
+  const filterLoading = ref(false)
+
   const threads = Math.min(navigator.hardwareConcurrency / 2, 4) || 2
   let workers = Array.from(Array(threads)).map(() => (new Worker()))
   const workerClasses = workers.map(w => {
@@ -20,12 +22,14 @@ export const useAsyncFilter = () => {
 
     return new Promise(resolve => {
       let nestedItems = splitArray(items, threads)
+      filterLoading.value = true
 
       let jobs = workerClasses.map(async (FuzzyFilter, i) => {
         const instance = await FuzzyFilter
         return instance.filter(nestedItems[i], search, headers)
       })
       return Promise.all(jobs).then(values => {
+        filterLoading.value = false
         const flatValues = [].concat.apply([], values)
         return resolve(flatValues)
       })
@@ -33,7 +37,8 @@ export const useAsyncFilter = () => {
   }
 
   return {
-    filterTable
+    filterTable,
+    filterLoading
   }
 }
 
