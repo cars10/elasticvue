@@ -18,8 +18,9 @@
   import TheHeader from '@/components/App/TheHeader'
   import TheFooter from '@/components/App/TheFooter'
   import Snackbar from '@/components/Snackbar'
-  import ConnectionStatus from '@/mixins/ConnectionStatus'
   import { testAdapter } from '@/mixins/GetAdapter'
+  import store from '@/store'
+  import { ref } from '@vue/composition-api'
 
   export default {
     name: 'App',
@@ -28,20 +29,20 @@
       TheFooter,
       Snackbar
     },
-    mixins: [ConnectionStatus],
-    data () {
-      return {
-        renderRouterView: true
-      }
-    },
-    created () {
-      if (this.wasConnected) {
+    setup () {
+      const renderRouterView = ref(true)
+
+      if (store.state.connection.wasConnected) {
         testAdapter()
           .catch(() => {
           })
           .finally(() => {
-            this.renderRouterView = true
+            renderRouterView.value = true
           })
+      }
+
+      return {
+        renderRouterView
       }
     }
   }
