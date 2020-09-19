@@ -5,7 +5,7 @@
     <v-main>
       <v-container fluid>
         <router-view v-if="renderRouterView"/>
-        <loading v-else/>
+        <v-progress-linear v-else color="blue" indeterminate/>
       </v-container>
       <snackbar/>
     </v-main>
@@ -20,14 +20,12 @@
   import Snackbar from '@/components/Snackbar'
   import ConnectionStatus from '@/mixins/ConnectionStatus'
   import { testAdapter } from '@/mixins/GetAdapter'
-  import Loading from '@/components/shared/Loading'
 
   export default {
     name: 'App',
     components: {
       TheHeader,
       TheFooter,
-      Loading,
       Snackbar
     },
     mixins: [ConnectionStatus],

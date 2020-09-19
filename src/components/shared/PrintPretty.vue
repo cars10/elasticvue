@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h4 v-if="caption">{{caption}}</h4>
+    <h4 v-if="caption">{{ caption }}</h4>
     <div v-if="resizable" class="py-1">
       <resizable-container :initial-height="initialHeight">
         <code-editor :value="document" read-only/>
@@ -14,14 +14,12 @@
 
 <script>
   import ResizableContainer from '@/components/shared/ResizableContainer'
-  import Loading from '@/components/shared/Loading'
 
   export default {
     name: 'PrintPretty',
     components: {
       'code-editor': () => ({
-        component: import(/* webpackChunkName: "code-editor" */ '@/components/shared/CodeEditor'),
-        loading: Loading
+        component: import(/* webpackChunkName: "code-editor" */ '@/components/shared/CodeEditor')
       }),
       ResizableContainer
     },
