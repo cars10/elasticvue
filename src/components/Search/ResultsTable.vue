@@ -16,20 +16,19 @@
                         @keyup.esc="filter = ''"/>
 
           <settings-dropdown :badge="columns.length > filteredColumns.length">
-            <single-setting v-model="stickyTableHeader" class="mb-1" name="Sticky table header"/>
             <multi-setting :settings="columns" v-model="selectedColumns" name="Columns"/>
           </settings-dropdown>
         </div>
       </div>
     </v-card-text>
 
-    <v-data-table :class="tableClasses"
-                  :footer-props="{itemsPerPageOptions: [10, 20, 100, 1000, 10000]}"
+    <v-data-table :footer-props="{itemsPerPageOptions: [10, 20, 100, 1000, 10000]}"
                   :headers="filteredHeaders"
                   :items="items"
                   :server-items-length="totalHits"
                   :loading="loading || filterLoading"
-                  :options.sync="options">
+                  :options.sync="options"
+                  class="table--condensed table--fixed-header">
       <template v-slot:item="item">
         <result :filtered-columns="filteredColumns" :document="item.item" @openDocument="openDocument"/>
       </template>
@@ -50,9 +49,7 @@
 </template>
 
 <script>
-  import { fixedTableHeaderOnDisable, fixedTableHeaderOnEnable, resetTableHeight } from '@/mixins/FixedTableHeader'
   import SettingsDropdown from '@/components/shared/TableSettings/SettingsDropdown'
-  import SingleSetting from '@/components/shared/TableSettings/SingleSetting'
   import MultiSetting from '@/components/shared/TableSettings/MultiSetting'
   import ModalDataLoader from '@/components/shared/ModalDataLoader'
   import { mapVuexAccessors } from '@/helpers/store'
@@ -67,7 +64,6 @@
     name: 'ResultsTable',
     components: {
       SettingsDropdown,
-      SingleSetting,
       MultiSetting,
       ModalDataLoader,
       Result
@@ -126,21 +122,6 @@
           sortable: false
         })
       },
-      stickyTableHeader: {
-        get () {
-          return this.$store.state.search.stickyTableHeader
-        },
-        set (value) {
-          if (!value) resetTableHeight()
-          this.$store.commit('search/setStickyTableHeader', value)
-        }
-      },
-      tableClasses () {
-        return [
-          'table--condensed',
-          { 'table--fixed-header': this.stickyTableHeader }
-        ]
-      },
       ...mapVuexAccessors('search', ['filter', 'options', 'selectedColumns', 'columns']),
       ...mapState('search', ['q'])
     },
@@ -195,12 +176,6 @@
       filter (val) {
         this.callFuzzyTableFilter(this.hits, val, val.length === 0)
       }
-    },
-    mounted () {
-      fixedTableHeaderOnEnable()
-    },
-    beforeDestroy () {
-      fixedTableHeaderOnDisable()
     },
     methods: {
       async callFuzzyTableFilter (items, filter, skipTimeout) {
