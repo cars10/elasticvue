@@ -1,16 +1,17 @@
 <template>
   <v-list-item @click="run">
     <v-list-item-action v-if="icon">
-      <v-icon small>{{icon}}</v-icon>
+      <v-icon small>{{ icon }}</v-icon>
     </v-list-item-action>
     <v-list-item-content>
-      <v-list-item-title>{{linkTitle}}</v-list-item-title>
+      <v-list-item-title>{{ linkTitle }}</v-list-item-title>
     </v-list-item-content>
   </v-list-item>
 </template>
 
 <script>
-  import { elasticsearchRequest } from '@/mixins/ElasticsearchAdapterHelper'
+  import { useElasticsearchRequest } from '@/mixins/RequestComposition'
+  import { showErrorSnackbar, showSuccessSnackbar } from '@/mixins/ShowSnackbar'
 
   export default {
     name: 'list-tile-link',
@@ -47,15 +48,30 @@
         default: ''
       }
     },
-    methods: {
-      run () {
-        elasticsearchRequest({
-          method: this.method,
-          methodParams: this.methodParams,
-          callback: this.callback,
-          growl: this.growl,
-          confirmMessage: this.confirmMessage
-        })
+    setup (props) {
+      const { callElasticsearch } = useElasticsearchRequest()
+
+      const run = () => {
+        callElasticsearch(props.method, props.methodParams)
+          .then(body => {
+            if (typeof props.callback === 'function') props.callback(body)
+            if (props.growl) {
+              showSuccessSnackbar({
+                text: props.growl,
+                additionalText: JSON.stringify(body)
+              })
+            }
+            return Promise.resolve(body)
+          })
+          .catch(error => {
+            if (!props.silenceError) {
+              showErrorSnackbar({ text: 'Error:', additionalText: error.message })
+            }
+          })
+      }
+
+      return {
+        run
       }
     }
   }
