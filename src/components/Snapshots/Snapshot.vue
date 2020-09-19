@@ -85,7 +85,6 @@
               indexNamesLoaded.value = true
               indexNames.value = body.snapshots[0].indices
             })
-
         }
       }
 
