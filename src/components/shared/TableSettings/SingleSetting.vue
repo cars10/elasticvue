@@ -13,6 +13,8 @@
 </template>
 
 <script>
+  import { ref, watch } from '@vue/composition-api'
+
   export default {
     name: 'single-settings',
     props: {
@@ -25,19 +27,17 @@
         default: false
       }
     },
-    data () {
+    setup (props, context) {
+      const ownValue = ref(props.value)
+
+      const updateValue = () => {
+        context.emit('input', !!ownValue.value)
+      }
+
+      watch(() => ownValue.value, updateValue)
+
       return {
-        ownValue: this.value
-      }
-    },
-    watch: {
-      ownValue () {
-        this.updateValue()
-      }
-    },
-    methods: {
-      updateValue () {
-        this.$emit('input', !!this.ownValue)
+        ownValue
       }
     }
   }

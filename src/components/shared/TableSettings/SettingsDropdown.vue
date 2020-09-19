@@ -14,6 +14,8 @@
 </template>
 
 <script>
+  import { onBeforeUnmount, onMounted, ref } from '@vue/composition-api'
+
   export default {
     name: 'settings-dropdown',
     props: {
@@ -22,23 +24,22 @@
         default: false
       }
     },
-    data () {
+    setup () {
+      const open = ref(false)
+      onMounted(() => {
+        window.addEventListener('click', closeMenu)
+      })
+
+      onBeforeUnmount(() => {
+        window.removeEventListener('click', closeMenu)
+      })
+
+      const toggleMenu = () => (open.value = !open.value)
+      const closeMenu = () => (open.value = false)
+
       return {
-        open: false
-      }
-    },
-    mounted () {
-      window.addEventListener('click', this.closeMenu)
-    },
-    destroyed () {
-      window.removeEventListener('click', this.closeMenu)
-    },
-    methods: {
-      toggleMenu () {
-        this.open = !this.open
-      },
-      closeMenu () {
-        this.open = false
+        open,
+        toggleMenu
       }
     }
   }

@@ -2,7 +2,7 @@
   <div v-if="settings.length > 0" class="mb-1">
     <slot name="multi-setting__header">
       <v-subheader>
-        {{name}}
+        {{ name }}
         <v-btn v-if="hasChanges" class="ml-a grey--text mr-0 pr-0" small text @click.native="reset">
           reset
           <v-icon>mdi-clear</v-icon>
@@ -25,6 +25,8 @@
 </template>
 
 <script>
+  import { computed, ref, watch } from '@vue/composition-api'
+
   export default {
     name: 'multi-settings',
     props: {
@@ -41,27 +43,23 @@
         default: () => []
       }
     },
-    data () {
+    setup (props, context) {
+      const ownValue = ref(props.value)
+      const hasChanges = computed(() => {
+        return props.settings.length !== props.value.length
+      })
+
+      const updateValue = () => {
+        context.emit('input', ownValue.value)
+      }
+
+      watch(() => ownValue.value, updateValue)
+      const reset = () => (ownValue.value = props.settings)
+
       return {
-        ownValue: this.value
-      }
-    },
-    computed: {
-      hasChanges () {
-        return this.settings.length !== this.value.length
-      }
-    },
-    watch: {
-      ownValue () {
-        this.updateValue()
-      }
-    },
-    methods: {
-      updateValue () {
-        this.$emit('input', this.ownValue)
-      },
-      reset () {
-        this.ownValue = this.settings
+        ownValue,
+        hasChanges,
+        reset
       }
     }
   }
