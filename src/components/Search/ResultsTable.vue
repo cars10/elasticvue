@@ -58,7 +58,7 @@
   import { debounce, sortableField } from '@/helpers'
   import Result from '@/components/Search/Result'
 
-  import { computed, onBeforeUnmount, onMounted, ref, watch } from '@vue/composition-api'
+  import { computed, ref, watch } from '@vue/composition-api'
   import { useElasticsearchRequest } from '@/mixins/RequestComposition'
 
   export default {
