@@ -7,7 +7,7 @@
 * [feat]: adds "copy error" button to error messages
 * [feat]: can search indices by clicking on their name in the indices table
 * [feat]: cleanup tables and remove "sticky header" option. The tables now always use a sticky header
-* refactor many components to use the new composition api, this will prepare elasticvue for the update to vuejs 3
+* refactor all components to use the new composition api, this will prepare elasticvue for the update to vuejs 3
 
 ## 0.26.0
 
