@@ -12,18 +12,18 @@
     "test:e2e": "vue-cli-service test:e2e"
   },
   "dependencies": {
-    "@mdi/font": "^5.1.45",
-    "@vue/composition-api": "^1.0.0-beta.5",
+    "@mdi/font": "^5.6.55",
+    "@vue/composition-api": "^1.0.0-beta.14",
     "brace": "^0.11.1",
     "comlink": "^4.3.0",
     "fuzzysort": "cars10/fuzzysort#master",
-    "pretty-bytes": "^5.3.0",
-    "vue": "^2.6.11",
-    "vue-router": "^3.3.4",
-    "vuetify": "2.3.1",
-    "vuetify-loader": "^1.5.0",
-    "vuex": "^3.4.0",
-    "vuex-persistedstate": "^3.0.1"
+    "pretty-bytes": "^5.4.1",
+    "vue": "^2.6.12",
+    "vue-router": "^3.4.3",
+    "vuetify": "2.3.10",
+    "vuetify-loader": "^1.6.0",
+    "vuex": "^3.5.1",
+    "vuex-persistedstate": "^3.1.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.11.0",
@@ -42,7 +42,7 @@
     "puppeteer": "^5.0.0",
     "sass": "^1.26.5",
     "sass-loader": "^7.3.1",
-    "vue-template-compiler": "^2.6.11",
+    "vue-template-compiler": "^2.6.12",
     "worker-loader": "^2.0.0"
   },
   "description": "Elasticsearch frontend",
