@@ -13,7 +13,7 @@ export const plugins = [
       'nodes',
       'repositories',
       'snapshots',
-      'search.pagination',
+      'search.q',
       'search.stickyTableHeader',
       'search.indices',
       'search.selectedColumns',
