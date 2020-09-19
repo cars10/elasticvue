@@ -2,8 +2,8 @@
   <v-dialog :width="width" v-model="dialog">
     <v-card>
       <v-card-title>
-        <h2 class="text-h5">{{modalTitle}}</h2>
-        <reload-button id="reload-modal" :action="() => this.$refs.dataLoader.loadData()"/>
+        <h2 class="text-h5">{{ modalTitle }}</h2>
+        <reload-button id="reload-modal" :action="load"/>
         <div class="ml-a">
           <v-btn icon @click.native="close">
             <v-icon>mdi-close</v-icon>
@@ -13,30 +13,28 @@
       <v-divider/>
 
       <v-card-text>
-        <data-loader ref="dataLoader" :method="method" :method-params="methodParams" render-content-while-loading>
-          <template v-slot:default="data">
-            <slot name="content">
-              <print-pretty :caption="modalSubtitle"
-                            :document="data.body"
-                            :initial-height="calculatedHeight()"
-                            :resizable="false"/>
-            </slot>
-          </template>
-        </data-loader>
+        <loader :request-state="requestState">
+          <print-pretty :caption="modalSubtitle"
+                        :document="data"
+                        :initial-height="calculatedHeight()"
+                        :resizable="false"/>
+        </loader>
       </v-card-text>
     </v-card>
   </v-dialog>
 </template>
 
 <script>
-  import DataLoader from '@/components/shared/DataLoader'
   import PrintPretty from '@/components/shared/PrintPretty'
   import ReloadButton from '@/components/shared/ReloadButton'
+  import { onBeforeUnmount, ref, watch } from '@vue/composition-api'
+  import { useElasticsearchRequest } from '@/mixins/RequestComposition'
+  import Loader from '@/components/shared/Loader'
 
   export default {
     name: 'modal-data-loader',
     components: {
-      DataLoader,
+      Loader,
       PrintPretty,
       ReloadButton
     },
@@ -68,44 +66,49 @@
         type: Boolean
       }
     },
-    data () {
-      return {
-        dialog: false
-      }
-    },
-    watch: {
-      dialog (value) {
-        if (value) {
-          this.$nextTick(() => {
-            if (this.$refs.dataLoader) this.$refs.dataLoader.loadData()
-          })
-          window.addEventListener('keydown', this.closeOnEsc)
+    setup (props, context) {
+      const dialog = ref(false)
+      const data = ref({})
+      const { callElasticsearch, requestState } = useElasticsearchRequest()
+
+      watch(dialog, newValue => {
+        if (newValue) {
+          load()
+          window.addEventListener('keydown', closeOnEsc)
         } else {
-          window.removeEventListener('keydown', this.closeOnEsc)
-          this.$emit('input', value)
+          window.removeEventListener('keydown', closeOnEsc)
+          context.emit('input', newValue)
         }
-      },
-      value (value) {
-        if (value) this.open()
+      })
+
+      const load = () => {
+        callElasticsearch(props.method, props.methodParams)
+          .then(r => (data.value = r))
       }
-    },
-    beforeDestroy () {
-      window.removeEventListener('keydown', this.closeOnEsc)
-    },
-    methods: {
-      open () {
-        this.dialog = true
-      },
-      close () {
-        this.dialog = false
-      },
-      calculatedHeight () {
-        return window.innerHeight * 0.7
-      },
-      closeOnEsc (e) {
+
+      watch(() => props.value, value => {
+        if (value) dialog.value = true
+      })
+
+      onBeforeUnmount(() => {
+        window.removeEventListener('keydown', closeOnEsc)
+      })
+
+      const close = () => (dialog.value = false)
+      const calculatedHeight = () => (window.innerHeight * 0.7)
+      const closeOnEsc = e => {
         if (e.keyCode === 27) {
-          this.close()
+          close()
         }
+      }
+
+      return {
+        dialog,
+        requestState,
+        load,
+        data,
+        close,
+        calculatedHeight
       }
     }
   }
