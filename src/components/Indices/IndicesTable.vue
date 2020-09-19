@@ -42,7 +42,6 @@
   import { DEFAULT_ITEMS_PER_PAGE } from '@/consts'
   import { compositionVuexAccessors } from '@/helpers/store'
   import { useAsyncFilter } from '@/mixins/CompositionAsyncFilter'
-  import { updateFixedTableHeaderHeight } from '@/mixins/FixedTableHeader'
   import { ref, watch } from '@vue/composition-api'
   import { debounce } from '@/helpers'
 
@@ -65,8 +64,6 @@
     setup (props, context) {
       const { filter, options } = compositionVuexAccessors('indices', ['filter', 'options'])
       const filteredIndices = ref(props.indices)
-
-      watch(options, updateFixedTableHeaderHeight)
 
       const HEADERS = [
         { text: 'Name', value: 'index' },
