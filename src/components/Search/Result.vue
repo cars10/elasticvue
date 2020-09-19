@@ -5,7 +5,7 @@
       <template v-else>{{ document[key] }}</template>
     </td>
     <td>
-      <router-link :class="openDocumentClasses"
+      <router-link :class="classes"
                    :to="{name: 'Document', params: { index: document._index, type: document._type, id: document._id }}"
                    event=""
                    title="Show"
@@ -19,6 +19,9 @@
 </template>
 
 <script>
+  import { computed } from '@vue/composition-api'
+  import store from '@/store'
+
   export default {
     name: 'Result',
     props: {
@@ -31,19 +34,27 @@
         type: Object
       }
     },
-    computed: {
-      openDocumentClasses () {
+    setup (props, context) {
+      const classes = computed(() => {
         return [
           'v-btn',
           'v-size--default',
-          { 'theme--dark': this.$store.state.theme.dark },
-          { 'theme--light': !this.$store.state.theme.dark }
+          { 'theme--dark': store.state.theme.dark },
+          { 'theme--light': !store.state.theme.dark }
         ]
+      })
+
+      const openDocument = () => {
+        context.emit('openDocument', {
+          index: props.document._index,
+          type: props.document._type,
+          id: props.document._id
+        })
       }
-    },
-    methods: {
-      openDocument () {
-        this.$emit('openDocument', { index: this.document._index, type: this.document._type, id: this.document._id })
+
+      return {
+        classes,
+        openDocument
       }
     }
   }
