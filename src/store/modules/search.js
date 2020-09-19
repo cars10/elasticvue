@@ -1,4 +1,4 @@
-import { DEFAULT_DATA_TABLE_OPTIONS, DEFAULT_SEARCH_PARAMS } from '../../consts'
+import { DEFAULT_DATA_TABLE_OPTIONS, DEFAULT_SEARCH_PARAMS } from '@/consts'
 
 export const search = {
   namespaced: true,
