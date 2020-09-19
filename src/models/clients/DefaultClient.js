@@ -160,12 +160,7 @@ export class DefaultClient {
           }
 
           if (response.ok) {
-            const contentType = response.headers.get('content-type')
-            if (contentType && contentType.includes('application/json')) {
-              resolve(response.json())
-            } else {
-              resolve(true)
-            }
+            resolve(response)
           } else {
             reject(response)
           }

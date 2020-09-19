@@ -11,31 +11,48 @@ export function useElasticsearchRequest () {
   })
 
   const callElasticsearch = async (method, params) => {
-    requestState.value = { loading: true, networkError: false, apiError: false, apiErrorMessage: '' }
+    requestState.value = { loading: true, networkError: false, apiError: false, apiErrorMessage: '', status: -1 }
+
     try {
-      const adapter = await esAdapter()
+      const adapter = esAdapter()
       await adapter.ping()
 
       try {
         const response = await adapter[method](params)
-        requestState.value = { loading: false, networkError: false, apiError: false, apiErrorMessage: '' }
+        requestState.value = {
+          loading: false,
+          networkError: false,
+          apiError: false,
+          apiErrorMessage: '',
+          status: response.status
+        }
         if (!store.state.connection.wasConnected) store.commit('connection/setConnected')
-        return Promise.resolve(response)
-      } catch (error) {
-        const errorJson = await error.json()
+
+        const contentType = response.headers.get('content-type')
+        let body
+        if (contentType && contentType.includes('application/json')) {
+          body = await response.json()
+        } else {
+          body = true
+        }
+
+        return Promise.resolve(body)
+      } catch (errorResponse) {
+        const errorJson = await errorResponse.json()
         requestState.value = {
           loading: false,
           networkError: false,
           apiError: true,
-          apiErrorMessage: JSON.stringify(errorJson)
+          apiErrorMessage: JSON.stringify(errorJson),
+          status: errorResponse.status
         }
         console.error(errorJson)
-        return Promise.reject(Error('API Error'))
+        return Promise.reject(new Error('API Error'))
       }
     } catch (error) {
-      requestState.value = { loading: false, networkError: true, apiError: false, apiErrorMessage: '' }
+      requestState.value = { loading: false, networkError: true, apiError: false, apiErrorMessage: '', status: -1 }
       store.commit('connection/setDisconnected')
-      return Promise.reject(Error('Network Error'))
+      return Promise.reject(new Error('Network Error'))
     }
   }
 
