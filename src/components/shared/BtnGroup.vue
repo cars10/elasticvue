@@ -5,6 +5,8 @@
 </template>
 
 <script>
+  import { computed } from '@vue/composition-api'
+
   export default {
     name: 'BtnGroup',
     props: {
@@ -13,13 +15,17 @@
         type: Boolean
       }
     },
-    computed: {
-      classes () {
+    setup (props) {
+      const classes = computed(() => {
         return [
           'elevation-1',
           'btn-group',
-          { 'btn-group--small': this.small }
+          { 'btn-group--small': props.small }
         ]
+      })
+
+      return {
+        classes
       }
     }
   }
