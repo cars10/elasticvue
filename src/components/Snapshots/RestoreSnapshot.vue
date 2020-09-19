@@ -55,7 +55,6 @@
 
 <script>
   import ListTileLink from '@/components/shared/ListTile/ListTileLink'
-  import CustomVAutocomplete from '@/components/shared/CustomVAutocomplete'
   import IndexFilter from '@/components/shared/IndexFilter'
   import { ref } from '@vue/composition-api'
   import { useElasticsearchRequest } from '@/mixins/RequestComposition'
@@ -64,7 +63,6 @@
   export default {
     name: 'RestoreSnapshot',
     components: {
-      CustomVAutocomplete,
       IndexFilter,
       ListTileLink
     },

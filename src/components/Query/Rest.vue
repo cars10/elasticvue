@@ -76,7 +76,6 @@
   import store from '@/store'
   import ResizableContainer from '@/components/shared/ResizableContainer'
   import PrintPretty from '@/components/shared/PrintPretty'
-  import CustomVAutocomplete from '@/components/shared/CustomVAutocomplete'
   import { HTTP_METHODS, REQUEST_DEFAULT_HEADERS } from '@/consts'
   import { buildFetchAuthHeaderFromUrl, urlWithoutCredentials } from '../../helpers'
   import { compositionVuexAccessors } from '@/helpers/store'
@@ -88,7 +87,6 @@
     components: {
       PrintPretty,
       ResizableContainer,
-      CustomVAutocomplete,
       'code-editor': () => ({
         component: import(/* webpackChunkName: "code-editor" */ '@/components/shared/CodeEditor')
       })

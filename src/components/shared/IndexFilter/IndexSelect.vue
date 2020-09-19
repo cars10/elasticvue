@@ -1,14 +1,14 @@
 <template>
-  <custom-v-autocomplete :items="filteredIndices"
-                         :loading="loading"
-                         v-model="localValue"
-                         append-icon="mdi-menu-down"
-                         label="Select indices"
-                         autocomplete="off"
-                         multiple
-                         name="indices"
-                         prepend-inner-icon="mdi-cached"
-                         @click:prepend-inner="resetSelection">
+  <v-autocomplete :items="filteredIndices"
+                  :loading="loading"
+                  v-model="localValue"
+                  append-icon="mdi-menu-down"
+                  label="Select indices"
+                  autocomplete="off"
+                  multiple
+                  name="indices"
+                  prepend-inner-icon="mdi-cached"
+                  @click:prepend-inner="resetSelection">
     <template v-slot:item="data">
       <v-list-item-action>
         <v-checkbox :input-value="localValue.includes(data.item)" color="primary"/>
@@ -48,19 +48,17 @@
       </div>
       <v-divider/>
     </template>
-  </custom-v-autocomplete>
+  </v-autocomplete>
 </template>
 
 <script>
-  import CustomVAutocomplete from '@/components/shared/CustomVAutocomplete'
   import BtnGroup from '@/components/shared/BtnGroup'
   import { computed, ref } from '@vue/composition-api'
 
   export default {
     name: 'index-select',
     components: {
-      BtnGroup,
-      CustomVAutocomplete
+      BtnGroup
     },
     props: {
       value: {
