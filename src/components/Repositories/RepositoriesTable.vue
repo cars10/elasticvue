@@ -48,7 +48,6 @@
 </template>
 
 <script>
-  import DataLoader from '@/components/shared/DataLoader'
   import NewRepository from '@/components/Repositories/NewRepository'
   import { fuzzyTableFilter } from '@/helpers/filters'
   import { DEFAULT_ITEMS_PER_PAGE } from '@/consts'
@@ -61,7 +60,6 @@
   export default {
     name: 'snapshot-repositories-table',
     components: {
-      DataLoader,
       NewRepository
     },
     props: {
