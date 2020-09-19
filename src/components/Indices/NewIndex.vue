@@ -27,6 +27,7 @@
                         label="Number of shards"
                         name="indexShards"
                         placeholder="1"
+                        type="number"
                         @keyup.esc="closeDialog"/>
 
           <v-text-field id="index_replicas"
@@ -34,11 +35,15 @@
                         label="Number of replicas"
                         name="indexReplicas"
                         placeholder="1"
+                        type="number"
                         @keyup.esc="closeDialog"/>
         </v-card-text>
 
         <v-card-actions class="pa-4">
-          <v-btn id="create_index" color="success" type="submit">Create</v-btn>
+          <v-btn id="create_index" :disabled="requestState.loading || !valid" :loading="requestState.loading"
+                 color="success"
+                 type="submit">Create
+          </v-btn>
           <v-btn text @click="closeDialog">Cancel</v-btn>
         </v-card-actions>
       </v-form>
@@ -47,9 +52,9 @@
 </template>
 
 <script>
-  import esAdapter from '@/mixins/GetAdapter'
   import { showErrorSnackbar, showSuccessSnackbar } from '@/mixins/ShowSnackbar'
-  import { computed, ref } from '@vue/composition-api'
+  import { ref } from '@vue/composition-api'
+  import { useElasticsearchRequest } from '@/mixins/RequestComposition'
 
   export default {
     name: 'NewIndex',
@@ -60,7 +65,7 @@
       const indexShards = ref('')
       const indexReplicas = ref('')
 
-      const createIndexParams = computed(() => {
+      const buildCreateParams = () => {
         return {
           index: indexName.value,
           body: {
@@ -70,29 +75,26 @@
             }
           }
         }
-      })
+      }
 
       const nameValidation = () => {
         return !!indexName.value || 'Required'
       }
 
+      const { requestState, callElasticsearch } = useElasticsearchRequest()
       const createIndex = () => {
         if (!context.refs.form.validate()) return
-        esAdapter()
-          .then(adapter => adapter.indexCreate(createIndexParams.value))
+
+        callElasticsearch('indexCreate', buildCreateParams())
           .then(body => {
+            context.emit('reloadIndices')
             showSuccessSnackbar({
               text: `The index '${indexName.value}' was successfully created.`,
               additionalText: JSON.stringify(body)
             })
-            dialog.value = false
-            indexName.value = ''
-            indexShards.value = ''
-            indexReplicas.value = ''
-            context.refs.form.reset()
-            context.emit('reloadIndices')
+            closeDialog()
           })
-          .catch(error => showErrorSnackbar({ text: 'Error:', additionalText: error.message }))
+          .catch(() => showErrorSnackbar({ text: 'Error:', additionalText: requestState.value.apiErrorMessage }))
       }
 
       const closeDialog = () => {
@@ -111,7 +113,8 @@
         indexReplicas,
         nameValidation,
         createIndex,
-        closeDialog
+        closeDialog,
+        requestState
       }
     }
   }
