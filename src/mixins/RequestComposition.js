@@ -1,5 +1,5 @@
 import { ref } from '@vue/composition-api'
-import esAdapter from '@/mixins/GetAdapter'
+import cachedAdapter from '@/mixins/GetAdapter'
 import store from '@/store'
 
 export function useElasticsearchRequest () {
@@ -14,7 +14,7 @@ export function useElasticsearchRequest () {
     requestState.value = { loading: true, networkError: false, apiError: false, apiErrorMessage: '', status: -1 }
 
     try {
-      const adapter = esAdapter()
+      const adapter = cachedAdapter()
       await adapter.ping()
 
       try {

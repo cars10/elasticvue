@@ -131,6 +131,15 @@ export default class ElasticsearchAdapter {
       .then(body => Promise.resolve(body.snapshots[0].indices))
   }
 
+  async test () {
+    try {
+      await this.ping()
+      await this.search({ size: 0 })
+    } catch (e) {
+      return Promise.reject(e)
+    }
+  }
+
   /********/
 
   /**

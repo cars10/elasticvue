@@ -1,18 +1,13 @@
-import ConnectionService from '@/services/elasticsearch/ConnectionService'
 import store from '@/store'
+import ElasticsearchAdapter from '@/services/ElasticsearchAdapter'
+import { DefaultClient } from '@/models/clients/DefaultClient'
 
-export default function esAdapter () {
+export default function cachedAdapter () {
   if (store.state.connection.elasticsearchAdapter !== null) {
     return store.state.connection.elasticsearchAdapter
   } else {
-    let connectionService = new ConnectionService(store.state.connection.elasticsearchHost)
-    let adapter = connectionService.getAdapter()
+    let adapter = new ElasticsearchAdapter(new DefaultClient(store.state.connection.elasticsearchHost))
     store.commit('connection/setElasticsearchAdapter', adapter)
     return adapter
   }
-}
-
-export function testAdapter () {
-  const service = new ConnectionService(store.state.connection.elasticsearchHost)
-  return service.testAdapter()
 }

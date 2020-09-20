@@ -3,7 +3,7 @@ import { REQUEST_DEFAULT_HEADERS } from '@/consts'
 
 export class DefaultClient {
   constructor (host) {
-    this.host = host || 'http://localhost:9200'
+    this.host = host[host.length - 1] === '/' ? host : host + '/'
   }
 
   ping () {

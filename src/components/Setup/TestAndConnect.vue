@@ -57,10 +57,10 @@
 <script>
   import store from '@/store'
   import { computed, ref } from '@vue/composition-api'
-  import ConnectionService from '@/services/elasticsearch/ConnectionService'
   import { showErrorSnackbar, showSuccessSnackbar } from '@/mixins/ShowSnackbar'
-  import { testAdapter } from '@/mixins/GetAdapter'
   import { compositionVuexAccessors } from '@/helpers/store'
+  import ElasticsearchAdapter from '@/services/ElasticsearchAdapter'
+  import { DefaultClient } from '@/models/clients/DefaultClient'
 
   export default {
     name: 'test-and-connect',
@@ -102,7 +102,7 @@
         testLoading.value = true
         testSuccess.value = false
         testError.value = false
-        new ConnectionService(elasticsearchHost.value).testAdapter()
+        new ElasticsearchAdapter(new DefaultClient(elasticsearchHost.value)).test()
           .then(() => {
             testLoading.value = false
             testSuccess.value = true
@@ -127,7 +127,7 @@
       const connect = () => {
         connectLoading.value = true
         connectError.value = false
-        testAdapter()
+        new ElasticsearchAdapter(new DefaultClient(elasticsearchHost.value)).test()
           .then(() => {
             store.commit('connection/setConnected')
             connectLoading.value = false
