@@ -1,13 +1,13 @@
-import { CONNECTION_STATES, DEFAULT_HOST } from '../../consts'
+import { CONNECTION_STATES, DEFAULT_HOST } from '@/consts'
 
 export const connection = {
   namespaced: true,
   state: {
     status: CONNECTION_STATES.UNKNOWN,
     wasConnected: false,
-    elasticsearchHost: DEFAULT_HOST,
-    elasticsearchAdapter: null,
-    apiVersion: ''
+    elasticsearchHost: { name: 'local', uri: DEFAULT_HOST },
+    elasticsearchInstances: [],
+    elasticsearchAdapter: null
   },
   mutations: {
     setConnected (state) {
@@ -18,14 +18,16 @@ export const connection = {
       state.status = CONNECTION_STATES.UNKNOWN
     },
     setElasticsearchHost (state, host) {
-      state.wasConnected = false
       state.elasticsearchHost = host
     },
     setElasticsearchAdapter (state, adapter) {
       state.elasticsearchAdapter = adapter
     },
-    setApiVersion (state, version) {
-      state.apiVersion = version
+    addElasticsearchInstance (state, instance) {
+      state.elasticsearchInstances.push(instance)
+    },
+    removeElasticsearchInstance (state, index) {
+      state.elasticsearchInstances.splice(index, 1)
     }
   }
 }

@@ -12,12 +12,7 @@
     </v-toolbar-title>
 
     <div v-if="wasConnected" id="navbar_cluster_health" class="inline-block mt-1 hidden-xs-only">
-      <span class="mx-1 hidden-sm-and-down">{{ clusterInfo }}</span>
-      <div :title="`Cluster health: ${clusterHealth}`" class="d-inline-block mx-1">
-        <svg height="14" width="14">
-          <circle :class="`health--${clusterHealth}`" cx="7" cy="9" r="5"/>
-        </svg>
-      </div>
+      <elasticsearch-instance-selection/>
     </div>
 
     <div class="flex-grow-1"/>
@@ -63,20 +58,18 @@
 
 <script>
   import Timer from '@/components/shared/Timer'
-  import { computed, onBeforeUnmount, onMounted, ref, watch } from '@vue/composition-api'
-  import { CONNECTION_STATES } from '@/consts'
-  import { truncate, urlWithoutCredentials } from '@/helpers'
+  import { computed, onBeforeUnmount, onMounted, ref } from '@vue/composition-api'
   import store from '@/store'
-  import { useElasticsearchRequest } from '@/mixins/RequestComposition'
+  import { compositionVuexAccessors } from '@/helpers/store'
+  import ElasticsearchInstanceSelection from '@/components/shared/ElasticsearchInstanceSelection'
 
   export default {
     name: 'app-header',
     components: {
-      Timer
+      Timer,
+      ElasticsearchInstanceSelection
     },
     setup (props, context) {
-      const { callElasticsearch } = useElasticsearchRequest()
-
       const scrolledDown = ref(false)
       const setScrolledDown = () => {
         scrolledDown.value = window.pageYOffset > 0
@@ -86,10 +79,6 @@
       })
       onBeforeUnmount(() => {
         if (typeof window !== 'undefined') window.removeEventListener('scroll', setScrolledDown)
-      })
-
-      const clusterInfo = computed(() => {
-        return truncate(urlWithoutCredentials(store.state.connection.elasticsearchHost), 45)
       })
 
       const navbarSnapshotClasses = computed(() => {
@@ -110,44 +99,24 @@
         }
       })
 
-      let getHealthInterval = null
-      const clusterHealth = ref(CONNECTION_STATES.UNKNOWN)
-      const getHealth = () => {
-        callElasticsearch('clusterHealth')
-          .then(result => (clusterHealth.value = result.status))
-          .catch(() => (clusterHealth.value = CONNECTION_STATES.UNKNOWN))
-      }
-
-      const setupHealthLoading = () => {
-        getHealth()
-        if (!getHealthInterval) {
-          getHealthInterval = setInterval(() => {
-            getHealth()
-          }, 30000)
-        }
-      }
-
       const wasConnected = computed(() => {
         return store.state.connection.wasConnected
       })
-      watch(wasConnected, newValue => {
-        if (newValue) setupHealthLoading()
-      })
-
-      if (wasConnected.value) setupHealthLoading()
 
       const dark = computed(() => {
         return store.state.theme.dark
       })
 
+      const { elasticsearchHost, elasticsearchInstances } = compositionVuexAccessors('connection', ['elasticsearchHost', 'elasticsearchInstances'])
+
       return {
-        clusterHealth,
-        clusterInfo,
         navbarSnapshotClasses,
         dense,
         logoSize,
         wasConnected,
-        dark
+        dark,
+        elasticsearchHost,
+        elasticsearchInstances
       }
     }
   }

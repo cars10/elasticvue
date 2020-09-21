@@ -4,7 +4,7 @@
       <v-form @submit.prevent="testConnection">
         <v-text-field id="host"
                       :rules="[hostValid]"
-                      v-model="elasticsearchHost"
+                      v-model="elasticsearchHost.uri"
                       append-icon="mdi-close"
                       autofocus
                       label="Host"
@@ -87,7 +87,7 @@
       const { elasticsearchHost } = compositionVuexAccessors('connection', ['elasticsearchHost'])
 
       const hostValid = computed(() => {
-        return elasticsearchHost.value.match(/^https?:\/\//) ? true : 'Host most contain a valid scheme'
+        return elasticsearchHost.value.uri.match(/^https?:\/\//) ? true : 'Host most contain a valid scheme'
       })
 
       const resetElasticsearchHost = () => {
@@ -95,14 +95,14 @@
         testError.value = false
         testSuccess.value = false
         testLoading.value = false
-        elasticsearchHost.value = 'http://localhost:9200'
+        elasticsearchHost.value.uri = 'http://localhost:9200'
       }
 
       const testConnection = () => {
         testLoading.value = true
         testSuccess.value = false
         testError.value = false
-        new ElasticsearchAdapter(new DefaultClient(elasticsearchHost.value)).test()
+        new ElasticsearchAdapter(new DefaultClient(elasticsearchHost.value.uri)).test()
           .then(() => {
             testLoading.value = false
             testSuccess.value = true
@@ -127,7 +127,7 @@
       const connect = () => {
         connectLoading.value = true
         connectError.value = false
-        new ElasticsearchAdapter(new DefaultClient(elasticsearchHost.value)).test()
+        new ElasticsearchAdapter(new DefaultClient(elasticsearchHost.value.uri)).test()
           .then(() => {
             store.commit('connection/setConnected')
             connectLoading.value = false

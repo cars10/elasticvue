@@ -7,6 +7,7 @@ export const plugins = [
     paths: [
       'connection.wasConnected',
       'connection.elasticsearchHost',
+      'connection.elasticsearchInstances',
       'theme',
       'queryRest',
       'indices',
