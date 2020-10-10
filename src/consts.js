@@ -14,6 +14,7 @@ export const CONNECTION_STATES = {
 /**
  * Some defaults used for initial setup.
  */
+export const DEFAULT_NAME = 'local'
 export const DEFAULT_HOST = 'http://localhost:9200'
 export const LOCALSTORAGE_KEY = 'elasticvuex'
 

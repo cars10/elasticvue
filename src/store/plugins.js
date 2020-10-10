@@ -6,8 +6,9 @@ export const plugins = [
     key: LOCALSTORAGE_KEY,
     paths: [
       'connection.wasConnected',
-      'connection.elasticsearchHost',
-      'connection.elasticsearchInstances',
+      'connection.elasticsearchHost', // deprecated
+      'connection.activeInstanceIdx',
+      'connection.instances',
       'theme',
       'queryRest',
       'indices',

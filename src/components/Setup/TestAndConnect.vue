@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="px-4">
-      <v-form @submit.prevent="testConnection">
+      <v-form v-model="formValid" @submit.prevent="testConnection">
         <v-text-field id="host"
-                      :rules="[hostValid]"
+                      :rules="[validUri]"
                       v-model="elasticsearchHost.uri"
                       append-icon="mdi-close"
                       autofocus
@@ -11,13 +11,13 @@
                       title="Host"
                       type="text"
                       @click:append="resetElasticsearchHost"
-                      @keyup.ctrl.enter="connect"
+                      @keyup.ctrl.enter="connectCluster"
                       @keyup.esc="resetElasticsearchHost"/>
         <div class="mb-4">
           <v-btn id="test_connection"
                  :color="testConnectionColor"
-                 :disabled="hostValid !== true"
-                 :loading="testLoading"
+                 :disabled="!formValid"
+                 :loading="testState.testLoading"
                  class="mr-2 mt-2"
                  type="submit">
             Test connection
@@ -25,11 +25,11 @@
 
           <v-btn id="connect"
                  :color="connectColor"
-                 :disabled="hostValid !== true"
-                 :loading="connectLoading"
+                 :disabled="!formValid"
+                 :loading="testState.connectLoading"
                  class="mt-2"
                  type="button"
-                 @click.native="connect">Connect
+                 @click.native="connectCluster">Connect
           </v-btn>
         </div>
       </v-form>
@@ -41,13 +41,15 @@
       <v-alert :value="true" type="error">
         Could not connect. Please make sure that
         <ol class="pl-4">
-          <li>Your cluster is reachable via <a :href="elasticsearchHost" target="_blank">{{ elasticsearchHost }}</a>
+          <li>
+            Your cluster is reachable via
+            <a :href="elasticsearchHost.uri" target="_blank">{{ elasticsearchHost.uri }}</a>
           </li>
           <li>You added the correct settings to your <strong>elasticsearch.yml</strong> and restarted your cluster</li>
         </ol>
 
         <div class="mt-2">
-          {{ errorMessage }}
+          {{ testState.errorMessage }}
         </div>
       </v-alert>
     </div>
@@ -55,90 +57,34 @@
 </template>
 
 <script>
+  import { useTestConnection } from '@/mixins/TestConnection'
   import store from '@/store'
-  import { computed, ref } from '@vue/composition-api'
-  import { showErrorSnackbar, showSuccessSnackbar } from '@/mixins/ShowSnackbar'
-  import { compositionVuexAccessors } from '@/helpers/store'
-  import ElasticsearchAdapter from '@/services/ElasticsearchAdapter'
-  import { DefaultClient } from '@/models/clients/DefaultClient'
+  import { ref } from '@vue/composition-api'
+  import { showSuccessSnackbar } from '@/mixins/ShowSnackbar'
 
   export default {
     name: 'test-and-connect',
     setup (props, context) {
-      const testError = ref(false)
-      const testSuccess = ref(false)
-      const testLoading = ref(false)
-      const connectLoading = ref(false)
-      const connectError = ref(false)
-      const errorMessage = ref('')
+      const {
+        testState,
+        hasError,
+        testConnectionColor,
+        connectColor,
+        elasticsearchHost,
+        validUri,
+        resetElasticsearchHost,
+        testConnection,
+        connect
+      } = useTestConnection()
 
-      const hasError = computed(() => {
-        return testError.value || connectError.value
-      })
+      const formValid = ref(false)
 
-      const testConnectionColor = computed(() => {
-        return testError.value ? 'error' : 'primary'
-      })
-
-      const connectColor = computed(() => {
-        return testSuccess.value ? 'success' : 'primary'
-      })
-
-      const { elasticsearchHost } = compositionVuexAccessors('connection', ['elasticsearchHost'])
-
-      const hostValid = computed(() => {
-        return elasticsearchHost.value.uri.match(/^https?:\/\//) ? true : 'Host most contain a valid scheme'
-      })
-
-      const resetElasticsearchHost = () => {
-        connectError.value = false
-        testError.value = false
-        testSuccess.value = false
-        testLoading.value = false
-        elasticsearchHost.value.uri = 'http://localhost:9200'
-      }
-
-      const testConnection = () => {
-        testLoading.value = true
-        testSuccess.value = false
-        testError.value = false
-        new ElasticsearchAdapter(new DefaultClient(elasticsearchHost.value.uri)).test()
+      const connectCluster = () => {
+        connect()
           .then(() => {
-            testLoading.value = false
-            testSuccess.value = true
-            testError.value = false
-            showSuccessSnackbar({
-              text: 'Success',
-              additionalText: 'You cluster is reachable and configured correctly.'
-            })
-          })
-          .catch(e => {
-            testLoading.value = false
-            testSuccess.value = false
-            testError.value = true
-            if (e instanceof TypeError) {
-              errorMessage.value = 'Either your cluster is not reachable or you did not configure CORS correctly.'
-            } else {
-              errorMessage.value = e.message
-            }
-          })
-      }
-
-      const connect = () => {
-        connectLoading.value = true
-        connectError.value = false
-        new ElasticsearchAdapter(new DefaultClient(elasticsearchHost.value.uri)).test()
-          .then(() => {
-            store.commit('connection/setConnected')
-            connectLoading.value = false
-            connectError.value = false
+            store.commit('connection/setActiveInstanceIdx', 0)
             showSuccessSnackbar({ text: 'Successfully connected.' })
             context.root.$router.push('/')
-          })
-          .catch(() => {
-            connectLoading.value = false
-            connectError.value = true
-            showErrorSnackbar({ text: 'Error: could not connect.' })
           })
       }
 
@@ -146,14 +92,13 @@
         hasError,
         testConnectionColor,
         connectColor,
-        hostValid,
+        validUri,
         elasticsearchHost,
         resetElasticsearchHost,
         testConnection,
-        connect,
-        testLoading,
-        connectLoading,
-        errorMessage
+        connectCluster,
+        testState,
+        formValid
       }
     }
   }

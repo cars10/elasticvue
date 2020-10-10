@@ -5,7 +5,7 @@ import store from './store'
 import vuetify from './vuetify'
 import VueCompositionApi from '@vue/composition-api'
 import './assets'
-import { CONNECTION_STATES, DEFAULT_HOST } from '@/consts'
+import { CONNECTION_STATES, DEFAULT_HOST, DEFAULT_NAME } from '@/consts'
 
 Vue.use(VueCompositionApi)
 Vue.config.productionTip = false
@@ -17,17 +17,15 @@ new Vue({
   render: h => h(App)
 }).$mount('#app')
 
-const currentHost = store.state.connection.elasticsearchHost
-if (typeof currentHost === 'string') {
-  if (currentHost === DEFAULT_HOST) {
-    store.commit('connection/setElasticsearchHost', { name: 'local', uri: DEFAULT_HOST, status: CONNECTION_STATES.UNKNOWN })
-  } else {
-    store.commit('connection/setElasticsearchHost', { name: 'custom', uri: currentHost, status: CONNECTION_STATES.UNKNOWN })
-  }
-}
+const oldHost = store.state.connection.elasticsearchHost
+if (store.state.connection.instances.length === 0 && typeof oldHost === 'string' && oldHost.length > 0) {
+  const name = oldHost === DEFAULT_HOST ? DEFAULT_NAME : 'custom'
 
-if (Object.keys(store.state.connection.elasticsearchInstances).length === 0) {
-  store.commit('connection/addElasticsearchInstance', store.state.connection.elasticsearchHost)
+  store.commit('connection/addElasticsearchInstance', {
+    name: name,
+    uri: oldHost,
+    status: CONNECTION_STATES.UNKNOWN
+  })
+  store.commit('connection/setElasticsearchHost', null)
 }
-
-// store.commit('connection/addElasticsearchInstance', { name: 'local2', uri: DEFAULT_HOST, status: CONNECTION_STATES.UNKNOWN })
+// store.commit('connection/setConnected', true)

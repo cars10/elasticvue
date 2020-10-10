@@ -60,8 +60,7 @@
   import Timer from '@/components/shared/Timer'
   import { computed, onBeforeUnmount, onMounted, ref } from '@vue/composition-api'
   import store from '@/store'
-  import { compositionVuexAccessors } from '@/helpers/store'
-  import ElasticsearchInstanceSelection from '@/components/shared/ElasticsearchInstanceSelection'
+  import ElasticsearchInstanceSelection from '@/components/ElasticsearchInstance/ElasticsearchInstanceSelection'
 
   export default {
     name: 'app-header',
@@ -71,9 +70,7 @@
     },
     setup (props, context) {
       const scrolledDown = ref(false)
-      const setScrolledDown = () => {
-        scrolledDown.value = window.pageYOffset > 0
-      }
+      const setScrolledDown = () => (scrolledDown.value = window.pageYOffset > 0)
       onMounted(() => {
         if (typeof window !== 'undefined') window.addEventListener('scroll', setScrolledDown)
       })
@@ -107,16 +104,12 @@
         return store.state.theme.dark
       })
 
-      const { elasticsearchHost, elasticsearchInstances } = compositionVuexAccessors('connection', ['elasticsearchHost', 'elasticsearchInstances'])
-
       return {
         navbarSnapshotClasses,
         dense,
         logoSize,
         wasConnected,
-        dark,
-        elasticsearchHost,
-        elasticsearchInstances
+        dark
       }
     }
   }
