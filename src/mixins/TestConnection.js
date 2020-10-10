@@ -81,7 +81,6 @@ export const useTestConnection = () => {
     testState.value.connectError = false
     return new ElasticsearchAdapter(new DefaultClient(elasticsearchHost.value.uri)).test()
       .then(() => {
-        store.commit('connection/setConnected')
         store.commit('connection/addElasticsearchInstance', {
           name: elasticsearchHost.value.name,
           uri: elasticsearchHost.value.uri,

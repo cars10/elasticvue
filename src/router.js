@@ -30,7 +30,7 @@ const router = new Router({
       name: 'Setup',
       component: Setup,
       beforeEnter: (to, from, next) => {
-        if (Store.state.connection.wasConnected) {
+        if (Store.state.connection.instances.length > 0) {
           next('/')
         } else {
           next()
@@ -88,7 +88,7 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  if (!Store.state.connection.wasConnected && to.name !== 'Setup') {
+  if (!Store.state.connection.instances.length > 0 && to.name !== 'Setup') {
     next('setup')
   } else {
     next()

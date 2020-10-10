@@ -78,7 +78,7 @@
         getHealthInterval = setInterval(() => (checkHealth(activeInstance.value)), 3000)
       }
 
-      const wasConnected = computed(() => (store.state.connection.wasConnected))
+      const wasConnected = computed(() => (store.state.connection.instances.length > 0))
       watchEffect(() => {
         if (wasConnected.value) setupHealthLoading()
       })

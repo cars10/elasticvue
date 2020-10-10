@@ -28,4 +28,3 @@ if (store.state.connection.instances.length === 0 && typeof oldHost === 'string'
   })
   store.commit('connection/setElasticsearchHost', null)
 }
-// store.commit('connection/setConnected', true)

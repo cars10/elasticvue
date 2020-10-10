@@ -26,7 +26,6 @@ export function useElasticsearchRequest () {
           apiErrorMessage: '',
           status: response.status
         }
-        if (!store.state.connection.wasConnected) store.commit('connection/setConnected')
 
         const contentType = response.headers.get('content-type')
         let body

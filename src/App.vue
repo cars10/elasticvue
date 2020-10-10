@@ -32,7 +32,7 @@
     setup () {
       const renderRouterView = ref(true)
 
-      if (store.state.connection.wasConnected) {
+      if (store.state.connection.instances.length > 0) {
         cachedAdapter().test()
           .catch(() => {
           })

@@ -97,7 +97,7 @@
       })
 
       const wasConnected = computed(() => {
-        return store.state.connection.wasConnected
+        return store.state.connection.instances.length > 0
       })
 
       const dark = computed(() => {
