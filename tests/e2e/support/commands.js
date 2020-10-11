@@ -17,7 +17,6 @@ Cypress.Commands.add('connect', testCluster => {
     const state = JSON.parse(window.localStorage.getItem('elasticvuex'))
     expect(state.connection.instances.length).to.equal(1)
   })
-
 })
 
 Cypress.Commands.add('quickConnect', () => {
