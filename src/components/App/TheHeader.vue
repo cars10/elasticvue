@@ -5,13 +5,13 @@
            alt="Logo" src="../../../public/images/logo/white_96.png">
       <img v-else :height="logoSize" :width="logoSize" alt="Logo" src="../../../public/images/logo/blue_96.png">
     </router-link>
-    <v-toolbar-title class="mr-6 ml-4 hidden-md-and-down">
+    <v-toolbar-title class="ml-3 hidden-md-and-down">
       <router-link to="/">
         Elasticvue
       </router-link>
     </v-toolbar-title>
 
-    <div v-if="wasConnected" id="navbar_cluster_health" class="inline-block mt-1 hidden-xs-only">
+    <div v-if="wasConnected" class="inline-block ml-3 hidden-xs-only">
       <elasticsearch-instance-selection/>
     </div>
 
