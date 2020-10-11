@@ -2,7 +2,7 @@
   <div>
     <v-menu v-model="menuOpen" offset-y>
       <template v-slot:activator="{ on, attrs }">
-        <v-btn v-if="activeInstance" v-bind="attrs"
+        <v-btn v-if="activeInstance" id="instance_selection_toggle" v-bind="attrs"
                :title="`Connected to '${activeInstance.name}' (${activeInstance.uri})`" class="text-none" v-on="on">
           <svg :title="`Cluster health: ${activeInstance.status}`" height="14" width="14" class="mr-2">
             <circle :class="`health--${activeInstance.status}`" cx="7" cy="9" r="5"/>
@@ -18,7 +18,7 @@
         </v-btn>
       </template>
 
-      <v-list>
+      <v-list id="instance_selection">
         <new-elasticsearch-instance :modal-open="modalOpen"/>
         <v-divider class="mt-2"/>
 
@@ -35,7 +35,7 @@
               {{ item.name }} <small class="grey--text">({{ item.uri }})</small>
             </v-list-item-title>
           </v-list-item-content>
-          <v-list-item-action @click="removeInstance(index)">
+          <v-list-item-action :id="`remove-instance-${index}`" @click.stop="removeInstance(index)">
             <v-btn icon small>
               <v-icon small>mdi-delete</v-icon>
             </v-btn>
@@ -43,7 +43,6 @@
         </v-list-item>
       </v-list>
     </v-menu>
-
   </div>
 </template>
 

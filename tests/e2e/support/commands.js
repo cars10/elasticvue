@@ -12,7 +12,12 @@ Cypress.Commands.add('connect', testCluster => {
   cy.get('#host').type(ELASTICSEARCH_URL)
   if (testCluster) cy.get('#test_connection').click()
   cy.get('#connect:not([disabled])').click()
-  cy.contains('Node Information').should('exist') // wait until first page is loaded
+  // wait until first page is loaded
+  cy.contains('Node Information').should('exist').then(() => {
+    const state = JSON.parse(window.localStorage.getItem('elasticvuex'))
+    expect(state.connection.instances.length).to.equal(1)
+  })
+
 })
 
 Cypress.Commands.add('quickConnect', () => {

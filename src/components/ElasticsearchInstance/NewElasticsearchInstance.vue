@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="dialog" width="800">
     <template v-slot:activator="{ on, attrs }">
-      <v-list-item v-bind="attrs" ripple v-on="on">
+      <v-list-item id="add_new_instance" v-bind="attrs" ripple v-on="on">
         <v-list-item-action>
           <v-icon>mdi-plus</v-icon>
         </v-list-item-action>
@@ -17,6 +17,7 @@
       <v-form ref="form" v-model="formValid" lazy-validation @submit.prevent="testConnection">
         <v-card-text>
           <v-text-field v-if="dialog"
+                        id="new_instance_name"
                         v-model="elasticsearchHost.name"
                         :rules="[validName]"
                         autofocus
@@ -29,6 +30,7 @@
                         @click:append="elasticsearchHost.name = ''"/>
 
           <v-text-field v-if="dialog"
+                        id="new_instance_uri"
                         v-model="elasticsearchHost.uri"
                         :rules="[validUri]"
                         label="Uri"
