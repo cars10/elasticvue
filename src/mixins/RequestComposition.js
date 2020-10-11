@@ -68,7 +68,7 @@ export function setupElasticsearchRequest (method, params) {
   const load = () => {
     callElasticsearch(method, params)
       .then(body => (data.value = body))
-      .catch(() => (data.value = {}))
+      .catch(() => (data.value = null))
   }
 
   return {

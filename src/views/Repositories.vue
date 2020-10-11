@@ -6,7 +6,7 @@
     </v-card-title>
     <v-divider/>
 
-    <loader :request-state="requestState">
+    <loader :request-state="requestState" hide-progress>
       <repositories-table :loading="requestState.loading" :repositories="data || {}" @reloadData="load"/>
     </loader>
 

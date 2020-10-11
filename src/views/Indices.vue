@@ -6,7 +6,9 @@
     </v-card-title>
     <v-divider/>
 
-    <indices-table :indices="data || []" :loading="requestState.loading" @reloadIndices="load"/>
+    <loader :request-state="requestState" hide-progress>
+      <indices-table :indices="data || []" :loading="requestState.loading" @reloadIndices="load"/>
+    </loader>
   </v-card>
 </template>
 
@@ -15,10 +17,12 @@
   import ReloadButton from '@/components/shared/ReloadButton'
   import { setupElasticsearchRequest } from '@/mixins/RequestComposition'
   import { onMounted } from '@vue/composition-api'
+  import Loader from '@/components/shared/Loader'
 
   export default {
     name: 'indices',
     components: {
+      Loader,
       IndicesTable,
       ReloadButton
     },

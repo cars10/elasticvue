@@ -17,7 +17,7 @@
     </template>
   </div>
   <div v-else>
-    <v-progress-linear v-if="requestState.loading" color="blue" indeterminate/>
+    <v-progress-linear v-if="requestState.loading && !hideProgress" color="blue" indeterminate/>
     <slot v-else/>
   </div>
 </template>
@@ -29,6 +29,10 @@
       requestState: {
         default: () => ({}),
         type: Object
+      },
+      hideProgress: {
+        default: false,
+        type: Boolean
       }
     },
     setup (props) {
