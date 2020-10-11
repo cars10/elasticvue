@@ -144,16 +144,12 @@ export default class ElasticsearchAdapter {
 
   /**
    * Creates multiple indices, one for each word. Only creates if they do not already exists
-   * @param name {Array}
+   * @param names {Array}
    */
-  async createIndices (name) {
-    for (let name of [...new Set(name)]) {
-      await this.indexExists({ index: name })
-        .then(exists => {
-          if (!exists) {
-            this.indexCreate({ index: name })
-          }
-        })
+  async createIndices (names) {
+    for (let name of [...new Set(names)]) {
+      const exists = await this.indexExists({ index: name })
+      if (!exists) await this.indexCreate({ index: name })
     }
   }
 }

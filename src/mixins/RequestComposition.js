@@ -1,6 +1,5 @@
 import { ref } from '@vue/composition-api'
 import cachedAdapter from '@/mixins/GetAdapter'
-import store from '@/store'
 
 export function useElasticsearchRequest () {
   const requestState = ref({
@@ -19,6 +18,8 @@ export function useElasticsearchRequest () {
 
       try {
         const response = await adapter[method](params)
+        if (!response) return Promise.resolve()
+
         requestState.value = {
           loading: false,
           networkError: false,
@@ -50,7 +51,6 @@ export function useElasticsearchRequest () {
       }
     } catch (error) {
       requestState.value = { loading: false, networkError: true, apiError: false, apiErrorMessage: '', status: -1 }
-      store.commit('connection/setDisconnected')
       return Promise.reject(new Error('Network Error'))
     }
   }
