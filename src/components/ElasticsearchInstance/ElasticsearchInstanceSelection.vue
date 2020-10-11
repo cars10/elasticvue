@@ -74,7 +74,7 @@
         checkHealth(activeInstance.value)
         if (getHealthInterval) clearInterval(getHealthInterval)
 
-        getHealthInterval = setInterval(() => (checkHealth(activeInstance.value)), 3000)
+        getHealthInterval = setInterval(() => (checkHealth(activeInstance.value)), 30000)
       }
 
       const wasConnected = computed(() => (store.state.connection.instances.length > 0))
