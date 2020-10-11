@@ -125,9 +125,9 @@
 
       const requestUrl = computed(() => {
         if (path.value.slice(0, 1) === '/') {
-          return store.state.connection.elasticsearchHost + path.value
+          return store.getters['connection/activeInstance'].uri + path.value
         } else {
-          return store.state.connection.elasticsearchHost + '/' + path.value
+          return store.getters['connection/activeInstance'].uri + '/' + path.value
         }
       })
 
