@@ -27,7 +27,7 @@ Contents
 
 ## Help wanted: Elasticvue needs a new name
 
-Because of legal issues ("elastic" is a trademark of Elasticsearch) elasticvue needs a new name. Please add any your comments and ideas to this issue: [#34](https://github.com/cars10/elasticvue/issues/36)
+Because of legal issues ("elastic" is a trademark of Elasticsearch) elasticvue needs a new name. Please add any your comments and ideas to this issue: [#36](https://github.com/cars10/elasticvue/issues/36)
 
 ## About
 
