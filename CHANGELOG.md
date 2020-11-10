@@ -53,7 +53,7 @@ This is a re-release of 0.24.0 because i made a mistake publishing it.
 
 ## 0.22.0
 
-* [feat]: change searching to use elasticsearch pagination+sort. **this limits the filter to the current page.** [#20][2i0]
+* [feat]: change searching to use elasticsearch pagination+sort. **this limits the filter to the current page.** [#20][i20]
 * [feat]: can click on index aliases on index overview to directly search
 * [fix]: fix showing index info/stats not always showing the correct result in modal
 * remove the deprecated [elasticsearch](https://www.npmjs.com/package/elasticsearch) library and api browser page. see [#22][i22] for details
