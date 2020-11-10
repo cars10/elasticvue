@@ -7,7 +7,9 @@
 [![Firefox addon](https://img.shields.io/amo/v/elasticvue?label=firefox%20add-on)](https://addons.mozilla.org/en-US/firefox/addon/elasticvue/)
 [![Docker build](https://img.shields.io/docker/automated/cars10/elasticvue)](https://hub.docker.com/r/cars10/elasticvue)
 
-> Elasticsearch gui for your browser [https://elasticvue.com](https://elasticvue.com)
+Elasticsearch gui for your browser [https://elasticvue.com](https://elasticvue.com)
+
+> Elasticsearch is a trademark of Elasticsearch BV, registered in the U.S. and in other countries.
 
 [![Demo](http://static.cars10k.de/demo.gif)](http://static.cars10k.de/demo.gif)
 
@@ -23,6 +25,9 @@ Contents
 6. [Development](#development)
 7. [Contributing](#contributing)
 
+## Help wanted: Elasticvue needs a new name
+
+Because of legal issues ("elastic" is a trademark of Elasticsearch) elasticvue needs a new name. Please add any your comments and ideas to this issue: [#36](https://github.com/cars10/elasticvue/issues/36)
 
 ## About
 
