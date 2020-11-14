@@ -27,7 +27,8 @@ export const DEFAULT_SEARCH_PARAMS = {
   from: 0,
   size: 1000,
   _source: '',
-  index: ''
+  index: '',
+  query_type: 'phrase_prefix'
 }
 
 export const REQUEST_DEFAULT_HEADERS = {

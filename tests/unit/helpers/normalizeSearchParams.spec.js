@@ -4,7 +4,7 @@ import { DEFAULT_SEARCH_PARAMS } from '@/consts'
 describe('helpers/normalizeSearchParams', () => {
   it('has correct default values', () => {
     expect(normalizeSearchParams({})).toEqual({
-      query: { query_string: { query: '*' } },
+      query: { query_string: { query: '*', type: DEFAULT_SEARCH_PARAMS.query_type } },
       from: 0,
       size: 1000,
       index: ''
@@ -14,7 +14,7 @@ describe('helpers/normalizeSearchParams', () => {
   it('normalizes correctly when some params are missing', () => {
     const params = { q: 'query', size: '3' }
     const expected = {
-      query: { query_string: { query: 'query' } },
+      query: { query_string: { query: 'query', type: DEFAULT_SEARCH_PARAMS.query_type } },
       from: DEFAULT_SEARCH_PARAMS.from,
       size: 3,
       index: DEFAULT_SEARCH_PARAMS.index
@@ -31,7 +31,7 @@ describe('helpers/normalizeSearchParams', () => {
       index: 'myIndex'
     }
     const expected = {
-      query: { query_string: { query: 'query' } },
+      query: { query_string: { query: 'query', type: DEFAULT_SEARCH_PARAMS.query_type } },
       from: 5,
       size: 20,
       _source: ['col1'],
@@ -49,7 +49,7 @@ describe('helpers/normalizeSearchParams', () => {
       index: 'myIndex'
     }
     const expected = {
-      query: { query_string: { query: 'query' } },
+      query: { query_string: { query: 'query', type: DEFAULT_SEARCH_PARAMS.query_type } },
       from: 5,
       size: 20,
       index: 'myIndex'

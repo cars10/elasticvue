@@ -2,7 +2,7 @@ import { DEFAULT_SEARCH_PARAMS } from '../consts'
 
 export function normalizeSearchParams (params) {
   const search = {}
-  search.query = { query_string: { query: params.q || DEFAULT_SEARCH_PARAMS.q } }
+  search.query = { query_string: { query: params.q || DEFAULT_SEARCH_PARAMS.q, type: DEFAULT_SEARCH_PARAMS.query_type } }
   search.index = params.index || DEFAULT_SEARCH_PARAMS.index
   if (params.sort) {
     search.sort = [{}]
