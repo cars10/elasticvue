@@ -52,22 +52,20 @@
       const { callElasticsearch } = useElasticsearchRequest()
 
       const run = () => {
-        callElasticsearch(props.method, props.methodParams)
-          .then(body => {
-            if (typeof props.callback === 'function') props.callback(body)
-            if (props.growl) {
-              showSuccessSnackbar({
-                text: props.growl,
-                additionalText: JSON.stringify(body)
-              })
-            }
-            return Promise.resolve(body)
-          })
-          .catch(error => {
-            if (!props.silenceError) {
-              showErrorSnackbar({ text: 'Error:', additionalText: error.message })
-            }
-          })
+        if ((props.confirmMessage && confirm(props.confirmMessage)) || props.confirmMessage.length === 0) {
+          callElasticsearch(props.method, props.methodParams)
+            .then(body => {
+              if (typeof props.callback === 'function') props.callback(body)
+              if (props.growl) {
+                showSuccessSnackbar({
+                  text: props.growl,
+                  additionalText: JSON.stringify(body)
+                })
+              }
+              return Promise.resolve(body)
+            })
+            .catch(error => (showErrorSnackbar({ text: 'Error:', additionalText: error.message })))
+        }
       }
 
       return {
