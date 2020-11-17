@@ -249,19 +249,14 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## TODO
 
-* Search: Button "into Rest"
-* navbar cluster health: reload interval {red:1,yellow:10,green:30}
-
 ### 1.0
 
-* switch to vue-composition-api
+* switch to vue-composition-api. Blocked by vuetify (not compatible yet)
 * document, index, snapshot repo and snapshot: add edit/delete
 * catch elasticsearch 5xx errors
 
 ### Future
 
-* search manually via query dsl
-* home hover lines
 * display rest query results in table
 * cluster settings
 * data import/export
@@ -269,7 +264,6 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 ### Internal stuff and refactorings
 
 * add more specs
-* refactor vuex state to use actions?
 
 ## License
 
