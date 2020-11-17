@@ -89,7 +89,10 @@
 
       const removeInstance = index => {
         if (confirm(`Remove cluster '${instances.value[index].name}'?`)) {
+          let reload
+          if (index === activeInstanceIdx.value) reload = true
           store.commit('connection/removeInstance', index)
+          if (reload) window.location.replace(BASE_URI)
         }
       }
 
