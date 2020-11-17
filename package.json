@@ -12,15 +12,15 @@
     "test:e2e": "vue-cli-service test:e2e"
   },
   "dependencies": {
-    "@mdi/font": "^5.6.55",
-    "@vue/composition-api": "^1.0.0-beta.16",
+    "@mdi/font": "^5.8.55",
+    "@vue/composition-api": "^1.0.0-beta.19",
     "brace": "^0.11.1",
     "comlink": "^4.3.0",
     "fuzzysort": "cars10/fuzzysort#master",
     "pretty-bytes": "^5.4.1",
     "vue": "^2.6.12",
-    "vue-router": "^3.4.6",
-    "vuetify": "2.3.13",
+    "vue-router": "^3.4.9",
+    "vuetify": "2.3.16",
     "vuetify-loader": "^1.6.0",
     "vuex": "^3.5.1",
     "vuex-persistedstate": "^3.1.0"
