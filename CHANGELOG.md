@@ -2,13 +2,16 @@
 
 *Please check the [releases](https://github.com/cars10/elasticvue/releases) page if you need version release dates.*
 
-## unreleased
+## 0.30.0
 
+For this release i rewrote almost all components to use the new vue composition api.
+The rewrite improves the performance and prepares elasticvue for the update to vuejs 3, but might have added some bugs.
+Please reach out if you encounter any issues!
+
+* [feat]: can add multiple elasticsearch instances, fixes [#35][f35]
 * [feat]: adds "copy error" button to error messages
 * [feat]: can search indices by clicking on their name in the indices table
 * [feat]: cleanup tables and remove "sticky header" option. The tables now always use a sticky header
-* [feat]: can add multiple elasticsearch instances, fixes [#35][f35]
-* refactor almost all components to use the new composition api, this improves performance and will prepare elasticvue for the update to vuejs 3
 
 [f35]: https://github.com/cars10/elasticvue/issues/35
 

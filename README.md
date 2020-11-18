@@ -249,15 +249,18 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## TODO
 
-### 1.0
+### Road to 1.0
 
 * switch to vue-composition-api. Blocked by vuetify (not compatible yet)
-* document, index, snapshot repo and snapshot: add edit/delete
-* catch elasticsearch 5xx errors
+* document, index, snapshot repo and snapshot: add edit/delete [#30][f30]
+* support client certificates when connecting to elasticsearch cluster [#33][f33]
+
+[f30]: https://github.com/cars10/elasticvue/issues/30
+[f33]: https://github.com/cars10/elasticvue/issues/33
+
 
 ### Future
 
-* display rest query results in table
 * cluster settings
 * data import/export
 
