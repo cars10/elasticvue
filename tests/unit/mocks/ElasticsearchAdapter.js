@@ -4,6 +4,7 @@ jest.mock('@/services/ElasticsearchAdapter', () => {
       ping: () => {
       },
       clientInfo: function () {
+        console.log('SAMPLE')
         const sample = {
           'name': 'testname',
           'cluster_name': 'testcluster',

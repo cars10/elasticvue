@@ -25,7 +25,7 @@ exports[`components/shared/ReloadButton.vue has an empty default action 1`] = `
     title="Auto reload"
   >
     <div
-      class="v-input mt-0 pt-0 d-inline-block v-select--dense-append v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-text-field v-select"
+      class="v-input mt-0 pt-0 d-inline-block v-select--dense-append v-input--hide-details theme--light v-text-field v-select"
     >
       <div
         class="v-input__control"
@@ -33,7 +33,7 @@ exports[`components/shared/ReloadButton.vue has an empty default action 1`] = `
         <div
           aria-expanded="false"
           aria-haspopup="listbox"
-          aria-owns="list-15"
+          aria-owns="list-13"
           class="v-input__slot"
           role="button"
         >
@@ -46,7 +46,7 @@ exports[`components/shared/ReloadButton.vue has an empty default action 1`] = `
               <input
                 aria-readonly="false"
                 autocomplete="off"
-                id="input-15"
+                id="input-13"
                 readonly="readonly"
                 type="text"
               />
@@ -104,7 +104,7 @@ exports[`components/shared/ReloadButton.vue should render correct default conten
     title="Auto reload"
   >
     <div
-      class="v-input mt-0 pt-0 d-inline-block v-select--dense-append v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-text-field v-select"
+      class="v-input mt-0 pt-0 d-inline-block v-select--dense-append v-input--hide-details theme--light v-text-field v-select"
     >
       <div
         class="v-input__control"
@@ -112,7 +112,7 @@ exports[`components/shared/ReloadButton.vue should render correct default conten
         <div
           aria-expanded="false"
           aria-haspopup="listbox"
-          aria-owns="list-6"
+          aria-owns="list-5"
           class="v-input__slot"
           role="button"
         >
@@ -125,7 +125,7 @@ exports[`components/shared/ReloadButton.vue should render correct default conten
               <input
                 aria-readonly="false"
                 autocomplete="off"
-                id="input-6"
+                id="input-5"
                 readonly="readonly"
                 type="text"
               />
