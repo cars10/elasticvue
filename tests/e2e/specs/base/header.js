@@ -31,6 +31,8 @@ describe('Header', () => {
       cy.get('#new_instance_uri').type('http://localhost:' + Cypress.env('ES_PORT').toString())
       cy.get('#test_connection').click()
       cy.get('#connect').click().then(() => {
+        cy.wait(250)
+        cy.reload(true)
         const state = JSON.parse(window.localStorage.getItem('elasticvuex'))
         expect(state.connection.instances.length).to.equal(2)
       })
