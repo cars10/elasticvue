@@ -17,16 +17,16 @@ const puppeteer = require('puppeteer');
   await page.click('#theme_select')
   await clickToNavigateAndScreenshot(page, '#navbar_search', 'screenshot_4_search_dark.jpg', async page => {
     await page.click('#index-pattern')
-    await page.waitFor(50)
+    await page.waitForTimeout(50)
     await page.click('input[type="checkbox"]')
     await page.click('#search_submit')
-    await page.waitFor(250)
+    await page.waitForTimeout(250)
     await page.click('th[aria-label="author_name (author_name.keyword): Not sorted. Activate to sort ascending."')
-    await page.waitFor(250)
+    await page.waitForTimeout(250)
   })
   await clickToNavigateAndScreenshot(page, '#navbar_query_rest', 'screenshot_5_query_dark.jpg', async page => {
     await page.click('#execute_query')
-    await page.waitFor(500)
+    await page.waitForTimeout(500)
   })
   await clickToNavigateAndScreenshot(page, ['#navbar_snapshots', '#navbar_snapshots_repositories', 'table tbody tr.tr--clickable'], 'screenshot_6_snapshots_dark.jpg')
   await clickToNavigateAndScreenshot(page, '#navbar_utilities', 'screenshot_7_utilities_dark.jpg')
@@ -35,15 +35,15 @@ const puppeteer = require('puppeteer');
 })()
 
 async function connectWithServer (page) {
-  await page.waitFor('#test_connection')
+  await page.waitForSelector('#test_connection')
   await page.click('#test_connection')
-  await page.waitFor('#connect:not(.v-btn--disabled)')
+  await page.waitForSelector('#connect:not(.v-btn--disabled)')
   await page.click('#connect')
-  await page.waitFor(50)
+  await page.waitForTimeout(50)
 }
 
 async function removeSnackbar (page) {
-  await page.waitFor('.v-snack')
+  await page.waitForSelector('.v-snack')
   await page.evaluate(() => {
     let div = document.querySelector('.v-snack')
     div.parentNode.removeChild(div)
@@ -54,7 +54,7 @@ async function clickToNavigateAndScreenshot (page, selectors, screenshot, callba
   console.log(screenshot)
   if (Array.isArray(selectors)) {
     for (let selector of selectors) {
-      await page.waitFor(200)
+      await page.waitForTimeout(200)
       try {
         await page.click(selector)
       } catch (e) {
@@ -63,11 +63,11 @@ async function clickToNavigateAndScreenshot (page, selectors, screenshot, callba
       }
     }
   } else {
-    await page.waitFor(200)
+    await page.waitForTimeout(200)
     await page.click(selectors)
   }
 
-  await page.waitFor(500)
+  await page.waitForTimeout(500)
   if (typeof callback === 'function') await callback(page)
   await page.screenshot({ path: 'scripts/website_screenshots/' + screenshot })
 }
