@@ -2,6 +2,11 @@
 
 *Please check the [releases](https://github.com/cars10/elasticvue/releases) page if you need version release dates.*
 
+## 0.30.1
+
+The only change in this release is a fix to the Dockerfile. The docker image should build again.
+
+
 ## 0.30.0
 
 For this release i rewrote almost all components to use the new vue composition api.
