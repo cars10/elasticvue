@@ -1,4 +1,4 @@
-FROM node:12.13-alpine3.10 AS builder
+FROM node:12.19-alpine3.10 AS builder
 WORKDIR /usr/src/app
 
 COPY package.json .
