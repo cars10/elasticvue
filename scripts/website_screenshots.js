@@ -25,6 +25,8 @@ const puppeteer = require('puppeteer');
     await page.waitForTimeout(250)
   })
   await clickToNavigateAndScreenshot(page, '#navbar_query_rest', 'screenshot_5_query_dark.jpg', async page => {
+    await page.focus('#path')
+    await page.keyboard.type('_search')
     await page.click('#execute_query')
     await page.waitForTimeout(500)
   })
