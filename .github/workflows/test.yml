@@ -37,6 +37,7 @@ jobs:
 
       - name: Run a multi-line script
         run: |
+          yarn install
           yarn lint
           yarn build
           ./scripts/test_e2e.sh
