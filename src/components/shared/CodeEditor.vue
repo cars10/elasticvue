@@ -67,7 +67,7 @@
         if (this.value === '') return true
         if (typeof this.value === 'object') return true
         try {
-          (JSON.parse(this.value))
+          JSON.parse(this.value)
           return true
         } catch (error) {
           return false
@@ -123,8 +123,11 @@
     methods: {
       beautify () {
         if (this.value) {
-          let newValue = this.stringifyJson(JSON.parse(this.editor.getValue()))
-          this.$emit('input', newValue)
+          try {
+            let newValue = this.stringifyJson(JSON.parse(this.editor.getValue()))
+            this.$emit('input', newValue)
+          } catch (error) {
+          }
         }
       },
       setReadOnly (value) {

@@ -118,8 +118,14 @@
         try {
           JSON.parse(requestBody.value)
           return true
-        } catch (error) {
-          return false
+        } catch (_error) {
+          try {
+            const possibleBulk = `[${requestBody.value.trim().split('\n').join(',')}]`
+            JSON.parse(possibleBulk)
+            return true
+          } catch (_bulkError) {
+            return false
+          }
         }
       })
 

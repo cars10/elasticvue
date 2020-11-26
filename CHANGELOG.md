@@ -2,6 +2,13 @@
 
 *Please check the [releases](https://github.com/cars10/elasticvue/releases) page if you need version release dates.*
 
+## unreleased
+
+* [feat]: support `_bulk` api, fixes [#39][f39]
+
+[f39]: https://github.com/cars10/elasticvue/issues/39
+
+
 ## 0.30.1
 
 The only change in this release is a fix to the Dockerfile. The docker image should build again.
