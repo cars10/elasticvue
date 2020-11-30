@@ -20,8 +20,8 @@
 
           <v-text-field v-if="dialog"
                         id="snapshot_name"
-                        :rules="[nameRules]"
                         v-model="snapshotName"
+                        :rules="[nameRules]"
                         autocomplete="off"
                         autofocus
                         label="Snapshot name"

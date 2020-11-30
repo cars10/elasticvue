@@ -7,13 +7,13 @@
         </v-col>
         <v-col>
           <div class="float-right d-inline-flex">
-            <v-select :items="repositories ? Object.keys(repositories) : [repository]"
-                      v-model="repository"
-                      :loading="repositoriesRequestState.loading"
+            <v-select v-model="repository"
                       :background-color="repository ? '' : 'orange'"
+                      :items="repositories ? Object.keys(repositories) : [repository]"
+                      :loading="repositoriesRequestState.loading"
+                      class="pr-4 pt-0 mt-0"
                       hide-details
                       label="Repository"
-                      class="pr-4 pt-0 mt-0"
                       name="repository"/>
             <v-text-field id="filter"
                           v-model="filter"
@@ -31,11 +31,11 @@
     </v-card-text>
 
     <loader v-if="repository" :request-state="requestState">
-      <snapshots-table :loading="requestState.loading" :snapshots="snapshots || []" :filter="filter"
-                       :repository="repository" @reloadData="loadSnapshots"/>
+      <snapshots-table :filter="filter" :loading="requestState.loading" :repository="repository"
+                       :snapshots="snapshots || []" @reloadData="loadSnapshots"/>
     </loader>
     <div v-else class="text-center">
-      <v-alert color="grey" class="d-inline-block">Please select a repository first.</v-alert>
+      <v-alert class="d-inline-block" color="grey">Please select a repository first.</v-alert>
     </div>
   </div>
 </template>

@@ -14,8 +14,8 @@
         <v-card-text>
           <v-text-field v-if="dialog"
                         id="repository_name"
-                        :rules="[nameRules]"
                         v-model="repositoryName"
+                        :rules="[nameRules]"
                         autocomplete="off"
                         autofocus
                         label="Repository name"
@@ -30,8 +30,8 @@
                         value="fs"/>
 
           <v-text-field id="repository_location"
-                        :rules="[locationRules]"
                         v-model="repositoryLocation"
+                        :rules="[locationRules]"
                         label="Repository location"
                         name="repositoryLocation"
                         placeholder="/some/path"
@@ -46,23 +46,23 @@
                         @keydown.esc="closeDialog"/>
 
           <v-text-field id="max_restore_bytes_per_sec"
-                        :rules="[maxRestoreBytesPerSecRules]"
                         v-model="maxRestoreBytesPerSec"
+                        :rules="[maxRestoreBytesPerSecRules]"
                         label="max_restore_bytes_per_sec"
                         name="maxRestoreBytesPerSec"
                         required
                         @keydown.esc="closeDialog"/>
 
           <v-text-field id="max_snapshot_bytes_per_sec"
-                        :rules="[maxSnapshotBytesPerSecRules]"
                         v-model="maxSnapshotBytesPerSec"
+                        :rules="[maxSnapshotBytesPerSecRules]"
                         label="max_snapshot_bytes_per_sec"
                         name="max_snapshot_bytes_per_sec"
                         required
                         @keydown.esc="closeDialog"/>
 
-          <v-checkbox id="compress" v-model="compress" hide-details label="Compress" color="primary"/>
-          <v-checkbox id="readonly" v-model="readonly" hide-details label="Readonly" color="primary"/>
+          <v-checkbox id="compress" v-model="compress" color="primary" hide-details label="Compress"/>
+          <v-checkbox id="readonly" v-model="readonly" color="primary" hide-details label="Readonly"/>
         </v-card-text>
 
         <v-card-actions class="pa-4">

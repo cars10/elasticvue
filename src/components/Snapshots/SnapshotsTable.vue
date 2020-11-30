@@ -7,7 +7,7 @@
                 class="table--condensed"
                 item-key="id">
     <template v-slot:item="props">
-      <snapshot :snapshot="props.item" :repository="repository" @reloadData="emitReloadData"/>
+      <snapshot :repository="repository" :snapshot="props.item" @reloadData="emitReloadData"/>
     </template>
 
     <template slot="no-data">

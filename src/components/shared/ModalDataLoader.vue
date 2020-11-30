@@ -1,5 +1,5 @@
 <template>
-  <v-dialog :width="width" v-model="dialog">
+  <v-dialog v-model="dialog" :width="width">
     <v-card>
       <v-card-title>
         <h2 class="text-h5">{{ modalTitle }}</h2>

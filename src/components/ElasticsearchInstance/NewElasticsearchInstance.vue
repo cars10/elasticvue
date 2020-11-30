@@ -20,12 +20,12 @@
                         id="new_instance_name"
                         v-model="elasticsearchHost.name"
                         :rules="[validName]"
+                        append-icon="mdi-close"
+                        autocomplete="off"
                         autofocus
                         label="Cluster name"
                         name="name"
                         required
-                        autocomplete="off"
-                        append-icon="mdi-close"
                         @keyup.ctrl.enter="connectCluster"
                         @click:append="elasticsearchHost.name = ''"/>
 
@@ -33,10 +33,10 @@
                         id="new_instance_uri"
                         v-model="elasticsearchHost.uri"
                         :rules="[validUri]"
+                        append-icon="mdi-close"
                         label="Uri"
                         name="uri"
                         required
-                        append-icon="mdi-close"
                         @keyup.ctrl.enter="connectCluster"
                         @click:append="elasticsearchHost.uri = ''"/>
 

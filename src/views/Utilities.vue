@@ -14,8 +14,8 @@
               <v-divider/>
               <v-list>
                 <template v-for="utility in UTILITIES.create">
-                  <utility :confirm-message="utility.confirmMessage"
-                           :key="utility.method"
+                  <utility :key="utility.method"
+                           :confirm-message="utility.confirmMessage"
                            :method="utility.method"
                            :method-params="utility.methodParams"
                            :name="'utility_create_' + utility.method"
@@ -29,8 +29,8 @@
               <v-divider/>
               <v-list>
                 <template v-for="utility in UTILITIES.delete">
-                  <utility :confirm-message="utility.confirmMessage"
-                           :key="utility.method"
+                  <utility :key="utility.method"
+                           :confirm-message="utility.confirmMessage"
                            :method="utility.method"
                            :method-params="utility.methodParams"
                            :name="'utility_delete_' + utility.method"
@@ -44,8 +44,8 @@
               <v-divider/>
               <v-list>
                 <template v-for="utility in UTILITIES.misc">
-                  <utility :confirm-message="utility.confirmMessage"
-                           :key="utility.method"
+                  <utility :key="utility.method"
+                           :confirm-message="utility.confirmMessage"
                            :method="utility.method"
                            :method-params="utility.methodParams"
                            :name="'utility_misc_' + utility.method"

@@ -5,8 +5,8 @@
         <span class="grey--text">Showing results for: <span class="font--mono">"{{ q }}"</span></span>
         <div class="float-right d-inline-block">
           <v-text-field id="filter"
-                        :loading="filterLoading"
                         v-model="filter"
+                        :loading="filterLoading"
                         append-icon="mdi-magnify"
                         class="mt-0 pt-0 v-text-field--small"
                         hide-details
@@ -16,7 +16,7 @@
                         @keyup.esc="filter = ''"/>
 
           <settings-dropdown :badge="columns.length > filteredColumns.length">
-            <multi-setting :settings="columns" v-model="selectedColumns" name="Columns"/>
+            <multi-setting v-model="selectedColumns" :settings="columns" name="Columns"/>
           </settings-dropdown>
         </div>
       </div>
@@ -25,12 +25,12 @@
     <v-data-table :footer-props="{itemsPerPageOptions: [10, 20, 100, 1000, 10000]}"
                   :headers="filteredHeaders"
                   :items="filteredItems"
-                  :server-items-length="totalHits"
                   :loading="loading || filterLoading"
                   :options.sync="options"
+                  :server-items-length="totalHits"
                   class="table--condensed table--fixed-header">
       <template v-slot:item="item">
-        <result :filtered-columns="filteredColumns" :document="item.item" @openDocument="openDocument"/>
+        <result :document="item.item" :filtered-columns="filteredColumns" @openDocument="openDocument"/>
       </template>
 
       <template slot="no-data">
@@ -44,7 +44,7 @@
 
       <v-progress-linear slot="progress" color="blue" indeterminate/>
     </v-data-table>
-    <modal-data-loader :method-params="modalMethodParams" v-model="modalOpen" method="get"/>
+    <modal-data-loader v-model="modalOpen" :method-params="modalMethodParams" method="get"/>
   </div>
 </template>
 

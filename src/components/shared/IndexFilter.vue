@@ -8,7 +8,7 @@
     </template>
 
     <template slot="last">
-      <index-select :indices="indexNames" :loading="requestState.loading" v-model="localIndices" @reload="load"/>
+      <index-select v-model="localIndices" :indices="indexNames" :loading="requestState.loading" @reload="load"/>
     </template>
     <template slot="last-activator">
       <a class="ml-2" href="javascript:void(0)">or select indices</a>

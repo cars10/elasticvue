@@ -14,8 +14,8 @@
         <v-card-text>
           <v-text-field v-if="dialog"
                         id="index_name"
-                        :rules="[nameValidation]"
                         v-model="indexName"
+                        :rules="[nameValidation]"
                         autofocus
                         label="Index name"
                         name="indexName"

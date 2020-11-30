@@ -3,8 +3,8 @@
     <div class="px-4">
       <v-form v-model="formValid" @submit.prevent="testConnection">
         <v-text-field id="host"
-                      :rules="[validUri]"
                       v-model="elasticsearchHost.uri"
+                      :rules="[validUri]"
                       append-icon="mdi-close"
                       autofocus
                       label="Host"

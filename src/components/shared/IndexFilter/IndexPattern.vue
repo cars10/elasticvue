@@ -1,10 +1,10 @@
 <template>
   <v-text-field id="index-pattern"
+                v-model="localValue"
                 :hint="requestState.loading ? 'loading...' : matchHint"
                 :loading="requestState.loading"
-                v-model="localValue"
-                label="Index pattern"
                 autocomplete="off"
+                label="Index pattern"
                 persistent-hint
                 @input="load"
                 @keyup.esc="localValue = '*'">

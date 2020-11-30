@@ -4,18 +4,18 @@
 
     <div class="code-editor__actions pa-2">
       <v-btn v-if="!readOnly" :disabled="!valid"
+             class="vertical-align--top mr-2"
              small
              title="Beautify (Ctrl+ALT+L)"
-             class="vertical-align--top mr-2"
              @click="beautify">
         <v-icon small>mdi-code-braces</v-icon>
       </v-btn>
 
       <v-btn-toggle v-model="settings" multiple>
-        <v-btn text small title="Use 2 spaces for beautify (instead of tabs)">
+        <v-btn small text title="Use 2 spaces for beautify (instead of tabs)">
           <v-icon small>mdi-keyboard-space</v-icon>
         </v-btn>
-        <v-btn text small title="Wrap lines">
+        <v-btn small text title="Wrap lines">
           <v-icon small>mdi-wrap</v-icon>
         </v-btn>
       </v-btn-toggle>

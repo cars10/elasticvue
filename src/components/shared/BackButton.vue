@@ -1,7 +1,7 @@
 <template>
   <v-btn :to="route" class="ml-a">
-    <v-icon>{{icon}}</v-icon>
-    {{text}}
+    <v-icon>{{ icon }}</v-icon>
+    {{ text }}
   </v-btn>
 </template>
 

@@ -1,8 +1,8 @@
 <template>
-  <v-snackbar :color="color"
+  <v-snackbar v-model="visible"
+              :color="color"
               :multi-line="additionalText !== undefined"
               :timeout="timeout"
-              v-model="visible"
               right>
     <strong>{{ text }}</strong>
     <template v-if="additionalText">

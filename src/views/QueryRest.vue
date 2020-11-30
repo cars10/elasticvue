@@ -5,8 +5,9 @@
         <v-col class="py-0">
           <h1 class="text-h5">
             Rest
-            <v-btn class="text-transform--none ml-2" small
-                   href="https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html" target="_blank"
+            <v-btn class="text-transform--none ml-2"
+                   href="https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html"
+                   small target="_blank"
                    text>
               <v-icon small>mdi-launch</v-icon>&nbsp;
               api documentation
@@ -16,11 +17,11 @@
 
         <v-col class="text-right py-0">
           <v-btn-toggle v-model="vertical" mandatory>
-            <v-btn :value="true" text title="Vertical" small>
+            <v-btn :value="true" small text title="Vertical">
               <v-icon small>mdi-view-agenda</v-icon>
             </v-btn>
-            <v-btn :value="false" text title="Horizontal" small>
-              <v-icon small class="mdi-rotate-90">mdi-view-agenda</v-icon>
+            <v-btn :value="false" small text title="Horizontal">
+              <v-icon class="mdi-rotate-90" small>mdi-view-agenda</v-icon>
             </v-btn>
           </v-btn-toggle>
         </v-col>

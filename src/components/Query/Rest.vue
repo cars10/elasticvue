@@ -3,8 +3,8 @@
     <v-form @submit.prevent="loadData">
       <v-row>
         <v-col class="py-0" lg="2" sm="3" xl="1">
-          <v-select :items="HTTP_METHODS"
-                    v-model="method"
+          <v-select v-model="method"
+                    :items="HTTP_METHODS"
                     hide-details
                     label="HTTP Method"
                     name="http_method"/>
@@ -26,9 +26,9 @@
           <resizable-container v-if="canSendBody" ref="query_body"
                                :initial-height="vertical ? 200 : 500"
                                class="mb-1">
-            <code-editor :external-commands="editorCommands"
-                         :read-only="method === 'GET' || method === 'HEAD'"
-                         v-model="requestBody"/>
+            <code-editor v-model="requestBody"
+                         :external-commands="editorCommands"
+                         :read-only="method === 'GET' || method === 'HEAD'"/>
           </resizable-container>
 
           <div v-else>
@@ -54,7 +54,7 @@
               </v-btn>
               <a id="reset-form" class="ml-2" href="javascript:void(0)" @click="resetForm">Reset form</a>
             </v-col>
-            <v-col :md="vertical ? 6 : 12" :class="vertical ? 'text-right' : ''" cols="12">
+            <v-col :class="vertical ? 'text-right' : ''" :md="vertical ? 6 : 12" cols="12">
               <a id="example-1" href="javascript:void(0)" @click="loadCatExample">Example #1 (_cat/indices)</a>
               <a id="example-2" class="ml-2" href="javascript:void(0)" @click="loadCreateExample">Example #2 (create
                 index)</a>
@@ -65,7 +65,7 @@
         </v-col>
 
         <v-col :md="vertical ? 12 : 6" cols="12">
-          <print-pretty :document="responseBody" :caption="responseCaption" class="response"/>
+          <print-pretty :caption="responseCaption" :document="responseBody" class="response"/>
         </v-col>
       </v-row>
     </v-form>

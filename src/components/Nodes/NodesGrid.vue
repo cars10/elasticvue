@@ -51,7 +51,7 @@
 
               <v-row class="ma-0 overflow-x--auto caption">
                 <v-col :class="nodeListClass" class="pa-0" cols="12" sm="6">
-                  <v-list dense class="py-0">
+                  <v-list class="py-0" dense>
                     <v-list-item>
                       <v-list-item-action>ip</v-list-item-action>
                       <v-list-item-content class="d-inline-block text-right">
@@ -85,7 +85,7 @@
                 </v-col>
 
                 <v-col class="pa-0" cols="12" sm="6">
-                  <v-list dense class="py-0">
+                  <v-list class="py-0" dense>
                     <v-list-item>
                       <v-list-item-action class="my-0">cpu</v-list-item-action>
                       <v-list-item-content>

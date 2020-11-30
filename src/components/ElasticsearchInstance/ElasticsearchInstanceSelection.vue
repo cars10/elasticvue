@@ -4,10 +4,10 @@
       <template v-slot:activator="{ on, attrs }">
         <v-btn v-if="activeInstance" id="instance_selection_toggle" v-bind="attrs"
                :title="`Connected to '${activeInstance.name}' (${activeInstance.uri})`" class="text-none" v-on="on">
-          <svg :title="`Cluster health: ${activeInstance.status}`" height="14" width="14" class="mr-2">
+          <svg :title="`Cluster health: ${activeInstance.status}`" class="mr-2" height="14" width="14">
             <circle :class="`health--${activeInstance.status}`" cx="7" cy="9" r="5"/>
           </svg>
-          <span style="max-width: 200px" class="text-truncate">{{ activeInstance.name }}</span>
+          <span class="text-truncate" style="max-width: 200px">{{ activeInstance.name }}</span>
           <v-icon v-if="menuOpen">mdi-menu-up</v-icon>
           <v-icon v-else>mdi-menu-down</v-icon>
         </v-btn>
@@ -26,7 +26,7 @@
                      :class="index === activeInstanceIdx ? 'v-list-item--active' : ''"
                      @click="setActiveInstanceIdx(index)">
           <v-list-item-action :title="`Cluster health: ${item.status}`">
-            <svg height="14" width="14" class="mb-1 mx-auto">
+            <svg class="mb-1 mx-auto" height="14" width="14">
               <circle :class="`health--${item.status}`" cx="7" cy="9" r="5"/>
             </svg>
           </v-list-item-action>

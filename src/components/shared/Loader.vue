@@ -2,7 +2,7 @@
   <div v-if="requestState.apiError || requestState.networkError">
     <template v-if="requestState.apiError">
       <div class="pa-4">
-        <v-alert :value="true" type="error" color="red">
+        <v-alert :value="true" color="red" type="error">
           {{ requestState.apiErrorMessage }}<br>
           <v-btn class="mr-4" @click.native="copy">Copy error</v-btn>
         </v-alert>

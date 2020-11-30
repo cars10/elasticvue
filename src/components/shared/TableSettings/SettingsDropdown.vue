@@ -1,7 +1,7 @@
 <template>
   <div class="settings-dropdown" @click.stop>
-    <v-btn small icon @click.native="toggleMenu">
-      <v-badge :value="badge" color="green" class="pa-0 ma-0" dot>
+    <v-btn icon small @click.native="toggleMenu">
+      <v-badge :value="badge" class="pa-0 ma-0" color="green" dot>
         <v-icon>mdi-cog</v-icon>
       </v-badge>
     </v-btn>

@@ -18,7 +18,7 @@
       <template v-else>
         [
         <span v-for="(alias, index) in aliases" :key="`${index}-alias-${alias}`">
-          <a :title="`Search ${alias}`" :key="alias" @click.stop="showDocuments(alias)">{{ alias }}</a><span
+          <a :key="alias" :title="`Search ${alias}`" @click.stop="showDocuments(alias)">{{ alias }}</a><span
           v-if="index !== aliases.length-1">, </span>
         </span>
         ]
@@ -103,11 +103,11 @@
         </v-menu>
       </btn-group>
 
-      <modal-data-loader :method="modalMethod"
+      <modal-data-loader v-model="modalOpen"
+                         :method="modalMethod"
                          :method-params="{ index: index.index }"
                          :modal-subtitle="index.index"
-                         :modal-title="modalTitle"
-                         v-model="modalOpen"/>
+                         :modal-title="modalTitle"/>
     </td>
   </tr>
 </template>
