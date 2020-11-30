@@ -35,7 +35,12 @@
               {{ item.name }} <small class="grey--text">({{ item.uri }})</small>
             </v-list-item-title>
           </v-list-item-content>
-          <v-list-item-action :id="`remove-instance-${index}`" title="Delete cluster"
+
+          <rename-elasticsearch-instance :cluster-name="item.name" :cluster-uri="item.uri" :cluster-idx="index"/>
+
+          <v-list-item-action :id="`remove-instance-${index}`"
+                              title="Delete cluster"
+                              class="ml-1"
                               @click.stop="removeInstance(index)">
             <v-btn icon small>
               <v-icon small>mdi-delete</v-icon>
@@ -54,10 +59,12 @@
   import NewElasticsearchInstance from '@/components/ElasticsearchInstance/NewElasticsearchInstance'
   import { checkHealth } from '@/helpers/instance'
   import { BASE_URI } from '@/consts'
+  import RenameElasticsearchInstance from '@/components/ElasticsearchInstance/RenameElasticsearchInstance'
 
   export default {
     components: {
-      NewElasticsearchInstance
+      NewElasticsearchInstance,
+      RenameElasticsearchInstance
     },
     setup () {
       const menuOpen = ref(false)

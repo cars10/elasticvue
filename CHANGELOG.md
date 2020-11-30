@@ -6,10 +6,12 @@
 
 * [feat]: support `_bulk` api, fixes [#39][f39]
 * [feat]: can show, add and remove index aliases, fixes [#38][f38]
+* [feat]: can rename elasticsearch instances, fixes [#41][f41]
 * [feat]: adds `x` to all modals
 
 [f38]: https://github.com/cars10/elasticvue/issues/38
 [f39]: https://github.com/cars10/elasticvue/issues/39
+[f41]: https://github.com/cars10/elasticvue/issues/41
 
 
 ## 0.30.1

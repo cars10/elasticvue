@@ -19,6 +19,10 @@ export const connection = {
     addElasticsearchInstance (state, instance) {
       state.instances.push(instance)
     },
+    renameElasticsearchInstance (state, { name, index }) {
+      const instance = state.instances[index]
+      if (instance) instance.name = name
+    },
     removeInstance (state, index) {
       state.instances.splice(index, 1)
       if (index === state.activeInstanceIdx) {
