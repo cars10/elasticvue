@@ -13,6 +13,11 @@
       <v-card>
         <v-card-title>
           <h2 class="text-h5">Restore '{{ snapshot }}'</h2>
+          <div class="ml-a">
+            <v-btn icon title="Close" @click.native="closeDialog">
+              <v-icon>mdi-close</v-icon>
+            </v-btn>
+          </div>
         </v-card-title>
         <v-divider/>
 

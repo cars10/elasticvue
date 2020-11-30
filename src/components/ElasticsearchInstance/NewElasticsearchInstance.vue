@@ -11,7 +11,14 @@
       </v-list-item>
     </template>
     <v-card>
-      <v-card-title class="text-h5">Add elasticsearch instance</v-card-title>
+      <v-card-title class="text-h5">
+        <h2 class="text-h5">Add elasticsearch instance</h2>
+        <div class="ml-a">
+          <v-btn icon title="Close" @click.native="closeDialog">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </div>
+      </v-card-title>
 
       <v-divider/>
       <v-form ref="form" v-model="formValid" lazy-validation @submit.prevent="testConnection">
@@ -74,7 +81,7 @@
                  type="button"
                  @click.native="connectCluster">Connect
           </v-btn>
-          <v-btn text @click="close">Cancel</v-btn>
+          <v-btn text @click="closeDialog">Cancel</v-btn>
         </v-card-actions>
       </v-form>
     </v-card>
@@ -91,7 +98,7 @@
   export default {
     setup () {
       const dialog = ref(false)
-      const close = () => {
+      const closeDialog = () => {
         dialog.value = false
         resetElasticsearchHost()
       }
@@ -129,7 +136,7 @@
         elasticsearchHost,
         validName,
         validUri,
-        close,
+        closeDialog,
         testState,
         hasError,
         testConnectionColor,
