@@ -109,24 +109,7 @@
       })
 
       const formValid = computed(() => {
-        return !!method.value && requestBodyValid.value
-      })
-
-      const requestBodyValid = computed(() => {
-        if (requestBody.value.trim().length === 0) return true
-
-        try {
-          JSON.parse(requestBody.value)
-          return true
-        } catch (_error) {
-          try {
-            const possibleBulk = `[${requestBody.value.trim().split('\n').join(',')}]`
-            JSON.parse(possibleBulk)
-            return true
-          } catch (_bulkError) {
-            return false
-          }
-        }
+        return !!method.value
       })
 
       const requestUrl = computed(() => {
