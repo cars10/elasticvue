@@ -30,6 +30,14 @@ export class DefaultClient {
     return this.request(`${index}/_alias`, 'GET')
   }
 
+  indexAddAlias ({ index, alias }) {
+    return this.request(`${index}/_alias/${alias}`, 'PUT')
+  }
+
+  indexDeleteAlias ({ index, alias }) {
+    return this.request(`${index}/_alias/${alias}`, 'DELETE')
+  }
+
   indexCreate ({ index, body }) {
     return this.request(`${index}`, 'PUT', body)
   }

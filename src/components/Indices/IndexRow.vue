@@ -62,6 +62,8 @@
             </v-list-item>
 
             <v-divider/>
+            <index-aliases :index-name="index.index" @reload="emitReloadIndices"/>
+            <v-divider/>
 
             <list-tile-link :callback="emitReloadIndices" :growl="`The index '${index.index}' was successfully merged.`"
                             :method-params="{index: index.index}"
@@ -119,13 +121,15 @@
   import { computed, onMounted, ref, watch } from '@vue/composition-api'
   import store from '@/store'
   import { useElasticsearchRequest } from '@/mixins/RequestComposition'
+  import IndexAliases from '@/components/Indices/IndexAliases'
 
   export default {
     name: 'index-row',
     components: {
       BtnGroup,
       ListTileLink,
-      ModalDataLoader
+      ModalDataLoader,
+      IndexAliases
     },
     props: {
       index: {

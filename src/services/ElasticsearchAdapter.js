@@ -33,6 +33,14 @@ export default class ElasticsearchAdapter {
     return this.client.indexGetAlias(params)
   }
 
+  indexAddAlias (params) {
+    return this.client.indexAddAlias(params)
+  }
+
+  indexDeleteAlias (params) {
+    return this.client.indexDeleteAlias(params)
+  }
+
   indexCreate (params) {
     return this.client.indexCreate(params)
   }
