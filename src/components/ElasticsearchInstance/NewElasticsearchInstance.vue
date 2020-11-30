@@ -63,7 +63,6 @@
           </v-alert>
         </v-card-text>
 
-        <v-divider/>
         <v-card-actions class="pa-4">
           <v-btn id="test_connection"
                  :color="testConnectionColor"

@@ -36,9 +36,8 @@
                         name="uri"/>
         </v-card-text>
 
-        <v-divider/>
         <v-card-actions class="pa-4">
-          <v-btn :disabled="!valid" class="mr-2" type="submit">Rename</v-btn>
+          <v-btn :disabled="!valid" class="mr-2" type="submit" color="success">Rename</v-btn>
           <v-btn text @click="closeDialog">Cancel</v-btn>
         </v-card-actions>
       </v-form>
