@@ -35,7 +35,8 @@
               {{ item.name }} <small class="grey--text">({{ item.uri }})</small>
             </v-list-item-title>
           </v-list-item-content>
-          <v-list-item-action :id="`remove-instance-${index}`" @click.stop="removeInstance(index)">
+          <v-list-item-action :id="`remove-instance-${index}`" title="Remove cluster"
+                              @click.stop="removeInstance(index)">
             <v-btn icon small>
               <v-icon small>mdi-delete</v-icon>
             </v-btn>
@@ -88,7 +89,7 @@
       }
 
       const removeInstance = index => {
-        if (confirm(`Remove cluster '${instances.value[index].name}'?`)) {
+        if (confirm(`Remove cluster '${instances.value[index].name}' (${instances.value[index].uri})?`)) {
           let reload
           if (index === activeInstanceIdx.value) reload = true
           store.commit('connection/removeInstance', index)
