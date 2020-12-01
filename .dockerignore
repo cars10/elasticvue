@@ -1,8 +1,9 @@
-node_modules
 npm-debug.log
 yarn-*.log
 
+artifacts
 browser_extension
 dist
+node_modules
 tests
 tmp
