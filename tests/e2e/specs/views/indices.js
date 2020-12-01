@@ -14,10 +14,7 @@ describe('Indices page', () => {
       cy.get('#create_index').click()
 
       cy.flushIndices().then(() => {
-        cy.reload(true)
-        cy.get('table').should(table => {
-          expect(table).to.contain(indexName)
-        })
+        cy.get('table').should('contain', indexName)
       })
     })
 
@@ -78,28 +75,21 @@ describe('Indices page', () => {
         cy.get('table').contains(indexName).closest('tr').get('button[title="Options"]').click()
         cy.get('table').contains(indexName).closest('tr').get('div.v-list-item__content').contains('Delete').click()
         cy.reload(true)
-        cy.get('table').should(table => {
-          expect(table).not.to.contain(indexName)
-        })
+        cy.get('table').should('not.contain', indexName)
       })
     })
   })
 
   describe('table', () => {
     it('can reload', () => {
-      cy.get('table').should(table => {
-        expect(table).to.contain('No data available')
-      })
+      cy.get('table').should('contain', 'No data available')
 
       const indexName = 'name-1'
       cy.createIndex(indexName)
 
       cy.flushIndices().then(() => {
         cy.get('#reload-indices').click()
-
-        cy.get('table').should(table => {
-          expect(table).to.contain(indexName)
-        })
+        cy.get('table').should('contain', indexName)
       })
     })
 
@@ -110,24 +100,49 @@ describe('Indices page', () => {
         return cy.flushIndices()
       }).then(() => {
         cy.reload(true)
-        cy.get('table').should(table => {
-          expect(table).to.contain(indexName)
-        })
+        cy.get('table').should('contain', indexName)
 
         cy.get('#filter').clear()
         cy.get('#filter').type('name-2')
 
-        cy.get('table').should(table => {
-          expect(table).not.to.contain(indexName)
-        })
+        cy.get('table').should('not.contain', indexName)
 
         cy.get('#filter').clear()
         cy.get('#filter').type('name-1')
 
-        cy.get('table').should(table => {
-          expect(table).to.contain(indexName)
-        })
+        cy.get('table').should('contain', 'No data available')
       })
     })
   })
+
+  describe('aliases', () => {
+    it('can create index aliases', () => {
+      const indexName = 'name-1'
+      const aliasName = `${indexName}-alias`
+      createIndexAlias(indexName, aliasName)
+      cy.get('div.v-dialog').should('contain', aliasName)
+    })
+
+    it('can delete index aliases', () => {
+      const indexName = 'name-1'
+      const aliasName = `${indexName}-alias`
+      createIndexAlias(indexName, aliasName)
+      cy.get('div.v-dialog').should('contain', aliasName)
+      cy.get('div.v-dialog').get('button').contains('Delete').click()
+      cy.get('div.v-dialog').should('not.contain', aliasName)
+    })
+  })
 })
+
+const createIndexAlias = (indexName, aliasName) => {
+  cy.createIndex(indexName).then(() => {
+    return cy.flushIndices()
+  }).then(() => {
+    cy.reload(true)
+    cy.get('table').contains(indexName).closest('tr').get('button[title="Options"]').click()
+    cy.get('table').contains(indexName).closest('tr').get('div.v-list-item__content').contains('Aliases').click()
+    cy.get('#new_index_alias_name').clear()
+    cy.get('#new_index_alias_name').type(aliasName)
+    cy.get('#add_index_alias').click()
+  })
+}

@@ -26,13 +26,17 @@
         <v-form @submit.prevent="addAlias">
           <v-row>
             <v-col class="flex-grow-1">
-              <v-text-field v-model="newAlias"
+              <v-text-field id="new_index_alias_name"
+                            v-model="newAlias"
                             hide-details
                             label="Add alias"/>
             </v-col>
             <v-col class="flex-grow-0">
-              <v-btn :disabled="requestState.loading || newAlias.length === 0" class="mt-3" type="submit">Add new
-                alias
+              <v-btn id="add_index_alias"
+                     :disabled="requestState.loading || newAlias.length === 0"
+                     class="mt-3"
+                     type="submit">
+                Add new alias
               </v-btn>
             </v-col>
           </v-row>
