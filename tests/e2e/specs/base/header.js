@@ -31,7 +31,7 @@ describe('Header', () => {
       cy.get('#new_instance_uri').type('http://localhost:' + Cypress.env('ES_PORT').toString())
       cy.get('#test_connection').click()
       cy.get('#connect').click().then(() => {
-        cy.wait(250)
+        cy.wait(100)
         cy.reload(true)
         const state = JSON.parse(window.localStorage.getItem('elasticvuex'))
         expect(state.connection.instances.length).to.equal(2)
@@ -49,6 +49,8 @@ describe('Header', () => {
       cy.get('#new_instance_uri').type('http://localhost:' + Cypress.env('ES_PORT').toString())
       cy.get('#test_connection').click()
       cy.get('#connect').click().then(() => {
+        cy.wait(100)
+        cy.reload(true)
         const state = JSON.parse(window.localStorage.getItem('elasticvuex'))
         expect(state.connection.instances[1].name).to.equal(name)
         cy.get('#instance_selection_toggle').should('contain', name)
