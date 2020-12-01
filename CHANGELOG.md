@@ -2,7 +2,7 @@
 
 *Please check the [releases](https://github.com/cars10/elasticvue/releases) page if you need version release dates.*
 
-## unreleased
+## 0.31.0
 
 * [feat]: support `_bulk` api, fixes [#39][f39]
 * [feat]: can show, add and remove index aliases, fixes [#38][f38]
