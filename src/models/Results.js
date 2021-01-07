@@ -9,7 +9,7 @@ export default class Results {
   }
 
   add (result) {
-    this.columns = this.columns.concat(Object.keys(result._source))
+    if (result._source) this.columns = this.columns.concat(Object.keys(result._source))
     this.indices.push(result['_index'])
   }
 }
