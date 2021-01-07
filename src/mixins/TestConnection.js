@@ -59,6 +59,7 @@ export const useTestConnection = () => {
         testState.value.testLoading = false
         testState.value.testSuccess = true
         testState.value.testError = false
+        testState.value.connectError = false
         showSuccessSnackbar({
           text: 'Success',
           additionalText: 'You cluster is reachable and configured correctly.'

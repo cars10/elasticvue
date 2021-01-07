@@ -82,6 +82,7 @@
       const connectCluster = () => {
         connect()
           .then(() => {
+            if (testState.value.connectError) return
             store.commit('connection/setActiveInstanceIdx', 0)
             showSuccessSnackbar({ text: 'Successfully connected.' })
             context.root.$router.push('/')
