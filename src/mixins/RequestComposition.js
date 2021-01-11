@@ -9,7 +9,7 @@ export function useElasticsearchRequest () {
     apiErrorMessage: ''
   })
 
-  const callElasticsearch = async (method, params) => {
+  const callElasticsearch = async (method, ...args) => {
     requestState.value = { loading: true, networkError: false, apiError: false, apiErrorMessage: '', status: -1 }
 
     try {
@@ -17,7 +17,7 @@ export function useElasticsearchRequest () {
       await adapter.ping()
 
       try {
-        const response = await adapter[method](params)
+        const response = await adapter[method](...args)
         if (!response) return Promise.resolve()
 
         requestState.value = {
@@ -47,11 +47,12 @@ export function useElasticsearchRequest () {
           status: errorResponse.status
         }
         console.error(errorJson)
-        return Promise.reject(new Error('API Error'))
+        return Promise.reject(new Error('API error'))
       }
     } catch (error) {
       requestState.value = { loading: false, networkError: true, apiError: false, apiErrorMessage: '', status: -1 }
-      return Promise.reject(new Error('Network Error'))
+      console.error(error)
+      return Promise.reject(new Error('Unknown error'))
     }
   }
 
