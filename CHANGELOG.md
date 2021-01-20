@@ -9,6 +9,7 @@
 * [feat]: change forms to connect/add a cluster, adds dedicated fields for username and password. This should fix any
   issues with passwords that are not urlsafe, fixes [#43][f43]
 * [feat]: small color changes to improve a11y and contrast
+* converted the remaining components to the new vue composition api
 
 [f42]: https://github.com/cars10/elasticvue/issues/42
 
