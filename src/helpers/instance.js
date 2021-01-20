@@ -4,7 +4,7 @@ import { CONNECTION_STATES } from '@/consts'
 
 export const checkHealth = instance => {
   if (!instance) return
-  const adapter = new ElasticsearchAdapter(new DefaultClient(instance.uri))
+  const adapter = new ElasticsearchAdapter(new DefaultClient(instance))
 
   adapter
     .clusterHealth()

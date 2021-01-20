@@ -36,6 +36,24 @@
                         @keyup.ctrl.enter="connectCluster"
                         @click:append="elasticsearchHost.name = ''"/>
 
+          <v-row>
+            <v-col>
+              <v-text-field v-model="elasticsearchHost.username"
+                            label="Username"
+                            title="Username"
+                            type="text"/>
+            </v-col>
+            <v-col>
+              <v-text-field v-model="elasticsearchHost.password"
+                            :append-icon="passwordVisible ? 'mdi-eye' : 'mdi-eye-off'"
+                            :type="passwordVisible ? 'text' : 'password'"
+                            autocomplete="off"
+                            label="Password"
+                            title="Password"
+                            @click:append="passwordVisible = !passwordVisible"/>
+            </v-col>
+          </v-row>
+
           <v-text-field v-if="dialog"
                         id="new_instance_uri"
                         v-model="elasticsearchHost.uri"
@@ -130,6 +148,8 @@
           })
       }
 
+      const passwordVisible = ref(false)
+
       return {
         dialog,
         formValid,
@@ -143,7 +163,8 @@
         connectColor,
         resetElasticsearchHost,
         testConnection,
-        connectCluster
+        connectCluster,
+        passwordVisible
       }
     }
   }

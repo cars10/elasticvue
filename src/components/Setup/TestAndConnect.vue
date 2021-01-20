@@ -2,11 +2,29 @@
   <div>
     <div class="px-4">
       <v-form v-model="formValid" @submit.prevent="testConnection">
+        <v-row>
+          <v-col>
+            <v-text-field v-model="elasticsearchHost.username"
+                          autofocus
+                          label="Username"
+                          title="Username"
+                          type="text"/>
+          </v-col>
+          <v-col>
+            <v-text-field v-model="elasticsearchHost.password"
+                          :append-icon="passwordVisible ? 'mdi-eye' : 'mdi-eye-off'"
+                          :type="passwordVisible ? 'text' : 'password'"
+                          autocomplete="off"
+                          label="Password"
+                          title="Password"
+                          @click:append="passwordVisible = !passwordVisible"/>
+          </v-col>
+        </v-row>
+
         <v-text-field id="host"
                       v-model="elasticsearchHost.uri"
                       :rules="[validUri]"
                       append-icon="mdi-close"
-                      autofocus
                       label="Host"
                       title="Host"
                       type="text"
@@ -33,8 +51,6 @@
           </v-btn>
         </div>
       </v-form>
-      <p class="grey--text">To connect with credentials use http://username:password@host syntax. Don't encode special
-        characters in the password!</p>
     </div>
 
     <div v-if="hasError" class="px-4">
@@ -89,6 +105,8 @@
           })
       }
 
+      const passwordVisible = ref(false)
+
       return {
         hasError,
         testConnectionColor,
@@ -99,7 +117,8 @@
         testConnection,
         connectCluster,
         testState,
-        formValid
+        formValid,
+        passwordVisible
       }
     }
   }

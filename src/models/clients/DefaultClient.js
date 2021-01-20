@@ -1,9 +1,11 @@
-import { buildFetchAuthHeaderFromUrl, urlWithoutCredentials } from '../../helpers'
+import { buildFetchAuthHeader } from '@/helpers'
 import { REQUEST_DEFAULT_HEADERS } from '@/consts'
 
 export class DefaultClient {
-  constructor (host) {
-    this.host = host[host.length - 1] === '/' ? host : host + '/'
+  constructor (instance) {
+    this.username = instance.username
+    this.password = instance.password
+    this.host = instance.uri[instance.uri.length - 1] === '/' ? instance.uri : instance.uri + '/'
   }
 
   ping () {
@@ -144,7 +146,7 @@ export class DefaultClient {
   }
 
   request (path, method, params) {
-    let url = new URL(urlWithoutCredentials(this.host) + path)
+    let url = new URL(this.host + path)
 
     if (method === 'GET' && typeof params === 'object') {
       Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
@@ -156,7 +158,11 @@ export class DefaultClient {
     let options = {
       method,
       body: body && typeof body !== 'string' ? JSON.stringify(body) : body,
-      headers: Object.assign({}, REQUEST_DEFAULT_HEADERS, buildFetchAuthHeaderFromUrl(this.host))
+      headers: Object.assign({}, REQUEST_DEFAULT_HEADERS)
+    }
+
+    if (this.username.length > 0) {
+      options.headers['Authorization'] = buildFetchAuthHeader(this.username, this.password)
     }
 
     return new Promise((resolve, reject) => {

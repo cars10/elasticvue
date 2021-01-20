@@ -1,18 +1,14 @@
-import { CONNECTION_STATES, DEFAULT_HOST, DEFAULT_NAME } from '@/consts'
+import { DEFAULT_ELASTICSEARCH_HOST } from '@/consts'
 
 export const connection = {
   namespaced: true,
   state: {
     wasConnected: false,
-    elasticsearchHost: null, // deprecated
     activeInstanceIdx: -1,
     instances: [],
     elasticsearchAdapter: null
   },
   mutations: {
-    setElasticsearchHost (state, host) {
-      state.elasticsearchHost = host
-    },
     setElasticsearchAdapter (state, adapter) {
       state.elasticsearchAdapter = adapter
     },
@@ -31,7 +27,7 @@ export const connection = {
         state.activeInstanceIdx = state.activeInstanceIdx - 1
       }
       if (state.instances.length === 0) {
-        state.instances.push({ name: DEFAULT_NAME, uri: DEFAULT_HOST, status: CONNECTION_STATES.UNKNOWN })
+        state.instances.push(Object.assign({}, DEFAULT_ELASTICSEARCH_HOST))
       }
     },
     setActiveInstanceIdx (state, index) {

@@ -75,7 +75,7 @@
   import ResizableContainer from '@/components/shared/ResizableContainer'
   import PrintPretty from '@/components/shared/PrintPretty'
   import { HTTP_METHODS, REQUEST_DEFAULT_HEADERS } from '@/consts'
-  import { buildFetchAuthHeaderFromUrl, urlWithoutCredentials } from '../../helpers'
+  import { buildFetchAuthHeader } from '../../helpers'
   import { compositionVuexAccessors } from '@/helpers/store'
   import { computed, ref } from '@vue/composition-api'
   import { showErrorSnackbar } from '@/mixins/ShowSnackbar'
@@ -115,19 +115,26 @@
         return !!method.value
       })
 
+      const instance = store.getters['connection/activeInstance']
+
       const requestUrl = computed(() => {
         if (path.value.slice(0, 1) === '/') {
-          return store.getters['connection/activeInstance'].uri + path.value
+          return instance.uri + path.value
         } else {
-          return store.getters['connection/activeInstance'].uri + '/' + path.value
+          return instance.uri + '/' + path.value
         }
       })
 
       const fetchOptionsHash = () => {
-        let fetchOptions = {
+        const fetchOptions = {
           method: method.value,
-          headers: Object.assign(buildFetchAuthHeaderFromUrl(requestUrl.value), REQUEST_DEFAULT_HEADERS)
+          headers: Object.assign({}, REQUEST_DEFAULT_HEADERS)
         }
+
+        if (instance.username.length > 0) {
+          fetchOptions.headers['Authorization'] = buildFetchAuthHeader(instance.username, instance.password)
+        }
+
         if (canSendBody.value) {
           fetchOptions.body = requestBody.value
         }
@@ -138,7 +145,7 @@
         loading.value = true
         responseBody.value = '// loading...'
         responseCode.value = ''
-        fetch(urlWithoutCredentials(requestUrl.value), fetchOptionsHash())
+        fetch(requestUrl.value, fetchOptionsHash())
           .then(response => {
             responseCode.value = response.status
             return response.json()

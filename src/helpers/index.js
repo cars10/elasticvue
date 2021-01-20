@@ -39,25 +39,11 @@ export function truncate (text, limit) {
   }
 }
 
-export function urlWithoutCredentials (url) {
-  if (url.includes('@')) {
-    let credentials = url.match(/https?:\/\/(.*(:.*)?)@/)[1]
-    return url.replace(credentials + '@', '')
+export function buildFetchAuthHeader (username, password) {
+  if (username.length > 0 && password.length > 0) {
+    return 'Basic ' + Buffer.from(username + ':' + password).toString('base64')
   } else {
-    return url
-  }
-}
-
-export function buildFetchAuthHeaderFromUrl (url) {
-  if (url.includes('@')) {
-    let credentials = url.match(/https?:\/\/(.*(:.*)?)@/)[1].split(':')
-    if (credentials.length === 2) {
-      return { 'Authorization': 'Basic ' + Buffer.from(credentials[0] + ':' + credentials[1]).toString('base64') }
-    } else {
-      return { 'Authorization': 'Basic ' + Buffer.from(credentials[0]).toString('base64') }
-    }
-  } else {
-    return {}
+    return 'Basic ' + Buffer.from(username).toString('base64')
   }
 }
 

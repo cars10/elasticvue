@@ -34,3 +34,10 @@ export const DEFAULT_DATA_TABLE_OPTIONS = {
 
 export const HTTP_METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS']
 export const BASE_URI = process.env.VUE_APP_ROUTER_MODE ? 'index.html' : '/'
+export const DEFAULT_ELASTICSEARCH_HOST = {
+  name: DEFAULT_NAME,
+  username: '',
+  password: '',
+  uri: DEFAULT_HOST,
+  status: CONNECTION_STATES.UNKNOWN
+}

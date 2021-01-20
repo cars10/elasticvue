@@ -1,5 +1,5 @@
 import { computed, ref } from '@vue/composition-api'
-import { CONNECTION_STATES, DEFAULT_HOST, DEFAULT_NAME } from '@/consts'
+import { DEFAULT_ELASTICSEARCH_HOST, DEFAULT_HOST, DEFAULT_NAME } from '@/consts'
 import ElasticsearchAdapter from '@/services/ElasticsearchAdapter'
 import { DefaultClient } from '@/models/clients/DefaultClient'
 import store from '@/store'
@@ -27,7 +27,7 @@ export const useTestConnection = () => {
     return testState.value.testSuccess ? 'success' : 'primary'
   })
 
-  const elasticsearchHost = ref({ name: DEFAULT_NAME, uri: DEFAULT_HOST, status: CONNECTION_STATES.UNKNOWN })
+  const elasticsearchHost = ref(Object.assign({}, DEFAULT_ELASTICSEARCH_HOST))
 
   const validName = name => ((name && name.length > 0) || 'Invalid name')
   const validUri = uri => {
@@ -54,7 +54,7 @@ export const useTestConnection = () => {
     testState.value.testLoading = true
     testState.value.testSuccess = false
     testState.value.testError = false
-    new ElasticsearchAdapter(new DefaultClient(elasticsearchHost.value.uri)).test()
+    new ElasticsearchAdapter(new DefaultClient(elasticsearchHost.value)).test()
       .then(() => {
         testState.value.testLoading = false
         testState.value.testSuccess = true
@@ -80,11 +80,13 @@ export const useTestConnection = () => {
   const connect = () => {
     testState.value.connectLoading = true
     testState.value.connectError = false
-    return new ElasticsearchAdapter(new DefaultClient(elasticsearchHost.value.uri)).test()
+    return new ElasticsearchAdapter(new DefaultClient(elasticsearchHost.value)).test()
       .then(() => {
         store.commit('connection/addElasticsearchInstance', {
-          name: elasticsearchHost.value.name,
-          uri: elasticsearchHost.value.uri,
+          name: elasticsearchHost.value.name.trim(),
+          username: elasticsearchHost.value.username.trim(),
+          password: elasticsearchHost.value.password.trim(),
+          uri: elasticsearchHost.value.uri.trim(),
           status: elasticsearchHost.value.status
         })
         elasticsearchHost.value.name = DEFAULT_NAME
