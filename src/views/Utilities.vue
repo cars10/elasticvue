@@ -65,7 +65,7 @@
   import data from '../data'
 
   export default {
-    name: 'Utilities',
+    name: 'utilities',
     components: {
       Utility
     },

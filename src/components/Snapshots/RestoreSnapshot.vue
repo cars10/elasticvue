@@ -66,7 +66,7 @@
   import { showErrorSnackbar, showSuccessSnackbar } from '@/mixins/ShowSnackbar'
 
   export default {
-    name: 'RestoreSnapshot',
+    name: 'restore-snapshot',
     components: {
       IndexFilter,
       ListTileLink

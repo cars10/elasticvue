@@ -17,7 +17,7 @@
   import { onBeforeUnmount, ref, watch } from '@vue/composition-api'
 
   export default {
-    name: 'Timer',
+    name: 'timer',
     props: {
       action: {
         type: Function,

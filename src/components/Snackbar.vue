@@ -22,9 +22,15 @@
   import { compositionVuexAccessors } from '@/helpers/store'
 
   export default {
-    name: 'Snackbar',
+    name: 'snackbar',
     setup () {
-      const { text, additionalText, timeout, color, visible } = compositionVuexAccessors('snackbar', ['text', 'additionalText', 'timeout', 'color', 'visible'])
+      const {
+        text,
+        additionalText,
+        timeout,
+        color,
+        visible
+      } = compositionVuexAccessors('snackbar', ['text', 'additionalText', 'timeout', 'color', 'visible'])
 
       const copy = () => {
         navigator.clipboard.writeText(additionalText.value)

@@ -39,7 +39,7 @@
   import { compositionVuexAccessors } from '@/helpers/store'
 
   export default {
-    name: 'QueryRest',
+    name: 'query-rest',
     components: {
       Rest
     },

@@ -16,7 +16,7 @@
   import ResizableContainer from '@/components/shared/ResizableContainer'
 
   export default {
-    name: 'PrintPretty',
+    name: 'print-pretty',
     components: {
       'code-viewer': () => ({
         component: import(/* webpackChunkName: "code-viewer" */ '@/components/shared/CodeViewer')

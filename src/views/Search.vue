@@ -92,7 +92,7 @@
   import { buildQueryFromTableOptions, mergeSearchQuery } from '@/helpers/search'
 
   export default {
-    name: 'Search',
+    name: 'search',
     components: {
       CodeEditor,
       IndexFilter,

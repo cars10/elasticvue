@@ -13,7 +13,7 @@
   import { useElasticsearchRequest } from '@/mixins/RequestComposition'
 
   export default {
-    class: 'Utility',
+    class: 'utility',
     props: {
       text: {
         default: '',

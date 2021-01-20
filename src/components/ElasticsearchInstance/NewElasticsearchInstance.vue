@@ -95,6 +95,7 @@
   import { BASE_URI } from '@/consts'
 
   export default {
+    name: 'elasticsearch-instance',
     setup () {
       const dialog = ref(false)
       const closeDialog = () => {

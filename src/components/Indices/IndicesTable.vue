@@ -46,7 +46,7 @@
   import { debounce } from '@/helpers'
 
   export default {
-    name: 'IndicesTable',
+    name: 'indices-table',
     components: {
       NewIndex,
       IndexRow

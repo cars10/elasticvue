@@ -50,6 +50,7 @@
   import store from '@/store'
 
   export default {
+    name: 'rename-elasticsearch-instance',
     props: {
       clusterName: {
         type: String,

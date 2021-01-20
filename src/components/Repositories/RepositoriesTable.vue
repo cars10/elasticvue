@@ -58,7 +58,7 @@
   import { showSuccessSnackbar } from '@/mixins/ShowSnackbar'
 
   export default {
-    name: 'snapshot-repositories-table',
+    name: 'repositories-table',
     components: {
       NewRepository
     },

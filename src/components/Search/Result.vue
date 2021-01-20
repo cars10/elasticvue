@@ -23,7 +23,7 @@
   import store from '@/store'
 
   export default {
-    name: 'Result',
+    name: 'result',
     props: {
       filteredColumns: {
         default: () => ([]),

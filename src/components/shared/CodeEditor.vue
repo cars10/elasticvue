@@ -33,7 +33,7 @@
   import { editorUtils, initializeSnippets } from '@/mixins/CodeEditorUtils'
 
   export default {
-    name: 'CodeEditor',
+    name: 'code-editor',
     components: {
       BtnGroup
     },

@@ -56,12 +56,13 @@
   import store from '@/store'
   import { compositionVuexAccessors } from '@/helpers/store'
   import { computed, ref, watch, watchEffect } from '@vue/composition-api'
-  import NewElasticsearchInstance from '@/components/ElasticsearchInstance/NewElasticsearchInstance'
   import { checkHealth } from '@/helpers/instance'
   import { BASE_URI } from '@/consts'
+  import NewElasticsearchInstance from '@/components/ElasticsearchInstance/NewElasticsearchInstance'
   import RenameElasticsearchInstance from '@/components/ElasticsearchInstance/RenameElasticsearchInstance'
 
   export default {
+    name: 'elasticsearch-instance-selection',
     components: {
       NewElasticsearchInstance,
       RenameElasticsearchInstance
@@ -69,7 +70,10 @@
     setup () {
       const menuOpen = ref(false)
       const modalOpen = ref(false)
-      const { activeInstanceIdx, instances } = compositionVuexAccessors('connection', ['activeInstanceIdx', 'instances'])
+      const {
+        activeInstanceIdx,
+        instances
+      } = compositionVuexAccessors('connection', ['activeInstanceIdx', 'instances'])
       const activeInstance = computed(() => (store.getters['connection/activeInstance']))
 
       const checkAllInstances = () => (instances.value.forEach(checkHealth))

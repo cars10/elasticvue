@@ -62,7 +62,7 @@
   import { useElasticsearchRequest } from '@/mixins/RequestComposition'
 
   export default {
-    name: 'NewIndex',
+    name: 'new-index',
     setup (props, context) {
       const dialog = ref(false)
       const valid = ref(false)

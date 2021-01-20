@@ -8,7 +8,7 @@
   import { computed } from '@vue/composition-api'
 
   export default {
-    name: 'BtnGroup',
+    name: 'btn-group',
     props: {
       small: {
         default: false,

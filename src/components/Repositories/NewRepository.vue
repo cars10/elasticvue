@@ -88,7 +88,7 @@
   import { showErrorSnackbar, showSuccessSnackbar } from '@/mixins/ShowSnackbar'
 
   export default {
-    name: 'NewRepository',
+    name: 'new-repository',
     setup (props, context) {
       const dialog = ref(false)
       const valid = ref(false)

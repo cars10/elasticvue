@@ -11,7 +11,7 @@
   import Timer from '@/components/shared/Timer'
 
   export default {
-    name: 'ReloadButton',
+    name: 'reload-button',
     components: {
       Timer
     },

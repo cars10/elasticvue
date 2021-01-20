@@ -56,7 +56,7 @@
   import { useElasticsearchRequest } from '@/mixins/RequestComposition'
 
   export default {
-    name: 'ResultsTable',
+    name: 'results-table',
     components: {
       SettingsDropdown,
       MultiSetting,

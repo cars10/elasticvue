@@ -24,7 +24,7 @@
   import { setupElasticsearchRequest } from '@/mixins/RequestComposition'
 
   export default {
-    name: 'Document',
+    name: 'document',
     components: {
       BackButton,
       Loader,

@@ -24,7 +24,7 @@
   import { editorUtils } from '@/mixins/CodeEditorUtils'
 
   export default {
-    name: 'CodeViewer',
+    name: 'code-viewer',
     components: {
       BtnGroup
     },
