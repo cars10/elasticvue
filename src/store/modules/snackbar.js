@@ -1,4 +1,4 @@
-import { truncate } from '../../helpers'
+import { truncate } from '@/helpers'
 
 export const snackbar = {
   namespaced: true,

@@ -3,17 +3,18 @@
               :color="color"
               :multi-line="additionalText !== undefined"
               :timeout="timeout"
-              right>
+              right
+              style="overflow-wrap: anywhere">
     <strong>{{ text }}</strong>
     <template v-if="additionalText">
-      <p class="mb-0">
+      <p class="mt-2">
         {{ additionalText }}
       </p>
       <div v-if="color === 'red'" class="mt-2">
         <v-btn class="mr-4" @click.native="copy">Copy error</v-btn>
-        <v-btn text @click.native="visible = false">Close</v-btn>
+        <v-btn @click.native="visible = false">Close</v-btn>
       </div>
-      <v-btn v-else text @click.native="visible = false">Close</v-btn>
+      <v-btn v-else @click.native="visible = false">Close</v-btn>
     </template>
   </v-snackbar>
 </template>
