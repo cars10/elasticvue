@@ -72,7 +72,9 @@
         </v-alert>
       </div>
     </div>
-    <div v-else-if="queryParsingError">queryParsingError</div>
+    <div v-else-if="queryParsingError">
+      <v-alert :value="true" color="warning">invalid search query</v-alert>
+    </div>
     <results-table v-else :body="searchResults" :loading="requestState.loading"/>
   </v-card>
 </template>
@@ -112,9 +114,14 @@
       const queryParsingError = ref(false)
       const { callElasticsearch, requestState } = useElasticsearchRequest()
       const search = () => {
-        const val = JSON.parse(searchQuery.value || '{}')
-        callElasticsearch('search', val, indices.value)
-          .then(result => (searchResults.value = result))
+        try {
+          queryParsingError.value = false
+          const val = JSON.parse(searchQuery.value)
+          callElasticsearch('search', val, indices.value)
+            .then(result => (searchResults.value = result))
+        } catch (e) {
+          queryParsingError.value = true
+        }
       }
 
       onMounted(search)

@@ -36,6 +36,7 @@ export const mergeSearchQuery = (searchQuery, newQueryParts) => {
   try {
     currentQuery = JSON.parse(searchQuery.value)
   } catch (e) {
+    return
   }
 
   const newQuery = Object.assign({}, currentQuery, newQueryParts)
