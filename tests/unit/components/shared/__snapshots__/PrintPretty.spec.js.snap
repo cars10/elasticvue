@@ -9,112 +9,24 @@ exports[`components/shared/PrintPretty.vue correctly sets the initialHeight of i
   >
     <div
       class="resizable-container"
-      style="width: 100%; height: 250px;"
     >
       <div
         class="bordered code-editor"
+        read-only=""
       >
         <div
-          class=" ace_editor ace-monokai ace_dark"
-          style="height: 100%; width: 100%; font-size: 13px;"
-        >
-          <textarea
-            autocapitalize="off"
-            autocorrect="off"
-            class="ace_text-input"
-            spellcheck="false"
-            style="opacity: 0;"
-            wrap="off"
-          />
-          <div
-            aria-hidden="true"
-            class="ace_gutter"
-          >
-            <div
-              class="ace_layer ace_gutter-layer ace_folding-enabled"
-            />
-            <div
-              class="ace_gutter-active-line"
-              style="display: none;"
-            />
-          </div>
-          <div
-            class="ace_scroller"
-          >
-            <div
-              class="ace_content"
-            >
-              <div
-                class="ace_layer ace_print-margin-layer"
-              >
-                <div
-                  class="ace_print-margin"
-                  style="left: 4px; visibility: hidden;"
-                />
-              </div>
-              <div
-                class="ace_layer ace_marker-layer"
-              />
-              <div
-                class="ace_layer ace_text-layer"
-                style="padding: 0px 4px;"
-              />
-              <div
-                class="ace_layer ace_marker-layer"
-              />
-              <div
-                class="ace_layer ace_cursor-layer ace_hidden-cursors"
-                style="opacity: 0;"
-              >
-                <div
-                  class="ace_cursor"
-                />
-              </div>
-            </div>
-          </div>
-          <div
-            class="ace_scrollbar ace_scrollbar-v"
-            style="display: none; width: 20px;"
-          >
-            <div
-              class="ace_scrollbar-inner"
-              style="width: 20px;"
-            />
-          </div>
-          <div
-            class="ace_scrollbar ace_scrollbar-h"
-            style="display: none; height: 20px;"
-          >
-            <div
-              class="ace_scrollbar-inner"
-              style="height: 20px;"
-            />
-          </div>
-          <div
-            style="height: auto; width: auto; top: 0px; left: 0px; visibility: hidden; position: absolute; white-space: pre; overflow: hidden;"
-          >
-            <div
-              style="height: auto; width: auto; top: 0px; left: 0px; visibility: hidden; position: absolute; white-space: pre; overflow: visible;"
-            />
-            <div
-              style="height: auto; width: auto; top: 0px; left: 0px; visibility: hidden; position: absolute; white-space: pre; overflow: visible;"
-            >
-              XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-            </div>
-          </div>
-        </div>
+          style="height: 100%; width: 100%;"
+        />
          
         <div
           class="code-editor__actions pa-2"
         >
-          <!---->
-           
           <div
-            class="v-item-group theme--light v-btn-toggle"
+            class="d-inline-block"
           >
             <button
-              class="v-btn v-btn--flat v-btn--text theme--light v-size--small"
-              title="Use 2 spaces for beautify (instead of tabs)"
+              class="v-btn v-btn--contained theme--light v-size--default"
+              title="Change whitespace to 2 spaces instead of tabs"
               type="button"
             >
               <span
@@ -129,7 +41,7 @@ exports[`components/shared/PrintPretty.vue correctly sets the initialHeight of i
             </button>
              
             <button
-              class="v-btn v-btn--flat v-btn--text theme--light v-size--small"
+              class="v-btn v-btn--contained theme--light v-size--default"
               title="Wrap lines"
               type="button"
             >
@@ -164,7 +76,6 @@ exports[`components/shared/PrintPretty.vue should render correct default content
   >
     <div
       class="resizable-container"
-      style="width: 100%; height: 500px;"
     >
       <!---->
        
