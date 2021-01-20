@@ -7,6 +7,8 @@
 </template>
 
 <script>
+  import { computed, ref, watch } from '@vue/composition-api'
+  import Vue from 'vue'
   import BtnGroup from '@/components/shared/BtnGroup'
 
   export default {
@@ -15,10 +17,6 @@
       BtnGroup
     },
     props: {
-      initialWidth: {
-        default: '100%',
-        type: String
-      },
       initialHeight: {
         default: 350,
         type: Number
@@ -28,42 +26,38 @@
         type: Number
       }
     },
-    data () {
-      return {
-        width: this.initialWidth,
-        height: this.initialHeight,
-        dragStartY: 0,
-        dragStartHeight: this.initialHeight,
-        resizing: false
-      }
-    },
-    computed: {
-      style () {
-        return `width: ${this.width}; height: ${this.height}px`
-      }
-    },
-    watch: {
-      initialHeight (value) {
-        this.height = value
-      }
-    },
-    methods: {
-      triggerResize () {
+    setup (props) {
+      let height = ref(props.initialHeight)
+      let dragStartY = 0
+      let dragStartHeight = props.initialHeight
+      let resizing = false
+
+      watch(() => props.initialHeight, newHeight => {
+        height.value = newHeight
+      })
+
+      const style = computed(() => {
+        return `width: 100%; height: ${height.value}px`
+      })
+
+      const triggerResize = () => {
         if (typeof window === 'undefined') return
         window.dispatchEvent(new Event('resize'))
-      },
-      onDragStart (e) {
-        window.addEventListener('mouseup', this.onDragEnd)
-        window.addEventListener('mousemove', this.onDrag)
-        this.resizing = true
-        this.dragStartY = e.pageY
-        this.dragStartHeight = this.height
-      },
-      onDrag (e) {
-        if (this.resizing) {
-          const newHeight = this.dragStartHeight + e.pageY - this.dragStartY
-          if (newHeight > this.initialHeight) {
-            this.height = newHeight
+      }
+
+      const onDragStart = e => {
+        window.addEventListener('mouseup', onDragEnd)
+        window.addEventListener('mousemove', onDrag)
+        resizing = true
+        dragStartY = e.pageY
+        dragStartHeight = height.value
+      }
+
+      const onDrag = e => {
+        if (resizing) {
+          const newHeight = dragStartHeight + e.pageY - dragStartY
+          if (newHeight > props.initialHeight) {
+            height.value = newHeight
             const distanceToTop = e.clientY
             const distanceToBottom = window.innerHeight - e.clientY
             const scrollOffset = 100
@@ -76,17 +70,23 @@
             }
           }
         }
-      },
-      onDragEnd () {
-        this.resizing = false
-        this.dragStartY = 0
-        this.$nextTick(() => {
+      }
+
+      const onDragEnd = () => {
+        resizing = false
+        dragStartY = 0
+        Vue.nextTick(() => {
           if (typeof window !== 'undefined') {
-            this.triggerResize()
+            triggerResize()
           }
         })
-        window.removeEventListener('mouseup', this.onDragEnd)
-        window.removeEventListener('mousemove', this.onDrag)
+        window.removeEventListener('mouseup', onDragEnd)
+        window.removeEventListener('mousemove', onDrag)
+      }
+
+      return {
+        style,
+        onDragStart
       }
     }
   }
