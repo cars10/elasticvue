@@ -46,7 +46,7 @@
             <code-editor v-model="searchQuery" :external-commands="editorCommands"/>
           </resizable-container>
           <div class="mt-2">
-            <a href="javascript:void(0)" role="button" @click="resetSearchQuery">Reset</a>
+            <a href="javascript:void(0)" role="button" @click="resetSearchQuery">Reset custom query</a>
           </div>
         </div>
 
@@ -108,7 +108,12 @@
         options
       } = compositionVuexAccessors('search', ['q', 'indices', 'searchQuery', 'options', 'searchQueryCollapsed'])
       const resetQuery = () => (q.value = '*')
-      const resetSearchQuery = () => (searchQuery.value = DEFAULT_SEARCH_QUERY)
+      const resetSearchQuery = () => {
+        searchQuery.value = DEFAULT_SEARCH_QUERY
+        const newQueryParts = buildQueryFromTableOptions(options.value, {})
+        newQueryParts.query = { query_string: { query: q.value } }
+        mergeSearchQuery(searchQuery, newQueryParts)
+      }
 
       const searchResults = ref({})
       const queryParsingError = ref(false)
