@@ -3,15 +3,6 @@
     <div ref="editor" style="height: 100%; width: 100%"/>
 
     <div class="code-editor__actions pa-2">
-      <v-btn :disabled="!valid"
-             class="vertical-align--top mr-2"
-             small
-             title="Beautify (Ctrl+ALT+L)"
-             style="height: 32px"
-             @click="beautify">
-        <v-icon small>mdi-auto-fix</v-icon>
-      </v-btn>
-
       <btn-group class="d-inline-block">
         <v-btn :class="{'v-btn--active': useSpaces}" title="Change whitespace to 2 spaces instead of tabs"
                @click="useSpaces = !useSpaces">
@@ -26,45 +17,27 @@
 </template>
 
 <script>
-  import { computed, onBeforeUnmount, onMounted, ref, watch } from '@vue/composition-api'
-  import store from '@/store'
   import { compositionVuexAccessors } from '@/helpers/store'
+  import { onBeforeUnmount, onMounted, ref, watch } from '@vue/composition-api'
+  import store from '@/store'
   import BtnGroup from '@/components/shared/BtnGroup'
-  import { editorUtils, initializeSnippets } from '@/mixins/CodeEditorUtils'
+  import { editorUtils } from '@/mixins/CodeEditorUtils'
 
   export default {
-    name: 'CodeEditor',
+    name: 'CodeViewer',
     components: {
       BtnGroup
     },
     props: {
       value: {
-        type: String,
-        default: '{}'
-      },
-      externalCommands: {
-        type: Array,
-        default: () => {
-          return []
-        }
+        type: null, // any
+        default: ''
       }
     },
     setup (props, context) {
       const editor = ref(null)
       const { useSpaces, wrapLines } = compositionVuexAccessors('codeEditor', ['useSpaces', 'wrapLines'])
       const { setTheme, setWhitespace, setWrapLines, unmountEditor, setupAceEditor } = editorUtils(editor)
-      const { completer } = initializeSnippets()
-
-      const valid = computed(() => {
-        if (typeof props.value === 'object') return true
-        if (props.value === '') return true
-        try {
-          JSON.parse(props.value)
-          return true
-        } catch (error) {
-          return false
-        }
-      })
 
       watch(() => props.value, newValue => {
         if (editor.value.getValue() !== newValue) setEditorValue(newValue)
@@ -81,23 +54,10 @@
       })
 
       onMounted(() => {
-        setupAceEditor(context.refs.editor, {
-          enableBasicAutocompletion: [completer],
-          enableLiveAutocompletion: true,
-          enableSnippets: true
-        })
+        setupAceEditor(context.refs.editor, { readOnly: true })
         setWrapLines(wrapLines.value)
         setTheme(store.state.theme.dark)
         setEditorValue(props.value)
-        editor.value.commands.addCommands(props.externalCommands)
-        editor.value.commands.addCommand({
-          bindKey: { win: 'Ctrl+Alt+L', mac: 'Command+Alt+L', linux: 'Ctrl+Alt+L' },
-          exec: beautify
-        })
-
-        editor.value.on('change', () => {
-          context.emit('input', editor.value.getValue())
-        })
       })
 
       onBeforeUnmount(unmountEditor)
@@ -105,15 +65,18 @@
       const beautify = () => {
         if (props.value) {
           try {
-            let newValue = stringifyJson(JSON.parse(editor.value.getValue()))
-            context.emit('input', newValue)
+            stringifyJson(JSON.parse(editor.value.getValue()))
           } catch (error) {
           }
         }
       }
 
       const setEditorValue = value => {
-        editor.value.setValue(value, 1)
+        if (typeof value === 'string') {
+          editor.value.setValue(value, 1)
+        } else {
+          editor.value.setValue(stringifyJson(value), 1)
+        }
         beautify()
       }
 
@@ -123,9 +86,7 @@
 
       return {
         useSpaces,
-        wrapLines,
-        valid,
-        beautify
+        wrapLines
       }
     }
   }

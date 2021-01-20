@@ -5,6 +5,7 @@ export const plugins = [
   createPersistedState({
     key: LOCALSTORAGE_KEY,
     paths: [
+      'codeEditor',
       'connection.elasticsearchHost', // deprecated
       'connection.activeInstanceIdx',
       'connection.instances',
@@ -14,11 +15,7 @@ export const plugins = [
       'nodes',
       'repositories',
       'snapshots',
-      'search.q',
-      'search.stickyTableHeader',
-      'search.indices',
-      'search.selectedColumns',
-      'search.columns'
+      'search'
     ]
   })
 ]

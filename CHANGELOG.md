@@ -2,6 +2,18 @@
 
 *Please check the [releases](https://github.com/cars10/elasticvue/releases) page if you need version release dates.*
 
+## unreleased (0.32.0)
+
+* [feat]: adds ability to completely customize the search query, fixes [#42][f42]
+* [feat]: adds autocomplete to editors on `Seach` and `Rest` pages (it is *not* context sensitive)
+* [feat]: change forms to connect/add a cluster, adds dedicated fields for username and password. This should fix any
+  issues with passwords that are not urlsafe, fixes [#43][f43]
+* [feat]: small color changes to improve a11y and contrast
+
+[f42]: https://github.com/cars10/elasticvue/issues/42
+
+[f43]: https://github.com/cars10/elasticvue/issues/43
+
 ## 0.31.0
 
 * [feat]: support `_bulk` api, fixes [#39][f39]
@@ -10,20 +22,20 @@
 * [feat]: adds `x` to all modals
 
 [f38]: https://github.com/cars10/elasticvue/issues/38
-[f39]: https://github.com/cars10/elasticvue/issues/39
-[f41]: https://github.com/cars10/elasticvue/issues/41
 
+[f39]: https://github.com/cars10/elasticvue/issues/39
+
+[f41]: https://github.com/cars10/elasticvue/issues/41
 
 ## 0.30.1
 
 The only change in this release is a fix to the Dockerfile. The docker image should build again.
 
-
 ## 0.30.0
 
-For this release i rewrote almost all components to use the new vue composition api.
-The rewrite improves the performance and prepares elasticvue for the update to vuejs 3, but might have added some bugs.
-Please reach out if you encounter any issues!
+For this release i rewrote almost all components to use the new vue composition api. The rewrite improves the
+performance and prepares elasticvue for the update to vuejs 3, but might have added some bugs. Please reach out if you
+encounter any issues!
 
 * [feat]: can add multiple elasticsearch instances, fixes [#35][f35]
 * [feat]: adds "copy error" button to error messages
@@ -32,18 +44,15 @@ Please reach out if you encounter any issues!
 
 [f35]: https://github.com/cars10/elasticvue/issues/35
 
-
 ## 0.26.0
 
 * [feat]: can host elasticvue inside subdirectory, fixes [#31][i31]
 
 [i31]: https://github.com/cars10/elasticvue/issues/31
 
-
 ## 0.25.0
 
 This is a re-release of 0.24.0 because i made a mistake publishing it.
-
 
 ## 0.24.0
 
@@ -52,13 +61,11 @@ This is a re-release of 0.24.0 because i made a mistake publishing it.
 
 [i29]: https://github.com/cars10/elasticvue/issues/29
 
-
 ## 0.23.1
 
 * [fix]: fix parsing issue when indices are closed [#28][i28]
 
 [i28]: https://github.com/cars10/elasticvue/issues/28
-
 
 ## 0.23.0
 
@@ -67,35 +74,41 @@ This is a re-release of 0.24.0 because i made a mistake publishing it.
 * [fix]: fix sorting indices by storage. now takes units into consideration, fixes [#24][i24]
 
 [i23]: https://github.com/cars10/elasticvue/issues/23
-[i24]: https://github.com/cars10/elasticvue/issues/24
-[i26]: https://github.com/cars10/elasticvue/issues/26
 
+[i24]: https://github.com/cars10/elasticvue/issues/24
+
+[i26]: https://github.com/cars10/elasticvue/issues/26
 
 ## 0.22.0
 
-* [feat]: change searching to use elasticsearch pagination+sort. **this limits the filter to the current page.** [#20][i20]
+* [feat]: change searching to use elasticsearch pagination+sort. **this limits the filter to the current
+  page.** [#20][i20]
 * [feat]: can click on index aliases on index overview to directly search
 * [fix]: fix showing index info/stats not always showing the correct result in modal
-* remove the deprecated [elasticsearch](https://www.npmjs.com/package/elasticsearch) library and api browser page. see [#22][i22] for details
+* remove the deprecated [elasticsearch](https://www.npmjs.com/package/elasticsearch) library and api browser page.
+  see [#22][i22] for details
 
 [i20]: https://github.com/cars10/elasticvue/issues/20
-[i22]: https://github.com/cars10/elasticvue/issues/22
 
+[i22]: https://github.com/cars10/elasticvue/issues/22
 
 ## 0.21.0
 
-* [fix]: adds support for hosts with path/subdirectory where elasticsearch is not available at the url root, for example `example.com/elasticsearch` ([#19][i19])
+* [fix]: adds support for hosts with path/subdirectory where elasticsearch is not available at the url root, for
+  example `example.com/elasticsearch` ([#19][i19])
 
 [i19]: https://github.com/cars10/elasticvue/issues/19
 
 ## 0.20.0
 
-This version removes the need to configure CORS **if you use one of the browser extensions**.
-I am not entirely happy with this change, but after some discussion ([#14][i14], [#17][p17]) i think we i should prioritize usability in this case.
+This version removes the need to configure CORS **if you use one of the browser extensions**. I am not entirely happy
+with this change, but after some discussion ([#14][i14], [#17][p17]) i think we i should prioritize usability in this
+case.
 
 **You still have to configure CORS if you use the docker image or the web version of elasticvue.**
 
 [i14]: https://github.com/cars10/elasticvue/issues/14
+
 [p17]: https://github.com/cars10/elasticvue/pull/17
 
 ## 0.19.0
@@ -109,8 +122,10 @@ I am not entirely happy with this change, but after some discussion ([#14][i14],
 
 ## 0.18.0
 
-* The docker image now uses nginx to host elasticvue instead of express. This decreases the image size and increases performance.
-* updates vuetify. this changes the colors of the dark theme, see [vuetify](https://github.com/vuetifyjs/vuetify/releases/tag/v2.2.6)
+* The docker image now uses nginx to host elasticvue instead of express. This decreases the image size and increases
+  performance.
+* updates vuetify. this changes the colors of the dark theme,
+  see [vuetify](https://github.com/vuetifyjs/vuetify/releases/tag/v2.2.6)
 * rework snapshot and repository management
 * ui improvements for navbar and indices table
 
@@ -151,27 +166,32 @@ I am not entirely happy with this change, but after some discussion ([#14][i14],
 [i8]: https://github.com/cars10/elasticvue/issues/8
 
 ### 0.14.0
+
 * [feat] adds reload button to modals
 * [feat] can switch between vertical/horizontal layout in query/api browser
 * [feat] decrease navbar size when scrolled down
 * updates logos
 
 ### 0.13.0
+
 * firefox addon is now available on [addons.mozilla.org](https://addons.mozilla.org/en-US/firefox/addon/elasticvue/)!
 * [feat] can switch between vertical/horizontal layout in query/rest
 * [feat] can beautify code in readonly editor
 
 ### 0.12.0
+
 * improvements for the code editor (json views):
-    * [feat] enable searchbox for code editor
-    * [feat] add beautify button to code editor (hotkey: ctrl+alt+l)
-* [feat] show different "no results" text in results table based on current filters. thx @georgeyeint (see discussion in [#7][i7])
+  * [feat] enable searchbox for code editor
+  * [feat] add beautify button to code editor (hotkey: ctrl+alt+l)
+* [feat] show different "no results" text in results table based on current filters. thx @georgeyeint (see discussion
+  in [#7][i7])
 * [bug] fix switching between index pattern and index selection ([#7][i7])
 * [bug] fix indices & search table not showing empty results when search result is empty
 
 [i7]: https://github.com/cars10/elasticvue/issues/7
 
 ### 0.11.0
+
 * [feat] can filter exact with `"` in all filter and select inputs
 * [feat] async filtering for indices table and search results table (using web workers)
 * [feat] adds examples to both query forms (rest and api browser)
@@ -179,11 +199,13 @@ I am not entirely happy with this change, but after some discussion ([#14][i14],
 * updates dependencies, most notably vuetify 2.x
 
 ### 0.10.2
+
 * [bug] fix usage with elasticsearch `7.1.1`. thx @iDmple ([#5][i5])
 
 [i5]: https://github.com/cars10/elasticvue/issues/5
 
 ### 0.10.1
+
 * [bug] fix clicking search result item might open previous opened item. thx @foqq ([#4][i4])
 
 [i4]: https://github.com/cars10/elasticvue/issues/4
@@ -208,8 +230,8 @@ I am not entirely happy with this change, but after some discussion ([#14][i14],
 ### 0.9.0
 
 * snapshot management
-    * create and remove snapshot repositories
-    * take and restore snapshots for all/specific indices
+  * create and remove snapshot repositories
+  * take and restore snapshots for all/specific indices
 * updates dependencies (vue 2.6, vuetify 1.5)
 
 ### 0.8.0
@@ -277,7 +299,6 @@ I am not entirely happy with this change, but after some discussion ([#14][i14],
 * autoscroll page when resizing editors
 * correctly build request on query page when using GET and params together
 * internal state refactorings
-
 
 ### 0.1.8
 

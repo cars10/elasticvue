@@ -26,9 +26,7 @@
           <resizable-container v-if="canSendBody" ref="query_body"
                                :initial-height="vertical ? 200 : 500"
                                class="mb-1">
-            <code-editor v-model="requestBody"
-                         :external-commands="editorCommands"
-                         :read-only="method === 'GET' || method === 'HEAD'"/>
+            <code-editor v-model="requestBody" :external-commands="editorCommands"/>
           </resizable-container>
 
           <div v-else>
@@ -92,7 +90,12 @@
       })
     },
     setup () {
-      const { method, path, requestBody, vertical } = compositionVuexAccessors('queryRest', ['method', 'path', 'requestBody', 'vertical'])
+      const {
+        method,
+        path,
+        requestBody,
+        vertical
+      } = compositionVuexAccessors('queryRest', ['method', 'path', 'requestBody', 'vertical'])
       const loading = ref(false)
       const responseBody = ref({})
       const responseCode = ref(null)

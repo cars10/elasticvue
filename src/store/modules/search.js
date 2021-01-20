@@ -1,15 +1,14 @@
-import { DEFAULT_DATA_TABLE_OPTIONS, DEFAULT_SEARCH_PARAMS } from '@/consts'
+import { DEFAULT_DATA_TABLE_OPTIONS, DEFAULT_SEARCH_QUERY } from '@/consts'
 
 export const search = {
   namespaced: true,
   state: {
-    q: DEFAULT_SEARCH_PARAMS.q,
-    indices: DEFAULT_SEARCH_PARAMS.index,
-    size: DEFAULT_SEARCH_PARAMS.size,
-    source: '',
+    q: '*',
+    indices: '',
+    searchQuery: DEFAULT_SEARCH_QUERY,
+    searchQueryCollapsed: false,
     filter: '',
     options: Object.assign({}, DEFAULT_DATA_TABLE_OPTIONS),
-    stickyTableHeader: false,
     selectedColumns: [],
     columns: []
   },
@@ -20,20 +19,17 @@ export const search = {
     setIndices (state, indices) {
       state.indices = indices
     },
-    setSize (state, size) {
-      state.size = size
+    setSearchQuery (state, searchQuery) {
+      state.searchQuery = searchQuery
     },
-    setSource (state, source) {
-      state.source = source
+    setSearchQueryCollapsed (state, val) {
+      state.searchQueryCollapsed = val
     },
     setFilter (state, filter) {
       state.filter = filter
     },
     setOptions (state, options) {
       state.options = options
-    },
-    setStickyTableHeader (state, sticky) {
-      state.stickyTableHeader = sticky
     },
     setSelectedColumns (state, val) {
       state.selectedColumns = val
@@ -42,13 +38,11 @@ export const search = {
       state.columns = val
     },
     reset (state) {
-      state.q = DEFAULT_SEARCH_PARAMS.q
-      state.indices = DEFAULT_SEARCH_PARAMS.index
-      state.size = DEFAULT_SEARCH_PARAMS.size
-      state.source = ''
+      state.q = '*'
+      state.indices = ''
+      state.searchQuery = ''
       state.filter = ''
       state.options = Object.assign({}, DEFAULT_DATA_TABLE_OPTIONS)
-      state.stickyTableHeader = true
       state.selectedColumns = []
       state.columns = []
     }

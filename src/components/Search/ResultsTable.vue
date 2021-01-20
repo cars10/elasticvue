@@ -2,7 +2,6 @@
   <div>
     <v-card-text>
       <div class="clearfix">
-        <span class="grey--text">Showing results for: <span class="font--mono">"{{ q }}"</span></span>
         <div class="float-right d-inline-block">
           <v-text-field id="filter"
                         v-model="filter"
@@ -34,12 +33,8 @@
       </template>
 
       <template slot="no-data">
-        <template v-if="q !== '*' && filter !== ''">
-          No entries found that match your search <i>{{ q }}</i> and your filter <i>{{ filter }}</i>.
-        </template>
-        <template v-else-if="q !== '*'"> No entries found that match your search <i>{{ q }}</i>.</template>
-        <template v-else-if="filter !== ''"> No entries found that match your filter <i>{{ filter }}</i>.</template>
-        <template v-else>Nothing found.</template>
+        <template v-if="filter !== ''"> No documents found that match your filter <i>{{ filter }}</i>.</template>
+        <template v-else>No documents found.</template>
       </template>
 
       <v-progress-linear slot="progress" color="blue" indeterminate/>
@@ -53,11 +48,10 @@
   import MultiSetting from '@/components/shared/TableSettings/MultiSetting'
   import ModalDataLoader from '@/components/shared/ModalDataLoader'
   import Results from '@/models/Results'
+  import Result from '@/components/Search/Result'
   import { compositionVuexAccessors } from '@/helpers/store'
   import { useAsyncFilter } from '@/mixins/CompositionAsyncFilter'
   import { debounce, sortableField } from '@/helpers'
-  import Result from '@/components/Search/Result'
-
   import { computed, ref, watch } from '@vue/composition-api'
   import { useElasticsearchRequest } from '@/mixins/RequestComposition'
 
@@ -84,7 +78,13 @@
       const modalOpen = ref(false)
       const modalMethodParams = ref({})
       const headers = ref([])
-      const { q, filter, options, selectedColumns, columns } = compositionVuexAccessors('search', ['q', 'filter', 'options', 'selectedColumns', 'columns'])
+      const {
+        q,
+        filter,
+        options,
+        selectedColumns,
+        columns
+      } = compositionVuexAccessors('search', ['q', 'filter', 'options', 'selectedColumns', 'columns'])
       const { filterLoading, filterTable } = useAsyncFilter()
 
       const hits = computed(() => {

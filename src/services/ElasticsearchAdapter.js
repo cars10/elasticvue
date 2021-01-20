@@ -1,5 +1,3 @@
-import { normalizeSearchParams } from '@/helpers'
-
 export default class ElasticsearchAdapter {
   constructor (client) {
     this.client = client
@@ -97,9 +95,8 @@ export default class ElasticsearchAdapter {
     return this.client.get(params)
   }
 
-  search (searchParams) {
-    let params = normalizeSearchParams(searchParams)
-    return this.client.search(params)
+  search (params, index) {
+    return this.client.search(params, index)
   }
 
   catRepositories (params) {

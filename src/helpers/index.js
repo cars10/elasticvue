@@ -1,21 +1,3 @@
-import { DEFAULT_SEARCH_PARAMS } from '../consts'
-
-export function normalizeSearchParams (params) {
-  const search = {}
-  search.query = { query_string: { query: params.q || DEFAULT_SEARCH_PARAMS.q } }
-  search.index = params.index || DEFAULT_SEARCH_PARAMS.index
-  if (params.sort) {
-    search.sort = [{}]
-    search.sort[0][`${params.sort}`] = { unmapped_type: 'keyword', order: params.order }
-  }
-
-  search.from = params.from ? parseInt(params.from) : DEFAULT_SEARCH_PARAMS.from
-  search.size = params.size ? parseInt(params.size) : DEFAULT_SEARCH_PARAMS.size
-  if (params.source && params.source.length > 0) search._source = params.source.replace(/\s/g, '').split(',')
-
-  return search
-}
-
 const SORTABLE_TYPES = ['long', 'integer', 'double', 'float', 'date', 'boolean', 'keyword']
 
 export function sortableField (fieldName, property) {

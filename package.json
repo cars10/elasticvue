@@ -14,7 +14,7 @@
   "dependencies": {
     "@mdi/font": "^5.8.55",
     "@vue/composition-api": "^1.0.0-beta.22",
-    "brace": "^0.11.1",
+    "ace-builds": "^1.4.12",
     "comlink": "^4.3.0",
     "fuzzysort": "cars10/fuzzysort#master",
     "pretty-bytes": "^5.4.1",

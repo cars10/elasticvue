@@ -6,7 +6,7 @@
     <v-divider/>
 
     <v-card-text>
-      <v-form @submit.prevent="loadData">
+      <v-form @submit.prevent="search">
         <v-row>
           <v-col cols="12" md="5" sm="12">
             <v-text-field id="query"
@@ -34,17 +34,26 @@
           </v-col>
         </v-row>
 
-        <div v-if="optionsCollapsed" class="my-2 pa-2 lowered">
-          <v-text-field v-model="source"
-                        label="Source includes"
-                        messages="Enter a comma separated list of columns to load"
-                        name="source_includes"/>
+        <div v-if="searchQueryCollapsed" class="my-2 pa-2 lowered">
+          <p>
+            Customize the search query
+          </p>
+          <p class="grey--text">
+            Hint: changes to the query will not update the respecting inputs in the ui (like the search query or
+            pagination/sort in the table), but changes to the inputs will be merged into the query again.
+          </p>
+          <resizable-container :initial-height="280">
+            <code-editor v-model="searchQuery" :external-commands="editorCommands"/>
+          </resizable-container>
+          <div class="mt-2">
+            <a href="javascript:void(0)" role="button" @click="resetSearchQuery">Reset</a>
+          </div>
         </div>
 
-        <div class="text-center">
-          <a class="grey--text user-select--none" @click="optionsCollapsed = !optionsCollapsed">
-            More options...
-            <v-icon small>{{ optionsCollapsed ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+        <div class="text-center pt-2">
+          <a class="grey--text user-select--none" @click="searchQueryCollapsed = !searchQueryCollapsed">
+            <v-icon small>{{ searchQueryCollapsed ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+            <v-badge content="new" small color="green">Customize query</v-badge>
           </a>
         </div>
       </v-form>
@@ -63,97 +72,81 @@
         </v-alert>
       </div>
     </div>
-    <results-table v-else :body="data" :loading="requestState.loading"/>
+    <div v-else-if="queryParsingError">queryParsingError</div>
+    <results-table v-else :body="searchResults" :loading="requestState.loading"/>
   </v-card>
 </template>
 
 <script>
+  import { onMounted, ref, watch } from '@vue/composition-api'
+  import CodeEditor from '@/components/shared/CodeEditor'
+  import IndexFilter from '@/components/shared/IndexFilter'
+  import ResizableContainer from '@/components/shared/ResizableContainer'
   import ResultsTable from '@/components/Search/ResultsTable'
   import { compositionVuexAccessors } from '@/helpers/store'
-  import IndexFilter from '@/components/shared/IndexFilter'
-  import { computed, ref, watch } from '@vue/composition-api'
-  import Loader from '@/components/shared/Loader'
+  import { debounce } from '@/helpers'
   import { useElasticsearchRequest } from '@/mixins/RequestComposition'
+  import { DEFAULT_SEARCH_QUERY } from '@/consts'
+  import { buildQueryFromTableOptions, mergeSearchQuery } from '@/helpers/search'
 
   export default {
     name: 'Search',
     components: {
-      Loader,
+      CodeEditor,
       IndexFilter,
+      ResizableContainer,
       ResultsTable
     },
     setup () {
-      const { q, indices, source, options } = compositionVuexAccessors('search', ['q', 'indices', 'source', 'options'])
-
-      const optionsCollapsed = ref(false)
-      const sortBy = computed(() => {
-        if (Array.isArray(options.value.sortBy) && options.value.sortBy.length > 0) {
-          return options.value.sortBy[0]
-        } else {
-          return null
-        }
-      })
-
-      const searchParams = computed(() => {
-        let order = null
-
-        if (Array.isArray(options.value.sortDesc) && options.value.sortDesc.length > 0) {
-          order = options.value.sortDesc[0] ? 'desc' : 'asc'
-        }
-
-        return {
-          q: q.value,
-          index: indices.value,
-          source: source.value,
-          size: options.value.itemsPerPage,
-          from: (options.value.page - 1) * options.value.itemsPerPage,
-          sort: sortBy.value,
-          order
-        }
-      })
-
-      let searchDirty = false
-      watch(q, () => (searchDirty = true))
-
-      const data = ref({})
-      const { callElasticsearch, requestState } = useElasticsearchRequest()
-      const load = () => {
-        if (searchDirty) options.value.page = 1
-        callElasticsearch('search', searchParams.value)
-          .then(r => {
-            data.value = r
-            searchDirty = false
-          })
-      }
-
-      const loadData = async () => {
-        await selectOnlyKnownIndices()
-        load()
-      }
-      const selectOnlyKnownIndices = () => {
-        if (!Array.isArray(indices.value)) return true
-        return callElasticsearch('catIndices', { h: 'index' })
-          .then(body => {
-            const availableIndices = body.map(index => index.index)
-            indices.value = indices.value.filter(selectedIndex => availableIndices.includes(selectedIndex))
-          })
-      }
-
-      watch(options, (newOptions, oldOptions) => {
-        if (newOptions !== oldOptions) loadData()
-      })
-
-      const resetQuery = () => (q.value = '*')
-
-      return {
-        optionsCollapsed,
-        resetQuery,
+      const {
         q,
         indices,
-        source,
-        loadData,
+        searchQuery,
+        searchQueryCollapsed,
+        options
+      } = compositionVuexAccessors('search', ['q', 'indices', 'searchQuery', 'options', 'searchQueryCollapsed'])
+      const resetQuery = () => (q.value = '*')
+      const resetSearchQuery = () => (searchQuery.value = DEFAULT_SEARCH_QUERY)
+
+      const searchResults = ref({})
+      const queryParsingError = ref(false)
+      const { callElasticsearch, requestState } = useElasticsearchRequest()
+      const search = () => {
+        const val = JSON.parse(searchQuery.value || '{}')
+        callElasticsearch('search', val, indices.value)
+          .then(result => (searchResults.value = result))
+      }
+
+      onMounted(search)
+
+      const debouncedMergeQIntoSearchQuery = debounce(q => {
+        mergeSearchQuery(searchQuery, { query: { query_string: { query: q } } })
+      }, 100)
+      watch(q, debouncedMergeQIntoSearchQuery)
+
+      watch(options, (newValue, oldValue) => {
+        const newQueryParts = buildQueryFromTableOptions(newValue, oldValue)
+        mergeSearchQuery(searchQuery, newQueryParts)
+        search()
+      })
+
+      const editorCommands = [{
+        bindKey: { win: 'Ctrl+ENTER', mac: 'Command+ENTER', linux: 'Ctrl+ENTER' },
+        exec: search
+      }]
+
+      return {
+        searchQueryCollapsed,
+        resetQuery,
+        resetSearchQuery,
+        q,
+        indices,
+        searchQuery,
+        search,
         requestState,
-        data
+        searchResults,
+        editorCommands,
+        queryParsingError
       }
     }
   }

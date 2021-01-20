@@ -96,11 +96,10 @@ export class DefaultClient {
     return this.request(`${index}/${docType}/${encodeURIComponent(id)}`, 'GET')
   }
 
-  search (params) {
-    let index = Array.isArray(params.index) ? params.index.join(',') : params.index
-    delete params.index
+  search (params, searchIndex) {
+    let index = Array.isArray(searchIndex) ? searchIndex.join(',') : searchIndex
 
-    if (index.length > 0) {
+    if (index && index.length > 0) {
       return this.request(`${index}/_search`, 'POST', params)
     } else {
       return this.request('_search', 'POST', params)

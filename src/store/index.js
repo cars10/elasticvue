@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { plugins } from './plugins'
+import { codeEditor } from '@/store/modules/codeEditor'
 import { connection } from './modules/connection'
 import { indices } from './modules/indices'
 import { nodes } from './modules/nodes'
@@ -16,6 +17,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   plugins: plugins,
   modules: {
+    codeEditor,
     connection,
     indices,
     nodes,

@@ -3,11 +3,11 @@
     <h4 v-if="caption">{{ caption }}</h4>
     <div v-if="resizable" class="py-1">
       <resizable-container :initial-height="initialHeight">
-        <code-editor :value="document" read-only/>
+        <code-viewer :value="document" read-only/>
       </resizable-container>
     </div>
     <div v-else :style="style" class="pt-2">
-      <code-editor :value="document" read-only/>
+      <code-viewer :value="document" read-only/>
     </div>
   </div>
 </template>
@@ -18,8 +18,8 @@
   export default {
     name: 'PrintPretty',
     components: {
-      'code-editor': () => ({
-        component: import(/* webpackChunkName: "code-editor" */ '@/components/shared/CodeEditor')
+      'code-viewer': () => ({
+        component: import(/* webpackChunkName: "code-viewer" */ '@/components/shared/CodeViewer')
       }),
       ResizableContainer
     },
