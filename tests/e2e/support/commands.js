@@ -24,7 +24,19 @@ Cypress.Commands.add('quickConnect', () => {
     onBeforeLoad: window => {
       window.localStorage.clear() // https://github.com/cypress-io/cypress/issues/2695#issuecomment-435147776
       expect(window.localStorage.getItem('elasticvuex')).to.be.null
-      window.localStorage.setItem('elasticvuex', `{"connection":{"activeInstanceIdx":0,"instances":[{"name":"local","uri":"${ELASTICSEARCH_URL}","status":"unknown"}]}}`)
+      const state = {
+        'connection': {
+          'activeInstanceIdx': 0,
+          'instances': [{
+            'name': 'local',
+            'username': '',
+            'password': '',
+            'uri': ELASTICSEARCH_URL,
+            'status': 'yellow'
+          }]
+        }
+      }
+      window.localStorage.setItem('elasticvuex', JSON.stringify(state))
     }
   })
 })

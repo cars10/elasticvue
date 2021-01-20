@@ -6,7 +6,6 @@ export const plugins = [
     key: LOCALSTORAGE_KEY,
     paths: [
       'codeEditor',
-      'connection.elasticsearchHost', // deprecated
       'connection.activeInstanceIdx',
       'connection.instances',
       'theme',
