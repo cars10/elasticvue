@@ -8,7 +8,9 @@
       </v-col>
 
       <v-col class="text-center" cols="4">
-        <div class="text-subtitle-1">Elasticvue {{ version }}</div>
+        <div class="text-subtitle-1">Elasticvue {{ version }} | <a
+          href="https://github.com/cars10/elasticvue/blob/master/CHANGELOG.md" rel="nofollow"
+          target="_blank">Changelog</a></div>
         &copy;{{ new Date().getFullYear() }} - Carsten K&ouml;nig<br>
       </v-col>
 
