@@ -8,15 +8,17 @@
 
         <v-divider/>
 
-        <v-card-text v-if="enableCorsHint">
-          <h2 class="text-h6 mb-1">1. Configure</h2>
-          <configure/>
-        </v-card-text>
+        <template v-if="enableCorsHint">
+          <v-card-text>
+            <h2 class="text-h6 mb-1">1. Configure</h2>
+            <configure/>
+          </v-card-text>
 
-        <v-divider/>
+          <v-divider/>
+        </template>
 
         <v-card-text>
-          <h2 v-if="enableCorsHint" class="text-h6 mb-1">2. Test and connect</h2>
+          <h2 v-if="enableCorsHint" class="text-h6 mb-1">2. Connect</h2>
           <test-and-connect/>
         </v-card-text>
       </v-card>

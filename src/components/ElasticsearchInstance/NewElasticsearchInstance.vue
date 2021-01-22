@@ -21,8 +21,24 @@
       </v-card-title>
 
       <v-divider/>
+
+      <v-card-text v-if="enableCorsHint" class="pa-4">
+        <h2 class="text-h6 mb-1">1. Configure</h2>
+        <configure v-if="configureHintVisible"/>
+        <div class="pt-2">
+          <a class="grey--text user-select--none" @click="configureHintVisible = !configureHintVisible">
+            <v-icon>{{ configureHintVisible ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+            Show help
+          </a>
+        </div>
+      </v-card-text>
+
+      <v-divider/>
+
       <v-form ref="form" v-model="formValid" lazy-validation @submit.prevent="testConnection">
         <v-card-text>
+          <h2 v-if="enableCorsHint" class="text-h6 mb-4">2. Connect</h2>
+
           <v-text-field v-if="dialog"
                         id="new_instance_name"
                         v-model="elasticsearchHost.name"
@@ -37,13 +53,13 @@
                         @click:append="elasticsearchHost.name = ''"/>
 
           <v-row>
-            <v-col>
+            <v-col md="6" cols="12">
               <v-text-field v-model="elasticsearchHost.username"
                             label="Username"
                             title="Username"
                             type="text"/>
             </v-col>
-            <v-col>
+            <v-col md="6" cols="12">
               <v-text-field v-model="elasticsearchHost.password"
                             :append-icon="passwordVisible ? 'mdi-eye' : 'mdi-eye-off'"
                             :type="passwordVisible ? 'text' : 'password'"
@@ -111,9 +127,13 @@
   import { ref } from '@vue/composition-api'
   import { useTestConnection } from '@/mixins/TestConnection'
   import { BASE_URI } from '@/consts'
+  import Configure from '@/components/Setup/Configure'
 
   export default {
     name: 'elasticsearch-instance',
+    components: {
+      Configure
+    },
     setup () {
       const dialog = ref(false)
       const closeDialog = () => {
@@ -149,6 +169,7 @@
       }
 
       const passwordVisible = ref(false)
+      const configureHintVisible = ref(false)
 
       return {
         dialog,
@@ -164,7 +185,9 @@
         resetElasticsearchHost,
         testConnection,
         connectCluster,
-        passwordVisible
+        passwordVisible,
+        configureHintVisible,
+        enableCorsHint: process.env.VUE_APP_DISABLE_CORS_HINT !== 'true'
       }
     }
   }

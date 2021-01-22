@@ -34,26 +34,28 @@
           </v-col>
         </v-row>
 
-        <div v-if="searchQueryCollapsed" class="my-2 pa-2 lowered">
-          <p>
-            Customize the search query
-          </p>
-          <p class="grey--text">
-            Hint: changes to the query will not update the respecting inputs in the ui (like the search query or
-            pagination/sort in the table), but changes to the inputs will be merged into the query again.
-          </p>
-          <resizable-container :initial-height="280">
-            <code-editor v-model="searchQuery" :external-commands="editorCommands"/>
-          </resizable-container>
-          <div class="mt-2">
-            <a href="javascript:void(0)" role="button" @click="resetSearchQuery">Reset custom query</a>
+        <v-expand-transition>
+          <div v-if="searchQueryCollapsed" class="my-2 pa-2 lowered">
+            <p>
+              Customize the search query
+            </p>
+            <p class="grey--text">
+              Hint: changes to the query will not update the respecting inputs in the ui (like the search query or
+              pagination/sort in the table), but changes to the inputs will be merged into the query again.
+            </p>
+            <resizable-container :initial-height="280">
+              <code-editor v-model="searchQuery" :external-commands="editorCommands"/>
+            </resizable-container>
+            <div class="mt-2">
+              <a href="javascript:void(0)" role="button" @click="resetSearchQuery">Reset custom query</a>
+            </div>
           </div>
-        </div>
+        </v-expand-transition>
 
         <div class="text-center pt-2">
-          <a class="grey--text user-select--none" @click="searchQueryCollapsed = !searchQueryCollapsed">
-            <v-icon small>{{ searchQueryCollapsed ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-            <v-badge content="new" small color="green">Customize query</v-badge>
+          <a class="grey--text user-select--none pa-2" @click="searchQueryCollapsed = !searchQueryCollapsed">
+            <v-icon>{{ searchQueryCollapsed ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+            <v-badge content="new" color="green">Customize query</v-badge>
           </a>
         </div>
       </v-form>
