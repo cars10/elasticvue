@@ -2,7 +2,7 @@
 
 *Please check the [releases](https://github.com/cars10/elasticvue/releases) page if you need version release dates.*
 
-## unreleased (0.32.0)
+## 0.32.0
 
 * [feat]: adds ability to completely customize the search query, fixes [#42][f42]
 * [feat]: adds autocomplete to editors on `Seach` and `Rest` pages (it is *not* context sensitive)
