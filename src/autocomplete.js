@@ -5,7 +5,7 @@ export const queryKeywords = [
   'value', 'flags',
   'fields', 'type',
   'filter', 'boost',
-  'operator', 'cutoff_frequency', 'bool', 'should', 'term', 'prefix',
+  'operator', 'cutoff_frequency', 'bool', 'must', 'should', 'term', 'terms', 'prefix',
   'query', 'match', 'match_phrase',
   '_source'
 ]
@@ -42,5 +42,19 @@ snippet match_phrase\n\
 \t\t"${1:field}": {\n\
 \t\t\t"query": "${2:query}"\n\
 \t\t}\n\
+\t}\n\
+# Bool query snippet\n\
+snippet bool\n\
+\t"bool": {\n\
+\t\t"must": [\n\
+\t\t\t{\n\
+\t\t\t\t${1}\n\
+\t\t\t}\n\
+\t\t],\n\
+\t\t"should": [\n\
+\t\t\t{\n\
+\t\t\t\t${2}\n\
+\t\t\t}\n\
+\t\t]\n\
 \t}\n\
 '
