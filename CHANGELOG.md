@@ -2,6 +2,10 @@
 
 *Please check the [releases](https://github.com/cars10/elasticvue/releases) page if you need version release dates.*
 
+## 0.33.0
+
+* [feat]: more color, contrast and a11y improvements
+
 ## 0.32.0
 
 * [feat]: adds ability to completely customize the search query, fixes [#42][f42]

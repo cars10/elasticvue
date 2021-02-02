@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="dialog" width="800">
     <template v-slot:activator="{ on, attrs }">
-      <v-list-item id="add_new_instance" v-bind="attrs" ripple v-on="on">
+      <v-list-item id="add_new_instance" v-bind="attrs" ripple aria-label="Add elasticsearch instance" v-on="on">
         <v-list-item-action>
           <v-icon>mdi-plus</v-icon>
         </v-list-item-action>
@@ -26,10 +26,10 @@
         <h2 class="text-h6 mb-1">1. Configure</h2>
         <configure v-if="configureHintVisible"/>
         <div class="pt-2">
-          <a class="grey--text user-select--none" @click="configureHintVisible = !configureHintVisible">
+          <v-btn text small class="pl-1" @click="configureHintVisible = !configureHintVisible">
             <v-icon>{{ configureHintVisible ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
             Show help
-          </a>
+          </v-btn>
         </div>
       </v-card-text>
 

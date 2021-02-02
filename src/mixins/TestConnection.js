@@ -20,11 +20,11 @@ export const useTestConnection = () => {
   })
 
   const testConnectionColor = computed(() => {
-    return testState.value.testError ? 'error' : 'primary'
+    return testState.value.testError ? 'error' : 'primary-button'
   })
 
   const connectColor = computed(() => {
-    return testState.value.testSuccess ? 'success' : 'primary'
+    return testState.value.testSuccess ? 'success' : 'primary-button'
   })
 
   const elasticsearchHost = ref(Object.assign({}, DEFAULT_ELASTICSEARCH_HOST))

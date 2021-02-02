@@ -2,7 +2,7 @@
   <v-card>
     <v-card-title>
       Cluster Health
-      <reload-button :action="load"/>
+      <reload-button id="reload-cluster-health" :action="load"/>
     </v-card-title>
     <v-divider/>
 

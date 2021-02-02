@@ -3,16 +3,12 @@
     <v-menu v-model="menuOpen" offset-y>
       <template v-slot:activator="{ on, attrs }">
         <v-btn v-if="activeInstance" id="instance_selection_toggle" v-bind="attrs"
-               :title="`Connected to '${activeInstance.name}' (${activeInstance.uri})`" class="text-none" v-on="on">
+               :title="`Connected to '${activeInstance.name}' (${activeInstance.uri})`"
+               aria-label="Instance selection" class="text-none" v-on="on">
           <svg :title="`Cluster health: ${activeInstance.status}`" class="mr-2" height="14" width="14">
             <circle :class="`health--${activeInstance.status}`" cx="7" cy="9" r="5"/>
           </svg>
           <span class="text-truncate" style="max-width: 200px">{{ activeInstance.name }}</span>
-          <v-icon v-if="menuOpen">mdi-menu-up</v-icon>
-          <v-icon v-else>mdi-menu-down</v-icon>
-        </v-btn>
-        <v-btn v-else v-bind="attrs" class="text-none" v-on="on">
-          Chose instance
           <v-icon v-if="menuOpen">mdi-menu-up</v-icon>
           <v-icon v-else>mdi-menu-down</v-icon>
         </v-btn>

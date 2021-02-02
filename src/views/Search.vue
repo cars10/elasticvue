@@ -30,7 +30,7 @@
           </v-col>
 
           <v-col cols="12" sm="1">
-            <v-btn id="search_submit" class="mt-4" color="primary" type="submit">Search</v-btn>
+            <v-btn id="search_submit" class="mt-4" color="primary-button" type="submit">Search</v-btn>
           </v-col>
         </v-row>
 
@@ -53,10 +53,10 @@
         </v-expand-transition>
 
         <div class="text-center pt-2">
-          <a class="grey--text user-select--none pa-2" @click="searchQueryCollapsed = !searchQueryCollapsed">
+          <v-btn text small class="pl-1" @click="searchQueryCollapsed = !searchQueryCollapsed">
             <v-icon>{{ searchQueryCollapsed ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-            <v-badge content="new" color="green">Customize query</v-badge>
-          </a>
+            Customize query
+          </v-btn>
         </div>
       </v-form>
     </v-card-text>

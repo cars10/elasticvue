@@ -46,7 +46,7 @@
 
           <v-row>
             <v-col :md="vertical ? 6 : 12" cols="12">
-              <v-btn id="execute_query" :disabled="!formValid" :loading="loading" class="mx-0" color="primary"
+              <v-btn id="execute_query" :disabled="!formValid" :loading="loading" class="mx-0" color="primary-button"
                      type="submit">
                 Run query
               </v-btn>

@@ -14,7 +14,7 @@
                         title="Filter via 'column:query'"
                         @keyup.esc="filter = ''"/>
 
-          <settings-dropdown :badge="columns.length > filteredColumns.length">
+          <settings-dropdown :badge="columns.length > filteredColumns.length" button-title="Table settings">
             <multi-setting v-model="selectedColumns" :settings="columns" name="Columns"/>
           </settings-dropdown>
         </div>

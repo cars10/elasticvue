@@ -1,12 +1,12 @@
 <template>
   <v-app-bar :dense="dense" app>
-    <router-link class="mt-2" to="/">
+    <router-link class="mt-2" to="/" aria-label="Home">
       <img v-if="dark" :height="logoSize" :width="logoSize"
            alt="Logo" src="../../../public/images/logo/white_96.png">
       <img v-else :height="logoSize" :width="logoSize" alt="Logo" src="../../../public/images/logo/blue_96.png">
     </router-link>
     <v-toolbar-title class="ml-3 hidden-md-and-down">
-      <router-link to="/">
+      <router-link to="/" aria-label="Home">
         Elasticvue
       </router-link>
     </v-toolbar-title>

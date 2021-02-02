@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="dialog" width="500">
     <template v-slot:activator="{on}">
-      <v-btn id="new_snapshot_repository" class="ml-0" color="primary" v-on="on">New repository</v-btn>
+      <v-btn id="new_snapshot_repository" class="ml-0" color="primary-button" v-on="on">New repository</v-btn>
     </template>
 
     <v-card>
@@ -66,8 +66,8 @@
                         required
                         @keydown.esc="closeDialog"/>
 
-          <v-checkbox id="compress" v-model="compress" color="primary" hide-details label="Compress"/>
-          <v-checkbox id="readonly" v-model="readonly" color="primary" hide-details label="Readonly"/>
+          <v-checkbox id="compress" v-model="compress" color="primary-button" hide-details label="Compress"/>
+          <v-checkbox id="readonly" v-model="readonly" color="primary-button" hide-details label="Readonly"/>
         </v-card-text>
 
         <v-card-actions class="pa-4">

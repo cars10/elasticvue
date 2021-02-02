@@ -4,14 +4,14 @@
       <index-pattern v-model="localPattern"/>
     </template>
     <template slot="first-activator">
-      <a class="ml-2" href="javascript:void(0)">or use index pattern</a>
+      <a class="ml-2" href="javascript:void(0)">use index pattern</a>
     </template>
 
     <template slot="last">
       <index-select v-model="localIndices" :indices="indexNames" :loading="requestState.loading" @reload="load"/>
     </template>
     <template slot="last-activator">
-      <a class="ml-2" href="javascript:void(0)">or select indices</a>
+      <a class="ml-2" href="javascript:void(0)">select indices</a>
     </template>
   </content-toggle>
 </template>

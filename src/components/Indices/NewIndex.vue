@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="dialog" width="500">
     <template v-slot:activator="{on}">
-      <v-btn id="new_index" class="ml-0" color="primary" v-on="on">New index</v-btn>
+      <v-btn id="new_index" class="ml-0" color="primary-button" v-on="on">New index</v-btn>
     </template>
 
     <v-card>

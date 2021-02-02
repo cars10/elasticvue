@@ -11,7 +11,7 @@
                   @click:prepend-inner="resetSelection">
     <template v-slot:item="data">
       <v-list-item-action>
-        <v-checkbox :input-value="localValue.includes(data.item)" color="primary"/>
+        <v-checkbox :input-value="localValue.includes(data.item)" color="primary-button"/>
       </v-list-item-action>
       <v-list-item-content :title="data.item" class="text-truncate">
         {{ data.item }}
@@ -42,7 +42,7 @@
         </btn-group>
 
         <div class="float-right d-inline-block">
-          <v-checkbox v-model="showHidden" class="mt-0" color="primary" hide-details label="show hidden"
+          <v-checkbox v-model="showHidden" class="mt-0" color="primary-button" hide-details label="show hidden"
                       title="Show indices starting with a dot"/>
         </div>
       </div>

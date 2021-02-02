@@ -2,7 +2,7 @@
   <v-card>
     <v-card-title>
       Node Information
-      <reload-button :action="load"/>
+      <reload-button id="reload-client-information" :action="load"/>
     </v-card-title>
     <v-divider/>
 

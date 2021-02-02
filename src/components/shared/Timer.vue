@@ -4,6 +4,7 @@
               :items="timerSettings"
               class="mt-0 pt-0 d-inline-block v-select--dense-append"
               hide-details
+              aria-label="Reload interval"
               item-text="text"
               item-value="value">
       <template slot="selection" slot-scope="{ item, index }">

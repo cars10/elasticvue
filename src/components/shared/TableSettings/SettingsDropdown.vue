@@ -1,6 +1,6 @@
 <template>
   <div class="settings-dropdown" @click.stop>
-    <v-btn icon small @click.native="toggleMenu">
+    <v-btn :title="buttonTitle" :aria-label="buttonTitle" icon small @click.native="toggleMenu">
       <v-badge :value="badge" class="pa-0 ma-0" color="green" dot>
         <v-icon>mdi-cog</v-icon>
       </v-badge>
@@ -22,6 +22,10 @@
       badge: {
         type: Boolean,
         default: false
+      },
+      buttonTitle: {
+        type: String,
+        default: 'Settings'
       }
     },
     setup () {
