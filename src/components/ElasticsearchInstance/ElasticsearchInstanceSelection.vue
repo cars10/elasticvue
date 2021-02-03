@@ -12,6 +12,11 @@
           <v-icon v-if="menuOpen">mdi-menu-up</v-icon>
           <v-icon v-else>mdi-menu-down</v-icon>
         </v-btn>
+        <v-btn v-else v-bind="attrs" class="text-none" v-on="on">
+          Chose instance
+          <v-icon v-if="menuOpen">mdi-menu-up</v-icon>
+          <v-icon v-else>mdi-menu-down</v-icon>
+        </v-btn>
       </template>
 
       <v-list id="instance_selection">
