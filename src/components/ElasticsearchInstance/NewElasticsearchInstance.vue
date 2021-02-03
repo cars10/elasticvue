@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="dialog" width="800">
+  <v-dialog v-model="dialog" width="800" class="theme--dark">
     <template v-slot:activator="{ on, attrs }">
       <v-list-item id="add_new_instance" v-bind="attrs" ripple aria-label="Add elasticsearch instance" v-on="on">
         <v-list-item-action>
@@ -22,22 +22,20 @@
 
       <v-divider/>
 
-      <v-card-text v-if="enableCorsHint" class="pa-4">
-        <h2 class="text-h6 mb-1">1. Configure</h2>
+      <v-card-text v-if="enableCorsHint">
+        <h2 class="text-h6 my-4">1. Configure</h2>
         <configure v-if="configureHintVisible"/>
-        <div class="pt-2">
-          <v-btn text small class="pl-1" @click="configureHintVisible = !configureHintVisible">
-            <v-icon>{{ configureHintVisible ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-            Show help
-          </v-btn>
-        </div>
+        <v-btn text small class="pl-1" @click="configureHintVisible = !configureHintVisible">
+          <v-icon>{{ configureHintVisible ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+          Show help
+        </v-btn>
       </v-card-text>
 
       <v-divider/>
 
-      <v-form ref="form" v-model="formValid" lazy-validation @submit.prevent="testConnection">
-        <v-card-text>
-          <h2 v-if="enableCorsHint" class="text-h6 mb-4">2. Connect</h2>
+      <v-card-text>
+        <h2 v-if="enableCorsHint" class="text-h6 my-4">2. Connect</h2>
+        <v-form ref="form" v-model="formValid" lazy-validation @submit.prevent="testConnection">
 
           <v-text-field v-if="dialog"
                         id="new_instance_name"
@@ -81,6 +79,8 @@
                         @keyup.ctrl.enter="connectCluster"
                         @click:append="elasticsearchHost.uri = ''"/>
 
+          <ssl-hint v-if="usesSSL"/>
+
           <v-alert :value="hasError" type="error">
             Could not connect. Please make sure that
             <ol class="pl-4">
@@ -95,28 +95,28 @@
               {{ testState.errorMessage }}
             </div>
           </v-alert>
-        </v-card-text>
 
-        <v-card-actions class="pa-4">
-          <v-btn id="test_connection"
-                 :color="testConnectionColor"
-                 :disabled="!formValid"
-                 :loading="testState.testLoading"
-                 class="mr-2"
-                 type="submit">
-            Test connection
-          </v-btn>
+          <div class="mt-4">
+            <v-btn id="test_connection"
+                   :color="testConnectionColor"
+                   :disabled="!formValid"
+                   :loading="testState.testLoading"
+                   class="mr-2"
+                   type="submit">
+              Test connection
+            </v-btn>
 
-          <v-btn id="connect"
-                 :color="connectColor"
-                 :disabled="!formValid"
-                 :loading="testState.connectLoading"
-                 type="button"
-                 @click.native="connectCluster">Connect
-          </v-btn>
-          <v-btn text @click="closeDialog">Cancel</v-btn>
-        </v-card-actions>
-      </v-form>
+            <v-btn id="connect"
+                   :color="connectColor"
+                   :disabled="!formValid"
+                   :loading="testState.connectLoading"
+                   type="button"
+                   @click.native="connectCluster">Connect
+            </v-btn>
+            <v-btn text @click="closeDialog">Cancel</v-btn>
+          </div>
+        </v-form>
+      </v-card-text>
     </v-card>
   </v-dialog>
 </template>
@@ -124,15 +124,17 @@
 <script>
   import store from '@/store'
   import { compositionVuexAccessors } from '@/helpers/store'
-  import { ref } from '@vue/composition-api'
+  import { computed, ref } from '@vue/composition-api'
   import { useTestConnection } from '@/mixins/TestConnection'
   import { BASE_URI } from '@/consts'
   import Configure from '@/components/Setup/Configure'
+  import SslHint from '@/components/shared/SslHint'
 
   export default {
     name: 'elasticsearch-instance',
     components: {
-      Configure
+      Configure,
+      SslHint
     },
     setup () {
       const dialog = ref(false)
@@ -170,6 +172,9 @@
 
       const passwordVisible = ref(false)
       const configureHintVisible = ref(false)
+      const usesSSL = computed(() => {
+        return elasticsearchHost.value.uri.match(/^https/)
+      })
 
       return {
         dialog,
@@ -187,6 +192,7 @@
         connectCluster,
         passwordVisible,
         configureHintVisible,
+        usesSSL,
         enableCorsHint: process.env.VUE_APP_DISABLE_CORS_HINT !== 'true'
       }
     }

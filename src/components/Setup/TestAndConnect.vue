@@ -1,57 +1,58 @@
 <template>
   <div>
-    <div class="px-4">
-      <v-form v-model="formValid" @submit.prevent="testConnection">
-        <v-row>
-          <v-col md="6" cols="12">
-            <v-text-field v-model="elasticsearchHost.username"
-                          autofocus
-                          label="Username"
-                          title="Username"
-                          type="text"/>
-          </v-col>
-          <v-col md="6" cols="12">
-            <v-text-field v-model="elasticsearchHost.password"
-                          :append-icon="passwordVisible ? 'mdi-eye' : 'mdi-eye-off'"
-                          :type="passwordVisible ? 'text' : 'password'"
-                          autocomplete="off"
-                          label="Password"
-                          title="Password"
-                          @click:append="passwordVisible = !passwordVisible"/>
-          </v-col>
-        </v-row>
+    <v-form v-model="formValid" @submit.prevent="testConnection">
+      <v-row>
+        <v-col md="6" cols="12">
+          <v-text-field v-model="elasticsearchHost.username"
+                        autofocus
+                        label="Username"
+                        title="Username"
+                        type="text"/>
+        </v-col>
+        <v-col md="6" cols="12">
+          <v-text-field v-model="elasticsearchHost.password"
+                        :append-icon="passwordVisible ? 'mdi-eye' : 'mdi-eye-off'"
+                        :type="passwordVisible ? 'text' : 'password'"
+                        autocomplete="off"
+                        label="Password"
+                        title="Password"
+                        @click:append="passwordVisible = !passwordVisible"/>
+        </v-col>
+      </v-row>
 
-        <v-text-field id="host"
-                      v-model="elasticsearchHost.uri"
-                      :rules="[validUri]"
-                      append-icon="mdi-close"
-                      label="Host"
-                      title="Host"
-                      type="text"
-                      @click:append="resetElasticsearchHost"
-                      @keyup.ctrl.enter="connectCluster"
-                      @keyup.esc="resetElasticsearchHost"/>
-        <div class="mb-4">
-          <v-btn id="test_connection"
-                 :color="testConnectionColor"
-                 :disabled="!formValid"
-                 :loading="testState.testLoading"
-                 class="mr-2 mt-2"
-                 type="submit">
-            Test connection
-          </v-btn>
+      <v-text-field id="host"
+                    v-model="elasticsearchHost.uri"
+                    :rules="[validUri]"
+                    append-icon="mdi-close"
+                    label="Host"
+                    title="Host"
+                    type="text"
+                    @click:append="resetElasticsearchHost"
+                    @keyup.ctrl.enter="connectCluster"
+                    @keyup.esc="resetElasticsearchHost"/>
 
-          <v-btn id="connect"
-                 :color="connectColor"
-                 :disabled="!formValid"
-                 :loading="testState.connectLoading"
-                 class="mt-2"
-                 type="button"
-                 @click.native="connectCluster">Connect
-          </v-btn>
-        </div>
-      </v-form>
-    </div>
+      <ssl-hint v-if="usesSSL"/>
+
+      <div class="mb-4">
+        <v-btn id="test_connection"
+               :color="testConnectionColor"
+               :disabled="!formValid"
+               :loading="testState.testLoading"
+               class="mr-2 mt-2"
+               type="submit">
+          Test connection
+        </v-btn>
+
+        <v-btn id="connect"
+               :color="connectColor"
+               :disabled="!formValid"
+               :loading="testState.connectLoading"
+               class="mt-2"
+               type="button"
+               @click.native="connectCluster">Connect
+        </v-btn>
+      </div>
+    </v-form>
 
     <div v-if="hasError" class="px-4">
       <v-alert :value="true" type="error">
@@ -75,11 +76,15 @@
 <script>
   import { useTestConnection } from '@/mixins/TestConnection'
   import store from '@/store'
-  import { ref } from '@vue/composition-api'
+  import { computed, ref } from '@vue/composition-api'
   import { showSuccessSnackbar } from '@/mixins/ShowSnackbar'
+  import SslHint from '@/components/shared/SslHint'
 
   export default {
     name: 'test-and-connect',
+    components: {
+      SslHint
+    },
     setup (props, context) {
       const {
         testState,
@@ -106,6 +111,9 @@
       }
 
       const passwordVisible = ref(false)
+      const usesSSL = computed(() => {
+        return elasticsearchHost.value.uri.match(/^https/)
+      })
 
       return {
         hasError,
@@ -118,7 +126,8 @@
         connectCluster,
         testState,
         formValid,
-        passwordVisible
+        passwordVisible,
+        usesSSL
       }
     }
   }

@@ -4,6 +4,7 @@
 
 ## 0.33.0
 
+* [feat]: adds hint about certificates when connecting to a cluster that uses ssl
 * [feat]: more color, contrast and a11y improvements
 
 ## 0.32.0

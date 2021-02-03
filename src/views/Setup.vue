@@ -10,7 +10,7 @@
 
         <template v-if="enableCorsHint">
           <v-card-text>
-            <h2 class="text-h6 mb-1">1. Configure</h2>
+            <h2 class="text-h6 mb-2">1. Configure</h2>
             <configure/>
           </v-card-text>
 
