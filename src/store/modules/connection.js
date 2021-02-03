@@ -32,9 +32,6 @@ export const connection = {
     setActiveInstanceIdx (state, index) {
       state.activeInstanceIdx = index
       state.elasticsearchAdapter = null
-    },
-    setInstanceCredentialsMigrated (state, val) {
-      state.instanceCredentialsMigrated = val
     }
   },
   getters: {

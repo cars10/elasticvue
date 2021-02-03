@@ -8,7 +8,6 @@ export const plugins = [
       'codeEditor',
       'connection.activeInstanceIdx',
       'connection.instances',
-      'connection.instanceCredentialsMigrated',
       'theme',
       'queryRest',
       'indices',
