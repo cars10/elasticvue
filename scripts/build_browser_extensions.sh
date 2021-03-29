@@ -20,4 +20,4 @@ cp -r dist/* browser_extension/
 zip -r artifacts/elasticvue-$PACKAGE_VERSION-chrome.zip browser_extension/*
 
 # build firefox extension
-(which web-ext > /dev/null && web-ext build -s browser_extension -a artifacts) || (echo 'web-ext not found, cannot build firefox extension' && exit 1)
+(command -v web-ext > /dev/null && web-ext build -s browser_extension -a artifacts) || (echo 'web-ext not found, cannot build firefox extension' && exit 1)
