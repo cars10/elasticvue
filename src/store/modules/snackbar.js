@@ -1,5 +1,3 @@
-import { truncate } from '@/helpers'
-
 export const snackbar = {
   namespaced: true,
   state: {
@@ -11,8 +9,8 @@ export const snackbar = {
   },
   mutations: {
     show (state, props) {
-      state.text = truncate(props.text, 500) || ''
-      state.additionalText = truncate(props.additionalText, 500) || ''
+      state.text = props.text || ''
+      state.additionalText = props.additionalText || ''
       if (props.timeout) state.timeout = props.timeout
       if (props.color) state.color = props.color
       state.visible = true

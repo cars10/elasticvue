@@ -28,17 +28,6 @@ export function capitalize (string) {
   return string[0].toUpperCase() + string.slice(1)
 }
 
-export function truncate (text, limit) {
-  if (!text) return ''
-  if (typeof text !== 'string') text = text.toString()
-
-  if (text.length > limit) {
-    return text.slice(0, limit) + ' ...'
-  } else {
-    return text
-  }
-}
-
 export function buildFetchAuthHeader (username, password) {
   if (username.length > 0 && password.length > 0) {
     return 'Basic ' + Buffer.from(username + ':' + password).toString('base64')
