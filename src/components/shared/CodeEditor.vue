@@ -6,8 +6,8 @@
       <v-btn :disabled="!valid"
              class="vertical-align--top mr-2"
              small
-             title="Beautify (Ctrl+ALT+L)"
              style="height: 32px"
+             title="Beautify (Ctrl+ALT+L)"
              @click="beautify">
         <v-icon small>mdi-auto-fix</v-icon>
       </v-btn>
@@ -105,7 +105,7 @@
       const beautify = () => {
         if (props.value) {
           try {
-            let newValue = stringifyJson(JSON.parse(editor.value.getValue()))
+            const newValue = stringifyJson(JSON.parse(editor.value.getValue()))
             context.emit('input', newValue)
           } catch (error) {
           }

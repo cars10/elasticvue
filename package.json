@@ -1,15 +1,17 @@
 {
   "name": "elasticvue",
   "version": "0.32.0",
+  "description": "Elasticsearch frontend",
+  "author": "Carsten König <carstenkoenig92@gmail.com>",
   "scripts": {
     "serve": "npx --max_old_space_size=4096 vue-cli-service serve",
     "build": "rm -rf dist && vue-cli-service build --modern",
+    "test:unit": "vue-cli-service test:unit",
+    "test:e2e": "vue-cli-service test:e2e",
     "lint": "vue-cli-service lint",
     "build_browser_extensions": "./scripts/build_browser_extensions.sh",
     "prod": "node scripts/express-server.js",
-    "test:unit": "vue-cli-service test:unit",
-    "test:unit:watch": "vue-cli-service test:unit --watch",
-    "test:e2e": "vue-cli-service test:e2e"
+    "test:unit:watch": "vue-cli-service test:unit --watch"
   },
   "dependencies": {
     "@mdi/font": "^5.9.55",
@@ -26,28 +28,32 @@
     "vuex-persistedstate": "^3.1.0"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.11.0",
-    "@vue/cli-plugin-e2e-cypress": "^4.5.9",
-    "@vue/cli-plugin-eslint": "^3.11.0",
-    "@vue/cli-plugin-unit-jest": "^3.11.0",
-    "@vue/cli-service": "^3.11.0",
-    "@vue/eslint-config-standard": "^4.0.0",
+    "@vue/cli-plugin-babel": "^4.5.12",
+    "@vue/cli-plugin-e2e-cypress": "^4.5.12",
+    "@vue/cli-plugin-eslint": "^4.5.12",
+    "@vue/cli-plugin-unit-jest": "^4.5.12",
+    "@vue/cli-service": "^4.5.12",
+    "@vue/eslint-config-standard": "^6.0.0",
     "babel-core": "^7.0.0-bridge.0",
-    "babel-jest": "^26.5.2",
-    "babel-loader": "^8.1.0",
+    "babel-eslint": "^10.1.0",
+    "babel-jest": "^26.6.3",
+    "babel-loader": "^8.2.2",
+    "eslint": "^7.23.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "eslint-plugin-vue": "^6.2.2",
     "eslint-plugin-vuetify": "^1.0.0-beta.8",
-    "favicons-webpack-plugin": "^1.0.2",
-    "puppeteer": "^5.3.1",
-    "sass": "^1.27.0",
-    "sass-loader": "^7.3.1",
+    "puppeteer": "^8.0.0",
+    "sass": "^1.32.8",
+    "sass-loader": "^10.1.1",
     "vue-template-compiler": "^2.6.12",
     "worker-loader": "^3.0.8"
   },
-  "description": "Elasticsearch frontend",
-  "author": "Carsten König <carstenkoenig92@gmail.com>",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/cars10/elasticvue.git"
-  },
-  "license": "MIT"
+  }
 }

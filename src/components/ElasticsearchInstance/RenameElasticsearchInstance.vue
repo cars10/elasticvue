@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="dialog" width="800">
     <template v-slot:activator="{ on, attrs }">
-      <v-list-item-action v-bind="attrs" title="Rename cluster" ripple v-on="on">
+      <v-list-item-action v-bind="attrs" v-on="on" ripple title="Rename cluster">
         <v-btn icon small>
           <v-icon small>mdi-pencil-outline</v-icon>
         </v-btn>
@@ -37,7 +37,7 @@
         </v-card-text>
 
         <v-card-actions class="pa-4">
-          <v-btn :disabled="!valid" class="mr-2" type="submit" color="success">Rename</v-btn>
+          <v-btn :disabled="!valid" class="mr-2" color="success" type="submit">Rename</v-btn>
           <v-btn text @click="closeDialog">Cancel</v-btn>
         </v-card-actions>
       </v-form>

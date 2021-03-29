@@ -151,7 +151,7 @@ export default class ElasticsearchAdapter {
    * @param names {Array}
    */
   async createIndices (names) {
-    for (let name of [...new Set(names)]) {
+    for (const name of [...new Set(names)]) {
       const exists = await this.indexExists({ index: name })
       if (!exists) await this.indexCreate({ index: name })
     }

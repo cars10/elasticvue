@@ -1,12 +1,12 @@
 <template>
   <v-app-bar :dense="dense" app>
-    <router-link class="mt-2" to="/" aria-label="Home">
+    <router-link aria-label="Home" class="mt-2" to="/">
       <img v-if="dark" :height="logoSize" :width="logoSize"
            alt="Logo" src="../../../public/images/logo/white_96.png">
       <img v-else :height="logoSize" :width="logoSize" alt="Logo" src="../../../public/images/logo/blue_96.png">
     </router-link>
     <v-toolbar-title class="ml-3 hidden-md-and-down">
-      <router-link to="/" aria-label="Home">
+      <router-link aria-label="Home" to="/">
         Elasticvue
       </router-link>
     </v-toolbar-title>
@@ -26,7 +26,7 @@
 
       <v-menu offset-y>
         <template v-slot:activator="{on}">
-          <v-btn id="navbar_snapshots" :class="navbarSnapshotClasses" text v-on="on">
+          <v-btn id="navbar_snapshots" v-on="on" :class="navbarSnapshotClasses" text>
             Snapshots
             <v-icon>mdi-menu-down</v-icon>
           </v-btn>
@@ -57,7 +57,6 @@
 </template>
 
 <script>
-  import Timer from '@/components/shared/Timer'
   import { computed, onBeforeUnmount, onMounted, ref } from '@vue/composition-api'
   import store from '@/store'
   import ElasticsearchInstanceSelection from '@/components/ElasticsearchInstance/ElasticsearchInstanceSelection'
@@ -65,7 +64,6 @@
   export default {
     name: 'app-header',
     components: {
-      Timer,
       ElasticsearchInstanceSelection
     },
     setup (props, context) {

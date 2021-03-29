@@ -101,7 +101,7 @@
             text: 'Set all indices to writable',
             method: 'indexPutSettings',
             methodParams: {
-              index: '_all', body: { 'index': { 'blocks': { 'read_only_allow_delete': 'false' } } }
+              index: '_all', body: { index: { blocks: { read_only_allow_delete: 'false' } } }
             }
           }
         ]

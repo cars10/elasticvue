@@ -59,7 +59,6 @@
 </template>
 
 <script>
-  import ListTileLink from '@/components/shared/ListTile/ListTileLink'
   import IndexFilter from '@/components/shared/IndexFilter'
   import { ref } from '@vue/composition-api'
   import { useElasticsearchRequest } from '@/mixins/RequestComposition'
@@ -68,8 +67,7 @@
   export default {
     name: 'restore-snapshot',
     components: {
-      IndexFilter,
-      ListTileLink
+      IndexFilter
     },
     props: {
       snapshot: {

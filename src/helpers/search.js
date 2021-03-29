@@ -3,11 +3,11 @@ export const buildQueryFromTableOptions = (newOptions, oldOptions) => {
     newOptions.itemsPerPage === oldOptions.itemsPerPage &&
     (!oldOptions.sortDesc || newOptions.sortDesc === oldOptions.sortDesc) &&
     newOptions.sortBy === oldOptions.sortBy) {
-      return {}
-    }
+    return {}
+  }
 
-  let from = (newOptions.page - 1) * newOptions.itemsPerPage
-  let size = newOptions.itemsPerPage
+  const from = (newOptions.page - 1) * newOptions.itemsPerPage
+  const size = newOptions.itemsPerPage
   const newQueryParts = { size, from }
 
   let order

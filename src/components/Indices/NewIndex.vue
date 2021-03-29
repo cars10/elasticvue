@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="dialog" width="500">
     <template v-slot:activator="{on}">
-      <v-btn id="new_index" class="ml-0" color="primary-button" v-on="on">New index</v-btn>
+      <v-btn id="new_index" v-on="on" class="ml-0" color="primary-button">New index</v-btn>
     </template>
 
     <v-card>
@@ -21,29 +21,29 @@
                         id="index_name"
                         v-model="indexName"
                         :rules="[nameValidation]"
+                        autocomplete="off"
                         autofocus
                         label="Index name"
                         name="indexName"
                         required
-                        autocomplete="off"
                         @keyup.esc="closeDialog"/>
 
           <v-text-field id="index_shards"
                         v-model="indexShards"
+                        autocomplete="off"
                         label="Number of shards"
                         name="indexShards"
                         placeholder="1"
                         type="number"
-                        autocomplete="off"
                         @keyup.esc="closeDialog"/>
 
           <v-text-field id="index_replicas"
                         v-model="indexReplicas"
+                        autocomplete="off"
                         label="Number of replicas"
                         name="indexReplicas"
                         placeholder="1"
                         type="number"
-                        autocomplete="off"
                         @keyup.esc="closeDialog"/>
         </v-card-text>
 

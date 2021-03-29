@@ -20,17 +20,17 @@ const headers = [
 describe('helpers/filters.js', () => {
   describe('filters.js default searches', () => {
     it('should return all items on empty search', () => {
-      let results = fuzzyTableFilter(items, '', headers)
+      const results = fuzzyTableFilter(items, '', headers)
       expect(results.length).toEqual(items.length)
     })
 
     it('should return all items on whitespace search', () => {
-      let results = fuzzyTableFilter(items, '   ', headers)
+      const results = fuzzyTableFilter(items, '   ', headers)
       expect(results.length).toEqual(items.length)
     })
 
     it('should return no items on unmatched search', () => {
-      let results = fuzzyTableFilter(items, 'xxxxxxxxxxxxxx', headers)
+      const results = fuzzyTableFilter(items, 'xxxxxxxxxxxxxx', headers)
       expect(results).toEqual([])
     })
 

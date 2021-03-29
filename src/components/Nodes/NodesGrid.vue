@@ -33,7 +33,7 @@
                      :options.sync="pagination">
       <template v-slot:default="props">
         <v-row>
-          <v-col v-for="item in props.items" slot="item" :key="item.name" cols="12" lg="4" md="6" sm="12">
+          <v-col v-for="item in props.items" :key="item.name" slot="item" cols="12" lg="4" md="6" sm="12">
             <v-card>
               <v-card-title>
                 <div class="row">

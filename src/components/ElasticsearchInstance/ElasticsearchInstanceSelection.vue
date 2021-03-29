@@ -3,8 +3,9 @@
     <v-menu v-model="menuOpen" offset-y>
       <template v-slot:activator="{ on, attrs }">
         <v-btn v-if="activeInstance" id="instance_selection_toggle" v-bind="attrs"
-               :title="`Connected to '${activeInstance.name}' (${activeInstance.uri})`"
-               aria-label="Instance selection" class="text-none" v-on="on">
+               v-on="on"
+               :title="`Connected to '${activeInstance.name}' (${activeInstance.uri})`" aria-label="Instance selection"
+               class="text-none">
           <svg :title="`Cluster health: ${activeInstance.status}`" class="mr-2" height="14" width="14">
             <circle :class="`health--${activeInstance.status}`" cx="7" cy="9" r="5"/>
           </svg>
@@ -12,7 +13,7 @@
           <v-icon v-if="menuOpen">mdi-menu-up</v-icon>
           <v-icon v-else>mdi-menu-down</v-icon>
         </v-btn>
-        <v-btn v-else v-bind="attrs" class="text-none" v-on="on">
+        <v-btn v-else v-bind="attrs" v-on="on" class="text-none">
           Chose instance
           <v-icon v-if="menuOpen">mdi-menu-up</v-icon>
           <v-icon v-else>mdi-menu-down</v-icon>
@@ -37,11 +38,11 @@
             </v-list-item-title>
           </v-list-item-content>
 
-          <rename-elasticsearch-instance :cluster-name="item.name" :cluster-uri="item.uri" :cluster-idx="index"/>
+          <rename-elasticsearch-instance :cluster-idx="index" :cluster-name="item.name" :cluster-uri="item.uri"/>
 
           <v-list-item-action :id="`remove-instance-${index}`"
-                              title="Delete cluster"
                               class="ml-1"
+                              title="Delete cluster"
                               @click.stop="removeInstance(index)">
             <v-btn icon small>
               <v-icon small>mdi-delete</v-icon>

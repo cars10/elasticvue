@@ -99,7 +99,7 @@ export class DefaultClient {
   }
 
   search (params, searchIndex) {
-    let index = Array.isArray(searchIndex) ? searchIndex.join(',') : searchIndex
+    const index = Array.isArray(searchIndex) ? searchIndex.join(',') : searchIndex
 
     if (index && index.length > 0) {
       return this.request(`${index}/_search`, 'POST', params)
@@ -141,12 +141,12 @@ export class DefaultClient {
   }
 
   bulk ({ body }) {
-    let data = body.map(d => JSON.stringify(d)).join('\n') + '\n'
+    const data = body.map(d => JSON.stringify(d)).join('\n') + '\n'
     return this.request('_bulk', 'POST', data)
   }
 
   request (path, method, params) {
-    let url = new URL(this.host + path)
+    const url = new URL(this.host + path)
 
     if (method === 'GET' && typeof params === 'object') {
       Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
@@ -155,14 +155,14 @@ export class DefaultClient {
     let body = null
     if (method === 'PUT' || method === 'POST') body = params
 
-    let options = {
+    const options = {
       method,
       body: body && typeof body !== 'string' ? JSON.stringify(body) : body,
       headers: Object.assign({}, REQUEST_DEFAULT_HEADERS)
     }
 
     if (this.username.length > 0) {
-      options.headers['Authorization'] = buildFetchAuthHeader(this.username, this.password)
+      options.headers.Authorization = buildFetchAuthHeader(this.username, this.password)
     }
 
     return new Promise((resolve, reject) => {

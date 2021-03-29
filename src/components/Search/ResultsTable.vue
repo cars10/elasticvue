@@ -147,7 +147,7 @@
               const mappings = indices[index].mappings
               if (typeof mappings.properties === 'undefined') {
                 // ES < 7
-                let indexProperties = {}
+                const indexProperties = {}
                 Object.keys(mappings).forEach(mapping => {
                   Object.assign(indexProperties, mappings[mapping].properties)
                 })
@@ -159,7 +159,7 @@
             })
 
             headers.value = filteredColumns.value.map(value => {
-              let filterableCol = sortableField(value, allProperties[value])
+              const filterableCol = sortableField(value, allProperties[value])
               let text
 
               if (filterableCol) {
@@ -178,7 +178,7 @@
       })
 
       const fuzzyTableFilter = async (items, filter, skipTimeout) => {
-        let filteredResults = await filterTable(items, filter, filteredColumns.value, skipTimeout)
+        const filteredResults = await filterTable(items, filter, filteredColumns.value, skipTimeout)
         filteredItems.value = filteredResults.map(el => Object.assign(el, el._source) && delete el._source && el)
       }
 

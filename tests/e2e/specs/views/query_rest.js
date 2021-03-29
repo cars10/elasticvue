@@ -28,7 +28,7 @@ describe('QueryRest', () => {
     cy.get('div.response').contains('shards_acknowledged')
 
     cy.catIndices().then(response => {
-      let names = response.body.map(i => i.index)
+      const names = response.body.map(i => i.index)
       cy.get('#path').invoke('val').then(val => {
         expect(names).to.contain(val)
       })

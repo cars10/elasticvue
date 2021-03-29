@@ -8,7 +8,7 @@
                 persistent-hint
                 @input="load"
                 @keyup.esc="localValue = '*'">
-    <template v-slot:message="{ message, key }">
+    <template v-slot:message="{ message }">
       <span v-html="message"/>
     </template>
   </v-text-field>

@@ -7,14 +7,13 @@
               style="overflow-wrap: anywhere">
     <strong>{{ text }}</strong>
     <template v-if="additionalText">
-      <p class="mt-2">
-        {{ additionalText }}
-      </p>
-      <div v-if="color === 'red'" class="mt-2">
-        <v-btn class="mr-4" @click.native="copy">Copy error</v-btn>
-        <v-btn @click.native="visible = false">Close</v-btn>
+      <div class="my-2 overflow-y-auto" style="max-height: 300px">
+        <p>
+          {{ additionalText }}
+        </p>
       </div>
-      <v-btn v-else @click.native="visible = false">Close</v-btn>
+      <v-btn class="mr-4" @click.native="copy">Copy</v-btn>
+      <v-btn @click.native="visible = false">Close</v-btn>
     </template>
   </v-snackbar>
 </template>

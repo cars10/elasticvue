@@ -9,13 +9,9 @@
 <script>
   import { computed, ref, watch } from '@vue/composition-api'
   import Vue from 'vue'
-  import BtnGroup from '@/components/shared/BtnGroup'
 
   export default {
     name: 'resizable-container',
-    components: {
-      BtnGroup
-    },
     props: {
       initialHeight: {
         default: 350,
@@ -27,7 +23,7 @@
       }
     },
     setup (props) {
-      let height = ref(props.initialHeight)
+      const height = ref(props.initialHeight)
       let dragStartY = 0
       let dragStartHeight = props.initialHeight
       let resizing = false

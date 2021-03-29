@@ -3,7 +3,7 @@ const puppeteer = require('puppeteer');
 (async () => {
   const browser = await puppeteer.launch({ args: ['--no-sandbox', '--disable-setuid-sandbox'] })
   const page = await browser.newPage()
-  page.setViewport({ width: 1280, height: 800 })
+  await page.setViewport({ width: 1280, height: 800 })
   await page.goto('http://localhost:8080')
 
   await connectWithServer(page)
@@ -33,14 +33,15 @@ async function connectWithServer (page) {
 async function removeSnackbar (page) {
   await page.waitForSelector('.v-snack')
   await page.evaluate(() => {
-    let div = document.querySelector('.v-snack')
+    const div = document.querySelector('.v-snack')
     div.parentNode.removeChild(div)
   })
 }
 
 async function clickToNavigateAndScreenshot (page, selectors, screenshot) {
+  console.log(screenshot)
   if (Array.isArray(selectors)) {
-    for (let selector of selectors) {
+    for (const selector of selectors) {
       await page.click(selector)
       await page.waitForTimeout(50)
     }

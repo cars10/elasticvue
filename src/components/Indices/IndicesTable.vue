@@ -84,7 +84,7 @@
       const { filterTable } = useAsyncFilter()
 
       const fuzzyTableFilter = async (items, filter) => {
-        let result = await filterTable(items, filter, HEADERS)
+        const result = await filterTable(items, filter, HEADERS)
         filteredIndices.value = result.map(index => new ElasticsearchIndex(index))
       }
       const debouncedFuzzyTableFilter = debounce(fuzzyTableFilter, 500)

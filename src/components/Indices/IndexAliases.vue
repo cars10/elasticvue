@@ -29,8 +29,8 @@
             <v-col class="flex-grow-1">
               <v-text-field id="new_index_alias_name"
                             v-model="newAlias"
-                            hide-details
                             autocomplete="off"
+                            hide-details
                             label="Add alias"/>
             </v-col>
             <v-col class="flex-grow-0">
