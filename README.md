@@ -46,7 +46,7 @@ Other versions might or might not work depending on the features you use.
 ### Features
 
 * Cluster overview
-* Index management
+* Index & alias management
 * Searching and filtering documents
 * Manually running any query against your cluster
 * Snapshot + repository management
@@ -70,7 +70,8 @@ Start elasticvue by clicking on the icon in your toolbar.
 
 Use the existing image:
 
-* `docker run -p 8080:8080 -d cars10/elasticvue` [Image at Docker Hub](https://hub.docker.com/r/cars10/elasticvue) (~50mb compressed)
+* `docker run -p 8080:8080 -d cars10/elasticvue` [Image at Docker Hub](https://hub.docker.com/r/cars10/elasticvue) (~
+  10mb compressed)
 
 Or build the image locally:
 
