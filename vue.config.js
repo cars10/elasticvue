@@ -1,4 +1,3 @@
-const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
 
 module.exports = {
@@ -15,25 +14,7 @@ module.exports = {
       maxAssetSize: 768000
     },
     plugins: [
-      new VuetifyLoaderPlugin(),
-      new FaviconsWebpackPlugin({
-        logo: './public/images/logo/favicon_128.png',
-        prefix: 'assets/favicons/[hash]/',
-        favicons: {
-          icons: {
-            android: false,
-            appleIcon: false,
-            appleStartup: false,
-            coast: false,
-            favicons: true,
-            firefox: false,
-            opengraph: false,
-            twitter: false,
-            yandex: false,
-            windows: false
-          }
-        }
-      })
+      new VuetifyLoaderPlugin()
     ]
   },
   chainWebpack: config => {
