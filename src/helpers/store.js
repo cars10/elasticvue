@@ -3,7 +3,7 @@ import { computed } from '@vue/composition-api'
 import store from '@/store'
 
 export const compositionVuexAccessors = function (namespace, states) {
-  let methods = {}
+  const methods = {}
 
   states.forEach(function (key) {
     methods[key] = computed(
@@ -12,7 +12,7 @@ export const compositionVuexAccessors = function (namespace, states) {
           return store.state[namespace][key]
         },
         set: value => {
-          let capitalizedKey = capitalize(key)
+          const capitalizedKey = capitalize(key)
           store.commit(`${namespace}/set${capitalizedKey}`, value)
         }
       }

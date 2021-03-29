@@ -58,7 +58,11 @@
     setup () {
       const { filter, repository } = compositionVuexAccessors('snapshots', ['filter', 'repository'])
       const { requestState, callElasticsearch } = useElasticsearchRequest()
-      const { load: loadRepositories, requestState: repositoriesRequestState, data: repositories } = setupElasticsearchRequest('catRepositories')
+      const {
+        load: loadRepositories,
+        requestState: repositoriesRequestState,
+        data: repositories
+      } = setupElasticsearchRequest('catRepositories')
 
       onMounted(() => {
         if (repository.value) loadSnapshots()

@@ -2,12 +2,12 @@
   <div class="d-inline-block" title="Auto reload">
     <v-select v-model="timerSetting"
               :items="timerSettings"
+              aria-label="Reload interval"
               class="mt-0 pt-0 d-inline-block v-select--dense-append"
               hide-details
-              aria-label="Reload interval"
               item-text="text"
               item-value="value">
-      <template slot="selection" slot-scope="{ item, index }">
+      <template slot="selection" slot-scope="{ item }">
         <small v-if="item.value">{{ item.text }}</small>
       </template>
     </v-select>

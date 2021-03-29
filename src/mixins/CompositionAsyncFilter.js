@@ -21,10 +21,10 @@ export const useAsyncFilter = () => {
     if (search.length === 0) return items
 
     return new Promise(resolve => {
-      let nestedItems = splitArray(items, threads)
+      const nestedItems = splitArray(items, threads)
       filterLoading.value = true
 
-      let jobs = workerClasses.map(async (FuzzyFilter, i) => {
+      const jobs = workerClasses.map(async (FuzzyFilter, i) => {
         const instance = await FuzzyFilter
         return instance.filter(nestedItems[i], search, headers)
       })
@@ -43,7 +43,7 @@ export const useAsyncFilter = () => {
 }
 
 const splitArray = (arr, size) => {
-  let groupSize = Math.ceil(arr.length / size)
+  const groupSize = Math.ceil(arr.length / size)
   return Array.from(Array(size)).map((_, i) => {
     return arr.slice(groupSize * i, groupSize * (i + 1))
   })

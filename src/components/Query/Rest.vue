@@ -132,7 +132,7 @@
         }
 
         if (instance.username.length > 0) {
-          fetchOptions.headers['Authorization'] = buildFetchAuthHeader(instance.username, instance.password)
+          fetchOptions.headers.Authorization = buildFetchAuthHeader(instance.username, instance.password)
         }
 
         if (canSendBody.value) {

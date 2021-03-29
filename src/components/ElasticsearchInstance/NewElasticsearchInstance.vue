@@ -1,7 +1,7 @@
 <template>
-  <v-dialog v-model="dialog" width="800" class="theme--dark">
+  <v-dialog v-model="dialog" class="theme--dark" width="800">
     <template v-slot:activator="{ on, attrs }">
-      <v-list-item id="add_new_instance" v-bind="attrs" ripple aria-label="Add elasticsearch instance" v-on="on">
+      <v-list-item id="add_new_instance" v-bind="attrs" v-on="on" aria-label="Add elasticsearch instance" ripple>
         <v-list-item-action>
           <v-icon>mdi-plus</v-icon>
         </v-list-item-action>
@@ -25,7 +25,7 @@
       <v-card-text v-if="enableCorsHint">
         <h2 class="text-h6 my-4">1. Configure</h2>
         <configure v-if="configureHintVisible"/>
-        <v-btn text small class="pl-1" @click="configureHintVisible = !configureHintVisible">
+        <v-btn class="pl-1" small text @click="configureHintVisible = !configureHintVisible">
           <v-icon>{{ configureHintVisible ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
           Show help
         </v-btn>
@@ -51,13 +51,13 @@
                         @click:append="elasticsearchHost.name = ''"/>
 
           <v-row>
-            <v-col md="6" cols="12">
+            <v-col cols="12" md="6">
               <v-text-field v-model="elasticsearchHost.username"
                             label="Username"
                             title="Username"
                             type="text"/>
             </v-col>
-            <v-col md="6" cols="12">
+            <v-col cols="12" md="6">
               <v-text-field v-model="elasticsearchHost.password"
                             :append-icon="passwordVisible ? 'mdi-eye' : 'mdi-eye-off'"
                             :type="passwordVisible ? 'text' : 'password'"

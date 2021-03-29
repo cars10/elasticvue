@@ -2,14 +2,14 @@
   <div>
     <v-form v-model="formValid" @submit.prevent="testConnection">
       <v-row>
-        <v-col md="6" cols="12">
+        <v-col cols="12" md="6">
           <v-text-field v-model="elasticsearchHost.username"
                         autofocus
                         label="Username"
                         title="Username"
                         type="text"/>
         </v-col>
-        <v-col md="6" cols="12">
+        <v-col cols="12" md="6">
           <v-text-field v-model="elasticsearchHost.password"
                         :append-icon="passwordVisible ? 'mdi-eye' : 'mdi-eye-off'"
                         :type="passwordVisible ? 'text' : 'password'"

@@ -53,7 +53,7 @@
         </v-expand-transition>
 
         <div class="text-center pt-2">
-          <v-btn text small class="pl-1" @click="searchQueryCollapsed = !searchQueryCollapsed">
+          <v-btn class="pl-1" small text @click="searchQueryCollapsed = !searchQueryCollapsed">
             <v-icon>{{ searchQueryCollapsed ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
             Customize query
           </v-btn>

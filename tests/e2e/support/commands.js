@@ -25,14 +25,14 @@ Cypress.Commands.add('quickConnect', () => {
       window.localStorage.clear() // https://github.com/cypress-io/cypress/issues/2695#issuecomment-435147776
       expect(window.localStorage.getItem('elasticvuex')).to.be.null
       const state = {
-        'connection': {
-          'activeInstanceIdx': 0,
-          'instances': [{
-            'name': 'local',
-            'username': '',
-            'password': '',
-            'uri': ELASTICSEARCH_URL,
-            'status': 'yellow'
+        connection: {
+          activeInstanceIdx: 0,
+          instances: [{
+            name: 'local',
+            username: '',
+            password: '',
+            uri: ELASTICSEARCH_URL,
+            status: 'yellow'
           }]
         }
       }
@@ -48,9 +48,9 @@ Cypress.Commands.add('deleteAllIndices', () => {
 
 Cypress.Commands.add('deleteAllSnapshotRepositories', () => {
   cy.request('GET', ELASTICSEARCH_URL + '/_snapshot').then(response => {
-    for (var repoName of Object.keys(response.body)) {
+    for (const repoName of Object.keys(response.body)) {
       cy.request('GET', ELASTICSEARCH_URL + '/_snapshot/' + repoName + '/_all').then(snapshots => {
-        for (var snapshot of snapshots.body.snapshots) {
+        for (const snapshot of snapshots.body.snapshots) {
           cy.request('DELETE', ELASTICSEARCH_URL + '/_snapshot/' + repoName + '/' + snapshot.snapshot)
         }
       })
@@ -82,7 +82,7 @@ Cypress.Commands.add('catIndices', () => {
     url: ELASTICSEARCH_URL + '/_cat/indices',
     headers: {
       'Content-Type': 'application/json',
-      'Accept': 'application/json'
+      Accept: 'application/json'
     }
   })
 })
@@ -93,7 +93,7 @@ Cypress.Commands.add('getIndex', index => {
     url: ELASTICSEARCH_URL + '/' + index,
     headers: {
       'Content-Type': 'application/json',
-      'Accept': 'application/json'
+      Accept: 'application/json'
     }
   })
 })
@@ -108,7 +108,7 @@ Cypress.Commands.add('flushIndices', () => {
     url: ELASTICSEARCH_URL + '/_all/_flush',
     headers: {
       'Content-Type': 'application/json',
-      'Accept': 'application/json'
+      Accept: 'application/json'
     }
   })
 })

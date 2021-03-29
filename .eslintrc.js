@@ -6,38 +6,31 @@ module.exports = {
   plugins: [
     'vuetify'
   ],
-  'extends': [
+  extends: [
     'plugin:vue/essential',
-    '@vue/standard',
-    'standard'
+    '@vue/standard'
   ],
+  parserOptions: {
+    parser: 'babel-eslint'
+  },
   rules: {
+    'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    indent: 'off',
     'vuetify/no-deprecated-classes': 'error',
     'vuetify/grid-unknown-attributes': 'error',
     'vuetify/no-legacy-grid': 'error',
-    'indent': 'off',
-    'vue/script-indent': ['error', 2, {
-      'baseIndent': 1
-    }],
-    'no-console': 'off',
-    'no-debugger': 'off',
-    'import/no-webpack-loader-syntax': 'off',
-    'vue/attribute-hyphenation': [
-      'error',
-      'always'
-    ],
-    'vue/html-end-tags': 'error',
-    'vue/html-self-closing': 'error',
-    'vue/require-default-prop': 'error',
-    'vue/require-prop-types': 'error',
-    'vue/attributes-order': 'error',
-    'vue/html-quotes': [
-      'error',
-      'double'
-    ],
-    'vue/order-in-components': 'error'
+    'import/no-webpack-loader-syntax': 'off'
   },
-  parserOptions: {
-    parser: 'babel-eslint'
-  }
+  overrides: [
+    {
+      files: [
+        '**/__tests__/*.{j,t}s?(x)',
+        '**/tests/unit/**/*.spec.{j,t}s?(x)'
+      ],
+      env: {
+        jest: true
+      }
+    }
+  ]
 }

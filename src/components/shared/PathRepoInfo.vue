@@ -4,7 +4,7 @@
       Your <strong>path.repo</strong> setting seems to be setup correctly, that means you can use repositories and
       snapshots. <br>
       The current value is: {{ pathRepo }}
-      <v-btn small icon title="Reload path.repo info" aria-label="Reload path.repo info" @click.native="load">
+      <v-btn aria-label="Reload path.repo info" icon small title="Reload path.repo info" @click.native="load">
         <v-icon small>mdi-reload</v-icon>
       </v-btn>
     </v-alert>
@@ -15,7 +15,7 @@
       <br>
       <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-snapshots.html"
          rel="nofollow" target="_blank">Docs</a>
-      <v-btn small icon title="Reload path.repo info" aria-label="Reload path.repo info" @click.native="load">
+      <v-btn aria-label="Reload path.repo info" icon small title="Reload path.repo info" @click.native="load">
         <v-icon small>mdi-reload</v-icon>
       </v-btn>
     </v-alert>

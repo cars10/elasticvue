@@ -23,7 +23,7 @@
     },
     setup (props) {
       const color = computed(() => {
-        let numberValue = parseFloat(props.value)
+        const numberValue = parseFloat(props.value)
         if (numberValue >= 90) {
           return 'red'
         } else if (numberValue < 90 && numberValue >= 80) {

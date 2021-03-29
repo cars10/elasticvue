@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="dialog" width="500">
     <template v-slot:activator="{on}">
-      <v-btn :disabled="!repository" class="ml-0" color="primary-button" v-on="on">New snapshot</v-btn>
+      <v-btn v-on="on" :disabled="!repository" class="ml-0" color="primary-button">New snapshot</v-btn>
     </template>
 
     <v-card>

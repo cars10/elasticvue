@@ -7,7 +7,7 @@ describe('Snapshots', () => {
 
   describe('Snapshot repositories', () => {
     it('can create a new snapshot repository with default settings', () => {
-      let repositoryName = 'test-1'
+      const repositoryName = 'test-1'
       cy.get('#new_snapshot_repository').click()
       cy.get('#repository_name').type(repositoryName)
       cy.get('#repository_location').type(repositoryName)
@@ -20,10 +20,10 @@ describe('Snapshots', () => {
     })
 
     it('can create a new snapshot repository with custom settings', () => {
-      let repositoryName = 'test-1'
-      let chunkSize = '1m'
-      let maxRestoreBytes = '20mb'
-      let maxSnapshotBytes = '20mb'
+      const repositoryName = 'test-1'
+      const chunkSize = '1m'
+      const maxRestoreBytes = '20mb'
+      const maxSnapshotBytes = '20mb'
 
       cy.get('#new_snapshot_repository').click()
       cy.get('#repository_name').type(repositoryName)
@@ -39,7 +39,7 @@ describe('Snapshots', () => {
       cy.get('#reload-snapshot-repositories').click()
 
       cy.getSnapshotRepository(repositoryName).then(response => {
-        let settings = response.body[repositoryName].settings
+        const settings = response.body[repositoryName].settings
         expect(settings.location).to.equal(repositoryName)
         expect(settings.chunk_size).to.equal(chunkSize)
         expect(settings.max_restore_bytes_per_sec).to.equal(maxRestoreBytes)
@@ -50,7 +50,7 @@ describe('Snapshots', () => {
     })
 
     it('can delete snapshot repositories', () => {
-      let repositoryName = 'test-1'
+      const repositoryName = 'test-1'
       cy.createSnapshotRepository(repositoryName)
       cy.get('#reload-snapshot-repositories').click()
       cy.get('tr').find('button').click()
@@ -69,7 +69,7 @@ describe('Snapshots', () => {
 
     it('can create a new snapshot with default settings', () => {
       cy.get('button').contains('New snapshot').click()
-      let snapshotName = 'snap-1'
+      const snapshotName = 'snap-1'
       cy.get('#snapshot_name').type(snapshotName)
       cy.get('#create_snapshot').click()
     })

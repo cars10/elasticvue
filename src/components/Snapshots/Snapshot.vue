@@ -26,7 +26,7 @@
       <btn-group small>
         <v-menu left offset-y>
           <template v-slot:activator="{on}">
-            <v-btn title="Options" v-on="on">
+            <v-btn v-on="on" title="Options">
               <v-icon>mdi-cog</v-icon>
               <v-icon small>mdi-menu-down</v-icon>
             </v-btn>
