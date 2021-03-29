@@ -64,7 +64,13 @@
         if (typeof data.value[0] === 'string') {
           return data.value
         } else {
-          return data.value.snapshots[0].indices
+          if (data.value.snapshots) {
+            return data.value.snapshots[0].indices
+          } else if (data.value) {
+            return data.value.map(i => i.index)
+          } else {
+            return []
+          }
         }
       })
 

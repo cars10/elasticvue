@@ -9,7 +9,7 @@
       </v-list-item-content>
     </v-list-item>
 
-    <v-dialog v-model="dialog" width="500">
+    <v-dialog v-model="dialog" width="700">
       <v-card>
         <v-card-title>
           <h2 class="text-h5">Restore '{{ snapshot }}'</h2>
