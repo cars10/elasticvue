@@ -1,7 +1,12 @@
+code {
+  font-weight: bold !important;
+  color: #c0341d !important;
+  font-family: 'Hack', monospace;
+}
+
 .code-block {
   display: inline-block;
   padding: 5px 6px !important;
-  font-family: 'Hack', monospace;
 
   &:before, &:after {
     content: initial !important;

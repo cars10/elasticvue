@@ -2,11 +2,11 @@
   <v-card>
     <v-card-title class="clearfix">
       <v-row>
-        <v-col class="py-0" cols="12" sm="6">
+        <v-col cols="12" sm="6">
           Nodes
           <reload-button id="reload-nodes" :action="() => this.$emit('reloadNodes')"/>
         </v-col>
-        <v-col class="py-0" cols="12" sm="6">
+        <v-col cols="12" sm="6">
           <div class="float-right">
             <v-text-field id="nodes_table_filter"
                           v-model="filter"
@@ -50,10 +50,10 @@
           </td>
           <td>
             <v-row>
-              <v-col class="py-0">
+              <v-col>
                 <small>{{ props.item.ramCurrent }}/{{ props.item.ramMax }}</small>
               </v-col>
-              <v-col class="text-right py-0">
+              <v-col class="text-right">
                 <small>{{ props.item.ramPercent }}%</small>
               </v-col>
             </v-row>
@@ -61,10 +61,10 @@
           </td>
           <td>
             <v-row>
-              <v-col class="py-0">
+              <v-col>
                 <small>{{ props.item.heapCurrent }}/{{ props.item.heapMax }}</small>
               </v-col>
-              <v-col class="text-right py-0">
+              <v-col class="text-right">
                 <small>{{ props.item.heapPercent }}%</small>
               </v-col>
             </v-row>
@@ -72,10 +72,10 @@
           </td>
           <td>
             <v-row>
-              <v-col class="py-0">
+              <v-col>
                 <small>{{ props.item.diskCurrent }}/{{ props.item.diskMax }}</small>
               </v-col>
-              <v-col class="text-right py-0">
+              <v-col class="text-right">
                 <small>{{ props.item.diskPercent }}%</small>
               </v-col>
             </v-row>

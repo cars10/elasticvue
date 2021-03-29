@@ -133,7 +133,6 @@ export default class ElasticsearchAdapter {
 
   getSnapshotIndices (params) {
     return this.client.getSnapshot(params)
-      .then(body => Promise.resolve(body.snapshots[0].indices))
   }
 
   async test () {

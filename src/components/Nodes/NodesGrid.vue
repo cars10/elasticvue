@@ -3,11 +3,11 @@
     <v-card class="mb-2">
       <v-card-title class="clearfix">
         <v-row>
-          <v-col class="py-0" cols="12" sm="6">
+          <v-col cols="12" sm="6">
             Nodes
             <reload-button id="reload-nodes" :action="() => this.$emit('reloadNodes')"/>
           </v-col>
-          <v-col class="py-0" cols="12" sm="6">
+          <v-col cols="12" sm="6">
             <div class="float-right">
               <v-text-field id="nodes_grid_filter"
                             v-model="filter"
@@ -35,7 +35,7 @@
         <v-row>
           <v-col v-for="item in props.items" slot="item" :key="item.name" cols="12" lg="4" md="6" sm="12">
             <v-card>
-              <v-card-title class="py-0">
+              <v-card-title>
                 <div class="row">
                   <div class="col">
                     <span class="text-subtitle-1">{{ item.name }}</span>
@@ -49,7 +49,7 @@
               </v-card-title>
               <v-divider/>
 
-              <v-row class="ma-0 overflow-x--auto caption">
+              <v-row class="ma-0 overflow-x--auto text-caption">
                 <v-col :class="nodeListClass" class="pa-0" cols="12" sm="6">
                   <v-list class="py-0" dense>
                     <v-list-item>

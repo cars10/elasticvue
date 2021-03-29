@@ -25,6 +25,7 @@
                         label="Index name"
                         name="indexName"
                         required
+                        autocomplete="off"
                         @keyup.esc="closeDialog"/>
 
           <v-text-field id="index_shards"
@@ -33,6 +34,7 @@
                         name="indexShards"
                         placeholder="1"
                         type="number"
+                        autocomplete="off"
                         @keyup.esc="closeDialog"/>
 
           <v-text-field id="index_replicas"
@@ -41,6 +43,7 @@
                         name="indexReplicas"
                         placeholder="1"
                         type="number"
+                        autocomplete="off"
                         @keyup.esc="closeDialog"/>
         </v-card-text>
 

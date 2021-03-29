@@ -2,7 +2,7 @@
   <v-card>
     <v-card-title>
       <v-row>
-        <v-col class="py-0">
+        <v-col>
           <h1 class="text-h5">
             Rest
             <v-btn class="text-transform--none ml-2"
@@ -15,7 +15,7 @@
           </h1>
         </v-col>
 
-        <v-col class="text-right py-0">
+        <v-col class="text-right">
           <v-btn-toggle v-model="vertical" mandatory>
             <v-btn :value="true" small text title="Vertical">
               <v-icon small>mdi-view-agenda</v-icon>

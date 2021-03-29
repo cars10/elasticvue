@@ -2,14 +2,14 @@
   <div>
     <v-form @submit.prevent="loadData">
       <v-row>
-        <v-col class="py-0" lg="2" sm="3" xl="1">
+        <v-col lg="2" sm="3" xl="1">
           <v-select v-model="method"
                     :items="HTTP_METHODS"
                     hide-details
                     label="HTTP Method"
                     name="http_method"/>
         </v-col>
-        <v-col class="py-0" lg="10" sm="9" xl="11">
+        <v-col lg="10" sm="9" xl="11">
           <v-text-field id="path"
                         v-model="path"
                         autofocus

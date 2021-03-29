@@ -1,5 +1,5 @@
 <template>
-  <v-footer>
+  <v-footer class="pa-4">
     <v-row>
       <v-col cols="4">
         <v-switch id="theme_select" v-model="dark" class="mt-0 mb-2 pt-0" color="primary-button" hide-details

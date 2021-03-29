@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-btn-toggle v-model="listType" class="mb-6 v-btn-toggle--small" mandatory>
+    <v-btn-toggle v-model="listType" class="mb-4 v-btn-toggle--small" mandatory>
       <v-btn id="nodes_list_grid" text value="grid" @click="$emit('reloadNodes')">
         <span>Grid</span>
         <v-icon small>mdi-view-dashboard</v-icon>

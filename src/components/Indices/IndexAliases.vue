@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="dialog" width="600">
+  <v-dialog v-model="dialog" width="700">
     <template v-slot:activator="{on}">
       <v-list-item v-on="on">
         <v-list-item-action>
@@ -13,7 +13,7 @@
 
     <v-card>
       <v-card-title>
-        <h2 class="text-h5">Aliases for '{{ indexName }}'</h2>
+        <h2 class="text-h5">Manage aliases</h2>
         <div class="ml-a">
           <v-btn icon title="Close" @click.native="dialog = false">
             <v-icon>mdi-close</v-icon>
@@ -23,12 +23,14 @@
       <v-divider/>
 
       <v-card-text>
+        <p class="my-2 text-body-1">Index: {{ indexName }}</p>
         <v-form @submit.prevent="addAlias">
           <v-row>
             <v-col class="flex-grow-1">
               <v-text-field id="new_index_alias_name"
                             v-model="newAlias"
                             hide-details
+                            autocomplete="off"
                             label="Add alias"/>
             </v-col>
             <v-col class="flex-grow-0">
