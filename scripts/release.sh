@@ -6,11 +6,13 @@ set -e
 
 # bump version to $VERSION
 sed -e "s/\"version\":\s\".*\"/\"version\": \"$VERSION\"/" -i package.json
-sed -e "s/\"version\":\s\".*\"/\"version\": \"$VERSION\"/" -i browser_extension/manifest.json
+sed -e "s/\"version\":\s\".*\"/\"version\": \"$VERSION\"/" -i browser_extension/chrome/manifest.json
+sed -e "s/\"version\":\s\".*\"/\"version\": \"$VERSION\"/" -i browser_extension/firefox/manifest.json
 
 # commit new version
 git add package.json
-git add browser_extension/manifest.json
+git add browser_extension/chrome/manifest.json
+git add browser_extension/firefox/manifest.json
 git commit -am "bumps version to $VERSION"
 
 # push new version

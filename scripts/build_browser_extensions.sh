@@ -12,12 +12,18 @@ mkdir -p artifacts
 
 VUE_APP_ROUTER_MODE=hash VUE_APP_DISABLE_CORS_HINT=true vue-cli-service build
 
-rm -rf browser_extension/assets browser_extension/images
-git clean -xf browser_extension --quiet
-cp -r dist/* browser_extension/
-
-# zip chrome extension
-zip -r artifacts/elasticvue-$PACKAGE_VERSION-chrome.zip browser_extension/*
+# build chrome extension
+rm -rf browser_extension/chrome/assets browser_extension/chrome/images browser_extension/chrome/index.html
+git clean -xf browser_extension/chrome --quiet
+cp -r dist/* browser_extension/chrome/
+zip -r artifacts/elasticvue-$PACKAGE_VERSION-chrome.zip browser_extension/chrome/*
 
 # build firefox extension
-(command -v web-ext > /dev/null && web-ext build -s browser_extension -a artifacts) || (echo 'web-ext not found, cannot build firefox extension' && exit 1)
+if [[ $(command -v web-ext) ]]; then
+  rm -rf browser_extension/firefox/assets browser_extension/firefox/images browser_extension/firefox/index.html
+  git clean -xf browser_extension/firefox --quiet
+  cp -r dist/* browser_extension/firefox/
+  web-ext build -s browser_extension/firefox -a artifacts --filename="elasticvue-$PACKAGE_VERSION-firefox.zip"
+else
+  echo 'web-ext not found, cannot build firefox extension'
+fi

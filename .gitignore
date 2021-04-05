@@ -6,9 +6,12 @@ tests/e2e/screenshots
 tests/e2e/videos
 tmp
 
-browser_extension/*
-!browser_extension/manifest.json
-!browser_extension/background.js
+browser_extension/chrome/assets
+browser_extension/chrome/images
+browser_extension/chrome/index.html
+browser_extension/firefox/assets
+browser_extension/firefox/images
+browser_extension/firefox/index.html
 elasticvue.zip
 
 scripts/chrome_ext_screenshots/*
