@@ -6,6 +6,8 @@
 
 * [feat]: adds hint about certificates when connecting to a cluster that uses ssl
 * [feat]: more color, contrast and a11y improvements
+* updates addon setup and configuration. We now need a separate manifest for chrome because of the new manifest v3
+  spec. (This might cause issues, please do not hesitate to open an issue on github!)
 * updates dependencies
 * removes component specs, these need to be rewritten after upgrading vue & vuetify
 
