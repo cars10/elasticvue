@@ -47,7 +47,7 @@
               <code-editor v-model="searchQuery" :external-commands="editorCommands"/>
             </resizable-container>
             <div class="mt-2">
-              <a href="javascript:void(0)" role="button" @click="resetSearchQuery">Reset custom query</a>
+              <button class="btn-link" type="button" @click="resetSearchQuery">Reset custom query</button>
             </div>
           </div>
         </v-expand-transition>

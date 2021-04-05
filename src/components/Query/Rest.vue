@@ -25,16 +25,17 @@
           <h4 class="pb-1">Request body <span v-if="!canSendBody">(disabled)</span></h4>
           <resizable-container v-if="canSendBody" ref="query_body"
                                :initial-height="vertical ? 200 : 500"
-                               class="mb-1">
+                               class="mb-4">
             <code-editor v-model="requestBody" :external-commands="editorCommands"/>
           </resizable-container>
 
           <div v-else>
-            <div :style="vertical ? 'height: 200px' : 'height: 500px'">
-              <v-alert :value="true" class="request-body-disabled-hint mb-12">
+            <div :style="vertical ? 'height: 200px' : 'height: 500px'" class="mb-4">
+              <v-alert :value="true" class="request-body-disabled-hint">
                 <p>
                   You cannot send a request body via {{ method }}.<br>
-                  Please <a href="javascript:void(0)" role="button" @click="method = 'POST'">use POST</a>
+                  Please
+                  <button class="btn-link" type="button" @click="method = 'POST'">use POST</button>
                   if you want to send a request body, alternatively add query parameters to the url.
                 </p>
                 <p class="mb-0">
@@ -50,20 +51,23 @@
                      type="submit">
                 Run query
               </v-btn>
-              <a id="reset-form" class="ml-2" href="javascript:void(0)" @click="resetForm">Reset form</a>
+              <button id="reset-form" type="button" class="btn-link ml-2" @click="resetForm">Reset form</button>
             </v-col>
             <v-col :class="vertical ? 'text-right' : ''" :md="vertical ? 6 : 12" cols="12">
-              <a id="example-1" href="javascript:void(0)" @click="loadCatExample">Example #1 (_cat/indices)</a>
-              <a id="example-2" class="ml-2" href="javascript:void(0)" @click="loadCreateExample">Example #2 (create
-                index)</a>
-              <a id="example-3" class="ml-2" href="javascript:void(0)" @click="loadDeleteExample">Example #3 (delete
-                index)</a>
+              <button id="example-1" type="button" class="btn-link" @click="loadCatExample">Example #1 (_cat/indices)
+              </button>
+              <button id="example-2" type="button" class="btn-link ml-2" @click="loadCreateExample">
+                Example #2 (create index)
+              </button>
+              <button id="example-3" type="button" class="btn-link ml-2" @click="loadDeleteExample">
+                Example #3 (delete index)
+              </button>
             </v-col>
           </v-row>
         </v-col>
 
         <v-col :md="vertical ? 12 : 6" cols="12">
-          <print-pretty :caption="responseCaption" :document="responseBody" class="response"/>
+          <print-pretty :caption="responseCaption" :document="responseBody" class="response mb-4"/>
         </v-col>
       </v-row>
     </v-form>
@@ -75,7 +79,7 @@
   import ResizableContainer from '@/components/shared/ResizableContainer'
   import PrintPretty from '@/components/shared/PrintPretty'
   import { HTTP_METHODS, REQUEST_DEFAULT_HEADERS } from '@/consts'
-  import { buildFetchAuthHeader } from '../../helpers'
+  import { buildFetchAuthHeader } from '@/helpers'
   import { compositionVuexAccessors } from '@/helpers/store'
   import { computed, ref } from '@vue/composition-api'
   import { showErrorSnackbar } from '@/mixins/ShowSnackbar'
