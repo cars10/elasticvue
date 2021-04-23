@@ -2,6 +2,10 @@
 
 *Please check the [releases](https://github.com/cars10/elasticvue/releases) page if you need version release dates.*
 
+## 0.34.0
+
+* improve visibility of active buttons in code viewer/editor
+
 ## 0.33.0
 
 * [feat]: adds hint about certificates when connecting to a cluster that uses ssl
