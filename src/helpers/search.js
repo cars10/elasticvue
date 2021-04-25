@@ -1,3 +1,5 @@
+import { parseJsonBigInt, stringifyJsonBigInt } from '@/helpers/json_parse'
+
 export const buildQueryFromTableOptions = (newOptions, oldOptions) => {
   if (newOptions.page === oldOptions.page &&
     newOptions.itemsPerPage === oldOptions.itemsPerPage &&
@@ -34,12 +36,12 @@ export const buildQueryFromTableOptions = (newOptions, oldOptions) => {
 export const mergeSearchQuery = (searchQuery, newQueryParts) => {
   let currentQuery = {}
   try {
-    currentQuery = JSON.parse(searchQuery.value)
+    currentQuery = parseJsonBigInt(searchQuery.value)
   } catch (e) {
     return
   }
 
   const newQuery = Object.assign({}, currentQuery, newQueryParts)
-  searchQuery.value = JSON.stringify(newQuery, null, '\t')
+  searchQuery.value = stringifyJsonBigInt(newQuery, null, '\t')
   return true
 }

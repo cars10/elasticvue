@@ -1,5 +1,6 @@
 import { ref } from '@vue/composition-api'
 import cachedAdapter from '@/mixins/GetAdapter'
+import { parseJsonBigInt, stringifyJsonBigInt } from '@/helpers/json_parse'
 
 export function useElasticsearchRequest () {
   const requestState = ref({
@@ -31,7 +32,8 @@ export function useElasticsearchRequest () {
         const contentType = response.headers.get('content-type')
         let body
         if (contentType && contentType.includes('application/json')) {
-          body = await response.json()
+          const text = await response.text()
+          body = parseJsonBigInt(text)
         } else {
           body = true
         }
@@ -43,7 +45,7 @@ export function useElasticsearchRequest () {
           loading: false,
           networkError: false,
           apiError: true,
-          apiErrorMessage: JSON.stringify(errorJson),
+          apiErrorMessage: stringifyJsonBigInt(errorJson),
           status: errorResponse.status
         }
         console.error(errorJson)

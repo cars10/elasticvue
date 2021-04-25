@@ -1,5 +1,6 @@
 import { buildFetchAuthHeader } from '@/helpers'
 import { REQUEST_DEFAULT_HEADERS } from '@/consts'
+import { stringifyJsonBigInt } from '@/helpers/json_parse'
 
 export class DefaultClient {
   constructor (instance) {
@@ -141,7 +142,7 @@ export class DefaultClient {
   }
 
   bulk ({ body }) {
-    const data = body.map(d => JSON.stringify(d)).join('\n') + '\n'
+    const data = body.map(d => stringifyJsonBigInt(d)).join('\n') + '\n'
     return this.request('_bulk', 'POST', data)
   }
 
@@ -157,7 +158,7 @@ export class DefaultClient {
 
     const options = {
       method,
-      body: body && typeof body !== 'string' ? JSON.stringify(body) : body,
+      body: body && typeof body !== 'string' ? stringifyJsonBigInt(body) : body,
       headers: Object.assign({}, REQUEST_DEFAULT_HEADERS)
     }
 

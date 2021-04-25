@@ -83,6 +83,7 @@
   import { compositionVuexAccessors } from '@/helpers/store'
   import { computed, ref } from '@vue/composition-api'
   import { showErrorSnackbar } from '@/mixins/ShowSnackbar'
+  import { parseJsonBigInt } from '@/helpers/json_parse'
 
   export default {
     name: 'rest',
@@ -147,16 +148,16 @@
 
       const loadData = () => {
         loading.value = true
-        responseBody.value = '// loading...'
+        responseBody.value = '{"loading": true}'
         responseCode.value = ''
         fetch(requestUrl.value, fetchOptionsHash())
           .then(response => {
             responseCode.value = response.status
-            return response.json()
+            return response.text()
           })
-          .then(json => {
+          .then(text => {
             loading.value = false
-            responseBody.value = json
+            responseBody.value = parseJsonBigInt(text)
           })
           .catch(error => {
             loading.value = false

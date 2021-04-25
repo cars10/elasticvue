@@ -4,7 +4,11 @@
 
 ## 0.34.0
 
+* use `json-bigint` to parse responses, fixes [#52][i52]. This adds support for displaying numbers bigger
+  then `9007199254740991`
 * improve visibility of active buttons in code viewer/editor
+
+[i52]: https://github.com/cars10/elasticvue/issues/52
 
 ## 0.33.0
 

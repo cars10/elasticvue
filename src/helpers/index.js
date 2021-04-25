@@ -1,3 +1,5 @@
+import { parseJsonBigInt, stringifyJsonBigInt } from '@/helpers/json_parse'
+
 const SORTABLE_TYPES = ['long', 'integer', 'double', 'float', 'date', 'boolean', 'keyword']
 
 export function sortableField (fieldName, property) {
@@ -44,5 +46,31 @@ export const debounce = (fn, timeout, immediate) => {
     timerId = setTimeout(() => {
       fn(...args)
     }, immediate ? 0 : timeout)
+  }
+}
+
+export const beautify = (stringOrObj, useSpaces) => {
+  if (!stringOrObj) return stringOrObj
+
+  let copy
+  if (typeof stringOrObj === 'string') {
+    if (stringOrObj.length === 0) return ''
+    copy = (' ' + stringOrObj).slice(1)
+  } else {
+    if (Object.keys(stringOrObj).length === 0) return ''
+    copy = Object.assign({}, stringOrObj)
+  }
+
+  try {
+    let parsed
+    if (typeof stringOrObj === 'string') {
+      parsed = parseJsonBigInt(copy)
+    } else {
+      parsed = copy
+    }
+    return stringifyJsonBigInt(parsed, null, useSpaces ? '  ' : '\t')
+  } catch (error) {
+    console.error(error)
+    return copy
   }
 }

@@ -8,7 +8,7 @@
              small
              style="height: 32px"
              title="Beautify (Ctrl+ALT+L)"
-             @click="beautify">
+             @click="beautifyEditorValue(useSpaces)">
         <v-icon small>mdi-auto-fix</v-icon>
       </v-btn>
 
@@ -31,6 +31,8 @@
   import { compositionVuexAccessors } from '@/helpers/store'
   import BtnGroup from '@/components/shared/BtnGroup'
   import { editorUtils, initializeSnippets } from '@/mixins/CodeEditorUtils'
+  import { parseJsonBigInt } from '@/helpers/json_parse'
+  import { beautify } from '@/helpers'
 
   export default {
     name: 'code-editor',
@@ -59,7 +61,7 @@
         if (typeof props.value === 'object') return true
         if (props.value === '') return true
         try {
-          JSON.parse(props.value)
+          parseJsonBigInt(props.value)
           return true
         } catch (error) {
           return false
@@ -67,7 +69,10 @@
       })
 
       watch(() => props.value, newValue => {
-        if (editor.value.getValue() !== newValue) setEditorValue(newValue)
+        if (editor.value.getValue() !== newValue) {
+          const beautifulValue = beautify(newValue, useSpaces.value)
+          setEditorValue(beautifulValue)
+        }
       })
 
       watch(() => store.state.theme.dark, newValue => {
@@ -77,7 +82,7 @@
       watch(wrapLines, setWrapLines)
       watch(useSpaces, newValue => {
         setWhitespace(newValue)
-        beautify()
+        beautifyEditorValue(newValue)
       })
 
       onMounted(() => {
@@ -88,11 +93,14 @@
         })
         setWrapLines(wrapLines.value)
         setTheme(store.state.theme.dark)
-        setEditorValue(props.value)
+        const beautifulValue = beautify(props.value, useSpaces.value)
+        setEditorValue(beautifulValue)
         editor.value.commands.addCommands(props.externalCommands)
         editor.value.commands.addCommand({
           bindKey: { win: 'Ctrl+Alt+L', mac: 'Command+Alt+L', linux: 'Ctrl+Alt+L' },
-          exec: beautify
+          exec: () => {
+            beautifyEditorValue(useSpaces.value)
+          }
         })
 
         editor.value.on('change', () => {
@@ -102,30 +110,20 @@
 
       onBeforeUnmount(unmountEditor)
 
-      const beautify = () => {
-        if (props.value) {
-          try {
-            const newValue = stringifyJson(JSON.parse(editor.value.getValue()))
-            context.emit('input', newValue)
-          } catch (error) {
-          }
-        }
+      const beautifyEditorValue = useSpaces => {
+        const newValue = beautify(editor.value.getValue(), useSpaces)
+        setEditorValue(newValue)
       }
 
       const setEditorValue = value => {
         editor.value.setValue(value, 1)
-        beautify()
-      }
-
-      const stringifyJson = value => {
-        return JSON.stringify(value, null, useSpaces.value ? '  ' : '\t')
       }
 
       return {
         useSpaces,
         wrapLines,
         valid,
-        beautify
+        beautifyEditorValue
       }
     }
   }

@@ -82,7 +82,7 @@
 </template>
 
 <script>
-  import { onMounted, ref, watch } from '@vue/composition-api'
+  import { ref, watch } from '@vue/composition-api'
   import CodeEditor from '@/components/shared/CodeEditor'
   import IndexFilter from '@/components/shared/IndexFilter'
   import ResizableContainer from '@/components/shared/ResizableContainer'
@@ -92,6 +92,7 @@
   import { useElasticsearchRequest } from '@/mixins/RequestComposition'
   import { DEFAULT_SEARCH_QUERY } from '@/consts'
   import { buildQueryFromTableOptions, mergeSearchQuery } from '@/helpers/search'
+  import { parseJsonBigInt } from '@/helpers/json_parse'
 
   export default {
     name: 'search',
@@ -123,15 +124,13 @@
       const search = () => {
         try {
           queryParsingError.value = false
-          const val = JSON.parse(searchQuery.value)
+          const val = parseJsonBigInt(searchQuery.value)
           callElasticsearch('search', val, indices.value)
             .then(result => (searchResults.value = result))
         } catch (e) {
           queryParsingError.value = true
         }
       }
-
-      onMounted(search)
 
       const debouncedMergeQIntoSearchQuery = debounce(q => {
         mergeSearchQuery(searchQuery, { query: { query_string: { query: q } } })
