@@ -34,7 +34,10 @@
         <tr class="tr--clickable" @click="() => showSnapshots(props.item.name)">
           <td>{{ props.item.name }}</td>
           <td>{{ props.item.type }}</td>
-          <td :title="JSON.stringify(props.item.settings, null, '\t')">{{ props.item.settings }}</td>
+          <td :title="stringifyJsonBigInt(props.item.settings, null, '\t')">{{
+              stringifyJsonBigInt(props.item.settings)
+            }}
+          </td>
           <td>
             <v-btn @click.stop="deleteRepository(props.item.name)">
               <v-icon>mdi-delete</v-icon>
@@ -56,6 +59,7 @@
   import store from '@/store'
   import { useElasticsearchRequest } from '@/mixins/RequestComposition'
   import { showSuccessSnackbar } from '@/mixins/ShowSnackbar'
+  import { stringifyJsonBigInt } from '@/helpers/json_parse'
 
   export default {
     name: 'repositories-table',
@@ -124,7 +128,8 @@
         showSnapshots,
         deleteRepository,
         HEADERS,
-        DEFAULT_ITEMS_PER_PAGE
+        DEFAULT_ITEMS_PER_PAGE,
+        stringifyJsonBigInt
       }
     }
   }
