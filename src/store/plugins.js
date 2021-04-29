@@ -14,7 +14,8 @@ export const plugins = [
       'nodes',
       'repositories',
       'snapshots',
-      'search'
+      'search',
+      'survey'
     ]
   })
 ]

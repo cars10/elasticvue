@@ -4,8 +4,8 @@
 
     <v-main>
       <v-container fluid>
-        <router-view v-if="renderRouterView"/>
-        <v-progress-linear v-else color="blue" indeterminate/>
+        <survey v-if="isConnected"/>
+        <router-view/>
       </v-container>
       <snackbar/>
     </v-main>
@@ -19,28 +19,24 @@
   import TheFooter from '@/components/App/TheFooter'
   import Snackbar from '@/components/Snackbar'
   import store from '@/store'
-  import { ref } from '@vue/composition-api'
-  import cachedAdapter from '@/mixins/GetAdapter'
+  import { computed } from '@vue/composition-api'
+  import Survey from '@/components/shared/Survey'
 
   export default {
     name: 'App',
     components: {
       TheHeader,
       TheFooter,
-      Snackbar
+      Snackbar,
+      Survey
     },
     setup () {
-      const renderRouterView = ref(true)
-
-      if (store.state.connection.instances.length > 0) {
-        cachedAdapter().test()
-          .catch(() => {
-          })
-          .finally(() => (renderRouterView.value = true))
-      }
+      const isConnected = computed(() => {
+        return store.state.connection.instances.length > 0
+      })
 
       return {
-        renderRouterView
+        isConnected
       }
     }
   }
