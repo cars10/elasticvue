@@ -33,6 +33,10 @@
       value: {
         type: null, // any
         default: ''
+      },
+      focus: {
+        type: Boolean,
+        default: true
       }
     },
     setup (props, context) {
@@ -65,6 +69,7 @@
           const beautifulValue = beautify(props.value, useSpaces.value)
           setEditorValue(beautifulValue)
         }
+        if (props.focus) editor.value.focus()
       })
 
       onBeforeUnmount(unmountEditor)

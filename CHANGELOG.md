@@ -7,6 +7,7 @@
 * use `json-bigint` to parse responses, fixes [#52][i52]. This adds support for displaying numbers bigger
   than `9007199254740991`
 * improve visibility of active buttons in code viewer/editor
+* autofocus code editor in modals
 * adds a link to an upcoming survey about elasticvue
 
 [i52]: https://github.com/cars10/elasticvue/issues/52

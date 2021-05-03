@@ -67,7 +67,7 @@
         </v-col>
 
         <v-col :md="vertical ? 12 : 6" cols="12">
-          <print-pretty :caption="responseCaption" :document="responseBody" class="response mb-4"/>
+          <print-pretty :caption="responseCaption" :document="responseBody" :focus="false" class="response mb-4"/>
         </v-col>
       </v-row>
     </v-form>
