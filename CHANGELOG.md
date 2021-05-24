@@ -5,7 +5,8 @@
 ## 0.34.0
 
 * use `json-bigint` to parse responses, fixes [#52][i52]. This adds support for displaying numbers bigger
-  than `9007199254740991`
+  than `9007199254740991`. I still recommend to use strings for numbers like this if you do not need the value for
+  calculations.
 * improve visibility of active buttons in code viewer/editor
 * autofocus code editor in modals
 * adds a link to an upcoming survey about elasticvue
