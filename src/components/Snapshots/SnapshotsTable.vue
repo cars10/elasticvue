@@ -27,7 +27,6 @@
 
 <script>
   import { DEFAULT_ITEMS_PER_PAGE } from '@/consts'
-  import { fuzzyTableFilter } from '@/helpers/filters'
   import { compositionVuexAccessors } from '@/helpers/store'
   import { computed } from '@vue/composition-api'
   import Snapshot from '@/components/Snapshots/Snapshot'
@@ -73,7 +72,7 @@
       ]
 
       const filteredSnapshots = computed(() => {
-        return fuzzyTableFilter(props.snapshots, props.filter, HEADERS)
+        return props.snapshots.filter(snapshot => snapshot.id.includes(props.filter))
       })
       const emitReloadData = () => {
         context.emit('reloadData')

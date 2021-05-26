@@ -13,7 +13,7 @@
                           autofocus
                           class="mt-0 pt-0 v-text-field--small"
                           hide-details
-                          label="Filter..."
+                          label="Filter name..."
                           name="filter"
                           title="Filter via 'column:query'"
                           @keyup.esc="filter = ''"/>
@@ -34,9 +34,8 @@
         <tr class="tr--clickable" @click="() => showSnapshots(props.item.name)">
           <td>{{ props.item.name }}</td>
           <td>{{ props.item.type }}</td>
-          <td :title="stringifyJsonBigInt(props.item.settings, null, '\t')">{{
-              stringifyJsonBigInt(props.item.settings)
-            }}
+          <td :title="stringifyJsonBigInt(props.item.settings, null, '\t')">
+            {{ stringifyJsonBigInt(props.item.settings) }}
           </td>
           <td>
             <v-btn @click.stop="deleteRepository(props.item.name)">
@@ -52,7 +51,6 @@
 
 <script>
   import NewRepository from '@/components/Repositories/NewRepository'
-  import { fuzzyTableFilter } from '@/helpers/filters'
   import { DEFAULT_ITEMS_PER_PAGE } from '@/consts'
   import { compositionVuexAccessors } from '@/helpers/store'
   import { computed } from '@vue/composition-api'
@@ -81,12 +79,10 @@
     setup (props, context) {
       const { filter, pagination } = compositionVuexAccessors('repositories', ['filter', 'pagination'])
 
-      const items = computed(() => {
-        return Object.keys(props.repositories).map(k => Object.assign({}, { name: k }, props.repositories[k]))
-      })
-
       const filteredItems = computed(() => {
-        return fuzzyTableFilter(items.value, filter.value, HEADERS)
+        return Object.keys(props.repositories)
+          .filter(name => name.includes(filter.value))
+          .map(name => Object.assign({}, { name }, props.repositories[name]))
       })
 
       const HEADERS = [
@@ -120,7 +116,6 @@
       }
 
       return {
-        items,
         filteredItems,
         filter,
         pagination,

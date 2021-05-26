@@ -21,7 +21,7 @@
                           autofocus
                           class="mt-0 pt-0 v-text-field--small"
                           hide-details
-                          label="Filter..."
+                          label="Filter id..."
                           name="filter"
                           title="Filter via 'column:query'"
                           @keyup.esc="filter = ''"/>
