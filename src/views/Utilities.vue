@@ -56,6 +56,8 @@
           </v-row>
         </v-card-text>
       </v-card>
+
+      <import-export-settings/>
     </v-col>
   </v-row>
 </template>
@@ -63,10 +65,12 @@
 <script>
   import Utility from '@/components/Utilities/Utility'
   import data from '../data'
+  import ImportExportSettings from '@/components/Utilities/ImportExportSettings'
 
   export default {
     name: 'utilities',
     components: {
+      ImportExportSettings,
       Utility
     },
     setup () {
