@@ -1,5 +1,30 @@
 <template>
   <div>
+    <v-card class="mb-4">
+      <v-card-title class="clearfix">
+        <v-row>
+          <v-col cols="12" sm="6">
+            Nodes
+            <reload-button id="reload-nodes" :action="() => $emit('reloadNodes')"/>
+          </v-col>
+          <v-col cols="12" sm="6">
+            <div class="float-right">
+              <v-text-field id="nodes_grid_filter"
+                            v-model="filter"
+                            append-icon="mdi-magnify"
+                            autofocus
+                            class="mt-0 pt-0 v-text-field--small"
+                            hide-details
+                            label="Filter..."
+                            name="filter"
+                            title="Filter via 'column:query'"
+                            @keyup.esc="filter = ''"/>
+            </div>
+          </v-col>
+        </v-row>
+      </v-card-title>
+    </v-card>
+
     <v-btn-toggle v-model="listType" class="mb-4 v-btn-toggle--small" mandatory>
       <v-btn id="nodes_list_grid" text value="grid" @click="$emit('reloadNodes')">
         <span>Grid</span>
@@ -11,24 +36,26 @@
       </v-btn>
     </v-btn-toggle>
 
-    <nodes-grid v-if="renderGrid" :items="items" :loading="loading" @reloadNodes="$emit('reloadNodes')"/>
-    <nodes-table v-else :items="items" :loading="loading" @reloadNodes="$emit('reloadNodes')"/>
+    <nodes-grid v-if="renderGrid" :items="items" :loading="loading"/>
+    <nodes-table v-else :items="items" :loading="loading"/>
   </div>
 </template>
 
 <script>
   import NodesGrid from '@/components/Nodes/NodesGrid'
   import NodesTable from '@/components/Nodes/NodesTable'
-  import ElasticsearchNode from '../../models/ElasticsearchNode'
   import { computed } from '@vue/composition-api'
   import store from '@/store'
   import { compositionVuexAccessors } from '@/helpers/store'
+  import ElasticsearchNode from '@/models/ElasticsearchNode'
+  import ReloadButton from '@/components/shared/ReloadButton'
 
   export default {
     name: 'nodes-list',
     components: {
       NodesGrid,
-      NodesTable
+      NodesTable,
+      ReloadButton
     },
     props: {
       nodes: {
@@ -43,20 +70,24 @@
       }
     },
     setup (props) {
-      const { listType } = compositionVuexAccessors('nodes', ['listType'])
+      const { listType, filter } = compositionVuexAccessors('nodes', ['listType', 'filter'])
 
       const renderGrid = computed(() => {
         return store.state.nodes.listType === 'grid'
       })
 
       const items = computed(() => {
-        return props.nodes.map(node => new ElasticsearchNode(node))
+        const lowerFilter = filter.value.toLowerCase()
+        return props.nodes.filter(node => {
+          return node.name.toLowerCase().includes(lowerFilter) || node.ip.includes(lowerFilter)
+        }).map(node => new ElasticsearchNode(node))
       })
 
       return {
         listType,
         renderGrid,
-        items
+        items,
+        filter
       }
     }
   }

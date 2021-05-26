@@ -80,8 +80,9 @@
       const { filter, pagination } = compositionVuexAccessors('repositories', ['filter', 'pagination'])
 
       const filteredItems = computed(() => {
+        const lowerFilter = filter.value.toLowerCase()
         return Object.keys(props.repositories)
-          .filter(name => name.includes(filter.value))
+          .filter(name => name.toLowerCase().includes(lowerFilter))
           .map(name => Object.assign({}, { name }, props.repositories[name]))
       })
 

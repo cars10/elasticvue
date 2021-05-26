@@ -72,7 +72,8 @@
       ]
 
       const filteredSnapshots = computed(() => {
-        return props.snapshots.filter(snapshot => snapshot.id.includes(props.filter))
+        const lowerFilter = props.filter.toLowerCase()
+        return props.snapshots.filter(snapshot => snapshot.id.toLowerCase().includes(lowerFilter))
       })
       const emitReloadData = () => {
         context.emit('reloadData')

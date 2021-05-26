@@ -10,7 +10,7 @@
 * add import/export for elasticvue settings, fixes [#53][i53]
 * improve visibility of active buttons in code viewer/editor
 * autofocus code editor in modals
-* remove fuzzy table filtering from repositories and snapshots table
+* remove fuzzy table filtering from repositories, snapshots, nodes tables
 * adds a link to an upcoming survey about elasticvue
 
 [i52]: https://github.com/cars10/elasticvue/issues/52
