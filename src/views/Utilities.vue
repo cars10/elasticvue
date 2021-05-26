@@ -10,7 +10,7 @@
         <v-card-text>
           <v-row>
             <v-col cols="12" md="6" sm="12">
-              <v-subheader>Create</v-subheader>
+              <v-subheader class="text-h6">Create</v-subheader>
               <v-divider/>
               <v-list>
                 <template v-for="utility in UTILITIES.create">
@@ -25,7 +25,7 @@
             </v-col>
 
             <v-col cols="12" md="6" sm="12">
-              <v-subheader>Delete</v-subheader>
+              <v-subheader class="text-h6">Delete</v-subheader>
               <v-divider/>
               <v-list>
                 <template v-for="utility in UTILITIES.delete">
@@ -40,7 +40,7 @@
             </v-col>
 
             <v-col cols="12" md="6" sm="12">
-              <v-subheader>Misc</v-subheader>
+              <v-subheader class="text-h6">Misc</v-subheader>
               <v-divider/>
               <v-list>
                 <template v-for="utility in UTILITIES.misc">
@@ -56,8 +56,6 @@
           </v-row>
         </v-card-text>
       </v-card>
-
-      <import-export-settings/>
     </v-col>
   </v-row>
 </template>
@@ -65,12 +63,10 @@
 <script>
   import Utility from '@/components/Utilities/Utility'
   import data from '../data'
-  import ImportExportSettings from '@/components/Utilities/ImportExportSettings'
 
   export default {
     name: 'utilities',
     components: {
-      ImportExportSettings,
       Utility
     },
     setup () {

@@ -52,6 +52,9 @@
       </v-menu>
 
       <v-btn id="navbar_utilities" text to="/utilities">Utilities</v-btn>
+      <v-btn id="navbar_settings" text to="/settings">
+        <v-icon>mdi-cog</v-icon>
+      </v-btn>
     </v-toolbar-items>
   </v-app-bar>
 </template>

@@ -2,8 +2,7 @@
   <v-footer class="pa-4">
     <v-row>
       <v-col cols="4">
-        <v-switch id="theme_select" v-model="dark" class="mt-0 mb-2 pt-0" color="primary-button" hide-details
-                  label="Dark theme"/>
+        <change-theme/>
         <button class="btn-link" type="button" @click="reset">Disconnect and reset</button>
       </v-col>
 
@@ -29,27 +28,22 @@
 
 <script>
   import { BASE_URI, LOCALSTORAGE_KEY } from '@/consts'
-  import { ref, watch } from '@vue/composition-api'
-  import store from '@/store'
+  import ChangeTheme from '@/components/shared/ChangeTheme'
 
   export default {
     name: 'app-footer',
-    setup (props, context) {
+    components: {
+      ChangeTheme
+    },
+    setup () {
       const reset = () => {
         localStorage.removeItem(LOCALSTORAGE_KEY)
         window.location.replace(BASE_URI)
       }
 
-      const dark = ref(context.root.$vuetify.theme.dark)
-      watch(dark, newValue => {
-        context.root.$vuetify.theme.dark = newValue
-        store.commit('theme/setDark', newValue)
-      })
-
       return {
         /* eslint-disable no-undef */
         version: VERSION,
-        dark,
         reset
       }
     }

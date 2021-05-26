@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app :dark="dark">
     <the-header/>
 
     <v-main>
@@ -21,6 +21,7 @@
   import store from '@/store'
   import { computed } from '@vue/composition-api'
   import Survey from '@/components/shared/Survey'
+  import { compositionVuexAccessors } from '@/helpers/store'
 
   export default {
     name: 'App',
@@ -35,7 +36,10 @@
         return store.state.connection.instances.length > 0
       })
 
+      const { dark } = compositionVuexAccessors('theme', ['dark'])
+
       return {
+        dark,
         isConnected
       }
     }

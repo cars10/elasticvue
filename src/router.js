@@ -10,6 +10,7 @@ import Repositories from '@/views/Repositories'
 import Utilities from '@/views/Utilities'
 import QueryRest from '@/views/QueryRest'
 import Nodes from '@/views/Nodes'
+import Settings from '@/views/Settings'
 import Store from '@/store'
 
 Vue.use(Router)
@@ -62,6 +63,11 @@ const router = new Router({
       path: '/utilities',
       name: 'Utilities',
       component: Utilities
+    },
+    {
+      path: '/settings',
+      name: 'Settings',
+      component: Settings
     },
     {
       path: '/snapshots',
