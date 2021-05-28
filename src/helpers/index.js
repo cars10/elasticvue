@@ -1,3 +1,5 @@
+import { parseJsonBigInt, stringifyJsonBigInt } from '@/helpers/json_parse'
+
 const SORTABLE_TYPES = ['long', 'integer', 'double', 'float', 'date', 'boolean', 'keyword']
 
 export function sortableField (fieldName, property) {
@@ -36,13 +38,39 @@ export function buildFetchAuthHeader (username, password) {
   }
 }
 
-export const debounce = (fn, timeout, immediate) => {
+export const debounce = (fn, timeout) => {
   let timerId
 
   return function (...args) {
     clearTimeout(timerId)
     timerId = setTimeout(() => {
       fn(...args)
-    }, immediate ? 0 : timeout)
+    }, timeout)
+  }
+}
+
+export const beautify = (stringOrObj, useSpaces) => {
+  if (!stringOrObj) return stringOrObj
+
+  let copy
+  if (typeof stringOrObj === 'string') {
+    if (stringOrObj.length === 0) return ''
+    copy = (' ' + stringOrObj).slice(1)
+  } else {
+    if (Object.keys(stringOrObj).length === 0) return ''
+    copy = Object.assign({}, stringOrObj)
+  }
+
+  try {
+    let parsed
+    if (typeof stringOrObj === 'string') {
+      parsed = parseJsonBigInt(copy)
+    } else {
+      parsed = copy
+    }
+    return stringifyJsonBigInt(parsed, null, useSpaces ? '  ' : '\t')
+  } catch (error) {
+    console.error(error)
+    return copy
   }
 }

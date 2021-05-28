@@ -1,4 +1,4 @@
-import { fuzzyTableFilter } from '@/helpers/filters'
+import { filterItems } from '@/helpers/filters'
 
 const items = [
   { name: 'x-wing', type: 'ship' },
@@ -20,17 +20,17 @@ const headers = [
 describe('helpers/filters.js', () => {
   describe('filters.js default searches', () => {
     it('should return all items on empty search', () => {
-      const results = fuzzyTableFilter(items, '', headers)
+      const results = filterItems(items, '', headers)
       expect(results.length).toEqual(items.length)
     })
 
     it('should return all items on whitespace search', () => {
-      const results = fuzzyTableFilter(items, '   ', headers)
+      const results = filterItems(items, '   ', headers)
       expect(results.length).toEqual(items.length)
     })
 
     it('should return no items on unmatched search', () => {
-      const results = fuzzyTableFilter(items, 'xxxxxxxxxxxxxx', headers)
+      const results = filterItems(items, 'xxxxxxxxxxxxxx', headers)
       expect(results).toEqual([])
     })
 
@@ -38,7 +38,7 @@ describe('helpers/filters.js', () => {
       const persons = items.filter(item => item.type === 'person')
       const personNames = persons.map(person => person.name).sort()
 
-      const results = fuzzyTableFilter(items, 'person', headers)
+      const results = filterItems(items, 'person', headers)
       const resultNames = results.map(result => result.name).sort()
 
       expect(results.length).toEqual(persons.length)
@@ -46,14 +46,14 @@ describe('helpers/filters.js', () => {
     })
 
     it('should fuzzy match on "da" search', () => {
-      const results = fuzzyTableFilter(items, 'da', headers)
+      const results = filterItems(items, 'da', headers)
       const resultNames = results.map(result => result.name)
       const expected = ['dagobah', 'darth vader', 'yoda']
       expect(resultNames).toEqual(expect.arrayContaining(expected))
     })
 
     it('should fuzzy match on "dar" search', () => {
-      const results = fuzzyTableFilter(items, 'dar', headers)
+      const results = filterItems(items, 'dar', headers)
       const resultNames = results.map(result => result.name)
       const expected = ['darth vader']
       expect(resultNames).toEqual(expect.arrayContaining(expected))
@@ -62,25 +62,7 @@ describe('helpers/filters.js', () => {
     it('should filter all things on s search', () => {
       const expected = ['milenium falcon', 'x-wing', 'starfighter', 'luke skywalker', 'darth vader', 'yoda', 'qui-gon jin', 'coruscant']
 
-      const results = fuzzyTableFilter(items, 's', headers)
-      const resultNames = results.map(result => result.name)
-
-      expect(resultNames).toEqual(expect.arrayContaining(expected))
-    })
-
-    it('should return exact matches', () => {
-      const expected = ['milenium falcon']
-
-      const results = fuzzyTableFilter(items, '"milenium falcon"', headers)
-      const resultNames = results.map(result => result.name)
-
-      expect(resultNames).toEqual(expect.arrayContaining(expected))
-    })
-
-    it('should not return anything if no exact match is found', () => {
-      const expected = []
-
-      const results = fuzzyTableFilter(items, '"milenium"', headers)
+      const results = filterItems(items, 's', headers)
       const resultNames = results.map(result => result.name)
 
       expect(resultNames).toEqual(expect.arrayContaining(expected))
@@ -89,12 +71,12 @@ describe('helpers/filters.js', () => {
 
   describe('filters.js column searches', () => {
     it('should return all items on empty column search', () => {
-      const results = fuzzyTableFilter(items, 'type:', headers)
+      const results = filterItems(items, 'type:', headers)
       expect(results.length).toEqual(items.length)
     })
 
     it('should return all items on whitespace column search', () => {
-      const results = fuzzyTableFilter(items, 'type:   ', headers)
+      const results = filterItems(items, 'type:   ', headers)
       expect(results.length).toEqual(items.length)
     })
 
@@ -102,7 +84,7 @@ describe('helpers/filters.js', () => {
       const persons = items.filter(item => item.type === 'person')
       const personNames = persons.map(person => person.name)
 
-      const results = fuzzyTableFilter(items, 'type:person', headers)
+      const results = filterItems(items, 'type:person', headers)
       const resultNames = results.map(result => result.name)
 
       expect(results.length).toEqual(persons.length)
@@ -113,29 +95,10 @@ describe('helpers/filters.js', () => {
       const shipsAndPersons = items.filter(item => item.type !== 'location')
       const itemNames = shipsAndPersons.map(item => item.name)
 
-      const results = fuzzyTableFilter(items, 'type:s', headers)
+      const results = filterItems(items, 'type:s', headers)
       const resultNames = results.map(result => result.name)
 
       expect(resultNames).toEqual(expect.arrayContaining(itemNames))
-    })
-
-    it('should return exact matches', () => {
-      const persons = items.filter(item => item.type === 'person')
-      const names = persons.map(item => item.name)
-
-      const results = fuzzyTableFilter(items, 'type:"person"', headers)
-      const resultNames = results.map(result => result.name)
-
-      expect(resultNames).toEqual(expect.arrayContaining(names))
-    })
-
-    it('should not return anything if no exact match is found', () => {
-      const expected = []
-
-      const results = fuzzyTableFilter(items, 'type:"perso"', headers)
-      const resultNames = results.map(result => result.name)
-
-      expect(resultNames).toEqual(expect.arrayContaining(expected))
     })
   })
 })

@@ -1,35 +1,10 @@
 <template>
   <div>
-    <v-card class="mb-2">
-      <v-card-title class="clearfix">
-        <v-row>
-          <v-col cols="12" sm="6">
-            Nodes
-            <reload-button id="reload-nodes" :action="() => this.$emit('reloadNodes')"/>
-          </v-col>
-          <v-col cols="12" sm="6">
-            <div class="float-right">
-              <v-text-field id="nodes_grid_filter"
-                            v-model="filter"
-                            append-icon="mdi-magnify"
-                            autofocus
-                            class="mt-0 pt-0 v-text-field--small"
-                            hide-details
-                            label="Filter..."
-                            name="filter"
-                            title="Filter via 'column:query'"
-                            @keyup.esc="filter = ''"/>
-            </div>
-          </v-col>
-        </v-row>
-      </v-card-title>
-    </v-card>
-
     <div v-if="loading">
       <v-progress-linear indeterminate/>
     </div>
     <v-data-iterator v-else
-                     :items="filteredItems"
+                     :items="items"
                      :options.sync="pagination">
       <template v-slot:default="props">
         <v-row>
@@ -142,17 +117,14 @@
 <script>
   import NodeIcons from '@/components/Nodes/NodeIcons'
   import NodePercentBar from '@/components/Nodes/NodePercentBar'
-  import ReloadButton from '@/components/shared/ReloadButton'
   import { compositionVuexAccessors } from '@/helpers/store'
-  import { fuzzyTableFilter } from '@/helpers/filters'
   import { computed } from '@vue/composition-api'
 
   export default {
     name: 'nodes-grid',
     components: {
       NodeIcons,
-      NodePercentBar,
-      ReloadButton
+      NodePercentBar
     },
     props: {
       items: {
@@ -175,15 +147,10 @@
         }
       })
 
-      const filteredItems = computed(() => {
-        return fuzzyTableFilter(props.items, filter.value, [{ value: 'name' }, { value: 'ip' }])
-      })
-
       return {
         filter,
         pagination,
-        nodeListClass,
-        filteredItems
+        nodeListClass
       }
     }
   }

@@ -24,7 +24,9 @@
 
       <v-card-text v-if="enableCorsHint">
         <h2 class="text-h6 my-4">1. Configure</h2>
-        <configure v-if="configureHintVisible"/>
+        <v-expand-transition>
+          <configure v-if="configureHintVisible"/>
+        </v-expand-transition>
         <v-btn class="pl-1" small text @click="configureHintVisible = !configureHintVisible">
           <v-icon>{{ configureHintVisible ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
           Show help
@@ -110,6 +112,7 @@
                    :color="connectColor"
                    :disabled="!formValid"
                    :loading="testState.connectLoading"
+                   class="mr-2"
                    type="button"
                    @click.native="connectCluster">Connect
             </v-btn>

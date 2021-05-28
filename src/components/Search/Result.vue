@@ -2,7 +2,7 @@
   <tr class="tr--clickable" @click="openDocument">
     <td v-for="key in filteredColumns" :key="key">
       <template v-if="key === '_type'">{{ document[key] || '_doc' }}</template>
-      <template v-else>{{ document[key] }}</template>
+      <template v-else>{{ renderValue(document[key]) }}</template>
     </td>
     <td>
       <router-link :class="classes"
@@ -21,6 +21,7 @@
 <script>
   import { computed } from '@vue/composition-api'
   import store from '@/store'
+  import { stringifyJsonBigInt } from '@/helpers/json_parse'
 
   export default {
     name: 'result',
@@ -52,9 +53,18 @@
         })
       }
 
+      const renderValue = value => {
+        if (typeof value === 'object') {
+          return stringifyJsonBigInt(value)
+        } else {
+          return value
+        }
+      }
+
       return {
         classes,
-        openDocument
+        openDocument,
+        renderValue
       }
     }
   }

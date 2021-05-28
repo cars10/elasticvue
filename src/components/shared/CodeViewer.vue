@@ -22,6 +22,7 @@
   import store from '@/store'
   import BtnGroup from '@/components/shared/BtnGroup'
   import { editorUtils } from '@/mixins/CodeEditorUtils'
+  import { beautify } from '@/helpers'
 
   export default {
     name: 'code-viewer',
@@ -32,6 +33,10 @@
       value: {
         type: null, // any
         default: ''
+      },
+      focus: {
+        type: Boolean,
+        default: true
       }
     },
     setup (props, context) {
@@ -40,7 +45,10 @@
       const { setTheme, setWhitespace, setWrapLines, unmountEditor, setupAceEditor } = editorUtils(editor)
 
       watch(() => props.value, newValue => {
-        if (editor.value.getValue() !== newValue) setEditorValue(newValue)
+        if (editor.value.getValue() !== newValue) {
+          const beautifulValue = beautify(newValue, useSpaces.value)
+          setEditorValue(beautifulValue)
+        }
       })
 
       watch(() => store.state.theme.dark, newValue => {
@@ -50,38 +58,29 @@
       watch(wrapLines, setWrapLines)
       watch(useSpaces, newValue => {
         setWhitespace(newValue)
-        beautify()
+        beautifyEditorValue(newValue)
       })
 
       onMounted(() => {
         setupAceEditor(context.refs.editor, { readOnly: true })
         setWrapLines(wrapLines.value)
         setTheme(store.state.theme.dark)
-        setEditorValue(props.value)
+        if (props.value) {
+          const beautifulValue = beautify(props.value, useSpaces.value)
+          setEditorValue(beautifulValue)
+        }
+        if (props.focus) editor.value.focus()
       })
 
       onBeforeUnmount(unmountEditor)
 
-      const beautify = () => {
-        if (props.value) {
-          try {
-            stringifyJson(JSON.parse(editor.value.getValue()))
-          } catch (error) {
-          }
-        }
+      const beautifyEditorValue = useSpaces => {
+        const newValue = beautify(editor.value.getValue(), useSpaces)
+        setEditorValue(newValue)
       }
 
       const setEditorValue = value => {
-        if (typeof value === 'string') {
-          editor.value.setValue(value, 1)
-        } else {
-          editor.value.setValue(stringifyJson(value), 1)
-        }
-        beautify()
-      }
-
-      const stringifyJson = value => {
-        return JSON.stringify(value, null, useSpaces.value ? '  ' : '\t')
+        editor.value.setValue(value, 1)
       }
 
       return {

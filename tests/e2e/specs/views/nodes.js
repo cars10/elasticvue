@@ -14,14 +14,14 @@ describe('Nodes', () => {
     })
 
     it('can filter', () => {
-      cy.get('#nodes_grid_filter').clear()
-      cy.get('#nodes_grid_filter').type('xxxxxxx')
+      cy.get('#nodes_filter').clear()
+      cy.get('#nodes_filter').type('xxxxxxx')
 
       cy.get('div.v-data-iterator').should(grid => {
         expect(grid).not.to.contain('node.role')
       })
 
-      cy.get('#nodes_grid_filter').clear()
+      cy.get('#nodes_filter').clear()
       cy.get('div.v-data-iterator').should(grid => {
         expect(grid).to.contain('node.role')
       })
@@ -39,14 +39,14 @@ describe('Nodes', () => {
     })
 
     it('can filter', () => {
-      cy.get('#nodes_table_filter').clear()
-      cy.get('#nodes_table_filter').type('xxxxxxx')
+      cy.get('#nodes_filter').clear()
+      cy.get('#nodes_filter').type('xxxxxxx')
 
       cy.get('.nodes_table').should(table => {
         expect(table).not.to.contain('%')
       })
 
-      cy.get('#nodes_table_filter').clear()
+      cy.get('#nodes_filter').clear()
       cy.get('.nodes_table').should(table => {
         expect(table).to.contain('%')
       })

@@ -1,11 +1,11 @@
 <template>
-  <v-app>
+  <v-app :dark="dark">
     <the-header/>
 
     <v-main>
       <v-container fluid>
-        <router-view v-if="renderRouterView"/>
-        <v-progress-linear v-else color="blue" indeterminate/>
+        <survey v-if="isConnected"/>
+        <router-view/>
       </v-container>
       <snackbar/>
     </v-main>
@@ -19,28 +19,28 @@
   import TheFooter from '@/components/App/TheFooter'
   import Snackbar from '@/components/Snackbar'
   import store from '@/store'
-  import { ref } from '@vue/composition-api'
-  import cachedAdapter from '@/mixins/GetAdapter'
+  import { computed } from '@vue/composition-api'
+  import Survey from '@/components/shared/Survey'
+  import { compositionVuexAccessors } from '@/helpers/store'
 
   export default {
     name: 'App',
     components: {
       TheHeader,
       TheFooter,
-      Snackbar
+      Snackbar,
+      Survey
     },
     setup () {
-      const renderRouterView = ref(true)
+      const isConnected = computed(() => {
+        return store.state.connection.instances.length > 0
+      })
 
-      if (store.state.connection.instances.length > 0) {
-        cachedAdapter().test()
-          .catch(() => {
-          })
-          .finally(() => (renderRouterView.value = true))
-      }
+      const { dark } = compositionVuexAccessors('theme', ['dark'])
 
       return {
-        renderRouterView
+        dark,
+        isConnected
       }
     }
   }

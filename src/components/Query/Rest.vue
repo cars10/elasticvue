@@ -67,7 +67,7 @@
         </v-col>
 
         <v-col :md="vertical ? 12 : 6" cols="12">
-          <print-pretty :caption="responseCaption" :document="responseBody" class="response mb-4"/>
+          <print-pretty :caption="responseCaption" :document="responseBody" :focus="false" class="response mb-4"/>
         </v-col>
       </v-row>
     </v-form>
@@ -83,6 +83,7 @@
   import { compositionVuexAccessors } from '@/helpers/store'
   import { computed, ref } from '@vue/composition-api'
   import { showErrorSnackbar } from '@/mixins/ShowSnackbar'
+  import { parseJsonBigInt } from '@/helpers/json_parse'
 
   export default {
     name: 'rest',
@@ -147,16 +148,16 @@
 
       const loadData = () => {
         loading.value = true
-        responseBody.value = '// loading...'
+        responseBody.value = '{"loading": true}'
         responseCode.value = ''
         fetch(requestUrl.value, fetchOptionsHash())
           .then(response => {
             responseCode.value = response.status
-            return response.json()
+            return response.text()
           })
-          .then(json => {
+          .then(text => {
             loading.value = false
-            responseBody.value = json
+            responseBody.value = parseJsonBigInt(text)
           })
           .catch(error => {
             loading.value = false

@@ -1,7 +1,7 @@
 <template>
   <v-data-table :footer-props="{itemsPerPageOptions: DEFAULT_ITEMS_PER_PAGE}"
                 :headers="HEADERS"
-                :items="filteredSnapshots"
+                :items="items"
                 :loading="loading"
                 :options.sync="pagination"
                 class="table--condensed"
@@ -27,10 +27,10 @@
 
 <script>
   import { DEFAULT_ITEMS_PER_PAGE } from '@/consts'
-  import { fuzzyTableFilter } from '@/helpers/filters'
   import { compositionVuexAccessors } from '@/helpers/store'
   import { computed } from '@vue/composition-api'
   import Snapshot from '@/components/Snapshots/Snapshot'
+  import { filterItems } from '@/helpers/filters'
 
   export default {
     name: 'snapshots-table',
@@ -72,16 +72,17 @@
         { text: '', value: 'actions', sortable: false }
       ]
 
-      const filteredSnapshots = computed(() => {
-        return fuzzyTableFilter(props.snapshots, props.filter, HEADERS)
+      const items = computed(() => {
+        return filterItems(props.snapshots, props.filter, ['id'])
       })
+
       const emitReloadData = () => {
         context.emit('reloadData')
       }
 
       return {
         pagination,
-        filteredSnapshots,
+        items,
         emitReloadData,
         DEFAULT_ITEMS_PER_PAGE,
         HEADERS

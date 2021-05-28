@@ -28,3 +28,7 @@
   min-width: 24px;
   padding: 0 12px !important;
 }
+
+.btn-group .v-btn--active {
+  border-bottom: 2px solid orange;
+}

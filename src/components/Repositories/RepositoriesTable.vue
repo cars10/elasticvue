@@ -13,7 +13,7 @@
                           autofocus
                           class="mt-0 pt-0 v-text-field--small"
                           hide-details
-                          label="Filter..."
+                          label="Filter name..."
                           name="filter"
                           title="Filter via 'column:query'"
                           @keyup.esc="filter = ''"/>
@@ -25,7 +25,7 @@
     <v-data-table ref="repositoriesDataTable"
                   :footer-props="{itemsPerPageOptions: DEFAULT_ITEMS_PER_PAGE}"
                   :headers="HEADERS"
-                  :items="filteredItems"
+                  :items="items"
                   :loading="loading"
                   :options.sync="pagination"
                   class="table--condensed table--fixed-header"
@@ -34,7 +34,9 @@
         <tr class="tr--clickable" @click="() => showSnapshots(props.item.name)">
           <td>{{ props.item.name }}</td>
           <td>{{ props.item.type }}</td>
-          <td :title="JSON.stringify(props.item.settings, null, '\t')">{{ props.item.settings }}</td>
+          <td :title="stringifyJsonBigInt(props.item.settings, null, '\t')">
+            {{ stringifyJsonBigInt(props.item.settings) }}
+          </td>
           <td>
             <v-btn @click.stop="deleteRepository(props.item.name)">
               <v-icon>mdi-delete</v-icon>
@@ -49,13 +51,14 @@
 
 <script>
   import NewRepository from '@/components/Repositories/NewRepository'
-  import { fuzzyTableFilter } from '@/helpers/filters'
   import { DEFAULT_ITEMS_PER_PAGE } from '@/consts'
   import { compositionVuexAccessors } from '@/helpers/store'
   import { computed } from '@vue/composition-api'
   import store from '@/store'
   import { useElasticsearchRequest } from '@/mixins/RequestComposition'
   import { showSuccessSnackbar } from '@/mixins/ShowSnackbar'
+  import { stringifyJsonBigInt } from '@/helpers/json_parse'
+  import { filterItems } from '@/helpers/filters'
 
   export default {
     name: 'repositories-table',
@@ -78,11 +81,8 @@
       const { filter, pagination } = compositionVuexAccessors('repositories', ['filter', 'pagination'])
 
       const items = computed(() => {
-        return Object.keys(props.repositories).map(k => Object.assign({}, { name: k }, props.repositories[k]))
-      })
-
-      const filteredItems = computed(() => {
-        return fuzzyTableFilter(items.value, filter.value, HEADERS)
+        const repos = Object.keys(props.repositories).map(name => Object.assign({}, { name }, props.repositories[name]))
+        return filterItems(repos, filter.value, ['name'])
       })
 
       const HEADERS = [
@@ -117,14 +117,14 @@
 
       return {
         items,
-        filteredItems,
         filter,
         pagination,
         emitReloadData,
         showSnapshots,
         deleteRepository,
         HEADERS,
-        DEFAULT_ITEMS_PER_PAGE
+        DEFAULT_ITEMS_PER_PAGE,
+        stringifyJsonBigInt
       }
     }
   }
