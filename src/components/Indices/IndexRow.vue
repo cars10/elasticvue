@@ -122,6 +122,7 @@
   import store from '@/store'
   import { useElasticsearchRequest } from '@/mixins/RequestComposition'
   import IndexAliases from '@/components/Indices/IndexAliases'
+  import { DEFAULT_SEARCH_QUERY } from '@/consts'
 
   export default {
     name: 'index-row',
@@ -167,6 +168,7 @@
 
       const showDocuments = (index) => {
         store.commit('search/setIndices', index)
+        store.commit('search/setSearchQuery', DEFAULT_SEARCH_QUERY)
         context.root.$router.push({ name: 'Search' })
       }
 
