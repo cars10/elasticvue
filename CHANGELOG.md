@@ -8,10 +8,13 @@
   than `9007199254740991`. I still recommend to use strings for numbers like this if you do not need the value for
   calculations.
 * Add import/export for elasticvue settings, fixes [#53][i53]
+* Add configurable regex to hide indices, fixes [#50][i50]. The default value is `^\..*`
 * Improve visibility of active buttons in code viewer/editor
 * Autofocus code editor in modals
 * Remove fuzzy table filtering. You can still filter specific fields when filtering search results
 * Adds a link to an upcoming survey about elasticvue
+
+[i50]: https://github.com/cars10/elasticvue/issues/50
 
 [i52]: https://github.com/cars10/elasticvue/issues/52
 
