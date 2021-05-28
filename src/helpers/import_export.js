@@ -5,7 +5,7 @@ export const exportStoreDataUri = () => {
   const currentState = JSON.parse(JSON.stringify(store.state)) // use JSON.parse&stringify for deep copy
   delete currentState.connection.elasticsearchAdapter
 
-  return `data:application/json,${JSON.stringify(currentState)}`
+  return `data:application/json,${encodeURIComponent(JSON.stringify(currentState))}`
 }
 
 export const useImportFileData = fileInputData => {
