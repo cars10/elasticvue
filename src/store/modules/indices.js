@@ -4,7 +4,7 @@ export const indices = {
   namespaced: true,
   state: {
     showHiddenIndices: false,
-    hideIndicesRegex: '\\..*',
+    hideIndicesRegex: '^\\..*',
     filter: '',
     options: Object.assign({}, DEFAULT_DATA_TABLE_OPTIONS, { sortBy: ['index'] })
   },
