@@ -7,6 +7,10 @@
         </v-col>
         <v-col>
           <div class="d-inline-block float-right">
+            <v-checkbox v-model="showHiddenIndices"
+                        label="Show hidden indices"
+                        class="d-inline-block mr-6 vertical-align--bottom"
+                        hide-details/>
             <v-text-field id="filter"
                           v-model="filter"
                           append-icon="mdi-magnify"
@@ -24,7 +28,7 @@
 
     <v-data-table :footer-props="{itemsPerPageOptions: DEFAULT_ITEMS_PER_PAGE}"
                   :headers="HEADERS"
-                  :items="filteredIndices"
+                  :items="items"
                   :loading="loading"
                   :options.sync="options"
                   class="table--condensed table--fixed-header">
@@ -41,8 +45,8 @@
   import ElasticsearchIndex from '@/models/ElasticsearchIndex'
   import { DEFAULT_ITEMS_PER_PAGE } from '@/consts'
   import { compositionVuexAccessors } from '@/helpers/store'
-  import { useAsyncFilter } from '@/mixins/CompositionAsyncFilter'
   import { ref, watch } from '@vue/composition-api'
+  import { useAsyncFilter } from '@/mixins/UseAsyncTableFilter'
   import { debounce } from '@/helpers'
 
   export default {
@@ -62,8 +66,12 @@
       }
     },
     setup (props, context) {
-      const { filter, options } = compositionVuexAccessors('indices', ['filter', 'options'])
-      const filteredIndices = ref(props.indices)
+      const {
+        filter,
+        options,
+        showHiddenIndices,
+        hideIndicesRegex
+      } = compositionVuexAccessors('indices', ['filter', 'options', 'showHiddenIndices', 'hideIndicesRegex'])
 
       const HEADERS = [
         { text: 'Name', value: 'index' },
@@ -81,31 +89,27 @@
         context.emit('reloadIndices')
       }
 
-      const { filterTable } = useAsyncFilter()
-
-      const fuzzyTableFilter = async (items, filter) => {
-        const result = await filterTable(items, filter, HEADERS)
-        filteredIndices.value = result.map(index => new ElasticsearchIndex(index))
-      }
-      const debouncedFuzzyTableFilter = debounce(fuzzyTableFilter, 500)
-
-      watch(() => props.indices, newValue => {
-        if (newValue.length === 0 && props.indices.length === 0) {
-          filteredIndices.value = []
-          return
+      const items = ref([])
+      const { asyncFilterTable } = useAsyncFilter()
+      const filterTable = async () => {
+        let results = props.indices
+        if (!showHiddenIndices.value) {
+          results = results.filter(item => !item.index.match(new RegExp(hideIndicesRegex.value)))
         }
 
-        fuzzyTableFilter(newValue, filter.value)
-      })
-
-      watch(filter, newValue => {
-        debouncedFuzzyTableFilter(props.indices, newValue)
-      })
+        results = await asyncFilterTable(results, filter.value, ['index', 'uuid'])
+        items.value = results.map(index => new ElasticsearchIndex(index))
+      }
+      const debouncedFilterTable = debounce(filterTable, 350)
+      watch(filter, debouncedFilterTable)
+      watch(showHiddenIndices, filterTable)
+      watch(() => props.indices, filterTable)
 
       return {
         filter,
         options,
-        filteredIndices,
+        showHiddenIndices,
+        items,
         HEADERS,
         DEFAULT_ITEMS_PER_PAGE,
         emitReloadIndices

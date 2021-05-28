@@ -44,11 +44,12 @@
 <script>
   import NodesGrid from '@/components/Nodes/NodesGrid'
   import NodesTable from '@/components/Nodes/NodesTable'
-  import { computed } from '@vue/composition-api'
+  import ReloadButton from '@/components/shared/ReloadButton'
   import store from '@/store'
+  import { computed } from '@vue/composition-api'
   import { compositionVuexAccessors } from '@/helpers/store'
   import ElasticsearchNode from '@/models/ElasticsearchNode'
-  import ReloadButton from '@/components/shared/ReloadButton'
+  import { filterItems } from '@/helpers/filters'
 
   export default {
     name: 'nodes-list',
@@ -77,10 +78,8 @@
       })
 
       const items = computed(() => {
-        const lowerFilter = filter.value.toLowerCase()
-        return props.nodes.filter(node => {
-          return node.name.toLowerCase().includes(lowerFilter) || node.ip.includes(lowerFilter)
-        }).map(node => new ElasticsearchNode(node))
+        const results = filterItems(props.nodes, filter.value, ['name', 'ip'])
+        return results.map(r => new ElasticsearchNode(r))
       })
 
       return {

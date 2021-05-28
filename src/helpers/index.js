@@ -38,14 +38,14 @@ export function buildFetchAuthHeader (username, password) {
   }
 }
 
-export const debounce = (fn, timeout, immediate) => {
+export const debounce = (fn, timeout) => {
   let timerId
 
   return function (...args) {
     clearTimeout(timerId)
     timerId = setTimeout(() => {
       fn(...args)
-    }, immediate ? 0 : timeout)
+    }, timeout)
   }
 }
 

@@ -25,7 +25,7 @@
     <v-data-table ref="repositoriesDataTable"
                   :footer-props="{itemsPerPageOptions: DEFAULT_ITEMS_PER_PAGE}"
                   :headers="HEADERS"
-                  :items="filteredItems"
+                  :items="items"
                   :loading="loading"
                   :options.sync="pagination"
                   class="table--condensed table--fixed-header"
@@ -58,6 +58,7 @@
   import { useElasticsearchRequest } from '@/mixins/RequestComposition'
   import { showSuccessSnackbar } from '@/mixins/ShowSnackbar'
   import { stringifyJsonBigInt } from '@/helpers/json_parse'
+  import { filterItems } from '@/helpers/filters'
 
   export default {
     name: 'repositories-table',
@@ -79,11 +80,9 @@
     setup (props, context) {
       const { filter, pagination } = compositionVuexAccessors('repositories', ['filter', 'pagination'])
 
-      const filteredItems = computed(() => {
-        const lowerFilter = filter.value.toLowerCase()
-        return Object.keys(props.repositories)
-          .filter(name => name.toLowerCase().includes(lowerFilter))
-          .map(name => Object.assign({}, { name }, props.repositories[name]))
+      const items = computed(() => {
+        const repos = Object.keys(props.repositories).map(name => Object.assign({}, { name }, props.repositories[name]))
+        return filterItems(repos, filter.value, ['name'])
       })
 
       const HEADERS = [
@@ -117,7 +116,7 @@
       }
 
       return {
-        filteredItems,
+        items,
         filter,
         pagination,
         emitReloadData,

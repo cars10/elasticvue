@@ -29,6 +29,7 @@
                   <li>Saved clusters (including username and password <strong>in plain text</strong>)</li>
                   <li>Currently active cluster</li>
                   <li>Code Editor settings</li>
+                  <li>Search settings</li>
                   <li>Theme</li>
                   <li>Rest query url+body</li>
                   <li>Table filters & options</li>

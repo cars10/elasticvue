@@ -50,7 +50,7 @@
   import Results from '@/models/Results'
   import Result from '@/components/Search/Result'
   import { compositionVuexAccessors } from '@/helpers/store'
-  import { useAsyncFilter } from '@/mixins/CompositionAsyncFilter'
+  import { useAsyncFilter } from '@/mixins/UseAsyncTableFilter'
   import { debounce, sortableField } from '@/helpers'
   import { computed, ref, watch } from '@vue/composition-api'
   import { useElasticsearchRequest } from '@/mixins/RequestComposition'
@@ -85,7 +85,7 @@
         selectedColumns,
         columns
       } = compositionVuexAccessors('search', ['q', 'filter', 'options', 'selectedColumns', 'columns'])
-      const { filterLoading, filterTable } = useAsyncFilter()
+      const { filterLoading, asyncFilterTable } = useAsyncFilter()
 
       const hits = computed(() => {
         if (!props.body) return []
@@ -169,20 +169,20 @@
               }
               return { value: filterableCol, text, sortable: !!filterableCol, originalValue: value }
             })
-            fuzzyTableFilter(val, filter.value)
+            filterTable(val, filter.value)
           })
       })
 
       watch(filter, val => {
-        debouncedFuzzyTableFilter(hits.value, val, val.length === 0)
+        debouncedFilterTable(hits.value, val, val.length === 0)
       })
 
-      const fuzzyTableFilter = async (items, filter, skipTimeout) => {
-        const filteredResults = await filterTable(items, filter, filteredColumns.value, skipTimeout)
+      const filterTable = async (items, filter) => {
+        const filteredResults = await asyncFilterTable(items, filter, filteredColumns.value)
         filteredItems.value = filteredResults.map(el => Object.assign(el, el._source) && delete el._source && el)
       }
 
-      const debouncedFuzzyTableFilter = debounce(fuzzyTableFilter, 500)
+      const debouncedFilterTable = debounce(filterTable, 500)
 
       const openDocument = params => {
         modalMethodParams.value = params
