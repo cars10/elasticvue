@@ -112,7 +112,7 @@
 
       const filteredHeaders = computed(() => {
         let newHeaders = []
-        if (headers.length === selectedColumns.value.length) {
+        if (headers.value.length === selectedColumns.value.length) {
           newHeaders = headers.value
         } else {
           newHeaders = headers.value.filter(h => selectedColumns.value.includes(h.originalValue))
