@@ -9,7 +9,7 @@
           </v-col>
           <v-col cols="12" sm="6">
             <div class="float-right">
-              <v-text-field id="nodes_grid_filter"
+              <v-text-field id="nodes_filter"
                             v-model="filter"
                             append-icon="mdi-magnify"
                             autofocus
