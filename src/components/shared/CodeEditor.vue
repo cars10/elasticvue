@@ -28,7 +28,7 @@
 <script>
   import { computed, onBeforeUnmount, onMounted, ref, watch } from '@vue/composition-api'
   import store from '@/store'
-  import { compositionVuexAccessors } from '@/helpers/store'
+  import { vuexAccessors } from '@/helpers/store'
   import BtnGroup from '@/components/shared/BtnGroup'
   import { editorUtils, initializeSnippets } from '@/mixins/CodeEditorUtils'
   import { parseJsonBigInt } from '@/helpers/json_parse'
@@ -53,7 +53,7 @@
     },
     setup (props, context) {
       const editor = ref(null)
-      const { useSpaces, wrapLines } = compositionVuexAccessors('codeEditor', ['useSpaces', 'wrapLines'])
+      const { useSpaces, wrapLines } = vuexAccessors('codeEditor', ['useSpaces', 'wrapLines'])
       const { setTheme, setWhitespace, setWrapLines, unmountEditor, setupAceEditor } = editorUtils(editor)
       const { completer } = initializeSnippets()
 

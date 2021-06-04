@@ -36,7 +36,7 @@
 
 <script>
   import Rest from '@/components/Query/Rest'
-  import { compositionVuexAccessors } from '@/helpers/store'
+  import { vuexAccessors } from '@/helpers/store'
 
   export default {
     name: 'query-rest',
@@ -44,7 +44,7 @@
       Rest
     },
     setup () {
-      const { vertical } = compositionVuexAccessors('queryRest', ['vertical'])
+      const { vertical } = vuexAccessors('queryRest', ['vertical'])
       return {
         vertical
       }

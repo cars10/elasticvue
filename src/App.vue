@@ -21,7 +21,7 @@
   import store from '@/store'
   import { computed } from '@vue/composition-api'
   import Survey from '@/components/shared/Survey'
-  import { compositionVuexAccessors } from '@/helpers/store'
+  import { vuexAccessors } from '@/helpers/store'
 
   export default {
     name: 'App',
@@ -36,7 +36,7 @@
         return store.state.connection.instances.length > 0
       })
 
-      const { dark } = compositionVuexAccessors('theme', ['dark'])
+      const { dark } = vuexAccessors('theme', ['dark'])
 
       return {
         dark,

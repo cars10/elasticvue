@@ -43,7 +43,7 @@
 <script>
   import NewSnapshot from '@/components/Snapshots/NewSnapshot'
   import SnapshotsTable from '@/components/Snapshots/SnapshotsTable'
-  import { compositionVuexAccessors } from '@/helpers/store'
+  import { vuexAccessors } from '@/helpers/store'
   import { setupElasticsearchRequest, useElasticsearchRequest } from '@/mixins/RequestComposition'
   import { onMounted, ref, watch } from '@vue/composition-api'
   import Loader from '@/components/shared/Loader'
@@ -56,7 +56,7 @@
       SnapshotsTable
     },
     setup () {
-      const { filter, repository } = compositionVuexAccessors('snapshots', ['filter', 'repository'])
+      const { filter, repository } = vuexAccessors('snapshots', ['filter', 'repository'])
       const { requestState, callElasticsearch } = useElasticsearchRequest()
       const {
         load: loadRepositories,

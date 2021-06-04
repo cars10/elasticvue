@@ -126,7 +126,7 @@
 
 <script>
   import store from '@/store'
-  import { compositionVuexAccessors } from '@/helpers/store'
+  import { vuexAccessors } from '@/helpers/store'
   import { computed, ref } from '@vue/composition-api'
   import { useTestConnection } from '@/mixins/TestConnection'
   import { BASE_URI } from '@/consts'
@@ -146,7 +146,7 @@
         resetElasticsearchHost()
       }
 
-      const { instances } = compositionVuexAccessors('connection', ['instances'])
+      const { instances } = vuexAccessors('connection', ['instances'])
 
       const formValid = ref(false)
 

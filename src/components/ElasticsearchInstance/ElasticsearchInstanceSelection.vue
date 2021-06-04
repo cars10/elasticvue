@@ -56,7 +56,7 @@
 
 <script>
   import store from '@/store'
-  import { compositionVuexAccessors } from '@/helpers/store'
+  import { vuexAccessors } from '@/helpers/store'
   import { computed, ref, watch, watchEffect } from '@vue/composition-api'
   import { checkHealth } from '@/helpers/instance'
   import { BASE_URI } from '@/consts'
@@ -75,7 +75,7 @@
       const {
         activeInstanceIdx,
         instances
-      } = compositionVuexAccessors('connection', ['activeInstanceIdx', 'instances'])
+      } = vuexAccessors('connection', ['activeInstanceIdx', 'instances'])
       const activeInstance = computed(() => (store.getters['connection/activeInstance']))
 
       const checkAllInstances = () => (instances.value.forEach(checkHealth))

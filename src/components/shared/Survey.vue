@@ -26,12 +26,12 @@
 </template>
 
 <script>
-  import { compositionVuexAccessors } from '@/helpers/store'
+  import { vuexAccessors } from '@/helpers/store'
 
   export default {
     name: 'survey',
     setup () {
-      const { hintVisible } = compositionVuexAccessors('survey', ['hintVisible'])
+      const { hintVisible } = vuexAccessors('survey', ['hintVisible'])
 
       return {
         hintVisible

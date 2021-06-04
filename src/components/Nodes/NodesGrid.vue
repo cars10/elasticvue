@@ -117,7 +117,7 @@
 <script>
   import NodeIcons from '@/components/Nodes/NodeIcons'
   import NodePercentBar from '@/components/Nodes/NodePercentBar'
-  import { compositionVuexAccessors } from '@/helpers/store'
+  import { vuexAccessors } from '@/helpers/store'
   import { computed } from '@vue/composition-api'
 
   export default {
@@ -139,7 +139,7 @@
       }
     },
     setup (props, context) {
-      const { filter, pagination } = compositionVuexAccessors('nodes', ['filter', 'pagination'])
+      const { filter, pagination } = vuexAccessors('nodes', ['filter', 'pagination'])
 
       const nodeListClass = computed(() => {
         return {

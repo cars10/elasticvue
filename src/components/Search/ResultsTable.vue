@@ -49,7 +49,7 @@
   import ModalDataLoader from '@/components/shared/ModalDataLoader'
   import Results from '@/models/Results'
   import Result from '@/components/Search/Result'
-  import { compositionVuexAccessors } from '@/helpers/store'
+  import { vuexAccessors } from '@/helpers/store'
   import { useAsyncFilter } from '@/mixins/UseAsyncTableFilter'
   import { debounce, sortableField } from '@/helpers'
   import { computed, ref, watch } from '@vue/composition-api'
@@ -84,7 +84,7 @@
         options,
         selectedColumns,
         columns
-      } = compositionVuexAccessors('search', ['q', 'filter', 'options', 'selectedColumns', 'columns'])
+      } = vuexAccessors('search', ['q', 'filter', 'options', 'selectedColumns', 'columns'])
       const { filterLoading, asyncFilterTable } = useAsyncFilter()
 
       const hits = computed(() => {

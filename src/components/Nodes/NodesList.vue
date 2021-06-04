@@ -47,7 +47,7 @@
   import ReloadButton from '@/components/shared/ReloadButton'
   import store from '@/store'
   import { computed } from '@vue/composition-api'
-  import { compositionVuexAccessors } from '@/helpers/store'
+  import { vuexAccessors } from '@/helpers/store'
   import ElasticsearchNode from '@/models/ElasticsearchNode'
   import { filterItems } from '@/helpers/filters'
 
@@ -71,7 +71,7 @@
       }
     },
     setup (props) {
-      const { listType, filter } = compositionVuexAccessors('nodes', ['listType', 'filter'])
+      const { listType, filter } = vuexAccessors('nodes', ['listType', 'filter'])
 
       const renderGrid = computed(() => {
         return store.state.nodes.listType === 'grid'

@@ -52,7 +52,7 @@
 <script>
   import NewRepository from '@/components/Repositories/NewRepository'
   import { DEFAULT_ITEMS_PER_PAGE } from '@/consts'
-  import { compositionVuexAccessors } from '@/helpers/store'
+  import { vuexAccessors } from '@/helpers/store'
   import { computed } from '@vue/composition-api'
   import store from '@/store'
   import { useElasticsearchRequest } from '@/mixins/RequestComposition'
@@ -78,7 +78,7 @@
       }
     },
     setup (props, context) {
-      const { filter, pagination } = compositionVuexAccessors('repositories', ['filter', 'pagination'])
+      const { filter, pagination } = vuexAccessors('repositories', ['filter', 'pagination'])
 
       const items = computed(() => {
         const repos = Object.keys(props.repositories).map(name => Object.assign({}, { name }, props.repositories[name]))
