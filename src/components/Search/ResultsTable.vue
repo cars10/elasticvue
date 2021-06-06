@@ -21,7 +21,7 @@
       </div>
     </v-card-text>
 
-    <v-data-table :footer-props="{itemsPerPageOptions: [10, 20, 100, 1000, 10000]}"
+    <v-data-table :footer-props="{itemsPerPageOptions: [10, 20, 100, 1000, 10000], showFirstLastPage: true}"
                   :headers="filteredHeaders"
                   :items="filteredItems"
                   :loading="loading || filterLoading"

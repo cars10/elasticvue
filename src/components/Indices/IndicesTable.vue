@@ -26,7 +26,7 @@
       </v-row>
     </v-card-text>
 
-    <v-data-table :footer-props="{itemsPerPageOptions: DEFAULT_ITEMS_PER_PAGE}"
+    <v-data-table :footer-props="{itemsPerPageOptions: DEFAULT_ITEMS_PER_PAGE, showFirstLastPage: true}"
                   :headers="HEADERS"
                   :items="items"
                   :loading="loading"

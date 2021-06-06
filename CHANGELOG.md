@@ -2,6 +2,10 @@
 
 *Please check the [releases](https://github.com/cars10/elasticvue/releases) page if you need version release dates.*
 
+## 0.35.0
+
+* Adds icons for first/last page in all tables
+
 ## 0.34.0
 
 * Use `json-bigint` to parse responses, fixes [#52][i52]. This adds support for displaying numbers bigger

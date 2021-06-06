@@ -23,7 +23,7 @@
     </v-card-text>
 
     <v-data-table ref="repositoriesDataTable"
-                  :footer-props="{itemsPerPageOptions: DEFAULT_ITEMS_PER_PAGE}"
+                  :footer-props="{itemsPerPageOptions: DEFAULT_ITEMS_PER_PAGE, showFirstLastPage: true}"
                   :headers="HEADERS"
                   :items="items"
                   :loading="loading"
