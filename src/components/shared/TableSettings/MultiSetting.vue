@@ -3,9 +3,11 @@
     <slot name="multi-setting__header">
       <v-subheader>
         {{ name }}
-        <v-btn v-if="hasChanges" class="ml-a grey--text mr-0 pr-0" small text @click.native="reset">
+        <v-btn v-if="!unchecked" class="ml-a px-1 grey--text" small text @click.native="uncheckAll">
+          uncheck
+        </v-btn>
+        <v-btn v-if="hasChanges" class="ml-a px-1 grey--text" small text @click.native="reset">
           reset
-          <v-icon>mdi-clear</v-icon>
         </v-btn>
       </v-subheader>
     </slot>
@@ -48,6 +50,9 @@
       const hasChanges = computed(() => {
         return props.settings.length !== props.value.length
       })
+      const unchecked = computed(() => {
+        return ownValue.value.length === 0
+      })
 
       const updateValue = () => {
         context.emit('input', ownValue.value)
@@ -55,11 +60,16 @@
 
       watch(() => ownValue.value, updateValue)
       const reset = () => (ownValue.value = props.settings)
+      const uncheckAll = () => {
+        ownValue.value = []
+      }
 
       return {
         ownValue,
         hasChanges,
-        reset
+        reset,
+        uncheckAll,
+        unchecked
       }
     }
   }

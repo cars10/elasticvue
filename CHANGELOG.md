@@ -5,6 +5,7 @@
 ## 0.35.0
 
 * Adds icons for first/last page in all tables
+* Adds "uncheck" button to deselect all columns in search table
 
 ## 0.34.0
 
