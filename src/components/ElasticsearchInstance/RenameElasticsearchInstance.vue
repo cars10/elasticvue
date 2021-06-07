@@ -1,11 +1,9 @@
 <template>
   <v-dialog v-model="dialog" width="800">
     <template v-slot:activator="{ on, attrs }">
-      <v-list-item-action v-bind="attrs" v-on="on" ripple title="Rename cluster">
-        <v-btn icon small>
-          <v-icon small>mdi-pencil-outline</v-icon>
-        </v-btn>
-      </v-list-item-action>
+      <v-btn icon small v-bind="attrs" v-on="on" ripple title="Rename cluster">
+        <v-icon small>mdi-pencil-outline</v-icon>
+      </v-btn>
     </template>
 
     <v-card>
