@@ -8,7 +8,7 @@
 
         <v-divider/>
 
-        <template v-if="enableCorsHint">
+        <template v-if="SHOW_CORS_HINT">
           <v-card-text>
             <h2 class="text-h6 mb-2">1. Configure</h2>
             <configure/>
@@ -18,7 +18,7 @@
         </template>
 
         <v-card-text>
-          <h2 v-if="enableCorsHint" class="text-h6 mb-1">2. Connect</h2>
+          <h2 v-if="SHOW_CORS_HINT" class="text-h6 mb-1">2. Connect</h2>
           <test-and-connect/>
         </v-card-text>
       </v-card>
@@ -29,6 +29,7 @@
 <script>
   import Configure from '@/components/Setup/Configure'
   import TestAndConnect from '@/components/Setup/TestAndConnect'
+  import { SHOW_CORS_HINT } from '@/consts'
 
   export default {
     name: 'setup',
@@ -38,7 +39,7 @@
     },
     setup () {
       return {
-        enableCorsHint: process.env.VUE_APP_DISABLE_CORS_HINT !== 'true'
+        SHOW_CORS_HINT
       }
     }
   }

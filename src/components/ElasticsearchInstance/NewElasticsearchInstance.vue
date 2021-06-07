@@ -1,14 +1,9 @@
 <template>
   <v-dialog v-model="dialog" class="theme--dark" width="800">
     <template v-slot:activator="{ on, attrs }">
-      <v-list-item id="add_new_instance" v-bind="attrs" v-on="on" aria-label="Add elasticsearch instance" ripple>
-        <v-list-item-action>
-          <v-icon>mdi-plus</v-icon>
-        </v-list-item-action>
-        <v-list-item-content>
-          <v-list-item-title>Add elasticsearch instance</v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
+      <v-btn id="add_new_instance" v-bind="attrs" v-on="on" color="primary">
+        Add cluster
+      </v-btn>
     </template>
     <v-card>
       <v-card-title class="text-h5">
@@ -22,7 +17,7 @@
 
       <v-divider/>
 
-      <v-card-text v-if="enableCorsHint">
+      <v-card-text v-if="SHOW_CORS_HINT">
         <h2 class="text-h6 my-4">1. Configure</h2>
         <v-expand-transition>
           <configure v-if="configureHintVisible"/>
@@ -36,13 +31,14 @@
       <v-divider/>
 
       <v-card-text>
-        <h2 v-if="enableCorsHint" class="text-h6 my-4">2. Connect</h2>
+        <h2 v-if="SHOW_CORS_HINT" class="text-h6 my-4">2. Connect</h2>
         <v-form ref="form" v-model="formValid" lazy-validation @submit.prevent="testConnection">
 
           <v-text-field v-if="dialog"
                         id="new_instance_name"
                         v-model="elasticsearchHost.name"
                         :rules="[validName]"
+                        class="mb-2"
                         append-icon="mdi-close"
                         autocomplete="off"
                         autofocus
@@ -52,36 +48,40 @@
                         @keyup.ctrl.enter="connectCluster"
                         @click:append="elasticsearchHost.name = ''"/>
 
-          <v-row>
-            <v-col cols="12" md="6">
-              <v-text-field v-model="elasticsearchHost.username"
-                            label="Username"
-                            title="Username"
-                            type="text"/>
-            </v-col>
-            <v-col cols="12" md="6">
-              <v-text-field v-model="elasticsearchHost.password"
-                            :append-icon="passwordVisible ? 'mdi-eye' : 'mdi-eye-off'"
-                            :type="passwordVisible ? 'text' : 'password'"
-                            autocomplete="off"
-                            label="Password"
-                            title="Password"
-                            @click:append="passwordVisible = !passwordVisible"/>
-            </v-col>
-          </v-row>
+          <div class="mb-4">
+            <v-row>
+              <v-col cols="12" md="6">
+                <v-text-field v-model="elasticsearchHost.username"
+                              label="Username (optional)"
+                              title="Username"
+                              type="text"/>
+              </v-col>
+              <v-col cols="12" md="6">
+                <v-text-field v-model="elasticsearchHost.password"
+                              :append-icon="passwordVisible ? 'mdi-eye' : 'mdi-eye-off'"
+                              :type="passwordVisible ? 'text' : 'password'"
+                              autocomplete="off"
+                              label="Password  (optional)"
+                              title="Password"
+                              @click:append="passwordVisible = !passwordVisible"/>
+              </v-col>
+            </v-row>
+            <authorization-header-hint v-if="SHOW_CORS_HINT && elasticsearchHost.username"/>
+          </div>
 
-          <v-text-field v-if="dialog"
-                        id="new_instance_uri"
-                        v-model="elasticsearchHost.uri"
-                        :rules="[validUri]"
-                        append-icon="mdi-close"
-                        label="Uri"
-                        name="uri"
-                        required
-                        @keyup.ctrl.enter="connectCluster"
-                        @click:append="elasticsearchHost.uri = ''"/>
-
-          <ssl-hint v-if="usesSSL"/>
+          <div class="mb-4">
+            <v-text-field v-if="dialog"
+                          id="new_instance_uri"
+                          v-model="elasticsearchHost.uri"
+                          :rules="[validUri]"
+                          append-icon="mdi-close"
+                          label="Uri"
+                          name="uri"
+                          required
+                          @keyup.ctrl.enter="connectCluster"
+                          @click:append="elasticsearchHost.uri = ''"/>
+            <ssl-hint v-if="usesSSL"/>
+          </div>
 
           <v-alert :value="hasError" type="error">
             Could not connect. Please make sure that
@@ -129,13 +129,15 @@
   import { vuexAccessors } from '@/helpers/store'
   import { computed, ref } from '@vue/composition-api'
   import { useTestConnection } from '@/mixins/TestConnection'
-  import { BASE_URI } from '@/consts'
+  import { BASE_URI, SHOW_CORS_HINT } from '@/consts'
   import Configure from '@/components/Setup/Configure'
   import SslHint from '@/components/shared/SslHint'
+  import AuthorizationHeaderHint from '@/components/shared/AuthorizationHeaderHint'
 
   export default {
     name: 'elasticsearch-instance',
     components: {
+      AuthorizationHeaderHint,
       Configure,
       SslHint
     },
@@ -196,7 +198,7 @@
         passwordVisible,
         configureHintVisible,
         usesSSL,
-        enableCorsHint: process.env.VUE_APP_DISABLE_CORS_HINT !== 'true'
+        SHOW_CORS_HINT
       }
     }
   }

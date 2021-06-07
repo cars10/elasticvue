@@ -6,6 +6,7 @@
 
 * Adds icons for first/last page in all tables
 * Adds "uncheck" button to deselect all columns in search table
+* Adds additional hint to set `http.cors.allow-headers` when adding a cluster that uses authorization
 
 ## 0.34.0
 
