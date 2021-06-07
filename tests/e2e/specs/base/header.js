@@ -10,9 +10,8 @@ describe('Header', () => {
 
     it('can open the instance selection menu', () => {
       cy.get('#instance_selection_toggle').click()
-      cy.get('#instance_selection').should('contain', 'Add elasticsearch instance')
-      cy.get('#instance_selection').should('contain', 'local')
-      cy.get('#instance_selection').should('contain', 'http://localhost:' + Cypress.env('ES_PORT').toString())
+      cy.get('#elasticsearch-clusters').should('contain', 'local')
+      cy.get('#elasticsearch-clusters').should('contain', 'http://localhost:' + Cypress.env('ES_PORT').toString())
     })
 
     it('can delete the last instance', () => {
@@ -25,7 +24,6 @@ describe('Header', () => {
 
     it('can add new instances', () => {
       cy.get('#instance_selection_toggle').click()
-      cy.get('#instance_selection').should('contain', 'Add elasticsearch instance')
       cy.get('#add_new_instance').click()
       cy.get('#new_instance_uri').clear()
       cy.get('#new_instance_uri').type('http://localhost:' + Cypress.env('ES_PORT').toString())
@@ -41,7 +39,6 @@ describe('Header', () => {
     it('can add new instances with custom name', () => {
       const name = 'custom-cluster'
       cy.get('#instance_selection_toggle').click()
-      cy.get('#instance_selection').should('contain', 'Add elasticsearch instance')
       cy.get('#add_new_instance').click()
       cy.get('#new_instance_name').clear()
       cy.get('#new_instance_name').type(name)

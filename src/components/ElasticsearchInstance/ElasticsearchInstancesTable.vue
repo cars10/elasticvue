@@ -20,7 +20,9 @@
       </v-row>
     </v-container>
 
-    <v-data-table dense :items="instances"
+    <v-data-table id="elasticsearch-clusters"
+                  dense
+                  :items="instances"
                   :footer-props="{itemsPerPageOptions: DEFAULT_ITEMS_PER_PAGE, showFirstLastPage: true}"
                   :headers="headers"
                   :search="filter">
