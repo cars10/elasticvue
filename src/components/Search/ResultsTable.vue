@@ -29,7 +29,7 @@
                   :server-items-length="totalHits"
                   class="table--condensed table--fixed-header">
       <template v-slot:item="item">
-        <result :document="item.item" :filtered-columns="filteredColumns" @openDocument="openDocument"/>
+        <result :doc="item.item" :filtered-columns="filteredColumns" @openDocument="openDocument"/>
       </template>
 
       <template slot="no-data">

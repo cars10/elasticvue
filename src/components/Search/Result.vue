@@ -1,15 +1,15 @@
 <template>
-  <tr class="tr--clickable" @click="openDocument">
+  <tr class="tr--clickable" @click.exact="openDoc" @click.ctrl.prevent="openDocNewTab">
     <td v-for="key in filteredColumns" :key="key">
-      <template v-if="key === '_type'">{{ document[key] || '_doc' }}</template>
-      <template v-else>{{ renderValue(document[key]) }}</template>
+      <template v-if="key === '_type'">{{ doc[key] || '_doc' }}</template>
+      <template v-else>{{ renderValue(doc[key]) }}</template>
     </td>
     <td>
       <router-link :class="classes"
-                   :to="{name: 'Document', params: { index: document._index, type: document._type, id: document._id }}"
+                   :to="{name: 'Document', params: { index: doc._index, type: doc._type, id: doc._id }}"
                    event=""
                    title="Show"
-                   @click.native.prevent="openDocument">
+                   @click.native.prevent="openDoc">
         <div class="v-btn__content">
           Show
         </div>
@@ -30,7 +30,7 @@
         default: () => ([]),
         type: Array
       },
-      document: {
+      doc: {
         default: () => ({}),
         type: Object
       }
@@ -45,12 +45,20 @@
         ]
       })
 
-      const openDocument = () => {
+      const openDoc = () => {
         context.emit('openDocument', {
-          index: props.document._index,
-          type: props.document._type,
-          id: props.document._id
+          index: props.doc._index,
+          type: props.doc._type,
+          id: props.doc._id
         })
+      }
+
+      const openDocNewTab = () => {
+        const url = context.root.$router.resolve({
+          name: 'Document',
+          params: { index: props.doc._index, type: props.doc._type, id: props.doc._id }
+        }).href
+        window.open(url, '_blank')
       }
 
       const renderValue = value => {
@@ -63,8 +71,9 @@
 
       return {
         classes,
-        openDocument,
-        renderValue
+        openDoc,
+        renderValue,
+        openDocNewTab
       }
     }
   }
