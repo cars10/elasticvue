@@ -20,7 +20,9 @@
         </v-btn>
       </template>
 
-      <elasticsearch-instances-table/>
+      <v-card>
+        <elasticsearch-instances-table/>
+      </v-card>
     </v-menu>
   </div>
 </template>
