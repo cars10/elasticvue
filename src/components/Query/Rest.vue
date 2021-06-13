@@ -1,5 +1,7 @@
 <template>
   <div>
+    <rest-query-history class="mb-8"/>
+
     <v-form @submit.prevent="loadData">
       <v-row>
         <v-col lg="2" sm="3" xl="1">
@@ -84,11 +86,13 @@
   import { computed, ref } from '@vue/composition-api'
   import { showErrorSnackbar } from '@/mixins/ShowSnackbar'
   import { parseJsonBigInt } from '@/helpers/json_parse'
+  import RestQueryHistory from '@/components/Query/RestQueryHistory'
 
   export default {
     name: 'rest',
     components: {
       PrintPretty,
+      RestQueryHistory,
       ResizableContainer,
       'code-editor': () => ({
         component: import(/* webpackChunkName: "code-editor" */ '@/components/shared/CodeEditor')
