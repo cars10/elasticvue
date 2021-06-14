@@ -2,6 +2,15 @@
 
 *Please check the [releases](https://github.com/cars10/elasticvue/releases) page if you need version release dates.*
 
+## 0.35.0
+
+* Reworks saved cluster selection to table (with pagination and filter) to improve support for users with 10+ clusters
+* Can open documents in new tab by using `ctrl`+`click`. Standalone click will still open document in modal. Please
+  report if this does not work on macOS.
+* Adds icons for first/last page in all tables
+* Adds "uncheck" button to deselect all columns in search table
+* Adds additional hint to set `http.cors.allow-headers` when adding a cluster that uses authorization
+
 ## 0.34.0
 
 * Use `json-bigint` to parse responses, fixes [#52][i52]. This adds support for displaying numbers bigger

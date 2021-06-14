@@ -19,7 +19,7 @@
 </template>
 
 <script>
-  import { compositionVuexAccessors } from '@/helpers/store'
+  import { vuexAccessors } from '@/helpers/store'
 
   export default {
     name: 'snackbar',
@@ -30,7 +30,7 @@
         timeout,
         color,
         visible
-      } = compositionVuexAccessors('snackbar', ['text', 'additionalText', 'timeout', 'color', 'visible'])
+      } = vuexAccessors('snackbar', ['text', 'additionalText', 'timeout', 'color', 'visible'])
 
       const copy = () => {
         navigator.clipboard.writeText(additionalText.value)

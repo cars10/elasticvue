@@ -9,7 +9,7 @@
 
     <v-card-text>
       <loader :request-state="requestState">
-        <print-pretty :caption="caption" :document="data"/>
+        <print-pretty :caption="caption" :document="data" :initial-height="800"/>
       </loader>
     </v-card-text>
   </v-card>
@@ -45,7 +45,7 @@
       const caption = computed(() => {
         const routeParams = context.root.$route.params
         const docType = routeParams.type || '_doc'
-        return `routeParams/${docType}/routeParams`
+        return `${routeParams.index}/${docType}/${routeParams.id}`
       })
 
       return {

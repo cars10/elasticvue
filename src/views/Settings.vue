@@ -35,7 +35,7 @@
 <script>
   import ImportExportSettings from '@/components/Utilities/ImportExportSettings'
   import ChangeTheme from '@/components/shared/ChangeTheme'
-  import { compositionVuexAccessors } from '@/helpers/store'
+  import { vuexAccessors } from '@/helpers/store'
 
   export default {
     name: 'settings',
@@ -44,7 +44,7 @@
       ImportExportSettings
     },
     setup () {
-      const { hideIndicesRegex } = compositionVuexAccessors('indices', ['hideIndicesRegex'])
+      const { hideIndicesRegex } = vuexAccessors('indices', ['hideIndicesRegex'])
       return {
         hideIndicesRegex
       }

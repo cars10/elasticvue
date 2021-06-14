@@ -2,7 +2,7 @@ import { capitalize } from './'
 import { computed } from '@vue/composition-api'
 import store from '@/store'
 
-export const compositionVuexAccessors = function (namespace, states) {
+export const vuexAccessors = function (namespace, states) {
   const methods = {}
 
   states.forEach(function (key) {

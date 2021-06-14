@@ -80,7 +80,7 @@
   import PrintPretty from '@/components/shared/PrintPretty'
   import { HTTP_METHODS, REQUEST_DEFAULT_HEADERS } from '@/consts'
   import { buildFetchAuthHeader } from '@/helpers'
-  import { compositionVuexAccessors } from '@/helpers/store'
+  import { vuexAccessors } from '@/helpers/store'
   import { computed, ref } from '@vue/composition-api'
   import { showErrorSnackbar } from '@/mixins/ShowSnackbar'
   import { parseJsonBigInt } from '@/helpers/json_parse'
@@ -100,7 +100,7 @@
         path,
         requestBody,
         vertical
-      } = compositionVuexAccessors('queryRest', ['method', 'path', 'requestBody', 'vertical'])
+      } = vuexAccessors('queryRest', ['method', 'path', 'requestBody', 'vertical'])
       const loading = ref(false)
       const responseBody = ref({})
       const responseCode = ref(null)

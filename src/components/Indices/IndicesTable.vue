@@ -26,7 +26,7 @@
       </v-row>
     </v-card-text>
 
-    <v-data-table :footer-props="{itemsPerPageOptions: DEFAULT_ITEMS_PER_PAGE}"
+    <v-data-table :footer-props="{itemsPerPageOptions: DEFAULT_ITEMS_PER_PAGE, showFirstLastPage: true}"
                   :headers="HEADERS"
                   :items="items"
                   :loading="loading"
@@ -44,7 +44,7 @@
   import NewIndex from '@/components/Indices/NewIndex'
   import ElasticsearchIndex from '@/models/ElasticsearchIndex'
   import { DEFAULT_ITEMS_PER_PAGE } from '@/consts'
-  import { compositionVuexAccessors } from '@/helpers/store'
+  import { vuexAccessors } from '@/helpers/store'
   import { ref, watch } from '@vue/composition-api'
   import { useAsyncFilter } from '@/mixins/UseAsyncTableFilter'
   import { debounce } from '@/helpers'
@@ -71,7 +71,7 @@
         options,
         showHiddenIndices,
         hideIndicesRegex
-      } = compositionVuexAccessors('indices', ['filter', 'options', 'showHiddenIndices', 'hideIndicesRegex'])
+      } = vuexAccessors('indices', ['filter', 'options', 'showHiddenIndices', 'hideIndicesRegex'])
 
       const HEADERS = [
         { text: 'Name', value: 'index' },

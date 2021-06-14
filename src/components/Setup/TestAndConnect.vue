@@ -1,24 +1,27 @@
 <template>
   <div>
     <v-form v-model="formValid" @submit.prevent="testConnection">
-      <v-row>
-        <v-col cols="12" md="6">
-          <v-text-field v-model="elasticsearchHost.username"
-                        autofocus
-                        label="Username"
-                        title="Username"
-                        type="text"/>
-        </v-col>
-        <v-col cols="12" md="6">
-          <v-text-field v-model="elasticsearchHost.password"
-                        :append-icon="passwordVisible ? 'mdi-eye' : 'mdi-eye-off'"
-                        :type="passwordVisible ? 'text' : 'password'"
-                        autocomplete="off"
-                        label="Password"
-                        title="Password"
-                        @click:append="passwordVisible = !passwordVisible"/>
-        </v-col>
-      </v-row>
+      <div class="mb-4">
+        <v-row>
+          <v-col cols="12" md="6">
+            <v-text-field v-model="elasticsearchHost.username"
+                          autofocus
+                          label="Username (optional)"
+                          title="Username"
+                          type="text"/>
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-text-field v-model="elasticsearchHost.password"
+                          :append-icon="passwordVisible ? 'mdi-eye' : 'mdi-eye-off'"
+                          :type="passwordVisible ? 'text' : 'password'"
+                          autocomplete="off"
+                          label="Password (optional)"
+                          title="Password"
+                          @click:append="passwordVisible = !passwordVisible"/>
+          </v-col>
+        </v-row>
+        <authorization-header-hint v-if="SHOW_CORS_HINT && elasticsearchHost.username"/>
+      </div>
 
       <v-text-field id="host"
                     v-model="elasticsearchHost.uri"
@@ -79,10 +82,13 @@
   import { computed, ref } from '@vue/composition-api'
   import { showSuccessSnackbar } from '@/mixins/ShowSnackbar'
   import SslHint from '@/components/shared/SslHint'
+  import AuthorizationHeaderHint from '@/components/shared/AuthorizationHeaderHint'
+  import { SHOW_CORS_HINT } from '@/consts'
 
   export default {
     name: 'test-and-connect',
     components: {
+      AuthorizationHeaderHint,
       SslHint
     },
     setup (props, context) {
@@ -127,7 +133,8 @@
         testState,
         formValid,
         passwordVisible,
-        usesSSL
+        usesSSL,
+        SHOW_CORS_HINT
       }
     }
   }

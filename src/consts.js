@@ -41,3 +41,5 @@ export const DEFAULT_ELASTICSEARCH_HOST = {
   uri: DEFAULT_HOST,
   status: CONNECTION_STATES.UNKNOWN
 }
+
+export const SHOW_CORS_HINT = process.env.VUE_APP_DISABLE_CORS_HINT !== 'true'

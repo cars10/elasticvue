@@ -54,7 +54,7 @@
 <script>
   import BtnGroup from '@/components/shared/BtnGroup'
   import { computed, ref } from '@vue/composition-api'
-  import { compositionVuexAccessors } from '@/helpers/store'
+  import { vuexAccessors } from '@/helpers/store'
 
   export default {
     name: 'index-select',
@@ -76,7 +76,7 @@
       }
     },
     setup (props, context) {
-      const { hideIndicesRegex } = compositionVuexAccessors('indices', ['hideIndicesRegex'])
+      const { hideIndicesRegex } = vuexAccessors('indices', ['hideIndicesRegex'])
       const showHidden = ref(true)
       const localValue = computed({
         get () {

@@ -8,6 +8,7 @@ const puppeteer = require('puppeteer');
 
   await connectWithServer(page)
   await removeSnackbar(page)
+  await page.click('i.mdi-close-circle')
 
   await page.click('#theme_select')
   await page.waitForTimeout(500)

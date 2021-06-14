@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-data-table :footer-props="{itemsPerPageOptions: DEFAULT_ITEMS_PER_PAGE}"
+    <v-data-table :footer-props="{itemsPerPageOptions: DEFAULT_ITEMS_PER_PAGE, showFirstLastPage: true}"
                   :headers="HEADERS"
                   :items="items"
                   :loading="loading"
@@ -66,7 +66,7 @@
 <script>
   import NodeIcons from '@/components/Nodes/NodeIcons'
   import NodePercentBar from '@/components/Nodes/NodePercentBar'
-  import { compositionVuexAccessors } from '@/helpers/store'
+  import { vuexAccessors } from '@/helpers/store'
   import { DEFAULT_ITEMS_PER_PAGE } from '@/consts'
 
   export default {
@@ -88,7 +88,7 @@
       }
     },
     setup () {
-      const { filter, pagination } = compositionVuexAccessors('nodes', ['filter', 'pagination'])
+      const { filter, pagination } = vuexAccessors('nodes', ['filter', 'pagination'])
 
       const HEADERS = [
         { text: 'status', value: '', sortable: false },

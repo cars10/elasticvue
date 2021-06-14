@@ -87,7 +87,7 @@
   import IndexFilter from '@/components/shared/IndexFilter'
   import ResizableContainer from '@/components/shared/ResizableContainer'
   import ResultsTable from '@/components/Search/ResultsTable'
-  import { compositionVuexAccessors } from '@/helpers/store'
+  import { vuexAccessors } from '@/helpers/store'
   import { debounce } from '@/helpers'
   import { useElasticsearchRequest } from '@/mixins/RequestComposition'
   import { DEFAULT_SEARCH_QUERY } from '@/consts'
@@ -109,7 +109,7 @@
         searchQuery,
         searchQueryCollapsed,
         options
-      } = compositionVuexAccessors('search', ['q', 'indices', 'searchQuery', 'options', 'searchQueryCollapsed'])
+      } = vuexAccessors('search', ['q', 'indices', 'searchQuery', 'options', 'searchQueryCollapsed'])
       const resetQuery = () => (q.value = '*')
       const resetSearchQuery = () => {
         searchQuery.value = DEFAULT_SEARCH_QUERY

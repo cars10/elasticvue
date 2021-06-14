@@ -21,7 +21,7 @@
       </div>
     </v-card-text>
 
-    <v-data-table :footer-props="{itemsPerPageOptions: [10, 20, 100, 1000, 10000]}"
+    <v-data-table :footer-props="{itemsPerPageOptions: [10, 20, 100, 1000, 10000], showFirstLastPage: true}"
                   :headers="filteredHeaders"
                   :items="filteredItems"
                   :loading="loading || filterLoading"
@@ -29,7 +29,7 @@
                   :server-items-length="totalHits"
                   class="table--condensed table--fixed-header">
       <template v-slot:item="item">
-        <result :document="item.item" :filtered-columns="filteredColumns" @openDocument="openDocument"/>
+        <result :doc="item.item" :filtered-columns="filteredColumns" @openDocument="openDocument"/>
       </template>
 
       <template slot="no-data">
@@ -49,7 +49,7 @@
   import ModalDataLoader from '@/components/shared/ModalDataLoader'
   import Results from '@/models/Results'
   import Result from '@/components/Search/Result'
-  import { compositionVuexAccessors } from '@/helpers/store'
+  import { vuexAccessors } from '@/helpers/store'
   import { useAsyncFilter } from '@/mixins/UseAsyncTableFilter'
   import { debounce, sortableField } from '@/helpers'
   import { computed, ref, watch } from '@vue/composition-api'
@@ -84,7 +84,7 @@
         options,
         selectedColumns,
         columns
-      } = compositionVuexAccessors('search', ['q', 'filter', 'options', 'selectedColumns', 'columns'])
+      } = vuexAccessors('search', ['q', 'filter', 'options', 'selectedColumns', 'columns'])
       const { filterLoading, asyncFilterTable } = useAsyncFilter()
 
       const hits = computed(() => {

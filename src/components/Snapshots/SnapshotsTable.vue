@@ -1,5 +1,5 @@
 <template>
-  <v-data-table :footer-props="{itemsPerPageOptions: DEFAULT_ITEMS_PER_PAGE}"
+  <v-data-table :footer-props="{itemsPerPageOptions: DEFAULT_ITEMS_PER_PAGE, showFirstLastPage: true}"
                 :headers="HEADERS"
                 :items="items"
                 :loading="loading"
@@ -27,7 +27,7 @@
 
 <script>
   import { DEFAULT_ITEMS_PER_PAGE } from '@/consts'
-  import { compositionVuexAccessors } from '@/helpers/store'
+  import { vuexAccessors } from '@/helpers/store'
   import { computed } from '@vue/composition-api'
   import Snapshot from '@/components/Snapshots/Snapshot'
   import { filterItems } from '@/helpers/filters'
@@ -58,7 +58,7 @@
       }
     },
     setup (props, context) {
-      const { pagination } = compositionVuexAccessors('snapshots', ['pagination'])
+      const { pagination } = vuexAccessors('snapshots', ['pagination'])
       const HEADERS = [
         { text: 'id', value: 'id' },
         { text: 'status', value: 'status' },
