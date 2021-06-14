@@ -11,13 +11,10 @@
 
         <v-row>
           <v-col>
-            <v-data-table :items="localHistory"
-                          :headers="['id','method', 'url', 'date', '',''].map(a => ({text: a, value: a}))">
+            <v-data-table :items="localHistory" dense :headers="HEADERS">
               <template v-slot:item="{ item }">
-                <tr class="tr--clickable" @click="setHist(item)">
-                  <td>{{ item.id }}</td>
-                  <td>{{ item.method }}</td>
-                  <td>{{ item.url }}</td>
+                <tr class="tr--clickable" @click="setHist(item)" title="Click to preview request body">
+                  <td>{{ item.method }} {{ item.url }}</td>
                   <td>{{ item.date.toISOString() }}</td>
                   <td>
                     <v-btn icon title="Apply">
@@ -72,6 +69,12 @@
         })
       })
 
+      const HEADERS = [
+        { text: 'Query', sortable: false },
+        { text: 'Date', value: 'date' },
+        { text: '', sortable: false },
+        { text: '', sortable: false }
+      ]
       const historyCollapsed = ref(true)
       const setHist = hist => {
         selectedHistory.value = hist
@@ -82,7 +85,8 @@
         loading,
         localHistory,
         selectedHistory,
-        setHist
+        setHist,
+        HEADERS
       }
     }
   }
