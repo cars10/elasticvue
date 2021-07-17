@@ -134,9 +134,15 @@ server {
 }
 ```
 
-
 See the [official vuejs deployment guide](https://cli.vuejs.org/guide/deployment.html#docker-nginx) for more details.
 
+**Run as macOS app**
+
+* Checkout the repo `git clone https://github.com/cars10/elasticvue.git`
+* Open the folder `cd elasticvue`
+* Install dependencies `yarn install`
+* Run a dev server `yarn electron:serve`
+* Or build a macOS app `yarn electron:build`, then install dmg form `dist_electron` folder
 
 ### Elasticsearch configuration
 
