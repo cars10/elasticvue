@@ -22,5 +22,15 @@ module.exports = {
       args[0].VERSION = JSON.stringify(process.env.npm_package_version)
       return args
     })
+  },
+  pluginOptions: {
+    electronBuilder: {
+      builderOptions: {
+        appId: 'com.qiwihui.elasticvue',
+        mac: {
+          icon: 'public/images/icons/icon.icns'
+        }
+      }
+    }
   }
 }
