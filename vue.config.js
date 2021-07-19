@@ -5,9 +5,11 @@ module.exports = {
   assetsDir: 'assets',
   productionSourceMap: false,
   lintOnSave: false,
+
   devServer: {
     disableHostCheck: true
   },
+
   configureWebpack: {
     performance: {
       maxEntrypointSize: 768000,
@@ -17,10 +19,20 @@ module.exports = {
       new VuetifyLoaderPlugin()
     ]
   },
+
   chainWebpack: config => {
     config.plugin('define').tap(args => {
       args[0].VERSION = JSON.stringify(process.env.npm_package_version)
       return args
     })
+  },
+
+  pluginOptions: {
+    i18n: {
+      locale: 'en',
+      fallbackLocale: 'en',
+      localeDir: 'locales',
+      enableInSFC: false
+    }
   }
 }
