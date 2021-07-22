@@ -1,6 +1,6 @@
 <template>
   <v-switch id="theme_select" v-model="dark" class="mt-0 mb-2 pt-0" color="primary-button" hide-details
-            label="Dark theme"/>
+            :label="$t('change-theme.dark-mode')"/>
 </template>
 
 <script>

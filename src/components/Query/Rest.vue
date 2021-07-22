@@ -6,7 +6,7 @@
           <v-select v-model="method"
                     :items="HTTP_METHODS"
                     hide-details
-                    label="HTTP Method"
+                    :label="$t('rest.http-method')"
                     name="http_method"/>
         </v-col>
         <v-col lg="10" sm="9" xl="11">
@@ -14,7 +14,7 @@
                         v-model="path"
                         autofocus
                         hide-details
-                        label="Path"
+                        :label="$t('rest.path')"
                         name="path"
                         placeholder="/"/>
         </v-col>
@@ -22,7 +22,7 @@
 
       <v-row>
         <v-col :md="vertical ? 12 : 6" cols="12">
-          <h4 class="pb-1">Request body <span v-if="!canSendBody">(disabled)</span></h4>
+          <h4 class="pb-1">{{ $t('rest.request-body') }} <span v-if="!canSendBody">({{ $t('rest.disabled') }})</span></h4>
           <resizable-container v-if="canSendBody" ref="query_body"
                                :initial-height="vertical ? 200 : 500"
                                class="mb-4">
@@ -33,13 +33,12 @@
             <div :style="vertical ? 'height: 200px' : 'height: 500px'" class="mb-4">
               <v-alert :value="true" class="request-body-disabled-hint">
                 <p>
-                  You cannot send a request body via {{ method }}.<br>
-                  Please
-                  <button class="btn-link" type="button" @click="method = 'POST'">use POST</button>
-                  if you want to send a request body, alternatively add query parameters to the url.
+                  {{ $t('rest.hint-part-1', {method: method}) }}
+                  <button class="btn-link" type="button" @click="method = 'POST'">{{ $t('rest.hint-part-2') }}</button>
+                  {{ $t('rest.hint-part-3') }}
                 </p>
                 <p class="mb-0">
-                  You can use POST to search with the _search endpoint.
+                  {{ $t('rest.hint-part-4') }}
                 </p>
               </v-alert>
             </div>
@@ -49,18 +48,18 @@
             <v-col :md="vertical ? 6 : 12" cols="12">
               <v-btn id="execute_query" :disabled="!formValid" :loading="loading" class="mx-0" color="primary-button"
                      type="submit">
-                Run query
+                {{ $t('rest.execute-query') }}
               </v-btn>
-              <button id="reset-form" type="button" class="btn-link ml-2" @click="resetForm">Reset form</button>
+              <button id="reset-form" type="button" class="btn-link ml-2" @click="resetForm">{{ $t('rest.reset-form') }}</button>
             </v-col>
             <v-col :class="vertical ? 'text-right' : ''" :md="vertical ? 6 : 12" cols="12">
-              <button id="example-1" type="button" class="btn-link" @click="loadCatExample">Example #1 (_cat/indices)
+              <button id="example-1" type="button" class="btn-link" @click="loadCatExample">{{ $t('rest.example-1') }}
               </button>
               <button id="example-2" type="button" class="btn-link ml-2" @click="loadCreateExample">
-                Example #2 (create index)
+                {{ $t('rest.example-2') }}
               </button>
               <button id="example-3" type="button" class="btn-link ml-2" @click="loadDeleteExample">
-                Example #3 (delete index)
+                {{ $t('rest.example-3') }}
               </button>
             </v-col>
           </v-row>
@@ -76,6 +75,7 @@
 
 <script>
   import store from '@/store'
+  import i18n from '@/i18n'
   import ResizableContainer from '@/components/shared/ResizableContainer'
   import PrintPretty from '@/components/shared/PrintPretty'
   import { HTTP_METHODS, REQUEST_DEFAULT_HEADERS } from '@/consts'
@@ -106,9 +106,9 @@
       const responseCode = ref(null)
       const responseCaption = computed(() => {
         if (responseCode.value) {
-          return `Result (Statuscode: ${responseCode.value})`
+          return i18n.t('rest.result-code', {code: responseCode.value})
         } else {
-          return 'Result'
+          return i18n.t('rest.result')
         }
       })
 

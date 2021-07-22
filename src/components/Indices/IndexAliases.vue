@@ -6,7 +6,7 @@
           <v-icon small>mdi-at</v-icon>
         </v-list-item-action>
         <v-list-item-content>
-          <v-list-item-title>Aliases</v-list-item-title>
+          <v-list-item-title>{{ $t('indices.row.aliases') }}</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
     </template>

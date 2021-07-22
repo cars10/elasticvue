@@ -3,14 +3,14 @@
     <v-col lg="10" offset-lg="1" offset-xl="2" xl="8">
       <v-card>
         <v-card-title>
-          <h1 class="text-h5">Setup</h1>
+          <h1 class="text-h5">{{ $t('setup.setup') }}</h1>
         </v-card-title>
 
         <v-divider/>
 
         <template v-if="SHOW_CORS_HINT">
           <v-card-text>
-            <h2 class="text-h6 mb-2">1. Configure</h2>
+            <h2 class="text-h6 mb-2">{{ $t('setup.1-configure') }}</h2>
             <configure/>
           </v-card-text>
 
@@ -18,7 +18,7 @@
         </template>
 
         <v-card-text>
-          <h2 v-if="SHOW_CORS_HINT" class="text-h6 mb-1">2. Connect</h2>
+          <h2 v-if="SHOW_CORS_HINT" class="text-h6 mb-1">{{ $t('setup.2-connect') }}</h2>
           <test-and-connect/>
         </v-card-text>
       </v-card>

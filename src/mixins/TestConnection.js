@@ -3,6 +3,7 @@ import { DEFAULT_ELASTICSEARCH_HOST, DEFAULT_HOST, DEFAULT_NAME } from '@/consts
 import ElasticsearchAdapter from '@/services/ElasticsearchAdapter'
 import { DefaultClient } from '@/models/clients/DefaultClient'
 import store from '@/store'
+import i18n from '@/i18n'
 import { showSuccessSnackbar } from '@/mixins/ShowSnackbar'
 
 export const useTestConnection = () => {
@@ -61,8 +62,8 @@ export const useTestConnection = () => {
         testState.value.testError = false
         testState.value.connectError = false
         showSuccessSnackbar({
-          text: 'Success',
-          additionalText: 'You cluster is reachable and configured correctly.'
+          text: i18n.t('mixins.test-connection.success'),
+          additionalText: i18n.t('mixins.test-connection.cluster-reachable')
         })
       })
       .catch(e => {
@@ -70,7 +71,7 @@ export const useTestConnection = () => {
         testState.value.testSuccess = false
         testState.value.testError = true
         if (e instanceof TypeError) {
-          testState.value.errorMessage = 'Either your cluster is not reachable or you did not configure CORS correctly.'
+          testState.value.errorMessage = i18n.t('mixins.test-connection.cluster-not-reachable')
         } else {
           testState.value.errorMessage = e.message
         }

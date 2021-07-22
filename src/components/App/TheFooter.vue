@@ -3,15 +3,15 @@
     <v-row>
       <v-col cols="4">
         <change-theme/>
-        <button class="btn-link" type="button" @click="reset">Disconnect and reset</button>
+        <button class="btn-link" type="button" @click="reset">{{ $t("app-footer.disconnect-and-reset") }}</button>
       </v-col>
 
       <v-col class="text-center" cols="4">
         <div class="text-subtitle-1">
           Elasticvue {{ version }} |
           <a href="https://github.com/cars10/elasticvue/blob/master/CHANGELOG.md" rel="nofollow" target="_blank">
-            Changelog</a> |
-          <a href="https://elasticvue.com/survey" target="_blank" class="font-weight-bold">Survey</a>
+            {{ $t("app-footer.changelog") }}</a> |
+          <a href="https://elasticvue.com/survey" target="_blank" class="font-weight-bold">{{ $t("app-footer.survey") }}</a>
         </div>
         &copy;{{ new Date().getFullYear() }} - Carsten K&ouml;nig<br>
       </v-col>
@@ -19,7 +19,7 @@
       <v-col cols="4">
         <div class="text-right">
           <a href="https://github.com/cars10/elasticvue" rel="nofollow" target="_blank">Github</a><br>
-          <a href="https://elasticvue.com" rel="nofollow" target="_blank">Homepage</a>
+          <a href="https://elasticvue.com" rel="nofollow" target="_blank">{{ $t("app-footer.homepage") }}</a>
         </div>
       </v-col>
     </v-row>

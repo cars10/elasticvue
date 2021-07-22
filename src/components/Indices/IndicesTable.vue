@@ -8,7 +8,7 @@
         <v-col>
           <div class="d-inline-block float-right">
             <v-checkbox v-model="showHiddenIndices"
-                        label="Show hidden indices"
+                        :label="$t('indices.show-hidden-indices')"
                         class="d-inline-block mr-6 vertical-align--bottom"
                         hide-details/>
             <v-text-field id="filter"
@@ -17,7 +17,7 @@
                           autofocus
                           class="mt-0 pt-0 v-text-field--small"
                           hide-details
-                          label="Filter..."
+                          :label="$t('indices.filter')"
                           name="filter"
                           title="Filter via 'column:query'"
                           @keyup.esc="filter = ''"/>
@@ -43,6 +43,7 @@
   import IndexRow from '@/components/Indices/IndexRow'
   import NewIndex from '@/components/Indices/NewIndex'
   import ElasticsearchIndex from '@/models/ElasticsearchIndex'
+  import i18n from '@/i18n'
   import { DEFAULT_ITEMS_PER_PAGE } from '@/consts'
   import { vuexAccessors } from '@/helpers/store'
   import { ref, watch } from '@vue/composition-api'
@@ -74,14 +75,14 @@
       } = vuexAccessors('indices', ['filter', 'options', 'showHiddenIndices', 'hideIndicesRegex'])
 
       const HEADERS = [
-        { text: 'Name', value: 'index' },
-        { text: 'Health', value: 'health' },
-        { text: 'Status', value: 'status' },
-        { text: 'UUID', value: 'uuid' },
-        { text: 'Aliases', value: 'aliases', sortable: false },
-        { text: 'Shards', value: 'parsedPri', align: 'right' },
-        { text: 'Docs', value: 'parsedDocsCount', align: 'right' },
-        { text: 'Storage', value: 'parsedStoreSize', align: 'right' },
+        { text: i18n.t('indices.table.name'), value: 'index' },
+        { text: i18n.t('indices.table.health'), value: 'health' },
+        { text: i18n.t('indices.table.status'), value: 'status' },
+        { text: i18n.t('indices.table.uuid'), value: 'uuid' },
+        { text: i18n.t('indices.table.aliases'), value: 'aliases', sortable: false },
+        { text: i18n.t('indices.table.shards'), value: 'parsedPri', align: 'right' },
+        { text: i18n.t('indices.table.docs'), value: 'parsedDocsCount', align: 'right' },
+        { text: i18n.t('indices.table.storage'), value: 'parsedStoreSize', align: 'right' },
         { text: '', value: 'actions', sortable: false }
       ]
 

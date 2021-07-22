@@ -1,12 +1,12 @@
 <template>
   <v-dialog v-model="dialog" width="500">
     <template v-slot:activator="{on}">
-      <v-btn v-on="on" :disabled="!repository" class="ml-0" color="primary-button">New snapshot</v-btn>
+      <v-btn v-on="on" :disabled="!repository" class="ml-0" color="primary-button">{{ $t('snapshots.new-snapshot') }}</v-btn>
     </template>
 
     <v-card>
       <v-card-title>
-        <h2 class="text-h5">New snapshot</h2>
+        <h2 class="text-h5">{{ $t('snapshots.new-snapshot') }}</h2>
         <div class="ml-a">
           <v-btn icon title="Close" @click.native="closeDialog">
             <v-icon>mdi-close</v-icon>
@@ -20,7 +20,7 @@
           <v-text-field id="repository"
                         :value="repository"
                         disabled
-                        label="Repository"
+                        :label="$t('repository.repository')"
                         name="repository"/>
 
           <v-text-field v-if="dialog"
@@ -29,7 +29,7 @@
                         :rules="[nameRules]"
                         autocomplete="off"
                         autofocus
-                        label="Snapshot name"
+                        :label="$t('snapshots.snapshot-name')"
                         name="snapshotName"
                         required
                         @keyup.esc="closeDialog"/>
@@ -43,9 +43,9 @@
                  :loading="requestState.loading"
                  color="success"
                  type="submit">
-            Create
+            {{ $t('snapshots.create') }}
           </v-btn>
-          <v-btn text @click="closeDialog">Cancel</v-btn>
+          <v-btn text @click="closeDialog">{{ $t('snapshots.cancel') }}</v-btn>
         </v-card-actions>
       </v-form>
     </v-card>

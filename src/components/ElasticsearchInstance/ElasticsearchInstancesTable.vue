@@ -13,7 +13,7 @@
                           hide-details
                           autocomplete="off"
                           autofocus
-                          label="Filter..."
+                          :label="$t('es.table.filter')"
                           name="filter"/>
           </div>
         </v-col>
@@ -66,6 +66,7 @@
   import { vuexAccessors } from '@/helpers/store'
   import { BASE_URI, DEFAULT_ITEMS_PER_PAGE } from '@/consts'
   import { ref } from '@vue/composition-api'
+  import i18n from '@/i18n'
   import RenameElasticsearchInstance from '@/components/ElasticsearchInstance/RenameElasticsearchInstance'
   import NewElasticsearchInstance from '@/components/ElasticsearchInstance/NewElasticsearchInstance'
 
@@ -94,8 +95,8 @@
 
       const filter = ref('')
       const headers = [
-        { text: 'Cluster', value: 'name' },
-        { text: 'Uri', value: 'uri', sortable: false },
+        { text: i18n.t('es.table.cluster'), value: 'name' },
+        { text: i18n.t('es.table.uri'), value: 'uri', sortable: false },
         { text: '', sortable: false }
       ]
 

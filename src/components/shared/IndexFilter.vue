@@ -4,14 +4,14 @@
       <index-pattern v-model="localPattern"/>
     </template>
     <template slot="first-activator">
-      <button class="btn-link ml-2" type="button">use index pattern</button>
+      <button class="btn-link ml-2" type="button">{{ $t('shared.index-filter.use-index-pattern') }}</button>
     </template>
 
     <template slot="last">
       <index-select v-model="localIndices" :indices="indexNames" :loading="requestState.loading" @reload="load"/>
     </template>
     <template slot="last-activator">
-      <button class="btn-link ml-2" type="button">select indices</button>
+      <button class="btn-link ml-2" type="button">{{ $t('shared.index-filter.select-indices') }}</button>
     </template>
   </content-toggle>
 </template>

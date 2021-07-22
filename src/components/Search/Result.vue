@@ -8,10 +8,10 @@
       <router-link :class="classes"
                    :to="{name: 'Document', params: { index: doc._index, type: doc._type, id: doc._id }}"
                    event=""
-                   title="Show"
+                   :title="$t('search.result.show')"
                    @click.native.prevent="openDoc">
         <div class="v-btn__content">
-          Show
+          {{ $t('search.result.show') }}
         </div>
       </router-link>
     </td>

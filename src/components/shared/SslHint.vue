@@ -1,10 +1,9 @@
 <template>
   <p>
-    Your cluster uses ssl. Make sure that your browser trusts the certificate that you are using, otherwise you
-    will not be able to connect.
+    {{ $t('shared.ssl-hint.hint') }}
     <a aria-label="SSL Configuration help" href="https://github.com/cars10/elasticvue/wiki/Access-clusters-using-SSL"
        rel="nofollow"
-       target="_blank">Help</a>
+       target="_blank">{{ $t('shared.ssl-hint.help') }}</a>
   </p>
 </template>
 

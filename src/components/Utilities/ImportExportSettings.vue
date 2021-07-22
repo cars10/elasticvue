@@ -2,25 +2,23 @@
   <v-card class="mt-4">
     <v-card-title>
       <v-badge content="Beta" title="This is a beta feature and might not work as expected." color="orange">
-        Import/Export elasticvue data
+        {{ $t('settings.import-export.title', {app: 'elasticvue'}) }}
       </v-badge>
     </v-card-title>
 
     <v-divider/>
 
     <v-card-text>
-      <p>
-        You can import & export your elasticvue data as json.
-        This is <strong>not</strong> a backup of your clusters data, use snapshots if you need to backup your indices.
+      <p v-html="$t('settings.import-export.message', {app: 'elasticvue'})">
       </p>
 
       <v-row>
         <v-col cols="12" md="6" sm="12">
-          <h5 class="text-h6 mb-4">Export</h5>
+          <h5 class="text-h6 mb-4">{{ $t('settings.import-export.export') }}</h5>
           <div class="mb-4">
             <v-btn class="pl-1" small text @click="helpCollapsed = !helpCollapsed">
               <v-icon>{{ helpCollapsed ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-              Whats included?
+              {{ $t('settings.import-export.whats-included') }}
             </v-btn>
 
             <v-expand-transition>
@@ -39,20 +37,20 @@
           </div>
 
           <v-btn :href="storeDataUri" :download="downloadFilename" color="primary">
-            Download settings
+            {{ $t('settings.import-export.download-settings') }}
           </v-btn>
 
           <v-divider class="my-6"/>
 
-          <h5 class="text-h6">Import</h5>
+          <h5 class="text-h6">{{ $t('settings.import-export.import') }}</h5>
           <v-form @submit.prevent="importBackup">
             <v-file-input v-model="importFile"
                           show-size
                           truncate-length="30"
                           accept="application/json"
-                          placeholder="Select file..."/>
+                          :placeholder="$t('settings.import-export.select-file')"/>
             <p class="red--text">{{ errorMessage }}</p>
-            <v-btn color="primary" type="submit" :disabled="!valid">Import settings</v-btn>
+            <v-btn color="primary" type="submit" :disabled="!valid">{{ $t('settings.import-export.import-settings') }}</v-btn>
           </v-form>
         </v-col>
       </v-row>

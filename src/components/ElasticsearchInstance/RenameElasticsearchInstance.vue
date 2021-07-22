@@ -8,7 +8,7 @@
 
     <v-card>
       <v-card-title class="text-h5">
-        <h2 class="text-h5">Rename elasticsearch instance</h2>
+        <h2 class="text-h5">{{ $t('es.rename.rename-es-instance') }}</h2>
         <div class="ml-a">
           <v-btn icon title="Close" @click.native="closeDialog">
             <v-icon>mdi-close</v-icon>
@@ -24,19 +24,19 @@
                         :rules="[validName]"
                         autocomplete="off"
                         autofocus
-                        label="Cluster name"
+                        :label="$t('es.rename.cluster-name')"
                         name="name"
                         required/>
 
           <v-text-field :value="clusterUri"
                         disabled
-                        label="Uri"
+                        :label="$t('es.rename.uri')"
                         name="uri"/>
         </v-card-text>
 
         <v-card-actions class="pa-4">
-          <v-btn :disabled="!valid" class="mr-2" color="success" type="submit">Rename</v-btn>
-          <v-btn text @click="closeDialog">Cancel</v-btn>
+          <v-btn :disabled="!valid" class="mr-2" color="success" type="submit">{{ $t('es.rename.rename') }}</v-btn>
+          <v-btn text @click="closeDialog">{{ $t('es.rename.cancel') }}</v-btn>
         </v-card-actions>
       </v-form>
     </v-card>

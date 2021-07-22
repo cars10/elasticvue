@@ -13,7 +13,7 @@
                       :loading="repositoriesRequestState.loading"
                       class="pr-4 pt-0 mt-0"
                       hide-details
-                      label="Repository"
+                      :label="$t('snapshots.table.repository')"
                       name="repository"/>
             <v-text-field id="filter"
                           v-model="filter"
@@ -21,9 +21,9 @@
                           autofocus
                           class="mt-0 pt-0 v-text-field--small"
                           hide-details
-                          label="Filter id..."
+                          :label="$t('snapshots.table.filter')"
                           name="filter"
-                          title="Filter via 'column:query'"
+                          :title="$t('snapshots.table.filter-title')"
                           @keyup.esc="filter = ''"/>
           </div>
         </v-col>
@@ -35,7 +35,7 @@
                        :snapshots="snapshots || []" @reloadData="loadSnapshots"/>
     </loader>
     <div v-else class="text-center">
-      <v-alert class="d-inline-block" color="grey">Please select a repository first.</v-alert>
+      <v-alert class="d-inline-block" color="grey">{{ $t('snapshots.table.select-repo-first') }}</v-alert>
     </div>
   </div>
 </template>

@@ -9,7 +9,7 @@
                         append-icon="mdi-magnify"
                         class="mt-0 pt-0 v-text-field--small"
                         hide-details
-                        label="Filter *current* page..."
+                        :label="$t('search.table.filter')"
                         name="filter"
                         title="Filter via 'column:query'"
                         @keyup.esc="filter = ''"/>
@@ -33,8 +33,8 @@
       </template>
 
       <template slot="no-data">
-        <template v-if="filter !== ''"> No documents found that match your filter <i>{{ filter }}</i>.</template>
-        <template v-else>No documents found.</template>
+        <template v-if="filter !== ''"> {{ $t('search.table.no-document-found-match-filter') }} <i>{{ filter }}</i>.</template>
+        <template v-else>{{ $t('search.table.no-document-found') }}</template>
       </template>
 
       <v-progress-linear slot="progress" color="blue" indeterminate/>

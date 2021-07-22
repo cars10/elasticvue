@@ -4,10 +4,10 @@
       <v-subheader>
         {{ name }}
         <v-btn v-if="!unchecked" class="ml-a px-1 grey--text" small text @click.native="uncheckAll">
-          uncheck
+          {{ $t('shared.table-settings.uncheck') }}
         </v-btn>
         <v-btn v-if="hasChanges" class="ml-a px-1 grey--text" small text @click.native="reset">
-          reset
+          {{ $t('shared.table-settings.reset') }}
         </v-btn>
       </v-subheader>
     </slot>

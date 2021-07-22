@@ -1,12 +1,12 @@
 <template>
   <v-dialog v-model="dialog" width="500">
     <template v-slot:activator="{on}">
-      <v-btn id="new_index" v-on="on" class="ml-0" color="primary-button">New index</v-btn>
+      <v-btn id="new_index" v-on="on" class="ml-0" color="primary-button">{{ $t('indices.new-index') }}</v-btn>
     </template>
 
     <v-card>
       <v-card-title>
-        <h2 class="text-h5">New index</h2>
+        <h2 class="text-h5">{{ $t('indices.new-index') }}</h2>
         <div class="ml-a">
           <v-btn icon title="Close" @click.native="closeDialog">
             <v-icon>mdi-close</v-icon>
@@ -23,7 +23,7 @@
                         :rules="[nameValidation]"
                         autocomplete="off"
                         autofocus
-                        label="Index name"
+                        :label="$t('indices.index-name')"
                         name="indexName"
                         required
                         @keyup.esc="closeDialog"/>
@@ -31,7 +31,7 @@
           <v-text-field id="index_shards"
                         v-model="indexShards"
                         autocomplete="off"
-                        label="Number of shards"
+                        :label="$t('indices.number-of-shards')"
                         name="indexShards"
                         placeholder="1"
                         type="number"
@@ -40,7 +40,7 @@
           <v-text-field id="index_replicas"
                         v-model="indexReplicas"
                         autocomplete="off"
-                        label="Number of replicas"
+                        :label="$t('indices.number-of-replicas')"
                         name="indexReplicas"
                         placeholder="1"
                         type="number"
@@ -50,9 +50,9 @@
         <v-card-actions class="pa-4">
           <v-btn id="create_index" :disabled="requestState.loading || !valid" :loading="requestState.loading"
                  color="success"
-                 type="submit">Create
+                 type="submit">{{ $t('indices.create') }}
           </v-btn>
-          <v-btn text @click="closeDialog">Cancel</v-btn>
+          <v-btn text @click="closeDialog">{{ $t('indices.cancel') }}</v-btn>
         </v-card-actions>
       </v-form>
     </v-card>

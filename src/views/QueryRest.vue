@@ -4,13 +4,13 @@
       <v-row>
         <v-col>
           <h1 class="text-h5">
-            Rest
+            {{ $t('rest.title') }}
             <v-btn class="text-transform--none ml-2"
                    href="https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html"
                    small target="_blank"
                    text>
               <v-icon small>mdi-launch</v-icon>&nbsp;
-              api documentation
+              {{ $t('rest.api-documentation') }}
             </v-btn>
           </h1>
         </v-col>

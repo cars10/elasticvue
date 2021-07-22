@@ -3,7 +3,7 @@
     <v-col lg="8" offset-lg="2">
       <v-card>
         <v-card-title>
-          <h1 class="text-h5">Settings</h1>
+          <h1 class="text-h5">{{ $t("settings.title") }}</h1>
         </v-card-title>
         <v-divider/>
 
@@ -16,8 +16,8 @@
                             v-model="hideIndicesRegex"
                             append-icon="mdi-close"
                             autofocus
-                            label="Hide indices regex"
-                            messages="Indices matching this regex will be hidden by default on all placed where indices are listed">
+                            :label="$t('settings.hide-indices-regex')"
+                            :messages="$t('settings.hide-indices-regex-message')">
                 <template v-slot:message="{ message }">
                   <span v-html="message"/>
                 </template>

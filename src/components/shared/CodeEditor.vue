@@ -7,17 +7,17 @@
              class="vertical-align--top mr-2"
              small
              style="height: 32px"
-             title="Beautify (Ctrl+ALT+L)"
+             :title="$t('shared.code-editor.beautify')"
              @click="beautifyEditorValue(useSpaces)">
         <v-icon small>mdi-auto-fix</v-icon>
       </v-btn>
 
       <btn-group class="d-inline-block">
-        <v-btn :class="{'v-btn--active': useSpaces}" title="Change whitespace to 2 spaces instead of tabs"
+        <v-btn :class="{'v-btn--active': useSpaces}" :title="$t('shared.code-editor.whitespace-tabs')"
                @click="useSpaces = !useSpaces">
           <v-icon small>mdi-keyboard-space</v-icon>
         </v-btn>
-        <v-btn :class="wrapLines ? 'v-btn--active' : ''" title="Wrap lines" @click="wrapLines = !wrapLines">
+        <v-btn :class="wrapLines ? 'v-btn--active' : ''" :title="$t('shared.code-editor.wrap-lines')" @click="wrapLines = !wrapLines">
           <v-icon small>mdi-wrap</v-icon>
         </v-btn>
       </btn-group>

@@ -4,7 +4,7 @@
       <v-card-title class="clearfix">
         <v-row>
           <v-col cols="12" sm="6">
-            Nodes
+            {{ $t('nodes.title') }}
             <reload-button id="reload-nodes" :action="() => $emit('reloadNodes')"/>
           </v-col>
           <v-col cols="12" sm="6">
@@ -15,7 +15,7 @@
                             autofocus
                             class="mt-0 pt-0 v-text-field--small"
                             hide-details
-                            label="Filter..."
+                            :label="$t('nodes.filter')"
                             name="filter"
                             title="Filter via 'column:query'"
                             @keyup.esc="filter = ''"/>
@@ -27,11 +27,11 @@
 
     <v-btn-toggle v-model="listType" class="mb-4 v-btn-toggle--small" mandatory>
       <v-btn id="nodes_list_grid" text value="grid" @click="$emit('reloadNodes')">
-        <span>Grid</span>
+        <span>{{ $t('nodes.grid') }}</span>
         <v-icon small>mdi-view-dashboard</v-icon>
       </v-btn>
       <v-btn id="nodes_list_table" text value="table" @click="$emit('reloadNodes')">
-        <span>Table</span>
+        <span>{{ $t('nodes.table') }}</span>
         <v-icon small>mdi-table</v-icon>
       </v-btn>
     </v-btn-toggle>
