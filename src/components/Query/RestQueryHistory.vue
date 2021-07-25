@@ -116,7 +116,7 @@
         { text: 'Use', sortable: false },
         { text: '', sortable: false }
       ]
-      const historyCollapsed = ref(true)
+      const historyCollapsed = ref(false)
 
       const {
         selectedItem,
