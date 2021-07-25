@@ -1,6 +1,6 @@
 <template>
   <div>
-    <rest-query-history class="mb-8"/>
+    <rest-query-history class="mb-8" @setRequest="setRequest" table-name="rest"/>
 
     <v-form @submit.prevent="loadData">
       <v-row>
@@ -87,6 +87,7 @@
   import { showErrorSnackbar } from '@/mixins/ShowSnackbar'
   import { parseJsonBigInt } from '@/helpers/json_parse'
   import RestQueryHistory from '@/components/Query/RestQueryHistory'
+  import { useDb } from '@/services/IdbConnection'
 
   export default {
     name: 'rest',
@@ -107,10 +108,10 @@
       } = vuexAccessors('queryRest', ['method', 'path', 'requestBody', 'vertical'])
       const loading = ref(false)
       const responseBody = ref({})
-      const responseCode = ref(null)
+      const responseStatus = ref(null)
       const responseCaption = computed(() => {
-        if (responseCode.value) {
-          return `Result (Statuscode: ${responseCode.value})`
+        if (responseStatus.value) {
+          return responseStatus.value
         } else {
           return 'Result'
         }
@@ -120,10 +121,7 @@
         return method.value !== 'GET' && method.value !== 'HEAD'
       })
 
-      const formValid = computed(() => {
-        return !!method.value
-      })
-
+      const formValid = computed(() => !!method.value)
       const instance = store.getters['connection/activeInstance']
 
       const requestUrl = computed(() => {
@@ -150,18 +148,31 @@
         return fetchOptions
       }
 
+      const { connection } = useDb('rest')
+      const setupDb = async () => await connection.initialize()
+      setupDb()
+
       const loadData = () => {
         loading.value = true
         responseBody.value = '{"loading": true}'
-        responseCode.value = ''
+        responseStatus.value = ''
         fetch(requestUrl.value, fetchOptionsHash())
           .then(response => {
-            responseCode.value = response.status
+            responseStatus.value = response.status + ' ' + response.statusText
             return response.text()
           })
           .then(text => {
             loading.value = false
             responseBody.value = parseJsonBigInt(text)
+            if (responseStatus.value.toString().match(/^2\d\d/)) {
+              connection.dbInsert({
+                method: method.value,
+                url: path.value,
+                body: canSendBody.value ? requestBody.value : undefined,
+                favorite: 0,
+                date: new Date()
+              })
+            }
           })
           .catch(error => {
             loading.value = false
@@ -180,7 +191,7 @@
         requestBody.value = '{\r\n\t"h": ["health", "index", "docs.count"]\r\n}'
         path.value = '_cat/indices'
         responseBody.value = ''
-        responseCode.value = ''
+        responseStatus.value = ''
       }
 
       const loadCreateExample = () => {
@@ -188,7 +199,7 @@
         requestBody.value = '{\r\n\t"settings": {\r\n\t\t"index": {\r\n\t\t\t"number_of_shards": 3,\r\n\t\t\t"number_of_replicas": 2\r\n\t\t}\r\n\t}\r\n}'
         path.value = 'example_test_index'
         responseBody.value = ''
-        responseCode.value = ''
+        responseStatus.value = ''
       }
 
       const loadDeleteExample = () => {
@@ -196,7 +207,7 @@
         requestBody.value = '{}'
         path.value = 'example_test_index'
         responseBody.value = ''
-        responseCode.value = ''
+        responseStatus.value = ''
       }
 
       const resetForm = () => {
@@ -204,7 +215,15 @@
         requestBody.value = '{}'
         path.value = ''
         responseBody.value = ''
-        responseCode.value = ''
+        responseStatus.value = ''
+      }
+
+      const setRequest = item => {
+        method.value = item.method
+        requestBody.value = item.body
+        path.value = item.url
+        responseBody.value = ''
+        responseStatus.value = ''
       }
 
       return {
@@ -223,7 +242,8 @@
         loadCatExample,
         loadCreateExample,
         loadDeleteExample,
-        resetForm
+        resetForm,
+        setRequest
       }
     }
   }
