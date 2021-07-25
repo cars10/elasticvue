@@ -1,10 +1,6 @@
 <template>
   <v-card class="mt-4">
-    <v-card-title>
-      <v-badge content="Beta" title="This is a beta feature and might not work as expected." color="orange">
-        {{ $t('settings.import-export.title', {app: 'elasticvue'}) }}
-      </v-badge>
-    </v-card-title>
+    <v-card-title>{{ $t('settings.import-export.title', {app: 'elasticvue'}) }}</v-card-title>
 
     <v-divider/>
 
@@ -36,7 +32,7 @@
             </v-expand-transition>
           </div>
 
-          <v-btn :href="storeDataUri" :download="downloadFilename" color="primary">
+          <v-btn :href="storeDataUri" :download="downloadFilename" color="primary-button">
             {{ $t('settings.import-export.download-settings') }}
           </v-btn>
 
@@ -50,7 +46,7 @@
                           accept="application/json"
                           :placeholder="$t('settings.import-export.select-file')"/>
             <p class="red--text">{{ errorMessage }}</p>
-            <v-btn color="primary" type="submit" :disabled="!valid">{{ $t('settings.import-export.import-settings') }}</v-btn>
+            <v-btn color="primary-button" type="submit" :disabled="!valid">{{ $t('settings.import-export.import-settings') }}</v-btn>
           </v-form>
         </v-col>
       </v-row>

@@ -14,12 +14,16 @@
 
               <v-text-field id="query"
                             v-model="hideIndicesRegex"
-                            append-icon="mdi-close"
                             autofocus
                             :label="$t('settings.hide-indices-regex')"
                             :messages="$t('settings.hide-indices-regex-message')">
                 <template v-slot:message="{ message }">
                   <span v-html="message"/>
+                </template>
+                <template v-slot:append class="mt-0">
+                  <v-btn icon :title="'Reset to default ' + DEFAULT_HIDE_INDICES_REGEX" @click="resetHideIndicesRegex">
+                    <v-icon>mdi-backup-restore</v-icon>
+                  </v-btn>
                 </template>
               </v-text-field>
             </v-col>
@@ -33,9 +37,11 @@
 </template>
 
 <script>
-  import ImportExportSettings from '@/components/Utilities/ImportExportSettings'
+  import ImportExportSettings from '@/components/Settings/ImportExportSettings'
   import ChangeTheme from '@/components/shared/ChangeTheme'
   import { vuexAccessors } from '@/helpers/store'
+  import { DEFAULT_HIDE_INDICES_REGEX } from '@/consts'
+  import store from '@/store'
 
   export default {
     name: 'settings',
@@ -45,8 +51,11 @@
     },
     setup () {
       const { hideIndicesRegex } = vuexAccessors('indices', ['hideIndicesRegex'])
+      const resetHideIndicesRegex = () => store.commit('indices/resetHideIndicesRegex')
       return {
-        hideIndicesRegex
+        hideIndicesRegex,
+        DEFAULT_HIDE_INDICES_REGEX,
+        resetHideIndicesRegex
       }
     }
   }

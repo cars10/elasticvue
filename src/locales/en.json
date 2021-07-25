@@ -109,6 +109,7 @@
       "clear-index-cache": "Clear index cache",
       "close-index": "Close index",
       "open-index": "Open index",
+      "confirm-message": "Delete index {index}? This will remove ALL data in your index!",
       "delete-index": "Delete index"
     },
     "table": {
@@ -251,7 +252,7 @@
   "settings": {
     "title": "Settings",
     "hide-indices-regex": "Hide indices regex",
-    "hide-indices-regex-message": "Indices matching this regex will be hidden by default on all placed where indices are listed",
+    "hide-indices-regex-message": "Indices matching this regex will be hidden by default on all places where indices are listed",
     "import-export": {
       "title": "Import/Export {app} data",
       "message": "You can import & export your elasticvue data as json. This is <strong>not</strong> a backup of your clusters data, use snapshots if you need to backup your indices.",

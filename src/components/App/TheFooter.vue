@@ -11,7 +11,6 @@
           Elasticvue {{ version }} |
           <a href="https://github.com/cars10/elasticvue/blob/master/CHANGELOG.md" rel="nofollow" target="_blank">
             {{ $t("app-footer.changelog") }}</a> |
-          <a href="https://elasticvue.com/survey" target="_blank" class="font-weight-bold">{{ $t("app-footer.survey") }}</a>
         </div>
         &copy;{{ new Date().getFullYear() }} - Carsten K&ouml;nig<br>
       </v-col>
@@ -36,8 +35,11 @@
       ChangeTheme
     },
     setup () {
-      const reset = () => {
+      const reset = async () => {
         localStorage.removeItem(LOCALSTORAGE_KEY)
+        window.indexedDB.databases().then(databases => {
+          databases.forEach(db => window.indexedDB.deleteDatabase(db.name))
+        })
         window.location.replace(BASE_URI)
       }
 
