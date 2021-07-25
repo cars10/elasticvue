@@ -106,7 +106,7 @@
       const responseCode = ref(null)
       const responseCaption = computed(() => {
         if (responseCode.value) {
-          return i18n.t('rest.result-code', {code: responseCode.value})
+          return i18n.t('rest.result-code', { code: responseCode.value })
         } else {
           return i18n.t('rest.result')
         }

@@ -16,7 +16,7 @@ function loadLocaleMessages () {
   return messages
 }
 
-function getBrowserLocale(options = {}) {
+function getBrowserLocale (options = {}) {
   const defaultOptions = { countryCodeOnly: false }
   const opt = { ...defaultOptions, ...options }
   const navigatorLocale =
@@ -32,20 +32,20 @@ function getBrowserLocale(options = {}) {
   return trimmedLocale
 }
 
-function supportedLocalesInclude(locale) {
+function supportedLocalesInclude (locale) {
   const supportedLocales = {
-    en: "English",
-    cn: "简体中文"
+    en: 'English',
+    cn: '简体中文'
   }
   return Object.keys(supportedLocales).includes(locale)
 }
 
-function getStartingLocale() {
+function getStartingLocale () {
   const browserLocale = getBrowserLocale({ countryCodeOnly: true })
   if (supportedLocalesInclude(browserLocale)) {
     return browserLocale
   } else {
-    return process.env.VUE_APP_I18N_LOCALE || "en"
+    return process.env.VUE_APP_I18N_LOCALE || 'en'
   }
 }
 

@@ -121,7 +121,7 @@
           .then(() => {
             showSuccessSnackbar({
               text: i18n.t('snapshots.restore.success'),
-              additionalText: i18n.t('snapshots.restore.success-message', {snapshot: props.snapshot})
+              additionalText: i18n.t('snapshots.restore.success-message', { snapshot: props.snapshot })
             })
             closeDialog()
           })

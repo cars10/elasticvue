@@ -104,13 +104,13 @@
 
       const { callElasticsearch } = useElasticsearchRequest()
       const deleteRepository = name => {
-        if (confirm(i18n.t('repository.table.delete-confirm', {name: name}))) {
+        if (confirm(i18n.t('repository.table.delete-confirm', { name: name }))) {
           callElasticsearch('snapshotDeleteRepository', { repository: name })
             .then(() => {
               emitReloadData()
               showSuccessSnackbar({
                 text: i18n.t('repository.table.success'),
-                additionalText: i18n.t('repository.table.delete-result', {name: name})
+                additionalText: i18n.t('repository.table.delete-result', { name: name })
               })
             })
         }
