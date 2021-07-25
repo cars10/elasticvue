@@ -99,7 +99,7 @@
             <list-tile-link :callback="emitReloadIndices"
                             :growl="`The index '${index.index}' was successfully deleted.`"
                             :method-params="{index: index.index}"
-                            confirm-message="Are you sure? This will remove ALL data in your index!"
+                            :confirm-message="`Delete index ${index.index}? This will remove ALL data in your index!`"
                             icon="mdi-delete" link-title="Delete index" method="indexDelete"/>
           </v-list>
         </v-menu>
