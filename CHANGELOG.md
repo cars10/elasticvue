@@ -2,6 +2,14 @@
 
 *Please check the [releases](https://github.com/cars10/elasticvue/releases) page if you need version release dates.*
 
+## 0.36.0
+
+* [feat]: Adds history for Rest queries
+* [feat]: Adds button to reset the "hide indices regex" setting to default
+* [feat]: When deleting an index the name of the index is now included in the confirm message
+* removes link to survey, view the results [here](https://github.com/cars10/elasticvue/issues/55)
+* some small css and color improvements
+
 ## 0.35.0
 
 * Reworks saved cluster selection to table (with pagination and filter) to improve support for users with 10+ clusters
