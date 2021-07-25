@@ -1,10 +1,10 @@
-import { DEFAULT_DATA_TABLE_OPTIONS } from '@/consts'
+import { DEFAULT_DATA_TABLE_OPTIONS, DEFAULT_HIDE_INDICES_REGEX } from '@/consts'
 
 export const indices = {
   namespaced: true,
   state: {
     showHiddenIndices: false,
-    hideIndicesRegex: '^\\..*',
+    hideIndicesRegex: DEFAULT_HIDE_INDICES_REGEX,
     filter: '',
     options: Object.assign({}, DEFAULT_DATA_TABLE_OPTIONS, { sortBy: ['index'] })
   },
@@ -14,6 +14,9 @@ export const indices = {
     },
     setHideIndicesRegex (state, hideIndicesRegex) {
       state.hideIndicesRegex = hideIndicesRegex
+    },
+    resetHideIndicesRegex (state) {
+      state.hideIndicesRegex = DEFAULT_HIDE_INDICES_REGEX
     },
     setFilter (state, filter) {
       state.filter = filter
