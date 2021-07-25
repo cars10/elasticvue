@@ -5,10 +5,6 @@ button.btn-link {
   text-decoration: underline;
   cursor: pointer;
   color: #1976d2;
-
-  &:hover, &:focus {
-    outline: none;
-  }
 }
 
 .theme--dark {

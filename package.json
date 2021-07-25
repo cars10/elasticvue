@@ -18,6 +18,7 @@
     "@vue/composition-api": "^1.0.0-rc.10",
     "ace-builds": "^1.4.12",
     "comlink": "^4.3.1",
+    "idb": "^6.1.2",
     "json-bigint": "^1.0.0",
     "pretty-bytes": "^5.6.0",
     "vue": "^2.6.13",

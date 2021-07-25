@@ -36,8 +36,11 @@
       ChangeTheme
     },
     setup () {
-      const reset = () => {
+      const reset = async () => {
         localStorage.removeItem(LOCALSTORAGE_KEY)
+        window.indexedDB.databases().then(databases => {
+          databases.forEach(db => window.indexedDB.deleteDatabase(db.name))
+        })
         window.location.replace(BASE_URI)
       }
 

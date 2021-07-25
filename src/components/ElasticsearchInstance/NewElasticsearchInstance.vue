@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="dialog" class="theme--dark" width="800">
     <template v-slot:activator="{ on, attrs }">
-      <v-btn id="add_new_instance" v-bind="attrs" v-on="on" color="primary">
+      <v-btn id="add_new_instance" v-bind="attrs" v-on="on" color="primary-button">
         Add cluster
       </v-btn>
     </template>

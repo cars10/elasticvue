@@ -1,10 +1,6 @@
 <template>
   <v-card class="mt-4">
-    <v-card-title>
-      <v-badge content="Beta" title="This is a beta feature and might not work as expected." color="orange">
-        Import/Export elasticvue data
-      </v-badge>
-    </v-card-title>
+    <v-card-title>Import/Export elasticvue data</v-card-title>
 
     <v-divider/>
 
@@ -38,7 +34,7 @@
             </v-expand-transition>
           </div>
 
-          <v-btn :href="storeDataUri" :download="downloadFilename" color="primary">
+          <v-btn :href="storeDataUri" :download="downloadFilename" color="primary-button">
             Download settings
           </v-btn>
 
@@ -52,7 +48,7 @@
                           accept="application/json"
                           placeholder="Select file..."/>
             <p class="red--text">{{ errorMessage }}</p>
-            <v-btn color="primary" type="submit" :disabled="!valid">Import settings</v-btn>
+            <v-btn color="primary-button" type="submit" :disabled="!valid">Import settings</v-btn>
           </v-form>
         </v-col>
       </v-row>

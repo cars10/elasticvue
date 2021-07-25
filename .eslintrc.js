@@ -20,7 +20,8 @@ module.exports = {
     'vuetify/no-deprecated-classes': 'error',
     'vuetify/grid-unknown-attributes': 'error',
     'vuetify/no-legacy-grid': 'error',
-    'import/no-webpack-loader-syntax': 'off'
+    'import/no-webpack-loader-syntax': 'off',
+    'vue/valid-v-slot': 'off'
   },
   overrides: [
     {

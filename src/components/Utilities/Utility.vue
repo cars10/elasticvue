@@ -48,7 +48,7 @@
       }
 
       const color = computed(() => {
-        return requestState.apiError || requestState.networkError ? 'red' : 'primary'
+        return requestState.apiError || requestState.networkError ? 'red' : 'primary-button'
       })
 
       const confirmMethod = () => {

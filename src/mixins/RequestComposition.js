@@ -21,14 +21,6 @@ export function useElasticsearchRequest () {
         const response = await adapter[method](...args)
         if (!response) return Promise.resolve()
 
-        requestState.value = {
-          loading: false,
-          networkError: false,
-          apiError: false,
-          apiErrorMessage: '',
-          status: response.status
-        }
-
         const contentType = response.headers.get('content-type')
         let body
         if (contentType && contentType.includes('application/json')) {
@@ -36,6 +28,14 @@ export function useElasticsearchRequest () {
           body = parseJsonBigInt(text)
         } else {
           body = true
+        }
+
+        requestState.value = {
+          loading: false,
+          networkError: false,
+          apiError: false,
+          apiErrorMessage: '',
+          status: response.status
         }
 
         return Promise.resolve(body)
