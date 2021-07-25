@@ -11,7 +11,6 @@
           Elasticvue {{ version }} |
           <a href="https://github.com/cars10/elasticvue/blob/master/CHANGELOG.md" rel="nofollow" target="_blank">
             Changelog</a> |
-          <a href="https://elasticvue.com/survey" target="_blank" class="font-weight-bold">Survey</a>
         </div>
         &copy;{{ new Date().getFullYear() }} - Carsten K&ouml;nig<br>
       </v-col>

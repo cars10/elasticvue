@@ -4,7 +4,6 @@
 
     <v-main>
       <v-container fluid>
-        <survey v-if="isConnected"/>
         <router-view/>
       </v-container>
       <snackbar/>
@@ -20,7 +19,6 @@
   import Snackbar from '@/components/Snackbar'
   import store from '@/store'
   import { computed } from '@vue/composition-api'
-  import Survey from '@/components/shared/Survey'
   import { vuexAccessors } from '@/helpers/store'
 
   export default {
@@ -28,8 +26,7 @@
     components: {
       TheHeader,
       TheFooter,
-      Snackbar,
-      Survey
+      Snackbar
     },
     setup () {
       const isConnected = computed(() => {
