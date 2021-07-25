@@ -10,7 +10,7 @@
         <v-card-text>
           <v-row>
             <v-col cols="12" md="6" sm="12">
-              <v-subheader class="text-h6">{{ $t("utilities.title") }}</v-subheader>
+              <v-subheader class="text-h6">{{ $t("utilities.create.title") }}</v-subheader>
               <v-divider/>
               <v-list>
                 <template v-for="utility in UTILITIES.create">
