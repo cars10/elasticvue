@@ -1,5 +1,5 @@
 <template>
-  <div v-if="settings.length > 0" class="mb-1">
+  <div v-if="settings.length > 0" class="mb-1 pb-2">
     <slot name="multi-setting__header">
       <v-subheader>
         {{ name }}
