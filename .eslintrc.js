@@ -21,7 +21,8 @@ module.exports = {
     'vuetify/grid-unknown-attributes': 'error',
     'vuetify/no-legacy-grid': 'error',
     'import/no-webpack-loader-syntax': 'off',
-    'vue/valid-v-slot': 'off'
+    'vue/valid-v-slot': 'off',
+    'no-proto': 'off'
   },
   overrides: [
     {

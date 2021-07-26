@@ -74,3 +74,13 @@ export const beautify = (stringOrObj, useSpaces) => {
     return copy
   }
 }
+
+const FORBIDDEN_OBJECT_KEYS = ['constructor', '__proto__']
+export const renameForbiddenObjectKeys = obj => {
+  FORBIDDEN_OBJECT_KEYS.forEach(forbiddenKey => {
+    if (Object.prototype.hasOwnProperty.call(obj, forbiddenKey)) {
+      obj[`?${forbiddenKey}`] = obj[forbiddenKey]
+      delete obj[forbiddenKey]
+    }
+  })
+}

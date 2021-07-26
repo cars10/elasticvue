@@ -51,7 +51,7 @@
   import Result from '@/components/Search/Result'
   import { vuexAccessors } from '@/helpers/store'
   import { useAsyncFilter } from '@/mixins/UseAsyncTableFilter'
-  import { debounce, sortableField } from '@/helpers'
+  import { debounce, renameForbiddenObjectKeys, sortableField } from '@/helpers'
   import { computed, ref, watch } from '@vue/composition-api'
   import { useElasticsearchRequest } from '@/mixins/RequestComposition'
 
@@ -91,7 +91,10 @@
         if (!props.body) return []
         if (!props.body.hits) return []
 
-        return props.body.hits.hits
+        const resultHits = props.body.hits.hits
+        resultHits.forEach(result => renameForbiddenObjectKeys(result._source))
+
+        return resultHits
       })
 
       const totalHits = computed(() => {
