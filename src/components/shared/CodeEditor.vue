@@ -2,7 +2,7 @@
   <div class="bordered code-editor">
     <div ref="editor" style="height: 100%; width: 100%"/>
 
-    <div class="code-editor__actions pa-2">
+    <div class="code-editor__actions pa-1">
       <v-btn :disabled="!valid"
              class="vertical-align--top mr-2"
              small
@@ -12,15 +12,30 @@
         <v-icon small>mdi-auto-fix</v-icon>
       </v-btn>
 
-      <btn-group class="d-inline-block">
-        <v-btn :class="{'v-btn--active': useSpaces}" title="Change whitespace to 2 spaces instead of tabs"
+      <btn-group class="d-inline-block" small>
+        <v-btn :class="{'v-btn--active': useSpaces}"
+               small
+               title="Change whitespace to 2 spaces instead of tabs"
                @click="useSpaces = !useSpaces">
           <v-icon small>mdi-keyboard-space</v-icon>
         </v-btn>
-        <v-btn :class="wrapLines ? 'v-btn--active' : ''" title="Wrap lines" @click="wrapLines = !wrapLines">
+        <v-btn :class="{'v-btn--active': wrapLines}"
+               title="Wrap lines" @click="wrapLines = !wrapLines">
           <v-icon small>mdi-wrap</v-icon>
         </v-btn>
       </btn-group>
+
+      <v-btn class="vertical-align--top ml-2"
+             small
+             text
+             style="height: 32px"
+             title="Show keyboard shortcuts"
+             target="_blank"
+             rel="nofollow"
+             exact
+             href="https://github.com/ajaxorg/ace/wiki/Default-Keyboard-Shortcuts">
+        <v-icon small>mdi-keyboard</v-icon>
+      </v-btn>
     </div>
   </div>
 </template>

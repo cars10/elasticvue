@@ -19,6 +19,10 @@
   .v-btn:not(.v-btn--round).v-size--small {
     min-width: initial;
   }
+
+  a:hover {
+    border-bottom: 2px solid orange;
+  }
 }
 
 .ace_tooltip {
