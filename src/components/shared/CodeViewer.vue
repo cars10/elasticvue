@@ -2,16 +2,22 @@
   <div class="bordered code-editor">
     <div ref="editor" style="height: 100%; width: 100%"/>
 
-    <div class="code-editor__actions pa-2">
-      <btn-group class="d-inline-block">
-        <v-btn :class="{'v-btn--active': useSpaces}" title="Change whitespace to 2 spaces instead of tabs"
-               @click="useSpaces = !useSpaces">
-          <v-icon small>mdi-keyboard-space</v-icon>
-        </v-btn>
-        <v-btn :class="wrapLines ? 'v-btn--active' : ''" title="Wrap lines" @click="wrapLines = !wrapLines">
-          <v-icon small>mdi-wrap</v-icon>
-        </v-btn>
-      </btn-group>
+    <div class="code-editor__actions">
+      <settings-dropdown>
+        <div class="px-3 pb-3" style="white-space: nowrap">
+          <v-checkbox v-model="useSpaces"
+                      label="Use spaces"
+                      title="Change whitespace to 2 spaces instead of tabs"
+                      class="my-1 py-0"
+                      hide-details/>
+
+          <v-checkbox v-model="wrapLines"
+                      label="Wrap lines"
+                      title="Wrap long lines"
+                      class="my-1 py-0"
+                      hide-details/>
+        </div>
+      </settings-dropdown>
     </div>
   </div>
 </template>
@@ -20,14 +26,14 @@
   import { vuexAccessors } from '@/helpers/store'
   import { onBeforeUnmount, onMounted, ref, watch } from '@vue/composition-api'
   import store from '@/store'
-  import BtnGroup from '@/components/shared/BtnGroup'
   import { editorUtils } from '@/mixins/CodeEditorUtils'
   import { beautify } from '@/helpers'
+  import SettingsDropdown from '@/components/shared/TableSettings/SettingsDropdown'
 
   export default {
     name: 'code-viewer',
     components: {
-      BtnGroup
+      SettingsDropdown
     },
     props: {
       value: {

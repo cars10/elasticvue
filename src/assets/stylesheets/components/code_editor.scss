@@ -6,22 +6,13 @@
 
 .code-editor__actions {
   position: absolute;
-  top: -2px;
+  top: 4px;
   right: 18px;
   z-index: 2;
   opacity: .4;
-  background-color: grey;
 
   &:hover {
     opacity: 1;
-  }
-
-  .v-btn:not(.v-btn--round).v-size--small {
-    min-width: initial;
-  }
-
-  a:hover {
-    border-bottom: 2px solid orange;
   }
 }
 
@@ -29,7 +20,6 @@
   background-color: #fff;
   background-image: none;
   border: none;
-  //box-shadow: none;
   color: black;
   max-width: 100%;
   padding: 3px 4px;

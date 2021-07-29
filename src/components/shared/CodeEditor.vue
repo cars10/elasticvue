@@ -2,40 +2,41 @@
   <div class="bordered code-editor">
     <div ref="editor" style="height: 100%; width: 100%"/>
 
-    <div class="code-editor__actions pa-1">
-      <v-btn :disabled="!valid"
-             class="vertical-align--top mr-2"
-             small
-             style="height: 32px"
-             title="Beautify (Ctrl+ALT+L)"
-             @click="beautifyEditorValue(useSpaces)">
-        <v-icon small>mdi-auto-fix</v-icon>
-      </v-btn>
+    <div class="code-editor__actions">
+      <settings-dropdown>
+        <div class="px-3 pb-3" style="white-space: nowrap">
+          <v-btn :disabled="!valid"
+                 class="mb-2"
+                 title="Beautify (Ctrl+ALT+L)"
+                 small
+                 @click="beautifyEditorValue(useSpaces)">
+            <v-icon small class="mr-2">mdi-auto-fix</v-icon>
+            Beautify
+          </v-btn>
 
-      <btn-group class="d-inline-block" small>
-        <v-btn :class="{'v-btn--active': useSpaces}"
-               small
-               title="Change whitespace to 2 spaces instead of tabs"
-               @click="useSpaces = !useSpaces">
-          <v-icon small>mdi-keyboard-space</v-icon>
-        </v-btn>
-        <v-btn :class="{'v-btn--active': wrapLines}"
-               title="Wrap lines" @click="wrapLines = !wrapLines">
-          <v-icon small>mdi-wrap</v-icon>
-        </v-btn>
-      </btn-group>
+          <v-divider/>
 
-      <v-btn class="vertical-align--top ml-2"
-             small
-             text
-             style="height: 32px"
-             title="Show keyboard shortcuts"
-             target="_blank"
+          <v-checkbox v-model="useSpaces"
+                      label="Use spaces"
+                      title="Change whitespace to 2 spaces instead of tabs"
+                      class="my-1 py-0"
+                      hide-details/>
+
+          <v-checkbox v-model="wrapLines"
+                      label="Wrap lines"
+                      title="Wrap long lines"
+                      class="my-1 py-0"
+                      hide-details/>
+
+          <v-divider class="mb-2"/>
+
+          <a target="_blank"
              rel="nofollow"
-             exact
              href="https://github.com/ajaxorg/ace/wiki/Default-Keyboard-Shortcuts">
-        <v-icon small>mdi-keyboard</v-icon>
-      </v-btn>
+            Keyboard shortcuts
+          </a>
+        </div>
+      </settings-dropdown>
     </div>
   </div>
 </template>
@@ -44,15 +45,15 @@
   import { computed, onBeforeUnmount, onMounted, ref, watch } from '@vue/composition-api'
   import store from '@/store'
   import { vuexAccessors } from '@/helpers/store'
-  import BtnGroup from '@/components/shared/BtnGroup'
   import { editorUtils, initializeSnippets } from '@/mixins/CodeEditorUtils'
   import { parseJsonBigInt } from '@/helpers/json_parse'
   import { beautify } from '@/helpers'
+  import SettingsDropdown from '@/components/shared/TableSettings/SettingsDropdown'
 
   export default {
     name: 'code-editor',
     components: {
-      BtnGroup
+      SettingsDropdown
     },
     props: {
       value: {
@@ -134,11 +135,18 @@
         editor.value.setValue(value, 1)
       }
 
+      const settingsOpen = ref(false)
+      const toggleSettings = () => {
+        settingsOpen.value = !settingsOpen.value
+      }
+
       return {
         useSpaces,
         wrapLines,
         valid,
-        beautifyEditorValue
+        beautifyEditorValue,
+        toggleSettings,
+        settingsOpen
       }
     }
   }

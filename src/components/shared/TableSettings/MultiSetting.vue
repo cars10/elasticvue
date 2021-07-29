@@ -2,7 +2,7 @@
   <div v-if="settings.length > 0" class="mb-1 pb-2">
     <slot name="multi-setting__header">
       <v-subheader>
-        {{ name }}
+        <span class="mr-2">{{ name }}</span>
         <v-btn v-if="!unchecked" class="ml-a px-1" small text @click.native="uncheckAll">
           uncheck
         </v-btn>
