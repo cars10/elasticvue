@@ -5,22 +5,12 @@
       <template v-else>{{ renderValue(doc[key]) }}</template>
     </td>
     <td>
-      <router-link :class="classes"
-                   :to="{name: 'Document', params: { index: doc._index, type: doc._type, id: doc._id }}"
-                   event=""
-                   title="Show"
-                   @click.native.prevent="openDoc">
-        <div class="v-btn__content">
-          Show
-        </div>
-      </router-link>
+      <v-btn>Show</v-btn>
     </td>
   </tr>
 </template>
 
 <script>
-  import { computed } from '@vue/composition-api'
-  import store from '@/store'
   import { stringifyJsonBigInt } from '@/helpers/json_parse'
 
   export default {
@@ -36,15 +26,6 @@
       }
     },
     setup (props, context) {
-      const classes = computed(() => {
-        return [
-          'v-btn',
-          'v-size--default',
-          { 'theme--dark': store.state.theme.dark },
-          { 'theme--light': !store.state.theme.dark }
-        ]
-      })
-
       const openDoc = () => {
         context.emit('openDocument', {
           index: props.doc._index,
@@ -70,7 +51,6 @@
       }
 
       return {
-        classes,
         openDoc,
         renderValue,
         openDocNewTab
