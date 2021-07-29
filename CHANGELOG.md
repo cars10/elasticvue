@@ -7,6 +7,7 @@
 * [feat]: Adds history for Rest queries
 * [feat]: Adds button to reset the "hide indices regex" setting to default
 * [feat]: When deleting an index the name of the index is now included in the confirm message
+* [feat]: Adds "Copy content" button to data loading modals (like index info or document show)
 * removes link to survey, view the results [here](https://github.com/cars10/elasticvue/issues/55)
 * some small css and color improvements
 
