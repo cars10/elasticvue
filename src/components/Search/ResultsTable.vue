@@ -11,7 +11,6 @@
                         hide-details
                         label="Filter *current* page..."
                         name="filter"
-                        title="Filter via 'column:query'"
                         @keyup.esc="filter = ''"/>
 
           <settings-dropdown :badge="columns.length > filteredColumns.length" button-title="Table settings">

@@ -23,7 +23,6 @@
                           hide-details
                           label="Filter id..."
                           name="filter"
-                          title="Filter via 'column:query'"
                           @keyup.esc="filter = ''"/>
           </div>
         </v-col>
