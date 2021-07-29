@@ -3,10 +3,10 @@
     <slot name="multi-setting__header">
       <v-subheader>
         {{ name }}
-        <v-btn v-if="!unchecked" class="ml-a px-1 grey--text" small text @click.native="uncheckAll">
+        <v-btn v-if="!unchecked" class="ml-a px-1" small text @click.native="uncheckAll">
           uncheck
         </v-btn>
-        <v-btn v-if="hasChanges" class="ml-a px-1 grey--text" small text @click.native="reset">
+        <v-btn v-if="hasChanges" class="ml-a px-1" small text @click.native="reset">
           reset
         </v-btn>
       </v-subheader>
