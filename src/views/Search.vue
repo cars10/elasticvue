@@ -39,7 +39,7 @@
             <p>
               Customize the search query
             </p>
-            <p class="grey--text">
+            <p>
               Hint: changes to the query will not update the respecting inputs in the ui (like the search query or
               pagination/sort in the table), but changes to the inputs will be merged into the query again.
             </p>
