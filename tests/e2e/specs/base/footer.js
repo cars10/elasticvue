@@ -9,9 +9,9 @@ describe('Footer', () => {
     })
 
     it('can change the theme', () => {
-      cy.contains('Dark theme').click()
+      cy.get('button[title="Change theme"]').click()
       cy.get('#app').should('not.have.class', 'theme--dark')
-      cy.contains('Dark theme').click()
+      cy.get('button[title="Change theme"]').click()
       cy.get('#app').should('have.class', 'theme--dark')
     })
   })
