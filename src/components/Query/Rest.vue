@@ -1,6 +1,16 @@
 <template>
   <div>
-    <rest-query-history class="mb-8" @setRequest="setRequest" table-name="rest"/>
+    <div class="mb-12">
+      <v-btn class="pl-1 mr-2" @click="historyCollapsed = !historyCollapsed" title="Show history">
+        <v-icon>{{ historyCollapsed ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+        History
+      </v-btn>
+
+      <rest-query-examples @setRequest="setRequest"/>
+      <v-expand-transition>
+        <rest-query-history @setRequest="setRequest" v-if="historyCollapsed"/>
+      </v-expand-transition>
+    </div>
 
     <v-form @submit.prevent="loadData">
       <v-row>
@@ -24,10 +34,7 @@
 
       <v-row>
         <v-col :md="vertical ? 12 : 6" cols="12">
-          <h4 class="pb-1">Request body <span v-if="!canSendBody">(disabled)</span></h4>
-          <resizable-container v-if="canSendBody" ref="query_body"
-                               :initial-height="vertical ? 200 : 500"
-                               class="mb-4">
+          <resizable-container v-if="canSendBody" :initial-height="vertical ? 200 : 500" class="mb-4">
             <code-editor v-model="requestBody" :external-commands="editorCommands"/>
           </resizable-container>
 
@@ -47,29 +54,20 @@
             </div>
           </div>
 
-          <v-row>
-            <v-col :md="vertical ? 6 : 12" cols="12">
-              <v-btn id="execute_query" :disabled="!formValid" :loading="loading" class="mx-0" color="primary-button"
-                     type="submit">
-                Run query
-              </v-btn>
-              <button id="reset-form" type="button" class="btn-link ml-2" @click="resetForm">Reset form</button>
-            </v-col>
-            <v-col :class="vertical ? 'text-right' : ''" :md="vertical ? 6 : 12" cols="12">
-              <button id="example-1" type="button" class="btn-link" @click="loadCatExample">Example #1 (_cat/indices)
-              </button>
-              <button id="example-2" type="button" class="btn-link ml-2" @click="loadCreateExample">
-                Example #2 (create index)
-              </button>
-              <button id="example-3" type="button" class="btn-link ml-2" @click="loadDeleteExample">
-                Example #3 (delete index)
-              </button>
-            </v-col>
-          </v-row>
+          <v-btn id="execute_query" :disabled="!formValid" :loading="loading" class="mx-0" color="primary-button"
+                 type="submit">
+            Send request
+          </v-btn>
+          <v-chip class="ml-2" :class="responseStatusClass" v-if="responseStatus">{{ responseStatus }}</v-chip>
+
+          <br>
+          <button id="reset-form" type="button" class="btn-link mt-2" @click="resetForm">
+            <small>Reset</small>
+          </button>
         </v-col>
 
         <v-col :md="vertical ? 12 : 6" cols="12">
-          <print-pretty :caption="responseCaption" :document="responseBody" :focus="false" class="response mb-4"/>
+          <print-pretty :document="responseBody" :focus="false" class="response mb-4"/>
         </v-col>
       </v-row>
     </v-form>
@@ -86,8 +84,9 @@
   import { computed, ref } from '@vue/composition-api'
   import { showErrorSnackbar } from '@/mixins/ShowSnackbar'
   import { parseJsonBigInt } from '@/helpers/json_parse'
+  import { useIdb } from '@/services/IdbConnection'
   import RestQueryHistory from '@/components/Query/RestQueryHistory'
-  import { useDb } from '@/services/IdbConnection'
+  import RestQueryExamples from '@/components/Query/RestQueryExamples'
 
   export default {
     name: 'rest',
@@ -95,6 +94,7 @@
       PrintPretty,
       RestQueryHistory,
       ResizableContainer,
+      RestQueryExamples,
       'code-editor': () => ({
         component: import(/* webpackChunkName: "code-editor" */ '@/components/shared/CodeEditor')
       })
@@ -109,13 +109,6 @@
       const loading = ref(false)
       const responseBody = ref({})
       const responseStatus = ref(null)
-      const responseCaption = computed(() => {
-        if (responseStatus.value) {
-          return responseStatus.value
-        } else {
-          return 'Result'
-        }
-      })
 
       const canSendBody = computed(() => {
         return method.value !== 'GET' && method.value !== 'HEAD'
@@ -148,7 +141,7 @@
         return fetchOptions
       }
 
-      const { connection } = useDb('rest')
+      const { connection } = useIdb('rest')
       const setupDb = async () => await connection.initialize()
       setupDb()
 
@@ -163,11 +156,15 @@
           })
           .then(text => {
             loading.value = false
-            responseBody.value = parseJsonBigInt(text)
+            if (text) {
+              responseBody.value = parseJsonBigInt(text)
+            } else {
+              responseBody.value = ''
+            }
             if (responseStatus.value.toString().match(/^2\d\d/)) {
               connection.dbInsert({
                 method: method.value,
-                url: path.value,
+                path: path.value,
                 body: canSendBody.value ? requestBody.value : undefined,
                 favorite: 0,
                 date: new Date()
@@ -186,32 +183,8 @@
         exec: loadData
       }]
 
-      const loadCatExample = () => {
-        method.value = 'GET'
-        requestBody.value = '{\r\n\t"h": ["health", "index", "docs.count"]\r\n}'
-        path.value = '_cat/indices'
-        responseBody.value = ''
-        responseStatus.value = ''
-      }
-
-      const loadCreateExample = () => {
-        method.value = 'PUT'
-        requestBody.value = '{\r\n\t"settings": {\r\n\t\t"index": {\r\n\t\t\t"number_of_shards": 3,\r\n\t\t\t"number_of_replicas": 2\r\n\t\t}\r\n\t}\r\n}'
-        path.value = 'example_test_index'
-        responseBody.value = ''
-        responseStatus.value = ''
-      }
-
-      const loadDeleteExample = () => {
-        method.value = 'DELETE'
-        requestBody.value = '{}'
-        path.value = 'example_test_index'
-        responseBody.value = ''
-        responseStatus.value = ''
-      }
-
       const resetForm = () => {
-        method.value = 'GET'
+        method.value = HTTP_METHODS[1]
         requestBody.value = '{}'
         path.value = ''
         responseBody.value = ''
@@ -221,15 +194,31 @@
       const setRequest = item => {
         method.value = item.method
         requestBody.value = item.body
-        path.value = item.url
+        path.value = item.path
         responseBody.value = ''
         responseStatus.value = ''
       }
 
+      const responseStatusClass = computed(() => {
+        if (!responseStatus.value || responseStatus.value.length === 0) return 'grey'
+
+        if (responseStatus.value.match(/^2/)) {
+          return 'green black--text'
+        } else if (responseStatus.value.match(/^3|4/)) {
+          return 'darken-2 yellow black--text'
+        } else if (responseStatus.value.match(/^5/)) {
+          return 'red black--text'
+        }
+
+        return 'grey'
+      })
+
+      const historyCollapsed = ref(false)
+
       return {
         loading,
         responseBody,
-        responseCaption,
+        responseStatus,
         vertical,
         path,
         method,
@@ -239,11 +228,10 @@
         canSendBody,
         formValid,
         loadData,
-        loadCatExample,
-        loadCreateExample,
-        loadDeleteExample,
         resetForm,
-        setRequest
+        setRequest,
+        responseStatusClass,
+        historyCollapsed
       }
     }
   }

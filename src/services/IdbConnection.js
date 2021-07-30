@@ -83,7 +83,7 @@ class Connection {
   }
 }
 
-export const useDb = tableName => {
+export const useIdb = tableName => {
   if (!indexedDbConnections[tableName]) indexedDbConnections[tableName] = new Connection(tableName)
 
   return {

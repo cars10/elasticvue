@@ -45,3 +45,41 @@ export const DEFAULT_ELASTICSEARCH_HOST = {
 }
 
 export const SHOW_CORS_HINT = process.env.VUE_APP_DISABLE_CORS_HINT !== 'true'
+
+export const IDB_TABLE_NAMES = {
+  REST: 'rest',
+  SEARCH: 'search'
+}
+export const IDB_TABLE_DEFINITIONS = {
+  [IDB_TABLE_NAMES.REST]: {
+    indexes: ['date'],
+    filterableColumns: ['method', 'path']
+  },
+  [IDB_TABLE_NAMES.SEARCH]: {
+    indexes: ['date'],
+    filterableColumns: ['path']
+  }
+}
+export const REST_QUERY_EXAMPLES = [
+  {
+    description: 'Returns high-level information about indices in a cluster.',
+    method: 'GET',
+    path: '_cat/indices',
+    body: '',
+    doc: 'https://www.elastic.co/guide/en/elasticsearch/reference/current/cat-indices.html'
+  },
+  {
+    description: 'Create a simple index named "example_test_index".',
+    method: 'PUT',
+    path: 'example_test_index',
+    body: '{\r\n\t"settings": {\r\n\t\t"index": {\r\n\t\t\t"number_of_shards": 3,\r\n\t\t\t"number_of_replicas": 2\r\n\t\t}\r\n\t}\r\n}',
+    doc: 'https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-create-index.html'
+  },
+  {
+    description: 'Delete a simple index named "example_test_index".',
+    method: 'DELETE',
+    path: 'example_test_index',
+    body: '',
+    doc: 'https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-delete-index.html'
+  }
+]
