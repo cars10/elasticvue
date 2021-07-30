@@ -1,6 +1,7 @@
 <template>
-  <v-switch id="theme_select" v-model="dark" class="mt-0 mb-2 pt-0" color="primary-button" hide-details
-            label="Dark theme"/>
+  <v-btn icon @click="dark = !dark" title="Change theme" id="theme_select">
+    <v-icon>mdi-brightness-6</v-icon>
+  </v-btn>
 </template>
 
 <script>
