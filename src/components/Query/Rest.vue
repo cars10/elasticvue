@@ -78,7 +78,7 @@
   import store from '@/store'
   import ResizableContainer from '@/components/shared/ResizableContainer'
   import PrintPretty from '@/components/shared/PrintPretty'
-  import { HTTP_METHODS, REQUEST_DEFAULT_HEADERS } from '@/consts'
+  import { HTTP_METHODS, IDB_TABLE_NAMES, REQUEST_DEFAULT_HEADERS } from '@/consts'
   import { buildFetchAuthHeader } from '@/helpers'
   import { vuexAccessors } from '@/helpers/store'
   import { computed, ref } from '@vue/composition-api'
@@ -141,7 +141,7 @@
         return fetchOptions
       }
 
-      const { connection } = useIdb('rest')
+      const { connection } = useIdb(IDB_TABLE_NAMES.REST)
       const setupDb = async () => await connection.initialize()
       setupDb()
 
