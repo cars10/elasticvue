@@ -35,7 +35,7 @@
     setup () {
       return {
         /* eslint-disable no-undef */
-        version: VERSION,
+        version: VERSION
       }
     }
   }
