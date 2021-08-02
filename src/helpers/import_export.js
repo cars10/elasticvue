@@ -1,9 +1,16 @@
 import store from '@/store'
 import { ref, watch } from '@vue/composition-api'
+import { useIdb } from '@/services/IdbConnection'
+import { IDB_TABLE_NAMES, LOCALSTORAGE_KEY } from '@/consts'
 
-export const exportStoreDataUri = () => {
+export const exportStoreDataUri = async () => {
   const currentState = JSON.parse(JSON.stringify(store.state)) // use JSON.parse&stringify for deep copy
   delete currentState.connection.elasticsearchAdapter
+
+  const { connection } = useIdb(IDB_TABLE_NAMES.REST)
+  await connection.initialize()
+  currentState.idb = {}
+  currentState.idb[IDB_TABLE_NAMES.REST] = connection.entries.value
 
   return `data:application/json,${encodeURIComponent(JSON.stringify(currentState))}`
 }
@@ -46,10 +53,37 @@ export const useImportFileData = fileInputData => {
     }
   }
 
+  const importBackup = async () => {
+    if (!valid.value || !importedData.value) return
+
+    if (confirm('Are you sure? Importing a backup will overwrite your current settings and saved clusters!')) {
+      const json = JSON.parse(importedData.value)
+      const idbData = Object.assign({}, json.idb)
+      delete json.idb
+
+      // import elasticvue settings
+      localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(json))
+      // import idb data
+      const validTableNames = Object.values(IDB_TABLE_NAMES)
+      const tables = Object.keys(idbData)
+      for (const table of tables) {
+        if (!validTableNames.includes(table)) continue
+        const { connection } = useIdb(table)
+        await connection.initialize()
+        await connection.importData(idbData[table])
+      }
+
+      return true
+    } else {
+      return false
+    }
+  }
+
   return {
     valid,
     errorMessage,
-    importedData
+    importedData,
+    importBackup
   }
 }
 
