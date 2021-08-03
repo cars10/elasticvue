@@ -9,9 +9,12 @@
   top: 4px;
   right: 18px;
   z-index: 2;
-  opacity: .4;
 
-  &:hover {
+  i {
+    opacity: .4;
+  }
+
+  i:hover {
     opacity: 1;
   }
 }

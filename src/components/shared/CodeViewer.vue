@@ -3,6 +3,10 @@
     <div ref="editor" style="height: 100%; width: 100%"/>
 
     <div class="code-editor__actions">
+      <v-btn icon class="mr-1" title="Copy content" @click="copyContent">
+        <v-icon>mdi-content-copy</v-icon>
+      </v-btn>
+
       <settings-dropdown>
         <div class="px-3 pb-3" style="white-space: nowrap">
           <v-checkbox v-model="useSpaces"
@@ -48,7 +52,7 @@
     setup (props, context) {
       const editor = ref(null)
       const { useSpaces, wrapLines } = vuexAccessors('codeEditor', ['useSpaces', 'wrapLines'])
-      const { setTheme, setWhitespace, setWrapLines, unmountEditor, setupAceEditor } = editorUtils(editor)
+      const { setTheme, setWhitespace, setWrapLines, unmountEditor, setupAceEditor, copyContent } = editorUtils(editor)
 
       watch(() => props.value, newValue => {
         if (editor.value.getValue() !== newValue) {
@@ -91,7 +95,8 @@
 
       return {
         useSpaces,
-        wrapLines
+        wrapLines,
+        copyContent
       }
     }
   }

@@ -46,7 +46,12 @@ export const editorUtils = editor => {
     editor.value.container.remove()
   }
 
+  const copyContent = () => {
+    navigator.clipboard.writeText(editor.value.getValue())
+  }
+
   return {
+    copyContent,
     setTheme,
     setWhitespace,
     setWrapLines,

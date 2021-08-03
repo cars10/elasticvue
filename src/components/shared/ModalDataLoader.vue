@@ -13,7 +13,6 @@
       <v-divider/>
 
       <v-card-text class="pt-2">
-        <v-btn @click="copy" :disabled="requestState.loading" class="mb-2">Copy content</v-btn>
         <loader :request-state="requestState">
           <print-pretty :caption="modalSubtitle"
                         :document="data"
@@ -31,7 +30,6 @@
   import { onBeforeUnmount, ref, watch } from '@vue/composition-api'
   import { useElasticsearchRequest } from '@/mixins/RequestComposition'
   import Loader from '@/components/shared/Loader'
-  import { stringifyJsonBigInt } from '@/helpers/json_parse'
 
   export default {
     name: 'modal-data-loader',
@@ -102,19 +100,13 @@
         if (e.keyCode === 27) close()
       }
 
-      const copy = () => {
-        const value = typeof data.value === 'string' ? data.value : stringifyJsonBigInt(data.value, null, '\t')
-        navigator.clipboard.writeText(value)
-      }
-
       return {
         dialog,
         requestState,
         load,
         data,
         close,
-        calculatedHeight,
-        copy
+        calculatedHeight
       }
     }
   }
