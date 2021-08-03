@@ -10,12 +10,12 @@
   right: 18px;
   z-index: 2;
 
-  i {
+  > div {
     opacity: .4;
-  }
 
-  i:hover {
-    opacity: 1;
+    &:hover {
+      opacity: 1;
+    }
   }
 }
 

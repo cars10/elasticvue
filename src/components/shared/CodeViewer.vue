@@ -3,25 +3,29 @@
     <div ref="editor" style="height: 100%; width: 100%"/>
 
     <div class="code-editor__actions">
-      <v-btn icon class="mr-1" title="Copy content" @click="copyContent">
-        <v-icon>mdi-content-copy</v-icon>
-      </v-btn>
+      <div class="d-inline-block">
+        <v-btn small icon class="mr-1" title="Copy content" @click="copyContent">
+          <v-icon>mdi-content-copy</v-icon>
+        </v-btn>
+      </div>
 
-      <settings-dropdown>
-        <div class="px-3 pb-3" style="white-space: nowrap">
-          <v-checkbox v-model="useSpaces"
-                      label="Use spaces"
-                      title="Change whitespace to 2 spaces instead of tabs"
-                      class="my-1 py-0"
-                      hide-details/>
+      <div class="d-inline-block">
+        <settings-dropdown>
+          <div class="px-3 pb-3" style="white-space: nowrap">
+            <v-checkbox v-model="useSpaces"
+                        label="Use spaces"
+                        title="Change whitespace to 2 spaces instead of tabs"
+                        class="my-1 py-0"
+                        hide-details/>
 
-          <v-checkbox v-model="wrapLines"
-                      label="Wrap lines"
-                      title="Wrap long lines"
-                      class="my-1 py-0"
-                      hide-details/>
-        </div>
-      </settings-dropdown>
+            <v-checkbox v-model="wrapLines"
+                        label="Wrap lines"
+                        title="Wrap long lines"
+                        class="my-1 py-0"
+                        hide-details/>
+          </div>
+        </settings-dropdown>
+      </div>
     </div>
   </div>
 </template>
