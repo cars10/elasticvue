@@ -36,6 +36,16 @@
         <template v-else>No documents found.</template>
       </template>
 
+      <template v-slot:footer.prepend>
+        <v-btn :disabled="filteredItems.length === 0"
+               small
+               @click="setDownloadHref"
+               download="search.json"
+               :href="downloadJsonHref">
+          Download as json
+        </v-btn>
+      </template>
+
       <v-progress-linear slot="progress" color="blue" indeterminate/>
     </v-data-table>
     <modal-data-loader v-model="modalOpen" :method-params="modalMethodParams" method="get"/>
@@ -191,6 +201,12 @@
         modalOpen.value = true
       }
 
+      const downloadJsonHref = ref('#')
+      const setDownloadHref = () => {
+        const value = typeof props.body === 'string' ? props.body : JSON.stringify(props.body)
+        downloadJsonHref.value = `data:application/json,${encodeURIComponent(value)}`
+      }
+
       return {
         filterLoading,
         filteredItems,
@@ -205,7 +221,9 @@
         filter,
         options,
         columns,
-        selectedColumns
+        selectedColumns,
+        downloadJsonHref,
+        setDownloadHref
       }
     }
   }
