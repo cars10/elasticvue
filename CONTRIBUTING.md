@@ -12,5 +12,6 @@ Please use the **develop** branch for any PR.
 1. Fork the repo [https://github.com/cars10/elasticvue/fork](https://github.com/cars10/elasticvue/fork)
 2. Checkout a new branch `git checkout -b my-feature develop`
 3. Commit your changes `git commit -am 'new feature'`
-4. Push your branch `git push origin my-feature`
-5. Create a pull request
+4. **Lint your code!** `yarn lint --fix`
+5. Push your branch `git push origin my-feature`
+6. Create a pull request
