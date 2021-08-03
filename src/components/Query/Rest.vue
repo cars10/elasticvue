@@ -61,13 +61,20 @@
           <v-chip class="ml-2" :class="responseStatusClass" v-if="responseStatus">{{ responseStatus }}</v-chip>
 
           <br>
-          <button id="reset-form" type="button" class="btn-link mt-2" @click="resetForm">
-            <small>Reset</small>
-          </button>
+          <v-btn id="reset-form" class="mt-2" @click="resetForm" small text>
+            Reset
+          </v-btn>
         </v-col>
 
         <v-col :md="vertical ? 12 : 6" cols="12">
-          <print-pretty :document="responseBody" :focus="false" class="response mb-4"/>
+          <print-pretty :document="responseBody" :focus="false" class="mb-2"/>
+          <v-btn :disabled="!responseBody || responseBody.length === 0"
+                 small
+                 @click="setDownloadHref"
+                 :download="downloadFileName"
+                 :href="downloadJsonHref">
+            Download as json
+          </v-btn>
         </v-col>
       </v-row>
     </v-form>
@@ -107,7 +114,7 @@
         vertical
       } = vuexAccessors('queryRest', ['method', 'path', 'requestBody', 'vertical'])
       const loading = ref(false)
-      const responseBody = ref({})
+      const responseBody = ref('')
       const responseStatus = ref(null)
 
       const canSendBody = computed(() => {
@@ -215,6 +222,15 @@
 
       const historyCollapsed = ref(false)
 
+      const downloadJsonHref = ref('#')
+      const downloadFileName = computed(() => {
+        return `${method.value.toLowerCase()}_${path.value.replace(/[\W_]+/g, '_')}.json`
+      })
+      const setDownloadHref = () => {
+        const value = typeof responseBody.value === 'string' ? responseBody.value : JSON.stringify(responseBody.value)
+        downloadJsonHref.value = `data:application/json,${encodeURIComponent(value)}`
+      }
+
       return {
         loading,
         responseBody,
@@ -231,7 +247,10 @@
         resetForm,
         setRequest,
         responseStatusClass,
-        historyCollapsed
+        historyCollapsed,
+        downloadFileName,
+        downloadJsonHref,
+        setDownloadHref
       }
     }
   }
