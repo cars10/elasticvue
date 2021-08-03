@@ -35,6 +35,13 @@
       <template v-slot:item="props">
         <index-row :index="props.item" @reloadIndices="emitReloadIndices"/>
       </template>
+      <template v-slot:header.parsedDocsCount="{header}">
+        {{ header.text }}
+        <v-icon small
+                title='If your index has fields with "type": "nested" then the number of lucene documents might not match the number of elasticsearch documents in your index. Each nested object counts as a separate document. Use the _count API if you need the number of elasticsearch documents.'>
+          mdi-information-outline
+        </v-icon>
+      </template>
     </v-data-table>
   </div>
 </template>
@@ -80,7 +87,7 @@
         { text: 'UUID', value: 'uuid' },
         { text: 'Aliases', value: 'aliases', sortable: false },
         { text: 'Shards', value: 'parsedPri', align: 'right' },
-        { text: 'Docs', value: 'parsedDocsCount', align: 'right' },
+        { text: 'Lucene docs', value: 'parsedDocsCount', align: 'right' },
         { text: 'Storage', value: 'parsedStoreSize', align: 'right' },
         { text: '', value: 'actions', sortable: false }
       ]

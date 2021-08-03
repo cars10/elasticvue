@@ -10,8 +10,11 @@
 * [feat]: Adds "Copy content" button to data loading modals (like index info or document show)
 * [feat]: Cleanup code editor settings
 * [feat]: Simplify footer, move link to reset settings to settings page
+* [fix]: Adds tooltip to document count column in the indices table, fixes [#54][i54]
 * removes link to survey, view the results [here](https://github.com/cars10/elasticvue/issues/55)
 * some small css and color improvements
+
+[i54]: https://github.com/cars10/elasticvue/issues/54
 
 ## 0.35.0
 
