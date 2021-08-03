@@ -184,7 +184,7 @@
         filteredItems.value = filteredResults.map(el => Object.assign(el, el._source) && delete el._source && el)
       }
 
-      const debouncedFilterTable = debounce(filterTable, 500)
+      const debouncedFilterTable = debounce(filterTable, 250)
 
       const openDocument = params => {
         modalMethodParams.value = params

@@ -100,7 +100,7 @@
         results = await asyncFilterTable(results, filter.value, ['index', 'uuid'])
         items.value = results.map(index => new ElasticsearchIndex(index))
       }
-      const debouncedFilterTable = debounce(filterTable, 350)
+      const debouncedFilterTable = debounce(filterTable, 250)
       watch(filter, debouncedFilterTable)
       watch(showHiddenIndices, filterTable)
       watch(() => props.indices, filterTable)

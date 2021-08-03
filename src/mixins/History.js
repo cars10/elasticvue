@@ -28,7 +28,7 @@ export const useHistory = tableName => {
     if (onlyFavorites.value) results = results.filter(entry => entry.favorite === 1)
     items.value = await asyncFilterTable(results, filter.value, IDB_TABLE_DEFINITIONS[tableName].filterableColumns)
   }
-  const debouncedFilterTable = debounce(filterTable, 350)
+  const debouncedFilterTable = debounce(filterTable, 250)
   watch(filter, debouncedFilterTable)
   watch([onlyFavorites, connection.entries], filterTable)
 
