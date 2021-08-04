@@ -9,7 +9,7 @@
                         append-icon="mdi-magnify"
                         class="mt-0 pt-0 v-text-field--small"
                         hide-details
-                        label="Filter *current* page..."
+                        :label="$t('search.table.filter')"
                         name="filter"
                         @keyup.esc="filter = ''"/>
 
@@ -32,8 +32,8 @@
       </template>
 
       <template slot="no-data">
-        <template v-if="filter !== ''"> No documents found that match your filter <i>{{ filter }}</i>.</template>
-        <template v-else>No documents found.</template>
+        <template v-if="filter !== ''"> {{ $t('search.table.no-document-found-match-filter') }} <i>{{ filter }}</i>.</template>
+        <template v-else>{{ $t('search.table.no-document-found') }}</template>
       </template>
 
       <template v-slot:footer.prepend>
@@ -42,7 +42,7 @@
                @click="setDownloadHref"
                download="search.json"
                :href="downloadJsonHref">
-          Download as json
+          {{ $t('search.table.download-as-json') }}
         </v-btn>
       </template>
 

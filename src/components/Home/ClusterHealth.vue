@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title>
-      Cluster Health
+      {{ $t('cluster-health') }}
       <reload-button id="reload-cluster-health" :action="load"/>
     </v-card-title>
     <v-divider/>

@@ -2,12 +2,12 @@
   <v-dialog v-model="dialog" class="theme--dark" width="800">
     <template v-slot:activator="{ on, attrs }">
       <v-btn id="add_new_instance" v-bind="attrs" v-on="on" color="primary-button">
-        Add cluster
+        {{ $t('es.instance.add-cluster') }}
       </v-btn>
     </template>
     <v-card>
       <v-card-title class="text-h5">
-        <h2 class="text-h5">Add elasticsearch instance</h2>
+        <h2 class="text-h5">{{ $t('es.instance.add-es-instance') }}</h2>
         <div class="ml-a">
           <v-btn icon title="Close" @click.native="closeDialog">
             <v-icon>mdi-close</v-icon>
@@ -18,20 +18,20 @@
       <v-divider/>
 
       <v-card-text v-if="SHOW_CORS_HINT">
-        <h2 class="text-h6 my-4">1. Configure</h2>
+        <h2 class="text-h6 my-4">{{ $t('es.instance.1-configure') }}</h2>
         <v-expand-transition>
           <configure v-if="configureHintVisible"/>
         </v-expand-transition>
         <v-btn class="pl-1" small text @click="configureHintVisible = !configureHintVisible">
           <v-icon>{{ configureHintVisible ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-          Show help
+          {{ $t('es.instance.show-help') }}
         </v-btn>
       </v-card-text>
 
       <v-divider/>
 
       <v-card-text>
-        <h2 v-if="SHOW_CORS_HINT" class="text-h6 my-4">2. Connect</h2>
+        <h2 v-if="SHOW_CORS_HINT" class="text-h6 my-4">{{ $t('es.instance.2-connect') }}</h2>
         <v-form ref="form" v-model="formValid" lazy-validation @submit.prevent="testConnection">
 
           <v-text-field v-if="dialog"
@@ -42,7 +42,7 @@
                         append-icon="mdi-close"
                         autocomplete="off"
                         autofocus
-                        label="Cluster name"
+                        :label="$t('es.instance.cluster-name')"
                         name="name"
                         required
                         @keyup.ctrl.enter="connectCluster"
@@ -52,8 +52,8 @@
             <v-row>
               <v-col cols="12" md="6">
                 <v-text-field v-model="elasticsearchHost.username"
-                              label="Username (optional)"
-                              title="Username"
+                              :label="$t('es.instance.username')+'('+$t('es.instance.optional')+')'"
+                              :title="$t('es.instance.username')"
                               type="text"/>
               </v-col>
               <v-col cols="12" md="6">
@@ -61,8 +61,8 @@
                               :append-icon="passwordVisible ? 'mdi-eye' : 'mdi-eye-off'"
                               :type="passwordVisible ? 'text' : 'password'"
                               autocomplete="off"
-                              label="Password  (optional)"
-                              title="Password"
+                              :label="$t('es.instance.password')+'('+$t('es.instance.optional')+')'"
+                              :title="$t('es.instance.password')"
                               @click:append="passwordVisible = !passwordVisible"/>
               </v-col>
             </v-row>
@@ -75,7 +75,7 @@
                           v-model="elasticsearchHost.uri"
                           :rules="[validUri]"
                           append-icon="mdi-close"
-                          label="Uri"
+                          :label="$t('es.instance.uri')"
                           name="uri"
                           required
                           @keyup.ctrl.enter="connectCluster"
@@ -84,12 +84,12 @@
           </div>
 
           <v-alert :value="hasError" type="error">
-            Could not connect. Please make sure that
+            {{$t('es.instance.connection-error-part-1') }}
             <ol class="pl-4">
-              <li>Your cluster is reachable via <a :href="elasticsearchHost.uri"
+              <li>{{$t('es.instance.connection-error-part-2') }} <a :href="elasticsearchHost.uri"
                                                    target="_blank">{{ elasticsearchHost.uri }}</a>
               </li>
-              <li>You added the correct settings to your <strong>elasticsearch.yml</strong> and restarted your cluster
+              <li>{{$t('es.instance.connection-error-part-3') }} <strong>elasticsearch.yml</strong> {{$t('es.instance.connection-error-part-4') }}
               </li>
             </ol>
 
@@ -105,7 +105,7 @@
                    :loading="testState.testLoading"
                    class="mr-2"
                    type="submit">
-              Test connection
+              {{ $t('es.instance.test-connection') }}
             </v-btn>
 
             <v-btn id="connect"
@@ -114,9 +114,9 @@
                    :loading="testState.connectLoading"
                    class="mr-2"
                    type="button"
-                   @click.native="connectCluster">Connect
+                   @click.native="connectCluster">{{ $t('es.instance.connect') }}
             </v-btn>
-            <v-btn text @click="closeDialog">Cancel</v-btn>
+            <v-btn text @click="closeDialog">{{ $t('es.instance.cancel') }}</v-btn>
           </div>
         </v-form>
       </v-card-text>

@@ -5,14 +5,14 @@
         <v-icon small>mdi-restore</v-icon>
       </v-list-item-action>
       <v-list-item-content>
-        <v-list-item-title>Restore</v-list-item-title>
+        <v-list-item-title>{{ $t('snapshots.restore.title') }}</v-list-item-title>
       </v-list-item-content>
     </v-list-item>
 
     <v-dialog v-model="dialog" width="700">
       <v-card>
         <v-card-title>
-          <h2 class="text-h5">Restore '{{ snapshot }}'</h2>
+          <h2 class="text-h5">{{ $t('snapshots.restore.title') }} '{{ snapshot }}'</h2>
           <div class="ml-a">
             <v-btn icon title="Close" @click.native="closeDialog">
               <v-icon>mdi-close</v-icon>
@@ -24,14 +24,14 @@
         <v-form ref="form" v-model="valid" lazy-validation @submit.prevent="restoreSnapshot">
           <v-card-text>
             <index-filter v-model="indices" :method-params="{ repository, snapshot }" method="getSnapshotIndices"/>
-            <v-checkbox v-model="ignoreUnavailable" color="primary-button" hide-details label="Ignore unavailable"/>
-            <v-checkbox v-model="includeGlobalState" color="primary-button" label="Include global state"/>
+            <v-checkbox v-model="ignoreUnavailable" color="primary-button" hide-details :label="$t('snapshots.restore.ignore-unavailable')"/>
+            <v-checkbox v-model="includeGlobalState" color="primary-button" :label="$t('snapshots.restore.include-global-state')"/>
 
             <v-text-field v-if="dialog"
                           id="rename_pattern"
                           v-model="renamePattern"
                           autocomplete="off"
-                          label="Rename pattern"
+                          :label="$t('snapshots.restore.rename-pattern')"
                           name="rename_pattern"
                           @keyup.esc="closeDialog"/>
 
@@ -40,7 +40,7 @@
                           v-model="renameReplacement"
                           autocomplete="off"
                           hide-details
-                          label="Rename replacement"
+                          :label="$t('snapshots.restore.rename-replacement')"
                           name="rename_replacement"
                           @keyup.esc="closeDialog"/>
           </v-card-text>
@@ -48,9 +48,9 @@
           <v-card-actions class="pa-4">
             <v-btn id="restore_snapshot" :disabled="requestState.loading || !valid" :loading="requestState.loading"
                    color="success" type="submit">
-              Restore
+              {{ $t('snapshots.restore.restore') }}
             </v-btn>
-            <v-btn text @click="closeDialog">Cancel</v-btn>
+            <v-btn text @click="closeDialog">{{ $t('snapshots.restore.cancel') }}</v-btn>
           </v-card-actions>
         </v-form>
       </v-card>
@@ -59,6 +59,7 @@
 </template>
 
 <script>
+  import i18n from '@/i18n'
   import IndexFilter from '@/components/shared/IndexFilter'
   import { ref } from '@vue/composition-api'
   import { useElasticsearchRequest } from '@/mixins/RequestComposition'
@@ -119,12 +120,12 @@
         callElasticsearch('snapshotRestore', buildRestoreParams())
           .then(() => {
             showSuccessSnackbar({
-              text: 'Success',
-              additionalText: `The snapshot '${props.snapshot}' was successfully restored.`
+              text: i18n.t('snapshots.restore.success'),
+              additionalText: i18n.t('snapshots.restore.success-message', { snapshot: props.snapshot })
             })
             closeDialog()
           })
-          .catch(() => showErrorSnackbar({ text: 'Error:', additionalText: requestState.value.apiErrorMessage }))
+          .catch(() => showErrorSnackbar({ text: i18n.t('snapshots.restore.error'), additionalText: requestState.value.apiErrorMessage }))
       }
 
       return {

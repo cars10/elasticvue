@@ -6,8 +6,8 @@
           <v-col cols="12" md="6">
             <v-text-field v-model="elasticsearchHost.username"
                           autofocus
-                          label="Username (optional)"
-                          title="Username"
+                          :label="$t('setup.username')+'('+$t('setup.optional')+')'"
+                          :title="$t('setup.username')"
                           type="text"/>
           </v-col>
           <v-col cols="12" md="6">
@@ -15,8 +15,8 @@
                           :append-icon="passwordVisible ? 'mdi-eye' : 'mdi-eye-off'"
                           :type="passwordVisible ? 'text' : 'password'"
                           autocomplete="off"
-                          label="Password (optional)"
-                          title="Password"
+                          :label="$t('setup.password')+'('+$t('setup.optional')+')'"
+                          :title="$t('setup.password')"
                           @click:append="passwordVisible = !passwordVisible"/>
           </v-col>
         </v-row>
@@ -27,8 +27,8 @@
                     v-model="elasticsearchHost.uri"
                     :rules="[validUri]"
                     append-icon="mdi-close"
-                    label="Host"
-                    title="Host"
+                    :label="$t('setup.host')"
+                    :title="$t('setup.host')"
                     type="text"
                     @click:append="resetElasticsearchHost"
                     @keyup.ctrl.enter="connectCluster"
@@ -43,7 +43,7 @@
                :loading="testState.testLoading"
                class="mr-2 mt-2"
                type="submit">
-          Test connection
+          {{ $t('setup.test-connection') }}
         </v-btn>
 
         <v-btn id="connect"
@@ -52,20 +52,20 @@
                :loading="testState.connectLoading"
                class="mt-2"
                type="button"
-               @click.native="connectCluster">Connect
+               @click.native="connectCluster">{{ $t('setup.connect') }}
         </v-btn>
       </div>
     </v-form>
 
     <div v-if="hasError" class="px-4">
       <v-alert :value="true" type="error">
-        Could not connect. Please make sure that
+        {{ $t('setup.connection-error-part-1') }}
         <ol class="pl-4">
           <li>
-            Your cluster is reachable via
+            {{ $t('setup.connection-error-part-2') }}
             <a :href="elasticsearchHost.uri" target="_blank">{{ elasticsearchHost.uri }}</a>
           </li>
-          <li>You added the correct settings to your <strong>elasticsearch.yml</strong> and restarted your cluster</li>
+          <li>{{ $t('setup.connection-error-part-3') }} <strong>elasticsearch.yml</strong> {{ $t('setup.connection-error-part-4') }}</li>
         </ol>
 
         <div class="mt-2">
@@ -79,6 +79,7 @@
 <script>
   import { useTestConnection } from '@/mixins/TestConnection'
   import store from '@/store'
+  import i18n from '@/i18n'
   import { computed, ref } from '@vue/composition-api'
   import { showSuccessSnackbar } from '@/mixins/ShowSnackbar'
   import SslHint from '@/components/shared/SslHint'
@@ -111,7 +112,7 @@
           .then(() => {
             if (testState.value.connectError) return
             store.commit('connection/setActiveInstanceIdx', 0)
-            showSuccessSnackbar({ text: 'Successfully connected.' })
+            showSuccessSnackbar({ text: i18n.t('setup.successfully-connected') })
             context.root.$router.push('/')
           })
       }

@@ -4,7 +4,7 @@
                   :loading="loading"
                   append-icon="mdi-menu-down"
                   autocomplete="off"
-                  label="Select indices"
+                  :label="$t('shared.index-select.select-indices')"
                   multiple
                   name="indices"
                   prepend-inner-icon="mdi-cached"
@@ -24,7 +24,7 @@
           {{ item }}
         </template>
         <template v-else>
-          {{ localValue.length }} indices selected
+          {{ localValue.length }} {{ $t('shared.index-select.indices-selected') }}
         </template>
       </template>
     </template>
@@ -32,18 +32,18 @@
     <template v-slot:prepend-item>
       <div class="px-4 mb-2">
         <btn-group class="d-inline-block">
-          <v-btn small title="Select all indices" @click="selectAll">
-            select all
+          <v-btn small :title="$t('shared.index-select.select-all-title')" @click="selectAll">
+            {{ $t('shared.index-select.select-all') }}
           </v-btn>
 
-          <v-btn small title="Deselect all indices" @click="deselectAll">
-            deselect all
+          <v-btn small :title="$t('shared.index-select.deselect-all-title')" @click="deselectAll">
+            {{ $t('shared.index-select.deselect-all') }}
           </v-btn>
         </btn-group>
 
         <div class="float-right d-inline-block">
-          <v-checkbox v-model="showHidden" class="mt-0" color="primary-button" hide-details label="show hidden"
-                      title="Show indices starting with a dot"/>
+          <v-checkbox v-model="showHidden" class="mt-0" color="primary-button" hide-details :label="$t('shared.index-select.show-hidden')"
+                      :title="$t('shared.index-select.show-hidden-title')"/>
         </div>
       </div>
       <v-divider/>

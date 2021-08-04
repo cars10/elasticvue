@@ -1,12 +1,12 @@
 <template>
   <v-dialog v-model="dialog" width="500">
     <template v-slot:activator="{on}">
-      <v-btn id="new_snapshot_repository" v-on="on" class="ml-0" color="primary-button">New repository</v-btn>
+      <v-btn id="new_snapshot_repository" v-on="on" class="ml-0" color="primary-button">{{ $t('repository.new-repo') }}</v-btn>
     </template>
 
     <v-card>
       <v-card-title>
-        <h2 class="text-h5">New snapshot repository</h2>
+        <h2 class="text-h5">{{ $t('repository.new-snapshot-repo') }}</h2>
         <div class="ml-a">
           <v-btn icon title="Close" @click.native="closeDialog">
             <v-icon>mdi-close</v-icon>
@@ -23,21 +23,21 @@
                         :rules="[nameRules]"
                         autocomplete="off"
                         autofocus
-                        label="Repository name"
+                        :label="$t('repository.new-repo-name')"
                         name="repositoryName"
                         required
                         @keydown.esc="closeDialog"/>
 
           <v-text-field id="repository_type"
                         disabled
-                        label="Repository type"
+                        :label="$t('repository.new-repo-type')"
                         name="repositoryType"
                         value="fs"/>
 
           <v-text-field id="repository_location"
                         v-model="repositoryLocation"
                         :rules="[locationRules]"
-                        label="Repository location"
+                        :label="$t('repository.new-repo-location')"
                         name="repositoryLocation"
                         placeholder="/some/path"
                         required
@@ -45,7 +45,7 @@
 
           <v-text-field id="chunk_size"
                         v-model="chunkSize"
-                        label="Chunk size"
+                        :label="$t('repository.new-repo-chunk-size')"
                         name="chunk_size"
                         placeholder="e.g.: 1g, 10m, 5k"
                         @keydown.esc="closeDialog"/>
@@ -53,7 +53,7 @@
           <v-text-field id="max_restore_bytes_per_sec"
                         v-model="maxRestoreBytesPerSec"
                         :rules="[maxRestoreBytesPerSecRules]"
-                        label="max_restore_bytes_per_sec"
+                        :label="$t('repository.new-repo-max-restore-bytes-per-sec')"
                         name="maxRestoreBytesPerSec"
                         required
                         @keydown.esc="closeDialog"/>
@@ -61,21 +61,21 @@
           <v-text-field id="max_snapshot_bytes_per_sec"
                         v-model="maxSnapshotBytesPerSec"
                         :rules="[maxSnapshotBytesPerSecRules]"
-                        label="max_snapshot_bytes_per_sec"
+                        :label="$t('repository.new-repo-max-snapshot-bytes-per-sec')"
                         name="max_snapshot_bytes_per_sec"
                         required
                         @keydown.esc="closeDialog"/>
 
-          <v-checkbox id="compress" v-model="compress" color="primary-button" hide-details label="Compress"/>
-          <v-checkbox id="readonly" v-model="readonly" color="primary-button" hide-details label="Readonly"/>
+          <v-checkbox id="compress" v-model="compress" color="primary-button" hide-details :label="$t('repository.new-repo-compress')"/>
+          <v-checkbox id="readonly" v-model="readonly" color="primary-button" hide-details :label="$t('repository.new-repo-readonly')"/>
         </v-card-text>
 
         <v-card-actions class="pa-4">
           <v-btn id="create_snapshot_repository" :disabled="requestState.loading || !valid"
                  :loading="requestState.loading" color="success"
-                 type="submit">Create
+                 type="submit">{{ $t('repository.create') }}
           </v-btn>
-          <v-btn text @click="closeDialog">Cancel</v-btn>
+          <v-btn text @click="closeDialog">{{ $t('repository.cancel') }}</v-btn>
         </v-card-actions>
       </v-form>
     </v-card>

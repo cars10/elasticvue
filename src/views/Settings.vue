@@ -3,7 +3,7 @@
     <v-col lg="8" offset-lg="2">
       <v-card>
         <v-card-title>
-          <h1 class="text-h5">Settings</h1>
+          <h1 class="text-h5">{{ $t("settings.title") }}</h1>
         </v-card-title>
         <v-divider/>
 
@@ -13,8 +13,8 @@
               <v-text-field id="query"
                             v-model="hideIndicesRegex"
                             autofocus
-                            label="Hide indices regex"
-                            messages="Indices matching this regex will be hidden by default on all places where indices are listed">
+                            :label="$t('settings.hide-indices-regex')"
+                            :messages="$t('settings.hide-indices-regex-message')">
                 <template v-slot:message="{ message }">
                   <span v-html="message"/>
                 </template>
@@ -29,10 +29,10 @@
 
           <v-divider class="mb-4"/>
 
-          <p>Disconnect and reset all settings</p>
+          <p>{{ $t('settings.disconnect-and-reset-all-settings') }}</p>
           <v-btn type="button" small @click="reset">
             <v-icon small class="red--text mr-2">mdi-alert</v-icon>
-            Disconnect and reset
+            {{ $t('settings.disconnect-and-reset') }}
           </v-btn>
         </v-card-text>
       </v-card>
@@ -47,6 +47,7 @@
   import { vuexAccessors } from '@/helpers/store'
   import { BASE_URI, DEFAULT_HIDE_INDICES_REGEX, LOCALSTORAGE_KEY } from '@/consts'
   import store from '@/store'
+  import i18n from '@/i18n'
 
   export default {
     name: 'settings',
@@ -58,7 +59,7 @@
       const resetHideIndicesRegex = () => store.commit('indices/resetHideIndicesRegex')
 
       const reset = () => {
-        if (confirm('Are you sure? This will delete all data saved by elasticvue! You will have to reconnect to your cluster.')) {
+        if (confirm(i18n.t('settings.disconnect-and-reset-confirm-message', {app: 'elasticvue'}))) {
           localStorage.removeItem(LOCALSTORAGE_KEY)
           window.indexedDB.databases().then(databases => {
             databases.forEach(db => window.indexedDB.deleteDatabase(db.name))

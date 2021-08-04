@@ -5,7 +5,7 @@
       <template v-else>{{ renderValue(doc[key]) }}</template>
     </td>
     <td>
-      <v-btn>Show</v-btn>
+      <v-btn>{{ $t('search.result.show') }}</v-btn>
     </td>
   </tr>
 </template>

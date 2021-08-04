@@ -13,7 +13,7 @@
                           autofocus
                           class="mt-0 pt-0 v-text-field--small"
                           hide-details
-                          label="Filter name..."
+                          :label="$t('repository.table.filter')"
                           name="filter"
                           @keyup.esc="filter = ''"/>
           </div>
@@ -39,7 +39,7 @@
           <td>
             <v-btn @click.stop="deleteRepository(props.item.name)">
               <v-icon>mdi-delete</v-icon>
-              Delete
+              {{ $t('repository.table.delete') }}
             </v-btn>
           </td>
         </tr>
@@ -54,6 +54,7 @@
   import { vuexAccessors } from '@/helpers/store'
   import { computed } from '@vue/composition-api'
   import store from '@/store'
+  import i18n from '@/i18n'
   import { useElasticsearchRequest } from '@/mixins/RequestComposition'
   import { showSuccessSnackbar } from '@/mixins/ShowSnackbar'
   import { stringifyJsonBigInt } from '@/helpers/json_parse'
@@ -85,9 +86,9 @@
       })
 
       const HEADERS = [
-        { text: 'name', value: 'name' },
-        { text: 'type', value: 'type' },
-        { text: 'settings', value: 'settings', sortable: false },
+        { text: i18n.t('repository.table.repo-name'), value: 'name' },
+        { text: i18n.t('repository.table.repo-type'), value: 'type' },
+        { text: i18n.t('repository.table.repo-settings'), value: 'settings', sortable: false },
         { text: '', value: 'actions', sortable: false }
       ]
 
@@ -102,13 +103,13 @@
 
       const { callElasticsearch } = useElasticsearchRequest()
       const deleteRepository = name => {
-        if (confirm(`Delete repository '${name}' and all snapshots inside?`)) {
+        if (confirm(i18n.t('repository.table.delete-confirm', { name: name }))) {
           callElasticsearch('snapshotDeleteRepository', { repository: name })
             .then(() => {
               emitReloadData()
               showSuccessSnackbar({
-                text: 'Success',
-                additionalText: `The repository '${name}' was successfully deleted.`
+                text: i18n.t('repository.table.success'),
+                additionalText: i18n.t('repository.table.delete-result', { name: name })
               })
             })
         }

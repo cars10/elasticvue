@@ -4,7 +4,7 @@
                 :hint="requestState.loading ? 'loading...' : matchHint"
                 :loading="requestState.loading"
                 autocomplete="off"
-                label="Index pattern"
+                :label="$t('shared.index-filter.index-pattern')"
                 persistent-hint
                 @input="load"
                 @keyup.esc="localValue = '*'">
@@ -15,6 +15,7 @@
 </template>
 
 <script>
+  import i18n from '@/i18n'
   import { computed, onMounted, ref, watch } from '@vue/composition-api'
   import { useElasticsearchRequest } from '@/mixins/RequestComposition'
   import { debounce } from '@/helpers'
@@ -63,7 +64,7 @@
         } else {
           indexNames = indices.value.map(i => i.index).sort().join('\n')
         }
-        return `matches <strong title="${indexNames}">${indices.value.length} indices</strong>`
+        return i18n.t('shared.index-filter.match-indices', { count: indices.value.length, indices: indexNames })
       })
 
       return {

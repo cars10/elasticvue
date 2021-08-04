@@ -5,7 +5,7 @@
         <h2 class="text-h5">{{ modalTitle }}</h2>
         <reload-button id="reload-modal" :action="load"/>
         <div class="ml-a">
-          <v-btn icon title="Close" @click.native="close">
+          <v-btn icon :title="$t('shared.modal-data-loader.close')" @click.native="close">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </div>
@@ -30,6 +30,7 @@
   import { onBeforeUnmount, ref, watch } from '@vue/composition-api'
   import { useElasticsearchRequest } from '@/mixins/RequestComposition'
   import Loader from '@/components/shared/Loader'
+  import i18n from '@/i18n'
 
   export default {
     name: 'modal-data-loader',
@@ -54,7 +55,7 @@
         type: Object
       },
       modalTitle: {
-        default: 'Show',
+        default: i18n.t('shared.modal-data-loader.modal-title'),
         type: String
       },
       modalSubtitle: {

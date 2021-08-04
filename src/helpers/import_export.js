@@ -2,6 +2,7 @@ import store from '@/store'
 import { ref, watch } from '@vue/composition-api'
 import { useIdb } from '@/services/IdbConnection'
 import { IDB_TABLE_NAMES, LOCALSTORAGE_KEY } from '@/consts'
+import i18n from '@/i18n'
 
 export const exportStoreDataUri = async () => {
   const currentState = JSON.parse(JSON.stringify(store.state)) // use JSON.parse&stringify for deep copy
@@ -56,7 +57,7 @@ export const useImportFileData = fileInputData => {
   const importBackup = async () => {
     if (!valid.value || !importedData.value) return
 
-    if (confirm('Are you sure? Importing a backup will overwrite your current settings and saved clusters!')) {
+    if (confirm(i18n.t('helpers.import-export.import-confirm-message'))) {
       const json = JSON.parse(importedData.value)
       const idbData = Object.assign({}, json.idb)
       delete json.idb

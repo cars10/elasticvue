@@ -1,7 +1,6 @@
 <template>
   <p>
-    Your cluster uses authorization. Make sure that you have set "http.cors.allow-headers", otherwise you will not be
-    able to connect.
+    {{ $t('shared.auth-header-hint') }}
   </p>
 </template>
 

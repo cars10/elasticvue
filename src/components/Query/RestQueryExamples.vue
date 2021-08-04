@@ -3,15 +3,15 @@
     <v-dialog v-model="dialog" width="900">
       <template v-slot:activator="{ on, attrs }">
         <v-btn v-bind="attrs" v-on="on">
-          Query examples
+          {{ $t('rest.query-examples.query-examples') }}
         </v-btn>
       </template>
 
       <v-card>
         <v-card-title>
-          <h2 class="text-h5">Query examples</h2>
+          <h2 class="text-h5">{{ $t('rest.query-examples.query-examples') }}</h2>
           <div class="ml-a">
-            <v-btn icon title="Close" @click.native="closeDialog">
+            <v-btn icon :title="$t('rest.query-examples.close')" @click.native="closeDialog">
               <v-icon>mdi-close</v-icon>
             </v-btn>
           </div>
@@ -28,7 +28,7 @@
                               autofocus
                               class="v-text-field--small mb-4"
                               hide-details
-                              label="Filter..."
+                              :label="$t('rest.query-examples.filter-label')"
                               name="filter"
                               @keyup.esc="filter = ''"/>
               </div>
@@ -42,7 +42,7 @@
               <tr @click.exact="item.body.length > 0 ? togglePreview(index) : () => {}"
                   @click.ctrl="apply(item)"
                   class="tr--clickable"
-                  title="Click to preview request body, ctrl+click to directly use an example.">
+                  :title="$t('rest.query-examples.table-title')">
                 <td>
                   <span class="font--mono">{{ item.method }}</span> {{ item.path }}
                 </td>
@@ -58,7 +58,7 @@
                   </v-btn>
                 </td>
                 <td>
-                  <v-btn small @click.stop="apply(item)">Use</v-btn>
+                  <v-btn small @click.stop="apply(item)">{{ $t('rest.query-examples.table-use') }}</v-btn>
                 </td>
               </tr>
               <tr v-if="previewIndex === index" class="disable-hover-bg">
@@ -72,7 +72,7 @@
 
         <v-divider/>
         <v-card-actions class="pa-4">
-          <v-btn text @click="closeDialog">Close</v-btn>
+          <v-btn text @click="closeDialog">{{ $t('rest.query-examples.card-action-close') }}</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -83,6 +83,7 @@
   import { computed, ref } from '@vue/composition-api'
   import { DEFAULT_ITEMS_PER_PAGE, REST_QUERY_EXAMPLES } from '@/consts'
   import PrintPretty from '@/components/shared/PrintPretty'
+  import i18n from '@/i18n'
 
   export default {
     name: 'rest-query-examples',
@@ -93,10 +94,10 @@
       const dialog = ref(false)
       const closeDialog = () => (dialog.value = false)
       const headers = [
-        { text: 'Query', value: 'method' },
-        { text: 'Description', value: 'description' },
-        { text: 'Body', sortable: false },
-        { text: 'Use', sortable: false }
+        { text: i18n.t('rest.query-examples.table-header-query'), value: 'method' },
+        { text: i18n.t('rest.query-examples.table-header-description'), value: 'description' },
+        { text: i18n.t('rest.query-examples.table-header-body'), sortable: false },
+        { text: i18n.t('rest.query-examples.table-header-use'), sortable: false }
       ]
 
       const previewIndex = ref(null)

@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="mb-12">
-      <v-btn class="pl-1 mr-2" @click="historyCollapsed = !historyCollapsed" title="Show history">
+      <v-btn class="pl-1 mr-2" @click="historyCollapsed = !historyCollapsed" :title="$t('rest.show-history')">
         <v-icon>{{ historyCollapsed ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-        History
+        {{ $t('rest.history') }}
       </v-btn>
 
       <rest-query-examples @setRequest="setRequest"/>
@@ -18,7 +18,7 @@
           <v-select v-model="method"
                     :items="HTTP_METHODS"
                     hide-details
-                    label="HTTP Method"
+                    :label="$t('rest.http-method')"
                     name="http_method"/>
         </v-col>
         <v-col lg="10" sm="9" xl="11">
@@ -26,7 +26,7 @@
                         v-model="path"
                         autofocus
                         hide-details
-                        label="Path"
+                        :label="$t('rest.path')"
                         name="path"
                         placeholder="/"/>
         </v-col>
@@ -42,13 +42,12 @@
             <div :style="vertical ? 'height: 200px' : 'height: 500px'" class="mb-4">
               <v-alert :value="true" class="request-body-disabled-hint">
                 <p>
-                  You cannot send a request body via {{ method }}.<br>
-                  Please
-                  <button class="btn-link" type="button" @click="method = 'POST'">use POST</button>
-                  if you want to send a request body, alternatively add query parameters to the url.
+                  {{ $t('rest.hint-part-1', {method: method}) }}
+                  <button class="btn-link" type="button" @click="method = 'POST'">{{ $t('rest.hint-part-2') }}</button>
+                  {{ $t('rest.hint-part-3') }}
                 </p>
                 <p class="mb-0">
-                  You can use POST to search with the _search endpoint.
+                  {{ $t('rest.hint-part-4') }}
                 </p>
               </v-alert>
             </div>
@@ -56,13 +55,13 @@
 
           <v-btn id="execute_query" :disabled="!formValid" :loading="loading" class="mx-0" color="primary-button"
                  type="submit">
-            Send request
+            {{ $t('rest.send-request') }}
           </v-btn>
           <v-chip class="ml-2" :class="responseStatusClass" v-if="responseStatus">{{ responseStatus }}</v-chip>
 
           <br>
           <v-btn id="reset-form" class="mt-2" @click="resetForm" small text>
-            Reset
+            {{ $t('rest.reset') }}
           </v-btn>
         </v-col>
 
@@ -73,7 +72,7 @@
                  @click="setDownloadHref"
                  :download="downloadFileName"
                  :href="downloadJsonHref">
-            Download as json
+            {{ $t('search.download-as-json') }}
           </v-btn>
         </v-col>
       </v-row>
@@ -83,6 +82,7 @@
 
 <script>
   import store from '@/store'
+  import i18n from '@/i18n'
   import ResizableContainer from '@/components/shared/ResizableContainer'
   import PrintPretty from '@/components/shared/PrintPretty'
   import { HTTP_METHODS, IDB_TABLE_NAMES, REQUEST_DEFAULT_HEADERS } from '@/consts'

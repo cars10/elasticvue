@@ -9,11 +9,11 @@
       {{ snapshot.indices }}
       <v-btn v-if="indexNamesLoaded" text @click="loadIndexNames">
         <v-icon>mdi-chevron-up</v-icon>
-        Hide
+        {{ $t('snapshots.table.hide') }}
       </v-btn>
       <v-btn v-else text @click="loadIndexNames">
         <v-icon>mdi-chevron-down</v-icon>
-        Show
+        {{ $t('snapshots.table.show') }}
       </v-btn>
       <ul v-if="indexNames">
         <li v-for="name in indexNames" :key="name">{{ name }}</li>
@@ -26,7 +26,7 @@
       <btn-group small>
         <v-menu left offset-y>
           <template v-slot:activator="{on}">
-            <v-btn v-on="on" title="Options">
+            <v-btn v-on="on" :title="$t('snapshots.table.options')">
               <v-icon>mdi-cog</v-icon>
               <v-icon small>mdi-menu-down</v-icon>
             </v-btn>
@@ -35,10 +35,10 @@
             <restore-snapshot :repository="repository" :snapshot="snapshot.id"/>
 
             <list-tile-link :callback="emitReloadData"
-                            :confirm-message="`Delete snapshot '${snapshot.id}'?`"
-                            :growl="`The snapshot '${snapshot.id}' was successfully deleted.`"
+                            :confirm-message="$t('snapshots.table.delete-confirm', {snapshot: snapshot.id})"
+                            :growl="$t('snapshots.table.delete-success', {snapshot: snapshot.id})"
                             :method-params="{repository, snapshot: snapshot.id}"
-                            icon="mdi-delete" link-title="Delete snapshot" method="snapshotDelete"/>
+                            icon="mdi-delete" :link-title="$t('snapshots.table.delete')" method="snapshotDelete"/>
           </v-list>
         </v-menu>
       </btn-group>

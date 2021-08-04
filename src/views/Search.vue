@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title>
-      <h1 class="text-h5">Search</h1>
+      <h1 class="text-h5">{{ $t('search.title') }}</h1>
     </v-card-title>
     <v-divider/>
 
@@ -13,8 +13,8 @@
                           v-model="q"
                           append-icon="mdi-close"
                           autofocus
-                          label="Search"
-                          messages="Searching supports the <a tabindex='-1' target='_blank' rel='noopener' href='https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html'>query string DSL</a>"
+                          :label="$t('search.title')"
+                          :messages="$t('search.search-support')"
                           name="query"
                           placeholder="John OR age:25"
                           @keyup.esc="resetQuery"
@@ -30,24 +30,23 @@
           </v-col>
 
           <v-col cols="12" sm="1">
-            <v-btn id="search_submit" class="mt-4" color="primary-button" type="submit">Search</v-btn>
+            <v-btn id="search_submit" class="mt-4" color="primary-button" type="submit">{{ $t('search.search') }}</v-btn>
           </v-col>
         </v-row>
 
         <v-expand-transition>
           <div v-if="searchQueryCollapsed" class="my-2 pa-2 lowered">
             <p>
-              Customize the search query
+              {{ $t('search.customize-search-query') }}
             </p>
             <p>
-              Hint: changes to the query will not update the respecting inputs in the ui (like the search query or
-              pagination/sort in the table), but changes to the inputs will be merged into the query again.
+              {{ $t('search.customize-search-query-description') }}
             </p>
             <resizable-container :initial-height="280">
               <code-editor v-model="searchQuery" :external-commands="editorCommands"/>
             </resizable-container>
             <div class="mt-2">
-              <button class="btn-link" type="button" @click="resetSearchQuery">Reset custom query</button>
+              <button class="btn-link" type="button" @click="resetSearchQuery">{{ $t('search.reset-custom-query') }}</button>
             </div>
           </div>
         </v-expand-transition>
@@ -55,7 +54,7 @@
         <div class="text-center pt-2">
           <v-btn class="pl-1" small text @click="searchQueryCollapsed = !searchQueryCollapsed">
             <v-icon>{{ searchQueryCollapsed ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-            Customize query
+            {{ $t('search.customize-query') }}
           </v-btn>
         </div>
       </v-form>

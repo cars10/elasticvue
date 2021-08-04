@@ -4,7 +4,7 @@
 
     <div class="code-editor__actions">
       <div class="d-inline-block">
-        <v-btn small icon class="mr-1" title="Copy content" @click="copyContent">
+        <v-btn small icon class="mr-1" :title="$t('shared.code-editor.copy-content')" @click="copyContent">
           <v-icon>mdi-content-copy</v-icon>
         </v-btn>
       </div>
@@ -14,24 +14,24 @@
           <div class="px-3 pb-3" style="white-space: nowrap">
             <v-btn :disabled="!valid"
                    class="mb-2"
-                   title="Beautify (Ctrl+ALT+L)"
+                   :title="$t('shared.code-editor.beautify-title')"
                    small
                    @click="beautifyEditorValue(useSpaces)">
               <v-icon small class="mr-2">mdi-auto-fix</v-icon>
-              Beautify
+              {{ $t('shared.code-editor.beautify') }}
             </v-btn>
 
             <v-divider/>
 
             <v-checkbox v-model="useSpaces"
-                        label="Use spaces"
-                        title="Change whitespace to 2 spaces instead of tabs"
+                        :label="$t('shared.code-editor.whitespace-tabs-label')"
+                        :title="$t('shared.code-editor.whitespace-tabs-title')"
                         class="my-1 py-0"
                         hide-details/>
 
             <v-checkbox v-model="wrapLines"
-                        label="Wrap lines"
-                        title="Wrap long lines"
+                        :label="$t('shared.code-editor.wrap-lines-label')"
+                        :title="$t('shared.code-editor.wrap-lines-title')"
                         class="my-1 py-0"
                         hide-details/>
 
@@ -40,7 +40,7 @@
             <a target="_blank"
                rel="nofollow"
                href="https://github.com/ajaxorg/ace/wiki/Default-Keyboard-Shortcuts">
-              Keyboard shortcuts
+              {{ $t('shared.code-editor.keyboard-shortcuts') }}
             </a>
           </div>
         </settings-dropdown>

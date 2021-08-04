@@ -48,7 +48,7 @@
                 <v-icon small>mdi-information</v-icon>
               </v-list-item-action>
               <v-list-item-content>
-                <v-list-item-title>Show info</v-list-item-title>
+                <v-list-item-title>{{ $t('indices.row.show-info') }}</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
 
@@ -57,7 +57,7 @@
                 <v-icon small>mdi-chart-line-variant</v-icon>
               </v-list-item-action>
               <v-list-item-content>
-                <v-list-item-title>Show stats</v-list-item-title>
+                <v-list-item-title>{{ $t('indices.row.show-stats') }}</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
 
@@ -67,22 +67,22 @@
 
             <list-tile-link :callback="emitReloadIndices" :growl="`The index '${index.index}' was successfully merged.`"
                             :method-params="{index: index.index}"
-                            icon="mdi-call-merge" link-title="Forcemerge index" method="indexForcemerge"/>
+                            icon="mdi-call-merge" :link-title="$t('indices.row.forcemerge-index')" method="indexForcemerge"/>
 
             <list-tile-link :callback="emitReloadIndices"
                             :growl="`The index '${index.index}' was successfully refreshed.`"
                             :method-params="{index: index.index}"
-                            icon="mdi-refresh" link-title="Refresh index" method="indexRefresh"/>
+                            icon="mdi-refresh" :link-title="$t('indices.row.refresh-index')" method="indexRefresh"/>
 
             <list-tile-link :callback="emitReloadIndices"
                             :growl="`The index '${index.index}' was successfully flushed.`"
                             :method-params="{index: index.index}"
-                            icon="mdi-inbox-arrow-down" link-title="Flush index" method="indexFlush"/>
+                            icon="mdi-inbox-arrow-down" :link-title="$t('indices.row.flush-index')" method="indexFlush"/>
 
             <list-tile-link :callback="emitReloadIndices"
                             :growl="`The index '${index.index}' cache was successfully cleared.`"
                             :method-params="{index: index.index}"
-                            icon="mdi-notification-clear-all" link-title="Clear index cache"
+                            icon="mdi-notification-clear-all" :link-title="$t('indices.row.clear-index-cache')"
                             method="indexClearCache"/>
 
             <v-divider/>
@@ -90,17 +90,17 @@
             <list-tile-link v-if="index.status === 'open'"
                             :callback="emitReloadIndices" :growl="`The index '${index.index}' was successfully closed.`"
                             :method-params="{index: index.index}"
-                            icon="mdi-lock" link-title="Close index" method="indexClose"/>
+                            icon="mdi-lock" :link-title="$t('indices.row.close-index')" method="indexClose"/>
             <list-tile-link v-else :callback="emitReloadIndices"
                             :growl="`The index '${index.index}' was successfully opened.`"
                             :method-params="{index: index.index}"
-                            icon="mdi-lock-open" link-title="Open index" method="indexOpen"/>
+                            icon="mdi-lock-open" :link-title="$t('indices.row.open-index')" method="indexOpen"/>
 
             <list-tile-link :callback="emitReloadIndices"
                             :growl="`The index '${index.index}' was successfully deleted.`"
                             :method-params="{index: index.index}"
-                            :confirm-message="`Delete index ${index.index}? This will remove ALL data in your index!`"
-                            icon="mdi-delete" link-title="Delete index" method="indexDelete"/>
+                            :confirm-message="$t('indices.row.confirm-message', {index: index.index})"
+                            icon="mdi-delete" :link-title="$t('indices.row.delete-index')" method="indexDelete"/>
           </v-list>
         </v-menu>
       </btn-group>
