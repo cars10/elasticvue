@@ -211,7 +211,7 @@
       "header": {
         "status": "status",
         "start-time": "start_time",
-        "end-time'": "end_time",
+        "end-time": "end_time",
         "duration": "duration",
         "indices": "indices",
         "successful-shards": "successful_shards",

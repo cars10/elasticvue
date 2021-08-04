@@ -72,7 +72,7 @@
                  :href="downloadJsonHref"
                  small
                  @click="setDownloadHref">
-            {{ $t('search.download-as-json') }}
+            {{ $t('rest.download-as-json') }}
           </v-btn>
         </v-col>
       </v-row>
