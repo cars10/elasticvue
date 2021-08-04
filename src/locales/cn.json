@@ -285,7 +285,7 @@
       "import": "导入",
       "export": "导出",
       "download-settings": "下载",
-      "prepare-backup": "准备备份",
+      "prepare-backup": "生成备份",
       "import-settings": "导入配置",
       "select-file": "选择文件...",
       "whats-included": "什么内容会包含？"
