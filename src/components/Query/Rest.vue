@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="mb-12">
-      <v-btn class="pl-1 mr-2" @click="historyCollapsed = !historyCollapsed" title="Show history">
+      <v-btn class="pl-1 mr-2" @click="historyCollapsed = !historyCollapsed" :title="$t('rest.show-history')">
         <v-icon>{{ historyCollapsed ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-        History
+        {{ $t('rest.history') }}
       </v-btn>
 
       <rest-query-examples @setRequest="setRequest"/>
@@ -72,7 +72,7 @@
                  @click="setDownloadHref"
                  :download="downloadFileName"
                  :href="downloadJsonHref">
-            Download as json
+            {{ $t('search.download-as-json') }}
           </v-btn>
         </v-col>
       </v-row>

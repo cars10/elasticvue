@@ -16,8 +16,7 @@
   "app-footer": {
     "homepage": "主页",
     "survey": "调查",
-    "changelog": "变更日志",
-    "disconnect-and-reset": "断开连接并重置"
+    "changelog": "变更日志"
   },
   "change-theme": {
     "change-theme": "更改主题"
@@ -131,7 +130,8 @@
     "table": {
       "filter": "过滤 *当前* 页面...",
       "no-document-found": "没有找到文档。",
-      "no-document-found-match-filter": "没有找到文档符合过滤"
+      "no-document-found-match-filter": "没有找到文档符合过滤",
+      "download-as-json": "Download as json"
     },
     "search-support": "搜索 <a tabindex='-1' target='_blank' rel='noopener' href='https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html'>查询 DSL</a> 获取支持",
     "search": "搜索",
@@ -155,7 +155,37 @@
     "hint-part-1": "你无法通过 {method} 发送请求体，如果要发送请求体，请",
     "hint-part-2": "使用 POST",
     "hint-part-3": "，也可以将查询参数添加到 url。",
-    "hint-part-4": "你可以使用 POST 通过 _search 端点进行搜索。"
+    "hint-part-4": "你可以使用 POST 通过 _search 端点进行搜索。",
+    "show-history": "查看历史",
+    "history": "查询历史",
+    "query-examples": {
+      "query-examples": "查询示例",
+      "close": "关闭",
+      "use": "使用",
+      "filter-label": "过滤...",
+      "table-use": "使用",
+      "table-title": "点击预览请求正文，ctrl+点击 直接使用示例。",
+      "table-header-query": "查询",
+      "table-header-description": "描述",
+      "table-header-body": "查询体",
+      "table-header-use": "使用",
+      "card-action-close": "使用"
+    },
+    "query-history": {
+      "show-all": "查看所有",
+      "show-only-favorites": "只查看收藏",
+      "filter-label": "过滤...",
+      "table-title": "点击预览请求正文，ctrl+点击 直接使用。",
+      "remove-favorite": "移除收藏",
+      "favorite": "收藏",
+      "clear": "清除",
+      "delete-only-non-favorites": "仅删除非收藏",
+      "delete-all": "删除所有",
+      "remove-entry": "删除条目",
+      "unselect": "取消选择",
+      "table-header-query": "查询",
+      "table-header-date": "日期"
+    }
   },
   "snapshots": {
     "title": "快照",
@@ -259,7 +289,9 @@
       "import-settings": "导入配置",
       "select-file": "选择文件...",
       "whats-included": "什么内容会包含？"
-    }
+    },
+    "disconnect-and-reset": "断开连接并重置",
+    "disconnect-and-reset-all-settings": "断开连接并重置所有配置"
   },
   "shared": {
     "index-filter": {
@@ -314,6 +346,10 @@
     "loader": {
       "copy-error": "复制错误",
       "network-error": "网络错误：获取失败。"
+    },
+    "modal-data-loader": {
+      "close": "关闭",
+      "modal-title": "查看"
     }
   },
   "mixins": {

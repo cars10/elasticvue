@@ -29,10 +29,10 @@
 
           <v-divider class="mb-4"/>
 
-          <p>Disconnect and reset all settings</p>
+          <p>{{ $t('settings.disconnect-and-reset-all-settings') }}</p>
           <v-btn type="button" small @click="reset">
             <v-icon small class="red--text mr-2">mdi-alert</v-icon>
-            Disconnect and reset
+            {{ $t('settings.disconnect-and-reset') }}
           </v-btn>
         </v-card-text>
       </v-card>

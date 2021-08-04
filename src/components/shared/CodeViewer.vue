@@ -4,7 +4,7 @@
 
     <div class="code-editor__actions">
       <div class="d-inline-block">
-        <v-btn small icon class="mr-1" title="Copy content" @click="copyContent">
+        <v-btn small icon class="mr-1" :title="$t('shared.code-editor.copy-content')" @click="copyContent">
           <v-icon>mdi-content-copy</v-icon>
         </v-btn>
       </div>

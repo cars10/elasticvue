@@ -16,8 +16,7 @@
   "app-footer": {
     "homepage": "Homepage",
     "survey": "Survey",
-    "changelog": "Changelog",
-    "disconnect-and-reset": "Disconnect and reset"
+    "changelog": "Changelog"
   },
   "change-theme": {
     "change-theme": "Change theme"
@@ -133,7 +132,8 @@
     "table": {
       "filter": "Filter *current* page...",
       "no-document-found": "No documents found.",
-      "no-document-found-match-filter": "No documents found that match your filter"
+      "no-document-found-match-filter": "No documents found that match your filter",
+      "download-as-json": "Download as json"
     },
     "search-support": "Searching supports the <a tabindex='-1' target='_blank' rel='noopener' href='https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html'>query string DSL</a>",
     "search": "Search",
@@ -157,7 +157,36 @@
     "hint-part-1": "You cannot send a request body via {method}.<br> Please",
     "hint-part-2": "use POST",
     "hint-part-3": "if you want to send a request body, alternatively add query parameters to the url.",
-    "hint-part-4": "You can use POST to search with the _search endpoint."
+    "hint-part-4": "You can use POST to search with the _search endpoint.",
+    "show-history": "Show history",
+    "history": "History",
+    "query-examples": {
+      "query-examples": "Query examples",
+      "close": "Close",
+      "filter-label": "Filter...",
+      "table-use": "Use",
+      "table-title": "Click to preview request body, ctrl+click to directly use an example.",
+      "table-header-query": "Query",
+      "table-header-description": "Description",
+      "table-header-body": "Body",
+      "table-header-use": "Use",
+      "card-action-close": "Close"
+    },
+    "query-history": {
+      "show-all": "Show all",
+      "show-only-favorites": "Show only favorites",
+      "filter-label": "Filter...",
+      "table-title": "Click to preview request body, ctrl+click to directly use.",
+      "remove-favorite": "Remove favorite",
+      "favorite": "Favorite",
+      "clear": "Clear",
+      "delete-only-non-favorites": "Delete only non-favorites",
+      "delete-all": "Delete all",
+      "remove-entry": "Remove entry",
+      "unselect": "unselect",
+      "table-header-query": "Query",
+      "table-header-date": "Date"
+    }
   },
   "snapshots": {
     "title": "Snapshots",
@@ -261,7 +290,9 @@
       "import-settings": "Import settings",
       "select-file": "Select file...",
       "whats-included": "Whats included?"
-    }
+    },
+    "disconnect-and-reset": "Disconnect and reset",
+    "disconnect-and-reset-all-settings": "Disconnect and reset all settings"
   },
   "shared": {
     "index-filter": {
@@ -316,6 +347,10 @@
     "loader": {
       "copy-error": "Copy error",
       "network-error": "Network error: failed to fetch."
+    },
+    "modal-data-loader": {
+      "close": "Close",
+      "modal-title": "Show"
     }
   },
   "mixins": {

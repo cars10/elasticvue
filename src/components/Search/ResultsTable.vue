@@ -42,7 +42,7 @@
                @click="setDownloadHref"
                download="search.json"
                :href="downloadJsonHref">
-          Download as json
+          {{ $t('search.table.download-as-json') }}
         </v-btn>
       </template>
 

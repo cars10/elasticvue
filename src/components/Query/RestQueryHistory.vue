@@ -7,8 +7,8 @@
             <v-col>
               <div class="d-inline-block float-right">
                 <v-btn icon @click="onlyFavorites = !onlyFavorites" class="mr-2">
-                  <v-icon v-if="onlyFavorites" title="Show all">mdi-star</v-icon>
-                  <v-icon v-else title="Show only favorites">mdi-star-outline</v-icon>
+                  <v-icon v-if="onlyFavorites" :title="$t('rest.query-history.show-all')">mdi-star</v-icon>
+                  <v-icon v-else :title="$t('rest.query-history.show-only-favorites')">mdi-star-outline</v-icon>
                 </v-btn>
 
                 <v-text-field id="filter"
@@ -17,7 +17,7 @@
                               autofocus
                               class="mt-0 pt-0 v-text-field--small"
                               hide-details
-                              label="Filter..."
+                              :label="$t('rest.query-history.filter-label')"
                               name="filter"
                               @keyup.esc="filter = ''"/>
               </div>
@@ -34,11 +34,11 @@
                   :class="{'active': selectedItem && item.id === selectedItem.id}"
                   @click.exact="selectItem(item)"
                   @click.ctrl="apply(item)"
-                  title="Click to preview request body, ctrl+click to directly use.">
+                  :title="$t('rest.query-history.table-title')">
                 <td>
                   <v-btn icon @click.stop="favoriteItem(item)">
-                    <v-icon v-if="item.favorite === 1" title="Remove favorite">mdi-star</v-icon>
-                    <v-icon v-else title="Favorite">mdi-star-outline</v-icon>
+                    <v-icon v-if="item.favorite === 1" :title="$t('rest.query-history.remove-favorite')">mdi-star</v-icon>
+                    <v-icon v-else :title="$t('rest.query-history.favorite')">mdi-star-outline</v-icon>
                   </v-btn>
                   <span class="font--mono">{{ item.method }}</span> {{ item.path }}
                 </td>
@@ -50,16 +50,16 @@
               <v-menu v-if="items.length > 0" offset-y>
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn v-bind="attrs" v-on="on" text>
-                    Clear
+                    {{ $t('rest.query-history.clear') }}
                     <v-icon>mdi-menu-down</v-icon>
                   </v-btn>
                 </template>
                 <v-list>
                   <v-list-item @click="clearNonFavorites">
-                    <v-list-item-title>Delete only non-favorites</v-list-item-title>
+                    <v-list-item-title>{{ $t('rest.query-history.delete-only-non-favorites') }}</v-list-item-title>
                   </v-list-item>
                   <v-list-item @click="clearAll">
-                    <v-list-item-title>Delete all</v-list-item-title>
+                    <v-list-item-title>{{ $t('rest.query-history.delete-all') }}</v-list-item-title>
                   </v-list-item>
                 </v-list>
               </v-menu>
@@ -76,12 +76,12 @@
             <code-viewer v-model="selectedItem.body" :focus="false" style="flex:2"/>
             <div>
               <v-btn class="mt-4" color="primary-button" @click="apply(selectedItem)">Use</v-btn>
-              <v-btn icon @click="removeHistoryItem(selectedItem.id)" class="mt-4 ml-2" title="Remove entry">
+              <v-btn icon @click="removeHistoryItem(selectedItem.id)" class="mt-4 ml-2" :title="$t('rest.query-history.remove-entry')">
                 <v-icon>mdi-delete</v-icon>
               </v-btn>
 
               <button class="btn-link float-right mt-4" @click="selectItem(null)">
-                <small>unselect</small>
+                <small>{{ $t('rest.query-history.unselect') }}</small>
               </button>
             </div>
           </template>
@@ -98,6 +98,7 @@
   import { useHistory } from '@/mixins/History'
   import { DEFAULT_ITEMS_PER_PAGE, IDB_TABLE_NAMES } from '@/consts'
   import CodeViewer from '@/components/shared/CodeViewer'
+  import i18n from '@/i18n'
 
   export default {
     name: 'rest-query-history',
@@ -106,8 +107,8 @@
     },
     setup (props, context) {
       const HEADERS = [
-        { text: 'Query', sortable: false },
-        { text: 'Date', value: 'date' }
+        { text: i18n.t('rest.query-history.table-header-query'), sortable: false },
+        { text: i18n.t('rest.query-history.table-header-date'), value: 'date' }
       ]
 
       const {
