@@ -4,18 +4,19 @@
     "copy": "Copy"
   },
   "app-header": {
-    "home": "Home",
-    "nodes": "Nodes",
-    "indices": "Indices",
-    "search": "Search",
-    "rest": "REST",
-    "snapshots": "Snapshots",
-    "repositories": "Repositories",
-    "utilities": "Utilities"
+    "navigation": {
+      "home": "Home",
+      "nodes": "Nodes",
+      "indices": "Indices",
+      "search": "Search",
+      "rest": "REST",
+      "snapshots": "Snapshots",
+      "repositories": "Repositories",
+      "utilities": "Utilities"
+    }
   },
   "app-footer": {
     "homepage": "Homepage",
-    "survey": "Survey",
     "changelog": "Changelog"
   },
   "change-theme": {

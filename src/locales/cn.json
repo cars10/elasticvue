@@ -4,18 +4,19 @@
     "copy": "复制"
   },
   "app-header": {
-    "home": "首页",
-    "nodes": "节点",
-    "indices": "索引",
-    "search": "搜索",
-    "rest": "REST",
-    "snapshots": "快照",
-    "repositories": "存储",
-    "utilities": "工具"
+    "navigation": {
+      "home": "首页",
+      "nodes": "节点",
+      "indices": "索引",
+      "search": "搜索",
+      "rest": "REST",
+      "snapshots": "快照",
+      "repositories": "存储",
+      "utilities": "工具"
+    }
   },
   "app-footer": {
     "homepage": "主页",
-    "survey": "调查",
     "changelog": "变更日志"
   },
   "change-theme": {
