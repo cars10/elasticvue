@@ -42,7 +42,7 @@
             <div :style="vertical ? 'height: 200px' : 'height: 500px'" class="mb-4">
               <v-alert :value="true" class="request-body-disabled-hint">
                 <p>
-                  {{ $t('rest.hint-part-1', {method: method}) }}
+                  {{ $t('rest.hint-part-1', { method: method }) }}
                   <button class="btn-link" type="button" @click="method = 'POST'">{{ $t('rest.hint-part-2') }}</button>
                   {{ $t('rest.hint-part-3') }}
                 </p>
@@ -82,7 +82,6 @@
 
 <script>
   import store from '@/store'
-  import i18n from '@/i18n'
   import ResizableContainer from '@/components/shared/ResizableContainer'
   import PrintPretty from '@/components/shared/PrintPretty'
   import { HTTP_METHODS, IDB_TABLE_NAMES, REQUEST_DEFAULT_HEADERS } from '@/consts'
