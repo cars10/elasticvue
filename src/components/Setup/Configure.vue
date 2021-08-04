@@ -1,11 +1,12 @@
 <template>
   <div>
     <p class="mb-1">
-      {{ $t('setup.configure-info-1', {app: 'Elasticvue'}) }} <strong>elasticsearch.yml</strong>:
+      {{ $t('setup.configure-info-1', { app: 'Elasticvue' }) }} <strong>elasticsearch.yml</strong>:
     </p>
 
     <pre>
-<code class="code-block mb-2 whitespace-pre-wrap grey lighten-4"><span class="code-comment"># {{ $t('setup.configure-info-2') }} {{
+<code class="code-block mb-2 whitespace-pre-wrap grey lighten-4"><span
+  class="code-comment"># {{ $t('setup.configure-info-2') }} {{
     domain
   }}</span>
 http.cors.enabled: true

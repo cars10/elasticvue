@@ -4,7 +4,7 @@
 
     <div class="code-editor__actions">
       <div class="d-inline-block">
-        <v-btn small icon class="mr-1" :title="$t('shared.code-editor.copy-content')" @click="copyContent">
+        <v-btn :title="$t('shared.code-editor.copy-content')" class="mr-1" icon small @click="copyContent">
           <v-icon>mdi-content-copy</v-icon>
         </v-btn>
       </div>
@@ -13,11 +13,11 @@
         <settings-dropdown>
           <div class="px-3 pb-3" style="white-space: nowrap">
             <v-btn :disabled="!valid"
-                   class="mb-2"
                    :title="$t('shared.code-editor.beautify-title')"
+                   class="mb-2"
                    small
                    @click="beautifyEditorValue(useSpaces)">
-              <v-icon small class="mr-2">mdi-auto-fix</v-icon>
+              <v-icon class="mr-2" small>mdi-auto-fix</v-icon>
               {{ $t('shared.code-editor.beautify') }}
             </v-btn>
 
@@ -37,9 +37,9 @@
 
             <v-divider class="mb-2"/>
 
-            <a target="_blank"
+            <a href="https://github.com/ajaxorg/ace/wiki/Default-Keyboard-Shortcuts"
                rel="nofollow"
-               href="https://github.com/ajaxorg/ace/wiki/Default-Keyboard-Shortcuts">
+               target="_blank">
               {{ $t('shared.code-editor.keyboard-shortcuts') }}
             </a>
           </div>

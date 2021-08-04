@@ -37,8 +37,9 @@
             <list-tile-link :callback="emitReloadData"
                             :confirm-message="$t('snapshots.table.delete-confirm', {snapshot: snapshot.id})"
                             :growl="$t('snapshots.table.delete-success', {snapshot: snapshot.id})"
-                            :method-params="{repository, snapshot: snapshot.id}"
-                            icon="mdi-delete" :link-title="$t('snapshots.table.delete')" method="snapshotDelete"/>
+                            :link-title="$t('snapshots.table.delete')"
+                            :method-params="{repository, snapshot: snapshot.id}" icon="mdi-delete"
+                            method="snapshotDelete"/>
           </v-list>
         </v-menu>
       </btn-group>

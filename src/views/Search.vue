@@ -11,10 +11,10 @@
           <v-col cols="12" md="5" sm="12">
             <v-text-field id="query"
                           v-model="q"
-                          append-icon="mdi-close"
-                          autofocus
                           :label="$t('search.title')"
                           :messages="$t('search.search-support')"
+                          append-icon="mdi-close"
+                          autofocus
                           name="query"
                           placeholder="John OR age:25"
                           @keyup.esc="resetQuery"
@@ -30,7 +30,10 @@
           </v-col>
 
           <v-col cols="12" sm="1">
-            <v-btn id="search_submit" class="mt-4" color="primary-button" type="submit">{{ $t('search.search') }}</v-btn>
+            <v-btn id="search_submit" class="mt-4" color="primary-button" type="submit">{{
+                $t('search.search')
+              }}
+            </v-btn>
           </v-col>
         </v-row>
 
@@ -46,7 +49,10 @@
               <code-editor v-model="searchQuery" :external-commands="editorCommands"/>
             </resizable-container>
             <div class="mt-2">
-              <button class="btn-link" type="button" @click="resetSearchQuery">{{ $t('search.reset-custom-query') }}</button>
+              <button class="btn-link" type="button" @click="resetSearchQuery">{{
+                  $t('search.reset-custom-query')
+                }}
+              </button>
             </div>
           </div>
         </v-expand-transition>

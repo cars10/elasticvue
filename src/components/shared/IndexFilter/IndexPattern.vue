@@ -2,9 +2,9 @@
   <v-text-field id="index-pattern"
                 v-model="localValue"
                 :hint="requestState.loading ? 'loading...' : matchHint"
+                :label="$t('shared.index-filter.index-pattern')"
                 :loading="requestState.loading"
                 autocomplete="off"
-                :label="$t('shared.index-filter.index-pattern')"
                 persistent-hint
                 @input="load"
                 @keyup.esc="localValue = '*'">

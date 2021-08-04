@@ -11,11 +11,11 @@
             <div class="float-right">
               <v-text-field id="nodes_filter"
                             v-model="filter"
+                            :label="$t('nodes.filter')"
                             append-icon="mdi-magnify"
                             autofocus
                             class="mt-0 pt-0 v-text-field--small"
                             hide-details
-                            :label="$t('nodes.filter')"
                             name="filter"
                             title="Filter via 'column:query'"
                             @keyup.esc="filter = ''"/>

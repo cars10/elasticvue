@@ -13,13 +13,13 @@
                         hide-details/>
             <v-text-field id="filter"
                           v-model="filter"
+                          :label="$t('indices.filter')"
+                          :title="$t('indices.filter-title')"
                           append-icon="mdi-magnify"
                           autofocus
                           class="mt-0 pt-0 v-text-field--small"
                           hide-details
-                          :label="$t('indices.filter')"
                           name="filter"
-                          :title="$t('indices.filter-title')"
                           @keyup.esc="filter = ''"/>
           </div>
         </v-col>
@@ -37,8 +37,8 @@
       </template>
       <template v-slot:header.parsedDocsCount="{header}">
         {{ header.text }}
-        <v-icon small
-                :title="$t('indices.table.parsed-docs-count-title')">
+        <v-icon :title="$t('indices.table.parsed-docs-count-title')"
+                small>
           mdi-information-outline
         </v-icon>
       </template>

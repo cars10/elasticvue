@@ -37,12 +37,12 @@
           <v-text-field v-if="dialog"
                         id="new_instance_name"
                         v-model="elasticsearchHost.name"
+                        :label="$t('es.instance.cluster-name')"
                         :rules="[validName]"
-                        class="mb-2"
                         append-icon="mdi-close"
                         autocomplete="off"
                         autofocus
-                        :label="$t('es.instance.cluster-name')"
+                        class="mb-2"
                         name="name"
                         required
                         @keyup.ctrl.enter="connectCluster"
@@ -59,10 +59,10 @@
               <v-col cols="12" md="6">
                 <v-text-field v-model="elasticsearchHost.password"
                               :append-icon="passwordVisible ? 'mdi-eye' : 'mdi-eye-off'"
-                              :type="passwordVisible ? 'text' : 'password'"
-                              autocomplete="off"
                               :label="$t('es.instance.password')+'('+$t('es.instance.optional')+')'"
                               :title="$t('es.instance.password')"
+                              :type="passwordVisible ? 'text' : 'password'"
+                              autocomplete="off"
                               @click:append="passwordVisible = !passwordVisible"/>
               </v-col>
             </v-row>
@@ -73,9 +73,9 @@
             <v-text-field v-if="dialog"
                           id="new_instance_uri"
                           v-model="elasticsearchHost.uri"
+                          :label="$t('es.instance.uri')"
                           :rules="[validUri]"
                           append-icon="mdi-close"
-                          :label="$t('es.instance.uri')"
                           name="uri"
                           required
                           @keyup.ctrl.enter="connectCluster"
@@ -84,12 +84,13 @@
           </div>
 
           <v-alert :value="hasError" type="error">
-            {{$t('es.instance.connection-error-part-1') }}
+            {{ $t('es.instance.connection-error-part-1') }}
             <ol class="pl-4">
-              <li>{{$t('es.instance.connection-error-part-2') }} <a :href="elasticsearchHost.uri"
-                                                   target="_blank">{{ elasticsearchHost.uri }}</a>
+              <li>{{ $t('es.instance.connection-error-part-2') }} <a :href="elasticsearchHost.uri"
+                                                                     target="_blank">{{ elasticsearchHost.uri }}</a>
               </li>
-              <li>{{$t('es.instance.connection-error-part-3') }} <strong>elasticsearch.yml</strong> {{$t('es.instance.connection-error-part-4') }}
+              <li>{{ $t('es.instance.connection-error-part-3') }} <strong>elasticsearch.yml</strong>
+                {{ $t('es.instance.connection-error-part-4') }}
               </li>
             </ol>
 

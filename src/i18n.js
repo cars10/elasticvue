@@ -26,10 +26,9 @@ function getBrowserLocale (options = {}) {
   if (!navigatorLocale) {
     return undefined
   }
-  const trimmedLocale = opt.countryCodeOnly
+  return opt.countryCodeOnly
     ? navigatorLocale.trim().split(/-|_/)[0]
     : navigatorLocale.trim()
-  return trimmedLocale
 }
 
 function supportedLocalesInclude (locale) {

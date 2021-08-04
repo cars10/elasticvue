@@ -20,18 +20,18 @@
           <v-text-field v-if="dialog"
                         id="index_name"
                         v-model="indexName"
+                        :label="$t('indices.index-name')"
                         :rules="[nameValidation]"
                         autocomplete="off"
                         autofocus
-                        :label="$t('indices.index-name')"
                         name="indexName"
                         required
                         @keyup.esc="closeDialog"/>
 
           <v-text-field id="index_shards"
                         v-model="indexShards"
-                        autocomplete="off"
                         :label="$t('indices.number-of-shards')"
+                        autocomplete="off"
                         name="indexShards"
                         placeholder="1"
                         type="number"
@@ -39,8 +39,8 @@
 
           <v-text-field id="index_replicas"
                         v-model="indexReplicas"
-                        autocomplete="off"
                         :label="$t('indices.number-of-replicas')"
+                        autocomplete="off"
                         name="indexReplicas"
                         placeholder="1"
                         type="number"

@@ -66,41 +66,43 @@
             <v-divider/>
 
             <list-tile-link :callback="emitReloadIndices" :growl="`The index '${index.index}' was successfully merged.`"
-                            :method-params="{index: index.index}"
-                            icon="mdi-call-merge" :link-title="$t('indices.row.forcemerge-index')" method="indexForcemerge"/>
+                            :link-title="$t('indices.row.forcemerge-index')"
+                            :method-params="{index: index.index}" icon="mdi-call-merge"
+                            method="indexForcemerge"/>
 
             <list-tile-link :callback="emitReloadIndices"
                             :growl="`The index '${index.index}' was successfully refreshed.`"
-                            :method-params="{index: index.index}"
-                            icon="mdi-refresh" :link-title="$t('indices.row.refresh-index')" method="indexRefresh"/>
+                            :link-title="$t('indices.row.refresh-index')"
+                            :method-params="{index: index.index}" icon="mdi-refresh" method="indexRefresh"/>
 
             <list-tile-link :callback="emitReloadIndices"
                             :growl="`The index '${index.index}' was successfully flushed.`"
-                            :method-params="{index: index.index}"
-                            icon="mdi-inbox-arrow-down" :link-title="$t('indices.row.flush-index')" method="indexFlush"/>
+                            :link-title="$t('indices.row.flush-index')"
+                            :method-params="{index: index.index}" icon="mdi-inbox-arrow-down"
+                            method="indexFlush"/>
 
             <list-tile-link :callback="emitReloadIndices"
                             :growl="`The index '${index.index}' cache was successfully cleared.`"
-                            :method-params="{index: index.index}"
-                            icon="mdi-notification-clear-all" :link-title="$t('indices.row.clear-index-cache')"
+                            :link-title="$t('indices.row.clear-index-cache')"
+                            :method-params="{index: index.index}" icon="mdi-notification-clear-all"
                             method="indexClearCache"/>
 
             <v-divider/>
 
             <list-tile-link v-if="index.status === 'open'"
                             :callback="emitReloadIndices" :growl="`The index '${index.index}' was successfully closed.`"
-                            :method-params="{index: index.index}"
-                            icon="mdi-lock" :link-title="$t('indices.row.close-index')" method="indexClose"/>
+                            :link-title="$t('indices.row.close-index')"
+                            :method-params="{index: index.index}" icon="mdi-lock" method="indexClose"/>
             <list-tile-link v-else :callback="emitReloadIndices"
                             :growl="`The index '${index.index}' was successfully opened.`"
-                            :method-params="{index: index.index}"
-                            icon="mdi-lock-open" :link-title="$t('indices.row.open-index')" method="indexOpen"/>
+                            :link-title="$t('indices.row.open-index')"
+                            :method-params="{index: index.index}" icon="mdi-lock-open" method="indexOpen"/>
 
             <list-tile-link :callback="emitReloadIndices"
-                            :growl="`The index '${index.index}' was successfully deleted.`"
-                            :method-params="{index: index.index}"
                             :confirm-message="$t('indices.row.confirm-message', {index: index.index})"
-                            icon="mdi-delete" :link-title="$t('indices.row.delete-index')" method="indexDelete"/>
+                            :growl="`The index '${index.index}' was successfully deleted.`"
+                            :link-title="$t('indices.row.delete-index')"
+                            :method-params="{index: index.index}" icon="mdi-delete" method="indexDelete"/>
           </v-list>
         </v-menu>
       </btn-group>

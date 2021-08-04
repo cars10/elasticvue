@@ -24,23 +24,26 @@
         <v-form ref="form" v-model="valid" lazy-validation @submit.prevent="restoreSnapshot">
           <v-card-text>
             <index-filter v-model="indices" :method-params="{ repository, snapshot }" method="getSnapshotIndices"/>
-            <v-checkbox v-model="ignoreUnavailable" color="primary-button" hide-details :label="$t('snapshots.restore.ignore-unavailable')"/>
-            <v-checkbox v-model="includeGlobalState" color="primary-button" :label="$t('snapshots.restore.include-global-state')"/>
+            <v-checkbox v-model="ignoreUnavailable" :label="$t('snapshots.restore.ignore-unavailable')"
+                        color="primary-button"
+                        hide-details/>
+            <v-checkbox v-model="includeGlobalState" :label="$t('snapshots.restore.include-global-state')"
+                        color="primary-button"/>
 
             <v-text-field v-if="dialog"
                           id="rename_pattern"
                           v-model="renamePattern"
-                          autocomplete="off"
                           :label="$t('snapshots.restore.rename-pattern')"
+                          autocomplete="off"
                           name="rename_pattern"
                           @keyup.esc="closeDialog"/>
 
             <v-text-field v-if="dialog"
                           id="rename_replacement"
                           v-model="renameReplacement"
+                          :label="$t('snapshots.restore.rename-replacement')"
                           autocomplete="off"
                           hide-details
-                          :label="$t('snapshots.restore.rename-replacement')"
                           name="rename_replacement"
                           @keyup.esc="closeDialog"/>
           </v-card-text>
@@ -125,7 +128,10 @@
             })
             closeDialog()
           })
-          .catch(() => showErrorSnackbar({ text: i18n.t('snapshots.restore.error'), additionalText: requestState.value.apiErrorMessage }))
+          .catch(() => showErrorSnackbar({
+            text: i18n.t('snapshots.restore.error'),
+            additionalText: requestState.value.apiErrorMessage
+          }))
       }
 
       return {

@@ -6,38 +6,39 @@
           <v-row class="my-1">
             <v-col>
               <div class="d-inline-block float-right">
-                <v-btn icon @click="onlyFavorites = !onlyFavorites" class="mr-2">
+                <v-btn class="mr-2" icon @click="onlyFavorites = !onlyFavorites">
                   <v-icon v-if="onlyFavorites" :title="$t('rest.query-history.show-all')">mdi-star</v-icon>
                   <v-icon v-else :title="$t('rest.query-history.show-only-favorites')">mdi-star-outline</v-icon>
                 </v-btn>
 
                 <v-text-field id="filter"
                               v-model="filter"
+                              :label="$t('rest.query-history.filter-label')"
                               append-icon="mdi-magnify"
                               autofocus
                               class="mt-0 pt-0 v-text-field--small"
                               hide-details
-                              :label="$t('rest.query-history.filter-label')"
                               name="filter"
                               @keyup.esc="filter = ''"/>
               </div>
             </v-col>
           </v-row>
 
-          <v-data-table :items="items"
-                        dense
+          <v-data-table :footer-props="{itemsPerPageOptions: DEFAULT_ITEMS_PER_PAGE, showFirstLastPage: true}"
                         :headers="HEADERS"
+                        :items="items"
                         :loading="loading"
-                        :footer-props="{itemsPerPageOptions: DEFAULT_ITEMS_PER_PAGE, showFirstLastPage: true}">
+                        dense>
             <template v-slot:item="{ item }">
-              <tr class="tr--clickable"
-                  :class="{'active': selectedItem && item.id === selectedItem.id}"
+              <tr :class="{'active': selectedItem && item.id === selectedItem.id}"
+                  :title="$t('rest.query-history.table-title')"
+                  class="tr--clickable"
                   @click.exact="selectItem(item)"
-                  @click.ctrl="apply(item)"
-                  :title="$t('rest.query-history.table-title')">
+                  @click.ctrl="apply(item)">
                 <td>
                   <v-btn icon @click.stop="favoriteItem(item)">
-                    <v-icon v-if="item.favorite === 1" :title="$t('rest.query-history.remove-favorite')">mdi-star</v-icon>
+                    <v-icon v-if="item.favorite === 1" :title="$t('rest.query-history.remove-favorite')">mdi-star
+                    </v-icon>
                     <v-icon v-else :title="$t('rest.query-history.favorite')">mdi-star-outline</v-icon>
                   </v-btn>
                   <span class="font--mono">{{ item.method }}</span> {{ item.path }}
@@ -75,8 +76,11 @@
             </span>
             <code-viewer v-model="selectedItem.body" :focus="false" style="flex:2"/>
             <div>
-              <v-btn class="mt-4" color="primary-button" @click="apply(selectedItem)">{{ $t('rest.query-history.table-use') }}</v-btn>
-              <v-btn icon @click="removeHistoryItem(selectedItem.id)" class="mt-4 ml-2" :title="$t('rest.query-history.remove-entry')">
+              <v-btn class="mt-4" color="primary-button" @click="apply(selectedItem)">
+                {{ $t('rest.query-history.table-use') }}
+              </v-btn>
+              <v-btn :title="$t('rest.query-history.remove-entry')" class="mt-4 ml-2" icon
+                     @click="removeHistoryItem(selectedItem.id)">
                 <v-icon>mdi-delete</v-icon>
               </v-btn>
 

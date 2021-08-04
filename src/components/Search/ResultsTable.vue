@@ -5,11 +5,11 @@
         <div class="float-right d-inline-block">
           <v-text-field id="filter"
                         v-model="filter"
+                        :label="$t('search.table.filter')"
                         :loading="filterLoading"
                         append-icon="mdi-magnify"
                         class="mt-0 pt-0 v-text-field--small"
                         hide-details
-                        :label="$t('search.table.filter')"
                         name="filter"
                         @keyup.esc="filter = ''"/>
 
@@ -32,16 +32,17 @@
       </template>
 
       <template slot="no-data">
-        <template v-if="filter !== ''"> {{ $t('search.table.no-document-found-match-filter') }} <i>{{ filter }}</i>.</template>
+        <template v-if="filter !== ''"> {{ $t('search.table.no-document-found-match-filter') }} <i>{{ filter }}</i>.
+        </template>
         <template v-else>{{ $t('search.table.no-document-found') }}</template>
       </template>
 
       <template v-slot:footer.prepend>
         <v-btn :disabled="filteredItems.length === 0"
-               small
-               @click="setDownloadHref"
+               :href="downloadJsonHref"
                download="search.json"
-               :href="downloadJsonHref">
+               small
+               @click="setDownloadHref">
           {{ $t('search.table.download-as-json') }}
         </v-btn>
       </template>

@@ -11,7 +11,7 @@
         <v-card-title>
           <h2 class="text-h5">{{ $t('rest.query-examples.query-examples') }}</h2>
           <div class="ml-a">
-            <v-btn icon :title="$t('rest.query-examples.close')" @click.native="closeDialog">
+            <v-btn :title="$t('rest.query-examples.close')" icon @click.native="closeDialog">
               <v-icon>mdi-close</v-icon>
             </v-btn>
           </div>
@@ -24,31 +24,31 @@
               <div class="d-inline-block float-right">
                 <v-text-field id="filter"
                               v-model="filter"
+                              :label="$t('rest.query-examples.filter-label')"
                               append-icon="mdi-magnify"
                               autofocus
                               class="v-text-field--small mb-4"
                               hide-details
-                              :label="$t('rest.query-examples.filter-label')"
                               name="filter"
                               @keyup.esc="filter = ''"/>
               </div>
             </v-col>
           </v-row>
 
-          <v-data-table :items="filteredExamples"
+          <v-data-table :footer-props="{itemsPerPageOptions: DEFAULT_ITEMS_PER_PAGE, showFirstLastPage: true}"
                         :headers="headers"
-                        :footer-props="{itemsPerPageOptions: DEFAULT_ITEMS_PER_PAGE, showFirstLastPage: true}">
+                        :items="filteredExamples">
             <template v-slot:item="{ item, index }">
-              <tr @click.exact="item.body.length > 0 ? togglePreview(index) : () => {}"
-                  @click.ctrl="apply(item)"
+              <tr :title="$t('rest.query-examples.table-title')"
                   class="tr--clickable"
-                  :title="$t('rest.query-examples.table-title')">
+                  @click.exact="item.body.length > 0 ? togglePreview(index) : () => {}"
+                  @click.ctrl="apply(item)">
                 <td>
                   <span class="font--mono">{{ item.method }}</span> {{ item.path }}
                 </td>
                 <td>
                   {{ item.description }}
-                  <a v-if="item.doc" :href="item.doc" @click.stop target="_blank" rel="nofollow">Docs</a>
+                  <a v-if="item.doc" :href="item.doc" rel="nofollow" target="_blank" @click.stop>Docs</a>
                 </td>
                 <td>
                   <v-btn v-if="item.body.length > 0" icon>
@@ -62,8 +62,8 @@
                 </td>
               </tr>
               <tr v-if="previewIndex === index" class="disable-hover-bg">
-                <td colspan="42" class="my-2 py-2 px-6 lowered">
-                  <print-pretty :document="item.body" :caption="`${item.method} ${item.path}`" :initial-height="300"/>
+                <td class="my-2 py-2 px-6 lowered" colspan="42">
+                  <print-pretty :caption="`${item.method} ${item.path}`" :document="item.body" :initial-height="300"/>
                 </td>
               </tr>
             </template>

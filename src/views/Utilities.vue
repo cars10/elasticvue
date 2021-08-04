@@ -3,14 +3,14 @@
     <v-col lg="8" offset-lg="2">
       <v-card>
         <v-card-title>
-          <h1 class="text-h5">{{ $t("utilities.title") }}</h1>
+          <h1 class="text-h5">{{ $t('utilities.title') }}</h1>
         </v-card-title>
         <v-divider/>
 
         <v-card-text>
           <v-row>
             <v-col cols="12" md="6" sm="12">
-              <v-subheader class="text-h6">{{ $t("utilities.create.title") }}</v-subheader>
+              <v-subheader class="text-h6">{{ $t('utilities.create.title') }}</v-subheader>
               <v-divider/>
               <v-list>
                 <template v-for="utility in UTILITIES.create">
@@ -25,7 +25,7 @@
             </v-col>
 
             <v-col cols="12" md="6" sm="12">
-              <v-subheader class="text-h6">{{ $t("utilities.delete.title") }}</v-subheader>
+              <v-subheader class="text-h6">{{ $t('utilities.delete.title') }}</v-subheader>
               <v-divider/>
               <v-list>
                 <template v-for="utility in UTILITIES.delete">
@@ -40,7 +40,7 @@
             </v-col>
 
             <v-col cols="12" md="6" sm="12">
-              <v-subheader class="text-h6">{{ $t("utilities.misc.title") }}</v-subheader>
+              <v-subheader class="text-h6">{{ $t('utilities.misc.title') }}</v-subheader>
               <v-divider/>
               <v-list>
                 <template v-for="utility in UTILITIES.misc">

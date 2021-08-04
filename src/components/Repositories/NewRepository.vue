@@ -1,7 +1,10 @@
 <template>
   <v-dialog v-model="dialog" width="500">
     <template v-slot:activator="{on}">
-      <v-btn id="new_snapshot_repository" v-on="on" class="ml-0" color="primary-button">{{ $t('repository.new-repo') }}</v-btn>
+      <v-btn id="new_snapshot_repository" v-on="on" class="ml-0" color="primary-button">{{
+          $t('repository.new-repo')
+        }}
+      </v-btn>
     </template>
 
     <v-card>
@@ -20,24 +23,24 @@
           <v-text-field v-if="dialog"
                         id="repository_name"
                         v-model="repositoryName"
+                        :label="$t('repository.new-repo-name')"
                         :rules="[nameRules]"
                         autocomplete="off"
                         autofocus
-                        :label="$t('repository.new-repo-name')"
                         name="repositoryName"
                         required
                         @keydown.esc="closeDialog"/>
 
           <v-text-field id="repository_type"
-                        disabled
                         :label="$t('repository.new-repo-type')"
+                        disabled
                         name="repositoryType"
                         value="fs"/>
 
           <v-text-field id="repository_location"
                         v-model="repositoryLocation"
-                        :rules="[locationRules]"
                         :label="$t('repository.new-repo-location')"
+                        :rules="[locationRules]"
                         name="repositoryLocation"
                         placeholder="/some/path"
                         required
@@ -52,22 +55,26 @@
 
           <v-text-field id="max_restore_bytes_per_sec"
                         v-model="maxRestoreBytesPerSec"
-                        :rules="[maxRestoreBytesPerSecRules]"
                         :label="$t('repository.new-repo-max-restore-bytes-per-sec')"
+                        :rules="[maxRestoreBytesPerSecRules]"
                         name="maxRestoreBytesPerSec"
                         required
                         @keydown.esc="closeDialog"/>
 
           <v-text-field id="max_snapshot_bytes_per_sec"
                         v-model="maxSnapshotBytesPerSec"
-                        :rules="[maxSnapshotBytesPerSecRules]"
                         :label="$t('repository.new-repo-max-snapshot-bytes-per-sec')"
+                        :rules="[maxSnapshotBytesPerSecRules]"
                         name="max_snapshot_bytes_per_sec"
                         required
                         @keydown.esc="closeDialog"/>
 
-          <v-checkbox id="compress" v-model="compress" color="primary-button" hide-details :label="$t('repository.new-repo-compress')"/>
-          <v-checkbox id="readonly" v-model="readonly" color="primary-button" hide-details :label="$t('repository.new-repo-readonly')"/>
+          <v-checkbox id="compress" v-model="compress" :label="$t('repository.new-repo-compress')"
+                      color="primary-button"
+                      hide-details/>
+          <v-checkbox id="readonly" v-model="readonly" :label="$t('repository.new-repo-readonly')"
+                      color="primary-button"
+                      hide-details/>
         </v-card-text>
 
         <v-card-actions class="pa-4">

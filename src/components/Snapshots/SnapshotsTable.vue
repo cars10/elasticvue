@@ -19,7 +19,8 @@
         <template v-if="filter !== ''">
           {{ $t('snapshots.table.no-snapshots-found') }} <i>{{ filter }}</i>.
         </template>
-        <template v-else><span v-html="$t('snapshots.table.repo-has-no-snapshots', {repository: repository})"></span></template>
+        <template v-else><span v-html="$t('snapshots.table.repo-has-no-snapshots', {repository: repository})"></span>
+        </template>
       </template>
     </template>
   </v-data-table>

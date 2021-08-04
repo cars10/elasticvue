@@ -10,18 +10,18 @@
             <v-select v-model="repository"
                       :background-color="repository ? '' : 'orange'"
                       :items="repositories ? Object.keys(repositories) : [repository]"
+                      :label="$t('snapshots.table.repository')"
                       :loading="repositoriesRequestState.loading"
                       class="pr-4 pt-0 mt-0"
                       hide-details
-                      :label="$t('snapshots.table.repository')"
                       name="repository"/>
             <v-text-field id="filter"
                           v-model="filter"
+                          :label="$t('snapshots.table.filter')"
                           append-icon="mdi-magnify"
                           autofocus
                           class="mt-0 pt-0 v-text-field--small"
                           hide-details
-                          :label="$t('snapshots.table.filter')"
                           name="filter"
                           @keyup.esc="filter = ''"/>
           </div>

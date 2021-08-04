@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="dialog" width="800">
     <template v-slot:activator="{ on, attrs }">
-      <v-btn icon small v-bind="attrs" v-on="on" ripple title="Rename cluster">
+      <v-btn v-bind="attrs" v-on="on" icon ripple small title="Rename cluster">
         <v-icon small>mdi-pencil-outline</v-icon>
       </v-btn>
     </template>
@@ -21,16 +21,16 @@
         <v-card-text>
           <v-text-field v-if="dialog"
                         v-model="newName"
+                        :label="$t('es.rename.cluster-name')"
                         :rules="[validName]"
                         autocomplete="off"
                         autofocus
-                        :label="$t('es.rename.cluster-name')"
                         name="name"
                         required/>
 
-          <v-text-field :value="clusterUri"
+          <v-text-field :label="$t('es.rename.uri')"
+                        :value="clusterUri"
                         disabled
-                        :label="$t('es.rename.uri')"
                         name="uri"/>
         </v-card-text>
 

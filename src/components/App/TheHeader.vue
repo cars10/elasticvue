@@ -18,16 +18,16 @@
     <div class="flex-grow-1"/>
 
     <v-toolbar-items v-if="wasConnected">
-      <v-btn id="navbar_home" exact text to="/">{{ $t("app-header.home") }}</v-btn>
-      <v-btn id="navbar_nodes" text to="/nodes">{{ $t("app-header.nodes") }}</v-btn>
-      <v-btn id="navbar_indices" text to="/indices">{{ $t("app-header.indices") }}</v-btn>
-      <v-btn id="navbar_search" text to="/search">{{ $t("app-header.search") }}</v-btn>
-      <v-btn id="navbar_query_rest" text to="/rest">{{ $t("app-header.rest") }}</v-btn>
+      <v-btn id="navbar_home" exact text to="/">{{ $t('app-header.home') }}</v-btn>
+      <v-btn id="navbar_nodes" text to="/nodes">{{ $t('app-header.nodes') }}</v-btn>
+      <v-btn id="navbar_indices" text to="/indices">{{ $t('app-header.indices') }}</v-btn>
+      <v-btn id="navbar_search" text to="/search">{{ $t('app-header.search') }}</v-btn>
+      <v-btn id="navbar_query_rest" text to="/rest">{{ $t('app-header.rest') }}</v-btn>
 
       <v-menu offset-y>
         <template v-slot:activator="{on}">
           <v-btn id="navbar_snapshots" v-on="on" :class="navbarSnapshotClasses" text>
-            {{ $t("app-header.snapshots") }}
+            {{ $t('app-header.snapshots') }}
             <v-icon>mdi-menu-down</v-icon>
           </v-btn>
         </template>
@@ -36,7 +36,7 @@
           <v-list-item id="navbar_snapshots_repositories" to="/snapshot_repositories">
             <v-list-item-content>
               <v-list-item-title>
-                {{ $t("app-header.repositories") }}
+                {{ $t('app-header.repositories') }}
               </v-list-item-title>
             </v-list-item-content>
           </v-list-item>
@@ -44,14 +44,14 @@
           <v-list-item id="navbar_snapshots_snapshots" to="/snapshots">
             <v-list-item-content>
               <v-list-item-title>
-                {{ $t("app-header.snapshots") }}
+                {{ $t('app-header.snapshots') }}
               </v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </v-list>
       </v-menu>
 
-      <v-btn id="navbar_utilities" text to="/utilities">{{ $t("app-header.utilities") }}</v-btn>
+      <v-btn id="navbar_utilities" text to="/utilities">{{ $t('app-header.utilities') }}</v-btn>
       <v-btn id="navbar_settings" text to="/settings">
         <v-icon>mdi-cog</v-icon>
       </v-btn>

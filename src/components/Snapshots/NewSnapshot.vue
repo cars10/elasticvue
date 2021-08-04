@@ -1,7 +1,10 @@
 <template>
   <v-dialog v-model="dialog" width="500">
     <template v-slot:activator="{on}">
-      <v-btn v-on="on" :disabled="!repository" class="ml-0" color="primary-button">{{ $t('snapshots.new-snapshot') }}</v-btn>
+      <v-btn v-on="on" :disabled="!repository" class="ml-0" color="primary-button">{{
+          $t('snapshots.new-snapshot')
+        }}
+      </v-btn>
     </template>
 
     <v-card>
@@ -18,18 +21,18 @@
       <v-form ref="form" v-model="valid" lazy-validation @submit.prevent="createSnapshot">
         <v-card-text>
           <v-text-field id="repository"
+                        :label="$t('repository.repository')"
                         :value="repository"
                         disabled
-                        :label="$t('repository.repository')"
                         name="repository"/>
 
           <v-text-field v-if="dialog"
                         id="snapshot_name"
                         v-model="snapshotName"
+                        :label="$t('snapshots.snapshot-name')"
                         :rules="[nameRules]"
                         autocomplete="off"
                         autofocus
-                        :label="$t('snapshots.snapshot-name')"
                         name="snapshotName"
                         required
                         @keyup.esc="closeDialog"/>

@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title>
-      <h2 class="text-h5">{{ $t("indices.title") }}</h2>
+      <h2 class="text-h5">{{ $t('indices.title') }}</h2>
       <reload-button id="reload-indices" :action="load"/>
     </v-card-title>
     <v-divider/>

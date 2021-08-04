@@ -3,7 +3,7 @@
     <v-col lg="8" offset-lg="2">
       <v-card>
         <v-card-title>
-          <h1 class="text-h5">{{ $t("settings.title") }}</h1>
+          <h1 class="text-h5">{{ $t('settings.title') }}</h1>
         </v-card-title>
         <v-divider/>
 
@@ -12,14 +12,14 @@
             <v-col cols="12" md="6" sm="12">
               <v-text-field id="query"
                             v-model="hideIndicesRegex"
-                            autofocus
                             :label="$t('settings.hide-indices-regex')"
-                            :messages="$t('settings.hide-indices-regex-message')">
+                            :messages="$t('settings.hide-indices-regex-message')"
+                            autofocus>
                 <template v-slot:message="{ message }">
                   <span v-html="message"/>
                 </template>
                 <template v-slot:append class="mt-0">
-                  <v-btn icon :title="'Reset to default ' + DEFAULT_HIDE_INDICES_REGEX" @click="resetHideIndicesRegex">
+                  <v-btn :title="'Reset to default ' + DEFAULT_HIDE_INDICES_REGEX" icon @click="resetHideIndicesRegex">
                     <v-icon>mdi-backup-restore</v-icon>
                   </v-btn>
                 </template>
@@ -30,8 +30,8 @@
           <v-divider class="mb-4"/>
 
           <p>{{ $t('settings.disconnect-and-reset-all-settings') }}</p>
-          <v-btn type="button" small @click="reset">
-            <v-icon small class="red--text mr-2">mdi-alert</v-icon>
+          <v-btn small type="button" @click="reset">
+            <v-icon class="red--text mr-2" small>mdi-alert</v-icon>
             {{ $t('settings.disconnect-and-reset') }}
           </v-btn>
         </v-card-text>

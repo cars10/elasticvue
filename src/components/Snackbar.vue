@@ -12,8 +12,8 @@
           {{ additionalText }}
         </p>
       </div>
-      <v-btn class="mr-4" @click.native="copy">{{ $t("snackbar.copy") }}</v-btn>
-      <v-btn @click.native="visible = false">{{ $t("snackbar.close") }}</v-btn>
+      <v-btn class="mr-4" @click.native="copy">{{ $t('snackbar.copy') }}</v-btn>
+      <v-btn @click.native="visible = false">{{ $t('snackbar.close') }}</v-btn>
     </template>
   </v-snackbar>
 </template>

@@ -1,14 +1,14 @@
 <template>
   <div>
     <div class="mb-12">
-      <v-btn class="pl-1 mr-2" @click="historyCollapsed = !historyCollapsed" :title="$t('rest.show-history')">
+      <v-btn :title="$t('rest.show-history')" class="pl-1 mr-2" @click="historyCollapsed = !historyCollapsed">
         <v-icon>{{ historyCollapsed ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
         {{ $t('rest.history') }}
       </v-btn>
 
       <rest-query-examples @setRequest="setRequest"/>
       <v-expand-transition>
-        <rest-query-history @setRequest="setRequest" v-if="historyCollapsed"/>
+        <rest-query-history v-if="historyCollapsed" @setRequest="setRequest"/>
       </v-expand-transition>
     </div>
 
@@ -17,16 +17,16 @@
         <v-col lg="2" sm="3" xl="1">
           <v-select v-model="method"
                     :items="HTTP_METHODS"
-                    hide-details
                     :label="$t('rest.http-method')"
+                    hide-details
                     name="http_method"/>
         </v-col>
         <v-col lg="10" sm="9" xl="11">
           <v-text-field id="path"
                         v-model="path"
+                        :label="$t('rest.path')"
                         autofocus
                         hide-details
-                        :label="$t('rest.path')"
                         name="path"
                         placeholder="/"/>
         </v-col>
@@ -57,10 +57,10 @@
                  type="submit">
             {{ $t('rest.send-request') }}
           </v-btn>
-          <v-chip class="ml-2" :class="responseStatusClass" v-if="responseStatus">{{ responseStatus }}</v-chip>
+          <v-chip v-if="responseStatus" :class="responseStatusClass" class="ml-2">{{ responseStatus }}</v-chip>
 
           <br>
-          <v-btn id="reset-form" class="mt-2" @click="resetForm" small text>
+          <v-btn id="reset-form" class="mt-2" small text @click="resetForm">
             {{ $t('rest.reset') }}
           </v-btn>
         </v-col>
@@ -68,10 +68,10 @@
         <v-col :md="vertical ? 12 : 6" cols="12">
           <print-pretty :document="responseBody" :focus="false" class="mb-2"/>
           <v-btn :disabled="!responseBody || responseBody.length === 0"
-                 small
-                 @click="setDownloadHref"
                  :download="downloadFileName"
-                 :href="downloadJsonHref">
+                 :href="downloadJsonHref"
+                 small
+                 @click="setDownloadHref">
             {{ $t('search.download-as-json') }}
           </v-btn>
         </v-col>

@@ -5,7 +5,7 @@
         <h2 class="text-h5">{{ modalTitle }}</h2>
         <reload-button id="reload-modal" :action="load"/>
         <div class="ml-a">
-          <v-btn icon :title="$t('shared.modal-data-loader.close')" @click.native="close">
+          <v-btn :title="$t('shared.modal-data-loader.close')" icon @click.native="close">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </div>

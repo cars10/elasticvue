@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-menu v-model="menuOpen" offset-y :close-on-content-click="false">
+    <v-menu v-model="menuOpen" :close-on-content-click="false" offset-y>
       <template v-slot:activator="{ on, attrs }">
         <v-btn v-if="activeInstance" id="instance_selection_toggle" v-bind="attrs"
                v-on="on"

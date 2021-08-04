@@ -9,11 +9,11 @@
           <div class="d-inline-block float-right">
             <v-text-field id="filter"
                           v-model="filter"
+                          :label="$t('repository.table.filter')"
                           append-icon="mdi-magnify"
                           autofocus
                           class="mt-0 pt-0 v-text-field--small"
                           hide-details
-                          :label="$t('repository.table.filter')"
                           name="filter"
                           @keyup.esc="filter = ''"/>
           </div>

@@ -8,12 +8,12 @@
         <v-col>
           <div class="float-right d-inline-block">
             <v-text-field v-model="filter"
+                          :label="$t('es.table.filter')"
                           append-icon="mdi-magnify"
-                          class="mr-2 mt-0 mb-1 v-text-field--small"
-                          hide-details
                           autocomplete="off"
                           autofocus
-                          :label="$t('es.table.filter')"
+                          class="mr-2 mt-0 mb-1 v-text-field--small"
+                          hide-details
                           name="filter"/>
           </div>
         </v-col>
@@ -21,23 +21,23 @@
     </v-container>
 
     <v-data-table id="elasticsearch-clusters"
-                  dense
-                  :items="instances"
                   :footer-props="{itemsPerPageOptions: DEFAULT_ITEMS_PER_PAGE, showFirstLastPage: true}"
                   :headers="headers"
-                  :search="filter">
+                  :items="instances"
+                  :search="filter"
+                  dense>
       <template v-slot:item="{ item, index }">
-        <tr class="tr--clickable" :title="`Connect to cluster at '${item.uri}'`" @click="setActiveInstanceIdx(index)">
+        <tr :title="`Connect to cluster at '${item.uri}'`" class="tr--clickable" @click="setActiveInstanceIdx(index)">
           <td class="pt-1">
-            <div class="d-inline-block" :title="`Cluster health: ${item.status}`">
-              <svg style="margin-bottom: 6px" class="mr-1" height="14" width="14">
+            <div :title="`Cluster health: ${item.status}`" class="d-inline-block">
+              <svg class="mr-1" height="14" style="margin-bottom: 6px" width="14">
                 <circle :class="`health--${item.status}`" cx="7" cy="9" r="5"/>
               </svg>
             </div>
 
             <div class="d-inline-block text-truncate" style="max-width: 200px;">
               {{ item.name }}
-              <v-chip v-if="index === activeInstanceIdx" small color="success" class="mx-1">active</v-chip>
+              <v-chip v-if="index === activeInstanceIdx" class="mx-1" color="success" small>active</v-chip>
             </div>
           </td>
           <td>
@@ -48,8 +48,8 @@
           <td>
             <rename-elasticsearch-instance :cluster-idx="index" :cluster-name="item.name" :cluster-uri="item.uri"/>
 
-            <v-btn icon small :id="`remove-instance-${index}`"
-                   class="ml-1"
+            <v-btn :id="`remove-instance-${index}`" class="ml-1" icon
+                   small
                    title="Remove cluster"
                    @click.stop="removeInstance(index)">
               <v-icon small>mdi-delete</v-icon>

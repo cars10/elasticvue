@@ -3,11 +3,11 @@
     <h4 v-if="caption">{{ caption }}</h4>
     <div v-if="resizable" class="py-1">
       <resizable-container :initial-height="initialHeight">
-        <code-viewer :value="document" :focus="focus" read-only/>
+        <code-viewer :focus="focus" :value="document" read-only/>
       </resizable-container>
     </div>
     <div v-else :style="style" class="pt-2">
-      <code-viewer :value="document" :focus="focus" read-only/>
+      <code-viewer :focus="focus" :value="document" read-only/>
     </div>
   </div>
 </template>

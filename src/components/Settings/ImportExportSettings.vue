@@ -1,6 +1,6 @@
 <template>
   <v-card class="mt-4">
-    <v-card-title>{{ $t('settings.import-export.title', {app: 'elasticvue'}) }}</v-card-title>
+    <v-card-title>{{ $t('settings.import-export.title', { app: 'elasticvue' }) }}</v-card-title>
 
     <v-divider/>
 
@@ -32,11 +32,11 @@
             </v-expand-transition>
           </div>
 
-          <v-btn @click="createBackup" class="primary-button mr-2">
+          <v-btn class="primary-button mr-2" @click="createBackup">
             {{ $t('settings.import-export.prepare-backup') }}
           </v-btn>
-          <v-btn :href="backupDownloadLink" :download="downloadFilename" class="primary-button"
-                 :disabled="backupDownloadLink.length === 0">
+          <v-btn :disabled="backupDownloadLink.length === 0" :download="downloadFilename" :href="backupDownloadLink"
+                 class="primary-button">
             {{ $t('settings.import-export.download-settings') }}
           </v-btn>
 
@@ -45,12 +45,14 @@
           <h5 class="text-h6">{{ $t('settings.import-export.import') }}</h5>
           <v-form @submit.prevent="importBackupAndRedirect">
             <v-file-input v-model="importFile"
-                          show-size
-                          truncate-length="30"
+                          :placeholder="$t('settings.import-export.select-file')"
                           accept="application/json"
-                          :placeholder="$t('settings.import-export.select-file')"/>
+                          show-size
+                          truncate-length="30"/>
             <p class="red--text">{{ errorMessage }}</p>
-            <v-btn color="primary-button" type="submit" :disabled="!valid">{{ $t('settings.import-export.import-settings') }}</v-btn>
+            <v-btn :disabled="!valid" color="primary-button" type="submit">
+              {{ $t('settings.import-export.import-settings') }}
+            </v-btn>
           </v-form>
         </v-col>
       </v-row>

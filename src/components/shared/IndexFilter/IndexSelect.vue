@@ -1,10 +1,10 @@
 <template>
   <v-autocomplete v-model="localValue"
                   :items="filteredIndices"
+                  :label="$t('shared.index-select.select-indices')"
                   :loading="loading"
                   append-icon="mdi-menu-down"
                   autocomplete="off"
-                  :label="$t('shared.index-select.select-indices')"
                   multiple
                   name="indices"
                   prepend-inner-icon="mdi-cached"
@@ -32,18 +32,20 @@
     <template v-slot:prepend-item>
       <div class="px-4 mb-2">
         <btn-group class="d-inline-block">
-          <v-btn small :title="$t('shared.index-select.select-all-title')" @click="selectAll">
+          <v-btn :title="$t('shared.index-select.select-all-title')" small @click="selectAll">
             {{ $t('shared.index-select.select-all') }}
           </v-btn>
 
-          <v-btn small :title="$t('shared.index-select.deselect-all-title')" @click="deselectAll">
+          <v-btn :title="$t('shared.index-select.deselect-all-title')" small @click="deselectAll">
             {{ $t('shared.index-select.deselect-all') }}
           </v-btn>
         </btn-group>
 
         <div class="float-right d-inline-block">
-          <v-checkbox v-model="showHidden" class="mt-0" color="primary-button" hide-details :label="$t('shared.index-select.show-hidden')"
-                      :title="$t('shared.index-select.show-hidden-title')"/>
+          <v-checkbox v-model="showHidden" :label="$t('shared.index-select.show-hidden')"
+                      :title="$t('shared.index-select.show-hidden-title')" class="mt-0"
+                      color="primary-button"
+                      hide-details/>
         </div>
       </div>
       <v-divider/>

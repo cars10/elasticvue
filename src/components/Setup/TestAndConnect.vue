@@ -5,18 +5,18 @@
         <v-row>
           <v-col cols="12" md="6">
             <v-text-field v-model="elasticsearchHost.username"
-                          autofocus
                           :label="$t('setup.username')+'('+$t('setup.optional')+')'"
                           :title="$t('setup.username')"
+                          autofocus
                           type="text"/>
           </v-col>
           <v-col cols="12" md="6">
             <v-text-field v-model="elasticsearchHost.password"
                           :append-icon="passwordVisible ? 'mdi-eye' : 'mdi-eye-off'"
-                          :type="passwordVisible ? 'text' : 'password'"
-                          autocomplete="off"
                           :label="$t('setup.password')+'('+$t('setup.optional')+')'"
                           :title="$t('setup.password')"
+                          :type="passwordVisible ? 'text' : 'password'"
+                          autocomplete="off"
                           @click:append="passwordVisible = !passwordVisible"/>
           </v-col>
         </v-row>
@@ -25,10 +25,10 @@
 
       <v-text-field id="host"
                     v-model="elasticsearchHost.uri"
-                    :rules="[validUri]"
-                    append-icon="mdi-close"
                     :label="$t('setup.host')"
+                    :rules="[validUri]"
                     :title="$t('setup.host')"
+                    append-icon="mdi-close"
                     type="text"
                     @click:append="resetElasticsearchHost"
                     @keyup.ctrl.enter="connectCluster"
@@ -65,7 +65,9 @@
             {{ $t('setup.connection-error-part-2') }}
             <a :href="elasticsearchHost.uri" target="_blank">{{ elasticsearchHost.uri }}</a>
           </li>
-          <li>{{ $t('setup.connection-error-part-3') }} <strong>elasticsearch.yml</strong> {{ $t('setup.connection-error-part-4') }}</li>
+          <li>{{ $t('setup.connection-error-part-3') }} <strong>elasticsearch.yml</strong>
+            {{ $t('setup.connection-error-part-4') }}
+          </li>
         </ol>
 
         <div class="mt-2">
