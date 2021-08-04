@@ -3,21 +3,23 @@
     "close": "Close",
     "copy": "Copy"
   },
-  "app-header": {
-    "navigation": {
-      "home": "Home",
-      "nodes": "Nodes",
-      "indices": "Indices",
-      "search": "Search",
-      "rest": "REST",
-      "snapshots": "Snapshots",
-      "repositories": "Repositories",
-      "utilities": "Utilities"
+  "app": {
+    "header": {
+      "navigation": {
+        "home": "Home",
+        "nodes": "Nodes",
+        "indices": "Indices",
+        "search": "Search",
+        "rest": "REST",
+        "snapshots": "Snapshots",
+        "repositories": "Repositories",
+        "utilities": "Utilities"
+      }
+    },
+    "footer": {
+      "homepage": "Homepage",
+      "changelog": "Changelog"
     }
-  },
-  "app-footer": {
-    "homepage": "Homepage",
-    "changelog": "Changelog"
   },
   "change-theme": {
     "change-theme": "Change theme"
