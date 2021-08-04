@@ -87,7 +87,7 @@
         delete: [
           {
             text: i18n.t('utilities.delete.delete-all-indices'),
-            confirmMessage: 'Are you sure? This will delete ALL data in your cluster!',
+            confirmMessage: i18n.t('utilities.delete.confirm-message'),
             method: 'indexDelete',
             methodParams: { index: '_all' }
           }

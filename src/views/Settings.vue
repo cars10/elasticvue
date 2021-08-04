@@ -47,6 +47,7 @@
   import { vuexAccessors } from '@/helpers/store'
   import { BASE_URI, DEFAULT_HIDE_INDICES_REGEX, LOCALSTORAGE_KEY } from '@/consts'
   import store from '@/store'
+  import i18n from '@/i18n'
 
   export default {
     name: 'settings',
@@ -58,7 +59,7 @@
       const resetHideIndicesRegex = () => store.commit('indices/resetHideIndicesRegex')
 
       const reset = () => {
-        if (confirm('Are you sure? This will delete all data saved by elasticvue! You will have to reconnect to your cluster.')) {
+        if (confirm(i18n.t('settings.disconnect-and-reset-confirm-message', {app: 'elasticvue'}))) {
           localStorage.removeItem(LOCALSTORAGE_KEY)
           window.indexedDB.databases().then(databases => {
             databases.forEach(db => window.indexedDB.deleteDatabase(db.name))

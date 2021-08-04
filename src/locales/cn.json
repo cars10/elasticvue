@@ -292,7 +292,8 @@
       "whats-included": "什么内容会包含？"
     },
     "disconnect-and-reset": "断开连接并重置",
-    "disconnect-and-reset-all-settings": "断开连接并重置所有配置"
+    "disconnect-and-reset-all-settings": "断开连接并重置所有配置",
+    "disconnect-and-reset-confirm-message": "你确定吗？这将删除 {app} 保存的所有数据！你必须重新连接到集群。"
   },
   "shared": {
     "index-filter": {
@@ -358,6 +359,14 @@
       "success": "成功",
       "cluster-reachable": "你的集群可以访问并正确配置。",
       "cluster-not-reachable": "你的集群无法访问或你没有正确配置 CORS。"
+    },
+    "history": {
+      "confirm-message": "你确定吗? 这会删除你历史中的所有条目！"
+    }
+  },
+  "helpers": {
+    "import-export": {
+      "import-confirm-message": "你确定吗？导入备份将覆盖你当前的设置和保存的集群！"
     }
   }
 }

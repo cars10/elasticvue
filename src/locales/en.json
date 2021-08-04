@@ -293,7 +293,8 @@
       "whats-included": "Whats included?"
     },
     "disconnect-and-reset": "Disconnect and reset",
-    "disconnect-and-reset-all-settings": "Disconnect and reset all settings"
+    "disconnect-and-reset-all-settings": "Disconnect and reset all settings",
+    "disconnect-and-reset-confirm-message": "Are you sure? This will delete all data saved by {app}! You will have to reconnect to your cluster."
   },
   "shared": {
     "index-filter": {
@@ -359,6 +360,14 @@
       "success": "Success",
       "cluster-reachable": "You cluster is reachable and configured correctly.",
       "cluster-not-reachable": "Either your cluster is not reachable or you did not configure CORS correctly."
+    },
+    "history": {
+      "confirm-message": "Are you sure? This will remove all entries from your history."
+    }
+  },
+  "helpers": {
+    "import-export": {
+      "import-confirm-message": "Are you sure? Importing a backup will overwrite your current settings and saved clusters!"
     }
   }
 }
