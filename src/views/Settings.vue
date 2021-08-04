@@ -59,7 +59,7 @@
       const resetHideIndicesRegex = () => store.commit('indices/resetHideIndicesRegex')
 
       const reset = () => {
-        if (confirm(i18n.t('settings.disconnect-and-reset-confirm-message', {app: 'elasticvue'}))) {
+        if (confirm(i18n.t('settings.disconnect-and-reset-confirm-message', { app: 'elasticvue' }))) {
           localStorage.removeItem(LOCALSTORAGE_KEY)
           window.indexedDB.databases().then(databases => {
             databases.forEach(db => window.indexedDB.deleteDatabase(db.name))
