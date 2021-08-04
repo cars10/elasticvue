@@ -39,7 +39,7 @@
             <p>
               {{ $t('search.customize-search-query') }}
             </p>
-            <p class="grey--text">
+            <p>
               {{ $t('search.customize-search-query-description') }}
             </p>
             <resizable-container :initial-height="280">

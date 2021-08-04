@@ -11,7 +11,6 @@
                         hide-details
                         :label="$t('search.table.filter')"
                         name="filter"
-                        title="Filter via 'column:query'"
                         @keyup.esc="filter = ''"/>
 
           <settings-dropdown :badge="columns.length > filteredColumns.length" button-title="Table settings">
@@ -37,6 +36,16 @@
         <template v-else>{{ $t('search.table.no-document-found') }}</template>
       </template>
 
+      <template v-slot:footer.prepend>
+        <v-btn :disabled="filteredItems.length === 0"
+               small
+               @click="setDownloadHref"
+               download="search.json"
+               :href="downloadJsonHref">
+          Download as json
+        </v-btn>
+      </template>
+
       <v-progress-linear slot="progress" color="blue" indeterminate/>
     </v-data-table>
     <modal-data-loader v-model="modalOpen" :method-params="modalMethodParams" method="get"/>
@@ -51,7 +60,7 @@
   import Result from '@/components/Search/Result'
   import { vuexAccessors } from '@/helpers/store'
   import { useAsyncFilter } from '@/mixins/UseAsyncTableFilter'
-  import { debounce, sortableField } from '@/helpers'
+  import { debounce, renameForbiddenObjectKeys, sortableField } from '@/helpers'
   import { computed, ref, watch } from '@vue/composition-api'
   import { useElasticsearchRequest } from '@/mixins/RequestComposition'
 
@@ -91,7 +100,10 @@
         if (!props.body) return []
         if (!props.body.hits) return []
 
-        return props.body.hits.hits
+        const resultHits = props.body.hits.hits
+        resultHits.forEach(result => renameForbiddenObjectKeys(result._source))
+
+        return resultHits
       })
 
       const totalHits = computed(() => {
@@ -182,11 +194,17 @@
         filteredItems.value = filteredResults.map(el => Object.assign(el, el._source) && delete el._source && el)
       }
 
-      const debouncedFilterTable = debounce(filterTable, 500)
+      const debouncedFilterTable = debounce(filterTable, 250)
 
       const openDocument = params => {
         modalMethodParams.value = params
         modalOpen.value = true
+      }
+
+      const downloadJsonHref = ref('#')
+      const setDownloadHref = () => {
+        const value = typeof props.body === 'string' ? props.body : JSON.stringify(props.body)
+        downloadJsonHref.value = `data:application/json,${encodeURIComponent(value)}`
       }
 
       return {
@@ -203,7 +221,9 @@
         filter,
         options,
         columns,
-        selectedColumns
+        selectedColumns,
+        downloadJsonHref,
+        setDownloadHref
       }
     }
   }

@@ -1,4 +1,4 @@
-const JsonBigInt = require('json-bigint')()
+const JsonBigInt = require('json-bigint')({ protoAction: 'preserve', constructorAction: 'preserve' })
 
 export const parseJsonBigInt = (...args) => {
   return JsonBigInt.parse(...args)

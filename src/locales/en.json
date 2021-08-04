@@ -20,7 +20,7 @@
     "disconnect-and-reset": "Disconnect and reset"
   },
   "change-theme": {
-    "dark-mode": "Dark mode"
+    "change-theme": "Change theme"
   },
   "cluster-health": "Cluster Health",
   "node-information": "Node Information",
@@ -119,7 +119,7 @@
       "uuid": "UUID",
       "aliases": "Aliases",
       "shards": "Shards",
-      "docs": "Docs",
+      "docs": "Lucene docs",
       "storage": "Storage"
     }
   },
@@ -147,11 +147,9 @@
     "path": "Path",
     "request-body": "Request body",
     "disabled": "disabled",
-    "execute-query": "Run query",
-    "reset-form": "Reset form",
-    "example-1": "Example #1 (_cat/indices)",
-    "example-2": "Example #2 (create index)",
-    "example-3": "Example #3 (delete index)",
+    "send-request": "Send request",
+    "reset": "Reset",
+    "download-as-json": "Download as json",
     "result": "Result",
     "result-code": "Result (Statuscode {code})",
     "hint-part-1": "You cannot send a request body via {method}.<br> Please",
@@ -178,7 +176,6 @@
       "repo-has-no-snapshots": "The repository <i>{repository}</i> does not contain any snapshots.",
       "repository": "Repository",
       "filter": "Filter id...",
-      "filter-title": "Filter via 'column:query'",
       "header": {
         "status": "status",
         "start-time": "start_time",
@@ -220,7 +217,6 @@
     "cancel": "Cancel",
     "table": {
       "filter": "Filter name...",
-      "filter-title": "Filter via 'column:query'",
       "delete": "Delete",
       "repo-name": "name",
       "repo-type": "type",
@@ -258,7 +254,8 @@
       "message": "You can import & export your elasticvue data as json. This is <strong>not</strong> a backup of your clusters data, use snapshots if you need to backup your indices.",
       "import": "Import",
       "export": "Export",
-      "download-settings": "Download settings",
+      "download-settings": "Download",
+      "prepare-backup": "Prepare backup",
       "import-settings": "Import settings",
       "select-file": "Select file...",
       "whats-included": "Whats included?"
@@ -299,9 +296,14 @@
     },
     "auth-header-hint": "Your cluster uses authorization. Make sure that you have set \"http.cors.allow-headers\", otherwise you will not be able to connect.",
     "code-editor": {
-      "beautify": "Beautify (Ctrl+ALT+L)",
-      "whitespace-tabs": "Change whitespace to 2 spaces instead of tabs",
-      "wrap-lines": "Wrap lines"
+      "beautify-title": "Beautify (Ctrl+ALT+L)",
+      "beautify": "Beautify",
+      "whitespace-tabs-label": "Use spaces",
+      "whitespace-tabs-title": "Change whitespace to 2 spaces instead of tabs",
+      "wrap-lines-label": "Wrap lines",
+      "wrap-lines-title": "Wrap long lines",
+      "copy-content": "Copy content",
+      "keyboard-shortcuts": "Keyboard shortcuts"
     },
     "content-toggle": {
       "first": "first",

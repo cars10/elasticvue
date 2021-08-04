@@ -2,25 +2,49 @@
   <div class="bordered code-editor">
     <div ref="editor" style="height: 100%; width: 100%"/>
 
-    <div class="code-editor__actions pa-2">
-      <v-btn :disabled="!valid"
-             class="vertical-align--top mr-2"
-             small
-             style="height: 32px"
-             :title="$t('shared.code-editor.beautify')"
-             @click="beautifyEditorValue(useSpaces)">
-        <v-icon small>mdi-auto-fix</v-icon>
-      </v-btn>
+    <div class="code-editor__actions">
+      <div class="d-inline-block">
+        <v-btn small icon class="mr-1" :title="$t('shared.code-editor.copy-content')" @click="copyContent">
+          <v-icon>mdi-content-copy</v-icon>
+        </v-btn>
+      </div>
 
-      <btn-group class="d-inline-block">
-        <v-btn :class="{'v-btn--active': useSpaces}" :title="$t('shared.code-editor.whitespace-tabs')"
-               @click="useSpaces = !useSpaces">
-          <v-icon small>mdi-keyboard-space</v-icon>
-        </v-btn>
-        <v-btn :class="wrapLines ? 'v-btn--active' : ''" :title="$t('shared.code-editor.wrap-lines')" @click="wrapLines = !wrapLines">
-          <v-icon small>mdi-wrap</v-icon>
-        </v-btn>
-      </btn-group>
+      <div class="d-inline-block">
+        <settings-dropdown>
+          <div class="px-3 pb-3" style="white-space: nowrap">
+            <v-btn :disabled="!valid"
+                   class="mb-2"
+                   :title="$t('shared.code-editor.beautify-title')"
+                   small
+                   @click="beautifyEditorValue(useSpaces)">
+              <v-icon small class="mr-2">mdi-auto-fix</v-icon>
+              {{ $t('shared.code-editor.beautify') }}
+            </v-btn>
+
+            <v-divider/>
+
+            <v-checkbox v-model="useSpaces"
+                        :label="$t('shared.code-editor.whitespace-tabs-label')"
+                        :title="$t('shared.code-editor.whitespace-tabs-title')"
+                        class="my-1 py-0"
+                        hide-details/>
+
+            <v-checkbox v-model="wrapLines"
+                        :label="$t('shared.code-editor.wrap-lines-label')"
+                        :title="$t('shared.code-editor.wrap-lines-title')"
+                        class="my-1 py-0"
+                        hide-details/>
+
+            <v-divider class="mb-2"/>
+
+            <a target="_blank"
+               rel="nofollow"
+               href="https://github.com/ajaxorg/ace/wiki/Default-Keyboard-Shortcuts">
+              {{ $t('shared.code-editor.keyboard-shortcuts') }}
+            </a>
+          </div>
+        </settings-dropdown>
+      </div>
     </div>
   </div>
 </template>
@@ -29,15 +53,15 @@
   import { computed, onBeforeUnmount, onMounted, ref, watch } from '@vue/composition-api'
   import store from '@/store'
   import { vuexAccessors } from '@/helpers/store'
-  import BtnGroup from '@/components/shared/BtnGroup'
   import { editorUtils, initializeSnippets } from '@/mixins/CodeEditorUtils'
   import { parseJsonBigInt } from '@/helpers/json_parse'
   import { beautify } from '@/helpers'
+  import SettingsDropdown from '@/components/shared/TableSettings/SettingsDropdown'
 
   export default {
     name: 'code-editor',
     components: {
-      BtnGroup
+      SettingsDropdown
     },
     props: {
       value: {
@@ -54,7 +78,7 @@
     setup (props, context) {
       const editor = ref(null)
       const { useSpaces, wrapLines } = vuexAccessors('codeEditor', ['useSpaces', 'wrapLines'])
-      const { setTheme, setWhitespace, setWrapLines, unmountEditor, setupAceEditor } = editorUtils(editor)
+      const { setTheme, setWhitespace, setWrapLines, unmountEditor, setupAceEditor, copyContent } = editorUtils(editor)
       const { completer } = initializeSnippets()
 
       const valid = computed(() => {
@@ -119,11 +143,19 @@
         editor.value.setValue(value, 1)
       }
 
+      const settingsOpen = ref(false)
+      const toggleSettings = () => {
+        settingsOpen.value = !settingsOpen.value
+      }
+
       return {
         useSpaces,
         wrapLines,
         valid,
-        beautifyEditorValue
+        beautifyEditorValue,
+        toggleSettings,
+        copyContent,
+        settingsOpen
       }
     }
   }

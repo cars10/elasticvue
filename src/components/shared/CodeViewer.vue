@@ -2,16 +2,30 @@
   <div class="bordered code-editor">
     <div ref="editor" style="height: 100%; width: 100%"/>
 
-    <div class="code-editor__actions pa-2">
-      <btn-group class="d-inline-block">
-        <v-btn :class="{'v-btn--active': useSpaces}" :title="$t('shared.code-editor.whitespace-tabs')"
-               @click="useSpaces = !useSpaces">
-          <v-icon small>mdi-keyboard-space</v-icon>
+    <div class="code-editor__actions">
+      <div class="d-inline-block">
+        <v-btn small icon class="mr-1" title="Copy content" @click="copyContent">
+          <v-icon>mdi-content-copy</v-icon>
         </v-btn>
-        <v-btn :class="wrapLines ? 'v-btn--active' : ''" :title="$t('shared.code-editor.wrap-lines')" @click="wrapLines = !wrapLines">
-          <v-icon small>mdi-wrap</v-icon>
-        </v-btn>
-      </btn-group>
+      </div>
+
+      <div class="d-inline-block">
+        <settings-dropdown>
+          <div class="px-3 pb-3" style="white-space: nowrap">
+            <v-checkbox v-model="useSpaces"
+                        :label="$t('shared.code-editor.whitespace-tabs-label')"
+                        :title="$t('shared.code-editor.whitespace-tabs-title')"
+                        class="my-1 py-0"
+                        hide-details/>
+
+            <v-checkbox v-model="wrapLines"
+                        :label="$t('shared.code-editor.wrap-lines-label')"
+                        :title="$t('shared.code-editor.wrap-lines-title')"
+                        class="my-1 py-0"
+                        hide-details/>
+          </div>
+        </settings-dropdown>
+      </div>
     </div>
   </div>
 </template>
@@ -20,14 +34,14 @@
   import { vuexAccessors } from '@/helpers/store'
   import { onBeforeUnmount, onMounted, ref, watch } from '@vue/composition-api'
   import store from '@/store'
-  import BtnGroup from '@/components/shared/BtnGroup'
   import { editorUtils } from '@/mixins/CodeEditorUtils'
   import { beautify } from '@/helpers'
+  import SettingsDropdown from '@/components/shared/TableSettings/SettingsDropdown'
 
   export default {
     name: 'code-viewer',
     components: {
-      BtnGroup
+      SettingsDropdown
     },
     props: {
       value: {
@@ -42,7 +56,7 @@
     setup (props, context) {
       const editor = ref(null)
       const { useSpaces, wrapLines } = vuexAccessors('codeEditor', ['useSpaces', 'wrapLines'])
-      const { setTheme, setWhitespace, setWrapLines, unmountEditor, setupAceEditor } = editorUtils(editor)
+      const { setTheme, setWhitespace, setWrapLines, unmountEditor, setupAceEditor, copyContent } = editorUtils(editor)
 
       watch(() => props.value, newValue => {
         if (editor.value.getValue() !== newValue) {
@@ -85,7 +99,8 @@
 
       return {
         useSpaces,
-        wrapLines
+        wrapLines,
+        copyContent
       }
     }
   }

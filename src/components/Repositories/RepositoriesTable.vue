@@ -15,7 +15,6 @@
                           hide-details
                           :label="$t('repository.table.filter')"
                           name="filter"
-                          title="$t('repository.table.filter-titles')"
                           @keyup.esc="filter = ''"/>
           </div>
         </v-col>

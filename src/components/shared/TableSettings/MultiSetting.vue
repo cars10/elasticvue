@@ -1,12 +1,12 @@
 <template>
-  <div v-if="settings.length > 0" class="mb-1">
+  <div v-if="settings.length > 0" class="mb-1 pb-2">
     <slot name="multi-setting__header">
       <v-subheader>
-        {{ name }}
-        <v-btn v-if="!unchecked" class="ml-a px-1 grey--text" small text @click.native="uncheckAll">
+        <span class="mr-2">{{ name }}</span>
+        <v-btn v-if="!unchecked" class="ml-a px-1" small text @click.native="uncheckAll">
           {{ $t('shared.table-settings.uncheck') }}
         </v-btn>
-        <v-btn v-if="hasChanges" class="ml-a px-1 grey--text" small text @click.native="reset">
+        <v-btn v-if="hasChanges" class="ml-a px-1" small text @click.native="reset">
           {{ $t('shared.table-settings.reset') }}
         </v-btn>
       </v-subheader>

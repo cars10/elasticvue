@@ -35,6 +35,13 @@
       <template v-slot:item="props">
         <index-row :index="props.item" @reloadIndices="emitReloadIndices"/>
       </template>
+      <template v-slot:header.parsedDocsCount="{header}">
+        {{ header.text }}
+        <v-icon small
+                title='If your index has fields with "type": "nested" then the number of lucene documents might not match the number of elasticsearch documents in your index. Each nested object counts as a separate document. Use the _count API if you need the number of elasticsearch documents.'>
+          mdi-information-outline
+        </v-icon>
+      </template>
     </v-data-table>
   </div>
 </template>
@@ -101,7 +108,7 @@
         results = await asyncFilterTable(results, filter.value, ['index', 'uuid'])
         items.value = results.map(index => new ElasticsearchIndex(index))
       }
-      const debouncedFilterTable = debounce(filterTable, 350)
+      const debouncedFilterTable = debounce(filterTable, 250)
       watch(filter, debouncedFilterTable)
       watch(showHiddenIndices, filterTable)
       watch(() => props.indices, filterTable)

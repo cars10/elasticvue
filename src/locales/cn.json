@@ -20,7 +20,7 @@
     "disconnect-and-reset": "断开连接并重置"
   },
   "change-theme": {
-    "dark-mode": "夜间模式"
+    "change-theme": "更改主题"
   },
   "cluster-health": "集群健康",
   "node-information": "节点信息",
@@ -117,7 +117,7 @@
       "uuid": "UUID",
       "aliases": "别名",
       "shards": "分片",
-      "docs": "文档数量",
+      "docs": "Lucene 文档",
       "storage": "储存空间"
     }
   },
@@ -145,11 +145,9 @@
     "path": "请求路径",
     "request-body": "请求体",
     "disabled": "不可用",
-    "execute-query": "运行查询",
-    "reset-form": "重置表单",
-    "example-1": "示例 #1 (_cat/indices)",
-    "example-2": "示例 #2 (create index)",
-    "example-3": "示例 #3 (delete index)",
+    "send-request": "发送请求",
+    "reset": "重置",
+    "download-as-json": "下载为 JSON 文件",
     "result": "结果",
     "result-code": "结果 (状态码 {code})",
     "hint-part-1": "你无法通过 {method} 发送请求体，如果要发送请求体，请",
@@ -176,7 +174,6 @@
       "repo-has-no-snapshots": "存储 <i>{repository}</i> 不包含任何快照。",
       "repository": "储存",
       "filter": "过滤 id...",
-      "filter-title": "通过 'column:query' 过滤",
       "header": {
         "status": "状态",
         "start-time": "开始时间",
@@ -218,7 +215,6 @@
     "cancel": "取消",
     "table": {
       "filter": "过滤名称...",
-      "filter-title": "通过 'column:query' 过滤",
       "delete": "删除",
       "repo-name": "名称",
       "repo-type": "类型",
@@ -256,7 +252,8 @@
       "message": "你可以将 {app} 数据导入和导出为 json。这<strong>不是</strong>集群数据的备份，如果你需要备份索引，请使用快照。",
       "import": "导入",
       "export": "导出",
-      "download-settings": "下载配置",
+      "download-settings": "下载",
+      "prepare-backup": "准备备份",
       "import-settings": "导入配置",
       "select-file": "选择文件...",
       "whats-included": "什么内容会包含？"
@@ -297,9 +294,14 @@
     },
     "auth-header-hint": "你的集群使用了授权。确保你已经设置了\"http.cors.allow-headers\"，否则将无法连接。",
     "code-editor": {
-      "beautify": "格式化 (Ctrl+ALT+L)",
-      "whitespace-tabs": "将空格改为 2 个空格而不是制表符",
-      "wrap-lines": "换行"
+      "beautify-title": "格式化 (Ctrl+ALT+L)",
+      "beautify": "格式化",
+      "whitespace-tabs-label": "使用空格",
+      "whitespace-tabs-title": "将空格改为 2 个空格而不是制表符",
+      "wrap-lines-label": "换行",
+      "wrap-lines-title": "长行换行",
+      "copy-content": "复制内容",
+      "keyboard-shortcuts": "快捷键"
     },
     "content-toggle": {
       "first": "第一个",

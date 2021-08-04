@@ -25,21 +25,25 @@
                   <li>Code Editor settings</li>
                   <li>Search settings</li>
                   <li>Theme</li>
-                  <li>Rest query url+body</li>
+                  <li>Rest query history and current query</li>
                   <li>Table filters & options</li>
                 </ul>
               </div>
             </v-expand-transition>
           </div>
 
-          <v-btn :href="storeDataUri" :download="downloadFilename" color="primary-button">
+          <v-btn @click="createBackup" class="primary-button mr-2">
+            {{ $t('settings.import-export.prepare-backup') }}
+          </v-btn>
+          <v-btn :href="backupDownloadLink" :download="downloadFilename" class="primary-button"
+                 :disabled="backupDownloadLink.length === 0">
             {{ $t('settings.import-export.download-settings') }}
           </v-btn>
 
           <v-divider class="my-6"/>
 
           <h5 class="text-h6">{{ $t('settings.import-export.import') }}</h5>
-          <v-form @submit.prevent="importBackup">
+          <v-form @submit.prevent="importBackupAndRedirect">
             <v-file-input v-model="importFile"
                           show-size
                           truncate-length="30"
@@ -56,37 +60,40 @@
 
 <script>
   import { ref } from '@vue/composition-api'
-  import { BASE_URI, LOCALSTORAGE_KEY } from '@/consts'
   import { exportStoreDataUri, useImportFileData } from '@/helpers/import_export'
+  import { BASE_URI } from '@/consts'
 
   export default {
     name: 'import-export-settings',
     setup () {
       const helpCollapsed = ref(false)
       const importFile = ref(null)
-      const storeDataUri = exportStoreDataUri()
+      const backupDownloadLink = ref('')
+      const createBackup = () => {
+        backupDownloadLink.value = ''
+        exportStoreDataUri().then(link => {
+          backupDownloadLink.value = link
+        })
+      }
       /* eslint-disable no-undef */
       const downloadFilename = `elasticvue_${VERSION}.json`
 
-      const { valid, errorMessage, importedData } = useImportFileData(importFile)
-
-      const importBackup = () => {
-        if (!valid.value || !importedData) return
-
-        if (confirm('Are you sure? Importing a backup will overwrite your current settings and saved clusters!')) {
-          localStorage.setItem(LOCALSTORAGE_KEY, importedData.value)
-          window.location.replace(BASE_URI)
-        }
+      const { valid, errorMessage, importBackup } = useImportFileData(importFile)
+      const importBackupAndRedirect = () => {
+        importBackup().then(imported => {
+          if (imported) window.location.replace(BASE_URI)
+        })
       }
 
       return {
         helpCollapsed,
         valid,
-        storeDataUri,
+        backupDownloadLink,
+        createBackup,
         downloadFilename,
         importFile,
         errorMessage,
-        importBackup
+        importBackupAndRedirect
       }
     }
   }

@@ -3,14 +3,13 @@
     <v-row>
       <v-col cols="4">
         <change-theme/>
-        <button class="btn-link" type="button" @click="reset">{{ $t("app-footer.disconnect-and-reset") }}</button>
       </v-col>
 
       <v-col class="text-center" cols="4">
         <div class="text-subtitle-1">
           Elasticvue {{ version }} |
           <a href="https://github.com/cars10/elasticvue/blob/master/CHANGELOG.md" rel="nofollow" target="_blank">
-            {{ $t("app-footer.changelog") }}</a> |
+            {{ $t("app-footer.changelog") }}</a>
         </div>
         &copy;{{ new Date().getFullYear() }} - Carsten K&ouml;nig<br>
       </v-col>
@@ -26,7 +25,6 @@
 </template>
 
 <script>
-  import { BASE_URI, LOCALSTORAGE_KEY } from '@/consts'
   import ChangeTheme from '@/components/shared/ChangeTheme'
 
   export default {
@@ -35,18 +33,9 @@
       ChangeTheme
     },
     setup () {
-      const reset = async () => {
-        localStorage.removeItem(LOCALSTORAGE_KEY)
-        window.indexedDB.databases().then(databases => {
-          databases.forEach(db => window.indexedDB.deleteDatabase(db.name))
-        })
-        window.location.replace(BASE_URI)
-      }
-
       return {
         /* eslint-disable no-undef */
-        version: VERSION,
-        reset
+        version: VERSION
       }
     }
   }

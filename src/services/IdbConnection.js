@@ -14,7 +14,7 @@ class Connection {
   }
 
   initialize () {
-    openDB(INDEXEDDB_NAME, 1, {
+    return openDB(INDEXEDDB_NAME, 1, {
       upgrade: db => {
         const store = db.createObjectStore(this.tableName, {
           keyPath: 'id',
@@ -66,6 +66,14 @@ class Connection {
     this.dbReload()
   }
 
+  async importData (data) {
+    const tx = this.db.transaction(this.tableName, 'readwrite')
+    data.forEach(obj => {
+      tx.store.put(obj)
+    })
+    await tx.done
+  }
+
   dbReload () {
     this.setLoading()
     this.dbGetAll().then(r => {
@@ -83,7 +91,7 @@ class Connection {
   }
 }
 
-export const useDb = tableName => {
+export const useIdb = tableName => {
   if (!indexedDbConnections[tableName]) indexedDbConnections[tableName] = new Connection(tableName)
 
   return {

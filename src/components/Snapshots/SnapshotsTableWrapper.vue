@@ -23,7 +23,6 @@
                           hide-details
                           :label="$t('snapshots.table.filter')"
                           name="filter"
-                          :title="$t('snapshots.table.filter-title')"
                           @keyup.esc="filter = ''"/>
           </div>
         </v-col>

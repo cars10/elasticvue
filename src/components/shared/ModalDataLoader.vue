@@ -12,7 +12,7 @@
       </v-card-title>
       <v-divider/>
 
-      <v-card-text>
+      <v-card-text class="pt-2">
         <loader :request-state="requestState">
           <print-pretty :caption="modalSubtitle"
                         :document="data"
@@ -97,9 +97,7 @@
       const close = () => (dialog.value = false)
       const calculatedHeight = () => (window.innerHeight * 0.7)
       const closeOnEsc = e => {
-        if (e.keyCode === 27) {
-          close()
-        }
+        if (e.keyCode === 27) close()
       }
 
       return {

@@ -4,11 +4,21 @@
 
 ## 0.36.0
 
-* [feat]: Adds history for Rest queries
+This version includes many fixes and improvements mentioned in the survey. Thanks!
+
+* [feat]: Adds history for Rest queries. The history can also be backed up and restored in the settings.
 * [feat]: Adds button to reset the "hide indices regex" setting to default
 * [feat]: When deleting an index the name of the index is now included in the confirm message
+* [feat]: Adds "Copy content" button to editors
+* [feat]: Can download search response as json
+* [feat]: Can download rest query response as json
+* [feat]: Cleanup code editor settings
+* [feat]: Simplify footer, move link to reset settings to settings page
+* [fix]: Adds tooltip to document count column in the indices table, fixes [#54][i54]
 * removes link to survey, view the results [here](https://github.com/cars10/elasticvue/issues/55)
 * some small css and color improvements
+
+[i54]: https://github.com/cars10/elasticvue/issues/54
 
 ## 0.35.0
 

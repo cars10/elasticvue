@@ -8,10 +8,8 @@
         <v-divider/>
 
         <v-card-text>
-          <v-row>
+          <v-row class="mb-4">
             <v-col cols="12" md="6" sm="12">
-              <change-theme class="mb-8"/>
-
               <v-text-field id="query"
                             v-model="hideIndicesRegex"
                             autofocus
@@ -28,6 +26,14 @@
               </v-text-field>
             </v-col>
           </v-row>
+
+          <v-divider class="mb-4"/>
+
+          <p>Disconnect and reset all settings</p>
+          <v-btn type="button" small @click="reset">
+            <v-icon small class="red--text mr-2">mdi-alert</v-icon>
+            Disconnect and reset
+          </v-btn>
         </v-card-text>
       </v-card>
 
@@ -38,24 +44,34 @@
 
 <script>
   import ImportExportSettings from '@/components/Settings/ImportExportSettings'
-  import ChangeTheme from '@/components/shared/ChangeTheme'
   import { vuexAccessors } from '@/helpers/store'
-  import { DEFAULT_HIDE_INDICES_REGEX } from '@/consts'
+  import { BASE_URI, DEFAULT_HIDE_INDICES_REGEX, LOCALSTORAGE_KEY } from '@/consts'
   import store from '@/store'
 
   export default {
     name: 'settings',
     components: {
-      ChangeTheme,
       ImportExportSettings
     },
     setup () {
       const { hideIndicesRegex } = vuexAccessors('indices', ['hideIndicesRegex'])
       const resetHideIndicesRegex = () => store.commit('indices/resetHideIndicesRegex')
+
+      const reset = () => {
+        if (confirm('Are you sure? This will delete all data saved by elasticvue! You will have to reconnect to your cluster.')) {
+          localStorage.removeItem(LOCALSTORAGE_KEY)
+          window.indexedDB.databases().then(databases => {
+            databases.forEach(db => window.indexedDB.deleteDatabase(db.name))
+          })
+          window.location.replace(BASE_URI)
+        }
+      }
+
       return {
         hideIndicesRegex,
         DEFAULT_HIDE_INDICES_REGEX,
-        resetHideIndicesRegex
+        resetHideIndicesRegex,
+        reset
       }
     }
   }
