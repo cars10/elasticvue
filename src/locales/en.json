@@ -26,6 +26,33 @@
   },
   "cluster-health": "Cluster Health",
   "node-information": "Node Information",
+  "elasticsearch_instance": {
+    "instance_selection": {
+      "connected_info": {
+        "title": "Connected to '{activeInstanceName}' ({activeInstanceUri})"
+      }
+    },
+    "instances_table": {
+      "headers": {
+        "cluster": "Cluster",
+        "uri": "Uri"
+      },
+      "row": {
+        "title": "Connect to cluster at '{uri}",
+        "cluster_health": {
+          "title": "Cluster health: {status}"
+        },
+        "remove_cluster": {
+          "confirm": "Remove cluster '{name}' ({uri})?"
+        }
+      }
+    }
+  },
+  "defaults": {
+    "filter": {
+      "label": "Filter..."
+    }
+  },
   "es": {
     "instance": {
       "add-cluster": "Add Cluster",
@@ -47,12 +74,6 @@
       "connection-error-part-3": "You added the correct settings to your",
       "connection-error-part-4": "and restarted your cluster",
       "choose-instance": "Chose instance"
-    },
-    "table": {
-      "filter": "Filter...",
-      "cluster": "Cluster",
-      "uri": "Uri",
-      "remove-cluster": "Remove Cluster"
     },
     "rename": {
       "rename-es-instance": "Rename elasticsearch instance",

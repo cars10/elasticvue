@@ -12,7 +12,7 @@
     </v-toolbar-title>
 
     <div v-if="wasConnected" class="inline-block ml-3 hidden-xs-only">
-      <elasticsearch-instance-selection/>
+      <instance-selection/>
     </div>
 
     <div class="flex-grow-1"/>
@@ -62,12 +62,12 @@
 <script>
   import { computed, onBeforeUnmount, onMounted, ref } from '@vue/composition-api'
   import store from '@/store'
-  import ElasticsearchInstanceSelection from '@/components/ElasticsearchInstance/ElasticsearchInstanceSelection'
+  import InstanceSelection from '@/components/ElasticsearchInstance/InstanceSelection'
 
   export default {
     name: 'app.header',
     components: {
-      ElasticsearchInstanceSelection
+      InstanceSelection
     },
     setup (props, context) {
       const scrolledDown = ref(false)

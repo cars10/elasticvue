@@ -4,24 +4,19 @@
       <template v-slot:activator="{ on, attrs }">
         <v-btn v-if="activeInstance" id="instance_selection_toggle" v-bind="attrs"
                v-on="on"
-               :title="`Connected to '${activeInstance.name}' (${activeInstance.uri})`" aria-label="Instance selection"
+               :title="$t('elasticsearch_instance.instance_selection.connected_info.title', {activeInstanceName: activeInstance.name, activeInstanceUri: activeInstance.uri})"
                class="text-none">
-          <svg :title="`Cluster health: ${activeInstance.status}`" class="mr-2" height="14" width="14">
+          <svg class="mr-2" height="14" width="14">
             <circle :class="`health--${activeInstance.status}`" cx="7" cy="9" r="5"/>
           </svg>
           <span class="text-truncate" style="max-width: 200px">{{ activeInstance.name }}</span>
           <v-icon v-if="menuOpen">mdi-menu-up</v-icon>
           <v-icon v-else>mdi-menu-down</v-icon>
         </v-btn>
-        <v-btn v-else v-bind="attrs" v-on="on" class="text-none">
-          {{ $t('es.instance.choose-instance') }}
-          <v-icon v-if="menuOpen">mdi-menu-up</v-icon>
-          <v-icon v-else>mdi-menu-down</v-icon>
-        </v-btn>
       </template>
 
       <v-card>
-        <elasticsearch-instances-table/>
+        <instances-table/>
       </v-card>
     </v-menu>
   </div>
@@ -32,12 +27,12 @@
   import { vuexAccessors } from '@/helpers/store'
   import { computed, ref, watch, watchEffect } from '@vue/composition-api'
   import { checkHealth } from '@/helpers/instance'
-  import ElasticsearchInstancesTable from '@/components/ElasticsearchInstance/ElasticsearchInstancesTable'
+  import InstancesTable from '@/components/ElasticsearchInstance/InstancesTable'
 
   export default {
-    name: 'elasticsearch-instance-selection',
+    name: 'instance-selection',
     components: {
-      ElasticsearchInstancesTable
+      InstancesTable
     },
     setup () {
       const menuOpen = ref(false)

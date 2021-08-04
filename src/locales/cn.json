@@ -26,6 +26,33 @@
   },
   "cluster-health": "集群健康",
   "node-information": "节点信息",
+  "elasticsearch_instance": {
+    "instance_selection": {
+      "connected_info": {
+        "title": null
+      }
+    },
+    "instances_table": {
+      "headers": {
+        "cluster": "集群名称",
+        "uri": "地址"
+      },
+      "row": {
+        "title": null,
+        "cluster_health": {
+          "title": null
+        },
+        "remove_cluster": {
+          "confirm": null
+        }
+      }
+    }
+  },
+  "defaults": {
+    "filter": {
+      "label": "过滤..."
+    }
+  },
   "es": {
     "instance": {
       "add-cluster": "添加集群",
@@ -47,11 +74,6 @@
       "connection-error-part-3": "你添加了正确的配置在",
       "connection-error-part-4": "并且重启了集群",
       "choose-instance": "选择实例"
-    },
-    "table": {
-      "filter": "过滤...",
-      "cluster": "集群名称",
-      "uri": "地址"
     },
     "rename": {
       "rename-es-instance": "重命名Elasticsearch实例",

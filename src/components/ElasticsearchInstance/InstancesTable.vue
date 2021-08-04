@@ -8,7 +8,7 @@
         <v-col>
           <div class="float-right d-inline-block">
             <v-text-field v-model="filter"
-                          :label="$t('es.table.filter')"
+                          :label="$t('defaults.filter.label')"
                           append-icon="mdi-magnify"
                           autocomplete="off"
                           autofocus
@@ -27,9 +27,11 @@
                   :search="filter"
                   dense>
       <template v-slot:item="{ item, index }">
-        <tr :title="`Connect to cluster at '${item.uri}'`" class="tr--clickable" @click="setActiveInstanceIdx(index)">
+        <tr :title="$t('elasticsearch_instance.instances_table.row.title', {uri: item.uri})" class="tr--clickable"
+            @click="setActiveInstanceIdx(index)">
           <td class="pt-1">
-            <div :title="`Cluster health: ${item.status}`" class="d-inline-block">
+            <div :title="$t('elasticsearch_instance.instances_table.row.cluster_health.title', {status: item.status})"
+                 class="d-inline-block">
               <svg class="mr-1" height="14" style="margin-bottom: 6px" width="14">
                 <circle :class="`health--${item.status}`" cx="7" cy="9" r="5"/>
               </svg>
@@ -71,7 +73,7 @@
   import NewElasticsearchInstance from '@/components/ElasticsearchInstance/NewElasticsearchInstance'
 
   export default {
-    name: 'elasticsearch-instances-table',
+    name: 'instances-table',
     components: {
       NewElasticsearchInstance,
       RenameElasticsearchInstance
@@ -85,7 +87,10 @@
       }
 
       const removeInstance = index => {
-        if (confirm(`Remove cluster '${instances.value[index].name}' (${instances.value[index].uri})?`)) {
+        if (confirm(i18n.t('elasticsearch_instance.instances_table.row.remove_cluster.confirm', {
+          name: instances.value[index].name,
+          uri: instances.value[index].uri
+        }))) {
           let reload
           if (index === activeInstanceIdx.value) reload = true
           store.commit('connection/removeInstance', index)
@@ -95,8 +100,8 @@
 
       const filter = ref('')
       const headers = [
-        { text: i18n.t('es.table.cluster'), value: 'name' },
-        { text: i18n.t('es.table.uri'), value: 'uri', sortable: false },
+        { text: i18n.t('elasticsearch_instance.instances_table.headers.cluster'), value: 'name' },
+        { text: i18n.t('elasticsearch_instance.instances_table.headers.uri'), value: 'uri', sortable: false },
         { text: '', sortable: false }
       ]
 
