@@ -176,6 +176,7 @@
       "show-only-favorites": "只查看收藏",
       "filter-label": "过滤...",
       "table-title": "点击预览请求正文，ctrl+点击 直接使用。",
+      "table-use": "使用",
       "remove-favorite": "移除收藏",
       "favorite": "收藏",
       "clear": "清除",

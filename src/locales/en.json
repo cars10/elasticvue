@@ -177,6 +177,7 @@
       "show-only-favorites": "Show only favorites",
       "filter-label": "Filter...",
       "table-title": "Click to preview request body, ctrl+click to directly use.",
+      "table-use": "Use",
       "remove-favorite": "Remove favorite",
       "favorite": "Favorite",
       "clear": "Clear",

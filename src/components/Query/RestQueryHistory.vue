@@ -75,7 +75,7 @@
             </span>
             <code-viewer v-model="selectedItem.body" :focus="false" style="flex:2"/>
             <div>
-              <v-btn class="mt-4" color="primary-button" @click="apply(selectedItem)">Use</v-btn>
+              <v-btn class="mt-4" color="primary-button" @click="apply(selectedItem)">{{ $t('rest.query-history.table-use') }}</v-btn>
               <v-btn icon @click="removeHistoryItem(selectedItem.id)" class="mt-4 ml-2" :title="$t('rest.query-history.remove-entry')">
                 <v-icon>mdi-delete</v-icon>
               </v-btn>
