@@ -91,6 +91,7 @@
   "indices": {
     "title": "索引",
     "filter": "过滤...",
+    "filter-title": "通过 'column:query' 过滤",
     "new-index": "新建索引",
     "index-name": "索引名称",
     "number-of-shards": "分片数量",
@@ -118,7 +119,8 @@
       "aliases": "别名",
       "shards": "分片",
       "docs": "Lucene 文档",
-      "storage": "储存空间"
+      "storage": "储存空间",
+      "parsed-docs-count-title": "如果你的索引具有 \"type\": \"nested\" 字段，那么 lucene 文档的数量可能与索引中的 elasticsearch 文档的数量不匹配。每个嵌套对象都算作一个单独的文档。如果你需要 elasticsearch 文档的数量，请使用 _count API。"
     }
   },
   "search": {

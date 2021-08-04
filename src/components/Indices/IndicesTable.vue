@@ -19,7 +19,7 @@
                           hide-details
                           :label="$t('indices.filter')"
                           name="filter"
-                          title="Filter via 'column:query'"
+                          :title="$t('indices.filter-title')"
                           @keyup.esc="filter = ''"/>
           </div>
         </v-col>
@@ -38,7 +38,7 @@
       <template v-slot:header.parsedDocsCount="{header}">
         {{ header.text }}
         <v-icon small
-                title='If your index has fields with "type": "nested" then the number of lucene documents might not match the number of elasticsearch documents in your index. Each nested object counts as a separate document. Use the _count API if you need the number of elasticsearch documents.'>
+                :title="$t('indices.table.parsed-docs-count-title')">
           mdi-information-outline
         </v-icon>
       </template>

@@ -92,6 +92,7 @@
   "indices": {
     "title": "Indices",
     "filter": "Filter...",
+    "filter-title": "Filter via 'column:query'",
     "new-index": "New Index",
     "index-name": "Index name",
     "number-of-shards": "Number of shards",
@@ -120,7 +121,8 @@
       "aliases": "Aliases",
       "shards": "Shards",
       "docs": "Lucene docs",
-      "storage": "Storage"
+      "storage": "Storage",
+      "parsed-docs-count-title": "If your index has fields with \"type\": \"nested\" then the number of lucene documents might not match the number of elasticsearch documents in your index. Each nested object counts as a separate document. Use the _count API if you need the number of elasticsearch documents."
     }
   },
   "search": {
