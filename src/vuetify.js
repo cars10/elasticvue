@@ -8,6 +8,7 @@ Vue.use(Vuetify)
 
 const basicColors = {
   success: colors.green.darken3,
+  error: colors.red.darken4,
   'primary-button': colors.blue.darken2
 }
 
