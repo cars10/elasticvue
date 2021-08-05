@@ -24,8 +24,6 @@
   "change-theme": {
     "change-theme": "更改主题"
   },
-  "cluster-health": "集群健康",
-  "node-information": "节点信息",
   "elasticsearch_instance": {
     "instance_selection": {
       "connected_info": {
@@ -43,45 +41,184 @@
           "title": null
         },
         "remove_cluster": {
+          "title": null,
           "confirm": null
         }
+      }
+    },
+    "new_instance": {
+      "add_cluster": "添加集群",
+      "heading": "添加Elasticsearch实例",
+      "configure": {
+        "heading": "1. 配置",
+        "show_help": "查看帮助"
+      },
+      "connect": {
+        "heading": "2. 连接",
+        "form": {
+          "name": {
+            "label": "集群名称"
+          },
+          "username": {
+            "label": "用户名 (可选)",
+            "title": "用户名"
+          },
+          "password": {
+            "label": "密码 (可选)",
+            "title": "密码"
+          },
+          "uri": {
+            "label": "地址"
+          },
+          "test_connection": "测试连接",
+          "connect": "连接"
+        },
+        "error": {
+          "heading": "无法连接。请确保",
+          "cluster_reachable": "你的集群可以通过地址访问",
+          "correct_settings": "你添加了正确的配置在",
+          "cluster_restarted": "并且重启了集群"
+        }
+      }
+    },
+    "rename_instance": {
+      "rename": {
+        "title": null
+      },
+      "heading": "重命名Elasticsearch实例",
+      "form": {
+        "name": {
+          "label": "集群名称"
+        },
+        "uri": {
+          "label": "地址"
+        },
+        "rename": "重命名"
       }
     }
   },
   "defaults": {
     "filter": {
       "label": "过滤..."
+    },
+    "cancel": "取消",
+    "close": "关闭",
+    "create": "创建",
+    "delete": null,
+    "required": null
+  },
+  "home": {
+    "client_information": {
+      "heading": "节点信息"
+    },
+    "cluster_health": {
+      "heading": "集群健康"
     }
   },
-  "es": {
-    "instance": {
-      "add-cluster": "添加集群",
-      "add-es-instance": "添加Elasticsearch实例",
-      "1-configure": "1. 配置",
-      "2-connect": "2. 连接",
-      "show-help": "查看帮助",
-      "cluster-name": "集群名称",
-      "username": "用户名",
-      "password": "密码",
-      "optional": "可选",
-      "uri": "地址",
-      "test-connection": "测试连接",
-      "connect": "连接",
-      "cancel": "取消",
-      "successfully-connected": "连接成功！",
-      "connection-error-part-1": "无法连接。请确保",
-      "connection-error-part-2": "你的集群可以通过地址访问",
-      "connection-error-part-3": "你添加了正确的配置在",
-      "connection-error-part-4": "并且重启了集群",
-      "choose-instance": "选择实例"
+  "indices": {
+    "index_aliases": {
+      "text": null,
+      "heading": null,
+      "index": null,
+      "form": {
+        "new_alias": {
+          "label": null
+        },
+        "add_alias": null
+      },
+      "table": {
+        "headers": {
+          "alias": null
+        }
+      },
+      "add_alias": {
+        "error": null
+      },
+      "delete_alias": {
+        "confirm": null,
+        "error": null
+      }
     },
-    "rename": {
-      "rename-es-instance": "重命名Elasticsearch实例",
-      "cluster-name": "集群名称",
-      "rename": "重命名",
-      "cancel": "取消",
-      "uri": "地址"
-    }
+    "index_row": {
+      "search": {
+        "title": null
+      },
+      "shards": {
+        "title": null
+      },
+      "options": {
+        "title": "选项",
+        "show_info": "查看信息",
+        "show_stats": "查看状态",
+        "forcemerge": {
+          "text": "强制合并索引",
+          "growl": null
+        },
+        "refresh": {
+          "text": "刷新索引",
+          "growl": null
+        },
+        "flush": {
+          "text": "Flush索引",
+          "growl": null
+        },
+        "clear_cache": {
+          "text": "清除索引缓存",
+          "growl": null
+        },
+        "close": {
+          "text": "关闭索引",
+          "growl": null
+        },
+        "open": {
+          "text": "开启索引",
+          "growl": null
+        },
+        "delete": {
+          "text": "删除",
+          "confirm": null,
+          "growl": null
+        }
+      }
+    },
+    "indices_table": {
+      "show_hidden_indices": {
+        "label": "查看隐藏索引"
+      },
+      "table": {
+        "headers": {
+          "name": "名称",
+          "status": "状态",
+          "health": "健康状态",
+          "uuid": "UUID",
+          "aliases": "别名",
+          "shards": "分片",
+          "docs": "Lucene 文档",
+          "storage": "储存空间",
+          "parsed_docs_count": {
+            "title": "如果你的索引具有 \"type\": \"nested\" 字段，那么 lucene 文档的数量可能与索引中的 elasticsearch 文档的数量不匹配。每个嵌套对象都算作一个单独的文档。如果你需要 elasticsearch 文档的数量，请使用 _count API。"
+          }
+        }
+      }
+    },
+    "new_index": {
+      "heading": "新建索引",
+      "form": {
+        "index_name": {
+          "label": "索引名称"
+        },
+        "shards": {
+          "label": "分片数量"
+        },
+        "replicas": {
+          "label": "副本数量"
+        }
+      },
+      "create_index": {
+        "growl": null
+      }
+    },
+    "title": "索引"
   },
   "setup": {
     "setup": "设置",
@@ -107,44 +244,41 @@
     "connection-error-part-4": "并且重启了集群"
   },
   "nodes": {
-    "title": "节点",
-    "filter": "过滤...",
-    "grid": "网格",
-    "table": "列表"
-  },
-  "indices": {
-    "title": "索引",
-    "filter": "过滤...",
-    "filter-title": "通过 'column:query' 过滤",
-    "new-index": "新建索引",
-    "index-name": "索引名称",
-    "number-of-shards": "分片数量",
-    "number-of-replicas": "副本数量",
-    "create": "创建",
-    "cancel": "取消",
-    "show-hidden-indices": "查看隐藏索引",
-    "row": {
-      "show-info": "查看信息",
-      "show-stats": "查看状态",
-      "aliases": "别名",
-      "forcemerge-index": "强制合并索引",
-      "refresh-index": "刷新索引",
-      "flush-index": "Flush索引",
-      "clear-index-cache": "清除索引缓存",
-      "close-index": "关闭索引",
-      "open-index": "开启索引",
-      "delete-index": "删除"
+    "node_icons": {
+      "master": {
+        "title": null
+      },
+      "master_eligible": {
+        "title": null
+      },
+      "data": {
+        "title": null
+      },
+      "ingest": {
+        "title": null
+      },
+      "coordinating_only": {
+        "title": null
+      }
     },
-    "table": {
+    "node_properties": {
+      "ip": null,
+      "master": null,
+      "node_role": null,
+      "load": null,
+      "cpu": null,
+      "ram": null,
+      "heap": null,
+      "disk": null,
       "name": "名称",
-      "status": "状态",
-      "health": "健康状态",
-      "uuid": "UUID",
-      "aliases": "别名",
-      "shards": "分片",
-      "docs": "Lucene 文档",
-      "storage": "储存空间",
-      "parsed-docs-count-title": "如果你的索引具有 \"type\": \"nested\" 字段，那么 lucene 文档的数量可能与索引中的 elasticsearch 文档的数量不匹配。每个嵌套对象都算作一个单独的文档。如果你需要 elasticsearch 文档的数量，请使用 _count API。"
+      "status": "状态"
+    },
+    "nodes_list": {
+      "heading": "节点",
+      "types": {
+        "grid": "网格",
+        "table": "列表"
+      }
     }
   },
   "search": {

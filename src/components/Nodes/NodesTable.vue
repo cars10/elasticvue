@@ -68,6 +68,7 @@
   import NodePercentBar from '@/components/Nodes/NodePercentBar'
   import { vuexAccessors } from '@/helpers/store'
   import { DEFAULT_ITEMS_PER_PAGE } from '@/consts'
+  import i18n from '@/i18n'
 
   export default {
     name: 'nodes-table',
@@ -91,16 +92,16 @@
       const { filter, pagination } = vuexAccessors('nodes', ['filter', 'pagination'])
 
       const HEADERS = [
-        { text: 'status', value: '', sortable: false },
-        { text: 'name', value: 'name' },
-        { text: 'ip', value: 'ip' },
-        { text: 'master', value: 'master' },
-        { text: 'node.role', value: 'nodeRole' },
-        { text: 'load', value: 'load_1m' },
-        { text: 'cpu', value: 'cpu' },
-        { text: 'ram', value: 'ramPercent' },
-        { text: 'heap', value: 'heapPercent' },
-        { text: 'disk', value: 'diskPercent' },
+        { text: i18n.t('nodes.node_properties.status'), value: '', sortable: false },
+        { text: i18n.t('nodes.node_properties.name'), value: 'name' },
+        { text: i18n.t('nodes.node_properties.ip'), value: 'ip' },
+        { text: i18n.t('nodes.node_properties.master'), value: 'master' },
+        { text: i18n.t('nodes.node_properties.node_role'), value: 'nodeRole' },
+        { text: i18n.t('nodes.node_properties.load'), value: 'load_1m' },
+        { text: i18n.t('nodes.node_properties.cpu'), value: 'cpu' },
+        { text: i18n.t('nodes.node_properties.ram'), value: 'ramPercent' },
+        { text: i18n.t('nodes.node_properties.heap'), value: 'heapPercent' },
+        { text: i18n.t('nodes.node_properties.disk'), value: 'diskPercent' },
         { text: '', value: 'actions', sortable: false }
       ]
 

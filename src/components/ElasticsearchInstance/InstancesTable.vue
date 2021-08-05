@@ -3,7 +3,7 @@
     <v-container>
       <v-row>
         <v-col>
-          <new-elasticsearch-instance/>
+          <new-instance/>
         </v-col>
         <v-col>
           <div class="float-right d-inline-block">
@@ -48,11 +48,11 @@
             </div>
           </td>
           <td>
-            <rename-elasticsearch-instance :cluster-idx="index" :cluster-name="item.name" :cluster-uri="item.uri"/>
+            <rename-instance :cluster-idx="index" :cluster-name="item.name" :cluster-uri="item.uri"/>
 
             <v-btn :id="`remove-instance-${index}`" class="ml-1" icon
                    small
-                   title="Remove cluster"
+                   :title="$t('elasticsearch_instance.instances_table.row.remove_cluster.title')"
                    @click.stop="removeInstance(index)">
               <v-icon small>mdi-delete</v-icon>
             </v-btn>
@@ -69,14 +69,14 @@
   import { BASE_URI, DEFAULT_ITEMS_PER_PAGE } from '@/consts'
   import { ref } from '@vue/composition-api'
   import i18n from '@/i18n'
-  import RenameElasticsearchInstance from '@/components/ElasticsearchInstance/RenameElasticsearchInstance'
-  import NewElasticsearchInstance from '@/components/ElasticsearchInstance/NewElasticsearchInstance'
+  import RenameInstance from '@/components/ElasticsearchInstance/RenameInstance'
+  import NewInstance from '@/components/ElasticsearchInstance/NewInstance'
 
   export default {
     name: 'instances-table',
     components: {
-      NewElasticsearchInstance,
-      RenameElasticsearchInstance
+      NewInstance,
+      RenameInstance
     },
     setup () {
       const { activeInstanceIdx, instances } = vuexAccessors('connection', ['activeInstanceIdx', 'instances'])

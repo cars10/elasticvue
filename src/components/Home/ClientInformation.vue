@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title>
-      {{ $t('node-information') }}
+      {{ $t('home.client_information.heading') }}
       <reload-button id="reload-client-information" :action="load"/>
     </v-card-title>
     <v-divider/>

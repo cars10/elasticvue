@@ -8,13 +8,12 @@
         <v-col>
           <div class="d-inline-block float-right">
             <v-checkbox v-model="showHiddenIndices"
-                        :label="$t('indices.show-hidden-indices')"
+                        :label="$t('indices.indices_table.show_hidden_indices.label')"
                         class="d-inline-block mr-6 vertical-align--bottom"
                         hide-details/>
             <v-text-field id="filter"
                           v-model="filter"
-                          :label="$t('indices.filter')"
-                          :title="$t('indices.filter-title')"
+                          :label="$t('defaults.filter.label')"
                           append-icon="mdi-magnify"
                           autofocus
                           class="mt-0 pt-0 v-text-field--small"
@@ -37,8 +36,7 @@
       </template>
       <template v-slot:header.parsedDocsCount="{header}">
         {{ header.text }}
-        <v-icon :title="$t('indices.table.parsed-docs-count-title')"
-                small>
+        <v-icon :title="$t('indices.indices_table.table.headers.parsed_docs_count.title')" small>
           mdi-information-outline
         </v-icon>
       </template>
@@ -82,14 +80,14 @@
       } = vuexAccessors('indices', ['filter', 'options', 'showHiddenIndices', 'hideIndicesRegex'])
 
       const HEADERS = [
-        { text: i18n.t('indices.table.name'), value: 'index' },
-        { text: i18n.t('indices.table.health'), value: 'health' },
-        { text: i18n.t('indices.table.status'), value: 'status' },
-        { text: i18n.t('indices.table.uuid'), value: 'uuid' },
-        { text: i18n.t('indices.table.aliases'), value: 'aliases', sortable: false },
-        { text: i18n.t('indices.table.shards'), value: 'parsedPri', align: 'right' },
-        { text: i18n.t('indices.table.docs'), value: 'parsedDocsCount', align: 'right' },
-        { text: i18n.t('indices.table.storage'), value: 'parsedStoreSize', align: 'right' },
+        { text: i18n.t('indices.indices_table.table.headers.name'), value: 'index' },
+        { text: i18n.t('indices.indices_table.table.headers.health'), value: 'health' },
+        { text: i18n.t('indices.indices_table.table.headers.status'), value: 'status' },
+        { text: i18n.t('indices.indices_table.table.headers.uuid'), value: 'uuid' },
+        { text: i18n.t('indices.indices_table.table.headers.aliases'), value: 'aliases', sortable: false },
+        { text: i18n.t('indices.indices_table.table.headers.shards'), value: 'parsedPri', align: 'right' },
+        { text: i18n.t('indices.indices_table.table.headers.docs'), value: 'parsedDocsCount', align: 'right' },
+        { text: i18n.t('indices.indices_table.table.headers.storage'), value: 'parsedStoreSize', align: 'right' },
         { text: '', value: 'actions', sortable: false }
       ]
 

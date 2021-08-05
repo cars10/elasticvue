@@ -2,14 +2,14 @@
   <v-dialog v-model="dialog" class="theme--dark" width="800">
     <template v-slot:activator="{ on, attrs }">
       <v-btn id="add_new_instance" v-bind="attrs" v-on="on" color="primary-button">
-        {{ $t('es.instance.add-cluster') }}
+        {{ $t('elasticsearch_instance.new_instance.add_cluster') }}
       </v-btn>
     </template>
     <v-card>
       <v-card-title class="text-h5">
-        <h2 class="text-h5">{{ $t('es.instance.add-es-instance') }}</h2>
+        <h2 class="text-h5">{{ $t('elasticsearch_instance.new_instance.heading') }}</h2>
         <div class="ml-a">
-          <v-btn icon title="Close" @click.native="closeDialog">
+          <v-btn icon :title="$t('defaults.close')" @click.native="closeDialog">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </div>
@@ -18,26 +18,28 @@
       <v-divider/>
 
       <v-card-text v-if="SHOW_CORS_HINT">
-        <h2 class="text-h6 my-4">{{ $t('es.instance.1-configure') }}</h2>
+        <h2 class="text-h6 my-4">{{ $t('elasticsearch_instance.new_instance.configure.heading') }}</h2>
         <v-expand-transition>
           <configure v-if="configureHintVisible"/>
         </v-expand-transition>
         <v-btn class="pl-1" small text @click="configureHintVisible = !configureHintVisible">
           <v-icon>{{ configureHintVisible ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-          {{ $t('es.instance.show-help') }}
+          {{ $t('elasticsearch_instance.new_instance.configure.show_help') }}
         </v-btn>
       </v-card-text>
 
       <v-divider/>
 
       <v-card-text>
-        <h2 v-if="SHOW_CORS_HINT" class="text-h6 my-4">{{ $t('es.instance.2-connect') }}</h2>
-        <v-form ref="form" v-model="formValid" lazy-validation @submit.prevent="testConnection">
+        <h2 v-if="SHOW_CORS_HINT" class="text-h6 my-4">
+          {{ $t('elasticsearch_instance.new_instance.connect.heading') }}
+        </h2>
 
+        <v-form ref="form" v-model="formValid" lazy-validation @submit.prevent="testConnection">
           <v-text-field v-if="dialog"
                         id="new_instance_name"
                         v-model="elasticsearchHost.name"
-                        :label="$t('es.instance.cluster-name')"
+                        :label="$t('elasticsearch_instance.new_instance.connect.form.name.label')"
                         :rules="[validName]"
                         append-icon="mdi-close"
                         autocomplete="off"
@@ -52,15 +54,15 @@
             <v-row>
               <v-col cols="12" md="6">
                 <v-text-field v-model="elasticsearchHost.username"
-                              :label="$t('es.instance.username')+'('+$t('es.instance.optional')+')'"
-                              :title="$t('es.instance.username')"
+                              :label="$t('elasticsearch_instance.new_instance.connect.form.username.label')"
+                              :title="$t('elasticsearch_instance.new_instance.connect.form.username.title')"
                               type="text"/>
               </v-col>
               <v-col cols="12" md="6">
                 <v-text-field v-model="elasticsearchHost.password"
                               :append-icon="passwordVisible ? 'mdi-eye' : 'mdi-eye-off'"
-                              :label="$t('es.instance.password')+'('+$t('es.instance.optional')+')'"
-                              :title="$t('es.instance.password')"
+                              :label="$t('elasticsearch_instance.new_instance.connect.form.password.label')"
+                              :title="$t('elasticsearch_instance.new_instance.connect.form.password.title')"
                               :type="passwordVisible ? 'text' : 'password'"
                               autocomplete="off"
                               @click:append="passwordVisible = !passwordVisible"/>
@@ -73,7 +75,7 @@
             <v-text-field v-if="dialog"
                           id="new_instance_uri"
                           v-model="elasticsearchHost.uri"
-                          :label="$t('es.instance.uri')"
+                          :label="$t('elasticsearch_instance.new_instance.connect.form.uri.label')"
                           :rules="[validUri]"
                           append-icon="mdi-close"
                           name="uri"
@@ -84,13 +86,16 @@
           </div>
 
           <v-alert :value="hasError" type="error">
-            {{ $t('es.instance.connection-error-part-1') }}
+            {{ $t('elasticsearch_instance.new_instance.connect.error.heading') }}
             <ol class="pl-4">
-              <li>{{ $t('es.instance.connection-error-part-2') }} <a :href="elasticsearchHost.uri"
-                                                                     target="_blank">{{ elasticsearchHost.uri }}</a>
+              <li>
+                {{ $t('elasticsearch_instance.new_instance.connect.error.cluster_reachable') }}
+                <a :href="elasticsearchHost.uri" target="_blank" class="white--text">{{ elasticsearchHost.uri }}</a>
               </li>
-              <li>{{ $t('es.instance.connection-error-part-3') }} <strong>elasticsearch.yml</strong>
-                {{ $t('es.instance.connection-error-part-4') }}
+              <li>
+                {{ $t('elasticsearch_instance.new_instance.connect.error.correct_settings') }}
+                <strong>elasticsearch.yml</strong>
+                {{ $t('elasticsearch_instance.new_instance.connect.error.cluster_restarted') }}
               </li>
             </ol>
 
@@ -106,7 +111,7 @@
                    :loading="testState.testLoading"
                    class="mr-2"
                    type="submit">
-              {{ $t('es.instance.test-connection') }}
+              {{ $t('elasticsearch_instance.new_instance.connect.form.test_connection') }}
             </v-btn>
 
             <v-btn id="connect"
@@ -115,9 +120,10 @@
                    :loading="testState.connectLoading"
                    class="mr-2"
                    type="button"
-                   @click.native="connectCluster">{{ $t('es.instance.connect') }}
+                   @click.native="connectCluster">
+              {{ $t('elasticsearch_instance.new_instance.connect.form.connect') }}
             </v-btn>
-            <v-btn text @click="closeDialog">{{ $t('es.instance.cancel') }}</v-btn>
+            <v-btn text @click="closeDialog">{{ $t('defaults.cancel') }}</v-btn>
           </div>
         </v-form>
       </v-card-text>
@@ -136,7 +142,7 @@
   import AuthorizationHeaderHint from '@/components/shared/AuthorizationHeaderHint'
 
   export default {
-    name: 'elasticsearch-instance',
+    name: 'new-instance',
     components: {
       AuthorizationHeaderHint,
       Configure,
@@ -178,9 +184,7 @@
 
       const passwordVisible = ref(false)
       const configureHintVisible = ref(false)
-      const usesSSL = computed(() => {
-        return elasticsearchHost.value.uri.match(/^https/)
-      })
+      const usesSSL = computed(() => (elasticsearchHost.value.uri.match(/^https/)))
 
       return {
         dialog,

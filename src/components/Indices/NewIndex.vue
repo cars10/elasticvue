@@ -1,14 +1,14 @@
 <template>
   <v-dialog v-model="dialog" width="500">
     <template v-slot:activator="{on}">
-      <v-btn id="new_index" v-on="on" class="ml-0" color="primary-button">{{ $t('indices.new-index') }}</v-btn>
+      <v-btn id="new_index" v-on="on" class="ml-0" color="primary-button">{{ $t('indices.new_index.heading') }}</v-btn>
     </template>
 
     <v-card>
       <v-card-title>
-        <h2 class="text-h5">{{ $t('indices.new-index') }}</h2>
+        <h2 class="text-h5">{{ $t('indices.new_index.heading') }}</h2>
         <div class="ml-a">
-          <v-btn icon title="Close" @click.native="closeDialog">
+          <v-btn icon :title="$t('defaults.close')" @click.native="closeDialog">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </div>
@@ -20,7 +20,7 @@
           <v-text-field v-if="dialog"
                         id="index_name"
                         v-model="indexName"
-                        :label="$t('indices.index-name')"
+                        :label="$t('indices.new_index.form.index_name.label')"
                         :rules="[nameValidation]"
                         autocomplete="off"
                         autofocus
@@ -30,7 +30,7 @@
 
           <v-text-field id="index_shards"
                         v-model="indexShards"
-                        :label="$t('indices.number-of-shards')"
+                        :label="$t('indices.new_index.form.shards.label')"
                         autocomplete="off"
                         name="indexShards"
                         placeholder="1"
@@ -39,7 +39,7 @@
 
           <v-text-field id="index_replicas"
                         v-model="indexReplicas"
-                        :label="$t('indices.number-of-replicas')"
+                        :label="$t('indices.new_index.form.replicas.label')"
                         autocomplete="off"
                         name="indexReplicas"
                         placeholder="1"
@@ -48,11 +48,14 @@
         </v-card-text>
 
         <v-card-actions class="pa-4">
-          <v-btn id="create_index" :disabled="requestState.loading || !valid" :loading="requestState.loading"
+          <v-btn id="create_index"
+                 :disabled="requestState.loading || !valid"
+                 :loading="requestState.loading"
                  color="success"
-                 type="submit">{{ $t('indices.create') }}
+                 type="submit">
+            {{ $t('defaults.create') }}
           </v-btn>
-          <v-btn text @click="closeDialog">{{ $t('indices.cancel') }}</v-btn>
+          <v-btn text @click="closeDialog">{{ $t('defaults.cancel') }}</v-btn>
         </v-card-actions>
       </v-form>
     </v-card>
@@ -63,6 +66,7 @@
   import { showErrorSnackbar, showSuccessSnackbar } from '@/mixins/ShowSnackbar'
   import { ref } from '@vue/composition-api'
   import { useElasticsearchRequest } from '@/mixins/RequestComposition'
+  import i18n from '@/i18n'
 
   export default {
     name: 'new-index',
@@ -86,7 +90,7 @@
       }
 
       const nameValidation = () => {
-        return !!indexName.value || 'Required'
+        return !!indexName.value || i18n.t('defaults.required')
       }
 
       const { requestState, callElasticsearch } = useElasticsearchRequest()
@@ -97,7 +101,7 @@
           .then(body => {
             context.emit('reloadIndices')
             showSuccessSnackbar({
-              text: `The index '${indexName.value}' was successfully created.`,
+              text: i18n.t('indices.new_index.create_index.growl', { index: indexName.value }),
               additionalText: JSON.stringify(body)
             })
             closeDialog()

@@ -4,14 +4,14 @@
       <v-card-title class="clearfix">
         <v-row>
           <v-col cols="12" sm="6">
-            {{ $t('nodes.title') }}
+            {{ $t('nodes.nodes_list.heading') }}
             <reload-button id="reload-nodes" :action="() => $emit('reloadNodes')"/>
           </v-col>
           <v-col cols="12" sm="6">
             <div class="float-right">
               <v-text-field id="nodes_filter"
                             v-model="filter"
-                            :label="$t('nodes.filter')"
+                            :label="$t('defaults.filter.label')"
                             append-icon="mdi-magnify"
                             autofocus
                             class="mt-0 pt-0 v-text-field--small"
@@ -27,11 +27,11 @@
 
     <v-btn-toggle v-model="listType" class="mb-4 v-btn-toggle--small" mandatory>
       <v-btn id="nodes_list_grid" text value="grid" @click="$emit('reloadNodes')">
-        <span>{{ $t('nodes.grid') }}</span>
+        <span>{{ $t('nodes.nodes_list.types.grid') }}</span>
         <v-icon small>mdi-view-dashboard</v-icon>
       </v-btn>
       <v-btn id="nodes_list_table" text value="table" @click="$emit('reloadNodes')">
-        <span>{{ $t('nodes.table') }}</span>
+        <span>{{ $t('nodes.nodes_list.types.table') }}</span>
         <v-icon small>mdi-table</v-icon>
       </v-btn>
     </v-btn-toggle>

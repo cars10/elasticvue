@@ -28,14 +28,14 @@
                 <v-col :class="nodeListClass" class="pa-0" cols="12" sm="6">
                   <v-list class="py-0" dense>
                     <v-list-item>
-                      <v-list-item-action>ip</v-list-item-action>
+                      <v-list-item-action>{{ $t('nodes.node_properties.ip') }}</v-list-item-action>
                       <v-list-item-content class="d-inline-block text-right">
                         {{ item.ip }}
                       </v-list-item-content>
                     </v-list-item>
 
                     <v-list-item>
-                      <v-list-item-content>master</v-list-item-content>
+                      <v-list-item-content>{{ $t('nodes.node_properties.master') }}</v-list-item-content>
                       <v-list-item-content class="d-inline-block text-right">
                         <template v-if="item.master">yes</template>
                         <template v-else-if="item.masterEligible">eligible</template>
@@ -44,14 +44,14 @@
                     </v-list-item>
 
                     <v-list-item>
-                      <v-list-item-content>node.role</v-list-item-content>
+                      <v-list-item-content>{{ $t('nodes.node_properties.node_role') }}</v-list-item-content>
                       <v-list-item-content class="d-inline-block text-right">
                         {{ item.nodeRole }}
                       </v-list-item-content>
                     </v-list-item>
 
                     <v-list-item>
-                      <v-list-item-content>load</v-list-item-content>
+                      <v-list-item-content>{{ $t('nodes.node_properties.load') }}</v-list-item-content>
                       <v-list-item-content class="d-inline-block text-right">
                         {{ item.load_1m }} / {{ item.load_5m }} / {{ item.load_15m }}
                       </v-list-item-content>
@@ -62,7 +62,7 @@
                 <v-col class="pa-0" cols="12" sm="6">
                   <v-list class="py-0" dense>
                     <v-list-item>
-                      <v-list-item-action class="my-0">cpu</v-list-item-action>
+                      <v-list-item-action class="my-0">{{ $t('nodes.node_properties.cpu') }}</v-list-item-action>
                       <v-list-item-content>
                         <node-percent-bar :value="item.cpu" class="my-0" height="4"/>
                       </v-list-item-content>
@@ -72,7 +72,7 @@
                     </v-list-item>
 
                     <v-list-item>
-                      <v-list-item-action class="my-0">ram</v-list-item-action>
+                      <v-list-item-action class="my-0">{{ $t('nodes.node_properties.ram') }}</v-list-item-action>
                       <v-list-item-content>
                         {{ item.ramCurrent }}/ {{ item.ramMax }}
                         <node-percent-bar :value="item.ramPercent"/>
@@ -83,7 +83,7 @@
                     </v-list-item>
 
                     <v-list-item>
-                      <v-list-item-action class="my-0">heap</v-list-item-action>
+                      <v-list-item-action class="my-0">{{ $t('nodes.node_properties.heap') }}</v-list-item-action>
                       <v-list-item-content>
                         {{ item.heapCurrent }}/ {{ item.heapMax }}
                         <node-percent-bar :value="item.heapPercent"/>
@@ -94,7 +94,7 @@
                     </v-list-item>
 
                     <v-list-item>
-                      <v-list-item-action class="my-0">disk</v-list-item-action>
+                      <v-list-item-action class="my-0">{{ $t('nodes.node_properties.disk') }}</v-list-item-action>
                       <v-list-item-content>
                         {{ item.diskCurrent }}/ {{ item.diskMax }}
                         <node-percent-bar :value="item.diskPercent"/>

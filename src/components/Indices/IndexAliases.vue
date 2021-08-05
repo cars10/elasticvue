@@ -6,16 +6,16 @@
           <v-icon small>mdi-at</v-icon>
         </v-list-item-action>
         <v-list-item-content>
-          <v-list-item-title>{{ $t('indices.row.aliases') }}</v-list-item-title>
+          <v-list-item-title>{{ $t('indices.index_aliases.text') }}</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
     </template>
 
     <v-card>
       <v-card-title>
-        <h2 class="text-h5">Manage aliases</h2>
+        <h2 class="text-h5">{{ $t('indices.index_aliases.heading') }}</h2>
         <div class="ml-a">
-          <v-btn icon title="Close" @click.native="dialog = false">
+          <v-btn icon :title="$t('defaults.close')" @click.native="dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </div>
@@ -23,7 +23,7 @@
       <v-divider/>
 
       <v-card-text>
-        <p class="my-2 text-body-1">Index: {{ indexName }}</p>
+        <p class="my-2 text-body-1">{{ $t('indices.index_aliases.index', { indexName }) }}</p>
         <v-form @submit.prevent="addAlias">
           <v-row>
             <v-col class="flex-grow-1">
@@ -31,14 +31,14 @@
                             v-model="newAlias"
                             autocomplete="off"
                             hide-details
-                            label="Add alias"/>
+                            :label="$t('indices.index_aliases.form.new_alias.label')"/>
             </v-col>
             <v-col class="flex-grow-0">
               <v-btn id="add_index_alias"
                      :disabled="requestState.loading || newAlias.length === 0"
                      class="mt-3"
                      type="submit">
-                Add new alias
+                {{ $t('indices.index_aliases.form.add_alias') }}
               </v-btn>
             </v-col>
           </v-row>
@@ -54,7 +54,7 @@
           <tr>
             <td>{{ props.item.item }}</td>
             <td class="text-right">
-              <v-btn @click="deleteAlias(props.item.item)">Delete</v-btn>
+              <v-btn @click="deleteAlias(props.item.item)">{{ $t('defaults.delete') }}</v-btn>
             </td>
           </tr>
         </template>
@@ -68,6 +68,7 @@
   import { useElasticsearchRequest } from '@/mixins/RequestComposition'
   import { computed, ref, watch } from '@vue/composition-api'
   import { showErrorSnackbar } from '@/mixins/ShowSnackbar'
+  import i18n from '@/i18n'
 
   export default {
     name: 'index-aliases',
@@ -106,7 +107,7 @@
       })
 
       const HEADERS = [
-        { text: 'Name', value: 'item' },
+        { text: i18n.t('indices.index_aliases.table.headers.alias'), value: 'item' },
         { text: '', sortable: false }
       ]
 
@@ -118,20 +119,26 @@
           })
           .catch(() => {
             showErrorSnackbar({
-              text: `Error creating alias '${newAlias.value}': ${requestState.value.status}`,
+              text: i18n.t('indices.index_aliases.add_alias.error', {
+                alias: newAlias.value,
+                error: requestState.value.status
+              }),
               additionalText: requestState.value.apiErrorMessage
             })
           })
       }
 
       const deleteAlias = alias => {
-        if (!confirm(`Delete alias '${alias}' for index '${props.indexName}'?`)) return
+        if (!confirm(i18n.t('indices.index_aliases.delete_alias.confirm', { alias, index: props.indexName }))) return
 
         callElasticsearch('indexDeleteAlias', { index: props.indexName, alias })
           .then(loadAliases)
           .catch(() => {
             showErrorSnackbar({
-              text: `Error removing alias '${alias}': ${requestState.value.status}`,
+              text: i18n.t('indices.index_aliases.delete_alias.error', {
+                alias: alias,
+                error: requestState.value.status
+              }),
               additionalText: requestState.value.apiErrorMessage
             })
           })
