@@ -3,15 +3,15 @@
     <v-dialog v-model="dialog" width="900">
       <template v-slot:activator="{ on, attrs }">
         <v-btn v-bind="attrs" v-on="on">
-          {{ $t('rest.query-examples.query-examples') }}
+          {{ $t('query.rest_query_examples.heading') }}
         </v-btn>
       </template>
 
       <v-card>
         <v-card-title>
-          <h2 class="text-h5">{{ $t('rest.query-examples.query-examples') }}</h2>
+          <h2 class="text-h5">{{ $t('query.rest_query_examples.heading') }}</h2>
           <div class="ml-a">
-            <v-btn :title="$t('rest.query-examples.close')" icon @click.native="closeDialog">
+            <v-btn :title="$t('defaults.close')" icon @click.native="closeDialog">
               <v-icon>mdi-close</v-icon>
             </v-btn>
           </div>
@@ -24,7 +24,7 @@
               <div class="d-inline-block float-right">
                 <v-text-field id="filter"
                               v-model="filter"
-                              :label="$t('rest.query-examples.filter-label')"
+                              :label="$t('defaults.filter.label')"
                               append-icon="mdi-magnify"
                               autofocus
                               class="v-text-field--small mb-4"
@@ -39,7 +39,7 @@
                         :headers="headers"
                         :items="filteredExamples">
             <template v-slot:item="{ item, index }">
-              <tr :title="$t('rest.query-examples.table-title')"
+              <tr :title="$t('query.rest_query_examples.table.row.title')"
                   class="tr--clickable"
                   @click.exact="item.body.length > 0 ? togglePreview(index) : () => {}"
                   @click.ctrl="apply(item)">
@@ -48,7 +48,9 @@
                 </td>
                 <td>
                   {{ item.description }}
-                  <a v-if="item.doc" :href="item.doc" rel="nofollow" target="_blank" @click.stop>Docs</a>
+                  <a v-if="item.doc" :href="item.doc" rel="nofollow" target="_blank" @click.stop>
+                    {{ $t('query.rest_query_examples.table.row.docs') }}
+                  </a>
                 </td>
                 <td>
                   <v-btn v-if="item.body.length > 0" icon>
@@ -58,7 +60,7 @@
                   </v-btn>
                 </td>
                 <td>
-                  <v-btn small @click.stop="apply(item)">{{ $t('rest.query-examples.table-use') }}</v-btn>
+                  <v-btn small @click.stop="apply(item)">{{ $t('query.rest_query_examples.table.row.use') }}</v-btn>
                 </td>
               </tr>
               <tr v-if="previewIndex === index" class="disable-hover-bg">
@@ -72,7 +74,7 @@
 
         <v-divider/>
         <v-card-actions class="pa-4">
-          <v-btn text @click="closeDialog">{{ $t('rest.query-examples.card-action-close') }}</v-btn>
+          <v-btn text @click="closeDialog">{{ $t('defaults.close') }}</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -94,10 +96,10 @@
       const dialog = ref(false)
       const closeDialog = () => (dialog.value = false)
       const headers = [
-        { text: i18n.t('rest.query-examples.table-header-query'), value: 'method' },
-        { text: i18n.t('rest.query-examples.table-header-description'), value: 'description' },
-        { text: i18n.t('rest.query-examples.table-header-body'), sortable: false },
-        { text: i18n.t('rest.query-examples.table-header-use'), sortable: false }
+        { text: i18n.t('query.rest_query_examples.table.headers.query'), value: 'method' },
+        { text: i18n.t('query.rest_query_examples.table.headers.description'), value: 'description' },
+        { text: i18n.t('query.rest_query_examples.table.headers.body'), sortable: false },
+        { text: i18n.t('query.rest_query_examples.table.headers.use'), sortable: false }
       ]
 
       const previewIndex = ref(null)

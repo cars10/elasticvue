@@ -4,23 +4,23 @@
       <v-row>
         <v-col>
           <h1 class="text-h5">
-            {{ $t('rest.title') }}
+            {{ $t('query.heading') }}
             <v-btn class="text-transform--none ml-2"
                    href="https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html"
                    small target="_blank"
                    text>
               <v-icon small>mdi-launch</v-icon>&nbsp;
-              {{ $t('rest.api-documentation') }}
+              {{ $t('query.api_documentation') }}
             </v-btn>
           </h1>
         </v-col>
 
         <v-col class="text-right">
           <v-btn-toggle v-model="vertical" mandatory>
-            <v-btn :value="true" small text title="Vertical">
+            <v-btn :value="true" small text :title="$t('query.orientation.horizontal')">
               <v-icon small>mdi-view-agenda</v-icon>
             </v-btn>
-            <v-btn :value="false" small text title="Horizontal">
+            <v-btn :value="false" small text :title="$t('query.orientation.vertical')">
               <v-icon class="mdi-rotate-90" small>mdi-view-agenda</v-icon>
             </v-btn>
           </v-btn-toggle>

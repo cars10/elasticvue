@@ -17,7 +17,6 @@
                             class="mt-0 pt-0 v-text-field--small"
                             hide-details
                             name="filter"
-                            title="Filter via 'column:query'"
                             @keyup.esc="filter = ''"/>
             </div>
           </v-col>

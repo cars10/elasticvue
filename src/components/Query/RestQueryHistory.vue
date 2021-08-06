@@ -7,13 +7,17 @@
             <v-col>
               <div class="d-inline-block float-right">
                 <v-btn class="mr-2" icon @click="onlyFavorites = !onlyFavorites">
-                  <v-icon v-if="onlyFavorites" :title="$t('rest.query-history.show-all')">mdi-star</v-icon>
-                  <v-icon v-else :title="$t('rest.query-history.show-only-favorites')">mdi-star-outline</v-icon>
+                  <v-icon v-if="onlyFavorites" :title="$t('query.rest_query_history.favorites_filter.show_all')">
+                    mdi-star
+                  </v-icon>
+                  <v-icon v-else :title="$t('query.rest_query_history.favorites_filter.only_favorites')">
+                    mdi-star-outline
+                  </v-icon>
                 </v-btn>
 
                 <v-text-field id="filter"
                               v-model="filter"
-                              :label="$t('rest.query-history.filter-label')"
+                              :label="$t('defaults.filter.label')"
                               append-icon="mdi-magnify"
                               autofocus
                               class="mt-0 pt-0 v-text-field--small"
@@ -31,15 +35,19 @@
                         dense>
             <template v-slot:item="{ item }">
               <tr :class="{'active': selectedItem && item.id === selectedItem.id}"
-                  :title="$t('rest.query-history.table-title')"
+                  :title="$t('query.rest_query_history.table.row.title')"
                   class="tr--clickable"
                   @click.exact="selectItem(item)"
                   @click.ctrl="apply(item)">
                 <td>
                   <v-btn icon @click.stop="favoriteItem(item)">
-                    <v-icon v-if="item.favorite === 1" :title="$t('rest.query-history.remove-favorite')">mdi-star
+                    <v-icon v-if="item.favorite === 1"
+                            :title="$t('query.rest_query_history.table.row.favorite.remove')">
+                      mdi-star
                     </v-icon>
-                    <v-icon v-else :title="$t('rest.query-history.favorite')">mdi-star-outline</v-icon>
+                    <v-icon v-else :title="$t('query.rest_query_history.table.row.favorite.add')">
+                      mdi-star-outline
+                    </v-icon>
                   </v-btn>
                   <span class="font--mono">{{ item.method }}</span> {{ item.path }}
                 </td>
@@ -51,16 +59,16 @@
               <v-menu v-if="items.length > 0" offset-y>
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn v-bind="attrs" v-on="on" text>
-                    {{ $t('rest.query-history.clear') }}
+                    {{ $t('query.rest_query_history.clear.text') }}
                     <v-icon>mdi-menu-down</v-icon>
                   </v-btn>
                 </template>
                 <v-list>
                   <v-list-item @click="clearNonFavorites">
-                    <v-list-item-title>{{ $t('rest.query-history.delete-only-non-favorites') }}</v-list-item-title>
+                    <v-list-item-title>{{ $t('query.rest_query_history.clear.only_non_favorites') }}</v-list-item-title>
                   </v-list-item>
                   <v-list-item @click="clearAll">
-                    <v-list-item-title>{{ $t('rest.query-history.delete-all') }}</v-list-item-title>
+                    <v-list-item-title>{{ $t('query.rest_query_history.clear.all') }}</v-list-item-title>
                   </v-list-item>
                 </v-list>
               </v-menu>
@@ -77,15 +85,15 @@
             <code-viewer v-model="selectedItem.body" :focus="false" style="flex:2"/>
             <div>
               <v-btn class="mt-4" color="primary-button" @click="apply(selectedItem)">
-                {{ $t('rest.query-history.table-use') }}
+                {{ $t('query.rest_query_history.body_preview.use') }}
               </v-btn>
-              <v-btn :title="$t('rest.query-history.remove-entry')" class="mt-4 ml-2" icon
+              <v-btn :title="$t('query.rest_query_history.body_preview.remove_entry')" class="mt-4 ml-2" icon
                      @click="removeHistoryItem(selectedItem.id)">
                 <v-icon>mdi-delete</v-icon>
               </v-btn>
 
               <button class="btn-link float-right mt-4" @click="selectItem(null)">
-                <small>{{ $t('rest.query-history.unselect') }}</small>
+                <small>{{ $t('query.rest_query_history.body_preview.unselect') }}</small>
               </button>
             </div>
           </template>
@@ -111,8 +119,8 @@
     },
     setup (props, context) {
       const HEADERS = [
-        { text: i18n.t('rest.query-history.table-header-query'), sortable: false },
-        { text: i18n.t('rest.query-history.table-header-date'), value: 'date' }
+        { text: i18n.t('query.rest_query_history.table.headers.query'), sortable: false },
+        { text: i18n.t('query.rest_query_history.table.headers.date'), value: 'date' }
       ]
 
       const {

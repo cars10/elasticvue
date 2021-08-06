@@ -9,7 +9,7 @@
           <div class="d-inline-block float-right">
             <v-text-field id="filter"
                           v-model="filter"
-                          :label="$t('repository.table.filter')"
+                          :label="$t('defaults.filter.label')"
                           append-icon="mdi-magnify"
                           autofocus
                           class="mt-0 pt-0 v-text-field--small"
@@ -39,7 +39,7 @@
           <td>
             <v-btn @click.stop="deleteRepository(props.item.name)">
               <v-icon>mdi-delete</v-icon>
-              {{ $t('repository.table.delete') }}
+              {{ $t('repositories.repositories_table.table.row.delete') }}
             </v-btn>
           </td>
         </tr>
@@ -86,15 +86,13 @@
       })
 
       const HEADERS = [
-        { text: i18n.t('repository.table.repo-name'), value: 'name' },
-        { text: i18n.t('repository.table.repo-type'), value: 'type' },
-        { text: i18n.t('repository.table.repo-settings'), value: 'settings', sortable: false },
+        { text: i18n.t('repositories.repositories_table.table.headers.name'), value: 'name' },
+        { text: i18n.t('repositories.repositories_table.table.headers.type'), value: 'type' },
+        { text: i18n.t('repositories.repositories_table.table.headers.settings'), value: 'settings', sortable: false },
         { text: '', value: 'actions', sortable: false }
       ]
 
-      const emitReloadData = () => {
-        context.emit('reloadData')
-      }
+      const emitReloadData = () => (context.emit('reloadData'))
 
       const showSnapshots = repository => {
         store.commit('snapshots/setRepository', repository)
@@ -103,13 +101,13 @@
 
       const { callElasticsearch } = useElasticsearchRequest()
       const deleteRepository = name => {
-        if (confirm(i18n.t('repository.table.delete-confirm', { name: name }))) {
+        if (confirm(i18n.t('repositories.repositories_table.delete_repository.confirm', { name: name }))) {
           callElasticsearch('snapshotDeleteRepository', { repository: name })
             .then(() => {
               emitReloadData()
               showSuccessSnackbar({
-                text: i18n.t('repository.table.success'),
-                additionalText: i18n.t('repository.table.delete-result', { name: name })
+                text: i18n.t('defaults.success'),
+                additionalText: i18n.t('repositories.repositories_table.delete_repository.growl', { name: name })
               })
             })
         }

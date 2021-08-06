@@ -105,7 +105,8 @@
     "close": "关闭",
     "create": "创建",
     "delete": null,
-    "required": null
+    "required": null,
+    "success": "成功"
   },
   "home": {
     "client_information": {
@@ -116,6 +117,7 @@
     }
   },
   "indices": {
+    "heading": "索引",
     "index_aliases": {
       "text": null,
       "heading": null,
@@ -217,8 +219,7 @@
       "create_index": {
         "growl": null
       }
-    },
-    "title": "索引"
+    }
   },
   "setup": {
     "setup": "设置",
@@ -299,52 +300,77 @@
     "customize-search-query": "自定义搜索查询",
     "customize-search-query-description": "提示：对查询的更改不会更新搜索框中的相关输入（如搜索查询或表中的分页/排序），但对输入的更改将合并到查询中。"
   },
-  "rest": {
-    "title": "Rest",
-    "api-documentation": "api 文档",
-    "http-method": "HTTP 请求方法",
-    "path": "请求路径",
-    "request-body": "请求体",
-    "disabled": "不可用",
-    "send-request": "发送请求",
-    "reset": "重置",
-    "download-as-json": "下载为 JSON 文件",
-    "result": "结果",
-    "result-code": "结果 (状态码 {code})",
-    "hint-part-1": "你无法通过 {method} 发送请求体，如果要发送请求体，请",
-    "hint-part-2": "使用 POST",
-    "hint-part-3": "，也可以将查询参数添加到 url。",
-    "hint-part-4": "你可以使用 POST 通过 _search 端点进行搜索。",
-    "show-history": "查看历史",
-    "history": "查询历史",
-    "query-examples": {
-      "query-examples": "查询示例",
-      "close": "关闭",
-      "use": "使用",
-      "filter-label": "过滤...",
-      "table-use": "使用",
-      "table-title": "点击预览请求正文，ctrl+点击 直接使用示例。",
-      "table-header-query": "查询",
-      "table-header-description": "描述",
-      "table-header-body": "查询体",
-      "table-header-use": "使用",
-      "card-action-close": "使用"
+  "query": {
+    "heading": null,
+    "api_documentation": "api 文档",
+    "orientation": {
+      "horizontal": null,
+      "vertical": null
     },
-    "query-history": {
-      "show-all": "查看所有",
-      "show-only-favorites": "只查看收藏",
-      "filter-label": "过滤...",
-      "table-title": "点击预览请求正文，ctrl+点击 直接使用。",
-      "table-use": "使用",
-      "remove-favorite": "移除收藏",
-      "favorite": "收藏",
-      "clear": "清除",
-      "delete-only-non-favorites": "仅删除非收藏",
-      "delete-all": "删除所有",
-      "remove-entry": "删除条目",
-      "unselect": "取消选择",
-      "table-header-query": "查询",
-      "table-header-date": "日期"
+    "rest": {
+      "history": "查询历史",
+      "form": {
+        "method": {
+          "label": "HTTP 请求方法"
+        },
+        "path": {
+          "label": "请求路径"
+        },
+        "send_request": "发送请求",
+        "reset": "重置",
+        "download_as_json": "下载为 JSON 文件"
+      },
+      "get_request_hint": {
+        "cannot_send_body": "你无法通过 {method} 发送请求体，如果要发送请求体，请",
+        "use_post": "使用 POST",
+        "query_parameters": "，也可以将查询参数添加到 url。",
+        "search_post": "你可以使用 POST 通过 _search 端点进行搜索。"
+      }
+    },
+    "rest_query_history": {
+      "favorites_filter": {
+        "only_favorites": "只查看收藏",
+        "show_all": "查看所有"
+      },
+      "table": {
+        "headers": {
+          "query": "查询",
+          "date": "日期"
+        },
+        "row": {
+          "title": "点击预览请求正文，ctrl+点击 直接使用。",
+          "favorite": {
+            "add": "收藏",
+            "remove": "移除收藏"
+          }
+        }
+      },
+      "clear": {
+        "text": "清除",
+        "all": "删除所有",
+        "only_non_favorites": "仅删除非收藏"
+      },
+      "body_preview": {
+        "use": "使用",
+        "remove_entry": "删除条目",
+        "unselect": "取消选择"
+      }
+    },
+    "rest_query_examples": {
+      "heading": "查询示例",
+      "table": {
+        "headers": {
+          "query": "查询",
+          "description": "描述",
+          "body": "查询体",
+          "use": "使用"
+        },
+        "row": {
+          "title": "点击预览请求正文，ctrl+点击 直接使用示例。",
+          "docs": null,
+          "use": "使用"
+        }
+      }
     }
   },
   "snapshots": {
@@ -390,31 +416,57 @@
       "error": "错误："
     }
   },
-  "repository": {
-    "title": "存储",
-    "repository": "储存",
-    "new-snapshot-repo": "新建快照存储",
-    "new-repo": "新建存储",
-    "new-repo-name": "存储名称",
-    "new-repo-type": "存储类型",
-    "new-repo-location": "存储位置",
-    "new-repo-chunk-size": "块大小",
-    "new-repo-max-restore-bytes-per-sec": "max_restore_bytes_per_sec",
-    "new-repo-max-snapshot-bytes-per-sec": "max_snapshot_bytes_per_sec",
-    "new-repo-compress": "压缩",
-    "new-repo-readonly": "只读",
-    "create": "创建",
-    "cancel": "取消",
-    "table": {
-      "filter": "过滤名称...",
-      "delete": "删除",
-      "repo-name": "名称",
-      "repo-type": "类型",
-      "repo-settings": "配置",
-      "delete-confirm": "删除储存 {name} 和里面的所有快照吗？",
-      "success": "成功",
-      "delete-result": "存储 {name} 已成功删除。"
-    }
+  "repositories": {
+    "heading": "存储",
+    "new_repository": {
+      "heading": "新建存储",
+      "form": {
+        "name": {
+          "label": "存储名称"
+        },
+        "type": {
+          "label": "存储类型"
+        },
+        "location": {
+          "label": "存储位置"
+        },
+        "chunk_size": {
+          "label": "块大小"
+        },
+        "max_restore_bytes_per_sec": {
+          "label": "max_restore_bytes_per_sec"
+        },
+        "max_snapshot_bytes_per_sec": {
+          "label": "max_snapshot_bytes_per_sec"
+        },
+        "compress": {
+          "label": "压缩"
+        },
+        "readonly": {
+          "label": "只读"
+        }
+      },
+      "create_repository": {
+        "growl": null
+      }
+    },
+    "repositories_table": {
+      "table": {
+        "headers": {
+          "name": "名称",
+          "type": "类型",
+          "settings": "配置"
+        },
+        "row": {
+          "delete": "删除"
+        }
+      },
+      "delete_repository": {
+        "confirm": "删除储存 '{name}' 和里面的所有快照吗？",
+        "growl": "存储 '{name}' 已成功删除。"
+      }
+    },
+    "repository": "储存"
   },
   "utilities": {
     "title": "工具",

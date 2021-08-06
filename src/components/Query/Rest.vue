@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="mb-12">
-      <v-btn :title="$t('rest.show-history')" class="pl-1 mr-2" @click="historyCollapsed = !historyCollapsed">
+      <v-btn class="pl-1 mr-2" @click="historyCollapsed = !historyCollapsed">
         <v-icon>{{ historyCollapsed ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-        {{ $t('rest.history') }}
+        {{ $t('query.rest.history') }}
       </v-btn>
 
       <rest-query-examples @setRequest="setRequest"/>
@@ -17,14 +17,14 @@
         <v-col lg="2" sm="3" xl="1">
           <v-select v-model="method"
                     :items="HTTP_METHODS"
-                    :label="$t('rest.http-method')"
+                    :label="$t('query.rest.form.method.label')"
                     hide-details
                     name="http_method"/>
         </v-col>
         <v-col lg="10" sm="9" xl="11">
           <v-text-field id="path"
                         v-model="path"
-                        :label="$t('rest.path')"
+                        :label="$t('query.rest.form.path.label')"
                         autofocus
                         hide-details
                         name="path"
@@ -42,12 +42,14 @@
             <div :style="vertical ? 'height: 200px' : 'height: 500px'" class="mb-4">
               <v-alert :value="true" class="request-body-disabled-hint">
                 <p>
-                  {{ $t('rest.hint-part-1', { method: method }) }}
-                  <button class="btn-link" type="button" @click="method = 'POST'">{{ $t('rest.hint-part-2') }}</button>
-                  {{ $t('rest.hint-part-3') }}
+                  <span v-html="$t('query.rest.get_request_hint.cannot_send_body', { method })"/>
+                  <button class="btn-link" type="button" @click="method = 'POST'">
+                    {{ $t('query.rest.get_request_hint.use_post') }}
+                  </button>
+                  {{ $t('query.rest.get_request_hint.query_parameters') }}
                 </p>
                 <p class="mb-0">
-                  {{ $t('rest.hint-part-4') }}
+                  {{ $t('query.rest.get_request_hint.search_post') }}
                 </p>
               </v-alert>
             </div>
@@ -55,13 +57,13 @@
 
           <v-btn id="execute_query" :disabled="!formValid" :loading="loading" class="mx-0" color="primary-button"
                  type="submit">
-            {{ $t('rest.send-request') }}
+            {{ $t('query.rest.form.send_request') }}
           </v-btn>
           <v-chip v-if="responseStatus" :class="responseStatusClass" class="ml-2">{{ responseStatus }}</v-chip>
 
           <br>
           <v-btn id="reset-form" class="mt-2" small text @click="resetForm">
-            {{ $t('rest.reset') }}
+            {{ $t('query.rest.form.reset') }}
           </v-btn>
         </v-col>
 
@@ -72,7 +74,7 @@
                  :href="downloadJsonHref"
                  small
                  @click="setDownloadHref">
-            {{ $t('rest.download-as-json') }}
+            {{ $t('query.rest.form.download_as_json') }}
           </v-btn>
         </v-col>
       </v-row>

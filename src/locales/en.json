@@ -105,7 +105,8 @@
     "close": "Close",
     "create": "Create",
     "delete": "Delete",
-    "required": "Required"
+    "required": "Required",
+    "success": "Success"
   },
   "home": {
     "client_information": {
@@ -116,6 +117,7 @@
     }
   },
   "indices": {
+    "heading": "Indices",
     "index_aliases": {
       "text": "Aliases",
       "heading": "Manage aliases",
@@ -217,8 +219,7 @@
       "create_index": {
         "growl": "The index '{index}' was successfully created."
       }
-    },
-    "title": "Indices"
+    }
   },
   "setup": {
     "setup": "Setup",
@@ -299,51 +300,77 @@
     "customize-search-query": "Customize the search query",
     "customize-search-query-description": "Hint: changes to the query will not update the respecting inputs in the ui (like the search query or pagination/sort in the table), but changes to the inputs will be merged into the query again."
   },
-  "rest": {
-    "title": "Rest",
-    "api-documentation": "api documentation",
-    "http-method": "HTTP Method",
-    "path": "Path",
-    "request-body": "Request body",
-    "disabled": "disabled",
-    "send-request": "Send request",
-    "reset": "Reset",
-    "download-as-json": "Download as json",
-    "result": "Result",
-    "result-code": "Result (Statuscode {code})",
-    "hint-part-1": "You cannot send a request body via {method}.<br> Please",
-    "hint-part-2": "use POST",
-    "hint-part-3": "if you want to send a request body, alternatively add query parameters to the url.",
-    "hint-part-4": "You can use POST to search with the _search endpoint.",
-    "show-history": "Show history",
-    "history": "History",
-    "query-examples": {
-      "query-examples": "Query examples",
-      "close": "Close",
-      "filter-label": "Filter...",
-      "table-use": "Use",
-      "table-title": "Click to preview request body, ctrl+click to directly use an example.",
-      "table-header-query": "Query",
-      "table-header-description": "Description",
-      "table-header-body": "Body",
-      "table-header-use": "Use",
-      "card-action-close": "Close"
+  "query": {
+    "heading": "Rest",
+    "api_documentation": "api documentation",
+    "orientation": {
+      "horizontal": "Horizontal",
+      "vertical": "Vertical"
     },
-    "query-history": {
-      "show-all": "Show all",
-      "show-only-favorites": "Show only favorites",
-      "filter-label": "Filter...",
-      "table-title": "Click to preview request body, ctrl+click to directly use.",
-      "table-use": "Use",
-      "remove-favorite": "Remove favorite",
-      "favorite": "Favorite",
-      "clear": "Clear",
-      "delete-only-non-favorites": "Delete only non-favorites",
-      "delete-all": "Delete all",
-      "remove-entry": "Remove entry",
-      "unselect": "unselect",
-      "table-header-query": "Query",
-      "table-header-date": "Date"
+    "rest": {
+      "history": "History",
+      "form": {
+        "method": {
+          "label": "HTTP Method"
+        },
+        "path": {
+          "label": "Path"
+        },
+        "send_request": "Send request",
+        "reset": "Reset",
+        "download_as_json": "Download as json"
+      },
+      "get_request_hint": {
+        "cannot_send_body": "You cannot send a request body via {method}.<br> Please ",
+        "use_post": "use POST",
+        "query_parameters": "if you want to send a request body, alternatively add query parameters to the url.",
+        "search_post": "You can use POST to search with the _search endpoint."
+      }
+    },
+    "rest_query_history": {
+      "favorites_filter": {
+        "only_favorites": "Show only favorites",
+        "show_all": "Show all"
+      },
+      "table": {
+        "headers": {
+          "query": "Query",
+          "date": "Date"
+        },
+        "row": {
+          "title": "Click to preview request body, ctrl+click to directly use.",
+          "favorite": {
+            "add": "Favorite",
+            "remove": "Remove favorite"
+          }
+        }
+      },
+      "clear": {
+        "text": "Clear",
+        "all": "Delete all",
+        "only_non_favorites": "Delete only non-favorites"
+      },
+      "body_preview": {
+        "use": "Use",
+        "remove_entry": "Remove entry",
+        "unselect": "unselect"
+      }
+    },
+    "rest_query_examples": {
+      "heading": "Query examples",
+      "table": {
+        "headers": {
+          "query": "Query",
+          "description": "Description",
+          "body": "Body",
+          "use": "Use"
+        },
+        "row": {
+          "title": "Click to preview request body, ctrl+click to directly use an example.",
+          "docs": "Docs",
+          "use": "Use"
+        }
+      }
     }
   },
   "snapshots": {
@@ -389,31 +416,57 @@
       "error": "Error:"
     }
   },
-  "repository": {
-    "title": "Repositories",
-    "repository": "Repository",
-    "new-snapshot-repo": "New snapshot repository",
-    "new-repo": "New repository",
-    "new-repo-name": "Repository name",
-    "new-repo-type": "Repository type",
-    "new-repo-location": "Repository location",
-    "new-repo-chunk-size": "Chunk size",
-    "new-repo-max-restore-bytes-per-sec": "max_restore_bytes_per_sec",
-    "new-repo-max-snapshot-bytes-per-sec": "max_snapshot_bytes_per_sec",
-    "new-repo-compress": "Compress",
-    "new-repo-readonly": "Readonly",
-    "create": "Create",
-    "cancel": "Cancel",
-    "table": {
-      "filter": "Filter name...",
-      "delete": "Delete",
-      "repo-name": "name",
-      "repo-type": "type",
-      "repo-settings": "settings",
-      "delete-confirm": "Delete repository {name} and all snapshots inside?",
-      "success": "Success",
-      "delete-result": "The repository {name} was successfully deleted."
-    }
+  "repositories": {
+    "heading": "Repositories",
+    "new_repository": {
+      "heading": "New repository",
+      "form": {
+        "name": {
+          "label": "Repository name"
+        },
+        "type": {
+          "label": "Repository type"
+        },
+        "location": {
+          "label": "Repository location"
+        },
+        "chunk_size": {
+          "label": "Chunk size"
+        },
+        "max_restore_bytes_per_sec": {
+          "label": "max_restore_bytes_per_sec"
+        },
+        "max_snapshot_bytes_per_sec": {
+          "label": "max_snapshot_bytes_per_sec"
+        },
+        "compress": {
+          "label": "Compress"
+        },
+        "readonly": {
+          "label": "Readonly"
+        }
+      },
+      "create_repository": {
+        "growl": "The repository '{repositoryName}' was successfully created."
+      }
+    },
+    "repositories_table": {
+      "table": {
+        "headers": {
+          "name": "name",
+          "type": "type",
+          "settings": "settings"
+        },
+        "row": {
+          "delete": "Delete"
+        }
+      },
+      "delete_repository": {
+        "confirm": "Delete repository '{name}' and all snapshots inside?",
+        "growl": "The repository '{name}' was successfully deleted."
+      }
+    },
+    "repository": "Repository"
   },
   "utilities": {
     "title": "Utilities",
