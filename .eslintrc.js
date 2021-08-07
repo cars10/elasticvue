@@ -11,15 +11,12 @@ module.exports = {
     '@vue/standard'
   ],
   parserOptions: {
-    parser: 'babel-eslint'
+    parser: '@babel/eslint-parser'
   },
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     indent: 'off',
-    'vuetify/no-deprecated-classes': 'error',
-    'vuetify/grid-unknown-attributes': 'error',
-    'vuetify/no-legacy-grid': 'error',
     'import/no-webpack-loader-syntax': 'off',
     'vue/valid-v-slot': 'off',
     'no-proto': 'off'
