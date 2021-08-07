@@ -1,57 +1,43 @@
 import Vue from 'vue'
 import VueI18n from 'vue-i18n'
+import store from '@/store'
+import { DEFAULT_I18N, SUPPORTED_I18N } from '@/consts'
 
 Vue.use(VueI18n)
 
-function loadLocaleMessages () {
-  const locales = require.context('./locales', true, /[A-Za-z0-9-_,\s]+\.json$/i)
-  const messages = {}
-  locales.keys().forEach(key => {
-    const matched = key.match(/([A-Za-z0-9-_]+)\./i)
-    if (matched && matched.length > 1) {
-      const locale = matched[1]
-      messages[locale] = locales(key)
-    }
-  })
-  return messages
-}
+const currentI18n = store.state.language.language
+const loadedLanguages = [currentI18n]
+const messages = {}
+messages[currentI18n] = require(`@/locales/${currentI18n}.json`)
 
-function getBrowserLocale (options = {}) {
-  const defaultOptions = { countryCodeOnly: false }
-  const opt = { ...defaultOptions, ...options }
-  const navigatorLocale =
-    navigator.languages !== undefined
-      ? navigator.languages[0]
-      : navigator.language
-  if (!navigatorLocale) {
-    return undefined
-  }
-  return opt.countryCodeOnly
-    ? navigatorLocale.trim().split(/-|_/)[0]
-    : navigatorLocale.trim()
-}
-
-function supportedLocalesInclude (locale) {
-  const supportedLocales = {
-    en: 'English',
-    cn: '简体中文'
-  }
-  return Object.keys(supportedLocales).includes(locale)
-}
-
-function getStartingLocale () {
-  const browserLocale = getBrowserLocale({ countryCodeOnly: true })
-  if (supportedLocalesInclude(browserLocale)) {
-    return browserLocale
-  } else {
-    return process.env.VUE_APP_I18N_LOCALE || 'en'
-  }
-}
-
-export default new VueI18n({
+const i18n = new VueI18n({
   lazy: true,
-  locale: getStartingLocale(),
-  fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE || 'en',
-  // silentFallbackWarn: false,
-  messages: loadLocaleMessages()
+  locale: currentI18n,
+  fallbackLocale: DEFAULT_I18N,
+  messages
 })
+
+const setI18n = lang => {
+  i18n.locale = lang
+  document.querySelector('html').setAttribute('lang', lang)
+  return lang
+}
+
+export const loadLanguage = lang => {
+  if (i18n.locale === lang || loadedLanguages.includes(lang)) {
+    return Promise.resolve(setI18n(lang))
+  }
+
+  if (SUPPORTED_I18N[lang]) {
+    return import(/* webpackChunkName: "lang-[request]" */ `@/locales/${lang}.json`).then(
+      messages => {
+        i18n.setLocaleMessage(lang, messages.default)
+        return Promise.resolve(setI18n(lang))
+      }
+    )
+  } else {
+    return Promise.reject(lang)
+  }
+}
+
+export default i18n

@@ -2,7 +2,8 @@
   <v-footer class="pa-4">
     <v-row>
       <v-col cols="4">
-        <change-theme/>
+        <change-theme class="mr-4"/>
+        <change-language/>
       </v-col>
 
       <v-col class="text-center" cols="4">
@@ -25,11 +26,13 @@
 </template>
 
 <script>
-  import ChangeTheme from '@/components/shared/ChangeTheme'
+  import ChangeLanguage from '@/components/App/ChangeLanguage'
+  import ChangeTheme from '@/components/App/ChangeTheme'
 
   export default {
     name: 'app-footer',
     components: {
+      ChangeLanguage,
       ChangeTheme
     },
     setup () {

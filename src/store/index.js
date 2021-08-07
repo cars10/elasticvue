@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { plugins } from './plugins'
-import { codeEditor } from '@/store/modules/codeEditor'
+import { codeEditor } from './modules/codeEditor'
 import { connection } from './modules/connection'
 import { indices } from './modules/indices'
+import { language } from './modules/language'
 import { nodes } from './modules/nodes'
 import { queryRest } from './modules/queryRest'
 import { search } from './modules/search'
@@ -20,6 +21,7 @@ export default new Vuex.Store({
     codeEditor,
     connection,
     indices,
+    language,
     nodes,
     queryRest,
     search,

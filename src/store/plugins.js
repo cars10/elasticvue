@@ -11,6 +11,7 @@ export const plugins = [
       'theme',
       'queryRest',
       'indices',
+      'language',
       'nodes',
       'repositories',
       'snapshots',

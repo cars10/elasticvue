@@ -83,3 +83,12 @@ export const REST_QUERY_EXAMPLES = [
     doc: 'https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-delete-index.html'
   }
 ]
+
+/**
+ * i18n
+ */
+export const SUPPORTED_I18N = {
+  en: 'en',
+  cn: 'cn'
+}
+export const DEFAULT_I18N = 'en'
