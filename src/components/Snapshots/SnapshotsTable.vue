@@ -12,14 +12,15 @@
 
     <template slot="no-data">
       <template v-if="!repository">
-        {{ $t('snapshots.table.select-repo-first') }}
+        {{ $t('snapshots.snapshots_table.no_repository_selected') }}
       </template>
 
       <template v-else>
         <template v-if="filter !== ''">
-          {{ $t('snapshots.table.no-snapshots-found') }} <i>{{ filter }}</i>.
+          {{ $t('snapshots.snapshots_table.no_matching_snapshots') }} <i>{{ filter }}</i>.
         </template>
-        <template v-else><span v-html="$t('snapshots.table.repo-has-no-snapshots', {repository: repository})"></span>
+        <template v-else>
+          {{ $t('snapshots.snapshots_table.no_snapshots', { repository }) }}
         </template>
       </template>
     </template>
@@ -63,14 +64,14 @@
       const { pagination } = vuexAccessors('snapshots', ['pagination'])
       const HEADERS = [
         { text: 'id', value: 'id' },
-        { text: i18n.t('snapshots.table.header.status'), value: 'status' },
-        { text: i18n.t('snapshots.table.header.start-time'), value: 'start_time' },
-        { text: i18n.t('snapshots.table.header.end-time'), value: 'end_time' },
-        { text: i18n.t('snapshots.table.header.duration'), value: 'duration' },
-        { text: i18n.t('snapshots.table.header.indices'), value: 'indices' },
-        { text: i18n.t('snapshots.table.header.successful-shards'), value: 'successful_shards' },
-        { text: i18n.t('snapshots.table.header.failed-shards'), value: 'failed_shards' },
-        { text: i18n.t('snapshots.table.header.total-shards'), value: 'total_shards' },
+        { text: i18n.t('snapshots.snapshots_table.table.headers.status'), value: 'status' },
+        { text: i18n.t('snapshots.snapshots_table.table.headers.start_time'), value: 'start_time' },
+        { text: i18n.t('snapshots.snapshots_table.table.headers.end_time'), value: 'end_time' },
+        { text: i18n.t('snapshots.snapshots_table.table.headers.duration'), value: 'duration' },
+        { text: i18n.t('snapshots.snapshots_table.table.headers.indices'), value: 'indices' },
+        { text: i18n.t('snapshots.snapshots_table.table.headers.successful_shards'), value: 'successful_shards' },
+        { text: i18n.t('snapshots.snapshots_table.table.headers.failed_shards'), value: 'failed_shards' },
+        { text: i18n.t('snapshots.snapshots_table.table.headers.total_shards'), value: 'total_shards' },
         { text: '', value: 'actions', sortable: false }
       ]
 

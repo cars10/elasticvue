@@ -40,7 +40,8 @@
     "create": "Create",
     "delete": "Delete",
     "required": "Required",
-    "success": "Success"
+    "success": "Success",
+    "error": "Error"
   },
   "document": {
     "heading": "Show"
@@ -549,46 +550,79 @@
     "copy": "Copy"
   },
   "snapshots": {
-    "title": "Snapshots",
-    "new-snapshot": "New snapshot",
-    "snapshot-name": "Snapshot name",
-    "create": "Create",
-    "cancel": "Cancel",
-    "table": {
-      "show": "Show",
-      "hide": "Hide",
-      "options": "Options",
-      "delete": "Delete snapshot",
-      "delete-confirm": "Delete snapshot {snapshot}?",
-      "delete-success": "The snapshot {snapshot} was successfully deleted.",
-      "restore": "Restore",
-      "select-repo-first": "Please select a repository first.",
-      "no-snapshots-found": "No snapshots found that match your filter",
-      "repo-has-no-snapshots": "The repository <i>{repository}</i> does not contain any snapshots.",
-      "repository": "Repository",
-      "filter": "Filter id...",
-      "header": {
-        "status": "status",
-        "start-time": "start_time",
-        "end-time": "end_time",
-        "duration": "duration",
-        "indices": "indices",
-        "successful-shards": "successful_shards",
-        "failed-shards": "failed_shards",
-        "total-shards": "total_shards"
+    "heading": "Snapshots",
+    "new_snapshot": {
+      "heading": "New snapshot",
+      "form": {
+        "repository": {
+          "label": "Repository"
+        },
+        "snapshot_name": {
+          "label": "Snapshot name"
+        }
+      },
+      "create_snapshot": {
+        "growl": "The snapshot '{name}' was successfully created."
       }
     },
-    "restore": {
-      "title": "Restore",
-      "ignore-unavailable": "Ignore unavailable",
-      "include-global-state": "Include global state",
-      "rename-pattern": "Rename pattern",
-      "rename-replacement": "Rename replacement",
-      "restore": "Restore",
-      "cancel": "Cancel",
-      "success": "Success",
-      "success-message": "The snapshot '{snapshot}' was successfully restored.",
-      "error": "Error:"
+    "restore_snapshot": {
+      "button": "Restore",
+      "heading": "Restore '{name}'",
+      "form": {
+        "ignore_unavailable": {
+          "label": "Ignore unavailable"
+        },
+        "include_global_state": {
+          "label": "Include global state"
+        },
+        "rename_pattern": {
+          "label": "Rename pattern"
+        },
+        "rename_replacement": {
+          "label": "Rename replacement"
+        },
+        "restore": "Restore"
+      },
+      "restore_snapshot": {
+        "growl": "The snapshot '{snapshot}' was successfully restored."
+      }
+    },
+    "snapshot": {
+      "indices": {
+        "show": "Show",
+        "hide": "Hide"
+      },
+      "options": "Options",
+      "delete": {
+        "text": "Delete snapshot",
+        "confirm": "Delete snapshot '{snapshot}'?",
+        "growl": "The snapshot '{snapshot}' was successfully deleted."
+      }
+    },
+    "snapshots_table": {
+      "no_repository_selected": "Please select a repository first.",
+      "no_matching_snapshots": "No snapshots found that match your filter",
+      "no_snapshots": "The repository '{repository}' does not contain any snapshots.",
+      "table": {
+        "headers": {
+          "status": "status",
+          "start_time": "start_time",
+          "end_time": "end_time",
+          "duration": "duration",
+          "indices": "indices",
+          "successful_shards": "successful_shards",
+          "failed_shards": "failed_shards",
+          "total_shards": "total_shards"
+        }
+      }
+    },
+    "snapshots_table_wrapper": {
+      "repository": {
+        "label": "Repository"
+      },
+      "filter": {
+        "label": "Filter id..."
+      }
     }
   },
   "utilities": {

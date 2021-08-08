@@ -40,7 +40,8 @@
     "create": "创建",
     "delete": null,
     "required": null,
-    "success": "成功"
+    "success": "成功",
+    "error": "错误"
   },
   "document": {
     "heading": null
@@ -549,46 +550,79 @@
     "copy": "复制"
   },
   "snapshots": {
-    "title": "快照",
-    "new-snapshot": "新建快照",
-    "snapshot-name": "快照名称",
-    "create": "创建",
-    "cancel": "取消",
-    "table": {
-      "show": "显示",
-      "hide": "隐藏",
-      "options": "选项",
-      "delete": "删除快照",
-      "delete-confirm": "删除快照 {snapshot}?",
-      "delete-success": "快照 {snapshot} 删除成功。",
-      "restore": "恢复",
-      "select-repo-first": "请先选择一个存储。",
-      "no-snapshots-found": "没有找到符合过滤条件的快照",
-      "repo-has-no-snapshots": "存储 <i>{repository}</i> 不包含任何快照。",
-      "repository": "储存",
-      "filter": "过滤 id...",
-      "header": {
-        "status": "状态",
-        "start-time": "开始时间",
-        "end-time": "结束时间",
-        "duration": "持续时间",
-        "indices": "索引",
-        "successful-shards": "成功分片",
-        "failed-shards": "失败分片",
-        "total-shards": "总分片"
+    "heading": "快照",
+    "new_snapshot": {
+      "heading": "新建快照",
+      "form": {
+        "repository": {
+          "label": "储存"
+        },
+        "snapshot_name": {
+          "label": "快照名称"
+        }
+      },
+      "create_snapshot": {
+        "growl": null
       }
     },
-    "restore": {
-      "title": "恢复",
-      "ignore-unavailable": "忽略不可用",
-      "include-global-state": "包括全局状态",
-      "rename-pattern": "重命名模式",
-      "rename-replacement": "重命名替换",
-      "restore": "恢复",
-      "cancel": "取消",
-      "success": "成功",
-      "success-message": "快照 '{snapshot}' 恢复成功。",
-      "error": "错误："
+    "restore_snapshot": {
+      "button": "恢复",
+      "heading": null,
+      "form": {
+        "ignore_unavailable": {
+          "label": "忽略不可用"
+        },
+        "include_global_state": {
+          "label": "包括全局状态"
+        },
+        "rename_pattern": {
+          "label": "重命名模式"
+        },
+        "rename_replacement": {
+          "label": "重命名替换"
+        },
+        "restore": "恢复"
+      },
+      "restore_snapshot": {
+        "growl": "快照 '{snapshot}' 恢复成功。"
+      }
+    },
+    "snapshot": {
+      "indices": {
+        "show": "显示",
+        "hide": "隐藏"
+      },
+      "options": "选项",
+      "delete": {
+        "text": "删除快照",
+        "confirm": "删除快照 '{snapshot}'?",
+        "growl": "快照 '{snapshot}' 删除成功。"
+      }
+    },
+    "snapshots_table": {
+      "no_repository_selected": "请先选择一个存储。",
+      "no_matching_snapshots": "没有找到符合过滤条件的快照",
+      "no_snapshots": "存储 '{repository}' 不包含任何快照。",
+      "table": {
+        "headers": {
+          "status": "状态",
+          "start_time": "开始时间",
+          "end_time": "结束时间",
+          "duration": "持续时间",
+          "indices": "索引",
+          "successful_shards": "成功分片",
+          "failed_shards": "失败分片",
+          "total_shards": "总分片"
+        }
+      }
+    },
+    "snapshots_table_wrapper": {
+      "repository": {
+        "label": "储存"
+      },
+      "filter": {
+        "label": "过滤 id..."
+      }
     }
   },
   "utilities": {

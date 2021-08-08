@@ -10,14 +10,14 @@
             <v-select v-model="repository"
                       :background-color="repository ? '' : 'orange'"
                       :items="repositories ? Object.keys(repositories) : [repository]"
-                      :label="$t('snapshots.table.repository')"
+                      :label="$t('snapshots.snapshots_table_wrapper.repository.label')"
                       :loading="repositoriesRequestState.loading"
                       class="pr-4 pt-0 mt-0"
                       hide-details
                       name="repository"/>
             <v-text-field id="filter"
                           v-model="filter"
-                          :label="$t('snapshots.table.filter')"
+                          :label="$t('snapshots.snapshots_table_wrapper.filter.label')"
                           append-icon="mdi-magnify"
                           autofocus
                           class="mt-0 pt-0 v-text-field--small"
@@ -34,7 +34,9 @@
                        :snapshots="snapshots || []" @reloadData="loadSnapshots"/>
     </loader>
     <div v-else class="text-center">
-      <v-alert class="d-inline-block" color="grey">{{ $t('snapshots.table.select-repo-first') }}</v-alert>
+      <v-alert class="d-inline-block" color="grey">
+        {{ $t('snapshots.snapshots_table.no_repository_selected') }}
+      </v-alert>
     </div>
   </div>
 </template>

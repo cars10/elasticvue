@@ -1,15 +1,14 @@
 <template>
   <v-dialog v-model="dialog" width="500">
     <template v-slot:activator="{on}">
-      <v-btn v-on="on" :disabled="!repository" class="ml-0" color="primary-button">{{
-          $t('snapshots.new-snapshot')
-        }}
+      <v-btn v-on="on" :disabled="!repository" class="ml-0" color="primary-button">
+        {{ $t('snapshots.new_snapshot.heading') }}
       </v-btn>
     </template>
 
     <v-card>
       <v-card-title>
-        <h2 class="text-h5">{{ $t('snapshots.new-snapshot') }}</h2>
+        <h2 class="text-h5">{{ $t('snapshots.new_snapshot.heading') }}</h2>
         <div class="ml-a">
           <v-btn icon title="Close" @click.native="closeDialog">
             <v-icon>mdi-close</v-icon>
@@ -21,7 +20,7 @@
       <v-form ref="form" v-model="valid" lazy-validation @submit.prevent="createSnapshot">
         <v-card-text>
           <v-text-field id="repository"
-                        :label="$t('repository.repository')"
+                        :label="$t('snapshots.new_snapshot.form.repository.label')"
                         :value="repository"
                         disabled
                         name="repository"/>
@@ -29,7 +28,7 @@
           <v-text-field v-if="dialog"
                         id="snapshot_name"
                         v-model="snapshotName"
-                        :label="$t('snapshots.snapshot-name')"
+                        :label="$t('snapshots.new_snapshot.form.snapshot_name.label')"
                         :rules="[nameRules]"
                         autocomplete="off"
                         autofocus
@@ -46,9 +45,9 @@
                  :loading="requestState.loading"
                  color="success"
                  type="submit">
-            {{ $t('snapshots.create') }}
+            {{ $t('defaults.create') }}
           </v-btn>
-          <v-btn text @click="closeDialog">{{ $t('snapshots.cancel') }}</v-btn>
+          <v-btn text @click="closeDialog">{{ $t('defaults.cancel') }}</v-btn>
         </v-card-actions>
       </v-form>
     </v-card>
@@ -60,6 +59,7 @@
   import { ref } from '@vue/composition-api'
   import { showErrorSnackbar, showSuccessSnackbar } from '@/mixins/ShowSnackbar'
   import { useElasticsearchRequest } from '@/mixins/RequestComposition'
+  import i18n from '@/i18n'
 
   export default {
     name: 'new-snapshot',
@@ -90,8 +90,8 @@
           .then(() => {
             context.emit('reloadData')
             showSuccessSnackbar({
-              text: 'Success',
-              additionalText: `The snapshot '${snapshotName.value}' was successfully created.`
+              text: i18n.t('defaults.success'),
+              additionalText: i18n.t('snapshots.new_snapshot.create_snapshot.growl', { name: snapshotName.value })
             })
             closeDialog()
           })

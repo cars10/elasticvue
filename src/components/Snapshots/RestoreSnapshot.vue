@@ -5,16 +5,16 @@
         <v-icon small>mdi-restore</v-icon>
       </v-list-item-action>
       <v-list-item-content>
-        <v-list-item-title>{{ $t('snapshots.restore.title') }}</v-list-item-title>
+        <v-list-item-title>{{ $t('snapshots.restore_snapshot.button') }}</v-list-item-title>
       </v-list-item-content>
     </v-list-item>
 
     <v-dialog v-model="dialog" width="700">
       <v-card>
         <v-card-title>
-          <h2 class="text-h5">{{ $t('snapshots.restore.title') }} '{{ snapshot }}'</h2>
+          <h2 class="text-h5">{{ $t('snapshots.restore_snapshot.heading', { name: snapshot }) }}</h2>
           <div class="ml-a">
-            <v-btn icon title="Close" @click.native="closeDialog">
+            <v-btn icon :title="$t('defaults.close')" @click.native="closeDialog">
               <v-icon>mdi-close</v-icon>
             </v-btn>
           </div>
@@ -24,16 +24,18 @@
         <v-form ref="form" v-model="valid" lazy-validation @submit.prevent="restoreSnapshot">
           <v-card-text>
             <index-filter v-model="indices" :method-params="{ repository, snapshot }" method="getSnapshotIndices"/>
-            <v-checkbox v-model="ignoreUnavailable" :label="$t('snapshots.restore.ignore-unavailable')"
+            <v-checkbox v-model="ignoreUnavailable"
+                        :label="$t('snapshots.restore_snapshot.form.ignore_unavailable.label')"
                         color="primary-button"
                         hide-details/>
-            <v-checkbox v-model="includeGlobalState" :label="$t('snapshots.restore.include-global-state')"
+            <v-checkbox v-model="includeGlobalState"
+                        :label="$t('snapshots.restore_snapshot.form.include_global_state.label')"
                         color="primary-button"/>
 
             <v-text-field v-if="dialog"
                           id="rename_pattern"
                           v-model="renamePattern"
-                          :label="$t('snapshots.restore.rename-pattern')"
+                          :label="$t('snapshots.restore_snapshot.form.rename_pattern.label')"
                           autocomplete="off"
                           name="rename_pattern"
                           @keyup.esc="closeDialog"/>
@@ -41,7 +43,7 @@
             <v-text-field v-if="dialog"
                           id="rename_replacement"
                           v-model="renameReplacement"
-                          :label="$t('snapshots.restore.rename-replacement')"
+                          :label="$t('snapshots.restore_snapshot.form.rename_replacement.label')"
                           autocomplete="off"
                           hide-details
                           name="rename_replacement"
@@ -51,9 +53,9 @@
           <v-card-actions class="pa-4">
             <v-btn id="restore_snapshot" :disabled="requestState.loading || !valid" :loading="requestState.loading"
                    color="success" type="submit">
-              {{ $t('snapshots.restore.restore') }}
+              {{ $t('snapshots.restore_snapshot.form.restore') }}
             </v-btn>
-            <v-btn text @click="closeDialog">{{ $t('snapshots.restore.cancel') }}</v-btn>
+            <v-btn text @click="closeDialog">{{ $t('defaults.cancel') }}</v-btn>
           </v-card-actions>
         </v-form>
       </v-card>
@@ -123,13 +125,13 @@
         callElasticsearch('snapshotRestore', buildRestoreParams())
           .then(() => {
             showSuccessSnackbar({
-              text: i18n.t('snapshots.restore.success'),
-              additionalText: i18n.t('snapshots.restore.success-message', { snapshot: props.snapshot })
+              text: i18n.t('defaults.success'),
+              additionalText: i18n.t('snapshots.restore_snapshot.restore_snapshot.growl', { snapshot: props.snapshot })
             })
             closeDialog()
           })
           .catch(() => showErrorSnackbar({
-            text: i18n.t('snapshots.restore.error'),
+            text: i18n.t('defaults.error'),
             additionalText: requestState.value.apiErrorMessage
           }))
       }
