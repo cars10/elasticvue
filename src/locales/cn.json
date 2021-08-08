@@ -512,23 +512,32 @@
     }
   },
   "settings": {
-    "title": "设置",
-    "hide-indices-regex": "隐藏索引正则表达式",
-    "hide-indices-regex-message": "与此正则表达式匹配的索引将默认隐藏在所有列出索引的位置",
-    "import-export": {
-      "title": "导入/导出 {app} 数据",
-      "message": "你可以将 {app} 数据导入和导出为 json。这<strong>不是</strong>集群数据的备份，如果你需要备份索引，请使用快照。",
-      "import": "导入",
-      "export": "导出",
-      "download-settings": "下载",
-      "prepare-backup": "生成备份",
-      "import-settings": "导入配置",
-      "select-file": "选择文件...",
-      "whats-included": "什么内容会包含？"
+    "heading": "设置",
+    "hide_indices_regex": {
+      "label": "隐藏索引正则表达式",
+      "message": "与此正则表达式匹配的索引将默认隐藏在所有列出索引的位置",
+      "reset": null
     },
-    "disconnect-and-reset": "断开连接并重置",
-    "disconnect-and-reset-all-settings": "断开连接并重置所有配置",
-    "disconnect-and-reset-confirm-message": "你确定吗？这将删除 {app} 保存的所有数据！你必须重新连接到集群。"
+    "disconnect_and_reset": {
+      "heading": "断开连接并重置所有配置",
+      "button": "断开连接并重置",
+      "confirm": "你确定吗？这将删除 elasticvue 保存的所有数据！你必须重新连接到集群。"
+    },
+    "import_export": {
+      "heading": "导入/导出 elasticvue 数据",
+      "message": "你可以将 elasticvue 数据导入和导出为 json。这<strong>不是</strong>集群数据的备份，如果你需要备份索引，请使用快照。",
+      "export": {
+        "heading": "导出",
+        "included": "什么内容会包含？",
+        "prepare_backup": "生成备份",
+        "download": "下载"
+      },
+      "import": {
+        "heading": "导入",
+        "select_file": "选择文件...",
+        "import": "导入配置"
+      }
+    }
   },
   "shared": {
     "index-filter": {

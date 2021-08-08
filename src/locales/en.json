@@ -512,23 +512,32 @@
     }
   },
   "settings": {
-    "title": "Settings",
-    "hide-indices-regex": "Hide indices regex",
-    "hide-indices-regex-message": "Indices matching this regex will be hidden by default on all places where indices are listed",
-    "import-export": {
-      "title": "Import/Export {app} data",
-      "message": "You can import & export your elasticvue data as json. This is <strong>not</strong> a backup of your clusters data, use snapshots if you need to backup your indices.",
-      "import": "Import",
-      "export": "Export",
-      "download-settings": "Download",
-      "prepare-backup": "Prepare backup",
-      "import-settings": "Import settings",
-      "select-file": "Select file...",
-      "whats-included": "Whats included?"
+    "heading": "Settings",
+    "hide_indices_regex": {
+      "label": "Hide indices regex",
+      "message": "Indices matching this regex will be hidden by default on all places where indices are listed",
+      "reset": "Reset to default {regex}"
     },
-    "disconnect-and-reset": "Disconnect and reset",
-    "disconnect-and-reset-all-settings": "Disconnect and reset all settings",
-    "disconnect-and-reset-confirm-message": "Are you sure? This will delete all data saved by {app}! You will have to reconnect to your cluster."
+    "disconnect_and_reset": {
+      "heading": "Disconnect and reset all settings",
+      "button": "Disconnect and reset",
+      "confirm": "Are you sure? This will delete all data saved by elasticvue! You will have to reconnect to your cluster."
+    },
+    "import_export": {
+      "heading": "Import/Export elasticvue data",
+      "message": "You can import & export your elasticvue data as json. This is <strong>not</strong> a backup of your clusters data, use snapshots if you need to backup your indices.",
+      "export": {
+        "heading": "Export",
+        "included": "Whats included?",
+        "prepare_backup": "Prepare backup",
+        "download": "Download"
+      },
+      "import": {
+        "heading": "Import",
+        "select_file": "Select file...",
+        "import": "Import settings"
+      }
+    }
   },
   "shared": {
     "index-filter": {

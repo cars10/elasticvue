@@ -1,20 +1,19 @@
 <template>
   <v-card class="mt-4">
-    <v-card-title>{{ $t('settings.import-export.title', { app: 'elasticvue' }) }}</v-card-title>
+    <v-card-title>{{ $t('settings.import_export.heading') }}</v-card-title>
 
     <v-divider/>
 
     <v-card-text>
-      <p v-html="$t('settings.import-export.message', {app: 'elasticvue'})">
-      </p>
+      <p v-html="$t('settings.import_export.message')"></p>
 
       <v-row>
         <v-col cols="12" md="6" sm="12">
-          <h5 class="text-h6 mb-4">{{ $t('settings.import-export.export') }}</h5>
+          <h5 class="text-h6 mb-4">{{ $t('settings.import_export.export.heading') }}</h5>
           <div class="mb-4">
             <v-btn class="pl-1" small text @click="helpCollapsed = !helpCollapsed">
               <v-icon>{{ helpCollapsed ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-              {{ $t('settings.import-export.whats-included') }}
+              {{ $t('settings.import_export.export.included') }}
             </v-btn>
 
             <v-expand-transition>
@@ -33,25 +32,25 @@
           </div>
 
           <v-btn class="primary-button mr-2" @click="createBackup">
-            {{ $t('settings.import-export.prepare-backup') }}
+            {{ $t('settings.import_export.export.prepare_backup') }}
           </v-btn>
           <v-btn :disabled="backupDownloadLink.length === 0" :download="downloadFilename" :href="backupDownloadLink"
                  class="primary-button">
-            {{ $t('settings.import-export.download-settings') }}
+            {{ $t('settings.import_export.export.download') }}
           </v-btn>
 
           <v-divider class="my-6"/>
 
-          <h5 class="text-h6">{{ $t('settings.import-export.import') }}</h5>
+          <h5 class="text-h6">{{ $t('settings.import_export.import.heading') }}</h5>
           <v-form @submit.prevent="importBackupAndRedirect">
             <v-file-input v-model="importFile"
-                          :placeholder="$t('settings.import-export.select-file')"
+                          :placeholder="$t('settings.import_export.import.select_file')"
                           accept="application/json"
                           show-size
                           truncate-length="30"/>
             <p class="red--text">{{ errorMessage }}</p>
             <v-btn :disabled="!valid" color="primary-button" type="submit">
-              {{ $t('settings.import-export.import-settings') }}
+              {{ $t('settings.import_export.import.import') }}
             </v-btn>
           </v-form>
         </v-col>

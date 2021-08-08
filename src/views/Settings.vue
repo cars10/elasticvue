@@ -3,7 +3,7 @@
     <v-col lg="8" offset-lg="2">
       <v-card>
         <v-card-title>
-          <h1 class="text-h5">{{ $t('settings.title') }}</h1>
+          <h1 class="text-h5">{{ $t('settings.heading') }}</h1>
         </v-card-title>
         <v-divider/>
 
@@ -12,14 +12,16 @@
             <v-col cols="12" md="6" sm="12">
               <v-text-field id="query"
                             v-model="hideIndicesRegex"
-                            :label="$t('settings.hide-indices-regex')"
-                            :messages="$t('settings.hide-indices-regex-message')"
+                            :label="$t('settings.hide_indices_regex.label')"
+                            :messages="$t('settings.hide_indices_regex.message')"
                             autofocus>
                 <template v-slot:message="{ message }">
                   <span v-html="message"/>
                 </template>
                 <template v-slot:append class="mt-0">
-                  <v-btn :title="'Reset to default ' + DEFAULT_HIDE_INDICES_REGEX" icon @click="resetHideIndicesRegex">
+                  <v-btn :title="$t('settings.hide_indices_regex.reset', {regex: DEFAULT_HIDE_INDICES_REGEX})"
+                         icon
+                         @click="resetHideIndicesRegex">
                     <v-icon>mdi-backup-restore</v-icon>
                   </v-btn>
                 </template>
@@ -29,21 +31,21 @@
 
           <v-divider class="mb-4"/>
 
-          <p>{{ $t('settings.disconnect-and-reset-all-settings') }}</p>
+          <p>{{ $t('settings.disconnect_and_reset.heading') }}</p>
           <v-btn small type="button" @click="reset">
             <v-icon class="red--text mr-2" small>mdi-alert</v-icon>
-            {{ $t('settings.disconnect-and-reset') }}
+            {{ $t('settings.disconnect_and_reset.button') }}
           </v-btn>
         </v-card-text>
       </v-card>
 
-      <import-export-settings/>
+      <import-export/>
     </v-col>
   </v-row>
 </template>
 
 <script>
-  import ImportExportSettings from '@/components/Settings/ImportExportSettings'
+  import ImportExport from '@/components/Settings/ImportExport'
   import { vuexAccessors } from '@/helpers/store'
   import { BASE_URI, DEFAULT_HIDE_INDICES_REGEX, LOCALSTORAGE_KEY } from '@/consts'
   import store from '@/store'
@@ -52,14 +54,14 @@
   export default {
     name: 'settings',
     components: {
-      ImportExportSettings
+      ImportExport
     },
     setup () {
       const { hideIndicesRegex } = vuexAccessors('indices', ['hideIndicesRegex'])
       const resetHideIndicesRegex = () => store.commit('indices/resetHideIndicesRegex')
 
       const reset = () => {
-        if (confirm(i18n.t('settings.disconnect-and-reset-confirm-message', { app: 'elasticvue' }))) {
+        if (confirm(i18n.t('settings.disconnect_and_reset.confirm'))) {
           localStorage.removeItem(LOCALSTORAGE_KEY)
           window.indexedDB.databases().then(databases => {
             databases.forEach(db => window.indexedDB.deleteDatabase(db.name))
