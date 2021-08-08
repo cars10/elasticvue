@@ -1,5 +1,5 @@
 <template>
-  <v-btn id="theme_select" :title="$t('change-theme.change-theme')" icon @click="dark = !dark">
+  <v-btn id="theme_select" :title="$t('app.change_theme.title')" icon @click="dark = !dark">
     <v-icon>mdi-brightness-6</v-icon>
   </v-btn>
 </template>

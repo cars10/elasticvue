@@ -19,10 +19,21 @@
     "footer": {
       "homepage": "主页",
       "changelog": "变更日志"
+    },
+    "change_language": {
+      "title": null,
+      "languages": {
+        "en": {
+          "title": null
+        },
+        "cn": {
+          "title": null
+        }
+      }
+    },
+    "change_theme": {
+      "title": "更改主题"
     }
-  },
-  "change-theme": {
-    "change-theme": "更改主题"
   },
   "elasticsearch_instance": {
     "instance_selection": {

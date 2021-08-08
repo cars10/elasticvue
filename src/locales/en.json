@@ -19,10 +19,21 @@
     "footer": {
       "homepage": "Homepage",
       "changelog": "Changelog"
+    },
+    "change_language": {
+      "title": "Change language",
+      "languages": {
+        "en": {
+          "title": "Set language to english"
+        },
+        "cn": {
+          "title": "Set language to chinese"
+        }
+      }
+    },
+    "change_theme": {
+      "title": "Change theme"
     }
-  },
-  "change-theme": {
-    "change-theme": "Change theme"
   },
   "elasticsearch_instance": {
     "instance_selection": {

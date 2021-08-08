@@ -2,19 +2,25 @@
   <div class="d-inline-block">
     <v-menu offset-x top>
       <template v-slot:activator="{ on, attrs }">
-        <v-btn v-bind="attrs" v-on="on" icon>
+        <v-btn v-bind="attrs" v-on="on" icon :title="$t('app.change_language.title')">
           <v-icon>mdi-translate</v-icon>
         </v-btn>
       </template>
-      <v-list>
-        <v-list-item @click="setLocale('en')">
+      <v-list class="pa-0">
+        <v-list-item @click="setLocale('en')"
+                     class="pa-3"
+                     :class="{'v-list-item--active': currentLocale === 'en'}"
+                     :title="$t('app.change_language.languages.en.title')">
           <v-list-item-title>
-            <img src="../../assets/icons/flags/en.svg" alt="" height="16" class="mr-2">
+            <img :src="en" alt="British flag" height="16" class="vertical-align--middle">
           </v-list-item-title>
         </v-list-item>
-        <v-list-item @click="setLocale('cn')">
+        <v-list-item @click="setLocale('cn')"
+                     class="pa-3"
+                     :class="{'v-list-item--active': currentLocale === 'cn'}"
+                     :title="$t('app.change_language.languages.cn.title')">
           <v-list-item-title>
-            <img src="../../assets/icons/flags/cn.svg" alt="" height="16" class="mr-2">
+            <img :src="cn" alt="Chinese flag" height="16" class="vertical-align--middle">
           </v-list-item-title>
         </v-list-item>
       </v-list>
@@ -24,8 +30,11 @@
 
 <script>
   import store from '@/store'
-  import { SUPPORTED_I18N } from '@/consts'
   import { loadLanguage } from '@/i18n'
+  import { computed } from '@vue/composition-api'
+
+  import en from '@/assets/icons/flags/en.svg'
+  import cn from '@/assets/icons/flags/cn.svg'
 
   export default {
     name: 'change-language',
@@ -35,9 +44,15 @@
         loadLanguage(lang)
       }
 
+      const currentLocale = computed(() => {
+        return store.state.language.language
+      })
+
       return {
         setLocale,
-        SUPPORTED_I18N
+        currentLocale,
+        en,
+        cn
       }
     }
   }
