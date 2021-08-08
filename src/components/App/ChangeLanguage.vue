@@ -7,7 +7,7 @@
         </v-btn>
       </template>
       <v-list class="pa-0">
-        <v-list-item @click="setLocale('en')"
+        <v-list-item @click="changeLanguage('en')"
                      class="pa-3"
                      :class="{'v-list-item--active': currentLocale === 'en'}"
                      :title="$t('app.change_language.languages.en.title')">
@@ -15,7 +15,7 @@
             <img :src="en" alt="British flag" height="16" class="vertical-align--middle">
           </v-list-item-title>
         </v-list-item>
-        <v-list-item @click="setLocale('cn')"
+        <v-list-item @click="changeLanguage('cn')"
                      class="pa-3"
                      :class="{'v-list-item--active': currentLocale === 'cn'}"
                      :title="$t('app.change_language.languages.cn.title')">
@@ -30,7 +30,7 @@
 
 <script>
   import store from '@/store'
-  import { loadLanguage } from '@/i18n'
+  import { setLocale } from '@/i18n'
   import { computed } from '@vue/composition-api'
 
   import en from '@/assets/icons/flags/en.svg'
@@ -39,9 +39,9 @@
   export default {
     name: 'change-language',
     setup () {
-      const setLocale = lang => {
+      const changeLanguage = lang => {
         store.commit('language/setLanguage', lang)
-        loadLanguage(lang)
+        window.location.reload()
       }
 
       const currentLocale = computed(() => {
@@ -49,7 +49,7 @@
       })
 
       return {
-        setLocale,
+        changeLanguage,
         currentLocale,
         en,
         cn
