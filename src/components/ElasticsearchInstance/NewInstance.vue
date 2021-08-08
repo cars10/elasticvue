@@ -54,15 +54,13 @@
             <v-row>
               <v-col cols="12" md="6">
                 <v-text-field v-model="elasticsearchHost.username"
-                              :label="$t('elasticsearch_instance.new_instance.connect.form.username.label')"
-                              :title="$t('elasticsearch_instance.new_instance.connect.form.username.title')"
+                              :label="$t('setup.test_and_connect.form.username.label')"
                               type="text"/>
               </v-col>
               <v-col cols="12" md="6">
                 <v-text-field v-model="elasticsearchHost.password"
                               :append-icon="passwordVisible ? 'mdi-eye' : 'mdi-eye-off'"
-                              :label="$t('elasticsearch_instance.new_instance.connect.form.password.label')"
-                              :title="$t('elasticsearch_instance.new_instance.connect.form.password.title')"
+                              :label="$t('setup.test_and_connect.form.password.label')"
                               :type="passwordVisible ? 'text' : 'password'"
                               autocomplete="off"
                               @click:append="passwordVisible = !passwordVisible"/>
@@ -75,7 +73,7 @@
             <v-text-field v-if="dialog"
                           id="new_instance_uri"
                           v-model="elasticsearchHost.uri"
-                          :label="$t('elasticsearch_instance.new_instance.connect.form.uri.label')"
+                          :label="$t('setup.test_and_connect.form.uri.label')"
                           :rules="[validUri]"
                           append-icon="mdi-close"
                           name="uri"
@@ -86,16 +84,16 @@
           </div>
 
           <v-alert :value="hasError" type="error">
-            {{ $t('elasticsearch_instance.new_instance.connect.error.heading') }}
+            {{ $t('setup.test_and_connect.error.heading') }}
             <ol class="pl-4">
               <li>
-                {{ $t('elasticsearch_instance.new_instance.connect.error.cluster_reachable') }}
+                {{ $t('setup.test_and_connect.error.cluster_reachable') }}
                 <a :href="elasticsearchHost.uri" target="_blank" class="white--text">{{ elasticsearchHost.uri }}</a>
               </li>
               <li>
-                {{ $t('elasticsearch_instance.new_instance.connect.error.correct_settings') }}
+                {{ $t('setup.test_and_connect.error.correct_settings') }}
                 <strong>elasticsearch.yml</strong>
-                {{ $t('elasticsearch_instance.new_instance.connect.error.cluster_restarted') }}
+                {{ $t('setup.test_and_connect.error.cluster_restarted') }}
               </li>
             </ol>
 

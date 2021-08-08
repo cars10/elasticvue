@@ -77,25 +77,8 @@
           "name": {
             "label": "集群名称"
           },
-          "username": {
-            "label": "用户名 (可选)",
-            "title": "用户名"
-          },
-          "password": {
-            "label": "密码 (可选)",
-            "title": "密码"
-          },
-          "uri": {
-            "label": "地址"
-          },
           "test_connection": "测试连接",
           "connect": "连接"
-        },
-        "error": {
-          "heading": "无法连接。请确保",
-          "cluster_reachable": "你的集群可以通过地址访问",
-          "correct_settings": "你添加了正确的配置在",
-          "cluster_restarted": "并且重启了集群"
         }
       }
     },
@@ -466,27 +449,39 @@
     }
   },
   "setup": {
-    "setup": "设置",
-    "1-configure": "1. 配置",
-    "2-connect": "2. 连接",
-    "show-help": "查看帮助",
-    "configure-info-1": "你必须设置 CORS 才能使用 {app}。将以下行添加到你的",
-    "configure-info-2": "允许 CORS 请求来自",
-    "configure-info-3": "如果你的集群使用授权",
-    "configure-info-4": "然后重启你的集群",
-    "configure-info-5": "这也可以通过 docker 运行 elasticsearch 来完成，通过环境变量添加配置",
-    "username": "用户名",
-    "password": "密码",
-    "optional": "可选",
-    "host": "地址",
-    "test-connection": "测试连接",
-    "connect": "连接",
-    "cancel": "取消",
-    "successfully-connected": "连接成功！",
-    "connection-error-part-1": "无法连接。请确保",
-    "connection-error-part-2": "你的集群可以通过地址访问",
-    "connection-error-part-3": "你添加了正确的配置在",
-    "connection-error-part-4": "并且重启了集群"
+    "heading": "设置",
+    "configure": {
+      "heading": "1. 配置",
+      "show-help": "查看帮助",
+      "introduction": "你必须设置 CORS 才能使用 elasticvue。将以下行添加到你的",
+      "allow_cors": "允许 CORS 请求来自 {domain}",
+      "authorization": "如果你的集群使用授权",
+      "restart": "然后重启你的集群",
+      "docker": "这也可以通过 docker 运行 elasticsearch 来完成，通过环境变量添加配置"
+    },
+    "test_and_connect": {
+      "heading": "2. 连接",
+      "form": {
+        "username": {
+          "label": "用户名 (可选)"
+        },
+        "password": {
+          "label": "密码 (可选)"
+        },
+        "uri": {
+          "label": "地址"
+        },
+        "test_connection": "测试连接",
+        "connect": "连接"
+      },
+      "error": {
+        "heading": "无法连接。请确保",
+        "cluster_reachable": "你的集群可以通过地址访问",
+        "correct_settings": "你添加了正确的配置在",
+        "cluster_restarted": "并且重启了集群"
+      },
+      "connected": "连接成功！"
+    }
   },
   "shared": {
     "index-filter": {

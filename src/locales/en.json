@@ -77,25 +77,8 @@
           "name": {
             "label": "Cluster name"
           },
-          "username": {
-            "label": "Username (optional)",
-            "title": "Username"
-          },
-          "password": {
-            "label": "Password (optional)",
-            "title": "Password"
-          },
-          "uri": {
-            "label": "Uri"
-          },
           "test_connection": "Test connection",
           "connect": "Connect"
-        },
-        "error": {
-          "heading": "Could not connect. Please make sure that",
-          "cluster_reachable": "Your cluster is reachable via",
-          "correct_settings": "You added the correct settings to your",
-          "cluster_restarted": "and restarted your cluster"
         }
       }
     },
@@ -466,27 +449,39 @@
     }
   },
   "setup": {
-    "setup": "Setup",
-    "1-configure": "1. Configure",
-    "2-connect": "2. Connect",
-    "show-help": "show help",
-    "configure-info-1": "You have to setup CORS to use {app}. Add the following lines to your",
-    "configure-info-2": "allow CORS requests from",
-    "configure-info-3": "and if your cluster uses authorization",
-    "configure-info-4": "Then restart your cluster",
-    "configure-info-5": "This can also be done if you run elasticsearch via docker, by adding the config via environment variables",
-    "username": "Username",
-    "password": "Password",
-    "optional": "optional",
-    "host": "Host",
-    "test-connection": "Test connection",
-    "connect": "Connect",
-    "cancel": "Cancel",
-    "successfully-connected": "Successfully connected.",
-    "connection-error-part-1": "Could not connect. Please make sure that",
-    "connection-error-part-2": "Your cluster is reachable via",
-    "connection-error-part-3": "You added the correct settings to your",
-    "connection-error-part-4": "and restarted your cluster"
+    "heading": "Setup",
+    "configure": {
+      "heading": "1. Configure",
+      "show-help": "show help",
+      "introduction": "You have to setup CORS to use elasticvue. Add the following lines to your",
+      "allow_cors": "allow CORS requests from {domain}",
+      "authorization": "and if your cluster uses authorization",
+      "restart": "Then restart your cluster",
+      "docker": "This can also be done if you run elasticsearch via docker, by adding the config via environment variables"
+    },
+    "test_and_connect": {
+      "heading": "2. Connect",
+      "form": {
+        "username": {
+          "label": "Username (optional)"
+        },
+        "password": {
+          "label": "Password (optional)"
+        },
+        "uri": {
+          "label": "Uri"
+        },
+        "test_connection": "Test connection",
+        "connect": "Connect"
+      },
+      "error": {
+        "heading": "Could not connect. Please make sure that",
+        "cluster_reachable": "Your cluster is reachable via",
+        "correct_settings": "You added the correct settings to your",
+        "cluster_restarted": "and restarted your cluster"
+      },
+      "connected": "Successfully connected."
+    }
   },
   "shared": {
     "index-filter": {
