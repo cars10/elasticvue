@@ -6,7 +6,7 @@
         "nodes": "节点",
         "indices": "索引",
         "search": "搜索",
-        "rest": "REST",
+        "rest": null,
         "snapshots": "快照",
         "repositories": "存储",
         "utilities": "工具"
@@ -41,6 +41,9 @@
     "delete": null,
     "required": null,
     "success": "成功"
+  },
+  "document": {
+    "heading": null
   },
   "elasticsearch_instance": {
     "instance_selection": {

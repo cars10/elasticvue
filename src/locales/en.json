@@ -42,6 +42,9 @@
     "required": "Required",
     "success": "Success"
   },
+  "document": {
+    "heading": "Show"
+  },
   "elasticsearch_instance": {
     "instance_selection": {
       "connected_info": {

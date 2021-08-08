@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title>
-      <h1 class="text-h5">Document</h1>
+      <h1 class="text-h5">{{ $t('document.heading') }}</h1>
       <reload-button :action="load"/>
       <back-button :route="{name: 'Search'}"/>
     </v-card-title>
