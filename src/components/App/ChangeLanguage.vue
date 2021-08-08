@@ -30,7 +30,6 @@
 
 <script>
   import store from '@/store'
-  import { setLocale } from '@/i18n'
   import { computed } from '@vue/composition-api'
 
   import en from '@/assets/icons/flags/en.svg'
