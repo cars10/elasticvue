@@ -589,22 +589,22 @@
     }
   },
   "utilities": {
-    "title": "工具",
+    "heading": "工具",
     "run": "运行",
     "create": {
-      "title": "创建",
-      "create-empty-indices": "创建 10 个空索引",
-      "create-twitter-index-and-add-tweets": "创建 twitter 索引并添加 100 条 tweet"
+      "heading": "创建",
+      "empty_indices": "创建 10 个空索引",
+      "twitter_index": "创建 twitter 索引并添加 100 条 tweet"
     },
     "delete": {
-      "title": "删除",
-      "delete-all-indices": "删除所有索引",
-      "confirm-message": "你确定吗? 这会删除你集群上的所有数据！"
+      "heading": "删除",
+      "delete_all": "删除所有索引",
+      "confirm": "你确定吗? 这会删除你集群上的所有数据！"
     },
     "misc": {
-      "title": "其他",
-      "flush-all-indices-to-disk": "刷新索引到磁盘",
-      "set-all-indices-to-writable": "设置所有索引为可写"
+      "heading": "其他",
+      "flush_all": "刷新索引到磁盘",
+      "set_all_to_writable": "设置所有索引为可写"
     }
   }
 }

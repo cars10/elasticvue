@@ -589,22 +589,22 @@
     }
   },
   "utilities": {
-    "title": "Utilities",
+    "heading": "Utilities",
     "run": "Run",
     "create": {
-      "title": "Create",
-      "create-empty-indices": "Create 10 empty indices",
-      "create-twitter-index-and-add-tweets": "Create twitter index and add 100 tweets"
+      "heading": "Create",
+      "empty_indices": "Create 10 empty indices",
+      "twitter_index": "Create twitter index and add 100 tweets"
     },
     "delete": {
-      "title": "Delete",
-      "delete-all-indices": "Delete all indices",
-      "confirm-message": "Are you sure? This will delete ALL data in your cluster!"
+      "heading": "Delete",
+      "delete_all": "Delete all indices",
+      "confirm": "Are you sure? This will delete ALL data in your cluster!"
     },
     "misc": {
-      "title": "Misc",
-      "flush-all-indices-to-disk": "Flush all indices to disk",
-      "set-all-indices-to-writable": "Set all indices to writable"
+      "heading": "Misc",
+      "flush_all": "Flush all indices to disk",
+      "set_all_to_writable": "Set all indices to writable"
     }
   }
 }
