@@ -1,8 +1,4 @@
 {
-  "snackbar": {
-    "close": "关闭",
-    "copy": "复制"
-  },
   "app": {
     "header": {
       "navigation": {
@@ -34,6 +30,17 @@
     "change_theme": {
       "title": "更改主题"
     }
+  },
+  "defaults": {
+    "filter": {
+      "label": "过滤..."
+    },
+    "cancel": "取消",
+    "close": "关闭",
+    "create": "创建",
+    "delete": null,
+    "required": null,
+    "success": "成功"
   },
   "elasticsearch_instance": {
     "instance_selection": {
@@ -108,16 +115,10 @@
       }
     }
   },
-  "defaults": {
-    "filter": {
-      "label": "过滤..."
-    },
-    "cancel": "取消",
-    "close": "关闭",
-    "create": "创建",
-    "delete": null,
-    "required": null,
-    "success": "成功"
+  "helpers": {
+    "import-export": {
+      "import-confirm-message": "你确定吗？导入备份将覆盖你当前的设置和保存的集群！"
+    }
   },
   "home": {
     "client_information": {
@@ -232,28 +233,15 @@
       }
     }
   },
-  "setup": {
-    "setup": "设置",
-    "1-configure": "1. 配置",
-    "2-connect": "2. 连接",
-    "show-help": "查看帮助",
-    "configure-info-1": "你必须设置 CORS 才能使用 {app}。将以下行添加到你的",
-    "configure-info-2": "允许 CORS 请求来自",
-    "configure-info-3": "如果你的集群使用授权",
-    "configure-info-4": "然后重启你的集群",
-    "configure-info-5": "这也可以通过 docker 运行 elasticsearch 来完成，通过环境变量添加配置",
-    "username": "用户名",
-    "password": "密码",
-    "optional": "可选",
-    "host": "地址",
-    "test-connection": "测试连接",
-    "connect": "连接",
-    "cancel": "取消",
-    "successfully-connected": "连接成功！",
-    "connection-error-part-1": "无法连接。请确保",
-    "connection-error-part-2": "你的集群可以通过地址访问",
-    "connection-error-part-3": "你添加了正确的配置在",
-    "connection-error-part-4": "并且重启了集群"
+  "mixins": {
+    "test-connection": {
+      "success": "成功",
+      "cluster-reachable": "你的集群可以访问并正确配置。",
+      "cluster-not-reachable": "你的集群无法访问或你没有正确配置 CORS。"
+    },
+    "history": {
+      "confirm-message": "你确定吗? 这会删除你历史中的所有条目！"
+    }
   },
   "nodes": {
     "node_icons": {
@@ -291,37 +279,6 @@
         "grid": "网格",
         "table": "列表"
       }
-    }
-  },
-  "search": {
-    "heading": "搜索",
-    "form": {
-      "query": {
-        "label": "搜索",
-        "messages": "搜索 <a tabindex='-1' target='_blank' rel='noopener' href='https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html'>查询 DSL</a> 获取支持"
-      },
-      "search": "搜索",
-      "customize_query": {
-        "heading": "自定义搜索查询",
-        "button": "自定义查询",
-        "hint": "提示：对查询的更改不会更新搜索框中的相关输入（如搜索查询或表中的分页/排序），但对输入的更改将合并到查询中。",
-        "reset": "重设自定义查询"
-      }
-    },
-    "result": {
-      "show": "查看"
-    },
-    "results_table": {
-      "filter": {
-        "label": "过滤 *当前* 页面..."
-      },
-      "settings": {
-        "title": null,
-        "columns": null
-      },
-      "document_not_found": "没有找到文档。",
-      "filter_not_found": "没有找到文档符合过滤",
-      "download_as_json": null
     }
   },
   "query": {
@@ -397,49 +354,6 @@
       }
     }
   },
-  "snapshots": {
-    "title": "快照",
-    "new-snapshot": "新建快照",
-    "snapshot-name": "快照名称",
-    "create": "创建",
-    "cancel": "取消",
-    "table": {
-      "show": "显示",
-      "hide": "隐藏",
-      "options": "选项",
-      "delete": "删除快照",
-      "delete-confirm": "删除快照 {snapshot}?",
-      "delete-success": "快照 {snapshot} 删除成功。",
-      "restore": "恢复",
-      "select-repo-first": "请先选择一个存储。",
-      "no-snapshots-found": "没有找到符合过滤条件的快照",
-      "repo-has-no-snapshots": "存储 <i>{repository}</i> 不包含任何快照。",
-      "repository": "储存",
-      "filter": "过滤 id...",
-      "header": {
-        "status": "状态",
-        "start-time": "开始时间",
-        "end-time": "结束时间",
-        "duration": "持续时间",
-        "indices": "索引",
-        "successful-shards": "成功分片",
-        "failed-shards": "失败分片",
-        "total-shards": "总分片"
-      }
-    },
-    "restore": {
-      "title": "恢复",
-      "ignore-unavailable": "忽略不可用",
-      "include-global-state": "包括全局状态",
-      "rename-pattern": "重命名模式",
-      "rename-replacement": "重命名替换",
-      "restore": "恢复",
-      "cancel": "取消",
-      "success": "成功",
-      "success-message": "快照 '{snapshot}' 恢复成功。",
-      "error": "错误："
-    }
-  },
   "repositories": {
     "heading": "存储",
     "new_repository": {
@@ -492,23 +406,35 @@
     },
     "repository": "储存"
   },
-  "utilities": {
-    "title": "工具",
-    "run": "运行",
-    "create": {
-      "title": "创建",
-      "create-empty-indices": "创建 10 个空索引",
-      "create-twitter-index-and-add-tweets": "创建 twitter 索引并添加 100 条 tweet"
+  "search": {
+    "heading": "搜索",
+    "form": {
+      "query": {
+        "label": "搜索",
+        "messages": "搜索 <a tabindex='-1' target='_blank' rel='noopener' href='https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html'>查询 DSL</a> 获取支持"
+      },
+      "search": "搜索",
+      "customize_query": {
+        "heading": "自定义搜索查询",
+        "button": "自定义查询",
+        "hint": "提示：对查询的更改不会更新搜索框中的相关输入（如搜索查询或表中的分页/排序），但对输入的更改将合并到查询中。",
+        "reset": "重设自定义查询"
+      }
     },
-    "delete": {
-      "title": "删除",
-      "delete-all-indices": "删除所有索引",
-      "confirm-message": "你确定吗? 这会删除你集群上的所有数据！"
+    "result": {
+      "show": "查看"
     },
-    "misc": {
-      "title": "其他",
-      "flush-all-indices-to-disk": "刷新索引到磁盘",
-      "set-all-indices-to-writable": "设置所有索引为可写"
+    "results_table": {
+      "filter": {
+        "label": "过滤 *当前* 页面..."
+      },
+      "settings": {
+        "title": null,
+        "columns": null
+      },
+      "document_not_found": "没有找到文档。",
+      "filter_not_found": "没有找到文档符合过滤",
+      "download_as_json": null
     }
   },
   "settings": {
@@ -538,6 +464,29 @@
         "import": "导入配置"
       }
     }
+  },
+  "setup": {
+    "setup": "设置",
+    "1-configure": "1. 配置",
+    "2-connect": "2. 连接",
+    "show-help": "查看帮助",
+    "configure-info-1": "你必须设置 CORS 才能使用 {app}。将以下行添加到你的",
+    "configure-info-2": "允许 CORS 请求来自",
+    "configure-info-3": "如果你的集群使用授权",
+    "configure-info-4": "然后重启你的集群",
+    "configure-info-5": "这也可以通过 docker 运行 elasticsearch 来完成，通过环境变量添加配置",
+    "username": "用户名",
+    "password": "密码",
+    "optional": "可选",
+    "host": "地址",
+    "test-connection": "测试连接",
+    "connect": "连接",
+    "cancel": "取消",
+    "successfully-connected": "连接成功！",
+    "connection-error-part-1": "无法连接。请确保",
+    "connection-error-part-2": "你的集群可以通过地址访问",
+    "connection-error-part-3": "你添加了正确的配置在",
+    "connection-error-part-4": "并且重启了集群"
   },
   "shared": {
     "index-filter": {
@@ -598,19 +547,70 @@
       "modal-title": "查看"
     }
   },
-  "mixins": {
-    "test-connection": {
-      "success": "成功",
-      "cluster-reachable": "你的集群可以访问并正确配置。",
-      "cluster-not-reachable": "你的集群无法访问或你没有正确配置 CORS。"
+  "snackbar": {
+    "close": "关闭",
+    "copy": "复制"
+  },
+  "snapshots": {
+    "title": "快照",
+    "new-snapshot": "新建快照",
+    "snapshot-name": "快照名称",
+    "create": "创建",
+    "cancel": "取消",
+    "table": {
+      "show": "显示",
+      "hide": "隐藏",
+      "options": "选项",
+      "delete": "删除快照",
+      "delete-confirm": "删除快照 {snapshot}?",
+      "delete-success": "快照 {snapshot} 删除成功。",
+      "restore": "恢复",
+      "select-repo-first": "请先选择一个存储。",
+      "no-snapshots-found": "没有找到符合过滤条件的快照",
+      "repo-has-no-snapshots": "存储 <i>{repository}</i> 不包含任何快照。",
+      "repository": "储存",
+      "filter": "过滤 id...",
+      "header": {
+        "status": "状态",
+        "start-time": "开始时间",
+        "end-time": "结束时间",
+        "duration": "持续时间",
+        "indices": "索引",
+        "successful-shards": "成功分片",
+        "failed-shards": "失败分片",
+        "total-shards": "总分片"
+      }
     },
-    "history": {
-      "confirm-message": "你确定吗? 这会删除你历史中的所有条目！"
+    "restore": {
+      "title": "恢复",
+      "ignore-unavailable": "忽略不可用",
+      "include-global-state": "包括全局状态",
+      "rename-pattern": "重命名模式",
+      "rename-replacement": "重命名替换",
+      "restore": "恢复",
+      "cancel": "取消",
+      "success": "成功",
+      "success-message": "快照 '{snapshot}' 恢复成功。",
+      "error": "错误："
     }
   },
-  "helpers": {
-    "import-export": {
-      "import-confirm-message": "你确定吗？导入备份将覆盖你当前的设置和保存的集群！"
+  "utilities": {
+    "title": "工具",
+    "run": "运行",
+    "create": {
+      "title": "创建",
+      "create-empty-indices": "创建 10 个空索引",
+      "create-twitter-index-and-add-tweets": "创建 twitter 索引并添加 100 条 tweet"
+    },
+    "delete": {
+      "title": "删除",
+      "delete-all-indices": "删除所有索引",
+      "confirm-message": "你确定吗? 这会删除你集群上的所有数据！"
+    },
+    "misc": {
+      "title": "其他",
+      "flush-all-indices-to-disk": "刷新索引到磁盘",
+      "set-all-indices-to-writable": "设置所有索引为可写"
     }
   }
 }

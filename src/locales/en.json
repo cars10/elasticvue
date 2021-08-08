@@ -1,8 +1,4 @@
 {
-  "snackbar": {
-    "close": "Close",
-    "copy": "Copy"
-  },
   "app": {
     "header": {
       "navigation": {
@@ -34,6 +30,17 @@
     "change_theme": {
       "title": "Change theme"
     }
+  },
+  "defaults": {
+    "filter": {
+      "label": "Filter..."
+    },
+    "cancel": "Cancel",
+    "close": "Close",
+    "create": "Create",
+    "delete": "Delete",
+    "required": "Required",
+    "success": "Success"
   },
   "elasticsearch_instance": {
     "instance_selection": {
@@ -108,16 +115,10 @@
       }
     }
   },
-  "defaults": {
-    "filter": {
-      "label": "Filter..."
-    },
-    "cancel": "Cancel",
-    "close": "Close",
-    "create": "Create",
-    "delete": "Delete",
-    "required": "Required",
-    "success": "Success"
+  "helpers": {
+    "import-export": {
+      "import-confirm-message": "Are you sure? Importing a backup will overwrite your current settings and saved clusters!"
+    }
   },
   "home": {
     "client_information": {
@@ -232,28 +233,15 @@
       }
     }
   },
-  "setup": {
-    "setup": "Setup",
-    "1-configure": "1. Configure",
-    "2-connect": "2. Connect",
-    "show-help": "show help",
-    "configure-info-1": "You have to setup CORS to use {app}. Add the following lines to your",
-    "configure-info-2": "allow CORS requests from",
-    "configure-info-3": "and if your cluster uses authorization",
-    "configure-info-4": "Then restart your cluster",
-    "configure-info-5": "This can also be done if you run elasticsearch via docker, by adding the config via environment variables",
-    "username": "Username",
-    "password": "Password",
-    "optional": "optional",
-    "host": "Host",
-    "test-connection": "Test connection",
-    "connect": "Connect",
-    "cancel": "Cancel",
-    "successfully-connected": "Successfully connected.",
-    "connection-error-part-1": "Could not connect. Please make sure that",
-    "connection-error-part-2": "Your cluster is reachable via",
-    "connection-error-part-3": "You added the correct settings to your",
-    "connection-error-part-4": "and restarted your cluster"
+  "mixins": {
+    "test-connection": {
+      "success": "Success",
+      "cluster-reachable": "You cluster is reachable and configured correctly.",
+      "cluster-not-reachable": "Either your cluster is not reachable or you did not configure CORS correctly."
+    },
+    "history": {
+      "confirm-message": "Are you sure? This will remove all entries from your history."
+    }
   },
   "nodes": {
     "node_icons": {
@@ -291,37 +279,6 @@
         "grid": "Grid",
         "table": "Table"
       }
-    }
-  },
-  "search": {
-    "heading": "Search",
-    "form": {
-      "query": {
-        "label": "Search",
-        "messages": "Searching supports the <a tabindex='-1' target='_blank' rel='noopener' href='https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html'>query string DSL</a>"
-      },
-      "search": "Search",
-      "customize_query": {
-        "heading": "Customize the search query",
-        "button": "Customize query",
-        "hint": "Hint: changes to the query will not update the respecting inputs in the ui (like the search query or pagination/sort in the table), but changes to the inputs will be merged into the query again.",
-        "reset": "Reset custom query"
-      }
-    },
-    "result": {
-      "show": "Show"
-    },
-    "results_table": {
-      "filter": {
-        "label": "Filter *current* page..."
-      },
-      "settings": {
-        "title": "Table settings",
-        "columns": "Columns"
-      },
-      "document_not_found": "No documents found.",
-      "filter_not_found": "No documents found that match your filter",
-      "download_as_json": "Download as json"
     }
   },
   "query": {
@@ -397,49 +354,6 @@
       }
     }
   },
-  "snapshots": {
-    "title": "Snapshots",
-    "new-snapshot": "New snapshot",
-    "snapshot-name": "Snapshot name",
-    "create": "Create",
-    "cancel": "Cancel",
-    "table": {
-      "show": "Show",
-      "hide": "Hide",
-      "options": "Options",
-      "delete": "Delete snapshot",
-      "delete-confirm": "Delete snapshot {snapshot}?",
-      "delete-success": "The snapshot {snapshot} was successfully deleted.",
-      "restore": "Restore",
-      "select-repo-first": "Please select a repository first.",
-      "no-snapshots-found": "No snapshots found that match your filter",
-      "repo-has-no-snapshots": "The repository <i>{repository}</i> does not contain any snapshots.",
-      "repository": "Repository",
-      "filter": "Filter id...",
-      "header": {
-        "status": "status",
-        "start-time": "start_time",
-        "end-time": "end_time",
-        "duration": "duration",
-        "indices": "indices",
-        "successful-shards": "successful_shards",
-        "failed-shards": "failed_shards",
-        "total-shards": "total_shards"
-      }
-    },
-    "restore": {
-      "title": "Restore",
-      "ignore-unavailable": "Ignore unavailable",
-      "include-global-state": "Include global state",
-      "rename-pattern": "Rename pattern",
-      "rename-replacement": "Rename replacement",
-      "restore": "Restore",
-      "cancel": "Cancel",
-      "success": "Success",
-      "success-message": "The snapshot '{snapshot}' was successfully restored.",
-      "error": "Error:"
-    }
-  },
   "repositories": {
     "heading": "Repositories",
     "new_repository": {
@@ -492,23 +406,35 @@
     },
     "repository": "Repository"
   },
-  "utilities": {
-    "title": "Utilities",
-    "run": "Run",
-    "create": {
-      "title": "Create",
-      "create-empty-indices": "Create 10 empty indices",
-      "create-twitter-index-and-add-tweets": "Create twitter index and add 100 tweets"
+  "search": {
+    "heading": "Search",
+    "form": {
+      "query": {
+        "label": "Search",
+        "messages": "Searching supports the <a tabindex='-1' target='_blank' rel='noopener' href='https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html'>query string DSL</a>"
+      },
+      "search": "Search",
+      "customize_query": {
+        "heading": "Customize the search query",
+        "button": "Customize query",
+        "hint": "Hint: changes to the query will not update the respecting inputs in the ui (like the search query or pagination/sort in the table), but changes to the inputs will be merged into the query again.",
+        "reset": "Reset custom query"
+      }
     },
-    "delete": {
-      "title": "Delete",
-      "delete-all-indices": "Delete all indices",
-      "confirm-message": "Are you sure? This will delete ALL data in your cluster!"
+    "result": {
+      "show": "Show"
     },
-    "misc": {
-      "title": "Misc",
-      "flush-all-indices-to-disk": "Flush all indices to disk",
-      "set-all-indices-to-writable": "Set all indices to writable"
+    "results_table": {
+      "filter": {
+        "label": "Filter *current* page..."
+      },
+      "settings": {
+        "title": "Table settings",
+        "columns": "Columns"
+      },
+      "document_not_found": "No documents found.",
+      "filter_not_found": "No documents found that match your filter",
+      "download_as_json": "Download as json"
     }
   },
   "settings": {
@@ -538,6 +464,29 @@
         "import": "Import settings"
       }
     }
+  },
+  "setup": {
+    "setup": "Setup",
+    "1-configure": "1. Configure",
+    "2-connect": "2. Connect",
+    "show-help": "show help",
+    "configure-info-1": "You have to setup CORS to use {app}. Add the following lines to your",
+    "configure-info-2": "allow CORS requests from",
+    "configure-info-3": "and if your cluster uses authorization",
+    "configure-info-4": "Then restart your cluster",
+    "configure-info-5": "This can also be done if you run elasticsearch via docker, by adding the config via environment variables",
+    "username": "Username",
+    "password": "Password",
+    "optional": "optional",
+    "host": "Host",
+    "test-connection": "Test connection",
+    "connect": "Connect",
+    "cancel": "Cancel",
+    "successfully-connected": "Successfully connected.",
+    "connection-error-part-1": "Could not connect. Please make sure that",
+    "connection-error-part-2": "Your cluster is reachable via",
+    "connection-error-part-3": "You added the correct settings to your",
+    "connection-error-part-4": "and restarted your cluster"
   },
   "shared": {
     "index-filter": {
@@ -598,19 +547,70 @@
       "modal-title": "Show"
     }
   },
-  "mixins": {
-    "test-connection": {
-      "success": "Success",
-      "cluster-reachable": "You cluster is reachable and configured correctly.",
-      "cluster-not-reachable": "Either your cluster is not reachable or you did not configure CORS correctly."
+  "snackbar": {
+    "close": "Close",
+    "copy": "Copy"
+  },
+  "snapshots": {
+    "title": "Snapshots",
+    "new-snapshot": "New snapshot",
+    "snapshot-name": "Snapshot name",
+    "create": "Create",
+    "cancel": "Cancel",
+    "table": {
+      "show": "Show",
+      "hide": "Hide",
+      "options": "Options",
+      "delete": "Delete snapshot",
+      "delete-confirm": "Delete snapshot {snapshot}?",
+      "delete-success": "The snapshot {snapshot} was successfully deleted.",
+      "restore": "Restore",
+      "select-repo-first": "Please select a repository first.",
+      "no-snapshots-found": "No snapshots found that match your filter",
+      "repo-has-no-snapshots": "The repository <i>{repository}</i> does not contain any snapshots.",
+      "repository": "Repository",
+      "filter": "Filter id...",
+      "header": {
+        "status": "status",
+        "start-time": "start_time",
+        "end-time": "end_time",
+        "duration": "duration",
+        "indices": "indices",
+        "successful-shards": "successful_shards",
+        "failed-shards": "failed_shards",
+        "total-shards": "total_shards"
+      }
     },
-    "history": {
-      "confirm-message": "Are you sure? This will remove all entries from your history."
+    "restore": {
+      "title": "Restore",
+      "ignore-unavailable": "Ignore unavailable",
+      "include-global-state": "Include global state",
+      "rename-pattern": "Rename pattern",
+      "rename-replacement": "Rename replacement",
+      "restore": "Restore",
+      "cancel": "Cancel",
+      "success": "Success",
+      "success-message": "The snapshot '{snapshot}' was successfully restored.",
+      "error": "Error:"
     }
   },
-  "helpers": {
-    "import-export": {
-      "import-confirm-message": "Are you sure? Importing a backup will overwrite your current settings and saved clusters!"
+  "utilities": {
+    "title": "Utilities",
+    "run": "Run",
+    "create": {
+      "title": "Create",
+      "create-empty-indices": "Create 10 empty indices",
+      "create-twitter-index-and-add-tweets": "Create twitter index and add 100 tweets"
+    },
+    "delete": {
+      "title": "Delete",
+      "delete-all-indices": "Delete all indices",
+      "confirm-message": "Are you sure? This will delete ALL data in your cluster!"
+    },
+    "misc": {
+      "title": "Misc",
+      "flush-all-indices-to-disk": "Flush all indices to disk",
+      "set-all-indices-to-writable": "Set all indices to writable"
     }
   }
 }
