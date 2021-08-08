@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title>
-      <h1 class="text-h5">{{ $t('search.title') }}</h1>
+      <h1 class="text-h5">{{ $t('search.heading') }}</h1>
     </v-card-title>
     <v-divider/>
 
@@ -11,8 +11,8 @@
           <v-col cols="12" md="5" sm="12">
             <v-text-field id="query"
                           v-model="q"
-                          :label="$t('search.title')"
-                          :messages="$t('search.search-support')"
+                          :label="$t('search.form.query.label')"
+                          :messages="$t('search.form.query.messages')"
                           append-icon="mdi-close"
                           autofocus
                           name="query"
@@ -30,9 +30,8 @@
           </v-col>
 
           <v-col cols="12" sm="1">
-            <v-btn id="search_submit" class="mt-4" color="primary-button" type="submit">{{
-                $t('search.search')
-              }}
+            <v-btn id="search_submit" class="mt-4" color="primary-button" type="submit">
+              {{ $t('search.form.search') }}
             </v-btn>
           </v-col>
         </v-row>
@@ -40,18 +39,17 @@
         <v-expand-transition>
           <div v-if="searchQueryCollapsed" class="my-2 pa-2 lowered">
             <p>
-              {{ $t('search.customize-search-query') }}
+              {{ $t('search.form.customize_query.heading') }}
             </p>
             <p>
-              {{ $t('search.customize-search-query-description') }}
+              {{ $t('search.form.customize_query.hint') }}
             </p>
             <resizable-container :initial-height="280">
               <code-editor v-model="searchQuery" :external-commands="editorCommands"/>
             </resizable-container>
             <div class="mt-2">
-              <button class="btn-link" type="button" @click="resetSearchQuery">{{
-                  $t('search.reset-custom-query')
-                }}
+              <button class="btn-link" type="button" @click="resetSearchQuery">
+                {{ $t('search.form.customize_query.reset') }}
               </button>
             </div>
           </div>
@@ -60,7 +58,7 @@
         <div class="text-center pt-2">
           <v-btn class="pl-1" small text @click="searchQueryCollapsed = !searchQueryCollapsed">
             <v-icon>{{ searchQueryCollapsed ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-            {{ $t('search.customize-query') }}
+            {{ $t('search.form.customize_query.button') }}
           </v-btn>
         </div>
       </v-form>

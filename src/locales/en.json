@@ -294,22 +294,35 @@
     }
   },
   "search": {
-    "title": "Search",
+    "heading": "Search",
+    "form": {
+      "query": {
+        "label": "Search",
+        "messages": "Searching supports the <a tabindex='-1' target='_blank' rel='noopener' href='https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html'>query string DSL</a>"
+      },
+      "search": "Search",
+      "customize_query": {
+        "heading": "Customize the search query",
+        "button": "Customize query",
+        "hint": "Hint: changes to the query will not update the respecting inputs in the ui (like the search query or pagination/sort in the table), but changes to the inputs will be merged into the query again.",
+        "reset": "Reset custom query"
+      }
+    },
     "result": {
       "show": "Show"
     },
-    "table": {
-      "filter": "Filter *current* page...",
-      "no-document-found": "No documents found.",
-      "no-document-found-match-filter": "No documents found that match your filter",
-      "download-as-json": "Download as json"
-    },
-    "search-support": "Searching supports the <a tabindex='-1' target='_blank' rel='noopener' href='https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html'>query string DSL</a>",
-    "search": "Search",
-    "customize-query": "Customize query",
-    "reset-custom-query": "Reset custom query",
-    "customize-search-query": "Customize the search query",
-    "customize-search-query-description": "Hint: changes to the query will not update the respecting inputs in the ui (like the search query or pagination/sort in the table), but changes to the inputs will be merged into the query again."
+    "results_table": {
+      "filter": {
+        "label": "Filter *current* page..."
+      },
+      "settings": {
+        "title": "Table settings",
+        "columns": "Columns"
+      },
+      "document_not_found": "No documents found.",
+      "filter_not_found": "No documents found that match your filter",
+      "download_as_json": "Download as json"
+    }
   },
   "query": {
     "heading": "Rest",

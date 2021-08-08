@@ -5,16 +5,19 @@
         <div class="float-right d-inline-block">
           <v-text-field id="filter"
                         v-model="filter"
-                        :label="$t('search.table.filter')"
+                        :label="$t('search.results_table.filter.label')"
                         :loading="filterLoading"
                         append-icon="mdi-magnify"
-                        class="mt-0 pt-0 v-text-field--small"
+                        class="mt-0 pt-0 mr-2 v-text-field--small"
                         hide-details
                         name="filter"
                         @keyup.esc="filter = ''"/>
 
-          <settings-dropdown :badge="columns.length > filteredColumns.length" button-title="Table settings">
-            <multi-setting v-model="selectedColumns" :settings="columns" name="Columns"/>
+          <settings-dropdown :badge="columns.length > filteredColumns.length"
+                             :button-title="$t('search.results_table.settings.title')">
+            <multi-setting v-model="selectedColumns"
+                           :settings="columns"
+                           :name="$t('search.results_table.settings.columns')"/>
           </settings-dropdown>
         </div>
       </div>
@@ -32,9 +35,11 @@
       </template>
 
       <template slot="no-data">
-        <template v-if="filter !== ''"> {{ $t('search.table.no-document-found-match-filter') }} <i>{{ filter }}</i>.
+        <template v-if="filter !== ''">
+          {{ $t('search.results_table.filter_not_found') }}
+          <i>{{ filter }}</i>.
         </template>
-        <template v-else>{{ $t('search.table.no-document-found') }}</template>
+        <template v-else>{{ $t('search.results_table.document_not_found') }}</template>
       </template>
 
       <template v-slot:footer.prepend>
@@ -43,7 +48,7 @@
                download="search.json"
                small
                @click="setDownloadHref">
-          {{ $t('search.table.download-as-json') }}
+          {{ $t('search.results_table.download_as_json') }}
         </v-btn>
       </template>
 

@@ -294,22 +294,35 @@
     }
   },
   "search": {
-    "title": "搜索",
+    "heading": "搜索",
+    "form": {
+      "query": {
+        "label": "搜索",
+        "messages": "搜索 <a tabindex='-1' target='_blank' rel='noopener' href='https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html'>查询 DSL</a> 获取支持"
+      },
+      "search": "搜索",
+      "customize_query": {
+        "heading": "自定义搜索查询",
+        "button": "自定义查询",
+        "hint": "提示：对查询的更改不会更新搜索框中的相关输入（如搜索查询或表中的分页/排序），但对输入的更改将合并到查询中。",
+        "reset": "重设自定义查询"
+      }
+    },
     "result": {
       "show": "查看"
     },
-    "table": {
-      "filter": "过滤 *当前* 页面...",
-      "no-document-found": "没有找到文档。",
-      "no-document-found-match-filter": "没有找到文档符合过滤",
-      "download-as-json": "Download as json"
-    },
-    "search-support": "搜索 <a tabindex='-1' target='_blank' rel='noopener' href='https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html'>查询 DSL</a> 获取支持",
-    "search": "搜索",
-    "customize-query": "自定义查询",
-    "reset-custom-query": "重设自定义查询",
-    "customize-search-query": "自定义搜索查询",
-    "customize-search-query-description": "提示：对查询的更改不会更新搜索框中的相关输入（如搜索查询或表中的分页/排序），但对输入的更改将合并到查询中。"
+    "results_table": {
+      "filter": {
+        "label": "过滤 *当前* 页面..."
+      },
+      "settings": {
+        "title": null,
+        "columns": null
+      },
+      "document_not_found": "没有找到文档。",
+      "filter_not_found": "没有找到文档符合过滤",
+      "download_as_json": null
+    }
   },
   "query": {
     "heading": null,
