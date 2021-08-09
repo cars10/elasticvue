@@ -13,6 +13,11 @@
           <v-icon v-if="menuOpen">mdi-menu-up</v-icon>
           <v-icon v-else>mdi-menu-down</v-icon>
         </v-btn>
+        <v-btn v-else v-bind="attrs" v-on="on" class="text-none">
+          <!-- do not remove this -->
+          <v-icon v-if="menuOpen">mdi-menu-up</v-icon>
+          <v-icon v-else>mdi-menu-down</v-icon>
+        </v-btn>
       </template>
 
       <v-card>
