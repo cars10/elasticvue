@@ -9,6 +9,7 @@
 
 <script>
   import Timer from '@/components/shared/Timer'
+  import i18n from '@/i18n'
 
   export default {
     name: 'reload-button',
@@ -27,7 +28,7 @@
       },
       title: {
         type: String,
-        default: 'Reload'
+        default: i18n.t('shared.reload_button.reload')
       },
       defaultSetting: {
         type: [Object, Number],

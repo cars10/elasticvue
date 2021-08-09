@@ -4,14 +4,14 @@
       <div class="pa-4">
         <v-alert :value="true" color="red" type="error">
           {{ requestState.apiErrorMessage }}<br>
-          <v-btn class="mr-4" @click.native="copy">{{ $t('shared.loader.copy-error') }}</v-btn>
+          <v-btn class="mr-4" @click.native="copy">{{ $t('shared.loader.copy_error') }}</v-btn>
         </v-alert>
       </div>
     </template>
     <template v-else-if="requestState.networkError">
       <div class="pa-4">
         <v-alert :value="true" color="grey">
-          {{ $t('shared.loader.network-error') }}
+          {{ $t('shared.loader.network_error') }}
         </v-alert>
       </div>
     </template>

@@ -1,5 +1,5 @@
 <template>
-  <div class="d-inline-block" title="Auto reload">
+  <div class="d-inline-block" :title="$t('shared.timer.settings.title')">
     <v-select v-model="timerSetting"
               :items="timerSettings"
               aria-label="Reload interval"

@@ -10,7 +10,7 @@
       <v-card-title>
         <h2 class="text-h5">{{ $t('snapshots.new_snapshot.heading') }}</h2>
         <div class="ml-a">
-          <v-btn icon title="Close" @click.native="closeDialog">
+          <v-btn icon :title="$t('defaults.close')" @click.native="closeDialog">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </div>

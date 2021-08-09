@@ -1,6 +1,6 @@
 <template>
   <p>
-    {{ $t('shared.auth-header-hint') }}
+    {{ $t('shared.authorization_header_hint') }}
   </p>
 </template>
 

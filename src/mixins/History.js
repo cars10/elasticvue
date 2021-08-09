@@ -12,7 +12,7 @@ export const useHistory = tableName => {
   const favoriteItem = item => connection.dbUpdate(Object.assign({}, item, { favorite: !item.favorite ? 1 : 0 }))
   const removeItem = id => connection.dbDelete(id)
   const clearAll = () => {
-    if (confirm(i18n.t('mixins.history.confirm-message'))) connection.dbClear()
+    if (confirm(i18n.t('mixins.history.clear_all.confirm'))) connection.dbClear()
   }
   const clearNonFavorites = () => {
     return connection.dbClearNonFavorites()

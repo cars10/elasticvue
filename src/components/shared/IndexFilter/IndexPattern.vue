@@ -2,7 +2,7 @@
   <v-text-field id="index-pattern"
                 v-model="localValue"
                 :hint="requestState.loading ? 'loading...' : matchHint"
-                :label="$t('shared.index-filter.index-pattern')"
+                :label="$t('shared.index_filter.index_pattern.input.label')"
                 :loading="requestState.loading"
                 autocomplete="off"
                 persistent-hint
@@ -64,7 +64,10 @@
         } else {
           indexNames = indices.value.map(i => i.index).sort().join('\n')
         }
-        return i18n.t('shared.index-filter.match-indices', { count: indices.value.length, indices: indexNames })
+        return i18n.t('shared.index_filter.index_pattern.matched_indices', {
+          count: indices.value.length,
+          indices: indexNames
+        })
       })
 
       return {

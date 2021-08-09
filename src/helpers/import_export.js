@@ -57,7 +57,7 @@ export const useImportFileData = fileInputData => {
   const importBackup = async () => {
     if (!valid.value || !importedData.value) return
 
-    if (confirm(i18n.t('helpers.import-export.import-confirm-message'))) {
+    if (confirm(i18n.t('helpers.import_export.import_backup.confirm'))) {
       const json = JSON.parse(importedData.value)
       const idbData = Object.assign({}, json.idb)
       delete json.idb

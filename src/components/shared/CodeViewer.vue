@@ -4,7 +4,11 @@
 
     <div class="code-editor__actions">
       <div class="d-inline-block">
-        <v-btn :title="$t('shared.code-editor.copy-content')" class="mr-1" icon small @click="copyContent">
+        <v-btn :title="$t('shared.code_editor.actions.copy_content.title')"
+               class="mr-1"
+               icon
+               small
+               @click="copyContent">
           <v-icon>mdi-content-copy</v-icon>
         </v-btn>
       </div>
@@ -13,14 +17,14 @@
         <settings-dropdown>
           <div class="px-3 pb-3" style="white-space: nowrap">
             <v-checkbox v-model="useSpaces"
-                        :label="$t('shared.code-editor.whitespace-tabs-label')"
-                        :title="$t('shared.code-editor.whitespace-tabs-title')"
+                        :label="$t('shared.code_editor.actions.whitespace.label')"
+                        :title="$t('shared.code_editor.actions.whitespace.title')"
                         class="my-1 py-0"
                         hide-details/>
 
             <v-checkbox v-model="wrapLines"
-                        :label="$t('shared.code-editor.wrap-lines-label')"
-                        :title="$t('shared.code-editor.wrap-lines-title')"
+                        :label="$t('shared.code_editor.actions.wrap_lines.label')"
+                        :title="$t('shared.code_editor.actions.wrap_lines.title')"
                         class="my-1 py-0"
                         hide-details/>
           </div>

@@ -1,7 +1,7 @@
 <template>
   <v-autocomplete v-model="localValue"
                   :items="filteredIndices"
-                  :label="$t('shared.index-select.select-indices')"
+                  :label="$t('shared.index_filter.index_select.select_indices.label')"
                   :loading="loading"
                   append-icon="mdi-menu-down"
                   autocomplete="off"
@@ -24,7 +24,7 @@
           {{ item }}
         </template>
         <template v-else>
-          {{ localValue.length }} {{ $t('shared.index-select.indices-selected') }}
+          {{ localValue.length }} {{ $t('shared.index_filter.index_select.indices_selected') }}
         </template>
       </template>
     </template>
@@ -32,18 +32,20 @@
     <template v-slot:prepend-item>
       <div class="px-4 mb-2">
         <btn-group class="d-inline-block">
-          <v-btn :title="$t('shared.index-select.select-all-title')" small @click="selectAll">
-            {{ $t('shared.index-select.select-all') }}
+          <v-btn :title="$t('shared.index_filter.index_select.select_all.title')" small @click="selectAll">
+            {{ $t('shared.index_filter.index_select.select_all.text') }}
           </v-btn>
 
-          <v-btn :title="$t('shared.index-select.deselect-all-title')" small @click="deselectAll">
-            {{ $t('shared.index-select.deselect-all') }}
+          <v-btn :title="$t('shared.index_filter.index_select.deselect_all.title')" small @click="deselectAll">
+            {{ $t('shared.index_filter.index_select.deselect_all.text') }}
           </v-btn>
         </btn-group>
 
         <div class="float-right d-inline-block">
-          <v-checkbox v-model="showHidden" :label="$t('shared.index-select.show-hidden')"
-                      :title="$t('shared.index-select.show-hidden-title')" class="mt-0"
+          <v-checkbox v-model="showHidden"
+                      :label="$t('shared.index_filter.index_select.show_hidden.label')"
+                      :title="$t('shared.index_filter.index_select.show_hidden.title')"
+                      class="mt-0"
                       color="primary-button"
                       hide-details/>
         </div>

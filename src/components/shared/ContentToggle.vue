@@ -2,19 +2,19 @@
   <div class="width--full">
     <div v-if="firstActive" ref="first" class="display--flex vertical-align--top flex pa-0">
       <div class="grow">
-        <slot name="first">{{ $t('shared.content-toggle.first') }}</slot>
+        <slot name="first">first</slot>
       </div>
       <span class="align-self-center content-toggle__last_activator" @click="setLast">
-        <slot name="last-activator">{{ $t('shared.content-toggle.use-last') }}</slot>
+        <slot name="last-activator">use last</slot>
       </span>
     </div>
 
     <div v-else ref="last" class="display--flex vertical-align--top flex pa-0">
       <div class="grow">
-        <slot name="last">{{ $t('shared.content-toggle.last') }}</slot>
+        <slot name="last">last</slot>
       </div>
       <span class="align-self-center content-toggle__first_activator" @click="setFirst">
-        <slot name="first-activator">{{ $t('shared.content-toggle.use-first') }}</slot>
+        <slot name="first-activator">use first</slot>
       </span>
     </div>
   </div>

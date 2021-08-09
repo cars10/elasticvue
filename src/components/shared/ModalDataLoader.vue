@@ -5,7 +5,7 @@
         <h2 class="text-h5">{{ modalTitle }}</h2>
         <reload-button id="reload-modal" :action="load"/>
         <div class="ml-a">
-          <v-btn :title="$t('shared.modal-data-loader.close')" icon @click.native="close">
+          <v-btn :title="$t('defaults.close')" icon @click.native="close">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </div>
@@ -55,7 +55,7 @@
         type: Object
       },
       modalTitle: {
-        default: i18n.t('shared.modal-data-loader.modal-title'),
+        default: i18n.t('shared.modal_data_loader.modal_title.default'),
         type: String
       },
       modalSubtitle: {

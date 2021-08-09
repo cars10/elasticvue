@@ -103,8 +103,10 @@
     }
   },
   "helpers": {
-    "import-export": {
-      "import-confirm-message": "Are you sure? Importing a backup will overwrite your current settings and saved clusters!"
+    "import_export": {
+      "import_backup": {
+        "confirm": "Are you sure? Importing a backup will overwrite your current settings and saved clusters!"
+      }
     }
   },
   "home": {
@@ -221,13 +223,14 @@
     }
   },
   "mixins": {
-    "test-connection": {
-      "success": "Success",
-      "cluster-reachable": "You cluster is reachable and configured correctly.",
-      "cluster-not-reachable": "Either your cluster is not reachable or you did not configure CORS correctly."
+    "test_connection": {
+      "cluster_reachable": "You cluster is reachable and configured correctly.",
+      "cluster_not_reachable": "Either your cluster is not reachable or you did not configure CORS correctly."
     },
     "history": {
-      "confirm-message": "Are you sure? This will remove all entries from your history."
+      "clear_all": {
+        "confirm": "Are you sure? This will remove all entries from your history."
+      }
     }
   },
   "nodes": {
@@ -390,8 +393,7 @@
         "confirm": "Delete repository '{name}' and all snapshots inside?",
         "growl": "The repository '{name}' was successfully deleted."
       }
-    },
-    "repository": "Repository"
+    }
   },
   "search": {
     "heading": "Search",
@@ -456,7 +458,6 @@
     "heading": "Setup",
     "configure": {
       "heading": "1. Configure",
-      "show-help": "show help",
       "introduction": "You have to setup CORS to use elasticvue. Add the following lines to your",
       "allow_cors": "allow CORS requests from {domain}",
       "authorization": "and if your cluster uses authorization",
@@ -488,62 +489,92 @@
     }
   },
   "shared": {
-    "index-filter": {
-      "title": "Index filter",
-      "use-index-pattern": "use index pattern",
-      "index-pattern": "Index pattern",
-      "select-indices": "select indices",
-      "match-indices": "matches <strong title='{indices}'>{count} indices</strong>"
+    "index_filter": {
+      "use_index_pattern": "use index pattern",
+      "use_index_select": "select indices",
+      "index_pattern": {
+        "input": {
+          "label": "Index pattern"
+        },
+        "matched_indices": "matches <strong title='{indices}'>{count} indices</strong>"
+      },
+      "index_select": {
+        "select_indices": {
+          "label": "Select indices"
+        },
+        "indices_selected": "indices selected",
+        "select_all": {
+          "text": "select all",
+          "title": "Select all indices"
+        },
+        "deselect_all": {
+          "text": "deselect all",
+          "title": "Deselect all indices"
+        },
+        "show_hidden": {
+          "label": "show hidden",
+          "title": "Show indices starting with a dot"
+        }
+      }
     },
-    "index-select": {
-      "select-indices": "Select indices",
-      "indices-selected": "indices selected",
-      "select-all": "select all",
-      "select-all-title": "Select all indices",
-      "deselect-all": "select all",
-      "deselect-all-title": "Deselect all indices",
-      "show-hidden": "show hidden",
-      "show-hidden-title": "Show indices starting with a dot"
-    },
-    "path-repo-info": {
-      "success-1": "Your <strong>path.repo</strong> setting seems to be setup correctly, that means you can use repositories and snapshots.",
-      "success-2": "The current value is: ",
-      "error-1": "Your <strong>path.repo</strong> setting is not setup correctly.",
-      "error-2": "You have to set <strong>path.repo</strong> in your <strong>elasticsearch.yml</strong> if you want to use snapshots and repositories.",
-      "docs": "Docs"
-    },
-    "ssl-hint": {
-      "hint": "Your cluster uses ssl. Make sure that your browser trusts the certificate that you are using, otherwise you will not be able to connect.",
-      "help": "Help"
-    },
-    "table-settings": {
+    "table_settings": {
       "reset": "reset",
       "uncheck": "uncheck"
     },
-    "auth-header-hint": "Your cluster uses authorization. Make sure that you have set \"http.cors.allow-headers\", otherwise you will not be able to connect.",
-    "code-editor": {
-      "beautify-title": "Beautify (Ctrl+ALT+L)",
-      "beautify": "Beautify",
-      "whitespace-tabs-label": "Use spaces",
-      "whitespace-tabs-title": "Change whitespace to 2 spaces instead of tabs",
-      "wrap-lines-label": "Wrap lines",
-      "wrap-lines-title": "Wrap long lines",
-      "copy-content": "Copy content",
-      "keyboard-shortcuts": "Keyboard shortcuts"
-    },
-    "content-toggle": {
-      "first": "first",
-      "use-last": "Use last",
-      "last": "last",
-      "use-first": "Use first"
+    "authorization_header_hint": "Your cluster uses authorization. Make sure that you have set \"http.cors.allow-headers\", otherwise you will not be able to connect.",
+    "code_editor": {
+      "actions": {
+        "copy_content": {
+          "title": "Copy content"
+        },
+        "beautify": {
+          "title": "Beautify (Ctrl+ALT+L)",
+          "text": "Beautify"
+        },
+        "whitespace": {
+          "label": "Use spaces",
+          "title": "Change whitespace to 2 spaces instead of tabs"
+        },
+        "wrap_lines": {
+          "label": "Wrap lines",
+          "title": "Wrap long lines"
+        },
+        "keyboard_shortcuts": {
+          "text": "Keyboard shortcuts"
+        }
+      }
     },
     "loader": {
-      "copy-error": "Copy error",
-      "network-error": "Network error: failed to fetch."
+      "copy_error": "Copy error",
+      "network_error": "Network error: failed to fetch."
     },
-    "modal-data-loader": {
-      "close": "Close",
-      "modal-title": "Show"
+    "modal_data_loader": {
+      "modal_title": {
+        "default": "Show"
+      }
+    },
+    "path_repo_info": {
+      "success": {
+        "info": "Your <strong>path.repo</strong> setting seems to be setup correctly, that means you can use repositories and snapshots.",
+        "current_value": "The current value is: "
+      },
+      "error": {
+        "info": "Your <strong>path.repo</strong> setting is not setup correctly.<br> You have to set <strong>path.repo</strong> in your <strong>elasticsearch.yml</strong> if you want to use snapshots and repositories."
+      },
+      "docs": "Docs",
+      "reload": "Reload"
+    },
+    "reload_button": {
+      "reload": "Reload"
+    },
+    "timer": {
+      "settings": {
+        "title": "Auto reload"
+      }
+    },
+    "ssl_hint": {
+      "hint": "Your cluster uses ssl. Make sure that your browser trusts the certificate that you are using, otherwise you will not be able to connect.",
+      "help": "Help"
     }
   },
   "snackbar": {

@@ -62,8 +62,8 @@ export const useTestConnection = () => {
         testState.value.testError = false
         testState.value.connectError = false
         showSuccessSnackbar({
-          text: i18n.t('mixins.test-connection.success'),
-          additionalText: i18n.t('mixins.test-connection.cluster-reachable')
+          text: i18n.t('defaults.success'),
+          additionalText: i18n.t('mixins.test_connection.cluster_reachable')
         })
       })
       .catch(e => {
@@ -71,7 +71,7 @@ export const useTestConnection = () => {
         testState.value.testSuccess = false
         testState.value.testError = true
         if (e instanceof TypeError) {
-          testState.value.errorMessage = i18n.t('mixins.test-connection.cluster-not-reachable')
+          testState.value.errorMessage = i18n.t('mixins.test_connection.cluster_not_reachable')
         } else {
           testState.value.errorMessage = e.message
         }
