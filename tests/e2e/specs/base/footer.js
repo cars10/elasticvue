@@ -9,10 +9,22 @@ describe('Footer', () => {
     })
 
     it('can change the theme', () => {
-      cy.get('button[title="Change theme"]').click()
+      cy.get('#theme_select').click()
       cy.get('#app').should('not.have.class', 'theme--dark')
-      cy.get('button[title="Change theme"]').click()
+      cy.get('#theme_select').click()
       cy.get('#app').should('have.class', 'theme--dark')
+    })
+  })
+
+  describe('language handling', () => {
+    it('defaults to english', () => {
+      cy.contains('Node Information').should('exist')
+    })
+
+    it('can change the language', () => {
+      cy.get('#change_language').click()
+      cy.get('#cn_flag').click()
+      cy.contains('节点').should('exist')
     })
   })
 })

@@ -2,7 +2,7 @@
   <div class="d-inline-block">
     <v-menu offset-x top>
       <template v-slot:activator="{ on, attrs }">
-        <v-btn v-bind="attrs" v-on="on" icon :title="$t('app.change_language.title')">
+        <v-btn v-bind="attrs" v-on="on" icon :title="$t('app.change_language.title')" id="change_language">
           <v-icon>mdi-translate</v-icon>
         </v-btn>
       </template>
@@ -12,7 +12,7 @@
                      :class="{'v-list-item--active': currentLocale === 'en'}"
                      :title="$t('app.change_language.languages.en.title')">
           <v-list-item-title>
-            <img :src="en" alt="British flag" height="16" class="vertical-align--middle">
+            <img :src="en" alt="British flag" height="16" class="vertical-align--middle" id="en_flag">
           </v-list-item-title>
         </v-list-item>
         <v-list-item @click="changeLanguage('cn')"
@@ -20,7 +20,7 @@
                      :class="{'v-list-item--active': currentLocale === 'cn'}"
                      :title="$t('app.change_language.languages.cn.title')">
           <v-list-item-title>
-            <img :src="cn" alt="Chinese flag" height="16" class="vertical-align--middle">
+            <img :src="cn" alt="Chinese flag" height="16" class="vertical-align--middle" id="cn_flag">
           </v-list-item-title>
         </v-list-item>
       </v-list>
