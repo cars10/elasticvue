@@ -58,7 +58,7 @@
         "uri": "Uri"
       },
       "row": {
-        "title": "Connect to cluster at '{uri}",
+        "title": "Connect to cluster at '{uri}'",
         "cluster_health": {
           "title": "Cluster health: {status}"
         },
