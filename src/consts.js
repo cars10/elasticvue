@@ -87,8 +87,9 @@ export const REST_QUERY_EXAMPLES = [
 /**
  * i18n
  */
-export const SUPPORTED_I18N = {
+export const SUPPORTED_COUNTRY_LOCALES = {
   en: 'en',
-  cn: 'cn'
+  cn: 'cn',
+  zh: 'cn'
 }
-export const DEFAULT_I18N = 'en'
+export const DEFAULT_LOCALE = 'en'
