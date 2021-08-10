@@ -36,15 +36,6 @@ export const search = {
     },
     setColumns (state, val) {
       state.columns = val
-    },
-    reset (state) {
-      state.q = '*'
-      state.indices = ''
-      state.searchQuery = ''
-      state.filter = ''
-      state.options = Object.assign({}, DEFAULT_DATA_TABLE_OPTIONS)
-      state.selectedColumns = []
-      state.columns = []
     }
   }
 }
