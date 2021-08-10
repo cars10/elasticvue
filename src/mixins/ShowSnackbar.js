@@ -5,7 +5,6 @@ export const showSuccessSnackbar = function (props) {
 }
 
 export const showErrorSnackbar = function (props) {
-  if (props.text) console.error(props.text)
   if (props.additionalText) console.error(props.additionalText)
   store.commit('snackbar/show', Object.assign({}, { timeout: 20000, color: 'error' }, props))
 }
