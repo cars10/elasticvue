@@ -94,9 +94,13 @@ export class DefaultClient {
     return this.request('_cat/nodes', 'GET', params)
   }
 
-  get ({ index, type, id }) {
+  get ({ index, type, id, routing }) {
     const docType = type || '_doc'
-    return this.request(`${index}/${docType}/${encodeURIComponent(id)}`, 'GET')
+    const params = {}
+    if (routing) {
+      params.routing = routing
+    }
+    return this.request(`${index}/${docType}/${encodeURIComponent(id)}`, 'GET', params)
   }
 
   search (params, searchIndex) {
