@@ -179,8 +179,9 @@
       watch(() => props.index, loadAliases)
       onMounted(loadAliases)
 
-      const showDocuments = (index) => {
+      const showDocuments = index => {
         store.commit('search/setIndices', index)
+        store.commit('search/setQ', '*')
         store.commit('search/setSearchQuery', DEFAULT_SEARCH_QUERY)
         context.root.$router.push({ name: 'Search' })
       }
