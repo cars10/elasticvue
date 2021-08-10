@@ -6,7 +6,7 @@
         "nodes": "节点",
         "indices": "索引",
         "search": "搜索",
-        "rest": null,
+        "rest": "REST",
         "snapshots": "快照",
         "repositories": "存储",
         "utilities": "工具"
@@ -17,13 +17,13 @@
       "changelog": "变更日志"
     },
     "change_language": {
-      "title": null,
+      "title": "变更语言",
       "languages": {
         "en": {
-          "title": null
+          "title": "设置为英语"
         },
         "cn": {
-          "title": null
+          "title": "设置为中文"
         }
       }
     },
@@ -38,18 +38,18 @@
     "cancel": "取消",
     "close": "关闭",
     "create": "创建",
-    "delete": null,
-    "required": null,
+    "delete": "删除",
+    "required": "必需",
     "success": "成功",
     "error": "错误"
   },
   "document": {
-    "heading": null
+    "heading": "查看"
   },
   "elasticsearch_instance": {
     "instance_selection": {
       "connected_info": {
-        "title": null
+        "title": "连接至 '{activeInstanceName}' ({activeInstanceUri})"
       }
     },
     "instances_table": {
@@ -58,13 +58,13 @@
         "uri": "地址"
       },
       "row": {
-        "title": null,
+        "title": "连接到集群 '{uri}'",
         "cluster_health": {
-          "title": null
+          "title": "集群健康状态：{status}"
         },
         "remove_cluster": {
-          "title": null,
-          "confirm": null
+          "title": "移除集群",
+          "confirm": "移除集群 '{name}' ({uri})?"
         }
       }
     },
@@ -88,7 +88,7 @@
     },
     "rename_instance": {
       "rename": {
-        "title": null
+        "title": "重命名集群"
       },
       "heading": "重命名Elasticsearch实例",
       "form": {
@@ -120,34 +120,34 @@
   "indices": {
     "heading": "索引",
     "index_aliases": {
-      "text": null,
-      "heading": null,
-      "index": null,
+      "text": "别名",
+      "heading": "管理别名",
+      "index": "索引：{indexName}",
       "form": {
         "new_alias": {
-          "label": null
+          "label": "新别名"
         },
-        "add_alias": null
+        "add_alias": "添加新别名"
       },
       "table": {
         "headers": {
-          "alias": null
+          "alias": "别名"
         }
       },
       "add_alias": {
-        "error": null
+        "error": "创建别名错误：'{alias}'：{error}"
       },
       "delete_alias": {
-        "confirm": null,
-        "error": null
+        "confirm": "删除索引 '{index}' 的别名 '{alias}'？",
+        "error": "删除别名错误：'{alias}'：{error}"
       }
     },
     "index_row": {
       "search": {
-        "title": null
+        "title": "搜索 '{index}'"
       },
       "shards": {
-        "title": null
+        "title": "{pre} 主\n{replica} 副本"
       },
       "options": {
         "title": "选项",
@@ -155,32 +155,32 @@
         "show_stats": "查看状态",
         "forcemerge": {
           "text": "强制合并索引",
-          "growl": null
+          "growl": "索引 '{index}' 已成功合并。"
         },
         "refresh": {
           "text": "刷新索引",
-          "growl": null
+          "growl": "索引 '{index}' 已成功刷新。"
         },
         "flush": {
           "text": "Flush索引",
-          "growl": null
+          "growl": "索引 '{index}' 已成功flush。"
         },
         "clear_cache": {
           "text": "清除索引缓存",
-          "growl": null
+          "growl": "索引 '{index}' 缓存已成功清除。"
         },
         "close": {
           "text": "关闭索引",
-          "growl": null
+          "growl": "索引 '{index}' 缓存已成功关闭。"
         },
         "open": {
           "text": "开启索引",
-          "growl": null
+          "growl": "索引 '{index}' 缓存已成功开启。"
         },
         "delete": {
           "text": "删除",
-          "confirm": null,
-          "growl": null
+          "confirm": "删除索引 {index}？这将删除索引中的所有数据！",
+          "growl": "索引 '{index}' 缓存已成功删除。"
         }
       }
     },
@@ -218,7 +218,7 @@
         }
       },
       "create_index": {
-        "growl": null
+        "growl": "索引 '{index}' 成功创建。"
       }
     }
   },
@@ -236,30 +236,30 @@
   "nodes": {
     "node_icons": {
       "master": {
-        "title": null
+        "title": "主节点"
       },
       "master_eligible": {
-        "title": null
+        "title": "主节点候选"
       },
       "data": {
-        "title": null
+        "title": "数据节点"
       },
       "ingest": {
-        "title": null
+        "title": "预处理节点（Ingest）"
       },
       "coordinating_only": {
-        "title": null
+        "title": "仅协调节点"
       }
     },
     "node_properties": {
-      "ip": null,
-      "master": null,
-      "node_role": null,
-      "load": null,
-      "cpu": null,
-      "ram": null,
-      "heap": null,
-      "disk": null,
+      "ip": "IP地址",
+      "master": "主节点",
+      "node_role": "节点角色",
+      "load": "负载",
+      "cpu": "CPU",
+      "ram": "内存",
+      "heap": "堆内存",
+      "disk": "磁盘",
       "name": "名称",
       "status": "状态"
     },
@@ -272,11 +272,11 @@
     }
   },
   "query": {
-    "heading": null,
+    "heading": "Rest",
     "api_documentation": "api 文档",
     "orientation": {
-      "horizontal": null,
-      "vertical": null
+      "horizontal": "水平",
+      "vertical": "垂直"
     },
     "rest": {
       "history": "查询历史",
@@ -338,7 +338,7 @@
         },
         "row": {
           "title": "点击预览请求正文，ctrl+点击 直接使用示例。",
-          "docs": null,
+          "docs": "文档",
           "use": "使用"
         }
       }
@@ -375,7 +375,7 @@
         }
       },
       "create_repository": {
-        "growl": null
+        "growl": "存储 '{repositoryName}' 已成功创建。"
       }
     },
     "repositories_table": {
@@ -418,12 +418,12 @@
         "label": "过滤 *当前* 页面..."
       },
       "settings": {
-        "title": null,
-        "columns": null
+        "title": "表格设置",
+        "columns": "列"
       },
       "document_not_found": "没有找到文档。",
-      "filter_not_found": "没有找到文档符合过滤",
-      "download_as_json": null
+      "filter_not_found": "没有找到符合过滤的文档",
+      "download_as_json": "下载为 JSON 文件"
     }
   },
   "settings": {
@@ -431,7 +431,7 @@
     "hide_indices_regex": {
       "label": "隐藏索引正则表达式",
       "message": "与此正则表达式匹配的索引将默认隐藏在所有列出索引的位置",
-      "reset": null
+      "reset": "重置为默认 {regex}"
     },
     "disconnect_and_reset": {
       "heading": "断开连接并重置所有配置",
@@ -562,14 +562,14 @@
         "info": "你的 <strong>path.repo</strong> 未正确设置。 <br>如果你想使用快照和存储，你必须在你的 <strong>elasticsearch.yml</strong> 中设置 <strong>path.repo</strong>。"
       },
       "docs": "文档",
-      "reload": null
+      "reload": "重新加载"
     },
     "reload_button": {
-      "reload": null
+      "reload": "重新加载"
     },
     "timer": {
       "settings": {
-        "title": "Auto reload"
+        "title": "自动加载"
       }
     },
     "ssl_hint": {
@@ -593,12 +593,12 @@
         }
       },
       "create_snapshot": {
-        "growl": null
+        "growl": "快照 '{name}' 已成功创建。"
       }
     },
     "restore_snapshot": {
       "button": "恢复",
-      "heading": null,
+      "heading": "恢复 '{name}'",
       "form": {
         "ignore_unavailable": {
           "label": "忽略不可用"
