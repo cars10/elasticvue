@@ -30,14 +30,15 @@
         context.emit('openDocument', {
           index: props.doc._index,
           type: props.doc._type,
-          id: props.doc._id
+          id: props.doc._id,
+          routing: props.doc._routing
         })
       }
 
       const openDocNewTab = () => {
         const url = context.root.$router.resolve({
           name: 'Document',
-          params: { index: props.doc._index, type: props.doc._type, id: props.doc._id }
+          params: { index: props.doc._index, type: props.doc._type, id: props.doc._id, routing: props.doc._routing }
         }).href
         window.open(url, '_blank')
       }
