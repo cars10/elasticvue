@@ -1,6 +1,6 @@
 {
   "name": "Elasticvue",
-  "version": "0.35.0",
+  "version": "0.36.0",
   "description": "Elasticsearch frontend",
   "manifest_version": 3,
   "icons": {
