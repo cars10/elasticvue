@@ -2,6 +2,10 @@
 
 *Please check the [releases](https://github.com/cars10/elasticvue/releases) page if you need version release dates.*
 
+## 0.36.1
+
+* fix GET requests not sending `Accept: application/json` by default
+
 ## 0.36.0
 
 This version includes many fixes and improvements mentioned in the survey. Thanks!

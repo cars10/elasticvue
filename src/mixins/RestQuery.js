@@ -36,15 +36,17 @@ export const useRestQuery = () => {
     if (activeInstance.username.length > 0) {
       xhr.setRequestHeader('Authorization', buildFetchAuthHeader(activeInstance.username, activeInstance.password))
     }
+    xhr.setRequestHeader('Accept', 'application/json')
 
     xhr.onload = function () {
       try {
         response.value.status = `${xhr.status} ${xhr.statusText}`
         loading.value = false
-        if (xhr.responseText) {
+        const contentType = xhr.getResponseHeader('Content-Type')
+        if (xhr.responseText && contentType.startsWith('application/json')) {
           response.value.body = parseJsonBigInt(xhr.responseText)
         } else {
-          response.value.body = ''
+          response.value.body = xhr.responseText
         }
 
         if (xhr.status.toString().match(/^2\d\d/)) {

@@ -70,7 +70,6 @@ export const beautify = (stringOrObj, useSpaces) => {
     }
     return stringifyJsonBigInt(parsed, null, useSpaces ? '  ' : '\t')
   } catch (error) {
-    console.error(error)
     return copy
   }
 }
