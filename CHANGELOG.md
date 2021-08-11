@@ -20,6 +20,8 @@ This version includes many fixes and improvements mentioned in the survey. Thank
 * removes link to survey, view the results [here](https://github.com/cars10/elasticvue/issues/55)
 * some small css and color improvements
 
+Big thanks to @qiwihui for the chinese translation!
+
 [i54]: https://github.com/cars10/elasticvue/issues/54
 
 ## 0.35.0
