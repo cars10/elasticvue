@@ -32,11 +32,11 @@ export const useRestQuery = () => {
     response.value.status = ''
 
     const xhr = new XMLHttpRequest()
+    xhr.open(request.value.method, requestUrl(), true)
     if (activeInstance.username.length > 0) {
       xhr.setRequestHeader('Authorization', buildFetchAuthHeader(activeInstance.username, activeInstance.password))
     }
 
-    xhr.open(request.value.method, requestUrl(), true)
     xhr.onload = function () {
       try {
         response.value.status = `${xhr.status} ${xhr.statusText}`
