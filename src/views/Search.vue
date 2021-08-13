@@ -130,6 +130,7 @@
           const val = parseJsonBigInt(searchQuery.value)
           callElasticsearch('search', val, indices.value)
             .then(result => (searchResults.value = result))
+            .catch(() => (searchResults.value = {}))
         } catch (e) {
           queryParsingError.value = true
         }
