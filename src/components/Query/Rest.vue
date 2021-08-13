@@ -34,9 +34,26 @@
 
       <v-row>
         <v-col :md="vertical ? 12 : 6" cols="12">
-          <resizable-container :initial-height="vertical ? 200 : 500" class="mb-4">
+          <resizable-container v-if="canSendBody" :initial-height="vertical ? 200 : 500" class="mb-4">
             <code-editor v-model="request.body" :external-commands="editorCommands"/>
           </resizable-container>
+
+          <div v-else>
+            <div :style="vertical ? 'height: 200px' : 'height: 500px'" class="mb-4">
+              <v-alert :value="true" class="request-body-disabled-hint">
+                <p>
+                  <span v-html="$t('query.rest.get_request_hint.cannot_send_body', { method: request.method })"/>
+                  <button class="btn-link" type="button" @click=" request.method  = 'POST'">
+                    {{ $t('query.rest.get_request_hint.use_post') }}
+                  </button>
+                  {{ $t('query.rest.get_request_hint.query_parameters') }}
+                </p>
+                <p class="mb-0">
+                  {{ $t('query.rest.get_request_hint.search_post') }}
+                </p>
+              </v-alert>
+            </div>
+          </div>
 
           <v-btn id="execute_query" :loading="loading" class="mx-0" color="primary-button" type="submit">
             {{ $t('query.rest.form.send_request') }}
@@ -68,7 +85,7 @@
   import ResizableContainer from '@/components/shared/ResizableContainer'
   import PrintPretty from '@/components/shared/PrintPretty'
   import { HTTP_METHODS } from '@/consts'
-  import { ref } from '@vue/composition-api'
+  import { computed, ref } from '@vue/composition-api'
   import RestQueryHistory from '@/components/Query/RestQueryHistory'
   import RestQueryExamples from '@/components/Query/RestQueryExamples'
   import { useRestQuery } from '@/mixins/RestQuery'
@@ -103,6 +120,10 @@
         resetResponse()
       }
 
+      const canSendBody = computed(() => {
+        return request.value.method !== 'GET' && request.value.method !== 'HEAD'
+      })
+
       const reset = () => {
         store.commit('queryRest/resetRequest')
         resetResponse()
@@ -130,6 +151,7 @@
         HTTP_METHODS,
         editorCommands,
         loadData,
+        canSendBody,
         reset,
         setRequest,
         responseStatusClass,

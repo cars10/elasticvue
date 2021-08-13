@@ -2,9 +2,15 @@
 
 *Please check the [releases](https://github.com/cars10/elasticvue/releases) page if you need version release dates.*
 
+## 0.36.2
+
+* [fix]: Rest requests not sending body, fixes [#65][i65]
+
+[i65]: https://github.com/cars10/elasticvue/issues/65
+
 ## 0.36.1
 
-* fix GET requests not sending `Accept: application/json` by default
+* [fix]: GET requests not sending `Accept: application/json` by default
 
 ## 0.36.0
 
