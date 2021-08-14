@@ -5,8 +5,11 @@
 ## 0.36.3
 
 * [fix]: error when having an uneven amount of cpu cores, fixes [#61][i61]
+* [fix]: reset search after failed query [#66][p66]
 
 [i61]: https://github.com/cars10/elasticvue/issues/61
+
+[p66]: https://github.com/cars10/elasticvue/pull/66
 
 ## 0.36.2
 
