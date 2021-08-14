@@ -5,7 +5,7 @@ import { onBeforeUnmount, ref } from '@vue/composition-api'
 export const useAsyncFilter = () => {
   const filterLoading = ref(false)
 
-  const threads = Math.min(navigator.hardwareConcurrency / 2, 4) || 2
+  const threads = 2
   let workers = Array.from(Array(threads)).map(() => (new Worker()))
   const workerClasses = workers.map(w => {
     const WorkerClass = Comlink.wrap(w)

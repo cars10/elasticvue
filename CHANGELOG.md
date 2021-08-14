@@ -2,6 +2,12 @@
 
 *Please check the [releases](https://github.com/cars10/elasticvue/releases) page if you need version release dates.*
 
+## 0.36.3
+
+* [fix]: error when having an uneven amount of cpu cores, fixes [#61][i61]
+
+[i61]: https://github.com/cars10/elasticvue/issues/61
+
 ## 0.36.2
 
 * [fix]: Rest requests not sending body, fixes [#65][i65]
