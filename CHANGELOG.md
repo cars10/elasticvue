@@ -2,6 +2,12 @@
 
 *Please check the [releases](https://github.com/cars10/elasticvue/releases) page if you need version release dates.*
 
+## 0.36.4
+
+* [fix]: syntax error in query leads to errors during result loading, fixes [#68][i68]
+
+[i68]: https://github.com/cars10/elasticvue/issues/68
+
 ## 0.36.3
 
 * [fix]: error when having an uneven amount of cpu cores, fixes [#61][i61]

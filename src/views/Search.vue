@@ -132,6 +132,7 @@
             .then(result => (searchResults.value = result))
             .catch(() => (searchResults.value = {}))
         } catch (e) {
+          searchResults.value = {}
           queryParsingError.value = true
         }
       }
