@@ -5,8 +5,11 @@
 ## 0.36.4
 
 * [fix]: syntax error in query leads to errors during result loading, fixes [#68][i68]
+* [fix]: rest query bug when cluster url ends with a slash, fixes [#69][i69]
 
 [i68]: https://github.com/cars10/elasticvue/issues/68
+
+[i69]: https://github.com/cars10/elasticvue/issues/69
 
 ## 0.36.3
 
