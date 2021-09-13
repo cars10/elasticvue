@@ -1,6 +1,7 @@
 import { parseJsonBigInt, stringifyJsonBigInt } from '@/helpers/json_parse'
 
 export const buildQueryFromTableOptions = (newOptions, oldOptions) => {
+  if (!newOptions) return {}
   if (newOptions.page === oldOptions.page &&
     newOptions.itemsPerPage === oldOptions.itemsPerPage &&
     (!oldOptions.sortDesc || newOptions.sortDesc === oldOptions.sortDesc) &&
