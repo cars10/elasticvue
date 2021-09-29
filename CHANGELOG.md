@@ -5,6 +5,7 @@
 # 0.37.0
 
 * [feat]: set page title (e.g. `elasticvue | Search`)
+* [feat]: show node role explanation on hover
 
 ## 0.36.4
 
