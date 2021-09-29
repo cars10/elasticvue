@@ -81,7 +81,7 @@ const router = new Router({
     },
     {
       path: '/rest',
-      name: 'QueryRest',
+      name: 'Rest',
       component: QueryRest
     },
     {
@@ -99,6 +99,12 @@ router.beforeEach((to, from, next) => {
   } else {
     next()
   }
+})
+
+router.afterEach((to, _from) => {
+  Vue.nextTick(() => {
+    document.title = to.name ? `elasticvue | ${to.name}` : 'elasticvue'
+  })
 })
 
 export default router

@@ -2,6 +2,10 @@
 
 *Please check the [releases](https://github.com/cars10/elasticvue/releases) page if you need version release dates.*
 
+# 0.37.0
+
+* [feat]: set page title (e.g. `elasticvue | Search`)
+
 ## 0.36.4
 
 * [fix]: syntax error in query leads to errors during result loading, fixes [#68][i68]
