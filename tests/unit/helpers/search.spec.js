@@ -1,31 +1,15 @@
 import { buildQueryFromTableOptions } from '@/helpers/search'
 
 const DEFAULT_TABLE_OPTIONS = {
-  'page': 1,
-  'itemsPerPage': 10,
-  'sortBy': [],
-  'sortDesc': [],
-  'groupBy': [],
-  'groupDesc': [],
-  'mustSort': false,
-  'multiSort': false,
-  'sortByDesc': []
-}
-
-const a = {
-  'page': 1,
-  'itemsPerPage': 10,
-  'sortBy': [
-    'owner_type'
-  ],
-  'sortDesc': [
-    true
-  ],
-  'groupBy': [],
-  'groupDesc': [],
-  'mustSort': false,
-  'multiSort': false,
-  'sortByDesc': []
+  page: 1,
+  itemsPerPage: 10,
+  sortBy: [],
+  sortDesc: [],
+  groupBy: [],
+  groupDesc: [],
+  mustSort: false,
+  multiSort: false,
+  sortByDesc: []
 }
 
 describe('helpers/search.js', () => {
