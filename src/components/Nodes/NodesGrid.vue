@@ -45,7 +45,7 @@
 
                     <v-list-item>
                       <v-list-item-content>{{ $t('nodes.node_properties.node_role') }}</v-list-item-content>
-                      <v-list-item-content class="d-inline-block text-right">
+                      <v-list-item-content class="d-inline-block text-right" :title="nodeRoleTitle(item.nodeRole)">
                         {{ item.nodeRole }}
                       </v-list-item-content>
                     </v-list-item>
@@ -119,6 +119,7 @@
   import NodePercentBar from '@/components/Nodes/NodePercentBar'
   import { vuexAccessors } from '@/helpers/store'
   import { computed } from '@vue/composition-api'
+  import { nodeRoleTitle } from '@/helpers'
 
   export default {
     name: 'nodes-grid',
@@ -148,6 +149,7 @@
       })
 
       return {
+        nodeRoleTitle,
         filter,
         pagination,
         nodeListClass

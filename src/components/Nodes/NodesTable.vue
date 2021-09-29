@@ -18,7 +18,7 @@
             <span v-else-if="props.item.masterEligible">eligible</span>
             <span v-else>no</span>
           </td>
-          <td>{{ props.item.nodeRole }}</td>
+          <td :title="nodeRoleTitle(props.item.nodeRole)">{{ props.item.nodeRole }}</td>
           <td>{{ props.item.load_1m }} / {{ props.item.load_5m }} / {{ props.item.load_15m }}</td>
           <td>
             <small>{{ props.item.cpu }}%</small>
@@ -69,6 +69,7 @@
   import { vuexAccessors } from '@/helpers/store'
   import { DEFAULT_ITEMS_PER_PAGE } from '@/consts'
   import i18n from '@/i18n'
+  import { nodeRoleTitle } from '@/helpers'
 
   export default {
     name: 'nodes-table',
@@ -106,6 +107,7 @@
       ]
 
       return {
+        nodeRoleTitle,
         filter,
         pagination,
         HEADERS,
