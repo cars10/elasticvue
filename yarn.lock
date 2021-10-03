@@ -1355,10 +1355,10 @@
     "@types/yargs" "^15.0.0"
     chalk "^4.0.0"
 
-"@mdi/font@^5.9.55":
-  version "5.9.55"
-  resolved "https://registry.yarnpkg.com/@mdi/font/-/font-5.9.55.tgz#41acd50b88073ded7095fc3029d8712b6e12f38e"
-  integrity sha512-jswRF6q3eq8NWpWiqct6q+6Fg/I7nUhrxYJfiEM8JJpap0wVJLQdbKtyS65GdlK7S7Ytnx3TTi/bmw+tBhkGmg==
+"@mdi/font@^6.1.95":
+  version "6.1.95"
+  resolved "https://registry.yarnpkg.com/@mdi/font/-/font-6.1.95.tgz#665b7dc13b2d1d1ebefcfac5a68c1013581aaa96"
+  integrity sha512-L3cg9qoUEp5MZHvu6rtuobTtPBmq0ATau5ZrHmsaE6gCRs90T4JBWyzV8WCMEjZoy5+zA+/cvtCUtD/+WVaQ9Q==
 
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
@@ -1973,10 +1973,10 @@
   optionalDependencies:
     prettier "^1.18.2"
 
-"@vue/composition-api@^1.0.5":
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/@vue/composition-api/-/composition-api-1.0.5.tgz#c7cef457284096e75cc0894e0cb9a251f91eba3f"
-  integrity sha512-F5jZiSTFvpnJD4geVc5KNY4eNS5NrfU/nZXachzxYorl56SDlh54rFVRm1QtXgdTj/kwvgixT4n0XfhZZpnoBA==
+"@vue/composition-api@^1.2.2":
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/@vue/composition-api/-/composition-api-1.2.2.tgz#7276667eea4c65add902a132802504c6a9950fa2"
+  integrity sha512-hnnock2l8Uawuzm/Nq8LqaztuOO70rpyX3Gz/Kpl/JtNalsG/EuuHuRQAWPiT3Is8NCB/8V5hiH7fmCmAc0+pQ==
   dependencies:
     tslib "^2.3.0"
 
@@ -6232,10 +6232,10 @@ icss-utils@^4.0.0, icss-utils@^4.1.1:
   dependencies:
     postcss "^7.0.14"
 
-idb@^6.1.2:
-  version "6.1.2"
-  resolved "https://registry.yarnpkg.com/idb/-/idb-6.1.2.tgz#82ef5c951b8e1f47875d36ccafa4bedafc62f2f1"
-  integrity sha512-1DNDVu3yDhAZkFDlJf0t7r+GLZ248F5pTAtA7V0oVG3yjmV125qZOx3g0XpAEkGZVYQiFDAsSOnGet2bhugc3w==
+idb@^6.1.4:
+  version "6.1.4"
+  resolved "https://registry.yarnpkg.com/idb/-/idb-6.1.4.tgz#ec77519fe2591be616eaf3bbdedc3662bb558a99"
+  integrity sha512-DshI5yxIB3NYc47cPpfipYX8MSIgQPqVR+WoaGI9EDq6cnLGgGYR1fp6z8/Bq9vMS8Jq1bS3eWUgXpFO5+ypSA==
 
 ieee754@^1.1.13, ieee754@^1.1.4:
   version "1.2.1"
@@ -11642,10 +11642,15 @@ vue-i18n-extract@1.0.2:
     is-valid-glob "^1.0.0"
     yargs "^13.2.2"
 
-vue-i18n@^8.17.0, vue-i18n@^8.22.3:
+vue-i18n@^8.17.0:
   version "8.25.0"
   resolved "https://registry.yarnpkg.com/vue-i18n/-/vue-i18n-8.25.0.tgz#1037d9295fa2845a230b771de473481edb2cfc4c"
   integrity sha512-ynhcL+PmTxuuSE1T10htiSXzjBozxYIE3ffbM1RfgAkVbr/v1SP+9Mi/7/uv8ZVV1yGuKjFAYp9BXq+X7op6MQ==
+
+vue-i18n@^8.26.2:
+  version "8.26.2"
+  resolved "https://registry.yarnpkg.com/vue-i18n/-/vue-i18n-8.26.2.tgz#86a1ab9330bae7a56f58f23a52355f68aad00222"
+  integrity sha512-koaC7gEYcedlzq9M8usTbD/v3DdLZ8suvwuanrs6aBIiM/sVqq2nQPbeuNPrpHaXgpR/pff2+/R+lFGKl7S1cQ==
 
 vue-jest@^3.0.5, vue-jest@^3.0.7:
   version "3.0.7"
@@ -11715,24 +11720,24 @@ vue@^2.6.11, vue@^2.6.14:
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.14.tgz#e51aa5250250d569a3fbad3a8a5a687d6036e235"
   integrity sha512-x2284lgYvjOMj3Za7kqzRcUSxBboHqtgRE2zlos1qWaOye5yUmHn42LB1250NJBLRwEcdrB0JRwyPTEPhfQjiQ==
 
-vuetify-loader@^1.7.2:
-  version "1.7.2"
-  resolved "https://registry.yarnpkg.com/vuetify-loader/-/vuetify-loader-1.7.2.tgz#5cdc45309496cf3a5fe431fd7611706ffa4aa8c8"
-  integrity sha512-2GSo4KvRAOThBsj8mvtIEeIoyBAZx38GDfh8D90e/or7Hzx4813krJKvcQAllyLO/Ln0eQWrq2IuvBXnZ55cSA==
+vuetify-loader@^1.7.3:
+  version "1.7.3"
+  resolved "https://registry.yarnpkg.com/vuetify-loader/-/vuetify-loader-1.7.3.tgz#404657f4925c828f400fe3269003421d586835c6"
+  integrity sha512-1Kt6Rfvuw3i9BBlxC9WTMnU3WEU7IBWQmDX+fYGAVGpzWCX7oHythUIwPCZGShHSYcPMKSDbXTPP8UvT5RNw8Q==
   dependencies:
     decache "^4.6.0"
     file-loader "^6.2.0"
     loader-utils "^2.0.0"
 
-vuetify@2.5.8:
-  version "2.5.8"
-  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-2.5.8.tgz#a23e6a7e77b77de0744b53cf1e7c9d40efac0635"
-  integrity sha512-paLmNhKTYFD41+14rIHnCo+P1jHbUzwBiMowxs5qXVq8RdRMqRmcy05Sfse1WUu90amPGK2fIFQq5rL2N8zqZg==
+vuetify@2.5.9:
+  version "2.5.9"
+  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-2.5.9.tgz#b6e6d9fff4a1691858f3415eceb2a75ca706d211"
+  integrity sha512-rQaa8MDxnv449l+XCmFCN9bRQpCUT8mewW6yIc6DHiXh9bAneD6jXF023doK0KkcS8+vRSrtgBESsLYA6te+dg==
 
-vuex-persistedstate@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/vuex-persistedstate/-/vuex-persistedstate-4.0.0.tgz#ed82f266ca98c869a2aad9cb9880c2f608c05f3a"
-  integrity sha512-jDs+awbV9YD2A2F6S5zgtYq1Bjd8v0YldOK6HPv1EJZzGMse0FtZTREfXvA7zlVfq9MpmSZJNmYQVylfpZ5znQ==
+vuex-persistedstate@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/vuex-persistedstate/-/vuex-persistedstate-4.1.0.tgz#127165f85f5b4534fb3170a5d3a8be9811bd2a53"
+  integrity sha512-3SkEj4NqwM69ikJdFVw6gObeB0NHyspRYMYkR/EbhR0hbvAKyR5gksVhtAfY1UYuWUOCCA0QNGwv9pOwdj+XUQ==
   dependencies:
     deepmerge "^4.2.2"
     shvl "^2.0.3"
