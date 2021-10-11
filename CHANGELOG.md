@@ -6,6 +6,7 @@
 
 * [feat]: set page title (e.g. `elasticvue | Search`)
 * [feat]: show node role explanation on hover
+* [fix]: do not add body of previous request in rest history to `GET` or `HEAD` requests
 
 ## 0.36.4
 

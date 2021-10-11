@@ -51,7 +51,13 @@ export const useRestQuery = () => {
         }
 
         if (xhr.status.toString().match(/^2\d\d/)) {
-          connection.dbInsert({ ...request.value, favorite: 0, date: new Date() })
+          connection.dbInsert({
+            path: request.value.path,
+            method: request.value.method,
+            body: ['GET', 'HEAD'].includes(request.value.method) ? '' : request.value.body,
+            favorite: 0,
+            date: new Date()
+          })
         }
       } catch (e) {
         loading.value = false
