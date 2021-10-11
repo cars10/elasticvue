@@ -81,6 +81,27 @@ export const REST_QUERY_EXAMPLES = [
     path: 'example_test_index',
     body: '',
     doc: 'https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-delete-index.html'
+  },
+  {
+    description: 'Performs multiple indexing or delete operations in a single API call.',
+    method: 'POST',
+    path: '_bulk',
+    body: '{ "index" : { "_index" : "test", "_id" : "1" } }\n' +
+      '{ "field1" : "value1" }\n' +
+      '{ "delete" : { "_index" : "test", "_id" : "2" } }\n' +
+      '{ "create" : { "_index" : "test", "_id" : "3" } }\n' +
+      '{ "field1" : "value3" }\n' +
+      '{ "update" : {"_id" : "1", "_index" : "test"} }\n' +
+      '{ "doc" : {"field2" : "value2"} }\n' +
+      '',
+    doc: 'https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-bulk.html'
+  },
+  {
+    description: 'List all shards.',
+    method: 'GET',
+    path: '_cat/shards',
+    body: '',
+    doc: 'https://www.elastic.co/guide/en/elasticsearch/reference/current/cat-shards.html'
   }
 ]
 
