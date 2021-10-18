@@ -5,6 +5,7 @@
         "home": "Home",
         "nodes": "Nodes",
         "indices": "Indices",
+        "shards": "Shards",
         "search": "Search",
         "rest": "REST",
         "snapshots": "Snapshots",
@@ -62,6 +63,7 @@
         "cluster_health": {
           "title": "Cluster health: {status}"
         },
+        "copy_uri": "Copy uri to clipboard",
         "remove_cluster": {
           "title": "Remove cluster",
           "confirm": "Remove cluster '{name}' ({uri})?"

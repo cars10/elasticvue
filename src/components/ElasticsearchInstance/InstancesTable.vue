@@ -45,6 +45,10 @@
           <td>
             <div class="d-inline-block text-truncate" style="max-width: 200px;">
               {{ item.uri }}
+              <v-btn icon small @click.stop="copyUri(item.uri)"
+                     :title="$t('elasticsearch_instance.instances_table.row.copy_uri')">
+                <v-icon small>mdi-content-copy</v-icon>
+              </v-btn>
             </div>
           </td>
           <td>
@@ -105,6 +109,8 @@
         { text: '', sortable: false }
       ]
 
+      const copyUri = uri => (navigator.clipboard.writeText(uri))
+
       return {
         activeInstanceIdx,
         instances,
@@ -112,7 +118,8 @@
         removeInstance,
         filter,
         headers,
-        DEFAULT_ITEMS_PER_PAGE
+        DEFAULT_ITEMS_PER_PAGE,
+        copyUri
       }
     }
   }

@@ -6,7 +6,7 @@
                v-on="on"
                :title="$t('elasticsearch_instance.instance_selection.connected_info.title', {activeInstanceName: activeInstance.name, activeInstanceUri: activeInstance.uri})"
                class="text-none">
-          <svg class="mr-2" height="14" width="14">
+          <svg class="mr-2" height="14" width="14" style="margin-bottom: 6px">
             <circle :class="`health--${activeInstance.status}`" cx="7" cy="9" r="5"/>
           </svg>
           <span class="text-truncate" style="max-width: 200px">{{ activeInstance.name }}</span>
