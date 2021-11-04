@@ -4,7 +4,12 @@ WORKDIR /usr/src/app
 COPY package.json .
 COPY yarn.lock .
 
-RUN yarn install
+RUN apk add --no-cache --virtual .gyp python make g++
+
+RUN yarn install --ignore-optional
+
+RUN apk del .gyp
+
 COPY . .
 RUN yarn build
 
