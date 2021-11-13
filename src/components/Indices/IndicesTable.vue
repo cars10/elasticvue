@@ -30,15 +30,37 @@
                   :items="items"
                   :loading="loading"
                   :options.sync="options"
+                  show-select
                   class="table--condensed table--fixed-header">
+      <template v-slot:header.data-table-select>
+        <v-checkbox class="mt-0"
+                    hide-details
+                    dense
+                    :value="selectedIndices.length === items.length"
+                    :indeterminate="selectedIndices.length > 0 && selectedIndices.length < items.length"
+                    @change="checkAll"/>
+      </template>
       <template v-slot:item="props">
-        <index-row :index="props.item" @reloadIndices="emitReloadIndices"/>
+        <index-row :index="props.item" @reloadIndices="emitReloadIndices">
+          <template slot="checkbox">
+            <v-checkbox class="mt-0" hide-details dense
+                        :input-value="selectedIndices.includes(props.item.index)"
+                        @change="e => select(props.item.index, e)"/>
+          </template>
+        </index-row>
       </template>
       <template v-slot:header.parsedDocsCount="{header}">
         {{ header.text }}
         <v-icon :title="$t('indices.indices_table.table.headers.parsed_docs_count.title')" small>
           mdi-information-outline
         </v-icon>
+      </template>
+      <template v-slot:footer.prepend>
+        <index-bulk :selected-indices="selectedIndices"
+                    :items-length="items.length"
+                    :indices-length="indices.length"
+                    :has-filter="filter.length > 0"
+                    @reloadIndices="emitReloadIndices"/>
       </template>
     </v-data-table>
   </div>
@@ -54,12 +76,14 @@
   import { ref, watch } from '@vue/composition-api'
   import { useAsyncFilter } from '@/mixins/UseAsyncTableFilter'
   import { debounce } from '@/helpers'
+  import IndexBulk from '@/components/Indices/IndexBulk'
 
   export default {
     name: 'indices-table',
     components: {
       NewIndex,
-      IndexRow
+      IndexRow,
+      IndexBulk
     },
     props: {
       indices: {
@@ -91,9 +115,7 @@
         { text: '', value: 'actions', sortable: false }
       ]
 
-      const emitReloadIndices = () => {
-        context.emit('reloadIndices')
-      }
+      const emitReloadIndices = () => (context.emit('reloadIndices'))
 
       const items = ref([])
       const { asyncFilterTable } = useAsyncFilter()
@@ -111,7 +133,26 @@
       watch(showHiddenIndices, filterTable)
       watch(() => props.indices, filterTable)
 
+      const selectedIndices = ref([])
+      const select = (index, added) => {
+        if (added) {
+          selectedIndices.value.push(index)
+        } else {
+          selectedIndices.value.splice(selectedIndices.value.indexOf(index), 1)
+        }
+      }
+      const checkAll = val => {
+        if (val) {
+          selectedIndices.value = items.value.map(i => i.index)
+        } else {
+          selectedIndices.value = []
+        }
+      }
+
       return {
+        checkAll,
+        select,
+        selectedIndices,
         filter,
         options,
         showHiddenIndices,

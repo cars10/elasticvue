@@ -49,22 +49,27 @@
       }
     },
     setup (props) {
-      const { callElasticsearch } = useElasticsearchRequest()
+      const { requestState, callElasticsearch } = useElasticsearchRequest()
 
       const run = () => {
         if ((props.confirmMessage && confirm(props.confirmMessage)) || props.confirmMessage.length === 0) {
           callElasticsearch(props.method, props.methodParams)
             .then(body => {
               if (typeof props.callback === 'function') props.callback(body)
-              if (props.growl) {
-                showSuccessSnackbar({
-                  text: props.growl,
-                  additionalText: JSON.stringify(body)
-                })
-              }
+
+              const text = props.growl.length > 0 ? `${requestState.value.status} - ${props.growl}` : requestState.value.status
+              showSuccessSnackbar({
+                text,
+                additionalText: JSON.stringify(body)
+              })
               return Promise.resolve(body)
             })
-            .catch(error => (showErrorSnackbar({ text: 'Error:', additionalText: error.message })))
+            .catch(() => {
+              showErrorSnackbar({
+                text: requestState.value.status,
+                additionalText: requestState.value.apiErrorMessage
+              })
+            })
         }
       }
 

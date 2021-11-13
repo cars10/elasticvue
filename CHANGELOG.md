@@ -4,10 +4,13 @@
 
 # 0.37.0
 
+* [feat]: adds index bulk actions, fixes [#78][i78]
 * [feat]: set page title (e.g. `elasticvue | Search`)
 * [feat]: show node role explanation on hover
 * [feat]: can copy node uri to clipboard in cluster selection table
 * [fix]: do not add body of previous request in rest history to `GET` or `HEAD` requests
+
+[i78]: https://github.com/cars10/elasticvue/issues/78
 
 ## 0.36.4
 

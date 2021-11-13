@@ -1,5 +1,8 @@
 <template>
   <tr>
+    <td>
+      <slot name="checkbox"></slot>
+    </td>
     <td :title="index.index">
       <a :title="$t('indices.index_row.search.title', {index: index.index})"
          @click.stop="showDocuments(index.index)">
