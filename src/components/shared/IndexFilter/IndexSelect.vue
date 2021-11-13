@@ -81,7 +81,7 @@
     },
     setup (props, context) {
       const { hideIndicesRegex } = vuexAccessors('indices', ['hideIndicesRegex'])
-      const showHidden = ref(true)
+      const showHidden = ref(false)
       const localValue = computed({
         get () {
           return props.value
