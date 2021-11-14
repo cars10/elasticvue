@@ -4,13 +4,9 @@
 
     <div class="code-editor__actions">
       <div class="d-inline-block">
-        <v-btn :title="$t('shared.code_editor.actions.copy_content.title')"
-               class="mr-1"
-               icon
-               small
-               @click="copyContent">
-          <v-icon>mdi-content-copy</v-icon>
-        </v-btn>
+        <copy-button :custom-handler="copyContent"
+                     :title="$t('shared.code_editor.actions.copy_content.title')"
+                     class="mr-1"/>
       </div>
 
       <div class="d-inline-block">
@@ -61,10 +57,12 @@
   import { parseJsonBigInt } from '@/helpers/json_parse'
   import { beautify } from '@/helpers'
   import SettingsDropdown from '@/components/shared/TableSettings/SettingsDropdown'
+  import CopyButton from '@/components/shared/CopyButton'
 
   export default {
     name: 'code-editor',
     components: {
+      CopyButton,
       SettingsDropdown
     },
     props: {

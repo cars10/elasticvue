@@ -21,13 +21,22 @@
       small: {
         default: false,
         type: Boolean
+      },
+      customHandler: {
+        default: null,
+        type: [Function, Object]
       }
     },
     setup (props) {
       const icon = ref('mdi-content-copy')
       const copy = () => {
         icon.value = 'mdi-check'
-        navigator.clipboard.writeText(props.value)
+
+        if (props.customHandler) {
+          props.customHandler.call()
+        } else {
+          navigator.clipboard.writeText(props.value)
+        }
         setTimeout(() => {
           icon.value = 'mdi-content-copy'
         }, 1000)
