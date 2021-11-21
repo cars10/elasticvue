@@ -18,7 +18,7 @@
                 <template v-slot:message="{ message }">
                   <span v-html="message"/>
                 </template>
-                <template v-slot:append class="mt-0">
+                <template v-slot:append>
                   <v-btn :title="$t('settings.hide_indices_regex.reset', {regex: DEFAULT_HIDE_INDICES_REGEX})"
                          icon
                          @click="resetHideIndicesRegex">

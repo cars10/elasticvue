@@ -19,6 +19,7 @@ module.exports = {
     indent: 'off',
     'import/no-webpack-loader-syntax': 'off',
     'vue/valid-v-slot': 'off',
+    'vue/multi-word-component-names': 'off',
     'no-proto': 'off'
   },
   overrides: [
