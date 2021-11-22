@@ -34,12 +34,13 @@
         <result :doc="item.item" :filtered-columns="filteredColumns" @openDocument="openDocument"/>
       </template>
 
-      <template slot="no-data">
-        <template v-if="filter !== ''">
-          {{ $t('search.results_table.filter_not_found') }}
-          <i>{{ filter }}</i>.
+      <template v-slot:no-data>
+        <template v-if="filter">
+          {{ $t('shared.nothing_found_for_filter', { filter }) }}
         </template>
-        <template v-else>{{ $t('search.results_table.document_not_found') }}</template>
+        <template v-else>
+          {{ $t('shared.nothing_found') }}
+        </template>
       </template>
 
       <template v-slot:footer.prepend>

@@ -16,11 +16,11 @@
       </template>
 
       <template v-else>
-        <template v-if="filter !== ''">
-          {{ $t('snapshots.snapshots_table.no_matching_snapshots') }} <i>{{ filter }}</i>.
+        <template v-if="filter">
+          {{ $t('shared.nothing_found_for_filter', { filter }) }}
         </template>
         <template v-else>
-          {{ $t('snapshots.snapshots_table.no_snapshots', { repository }) }}
+          {{ $t('shared.nothing_found') }}
         </template>
       </template>
     </template>

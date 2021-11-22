@@ -110,6 +110,14 @@
           </v-col>
         </v-row>
       </template>
+      <template v-slot:no-data>
+        <template v-if="filter">
+          {{ $t('shared.nothing_found_for_filter', { filter }) }}
+        </template>
+        <template v-else>
+          {{ $t('shared.nothing_found') }}
+        </template>
+      </template>
     </v-data-iterator>
   </div>
 </template>
