@@ -6,7 +6,6 @@ export const plugins = [
     key: LOCALSTORAGE_KEY,
     paths: [
       'codeEditor',
-      'connection.activeInstanceIdx',
       'connection.instances',
       'theme',
       'queryRest',
@@ -15,7 +14,15 @@ export const plugins = [
       'nodes',
       'repositories',
       'snapshots',
-      'search'
+      'search',
+      'shards'
+    ]
+  }),
+  createPersistedState({
+    storage: window.sessionStorage,
+    key: LOCALSTORAGE_KEY,
+    paths: [
+      'connection.activeInstanceIdx'
     ]
   })
 ]
