@@ -3,7 +3,7 @@ import { DEFAULT_ELASTICSEARCH_HOST } from '@/consts'
 export const connection = {
   namespaced: true,
   state: {
-    activeInstanceIdx: -1,
+    activeInstanceIdx: 0,
     instances: [],
     elasticsearchAdapter: null
   },
