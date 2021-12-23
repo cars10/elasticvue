@@ -62,3 +62,21 @@ table {
   overflow-y: auto;
   height: 100%;
 }
+
+.table--bordered {
+  table {
+    border-collapse: collapse;
+    width: auto !important;
+  }
+
+  th, td {
+    border-right: 1px solid #393939;
+    border-left: 1px solid #393939;
+  }
+}
+
+.theme--dark {
+  td.marked, th.marked {
+    background-color: #333;
+  }
+}

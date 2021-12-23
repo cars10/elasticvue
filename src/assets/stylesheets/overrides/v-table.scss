@@ -1,0 +1,9 @@
+.theme--dark.v-data-table > .v-data-table__wrapper > table > tbody > tr:hover:not(.v-data-table__expanded__content):not(.v-data-table__empty-wrapper) {
+  background: #333;
+}
+
+.theme--dark {
+  .v-data-table > .v-data-table__wrapper > table > thead > tr:last-child > th {
+    color: #fff;
+  }
+}

@@ -12,6 +12,7 @@ import { snackbar } from './modules/snackbar'
 import { theme } from './modules/theme'
 import { repositories } from './modules/repositories'
 import { snapshots } from './modules/snapshots'
+import { shards } from './modules/shards'
 
 Vue.use(Vuex)
 
@@ -28,6 +29,7 @@ export default new Vuex.Store({
     repositories,
     snapshots,
     snackbar,
+    shards,
     theme
   }
 })

@@ -20,6 +20,7 @@
     <v-toolbar-items v-if="wasConnected">
       <v-btn id="navbar_home" exact text to="/">{{ $t('app.header.navigation.home') }}</v-btn>
       <v-btn id="navbar_nodes" text to="/nodes">{{ $t('app.header.navigation.nodes') }}</v-btn>
+      <v-btn id="navbar_shards" text to="/shards">{{ $t('app.header.navigation.shards') }}</v-btn>
       <v-btn id="navbar_indices" text to="/indices">{{ $t('app.header.navigation.indices') }}</v-btn>
       <v-btn id="navbar_search" text to="/search">{{ $t('app.header.navigation.search') }}</v-btn>
       <v-btn id="navbar_query_rest" text to="/rest">{{ $t('app.header.navigation.rest') }}</v-btn>

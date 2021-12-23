@@ -25,8 +25,14 @@ export class DefaultClient {
     return this.request('_cluster/settings', 'GET', { include_defaults: true })
   }
 
-  catIndices (params) {
-    return this.request('_cat/indices', 'GET', params)
+  catIndices (params, filter) {
+    const query = filter ? `${filter}*` : ''
+    return this.request(`_cat/indices/${query}`, 'GET', params)
+  }
+
+  catShards (params, filter) {
+    const query = filter ? `${filter}*` : ''
+    return this.request(`_cat/shards/${query}`, 'GET', params)
   }
 
   indexGetAlias ({ index }) {

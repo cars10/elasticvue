@@ -12,6 +12,7 @@ import QueryRest from '@/views/QueryRest'
 import Nodes from '@/views/Nodes'
 import Settings from '@/views/Settings'
 import Store from '@/store'
+import Shards from '@/views/Shards'
 
 Vue.use(Router)
 
@@ -47,6 +48,11 @@ const router = new Router({
       path: '/indices',
       name: 'Indices',
       component: Indices
+    },
+    {
+      path: '/shards',
+      name: 'Shards',
+      component: Shards
     },
     {
       path: '/search',

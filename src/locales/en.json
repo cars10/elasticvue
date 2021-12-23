@@ -490,6 +490,9 @@
       "connected": "Successfully connected."
     }
   },
+  "shards": {
+    "heading": "Shards"
+  },
   "shared": {
     "nothing_found_for_filter": "No entries found for filter '{filter}'.",
     "nothing_found": "No entries found.",

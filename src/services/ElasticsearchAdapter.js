@@ -23,8 +23,12 @@ export default class ElasticsearchAdapter {
     return this.client.clusterSettings()
   }
 
-  catIndices (params) {
-    return this.client.catIndices(params)
+  catIndices (params, filter) {
+    return this.client.catIndices(params, filter)
+  }
+
+  catShards (params, filter) {
+    return this.client.catShards(params, filter)
   }
 
   indexGetAlias (params) {
