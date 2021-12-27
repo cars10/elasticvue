@@ -2,12 +2,12 @@
   <v-card>
     <v-card-title>
       <h2 class="text-h5">{{ $t('shards.heading') }}</h2>
-      <reload-button id="reload-indices" :action="load"/>
+      <reload-button id="reload-indices" :action="load" :default-setting="15"/>
     </v-card-title>
     <v-divider/>
 
     <loader hide-progress>
-      <shards-table :shards="shards || {}" :loading="loading"/>
+      <shards-table :shards="shards || {}" @reload="load"/>
     </loader>
   </v-card>
 </template>
@@ -46,15 +46,15 @@
       const { callElasticsearch } = useElasticsearchRequest()
       const filter = ref('')
       const shards = ref({})
-      const loading = ref(true)
       const load = async () => {
-        loading.value = true
-        const indices = await callElasticsearch('catIndices', { h: ['index', 'health', 'pri', 'rep'], s: ['index'] })
-        const indexNames = indices.map(i => i.index)
+        const indices = await callElasticsearch('catIndices', {
+          h: ['index', 'health', 'pri', 'rep', 'status'],
+          s: ['index']
+        })
+        const indexNames = indices.filter(i => i.status === 'open').map(i => i.index)
         const rawShards = await callElasticsearch('catShards', CAT_METHOD_PARAMS, indexNames.join(','))
 
         shards.value = convertSource(rawShards, indices)
-        loading.value = false
       }
       onMounted(load)
 
@@ -63,8 +63,7 @@
 
       return {
         shards,
-        load,
-        loading
+        load
       }
     }
   }

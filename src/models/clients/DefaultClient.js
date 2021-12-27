@@ -25,6 +25,10 @@ export class DefaultClient {
     return this.request('_cluster/settings', 'GET', { include_defaults: true })
   }
 
+  clusterReroute (commands) {
+    return this.request('_cluster/reroute', 'POST', { commands })
+  }
+
   catIndices (params, filter) {
     const query = filter ? `${filter}*` : ''
     return this.request(`_cat/indices/${query}`, 'GET', params)

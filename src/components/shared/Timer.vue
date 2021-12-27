@@ -61,9 +61,8 @@
         if (newValue) createInterval()
       })
 
-      if (props.defaultSetting && process.env.NODE_ENV !== 'development') {
+      if (props.defaultSetting) {
         timerSetting.value = props.defaultSetting
-        props.action.call()
       }
 
       onBeforeUnmount(destroyInterval)

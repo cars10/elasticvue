@@ -23,6 +23,10 @@ export default class ElasticsearchAdapter {
     return this.client.clusterSettings()
   }
 
+  clusterReroute (commands) {
+    return this.client.clusterReroute(commands)
+  }
+
   catIndices (params, filter) {
     return this.client.catIndices(params, filter)
   }
