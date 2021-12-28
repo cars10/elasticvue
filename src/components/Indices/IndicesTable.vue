@@ -60,7 +60,8 @@
                     :items-length="items.length"
                     :indices-length="indices.length"
                     :has-filter="filter.length > 0"
-                    @reloadIndices="emitReloadIndices"/>
+                    @reloadIndices="emitReloadIndices"
+                    @indicesDeleted="clearDeletedIndicesAndReload"/>
       </template>
       <template v-slot:no-data>
         <template v-if="filter">
@@ -157,6 +158,11 @@
         }
       }
 
+      const clearDeletedIndicesAndReload = () => {
+        selectedIndices.value = []
+        emitReloadIndices()
+      }
+
       return {
         checkAll,
         select,
@@ -167,7 +173,8 @@
         items,
         HEADERS,
         DEFAULT_ITEMS_PER_PAGE,
-        emitReloadIndices
+        emitReloadIndices,
+        clearDeletedIndicesAndReload
       }
     }
   }

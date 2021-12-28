@@ -35,7 +35,7 @@
                         :link-title="$t('indices.index_row.options.open.text')"
                         :method-params="{index: selectedIndices}" icon="mdi-lock-open" method="indexOpen"/>
 
-        <list-tile-link :callback="emitReloadIndices"
+        <list-tile-link :callback="emitIndicesDeleted"
                         :confirm-message="$t('indices.index_row.options.delete.confirm', {index: selectedIndices})"
                         :link-title="$t('indices.index_row.options.delete.text')"
                         :method-params="{index: selectedIndices}" icon="mdi-delete" method="indexDelete"/>
@@ -76,9 +76,11 @@
     },
     setup (props, context) {
       const emitReloadIndices = () => (context.emit('reloadIndices'))
+      const emitIndicesDeleted = () => (context.emit('indicesDeleted'))
 
       return {
-        emitReloadIndices
+        emitReloadIndices,
+        emitIndicesDeleted
       }
     }
   }
