@@ -62,14 +62,14 @@ export const useRestQuery = () => {
       } catch (e) {
         loading.value = false
         response.value.body = '// Error'
-        showErrorSnackbar({ text: 'Error', additionalText: e.toString() })
+        showErrorSnackbar({ text: 'Error', body: e.toString() })
       }
     }
 
     xhr.onerror = function () {
       loading.value = false
       response.value.body = '// Network Error'
-      showErrorSnackbar({ text: 'Error', additionalText: 'Network Error' })
+      showErrorSnackbar({ text: 'Error', body: 'Network Error' })
     }
 
     xhr.send(request.value.body)

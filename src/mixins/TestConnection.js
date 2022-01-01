@@ -62,8 +62,8 @@ export const useTestConnection = () => {
         testState.value.testError = false
         testState.value.connectError = false
         showSuccessSnackbar({
-          text: i18n.t('defaults.success'),
-          additionalText: i18n.t('mixins.test_connection.cluster_reachable')
+          title: i18n.t('defaults.success'),
+          body: i18n.t('mixins.test_connection.cluster_reachable')
         })
       })
       .catch(e => {

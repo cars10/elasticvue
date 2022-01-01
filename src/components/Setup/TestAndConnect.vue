@@ -82,10 +82,10 @@
   import store from '@/store'
   import i18n from '@/i18n'
   import { computed, ref } from '@vue/composition-api'
-  import { showSuccessSnackbar } from '@/mixins/ShowSnackbar'
   import SslHint from '@/components/shared/SslHint'
   import AuthorizationHeaderHint from '@/components/shared/AuthorizationHeaderHint'
   import { SHOW_CORS_HINT } from '@/consts'
+  import { showSuccessSnackbar } from '@/mixins/ShowSnackbar'
 
   export default {
     name: 'test-and-connect',
@@ -113,7 +113,7 @@
           .then(() => {
             if (testState.value.connectError) return
             store.commit('connection/setActiveInstanceIdx', 0)
-            showSuccessSnackbar({ text: i18n.t('setup.test_and_connect.connected') })
+            showSuccessSnackbar({ title: i18n.t('setup.test_and_connect.connected') })
             context.root.$router.push('/')
           })
       }

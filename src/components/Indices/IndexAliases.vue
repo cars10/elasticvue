@@ -67,7 +67,7 @@
   import { DEFAULT_ITEMS_PER_PAGE } from '@/consts'
   import { useElasticsearchRequest } from '@/mixins/RequestComposition'
   import { computed, ref, watch } from '@vue/composition-api'
-  import { showErrorSnackbar } from '@/mixins/ShowSnackbar'
+  import { showSnackbar } from '@/mixins/ShowSnackbar'
   import i18n from '@/i18n'
 
   export default {
@@ -117,15 +117,7 @@
             loadAliases()
             newAlias.value = ''
           })
-          .catch(() => {
-            showErrorSnackbar({
-              text: i18n.t('indices.index_aliases.add_alias.error', {
-                alias: newAlias.value,
-                error: requestState.value.status
-              }),
-              additionalText: requestState.value.apiErrorMessage
-            })
-          })
+          .catch(() => showSnackbar(requestState.value))
       }
 
       const deleteAlias = alias => {
@@ -133,15 +125,7 @@
 
         callElasticsearch('indexDeleteAlias', { index: props.indexName, alias })
           .then(loadAliases)
-          .catch(() => {
-            showErrorSnackbar({
-              text: i18n.t('indices.index_aliases.delete_alias.error', {
-                alias: alias,
-                error: requestState.value.status
-              }),
-              additionalText: requestState.value.apiErrorMessage
-            })
-          })
+          .catch(() => showSnackbar(requestState.value))
       }
 
       return {

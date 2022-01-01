@@ -135,11 +135,11 @@
         }
       },
       "add_alias": {
-        "error": "创建别名错误：'{alias}'：{error}"
+        "error": "创建别名错误：'{alias}'"
       },
       "delete_alias": {
         "confirm": "删除索引 '{index}' 的别名 '{alias}'？",
-        "error": "删除别名错误：'{alias}'：{error}"
+        "error": "删除别名错误：'{alias}'"
       }
     },
     "index_row": {
@@ -546,7 +546,7 @@
     },
     "loader": {
       "copy_error": "复制错误",
-      "network_error": "网络错误：获取失败。"
+      "network_error": null
     },
     "modal_data_loader": {
       "modal_title": {

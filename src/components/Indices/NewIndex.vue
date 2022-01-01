@@ -63,7 +63,7 @@
 </template>
 
 <script>
-  import { showErrorSnackbar, showSuccessSnackbar } from '@/mixins/ShowSnackbar'
+  import { showSnackbar } from '@/mixins/ShowSnackbar'
   import { ref } from '@vue/composition-api'
   import { useElasticsearchRequest } from '@/mixins/RequestComposition'
   import i18n from '@/i18n'
@@ -100,13 +100,13 @@
         callElasticsearch('indexCreate', buildCreateParams())
           .then(body => {
             context.emit('reloadIndices')
-            showSuccessSnackbar({
-              text: i18n.t('indices.new_index.create_index.growl', { index: indexName.value }),
-              additionalText: JSON.stringify(body)
+            showSnackbar(requestState.value, {
+              title: i18n.t('indices.new_index.create_index.growl', { index: indexName.value }),
+              body: JSON.stringify(body)
             })
             closeDialog()
           })
-          .catch(() => showErrorSnackbar({ text: 'Error:', additionalText: requestState.value.apiErrorMessage }))
+          .catch(() => showSnackbar(requestState.value))
       }
 
       const closeDialog = () => {

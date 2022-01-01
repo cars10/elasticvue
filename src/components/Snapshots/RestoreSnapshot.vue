@@ -68,7 +68,7 @@
   import IndexFilter from '@/components/shared/IndexFilter'
   import { ref } from '@vue/composition-api'
   import { useElasticsearchRequest } from '@/mixins/RequestComposition'
-  import { showErrorSnackbar, showSuccessSnackbar } from '@/mixins/ShowSnackbar'
+  import { showSnackbar } from '@/mixins/ShowSnackbar'
 
   export default {
     name: 'restore-snapshot',
@@ -124,16 +124,12 @@
 
         callElasticsearch('snapshotRestore', buildRestoreParams())
           .then(() => {
-            showSuccessSnackbar({
-              text: i18n.t('defaults.success'),
-              additionalText: i18n.t('snapshots.restore_snapshot.restore_snapshot.growl', { snapshot: props.snapshot })
+            showSnackbar(requestState.value, {
+              body: i18n.t('snapshots.restore_snapshot.restore_snapshot.growl', { snapshot: props.snapshot })
             })
             closeDialog()
           })
-          .catch(() => showErrorSnackbar({
-            text: i18n.t('defaults.error'),
-            additionalText: requestState.value.apiErrorMessage
-          }))
+          .catch(() => showSnackbar(requestState.value))
       }
 
       return {

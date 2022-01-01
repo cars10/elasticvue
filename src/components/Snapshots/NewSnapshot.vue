@@ -57,7 +57,7 @@
 <script>
   import IndexFilter from '@/components/shared/IndexFilter'
   import { ref } from '@vue/composition-api'
-  import { showErrorSnackbar, showSuccessSnackbar } from '@/mixins/ShowSnackbar'
+  import { showSnackbar } from '@/mixins/ShowSnackbar'
   import { useElasticsearchRequest } from '@/mixins/RequestComposition'
   import i18n from '@/i18n'
 
@@ -89,13 +89,10 @@
         callElasticsearch('snapshotCreate', buildCreateParams())
           .then(() => {
             context.emit('reloadData')
-            showSuccessSnackbar({
-              text: i18n.t('defaults.success'),
-              additionalText: i18n.t('snapshots.new_snapshot.create_snapshot.growl', { name: snapshotName.value })
-            })
+            showSnackbar(requestState.value, { body: i18n.t('snapshots.new_snapshot.create_snapshot.growl', { name: snapshotName.value }) })
             closeDialog()
           })
-          .catch(() => showErrorSnackbar({ text: 'Error:', additionalText: requestState.value.apiErrorMessage }))
+          .catch(() => showSnackbar(requestState.value))
       }
 
       const buildCreateParams = () => {

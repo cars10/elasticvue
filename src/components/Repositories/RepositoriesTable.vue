@@ -64,9 +64,9 @@
   import store from '@/store'
   import i18n from '@/i18n'
   import { useElasticsearchRequest } from '@/mixins/RequestComposition'
-  import { showSuccessSnackbar } from '@/mixins/ShowSnackbar'
   import { stringifyJsonBigInt } from '@/helpers/json_parse'
   import { filterItems } from '@/helpers/filters'
+  import { showSnackbar } from '@/mixins/ShowSnackbar'
 
   export default {
     name: 'repositories-table',
@@ -107,17 +107,16 @@
         context.root.$router.push({ name: 'Snapshots' })
       }
 
-      const { callElasticsearch } = useElasticsearchRequest()
+      const { requestState, callElasticsearch } = useElasticsearchRequest()
       const deleteRepository = name => {
         if (confirm(i18n.t('repositories.repositories_table.delete_repository.confirm', { name: name }))) {
           callElasticsearch('snapshotDeleteRepository', { repository: name })
             .then(() => {
               emitReloadData()
-              showSuccessSnackbar({
-                text: i18n.t('defaults.success'),
-                additionalText: i18n.t('repositories.repositories_table.delete_repository.growl', { name: name })
+              showSnackbar(requestState.value, {
+                body: i18n.t('repositories.repositories_table.delete_repository.growl', { name: name })
               })
-            })
+            }).catch(() => showSnackbar(requestState.value))
         }
       }
 

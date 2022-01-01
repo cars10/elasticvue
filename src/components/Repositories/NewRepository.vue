@@ -93,7 +93,7 @@
 <script>
   import { ref } from '@vue/composition-api'
   import { useElasticsearchRequest } from '@/mixins/RequestComposition'
-  import { showErrorSnackbar, showSuccessSnackbar } from '@/mixins/ShowSnackbar'
+  import { showSnackbar } from '@/mixins/ShowSnackbar'
   import i18n from '@/i18n'
 
   export default {
@@ -122,13 +122,12 @@
         callElasticsearch('snapshotCreateRepository', buildCreateParams())
           .then(() => {
             context.emit('reloadData')
-            showSuccessSnackbar({
-              text: i18n.t('defaults.success'),
-              additionalText: i18n.t('repositories.new_repository.create_repository.growl', { repositoryName: repositoryName.value })
+            showSnackbar(requestState.value, {
+              body: i18n.t('repositories.new_repository.create_repository.growl', { repositoryName: repositoryName.value })
             })
             closeDialog()
           })
-          .catch(() => showErrorSnackbar({ text: 'Error:', additionalText: requestState.value.apiErrorMessage }))
+          .catch(() => showSnackbar(requestState.value))
       }
 
       const buildCreateParams = () => {

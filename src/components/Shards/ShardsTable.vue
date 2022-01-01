@@ -140,6 +140,7 @@
   import { DEFAULT_ITEMS_PER_PAGE } from '@/consts'
   import { useElasticsearchRequest } from '@/mixins/RequestComposition'
   import Shard from '@/components/Shards/Shard'
+  import { showSnackbar } from '@/mixins/ShowSnackbar'
 
   export default {
     name: 'shards-table',
@@ -176,7 +177,7 @@
         return shards
       })
 
-      const { callElasticsearch } = useElasticsearchRequest()
+      const { requestState, callElasticsearch } = useElasticsearchRequest()
       const reroute = (shardToReroute, targetNode) => {
         const commands = [
           {
@@ -191,6 +192,8 @@
         callElasticsearch('clusterReroute', commands).then(() => {
           currentReroutingShard.value = {}
           context.emit('reload')
+        }).catch(() => {
+          showSnackbar(requestState.value)
         })
       }
 

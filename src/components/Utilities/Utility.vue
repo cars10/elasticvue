@@ -11,9 +11,10 @@
 </template>
 
 <script>
-  import { showErrorSnackbar, showSuccessSnackbar } from '@/mixins/ShowSnackbar'
+  import { showDefaultSnackbar, showSnackbar } from '@/mixins/ShowSnackbar'
   import { computed, ref } from '@vue/composition-api'
   import { useElasticsearchRequest } from '@/mixins/RequestComposition'
+  import i18n from '@/i18n'
 
   export default {
     class: 'utility',
@@ -46,8 +47,13 @@
 
       const runMethod = () => {
         callElasticsearch(props.method, props.methodParams)
-          .then(body => showSuccessSnackbar({ text: 'Success', additionalText: JSON.stringify(body) }))
-          .catch(error => showErrorSnackbar({ text: 'Error', additionalText: JSON.stringify(error) }))
+          .then(body => {
+            if (body) {
+              showSnackbar(requestState.value, { title: i18n.t('defaults.success'), body: JSON.stringify(body) })
+            } else {
+              showDefaultSnackbar({ title: i18n.t('defaults.success') })
+            }
+          })
       }
 
       const color = computed(() => {

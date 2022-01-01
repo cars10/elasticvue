@@ -137,11 +137,11 @@
         }
       },
       "add_alias": {
-        "error": "Error creating alias: '{alias}': {error}"
+        "error": "Error creating alias: '{alias}'"
       },
       "delete_alias": {
         "confirm": "Delete alias '{alias}' for index '{index}'?",
-        "error": "Error removing alias: '{alias}': {error}"
+        "error": "Error removing alias: '{alias}'"
       }
     },
     "index_row": {
@@ -553,7 +553,7 @@
     },
     "loader": {
       "copy_error": "Copy error",
-      "network_error": "Network error: failed to fetch."
+      "network_error": "Network error. Is your cluster reachable?"
     },
     "modal_data_loader": {
       "modal_title": {

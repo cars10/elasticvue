@@ -11,7 +11,7 @@
 
 <script>
   import { useElasticsearchRequest } from '@/mixins/RequestComposition'
-  import { showErrorSnackbar, showSuccessSnackbar } from '@/mixins/ShowSnackbar'
+  import { showSnackbar } from '@/mixins/ShowSnackbar'
 
   export default {
     name: 'list-tile-link',
@@ -57,19 +57,10 @@
             .then(body => {
               if (typeof props.callback === 'function') props.callback(body)
 
-              const text = props.growl.length > 0 ? `${requestState.value.status} - ${props.growl}` : requestState.value.status
-              showSuccessSnackbar({
-                text,
-                additionalText: JSON.stringify(body)
-              })
+              showSnackbar(requestState.value, { title: props.growl, body: JSON.stringify(body) })
               return Promise.resolve(body)
             })
-            .catch(() => {
-              showErrorSnackbar({
-                text: requestState.value.status,
-                additionalText: requestState.value.apiErrorMessage
-              })
-            })
+            .catch(() => showSnackbar(requestState.value))
         }
       }
 

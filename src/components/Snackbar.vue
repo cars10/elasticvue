@@ -1,48 +1,116 @@
 <template>
-  <v-snackbar v-model="visible"
-              :color="color"
-              :multi-line="additionalText !== undefined"
-              :timeout="timeout"
-              right
-              style="overflow-wrap: anywhere">
-    <strong>{{ text }}</strong>
-    <template v-if="additionalText">
-      <div class="my-2 overflow-y-auto" style="max-height: 300px">
-        <p>
-          {{ additionalText }}
-        </p>
-      </div>
-      <v-btn class="mr-4" @click.native="copy" text>{{ $t('snackbar.copy') }}</v-btn>
-      <v-btn @click.native="visible = false" text>{{ $t('defaults.close') }}</v-btn>
-    </template>
-  </v-snackbar>
+  <v-card v-if="visible" class="snackbar" @mouseover="setHover" @mouseleave="unsetHover">
+    <div class="pa-3 border--left--8" :class="`border--${color}`">
+      <strong>{{ title }}</strong>
+      <template v-if="body">
+        <div class="my-2 overflow-y-auto" style="max-height: 200px">
+          <p>{{ body }}</p>
+        </div>
+        <v-btn @click.native="close">{{ $t('defaults.close') }}</v-btn>
+        <copy-button :value="copyableText" v-if="copyableText && copyableText.length > 0" title="Copy response"
+                     class="float-right"/>
+      </template>
+
+      <div class="snackbar--progress-bar" :style="progressBarStyle"></div>
+    </div>
+  </v-card>
 </template>
 
 <script>
+  import { computed, ref, watch } from '@vue/composition-api'
   import { vuexAccessors } from '@/helpers/store'
+  import CopyButton from '@/components/shared/CopyButton'
 
   export default {
     name: 'snackbar',
+    components: {
+      CopyButton
+    },
     setup () {
       const {
-        text,
-        additionalText,
+        title,
+        body,
         timeout,
         color,
-        visible
-      } = vuexAccessors('snackbar', ['text', 'additionalText', 'timeout', 'color', 'visible'])
+        visible,
+        copyableText
+      } = vuexAccessors('snackbar', ['title', 'body', 'timeout', 'color', 'visible', 'copyableText'])
 
-      const copy = () => {
-        navigator.clipboard.writeText(additionalText.value)
+      const progressBarHeight = ref(100)
+      let closeTimer
+      let progressBarInterval
+
+      const setTimer = () => {
+        clearTimeout(closeTimer)
+        clearInterval(progressBarInterval)
+        progressBarHeight.value = 100
+
+        if (!visible.value || timeout.value <= 0) return
+
+        closeTimer = startCloseTimer(timeout.value)
+        progressBarInterval = startProgressInterval(timeout.value)
+      }
+
+      watch(visible, setTimer)
+      watch(timeout, setTimer)
+
+      const startCloseTimer = timeout => {
+        return setTimeout(() => {
+          visible.value = false
+          progressBarHeight.value = 100
+        }, timeout)
+      }
+
+      const startProgressInterval = timeLeft => {
+        return setInterval(() => {
+          if (timeLeft > 0) {
+            timeLeft -= 100
+            progressBarHeight.value = (timeLeft / timeout.value) * 100
+          } else {
+            clearInterval(progressBarInterval)
+          }
+        }, 100)
+      }
+
+      const progressBarStyle = computed(() => (`height: ${progressBarHeight.value}%`))
+
+      let hover = false
+      const setHover = () => {
+        if (hover) return
+        hover = true
+
+        clearTimeout(closeTimer)
+        clearInterval(progressBarInterval)
+      }
+
+      const unsetHover = () => {
+        if (!hover) return
+        hover = false
+
+        const timeLeft = timeout.value * (progressBarHeight.value / 100)
+        progressBarInterval = startProgressInterval(timeLeft)
+        closeTimer = startCloseTimer(timeLeft)
+      }
+
+      const close = () => {
+        hover = false
+        visible.value = false
+        progressBarHeight.value = 100
+        clearTimeout(closeTimer)
+        clearInterval(progressBarInterval)
       }
 
       return {
         visible,
-        text,
-        additionalText,
-        timeout,
+        title,
+        body,
         color,
-        copy
+        copyableText,
+        close,
+        progressBarHeight,
+        progressBarStyle,
+        setHover,
+        unsetHover
       }
     }
   }

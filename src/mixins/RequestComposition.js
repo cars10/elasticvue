@@ -7,11 +7,21 @@ export function useElasticsearchRequest () {
     loading: false,
     networkError: false,
     apiError: false,
-    apiErrorMessage: ''
+    apiErrorMessage: '',
+    elasticsearchErrorType: '',
+    elasticsearchErrorReason: ''
   })
 
   const callElasticsearch = async (method, ...args) => {
-    requestState.value = { loading: true, networkError: false, apiError: false, apiErrorMessage: '', status: -1 }
+    requestState.value = {
+      loading: true,
+      networkError: false,
+      apiError: false,
+      apiErrorMessage: '',
+      elasticsearchErrorType: '',
+      elasticsearchErrorReason: '',
+      status: -1
+    }
 
     try {
       const adapter = cachedAdapter()
@@ -35,6 +45,8 @@ export function useElasticsearchRequest () {
           networkError: false,
           apiError: false,
           apiErrorMessage: '',
+          elasticsearchErrorType: '',
+          elasticsearchErrorReason: '',
           status: response.status
         }
 
@@ -48,13 +60,27 @@ export function useElasticsearchRequest () {
           apiErrorMessage: stringifyJsonBigInt(errorJson),
           status: errorResponse.status
         }
-        console.error(errorJson)
+
+        if (errorJson && errorJson.error) {
+          requestState.value.elasticsearchErrorType = errorJson.error.type
+          requestState.value.elasticsearchErrorReason = errorJson.error.reason
+        }
+
+        console.error('Elasticsearch API error', errorJson)
         return Promise.reject(new Error('API error'))
       }
     } catch (error) {
-      requestState.value = { loading: false, networkError: true, apiError: false, apiErrorMessage: '', status: -1 }
+      requestState.value = {
+        loading: false,
+        networkError: true,
+        apiError: false,
+        apiErrorMessage: '',
+        elasticsearchErrorType: '',
+        elasticsearchErrorReason: '',
+        status: -1
+      }
       console.error(error)
-      return Promise.reject(new Error('Unknown error'))
+      return Promise.reject(new Error('Error'))
     }
   }
 
