@@ -1,13 +1,24 @@
 <template>
-  <v-chip @click="action(shard)"
+  <v-chip v-if="reRoutable"
+          @click="action(shard)"
           small
           label
           class="px-2"
           style="border-width:2px;"
-          outlined
+          :outlined="outlined"
           :class="classes">
     {{ shard.prirep }}{{ shard.shard }}
   </v-chip>
+  <v-chip v-else
+          small
+          label
+          class="px-2"
+          style="border-width:2px;"
+          :outlined="outlined"
+          :class="classes">
+    {{ shard.prirep }}{{ shard.shard }}
+  </v-chip>
+
 </template>
 
 <script>
@@ -24,6 +35,14 @@
         type: Function,
         default: () => {
         }
+      },
+      reRoutable: {
+        type: Boolean,
+        default: false
+      },
+      outlined: {
+        type: Boolean,
+        default: true
       }
     },
     setup (props) {

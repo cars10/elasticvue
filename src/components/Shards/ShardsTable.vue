@@ -4,13 +4,9 @@
       <v-row>
         <v-col>
           <div v-if="currentReroutingShard.shard">
-            <div>
-              relocating shard <strong>{{ currentReroutingShard.prirep }}{{ currentReroutingShard.shard }}</strong>
-              {{ currentReroutingShard.index }} | {{ currentReroutingShard.node }}
-            </div>
             <v-btn small @click="currentReroutingShard = {}">
-              <v-icon>mdi-close</v-icon>
-              Cancel
+              <v-icon small>mdi-close</v-icon>
+              Cancel relocation
             </v-btn>
           </div>
         </v-col>
@@ -40,7 +36,7 @@
                      :footer-props="{itemsPerPageOptions: DEFAULT_ITEMS_PER_PAGE, showFirstLastPage: true}">
 
       <template v-slot:default="{items}">
-        <v-simple-table class="table--condensed table--bordered" style="color:#fff">
+        <v-simple-table class="table--condensed table--bordered">
           <thead>
           <tr>
             <th></th>
@@ -50,13 +46,8 @@
                 @mouseleave="unmarkColumn"
                 :class="{marked: markedColumnIndex === i}">
               <div>
-                <template v-if="currentReroutingShard.index === index">
-                  <span class="red--text">{{ index }}</span>
-                </template>
-                <template v-else>
-                  {{ index }}
-                </template>
-                <svg height="14" width="14">
+                <span :class="{'text-decoration-underline': currentReroutingShard.index === index}">{{ index }}</span>
+                <svg height="14" width="14" class="ml-1">
                   <circle :class="`health--${filteredShards.indices[index].health}`" cx="7" cy="9" r="5"/>
                 </svg>
               </div>
@@ -82,7 +73,7 @@
                      :key="`unassigned_${index}_${shard.shard}_${i}`"
                      class="ma-1 d-inline-block"
                      :title="stringifyJsonBigInt(shard, null, ' ')">
-                  <shard :shard="shard" :action="initReroute"/>
+                  <shard :shard="shard"/>
                 </div>
               </div>
             </td>
@@ -100,13 +91,15 @@
                      :key="`${node}_${index}_${shard.shard}_${i}`"
                      class="ma-1 d-inline-block"
                      :title="stringifyJsonBigInt(shard, null, ' ')">
-                  <shard :shard="shard" :action="initReroute"/>
+                  <shard :shard="shard"
+                         :action="initReroute"
+                         re-routable
+                         :outlined="!(currentReroutingShard.index === index && currentReroutingShard.node === node && currentReroutingShard.shard === shard.shard)"/>
                 </div>
               </div>
 
               <div v-if="currentReroutingShard.index === index && currentReroutingShard.node !== node">
-                <button @click="reroute(currentReroutingShard, node)" class="add-here">
-                  +
+                <button @click="reroute(currentReroutingShard, node)" class="shard-reroute-target">
                 </button>
               </div>
             </td>
@@ -120,16 +113,19 @@
 </template>
 
 <style>
-.add-here {
+.shard-reroute-target {
   position: absolute;
-  /*background-color: grey;*/
   height: 100%;
   width: 100%;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  border: 3px dashed lightgrey;
+  border: 2px dashed grey;
+}
+
+.shard-reroute-target:hover {
+  background-color: rgba(150, 150, 150, 0.5);
 }
 </style>
 

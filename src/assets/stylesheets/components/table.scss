@@ -70,13 +70,24 @@ table {
   }
 
   th, td {
-    border-right: 1px solid #393939;
-    border-left: 1px solid #393939;
+    border-right: 1px solid #e0e0e0;
+    border-left: 1px solid #e0e0e0;
   }
+}
+
+td.marked, th.marked {
+  background-color: #eee;
 }
 
 .theme--dark {
   td.marked, th.marked {
     background-color: #333;
+  }
+
+  .table--bordered {
+    th, td {
+      border-right: 1px solid #393939;
+      border-left: 1px solid #393939;
+    }
   }
 }
