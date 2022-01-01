@@ -82,7 +82,7 @@ describe('Indices page', () => {
 
   describe('table', () => {
     it('can reload', () => {
-      cy.get('table').should('contain', 'No data available')
+      cy.get('table').should('contain', 'No entries found')
 
       const indexName = 'name-1'
       cy.createIndex(indexName)
@@ -110,7 +110,7 @@ describe('Indices page', () => {
         cy.get('#filter').clear()
         cy.get('#filter').type('name-1')
 
-        cy.get('table').should('contain', 'No data available')
+        cy.get('table').should('contain', 'No entries found')
       })
     })
   })

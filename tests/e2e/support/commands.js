@@ -22,11 +22,11 @@ Cypress.Commands.add('connect', testCluster => {
 Cypress.Commands.add('quickConnect', () => {
   cy.visit('/', {
     onBeforeLoad: window => {
+      window.sessionStorage.clear() // https://github.com/cypress-io/cypress/issues/2695#issuecomment-435147776
       window.localStorage.clear() // https://github.com/cypress-io/cypress/issues/2695#issuecomment-435147776
       expect(window.localStorage.getItem('elasticvuex')).to.be.null
       const state = {
         connection: {
-          activeInstanceIdx: 0,
           instances: [{
             name: 'local',
             username: '',
@@ -37,6 +37,7 @@ Cypress.Commands.add('quickConnect', () => {
         }
       }
       window.localStorage.setItem('elasticvuex', JSON.stringify(state))
+      window.sessionStorage.setItem('elasticvuex', JSON.stringify({ connection: { activeInstanceIdx: 0 } }))
     }
   })
 })
