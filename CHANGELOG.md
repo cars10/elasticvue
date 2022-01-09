@@ -6,6 +6,7 @@
 
 * [feat]: adds index bulk actions, fixes [#78][i78]
 * [feat]: save active cluster in sessionStorage instead of localStorage, fixes [#81][i81]
+* [feat]: add `track_total_hits` to default search query, fixes [#85][i85]
 * [feat]: set page title (e.g. `elasticvue | Search`)
 * [feat]: show node role explanation on hover
 * [feat]: can copy node uri to clipboard in cluster selection table
@@ -14,6 +15,8 @@
 [i78]: https://github.com/cars10/elasticvue/issues/78
 
 [i81]: https://github.com/cars10/elasticvue/issues/81
+
+[i85]: https://github.com/cars10/elasticvue/issues/85
 
 ## 0.36.4
 
