@@ -92,7 +92,7 @@
           </v-btn>
           <v-btn
             id="save_query"
-            class="mx-0"
+            class="mx-0 ml-2"
             color="secondary-button"
             type="button"
             @click="saveQuery"
