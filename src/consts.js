@@ -53,11 +53,11 @@ export const IDB_TABLE_NAMES = {
 export const IDB_TABLE_DEFINITIONS = {
   [IDB_TABLE_NAMES.REST]: {
     indexes: ['date'],
-    filterableColumns: ['method', 'path']
+    filterableColumns: ['method', 'path', 'name']
   },
   [IDB_TABLE_NAMES.SEARCH]: {
     indexes: ['date'],
-    filterableColumns: ['path']
+    filterableColumns: ['path', 'name']
   }
 }
 export const REST_QUERY_EXAMPLES = [

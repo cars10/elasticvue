@@ -288,6 +288,8 @@
           "label": "Path"
         },
         "send_request": "Send request",
+        "save_request": "Save request",
+        "provide_save_name": "Provide a name for the request",
         "reset": "Reset",
         "download_as_json": "Download as json"
       },
