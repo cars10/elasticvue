@@ -130,32 +130,32 @@
 </template>
 
 <script>
-import ResizableContainer from "@/components/shared/ResizableContainer";
-import PrintPretty from "@/components/shared/PrintPretty";
-import { HTTP_METHODS } from "@/consts";
-import { computed, ref } from "@vue/composition-api";
-import RestQueryHistory from "@/components/Query/RestQueryHistory";
-import RestQueryExamples from "@/components/Query/RestQueryExamples";
-import { useRestQuery } from "@/mixins/RestQuery";
-import { vuexAccessors } from "@/helpers/store";
-import store from "@/store";
-import i18n from "@/i18n";
+import ResizableContainer from '@/components/shared/ResizableContainer'
+import PrintPretty from '@/components/shared/PrintPretty'
+import { HTTP_METHODS } from '@/consts'
+import { computed, ref } from '@vue/composition-api'
+import RestQueryHistory from '@/components/Query/RestQueryHistory'
+import RestQueryExamples from '@/components/Query/RestQueryExamples'
+import { useRestQuery } from '@/mixins/RestQuery'
+import { vuexAccessors } from '@/helpers/store'
+import store from '@/store'
+import i18n from '@/i18n'
 
 export default {
-  name: "rest",
+  name: 'rest',
   components: {
     PrintPretty,
     RestQueryHistory,
     ResizableContainer,
     RestQueryExamples,
-    "code-editor": () => ({
+    'code-editor': () => ({
       component: import(
-        /* webpackChunkName: "code-editor" */ "@/components/shared/CodeEditor"
+        /* webpackChunkName: "code-editor" */ '@/components/shared/CodeEditor'
       )
     })
   },
-  setup() {
-    const { vertical } = vuexAccessors("queryRest", ["vertical"]);
+  setup () {
+    const { vertical } = vuexAccessors('queryRest', ['vertical'])
 
     const {
       request,
@@ -165,55 +165,55 @@ export default {
       saveData,
       resetResponse,
       responseStatusClass
-    } = useRestQuery();
+    } = useRestQuery()
     const setRequest = item => {
-      request.value = { method: item.method, path: item.path, body: item.body };
-      resetResponse();
-    };
+      request.value = { method: item.method, path: item.path, body: item.body }
+      resetResponse()
+    }
 
     const canSendBody = computed(() => {
-      return request.value.method !== "GET" && request.value.method !== "HEAD";
-    });
+      return request.value.method !== 'GET' && request.value.method !== 'HEAD'
+    })
 
     const reset = () => {
-      store.commit("queryRest/resetRequest");
-      resetResponse();
-    };
+      store.commit('queryRest/resetRequest')
+      resetResponse()
+    }
 
-    const historyCollapsed = ref(false);
+    const historyCollapsed = ref(false)
     const editorCommands = [
       {
         bindKey: {
-          win: "Ctrl+ENTER",
-          mac: "Command+ENTER",
-          linux: "Ctrl+ENTER"
+          win: 'Ctrl+ENTER',
+          mac: 'Command+ENTER',
+          linux: 'Ctrl+ENTER'
         },
         exec: loadData
       }
-    ];
+    ]
 
-    const downloadJsonHref = ref("#");
-    const downloadFileName = ref("empty.json");
+    const downloadJsonHref = ref('#')
+    const downloadFileName = ref('empty.json')
     const setDownloadHref = () => {
       const value =
-        typeof response.value.body === "string"
+        typeof response.value.body === 'string'
           ? response.value.body
-          : JSON.stringify(response.value.body);
+          : JSON.stringify(response.value.body)
       downloadFileName.value = `${request.value.method.toLowerCase()}_${request.value.path.replace(
         /[\W_]+/g,
-        "_"
-      )}.json`;
+        '_'
+      )}.json`
       downloadJsonHref.value = `data:application/json,${encodeURIComponent(
         value
-      )}`;
-    };
+      )}`
+    }
 
     const saveQuery = () => {
-      const name = window.prompt(i18n.t("query.rest.form.provide_save_name"));
+      const name = window.prompt(i18n.t('query.rest.form.provide_save_name'))
       if (name) {
-        saveData(name);
+        saveData(name)
       }
-    };
+    }
 
     return {
       loading,
@@ -233,7 +233,7 @@ export default {
       downloadJsonHref,
       setDownloadHref,
       saveQuery
-    };
+    }
   }
-};
+}
 </script>

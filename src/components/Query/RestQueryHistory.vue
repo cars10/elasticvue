@@ -174,28 +174,28 @@
 </template>
 
 <script>
-import { ref } from "@vue/composition-api";
-import { useHistory } from "@/mixins/History";
-import { DEFAULT_ITEMS_PER_PAGE, IDB_TABLE_NAMES } from "@/consts";
-import CodeViewer from "@/components/shared/CodeViewer";
-import i18n from "@/i18n";
+import { ref } from '@vue/composition-api'
+import { useHistory } from '@/mixins/History'
+import { DEFAULT_ITEMS_PER_PAGE, IDB_TABLE_NAMES } from '@/consts'
+import CodeViewer from '@/components/shared/CodeViewer'
+import i18n from '@/i18n'
 
 export default {
-  name: "rest-query-history",
+  name: 'rest-query-history',
   components: {
     CodeViewer
   },
-  setup(props, context) {
+  setup (props, context) {
     const HEADERS = [
       {
-        text: i18n.t("query.rest_query_history.table.headers.query"),
+        text: i18n.t('query.rest_query_history.table.headers.query'),
         sortable: false
       },
       {
-        text: i18n.t("query.rest_query_history.table.headers.date"),
-        value: "date"
+        text: i18n.t('query.rest_query_history.table.headers.date'),
+        value: 'date'
       }
-    ];
+    ]
 
     const {
       loading,
@@ -206,16 +206,16 @@ export default {
       filter,
       onlyFavorites,
       clearNonFavorites
-    } = useHistory(IDB_TABLE_NAMES.REST);
-    const apply = item => context.emit("setRequest", item);
+    } = useHistory(IDB_TABLE_NAMES.REST)
+    const apply = item => context.emit('setRequest', item)
 
-    const selectedItem = ref(null);
-    const selectItem = item => (selectedItem.value = item);
+    const selectedItem = ref(null)
+    const selectItem = item => (selectedItem.value = item)
 
     const removeHistoryItem = id => {
-      removeItem(id);
-      selectItem(null);
-    };
+      removeItem(id)
+      selectItem(null)
+    }
 
     return {
       loading,
@@ -231,7 +231,7 @@ export default {
       clearAll,
       clearNonFavorites,
       DEFAULT_ITEMS_PER_PAGE
-    };
+    }
   }
-};
+}
 </script>

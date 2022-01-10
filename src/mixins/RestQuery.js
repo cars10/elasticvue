@@ -69,8 +69,7 @@ export const useRestQuery = () => {
     xhr.send(request.value.body)
   }
 
-
-  const saveData = (name ='') => {
+  const saveData = (name = '') => {
     connection.dbInsert({ ...request.value, favorite: 1, saved: 1, name, date: new Date() })
   }
 
