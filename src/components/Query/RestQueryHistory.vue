@@ -48,8 +48,13 @@
                     <v-icon v-else :title="$t('query.rest_query_history.table.row.favorite.add')">
                       mdi-star-outline
                     </v-icon>
+                    <v-icon v-if="item.saved === 1"
+                            :title="$t('query.rest_query_history.table.row.saved')">
+                      mdi-disk
+                    </v-icon>
                   </v-btn>
-                  <span class="font--mono">{{ item.method }}</span> {{ item.path }}
+                  <template v-if="item.name">{{ item.name }}</template>
+                  <template v-else><span class="font--mono">{{ item.method }}</span> {{ item.path }}</template>
                 </td>
                 <td>{{ item.date.toLocaleString() }}</td>
               </tr>

@@ -58,6 +58,9 @@
           <v-btn id="execute_query" :loading="loading" class="mx-0" color="primary-button" type="submit">
             {{ $t('query.rest.form.send_request') }}
           </v-btn>
+          <v-btn id="save_query" class="mx-0" color="secondary-button" type="button" @click="saveQuery">
+            {{ $t('query.rest.form.save_request') }}
+          </v-btn>
           <v-chip v-if="response.status" :class="responseStatusClass" class="ml-2">{{ response.status }}</v-chip>
 
           <br>
@@ -111,6 +114,7 @@
         response,
         loading,
         loadData,
+        saveData,
         resetResponse,
         responseStatusClass
       } = useRestQuery()
@@ -143,6 +147,13 @@
         downloadJsonHref.value = `data:application/json,${encodeURIComponent(value)}`
       }
 
+      const saveQuery = () => {
+        const name = window.prompt($t('query.rest.form.provide_save_name'));
+        if (name) {
+          saveData(name)
+        }
+      }
+
       return {
         loading,
         request,
@@ -151,6 +162,7 @@
         HTTP_METHODS,
         editorCommands,
         loadData,
+        saveData,
         canSendBody,
         reset,
         setRequest,
@@ -158,7 +170,8 @@
         historyCollapsed,
         downloadFileName,
         downloadJsonHref,
-        setDownloadHref
+        setDownloadHref,
+        saveQuery
       }
     }
   }
