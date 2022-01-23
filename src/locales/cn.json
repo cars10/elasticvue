@@ -5,6 +5,7 @@
         "home": "首页",
         "nodes": "节点",
         "indices": "索引",
+        "shards": null,
         "search": "搜索",
         "rest": "REST",
         "snapshots": "快照",
@@ -40,8 +41,7 @@
     "create": "创建",
     "delete": "删除",
     "required": "必需",
-    "success": "成功",
-    "error": "错误"
+    "success": "成功"
   },
   "document": {
     "heading": "查看"
@@ -62,6 +62,7 @@
         "cluster_health": {
           "title": "集群健康状态：{status}"
         },
+        "copy_uri": null,
         "remove_cluster": {
           "title": "移除集群",
           "confirm": "移除集群 '{name}' ({uri})?"
@@ -134,13 +135,12 @@
           "alias": "别名"
         }
       },
-      "add_alias": {
-        "error": "创建别名错误：'{alias}'"
-      },
       "delete_alias": {
-        "confirm": "删除索引 '{index}' 的别名 '{alias}'？",
-        "error": "删除别名错误：'{alias}'"
+        "confirm": "删除索引 '{index}' 的别名 '{alias}'？"
       }
+    },
+    "index_bulk": {
+      "bulk_action": null
     },
     "index_row": {
       "search": {
@@ -421,8 +421,6 @@
         "title": "表格设置",
         "columns": "列"
       },
-      "document_not_found": "没有找到文档。",
-      "filter_not_found": "没有找到符合过滤的文档",
       "download_as_json": "下载为 JSON 文件"
     }
   },
@@ -488,7 +486,15 @@
       "connected": "连接成功！"
     }
   },
+  "shards": {
+    "heading": null,
+    "shards_table": {
+      "cancel_relocation": null
+    }
+  },
   "shared": {
+    "nothing_found_for_filter": null,
+    "nothing_found": null,
     "index_filter": {
       "use_index_pattern": "使用索引模式",
       "use_index_select": "选择索引",
@@ -577,9 +583,6 @@
       "help": "帮助"
     }
   },
-  "snackbar": {
-    "copy": "复制"
-  },
   "snapshots": {
     "heading": "快照",
     "new_snapshot": {
@@ -632,8 +635,6 @@
     },
     "snapshots_table": {
       "no_repository_selected": "请先选择一个存储。",
-      "no_matching_snapshots": "没有找到符合过滤条件的快照",
-      "no_snapshots": "存储 '{repository}' 不包含任何快照。",
       "table": {
         "headers": {
           "status": "状态",

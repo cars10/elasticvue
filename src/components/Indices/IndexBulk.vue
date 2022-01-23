@@ -3,7 +3,7 @@
     <v-menu top offset-y>
       <template v-slot:activator="{on}">
         <v-btn v-on="on" :disabled="selectedIndices.length === 0" color="success">
-          Bulk action
+          {{ $t('indices.index_bulk.bulk_action') }}
           <v-icon small>mdi-menu-down</v-icon>
         </v-btn>
       </template>

@@ -6,7 +6,7 @@
           <div v-if="currentReroutingShard.shard">
             <v-btn small @click="currentReroutingShard = {}">
               <v-icon small>mdi-close</v-icon>
-              Cancel relocation
+              {{ $t('shards.shards_table.cancel_relocation') }}
             </v-btn>
           </div>
         </v-col>

@@ -41,8 +41,7 @@
     "create": "Create",
     "delete": "Delete",
     "required": "Required",
-    "success": "Success",
-    "error": "Error"
+    "success": "Success"
   },
   "document": {
     "heading": "Show"
@@ -136,13 +135,12 @@
           "alias": "Alias"
         }
       },
-      "add_alias": {
-        "error": "Error creating alias: '{alias}'"
-      },
       "delete_alias": {
-        "confirm": "Delete alias '{alias}' for index '{index}'?",
-        "error": "Error removing alias: '{alias}'"
+        "confirm": "Delete alias '{alias}' for index '{index}'?"
       }
+    },
+    "index_bulk": {
+      "bulk_action": "Bulk action"
     },
     "index_row": {
       "search": {
@@ -423,8 +421,6 @@
         "title": "Table settings",
         "columns": "Columns"
       },
-      "document_not_found": "No documents found.",
-      "filter_not_found": "No documents found that match your filter",
       "download_as_json": "Download as json"
     }
   },
@@ -491,7 +487,10 @@
     }
   },
   "shards": {
-    "heading": "Shards"
+    "heading": "Shards",
+    "shards_table": {
+      "cancel_relocation": "Cancel relocation"
+    }
   },
   "shared": {
     "nothing_found_for_filter": "No entries found for filter '{filter}'.",
@@ -584,9 +583,6 @@
       "help": "Help"
     }
   },
-  "snackbar": {
-    "copy": "Copy"
-  },
   "snapshots": {
     "heading": "Snapshots",
     "new_snapshot": {
@@ -639,8 +635,6 @@
     },
     "snapshots_table": {
       "no_repository_selected": "Please select a repository first.",
-      "no_matching_snapshots": "No snapshots found that match your filter",
-      "no_snapshots": "The repository '{repository}' does not contain any snapshots.",
       "table": {
         "headers": {
           "status": "status",
