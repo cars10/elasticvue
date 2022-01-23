@@ -10,6 +10,9 @@
         <copy-button :value="copyableText" v-if="copyableText && copyableText.length > 0" title="Copy response"
                      class="float-right"/>
       </template>
+      <div v-else class="my-2 overflow-y-auto">
+        <v-btn @click.native="close">{{ $t('defaults.close') }}</v-btn>
+      </div>
 
       <div class="snackbar--progress-bar" :style="progressBarStyle"></div>
     </div>
