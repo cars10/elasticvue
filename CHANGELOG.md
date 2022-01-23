@@ -4,6 +4,9 @@
 
 # 0.37.0
 
+This is a bigger release, please report any bugs you might encounter.
+
+* [feat]: BETA: adds shard overview + relocation, fixes [#72][i72]
 * [feat]: adds index bulk actions, fixes [#78][i78]
 * [feat]: save active cluster in sessionStorage instead of localStorage, fixes [#81][i81]
 * [feat]: add `track_total_hits` to default search query, fixes [#85][i85]
@@ -11,6 +14,8 @@
 * [feat]: show node role explanation on hover
 * [feat]: can copy node uri to clipboard in cluster selection table
 * [fix]: do not add body of previous request in rest history to `GET` or `HEAD` requests
+
+[i72]: https://github.com/cars10/elasticvue/issues/72
 
 [i78]: https://github.com/cars10/elasticvue/issues/78
 
