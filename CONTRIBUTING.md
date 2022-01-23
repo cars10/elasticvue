@@ -7,7 +7,8 @@ Please use one of the provided [issue templates](https://github.com/cars10/elast
 
 ## Development
 
-Please use the **develop** branch for any PR.
+Please use the **develop** branch for any PR. Feel free to open a PR for a bugfix. Please discuss bigger features in an
+issue first.
 
 1. Fork the repo [https://github.com/cars10/elasticvue/fork](https://github.com/cars10/elasticvue/fork)
 2. Checkout a new branch `git checkout -b my-feature develop`

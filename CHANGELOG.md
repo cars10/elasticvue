@@ -14,6 +14,7 @@ This is a bigger release, please report any bugs you might encounter.
 * [feat]: show node role explanation on hover
 * [feat]: can copy node uri to clipboard in cluster selection table
 * [fix]: do not add body of previous request in rest history to `GET` or `HEAD` requests
+* many small improvements and bugfixes
 
 [i72]: https://github.com/cars10/elasticvue/issues/72
 
