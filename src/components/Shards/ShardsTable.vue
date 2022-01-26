@@ -155,11 +155,7 @@
         if (markedColumnIndex.value !== i) markedColumnIndex.value = i
       }
       const unmarkColumn = () => (markedColumnIndex.value = null)
-      const {
-        filter,
-        showHiddenIndices,
-        onlyUnhealthy
-      } = vuexAccessors('indices', ['filter', 'showHiddenIndices', 'onlyUnhealthy'])
+      const { filter, showHiddenIndices } = vuexAccessors('shards', ['filter', 'showHiddenIndices'])
       const { hideIndicesRegex } = vuexAccessors('indices', ['hideIndicesRegex'])
 
       const filteredShards = computed(() => {
@@ -168,6 +164,11 @@
 
         if (!showHiddenIndices.value) {
           Object.assign(shards, { indexNames: shards.indexNames.filter(item => !item.match(new RegExp(hideIndicesRegex.value))) })
+        }
+
+        if (filter.value.length !== 0) {
+          const query = filter.value.slice().toLowerCase().trim()
+          Object.assign(shards, { indexNames: shards.indexNames.filter(item => item.includes(query)) })
         }
 
         return shards
@@ -211,7 +212,6 @@
         markedColumnIndex,
         filter,
         showHiddenIndices,
-        onlyUnhealthy,
         filteredShards,
         DEFAULT_ITEMS_PER_PAGE,
         reroute,

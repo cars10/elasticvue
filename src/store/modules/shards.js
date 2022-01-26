@@ -2,8 +2,7 @@ export const shards = {
   namespaced: true,
   state: {
     filter: '',
-    showHiddenIndices: false,
-    onlyUnhealthy: false
+    showHiddenIndices: false
   },
   mutations: {
     setFilter (state, filter) {
@@ -11,9 +10,6 @@ export const shards = {
     },
     setShowHiddenIndices (state, showHiddenIndices) {
       state.showHiddenIndices = showHiddenIndices
-    },
-    setOnlyUnhealthy (state, onlyUnhealthy) {
-      state.onlyUnhealthy = onlyUnhealthy
     }
   }
 }
