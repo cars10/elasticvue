@@ -4,8 +4,6 @@
 
 # 0.37.0
 
-This is a bigger release, please report any bugs you might encounter.
-
 * [feat]: BETA: adds shard overview + relocation, fixes [#72][i72]
 * [feat]: adds index bulk actions, fixes [#78][i78]
 * [feat]: save active cluster in sessionStorage instead of localStorage, fixes [#81][i81]
