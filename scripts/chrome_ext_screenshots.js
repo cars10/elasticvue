@@ -8,17 +8,16 @@ const puppeteer = require('puppeteer');
 
   await connectWithServer(page)
   await removeSnackbar(page)
-  await page.click('i.mdi-close-circle')
 
   await page.click('#theme_select')
   await page.waitForTimeout(500)
   await clickToNavigateAndScreenshot(page, '#navbar_home', 'screenshot_1_home_white.png')
   await page.click('#theme_select')
 
-  await clickToNavigateAndScreenshot(page, '#navbar_nodes', 'screenshot_2_nodes.png')
+  await clickToNavigateAndScreenshot(page, '#navbar_shards', 'screenshot_2_shards.png')
   await clickToNavigateAndScreenshot(page, '#navbar_indices', 'screenshot_3_indices.png')
   await clickToNavigateAndScreenshot(page, ['#navbar_search', '#search_submit'], 'screenshot_4_search.png')
-  await clickToNavigateAndScreenshot(page, ['#navbar_query_rest', '#example-2', '#execute_query'], 'screenshot_5_query.png')
+  await clickToNavigateAndScreenshot(page, ['#navbar_query_rest', '#query_examples', '#use_query_example_1', '#execute_query'], 'screenshot_5_query.png')
 
   await browser.close()
 })()
@@ -32,9 +31,9 @@ async function connectWithServer (page) {
 }
 
 async function removeSnackbar (page) {
-  await page.waitForSelector('.v-snack')
+  await page.waitForSelector('.snackbar')
   await page.evaluate(() => {
-    const div = document.querySelector('.v-snack')
+    const div = document.querySelector('.snackbar')
     div.parentNode.removeChild(div)
   })
 }
@@ -43,8 +42,9 @@ async function clickToNavigateAndScreenshot (page, selectors, screenshot) {
   console.log(screenshot)
   if (Array.isArray(selectors)) {
     for (const selector of selectors) {
+      await page.waitForSelector(selector)
       await page.click(selector)
-      await page.waitForTimeout(50)
+      await page.waitForTimeout(150)
     }
   } else {
     await page.click(selectors)

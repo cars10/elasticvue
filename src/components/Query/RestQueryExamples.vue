@@ -2,7 +2,7 @@
   <div class="d-inline-block">
     <v-dialog v-model="dialog" width="900">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn v-bind="attrs" v-on="on">
+        <v-btn v-bind="attrs" v-on="on" id="query_examples">
           {{ $t('query.rest_query_examples.heading') }}
         </v-btn>
       </template>
@@ -60,7 +60,9 @@
                   </v-btn>
                 </td>
                 <td>
-                  <v-btn small @click.stop="apply(item)">{{ $t('query.rest_query_examples.table.row.use') }}</v-btn>
+                  <v-btn small @click.stop="apply(item)" :id="`use_query_example_${index}`">
+                    {{ $t('query.rest_query_examples.table.row.use') }}
+                  </v-btn>
                 </td>
               </tr>
               <tr v-if="previewIndex === index" class="disable-hover-bg">

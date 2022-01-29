@@ -34,24 +34,26 @@
 
       <v-row>
         <v-col :md="vertical ? 12 : 6" cols="12">
-          <resizable-container v-if="canSendBody" :initial-height="vertical ? 200 : 500" class="mb-4">
-            <code-editor v-model="request.body" :external-commands="editorCommands"/>
-          </resizable-container>
+          <div class="py-1">
+            <resizable-container v-if="canSendBody" :initial-height="vertical ? 200 : 500" class="mb-4">
+              <code-editor v-model="request.body" :external-commands="editorCommands"/>
+            </resizable-container>
 
-          <div v-else>
-            <div :style="vertical ? 'height: 200px' : 'height: 500px'" class="mb-4">
-              <v-alert :value="true" class="request-body-disabled-hint">
-                <p>
-                  <span v-html="$t('query.rest.get_request_hint.cannot_send_body', { method: request.method })"/>
-                  <button class="btn-link" type="button" @click=" request.method  = 'POST'">
-                    {{ $t('query.rest.get_request_hint.use_post') }}
-                  </button>
-                  {{ $t('query.rest.get_request_hint.query_parameters') }}
-                </p>
-                <p class="mb-0">
-                  {{ $t('query.rest.get_request_hint.search_post') }}
-                </p>
-              </v-alert>
+            <div v-else>
+              <div :style="vertical ? 'height: 200px' : 'height: 500px'" class="mb-4">
+                <v-alert :value="true" class="request-body-disabled-hint">
+                  <p>
+                    <span v-html="$t('query.rest.get_request_hint.cannot_send_body', { method: request.method })"/>
+                    <button class="btn-link" type="button" @click=" request.method  = 'POST'">
+                      {{ $t('query.rest.get_request_hint.use_post') }}
+                    </button>
+                    {{ $t('query.rest.get_request_hint.query_parameters') }}
+                  </p>
+                  <p class="mb-0">
+                    {{ $t('query.rest.get_request_hint.search_post') }}
+                  </p>
+                </v-alert>
+              </div>
             </div>
           </div>
 

@@ -8,33 +8,30 @@ const puppeteer = require('puppeteer');
   await page.click('#theme_select')
   await connectWithServer(page)
   await removeSnackbar(page)
-  await page.click('i.mdi-close-circle')
 
   await clickToNavigateAndScreenshot(page, '#navbar_home', 'screenshot_0_home_white.png')
   await page.click('#theme_select')
   await clickToNavigateAndScreenshot(page, '#navbar_nodes', 'screenshot_1_nodes.png')
-  await clickToNavigateAndScreenshot(page, ['#navbar_indices', 'button[title="Options"]'], 'screenshot_2_indices.png')
-  await clickToNavigateAndScreenshot(page, ['#navbar_indices', 'button[title="Options"]', 'i.mdi-at'], 'screenshot_3_indices.png')
+  await clickToNavigateAndScreenshot(page, '#navbar_shards', 'screenshot_2_shards.png')
+  await clickToNavigateAndScreenshot(page, ['#navbar_indices', 'button[title="Options"]'], 'screenshot_3_indices.png')
+  await clickToNavigateAndScreenshot(page, ['#navbar_indices', 'button[title="Options"]', 'i.mdi-at'], 'screenshot_4_indices.png')
   await page.reload()
   await page.click('#theme_select')
-  await clickToNavigateAndScreenshot(page, '#navbar_search', 'screenshot_4_search_dark.png', async page => {
-    await page.click('#index-pattern')
-    await page.waitForTimeout(50)
-    await page.click('input[type="checkbox"]')
+  await clickToNavigateAndScreenshot(page, '#navbar_search', 'screenshot_5_search_dark.png', async page => {
     await page.click('#search_submit')
     await page.waitForTimeout(250)
     await page.click('th[aria-label="author_name (author_name.keyword): Not sorted. Activate to sort ascending."')
     await page.waitForTimeout(250)
   })
-  await clickToNavigateAndScreenshot(page, '#navbar_query_rest', 'screenshot_5_query_dark.png', async page => {
+  await clickToNavigateAndScreenshot(page, '#navbar_query_rest', 'screenshot_6_query_dark.png', async page => {
     await page.focus('#path')
     await page.keyboard.type('_search')
     await page.click('#execute_query')
     await page.waitForTimeout(500)
   })
-  await clickToNavigateAndScreenshot(page, ['#navbar_snapshots', '#navbar_snapshots_repositories', 'table tbody tr.tr--clickable'], 'screenshot_6_snapshots_dark.png')
-  await clickToNavigateAndScreenshot(page, '#navbar_utilities', 'screenshot_7_utilities_dark.png')
-  await clickToNavigateAndScreenshot(page, '#navbar_settings', 'screenshot_8_settings.png')
+  await clickToNavigateAndScreenshot(page, ['#navbar_snapshots', '#navbar_snapshots_repositories', 'table tbody tr.tr--clickable'], 'screenshot_7_snapshots_dark.png')
+  await clickToNavigateAndScreenshot(page, '#navbar_utilities', 'screenshot_8_utilities_dark.png')
+  await clickToNavigateAndScreenshot(page, '#navbar_settings', 'screenshot_9_settings.png')
 
   await browser.close()
 })()
@@ -48,9 +45,9 @@ async function connectWithServer (page) {
 }
 
 async function removeSnackbar (page) {
-  await page.waitForSelector('.v-snack')
+  await page.waitForSelector('.snackbar')
   await page.evaluate(() => {
-    const div = document.querySelector('.v-snack')
+    const div = document.querySelector('.snackbar')
     div.parentNode.removeChild(div)
   })
 }
