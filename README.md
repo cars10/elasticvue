@@ -18,21 +18,19 @@ Contents
 
 1. [About](#about)
 2. [Usage](#usage)
-    * [Running elasticvue](#running)
-    * [Elasticsearch Configuration](#elasticsearch-configuration)
+  * [Running elasticvue](#running)
+  * [Elasticsearch Configuration](#elasticsearch-configuration)
 3. [Browser support](#browser-support)
 4. [Troubleshooting](#troubleshooting)
 5. [Comparing with other frontends](#comparing-with-other-frontends)
 6. [Development](#development)
-7. [Contributing](#contributing)
-
-## Help wanted: Elasticvue needs a new name
-
-Because of legal issues ("elastic" is a trademark of Elasticsearch) elasticvue needs a new name. Please add any your comments and ideas to this issue: [#36](https://github.com/cars10/elasticvue/issues/36)
+7. [i18n](#i18n)
+8. [Contributing](#contributing)
 
 ## About
 
-**Elasticvue** is a free and open-source gui for elasticsearch, allowing you to search and filter your clusters data right in your browser.
+**Elasticvue** is a free and open-source gui for elasticsearch, allowing you to search and filter your clusters data
+right in your browser.
 [Screenshots](https://elasticvue.com/features)
 
 It officially works with the following elasticsearch versions:
@@ -43,11 +41,11 @@ It officially works with the following elasticsearch versions:
 
 Other versions might or might not work depending on the features you use.
 
-
 ### Features
 
 * Cluster overview
 * Index & alias management
+* Shard overview, shard relocation
 * Searching and filtering documents
 * Manually running any query against your cluster
 * Snapshot + repository management
@@ -61,8 +59,10 @@ You can use one of the following ways to run elasticvue:
 
 **Browser extensions**
 
-* Chrome: Install the extension from the [chrome webstore](https://chrome.google.com/webstore/detail/elasticvue/hkedbapjpblbodpgbajblpnlpenaebaa)
-* Edge (2020): Install the extension from the [microsoft webstore](https://microsoftedge.microsoft.com/addons/detail/geifniocjfnfilcbeloeidajlfmhdlgo)
+* Chrome: Install the extension from
+  the [chrome webstore](https://chrome.google.com/webstore/detail/elasticvue/hkedbapjpblbodpgbajblpnlpenaebaa)
+* Edge (2020): Install the extension from
+  the [microsoft webstore](https://microsoftedge.microsoft.com/addons/detail/geifniocjfnfilcbeloeidajlfmhdlgo)
 * Firefox: Install the extension from [addons.mozilla.org](https://addons.mozilla.org/en-US/firefox/addon/elasticvue/)
 
 Start elasticvue by clicking on the icon in your toolbar.
@@ -89,7 +89,8 @@ Then open [http://localhost:8080](http://localhost:8080) in your browser.
 
 **Online version**
 
-Visit [http://app.elasticvue.com](http://app.elasticvue.com) or [https://app.elasticvue.com](https://app.elasticvue.com).
+Visit [http://app.elasticvue.com](http://app.elasticvue.com) or [https://app.elasticvue.com](https://app.elasticvue.com)
+.
 
 **Run locally**
 
@@ -135,13 +136,12 @@ server {
 }
 ```
 
-
 See the [official vuejs deployment guide](https://cli.vuejs.org/guide/deployment.html#docker-nginx) for more details.
-
 
 ### Elasticsearch configuration
 
-You have to [enable CORS](https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-http.html) to allow connection to your elasticsearch cluster **if you do not use the browser extensions**.
+You have to [enable CORS](https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-http.html) to allow
+connection to your elasticsearch cluster **if you do not use the browser extensions**.
 
 Find your elasticsearch configuration (for example `/etc/elasticsearch/elasticsearch.yml`) and add the following lines:
 
@@ -183,7 +183,6 @@ services:
 
 After configuration restart your cluster and you should be able to connect.
 
-
 ## Browser Support
 
 Please use an up-to-date version of:
@@ -194,17 +193,22 @@ Please use an up-to-date version of:
 
 ## Troubleshooting
 
-Before opening an issue please try to reset elasticvue to its default settings. To do so, click
-`Disconnect and reset` in the footer. This will reset all your saved filters and you have to reconnect to your cluster.
-Feel free to open an [issue](https://github.com/cars10/elasticvue/issues/new/choose) if your problem persists.
+Before opening an issue please try to reset elasticvue to its default settings:
 
+1. Open the settings
+2. Download a backup of your current elasticvue data
+3. Click `Disconnect and reset`
+
+This will reset all your saved filters, and you have to reconnect to your cluster. Feel free to open
+an [issue](https://github.com/cars10/elasticvue/issues/new/choose) if your problem persists.
 
 ## Comparing with other frontends
 
 See the Wiki. [Comparing to other frontends](https://github.com/cars10/elasticvue/wiki/Comparing-to-other-frontends)
 
-
 ## Development
+
+*Please make sure to use node `14.x`*
 
 Setup and running
 
@@ -239,11 +243,29 @@ yarn build
 yarn build --report
 ```
 
-Building the chrome/firefox extensions: (Hint: you need [web-ext](https://extensionworkshop.com/documentation/develop/getting-started-with-web-ext) for the firefox extension to build)
+Building the chrome/firefox extensions: (Hint: you
+need [web-ext](https://extensionworkshop.com/documentation/develop/getting-started-with-web-ext) for the firefox
+extension to build)
 
 ```bash
 yarn build_browser_extensions
 ```
+
+## i18n
+
+Elasticvue is available in the following languages:
+
+* english
+* chinese
+
+### Help wanted
+
+I do not speak chinese and therefore rely on your help to keep the chinese translation up-to-date. Please open a PR if
+you notice missing/wrong translations in the chinese version.
+
+### Adding a new language
+
+If you want to add a new language: translate `src/locales/en.json` and open a PR.
 
 ## Contributing
 
@@ -258,8 +280,8 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 * support client certificates when connecting to elasticsearch cluster [#33][f33]
 
 [f30]: https://github.com/cars10/elasticvue/issues/30
-[f33]: https://github.com/cars10/elasticvue/issues/33
 
+[f33]: https://github.com/cars10/elasticvue/issues/33
 
 ### Future
 
