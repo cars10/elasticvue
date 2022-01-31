@@ -55,7 +55,8 @@
     "instances_table": {
       "headers": {
         "cluster": "集群名称",
-        "uri": "地址"
+        "uri": "地址",
+        "version": null
       },
       "row": {
         "title": "连接到集群 '{uri}'",

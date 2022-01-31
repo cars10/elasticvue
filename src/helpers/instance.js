@@ -9,6 +9,18 @@ export const checkHealth = instance => {
   adapter
     .clusterHealth()
     .then(result => result.json())
-    .then(body => (instance.status = body.status))
+    .then(body => {
+      instance.status = body.status
+
+      if (!instance.version || !instance.major_version) {
+        adapter.ping()
+          .then(result => result.json())
+          .then(info => {
+            const version = info.version.number
+            instance.version = version
+            instance.major_version = version[0]
+          })
+      }
+    })
     .catch(() => (instance.status = CONNECTION_STATES.UNKNOWN))
 }

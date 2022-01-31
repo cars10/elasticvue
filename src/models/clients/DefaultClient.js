@@ -104,6 +104,10 @@ export class DefaultClient {
     return this.request('_cat/nodes', 'GET', params)
   }
 
+  nodes () {
+    return this.request('_nodes', 'GET')
+  }
+
   get ({ index, type, id, routing }) {
     const docType = type || '_doc'
     const params = {}

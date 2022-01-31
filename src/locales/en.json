@@ -55,7 +55,8 @@
     "instances_table": {
       "headers": {
         "cluster": "Cluster",
-        "uri": "Uri"
+        "uri": "Uri",
+        "version": "Version"
       },
       "row": {
         "title": "Connect to cluster at '{uri}'",

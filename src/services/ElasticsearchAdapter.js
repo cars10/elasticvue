@@ -99,6 +99,10 @@ export default class ElasticsearchAdapter {
     return this.client.catNodes(params)
   }
 
+  nodes () {
+    return this.client.nodes()
+  }
+
   get (params) {
     return this.client.get(params)
   }

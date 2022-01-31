@@ -2,6 +2,12 @@
 
 *Please check the [releases](https://github.com/cars10/elasticvue/releases) page if you need version release dates.*
 
+# 0.38.0
+
+* [fix]: support snapshots for elasticsearch < 6, fixes [#83][i83]
+
+[i83]: https://github.com/cars10/elasticvue/issues/83
+
 # 0.37.0
 
 * [feat]: BETA: adds shard overview + relocation, fixes [#72][i72]

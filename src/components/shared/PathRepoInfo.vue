@@ -22,8 +22,8 @@
 
 <script>
   import Loader from '@/components/shared/Loader'
-  import { setupElasticsearchRequest } from '@/mixins/RequestComposition'
   import { computed, onMounted } from '@vue/composition-api'
+  import { usePathRepoInfo } from '@/mixins/PathRepoInfo'
 
   export default {
     name: 'path-repo-info',
@@ -31,15 +31,8 @@
       Loader
     },
     setup () {
-      const { load, requestState, data } = setupElasticsearchRequest('clusterSettings')
+      const { load, requestState, pathRepo } = usePathRepoInfo()
       onMounted(load)
-
-      const pathRepo = computed(() => {
-        if (!data.value) return ''
-        if (!data.value.defaults) return ''
-        if (!data.value.defaults.path) return ''
-        return data.value.defaults.path.repo
-      })
 
       const validPathRepo = computed(() => {
         return pathRepo.value.length > 0
@@ -48,10 +41,10 @@
       return {
         load,
         requestState,
-        data,
         pathRepo,
         validPathRepo
       }
     }
   }
+
 </script>

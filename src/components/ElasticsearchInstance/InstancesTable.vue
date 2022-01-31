@@ -37,17 +37,20 @@
               </svg>
             </div>
 
-            <div class="d-inline-block text-truncate" style="max-width: 200px;">
+            <div class="d-inline-block text-truncate" style="max-width: 300px;">
               {{ item.name }}
               <v-chip v-if="index === activeInstanceIdx" class="mx-1" color="success" small>active</v-chip>
             </div>
           </td>
-          <td>
-            <div class="d-inline-block text-truncate" style="max-width: 200px;">
+          <td class="pt-1">
+            <div class="d-inline-block text-truncate" style="max-width: 250px;">
               {{ item.uri }}
 
               <copy-button small :value="item.uri" :title="$t('elasticsearch_instance.instances_table.row.copy_uri')"/>
             </div>
+          </td>
+          <td>
+            {{ item.version }}
           </td>
           <td>
             <rename-instance :cluster-idx="index" :cluster-name="item.name" :cluster-uri="item.uri"/>
@@ -106,6 +109,7 @@
       const headers = [
         { text: i18n.t('elasticsearch_instance.instances_table.headers.cluster'), value: 'name' },
         { text: i18n.t('elasticsearch_instance.instances_table.headers.uri'), value: 'uri', sortable: false },
+        { text: i18n.t('elasticsearch_instance.instances_table.headers.version'), value: 'version', sortable: false },
         { text: '', sortable: false }
       ]
 
