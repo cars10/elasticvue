@@ -4,9 +4,14 @@
 
 # 0.38.0
 
+This version includes some fixes for outdated versions of elasticsearch (like `2.x` and `5.x`).
+
 * [fix]: support snapshots for elasticsearch < 6, fixes [#83][i83]
+* [revert]: revert [#85][i85], fixes [#90][i90]
 
 [i83]: https://github.com/cars10/elasticvue/issues/83
+
+[i90]: https://github.com/cars10/elasticvue/issues/90
 
 # 0.37.0
 

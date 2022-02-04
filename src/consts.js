@@ -18,7 +18,7 @@ export const DEFAULT_NAME = 'default cluster'
 export const DEFAULT_HOST = 'http://localhost:9200'
 export const LOCALSTORAGE_KEY = 'elasticvuex'
 export const INDEXEDDB_NAME = 'elasticvue'
-export const DEFAULT_SEARCH_QUERY = '{\n\t"query": {\n\t\t"query_string": {\n\t\t\t"query": "*"\n\t\t}\n\t},\n\t"size": 10,\n\t"from": 0,\n\t"sort": [],\n\t"track_total_hits": true\n}'
+export const DEFAULT_SEARCH_QUERY = '{\n\t"query": {\n\t\t"query_string": {\n\t\t\t"query": "*"\n\t\t}\n\t},\n\t"size": 10,\n\t"from": 0,\n\t"sort": []\n}'
 export const DEFAULT_HIDE_INDICES_REGEX = '^\\..*'
 
 export const REQUEST_DEFAULT_HEADERS = {
