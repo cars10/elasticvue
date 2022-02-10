@@ -28,10 +28,12 @@ export default class ElasticsearchAdapter {
   }
 
   catIndices (params, filter) {
+    params.format = 'json'
     return this.client.catIndices(params, filter)
   }
 
   catShards (params, filter) {
+    params.format = 'json'
     return this.client.catShards(params, filter)
   }
 
@@ -96,6 +98,7 @@ export default class ElasticsearchAdapter {
   }
 
   catNodes (params) {
+    params.format = 'json'
     return this.client.catNodes(params)
   }
 
