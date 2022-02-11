@@ -62,6 +62,11 @@ export const showSnackbar = function (requestState, successOptions = {}) {
     } else {
       snackbarOptions.body = requestState.apiErrorMessage
     }
+  } else if (requestState.status === -1) {
+    snackbarOptions.timeout = TIMEOUTS.error
+    snackbarOptions.color = 'error'
+    snackbarOptions.title = 'Request error'
+    snackbarOptions.body = requestState.apiErrorMessage
   }
 
   snackbarOptions.copyableText = requestState.apiErrorMessage

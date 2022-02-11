@@ -52,22 +52,33 @@ export function useElasticsearchRequest () {
 
         return Promise.resolve(body)
       } catch (errorResponse) {
-        const errorJson = await errorResponse.json()
-        requestState.value = {
-          loading: false,
-          networkError: false,
-          apiError: true,
-          apiErrorMessage: stringifyJsonBigInt(errorJson),
-          status: errorResponse.status
-        }
+        if (errorResponse.json) {
+          const errorJson = await errorResponse.json()
+          requestState.value = {
+            loading: false,
+            networkError: false,
+            apiError: true,
+            apiErrorMessage: stringifyJsonBigInt(errorJson),
+            status: errorResponse.status
+          }
 
-        if (errorJson && errorJson.error) {
-          requestState.value.elasticsearchErrorType = errorJson.error.type
-          requestState.value.elasticsearchErrorReason = errorJson.error.reason
-        }
+          if (errorJson && errorJson.error) {
+            requestState.value.elasticsearchErrorType = errorJson.error.type
+            requestState.value.elasticsearchErrorReason = errorJson.error.reason
+          }
 
-        console.error('Elasticsearch API error', errorJson)
-        return Promise.reject(new Error('API error'))
+          console.error('Elasticsearch API error', errorJson)
+          return Promise.reject(new Error('API error'))
+        } else {
+          requestState.value = {
+            loading: false,
+            networkError: false,
+            apiError: true,
+            apiErrorMessage: errorResponse.toString(),
+            status: -1
+          }
+          return Promise.reject(new Error('Request error'))
+        }
       }
     } catch (error) {
       requestState.value = {
