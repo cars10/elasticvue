@@ -1,4 +1,4 @@
-FROM node:14.18-alpine AS builder
+FROM --platform=$BUILDPLATFORM node:14.18-alpine AS builder
 WORKDIR /usr/src/app
 
 COPY package.json .
