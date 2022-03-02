@@ -5,8 +5,11 @@
 # 0.39.0
 
 * [fix]: elasticsearch version not updated, fixes [#94][i94]
+* [fix]: add additional button to reset the whole custom search body, fixes [#95][i95]
 
 [i94]: https://github.com/cars10/elasticvue/issues/94
+
+[i95]: https://github.com/cars10/elasticvue/issues/95
 
 # 0.38.0
 

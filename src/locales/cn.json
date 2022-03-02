@@ -405,10 +405,10 @@
       },
       "search": "搜索",
       "customize_query": {
-        "heading": "自定义搜索查询",
-        "button": "自定义查询",
+        "button": null,
         "hint": "提示：对查询的更改不会更新搜索框中的相关输入（如搜索查询或表中的分页/排序），但对输入的更改将合并到查询中。",
-        "reset": "重设自定义查询"
+        "reset": null,
+        "reset_all": null
       }
     },
     "result": {

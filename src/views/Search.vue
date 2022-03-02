@@ -39,17 +39,17 @@
         <v-expand-transition>
           <div v-if="searchQueryCollapsed" class="my-2 pa-2 lowered">
             <p>
-              {{ $t('search.form.customize_query.heading') }}
-            </p>
-            <p>
               {{ $t('search.form.customize_query.hint') }}
             </p>
             <resizable-container :initial-height="280">
               <code-editor v-model="searchQuery" :external-commands="editorCommands"/>
             </resizable-container>
             <div class="mt-2">
-              <button class="btn-link" type="button" @click="resetSearchQuery">
+              <button class="btn-link mr-4" type="button" @click="resetSearchQuery">
                 {{ $t('search.form.customize_query.reset') }}
+              </button>
+              <button class="btn-link" type="button" @click="resetSearch">
+                {{ $t('search.form.customize_query.reset_all') }}
               </button>
             </div>
           </div>
@@ -93,7 +93,7 @@
   import { vuexAccessors } from '@/helpers/store'
   import { debounce } from '@/helpers'
   import { useElasticsearchRequest } from '@/mixins/RequestComposition'
-  import { DEFAULT_SEARCH_QUERY } from '@/consts'
+  import { DEFAULT_DATA_TABLE_OPTIONS, DEFAULT_SEARCH_QUERY } from '@/consts'
   import { buildQueryFromTableOptions, mergeSearchQuery } from '@/helpers/search'
   import { parseJsonBigInt } from '@/helpers/json_parse'
 
@@ -119,6 +119,13 @@
         const newQueryParts = buildQueryFromTableOptions(options.value, {})
         newQueryParts.query = { query_string: { query: q.value } }
         mergeSearchQuery(searchQuery, newQueryParts)
+        search()
+      }
+
+      const resetSearch = () => {
+        searchQuery.value = DEFAULT_SEARCH_QUERY
+        options.value = DEFAULT_DATA_TABLE_OPTIONS
+        search()
       }
 
       const searchResults = ref({})
@@ -157,6 +164,7 @@
         searchQueryCollapsed,
         resetQuery,
         resetSearchQuery,
+        resetSearch,
         q,
         indices,
         searchQuery,
