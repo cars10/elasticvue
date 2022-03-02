@@ -64,6 +64,7 @@
   import i18n from '@/i18n'
   import Utility from '@/components/Utilities/Utility'
   import data from '../data'
+  import store from '@/store'
 
   export default {
     name: 'utilities',
@@ -107,6 +108,9 @@
           }
         ]
       }
+
+      const instance = store.getters['connection/activeInstance']
+      if (instance.major_version >= 8) delete UTILITIES.delete
 
       return {
         UTILITIES
