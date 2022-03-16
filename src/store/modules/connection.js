@@ -1,5 +1,3 @@
-import { DEFAULT_ELASTICSEARCH_HOST } from '@/consts'
-
 export const connection = {
   namespaced: true,
   state: {
@@ -24,9 +22,6 @@ export const connection = {
         state.activeInstanceIdx = 0
       } else if (index < state.activeInstanceIdx) {
         state.activeInstanceIdx = state.activeInstanceIdx - 1
-      }
-      if (state.instances.length === 0) {
-        state.instances.push(Object.assign({}, DEFAULT_ELASTICSEARCH_HOST))
       }
     },
     setActiveInstanceIdx (state, index) {
