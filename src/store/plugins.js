@@ -5,12 +5,12 @@ export const plugins = [
   createPersistedState({
     key: LOCALSTORAGE_KEY,
     paths: [
-      'codeEditor',
       'connection.instances',
+      'codeEditor',
       'theme',
+      'language',
       'queryRest',
       'indices',
-      'language',
       'nodes',
       'repositories',
       'snapshots',

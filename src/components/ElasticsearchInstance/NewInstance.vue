@@ -138,6 +138,7 @@
   import Configure from '@/components/Setup/Configure'
   import SslHint from '@/components/shared/SslHint'
   import AuthorizationHeaderHint from '@/components/shared/AuthorizationHeaderHint'
+  import { reloadHomePage } from '@/helpers'
 
   export default {
     name: 'new-instance',
@@ -146,7 +147,7 @@
       Configure,
       SslHint
     },
-    setup () {
+    setup (props, context) {
       const dialog = ref(false)
       const closeDialog = () => {
         dialog.value = false
@@ -174,8 +175,9 @@
         connect()
           .then(() => {
             if (!testState.value.connectError) {
-              store.commit('connection/setActiveInstanceIdx', instances.value.length - 1)
-              window.location.replace(BASE_URI)
+              const newId = instances.value.length - 1
+              store.commit('connection/setActiveInstanceIdx', newId)
+              reloadHomePage(context, newId)
             }
           })
       }

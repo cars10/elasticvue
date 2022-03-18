@@ -11,8 +11,11 @@ import Utilities from '@/views/Utilities'
 import QueryRest from '@/views/QueryRest'
 import Nodes from '@/views/Nodes'
 import Settings from '@/views/Settings'
-import Store from '@/store'
 import Shards from '@/views/Shards'
+import NestedView from '@/views/NestedView'
+import store from '@/store'
+import ElasticsearchAdapter from '@/services/ElasticsearchAdapter'
+import { DefaultClient } from '@/models/clients/DefaultClient'
 
 Vue.use(Router)
 
@@ -23,16 +26,11 @@ const router = new Router({
   base,
   routes: [
     {
-      path: '/',
-      name: 'Home',
-      component: Home
-    },
-    {
       path: '/setup',
       name: 'Setup',
       component: Setup,
       beforeEnter: (to, from, next) => {
-        if (Store.state.connection.instances.length > 0) {
+        if (store.state.connection.instances.length > 0) {
           next('/')
         } else {
           next()
@@ -40,71 +38,56 @@ const router = new Router({
       }
     },
     {
-      path: '/nodes',
-      name: 'Nodes',
-      component: Nodes
-    },
-    {
-      path: '/indices',
-      name: 'Indices',
-      component: Indices
-    },
-    {
-      path: '/shards',
-      name: 'Shards',
-      component: Shards
-    },
-    {
-      path: '/search',
-      name: 'Search',
-      component: Search,
-      props: true
-    },
-    {
-      path: '/search/:index/:type?/:id',
-      name: 'Document',
-      component: Document
-    },
-    {
-      path: '/utilities',
-      name: 'Utilities',
-      component: Utilities
-    },
-    {
-      path: '/settings',
-      name: 'Settings',
-      component: Settings
-    },
-    {
-      path: '/snapshots',
-      name: 'Snapshots',
-      component: Snapshots
-    },
-    {
-      path: '/snapshot_repositories',
-      name: 'Repositories',
-      component: Repositories
-    },
-    {
-      path: '/rest',
-      name: 'Rest',
-      component: QueryRest
+      path: '/cluster/:instanceId',
+      component: NestedView,
+      props: (route) => ({ id: route.params.instanceId || store.state.connection.activeInstanceIdx }),
+      children: [
+        { path: '/', name: 'Home', component: Home },
+        { path: 'nodes', name: 'Nodes', component: Nodes },
+        { path: 'indices', name: 'Indices', component: Indices },
+        { path: 'shards', name: 'Shards', component: Shards },
+        { path: 'search', name: 'Search', component: Search, props: true },
+        { path: 'search/:index/:type?/:id', name: 'Document', component: Document },
+        { path: 'utilities', name: 'Utilities', component: Utilities },
+        { path: 'settings', name: 'Settings', component: Settings },
+        { path: 'snapshots', name: 'Snapshots', component: Snapshots },
+        { path: 'snapshot_repositories', name: 'Repositories', component: Repositories },
+        { path: 'rest', name: 'Rest', component: QueryRest }
+      ]
     },
     {
       path: '*',
       beforeEnter: (to, from, next) => {
-        next(base) // redirect "404" to root url
+        next('/cluster/0/nodes')
       }
     }
   ]
 })
 
 router.beforeEach((to, from, next) => {
-  if (!Store.state.connection.instances.length > 0 && to.name !== 'Setup') {
-    next('setup')
-  } else {
-    next()
+  if (to.name === 'Setup') return next()
+
+  const numInstances = store.state.connection.instances.length
+  if (numInstances === 0) return next('setup')
+
+  let instanceId = to.params.instanceId
+  try {
+    instanceId = parseInt(instanceId)
+  } catch (e) {
   }
+
+  if (isNaN(instanceId) || (instanceId + 1) > numInstances || instanceId < 0) {
+    return next({
+      name: 'Home',
+      params: { instanceId: 0 }
+    })
+  }
+
+  store.commit('connection/setActiveInstanceIdx', instanceId)
+  const adapter = new ElasticsearchAdapter(new DefaultClient(store.getters['connection/activeInstance']))
+  store.commit('connection/setElasticsearchAdapter', adapter)
+
+  next()
 })
 
 router.afterEach((to, _from) => {

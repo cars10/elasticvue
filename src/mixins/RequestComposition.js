@@ -1,6 +1,6 @@
 import { ref } from '@vue/composition-api'
-import cachedAdapter from '@/mixins/GetAdapter'
 import { parseJsonBigInt, stringifyJsonBigInt } from '@/helpers/json_parse'
+import store from '@/store'
 
 export function useElasticsearchRequest () {
   const requestState = ref({
@@ -24,7 +24,7 @@ export function useElasticsearchRequest () {
     }
 
     try {
-      const adapter = cachedAdapter()
+      const adapter = store.state.connection.elasticsearchAdapter
       await adapter.ping()
 
       try {

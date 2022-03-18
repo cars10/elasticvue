@@ -102,3 +102,8 @@ export const nodeRoleTitle = role => {
 
   return title
 }
+
+export const reloadHomePage = (context, instanceId) => {
+  const url = context.root.$router.resolve({ name: 'Home', params: { instanceId } }).href
+  window.location.replace(url)
+}

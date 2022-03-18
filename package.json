@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@mdi/font": "^6.5.95",
-    "@vue/composition-api": "^1.4.6",
+    "@vue/composition-api": "^1.4.9",
     "ace-builds": "^1.4.14",
     "comlink": "^4.3.1",
     "idb": "^7.0.0",

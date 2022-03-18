@@ -28,7 +28,7 @@
                   dense>
       <template v-slot:item="{ item, index }">
         <tr :title="$t('elasticsearch_instance.instances_table.row.title', {uri: item.uri})" class="tr--clickable"
-            @click="setActiveInstanceIdx(index)">
+            @click="switchCluster(index)">
           <td class="pt-1">
             <div :title="$t('elasticsearch_instance.instances_table.row.cluster_health.title', {status: item.status})"
                  class="d-inline-block">
@@ -71,12 +71,13 @@
 <script>
   import store from '@/store'
   import { vuexAccessors } from '@/helpers/store'
-  import { BASE_URI, DEFAULT_ITEMS_PER_PAGE } from '@/consts'
+  import { DEFAULT_ITEMS_PER_PAGE } from '@/consts'
   import { ref } from '@vue/composition-api'
   import i18n from '@/i18n'
   import RenameInstance from '@/components/ElasticsearchInstance/RenameInstance'
   import NewInstance from '@/components/ElasticsearchInstance/NewInstance'
   import CopyButton from '@/components/shared/CopyButton'
+  import { reloadHomePage } from '@/helpers'
 
   export default {
     name: 'instances-table',
@@ -85,13 +86,10 @@
       NewInstance,
       RenameInstance
     },
-    setup () {
+    setup (props, context) {
       const { activeInstanceIdx, instances } = vuexAccessors('connection', ['activeInstanceIdx', 'instances'])
 
-      const setActiveInstanceIdx = index => {
-        store.commit('connection/setActiveInstanceIdx', index)
-        window.location.replace(BASE_URI)
-      }
+      const switchCluster = index => reloadHomePage(context, index)
 
       const removeInstance = index => {
         if (confirm(i18n.t('elasticsearch_instance.instances_table.row.remove_cluster.confirm', {
@@ -101,7 +99,7 @@
           let reload
           if (index === activeInstanceIdx.value) reload = true
           store.commit('connection/removeInstance', index)
-          if (reload) window.location.replace(BASE_URI)
+          if (reload) reloadHomePage(context, 0)
         }
       }
 
@@ -116,7 +114,7 @@
       return {
         activeInstanceIdx,
         instances,
-        setActiveInstanceIdx,
+        switchCluster,
         removeInstance,
         filter,
         headers,

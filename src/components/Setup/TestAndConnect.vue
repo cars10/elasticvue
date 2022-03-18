@@ -86,6 +86,7 @@
   import AuthorizationHeaderHint from '@/components/shared/AuthorizationHeaderHint'
   import { SHOW_CORS_HINT } from '@/consts'
   import { showSuccessSnackbar } from '@/mixins/ShowSnackbar'
+  import { reloadHomePage } from '@/helpers'
 
   export default {
     name: 'test-and-connect',
@@ -114,14 +115,12 @@
             if (testState.value.connectError) return
             store.commit('connection/setActiveInstanceIdx', 0)
             showSuccessSnackbar({ title: i18n.t('setup.test_and_connect.connected') })
-            context.root.$router.push('/')
+            reloadHomePage(context, 0)
           })
       }
 
       const passwordVisible = ref(false)
-      const usesSSL = computed(() => {
-        return elasticsearchHost.value.uri.match(/^https/)
-      })
+      const usesSSL = computed(() => (elasticsearchHost.value.uri.match(/^https/)))
 
       return {
         hasError,
