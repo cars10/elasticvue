@@ -1,24 +1,24 @@
 import ElasticsearchAdapter from '@/services/ElasticsearchAdapter'
 import { DefaultClient } from '@/models/clients/DefaultClient'
 import { CONNECTION_STATES } from '@/consts'
+import Vue from 'vue'
 
-export const checkHealth = instance => {
+export const checkHealth = async instance => {
   if (!instance) return
   const adapter = new ElasticsearchAdapter(new DefaultClient(instance))
 
-  adapter
-    .clusterHealth()
-    .then(result => result.json())
-    .then(body => {
-      instance.status = body.status
+  try {
+    const result = await adapter.clusterHealth()
+    const body = await result.json()
+    Vue.set(instance, 'status', body.status)
 
-      adapter.ping()
-        .then(result => result.json())
-        .then(info => {
-          const version = info.version.number
-          instance.version = version
-          instance.major_version = version[0]
-        })
-    })
-    .catch(() => (instance.status = CONNECTION_STATES.UNKNOWN))
+    const pingResult = await adapter.ping()
+    const info = await pingResult.json()
+    const version = info.version.number
+
+    Vue.set(instance, 'version', version)
+    Vue.set(instance, 'major_version', version[0])
+  } catch (e) {
+    Vue.set(instance, 'status', CONNECTION_STATES.UNKNOWN)
+  }
 }
