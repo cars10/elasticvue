@@ -134,7 +134,7 @@
   import { vuexAccessors } from '@/helpers/store'
   import { computed, ref } from '@vue/composition-api'
   import { useTestConnection } from '@/mixins/TestConnection'
-  import { BASE_URI, SHOW_CORS_HINT } from '@/consts'
+  import { SHOW_CORS_HINT } from '@/consts'
   import Configure from '@/components/Setup/Configure'
   import SslHint from '@/components/shared/SslHint'
   import AuthorizationHeaderHint from '@/components/shared/AuthorizationHeaderHint'
@@ -177,7 +177,7 @@
             if (!testState.value.connectError) {
               const newId = instances.value.length - 1
               store.commit('connection/setActiveInstanceIdx', newId)
-              reloadHomePage(context, newId)
+              reloadHomePage(context.root.$router, newId)
             }
           })
       }

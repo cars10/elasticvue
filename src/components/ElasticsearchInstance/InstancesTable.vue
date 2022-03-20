@@ -89,7 +89,7 @@
     setup (props, context) {
       const { activeInstanceIdx, instances } = vuexAccessors('connection', ['activeInstanceIdx', 'instances'])
 
-      const switchCluster = index => reloadHomePage(context, index)
+      const switchCluster = index => reloadHomePage(context.root.$router, index)
 
       const removeInstance = index => {
         if (confirm(i18n.t('elasticsearch_instance.instances_table.row.remove_cluster.confirm', {
@@ -99,7 +99,7 @@
           let reload
           if (index === activeInstanceIdx.value) reload = true
           store.commit('connection/removeInstance', index)
-          if (reload) reloadHomePage(context, 0)
+          if (reload) reloadHomePage(context.root.$router, 0)
         }
       }
 

@@ -115,7 +115,7 @@
             if (testState.value.connectError) return
             store.commit('connection/setActiveInstanceIdx', 0)
             showSuccessSnackbar({ title: i18n.t('setup.test_and_connect.connected') })
-            reloadHomePage(context, 0)
+            reloadHomePage(context.root.$router, 0)
           })
       }
 
