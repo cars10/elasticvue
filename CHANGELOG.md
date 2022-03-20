@@ -2,6 +2,14 @@
 
 *Please check the [releases](https://github.com/cars10/elasticvue/releases) page if you need version release dates.*
 
+# 0.40.0
+
+* [fix]: fix shards overview, fixes [#92][i92]
+* [feat]: change url to include cluster the id. This makes it much easier to work with different clusters in different
+  browser tabs.
+
+[i92]: https://github.com/cars10/elasticvue/issues/92
+
 # 0.39.0
 
 * [fix]: improve elasticsearch 8 support, fixes [#93][i93]

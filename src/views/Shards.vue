@@ -17,8 +17,7 @@
   import ShardsTable from '@/components/Shards/ShardsTable'
   import Loader from '@/components/shared/Loader'
   import { useElasticsearchRequest } from '@/mixins/RequestComposition'
-  import { onMounted, ref, watch } from '@vue/composition-api'
-  import { debounce } from '@/helpers'
+  import { onMounted, ref } from '@vue/composition-api'
   import { convertSource } from '@/models/Shards'
 
   export default {
@@ -44,22 +43,17 @@
       }
 
       const { callElasticsearch } = useElasticsearchRequest()
-      const filter = ref('')
       const shards = ref({})
       const load = async () => {
         const indices = await callElasticsearch('catIndices', {
           h: ['index', 'health', 'pri', 'rep', 'status'],
           s: ['index']
         })
-        const indexNames = indices.filter(i => i.status === 'open').map(i => i.index)
-        const rawShards = await callElasticsearch('catShards', CAT_METHOD_PARAMS, indexNames.join(','))
+        const rawShards = await callElasticsearch('catShards', CAT_METHOD_PARAMS, '*')
 
         shards.value = convertSource(rawShards, indices)
       }
       onMounted(load)
-
-      const debouncedFilterTable = debounce(load, 250)
-      watch(filter, debouncedFilterTable)
 
       return {
         shards,
