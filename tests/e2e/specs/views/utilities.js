@@ -2,7 +2,7 @@ describe('Utilities page', () => {
   beforeEach(() => {
     cy.deleteAllIndices()
     cy.quickConnect()
-    cy.visit('/utilities')
+    cy.visit('/cluster/0/utilities')
   })
 
   describe('creating data', () => {

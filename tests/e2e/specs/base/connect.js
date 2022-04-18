@@ -10,7 +10,7 @@ describe('Connection', () => {
   })
 
   it('cannot connect to a non existing cluster', () => {
-    cy.visit('/', {
+    cy.visit('/cluster/0/', {
       onBeforeLoad: window => {
         window.localStorage.clear()
         expect(window.localStorage.getItem(Cypress.env('LOCALSTORAGE_KEY').toString())).to.be.null

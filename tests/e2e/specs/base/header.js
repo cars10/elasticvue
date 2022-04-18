@@ -18,7 +18,7 @@ describe('Header', () => {
       cy.get('#instance_selection_toggle').click()
       cy.get('#remove-instance-0').click().then(() => {
         const state = JSON.parse(window.localStorage.getItem('elasticvuex'))
-        expect(state.connection.instances.length).to.equal(1)
+        expect(state.connection.instances.length).to.equal(0)
       })
     })
 

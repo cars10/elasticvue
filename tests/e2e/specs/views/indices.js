@@ -2,7 +2,7 @@ describe('Indices page', () => {
   beforeEach(() => {
     cy.deleteAllIndices()
     cy.quickConnect()
-    cy.visit('/indices')
+    cy.visit('/cluster/0/indices')
   })
 
   describe('managing indices', () => {

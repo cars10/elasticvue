@@ -5,7 +5,7 @@ describe('Nodes', () => {
 
   describe('grid', () => {
     beforeEach(() => {
-      cy.visit('/nodes')
+      cy.visit('/cluster/0/nodes')
       cy.get('#nodes_list_grid').click()
     })
 
@@ -30,7 +30,7 @@ describe('Nodes', () => {
 
   describe('table', () => {
     beforeEach(() => {
-      cy.visit('/nodes')
+      cy.visit('/cluster/0/nodes')
       cy.get('#nodes_list_table').click()
     })
 

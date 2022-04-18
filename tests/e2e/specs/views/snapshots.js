@@ -2,7 +2,7 @@ describe('Snapshots', () => {
   beforeEach(() => {
     cy.deleteAllSnapshotRepositories()
     cy.quickConnect()
-    cy.visit('/snapshot_repositories')
+    cy.visit('/cluster/0/snapshot_repositories')
   })
 
   describe('Snapshot repositories', () => {
