@@ -115,6 +115,7 @@
       } = vuexAccessors('search', ['q', 'indices', 'searchQuery', 'options', 'searchQueryCollapsed'])
       const resetQuery = () => (q.value = '*')
       const resetSearchQuery = () => {
+        resetQuery()
         searchQuery.value = DEFAULT_SEARCH_QUERY
         const newQueryParts = buildQueryFromTableOptions(options.value, {})
         newQueryParts.query = { query_string: { query: q.value } }
@@ -123,6 +124,7 @@
       }
 
       const resetSearch = () => {
+        resetQuery()
         searchQuery.value = DEFAULT_SEARCH_QUERY
         options.value = DEFAULT_DATA_TABLE_OPTIONS
         search()
@@ -136,7 +138,14 @@
           queryParsingError.value = false
           const val = parseJsonBigInt(searchQuery.value)
           callElasticsearch('search', val, indices.value)
-            .then(result => (searchResults.value = result))
+            .then(result => {
+              if (result.hits.total.value > 0 && result.hits.total.value < (options.value.page - 1) * options.value.itemsPerPage) {
+                options.value.page = 1
+                mergeSearchQuery(searchQuery, { from: 0 })
+              } else {
+                searchResults.value = result
+              }
+            })
             .catch(() => (searchResults.value = {}))
         } catch (e) {
           searchResults.value = {}
