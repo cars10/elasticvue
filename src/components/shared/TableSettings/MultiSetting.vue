@@ -19,7 +19,8 @@
                       :label="setting"
                       :value="setting"
                       class="my-0 v-input--checkbox--full-labels"
-                      color="primary-button" hide-details/>
+                      color="primary-button"
+                      hide-details/>
         </div>
       </slot>
     </div>

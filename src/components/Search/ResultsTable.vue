@@ -15,6 +15,8 @@
 
           <settings-dropdown :badge="columns.length > filteredColumns.length"
                              :button-title="$t('search.results_table.settings.title')">
+            <single-setting v-model="stickyTableHeader"
+                            :name="$t('search.results_table.settings.sticky_table_header.label')"/>
             <multi-setting v-model="selectedColumns"
                            :settings="columns"
                            :name="$t('search.results_table.settings.columns')"/>
@@ -29,7 +31,7 @@
                   :loading="loading || filterLoading"
                   :options.sync="options"
                   :server-items-length="totalHits"
-                  class="table--condensed table--fixed-header">
+                  :class="tableClasses">
       <template v-slot:item="item">
         <result :doc="item.item" :filtered-columns="filteredColumns" @openDocument="openDocument"/>
       </template>
@@ -70,6 +72,7 @@
   import { debounce, renameForbiddenObjectKeys, sortableField } from '@/helpers'
   import { computed, ref, watch } from '@vue/composition-api'
   import { useElasticsearchRequest } from '@/mixins/RequestComposition'
+  import SingleSetting from '@/components/shared/TableSettings/SingleSetting'
 
   export default {
     name: 'results-table',
@@ -77,7 +80,8 @@
       SettingsDropdown,
       MultiSetting,
       ModalDataLoader,
-      Result
+      Result,
+      SingleSetting
     },
     props: {
       body: {
@@ -99,8 +103,9 @@
         filter,
         options,
         selectedColumns,
-        columns
-      } = vuexAccessors('search', ['q', 'filter', 'options', 'selectedColumns', 'columns'])
+        columns,
+        stickyTableHeader
+      } = vuexAccessors('search', ['q', 'filter', 'options', 'selectedColumns', 'columns', 'stickyTableHeader'])
       const { filterLoading, asyncFilterTable } = useAsyncFilter()
 
       const hits = computed(() => {
@@ -214,6 +219,13 @@
         downloadJsonHref.value = `data:application/json,${encodeURIComponent(value)}`
       }
 
+      const tableClasses = computed(() => {
+        return {
+          'table--condensed': true,
+          'table--fixed-header': stickyTableHeader.value
+        }
+      })
+
       return {
         filterLoading,
         filteredItems,
@@ -228,6 +240,8 @@
         filter,
         options,
         columns,
+        stickyTableHeader,
+        tableClasses,
         selectedColumns,
         downloadJsonHref,
         setDownloadHref

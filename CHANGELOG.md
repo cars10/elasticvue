@@ -6,12 +6,15 @@
 
 * [fix]: fix shards overview, fixes [#92][i92]
 * [fix]: reset current page if new search has less results than current page, fixes [#99][i99]
+* [fix]: adds option to disable sticky table headers, fixes [#75][i75]
 * [feat]: change url to include cluster the id. This makes it much easier to work with different clusters in different
   browser tabs.
 
 [i92]: https://github.com/cars10/elasticvue/issues/92
 
 [i99]: https://github.com/cars10/elasticvue/issues/99
+
+[i75]: https://github.com/cars10/elasticvue/issues/75
 
 # 0.39.0
 

@@ -189,6 +189,9 @@
       "show_hidden_indices": {
         "label": "查看隐藏索引"
       },
+      "sticky_table_header": {
+        "label": null
+      },
       "table": {
         "headers": {
           "name": "名称",
@@ -420,7 +423,10 @@
       },
       "settings": {
         "title": "表格设置",
-        "columns": "列"
+        "columns": "列",
+        "sticky_table_header": {
+          "label": null
+        }
       },
       "download_as_json": "下载为 JSON 文件"
     }

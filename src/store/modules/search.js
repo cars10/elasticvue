@@ -10,7 +10,8 @@ export const search = {
     filter: '',
     options: Object.assign({}, DEFAULT_DATA_TABLE_OPTIONS),
     selectedColumns: [],
-    columns: []
+    columns: [],
+    stickyTableHeader: true
   },
   mutations: {
     setQ (state, q) {
@@ -36,6 +37,9 @@ export const search = {
     },
     setColumns (state, val) {
       state.columns = val
+    },
+    setStickyTableHeader (state, stickyTableHeader) {
+      state.stickyTableHeader = stickyTableHeader
     }
   }
 }

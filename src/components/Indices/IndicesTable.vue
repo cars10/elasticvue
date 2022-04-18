@@ -7,19 +7,21 @@
         </v-col>
         <v-col>
           <div class="d-inline-block float-right">
-            <v-checkbox v-model="showHiddenIndices"
-                        :label="$t('indices.indices_table.show_hidden_indices.label')"
-                        class="d-inline-block mr-6 vertical-align--bottom"
-                        hide-details/>
             <v-text-field id="filter"
                           v-model="filter"
                           :label="$t('defaults.filter.label')"
                           append-icon="mdi-magnify"
                           autofocus
-                          class="mt-0 pt-0 v-text-field--small"
+                          class="mt-0 pt-0 mr-2 v-text-field--small"
                           hide-details
                           name="filter"
                           @keyup.esc="filter = ''"/>
+            <settings-dropdown :button-title="$t('search.results_table.settings.title')">
+              <single-setting v-model="showHiddenIndices"
+                              :name="$t('indices.indices_table.show_hidden_indices.label')"/>
+              <single-setting v-model="stickyTableHeader"
+                              :name="$t('indices.indices_table.sticky_table_header.label')"/>
+            </settings-dropdown>
           </div>
         </v-col>
       </v-row>
@@ -31,7 +33,7 @@
                   :loading="loading"
                   :options.sync="options"
                   show-select
-                  class="table--condensed table--fixed-header">
+                  :class="tableClasses">
       <template v-slot:header.data-table-select>
         <v-checkbox class="mt-0"
                     hide-details
@@ -82,17 +84,21 @@
   import i18n from '@/i18n'
   import { DEFAULT_ITEMS_PER_PAGE } from '@/consts'
   import { vuexAccessors } from '@/helpers/store'
-  import { ref, watch } from '@vue/composition-api'
+  import { ref, watch, computed } from '@vue/composition-api'
   import { useAsyncFilter } from '@/mixins/UseAsyncTableFilter'
   import { debounce } from '@/helpers'
   import IndexBulk from '@/components/Indices/IndexBulk'
+  import SettingsDropdown from '@/components/shared/TableSettings/SettingsDropdown'
+  import SingleSetting from '@/components/shared/TableSettings/SingleSetting'
 
   export default {
     name: 'indices-table',
     components: {
       NewIndex,
       IndexRow,
-      IndexBulk
+      IndexBulk,
+      SettingsDropdown,
+      SingleSetting
     },
     props: {
       indices: {
@@ -109,8 +115,9 @@
         filter,
         options,
         showHiddenIndices,
-        hideIndicesRegex
-      } = vuexAccessors('indices', ['filter', 'options', 'showHiddenIndices', 'hideIndicesRegex'])
+        hideIndicesRegex,
+        stickyTableHeader
+      } = vuexAccessors('indices', ['filter', 'options', 'showHiddenIndices', 'hideIndicesRegex', 'stickyTableHeader'])
 
       const HEADERS = [
         { text: i18n.t('indices.indices_table.table.headers.name'), value: 'index' },
@@ -163,6 +170,13 @@
         emitReloadIndices()
       }
 
+      const tableClasses = computed(() => {
+        return {
+          'table--condensed': true,
+          'table--fixed-header': stickyTableHeader.value
+        }
+      })
+
       return {
         checkAll,
         select,
@@ -170,6 +184,8 @@
         filter,
         options,
         showHiddenIndices,
+        stickyTableHeader,
+        tableClasses,
         items,
         HEADERS,
         DEFAULT_ITEMS_PER_PAGE,

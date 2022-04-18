@@ -189,6 +189,9 @@
       "show_hidden_indices": {
         "label": "Show hidden indices"
       },
+      "sticky_table_header": {
+        "label": "Sticky table header"
+      },
       "table": {
         "headers": {
           "name": "Name",
@@ -420,7 +423,10 @@
       },
       "settings": {
         "title": "Table settings",
-        "columns": "Columns"
+        "columns": "Columns",
+        "sticky_table_header": {
+          "label": "Sticky table header"
+        }
       },
       "download_as_json": "Download as json"
     }

@@ -4,6 +4,7 @@ export const indices = {
   namespaced: true,
   state: {
     showHiddenIndices: false,
+    stickyTableHeader: true,
     hideIndicesRegex: DEFAULT_HIDE_INDICES_REGEX,
     filter: '',
     options: Object.assign({}, DEFAULT_DATA_TABLE_OPTIONS, { sortBy: ['index'] })
@@ -11,6 +12,9 @@ export const indices = {
   mutations: {
     setShowHiddenIndices (state, showHiddenIndices) {
       state.showHiddenIndices = showHiddenIndices
+    },
+    setStickyTableHeader (state, stickyTableHeader) {
+      state.stickyTableHeader = stickyTableHeader
     },
     setHideIndicesRegex (state, hideIndicesRegex) {
       state.hideIndicesRegex = hideIndicesRegex
