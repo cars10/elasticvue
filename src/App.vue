@@ -17,8 +17,6 @@
   import TheHeader from '@/components/App/TheHeader'
   import TheFooter from '@/components/App/TheFooter'
   import Snackbar from '@/components/Snackbar'
-  import store from '@/store'
-  import { computed } from '@vue/composition-api'
   import { vuexAccessors } from '@/helpers/store'
 
   export default {
@@ -29,15 +27,10 @@
       Snackbar
     },
     setup () {
-      const isConnected = computed(() => {
-        return store.state.connection.instances.length > 0
-      })
-
       const { dark } = vuexAccessors('theme', ['dark'])
 
       return {
-        dark,
-        isConnected
+        dark
       }
     }
   }

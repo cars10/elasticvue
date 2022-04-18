@@ -63,6 +63,7 @@
       const reset = () => {
         if (confirm(i18n.t('settings.disconnect_and_reset.confirm'))) {
           localStorage.removeItem(LOCALSTORAGE_KEY)
+          sessionStorage.removeItem(LOCALSTORAGE_KEY)
           window.indexedDB.databases().then(databases => {
             databases.forEach(db => window.indexedDB.deleteDatabase(db.name))
           })

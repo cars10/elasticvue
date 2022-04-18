@@ -71,7 +71,7 @@
 <script>
   import store from '@/store'
   import { vuexAccessors } from '@/helpers/store'
-  import { DEFAULT_ITEMS_PER_PAGE } from '@/consts'
+  import { BASE_URI, DEFAULT_ITEMS_PER_PAGE } from '@/consts'
   import { ref } from '@vue/composition-api'
   import i18n from '@/i18n'
   import RenameInstance from '@/components/ElasticsearchInstance/RenameInstance'
@@ -89,17 +89,17 @@
     setup (props, context) {
       const { activeInstanceIdx, instances } = vuexAccessors('connection', ['activeInstanceIdx', 'instances'])
 
-      const switchCluster = index => reloadHomePage(context.root.$router, index)
+      const switchCluster = index => reloadHomePage(context.root.$router, index.toString())
 
       const removeInstance = index => {
         if (confirm(i18n.t('elasticsearch_instance.instances_table.row.remove_cluster.confirm', {
           name: instances.value[index].name,
           uri: instances.value[index].uri
         }))) {
-          let reload
-          if (index === activeInstanceIdx.value) reload = true
+          let reset
+          if (index === activeInstanceIdx.value) reset = true
           store.commit('connection/removeInstance', index)
-          if (reload) reloadHomePage(context.root.$router, 0)
+          if (reset) window.location.replace(BASE_URI)
         }
       }
 

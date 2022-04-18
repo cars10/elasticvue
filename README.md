@@ -36,6 +36,7 @@ It officially works with the following elasticsearch versions:
 * `5.6`
 * `6.8`
 * `7.x`
+* `8.x` see [Elasticsearch 8](https://github.com/cars10/elasticvue/wiki/Elasticsearch-8)
 
 Other versions might or might not work depending on the features you use.
 
@@ -87,8 +88,7 @@ Then open [http://localhost:8080](http://localhost:8080) in your browser.
 
 **Online version**
 
-Visit [http://app.elasticvue.com](http://app.elasticvue.com) or [https://app.elasticvue.com](https://app.elasticvue.com)
-.
+Visit [https://app.elasticvue.com](https://app.elasticvue.com).
 
 **Run locally**
 
@@ -113,7 +113,7 @@ server {
 **Run locally with subdirectory**
 
 If you want to host elasticvue under a subdirectory (like `www.example.com/elasticvue`) then you have to set the
-`VUE_APP_PUBLIC_PATH` environment variable while building elasticvue.
+`VUE_APP_PUBLIC_PATH` environment variable while building elasticvue. **The URL has to start and end with a slash!**
 
 ```bash
 VUE_APP_PUBLIC_PATH=/elasticvue/ yarn build
@@ -138,7 +138,7 @@ See the [official vuejs deployment guide](https://cli.vuejs.org/guide/deployment
 
 ### Elasticsearch configuration
 
-You have to [enable CORS](https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-http.html) to allow
+You have to [enable CORS](https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-network.html) to allow
 connection to your elasticsearch cluster **if you do not use the browser extensions**.
 
 Find your elasticsearch configuration (for example `/etc/elasticsearch/elasticsearch.yml`) and add the following lines:
@@ -274,7 +274,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 ### Road to 1.0
 
 * switch to vue-composition-api. Blocked by vuetify (not compatible yet)
-* document, index, snapshot repo and snapshot: add edit/delete [#30][f30]
+* add support to directly edit/delete document [#30][f30]
 * support client certificates when connecting to elasticsearch cluster [#33][f33]
 
 [f30]: https://github.com/cars10/elasticvue/issues/30

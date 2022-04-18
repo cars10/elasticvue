@@ -106,7 +106,9 @@
         }
       })
 
-      const wasConnected = store.state.connection.instances.length > 0
+      const wasConnected = computed(() => {
+        return store.state.connection.activeInstanceIdx !== null
+      })
 
       const dark = computed(() => {
         return store.state.theme.dark

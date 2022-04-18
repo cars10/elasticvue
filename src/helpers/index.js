@@ -104,6 +104,15 @@ export const nodeRoleTitle = role => {
 }
 
 export const reloadHomePage = (router, instanceId) => {
-  router.push({ name: 'Home', params: { instanceId } })
-  router.go()
+  try {
+    const currentRoute = router.currentRoute
+
+    if (currentRoute.name === 'Home' && currentRoute.params.instanceId === instanceId) {
+      window.location.reload()
+    } else {
+      const url = router.resolve({ name: 'Home', params: { instanceId } }).href
+      window.location.replace(url)
+    }
+  } catch (e) {
+  }
 }
