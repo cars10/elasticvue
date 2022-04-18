@@ -2,7 +2,7 @@
 
 *Please check the [releases](https://github.com/cars10/elasticvue/releases) page if you need version release dates.*
 
-# develop
+# 0.40.0
 
 * [fix]: fix shards overview, fixes [#92][i92]
 * [fix]: reset current page if new search has less results than current page, fixes [#99][i99]
