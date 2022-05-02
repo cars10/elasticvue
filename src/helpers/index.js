@@ -110,8 +110,14 @@ export const reloadHomePage = (router, instanceId) => {
     if (currentRoute.name === 'Home' && currentRoute.params.instanceId === instanceId) {
       window.location.reload()
     } else {
-      const url = router.resolve({ name: 'Home', params: { instanceId } }).href
-      window.location.replace(url)
+      const route = { name: 'Home', params: { instanceId } }
+      if (router.mode === 'history') {
+        const url = router.resolve(route).href
+        window.location.replace(url)
+      } else {
+        router.push(route)
+        router.go()
+      }
     }
   } catch (e) {
   }

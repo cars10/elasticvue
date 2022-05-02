@@ -2,6 +2,12 @@
 
 *Please check the [releases](https://github.com/cars10/elasticvue/releases) page if you need version release dates.*
 
+# 0.41.0
+
+* [fix]: fix some issues with browser extensions and cluster swapping, fixes [#103][i103]
+
+[i103]: https://github.com/cars10/elasticvue/issues/103
+
 # 0.40.0
 
 * [fix]: fix shards overview, fixes [#92][i92]
