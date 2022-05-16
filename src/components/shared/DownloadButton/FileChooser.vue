@@ -191,22 +191,16 @@
         const data = props.generateDownloadData()
         const options = { path: directoriesPath.value, fileName: fileName.value, data }
         invoke('save_file', options).then(result => {
-          switch (result) {
-            case 'Success':
-              ownDialog.value = false
-              errorMessage.value = null
+          if (result.success) {
+            ownDialog.value = false
+            errorMessage.value = null
 
-              showSuccessSnackbar({
-                title: `File '${fileName.value}' saved successfully`,
-                body: `Saved in '${directoriesPath.value}'.`
-              })
-              break
-            case 'AlreadyExists':
-              errorMessage.value = 'File already exists'
-              break
-            case 'Error:':
-              errorMessage.value = 'Cannot save file'
-              break
+            showSuccessSnackbar({
+              title: `File '${fileName.value}' saved`,
+              body: `Saved in '${directoriesPath.value}'.`
+            })
+          } else {
+            errorMessage.value = result.error_msg
           }
         })
       }
