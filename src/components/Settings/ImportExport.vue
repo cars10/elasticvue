@@ -34,10 +34,11 @@
           <v-btn class="primary-button mr-2" @click="createBackup">
             {{ $t('settings.import_export.export.prepare_backup') }}
           </v-btn>
-          <v-btn :disabled="backupDownloadLink.length === 0" :download="downloadFilename" :href="backupDownloadLink"
-                 class="primary-button">
-            {{ $t('settings.import_export.export.download') }}
-          </v-btn>
+          <download-button class="d-inline-block"
+                           :download="downloadFileName"
+                           :disabled="!data"
+                           :text="$t('settings.import_export.export.download')"
+                           :generateDownloadData="generateDownloadData"/>
 
           <v-divider class="my-6"/>
 
@@ -63,21 +64,25 @@
   import { ref } from '@vue/composition-api'
   import { exportStoreDataUri, useImportFileData } from '@/helpers/import_export'
   import { BASE_URI } from '@/consts'
+  import DownloadButton from '@/components/shared/DownloadButton'
 
   export default {
     name: 'import-export-settings',
+    components: {
+      DownloadButton
+    },
     setup () {
       const helpCollapsed = ref(false)
       const importFile = ref(null)
-      const backupDownloadLink = ref('')
+      const data = ref(undefined)
+
       const createBackup = () => {
-        backupDownloadLink.value = ''
-        exportStoreDataUri().then(link => {
-          backupDownloadLink.value = link
-        })
+        data.value = undefined
+        exportStoreDataUri().then(d => (data.value = d))
       }
+      const generateDownloadData = () => (data.value)
       /* eslint-disable no-undef */
-      const downloadFilename = `elasticvue_${VERSION}.json`
+      const downloadFileName = `elasticvue_${VERSION}.json`
 
       const { valid, errorMessage, importBackup } = useImportFileData(importFile)
       const importBackupAndRedirect = () => {
@@ -89,12 +94,13 @@
       return {
         helpCollapsed,
         valid,
-        backupDownloadLink,
+        generateDownloadData,
         createBackup,
-        downloadFilename,
+        downloadFileName,
         importFile,
         errorMessage,
-        importBackupAndRedirect
+        importBackupAndRedirect,
+        data
       }
     }
   }

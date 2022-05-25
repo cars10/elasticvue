@@ -5,24 +5,12 @@
         <h2 class="text-h5">Download location</h2>
 
         <div class="ml-a">
-          <v-tooltip bottom>
-            <template v-slot:activator="{ on, attrs }">
-              <span v-bind="attrs" v-on="on" class="grey--text text--small text-center">
-                <v-icon small>mdi-help-circle</v-icon>
-                Whats this?
-              </span>
-            </template>
-            <div>
-              Elasticvue uses tauri for the desktop app. Tauri does not yet support file downloads so we have to ship
-              our own for now.
-            </div>
-          </v-tooltip>
           <v-btn icon :title="$t('defaults.close')" @click.native="ownDialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </div>
-
       </v-card-title>
+
       <v-divider/>
 
       <v-container>
@@ -151,6 +139,7 @@
       })
       const filter = ref('')
       const fileName = ref(props.initialFileName)
+      watch(() => props.initialFileName, value => (fileName.value = value))
 
       const filteredDirectories = computed(() => {
         const cleanFilter = filter.value.toLowerCase().trim()
@@ -185,10 +174,10 @@
 
       const errorMessage = ref(null)
 
-      const saveFile = () => {
+      const saveFile = async () => {
         errorMessage.value = null
 
-        const data = props.generateDownloadData()
+        const data = await props.generateDownloadData()
         const options = { path: directoriesPath.value, fileName: fileName.value, data }
         invoke('save_file', options).then(result => {
           if (result.success) {

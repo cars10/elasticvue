@@ -3,6 +3,7 @@ import { ref, watch } from '@vue/composition-api'
 import { useIdb } from '@/services/IdbConnection'
 import { IDB_TABLE_NAMES, LOCALSTORAGE_KEY } from '@/consts'
 import i18n from '@/i18n'
+import { stringifyJsonBigInt } from '@/helpers/json_parse'
 
 export const exportStoreDataUri = async () => {
   const currentState = JSON.parse(JSON.stringify(store.state)) // use JSON.parse&stringify for deep copy
@@ -13,7 +14,7 @@ export const exportStoreDataUri = async () => {
   currentState.idb = {}
   currentState.idb[IDB_TABLE_NAMES.REST] = connection.entries.value
 
-  return `data:application/json,${encodeURIComponent(JSON.stringify(currentState))}`
+  return stringifyJsonBigInt(currentState)
 }
 
 export const useImportFileData = fileInputData => {
