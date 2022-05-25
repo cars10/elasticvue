@@ -670,7 +670,7 @@ dependencies = [
 [[package]]
 name = "fetch_reqwest"
 version = "0.1.0"
-source = "git+https://github.com/cars10/fetch_reqwest#b9d15d67cef515d93fc11aa3c7d9237538a6e2e2"
+source = "git+https://github.com/cars10/fetch_reqwest#df1f994031ef198250b49d0906eb88667f558d7d"
 dependencies = [
  "multimap",
  "reqwest",

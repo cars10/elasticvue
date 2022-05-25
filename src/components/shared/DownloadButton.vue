@@ -52,8 +52,9 @@
       const href = ref(DESKTOP_BUILD ? null : '#')
       const dialog = ref(false)
 
-      const setDownloadHref = () => {
-        href.value = `data:application/json,${encodeURIComponent(props.generateDownloadData())}`
+      const setDownloadHref = async () => {
+        const data = await props.generateDownloadData()
+        href.value = `data:application/json,${encodeURIComponent(data)}`
       }
       const downloadData = () => {
         if (DESKTOP_BUILD) {

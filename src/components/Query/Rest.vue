@@ -70,13 +70,11 @@
 
         <v-col :md="vertical ? 12 : 6" cols="12">
           <print-pretty :document="response.body" :focus="false" class="mb-2"/>
-          <v-btn :disabled="!response.body || response.body.length === 0"
-                 :download="downloadFileName"
-                 :href="downloadJsonHref"
-                 small
-                 @click="setDownloadHref">
-            {{ $t('query.rest.form.download_as_json') }}
-          </v-btn>
+          <download-button small
+                           :download="downloadFileName"
+                           :text="$t('query.rest.form.download_as_json')"
+                           :disabled="!response.body || response.body.length === 0"
+                           :generateDownloadData="generateDownloadData"/>
         </v-col>
       </v-row>
     </v-form>
@@ -93,10 +91,12 @@
   import { useRestQuery } from '@/mixins/RestQuery'
   import { vuexAccessors } from '@/helpers/store'
   import store from '@/store'
+  import DownloadButton from '@/components/shared/DownloadButton'
 
   export default {
     name: 'rest',
     components: {
+      DownloadButton,
       PrintPretty,
       RestQueryHistory,
       ResizableContainer,
@@ -137,12 +137,12 @@
         exec: loadData
       }]
 
-      const downloadJsonHref = ref('#')
-      const downloadFileName = ref('empty.json')
-      const setDownloadHref = () => {
-        const value = typeof response.value.body === 'string' ? response.value.body : JSON.stringify(response.value.body)
-        downloadFileName.value = `${request.value.method.toLowerCase()}_${request.value.path.replace(/[\W_]+/g, '_')}.json`
-        downloadJsonHref.value = `data:application/json,${encodeURIComponent(value)}`
+      const downloadFileName = computed(() => {
+        return `${request.value.method.toLowerCase()}_${request.value.path.replace(/[\W_]+/g, '_')}.json`
+      })
+
+      const generateDownloadData = () => {
+        return typeof response.value.body === 'string' ? response.value.body : JSON.stringify(response.value.body)
       }
 
       return {
@@ -159,8 +159,7 @@
         responseStatusClass,
         historyCollapsed,
         downloadFileName,
-        downloadJsonHref,
-        setDownloadHref
+        generateDownloadData
       }
     }
   }

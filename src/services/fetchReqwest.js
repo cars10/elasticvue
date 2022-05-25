@@ -21,6 +21,7 @@ class FetchReqwestResponse {
     this.headers = new FetchReqwestResponseHeaders(response.headers)
     this.ok = response.ok
     this.status = response.status
+    this.statusText = response.status_text
     this.body = response.text
   }
 
