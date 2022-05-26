@@ -6,7 +6,7 @@
           <new-repository @reloadData="emitReloadData"/>
         </v-col>
         <v-col>
-          <div class="d-inline-block float-right">
+          <div class="float-right">
             <v-text-field id="filter"
                           v-model="filter"
                           :label="$t('defaults.filter.label')"

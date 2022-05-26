@@ -6,7 +6,7 @@
           <new-instance/>
         </v-col>
         <v-col>
-          <div class="float-right d-inline-block">
+          <div class="float-right">
             <v-text-field v-model="filter"
                           :label="$t('defaults.filter.label')"
                           append-icon="mdi-magnify"

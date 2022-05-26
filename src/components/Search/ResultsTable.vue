@@ -2,7 +2,7 @@
   <div>
     <v-card-text>
       <div class="clearfix">
-        <div class="float-right d-inline-block">
+        <div class="float-right d-flex">
           <v-text-field id="filter"
                         v-model="filter"
                         :label="$t('search.results_table.filter.label')"

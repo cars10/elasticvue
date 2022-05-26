@@ -11,7 +11,7 @@
           </div>
         </v-col>
         <v-col>
-          <div class="d-inline-block float-right">
+          <div class="float-right">
             <v-checkbox v-model="showHiddenIndices"
                         :label="$t('indices.indices_table.show_hidden_indices.label')"
                         class="d-inline-block mr-6 vertical-align--bottom"

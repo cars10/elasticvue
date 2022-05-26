@@ -6,7 +6,7 @@
           <new-index @reloadIndices="emitReloadIndices"/>
         </v-col>
         <v-col>
-          <div class="d-inline-block float-right">
+          <div class="float-right d-flex">
             <v-text-field id="filter"
                           v-model="filter"
                           :label="$t('defaults.filter.label')"
@@ -84,7 +84,7 @@
   import i18n from '@/i18n'
   import { DEFAULT_ITEMS_PER_PAGE } from '@/consts'
   import { vuexAccessors } from '@/helpers/store'
-  import { ref, watch, computed } from '@vue/composition-api'
+  import { computed, ref, watch } from '@vue/composition-api'
   import { useAsyncFilter } from '@/mixins/UseAsyncTableFilter'
   import { debounce } from '@/helpers'
   import IndexBulk from '@/components/Indices/IndexBulk'
