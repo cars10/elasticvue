@@ -1,4 +1,5 @@
 import { queryKeywords, querySnippets, queryValues } from '@/autocomplete'
+import { writeToClipboard } from '@/services/tauri/clipboard'
 
 const ace = require('ace-builds/src-noconflict/ace')
 require('ace-builds/src-noconflict/mode-json')
@@ -47,7 +48,7 @@ export const editorUtils = editor => {
   }
 
   const copyContent = () => {
-    navigator.clipboard.writeText(editor.value.getValue())
+    writeToClipboard(editor.value.getValue())
   }
 
   return {
