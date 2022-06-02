@@ -86,7 +86,7 @@
       const { valid, errorMessage, importBackup } = useImportFileData(importFile)
       const importBackupAndRedirect = () => {
         importBackup().then(imported => {
-          // if (imported) window.location.replace(BASE_URI)
+          if (imported) window.location.replace(BASE_URI)
         })
       }
       const fileChooserDialog = ref(false)

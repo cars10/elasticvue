@@ -6,7 +6,7 @@ import { buildFetchAuthHeader } from '@/helpers'
 import { parseJsonBigInt } from '@/helpers/json_parse'
 import { showErrorSnackbar } from '@/mixins/ShowSnackbar'
 import { vuexAccessors } from '@/helpers/store'
-import { fetchMethod } from '@/services/fetchReqwest'
+import { fetchMethod } from '@/services/tauri/fetchReqwest'
 
 export const useRestQuery = () => {
   const { request } = vuexAccessors('queryRest', ['request'])

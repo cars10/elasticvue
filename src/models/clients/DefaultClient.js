@@ -1,7 +1,7 @@
 import { buildFetchAuthHeader } from '@/helpers'
 import { REQUEST_DEFAULT_HEADERS } from '@/consts'
 import { stringifyJsonBigInt } from '@/helpers/json_parse'
-import { fetchMethod } from '@/services/fetchReqwest'
+import { fetchMethod } from '@/services/tauri/fetchReqwest'
 
 export class DefaultClient {
   constructor (instance) {

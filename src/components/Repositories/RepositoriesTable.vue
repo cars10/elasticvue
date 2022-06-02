@@ -67,6 +67,7 @@
   import { stringifyJsonBigInt } from '@/helpers/json_parse'
   import { filterItems } from '@/helpers/filters'
   import { showSnackbar } from '@/mixins/ShowSnackbar'
+  import { confirmMethod } from '@/services/tauri/dialogs'
 
   export default {
     name: 'repositories-table',
@@ -108,8 +109,8 @@
       }
 
       const { requestState, callElasticsearch } = useElasticsearchRequest()
-      const deleteRepository = name => {
-        if (confirm(i18n.t('repositories.repositories_table.delete_repository.confirm', { name: name }))) {
+      const deleteRepository = async name => {
+        if (await confirmMethod(i18n.t('repositories.repositories_table.delete_repository.confirm', { name: name }))) {
           callElasticsearch('snapshotDeleteRepository', { repository: name })
             .then(() => {
               emitReloadData()

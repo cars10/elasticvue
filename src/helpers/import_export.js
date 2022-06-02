@@ -4,6 +4,7 @@ import { useIdb } from '@/services/IdbConnection'
 import { IDB_TABLE_NAMES, LOCALSTORAGE_KEY } from '@/consts'
 import i18n from '@/i18n'
 import { stringifyJsonBigInt } from '@/helpers/json_parse'
+import { confirmMethod } from '@/services/tauri/dialogs'
 
 export const exportStoreDataUri = async () => {
   const currentState = JSON.parse(JSON.stringify(store.state)) // use JSON.parse&stringify for deep copy
@@ -58,7 +59,7 @@ export const useImportFileData = fileInputData => {
   const importBackup = async () => {
     if (!valid.value || !importedData.value) return
 
-    if (confirm(i18n.t('helpers.import_export.import_backup.confirm'))) {
+    if (await confirmMethod(i18n.t('helpers.import_export.import_backup.confirm'))) {
       const json = JSON.parse(importedData.value)
       const idbData = Object.assign({}, json.idb)
       delete json.idb
