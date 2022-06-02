@@ -63,7 +63,6 @@
 <script>
   import { ref } from '@vue/composition-api'
   import { exportStoreDataUri, useImportFileData } from '@/helpers/import_export'
-  import { BASE_URI } from '@/consts'
   import DownloadButton from '@/components/shared/DownloadButton'
 
   export default {
@@ -87,9 +86,11 @@
       const { valid, errorMessage, importBackup } = useImportFileData(importFile)
       const importBackupAndRedirect = () => {
         importBackup().then(imported => {
-          if (imported) window.location.replace(BASE_URI)
+          // if (imported) window.location.replace(BASE_URI)
         })
       }
+      const fileChooserDialog = ref(false)
+      const setFile = file => (importFile.value = file)
 
       return {
         helpCollapsed,
@@ -100,7 +101,9 @@
         importFile,
         errorMessage,
         importBackupAndRedirect,
-        data
+        data,
+        fileChooserDialog,
+        setFile
       }
     }
   }

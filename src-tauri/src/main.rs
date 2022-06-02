@@ -3,13 +3,11 @@
     windows_subsystem = "windows"
 )]
 
-mod directory_list;
+mod load_file;
 mod save_file;
-mod user_dirs;
 
-use directory_list::list;
+use load_file::load_file;
 use save_file::save_file;
-use user_dirs::user_dirs;
 
 use fetch_reqwest::{FetchOptions, FetchResponseResult};
 
@@ -22,9 +20,8 @@ fn main() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
             fetch_reqwest,
-            list,
-            save_file,
-            user_dirs
+            load_file,
+            save_file
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

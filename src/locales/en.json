@@ -449,7 +449,7 @@
       "export": {
         "heading": "Export",
         "included": "Whats included?",
-        "prepare_backup": "Prepare backup",
+        "prepare_backup": "Create backup file",
         "download": "Download"
       },
       "import": {

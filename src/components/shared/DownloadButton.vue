@@ -1,30 +1,23 @@
 <template>
-  <div>
-    <v-btn :disabled="disabled"
-           :small="small"
-           :download="download"
-           :href="href"
-           @click="downloadData">
-      {{ text }}
-    </v-btn>
-
-    <file-chooser v-if="DESKTOP_BUILD"
-                  v-model="dialog"
-                  :initial-file-name="download"
-                  :generate-download-data="generateDownloadData"/>
-  </div>
+  <v-btn :disabled="disabled"
+         :small="small"
+         :download="download"
+         :href="href"
+         @click="downloadData">
+    {{ text }}
+  </v-btn>
 </template>
 
 <script>
-  import { ref } from '@vue/composition-api'
   import { DESKTOP_BUILD } from '@/consts'
-  import FileChooser from '@/components/shared/DownloadButton/FileChooser'
+  import { showSuccessSnackbar } from '@/mixins/ShowSnackbar'
+  import { ref } from '@vue/composition-api'
+  import { save } from '@tauri-apps/api/dialog'
+  import { invoke } from '@tauri-apps/api/tauri'
+  import prettyBytes from 'pretty-bytes'
 
   export default {
     name: 'download-button',
-    components: {
-      FileChooser
-    },
     props: {
       disabled: {
         type: Boolean,
@@ -50,25 +43,34 @@
     },
     setup (props) {
       const href = ref(DESKTOP_BUILD ? null : '#')
-      const dialog = ref(false)
 
-      const setDownloadHref = async () => {
-        const data = await props.generateDownloadData()
-        href.value = `data:application/json,${encodeURIComponent(data)}`
-      }
       const downloadData = () => {
         if (DESKTOP_BUILD) {
-          dialog.value = true
+          save({ defaultPath: props.download }).then(path => {
+            if (path) saveFile(path)
+          })
         } else {
           setDownloadHref()
         }
       }
 
+      const saveFile = async path => {
+        const data = await props.generateDownloadData()
+        invoke('save_file', { path, data }).then(result => {
+          if (typeof result === 'number') {
+            showSuccessSnackbar({ title: 'File saved', body: `${path} (${prettyBytes(result)})` })
+          }
+        })
+      }
+
+      const setDownloadHref = async () => {
+        const data = await props.generateDownloadData()
+        href.value = `data:application/json,${encodeURIComponent(data)}`
+      }
+
       return {
         downloadData,
-        href,
-        dialog,
-        DESKTOP_BUILD
+        href
       }
     }
   }
