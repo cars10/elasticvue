@@ -15,7 +15,7 @@
   import { computed, ref } from '@vue/composition-api'
   import { useElasticsearchRequest } from '@/mixins/RequestComposition'
   import i18n from '@/i18n'
-  import { confirmMethod } from '@/services/tauri/dialogs'
+  import { askConfirm } from '@/services/tauri/dialogs'
 
   export default {
     class: 'utility',
@@ -61,11 +61,11 @@
         return requestState.apiError || requestState.networkError ? 'red' : 'primary-button'
       })
 
-      const confirmExecute = async () => {
+      const confirmExecute = () => {
         if (props.confirmMessage) {
-          if (await confirmMethod(props.confirmMessage)) {
-            runMethod()
-          }
+          askConfirm(props.confirmMessage).then(confirmed => {
+            if (confirmed) runMethod()
+          })
         } else {
           runMethod()
         }

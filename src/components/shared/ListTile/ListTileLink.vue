@@ -12,6 +12,7 @@
 <script>
   import { useElasticsearchRequest } from '@/mixins/RequestComposition'
   import { showSnackbar } from '@/mixins/ShowSnackbar'
+  import { askConfirm } from '@/services/tauri/dialogs'
 
   export default {
     name: 'list-tile-link',
@@ -51,16 +52,24 @@
     setup (props) {
       const { requestState, callElasticsearch } = useElasticsearchRequest()
 
-      const run = () => {
-        if ((props.confirmMessage && confirm(props.confirmMessage)) || props.confirmMessage.length === 0) {
-          callElasticsearch(props.method, props.methodParams)
-            .then(body => {
-              if (typeof props.callback === 'function') props.callback(body)
+      const load = () => {
+        callElasticsearch(props.method, props.methodParams)
+          .then(body => {
+            if (typeof props.callback === 'function') props.callback(body)
 
-              showSnackbar(requestState.value, { title: props.growl, body: JSON.stringify(body) })
-              return Promise.resolve(body)
-            })
-            .catch(() => showSnackbar(requestState.value))
+            showSnackbar(requestState.value, { title: props.growl, body: JSON.stringify(body) })
+            return Promise.resolve(body)
+          })
+          .catch(() => showSnackbar(requestState.value))
+      }
+
+      const run = () => {
+        if (props.confirmMessage) {
+          askConfirm(props.confirmMessage).then(confirmed => {
+            if (confirmed) load()
+          })
+        } else if (props.confirmMessage.length === 0) {
+          load()
         }
       }
 

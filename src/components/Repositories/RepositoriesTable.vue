@@ -67,7 +67,7 @@
   import { stringifyJsonBigInt } from '@/helpers/json_parse'
   import { filterItems } from '@/helpers/filters'
   import { showSnackbar } from '@/mixins/ShowSnackbar'
-  import { confirmMethod } from '@/services/tauri/dialogs'
+  import { askConfirm } from '@/services/tauri/dialogs'
 
   export default {
     name: 'repositories-table',
@@ -109,16 +109,19 @@
       }
 
       const { requestState, callElasticsearch } = useElasticsearchRequest()
-      const deleteRepository = async name => {
-        if (await confirmMethod(i18n.t('repositories.repositories_table.delete_repository.confirm', { name: name }))) {
-          callElasticsearch('snapshotDeleteRepository', { repository: name })
-            .then(() => {
-              emitReloadData()
-              showSnackbar(requestState.value, {
-                body: i18n.t('repositories.repositories_table.delete_repository.growl', { name: name })
-              })
-            }).catch(() => showSnackbar(requestState.value))
-        }
+      const deleteRepository = name => {
+        askConfirm(i18n.t('repositories.repositories_table.delete_repository.confirm', { name }))
+          .then(confirmed => {
+            if (confirmed) {
+              callElasticsearch('snapshotDeleteRepository', { repository: name })
+                .then(() => {
+                  emitReloadData()
+                  showSnackbar(requestState.value, {
+                    body: i18n.t('repositories.repositories_table.delete_repository.growl', { name: name })
+                  })
+                }).catch(() => showSnackbar(requestState.value))
+            }
+          })
       }
 
       return {

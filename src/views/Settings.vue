@@ -50,7 +50,7 @@
   import { BASE_URI, DEFAULT_HIDE_INDICES_REGEX, LOCALSTORAGE_KEY } from '@/consts'
   import store from '@/store'
   import i18n from '@/i18n'
-  import { confirmMethod } from '@/services/tauri/dialogs'
+  import { askConfirm } from '@/services/tauri/dialogs'
 
   export default {
     name: 'settings',
@@ -62,14 +62,16 @@
       const resetHideIndicesRegex = () => store.commit('indices/resetHideIndicesRegex')
 
       const reset = async () => {
-        if (await confirmMethod(i18n.t('settings.disconnect_and_reset.confirm'))) {
-          localStorage.removeItem(LOCALSTORAGE_KEY)
-          sessionStorage.removeItem(LOCALSTORAGE_KEY)
-          window.indexedDB.databases().then(databases => {
-            databases.forEach(db => window.indexedDB.deleteDatabase(db.name))
-          })
-          window.location.replace(BASE_URI)
-        }
+        askConfirm(i18n.t('settings.disconnect_and_reset.confirm')).then(confirmed => {
+          if (confirmed) {
+            localStorage.removeItem(LOCALSTORAGE_KEY)
+            sessionStorage.removeItem(LOCALSTORAGE_KEY)
+            window.indexedDB.databases().then(databases => {
+              databases.forEach(db => window.indexedDB.deleteDatabase(db.name))
+            })
+            window.location.replace(BASE_URI)
+          }
+        })
       }
 
       return {
