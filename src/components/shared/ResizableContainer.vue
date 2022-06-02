@@ -25,6 +25,7 @@
     setup (props) {
       const height = ref(props.initialHeight)
       let dragStartY = 0
+      /* eslint-disable vue/no-setup-props-destructure */
       let dragStartHeight = props.initialHeight
       let resizing = false
 
