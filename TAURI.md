@@ -10,6 +10,4 @@ For now you can do (make sure to [setup your system](https://tauri.studio/docs/g
 
 Not working:
 
-* copy to clipboard
-* downloading files (search json, config backup)
 * ctrl+z to revert typing stuff

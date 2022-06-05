@@ -6,8 +6,8 @@
   "build": {
     "distDir": "../dist",
     "devPath": "http://localhost:8080",
-    "beforeDevCommand": "VUE_APP_DESKTOP_BUILD=true",
-    "beforeBuildCommand": "VUE_APP_DESKTOP_BUILD=true yarn build"
+    "beforeDevCommand": "cross-env VUE_APP_DESKTOP_BUILD=true yarn serve",
+    "beforeBuildCommand": "cross-env VUE_APP_DESKTOP_BUILD=true yarn build"
   },
   "tauri": {
     "bundle": {
