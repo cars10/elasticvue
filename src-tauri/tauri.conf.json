@@ -1,19 +1,19 @@
 {
   "package": {
     "productName": "elasticvue",
-    "version": "0.1.0"
+    "version": "0.40.1"
   },
   "build": {
     "distDir": "../dist",
     "devPath": "http://localhost:8080",
     "beforeDevCommand": "VUE_APP_DESKTOP_BUILD=true",
-    "beforeBuildCommand": "VUE_APP_DESKTOP_BUILD=true"
+    "beforeBuildCommand": "VUE_APP_DESKTOP_BUILD=true yarn build"
   },
   "tauri": {
     "bundle": {
       "active": true,
       "targets": "all",
-      "identifier": "com.tauri.dev",
+      "identifier": "com.elasticvue.app",
       "icon": [
         "icons/32x32.png",
         "icons/128x128.png",
