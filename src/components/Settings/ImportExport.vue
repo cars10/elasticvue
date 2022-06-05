@@ -64,6 +64,7 @@
   import { ref } from '@vue/composition-api'
   import { exportStoreDataUri, useImportFileData } from '@/helpers/import_export'
   import DownloadButton from '@/components/shared/DownloadButton'
+  import { BASE_URI } from '@/consts'
 
   export default {
     name: 'import-export-settings',
