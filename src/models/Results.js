@@ -1,6 +1,8 @@
+import { DEFAULT_SEARCH_RESULT_COLUMNS } from '@/consts'
+
 export default class Results {
   constructor (results) {
-    this.columns = ['_index', '_type', '_id']
+    this.columns = DEFAULT_SEARCH_RESULT_COLUMNS.slice()
     this.indices = []
 
     results.forEach(result => this.add(result))
