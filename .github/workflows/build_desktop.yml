@@ -34,7 +34,7 @@ jobs:
           path: artifacts
 
   build:
-    name: Build for ${{ matrix.os }}
+    name: Build for ${{ matrix.platform }}
     strategy:
       matrix:
         platform: [ macos-latest, ubuntu-latest, windows-latest ]
