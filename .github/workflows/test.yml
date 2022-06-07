@@ -22,9 +22,9 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Setup Node.js environment
-        uses: actions/setup-node@v2.1.2
+        uses: actions/setup-node@v3
         with:
-          node-version: 12.x
+          node-version: 14
 
       - name: Run a multi-line script
         run: |
@@ -32,4 +32,3 @@ jobs:
           yarn lint
           yarn build
           ./scripts/test_e2e.sh
-
