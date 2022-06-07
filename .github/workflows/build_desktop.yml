@@ -88,6 +88,7 @@ jobs:
           upload_url: ${{ env.RELEASE_UPLOAD_URL }}
           asset_path: src-tauri/target/release/bundle/deb/elasticvue_${{ steps.package-version.outputs.current-version}}_amd64.deb
           asset_name: elasticvue_${{ steps.package-version.outputs.current-version}}_linux_amd64.deb
+          asset_content_type: application/octet-stream
 
       - name: (linux) upload .appimage
         if: matrix.platform == 'ubuntu-latest'
@@ -98,6 +99,7 @@ jobs:
           upload_url: ${{ env.RELEASE_UPLOAD_URL }}
           asset_path: src-tauri/target/release/bundle/appimage/elasticvue_${{ steps.package-version.outputs.current-version}}_amd64.AppImage
           asset_name: elasticvue_${{ steps.package-version.outputs.current-version}}_linux_amd64.AppImage
+          asset_content_type: application/octet-stream
 
       - name: (linux) upload binary
         if: matrix.platform == 'ubuntu-latest'
@@ -108,6 +110,7 @@ jobs:
           upload_url: ${{ env.RELEASE_UPLOAD_URL }}
           asset_path: src-tauri/target/release/elasticvue
           asset_name: elasticvue_${{ steps.package-version.outputs.current-version}}_linux_amd64
+          asset_content_type: application/octet-stream
 
       - name: (mac) upload .dmg
         if: matrix.platform == 'macos-latest'
@@ -118,6 +121,7 @@ jobs:
           upload_url: ${{ env.RELEASE_UPLOAD_URL }}
           asset_path: src-tauri/target/release/bundle/dmg/elasticvue_${{ steps.package-version.outputs.current-version}}_x64.dmg
           asset_name: elasticvue_${{ steps.package-version.outputs.current-version}}_macos_x64.dmg
+          asset_content_type: application/octet-stream
 
       - name: (mac) upload .app
         if: matrix.platform == 'macos-latest'
@@ -128,6 +132,7 @@ jobs:
           upload_url: ${{ env.RELEASE_UPLOAD_URL }}
           asset_path: src-tauri/target/release/bundle/dmg/elasticvue_${{ steps.package-version.outputs.current-version}}_x64.app
           asset_name: elasticvue_${{ steps.package-version.outputs.current-version}}_macos_x64.app
+          asset_content_type: application/octet-stream
 
       - name: (windows) upload .msi
         if: matrix.platform == 'windows-latest'
@@ -138,6 +143,7 @@ jobs:
           upload_url: ${{ env.RELEASE_UPLOAD_URL }}
           asset_path: src-tauri/target/release/bundle/msi/elasticvue_${{ steps.package-version.outputs.current-version}}_x64_en-US.msi
           asset_name: elasticvue_${{ steps.package-version.outputs.current-version}}_windows_x64_en-US.msi
+          asset_content_type: application/octet-stream
 
       - name: (windows) upload .msi
         if: matrix.platform == 'windows-latest'
@@ -148,6 +154,7 @@ jobs:
           upload_url: ${{ env.RELEASE_UPLOAD_URL }}
           asset_path: src-tauri/target/release/elasticvue.exe
           asset_name: elasticvue_${{ steps.package-version.outputs.current-version}}_windows_x64.exe
+          asset_content_type: application/octet-stream
 
   publish:
     name: Publish github release
