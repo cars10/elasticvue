@@ -6,7 +6,7 @@
   "build": {
     "distDir": "../dist",
     "devPath": "http://localhost:8080",
-    "beforeDevCommand": "npx cross-env VUE_APP_DESKTOP_BUILD=true yarn serve",
+    "beforeDevCommand": "",
     "beforeBuildCommand": "npx cross-env VUE_APP_DESKTOP_BUILD=true yarn build"
   },
   "tauri": {
