@@ -46,6 +46,7 @@ jobs:
 
   build:
     name: Build for ${{ matrix.platform }}
+    needs: prepare-release
     strategy:
       matrix:
         platform: [ macos-latest, ubuntu-latest, windows-latest ]
