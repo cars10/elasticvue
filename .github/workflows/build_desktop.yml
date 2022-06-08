@@ -159,7 +159,7 @@ jobs:
           asset_name: elasticvue_${{ env.PACKAGE_VERSION }}_windows_x64_en-US.msi
           asset_content_type: application/octet-stream
 
-      - name: (windows) upload .msi
+      - name: (windows) upload .exe
         if: matrix.platform == 'windows-latest'
         uses: actions/upload-release-asset@v1
         env:
