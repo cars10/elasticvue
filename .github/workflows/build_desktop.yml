@@ -5,7 +5,7 @@ on:
       - tauri
 
 jobs:
-  create-release:
+  prepare-release:
     name: Create github release
     runs-on: ubuntu-latest
     steps:
@@ -26,6 +26,15 @@ jobs:
           mkdir artifacts
           echo "${{ steps.create_release.outputs.upload_url }}" > artifacts/release-upload-url
           echo "${{ steps.create_release.outputs.id }}" > artifacts/release-id
+
+      - name: Get current package version
+        id: package-version
+        uses: martinbeentjes/npm-get-version-action@v1.2.3
+
+      - name: Save package version for later use
+        shell: bash
+        run: |
+          echo "${{ steps.package-version.outputs.current-version }}" > artifacts/package-version
 
       - name: Upload release information
         uses: actions/upload-artifact@v3
@@ -52,6 +61,7 @@ jobs:
         uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
+          target: x86_64-apple-darwin
 
       - name: install dependencies (ubuntu only)
         if: matrix.platform == 'ubuntu-latest'
@@ -65,20 +75,21 @@ jobs:
       - name: build app
         run: yarn tauri build
 
+      - name: build apple-silicon app
+        if: matrix.platform == 'macos-latest'
+        run: yarn tauri build --target aarch64-apple-darwin
+
       - name: download artifacts
         uses: actions/download-artifact@v3
         with:
           name: artifacts
           path: artifacts
 
-      - name: Save upload url in ENV
+      - name: Setup env
         shell: bash
         run: |
           echo "RELEASE_UPLOAD_URL=$(cat artifacts/release-upload-url)" >> $GITHUB_ENV
-
-      - name: Get current package version
-        id: package-version
-        uses: martinbeentjes/npm-get-version-action@v1.2.3
+          echo "PACKAGE_VERSION=$(cat artifacts/package-version)" >> $GITHUB_ENV
 
       - name: (linux) upload .deb
         if: matrix.platform == 'ubuntu-latest'
@@ -87,8 +98,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ env.RELEASE_UPLOAD_URL }}
-          asset_path: src-tauri/target/release/bundle/deb/elasticvue_${{ steps.package-version.outputs.current-version}}_amd64.deb
-          asset_name: elasticvue_${{ steps.package-version.outputs.current-version}}_linux_amd64.deb
+          asset_path: src-tauri/target/release/bundle/deb/elasticvue_${{ env.PACKAGE_VERSION }}_amd64.deb
+          asset_name: elasticvue_${{ env.PACKAGE_VERSION }}_linux_amd64.deb
           asset_content_type: application/octet-stream
 
       - name: (linux) upload .appimage
@@ -98,8 +109,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ env.RELEASE_UPLOAD_URL }}
-          asset_path: src-tauri/target/release/bundle/appimage/elasticvue_${{ steps.package-version.outputs.current-version}}_amd64.AppImage
-          asset_name: elasticvue_${{ steps.package-version.outputs.current-version}}_linux_amd64.AppImage
+          asset_path: src-tauri/target/release/bundle/appimage/elasticvue_${{ env.PACKAGE_VERSION }}_amd64.AppImage
+          asset_name: elasticvue_${{ env.PACKAGE_VERSION }}_linux_amd64.AppImage
           asset_content_type: application/octet-stream
 
       - name: (linux) upload binary
@@ -110,7 +121,7 @@ jobs:
         with:
           upload_url: ${{ env.RELEASE_UPLOAD_URL }}
           asset_path: src-tauri/target/release/elasticvue
-          asset_name: elasticvue_${{ steps.package-version.outputs.current-version}}_linux_amd64
+          asset_name: elasticvue_${{ env.PACKAGE_VERSION }}_linux_amd64
           asset_content_type: application/octet-stream
 
       - name: (mac) upload .dmg
@@ -120,8 +131,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ env.RELEASE_UPLOAD_URL }}
-          asset_path: src-tauri/target/release/bundle/dmg/elasticvue_${{ steps.package-version.outputs.current-version}}_x64.dmg
-          asset_name: elasticvue_${{ steps.package-version.outputs.current-version}}_macos_x64.dmg
+          asset_path: src-tauri/target/release/bundle/dmg/elasticvue_${{ env.PACKAGE_VERSION }}_x64.dmg
+          asset_name: elasticvue_${{ env.PACKAGE_VERSION }}_macos_x64.dmg
           asset_content_type: application/octet-stream
 
       - name: (mac) upload .app
@@ -131,8 +142,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ env.RELEASE_UPLOAD_URL }}
-          asset_path: src-tauri/target/release/bundle/dmg/elasticvue_${{ steps.package-version.outputs.current-version}}_x64.app
-          asset_name: elasticvue_${{ steps.package-version.outputs.current-version}}_macos_x64.app
+          asset_path: src-tauri/target/release/bundle/dmg/elasticvue_${{ env.PACKAGE_VERSION }}_x64.app
+          asset_name: elasticvue_${{ env.PACKAGE_VERSION }}_macos_x64.app
           asset_content_type: application/octet-stream
 
       - name: (windows) upload .msi
@@ -142,8 +153,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ env.RELEASE_UPLOAD_URL }}
-          asset_path: src-tauri/target/release/bundle/msi/elasticvue_${{ steps.package-version.outputs.current-version}}_x64_en-US.msi
-          asset_name: elasticvue_${{ steps.package-version.outputs.current-version}}_windows_x64_en-US.msi
+          asset_path: src-tauri/target/release/bundle/msi/elasticvue_${{ env.PACKAGE_VERSION }}_x64_en-US.msi
+          asset_name: elasticvue_${{ env.PACKAGE_VERSION }}_windows_x64_en-US.msi
           asset_content_type: application/octet-stream
 
       - name: (windows) upload .msi
@@ -154,7 +165,7 @@ jobs:
         with:
           upload_url: ${{ env.RELEASE_UPLOAD_URL }}
           asset_path: src-tauri/target/release/elasticvue.exe
-          asset_name: elasticvue_${{ steps.package-version.outputs.current-version}}_windows_x64.exe
+          asset_name: elasticvue_${{ env.PACKAGE_VERSION }}_windows_x64.exe
           asset_content_type: application/octet-stream
 
   publish:
