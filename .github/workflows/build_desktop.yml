@@ -52,6 +52,18 @@ jobs:
     runs-on: ${{ matrix.platform }}
 
     steps:
+      - name: download artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: artifacts
+          path: artifacts
+
+      - name: Setup env
+        shell: bash
+        run: |
+          echo "RELEASE_UPLOAD_URL=$(cat artifacts/release-upload-url)" >> $GITHUB_ENV
+          echo "PACKAGE_VERSION=$(cat artifacts/package-version)" >> $GITHUB_ENV
+
       - uses: actions/checkout@v3
 
       - name: setup node
@@ -102,18 +114,6 @@ jobs:
 
       - name: build app
         run: yarn tauri build
-
-      - name: download artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: artifacts
-          path: artifacts
-
-      - name: Setup env
-        shell: bash
-        run: |
-          echo "RELEASE_UPLOAD_URL=$(cat artifacts/release-upload-url)" >> $GITHUB_ENV
-          echo "PACKAGE_VERSION=$(cat artifacts/package-version)" >> $GITHUB_ENV
 
       - name: (linux) upload .deb
         if: matrix.platform == 'ubuntu-latest'
