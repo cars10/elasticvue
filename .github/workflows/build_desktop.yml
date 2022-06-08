@@ -27,6 +27,7 @@ jobs:
           echo "${{ steps.create_release.outputs.upload_url }}" > artifacts/release-upload-url
           echo "${{ steps.create_release.outputs.id }}" > artifacts/release-id
 
+      - uses: actions/checkout@v3
       - name: Get current package version
         id: package-version
         uses: martinbeentjes/npm-get-version-action@v1.2.3
