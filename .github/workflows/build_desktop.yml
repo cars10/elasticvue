@@ -74,12 +74,34 @@ jobs:
       - name: install app dependencies
         run: yarn
 
-      - name: build app
-        run: yarn tauri build
-
       - name: build apple-silicon app
         if: matrix.platform == 'macos-latest'
         run: yarn tauri build --target aarch64-apple-darwin
+
+      - name: (mac arm) upload .dmg
+        if: matrix.platform == 'macos-latest'
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ env.RELEASE_UPLOAD_URL }}
+          asset_path: src-tauri/target/aarch64-apple-darwin/release/bundle/dmg/elasticvue_${{ env.PACKAGE_VERSION }}_aarch64.dmg
+          asset_name: elasticvue_${{ env.PACKAGE_VERSION }}_macos_aarch64.dmg
+          asset_content_type: application/octet-stream
+
+      - name: (mac arm) upload .app
+        if: matrix.platform == 'macos-latest'
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ env.RELEASE_UPLOAD_URL }}
+          asset_path: src-tauri/target/aarch64-apple-darwin/release/bundle/macos/elasticvue.app
+          asset_name: elasticvue_${{ env.PACKAGE_VERSION }}_macos_aarch64.app
+          asset_content_type: application/octet-stream
+
+      - name: build app
+        run: yarn tauri build
 
       - name: download artifacts
         uses: actions/download-artifact@v3
@@ -146,28 +168,6 @@ jobs:
           upload_url: ${{ env.RELEASE_UPLOAD_URL }}
           asset_path: src-tauri/target/release/bundle/macos/elasticvue.app
           asset_name: elasticvue_${{ env.PACKAGE_VERSION }}_macos_x64.app
-          asset_content_type: application/octet-stream
-
-      - name: (mac arm) upload .dmg
-        if: matrix.platform == 'macos-latest'
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ env.RELEASE_UPLOAD_URL }}
-          asset_path: src-tauri/target/aarch64-apple-darwin/release/bundle/dmg/elasticvue_${{ env.PACKAGE_VERSION }}_aarch64.dmg
-          asset_name: elasticvue_${{ env.PACKAGE_VERSION }}_macos_aarch64.dmg
-          asset_content_type: application/octet-stream
-
-      - name: (mac arm) upload .app
-        if: matrix.platform == 'macos-latest'
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ env.RELEASE_UPLOAD_URL }}
-          asset_path: src-tauri/target/aarch64-apple-darwin/release/bundle/macos/elasticvue.app
-          asset_name: elasticvue_${{ env.PACKAGE_VERSION }}_macos_aarch64.app
           asset_content_type: application/octet-stream
 
       - name: (windows) upload .msi
