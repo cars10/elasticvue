@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@mdi/font": "^6.7.96",
-    "@tauri-apps/api": "^1.0.0-rc.6",
+    "@tauri-apps/api": "^1.0.1",
     "@vue/composition-api": "^1.6.2",
     "ace-builds": "^1.5.3",
     "comlink": "^4.3.1",
@@ -54,7 +54,7 @@
     "worker-loader": "^3.0.8"
   },
   "optionalDependencies": {
-    "@tauri-apps/cli": "^1.0.0-rc.13",
+    "@tauri-apps/cli": "^1.0.0",
     "@vue/cli-plugin-e2e-cypress": "^4.5.17",
     "@vue/cli-plugin-unit-jest": "^4.5.17",
     "babel-jest": "^28.1.0",
