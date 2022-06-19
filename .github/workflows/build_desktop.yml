@@ -19,8 +19,8 @@ jobs:
         with:
           prerelease: true
           draft: true
-          tag_name: elasticvue-desktop-v${{ github.ref }}-test
-          release_name: elasticvue-desktop-v${{ github.ref }}-test
+          tag_name: elasticvue-desktop-v${{ github.ref }}-test-stable
+          release_name: elasticvue-desktop-v${{ github.ref }}-test-stable
 
       - name: Save release-upload-url and release-id for later use
         shell: bash
