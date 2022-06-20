@@ -19,8 +19,8 @@ jobs:
         with:
           prerelease: true
           draft: true
-          tag_name: elasticvue-desktop-v${{ github.ref }}-test-stable
-          release_name: elasticvue-desktop-v${{ github.ref }}-test-stable
+          tag_name: v0.40.1-tauri-test-1
+          release_name: v0.40.1-tauri-test-1
 
       - name: Save release-upload-url and release-id for later use
         shell: bash
@@ -89,7 +89,7 @@ jobs:
 
       - name: build apple-silicon app
         if: matrix.platform == 'macos-latest'
-        run: yarn tauri build --target aarch64-apple-darwin
+        run: yarn tauri:build --target aarch64-apple-darwin
 
       - name: (mac arm) upload .dmg
         if: matrix.platform == 'macos-latest'

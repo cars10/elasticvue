@@ -13,7 +13,8 @@
     "i18n:report": "vue-cli-service i18n:report --src \"./src/**/*.?(js|vue)\" --locales \"./src/locales/**/*.json\"",
     "prod": "node scripts/express-server.js",
     "test:unit:watch": "vue-cli-service test:unit --watch",
-    "tauri:dev": "tauri dev"
+    "tauri:dev": "tauri dev",
+    "tauri:build": "tauri build"
   },
   "dependencies": {
     "@mdi/font": "^6.7.96",
