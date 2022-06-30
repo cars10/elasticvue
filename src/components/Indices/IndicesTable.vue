@@ -125,9 +125,9 @@
         { text: i18n.t('indices.indices_table.table.headers.status'), value: 'status' },
         { text: i18n.t('indices.indices_table.table.headers.uuid'), value: 'uuid' },
         { text: i18n.t('indices.indices_table.table.headers.aliases'), value: 'aliases', sortable: false },
-        { text: i18n.t('indices.indices_table.table.headers.shards'), value: 'parsedPri', align: 'right' },
-        { text: i18n.t('indices.indices_table.table.headers.docs'), value: 'parsedDocsCount', align: 'right' },
-        { text: i18n.t('indices.indices_table.table.headers.storage'), value: 'parsedStoreSize', align: 'right' },
+        { text: i18n.t('indices.indices_table.table.headers.shards'), value: 'parsedPri' },
+        { text: i18n.t('indices.indices_table.table.headers.docs'), value: 'parsedDocsCount' },
+        { text: i18n.t('indices.indices_table.table.headers.storage'), value: 'parsedStoreSize' },
         { text: '', value: 'actions', sortable: false }
       ]
 

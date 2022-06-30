@@ -199,7 +199,7 @@
           "health": "Health",
           "uuid": "UUID",
           "aliases": "Aliases",
-          "shards": "Shards",
+          "shards": "Shards / Replicas",
           "docs": "Lucene docs",
           "storage": "Storage",
           "parsed_docs_count": {

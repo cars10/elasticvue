@@ -3,7 +3,7 @@ import { parseJsonBigInt, stringifyJsonBigInt } from '@/helpers/json_parse'
 const SORTABLE_TYPES = ['long', 'integer', 'double', 'float', 'date', 'boolean', 'keyword']
 
 export function sortableField (fieldName, property) {
-  if (['_index', '_type', '_id'].includes(fieldName)) return fieldName
+  if (['_index', '_type', '_id', '_score'].includes(fieldName)) return fieldName
 
   if (property) {
     if (SORTABLE_TYPES.includes(property.type)) {

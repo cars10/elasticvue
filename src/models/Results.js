@@ -1,6 +1,6 @@
 export default class Results {
   constructor (results) {
-    this.columns = ['_index', '_type', '_id']
+    this.columns = ['_index', '_type', '_id', '_score']
     this.indices = []
 
     results.forEach(result => this.add(result))

@@ -31,13 +31,13 @@
         ]
       </template>
     </td>
-    <td class="text-right">
+    <td >
       <div :title="$t('indices.index_row.shards.title', {pri: index.pri, rep: index.rep})">
         {{ index.pri }} / {{ index.rep }}
       </div>
     </td>
-    <td class="text-right">{{ index.docsCount }}</td>
-    <td class="text-right">{{ index.humanStoreSize }}</td>
+    <td >{{ index.docsCount }}</td>
+    <td >{{ index.humanStoreSize }}</td>
     <td>
       <btn-group small>
         <v-btn v-if="index.status === 'open'"
