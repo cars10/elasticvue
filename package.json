@@ -55,7 +55,7 @@
     "worker-loader": "^3.0.8"
   },
   "optionalDependencies": {
-    "@tauri-apps/cli": "^1.0.0",
+    "@tauri-apps/cli": "^1.0.5",
     "@vue/cli-plugin-e2e-cypress": "^4.5.17",
     "@vue/cli-plugin-unit-jest": "^4.5.17",
     "babel-jest": "^28.1.0",
