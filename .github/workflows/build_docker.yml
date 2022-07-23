@@ -28,6 +28,9 @@ jobs:
         id: buildx
         uses: docker/setup-buildx-action@v2
 
+      - name: Set env
+        run: echo "RELEASE_VERSION=${github.ref_name#v*}" >> $GITHUB_ENV
+
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
@@ -35,4 +38,4 @@ jobs:
           platforms: linux/amd64,linux/arm64,linux/arm/v7
           file: Dockerfile_multiarch
           push: true
-          tags: cars10/elasticvue:${{ github.ref_name#v* }}
+          tags: cars10/elasticvue:${{ env.RELEASE_VERSION }}
