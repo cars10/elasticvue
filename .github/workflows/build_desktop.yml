@@ -1,8 +1,6 @@
-name: "Build Desktop"
+name: "Build desktop"
+
 on:
-  push:
-    branches:
-      - tauri
   workflow_dispatch:
 
 jobs:
@@ -66,7 +64,8 @@ jobs:
           echo "RELEASE_UPLOAD_URL=$(cat artifacts/release-upload-url)" >> $GITHUB_ENV
           echo "PACKAGE_VERSION=$(cat artifacts/package-version)" >> $GITHUB_ENV
 
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
 
       - name: setup node
         uses: actions/setup-node@v3
