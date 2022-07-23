@@ -4,8 +4,8 @@ on:
   workflow_dispatch:
 
   push:
-    branches:
-      - gha
+    tags:
+      - 'v*'
 
 jobs:
   build:
@@ -35,4 +35,4 @@ jobs:
           platforms: linux/amd64,linux/arm64,linux/arm/v7
           file: Dockerfile_multiarch
           push: true
-          tags: cars10/elasticvue:gha-test
+          tags: cars10/elasticvue:${{ github.ref_name#v* }}
