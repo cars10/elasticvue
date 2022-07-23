@@ -50,6 +50,7 @@
   import { BASE_URI, DEFAULT_HIDE_INDICES_REGEX, LOCALSTORAGE_KEY } from '@/consts'
   import store from '@/store'
   import i18n from '@/i18n'
+  import { askConfirm } from '@/services/tauri/dialogs'
 
   export default {
     name: 'settings',
@@ -60,15 +61,17 @@
       const { hideIndicesRegex } = vuexAccessors('indices', ['hideIndicesRegex'])
       const resetHideIndicesRegex = () => store.commit('indices/resetHideIndicesRegex')
 
-      const reset = () => {
-        if (confirm(i18n.t('settings.disconnect_and_reset.confirm'))) {
-          localStorage.removeItem(LOCALSTORAGE_KEY)
-          sessionStorage.removeItem(LOCALSTORAGE_KEY)
-          window.indexedDB.databases().then(databases => {
-            databases.forEach(db => window.indexedDB.deleteDatabase(db.name))
-          })
-          window.location.replace(BASE_URI)
-        }
+      const reset = async () => {
+        const confirmed = await askConfirm(i18n.t('settings.disconnect_and_reset.confirm'))
+        if (!confirmed) return
+
+        window.indexedDB.databases().then(databases => {
+          databases.forEach(db => window.indexedDB.deleteDatabase(db.name))
+        })
+
+        localStorage.removeItem(LOCALSTORAGE_KEY)
+        sessionStorage.removeItem(LOCALSTORAGE_KEY)
+        window.location.replace(BASE_URI)
       }
 
       return {

@@ -2,7 +2,7 @@
   <v-list-item>
     <v-list-item-content>{{ text }}</v-list-item-content>
     <v-list-item-action>
-      <v-btn :id="name" :color="color" :loading="loading" @click.native="confirmMethod">{{
+      <v-btn :id="name" :color="color" :loading="loading" @click.native="confirmExecute">{{
           $t('utilities.run')
         }}
       </v-btn>
@@ -15,6 +15,7 @@
   import { computed, ref } from '@vue/composition-api'
   import { useElasticsearchRequest } from '@/mixins/RequestComposition'
   import i18n from '@/i18n'
+  import { askConfirm } from '@/services/tauri/dialogs'
 
   export default {
     class: 'utility',
@@ -60,11 +61,11 @@
         return requestState.apiError || requestState.networkError ? 'red' : 'primary-button'
       })
 
-      const confirmMethod = () => {
+      const confirmExecute = () => {
         if (props.confirmMessage) {
-          if (confirm(props.confirmMessage)) {
-            runMethod()
-          }
+          askConfirm(props.confirmMessage).then(confirmed => {
+            if (confirmed) runMethod()
+          })
         } else {
           runMethod()
         }
@@ -73,7 +74,7 @@
       return {
         loading,
         color,
-        confirmMethod
+        confirmExecute
       }
     }
   }

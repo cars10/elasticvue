@@ -69,6 +69,7 @@
   import { computed, ref, watch } from '@vue/composition-api'
   import { showSnackbar } from '@/mixins/ShowSnackbar'
   import i18n from '@/i18n'
+  import { askConfirm } from '@/services/tauri/dialogs'
 
   export default {
     name: 'index-aliases',
@@ -121,11 +122,15 @@
       }
 
       const deleteAlias = alias => {
-        if (!confirm(i18n.t('indices.index_aliases.delete_alias.confirm', { alias, index: props.indexName }))) return
-
-        callElasticsearch('indexDeleteAlias', { index: props.indexName, alias })
-          .then(loadAliases)
-          .catch(() => showSnackbar(requestState.value))
+        askConfirm(i18n.t('indices.index_aliases.delete_alias.confirm', {
+          alias, index: props.indexName
+        })).then(confirmed => {
+          if (confirmed) {
+            callElasticsearch('indexDeleteAlias', { index: props.indexName, alias })
+              .then(loadAliases)
+              .catch(() => showSnackbar(requestState.value))
+          }
+        })
       }
 
       return {

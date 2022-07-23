@@ -62,6 +62,7 @@
       })
 
       if (props.defaultSetting) {
+        /* eslint-disable vue/no-setup-props-destructure */
         timerSetting.value = props.defaultSetting
       }
 

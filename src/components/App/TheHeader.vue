@@ -99,7 +99,7 @@
       })
 
       const logoSize = computed(() => {
-        if (dense) {
+        if (dense.value) {
           return '32'
         } else {
           return '48'

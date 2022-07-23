@@ -6,7 +6,7 @@
           <new-repository @reloadData="emitReloadData"/>
         </v-col>
         <v-col>
-          <div class="d-inline-block float-right">
+          <div class="float-right">
             <v-text-field id="filter"
                           v-model="filter"
                           :label="$t('defaults.filter.label')"
@@ -67,6 +67,7 @@
   import { stringifyJsonBigInt } from '@/helpers/json_parse'
   import { filterItems } from '@/helpers/filters'
   import { showSnackbar } from '@/mixins/ShowSnackbar'
+  import { askConfirm } from '@/services/tauri/dialogs'
 
   export default {
     name: 'repositories-table',
@@ -109,15 +110,18 @@
 
       const { requestState, callElasticsearch } = useElasticsearchRequest()
       const deleteRepository = name => {
-        if (confirm(i18n.t('repositories.repositories_table.delete_repository.confirm', { name: name }))) {
-          callElasticsearch('snapshotDeleteRepository', { repository: name })
-            .then(() => {
-              emitReloadData()
-              showSnackbar(requestState.value, {
-                body: i18n.t('repositories.repositories_table.delete_repository.growl', { name: name })
-              })
-            }).catch(() => showSnackbar(requestState.value))
-        }
+        askConfirm(i18n.t('repositories.repositories_table.delete_repository.confirm', { name }))
+          .then(confirmed => {
+            if (confirmed) {
+              callElasticsearch('snapshotDeleteRepository', { repository: name })
+                .then(() => {
+                  emitReloadData()
+                  showSnackbar(requestState.value, {
+                    body: i18n.t('repositories.repositories_table.delete_repository.growl', { name: name })
+                  })
+                }).catch(() => showSnackbar(requestState.value))
+            }
+          })
       }
 
       return {

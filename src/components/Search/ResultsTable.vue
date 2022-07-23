@@ -2,7 +2,7 @@
   <div>
     <v-card-text>
       <div class="clearfix">
-        <div class="float-right d-inline-block">
+        <div class="float-right d-flex">
           <v-text-field id="filter"
                         v-model="filter"
                         :label="$t('search.results_table.filter.label')"
@@ -46,13 +46,11 @@
       </template>
 
       <template v-slot:footer.prepend>
-        <v-btn :disabled="filteredItems.length === 0"
-               :href="downloadJsonHref"
-               download="search.json"
-               small
-               @click="setDownloadHref">
-          {{ $t('search.results_table.download_as_json') }}
-        </v-btn>
+        <download-button small
+                         download="search.json"
+                         :text="$t('search.results_table.download_as_json')"
+                         :disabled="filteredItems.length === 0"
+                         :generateDownloadData="generateDownloadData"/>
       </template>
 
       <v-progress-linear slot="progress" color="blue" indeterminate/>
@@ -73,6 +71,7 @@
   import { computed, ref, watch } from '@vue/composition-api'
   import { useElasticsearchRequest } from '@/mixins/RequestComposition'
   import SingleSetting from '@/components/shared/TableSettings/SingleSetting'
+  import DownloadButton from '@/components/shared/DownloadButton'
 
   export default {
     name: 'results-table',
@@ -81,7 +80,8 @@
       MultiSetting,
       ModalDataLoader,
       Result,
-      SingleSetting
+      SingleSetting,
+      DownloadButton
     },
     props: {
       body: {
@@ -213,10 +213,8 @@
         modalOpen.value = true
       }
 
-      const downloadJsonHref = ref('#')
-      const setDownloadHref = () => {
-        const value = typeof props.body === 'string' ? props.body : JSON.stringify(props.body)
-        downloadJsonHref.value = `data:application/json,${encodeURIComponent(value)}`
+      const generateDownloadData = () => {
+        return typeof props.body === 'string' ? props.body : JSON.stringify(props.body)
       }
 
       const tableClasses = computed(() => {
@@ -243,8 +241,7 @@
         stickyTableHeader,
         tableClasses,
         selectedColumns,
-        downloadJsonHref,
-        setDownloadHref
+        generateDownloadData
       }
     }
   }

@@ -6,6 +6,7 @@ import { buildFetchAuthHeader } from '@/helpers'
 import { parseJsonBigInt } from '@/helpers/json_parse'
 import { showErrorSnackbar } from '@/mixins/ShowSnackbar'
 import { vuexAccessors } from '@/helpers/store'
+import { fetchMethod } from '@/services/tauri/fetchReqwest'
 
 export const useRestQuery = () => {
   const { request } = vuexAccessors('queryRest', ['request'])
@@ -31,48 +32,50 @@ export const useRestQuery = () => {
     response.value.body = '{"loading": true}'
     response.value.status = ''
 
-    const xhr = new XMLHttpRequest()
-    xhr.open(request.value.method, requestUrl(), true)
+    const headers = {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    }
+
     if (activeInstance.username.length > 0) {
-      xhr.setRequestHeader('Authorization', buildFetchAuthHeader(activeInstance.username, activeInstance.password))
+      headers.Authorization = buildFetchAuthHeader(activeInstance.username, activeInstance.password)
     }
-    xhr.setRequestHeader('Content-Type', 'application/json')
-    xhr.setRequestHeader('Accept', 'application/json')
 
-    xhr.onload = function () {
-      try {
-        response.value.status = `${xhr.status} ${xhr.statusText}`
-        loading.value = false
-        const contentType = xhr.getResponseHeader('Content-Type')
-        if (xhr.responseText && contentType.startsWith('application/json')) {
-          response.value.body = parseJsonBigInt(xhr.responseText)
-        } else {
-          response.value.body = xhr.responseText
-        }
+    fetchMethod(requestUrl(), {
+      method: request.value.method,
+      body: ['GET', 'HEAD'].includes(request.value.method) ? null : request.value.body,
+      headers
+    }).then(r => {
+      response.value.status = `${r.status} ${r.statusText}`
+      return r.text()
+    }).then(text => {
+      loading.value = false
 
-        if (xhr.status.toString().match(/^2\d\d/)) {
-          connection.dbInsert({
-            path: request.value.path,
-            method: request.value.method,
-            body: ['GET', 'HEAD'].includes(request.value.method) ? '' : request.value.body,
-            favorite: 0,
-            date: new Date()
-          })
+      if (text) {
+        try {
+          response.value.body = parseJsonBigInt(text)
+        } catch (e) {
+          response.value.body = text
         }
-      } catch (e) {
-        loading.value = false
-        response.value.body = '// Error'
-        showErrorSnackbar({ text: 'Error', body: e.toString() })
+      } else {
+        response.value.body = ''
       }
-    }
 
-    xhr.onerror = function () {
+      if (response.value.status.toString().match(/^2\d\d/)) {
+        connection.dbInsert({
+          path: request.value.path,
+          method: request.value.method,
+          body: ['GET', 'HEAD'].includes(request.value.method) ? '' : request.value.body,
+          favorite: 0,
+          date: new Date()
+        })
+      }
+    }).catch(e => {
+      console.log(e)
       loading.value = false
       response.value.body = '// Network Error'
       showErrorSnackbar({ text: 'Error', body: 'Network Error' })
-    }
-
-    xhr.send(request.value.body)
+    })
   }
 
   const resetResponse = () => {

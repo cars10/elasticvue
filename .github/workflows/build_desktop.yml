@@ -1,0 +1,195 @@
+name: "Build Desktop"
+on:
+  push:
+    branches:
+      - tauri
+  workflow_dispatch:
+
+jobs:
+  prepare-release:
+    name: Create github release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Create Github release draft
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          prerelease: true
+          draft: true
+          tag_name: v0.40.1-tauri-test-1
+          release_name: v0.40.1-tauri-test-1
+
+      - name: Save release-upload-url and release-id for later use
+        shell: bash
+        run: |
+          mkdir artifacts
+          echo "${{ steps.create_release.outputs.upload_url }}" > artifacts/release-upload-url
+          echo "${{ steps.create_release.outputs.id }}" > artifacts/release-id
+
+      - name: Get current package version
+        id: package-version
+        uses: martinbeentjes/npm-get-version-action@v1.2.3
+
+      - name: Save package version for later use
+        shell: bash
+        run: |
+          echo "${{ steps.package-version.outputs.current-version }}" > artifacts/package-version
+
+      - name: Upload release information
+        uses: actions/upload-artifact@v3
+        with:
+          name: artifacts
+          path: artifacts
+
+  build:
+    name: Build for ${{ matrix.platform }}
+    needs: prepare-release
+    strategy:
+      matrix:
+        platform: [ macos-latest, ubuntu-latest, windows-latest ]
+    runs-on: ${{ matrix.platform }}
+
+    steps:
+      - name: download artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: artifacts
+          path: artifacts
+
+      - name: Setup env
+        shell: bash
+        run: |
+          echo "RELEASE_UPLOAD_URL=$(cat artifacts/release-upload-url)" >> $GITHUB_ENV
+          echo "PACKAGE_VERSION=$(cat artifacts/package-version)" >> $GITHUB_ENV
+
+      - uses: actions/checkout@v3
+
+      - name: setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: install rust stable
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          target: aarch64-apple-darwin
+
+      - name: (linux) install dependencies
+        if: matrix.platform == 'ubuntu-latest'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgtk-3-dev webkit2gtk-4.0 librsvg2-dev patchelf
+
+      - name: install app dependencies
+        run: yarn
+
+      - name: build apple-silicon app
+        if: matrix.platform == 'macos-latest'
+        run: yarn tauri:build --target aarch64-apple-darwin
+
+      - name: (mac arm) upload .dmg
+        if: matrix.platform == 'macos-latest'
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ env.RELEASE_UPLOAD_URL }}
+          asset_path: src-tauri/target/aarch64-apple-darwin/release/bundle/dmg/elasticvue_${{ env.PACKAGE_VERSION }}_aarch64.dmg
+          asset_name: elasticvue_${{ env.PACKAGE_VERSION }}_macos_aarch64.dmg
+          asset_content_type: application/octet-stream
+
+      - name: build app
+        run: yarn tauri build
+
+      - name: (linux) upload .deb
+        if: matrix.platform == 'ubuntu-latest'
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ env.RELEASE_UPLOAD_URL }}
+          asset_path: src-tauri/target/release/bundle/deb/elasticvue_${{ env.PACKAGE_VERSION }}_amd64.deb
+          asset_name: elasticvue_${{ env.PACKAGE_VERSION }}_linux_amd64.deb
+          asset_content_type: application/octet-stream
+
+      - name: (linux) upload .appimage
+        if: matrix.platform == 'ubuntu-latest'
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ env.RELEASE_UPLOAD_URL }}
+          asset_path: src-tauri/target/release/bundle/appimage/elasticvue_${{ env.PACKAGE_VERSION }}_amd64.AppImage
+          asset_name: elasticvue_${{ env.PACKAGE_VERSION }}_linux_amd64.AppImage
+          asset_content_type: application/octet-stream
+
+      - name: (linux) upload binary
+        if: matrix.platform == 'ubuntu-latest'
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ env.RELEASE_UPLOAD_URL }}
+          asset_path: src-tauri/target/release/elasticvue
+          asset_name: elasticvue_${{ env.PACKAGE_VERSION }}_linux_amd64
+          asset_content_type: application/octet-stream
+
+      - name: (mac) upload .dmg
+        if: matrix.platform == 'macos-latest'
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ env.RELEASE_UPLOAD_URL }}
+          asset_path: src-tauri/target/release/bundle/dmg/elasticvue_${{ env.PACKAGE_VERSION }}_x64.dmg
+          asset_name: elasticvue_${{ env.PACKAGE_VERSION }}_macos_x64.dmg
+          asset_content_type: application/octet-stream
+
+      - name: (windows) upload .msi
+        if: matrix.platform == 'windows-latest'
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ env.RELEASE_UPLOAD_URL }}
+          asset_path: src-tauri/target/release/bundle/msi/elasticvue_${{ env.PACKAGE_VERSION }}_x64_en-US.msi
+          asset_name: elasticvue_${{ env.PACKAGE_VERSION }}_windows_x64_en-US.msi
+          asset_content_type: application/octet-stream
+
+      - name: (windows) upload .exe
+        if: matrix.platform == 'windows-latest'
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ env.RELEASE_UPLOAD_URL }}
+          asset_path: src-tauri/target/release/elasticvue.exe
+          asset_name: elasticvue_${{ env.PACKAGE_VERSION }}_windows_x64.exe
+          asset_content_type: application/octet-stream
+
+  publish:
+    name: Publish github release
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v1
+        with:
+          name: artifacts
+          path: artifacts
+
+      - name: Save release id in ENV
+        shell: bash
+        run: |
+          echo "RELEASE_ID=$(cat artifacts/release-id)" >> $GITHUB_ENV
+
+      - uses: eregon/publish-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          release_id: ${{ env.RELEASE_ID }}

@@ -6,6 +6,7 @@
 
 <script>
   import { ref } from '@vue/composition-api'
+  import { writeToClipboard } from '@/services/tauri/clipboard'
 
   export default {
     name: 'copy-button',
@@ -35,7 +36,7 @@
         if (props.customHandler) {
           props.customHandler.call()
         } else {
-          navigator.clipboard.writeText(props.value)
+          writeToClipboard(props.value)
         }
         setTimeout(() => {
           icon.value = 'mdi-content-copy'

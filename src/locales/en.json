@@ -445,11 +445,11 @@
     },
     "import_export": {
       "heading": "Import/Export elasticvue data",
-      "message": "You can import & export your elasticvue data as json. This is <strong>not</strong> a backup of your clusters data, use snapshots if you need to backup your indices.",
+      "message": "You can import & export your elasticvue config as json. This is <strong>not</strong> a backup of your clusters data, use snapshots if you need to backup your indices.",
       "export": {
         "heading": "Export",
         "included": "Whats included?",
-        "prepare_backup": "Prepare backup",
+        "prepare_backup": "Create backup file",
         "download": "Download"
       },
       "import": {

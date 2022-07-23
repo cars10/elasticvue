@@ -1,6 +1,7 @@
 import { buildFetchAuthHeader } from '@/helpers'
 import { REQUEST_DEFAULT_HEADERS } from '@/consts'
 import { stringifyJsonBigInt } from '@/helpers/json_parse'
+import { fetchMethod } from '@/services/tauri/fetchReqwest'
 
 export class DefaultClient {
   constructor (instance) {
@@ -185,7 +186,7 @@ export class DefaultClient {
     }
 
     return new Promise((resolve, reject) => {
-      return fetch(url, options)
+      return fetchMethod(url, options)
         .then(response => {
           if (options.method === 'HEAD') {
             return resolve(response.ok)

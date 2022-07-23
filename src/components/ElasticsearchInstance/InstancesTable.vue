@@ -6,7 +6,7 @@
           <new-instance/>
         </v-col>
         <v-col>
-          <div class="float-right d-inline-block">
+          <div class="float-right">
             <v-text-field v-model="filter"
                           :label="$t('defaults.filter.label')"
                           append-icon="mdi-magnify"
@@ -78,6 +78,7 @@
   import NewInstance from '@/components/ElasticsearchInstance/NewInstance'
   import CopyButton from '@/components/shared/CopyButton'
   import { reloadHomePage } from '@/helpers'
+  import { askConfirm } from '@/services/tauri/dialogs'
 
   export default {
     name: 'instances-table',
@@ -92,15 +93,16 @@
       const switchCluster = index => reloadHomePage(context.root.$router, index.toString())
 
       const removeInstance = index => {
-        if (confirm(i18n.t('elasticsearch_instance.instances_table.row.remove_cluster.confirm', {
-          name: instances.value[index].name,
-          uri: instances.value[index].uri
-        }))) {
-          let reset
-          if (index === activeInstanceIdx.value) reset = true
-          store.commit('connection/removeInstance', index)
-          if (reset) window.location.replace(BASE_URI)
-        }
+        askConfirm(i18n.t('elasticsearch_instance.instances_table.row.remove_cluster.confirm', {
+          name: instances.value[index].name, uri: instances.value[index].uri
+        })).then(confirmed => {
+          if (confirmed) {
+            let reset
+            if (index === activeInstanceIdx.value) reset = true
+            store.commit('connection/removeInstance', index)
+            if (reset) window.location.replace(BASE_URI)
+          }
+        })
       }
 
       const filter = ref('')

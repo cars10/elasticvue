@@ -4,6 +4,7 @@ import { useAsyncFilter } from '@/mixins/UseAsyncTableFilter'
 import { debounce } from '@/helpers'
 import { IDB_TABLE_DEFINITIONS } from '@/consts'
 import i18n from '@/i18n'
+import { askConfirm } from '@/services/tauri/dialogs'
 
 export const useHistory = tableName => {
   const { connection } = useIdb(tableName)
@@ -12,7 +13,9 @@ export const useHistory = tableName => {
   const favoriteItem = item => connection.dbUpdate(Object.assign({}, item, { favorite: !item.favorite ? 1 : 0 }))
   const removeItem = id => connection.dbDelete(id)
   const clearAll = () => {
-    if (confirm(i18n.t('mixins.history.clear_all.confirm'))) connection.dbClear()
+    askConfirm(i18n.t('mixins.history.clear_all.confirm')).then(confirmed => {
+      if (confirmed) connection.dbClear()
+    })
   }
   const clearNonFavorites = () => {
     return connection.dbClearNonFavorites()
