@@ -10,11 +10,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: production
     steps:
-      - run: echo ${{ secrets.DOCKERHUB_USERNAME }}
-      - run: echo ${{ env.DOCKERHUB_USERNAME }}
-      - run: echo ${{ env }}
-
       - name: Docker hub login
         uses: docker/login-action@v2
         with:
