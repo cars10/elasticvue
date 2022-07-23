@@ -1,18 +1,18 @@
 [package]
-name = "app"
+name = "elasticvue"
 version = "0.1.0"
-description = "A Tauri App"
-authors = ["you"]
-license = ""
-repository = ""
-default-run = "app"
+description = "Elasticsearch frontend"
+authors = ["Carsten König"]
+license = "MIT"
+repository = "https://github.com/cars10/elasticvue"
+default-run = "elasticvue"
 edition = "2021"
 rust-version = "1.60"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [build-dependencies]
-tauri-build = { version = "1.0.0-rc.12", features = [] }
+tauri-build = { version = "1", features = [] }
 
 [dependencies]
 serde_json = "1.0"
