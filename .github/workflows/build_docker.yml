@@ -2,9 +2,10 @@ name: "Build docker"
 
 on:
   workflow_dispatch:
+
   push:
     branches:
-      - develop
+      - gha
 
 jobs:
   build:
