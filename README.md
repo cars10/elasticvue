@@ -16,8 +16,6 @@ Contents
 
 1. [About](#about)
 2. [Usage](#usage)
-  * [Running elasticvue](#running)
-  * [Elasticsearch Configuration](#elasticsearch-configuration)
 3. [Browser support](#browser-support)
 4. [Troubleshooting](#troubleshooting)
 5. [Comparing with other frontends](#comparing-with-other-frontends)
@@ -273,7 +271,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ### Road to 1.0
 
-* switch to vue-composition-api. Blocked by vuetify (not compatible yet)
+* upgrade to vue 3. Blocked by vuetify (not compatible yet)
 * add support to directly edit/delete document [#30][f30]
 * support client certificates when connecting to elasticsearch cluster [#33][f33]
 
