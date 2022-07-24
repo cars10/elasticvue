@@ -20,6 +20,7 @@
       <v-divider/>
       <v-form ref="form" v-model="valid" @submit.prevent="rename">
         <v-card-text>
+          {{ clusterIdx }}
           <v-text-field v-if="dialog"
                         v-model="newName"
                         :label="$t('elasticsearch_instance.rename_instance.form.name.label')"
@@ -47,7 +48,7 @@
 </template>
 
 <script>
-  import { ref } from '@vue/composition-api'
+  import { ref, watch } from '@vue/composition-api'
   import store from '@/store'
 
   export default {
@@ -70,6 +71,8 @@
       const dialog = ref(false)
       const valid = ref(false)
       const newName = ref(props.clusterName)
+
+      watch(() => props.clusterName, value => (newName.value = value))
 
       const closeDialog = () => {
         dialog.value = false

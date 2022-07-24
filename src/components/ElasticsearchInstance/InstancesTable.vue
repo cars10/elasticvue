@@ -23,12 +23,12 @@
     <v-data-table id="elasticsearch-clusters"
                   :footer-props="{itemsPerPageOptions: DEFAULT_ITEMS_PER_PAGE, showFirstLastPage: true}"
                   :headers="headers"
-                  :items="instances"
+                  :items="indexedInstances"
                   :search="filter"
                   dense>
-      <template v-slot:item="{ item, index }">
+      <template v-slot:item="{ item }">
         <tr :title="$t('elasticsearch_instance.instances_table.row.title', {uri: item.uri})" class="tr--clickable"
-            @click="switchCluster(index)">
+            @click="switchCluster(item.index)">
           <td class="pt-1">
             <div :title="$t('elasticsearch_instance.instances_table.row.cluster_health.title', {status: item.status})"
                  class="d-inline-block">
@@ -39,7 +39,7 @@
 
             <div class="d-inline-block text-truncate" style="max-width: 300px;">
               {{ item.name }}
-              <v-chip v-if="index === activeInstanceIdx" class="mx-1" color="success" small>active</v-chip>
+              <v-chip v-if="item.index === activeInstanceIdx" class="mx-1" color="success" small>active</v-chip>
             </div>
           </td>
           <td class="pt-1">
@@ -53,12 +53,12 @@
             {{ item.version }}
           </td>
           <td>
-            <rename-instance :cluster-idx="index" :cluster-name="item.name" :cluster-uri="item.uri"/>
+            <rename-instance :cluster-idx="item.index" :cluster-name="item.name" :cluster-uri="item.uri"/>
 
-            <v-btn :id="`remove-instance-${index}`" class="ml-1" icon
+            <v-btn :id="`remove-instance-${item.index}`" class="ml-1" icon
                    small
                    :title="$t('elasticsearch_instance.instances_table.row.remove_cluster.title')"
-                   @click.stop="removeInstance(index)">
+                   @click.stop="removeInstance(item.index)">
               <v-icon small>mdi-delete</v-icon>
             </v-btn>
           </td>
@@ -72,7 +72,7 @@
   import store from '@/store'
   import { vuexAccessors } from '@/helpers/store'
   import { BASE_URI, DEFAULT_ITEMS_PER_PAGE } from '@/consts'
-  import { ref } from '@vue/composition-api'
+  import { computed, ref } from '@vue/composition-api'
   import i18n from '@/i18n'
   import RenameInstance from '@/components/ElasticsearchInstance/RenameInstance'
   import NewInstance from '@/components/ElasticsearchInstance/NewInstance'
@@ -89,6 +89,10 @@
     },
     setup (props, context) {
       const { activeInstanceIdx, instances } = vuexAccessors('connection', ['activeInstanceIdx', 'instances'])
+
+      const indexedInstances = computed(() => {
+        return [...instances.value].map((instance, i) => Object.assign({}, instance, { index: i }))
+      })
 
       const switchCluster = index => reloadHomePage(context.root.$router, index.toString())
 
@@ -115,7 +119,7 @@
 
       return {
         activeInstanceIdx,
-        instances,
+        indexedInstances,
         switchCluster,
         removeInstance,
         filter,
