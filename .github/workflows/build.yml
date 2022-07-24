@@ -204,7 +204,7 @@ jobs:
           platforms: linux/amd64,linux/arm64,linux/arm/v7
           file: Dockerfile_multiarch
           push: true
-          tags: cars10/elasticvue:${{ env.RELEASE_VERSION }}
+          tags: cars10/elasticvue:latest,cars10/elasticvue:${{ env.RELEASE_VERSION }}
 
   publish:
     name: Publish github release
