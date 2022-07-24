@@ -2,6 +2,10 @@
 
 *Please check the [releases](https://github.com/cars10/elasticvue/releases) page if you need version release dates.*
 
+# 0.42.1
+
+* fix build action
+
 # 0.42.0
 
 * [fix]: fix additional issues with cluster selection, fixes [#103][i103]

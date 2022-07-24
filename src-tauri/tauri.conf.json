@@ -1,7 +1,7 @@
 {
   "package": {
     "productName": "elasticvue",
-    "version": "0.40.1"
+    "version": "0.42.1"
   },
   "build": {
     "distDir": "../dist",
