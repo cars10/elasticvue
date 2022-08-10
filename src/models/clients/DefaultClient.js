@@ -181,7 +181,7 @@ export class DefaultClient {
       headers: Object.assign({}, REQUEST_DEFAULT_HEADERS)
     }
 
-    if (this.username.length > 0) {
+    if (this.username.length > 0 || this.password.length > 0) {
       options.headers.Authorization = buildFetchAuthHeader(this.username, this.password)
     }
 

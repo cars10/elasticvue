@@ -34,8 +34,11 @@ export function capitalize (string) {
 export function buildFetchAuthHeader (username, password) {
   if (username.length > 0 && password.length > 0) {
     return 'Basic ' + Buffer.from(username + ':' + password).toString('base64')
-  } else {
+  } else if (username.length > 0) {
     return 'Basic ' + Buffer.from(username).toString('base64')
+  } else if (password.length > 0) {
+    // Assume password is an API key
+    return 'ApiKey ' + password
   }
 }
 
