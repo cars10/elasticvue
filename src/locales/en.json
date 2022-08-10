@@ -476,7 +476,7 @@
           "label": "Username (optional)"
         },
         "password": {
-          "label": "Password (optional)"
+          "label": "Password or API Key (optional)"
         },
         "uri": {
           "label": "Uri"
