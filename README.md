@@ -31,12 +31,15 @@ right in your browser.
 
 It officially works with the following elasticsearch versions:
 
-* `5.6`
-* `6.8`
-* `7.x`
 * `8.x` see [Elasticsearch 8](https://github.com/cars10/elasticvue/wiki/Elasticsearch-8)
+* `7.x`
 
-Other versions might or might not work depending on the features you use.
+It also provides limited support for the following, outdated versions:
+
+* `6.8`
+* `5.6`
+
+Check the [FAQ](https://github.com/cars10/elasticvue/wiki/FAQ) for more details.
 
 ### Features
 
