@@ -2,6 +2,12 @@
 
 *Please check the [releases](https://github.com/cars10/elasticvue/releases) page if you need version release dates.*
 
+# 0.43.0
+
+* [feat]: add support to connect via API key, thanks @tkdave, [#110][f110]
+
+[f110]: https://github.com/cars10/elasticvue/pull/110
+
 # 0.42.1
 
 * fix build action
