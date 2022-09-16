@@ -476,7 +476,7 @@
           "label": "用户名 (可选)"
         },
         "password": {
-          "label": "密码 (可选)"
+          "label": "密码或加密的API密钥（可选"
         },
         "uri": {
           "label": "地址"
