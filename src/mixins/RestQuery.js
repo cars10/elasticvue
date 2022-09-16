@@ -37,7 +37,7 @@ export const useRestQuery = () => {
       'Content-Type': 'application/json'
     }
 
-    if (activeInstance.username.length > 0) {
+    if (activeInstance.password.length > 0) {
       headers.Authorization = buildFetchAuthHeader(activeInstance.username, activeInstance.password)
     }
 
