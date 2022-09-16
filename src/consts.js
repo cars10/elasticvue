@@ -101,6 +101,13 @@ export const REST_QUERY_EXAMPLES = [
     path: '_cat/shards',
     body: '',
     doc: 'https://www.elastic.co/guide/en/elasticsearch/reference/current/cat-shards.html'
+  },
+  {
+    description: 'Create an API key with 1d expiration',
+    method: 'POST',
+    path: '_security/api_key',
+    body: '{\n\t"name": "my-api-key",\n\t"expiration": "1d"\n}',
+    doc: 'https://www.elastic.co/guide/en/elasticsearch/reference/current/security-api-create-api-key.html'
   }
 ]
 
