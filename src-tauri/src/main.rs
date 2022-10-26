@@ -19,18 +19,15 @@ async fn fetch_reqwest(resource: String, init: Option<FetchOptions>) -> FetchRes
 }
 
 fn main() {
+    let ctx = tauri::generate_context!();
+
     tauri::Builder::default()
-        .menu(menu())
-        .on_menu_event(|event| {
-            if event.menu_item_id() == "quit" {
-                std::process::exit(0);
-            }
-        })
+        .menu(menu(&ctx))
         .invoke_handler(tauri::generate_handler![
             fetch_reqwest,
             load_file,
             save_file
         ])
-        .run(tauri::generate_context!())
+        .run(ctx)
         .expect("error while running tauri application");
 }
