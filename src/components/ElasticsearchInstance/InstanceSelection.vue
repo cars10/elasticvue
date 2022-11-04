@@ -30,7 +30,7 @@
 <script>
   import store from '@/store'
   import { vuexAccessors } from '@/helpers/store'
-  import { computed, ref, watch, watchEffect } from '@vue/composition-api'
+  import { computed, ref, watch, watchEffect } from 'vue'
   import { checkHealth } from '@/helpers/instance'
   import InstancesTable from '@/components/ElasticsearchInstance/InstancesTable'
 

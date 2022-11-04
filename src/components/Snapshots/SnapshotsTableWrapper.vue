@@ -46,7 +46,7 @@
   import SnapshotsTable from '@/components/Snapshots/SnapshotsTable'
   import { vuexAccessors } from '@/helpers/store'
   import { setupElasticsearchRequest, useElasticsearchRequest } from '@/mixins/RequestComposition'
-  import { onMounted, ref, watch } from '@vue/composition-api'
+  import { onMounted, ref, watch } from 'vue'
   import Loader from '@/components/shared/Loader'
 
   export default {

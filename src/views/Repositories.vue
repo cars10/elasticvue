@@ -23,7 +23,7 @@
   import RepositoriesTable from '@/components/Repositories/RepositoriesTable'
   import Loader from '@/components/shared/Loader'
   import { setupElasticsearchRequest } from '@/mixins/RequestComposition'
-  import { onMounted } from '@vue/composition-api'
+  import { onMounted } from 'vue'
   import PathRepoInfo from '@/components/shared/PathRepoInfo'
 
   export default {

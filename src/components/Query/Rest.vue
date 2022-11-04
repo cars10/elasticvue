@@ -85,7 +85,7 @@
   import ResizableContainer from '@/components/shared/ResizableContainer'
   import PrintPretty from '@/components/shared/PrintPretty'
   import { HTTP_METHODS } from '@/consts'
-  import { computed, ref } from '@vue/composition-api'
+  import { computed, ref } from 'vue'
   import RestQueryHistory from '@/components/Query/RestQueryHistory'
   import RestQueryExamples from '@/components/Query/RestQueryExamples'
   import { useRestQuery } from '@/mixins/RestQuery'

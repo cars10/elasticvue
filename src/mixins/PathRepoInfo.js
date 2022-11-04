@@ -1,6 +1,6 @@
 import store from '@/store'
 import { setupElasticsearchRequest } from '@/mixins/RequestComposition'
-import { computed } from '@vue/composition-api'
+import { computed } from 'vue'
 
 export const usePathRepoInfo = () => {
   const instance = store.getters['connection/activeInstance']

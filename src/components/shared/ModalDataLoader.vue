@@ -27,7 +27,7 @@
 <script>
   import PrintPretty from '@/components/shared/PrintPretty'
   import ReloadButton from '@/components/shared/ReloadButton'
-  import { onBeforeUnmount, ref, watch } from '@vue/composition-api'
+  import { onBeforeUnmount, ref, watch } from 'vue'
   import { useElasticsearchRequest } from '@/mixins/RequestComposition'
   import Loader from '@/components/shared/Loader'
   import i18n from '@/i18n'

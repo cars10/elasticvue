@@ -20,6 +20,7 @@
   import ReloadButton from '@/components/shared/ReloadButton'
   import SnapshotsTableWrapper from '@/components/Snapshots/SnapshotsTableWrapper'
   import PathRepoInfo from '@/components/shared/PathRepoInfo'
+  import { ref } from 'vue'
 
   export default {
     name: 'snapshots',
@@ -28,12 +29,14 @@
       SnapshotsTableWrapper,
       PathRepoInfo
     },
-    setup (props, context) {
+    setup () {
+      const tableWrapper = ref(null)
       const reloadData = () => {
-        context.refs.tableWrapper.loadSnapshots()
+        tableWrapper.value.loadSnapshots()
       }
 
       return {
+        tableWrapper,
         reloadData
       }
     }

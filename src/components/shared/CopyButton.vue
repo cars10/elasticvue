@@ -5,7 +5,7 @@
 </template>
 
 <script>
-  import { ref } from '@vue/composition-api'
+  import { ref } from 'vue'
   import { writeToClipboard } from '@/services/tauri/clipboard'
 
   export default {

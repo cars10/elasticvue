@@ -7,7 +7,7 @@
 </template>
 
 <script>
-  import { computed, ref, watch } from '@vue/composition-api'
+  import { computed, ref, watch } from 'vue'
   import Vue from 'vue'
 
   export default {

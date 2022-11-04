@@ -72,13 +72,14 @@
   import store from '@/store'
   import { vuexAccessors } from '@/helpers/store'
   import { BASE_URI, DEFAULT_ITEMS_PER_PAGE } from '@/consts'
-  import { computed, ref } from '@vue/composition-api'
+  import { computed, ref } from 'vue'
   import i18n from '@/i18n'
   import RenameInstance from '@/components/ElasticsearchInstance/RenameInstance'
   import NewInstance from '@/components/ElasticsearchInstance/NewInstance'
   import CopyButton from '@/components/shared/CopyButton'
   import { reloadHomePage } from '@/helpers'
   import { askConfirm } from '@/services/tauri/dialogs'
+  import { useRouter } from '@/helpers/composition'
 
   export default {
     name: 'instances-table',
@@ -87,14 +88,15 @@
       NewInstance,
       RenameInstance
     },
-    setup (props, context) {
+    setup () {
       const { activeInstanceIdx, instances } = vuexAccessors('connection', ['activeInstanceIdx', 'instances'])
 
       const indexedInstances = computed(() => {
         return [...instances.value].map((instance, i) => Object.assign({}, instance, { index: i }))
       })
 
-      const switchCluster = index => reloadHomePage(context.root.$router, index.toString())
+      const { router } = useRouter()
+      const switchCluster = index => reloadHomePage(router, index.toString())
 
       const removeInstance = index => {
         askConfirm(i18n.t('elasticsearch_instance.instances_table.row.remove_cluster.confirm', {

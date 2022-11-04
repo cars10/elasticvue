@@ -16,7 +16,7 @@
 
 <script>
   import i18n from '@/i18n'
-  import { computed, onMounted, ref, watch } from '@vue/composition-api'
+  import { computed, onMounted, ref, watch } from 'vue'
   import { useElasticsearchRequest } from '@/mixins/RequestComposition'
   import { debounce } from '@/helpers'
 

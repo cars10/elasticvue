@@ -16,7 +16,7 @@
   import IndicesTable from '@/components/Indices/IndicesTable'
   import ReloadButton from '@/components/shared/ReloadButton'
   import { setupElasticsearchRequest } from '@/mixins/RequestComposition'
-  import { onMounted } from '@vue/composition-api'
+  import { onMounted } from 'vue'
   import Loader from '@/components/shared/Loader'
 
   export default {

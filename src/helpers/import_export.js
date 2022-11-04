@@ -1,5 +1,5 @@
 import store from '@/store'
-import { ref, watch } from '@vue/composition-api'
+import { ref, watch } from 'vue'
 import { useIdb } from '@/services/IdbConnection'
 import { IDB_TABLE_NAMES, LOCALSTORAGE_KEY } from '@/consts'
 import i18n from '@/i18n'

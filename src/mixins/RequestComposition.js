@@ -1,4 +1,4 @@
-import { ref } from '@vue/composition-api'
+import { ref } from 'vue'
 import { parseJsonBigInt, stringifyJsonBigInt } from '@/helpers/json_parse'
 import store from '@/store'
 

@@ -20,7 +20,7 @@
   import IndexSelect from '@/components/shared/IndexFilter/IndexSelect'
   import IndexPattern from '@/components/shared/IndexFilter/IndexPattern'
   import ContentToggle from '@/components/shared/ContentToggle'
-  import { computed, onMounted, ref, watch } from '@vue/composition-api'
+  import { computed, onMounted, ref, watch } from 'vue'
   import { setupElasticsearchRequest } from '@/mixins/RequestComposition'
 
   export default {

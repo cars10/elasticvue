@@ -20,7 +20,7 @@
 </template>
 
 <script>
-  import { computed, ref, watch } from '@vue/composition-api'
+  import { computed, ref, watch } from 'vue'
   import { vuexAccessors } from '@/helpers/store'
   import CopyButton from '@/components/shared/CopyButton'
 

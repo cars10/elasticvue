@@ -22,7 +22,7 @@
 
 <script>
   import Loader from '@/components/shared/Loader'
-  import { computed, onMounted } from '@vue/composition-api'
+  import { computed, onMounted } from 'vue'
   import { usePathRepoInfo } from '@/mixins/PathRepoInfo'
 
   export default {

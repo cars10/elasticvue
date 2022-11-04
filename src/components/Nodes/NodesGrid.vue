@@ -126,8 +126,9 @@
   import NodeIcons from '@/components/Nodes/NodeIcons'
   import NodePercentBar from '@/components/Nodes/NodePercentBar'
   import { vuexAccessors } from '@/helpers/store'
-  import { computed } from '@vue/composition-api'
+  import { computed } from 'vue'
   import { nodeRoleTitle } from '@/helpers'
+  import { useVuetify } from '@/helpers/composition'
 
   export default {
     name: 'nodes-grid',
@@ -147,12 +148,13 @@
         type: Boolean
       }
     },
-    setup (props, context) {
+    setup () {
       const { filter, pagination } = vuexAccessors('nodes', ['filter', 'pagination'])
 
+      const vuetify = useVuetify()
       const nodeListClass = computed(() => {
         return {
-          'border-right-1': !context.root.$vuetify.breakpoint.xs
+          'border-right-1': !vuetify.breakpoint.xs
         }
       })
 

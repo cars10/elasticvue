@@ -14,7 +14,7 @@
 </template>
 
 <script>
-  import { onBeforeUnmount, onMounted, ref } from '@vue/composition-api'
+  import { onBeforeUnmount, onMounted, ref } from 'vue'
 
   export default {
     name: 'settings-dropdown',

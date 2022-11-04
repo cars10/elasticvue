@@ -57,7 +57,7 @@
 
 <script>
   import BtnGroup from '@/components/shared/BtnGroup'
-  import { computed, ref } from '@vue/composition-api'
+  import { computed, ref } from 'vue'
   import { vuexAccessors } from '@/helpers/store'
 
   export default {

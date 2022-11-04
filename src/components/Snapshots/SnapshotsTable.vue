@@ -30,7 +30,7 @@
 <script>
   import { DEFAULT_ITEMS_PER_PAGE } from '@/consts'
   import { vuexAccessors } from '@/helpers/store'
-  import { computed } from '@vue/composition-api'
+  import { computed } from 'vue'
   import Snapshot from '@/components/Snapshots/Snapshot'
   import { filterItems } from '@/helpers/filters'
   import i18n from '@/i18n'

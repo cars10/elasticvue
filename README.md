@@ -5,7 +5,7 @@
 [![Edge extension](https://img.shields.io/badge/dynamic/json?label=microsoft%20edge%20add-on&query=%24.version&url=https%3A%2F%2Fmicrosoftedge.microsoft.com%2Faddons%2Fgetproductdetailsbycrxid%2Fgeifniocjfnfilcbeloeidajlfmhdlgo)](https://microsoftedge.microsoft.com/addons/detail/geifniocjfnfilcbeloeidajlfmhdlgo)
 [![Firefox addon](https://img.shields.io/amo/v/elasticvue?label=firefox%20add-on)](https://addons.mozilla.org/en-US/firefox/addon/elasticvue/)
 [![Docker build](https://img.shields.io/docker/image-size/cars10/elasticvue)](https://hub.docker.com/r/cars10/elasticvue)
-[![AUR version](https://img.shields.io/aur/version/elasticvue-bin)](https://aur.archlinux.org/packages/elasticvue-bin)
+[![AUR version](https://img.shields.io/aur/version/elasticvue-bin?label=UNOFFICIAL%20aur)](https://aur.archlinux.org/packages/elasticvue-bin)
 
 Elasticsearch gui for your browser [https://elasticvue.com](https://elasticvue.com)
 

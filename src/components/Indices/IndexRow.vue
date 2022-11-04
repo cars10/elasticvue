@@ -134,11 +134,12 @@
   import BtnGroup from '@/components/shared/BtnGroup'
   import ListTileLink from '@/components/shared/ListTile/ListTileLink'
   import ModalDataLoader from '@/components/shared/ModalDataLoader'
-  import { computed, onMounted, ref, watch } from '@vue/composition-api'
+  import { computed, onMounted, ref, watch } from 'vue'
   import store from '@/store'
   import { useElasticsearchRequest } from '@/mixins/RequestComposition'
   import IndexAliases from '@/components/Indices/IndexAliases'
   import { DEFAULT_SEARCH_QUERY } from '@/consts'
+  import { useRouter } from '@/helpers/composition'
 
   export default {
     name: 'index-row',
@@ -182,11 +183,12 @@
       watch(() => props.index, loadAliases)
       onMounted(loadAliases)
 
+      const { router } = useRouter()
       const showDocuments = index => {
         store.commit('search/setIndices', index)
         store.commit('search/setQ', '*')
         store.commit('search/setSearchQuery', DEFAULT_SEARCH_QUERY)
-        context.root.$router.push({ name: 'Search' })
+        router.push({ name: 'Search' })
       }
 
       const emitReloadIndices = () => {

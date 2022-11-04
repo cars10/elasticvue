@@ -66,7 +66,7 @@
 <script>
   import { DEFAULT_ITEMS_PER_PAGE } from '@/consts'
   import { useElasticsearchRequest } from '@/mixins/RequestComposition'
-  import { computed, ref, watch } from '@vue/composition-api'
+  import { computed, ref, watch } from 'vue'
   import { showSnackbar } from '@/mixins/ShowSnackbar'
   import i18n from '@/i18n'
   import { askConfirm } from '@/services/tauri/dialogs'

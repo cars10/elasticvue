@@ -1,5 +1,5 @@
 import { capitalize } from './'
-import { computed } from '@vue/composition-api'
+import { computed } from 'vue'
 import store from '@/store'
 
 export const vuexAccessors = function (namespace, states) {

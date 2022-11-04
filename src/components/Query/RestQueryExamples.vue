@@ -84,7 +84,7 @@
 </template>
 
 <script>
-  import { computed, ref } from '@vue/composition-api'
+  import { computed, ref } from 'vue'
   import { DEFAULT_ITEMS_PER_PAGE, REST_QUERY_EXAMPLES } from '@/consts'
   import PrintPretty from '@/components/shared/PrintPretty'
   import i18n from '@/i18n'

@@ -130,7 +130,7 @@
 </style>
 
 <script>
-  import { computed, ref } from '@vue/composition-api'
+  import { computed, ref } from 'vue'
   import { stringifyJsonBigInt } from '@/helpers/json_parse'
   import { vuexAccessors } from '@/helpers/store'
   import { DEFAULT_ITEMS_PER_PAGE } from '@/consts'

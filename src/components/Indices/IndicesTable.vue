@@ -84,7 +84,7 @@
   import i18n from '@/i18n'
   import { DEFAULT_ITEMS_PER_PAGE } from '@/consts'
   import { vuexAccessors } from '@/helpers/store'
-  import { computed, ref, watch } from '@vue/composition-api'
+  import { computed, ref, watch } from 'vue'
   import { useAsyncFilter } from '@/mixins/UseAsyncTableFilter'
   import { debounce } from '@/helpers'
   import IndexBulk from '@/components/Indices/IndexBulk'

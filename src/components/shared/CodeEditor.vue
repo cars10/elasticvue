@@ -50,7 +50,7 @@
 </template>
 
 <script>
-  import { computed, onBeforeUnmount, onMounted, ref, watch } from '@vue/composition-api'
+  import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
   import store from '@/store'
   import { vuexAccessors } from '@/helpers/store'
   import { editorUtils, initializeSnippets } from '@/mixins/CodeEditorUtils'
@@ -112,7 +112,7 @@
       })
 
       onMounted(() => {
-        setupAceEditor(context.refs.editor, {
+        setupAceEditor(editor.value, {
           enableBasicAutocompletion: [completer],
           enableLiveAutocompletion: true,
           enableSnippets: true
@@ -151,6 +151,7 @@
       }
 
       return {
+        editor,
         useSpaces,
         wrapLines,
         valid,

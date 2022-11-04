@@ -68,7 +68,7 @@
   import { vuexAccessors } from '@/helpers/store'
   import { useAsyncFilter } from '@/mixins/UseAsyncTableFilter'
   import { debounce, renameForbiddenObjectKeys, sortableField } from '@/helpers'
-  import { computed, ref, watch } from '@vue/composition-api'
+  import { computed, ref, watch } from 'vue'
   import { useElasticsearchRequest } from '@/mixins/RequestComposition'
   import SingleSetting from '@/components/shared/TableSettings/SingleSetting'
   import DownloadButton from '@/components/shared/DownloadButton'

@@ -1,5 +1,5 @@
 import { useIdb } from '@/services/IdbConnection'
-import { ref, watch } from '@vue/composition-api'
+import { ref, watch } from 'vue'
 import { useAsyncFilter } from '@/mixins/UseAsyncTableFilter'
 import { debounce } from '@/helpers'
 import { IDB_TABLE_DEFINITIONS } from '@/consts'

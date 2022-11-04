@@ -1,6 +1,6 @@
 import * as Comlink from 'comlink'
 import Worker from 'worker-loader!@/workers/FilterWorker'
-import { onBeforeUnmount, ref } from '@vue/composition-api'
+import { onBeforeUnmount, ref } from 'vue'
 
 export const useAsyncFilter = () => {
   const filterLoading = ref(false)

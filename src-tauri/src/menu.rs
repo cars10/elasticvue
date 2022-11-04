@@ -24,6 +24,7 @@ pub fn menu<A: Assets>(ctx: &Context<A>) -> Menu {
                 MenuItem::Quit.into()
             ]),
         )),
+        #[cfg(not(target_os = "linux"))]
         MenuEntry::Submenu(Submenu::new(
             "Edit",
             Menu::with_items([
@@ -38,6 +39,7 @@ pub fn menu<A: Assets>(ctx: &Context<A>) -> Menu {
                 MenuItem::SelectAll.into()
             ]),
         )),
+        #[cfg(not(target_os = "linux"))]
         MenuEntry::Submenu(Submenu::new(
             "Window",
             Menu::with_items([

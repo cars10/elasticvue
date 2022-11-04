@@ -66,7 +66,7 @@
 <script>
   import i18n from '@/i18n'
   import IndexFilter from '@/components/shared/IndexFilter'
-  import { ref } from '@vue/composition-api'
+  import { ref } from 'vue'
   import { useElasticsearchRequest } from '@/mixins/RequestComposition'
   import { showSnackbar } from '@/mixins/ShowSnackbar'
 
@@ -86,6 +86,7 @@
       }
     },
     setup (props, context) {
+      const form = ref(null)
       const dialog = ref(false)
       const valid = ref(false)
       const indices = ref('*')
@@ -95,7 +96,7 @@
       const renameReplacement = ref('')
 
       const closeDialog = () => {
-        context.refs.form.resetValidation()
+        form.value.resetValidation()
         dialog.value = false
         indices.value = '*'
         ignoreUnavailable.value = true
@@ -120,7 +121,7 @@
 
       const { requestState, callElasticsearch } = useElasticsearchRequest()
       const restoreSnapshot = () => {
-        if (!context.refs.form.validate()) return
+        if (!form.value.validate()) return
 
         callElasticsearch('snapshotRestore', buildRestoreParams())
           .then(() => {
@@ -133,6 +134,7 @@
       }
 
       return {
+        form,
         dialog,
         valid,
         indices,

@@ -1,4 +1,4 @@
-import { computed, ref } from '@vue/composition-api'
+import { computed, ref } from 'vue'
 import { DEFAULT_ELASTICSEARCH_HOST, DEFAULT_HOST, DEFAULT_NAME } from '@/consts'
 import ElasticsearchAdapter from '@/services/ElasticsearchAdapter'
 import { DefaultClient } from '@/models/clients/DefaultClient'

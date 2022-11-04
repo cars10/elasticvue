@@ -20,8 +20,9 @@
   import PrintPretty from '@/components/shared/PrintPretty'
   import ReloadButton from '@/components/shared/ReloadButton'
   import Loader from '@/components/shared/Loader'
-  import { computed, onMounted } from '@vue/composition-api'
+  import { computed, onMounted } from 'vue'
   import { setupElasticsearchRequest } from '@/mixins/RequestComposition'
+  import { useRouter } from '@/helpers/composition'
 
   export default {
     name: 'document',
@@ -31,9 +32,11 @@
       PrintPretty,
       ReloadButton
     },
-    setup (props, context) {
+    setup () {
+      const { route } = useRouter()
+
       const methodParams = computed(() => {
-        const routeParams = context.root.$route.params
+        const routeParams = route.params
         return {
           index: routeParams.index, type: routeParams.type, id: routeParams.id
         }
@@ -43,7 +46,7 @@
       onMounted(load)
 
       const caption = computed(() => {
-        const routeParams = context.root.$route.params
+        const routeParams = route.params
         const docType = routeParams.type || '_doc'
         return `${routeParams.index}/${docType}/${routeParams.id}`
       })

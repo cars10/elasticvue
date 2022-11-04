@@ -5,16 +5,18 @@
 </template>
 
 <script>
-  import { watch } from '@vue/composition-api'
+  import { watch } from 'vue'
   import { vuexAccessors } from '@/helpers/store'
+  import { useVuetify } from '@/helpers/composition'
 
   export default {
     name: 'change-theme',
-    setup (props, context) {
+    setup () {
       const { dark } = vuexAccessors('theme', ['dark'])
 
+      const vuetify = useVuetify()
       watch(dark, newValue => {
-        context.root.$vuetify.theme.dark = newValue
+        vuetify.theme.dark = newValue
       })
 
       return {

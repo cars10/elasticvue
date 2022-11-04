@@ -30,7 +30,7 @@
 
 <script>
   import store from '@/store'
-  import { computed } from '@vue/composition-api'
+  import { computed } from 'vue'
 
   import en from '@/assets/icons/flags/en.svg'
   import cn from '@/assets/icons/flags/cn.svg'

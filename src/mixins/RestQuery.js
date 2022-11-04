@@ -1,5 +1,5 @@
 import store from '@/store'
-import { computed, ref } from '@vue/composition-api'
+import { computed, ref } from 'vue'
 import { useIdb } from '@/services/IdbConnection'
 import { IDB_TABLE_NAMES } from '@/consts'
 import { buildFetchAuthHeader } from '@/helpers'

@@ -85,7 +85,7 @@
 </template>
 
 <script>
-  import { ref, watch } from '@vue/composition-api'
+  import { ref, watch } from 'vue'
   import CodeEditor from '@/components/shared/CodeEditor'
   import IndexFilter from '@/components/shared/IndexFilter'
   import ResizableContainer from '@/components/shared/ResizableContainer'

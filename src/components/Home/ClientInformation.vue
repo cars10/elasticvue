@@ -80,7 +80,7 @@
   import { setupElasticsearchRequest } from '@/mixins/RequestComposition'
   import ReloadButton from '@/components/shared/ReloadButton'
   import Loader from '@/components/shared/Loader'
-  import { onMounted } from '@vue/composition-api'
+  import { onMounted } from 'vue'
 
   export default {
     name: 'client-information',

@@ -60,7 +60,7 @@
   import NewRepository from '@/components/Repositories/NewRepository'
   import { DEFAULT_ITEMS_PER_PAGE } from '@/consts'
   import { vuexAccessors } from '@/helpers/store'
-  import { computed } from '@vue/composition-api'
+  import { computed } from 'vue'
   import store from '@/store'
   import i18n from '@/i18n'
   import { useElasticsearchRequest } from '@/mixins/RequestComposition'
@@ -68,6 +68,7 @@
   import { filterItems } from '@/helpers/filters'
   import { showSnackbar } from '@/mixins/ShowSnackbar'
   import { askConfirm } from '@/services/tauri/dialogs'
+  import { useRouter } from '@/helpers/composition'
 
   export default {
     name: 'repositories-table',
@@ -103,9 +104,10 @@
 
       const emitReloadData = () => (context.emit('reloadData'))
 
+      const { router } = useRouter()
       const showSnapshots = repository => {
         store.commit('snapshots/setRepository', repository)
-        context.root.$router.push({ name: 'Snapshots' })
+        router.push({ name: 'Snapshots' })
       }
 
       const { requestState, callElasticsearch } = useElasticsearchRequest()

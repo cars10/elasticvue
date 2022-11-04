@@ -91,7 +91,7 @@
 </template>
 
 <script>
-  import { ref } from '@vue/composition-api'
+  import { ref } from 'vue'
   import { useElasticsearchRequest } from '@/mixins/RequestComposition'
   import { showSnackbar } from '@/mixins/ShowSnackbar'
   import i18n from '@/i18n'
@@ -99,6 +99,7 @@
   export default {
     name: 'new-repository',
     setup (props, context) {
+      const form = ref(null)
       const dialog = ref(false)
       const valid = ref(false)
       const repositoryName = ref('')
@@ -117,7 +118,7 @@
       const { requestState, callElasticsearch } = useElasticsearchRequest()
 
       const createSnapshotRepository = () => {
-        if (!context.refs.form.validate()) return
+        if (!form.value.validate()) return
 
         callElasticsearch('snapshotCreateRepository', buildCreateParams())
           .then(() => {
@@ -155,11 +156,12 @@
         maxRestoreBytesPerSec.value = '40mb'
         maxSnapshotBytesPerSec.value = '40mb'
         readonly.value = false
-        context.refs.form.resetValidation()
+        form.value.resetValidation()
         dialog.value = false
       }
 
       return {
+        form,
         dialog,
         valid,
         repositoryName,

@@ -45,7 +45,7 @@
   import NodesTable from '@/components/Nodes/NodesTable'
   import ReloadButton from '@/components/shared/ReloadButton'
   import store from '@/store'
-  import { computed } from '@vue/composition-api'
+  import { computed } from 'vue'
   import { vuexAccessors } from '@/helpers/store'
   import ElasticsearchNode from '@/models/ElasticsearchNode'
   import { filterItems } from '@/helpers/filters'

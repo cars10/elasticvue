@@ -12,6 +12,7 @@
 
 <script>
   import { stringifyJsonBigInt } from '@/helpers/json_parse'
+  import { useRouter } from '@/helpers/composition'
 
   export default {
     name: 'result',
@@ -35,8 +36,10 @@
         })
       }
 
+      const { router } = useRouter()
+
       const openDocNewTab = () => {
-        const url = context.root.$router.resolve({
+        const url = router.resolve({
           name: 'Document',
           params: { index: props.doc._index, type: props.doc._type, id: props.doc._id, routing: props.doc._routing }
         }).href

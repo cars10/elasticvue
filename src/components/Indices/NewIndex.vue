@@ -64,13 +64,14 @@
 
 <script>
   import { showSnackbar } from '@/mixins/ShowSnackbar'
-  import { ref } from '@vue/composition-api'
+  import { ref } from 'vue'
   import { useElasticsearchRequest } from '@/mixins/RequestComposition'
   import i18n from '@/i18n'
 
   export default {
     name: 'new-index',
     setup (props, context) {
+      const form = ref(null)
       const dialog = ref(false)
       const valid = ref(false)
       const indexName = ref('')
@@ -95,7 +96,7 @@
 
       const { requestState, callElasticsearch } = useElasticsearchRequest()
       const createIndex = () => {
-        if (!context.refs.form.validate()) return
+        if (!form.value.validate()) return
 
         callElasticsearch('indexCreate', buildCreateParams())
           .then(body => {
@@ -113,11 +114,12 @@
         indexName.value = ''
         indexShards.value = ''
         indexReplicas.value = ''
-        context.refs.form.resetValidation()
+        form.value.resetValidation()
         dialog.value = false
       }
 
       return {
+        form,
         dialog,
         valid,
         indexName,

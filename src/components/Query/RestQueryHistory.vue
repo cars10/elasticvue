@@ -106,7 +106,7 @@
 </template>
 
 <script>
-  import { ref } from '@vue/composition-api'
+  import { ref } from 'vue'
   import { useHistory } from '@/mixins/History'
   import { DEFAULT_ITEMS_PER_PAGE, IDB_TABLE_NAMES } from '@/consts'
   import CodeViewer from '@/components/shared/CodeViewer'

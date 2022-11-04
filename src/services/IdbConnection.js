@@ -1,4 +1,4 @@
-import { ref } from '@vue/composition-api'
+import { ref } from 'vue'
 import { openDB } from 'idb'
 import { INDEXEDDB_NAME } from '@/consts'
 

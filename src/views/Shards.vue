@@ -17,7 +17,7 @@
   import ShardsTable from '@/components/Shards/ShardsTable'
   import Loader from '@/components/shared/Loader'
   import { useElasticsearchRequest } from '@/mixins/RequestComposition'
-  import { onMounted, ref } from '@vue/composition-api'
+  import { onMounted, ref } from 'vue'
   import { convertSource } from '@/models/Shards'
 
   export default {

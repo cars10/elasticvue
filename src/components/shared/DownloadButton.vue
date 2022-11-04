@@ -11,7 +11,7 @@
 <script>
   import { DESKTOP_BUILD } from '@/consts'
   import { showSuccessSnackbar } from '@/mixins/ShowSnackbar'
-  import { ref } from '@vue/composition-api'
+  import { ref } from 'vue'
   import { save } from '@tauri-apps/api/dialog'
   import { invoke } from '@tauri-apps/api/tauri'
   import prettyBytes from 'pretty-bytes'

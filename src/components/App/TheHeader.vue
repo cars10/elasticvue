@@ -69,9 +69,10 @@
 </template>
 
 <script>
-  import { computed, onBeforeUnmount, onMounted, ref } from '@vue/composition-api'
+  import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
   import store from '@/store'
   import InstanceSelection from '@/components/ElasticsearchInstance/InstanceSelection'
+  import { useRouter, useVuetify } from '@/helpers/composition'
 
   export default {
     name: 'app.header',
@@ -88,14 +89,16 @@
         if (typeof window !== 'undefined') window.removeEventListener('scroll', setScrolledDown)
       })
 
+      const { route } = useRouter()
       const navbarSnapshotClasses = computed(() => {
         return {
-          'v-btn--active': /\/snapshot/.test(context.root.$route.path)
+          'v-btn--active': /\/snapshot/.test(route.path)
         }
       })
 
       const dense = computed(() => {
-        return context.root.$vuetify.breakpoint.mdAndDown || scrolledDown.value
+        const vuetify = useVuetify()
+        return vuetify.breakpoint.mdAndDown || scrolledDown.value
       })
 
       const logoSize = computed(() => {

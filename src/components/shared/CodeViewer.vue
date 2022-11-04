@@ -32,7 +32,7 @@
 
 <script>
   import { vuexAccessors } from '@/helpers/store'
-  import { onBeforeUnmount, onMounted, ref, watch } from '@vue/composition-api'
+  import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
   import store from '@/store'
   import { editorUtils } from '@/mixins/CodeEditorUtils'
   import { beautify } from '@/helpers'
@@ -55,7 +55,7 @@
         default: true
       }
     },
-    setup (props, context) {
+    setup (props) {
       const editor = ref(null)
       const { useSpaces, wrapLines } = vuexAccessors('codeEditor', ['useSpaces', 'wrapLines'])
       const { setTheme, setWhitespace, setWrapLines, unmountEditor, setupAceEditor, copyContent } = editorUtils(editor)
@@ -78,7 +78,7 @@
       })
 
       onMounted(() => {
-        setupAceEditor(context.refs.editor, { readOnly: true })
+        setupAceEditor(editor.value, { readOnly: true })
         setWrapLines(wrapLines.value)
         setTheme(store.state.theme.dark)
         if (props.value) {
@@ -100,6 +100,7 @@
       }
 
       return {
+        editor,
         useSpaces,
         wrapLines,
         copyContent

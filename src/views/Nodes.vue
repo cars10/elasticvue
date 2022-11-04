@@ -5,7 +5,7 @@
 <script>
   import NodesList from '@/components/Nodes/NodesList'
   import { setupElasticsearchRequest } from '@/mixins/RequestComposition'
-  import { onMounted } from '@vue/composition-api'
+  import { onMounted } from 'vue'
 
   export default {
     name: 'nodes',

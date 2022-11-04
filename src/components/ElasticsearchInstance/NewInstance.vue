@@ -132,13 +132,14 @@
 <script>
   import store from '@/store'
   import { vuexAccessors } from '@/helpers/store'
-  import { computed, ref } from '@vue/composition-api'
+  import { computed, ref } from 'vue'
   import { useTestConnection } from '@/mixins/TestConnection'
   import { SHOW_CORS_HINT } from '@/consts'
   import Configure from '@/components/Setup/Configure'
   import SslHint from '@/components/shared/SslHint'
   import AuthorizationHeaderHint from '@/components/shared/AuthorizationHeaderHint'
   import { reloadHomePage } from '@/helpers'
+  import { useRouter } from '@/helpers/composition'
 
   export default {
     name: 'new-instance',
@@ -147,7 +148,7 @@
       Configure,
       SslHint
     },
-    setup (props, context) {
+    setup () {
       const dialog = ref(false)
       const closeDialog = () => {
         dialog.value = false
@@ -171,13 +172,14 @@
         connect
       } = useTestConnection()
 
+      const { router } = useRouter()
       const connectCluster = () => {
         connect()
           .then(() => {
             if (!testState.value.connectError) {
               const newId = instances.value.length - 1
               store.commit('connection/setActiveInstanceIdx', newId)
-              reloadHomePage(context.root.$router, newId)
+              reloadHomePage(router, newId)
             }
           })
       }

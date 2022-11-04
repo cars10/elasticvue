@@ -5,6 +5,8 @@
 # 0.43.0
 
 * [feat]: add support to connect via API key, thanks @tkdave, [#110][f110]
+* [feat]: desktop app menu & icon fixes for mac
+* [feat]: dependency updates, use vue 2.7, prepare vue 3.0 update
 
 [f110]: https://github.com/cars10/elasticvue/pull/110
 

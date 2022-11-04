@@ -51,7 +51,7 @@
   import RestoreSnapshot from '@/components/Snapshots/RestoreSnapshot'
   import BtnGroup from '@/components/shared/BtnGroup'
   import ListTileLink from '@/components/shared/ListTile/ListTileLink'
-  import { ref } from '@vue/composition-api'
+  import { ref } from 'vue'
   import { useElasticsearchRequest } from '@/mixins/RequestComposition'
 
   export default {

@@ -12,7 +12,7 @@
 
 <script>
   import { showDefaultSnackbar, showSnackbar } from '@/mixins/ShowSnackbar'
-  import { computed, ref } from '@vue/composition-api'
+  import { computed, ref } from 'vue'
   import { useElasticsearchRequest } from '@/mixins/RequestComposition'
   import i18n from '@/i18n'
   import { askConfirm } from '@/services/tauri/dialogs'
