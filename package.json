@@ -58,8 +58,8 @@
     "@vue/cli-plugin-e2e-cypress": "^4.5.17",
     "@vue/cli-plugin-unit-jest": "^4.5.17",
     "babel-jest": "^28.1.0",
-    "cypress": "^10.0.1",
-    "puppeteer": "^14.2.0",
+    "cypress": "^10.11.0",
+    "puppeteer": "^19.2.2",
     "vue-jest": "^3.0.7"
   },
   "license": "MIT",
