@@ -5,6 +5,7 @@ import Home from '@/views/Home'
 import Search from '@/views/Search'
 import Document from '@/views/Document'
 import Indices from '@/views/Indices'
+import IndexTemplates from '@/views/IndexTemplates'
 import Snapshots from '@/views/Snapshots'
 import Repositories from '@/views/Repositories'
 import Utilities from '@/views/Utilities'
@@ -45,6 +46,7 @@ const router = new Router({
         { path: '/', name: 'Home', component: Home },
         { path: 'nodes', name: 'Nodes', component: Nodes },
         { path: 'indices', name: 'Indices', component: Indices },
+        { path: 'index_templates', name: 'IndexTemplates', component: IndexTemplates },
         { path: 'shards', name: 'Shards', component: Shards },
         { path: 'search', name: 'Search', component: Search, props: true },
         { path: 'search/:index/:type?/:id', name: 'Document', component: Document },

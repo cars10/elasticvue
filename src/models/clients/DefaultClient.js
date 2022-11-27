@@ -35,6 +35,11 @@ export class DefaultClient {
     return this.request(`_cat/indices/${query}`, 'GET', params)
   }
 
+  catIndexTemplates (params, filter) {
+    const query = filter ? `${filter}*` : ''
+    return this.request(`_index_template/${query}`, 'GET', params)
+  }
+
   catShards (params, filter) {
     const query = filter ? `${filter}*` : ''
     return this.request(`_cat/shards/${query}`, 'GET', params)

@@ -5,9 +5,12 @@
 # 0.44.0
 
 * [feat]: show content while reloading, fixes [#125][f125]
+* [feat]: adds index templates table, fixes [#126][f126]
 * restructure snapshots & repositories table
 
 [f125]: https://github.com/cars10/elasticvue/issues/125
+
+[f126]: https://github.com/cars10/elasticvue/issues/126
 
 # 0.43.0
 

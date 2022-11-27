@@ -4,6 +4,7 @@ import { plugins } from './plugins'
 import { codeEditor } from './modules/codeEditor'
 import { connection } from './modules/connection'
 import { indices } from './modules/indices'
+import { indexTemplates } from './modules/index_templates'
 import { language } from './modules/language'
 import { nodes } from './modules/nodes'
 import { queryRest } from './modules/queryRest'
@@ -22,6 +23,7 @@ export default new Vuex.Store({
     codeEditor,
     connection,
     indices,
+    indexTemplates,
     language,
     nodes,
     queryRest,

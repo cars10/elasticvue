@@ -226,6 +226,21 @@
       }
     }
   },
+  "index_templates": {
+    "heading": null,
+    "index_templates_table": {
+      "table": {
+        "headers": {
+          "name": null,
+          "index_patterns": null,
+          "priority": null,
+          "version": null,
+          "allow_auto_create": null,
+          "template": null
+        }
+      }
+    }
+  },
   "mixins": {
     "test_connection": {
       "cluster_reachable": "你的集群可以访问并正确配置。",

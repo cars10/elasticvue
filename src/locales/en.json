@@ -226,6 +226,21 @@
       }
     }
   },
+  "index_templates": {
+    "heading": "Index templates",
+    "index_templates_table": {
+      "table": {
+        "headers": {
+          "name": "Name",
+          "index_patterns": "index_patterns",
+          "priority": "priority",
+          "version": "version",
+          "allow_auto_create": "allow_auto_create",
+          "template": "template"
+        }
+      }
+    }
+  },
   "mixins": {
     "test_connection": {
       "cluster_reachable": "You cluster is reachable and configured correctly.",

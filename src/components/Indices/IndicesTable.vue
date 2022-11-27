@@ -4,6 +4,7 @@
       <v-row>
         <v-col>
           <new-index @reloadIndices="emitReloadIndices"/>
+          <router-link :to="{name: 'IndexTemplates'}" class="ml-4">Index templates</router-link>
         </v-col>
         <v-col>
           <div class="float-right d-flex">

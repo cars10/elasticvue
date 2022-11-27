@@ -54,7 +54,7 @@
     components: {
       InstanceSelection
     },
-    setup (props, context) {
+    setup () {
       const scrolledDown = ref(false)
       const setScrolledDown = () => (scrolledDown.value = window.pageYOffset > 0)
       onMounted(() => {
