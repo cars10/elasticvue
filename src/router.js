@@ -50,8 +50,8 @@ const router = new Router({
         { path: 'search/:index/:type?/:id', name: 'Document', component: Document },
         { path: 'utilities', name: 'Utilities', component: Utilities },
         { path: 'settings', name: 'Settings', component: Settings },
-        { path: 'snapshots', name: 'Snapshots', component: Snapshots },
         { path: 'snapshot_repositories', name: 'Repositories', component: Repositories },
+        { path: 'snapshot_repositories/:repositoryName/snapshots', name: 'Snapshots', component: Snapshots },
         { path: 'rest', name: 'Rest', component: QueryRest }
       ]
     },

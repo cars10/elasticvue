@@ -349,7 +349,7 @@
     }
   },
   "repositories": {
-    "heading": "Repositories",
+    "heading": "Snapshot Repositories",
     "new_repository": {
       "heading": "New repository",
       "form": {
@@ -591,7 +591,7 @@
     }
   },
   "snapshots": {
-    "heading": "Snapshots",
+    "heading": "Repository '{name}' snapshots",
     "new_snapshot": {
       "heading": "New snapshot",
       "form": {

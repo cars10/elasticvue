@@ -1,30 +1,53 @@
 <template>
-  <v-data-table :footer-props="{itemsPerPageOptions: DEFAULT_ITEMS_PER_PAGE, showFirstLastPage: true}"
-                :headers="HEADERS"
-                :items="items"
-                :loading="loading"
-                :options.sync="pagination"
-                class="table--condensed"
-                item-key="id">
-    <template v-slot:item="props">
-      <snapshot :repository="repository" :snapshot="props.item" @reloadData="emitReloadData"/>
-    </template>
+  <div>
+    <v-card-text>
+      <v-row>
+        <v-col>
+          <new-snapshot :repository="repository" @reloadData="emitReloadSnapshots"/>
+        </v-col>
+        <v-col>
+          <div class="float-right d-inline-flex">
+            <v-text-field id="filter"
+                          v-model="filter"
+                          :label="$t('snapshots.snapshots_table_wrapper.filter.label')"
+                          append-icon="mdi-magnify"
+                          autofocus
+                          class="mt-0 pt-0 v-text-field--small"
+                          hide-details
+                          name="filter"
+                          @keyup.esc="filter = ''"/>
+          </div>
+        </v-col>
+      </v-row>
+    </v-card-text>
 
-    <template slot="no-data">
-      <template v-if="!repository">
-        {{ $t('snapshots.snapshots_table.no_repository_selected') }}
+    <v-data-table :footer-props="{itemsPerPageOptions: DEFAULT_ITEMS_PER_PAGE, showFirstLastPage: true}"
+                  :headers="HEADERS"
+                  :items="items"
+                  :loading="loading"
+                  :options.sync="pagination"
+                  class="table--condensed"
+                  item-key="id">
+      <template v-slot:item="props">
+        <snapshot :repository="repository" :snapshot="props.item" @reloadData="emitReloadSnapshots"/>
       </template>
 
-      <template v-else>
-        <template v-if="filter">
-          {{ $t('shared.nothing_found_for_filter', { filter }) }}
+      <template slot="no-data">
+        <template v-if="!repository">
+          {{ $t('snapshots.snapshots_table.no_repository_selected') }}
         </template>
+
         <template v-else>
-          {{ $t('shared.nothing_found') }}
+          <template v-if="filter">
+            {{ $t('shared.nothing_found_for_filter', { filter }) }}
+          </template>
+          <template v-else>
+            {{ $t('shared.nothing_found') }}
+          </template>
         </template>
       </template>
-    </template>
-  </v-data-table>
+    </v-data-table>
+  </div>
 </template>
 
 <script>
@@ -34,10 +57,12 @@
   import Snapshot from '@/components/Snapshots/Snapshot'
   import { filterItems } from '@/helpers/filters'
   import i18n from '@/i18n'
+  import NewSnapshot from '@/components/Snapshots/NewSnapshot'
 
   export default {
     name: 'snapshots-table',
     components: {
+      NewSnapshot,
       Snapshot
     },
     props: {
@@ -51,16 +76,14 @@
         type: Boolean,
         default: true
       },
-      filter: {
-        type: String,
-        default: ''
-      },
       repository: {
         type: String,
         default: ''
       }
     },
     setup (props, context) {
+      const { filter } = vuexAccessors('snapshots', ['filter'])
+
       const { pagination } = vuexAccessors('snapshots', ['pagination'])
       const HEADERS = [
         { text: 'id', value: 'id' },
@@ -76,19 +99,20 @@
       ]
 
       const items = computed(() => {
-        return filterItems(props.snapshots, props.filter, ['id'])
+        return filterItems(props.snapshots, filter.value, ['id'])
       })
 
-      const emitReloadData = () => {
+      const emitReloadSnapshots = () => {
         context.emit('reloadData')
       }
 
       return {
         pagination,
         items,
-        emitReloadData,
+        emitReloadSnapshots,
         DEFAULT_ITEMS_PER_PAGE,
-        HEADERS
+        HEADERS,
+        filter
       }
     }
   }

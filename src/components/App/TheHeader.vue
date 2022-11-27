@@ -32,34 +32,9 @@
       </v-btn>
       <v-btn id="navbar_search" text :to="{name: 'Search'}">{{ $t('app.header.navigation.search') }}</v-btn>
       <v-btn id="navbar_query_rest" text :to="{name: 'Rest'}">{{ $t('app.header.navigation.rest') }}</v-btn>
-
-      <v-menu offset-y>
-        <template v-slot:activator="{on}">
-          <v-btn id="navbar_snapshots" v-on="on" :class="navbarSnapshotClasses" text>
-            {{ $t('app.header.navigation.snapshots') }}
-            <v-icon>mdi-menu-down</v-icon>
-          </v-btn>
-        </template>
-
-        <v-list>
-          <v-list-item id="navbar_snapshots_repositories" :to="{name: 'Repositories'}">
-            <v-list-item-content>
-              <v-list-item-title>
-                {{ $t('app.header.navigation.repositories') }}
-              </v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-
-          <v-list-item id="navbar_snapshots_snapshots" :to="{name: 'Snapshots'}">
-            <v-list-item-content>
-              <v-list-item-title>
-                {{ $t('app.header.navigation.snapshots') }}
-              </v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list>
-      </v-menu>
-
+      <v-btn id="navbar_query_rest" text :to="{name: 'Repositories'}">
+        {{ $t('app.header.navigation.snapshots') }}
+      </v-btn>
       <v-btn id="navbar_utilities" text :to="{name: 'Utilities'}">{{ $t('app.header.navigation.utilities') }}</v-btn>
       <v-btn id="navbar_settings" text :to="{name: 'Settings'}">
         <v-icon>mdi-cog</v-icon>

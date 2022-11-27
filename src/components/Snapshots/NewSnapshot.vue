@@ -109,7 +109,7 @@
       const closeDialog = () => {
         snapshotName.value = ''
         indices.value = '*'
-        form.valueresetValidation()
+        form.value.resetValidation()
         dialog.value = false
       }
 

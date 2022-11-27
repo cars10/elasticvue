@@ -30,16 +30,20 @@
                   class="table--condensed table--fixed-header"
                   item-key="name">
       <template v-slot:item="props">
-        <tr class="tr--clickable" @click="() => showSnapshots(props.item.name)">
+        <tr>
           <td>{{ props.item.name }}</td>
           <td>{{ props.item.type }}</td>
           <td :title="stringifyJsonBigInt(props.item.settings, null, '\t')">
             {{ stringifyJsonBigInt(props.item.settings) }}
           </td>
           <td>
-            <v-btn @click.stop="deleteRepository(props.item.name)">
+            <v-btn :to="{name: 'Snapshots', params: {repositoryName: props.item.name}}" class="mr-2">
+              <v-icon>mdi-backup-restore</v-icon>
+              Manage Snapshots
+            </v-btn>
+            <v-btn @click.stop="deleteRepository(props.item.name)"
+                   :title="$t('repositories.repositories_table.table.row.delete')">
               <v-icon>mdi-delete</v-icon>
-              {{ $t('repositories.repositories_table.table.row.delete') }}
             </v-btn>
           </td>
         </tr>
@@ -69,10 +73,12 @@
   import { showSnackbar } from '@/mixins/ShowSnackbar'
   import { askConfirm } from '@/services/tauri/dialogs'
   import { useRouter } from '@/helpers/composition'
+  import BtnGroup from '@/components/shared/BtnGroup'
 
   export default {
     name: 'repositories-table',
     components: {
+      BtnGroup,
       NewRepository
     },
     props: {
