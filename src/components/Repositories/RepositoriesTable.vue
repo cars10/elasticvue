@@ -73,12 +73,10 @@
   import { showSnackbar } from '@/mixins/ShowSnackbar'
   import { askConfirm } from '@/services/tauri/dialogs'
   import { useRouter } from '@/helpers/composition'
-  import BtnGroup from '@/components/shared/BtnGroup'
 
   export default {
     name: 'repositories-table',
     components: {
-      BtnGroup,
       NewRepository
     },
     props: {

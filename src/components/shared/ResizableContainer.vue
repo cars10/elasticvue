@@ -7,8 +7,7 @@
 </template>
 
 <script>
-  import { computed, ref, watch } from 'vue'
-  import Vue from 'vue'
+  import Vue, { computed, ref, watch } from 'vue'
 
   export default {
     name: 'resizable-container',
