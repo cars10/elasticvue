@@ -18,7 +18,7 @@
   </div>
   <div v-else>
     <v-progress-linear v-if="requestState.loading && !hideProgress" color="blue" indeterminate/>
-    <slot v-else/>
+    <slot/>
   </div>
 </template>
 

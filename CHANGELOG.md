@@ -2,6 +2,12 @@
 
 *Please check the [releases](https://github.com/cars10/elasticvue/releases) page if you need version release dates.*
 
+# 0.44.0
+
+* [feat]: show content while reloading, fixes [#125][f125]
+
+[f125]: https://github.com/cars10/elasticvue/issues/125
+
 # 0.43.0
 
 * [feat]: add support to connect via API key, thanks @tkdave, [#110][f110]
