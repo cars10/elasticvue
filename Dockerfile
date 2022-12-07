@@ -1,4 +1,4 @@
-FROM node:14.18-alpine AS builder
+FROM node:14-alpine AS builder
 WORKDIR /usr/src/app
 
 COPY package.json .
@@ -8,7 +8,7 @@ RUN yarn install --ignore-optional
 COPY . .
 RUN yarn build
 
-FROM nginx:1.17-alpine
+FROM nginx:mainline-alpine
 COPY --from=builder /usr/src/app/dist /usr/share/nginx/html
 RUN rm /etc/nginx/conf.d/default.conf
 COPY nginx/elasticvue.conf /etc/nginx/conf.d/

@@ -2,6 +2,12 @@
 
 *Please check the [releases](https://github.com/cars10/elasticvue/releases) page if you need version release dates.*
 
+# 0.44.1
+
+* update dockerfile base images, fixes [#129][i129]
+
+[i129]: https://github.com/cars10/elasticvue/issues/129
+
 # 0.44.0
 
 * [feat]: show content while reloading, fixes [#125][f125]
