@@ -2,6 +2,8 @@
 
 This branch is used to rewrite elasticvue in quasar because i am fed up with vuetify.
 
+I will also convert everything to vue 3 and `script setup`.
+
 Current State:
 
 | Feature            | Status         |
