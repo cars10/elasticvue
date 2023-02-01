@@ -47,7 +47,7 @@
   import { useIndicesStore } from '../../store/indices'
   import { DEFAULT_HIDE_INDICES_REGEX } from '../../consts'
   import { askConfirm } from '../../helpers/dialogs'
-  import { useI18n } from 'vue-i18n/dist/vue-i18n.cjs'
+  import { useTranslation } from '../../composables/i18n'
   import { useCodeEditorStore } from '../../store/code_editor'
   import { useI18nStore } from '../../store/i18n'
   import { useModalStore } from '../../store/modal'
@@ -55,7 +55,7 @@
   import { useSnackbarStore } from '../../store/snackbar'
   import { useThemeStore } from '../../store/theme'
 
-  const { t } = useI18n()
+  const t = useTranslation()
 
   const indicesStore = useIndicesStore()
 

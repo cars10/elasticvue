@@ -31,11 +31,11 @@
 
 <script setup>
   import { computed, ref } from 'vue'
-  import { useI18n } from 'vue-i18n/dist/vue-i18n.cjs'
+  import { useTranslation } from '../../composables/i18n'
   import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
   import { filterItems } from '../../helpers/filters'
 
-  const { t } = useI18n()
+  const t = useTranslation()
 
   const props = defineProps({
     indexTemplates: {

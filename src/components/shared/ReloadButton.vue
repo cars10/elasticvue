@@ -15,10 +15,10 @@
 </template>
 
 <script setup>
-  import { useI18n } from 'vue-i18n/dist/vue-i18n.cjs'
+  import { useTranslation } from '../../composables/i18n'
   import TimerSelect from './TimerSelect.vue'
 
-  const { t } = useI18n()
+  const t = useTranslation()
 
   defineProps({
     action: {

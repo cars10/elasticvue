@@ -55,11 +55,11 @@
 
 <script setup>
   import { computed, ref } from 'vue'
-  import { useI18n } from 'vue-i18n/dist/vue-i18n.cjs'
+  import { useTranslation } from '../../composables/i18n'
   import { useElasticsearchAdapter } from '../../composables/RequestComposition'
   import { useSnackbar } from '../../composables/UseSnackbar'
 
-  const { t } = useI18n()
+  const t = useTranslation()
 
   const dialog = ref(false)
   const indexName = ref('')

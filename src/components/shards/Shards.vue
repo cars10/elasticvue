@@ -17,14 +17,14 @@
 
 <script setup>
   import { onMounted, ref } from 'vue'
-  import { useI18n } from 'vue-i18n/dist/vue-i18n.cjs'
+  import { useTranslation } from '../../composables/i18n'
   import ReloadButton from '../shared/ReloadButton.vue'
   import LoaderStatus from '../shared/LoaderStatus.vue'
   import { useElasticsearchAdapter } from '../../composables/RequestComposition'
   import { convertShards } from '../../helpers/shards'
   import ShardsTable from './ShardsTable.vue'
 
-  const { t } = useI18n()
+  const t = useTranslation()
   const shards = ref({})
 
   const { requestState, callElasticsearch } = useElasticsearchAdapter()

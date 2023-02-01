@@ -71,13 +71,13 @@
 
 <script setup>
   import { ref, watch } from 'vue'
-  import { useI18n } from 'vue-i18n/dist/vue-i18n.cjs'
+  import { useTranslation } from '../../composables/i18n'
   import { useElasticsearchAdapter } from '../../composables/RequestComposition'
   import { useSnackbar } from '../../composables/UseSnackbar'
   import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
   import { askConfirm } from '../../helpers/dialogs'
 
-  const { t } = useI18n()
+  const t = useTranslation()
 
   const props = defineProps({
     index: {

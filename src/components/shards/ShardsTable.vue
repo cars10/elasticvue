@@ -109,7 +109,7 @@
 
 <script setup>
   import { computed, ref, watch } from 'vue'
-  import { useI18n } from 'vue-i18n/dist/vue-i18n.cjs'
+  import { useTranslation } from '../../composables/i18n'
   import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
   import Shard from './Shard.vue'
   import { useElasticsearchAdapter } from '../../composables/RequestComposition'
@@ -117,7 +117,7 @@
   import { useTableColumnHover } from '../../composables/TableColumnHover'
   import { useIndicesStore } from '../../store/indices'
 
-  const { t } = useI18n()
+  const t = useTranslation()
 
   const props = defineProps({
     shards: {

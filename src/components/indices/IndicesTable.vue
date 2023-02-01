@@ -69,7 +69,7 @@
 
 <script setup>
   import { computed, ref, watch } from 'vue'
-  import { useI18n } from 'vue-i18n/dist/vue-i18n.cjs'
+  import { useTranslation } from '../../composables/i18n'
   import NewIndex from './NewIndex.vue'
   import IndexBulk from './IndexBulk.vue'
   import ResizableContainer from '../shared/ResizableContainer.vue'
@@ -82,7 +82,7 @@
   import { filterItems } from '../../helpers/filters'
   import { debounce } from '../../helpers/debounce'
 
-  const { t } = useI18n()
+  const t = useTranslation()
 
   const props = defineProps({
     indices: {
