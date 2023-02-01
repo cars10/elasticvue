@@ -5,7 +5,7 @@
         Elasticvue
       </q-toolbar-title>
 
-      <q-btn stretch flat label="Home" />
+      <q-btn stretch flat label="Home" to="/" />
       <q-btn stretch flat label="Nodes" />
       <q-btn stretch flat label="Shards" to="shards" />
       <q-btn stretch flat label="Indices" to="indices" />

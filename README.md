@@ -10,7 +10,7 @@ Current State:
 |--------------------|----------------|
 | Cluster management |                |
 | Backup & Restore   |                |
-| Home Page          |                |
+| Home page          | Done           |
 | Nodes              |                |
 | Shards             | Done           |
 | Indices            | Done           |
