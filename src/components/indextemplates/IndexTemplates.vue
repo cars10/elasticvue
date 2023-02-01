@@ -10,7 +10,7 @@
     <q-separator />
 
     <loader-status :request-state="requestState">
-      <index-templates-table :indexTemplates="data?.index_templates || []" />
+      <index-templates-table :index-templates="data?.index_templates || []" />
     </loader-status>
   </q-card>
 </template>

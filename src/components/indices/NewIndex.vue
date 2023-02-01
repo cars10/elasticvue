@@ -1,5 +1,5 @@
 <template>
-  <q-btn id="new_index" color="primary-dark" @click="dialog = true" :label="$t('indices.new_index.heading')" />
+  <q-btn id="new_index" color="primary-dark" :label="$t('indices.new_index.heading')" @click="dialog = true" />
 
   <q-dialog v-model="dialog" @hide="resetForm">
     <q-card style="width: 500px">

@@ -21,12 +21,12 @@
       <q-circular-progress v-if="requestState.loading" indeterminate rounded color="primary" />
       <template v-else>
         [
-        <span v-for="(alias, index) in aliases" :key="`${index}-alias-${alias}`">
+        <span v-for="(alias, i) in aliases" :key="`${index}-alias-${alias}`">
           <a :key="alias"
              :title="$t('indices.index_row.search.title', {index: alias})"
              @click.stop="showDocuments(alias)">{{ alias }}
           </a>
-          <span v-if="index !== aliases.length-1">, </span>
+          <span v-if="i !== aliases.length-1">, </span>
         </span>
         ]
       </template>

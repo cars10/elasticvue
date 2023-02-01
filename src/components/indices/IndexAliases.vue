@@ -26,8 +26,8 @@
 
         <q-form @submit="addAlias">
           <div class="flex">
-            <q-input v-model="newAlias"
-                     id="new_index_alias_name"
+            <q-input id="new_index_alias_name"
+                     v-model="newAlias"
                      class="col-grow"
                      :label="$t('indices.index_aliases.form.new_alias.label')"
                      lazy-rules
@@ -60,7 +60,7 @@
           <tr>
             <td>{{ row.alias }}</td>
             <td class="text-right">
-              <q-btn @click="deleteAlias(row.alias)" :label="$t('defaults.delete')" />
+              <q-btn :label="$t('defaults.delete')" @click="deleteAlias(row.alias)" />
             </td>
           </tr>
         </template>

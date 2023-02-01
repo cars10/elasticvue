@@ -17,11 +17,11 @@
                        autofocus
                        :label="$t('settings.hide_indices_regex.label')"
                        :hint="$t('settings.hide_indices_regex.message')">
-                <template v-slot:append>
+                <template #append>
                   <q-btn icon="settings_backup_restore"
                          flat round
-                         @click="resetHideIndicesRegex"
-                         :title="$t('settings.hide_indices_regex.reset', {regex: DEFAULT_HIDE_INDICES_REGEX})" />
+                         :title="$t('settings.hide_indices_regex.reset', {regex: DEFAULT_HIDE_INDICES_REGEX})"
+                         @click="resetHideIndicesRegex" />
                 </template>
               </q-input>
             </div>
@@ -32,7 +32,7 @@
           <div>
             <p>{{ $t('settings.disconnect_and_reset.heading') }}</p>
 
-            <q-btn @click="reset" color="visible-bg">
+            <q-btn color="visible-bg" @click="reset">
               <q-icon name="warning" size="xs" color="negative" class="q-mr-sm" />
               {{ $t('settings.disconnect_and_reset.button') }}
             </q-btn>

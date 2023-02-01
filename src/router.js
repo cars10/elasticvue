@@ -1,16 +1,16 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import Indices from './components/indices/Indices.vue'
+import ClusterIndices from './components/indices/ClusterIndices.vue'
 import IndexTemplates from './components/indextemplates/IndexTemplates.vue'
-import Settings from './components/settings/Settings.vue'
-import Shards from './components/shards/Shards.vue'
+import GlobalSettings from './components/settings/GlobalSettings.vue'
+import IndexShards from './components/shards/IndexShards.vue'
 import HomeStatus from './components/home/HomeStatus.vue'
 
 const routes = [
   { path: '/', component: HomeStatus },
-  { path: '/indices', component: Indices },
+  { path: '/indices', component: ClusterIndices },
   { path: '/index_templates', component: IndexTemplates },
-  { path: '/settings', component: Settings },
-  { path: '/shards', component: Shards },
+  { path: '/settings', component: GlobalSettings },
+  { path: '/shards', component: IndexShards },
 ]
 
 const router = createRouter({

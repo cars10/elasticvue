@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-between q-pa-md">
-    <div></div>
+    <div />
 
     <div class="flex">
       <q-input v-model="filter" :label="t('defaults.filter.label')" dense @keyup.esc="filter = ''">
@@ -22,24 +22,24 @@
     </div>
   </div>
 
-  <q-table flat
+  <q-table v-model:pagination="pagination"
+           flat
            dense
            :columns="columns"
            row-key="index"
            binary-state-sort
-           v-model:pagination="pagination"
-           @request="updateTable"
            :rows="shards?.nodes || []"
            :rows-per-page-options="DEFAULT_ROWS_PER_PAGE"
-           separator="cell">
+           separator="cell"
+           @request="updateTable">
     <template #header="{cols}">
       <q-tr>
-        <q-th></q-th>
-        <q-th v-for="(col, i) in cols"
+        <q-th />
+        <q-th v-for="(col, i) in cols" :key="`${col.name}_header_${i}`"
               class="text-left"
+              :class="{marked: markedColumnIndex === i}"
               @mouseover="markColumn(i)"
-              @mouseleave="unmarkColumn"
-              :class="{marked: markedColumnIndex === i}">
+              @mouseleave="unmarkColumn">
           <div>
             <span :class="{'text-underline': currentReroutingShard.index === col.name}">{{ col.label }}</span>
             <svg height="14" width="14">
@@ -57,11 +57,12 @@
         <q-td>
           <i>unassigned</i>
         </q-td>
-        <q-td v-for="(col, i) in cols"
+        <q-td v-for="(col, i) in cols" :key="`${col.name}_unassigned_${i}`"
+              :class="{marked: markedColumnIndex === i}"
               @mouseover="markColumn(i)"
-              @mouseleave="unmarkColumn"
-              :class="{marked: markedColumnIndex === i}">
-          <shard v-for="shard in shards.unassignedShards[col.name]" :shard="shard" />
+              @mouseleave="unmarkColumn">
+          <index-shard v-for="(shard, j) in shards.unassignedShards[col.name]"
+                       :key="`${col.name}_unassigned_${i}_${j}_shards`" :shard="shard" />
         </q-td>
       </q-tr>
     </template>
@@ -69,18 +70,19 @@
       <q-tr>
         <q-td>{{ row }}</q-td>
         <q-td v-for="(col, i) in cols"
+              :key="`${col.name}_shards_${i}`"
+              :class="{marked: markedColumnIndex === i}"
               @mouseover="markColumn(i)"
-              @mouseleave="unmarkColumn"
-              :class="{marked: markedColumnIndex === i}">
-          <shard v-for="shard in shards.shards?.[row]?.[col.name]"
-                 :shard="shard"
-                 :action="initReroute"
-                 re-routable
-                 :outlined="!(currentReroutingShard.index === col.name && currentReroutingShard.node === row && currentReroutingShard.shard === shard.shard)" />
+              @mouseleave="unmarkColumn">
+          <index-shard v-for="(shard, j) in shards.shards?.[row]?.[col.name]"
+                       :key="`${col.name}_actual_shard_${i}_${j}`"
+                       :shard="shard"
+                       :action="initReroute"
+                       re-routable
+                       :outlined="!(currentReroutingShard.index === col.name && currentReroutingShard.node === row && currentReroutingShard.shard === shard.shard)" />
 
           <div v-if="currentReroutingShard.index === col.name && currentReroutingShard.node !== row">
-            <button @click="reroute(currentReroutingShard, row)" class="shard-reroute-target">
-            </button>
+            <button class="shard-reroute-target" @click="reroute(currentReroutingShard, row)" />
           </div>
         </q-td>
       </q-tr>
@@ -88,34 +90,15 @@
   </q-table>
 </template>
 
-<style scoped>
-.shard-reroute-target {
-  background-color: transparent;
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  border: 2px dashed grey;
-}
-
-.shard-reroute-target:hover {
-  background-color: rgba(150, 150, 150, 0.5);
-  cursor: pointer;
-}
-</style>
-
 <script setup>
   import { computed, ref, watch } from 'vue'
   import { useTranslation } from '../../composables/i18n'
   import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
-  import Shard from './Shard.vue'
   import { useElasticsearchAdapter } from '../../composables/RequestComposition'
   import { useSnackbar } from '../../composables/UseSnackbar'
   import { useTableColumnHover } from '../../composables/TableColumnHover'
   import { useIndicesStore } from '../../store/indices'
+  import IndexShard from './IndexShard.vue'
 
   const t = useTranslation()
 
@@ -211,3 +194,22 @@
     })
   }
 </script>
+
+<style scoped>
+.shard-reroute-target {
+  background-color: transparent;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 2px dashed grey;
+}
+
+.shard-reroute-target:hover {
+  background-color: rgba(150, 150, 150, 0.5);
+  cursor: pointer;
+}
+</style>

@@ -1,13 +1,13 @@
 <template>
   <q-chip :title="JSON.stringify(shard, null, '\t')"
           :clickable="reRoutable"
-          @click="reRoutable ? action(shard) : null"
-          dense square
-          :label="`${shard.prirep}${shard.shard}`"
+          dense
+          square :label="`${shard.prirep}${shard.shard}`"
           style="border-width:2px;"
           :outline="outlined"
           :color="outlined ? '' : 'positive'"
-          :class="classes" />
+          :class="classes"
+          @click="reRoutable ? action(shard) : null" />
 </template>
 
 <script setup>

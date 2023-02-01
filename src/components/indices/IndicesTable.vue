@@ -2,7 +2,9 @@
   <div class="flex justify-between q-pa-md">
     <div>
       <new-index @reload="emit('reload')" />
-      <router-link to="index_templates" class="q-ml-md">{{ $t('index_templates.heading') }}</router-link>
+      <router-link to="index_templates" class="q-ml-md">
+        {{ $t('index_templates.heading') }}
+      </router-link>
     </div>
 
     <div class="flex">
