@@ -1,0 +1,701 @@
+{
+  "app": {
+    "header": {
+      "navigation": {
+        "home": "Home",
+        "nodes": "Nodes",
+        "indices": "Indices",
+        "shards": "Shards",
+        "search": "Search",
+        "rest": "REST",
+        "snapshots": "Snapshots",
+        "repositories": "Repositories",
+        "utilities": "Utilities"
+      }
+    },
+    "footer": {
+      "homepage": "Homepage",
+      "changelog": "Changelog"
+    },
+    "change_language": {
+      "title": "Change language",
+      "languages": {
+        "en": {
+          "title": "Set language to english"
+        },
+        "cn": {
+          "title": "Set language to chinese"
+        }
+      }
+    },
+    "change_theme": {
+      "title": "Change theme"
+    }
+  },
+  "defaults": {
+    "filter": {
+      "label": "Filter..."
+    },
+    "cancel": "Cancel",
+    "close": "Close",
+    "create": "Create",
+    "delete": "Delete",
+    "required": "Required",
+    "success": "Success"
+  },
+  "document": {
+    "heading": "Show"
+  },
+  "elasticsearch_instance": {
+    "instance_selection": {
+      "connected_info": {
+        "title": "Connected to '{activeInstanceName}' ({activeInstanceUri})"
+      }
+    },
+    "instances_table": {
+      "headers": {
+        "cluster": "Cluster",
+        "uri": "Uri",
+        "version": "Version"
+      },
+      "row": {
+        "title": "Connect to cluster at '{uri}'",
+        "cluster_health": {
+          "title": "Cluster health: {status}"
+        },
+        "copy_uri": "Copy uri to clipboard",
+        "remove_cluster": {
+          "title": "Remove cluster",
+          "confirm": "Remove cluster '{name}' ({uri})?"
+        }
+      }
+    },
+    "new_instance": {
+      "add_cluster": "Add cluster",
+      "heading": "Add elasticsearch instance",
+      "configure": {
+        "heading": "1. Configure",
+        "show_help": "show help"
+      },
+      "connect": {
+        "heading": "2. Connect",
+        "form": {
+          "name": {
+            "label": "Cluster name"
+          },
+          "test_connection": "Test connection",
+          "connect": "Connect"
+        }
+      }
+    },
+    "rename_instance": {
+      "rename": {
+        "title": "Rename cluster"
+      },
+      "heading": "Rename elasticsearch instance",
+      "form": {
+        "name": {
+          "label": "Cluster name"
+        },
+        "uri": {
+          "label": "Uri"
+        },
+        "rename": "Rename"
+      }
+    }
+  },
+  "helpers": {
+    "import_export": {
+      "import_backup": {
+        "confirm": "Are you sure? Importing a backup will overwrite your current settings and saved clusters!"
+      }
+    }
+  },
+  "home": {
+    "client_information": {
+      "heading": "Node Information"
+    },
+    "cluster_health": {
+      "heading": "Cluster Health"
+    }
+  },
+  "indices": {
+    "heading": "Indices",
+    "index_aliases": {
+      "text": "Aliases",
+      "heading": "Manage aliases",
+      "index": "Index: {indexName}",
+      "form": {
+        "new_alias": {
+          "label": "New alias"
+        },
+        "add_alias": "Add new alias"
+      },
+      "table": {
+        "headers": {
+          "alias": "Alias"
+        }
+      },
+      "delete_alias": {
+        "confirm": "Delete alias '{alias}' for index '{index}'?"
+      }
+    },
+    "index_bulk": {
+      "bulk_action": "Bulk action"
+    },
+    "index_row": {
+      "search": {
+        "title": "Search '{index}'"
+      },
+      "shards": {
+        "title": "{pri} primary\n{rep} replica"
+      },
+      "options": {
+        "title": "Options",
+        "show_info": "Show info",
+        "show_stats": "Show stats",
+        "forcemerge": {
+          "text": "Forcemerge index",
+          "growl": "The index '{index}' was successfully merged."
+        },
+        "refresh": {
+          "text": "Refresh index",
+          "growl": "The index '{index}' was successfully refreshed."
+        },
+        "flush": {
+          "text": "Flush index",
+          "growl": "The index '{index}' was successfully flushed."
+        },
+        "clear_cache": {
+          "text": "Clear index cache",
+          "growl": "The index '{index}' cache was successfully cleared."
+        },
+        "close": {
+          "text": "Close index",
+          "growl": "The index '{index}' cache was successfully closed."
+        },
+        "open": {
+          "text": "Open index",
+          "growl": "The index '{index}' cache was successfully opened."
+        },
+        "delete": {
+          "text": "Delete index",
+          "confirm": "Delete index {index}? This will remove ALL data in your index!",
+          "growl": "The index '{index}' cache was successfully deleted."
+        }
+      }
+    },
+    "indices_table": {
+      "show_hidden_indices": {
+        "label": "Show hidden indices"
+      },
+      "sticky_table_header": {
+        "label": "Sticky table header"
+      },
+      "table": {
+        "headers": {
+          "name": "Name",
+          "status": "Status",
+          "health": "Health",
+          "uuid": "UUID",
+          "aliases": "Aliases",
+          "shards": "Shards",
+          "docs": "Lucene docs",
+          "storage": "Storage",
+          "parsed_docs_count": {
+            "title": "If your index has fields with \"type\": \"nested\" then the number of lucene documents might not match the number of elasticsearch documents in your index. Each nested object counts as a separate document. Use the _count API if you need the number of elasticsearch documents."
+          }
+        }
+      }
+    },
+    "new_index": {
+      "heading": "New Index",
+      "form": {
+        "index_name": {
+          "label": "Index name"
+        },
+        "shards": {
+          "label": "Number of shards"
+        },
+        "replicas": {
+          "label": "Number of replicas"
+        }
+      },
+      "create_index": {
+        "growl": "The index '{index}' was successfully created."
+      }
+    }
+  },
+  "index_templates": {
+    "heading": "Index templates",
+    "index_templates_table": {
+      "table": {
+        "headers": {
+          "name": "Name",
+          "index_patterns": "index_patterns",
+          "priority": "priority",
+          "version": "version",
+          "allow_auto_create": "allow_auto_create",
+          "template": "template"
+        }
+      }
+    }
+  },
+  "mixins": {
+    "test_connection": {
+      "cluster_reachable": "You cluster is reachable and configured correctly.",
+      "cluster_not_reachable": "Either your cluster is not reachable or you did not configure CORS correctly."
+    },
+    "history": {
+      "clear_all": {
+        "confirm": "Are you sure? This will remove all entries from your history."
+      }
+    }
+  },
+  "nodes": {
+    "node_icons": {
+      "master": {
+        "title": "Master node"
+      },
+      "master_eligible": {
+        "title": "Master eligible"
+      },
+      "data": {
+        "title": "Data node"
+      },
+      "ingest": {
+        "title": "Ingest node"
+      },
+      "coordinating_only": {
+        "title": "Coordinating only node"
+      }
+    },
+    "node_properties": {
+      "ip": "ip",
+      "master": "master",
+      "node_role": "node.role",
+      "load": "load",
+      "cpu": "cpu",
+      "ram": "ram",
+      "heap": "heap",
+      "disk": "disk",
+      "name": "name",
+      "status": "status"
+    },
+    "nodes_list": {
+      "heading": "Nodes",
+      "types": {
+        "grid": "Grid",
+        "table": "Table"
+      }
+    }
+  },
+  "query": {
+    "heading": "Rest",
+    "api_documentation": "api documentation",
+    "orientation": {
+      "horizontal": "Horizontal",
+      "vertical": "Vertical"
+    },
+    "rest": {
+      "history": "History",
+      "form": {
+        "method": {
+          "label": "HTTP Method"
+        },
+        "path": {
+          "label": "Path"
+        },
+        "send_request": "Send request",
+        "reset": "Reset",
+        "download_as_json": "Download as json"
+      },
+      "get_request_hint": {
+        "cannot_send_body": "You cannot send a request body via {method}.<br> Please ",
+        "use_post": "use POST",
+        "query_parameters": "if you want to send a request body, alternatively add query parameters to the url.",
+        "search_post": "You can use POST to search with the _search endpoint."
+      }
+    },
+    "rest_query_history": {
+      "favorites_filter": {
+        "only_favorites": "Show only favorites",
+        "show_all": "Show all"
+      },
+      "table": {
+        "headers": {
+          "query": "Query",
+          "date": "Date"
+        },
+        "row": {
+          "title": "Click to preview request body, ctrl+click to directly use.",
+          "favorite": {
+            "add": "Favorite",
+            "remove": "Remove favorite"
+          }
+        }
+      },
+      "clear": {
+        "text": "Clear",
+        "all": "Delete all",
+        "only_non_favorites": "Delete only non-favorites"
+      },
+      "body_preview": {
+        "use": "Use",
+        "remove_entry": "Remove entry",
+        "unselect": "unselect"
+      }
+    },
+    "rest_query_examples": {
+      "heading": "Query examples",
+      "table": {
+        "headers": {
+          "query": "Query",
+          "description": "Description",
+          "body": "Body",
+          "use": "Use"
+        },
+        "row": {
+          "title": "Click to preview request body, ctrl+click to directly use an example.",
+          "docs": "Docs",
+          "use": "Use"
+        }
+      }
+    }
+  },
+  "repositories": {
+    "heading": "Snapshot Repositories",
+    "new_repository": {
+      "heading": "New repository",
+      "form": {
+        "name": {
+          "label": "Repository name"
+        },
+        "type": {
+          "label": "Repository type"
+        },
+        "location": {
+          "label": "Repository location"
+        },
+        "chunk_size": {
+          "label": "Chunk size"
+        },
+        "max_restore_bytes_per_sec": {
+          "label": "max_restore_bytes_per_sec"
+        },
+        "max_snapshot_bytes_per_sec": {
+          "label": "max_snapshot_bytes_per_sec"
+        },
+        "compress": {
+          "label": "Compress"
+        },
+        "readonly": {
+          "label": "Readonly"
+        }
+      },
+      "create_repository": {
+        "growl": "The repository '{repositoryName}' was successfully created."
+      }
+    },
+    "repositories_table": {
+      "table": {
+        "headers": {
+          "name": "name",
+          "type": "type",
+          "settings": "settings"
+        },
+        "row": {
+          "delete": "Delete"
+        }
+      },
+      "delete_repository": {
+        "confirm": "Delete repository '{name}' and all snapshots inside?",
+        "growl": "The repository '{name}' was successfully deleted."
+      }
+    }
+  },
+  "search": {
+    "heading": "Search",
+    "form": {
+      "query": {
+        "label": "Search",
+        "messages": "Searching supports the <a tabindex='-1' target='_blank' rel='noopener' href='https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html'>query string DSL</a>"
+      },
+      "search": "Search",
+      "customize_query": {
+        "button": "Custom search",
+        "hint": "Hint: changes to the query will not update the respecting inputs in the ui (like the search query or pagination/sort in the table), but changes to the inputs will be merged into the query again.",
+        "reset": "Reset query",
+        "reset_all": "Reset all"
+      }
+    },
+    "result": {
+      "show": "Show"
+    },
+    "results_table": {
+      "filter": {
+        "label": "Filter *current* page..."
+      },
+      "settings": {
+        "title": "Table settings",
+        "columns": "Columns",
+        "sticky_table_header": {
+          "label": "Sticky table header"
+        }
+      },
+      "download_as_json": "Download as json"
+    }
+  },
+  "settings": {
+    "heading": "Settings",
+    "hide_indices_regex": {
+      "label": "Hide indices regex",
+      "message": "Indices matching this regex will be hidden by default on all places where indices are listed",
+      "reset": "Reset to default {regex}"
+    },
+    "disconnect_and_reset": {
+      "heading": "Disconnect and reset all settings",
+      "button": "Disconnect and reset",
+      "confirm": "Are you sure? This will delete all data saved by elasticvue! You will have to reconnect to your cluster."
+    },
+    "import_export": {
+      "heading": "Import/Export elasticvue data",
+      "message": "You can import & export your elasticvue config as json. This is <strong>not</strong> a backup of your clusters data, use snapshots if you need to backup your indices.",
+      "export": {
+        "heading": "Export",
+        "included": "Whats included?",
+        "prepare_backup": "Create backup file",
+        "download": "Download"
+      },
+      "import": {
+        "heading": "Import",
+        "select_file": "Select file...",
+        "import": "Import settings"
+      }
+    }
+  },
+  "setup": {
+    "heading": "Setup",
+    "configure": {
+      "heading": "1. Configure",
+      "introduction": "You have to setup CORS to use elasticvue. Add the following lines to your",
+      "allow_cors": "allow CORS requests from {domain}",
+      "authorization": "and if your cluster uses authorization",
+      "restart": "Then restart your cluster",
+      "docker": "This can also be done if you run elasticsearch via docker, by adding the config via environment variables"
+    },
+    "test_and_connect": {
+      "heading": "2. Connect",
+      "form": {
+        "username": {
+          "label": "Username (optional)"
+        },
+        "password": {
+          "label": "Password or encoded API key (optional)"
+        },
+        "uri": {
+          "label": "Uri"
+        },
+        "test_connection": "Test connection",
+        "connect": "Connect"
+      },
+      "error": {
+        "heading": "Could not connect. Please make sure that",
+        "cluster_reachable": "Your cluster is reachable via",
+        "correct_settings": "You added the correct settings to your",
+        "cluster_restarted": "and restarted your cluster"
+      },
+      "connected": "Successfully connected."
+    }
+  },
+  "shards": {
+    "heading": "Shards",
+    "shards_table": {
+      "cancel_relocation": "Cancel relocation"
+    }
+  },
+  "shared": {
+    "nothing_found_for_filter": "No entries found for filter '{filter}'.",
+    "nothing_found": "No entries found.",
+    "index_filter": {
+      "use_index_pattern": "use index pattern",
+      "use_index_select": "select indices",
+      "index_pattern": {
+        "input": {
+          "label": "Index pattern"
+        },
+        "matched_indices": "matches <strong title='{indices}'>{count} indices</strong>"
+      },
+      "index_select": {
+        "select_indices": {
+          "label": "Select indices"
+        },
+        "indices_selected": "indices selected",
+        "select_all": {
+          "text": "select all",
+          "title": "Select all indices"
+        },
+        "deselect_all": {
+          "text": "deselect all",
+          "title": "Deselect all indices"
+        },
+        "show_hidden": {
+          "label": "show hidden",
+          "title": "Show indices starting with a dot"
+        }
+      }
+    },
+    "table_settings": {
+      "reset": "reset",
+      "uncheck": "uncheck"
+    },
+    "authorization_header_hint": "Your cluster uses authorization. Make sure that you have set \"http.cors.allow-headers\", otherwise you will not be able to connect.",
+    "code_editor": {
+      "actions": {
+        "copy_content": {
+          "title": "Copy content"
+        },
+        "beautify": {
+          "title": "Beautify (Ctrl+ALT+L)",
+          "text": "Beautify"
+        },
+        "whitespace": {
+          "label": "Use spaces",
+          "title": "Change whitespace to 2 spaces instead of tabs"
+        },
+        "wrap_lines": {
+          "label": "Wrap lines",
+          "title": "Wrap long lines"
+        },
+        "keyboard_shortcuts": {
+          "text": "Keyboard shortcuts"
+        }
+      }
+    },
+    "loader": {
+      "copy_error": "Copy error",
+      "network_error": "Network error. Is your cluster reachable?"
+    },
+    "modal_data_loader": {
+      "modal_title": {
+        "default": "Show"
+      }
+    },
+    "path_repo_info": {
+      "success": {
+        "info": "Your <strong>path.repo</strong> setting seems to be setup correctly, that means you can use repositories and snapshots.",
+        "current_value": "The current value is: "
+      },
+      "error": {
+        "info": "Your <strong>path.repo</strong> setting is not setup correctly.<br> You have to set <strong>path.repo</strong> in your <strong>elasticsearch.yml</strong> if you want to use snapshots and repositories."
+      },
+      "docs": "Docs",
+      "reload": "Reload"
+    },
+    "reload_button": {
+      "reload": "Reload"
+    },
+    "timer": {
+      "settings": {
+        "title": "Auto reload"
+      }
+    },
+    "ssl_hint": {
+      "hint": "Your cluster uses ssl. Make sure that your browser trusts the certificate that you are using, otherwise you will not be able to connect.",
+      "help": "Help"
+    }
+  },
+  "snapshots": {
+    "heading": "Repository '{name}' snapshots",
+    "new_snapshot": {
+      "heading": "New snapshot",
+      "form": {
+        "repository": {
+          "label": "Repository"
+        },
+        "snapshot_name": {
+          "label": "Snapshot name"
+        }
+      },
+      "create_snapshot": {
+        "growl": "The snapshot '{name}' was successfully created."
+      }
+    },
+    "restore_snapshot": {
+      "button": "Restore",
+      "heading": "Restore '{name}'",
+      "form": {
+        "ignore_unavailable": {
+          "label": "Ignore unavailable"
+        },
+        "include_global_state": {
+          "label": "Include global state"
+        },
+        "rename_pattern": {
+          "label": "Rename pattern"
+        },
+        "rename_replacement": {
+          "label": "Rename replacement"
+        },
+        "restore": "Restore"
+      },
+      "restore_snapshot": {
+        "growl": "The snapshot '{snapshot}' was successfully restored."
+      }
+    },
+    "snapshot": {
+      "indices": {
+        "show": "Show",
+        "hide": "Hide"
+      },
+      "options": "Options",
+      "delete": {
+        "text": "Delete snapshot",
+        "confirm": "Delete snapshot '{snapshot}'?",
+        "growl": "The snapshot '{snapshot}' was successfully deleted."
+      }
+    },
+    "snapshots_table": {
+      "no_repository_selected": "Please select a repository first.",
+      "table": {
+        "headers": {
+          "status": "status",
+          "start_time": "start_time",
+          "end_time": "end_time",
+          "duration": "duration",
+          "indices": "indices",
+          "successful_shards": "successful_shards",
+          "failed_shards": "failed_shards",
+          "total_shards": "total_shards"
+        }
+      }
+    },
+    "snapshots_table_wrapper": {
+      "repository": {
+        "label": "Repository"
+      },
+      "filter": {
+        "label": "Filter id..."
+      }
+    }
+  },
+  "utilities": {
+    "heading": "Utilities",
+    "run": "Run",
+    "create": {
+      "heading": "Create",
+      "empty_indices": "Create 10 empty indices",
+      "twitter_index": "Create twitter index and add 100 tweets"
+    },
+    "delete": {
+      "heading": "Delete",
+      "delete_all": "Delete all indices",
+      "confirm": "Are you sure? This will delete ALL data in your cluster!"
+    },
+    "misc": {
+      "heading": "Misc",
+      "flush_all": "Flush all indices to disk",
+      "set_all_to_writable": "Set all indices to writable"
+    }
+  }
+}

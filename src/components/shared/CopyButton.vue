@@ -1,52 +1,37 @@
 <template>
-  <v-btn icon :small="small" @click.stop="copy" :title="title">
-    <v-icon :small="small">{{ icon }}</v-icon>
-  </v-btn>
+  <q-btn :icon="icon" :title="title" @click="copy" />
 </template>
 
-<script>
+<script setup>
   import { ref } from 'vue'
-  import { writeToClipboard } from '@/services/tauri/clipboard'
+  // import { writeToClipboard } from '@/services/tauri/clipboard'
 
-  export default {
-    name: 'copy-button',
-    props: {
-      title: {
-        default: '',
-        type: String
-      },
-      value: {
-        default: '',
-        type: String
-      },
-      small: {
-        default: false,
-        type: Boolean
-      },
-      customHandler: {
-        default: null,
-        type: [Function, Object]
-      }
+  const props = defineProps({
+    title: {
+      default: '',
+      type: String
     },
-    setup (props) {
-      const icon = ref('mdi-content-copy')
-      const copy = () => {
-        icon.value = 'mdi-check'
-
-        if (props.customHandler) {
-          props.customHandler.call()
-        } else {
-          writeToClipboard(props.value)
-        }
-        setTimeout(() => {
-          icon.value = 'mdi-content-copy'
-        }, 1000)
-      }
-
-      return {
-        copy,
-        icon
-      }
+    value: {
+      default: '',
+      type: String
+    },
+    customHandler: {
+      default: null,
+      type: [Function, Object]
     }
+  })
+
+  const icon = ref('content_copy')
+  const copy = () => {
+    icon.value = 'done'
+
+    if (props.customHandler) {
+      props.customHandler.call()
+    } else {
+      //writeToClipboard(props.value)
+    }
+    setTimeout(() => {
+      icon.value = 'content_copy'
+    }, 1000)
   }
 </script>

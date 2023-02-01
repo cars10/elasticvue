@@ -9,8 +9,6 @@ export default class ElasticsearchIndex {
     this.pri = options.pri
     this.parsedPri = parseIntValue(options.pri)
     this.rep = options.rep
-    this.parsedRep = parseIntValue(options.rep)
-    this.docsCount = options['docs.count']
     this.parsedDocsCount = parseIntValue(options['docs.count'])
     this.storeSize = options['store.size']
     this.parsedStoreSize = parseIntValue(options['store.size'])

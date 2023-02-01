@@ -1,0 +1,9 @@
+.resizable-b:hover {
+  background-color: $border-light-color;
+}
+
+.body--dark {
+  .resizable-b:hover {
+    background-color: #444;
+  }
+}

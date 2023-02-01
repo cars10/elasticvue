@@ -1,0 +1,10 @@
+.q-chip {
+  &.outline--dashed {
+    border-style: dashed !important;
+  }
+
+  &.border-grey {
+    border-color: #555;
+    background: initial;
+  }
+}

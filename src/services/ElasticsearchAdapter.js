@@ -1,154 +1,207 @@
+import { addTrailingSlash, buildFetchAuthHeader } from '../helpers/elasticsearch_adapter'
+import { fetchMethod, REQUEST_DEFAULT_HEADERS } from '../consts'
+
 export default class ElasticsearchAdapter {
-  constructor (client) {
-    this.client = client
+  constructor (elasticsearch) {
+    this.username = elasticsearch.username
+    this.password = elasticsearch.password
+    this.host = addTrailingSlash(elasticsearch.uri)
   }
 
   ping () {
-    return this.client.ping()
+    return this.request('', 'GET')
   }
 
-  bulk (params) {
-    return this.client.bulk(params)
-  }
-
-  clientInfo () {
-    return this.client.clusterInfo()
+  clusterInfo () {
+    return this.ping()
   }
 
   clusterHealth () {
-    return this.client.clusterHealth()
+    return this.request('_cluster/health', 'GET')
   }
 
   clusterSettings () {
-    return this.client.clusterSettings()
+    return this.request('_cluster/settings', 'GET', { include_defaults: true })
   }
 
   clusterReroute (commands) {
-    return this.client.clusterReroute(commands)
+    return this.request('_cluster/reroute', 'POST', { commands })
   }
 
   catIndices (params, filter) {
-    return this.client.catIndices(params, filter)
+    const query = filter ? `${filter}*` : ''
+    return this.request(`_cat/indices/${query}`, 'GET', params)
   }
 
   catIndexTemplates (params, filter) {
-    return this.client.catIndexTemplates(params, filter)
+    const query = filter ? `${filter}*` : ''
+    return this.request(`_index_template/${query}`, 'GET', params)
   }
 
   catShards (params, filter) {
-    return this.client.catShards(params, filter)
+    const query = filter ? `${filter}*` : ''
+    return this.request(`_cat/shards/${query}`, 'GET', params)
   }
 
-  indexGetAlias (params) {
-    return this.client.indexGetAlias(params)
+  indexGetAlias ({ index }) {
+    return this.request(`${index}/_alias`, 'GET')
   }
 
-  indexAddAlias (params) {
-    return this.client.indexAddAlias(params)
+  indexAddAlias ({ index, alias }) {
+    return this.request(`${index}/_alias/${alias}`, 'PUT')
   }
 
-  indexDeleteAlias (params) {
-    return this.client.indexDeleteAlias(params)
+  indexDeleteAlias ({ index, alias }) {
+    return this.request(`${index}/_alias/${alias}`, 'DELETE')
   }
 
-  indexCreate (params) {
-    return this.client.indexCreate(params)
+  indexCreate ({ index, body }) {
+    return this.request(`${index}`, 'PUT', body)
   }
 
-  indexDelete (params) {
-    return this.client.indexDelete(params)
+  indexDelete ({ index }) {
+    return this.request(`${index}`, 'DELETE')
   }
 
   indexGet (params) {
-    return this.client.indexGet(params)
+    const index = Array.isArray(params.index) ? params.index.join(',') : params.index
+    return this.request(`${index}`, 'GET')
   }
 
-  indexStats (params) {
-    return this.client.indexStats(params)
+  indexStats ({ index }) {
+    return this.request(`${index}/_stats`, 'GET')
   }
 
-  indexClose (params) {
-    return this.client.indexClose(params)
+  indexClose ({ index }) {
+    return this.request(`${index}/_close`, 'POST')
   }
 
-  indexOpen (params) {
-    return this.client.indexOpen(params)
+  indexOpen ({ index }) {
+    return this.request(`${index}/_open`, 'POST')
   }
 
-  indexForcemerge (params) {
-    return this.client.indexForcemerge(params)
+  indexForcemerge ({ index }) {
+    return this.request(`${index}/_forcemerge`, 'POST')
   }
 
-  indexRefresh (params) {
-    return this.client.indexRefresh(params)
+  indexRefresh ({ index }) {
+    return this.request(`${index}/_refresh`, 'POST')
   }
 
-  indexClearCache (params) {
-    return this.client.indexClearCache(params)
+  indexClearCache ({ index }) {
+    return this.request(`${index}/_cache/clear`, 'POST')
   }
 
-  indexFlush (params) {
-    return this.client.indexFlush(params)
+  indexFlush ({ index }) {
+    return this.request(`${index}/_flush`, 'POST')
   }
 
-  indexExists (params) {
-    return this.client.indexExists(params)
+  indexExists ({ index }) {
+    return this.request(`${index}`, 'HEAD')
   }
 
-  indexPutSettings (params) {
-    return this.client.indexPutSettings(params)
+  indexPutSettings ({ index, body }) {
+    return this.request(`${index}/_settings`, 'PUT', body)
   }
 
   catNodes (params) {
-    return this.client.catNodes(params)
+    return this.request('_cat/nodes', 'GET', params)
   }
 
   nodes () {
-    return this.client.nodes()
+    return this.request('_nodes', 'GET')
   }
 
-  get (params) {
-    return this.client.get(params)
+  get ({ index, type, id, routing }) {
+    const docType = type || '_doc'
+    const params = {}
+    if (routing) {
+      params.routing = routing
+    }
+    return this.request(`${index}/${docType}/${encodeURIComponent(id)}`, 'GET', params)
   }
 
-  search (params, index) {
-    return this.client.search(params, index)
+  search (params, searchIndex) {
+    const index = Array.isArray(searchIndex) ? searchIndex.join(',') : searchIndex
+
+    if (index && index.length > 0) {
+      return this.request(`${index}/_search`, 'POST', params)
+    } else {
+      return this.request('_search', 'POST', params)
+    }
   }
 
   catRepositories (params) {
-    return this.client.catRepositories(params)
+    return this.request('_snapshot', 'GET', params)
   }
 
-  catSnapshots (params) {
-    return this.client.catSnapshots(params)
+  catSnapshots ({ repository }) {
+    return this.request(`_cat/snapshots/${repository}`, 'GET')
   }
 
-  snapshotCreateRepository (params) {
-    return this.client.snapshotCreateRepository(params)
+  snapshotCreateRepository ({ repository, body }) {
+    return this.request(`_snapshot/${repository}`, 'PUT', body)
   }
 
-  snapshotDeleteRepository (params) {
-    return this.client.snapshotDeleteRepository(params)
+  snapshotDeleteRepository ({ repository }) {
+    return this.request(`_snapshot/${repository}`, 'DELETE')
   }
 
-  snapshotCreate (params) {
-    return this.client.snapshotCreate(params)
+  snapshotCreate ({ repository, snapshot, body }) {
+    return this.request(`_snapshot/${repository}/${snapshot}`, 'PUT', body)
   }
 
-  snapshotDelete (params) {
-    return this.client.snapshotDelete(params)
+  snapshotDelete ({ repository, snapshot }) {
+    return this.request(`_snapshot/${repository}/${snapshot}`, 'DELETE')
   }
 
-  snapshotRestore (params) {
-    return this.client.snapshotRestore(params)
+  snapshotRestore ({ repository, snapshot, body }) {
+    return this.request(`_snapshot/${repository}/${snapshot}/_restore`, 'POST', body)
   }
 
-  getSnapshot (params) {
-    return this.client.getSnapshot(params)
+  getSnapshot ({ repository, snapshot }) {
+    return this.request(`_snapshot/${repository}/${snapshot}`, 'GET')
   }
 
-  getSnapshotIndices (params) {
-    return this.client.getSnapshot(params)
+  bulk ({ body }) {
+    const data = body.map(d => JSON.stringify(d)).join('\n') + '\n'
+    return this.request('_bulk', 'POST', data)
+  }
+
+  request (path, method, params) {
+    const url = new URL(this.host + path)
+
+    if (method === 'GET' && typeof params === 'object') {
+      Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
+    }
+
+    let body = null
+    if (method === 'PUT' || method === 'POST') body = params
+
+    const options = {
+      method,
+      body: body && typeof body !== 'string' ? JSON.stringify(body) : body,
+      headers: Object.assign({}, REQUEST_DEFAULT_HEADERS)
+    }
+
+    if (this.username.length > 0 || this.password.length > 0) {
+      options.headers.Authorization = buildFetchAuthHeader(this.username, this.password)
+    }
+
+    return new Promise((resolve, reject) => {
+      return fetchMethod(url, options)
+        .then(response => {
+          if (options.method === 'HEAD') {
+            return resolve(response.ok)
+          }
+
+          if (response.ok) {
+            resolve(response)
+          } else {
+            reject(response)
+          }
+        }).catch(reject)
+    })
   }
 
   async test () {
@@ -163,7 +216,7 @@ export default class ElasticsearchAdapter {
   /********/
 
   /**
-   * Creates multiple indices, one for each word. Only creates if they do not already exists
+   * Creates multiple indices, one for each word. Only creates if they do not already exist
    * @param names {Array}
    */
   async createIndices (names) {

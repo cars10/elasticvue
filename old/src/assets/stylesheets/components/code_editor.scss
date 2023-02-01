@@ -1,0 +1,61 @@
+.code-editor {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.code-editor__actions {
+  position: absolute;
+  top: 4px;
+  right: 18px;
+  z-index: 2;
+
+  > div {
+    opacity: .4;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+.ace_tooltip {
+  background-color: #fff;
+  background-image: none;
+  border: none;
+  color: black;
+  max-width: 100%;
+  padding: 3px 4px;
+  font-family: 'Hack', monospace;
+  font-size: 80%
+}
+
+.ace-monokai + .ace_tooltip {
+  background-color: #303030;
+  color: #fff;
+}
+
+.ace_dark.ace_editor.ace_autocomplete .ace_marker-layer .ace_active-line {
+  background-color: #000;
+  border: none;
+  border-bottom: 1px solid #0d0d0d;
+  color: #fff;
+}
+
+.ace_dark.ace_editor.ace_autocomplete .ace_marker-layer .ace_line-hover {
+  background-color: #303030;
+  border: none;
+  padding-bottom: 1px
+}
+
+.ace_dark.ace_editor.ace_autocomplete {
+  border: none;
+  box-shadow: none;
+  line-height: 1.4;
+  background: #202020;
+  color: #fff;
+}
+
+.ace_dark .ace_completion-meta {
+  opacity: 1
+}

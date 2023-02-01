@@ -1,0 +1,35 @@
+.body--light {
+  .bg-darken {
+    color: #000;
+    background-color: #F5F5F5;
+  }
+
+  .q-banner.bg-grey-7 {
+    color: #fff;
+  }
+}
+
+.body--dark {
+  .bg-darken {
+    color: #fff;
+    background-color: #272727;
+  }
+
+  .q-btn-group {
+    background-color: #111;
+
+    .q-btn {
+      background-color: #333;
+    }
+
+    .q-btn:first-child {
+      margin-right: 2px;
+    }
+  }
+
+  .q-table__control {
+    .q-btn:not(:disabled) {
+      color: #fff !important;
+    }
+  }
+}

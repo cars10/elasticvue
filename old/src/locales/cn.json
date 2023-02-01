@@ -1,0 +1,701 @@
+{
+  "app": {
+    "header": {
+      "navigation": {
+        "home": "首页",
+        "nodes": "节点",
+        "indices": "索引",
+        "shards": null,
+        "search": "搜索",
+        "rest": "REST",
+        "snapshots": "快照",
+        "repositories": "存储",
+        "utilities": "工具"
+      }
+    },
+    "footer": {
+      "homepage": "主页",
+      "changelog": "变更日志"
+    },
+    "change_language": {
+      "title": "变更语言",
+      "languages": {
+        "en": {
+          "title": "设置为英语"
+        },
+        "cn": {
+          "title": "设置为中文"
+        }
+      }
+    },
+    "change_theme": {
+      "title": "更改主题"
+    }
+  },
+  "defaults": {
+    "filter": {
+      "label": "过滤..."
+    },
+    "cancel": "取消",
+    "close": "关闭",
+    "create": "创建",
+    "delete": "删除",
+    "required": "必需",
+    "success": "成功"
+  },
+  "document": {
+    "heading": "查看"
+  },
+  "elasticsearch_instance": {
+    "instance_selection": {
+      "connected_info": {
+        "title": "连接至 '{activeInstanceName}' ({activeInstanceUri})"
+      }
+    },
+    "instances_table": {
+      "headers": {
+        "cluster": "集群名称",
+        "uri": "地址",
+        "version": null
+      },
+      "row": {
+        "title": "连接到集群 '{uri}'",
+        "cluster_health": {
+          "title": "集群健康状态：{status}"
+        },
+        "copy_uri": null,
+        "remove_cluster": {
+          "title": "移除集群",
+          "confirm": "移除集群 '{name}' ({uri})?"
+        }
+      }
+    },
+    "new_instance": {
+      "add_cluster": "添加集群",
+      "heading": "添加Elasticsearch实例",
+      "configure": {
+        "heading": "1. 配置",
+        "show_help": "查看帮助"
+      },
+      "connect": {
+        "heading": "2. 连接",
+        "form": {
+          "name": {
+            "label": "集群名称"
+          },
+          "test_connection": "测试连接",
+          "connect": "连接"
+        }
+      }
+    },
+    "rename_instance": {
+      "rename": {
+        "title": "重命名集群"
+      },
+      "heading": "重命名Elasticsearch实例",
+      "form": {
+        "name": {
+          "label": "集群名称"
+        },
+        "uri": {
+          "label": "地址"
+        },
+        "rename": "重命名"
+      }
+    }
+  },
+  "helpers": {
+    "import_export": {
+      "import_backup": {
+        "confirm": "你确定吗？导入备份将覆盖你当前的设置和保存的集群！"
+      }
+    }
+  },
+  "home": {
+    "client_information": {
+      "heading": "节点信息"
+    },
+    "cluster_health": {
+      "heading": "集群健康"
+    }
+  },
+  "indices": {
+    "heading": "索引",
+    "index_aliases": {
+      "text": "别名",
+      "heading": "管理别名",
+      "index": "索引：{indexName}",
+      "form": {
+        "new_alias": {
+          "label": "新别名"
+        },
+        "add_alias": "添加新别名"
+      },
+      "table": {
+        "headers": {
+          "alias": "别名"
+        }
+      },
+      "delete_alias": {
+        "confirm": "删除索引 '{index}' 的别名 '{alias}'？"
+      }
+    },
+    "index_bulk": {
+      "bulk_action": null
+    },
+    "index_row": {
+      "search": {
+        "title": "搜索 '{index}'"
+      },
+      "shards": {
+        "title": "{pre} 主\n{replica} 副本"
+      },
+      "options": {
+        "title": "选项",
+        "show_info": "查看信息",
+        "show_stats": "查看状态",
+        "forcemerge": {
+          "text": "强制合并索引",
+          "growl": "索引 '{index}' 已成功合并。"
+        },
+        "refresh": {
+          "text": "刷新索引",
+          "growl": "索引 '{index}' 已成功刷新。"
+        },
+        "flush": {
+          "text": "Flush索引",
+          "growl": "索引 '{index}' 已成功flush。"
+        },
+        "clear_cache": {
+          "text": "清除索引缓存",
+          "growl": "索引 '{index}' 缓存已成功清除。"
+        },
+        "close": {
+          "text": "关闭索引",
+          "growl": "索引 '{index}' 缓存已成功关闭。"
+        },
+        "open": {
+          "text": "开启索引",
+          "growl": "索引 '{index}' 缓存已成功开启。"
+        },
+        "delete": {
+          "text": "删除",
+          "confirm": "删除索引 {index}？这将删除索引中的所有数据！",
+          "growl": "索引 '{index}' 缓存已成功删除。"
+        }
+      }
+    },
+    "indices_table": {
+      "show_hidden_indices": {
+        "label": "查看隐藏索引"
+      },
+      "sticky_table_header": {
+        "label": null
+      },
+      "table": {
+        "headers": {
+          "name": "名称",
+          "status": "状态",
+          "health": "健康状态",
+          "uuid": "UUID",
+          "aliases": "别名",
+          "shards": "分片",
+          "docs": "Lucene 文档",
+          "storage": "储存空间",
+          "parsed_docs_count": {
+            "title": "如果你的索引具有 \"type\": \"nested\" 字段，那么 lucene 文档的数量可能与索引中的 elasticsearch 文档的数量不匹配。每个嵌套对象都算作一个单独的文档。如果你需要 elasticsearch 文档的数量，请使用 _count API。"
+          }
+        }
+      }
+    },
+    "new_index": {
+      "heading": "新建索引",
+      "form": {
+        "index_name": {
+          "label": "索引名称"
+        },
+        "shards": {
+          "label": "分片数量"
+        },
+        "replicas": {
+          "label": "副本数量"
+        }
+      },
+      "create_index": {
+        "growl": "索引 '{index}' 成功创建。"
+      }
+    }
+  },
+  "index_templates": {
+    "heading": null,
+    "index_templates_table": {
+      "table": {
+        "headers": {
+          "name": null,
+          "index_patterns": null,
+          "priority": null,
+          "version": null,
+          "allow_auto_create": null,
+          "template": null
+        }
+      }
+    }
+  },
+  "mixins": {
+    "test_connection": {
+      "cluster_reachable": "你的集群可以访问并正确配置。",
+      "cluster_not_reachable": "你的集群无法访问或你没有正确配置 CORS。"
+    },
+    "history": {
+      "clear_all": {
+        "confirm": "你确定吗? 这会删除你历史中的所有条目！"
+      }
+    }
+  },
+  "nodes": {
+    "node_icons": {
+      "master": {
+        "title": "主节点"
+      },
+      "master_eligible": {
+        "title": "主节点候选"
+      },
+      "data": {
+        "title": "数据节点"
+      },
+      "ingest": {
+        "title": "预处理节点（Ingest）"
+      },
+      "coordinating_only": {
+        "title": "仅协调节点"
+      }
+    },
+    "node_properties": {
+      "ip": "IP地址",
+      "master": "主节点",
+      "node_role": "节点角色",
+      "load": "负载",
+      "cpu": "CPU",
+      "ram": "内存",
+      "heap": "堆内存",
+      "disk": "磁盘",
+      "name": "名称",
+      "status": "状态"
+    },
+    "nodes_list": {
+      "heading": "节点",
+      "types": {
+        "grid": "网格",
+        "table": "列表"
+      }
+    }
+  },
+  "query": {
+    "heading": "Rest",
+    "api_documentation": "api 文档",
+    "orientation": {
+      "horizontal": "水平",
+      "vertical": "垂直"
+    },
+    "rest": {
+      "history": "查询历史",
+      "form": {
+        "method": {
+          "label": "HTTP 请求方法"
+        },
+        "path": {
+          "label": "请求路径"
+        },
+        "send_request": "发送请求",
+        "reset": "重置",
+        "download_as_json": "下载为 JSON 文件"
+      },
+      "get_request_hint": {
+        "cannot_send_body": "你无法通过 {method} 发送请求体，如果要发送请求体，请",
+        "use_post": "使用 POST",
+        "query_parameters": "，也可以将查询参数添加到 url。",
+        "search_post": "你可以使用 POST 通过 _search 端点进行搜索。"
+      }
+    },
+    "rest_query_history": {
+      "favorites_filter": {
+        "only_favorites": "只查看收藏",
+        "show_all": "查看所有"
+      },
+      "table": {
+        "headers": {
+          "query": "查询",
+          "date": "日期"
+        },
+        "row": {
+          "title": "点击预览请求正文，ctrl+点击 直接使用。",
+          "favorite": {
+            "add": "收藏",
+            "remove": "移除收藏"
+          }
+        }
+      },
+      "clear": {
+        "text": "清除",
+        "all": "删除所有",
+        "only_non_favorites": "仅删除非收藏"
+      },
+      "body_preview": {
+        "use": "使用",
+        "remove_entry": "删除条目",
+        "unselect": "取消选择"
+      }
+    },
+    "rest_query_examples": {
+      "heading": "查询示例",
+      "table": {
+        "headers": {
+          "query": "查询",
+          "description": "描述",
+          "body": "查询体",
+          "use": "使用"
+        },
+        "row": {
+          "title": "点击预览请求正文，ctrl+点击 直接使用示例。",
+          "docs": "文档",
+          "use": "使用"
+        }
+      }
+    }
+  },
+  "repositories": {
+    "heading": "存储",
+    "new_repository": {
+      "heading": "新建存储",
+      "form": {
+        "name": {
+          "label": "存储名称"
+        },
+        "type": {
+          "label": "存储类型"
+        },
+        "location": {
+          "label": "存储位置"
+        },
+        "chunk_size": {
+          "label": "块大小"
+        },
+        "max_restore_bytes_per_sec": {
+          "label": "max_restore_bytes_per_sec"
+        },
+        "max_snapshot_bytes_per_sec": {
+          "label": "max_snapshot_bytes_per_sec"
+        },
+        "compress": {
+          "label": "压缩"
+        },
+        "readonly": {
+          "label": "只读"
+        }
+      },
+      "create_repository": {
+        "growl": "存储 '{repositoryName}' 已成功创建。"
+      }
+    },
+    "repositories_table": {
+      "table": {
+        "headers": {
+          "name": "名称",
+          "type": "类型",
+          "settings": "配置"
+        },
+        "row": {
+          "delete": "删除"
+        }
+      },
+      "delete_repository": {
+        "confirm": "删除储存 '{name}' 和里面的所有快照吗？",
+        "growl": "存储 '{name}' 已成功删除。"
+      }
+    }
+  },
+  "search": {
+    "heading": "搜索",
+    "form": {
+      "query": {
+        "label": "搜索",
+        "messages": "搜索 <a tabindex='-1' target='_blank' rel='noopener' href='https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html'>查询 DSL</a> 获取支持"
+      },
+      "search": "搜索",
+      "customize_query": {
+        "button": null,
+        "hint": "提示：对查询的更改不会更新搜索框中的相关输入（如搜索查询或表中的分页/排序），但对输入的更改将合并到查询中。",
+        "reset": null,
+        "reset_all": null
+      }
+    },
+    "result": {
+      "show": "查看"
+    },
+    "results_table": {
+      "filter": {
+        "label": "过滤 *当前* 页面..."
+      },
+      "settings": {
+        "title": "表格设置",
+        "columns": "列",
+        "sticky_table_header": {
+          "label": null
+        }
+      },
+      "download_as_json": "下载为 JSON 文件"
+    }
+  },
+  "settings": {
+    "heading": "设置",
+    "hide_indices_regex": {
+      "label": "隐藏索引正则表达式",
+      "message": "与此正则表达式匹配的索引将默认隐藏在所有列出索引的位置",
+      "reset": "重置为默认 {regex}"
+    },
+    "disconnect_and_reset": {
+      "heading": "断开连接并重置所有配置",
+      "button": "断开连接并重置",
+      "confirm": "你确定吗？这将删除 elasticvue 保存的所有数据！你必须重新连接到集群。"
+    },
+    "import_export": {
+      "heading": "导入/导出 elasticvue 数据",
+      "message": "你可以将 elasticvue 数据导入和导出为 json。这<strong>不是</strong>集群数据的备份，如果你需要备份索引，请使用快照。",
+      "export": {
+        "heading": "导出",
+        "included": "什么内容会包含？",
+        "prepare_backup": "生成备份",
+        "download": "下载"
+      },
+      "import": {
+        "heading": "导入",
+        "select_file": "选择文件...",
+        "import": "导入配置"
+      }
+    }
+  },
+  "setup": {
+    "heading": "设置",
+    "configure": {
+      "heading": "1. 配置",
+      "introduction": "你必须设置 CORS 才能使用 elasticvue。将以下行添加到你的",
+      "allow_cors": "允许 CORS 请求来自 {domain}",
+      "authorization": "如果你的集群使用授权",
+      "restart": "然后重启你的集群",
+      "docker": "这也可以通过 docker 运行 elasticsearch 来完成，通过环境变量添加配置"
+    },
+    "test_and_connect": {
+      "heading": "2. 连接",
+      "form": {
+        "username": {
+          "label": "用户名 (可选)"
+        },
+        "password": {
+          "label": "密码或加密的API密钥（可选"
+        },
+        "uri": {
+          "label": "地址"
+        },
+        "test_connection": "测试连接",
+        "connect": "连接"
+      },
+      "error": {
+        "heading": "无法连接。请确保",
+        "cluster_reachable": "你的集群可以通过地址访问",
+        "correct_settings": "你添加了正确的配置在",
+        "cluster_restarted": "并且重启了集群"
+      },
+      "connected": "连接成功！"
+    }
+  },
+  "shards": {
+    "heading": null,
+    "shards_table": {
+      "cancel_relocation": null
+    }
+  },
+  "shared": {
+    "nothing_found_for_filter": null,
+    "nothing_found": null,
+    "index_filter": {
+      "use_index_pattern": "使用索引模式",
+      "use_index_select": "选择索引",
+      "index_pattern": {
+        "input": {
+          "label": "索引模式"
+        },
+        "matched_indices": "找到 <strong title='{indices}'>{count} 个索引</strong>"
+      },
+      "index_select": {
+        "select_indices": {
+          "label": "选择索引"
+        },
+        "indices_selected": "个索引已选择",
+        "select_all": {
+          "text": "选择全部",
+          "title": "选择全部索引"
+        },
+        "deselect_all": {
+          "text": "反选全部",
+          "title": "反选全部索引"
+        },
+        "show_hidden": {
+          "label": "显示隐藏",
+          "title": "显示以点开头的索引"
+        }
+      }
+    },
+    "table_settings": {
+      "reset": "重置",
+      "uncheck": "反选"
+    },
+    "authorization_header_hint": "你的集群使用了授权。确保你已经设置了\"http.cors.allow-headers\"，否则将无法连接。",
+    "code_editor": {
+      "actions": {
+        "copy_content": {
+          "title": "复制内容"
+        },
+        "beautify": {
+          "title": "格式化 (Ctrl+ALT+L)",
+          "text": "格式化"
+        },
+        "whitespace": {
+          "label": "使用空格",
+          "title": "将空格改为 2 个空格而不是制表符"
+        },
+        "wrap_lines": {
+          "label": "换行",
+          "title": "长行换行"
+        },
+        "keyboard_shortcuts": {
+          "text": "快捷键"
+        }
+      }
+    },
+    "loader": {
+      "copy_error": "复制错误",
+      "network_error": null
+    },
+    "modal_data_loader": {
+      "modal_title": {
+        "default": "查看"
+      }
+    },
+    "path_repo_info": {
+      "success": {
+        "info": "你的 <strong>path.repo</strong> 似乎设置正确，这意味着你可以使用存储和快照。",
+        "current_value": "当前值为："
+      },
+      "error": {
+        "info": "你的 <strong>path.repo</strong> 未正确设置。 <br>如果你想使用快照和存储，你必须在你的 <strong>elasticsearch.yml</strong> 中设置 <strong>path.repo</strong>。"
+      },
+      "docs": "文档",
+      "reload": "重新加载"
+    },
+    "reload_button": {
+      "reload": "重新加载"
+    },
+    "timer": {
+      "settings": {
+        "title": "自动加载"
+      }
+    },
+    "ssl_hint": {
+      "hint": "你的集群使用 ssl。请确保你的浏览器信任你正在使用的证书，否则你将无法连接。",
+      "help": "帮助"
+    }
+  },
+  "snapshots": {
+    "heading": null,
+    "new_snapshot": {
+      "heading": "新建快照",
+      "form": {
+        "repository": {
+          "label": "储存"
+        },
+        "snapshot_name": {
+          "label": "快照名称"
+        }
+      },
+      "create_snapshot": {
+        "growl": "快照 '{name}' 已成功创建。"
+      }
+    },
+    "restore_snapshot": {
+      "button": "恢复",
+      "heading": "恢复 '{name}'",
+      "form": {
+        "ignore_unavailable": {
+          "label": "忽略不可用"
+        },
+        "include_global_state": {
+          "label": "包括全局状态"
+        },
+        "rename_pattern": {
+          "label": "重命名模式"
+        },
+        "rename_replacement": {
+          "label": "重命名替换"
+        },
+        "restore": "恢复"
+      },
+      "restore_snapshot": {
+        "growl": "快照 '{snapshot}' 恢复成功。"
+      }
+    },
+    "snapshot": {
+      "indices": {
+        "show": "显示",
+        "hide": "隐藏"
+      },
+      "options": "选项",
+      "delete": {
+        "text": "删除快照",
+        "confirm": "删除快照 '{snapshot}'?",
+        "growl": "快照 '{snapshot}' 删除成功。"
+      }
+    },
+    "snapshots_table": {
+      "no_repository_selected": "请先选择一个存储。",
+      "table": {
+        "headers": {
+          "status": "状态",
+          "start_time": "开始时间",
+          "end_time": "结束时间",
+          "duration": "持续时间",
+          "indices": "索引",
+          "successful_shards": "成功分片",
+          "failed_shards": "失败分片",
+          "total_shards": "总分片"
+        }
+      }
+    },
+    "snapshots_table_wrapper": {
+      "repository": {
+        "label": "储存"
+      },
+      "filter": {
+        "label": "过滤 id..."
+      }
+    }
+  },
+  "utilities": {
+    "heading": "工具",
+    "run": "运行",
+    "create": {
+      "heading": "创建",
+      "empty_indices": "创建 10 个空索引",
+      "twitter_index": "创建 twitter 索引并添加 100 条 tweet"
+    },
+    "delete": {
+      "heading": "删除",
+      "delete_all": "删除所有索引",
+      "confirm": "你确定吗? 这会删除你集群上的所有数据！"
+    },
+    "misc": {
+      "heading": "其他",
+      "flush_all": "刷新索引到磁盘",
+      "set_all_to_writable": "设置所有索引为可写"
+    }
+  }
+}

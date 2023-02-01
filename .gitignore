@@ -1,37 +1,24 @@
-.DS_Store
-node_modules
-/dist
-tests/coverage
-tests/e2e/screenshots
-tests/e2e/videos
-tmp
-
-browser_extension/chrome/assets
-browser_extension/chrome/images
-browser_extension/chrome/index.html
-browser_extension/firefox/assets
-browser_extension/firefox/images
-browser_extension/firefox/index.html
-elasticvue.zip
-
-scripts/chrome_ext_screenshots/*
-scripts/website_screenshots/*
-/artifacts
-
-# local env files
-.env.local
-.env.*.local
-
-# Log files
+# Logs
+logs
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
 
 # Editor directories and files
+.vscode/*
+!.vscode/extensions.json
 .idea
-.vscode
+.DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
-*.sw*
+*.sw?

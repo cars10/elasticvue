@@ -1,0 +1,11 @@
+<template>
+  <q-btn round :icon="icon" class="q-mr-md" @click="store.toggleTheme" />
+</template>
+
+<script setup>
+  import { useThemeStore } from '../../store/theme.js'
+  import { computed } from 'vue'
+
+  const store = useThemeStore()
+  const icon = computed(() => (store.dark ? 'light_mode' : 'nightlight'))
+</script>

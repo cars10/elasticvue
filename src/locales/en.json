@@ -124,7 +124,7 @@
     "index_aliases": {
       "text": "Aliases",
       "heading": "Manage aliases",
-      "index": "Index: {indexName}",
+      "index": "Index: {index}",
       "form": {
         "new_alias": {
           "label": "New alias"

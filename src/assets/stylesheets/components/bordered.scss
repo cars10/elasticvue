@@ -2,34 +2,30 @@
   border: 2px solid $border-light-color;
 }
 
-.theme--dark .bordered {
+.body--dark .bordered {
   border: 2px solid $border-dark-color;
 }
 
-.border-right-1 {
-  border-right: 1px solid rgba(0, 0, 0, 0.12);
+.border--left--8.border--success {
+  border-left: 8px solid #2e7d32 !important;
 }
 
-.theme--dark .border-right-1 {
-  border-right: 1px solid rgba(255, 255, 255, 0.12);
+.border--left--8.border--warning {
+  border-left: 8px solid $orange !important;
 }
 
-.border--grey {
-  border-color: lightgrey !important;
+.border--left--8.border--error {
+  border-left: 8px solid #b71c1c !important;
 }
 
-.border--success {
-  border-color: #2e7d32 !important;;
+.border--left--8.border--grey {
+  border-left: 8px solid lightgrey !important;
 }
 
-.border--warning {
-  border-color: $orange !important;
+.border-positive {
+  border-color: var(--q-positive);
 }
 
-.border--error {
-  border-color: #b71c1c !important;;
-}
-
-.border--left--8 {
-  border-left: 8px solid;
+.border-warning {
+  border-color: var(--q-warning);
 }

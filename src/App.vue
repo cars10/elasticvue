@@ -1,37 +1,30 @@
 <template>
-  <v-app :dark="dark">
-    <the-header/>
+  <q-layout view="hHh lpR fFf">
+    <app-header />
 
-    <v-main>
-      <v-container fluid>
-        <router-view/>
-      </v-container>
-      <snackbar/>
-    </v-main>
+    <q-page-container>
+      <div class="q-ma-md">
+        <router-view />
+      </div>
+    </q-page-container>
 
-    <the-footer/>
-  </v-app>
+    <modal-loader />
+    <alert-snackbar />
+
+    <app-footer />
+  </q-layout>
 </template>
 
-<script>
-  import TheHeader from '@/components/App/TheHeader'
-  import TheFooter from '@/components/App/TheFooter'
-  import Snackbar from '@/components/Snackbar'
-  import { vuexAccessors } from '@/helpers/store'
+<script setup>
+  import { useThemeStore } from './store/theme.js'
+  import { useQuasar } from 'quasar'
+  import AppFooter from './components/base/AppFooter.vue'
+  import AppHeader from './components/base/AppHeader.vue'
+  import ModalLoader from './components/shared/ModalLoader.vue'
+  import AlertSnackbar from './components/shared/AlertSnackbar.vue'
 
-  export default {
-    name: 'App',
-    components: {
-      TheHeader,
-      TheFooter,
-      Snackbar
-    },
-    setup () {
-      const { dark } = vuexAccessors('theme', ['dark'])
+  const store = useThemeStore()
 
-      return {
-        dark
-      }
-    }
-  }
+  const $q = useQuasar()
+  $q.dark.set(store.dark)
 </script>

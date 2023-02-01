@@ -124,7 +124,7 @@
     "index_aliases": {
       "text": "别名",
       "heading": "管理别名",
-      "index": "索引：{indexName}",
+      "index": "索引：{index}",
       "form": {
         "new_alias": {
           "label": "新别名"

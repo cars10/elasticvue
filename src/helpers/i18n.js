@@ -1,7 +1,7 @@
-import { DEFAULT_LOCALE, SUPPORTED_COUNTRY_LOCALES } from '@/consts'
+import { DEFAULT_LOCALE, SUPPORTED_COUNTRY_LOCALES } from '../consts'
 
 export const defaultLocale = () => {
-  return process.env.VUE_APP_I18N_LOCALE || getBrowserLocale(navigator.languages) || DEFAULT_LOCALE
+  return getBrowserLocale(navigator.languages, DEFAULT_LOCALE) || DEFAULT_LOCALE
 }
 
 export const getBrowserLocale = (languages, fallback) => {

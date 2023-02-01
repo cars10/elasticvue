@@ -1,0 +1,18 @@
+$border-light-color: #ccc;
+$border-dark-color: #212121;
+
+body {
+  font-size: 16px;
+}
+
+a, a:visited, a:hover, a:focus {
+  color: var(--q-primary);
+}
+
+.d-inline-block {
+  display: inline-block;
+}
+
+.text-underline {
+  text-decoration: underline;
+}
