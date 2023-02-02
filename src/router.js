@@ -4,6 +4,7 @@ import IndexTemplates from './components/indextemplates/IndexTemplates.vue'
 import GlobalSettings from './components/settings/GlobalSettings.vue'
 import IndexShards from './components/shards/IndexShards.vue'
 import HomeStatus from './components/home/HomeStatus.vue'
+import ClusterNodes from './components/nodes/ClusterNodes.vue'
 
 const routes = [
   { path: '/', component: HomeStatus },
@@ -11,6 +12,7 @@ const routes = [
   { path: '/index_templates', component: IndexTemplates },
   { path: '/settings', component: GlobalSettings },
   { path: '/shards', component: IndexShards },
+  { path: '/nodes', component: ClusterNodes },
 ]
 
 const router = createRouter({

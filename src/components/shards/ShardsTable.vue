@@ -1,7 +1,5 @@
 <template>
-  <div class="flex justify-between q-pa-md">
-    <div />
-
+  <div class="flex justify-end q-pa-md">
     <div class="flex">
       <q-input v-model="filter" :label="t('defaults.filter.label')" dense @keyup.esc="filter = ''">
         <template #append>
@@ -108,6 +106,7 @@
       default: () => ({})
     }
   })
+  const emit = defineEmits(['reload'])
 
   const indicesStore = useIndicesStore()
 
@@ -129,7 +128,6 @@
 
     return shards
   })
-
 
   const columns = computed(() => {
     const start = (pagination.value.page - 1) * pagination.value.rowsPerPage
@@ -170,8 +168,6 @@
       currentReroutingShard.value = shard
     }
   }
-
-  const emit = defineEmits(['reload'])
 
   const { showSnackbar } = useSnackbar()
   const { requestState, callElasticsearch } = useElasticsearchAdapter()
