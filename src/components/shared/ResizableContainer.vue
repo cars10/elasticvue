@@ -5,7 +5,9 @@
                  :min-height="minHeight"
                  class="full-width"
                  @resize:end="setHeight">
-    <slot />
+    <div class="q-pb-md full-height">
+      <slot />
+    </div>
   </vue-resizable>
   <slot v-else />
 </template>
@@ -33,5 +35,8 @@
   })
 
   const emit = defineEmits(['update:modelValue'])
-  const setHeight = ({ height }) => (emit('update:modelValue', height))
+  const setHeight = ({ height }) => {
+    emit('update:modelValue', height)
+    window?.dispatchEvent(new Event('resize'))
+  }
 </script>

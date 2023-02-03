@@ -1,7 +1,9 @@
 <template>
   <q-card>
     <q-card-section>
-      <h2 class="text-h5 q-my-none d-inline-block">{{ $t('nodes.nodes_list.heading') }}</h2>
+      <h2 class="text-h5 q-my-none d-inline-block">
+        {{ $t('nodes.nodes_list.heading') }}
+      </h2>
       <reload-button :action="load" />
     </q-card-section>
 

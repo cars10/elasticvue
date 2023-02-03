@@ -20,7 +20,7 @@
         </p>
 
         <loader-status :request-state="requestState">
-          <resizable-container v-model="resizeStore.modalLoaderCodeViewer" @resize:end="triggerResize">
+          <resizable-container v-model="resizeStore.modalLoaderCodeViewer">
             <code-viewer :value="data" />
           </resizable-container>
         </loader-status>
@@ -39,7 +39,6 @@
   import LoaderStatus from './LoaderStatus.vue'
   import { useElasticsearchAdapter } from '../../composables/RequestComposition'
   import CodeViewer from './CodeViewer.vue'
-  import VueResizable from 'vue-resizable'
   import ReloadButton from './ReloadButton.vue'
   import ResizableContainer from './ResizableContainer.vue'
   import { useResizeStore } from '../../store/resize'
@@ -62,8 +61,4 @@
     load()
     store.setShow(newValue)
   })
-
-  const triggerResize = () => {
-    window?.dispatchEvent(new Event('resize'))
-  }
 </script>

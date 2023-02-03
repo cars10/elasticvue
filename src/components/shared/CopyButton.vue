@@ -1,16 +1,12 @@
 <template>
-  <q-btn :icon="icon" :title="title" @click="copy" />
+  <q-btn :icon="icon" @click="copy" />
 </template>
 
 <script setup>
   import { ref } from 'vue'
-  // import { writeToClipboard } from '@/services/tauri/clipboard'
+  import { writeToClipboard } from '../../helpers/clipboard'
 
   const props = defineProps({
-    title: {
-      default: '',
-      type: String
-    },
     value: {
       default: '',
       type: String
@@ -28,7 +24,7 @@
     if (props.customHandler) {
       props.customHandler.call()
     } else {
-      //writeToClipboard(props.value)
+      writeToClipboard(props.value)
     }
     setTimeout(() => {
       icon.value = 'content_copy'

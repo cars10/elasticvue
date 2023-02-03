@@ -12,12 +12,17 @@ import { useCodeEditorStore } from '../store/code_editor'
 import { beautify } from '../helpers/beautify'
 import { writeToClipboard } from '../helpers/clipboard'
 
-export const useCodeEditor = (editorRef, { readOnly, focus, initialValue }) => {
+export const useCodeEditor = (editorRef, { readOnly, focus, initialValue, emit }) => {
   const aceEditor = ref(null)
+
+  const themeStore = useThemeStore()
+  const codeEditorStore = useCodeEditorStore()
 
   onMounted(() => {
     setupAceEditor(editorRef.value, { readOnly })
+    if (!readOnly) setupEditingUtils()
     setWrapLines(codeEditorStore.wrapLines)
+    setWhitespace(codeEditorStore.useSpaces)
     setTheme(themeStore.dark)
     if (initialValue.value) {
       const beautifulValue = beautify(initialValue.value, codeEditorStore.useSpaces)
@@ -41,7 +46,6 @@ export const useCodeEditor = (editorRef, { readOnly, focus, initialValue }) => {
     }
   }
 
-  const themeStore = useThemeStore()
   watch(() => themeStore.dark, newValue => (setTheme(newValue)))
 
   const setWhitespace = useSpaces => {
@@ -70,6 +74,28 @@ export const useCodeEditor = (editorRef, { readOnly, focus, initialValue }) => {
     if (additionalOptions) aceEditor.value.setOptions(additionalOptions)
   }
 
+  const setupEditingUtils = () => {
+    aceEditor.value.commands.addCommand({
+      bindKey: { win: 'Ctrl+Alt+L', mac: 'Command+Alt+L', linux: 'Ctrl+Alt+L' },
+      exec: () => {
+        beautifyEditorValue()
+      }
+    })
+
+    const { completer } = initializeSnippets()
+    aceEditor.value.setOptions({
+      enableBasicAutocompletion: [completer],
+      enableLiveAutocompletion: true,
+      enableSnippets: true
+    })
+
+    if (emit) {
+      aceEditor.value.on('change', () => {
+        emit('update:modelValue', aceEditor.value.getValue())
+      })
+    }
+  }
+
   const unmountEditor = () => {
     aceEditor.value.destroy()
     aceEditor.value.container.remove()
@@ -80,19 +106,18 @@ export const useCodeEditor = (editorRef, { readOnly, focus, initialValue }) => {
     writeToClipboard(aceEditor.value.getValue())
   }
 
-  const codeEditorStore = useCodeEditorStore()
   watch(() => codeEditorStore.wrapLines, setWrapLines)
   watch(() => codeEditorStore.useSpaces, newValue => {
     setWhitespace(newValue)
-    beautifyEditorValue(newValue)
+    beautifyEditorValue()
   })
 
   const setEditorValue = value => {
     aceEditor.value.setValue(value, 1)
   }
 
-  const beautifyEditorValue = useSpaces => {
-    const newValue = beautify(aceEditor.value.getValue(), useSpaces)
+  const beautifyEditorValue = () => {
+    const newValue = beautify(aceEditor.value.getValue(), codeEditorStore.useSpaces)
     setEditorValue(newValue)
   }
 

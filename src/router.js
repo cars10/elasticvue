@@ -5,6 +5,7 @@ import GlobalSettings from './components/settings/GlobalSettings.vue'
 import IndexShards from './components/shards/IndexShards.vue'
 import HomeStatus from './components/home/HomeStatus.vue'
 import ClusterNodes from './components/nodes/ClusterNodes.vue'
+import RestQuery from './components/rest/RestQuery.vue'
 
 const routes = [
   { path: '/', component: HomeStatus },
@@ -13,6 +14,7 @@ const routes = [
   { path: '/settings', component: GlobalSettings },
   { path: '/shards', component: IndexShards },
   { path: '/nodes', component: ClusterNodes },
+  { path: '/rest', component: RestQuery },
 ]
 
 const router = createRouter({
