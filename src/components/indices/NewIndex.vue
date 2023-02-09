@@ -56,8 +56,8 @@
 <script setup>
   import { computed, ref } from 'vue'
   import { useTranslation } from '../../composables/i18n'
-  import { useElasticsearchAdapter } from '../../composables/RequestComposition'
-  import { useSnackbar } from '../../composables/UseSnackbar'
+  import { useElasticsearchAdapter } from '../../composables/CallElasticsearch'
+  import { useSnackbar } from '../../composables/Snackbar'
 
   const t = useTranslation()
 

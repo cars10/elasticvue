@@ -133,8 +133,8 @@
   import { onMounted, ref, watch } from 'vue'
   import IndexAliases from './IndexAliases.vue'
   import IndexRowMenuAction from './IndexRowMenuAction.vue'
-  import { useModal } from '../../composables/UseModal'
-  import { useElasticsearchRequest } from '../../composables/RequestComposition'
+  import { useModal } from '../../composables/Modal'
+  import { useElasticsearchRequest } from '../../composables/CallElasticsearch'
 
   const props = defineProps({
     index: {

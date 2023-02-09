@@ -1,0 +1,7 @@
+a:hover {
+  cursor: pointer;
+}
+
+a, a:visited, a:hover, a:focus {
+  color: var(--q-primary);
+}

@@ -1,15 +1,3 @@
-.q-btn {
-  font-weight: initial !important
-}
-
-.q-banner {
-  border-radius: 2px;
-}
-
-.q-separator--dark {
-  background: #ffffff1f;
-}
-
 table.q-table {
   font-family: 'Hack', monospace;
   font-size: 14px;
@@ -30,10 +18,6 @@ table.q-table {
 
 .q-table--dense .q-table thead tr, .q-table--dense .q-table tbody tr, .q-table--dense .q-table tbody td {
   height: 40px;
-}
-
-.q-card--dark {
-  box-shadow: none;
 }
 
 .q-table--dense {
@@ -66,8 +50,4 @@ table.q-table {
 
 .q-table--dark .q-table__bottom, .q-table--dark thead, .q-table--dark tr, .q-table--dark th, .q-table--dark td {
   border-color: #ffffff1f;
-}
-
-a:hover {
-  cursor: pointer;
 }

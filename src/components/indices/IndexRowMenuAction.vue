@@ -10,8 +10,8 @@
 </template>
 
 <script setup>
-  import { useElasticsearchAdapter } from '../../composables/RequestComposition'
-  import { useSnackbar } from '../../composables/UseSnackbar'
+  import { useElasticsearchAdapter } from '../../composables/CallElasticsearch'
+  import { useSnackbar } from '../../composables/Snackbar'
   import { askConfirm } from '../../helpers/dialogs'
 
   const props = defineProps({

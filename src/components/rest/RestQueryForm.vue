@@ -27,10 +27,10 @@
   <div class="row">
     <div class="col-6">
       <q-btn :loading="loading" color="primary-dark" type="submit" :label="$t('query.rest.form.send_request')" />
-      <q-chip v-if="response.status">{{ response.status }}</q-chip>
+      <q-chip v-if="response.status" :label="response.status" />
 
       <br>
-      <q-btn dense flat @click="reset" class="q-mt-md" :label="$t('query.rest.form.reset')" />
+      <q-btn dense flat class="q-mt-md" :label="$t('query.rest.form.reset')" @click="reset" />
     </div>
   </div>
 </template>

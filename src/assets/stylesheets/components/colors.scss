@@ -1,0 +1,35 @@
+.bg-primary-dark {
+  background: #1976d2 !important;
+}
+
+.body--light {
+  .text-muted {
+    color: $grey-8;
+  }
+
+  .bg-darken {
+    color: #000;
+    background-color: #F5F5F5;
+  }
+
+  .bg-visible-bg {
+    background: #eee !important;
+    color: #111 !important;
+  }
+}
+
+.body--dark {
+  .text-muted {
+    color: $grey-6;
+  }
+
+  .bg-darken {
+    color: #fff;
+    background-color: #272727;
+  }
+
+  .bg-visible-bg {
+    background: #272727 !important;
+    color: #fff !important;
+  }
+}

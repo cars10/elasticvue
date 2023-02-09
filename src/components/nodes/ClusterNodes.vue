@@ -1,9 +1,9 @@
 <template>
   <q-card>
-    <q-card-section>
-      <h2 class="text-h5 q-my-none d-inline-block">
+    <q-card-section class="flex items-center">
+      <h1 class="text-h5 q-my-none">
         {{ $t('nodes.nodes_list.heading') }}
-      </h2>
+      </h1>
       <reload-button :action="load" />
     </q-card-section>
 
@@ -19,7 +19,7 @@
   import ReloadButton from '../shared/ReloadButton.vue'
   import LoaderStatus from '../shared/LoaderStatus.vue'
   import NodesTable from './NodesTable.vue'
-  import { useElasticsearchRequest } from '../../composables/RequestComposition'
+  import { useElasticsearchRequest } from '../../composables/CallElasticsearch'
 
   const CAT_METHOD_PARAMS = {
     h: [

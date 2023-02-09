@@ -72,8 +72,8 @@
 <script setup>
   import { ref, watch } from 'vue'
   import { useTranslation } from '../../composables/i18n'
-  import { useElasticsearchAdapter } from '../../composables/RequestComposition'
-  import { useSnackbar } from '../../composables/UseSnackbar'
+  import { useElasticsearchAdapter } from '../../composables/CallElasticsearch'
+  import { useSnackbar } from '../../composables/Snackbar'
   import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
   import { askConfirm } from '../../helpers/dialogs'
 

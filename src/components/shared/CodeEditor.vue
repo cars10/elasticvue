@@ -3,11 +3,11 @@
     <div ref="editor" class="full-width full-height" />
 
     <div class="code-editor__actions">
-      <div class="d-inline-block">
+      <div class="inline-block">
         <copy-button round flat dense :custom-handler="copyContent" />
       </div>
 
-      <div class="d-inline-block">
+      <div class="inline-block">
         <q-btn icon="settings" round flat dense>
           <q-menu style="white-space: nowrap" dense anchor="bottom right" self="top end">
             <q-item>
@@ -54,7 +54,7 @@
 
 <script setup>
   import { computed, ref, toRef } from 'vue'
-  import { useCodeEditor } from '../../composables/UseCodeEditor'
+  import { useCodeEditor } from '../../composables/CodeEditor'
   import { useCodeEditorStore } from '../../store/code_editor'
   import CopyButton from './CopyButton.vue'
 

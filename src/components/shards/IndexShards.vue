@@ -1,9 +1,9 @@
 <template>
   <q-card>
-    <q-card-section>
-      <h2 class="text-h5 q-my-none d-inline-block">
+    <q-card-section class="flex items-center">
+      <h1 class="text-h5 q-my-none">
         {{ $t('shards.heading') }}
-      </h2>
+      </h1>
       <reload-button :action="load" />
     </q-card-section>
 
@@ -20,7 +20,7 @@
   import { useTranslation } from '../../composables/i18n'
   import ReloadButton from '../shared/ReloadButton.vue'
   import LoaderStatus from '../shared/LoaderStatus.vue'
-  import { useElasticsearchAdapter } from '../../composables/RequestComposition'
+  import { useElasticsearchAdapter } from '../../composables/CallElasticsearch'
   import { convertShards } from '../../helpers/shards'
   import ShardsTable from './ShardsTable.vue'
 

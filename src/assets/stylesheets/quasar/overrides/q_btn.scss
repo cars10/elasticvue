@@ -1,20 +1,12 @@
-.body--light {
-  .bg-darken {
-    color: #000;
-    background-color: #F5F5F5;
-  }
+.q-btn {
+  font-weight: initial !important
+}
 
-  .q-banner.bg-grey-7 {
-    color: #fff;
-  }
+button.disabled[disabled]:not(.q-btn--round) {
+  background: #9e9e9e !important;
 }
 
 .body--dark {
-  .bg-darken {
-    color: #fff;
-    background-color: #272727;
-  }
-
   .q-btn-group {
     background-color: #111;
 
@@ -31,5 +23,9 @@
     .q-btn:not(:disabled) {
       color: #fff !important;
     }
+  }
+
+  button.disabled[disabled]:not(.q-btn--round) {
+    background: #424242 !important;
   }
 }

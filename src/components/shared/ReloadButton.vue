@@ -1,5 +1,5 @@
 <template>
-  <div class="d-inline-block reload-button">
+  <div class="reload-button">
     <div class="flex items-center">
       <q-btn :title="t('shared.reload_button.reload')"
              class="mr-0"

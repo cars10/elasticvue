@@ -1,7 +1,7 @@
 <template>
   <q-card v-if="store.visible" class="snackbar" @mouseover="setHover" @mouseleave="unsetHover">
     <div :class="`border--${store.color} q-pa-md border--left--8`">
-      <strong>{{ store.title }}</strong>
+      <strong class="q-mb-md inline-block">{{ store.title }}</strong>
       <template v-if="store.body">
         <div class="q-my-sm overflow-auto" style="max-height: 200px">
           <p>{{ store.body }}</p>

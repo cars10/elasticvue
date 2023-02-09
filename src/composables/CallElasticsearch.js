@@ -1,15 +1,12 @@
 import { ref } from 'vue'
 import ElasticsearchAdapter from '../services/ElasticsearchAdapter'
+import { useConnectionStore } from '../store/connection'
 
 const elasticsearchAdapter = ref(null)
 
-async function setElasticsearchAdapater () {
-  const instance = { username: 'elastic', password: 'elastic', uri: 'https://localhost:9200' }
-  elasticsearchAdapter.value = new ElasticsearchAdapter(instance)
-  await elasticsearchAdapter.value.ping()
-}
-
 export function useElasticsearchAdapter () {
+  const connectionStore = useConnectionStore()
+
   const requestState = ref({
     loading: false,
     networkError: false,
@@ -27,7 +24,10 @@ export function useElasticsearchAdapter () {
     }
 
     try {
-      if (!elasticsearchAdapter.value) await setElasticsearchAdapater()
+      if (!elasticsearchAdapter.value) {
+        elasticsearchAdapter.value = new ElasticsearchAdapter(connectionStore.activeCluster)
+        await elasticsearchAdapter.value.ping()
+      }
 
       try {
         const response = await elasticsearchAdapter.value[method](...args)

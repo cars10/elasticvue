@@ -6,6 +6,10 @@ export default class ElasticsearchAdapter {
     this.username = elasticsearch.username
     this.password = elasticsearch.password
     this.host = addTrailingSlash(elasticsearch.uri)
+
+    if (this.username.length > 0 || this.password.length > 0) {
+      this.authHeader = buildFetchAuthHeader(this.username, this.password)
+    }
   }
 
   ping () {
@@ -184,9 +188,7 @@ export default class ElasticsearchAdapter {
       headers: Object.assign({}, REQUEST_DEFAULT_HEADERS)
     }
 
-    if (this.username.length > 0 || this.password.length > 0) {
-      options.headers.Authorization = buildFetchAuthHeader(this.username, this.password)
-    }
+    if (this.authHeader) options.headers.Authorization = this.authHeader
 
     return new Promise((resolve, reject) => {
       return fetchMethod(url, options)
@@ -208,6 +210,7 @@ export default class ElasticsearchAdapter {
     try {
       await this.ping()
       await this.search({ size: 0 })
+      return Promise.resolve(true)
     } catch (e) {
       return Promise.reject(e)
     }

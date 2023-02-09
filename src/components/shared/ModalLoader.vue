@@ -3,7 +3,7 @@
     <q-card style="width: 1000px; max-width: 80vw;">
       <q-card-section class="flex justify-between">
         <div class="flex">
-          <h2 class="text-h6 q-my-none flex">
+          <h2 class="text-h6 q-my-none">
             {{ store.method }}
           </h2>
           <reload-button :action="load" />
@@ -37,7 +37,7 @@
   import { ref, watch } from 'vue'
   import { useModalStore } from '../../store/modal'
   import LoaderStatus from './LoaderStatus.vue'
-  import { useElasticsearchAdapter } from '../../composables/RequestComposition'
+  import { useElasticsearchAdapter } from '../../composables/CallElasticsearch'
   import CodeViewer from './CodeViewer.vue'
   import ReloadButton from './ReloadButton.vue'
   import ResizableContainer from './ResizableContainer.vue'

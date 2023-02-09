@@ -3,9 +3,9 @@
     <div class="col-md-8 offset-md-2">
       <q-card>
         <q-card-section>
-          <h2 class="text-h5 q-my-none d-inline-block">
+          <h1 class="text-h5 q-my-none">
             {{ $t('settings.heading') }}
-          </h2>
+          </h1>
         </q-card-section>
 
         <q-separator />

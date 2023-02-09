@@ -1,9 +1,9 @@
 <template>
   <q-card>
-    <q-card-section>
-      <h2 class="text-h5 q-my-none d-inline-block">
+    <q-card-section class="flex items-center">
+      <h1 class="text-h5 q-my-none">
         {{ $t('query.heading') }}
-      </h2>
+      </h1>
       <q-btn href="https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html"
              size="sm"
              class="q-ml-md"

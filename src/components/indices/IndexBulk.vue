@@ -48,7 +48,7 @@
     </q-list>
   </q-btn-dropdown>
 
-  <div class="d-inline-block q-ml-md" :class="{'text-grey': selectedIndices.length === 0}">
+  <div class="inline-block q-ml-md" :class="{'text-grey': selectedIndices.length === 0}">
     <small>{{ selectedIndices.length }} / {{ filteredItemsCount }} selected</small>
     <small v-if="filteredItemsCount !== totalItemsCount"> ({{ totalItemsCount }} total)</small>
   </div>

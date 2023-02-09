@@ -26,8 +26,8 @@
 </template>
 
 <script setup>
-  import en from '../../assets/icons/flags/en.svg'
-  import cn from '../../assets/icons/flags/cn.svg'
+  import en from '../../assets/images/icons/flags/en.svg'
+  import cn from '../../assets/images/icons/flags/cn.svg'
   import { useI18nStore } from '../../store/i18n'
 
   const store = useI18nStore()
