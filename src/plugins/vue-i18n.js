@@ -14,6 +14,7 @@ export const vueI18n = () => {
     legacy: false,
     locale: language,
     fallbackLocale: 'en',
-    messages: { en, cn }
+    messages: { en, cn },
+    warnHtmlMessage: false
   })
 }

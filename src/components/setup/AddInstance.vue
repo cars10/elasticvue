@@ -27,8 +27,8 @@
 
       <q-input v-model="newCluster.uri"
                :rules="[validUri]"
-               @keyup.ctrl.enter="connectAndRedirect"
-               :label="$t('setup.test_and_connect.form.uri.label')">
+               :label="$t('setup.test_and_connect.form.uri.label')"
+               @keyup.ctrl.enter="connectAndRedirect">
         <template #append>
           <q-icon name="close" class="cursor-pointer" @click="resetCluster" />
         </template>

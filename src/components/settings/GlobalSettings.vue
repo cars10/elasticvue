@@ -39,6 +39,8 @@
           </div>
         </q-card-section>
       </q-card>
+
+      <import-export />
     </div>
   </div>
 </template>
@@ -54,6 +56,7 @@
   import { useResizeStore } from '../../store/resize'
   import { useSnackbarStore } from '../../store/snackbar'
   import { useThemeStore } from '../../store/theme'
+  import ImportExport from './ImportExport.vue'
 
   const t = useTranslation()
 

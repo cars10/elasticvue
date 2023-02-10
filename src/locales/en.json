@@ -464,13 +464,12 @@
       "export": {
         "heading": "Export",
         "included": "Whats included?",
-        "prepare_backup": "Create backup file",
-        "download": "Download"
+        "download": "Download backup"
       },
       "import": {
         "heading": "Import",
-        "select_file": "Select file...",
-        "import": "Import settings"
+        "select_file": "Chose file...",
+        "import": "Import backup"
       }
     }
   },

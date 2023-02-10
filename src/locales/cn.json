@@ -464,13 +464,12 @@
       "export": {
         "heading": "导出",
         "included": "什么内容会包含？",
-        "prepare_backup": "生成备份",
-        "download": "下载"
+        "download": "下载备份"
       },
       "import": {
         "heading": "导入",
         "select_file": "选择文件...",
-        "import": "导入配置"
+        "import": "导入备份"
       }
     }
   },
