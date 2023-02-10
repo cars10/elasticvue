@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-    <div class="col-md-8 offset-md-2">
+    <div class="col-md-8 offset-md-2 col-sm-12">
       <q-card>
         <q-card-section>
           <h1 class="text-h5 q-my-none">
