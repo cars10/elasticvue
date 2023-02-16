@@ -2,7 +2,7 @@ import { queryKeywords, querySnippets, queryValues } from '../autocomplete'
 
 import ace from 'ace-builds/src/ace'
 
-import 'ace-builds/src/theme-monokai'
+import 'ace-builds/src/theme-tomorrow_night'
 import 'ace-builds/src/mode-json'
 import 'ace-builds/src/ext-searchbox'
 import 'ace-builds/src/ext-language_tools'
@@ -40,7 +40,7 @@ export const useCodeEditor = (editorRef, { readOnly, focus, initialValue, emit }
 
   const setTheme = dark => {
     if (dark) {
-      aceEditor.value.setTheme('ace/theme/monokai')
+      aceEditor.value.setTheme('ace/theme/tomorrow_night')
     } else {
       aceEditor.value.setTheme('ace/theme/textmate')
     }

@@ -15,7 +15,7 @@ export const useConnectionStore = defineStore('connection', {
   },
   actions: {
     addCluster (cluster) {
-      const len = this.clusters.push(cluster)
+      const len = this.clusters.push(Object.assign({}, cluster))
       this.activeClusterIndex = len - 1
       return this.activeClusterIndex
     }

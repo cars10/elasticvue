@@ -2,6 +2,7 @@
   <q-btn :disable="disable"
          :download="download"
          :href="href"
+         :size="size"
          @click="downloadData">
     <q-icon name="file_download" class="q-mr-sm" />
     {{ label }}
@@ -33,6 +34,10 @@
       type: Function,
       default: () => {
       }
+    },
+    size: {
+      type: String,
+      default: 'md'
     }
   })
 

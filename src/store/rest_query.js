@@ -5,7 +5,7 @@ export const useRestQueryStore = defineStore('restQuery', {
   state: () => ({
     request: {
       method: HTTP_METHODS[1],
-      url: '',
+      path: '',
       body: ''
     }
   }),

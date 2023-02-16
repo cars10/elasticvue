@@ -61,11 +61,14 @@ export const useClusterConnection = () => {
     const adapter = new ElasticsearchAdapter(newCluster.value)
     try {
       await adapter.test()
+
+      let uri = newCluster.value.uri.trim()
+      if (uri.endsWith('/')) uri = uri.slice(0, -1)
       const newIdx = connectionStore.addCluster({
         name: newCluster.value.name.trim(),
         username: newCluster.value.username,
         password: newCluster.value.password,
-        uri: newCluster.value.uri.trim(),
+        uri,
         status: newCluster.value.status
       })
 

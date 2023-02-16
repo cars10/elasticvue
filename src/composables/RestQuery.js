@@ -1,73 +1,70 @@
 import { computed, ref } from 'vue'
-import { buildFetchAuthHeader } from '@/helpers'
-import { fetchMethod } from '@/services/tauri/fetchReqwest'
 import { useRestQueryStore } from '../store/rest_query'
+import { buildFetchAuthHeader } from '../helpers/elasticsearch_adapter'
+import { fetchMethod, REQUEST_DEFAULT_HEADERS } from '../consts'
+import { useConnectionStore } from '../store/connection'
+import { useSnackbar } from './Snackbar'
 
 export const useRestQuery = () => {
   const restQueryStore = useRestQueryStore()
-  const response = ref({ status: '', body: '' })
-  const loading = ref(false)
+  const connectionStore = useConnectionStore()
+  const { showErrorSnackbar } = useSnackbar()
 
-  //  const activeInstance = store.getters['connection/activeInstance']
-  // const requestUrl = () => {
-  // if (request.value.path[0] === '/' || activeInstance.uri[activeInstance.uri.length - 1] === '/') {
-  //     return activeInstance.uri + request.value.path
-  //   } else {
-  //     return activeInstance.uri + '/' + request.value.path
-  //   }
-  // }
+  const response = ref({ status: '', ok: false, bodyText: '' })
+  const loading = ref(false)
 
   // const { connection } = useIdb(IDB_TABLE_NAMES.REST)
   // const setupDb = async () => await connection.initialize()
   // setupDb()
 
-  const loadData = () => {
+  const resetRequest = () => {
+    restQueryStore.$reset()
+  }
+
+  const sendRequest = () => {
     loading.value = true
-    response.value.body = '{"loading": true}'
     response.value.status = ''
 
-    const headers = {
-      Accept: 'application/json',
-      'Content-Type': 'application/json'
+    const options = {
+      method: restQueryStore.request.method,
+      body: ['GET', 'HEAD'].includes(restQueryStore.request.method) ? null : restQueryStore.request.body,
+      headers: Object.assign({}, REQUEST_DEFAULT_HEADERS)
     }
 
-    if (activeInstance.password.length > 0) {
-      headers.Authorization = buildFetchAuthHeader(activeInstance.username, activeInstance.password)
+    if (connectionStore.activeCluster.password.length > 0) {
+      options.headers.Authorization = buildFetchAuthHeader(connectionStore.activeCluster.username, connectionStore.activeCluster.password)
     }
 
-    fetchMethod(requestUrl(), {
-      method: request.value.method,
-      body: ['GET', 'HEAD'].includes(request.value.method) ? null : request.value.body,
-      headers
-    }).then(r => {
+    let url = connectionStore.activeCluster.uri
+    if (!restQueryStore.request.path.startsWith('/')) url += '/'
+    url += restQueryStore.request.path
+
+    fetchMethod(url, options).then(r => {
       response.value.status = `${r.status} ${r.statusText}`
+      response.value.ok = r.ok
       return r.text()
     }).then(text => {
       loading.value = false
 
       if (text) {
-        try {
-          response.value.body = parseJsonBigInt(text)
-        } catch (e) {
-          response.value.body = text
-        }
+        response.value.bodyText = text
       } else {
-        response.value.body = ''
+        response.value.bodyText = ''
       }
 
-      if (response.value.status.toString().match(/^2\d\d/)) {
-        connection.dbInsert({
-          path: request.value.path,
-          method: request.value.method,
-          body: ['GET', 'HEAD'].includes(request.value.method) ? '' : request.value.body,
+      if (response.value.ok) {
+        /*connection.dbInsert({
+          path: restQueryStore.request.path,
+          method: restQueryStore.request.method,
+          body: ['GET', 'HEAD'].includes(restQueryStore.request.method) ? '' : restQueryStore.request.body,
           favorite: 0,
           date: new Date()
-        })
+        })*/
       }
     }).catch(e => {
       console.log(e)
       loading.value = false
-      response.value.body = '// Network Error'
+      response.value.bodyText = '// Network Error'
       showErrorSnackbar({ text: 'Error', body: 'Network Error' })
     })
   }
@@ -75,29 +72,28 @@ export const useRestQuery = () => {
   const resetResponse = () => {
     response.value = {
       body: '',
+      ok: false,
       status: ''
     }
   }
 
   const responseStatusClass = computed(() => {
-    if (!response.value.status || response.value.status.length === 0) return 'grey'
-
     if (response.value.status.match(/^2/)) {
-      return 'green black--text'
+      return 'bg-positive text-white'
     } else if (response.value.status.match(/^3|4/)) {
-      return 'darken-2 yellow black--text'
+      return 'bg-orange text-black'
     } else if (response.value.status.match(/^5/)) {
-      return 'red black--text'
+      return 'bg-negative text-white'
+    } else {
+      return 'bg-grey'
     }
-
-    return 'grey'
   })
 
   return {
-    restQueryStore,
+    resetRequest,
     response,
     loading,
-    loadData,
+    sendRequest,
     resetResponse,
     responseStatusClass
   }
