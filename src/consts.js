@@ -1,5 +1,5 @@
 export const DESKTOP_BUILD = false
-export const SHOW_CORS_HINT = false
+export const SHOW_CORS_HINT = true
 export const REQUEST_DEFAULT_HEADERS = {
   Accept: 'application/json',
   'Content-Type': 'application/json'

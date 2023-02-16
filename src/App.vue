@@ -1,6 +1,6 @@
 <template>
-  <q-layout view="hHh lpR fFf">
-    <app-header />
+  <q-layout view="hHh lpR fFf" style="outline: none !important;">
+    <app-header v-if="connectionStore.activeCluster" />
 
     <q-page-container>
       <div class="q-ma-md">
@@ -22,9 +22,10 @@
   import AppHeader from './components/base/AppHeader.vue'
   import ModalLoader from './components/shared/ModalLoader.vue'
   import AlertSnackbar from './components/shared/AlertSnackbar.vue'
+  import { useConnectionStore } from './store/connection'
 
-  const store = useThemeStore()
+  const themeStore = useThemeStore()
+  const connectionStore = useConnectionStore()
 
-  const $q = useQuasar()
-  $q.dark.set(store.dark)
+  useQuasar().dark.set(themeStore.dark)
 </script>

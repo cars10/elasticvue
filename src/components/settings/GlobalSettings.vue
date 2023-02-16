@@ -57,6 +57,7 @@
   import { useSnackbarStore } from '../../store/snackbar'
   import { useThemeStore } from '../../store/theme'
   import ImportExport from './ImportExport.vue'
+  import { useConnectionStore } from '../../store/connection'
 
   const t = useTranslation()
 
@@ -81,6 +82,7 @@
     useResizeStore().$reset()
     useSnackbarStore().$reset()
     useThemeStore().$reset()
+    useConnectionStore().$reset()
 
     window.location.reload()
   }

@@ -1,4 +1,4 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import ClusterIndices from './components/indices/ClusterIndices.vue'
 import IndexTemplates from './components/indextemplates/IndexTemplates.vue'
 import GlobalSettings from './components/settings/GlobalSettings.vue'
@@ -6,9 +6,9 @@ import IndexShards from './components/shards/IndexShards.vue'
 import HomeStatus from './components/home/HomeStatus.vue'
 import ClusterNodes from './components/nodes/ClusterNodes.vue'
 import RestQuery from './components/rest/RestQuery.vue'
-import SetupInstance from './components/setup/SetupInstance.vue'
 import NestedView from './components/base/NestedView.vue'
 import { useConnectionStore } from './store/connection'
+import WelcomePage from './components/welcome/WelcomePage.vue'
 
 const routes = [
   {
@@ -25,7 +25,7 @@ const routes = [
       { path: 'rest', name: 'rest', component: RestQuery },
     ]
   },
-  { path: '/setup', name: 'setup', component: SetupInstance },
+  { path: '/welcome', name: 'welcome', component: WelcomePage },
   {
     path: '/:pathMatch(.*)*',
     redirect: '/cluster/0'
@@ -33,16 +33,16 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(),
   routes,
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.name === 'setup') return next()
+  if (to.name === 'welcome') return next()
 
   const connectionStore = useConnectionStore()
   const numInstances = connectionStore.clusters.length
-  if (numInstances === 0) return next('setup')
+  if (numInstances === 0) return next('welcome')
 
   let instanceId = to.params.instanceId
   try {

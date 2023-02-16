@@ -53,30 +53,7 @@
 
       <div class="row">
         <div class="col-md-6 col-sm-12">
-          <q-form @submit="importBackupAndRedirect">
-            <q-file v-model="importFile"
-                    accept="application/json"
-                    :label="$t('settings.import_export.import.select_file')"
-                    max-files="1"
-                    class="q-mb-md">
-              <template #prepend>
-                <q-icon name="attach_file" />
-              </template>
-
-              <template #append>
-                <q-btn v-if="importFile !== null" flat round
-                       icon="close"
-                       class="cursor-pointer"
-                       @click.stop.prevent="importFile = null" />
-              </template>
-            </q-file>
-
-            <q-btn :disable="!importFile"
-                   color="primary-dark"
-                   icon="upload"
-                   type="submit"
-                   :label="$t('settings.import_export.import.import')" />
-          </q-form>
+          <import-backup-form />
         </div>
       </div>
     </q-card-section>
@@ -87,13 +64,8 @@
   import { ref } from 'vue'
   import DownloadButton from '../shared/DownloadButton.vue'
   import { useImportExport } from '../../composables/ImportExport'
+  import ImportBackupForm from './ImportBackupForm.vue'
 
-  const { backupJsonString, importFile, importBackup } = useImportExport()
+  const { downloadFileName, backupJsonString } = useImportExport()
   const helpCollapsed = ref(false)
-  const downloadFileName = `elasticvue_${__APP_VERSION__}_backup.json`
-
-  const importBackupAndRedirect = async () => {
-    const imported = await importBackup()
-    if (imported) window.location.replace('/')
-  }
 </script>

@@ -1,12 +1,19 @@
 <template>
-  <form @submit="testConnection">
+  <form @submit.prevent="testConnection">
     <div class="q-mb-md">
+      <div class="q-mb-md">
+        <q-input v-model="newCluster.name"
+                 required
+                 label="Cluster name"
+                 autocomplete="off"
+                 autofocus />
+      </div>
+
       <div class="row q-mb-md">
         <div class="col-md-6 col-12 q-pr-sm">
           <q-input v-model="newCluster.username"
                    :label="$t('setup.test_and_connect.form.username.label')"
-                   autocomplete="off"
-                   autofocus />
+                   autocomplete="off" />
         </div>
 
         <div class="col-md-6 col-12 q-pl-sm">
@@ -27,6 +34,7 @@
 
       <q-input v-model="newCluster.uri"
                :rules="[validUri]"
+               required
                :label="$t('setup.test_and_connect.form.uri.label')"
                @keyup.ctrl.enter="connectAndRedirect">
         <template #append>

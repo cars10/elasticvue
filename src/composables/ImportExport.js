@@ -1,9 +1,8 @@
-import { getActivePinia } from 'pinia'
 import { ref } from 'vue'
 import { askConfirm } from '../helpers/dialogs'
 import { useTranslation } from './i18n'
 
-export const useImportExport = () => {
+export const useImportExport = ({ confirmImport } = {}) => {
   const t = useTranslation()
 
   const storeAsJson = () => {
@@ -35,28 +34,33 @@ export const useImportExport = () => {
 
   const importBackup = async () => {
     if (importFile.value.type !== 'application/json' && !importFile.value.name.endsWith('.json')) {
-      return Promise.reject('wrong file type')
+      return Promise.reject('Wrong file type.')
     }
 
     try {
-      const confirm = await askConfirm(t('helpers.import_export.import_backup.confirm'))
-      if (!confirm) return
+      if (confirmImport) {
+        const confirm = await askConfirm(t('helpers.import_export.import_backup.confirm'))
+        if (!confirm) return Promise.resolve(false)
+      }
 
       const rawData = await loadFileDataContent(importFile.value)
       const backup = JSON.parse(rawData)
+      if (!backup.store) return Promise.reject('Invalid backup')
       localStorage.clear()
       Object.entries(backup.store).forEach(([name, value]) => {
         localStorage.setItem(name, JSON.stringify(value))
       })
 
-      return true
+      return Promise.resolve(true)
     } catch (e) {
-      console.error("nope")
-      return false
+      return Promise.reject('Invalid backup')
     }
   }
 
+  const downloadFileName = `elasticvue_${__APP_VERSION__}_backup.json`
+
   return {
+    downloadFileName,
     backupJsonString,
     importFile,
     importBackup
