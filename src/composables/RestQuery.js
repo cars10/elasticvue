@@ -5,7 +5,7 @@ import { fetchMethod, REQUEST_DEFAULT_HEADERS } from '../consts'
 import { useConnectionStore } from '../store/connection'
 import { useSnackbar } from './Snackbar'
 
-export const useRestQuery = () => {
+export const useRestQuery = (queryHistory) => {
   const restQueryStore = useRestQueryStore()
   const connectionStore = useConnectionStore()
   const { showErrorSnackbar } = useSnackbar()
@@ -13,12 +13,11 @@ export const useRestQuery = () => {
   const response = ref({ status: '', ok: false, bodyText: '' })
   const loading = ref(false)
 
-  // const { connection } = useIdb(IDB_TABLE_NAMES.REST)
-  // const setupDb = async () => await connection.initialize()
-  // setupDb()
-
   const resetRequest = () => {
     restQueryStore.$reset()
+    response.value.status = ''
+    response.value.ok = false
+    response.value.bodyText = ''
   }
 
   const sendRequest = () => {
@@ -53,13 +52,12 @@ export const useRestQuery = () => {
       }
 
       if (response.value.ok) {
-        /*connection.dbInsert({
+        queryHistory.insert({
           path: restQueryStore.request.path,
           method: restQueryStore.request.method,
           body: ['GET', 'HEAD'].includes(restQueryStore.request.method) ? '' : restQueryStore.request.body,
-          favorite: 0,
           date: new Date()
-        })*/
+        })
       }
     }).catch(e => {
       console.log(e)

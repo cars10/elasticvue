@@ -208,9 +208,9 @@ export default class ElasticsearchAdapter {
 
   async test () {
     try {
-      await this.ping()
+      const info = await this.ping()
       await this.search({ size: 0 })
-      return Promise.resolve(true)
+      return Promise.resolve(info)
     } catch (e) {
       return Promise.reject(e)
     }

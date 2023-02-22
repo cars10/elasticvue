@@ -113,7 +113,7 @@
   },
   "home": {
     "client_information": {
-      "heading": "Node Information"
+      "heading": "Cluster Information"
     },
     "cluster_health": {
       "heading": "Cluster Health"

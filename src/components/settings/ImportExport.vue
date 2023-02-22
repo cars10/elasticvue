@@ -36,8 +36,8 @@
               <li>Code Editor settings</li>
               <li>Search settings</li>
               <li>Theme</li>
-              <li>Rest query history and current query</li>
-              <li>Table filters & options</li>
+              <li>Language</li>
+              <li>Rest query history</li>
             </ul>
           </div>
         </q-slide-transition>

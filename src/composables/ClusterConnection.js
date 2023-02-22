@@ -60,7 +60,8 @@ export const useClusterConnection = () => {
 
     const adapter = new ElasticsearchAdapter(newCluster.value)
     try {
-      await adapter.test()
+      const infoResponse = await adapter.test()
+      const json = await infoResponse.json()
 
       let uri = newCluster.value.uri.trim()
       if (uri.endsWith('/')) uri = uri.slice(0, -1)
@@ -69,6 +70,9 @@ export const useClusterConnection = () => {
         username: newCluster.value.username,
         password: newCluster.value.password,
         uri,
+        clusterVersion: json.version.number,
+        clusterMajorVersion: parseInt(json.version.number[0]),
+        clusterUuid: json.cluster_uuid,
         status: newCluster.value.status
       })
 
@@ -80,6 +84,7 @@ export const useClusterConnection = () => {
 
       return newIdx
     } catch (e) {
+      console.log(e)
       connectRequestState.value.loading = false
       connectRequestState.value.error = true
     }

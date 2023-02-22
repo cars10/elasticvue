@@ -1,4 +1,6 @@
 <template>
+  <rest-query-history />
+
   <q-form @submit.prevent="sendRequest">
     <div class="row">
       <div class="col-lg-2 col-sm-3 q-pr-sm">
@@ -57,12 +59,15 @@
   import { HTTP_METHODS } from '../../consts'
   import { useResizeStore } from '../../store/resize'
   import { useRestQueryStore } from '../../store/rest_query'
+  import { useIdb } from '../../composables/Idb'
+  import RestQueryHistory from './RestQueryHistory.vue'
 
   const resizeStore = useResizeStore()
-  const generateDownloadData = () => (response.value.bodyText)
-  const { loading, response, sendRequest, responseStatusClass, resetRequest } = useRestQuery()
   const requestStore = useRestQueryStore()
+  const { queryHistory } = useIdb()
+  const { loading, response, sendRequest, responseStatusClass, resetRequest } = useRestQuery(queryHistory)
 
+  const generateDownloadData = () => (response.value.bodyText)
   const downloadFileName = computed(() => {
     return `${requestStore.request.method.toLowerCase()}_${requestStore.request.path.replace(/[\W_]+/g, '_')}.json`
   })

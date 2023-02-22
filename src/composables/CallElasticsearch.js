@@ -2,7 +2,7 @@ import { ref } from 'vue'
 import ElasticsearchAdapter from '../services/ElasticsearchAdapter'
 import { useConnectionStore } from '../store/connection'
 
-const elasticsearchAdapter = ref(null)
+let elasticsearchAdapter = null
 
 export function useElasticsearchAdapter () {
   const connectionStore = useConnectionStore()
@@ -24,13 +24,13 @@ export function useElasticsearchAdapter () {
     }
 
     try {
-      if (!elasticsearchAdapter.value) {
-        elasticsearchAdapter.value = new ElasticsearchAdapter(connectionStore.activeCluster)
-        await elasticsearchAdapter.value.ping()
+      if (!elasticsearchAdapter) {
+        elasticsearchAdapter = new ElasticsearchAdapter(connectionStore.activeCluster)
+        await elasticsearchAdapter.ping()
       }
 
       try {
-        const response = await elasticsearchAdapter.value[method](...args)
+        const response = await elasticsearchAdapter[method](...args)
         if (!response) return Promise.resolve()
 
         const contentType = response.headers.get('content-type')

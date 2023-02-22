@@ -11,7 +11,7 @@ const enquoteBigNumber = (jsonString) => {
 }
 
 const removeComments = (str) => {
-    return str.replace(/\\"|"(?:\\"|[^"])*"|(\/\/.*|\/\*[\s\S]*?\*\/)/g, (m, g) => g ? "" : m);
+    return str.replace(/\\"|"(?:\\"|[^"])*"|(\/\/.*|\/\*[\s\S]*?\*\/)/g, (m, g) => g ? '' : m);
 }
 
 export const parseJsonCommentsBigInt = (jsonString) => {

@@ -12,6 +12,7 @@
     "@quasar/extras": "^1.15.10",
     "@tauri-apps/api": "^1.2.0",
     "ace-builds": "^1.14.0",
+    "idb": "^7.1.1",
     "pinia": "^2.0.29",
     "pinia-plugin-persistedstate": "^3.0.2",
     "pretty-bytes": "^6.0.0",
