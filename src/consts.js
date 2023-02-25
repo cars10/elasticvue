@@ -16,3 +16,8 @@ export const fetchMethod = fetch
 export const DEFAULT_ROWS_PER_PAGE = [10, 20, 100, 0]
 export const DEFAULT_HIDE_INDICES_REGEX = '^\\..*'
 export const HTTP_METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS']
+export const buildDefaultRequest = () => ({
+  method: HTTP_METHODS[1],
+  path: '',
+  body: ''
+})

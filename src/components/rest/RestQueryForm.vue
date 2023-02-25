@@ -1,16 +1,14 @@
 <template>
-  <rest-query-history />
-
   <q-form @submit.prevent="sendRequest">
     <div class="row">
       <div class="col-lg-2 col-sm-3 q-pr-sm">
-        <q-select v-model="requestStore.request.method"
+        <q-select v-model="request.method"
                   :options="HTTP_METHODS"
                   options-dense
                   :label="$t('query.rest.form.method.label')" />
       </div>
       <div class="col-lg-10 col-sm-9 q-pl-sm">
-        <q-input v-model="requestStore.request.path"
+        <q-input v-model="request.path"
                  :label="$t('query.rest.form.path.label')"
                  autofocus />
       </div>
@@ -19,7 +17,7 @@
     <resizable-container v-model="resizeStore.restForm" class="q-mb-md">
       <div class="row q-my-md full-height">
         <div class="col-6 q-pr-sm full-height">
-          <code-editor v-model="requestStore.request.body" />
+          <code-editor v-model="request.body" />
         </div>
         <div class="col-6 q-pl-sm">
           <code-viewer :value="response.bodyText" />
@@ -56,19 +54,23 @@
   import CodeViewer from '../shared/CodeViewer.vue'
   import CodeEditor from '../shared/CodeEditor.vue'
   import { useRestQuery } from '../../composables/RestQuery'
-  import { HTTP_METHODS } from '../../consts'
+  import { buildDefaultRequest, HTTP_METHODS } from '../../consts'
   import { useResizeStore } from '../../store/resize'
-  import { useRestQueryStore } from '../../store/rest_query'
   import { useIdb } from '../../composables/Idb'
-  import RestQueryHistory from './RestQueryHistory.vue'
+
+  const props = defineProps({
+    request: {
+      type: Object,
+      default: buildDefaultRequest
+    }
+  })
 
   const resizeStore = useResizeStore()
-  const requestStore = useRestQueryStore()
   const { queryHistory } = useIdb()
-  const { loading, response, sendRequest, responseStatusClass, resetRequest } = useRestQuery(queryHistory)
+  const { loading, response, sendRequest, responseStatusClass, resetRequest } = useRestQuery(props.request, queryHistory)
 
   const generateDownloadData = () => (response.value.bodyText)
   const downloadFileName = computed(() => {
-    return `${requestStore.request.method.toLowerCase()}_${requestStore.request.path.replace(/[\W_]+/g, '_')}.json`
+    return `${props.request.method.toLowerCase()}_${props.request.path.replace(/[\W_]+/g, '_')}.json`
   })
 </script>

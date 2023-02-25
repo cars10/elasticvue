@@ -58,6 +58,7 @@
   import { useThemeStore } from '../../store/theme'
   import ImportExport from './ImportExport.vue'
   import { useConnectionStore } from '../../store/connection'
+  import { useRestQueryStore } from '../../store/rest_query'
 
   const t = useTranslation()
 
@@ -83,6 +84,7 @@
     useSnackbarStore().$reset()
     useThemeStore().$reset()
     useConnectionStore().$reset()
+    useRestQueryStore().$reset()
 
     window.location.reload()
   }

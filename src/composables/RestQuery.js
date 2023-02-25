@@ -1,12 +1,10 @@
 import { computed, ref } from 'vue'
-import { useRestQueryStore } from '../store/rest_query'
 import { buildFetchAuthHeader } from '../helpers/elasticsearch_adapter'
-import { fetchMethod, REQUEST_DEFAULT_HEADERS } from '../consts'
+import { buildDefaultRequest, fetchMethod, REQUEST_DEFAULT_HEADERS } from '../consts'
 import { useConnectionStore } from '../store/connection'
 import { useSnackbar } from './Snackbar'
 
-export const useRestQuery = (queryHistory) => {
-  const restQueryStore = useRestQueryStore()
+export const useRestQuery = (request, queryHistory) => {
   const connectionStore = useConnectionStore()
   const { showErrorSnackbar } = useSnackbar()
 
@@ -14,7 +12,11 @@ export const useRestQuery = (queryHistory) => {
   const loading = ref(false)
 
   const resetRequest = () => {
-    restQueryStore.$reset()
+    const defaultRequest = buildDefaultRequest()
+    for (const [key, value] of Object.entries(defaultRequest)) {
+      request[key] = value
+    }
+
     response.value.status = ''
     response.value.ok = false
     response.value.bodyText = ''
@@ -25,8 +27,8 @@ export const useRestQuery = (queryHistory) => {
     response.value.status = ''
 
     const options = {
-      method: restQueryStore.request.method,
-      body: ['GET', 'HEAD'].includes(restQueryStore.request.method) ? null : restQueryStore.request.body,
+      method: request.method,
+      body: ['GET', 'HEAD'].includes(request.method) ? null : request.body,
       headers: Object.assign({}, REQUEST_DEFAULT_HEADERS)
     }
 
@@ -35,8 +37,8 @@ export const useRestQuery = (queryHistory) => {
     }
 
     let url = connectionStore.activeCluster.uri
-    if (!restQueryStore.request.path.startsWith('/')) url += '/'
-    url += restQueryStore.request.path
+    if (!request.path.startsWith('/')) url += '/'
+    url += request.path
 
     fetchMethod(url, options).then(r => {
       response.value.status = `${r.status} ${r.statusText}`
@@ -53,9 +55,9 @@ export const useRestQuery = (queryHistory) => {
 
       if (response.value.ok) {
         queryHistory.insert({
-          path: restQueryStore.request.path,
-          method: restQueryStore.request.method,
-          body: ['GET', 'HEAD'].includes(restQueryStore.request.method) ? '' : restQueryStore.request.body,
+          path: request.path,
+          method: request.method,
+          body: ['GET', 'HEAD'].includes(request.method) ? '' : request.body,
           date: new Date()
         })
       }
