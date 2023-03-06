@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { buildDefaultRequest, HTTP_METHODS } from '../consts'
+import { buildDefaultRequest } from '../consts'
 
 export const useRestQueryStore = defineStore('restQuery', {
   state: () => {

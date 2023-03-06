@@ -26,10 +26,12 @@ export class IdbConnection {
           }
 
           const store = tx.objectStore(tableName)
-          const index = this.indexes[tableName]
-          if (!store.indexNames.contains(index)) {
-            store.createIndex(index, index)
-          }
+          const indexes = this.indexes[tableName]
+          indexes.forEach(index => {
+            if (!store.indexNames.contains(index)) {
+              store.createIndex(index, index)
+            }
+          })
         })
       },
     })
@@ -49,14 +51,19 @@ const buildTable = (name, connection) => {
 
   const getAll = () => (connection.db.getAll(name))
   const reloadElements = () => {
-    return getAll().then(r => (elements.value = r.reverse()))
+    console.log('reloadTables')
+    return getAll().then(r => (elements.value = r))
   }
 
   const insert = obj => {
     return connection.db.add(name, obj).then(reloadElements)
   }
 
-  const update = (obj, key) => {
+  const update = (obj) => {
+    return connection.db.put(name, obj).then(reloadElements)
+  }
+
+  const updateKey = (obj, key) => {
     return connection.db.put(name, obj, key).then(reloadElements)
   }
 
@@ -78,6 +85,7 @@ const buildTable = (name, connection) => {
     elements,
     insert,
     update,
+    updateKey,
     remove,
     clear,
     insertMultiple,

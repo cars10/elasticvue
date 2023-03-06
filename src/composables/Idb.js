@@ -7,9 +7,10 @@ import { useConnectionStore } from '../store/connection'
  * queryHistory.insert({})
  */
 let db = null
-const dbVersion = 1
+const dbVersion = 3
 const tables = [
-  { name: 'queryHistory', indexes: ['date'] }
+  { name: 'queryHistory', indexes: ['date'] },
+  { name: 'restQueryTabs', indexes: [] }
 ]
 
 export const useIdb = () => {
