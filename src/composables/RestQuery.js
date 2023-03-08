@@ -3,10 +3,12 @@ import { buildFetchAuthHeader } from '../helpers/elasticsearch_adapter'
 import { buildDefaultRequest, fetchMethod, REQUEST_DEFAULT_HEADERS } from '../consts'
 import { useConnectionStore } from '../store/connection'
 import { useSnackbar } from './Snackbar'
+import { useIdb } from './Idb'
 
-export const useRestQuery = (request, queryHistory) => {
+export const useRestQuery = (request) => {
   const connectionStore = useConnectionStore()
   const { showErrorSnackbar } = useSnackbar()
+  const db = useIdb()
 
   const response = ref({ status: '', ok: false, bodyText: '' })
   const loading = ref(false)
@@ -54,7 +56,7 @@ export const useRestQuery = (request, queryHistory) => {
       }
 
       if (response.value.ok) {
-        queryHistory.insert({
+        db.stores.queryHistory.insert({
           path: request.path,
           method: request.method,
           body: ['GET', 'HEAD'].includes(request.method) ? '' : request.body,

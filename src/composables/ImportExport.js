@@ -1,7 +1,6 @@
 import { ref } from 'vue'
 import { askConfirm } from '../helpers/dialogs'
 import { useTranslation } from './i18n'
-import { setupIdb } from './Idb'
 import { useConnectionStore } from '../store/connection'
 
 export const useImportExport = ({ confirmImport } = {}) => {

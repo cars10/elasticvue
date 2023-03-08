@@ -1,33 +1,71 @@
 import { openDB } from 'idb'
-import { ref } from 'vue'
 
-export class IdbConnection {
-  constructor (databaseName, tables) {
-    this.databaseName = databaseName
-    this.db = null
-
-    this.tables = {}
-    this.indexes = {}
-    tables.forEach((table) => {
-      this.tables[table.name] = buildTable(table.name, this)
-      this.indexes[table.name] = table.indexes
-    })
+export class IdbAdapter {
+  constructor ({ database, version, tables }) {
+    this._database = database
+    this._version = version
+    this._tables = tables
+    this._idb = null
+    this.stores = {}
+    this._setup()
   }
 
-  async setup (version = 1) {
-    this.db = await openDB(this.databaseName, version, {
+  _setup () {
+    this._tables.forEach(table => (this._buildTable(table.name)))
+  }
+
+  async connect () {
+    if (this._idb) return
+    if (!this.connectPromise) this.connectPromise = this._openIdb()
+
+    await this.connectPromise
+  }
+
+  _buildTable (tableName) {
+    this.stores[tableName] = {
+      getAll: async () => {
+        await this.connect()
+        return this._idb.getAll(tableName)
+      },
+      insert: async obj => {
+        await this.connect()
+        return this._idb.add(tableName, obj)
+      },
+      update: async obj => {
+        await this.connect()
+        return this._idb.put(tableName, obj)
+      },
+      remove: async key => {
+        await this.connect()
+        return this._idb.delete(tableName, key)
+      },
+      clear: async () => {
+        await this.connect()
+        return this._idb.clear(tableName)
+      },
+      bulkInsert: async data => {
+        const tx = this._idb.transaction(tableName, 'readwrite')
+        data.forEach(obj => (tx.store.put(obj)))
+        return tx.done
+      }
+    }
+  }
+
+  async _openIdb () {
+    if (this._idb) return
+
+    this._idb = await openDB(this._database, this._version, {
       upgrade: (db, _oldVersion, _newVersion, tx) => {
-        Object.keys(this.tables).forEach(tableName => {
-          if (!db.objectStoreNames.contains(tableName)) {
-            db.createObjectStore(tableName, {
+        this._tables.forEach(table => {
+          if (!db.objectStoreNames.contains(table.name)) {
+            db.createObjectStore(table.name, {
               keyPath: 'id',
               autoIncrement: true,
             })
           }
 
-          const store = tx.objectStore(tableName)
-          const indexes = this.indexes[tableName]
-          indexes.forEach(index => {
+          const store = tx.objectStore(table.name)
+          table.indexes.forEach(index => {
             if (!store.indexNames.contains(index)) {
               store.createIndex(index, index)
             }
@@ -35,61 +73,5 @@ export class IdbConnection {
         })
       },
     })
-
-    return this
-  }
-
-  reloadAllTables () {
-    Object.keys(this.tables).forEach(tableName => {
-      this.tables[tableName].reloadElements()
-    })
-  }
-}
-
-const buildTable = (name, connection) => {
-  const elements = ref([])
-
-  const getAll = () => (connection.db.getAll(name))
-  const reloadElements = () => {
-    console.log('reloadTables')
-    return getAll().then(r => (elements.value = r))
-  }
-
-  const insert = obj => {
-    return connection.db.add(name, obj).then(reloadElements)
-  }
-
-  const update = (obj) => {
-    return connection.db.put(name, obj).then(reloadElements)
-  }
-
-  const updateKey = (obj, key) => {
-    return connection.db.put(name, obj, key).then(reloadElements)
-  }
-
-  const remove = (key) => {
-    return connection.db.delete(name, key).then(reloadElements)
-  }
-
-  const clear = () => {
-    return connection.db.clear(name).then(() => (elements.value = []))
-  }
-
-  const insertMultiple = data => {
-    const tx = connection.db.transaction(name, 'readwrite')
-    data.forEach(obj => (tx.store.put(obj)))
-    return tx.done
-  }
-
-  return {
-    elements,
-    insert,
-    update,
-    updateKey,
-    remove,
-    clear,
-    insertMultiple,
-    getAll,
-    reloadElements
   }
 }

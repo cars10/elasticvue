@@ -48,7 +48,7 @@
 </template>
 
 <script setup>
-  import { computed, ref, watch } from 'vue'
+  import { computed, ref, toRaw, watch } from 'vue'
   import ResizableContainer from '../shared/ResizableContainer.vue'
   import DownloadButton from '../shared/DownloadButton.vue'
   import CodeViewer from '../shared/CodeViewer.vue'
@@ -67,22 +67,21 @@
   })
   const emit = defineEmits(['updateTab'])
 
-  const { restQueryTabs } = useIdb()
+  const db = useIdb()
   const ownRequest = ref(props.tab.request)
   watch(ownRequest.value, value => {
-    const obj = Object.assign({}, props.tab, { request: value })
-    restQueryTabs.update(JSON.parse(JSON.stringify(obj)))
+    const obj = Object.assign({}, toRaw(props.tab), { request: toRaw(value) })
+    db.stores.restQueryTabs.update(obj)
   })
 
   const resizeStore = useResizeStore()
-  const { queryHistory, restQuery } = useIdb()
   const {
     loading,
     response,
     sendRequest,
     responseStatusClass,
     resetRequest
-  } = useRestQuery(ownRequest.value, queryHistory)
+  } = useRestQuery(ownRequest.value)
 
   const generateDownloadData = () => (response.value.bodyText)
   const downloadFileName = computed(() => {

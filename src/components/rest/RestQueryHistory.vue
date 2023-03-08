@@ -34,7 +34,6 @@
 
   const { queryHistory } = useIdb()
 
-
   const t = useTranslation()
   const filter = ref('')
   const filteredHistory = computed(() => {
