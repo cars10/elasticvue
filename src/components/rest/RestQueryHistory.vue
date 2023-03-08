@@ -9,8 +9,7 @@
     </div>
   </div>
 
-  <q-table v-if="queryHistory.elements.value"
-           flat
+  <q-table flat
            dense
            row-key="index"
            :columns="columns"
@@ -29,18 +28,24 @@
 <script setup>
   import { useTranslation } from '../../composables/i18n'
   import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
-  import { computed, ref } from 'vue'
+  import { computed, onMounted, ref } from 'vue'
   import { useIdb } from '../../composables/Idb'
 
-  const { queryHistory } = useIdb()
+  const db = useIdb()
+  const elements = ref([])
+  onMounted(() => {
+    db.stores.queryHistory.getAll().then(r => {
+      elements.value = r
+    })
+  })
 
   const t = useTranslation()
   const filter = ref('')
   const filteredHistory = computed(() => {
     const search = filter.value.trim()
-    if (search.length === 0) return queryHistory?.elements?.value || []
+    if (search.length === 0) return elements.value || []
 
-    return queryHistory.elements.value.filter(element => {
+    return elements.value.filter(element => {
       return `${element.method} ${element.path}`.toLowerCase().includes(search)
     })
   })

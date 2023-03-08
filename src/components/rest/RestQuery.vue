@@ -15,6 +15,7 @@
     <q-separator />
 
     <q-card-section>
+      <rest-query-history />
     </q-card-section>
 
     <q-card-section>
@@ -50,6 +51,7 @@
   import RestQueryForm from './RestQueryForm.vue'
   import { buildDefaultRequest } from '../../consts'
   import { useIdb } from '../../composables/Idb'
+  import RestQueryHistory from './RestQueryHistory.vue'
 
   const db = useIdb()
   const tabs = ref([])
