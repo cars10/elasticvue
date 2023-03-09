@@ -342,6 +342,7 @@
       },
       "body_preview": {
         "use": "Use",
+        "open_new_tab": "Open in new tab",
         "remove_entry": "Remove entry",
         "unselect": "unselect"
       }

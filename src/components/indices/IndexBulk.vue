@@ -10,22 +10,22 @@
                              :index="selectedIndices.join(',')"
                              :text="$t('indices.index_row.options.forcemerge.text')"
                              icon="call_merge"
-                             @done="remitAndCloseMenu('reload')" />
+                             @done="emitAndCloseMenu('reload')" />
       <index-row-menu-action method="indexRefresh"
                              :index="selectedIndices.join(',')"
                              :text="$t('indices.index_row.options.refresh.text')"
                              icon="refresh"
-                             @done="remitAndCloseMenu('reload')" />
+                             @done="emitAndCloseMenu('reload')" />
       <index-row-menu-action method="indexFlush"
                              :index="selectedIndices.join(',')"
                              :text="$t('indices.index_row.options.flush.text')"
                              icon="archive"
-                             @done="remitAndCloseMenu('reload')" />
+                             @done="emitAndCloseMenu('reload')" />
       <index-row-menu-action method="indexClearCache"
                              :index="selectedIndices.join(',')"
                              :text="$t('indices.index_row.options.clear_cache.text')"
                              icon="clear_all"
-                             @done="remitAndCloseMenu('reload')" />
+                             @done="emitAndCloseMenu('reload')" />
 
       <q-separator />
 
@@ -33,18 +33,18 @@
                              :index="selectedIndices.join(',')"
                              :text="$t('indices.index_row.options.close.text')"
                              icon="lock"
-                             @done="remitAndCloseMenu('reload')" />
+                             @done="emitAndCloseMenu('reload')" />
       <index-row-menu-action method="indexOpen"
                              :index="selectedIndices.join(',')"
                              :text="$t('indices.index_row.options.open.text')"
                              icon="lock_open"
-                             @done="remitAndCloseMenu('reload')" />
+                             @done="emitAndCloseMenu('reload')" />
       <index-row-menu-action method="indexDelete"
                              :confirm="$t('indices.index_row.options.delete.confirm', {index: selectedIndices.join(',')})"
                              :index="selectedIndices.join(',')"
                              :text="$t('indices.index_row.options.delete.text')"
                              icon="delete"
-                             @done="remitAndCloseMenu('indicesDeleted')" />
+                             @done="emitAndCloseMenu('indicesDeleted')" />
     </q-list>
   </q-btn-dropdown>
 
@@ -77,7 +77,7 @@
 
   const emit = defineEmits(['reload', 'indicesDeleted'])
 
-  const remitAndCloseMenu = event => {
+  const emitAndCloseMenu = event => {
     emit(event)
     menu.value.hide()
   }

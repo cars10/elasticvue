@@ -342,6 +342,7 @@
       },
       "body_preview": {
         "use": "使用",
+        "open_new_tab": null,
         "remove_entry": "删除条目",
         "unselect": "取消选择"
       }

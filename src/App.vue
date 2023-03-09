@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="hHh lpR fFf" style="outline: none !important;">
+  <q-layout view="hHh lpR fff" style="outline: none !important;">
     <app-header v-if="connectionStore.activeCluster" />
 
     <q-page-container>

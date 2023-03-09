@@ -16,3 +16,11 @@ body {
 .fontsize-14 {
   font-size: 14px;
 }
+
+.clickable:hover {
+  cursor: pointer
+}
+
+.font-mono {
+  font-family: 'Hack', monospace;
+}

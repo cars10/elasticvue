@@ -1,4 +1,5 @@
 import { openDB } from 'idb'
+import { ref } from 'vue'
 
 export class IdbAdapter {
   constructor ({ database, version, tables }) {
@@ -11,7 +12,9 @@ export class IdbAdapter {
   }
 
   _setup () {
-    this._tables.forEach(table => (this._buildTable(table.name)))
+    this._tables.forEach(table => {
+      this.stores[table.name] = new IdbStoreAdapter(table.name, this)
+    })
   }
 
   async connect () {
@@ -19,36 +22,6 @@ export class IdbAdapter {
     if (!this.connectPromise) this.connectPromise = this._openIdb()
 
     await this.connectPromise
-  }
-
-  _buildTable (tableName) {
-    this.stores[tableName] = {
-      getAll: async () => {
-        await this.connect()
-        return this._idb.getAll(tableName)
-      },
-      insert: async obj => {
-        await this.connect()
-        return this._idb.add(tableName, obj)
-      },
-      update: async obj => {
-        await this.connect()
-        return this._idb.put(tableName, obj)
-      },
-      remove: async key => {
-        await this.connect()
-        return this._idb.delete(tableName, key)
-      },
-      clear: async () => {
-        await this.connect()
-        return this._idb.clear(tableName)
-      },
-      bulkInsert: async data => {
-        const tx = this._idb.transaction(tableName, 'readwrite')
-        data.forEach(obj => (tx.store.put(obj)))
-        return tx.done
-      }
-    }
   }
 
   async _openIdb () {
@@ -73,5 +46,49 @@ export class IdbAdapter {
         })
       },
     })
+  }
+}
+
+class IdbStoreAdapter {
+  constructor (tableName, adapter) {
+    this.tableName = tableName
+    this.elements = ref([])
+    this._adapter = adapter
+  }
+
+  async getAll () {
+    await this._adapter.connect()
+    return this._adapter._idb.getAll(this.tableName)
+  }
+
+  async reload () {
+    await this._adapter.connect()
+    return this._adapter._idb.getAll(this.tableName).then(r => (this.elements.value = r))
+  }
+
+  async insert (obj) {
+    await this._adapter.connect()
+    return this._adapter._idb.add(this.tableName, obj).then(() => (this.reload()))
+  }
+
+  async update (obj) {
+    await this._adapter.connect()
+    return this._adapter._idb.put(this.tableName, obj).then(() => (this.reload()))
+  }
+
+  async remove (id) {
+    await this._adapter.connect()
+    return this._adapter._idb.delete(this.tableName, id).then(() => (this.reload()))
+  }
+
+  async clear (id) {
+    await this._adapter.connect()
+    return this._adapter._idb.clear(this.tableName).then(() => (this.elements.value = []))
+  }
+
+  async bulkInsert (data) {
+    const tx = this._adapter._idb.transaction(this.tableName, 'readwrite')
+    data.forEach(obj => (tx.store.put(obj)))
+    return tx.done
   }
 }

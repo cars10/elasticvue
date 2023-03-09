@@ -2,10 +2,10 @@ import { useConnectionStore } from '../store/connection'
 import { IdbAdapter } from '../models/indexeddb'
 
 const tables = [
-  { name: 'queryHistory', indexes: ['date'] },
+  { name: 'restQueryHistory', indexes: ['date'] },
   { name: 'restQueryTabs', indexes: [] }
 ]
-const dbVersion = 3
+const dbVersion = 4
 
 const databaseName = clusterUuid => {
   return `elasticvue-${dbVersion}-${clusterUuid}`

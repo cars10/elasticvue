@@ -24,7 +24,7 @@ export const useRestQuery = (request) => {
     response.value.bodyText = ''
   }
 
-  const sendRequest = () => {
+  const sendRequest = async () => {
     loading.value = true
     response.value.status = ''
 
@@ -42,11 +42,11 @@ export const useRestQuery = (request) => {
     if (!request.path.startsWith('/')) url += '/'
     url += request.path
 
-    fetchMethod(url, options).then(r => {
-      response.value.status = `${r.status} ${r.statusText}`
-      response.value.ok = r.ok
-      return r.text()
-    }).then(text => {
+    try {
+      const fetchResponse = await fetchMethod(url, options)
+      response.value.status = `${fetchResponse.status} ${fetchResponse.statusText}`
+      response.value.ok = fetchResponse.ok
+      const text = await fetchResponse.text()
       loading.value = false
 
       if (text) {
@@ -55,19 +55,21 @@ export const useRestQuery = (request) => {
         response.value.bodyText = ''
       }
 
-      if (response.value.ok) {
-        db.stores.queryHistory.insert({
-          path: request.path,
-          method: request.method,
-          body: ['GET', 'HEAD'].includes(request.method) ? '' : request.body,
-          date: new Date()
-        })
-      }
-    }).catch(e => {
+      if (response.value.ok) saveToHistory(Object.assign({}, request))
+    } catch (e) {
       console.log(e)
       loading.value = false
       response.value.bodyText = '// Network Error'
       showErrorSnackbar({ text: 'Error', body: 'Network Error' })
+    }
+  }
+
+  const saveToHistory = request => {
+    db.stores.restQueryHistory.insert({
+      path: request.path,
+      method: request.method,
+      body: ['GET', 'HEAD'].includes(request.method) ? '' : request.body,
+      date: new Date()
     })
   }
 
