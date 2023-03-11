@@ -313,7 +313,7 @@
       "get_request_hint": {
         "cannot_send_body": "You cannot send a request body via {method}.<br> Please ",
         "use_post": "use POST",
-        "query_parameters": "if you want to send a request body, alternatively add query parameters to the url.",
+        "query_parameters": "if you want to send a request body.",
         "search_post": "You can use POST to search with the _search endpoint."
       }
     },

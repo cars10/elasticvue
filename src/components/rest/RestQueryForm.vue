@@ -16,7 +16,22 @@
     <resizable-container v-model="resizeStore.restForm" class="q-mb-md">
       <div class="row q-my-md full-height">
         <div class="col-6 q-pr-sm full-height">
-          <code-editor v-model="ownRequest.body" />
+          <q-banner v-show="['GET', 'HEAD'].includes(ownRequest.method)" class="bg-darken q-pa-md">
+            <template #avatar>
+              <q-icon name="info" />
+            </template>
+            <p>
+              <!-- eslint-disable-next-line vue/no-v-html -->
+              <span v-html="$t('query.rest.get_request_hint.cannot_send_body', { method: ownRequest.method })" />
+              <button class="btn-link" type="button" @click=" ownRequest.method = 'POST'">
+                {{ $t('query.rest.get_request_hint.use_post') }}
+              </button>
+              {{ $t('query.rest.get_request_hint.query_parameters') }}
+            </p>
+            <p class="q-mb-none">{{ $t('query.rest.get_request_hint.search_post') }}</p>
+          </q-banner>
+
+          <code-editor v-show="!['GET', 'HEAD'].includes(ownRequest.method)" v-model="ownRequest.body" />
         </div>
         <div class="col-6 q-pl-sm">
           <code-viewer :value="response.bodyText" />

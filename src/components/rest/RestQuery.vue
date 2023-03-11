@@ -44,13 +44,11 @@
 
       <q-separator />
 
-      <q-card-section>
-        <q-tab-panels v-model="activeTabName">
-          <q-tab-panel v-for="tab in tabs" :key="`${tab.name}-panel`" :name="tab.name">
-            <rest-query-form :tab="tab" @reload-history="reloadHistory" />
-          </q-tab-panel>
-        </q-tab-panels>
-      </q-card-section>
+      <q-tab-panels v-model="activeTabName">
+        <q-tab-panel v-for="tab in tabs" :key="`${tab.name}-panel`" :name="tab.name">
+          <rest-query-form :tab="tab" @reload-history="reloadHistory" />
+        </q-tab-panel>
+      </q-tab-panels>
     </q-card>
   </div>
 </template>
