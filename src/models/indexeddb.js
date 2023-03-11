@@ -1,5 +1,4 @@
 import { openDB } from 'idb'
-import { ref } from 'vue'
 
 export class IdbAdapter {
   constructor ({ database, version, tables }) {

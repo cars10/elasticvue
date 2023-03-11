@@ -62,7 +62,6 @@
   import CodeEditor from '../shared/CodeEditor.vue'
   import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
   import { useTranslation } from '../../composables/i18n'
-  import { useIdb } from '../../composables/Idb'
 
   const props = defineProps({
     restQueryHistory: {
@@ -77,7 +76,6 @@
 
   const historyOpen = ref(false)
   const selectedRequest = ref(null)
-  const db = useIdb()
 
   const filter = ref('')
   const filteredHistory = computed(() => {
@@ -88,7 +86,6 @@
   })
 
   onMounted(async () => {
-    await db.stores.restQueryHistory.reload()
     if (!selectedRequest.value && props.restQueryHistory.length > 0) {
       selectedRequest.value = props.restQueryHistory[props.restQueryHistory.length - 1]
     }
