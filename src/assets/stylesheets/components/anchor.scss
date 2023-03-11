@@ -2,6 +2,6 @@ a:hover {
   cursor: pointer;
 }
 
-a:not(.q-btn), a:visited:not(.q-btn), a:hover:not(.q-btn), a:focus:not(.q-btn) {
+a:not(.q-btn):not(.q-tab), a:visited:not(.q-btn):not(.q-tab), a:hover:not(.q-btn):not(.q-tab), a:focus:not(.q-btn):not(.q-tab) {
   color: var(--q-primary);
 }

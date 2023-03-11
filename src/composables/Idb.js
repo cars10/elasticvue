@@ -3,12 +3,13 @@ import { IdbAdapter } from '../models/indexeddb'
 
 const tables = [
   { name: 'restQueryHistory', indexes: ['date'] },
-  { name: 'restQueryTabs', indexes: [] }
+  { name: 'restQueryTabs', indexes: [] },
+  { name: 'restQuerySavedQueries', indexes: [] },
 ]
-const dbVersion = 4
+const dbVersion = 5
 
 const databaseName = clusterUuid => {
-  return `elasticvue-${dbVersion}-${clusterUuid}`
+  return `elasticvue-${clusterUuid}`
 }
 
 let db = null

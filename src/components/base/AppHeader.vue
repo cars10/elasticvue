@@ -12,15 +12,17 @@
 
       <q-space />
 
-      <q-btn stretch flat label="Home" :to="{name: 'home'}" />
-      <q-btn stretch flat label="Nodes" :to="{name: 'nodes'}" />
-      <q-btn stretch flat label="Shards" :to="{name: 'shards'}" />
-      <q-btn stretch flat label="Indices" :to="{name: 'indices'}" />
-      <q-btn stretch flat label="Search" />
-      <q-btn stretch flat label="Rest" :to="{name: 'rest'}" />
-      <q-btn stretch flat label="Snapshots" />
-      <q-btn stretch flat label="Utilities" />
-      <q-btn stretch flat icon="settings" :to="{name: 'settings'}" />
+      <q-tabs stretch>
+        <q-route-tab class="full-height" label="Home" :to="{name: 'home'}" exact />
+        <q-route-tab label="Nodes" :to="{name: 'nodes'}" exact />
+        <q-route-tab label="Shards" :to="{name: 'shards'}" exact />
+        <q-route-tab label="Indices" :to="{name: 'indices'}" exact />
+        <q-route-tab label="Search" :to="{name: 'home'}" exact />
+        <q-route-tab label="Rest" :to="{name: 'rest'}" exact />
+        <q-route-tab label="Snapshots" :to="{name: 'home'}" exact />
+        <q-route-tab label="Utilities" :to="{name: 'home'}" exact />
+        <q-route-tab icon="settings" :to="{name: 'settings'}" exact />
+      </q-tabs>
     </q-toolbar>
   </q-header>
 </template>

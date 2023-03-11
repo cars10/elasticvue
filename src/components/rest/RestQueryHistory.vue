@@ -27,8 +27,17 @@
                    :pagination="{sortBy: 'date', descending: true}"
                    :rows-per-page-options="DEFAULT_ROWS_PER_PAGE">
             <template #body="{row}">
-              <tr :class="{selected: selectedRequest?.id === row.id, clickable: true}" @click="selectedRequest = row">
-                <td>{{ row.method }} {{ row.path }}</td>
+              <tr :class="{selected: selectedRequest?.id === row.id, clickable: true}"
+                  :title="row.body"
+                  @click="selectedRequest = row">
+                <td>
+                  <div class="q-py-xs">
+                    <strong>{{ row.method }}</strong> {{ row.path }}
+                    <div>
+                      <small class="text-muted ellipsis">{{ row.body.replace(/\s/g, '') }}</small>
+                    </div>
+                  </div>
+                </td>
                 <td>{{ row.date.toLocaleString() }}</td>
               </tr>
             </template>
@@ -67,9 +76,7 @@
 
   const props = defineProps({
     restQueryHistory: {
-      type: Object,
-      default: () => {
-      }
+      type: Array, default: () => []
     }
   })
 

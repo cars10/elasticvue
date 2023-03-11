@@ -46,6 +46,9 @@
       <div class="col-6">
         <q-btn class="q-mr-sm" :loading="loading" color="primary-dark" type="submit"
                :label="$t('query.rest.form.send_request')" />
+
+        <q-btn :label="$t('query.rest.form.save_request')" icon="save" color="visible-bg q-mr-sm" @click="saveQuery" />
+
         <q-chip v-if="response.status" :label="response.status" :class="responseStatusClass" />
 
         <br>
@@ -85,7 +88,11 @@
   })
   const emit = defineEmits(['updateTab', 'reloadHistory'])
 
-  const { restQueryTabs } = useIdbStore(['restQueryTabs'])
+  const { restQueryTabs, restQuerySavedQueries } = useIdbStore(['restQueryTabs', 'restQuerySavedQueries'])
+
+  const saveQuery = () => {
+    restQuerySavedQueries.insert(toRaw(ownRequest.value))
+  }
 
   const ownRequest = ref(props.tab.request)
   watch(ownRequest.value, value => (updateTab(value)))

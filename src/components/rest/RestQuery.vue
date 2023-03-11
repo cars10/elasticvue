@@ -19,6 +19,8 @@
         <rest-query-history :rest-query-history="history"
                             @use-request="useRequest"
                             @use-request-new-tab="useRequestNewTab" />
+
+        <rest-query-saved-queries />
       </q-card-section>
     </q-card>
 
@@ -61,6 +63,7 @@
   import RestQueryHistory from './RestQueryHistory.vue'
   import { buildDefaultRequest } from '../../consts'
   import { useIdbStore } from '../../composables/Idb'
+  import RestQuerySavedQueries from './RestQuerySavedQueries.vue'
 
   const history = ref([])
   const tabs = ref([])
@@ -78,7 +81,9 @@
   const useRequest = async request => {
     const obj = Object.assign({}, toRaw(tabs.value[activeTabIndex()]), { request: toRaw(request) })
     await restQueryTabs.update(obj)
-    Object.assign(tabs.value[activeTabIndex()].request, obj.request)
+    tabs.value[activeTabIndex()].request.method = obj.request.method
+    tabs.value[activeTabIndex()].request.path = obj.request.path
+    tabs.value[activeTabIndex()].request.body = obj.request.body
   }
 
   const useRequestNewTab = async request => {

@@ -20,6 +20,10 @@ table.q-table {
   height: 40px;
 }
 
+.q-table tbody td {
+  font-size: 14px;
+}
+
 .q-table--dense {
   tbody {
     .q-btn {

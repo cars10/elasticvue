@@ -7,7 +7,7 @@ import 'ace-builds/src/mode-json'
 import 'ace-builds/src/ext-searchbox'
 import 'ace-builds/src/ext-language_tools'
 import { useThemeStore } from '../store/theme'
-import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { onBeforeUnmount, onMounted, watch } from 'vue'
 import { useCodeEditorStore } from '../store/code_editor'
 import { beautify } from '../helpers/beautify'
 import { writeToClipboard } from '../helpers/clipboard'
@@ -70,7 +70,7 @@ export const useCodeEditor = (editorRef, { readOnly, focus, initialValue, emit, 
     aceEditorSession = aceEditor.getSession()
     aceEditorSession.setUseWorker(false)
     aceEditorSession.setMode('ace/mode/json')
-    aceEditor.setFontSize('13px')
+    aceEditor.setFontSize(14)
     aceEditor.setShowPrintMargin(false)
     aceEditor.$blockScrolling = Infinity
     if (additionalOptions) aceEditor.setOptions(additionalOptions)
