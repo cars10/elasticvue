@@ -2,6 +2,7 @@ import { ref } from 'vue'
 import { askConfirm } from '../helpers/dialogs'
 import { useTranslation } from './i18n'
 import { useConnectionStore } from '../store/connection'
+import { specificIdb } from './Idb'
 
 export const useImportExport = ({ confirmImport } = {}) => {
   const t = useTranslation()
@@ -22,14 +23,11 @@ export const useImportExport = ({ confirmImport } = {}) => {
     const backup = {}
 
     for await (const cluster of connectionStore.clusters) {
-      const db = await setupIdb(cluster.clusterUuid)
+      const db = specificIdb(cluster.clusterUuid)
       backup[cluster.clusterUuid] = {}
 
-      for (const tableName of Object.keys(db.tables)) {
-        const table = db.tables[tableName]
-        await table.reloadElements()
-
-        backup[cluster.clusterUuid][tableName] = table.elements.value
+      for (const tableName of Object.keys(db.stores)) {
+        backup[cluster.clusterUuid][tableName] = await db.stores[tableName].getAll()
       }
     }
 
@@ -71,11 +69,11 @@ export const useImportExport = ({ confirmImport } = {}) => {
 
       // idb
       for (const clusterUuid of Object.keys(backup.idb)) {
-        const db = await setupIdb(clusterUuid)
+        const db = specificIdb(clusterUuid)
 
         for (const tableName of Object.keys(backup.idb[clusterUuid])) {
-          const table = db.tables[tableName]
-          await table.insertMultiple(backup.idb[clusterUuid][tableName])
+          await db.stores[tableName].clear()
+          await db.stores[tableName].bulkInsert(backup.idb[clusterUuid][tableName])
         }
       }
 

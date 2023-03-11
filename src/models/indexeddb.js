@@ -52,7 +52,6 @@ export class IdbAdapter {
 class IdbStoreAdapter {
   constructor (tableName, adapter) {
     this.tableName = tableName
-    this.elements = ref([])
     this._adapter = adapter
   }
 
@@ -63,30 +62,31 @@ class IdbStoreAdapter {
 
   async reload () {
     await this._adapter.connect()
-    return this._adapter._idb.getAll(this.tableName).then(r => (this.elements.value = r))
+    return this._adapter._idb.getAll(this.tableName)
   }
 
   async insert (obj) {
     await this._adapter.connect()
-    return this._adapter._idb.add(this.tableName, obj).then(() => (this.reload()))
+    return this._adapter._idb.add(this.tableName, obj)
   }
 
   async update (obj) {
     await this._adapter.connect()
-    return this._adapter._idb.put(this.tableName, obj).then(() => (this.reload()))
+    return this._adapter._idb.put(this.tableName, obj)
   }
 
   async remove (id) {
     await this._adapter.connect()
-    return this._adapter._idb.delete(this.tableName, id).then(() => (this.reload()))
+    return this._adapter._idb.delete(this.tableName, id)
   }
 
-  async clear (id) {
+  async clear () {
     await this._adapter.connect()
-    return this._adapter._idb.clear(this.tableName).then(() => (this.elements.value = []))
+    return this._adapter._idb.clear(this.tableName)
   }
 
   async bulkInsert (data) {
+    await this._adapter.connect()
     const tx = this._adapter._idb.transaction(this.tableName, 'readwrite')
     data.forEach(obj => (tx.store.put(obj)))
     return tx.done

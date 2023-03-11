@@ -65,11 +65,9 @@
   const activeTabName = ref(null)
   const { restQueryHistory, restQueryTabs } = useIdbStore(['restQueryHistory', 'restQueryTabs'])
 
-  const reloadTabs = () => {
-    return restQueryTabs.getAll().then(r => {
-      tabs.value = r
-      if (!activeTabName.value && r[0]) activeTabName.value = r[0].name
-    })
+  const reloadTabs = async () => {
+    tabs.value = await restQueryTabs.getAll()
+    if (!activeTabName.value && tabs.value[0]) activeTabName.value = tabs.value[0].name
   }
   reloadTabs()
   const reloadHistory = () => (restQueryHistory.getAll().then(r => (history.value = r)))
