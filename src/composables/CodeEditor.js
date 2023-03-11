@@ -13,7 +13,8 @@ import { beautify } from '../helpers/beautify'
 import { writeToClipboard } from '../helpers/clipboard'
 
 export const useCodeEditor = (editorRef, { readOnly, focus, initialValue, emit }) => {
-  const aceEditor = ref(null)
+  let aceEditor = null
+  let aceEditorSession = null
 
   const themeStore = useThemeStore()
   const codeEditorStore = useCodeEditorStore()
@@ -28,11 +29,11 @@ export const useCodeEditor = (editorRef, { readOnly, focus, initialValue, emit }
       const beautifulValue = beautify(initialValue.value, codeEditorStore.useSpaces)
       setEditorValue(beautifulValue)
     }
-    if (focus) aceEditor.value.focus()
+    if (focus) aceEditor.focus()
   })
 
   watch(() => initialValue.value, newValue => {
-    if (aceEditor.value.getValue() !== newValue) {
+    if (aceEditor.getValue() !== newValue) {
       const beautifulValue = beautify(newValue, true)
       setEditorValue(beautifulValue)
     }
@@ -40,9 +41,9 @@ export const useCodeEditor = (editorRef, { readOnly, focus, initialValue, emit }
 
   const setTheme = dark => {
     if (dark) {
-      aceEditor.value.setTheme('ace/theme/tomorrow_night')
+      aceEditor.setTheme('ace/theme/tomorrow_night')
     } else {
-      aceEditor.value.setTheme('ace/theme/textmate')
+      aceEditor.setTheme('ace/theme/textmate')
     }
   }
 
@@ -50,32 +51,33 @@ export const useCodeEditor = (editorRef, { readOnly, focus, initialValue, emit }
 
   const setWhitespace = useSpaces => {
     if (useSpaces) {
-      aceEditor.value.getSession().setTabSize(2)
-      aceEditor.value.getSession().setUseSoftTabs(true)
+      aceEditorSession.setTabSize(2)
+      aceEditorSession.setUseSoftTabs(true)
     } else {
-      aceEditor.value.getSession().setTabSize(4)
-      aceEditor.value.getSession().setUseSoftTabs(false)
+      aceEditorSession.setTabSize(4)
+      aceEditorSession.setUseSoftTabs(false)
     }
   }
 
   const setWrapLines = wrapLines => {
-    aceEditor.value.getSession().setUseWrapMode(wrapLines)
+    aceEditorSession.setUseWrapMode(wrapLines)
   }
 
   const setupAceEditor = (editorRef, additionalOptions) => {
-    aceEditor.value = ace.edit(editorRef, {
+    aceEditor = ace.edit(editorRef, {
       autoScrollEditorIntoView: true
     })
-    aceEditor.value.getSession().setUseWorker(false)
-    aceEditor.value.getSession().setMode('ace/mode/json')
-    aceEditor.value.setFontSize('13px')
-    aceEditor.value.setShowPrintMargin(false)
-    aceEditor.value.$blockScrolling = Infinity
-    if (additionalOptions) aceEditor.value.setOptions(additionalOptions)
+    aceEditorSession = aceEditor.getSession()
+    aceEditorSession.setUseWorker(false)
+    aceEditorSession.setMode('ace/mode/json')
+    aceEditor.setFontSize('13px')
+    aceEditor.setShowPrintMargin(false)
+    aceEditor.$blockScrolling = Infinity
+    if (additionalOptions) aceEditor.setOptions(additionalOptions)
   }
 
   const setupEditingUtils = () => {
-    aceEditor.value.commands.addCommand({
+    aceEditor.commands.addCommand({
       bindKey: { win: 'Ctrl+Alt+L', mac: 'Command+Alt+L', linux: 'Ctrl+Alt+L' },
       exec: () => {
         beautifyEditorValue()
@@ -83,27 +85,27 @@ export const useCodeEditor = (editorRef, { readOnly, focus, initialValue, emit }
     })
 
     const { completer } = initializeSnippets()
-    aceEditor.value.setOptions({
+    aceEditor.setOptions({
       enableBasicAutocompletion: [completer],
       enableLiveAutocompletion: true,
       enableSnippets: true
     })
 
     if (emit) {
-      aceEditor.value.on('change', () => {
-        emit('update:modelValue', aceEditor.value.getValue())
+      aceEditor.on('change', () => {
+        emit('update:modelValue', aceEditor.getValue())
       })
     }
   }
 
   const unmountEditor = () => {
-    aceEditor.value.destroy()
-    aceEditor.value.container.remove()
+    aceEditor.destroy()
+    aceEditor.container.remove()
   }
   onBeforeUnmount(unmountEditor)
 
   const copyContent = () => {
-    writeToClipboard(aceEditor.value.getValue())
+    writeToClipboard(aceEditor.getValue())
   }
 
   watch(() => codeEditorStore.wrapLines, setWrapLines)
@@ -113,23 +115,17 @@ export const useCodeEditor = (editorRef, { readOnly, focus, initialValue, emit }
   })
 
   const setEditorValue = value => {
-    aceEditor.value.setValue(value, 1)
+    aceEditor.setValue(value, 1)
   }
 
   const beautifyEditorValue = () => {
-    const newValue = beautify(aceEditor.value.getValue(), codeEditorStore.useSpaces)
+    const newValue = beautify(aceEditor.getValue(), codeEditorStore.useSpaces)
     setEditorValue(newValue)
   }
 
   return {
     copyContent,
-    setTheme,
-    setWhitespace,
-    setWrapLines,
-    unmountEditor,
-    setupAceEditor,
-    beautifyEditorValue,
-    setEditorValue
+    beautifyEditorValue
   }
 }
 
