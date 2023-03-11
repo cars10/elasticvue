@@ -16,7 +16,9 @@
       <q-separator />
 
       <q-card-section>
-        <rest-query-history :rest-query-history="history" @use-request="useRequest" />
+        <rest-query-history :rest-query-history="history"
+                            @use-request="useRequest"
+                            @use-request-new-tab="useRequestNewTab" />
       </q-card-section>
     </q-card>
 
@@ -77,6 +79,11 @@
     const obj = Object.assign({}, toRaw(tabs.value[activeTabIndex()]), { request: toRaw(request) })
     await restQueryTabs.update(obj)
     Object.assign(tabs.value[activeTabIndex()].request, obj.request)
+  }
+
+  const useRequestNewTab = async request => {
+    await addTab()
+    await useRequest(request)
   }
 
   const activeTabIndex = () => (tabs.value.findIndex(t => t.name === activeTabName.value) || 0)

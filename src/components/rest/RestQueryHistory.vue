@@ -48,7 +48,9 @@
                      color="primary-dark"
                      class="q-mr-sm"
                      @click="emit('useRequest', selectedRequest)" />
-              <q-btn :label="$t('query.rest_query_history.body_preview.open_new_tab')" color="visible-bg" />
+              <q-btn :label="$t('query.rest_query_history.body_preview.open_new_tab')"
+                     color="visible-bg"
+                     @click="emit('useRequestNewTab', selectedRequest)" />
             </div>
           </div>
         </div>
