@@ -65,7 +65,7 @@
       }
     }
   })
-  const emit = defineEmits(['updateTab'])
+  const emit = defineEmits(['updateTab', 'reloadHistory'])
 
   const db = useIdb()
   const ownRequest = ref(props.tab.request)
@@ -81,7 +81,7 @@
     sendRequest,
     responseStatusClass,
     resetRequest
-  } = useRestQuery(ownRequest.value)
+  } = useRestQuery(ownRequest.value, emit)
 
   const generateDownloadData = () => (response.value.bodyText)
   const downloadFileName = computed(() => {

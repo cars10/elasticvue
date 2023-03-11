@@ -20,3 +20,15 @@ export const useIdb = () => {
   }
   return db
 }
+
+export const useIdbStore = tableNames => {
+  const handle = useIdb()
+  const stores = {}
+
+  if (!Array.isArray(tableNames)) tableNames = [tableNames]
+  tableNames.forEach(tableName => {
+    stores[tableName] = handle.stores[tableName]
+  })
+
+  return stores
+}

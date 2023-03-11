@@ -1,5 +1,6 @@
 <template>
   <q-btn :label="$t('query.rest.history')"
+         icon="history"
          :icon-right="historyOpen ? 'expand_less' : 'expand_more'"
          color="visible-bg q-mb-sm"
          @click="historyOpen = !historyOpen" />
@@ -63,26 +64,33 @@
   import { useTranslation } from '../../composables/i18n'
   import { useIdb } from '../../composables/Idb'
 
+  const props = defineProps({
+    restQueryHistory: {
+      type: Object,
+      default: () => {
+      }
+    }
+  })
+
   const t = useTranslation()
   const emit = defineEmits(['useRequest', 'useRequestNewTab'])
 
   const historyOpen = ref(false)
   const selectedRequest = ref(null)
   const db = useIdb()
-  const restQueryHistory = db.stores.restQueryHistory.elements
 
   const filter = ref('')
   const filteredHistory = computed(() => {
     const search = filter.value.trim().toLowerCase()
-    if (search.length === 0) return restQueryHistory.value || []
+    if (search.length === 0) return props.restQueryHistory || []
 
-    return restQueryHistory.value.filter(element => (`${element.method} ${element.path}`.toLowerCase().includes(search)))
+    return props.restQueryHistory.filter(element => (`${element.method} ${element.path}`.toLowerCase().includes(search)))
   })
 
   onMounted(async () => {
     await db.stores.restQueryHistory.reload()
-    if (!selectedRequest.value && restQueryHistory.value.length > 0) {
-      selectedRequest.value = restQueryHistory.value[restQueryHistory.value.length - 1]
+    if (!selectedRequest.value && props.restQueryHistory.length > 0) {
+      selectedRequest.value = props.restQueryHistory[props.restQueryHistory.length - 1]
     }
   })
 

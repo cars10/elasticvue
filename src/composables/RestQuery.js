@@ -5,7 +5,7 @@ import { useConnectionStore } from '../store/connection'
 import { useSnackbar } from './Snackbar'
 import { useIdb } from './Idb'
 
-export const useRestQuery = (request) => {
+export const useRestQuery = (request, emit) => {
   const connectionStore = useConnectionStore()
   const { showErrorSnackbar } = useSnackbar()
   const db = useIdb()
@@ -70,7 +70,7 @@ export const useRestQuery = (request) => {
       method: request.method,
       body: ['GET', 'HEAD'].includes(request.method) ? '' : request.body,
       date: new Date()
-    })
+    }).then(() => (emit('reloadHistory')))
   }
 
   const resetResponse = () => {
