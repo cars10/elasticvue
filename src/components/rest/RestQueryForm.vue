@@ -1,17 +1,16 @@
 <template>
   <q-form @submit.prevent="sendRequest">
-    <div class="row">
-      <div class="col-lg-2 col-sm-3 q-pr-sm">
-        <q-select v-model="ownRequest.method"
-                  :options="HTTP_METHODS"
-                  options-dense
-                  :label="$t('query.rest.form.method.label')" />
-      </div>
-      <div class="col-lg-10 col-sm-9 q-pl-sm">
-        <q-input v-model="ownRequest.path"
-                 :label="$t('query.rest.form.path.label')"
-                 autofocus />
-      </div>
+    <div class="flex">
+      <q-select v-model="ownRequest.method"
+                :options="HTTP_METHODS"
+                options-dense
+                style="width: 120px"
+                class="q-mr-md"
+                :label="$t('query.rest.form.method.label')" />
+      <q-input v-model="ownRequest.path"
+               :label="$t('query.rest.form.path.label')"
+               class="col-grow"
+               autofocus />
     </div>
 
     <resizable-container v-model="resizeStore.restForm" class="q-mb-md">
