@@ -10,7 +10,8 @@
       <q-input v-model="ownRequest.path"
                :label="$t('query.rest.form.path.label')"
                class="col-grow"
-               autofocus />
+               autofocus
+               @keydown.enter.prevent="sendRequest" />
     </div>
 
     <resizable-container v-model="resizeStore.restForm" class="q-mb-md">
@@ -31,7 +32,9 @@
             <p class="q-mb-none">{{ $t('query.rest.get_request_hint.search_post') }}</p>
           </q-banner>
 
-          <code-editor v-show="!['GET', 'HEAD'].includes(ownRequest.method)" v-model="ownRequest.body" />
+          <code-editor v-show="!['GET', 'HEAD'].includes(ownRequest.method)"
+                       v-model="ownRequest.body"
+                       :commands="editorCommands" />
         </div>
         <div class="col-6 q-pl-sm">
           <code-viewer :value="response.bodyText" />
@@ -70,7 +73,8 @@
   import { useRestQuery } from '../../composables/RestQuery'
   import { HTTP_METHODS } from '../../consts'
   import { useResizeStore } from '../../store/resize'
-  import { useIdb } from '../../composables/Idb'
+  import { useIdbStore } from '../../composables/Idb'
+  import { debounce } from '../../helpers/debounce'
 
   const props = defineProps({
     tab: {
@@ -81,12 +85,14 @@
   })
   const emit = defineEmits(['updateTab', 'reloadHistory'])
 
-  const db = useIdb()
+  const { restQueryTabs } = useIdbStore(['restQueryTabs'])
+
   const ownRequest = ref(props.tab.request)
-  watch(ownRequest.value, value => {
+  watch(ownRequest.value, value => (updateTab(value)))
+  const updateTab = debounce((value) => {
     const obj = Object.assign({}, toRaw(props.tab), { request: toRaw(value) })
-    db.stores.restQueryTabs.update(obj)
-  })
+    restQueryTabs.update(obj)
+  }, 200)
 
   const resizeStore = useResizeStore()
   const {
@@ -96,6 +102,11 @@
     responseStatusClass,
     resetRequest
   } = useRestQuery(ownRequest.value, emit)
+
+  const editorCommands = [{
+    bindKey: { win: 'Ctrl+ENTER', mac: 'Command+ENTER', linux: 'Ctrl+ENTER' },
+    exec: sendRequest
+  }]
 
   const generateDownloadData = () => (response.value.bodyText)
   const downloadFileName = computed(() => {

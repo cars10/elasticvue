@@ -12,7 +12,7 @@ import { useCodeEditorStore } from '../store/code_editor'
 import { beautify } from '../helpers/beautify'
 import { writeToClipboard } from '../helpers/clipboard'
 
-export const useCodeEditor = (editorRef, { readOnly, focus, initialValue, emit }) => {
+export const useCodeEditor = (editorRef, { readOnly, focus, initialValue, emit, commands }) => {
   let aceEditor = null
   let aceEditorSession = null
 
@@ -74,6 +74,7 @@ export const useCodeEditor = (editorRef, { readOnly, focus, initialValue, emit }
     aceEditor.setShowPrintMargin(false)
     aceEditor.$blockScrolling = Infinity
     if (additionalOptions) aceEditor.setOptions(additionalOptions)
+    if (commands) aceEditor.commands.addCommands(commands)
   }
 
   const setupEditingUtils = () => {

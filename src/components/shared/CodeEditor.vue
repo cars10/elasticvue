@@ -62,6 +62,11 @@
     modelValue: {
       type: String, // any
       default: ''
+    },
+    commands: {
+      type: Object,
+      default: () => {
+      }
     }
   })
   const emit = defineEmits(['update:modelValue'])
@@ -73,6 +78,7 @@
     readOnly: false,
     focus: false,
     initialValue: toRef(props, 'modelValue'),
+    commands: props.commands,
     emit
   })
 
