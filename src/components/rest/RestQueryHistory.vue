@@ -32,13 +32,13 @@
                   @click="selectedRequest = row">
                 <td>
                   <div class="q-py-xs">
-                    <strong>{{ row.method }}</strong> {{ row.path }}
+                    <strong :class="`http-${row.method}`">{{ row.method }}</strong> {{ row.path }}
                     <div>
                       <small class="text-muted ellipsis">{{ row.body.replace(/\s/g, '') }}</small>
                     </div>
                   </div>
                 </td>
-                <td>{{ row.date.toLocaleString() }}</td>
+                <td class="small-wrap">{{ row.date.toLocaleString() }}</td>
               </tr>
             </template>
           </q-table>
@@ -46,7 +46,10 @@
 
         <div class="col">
           <div v-if="selectedRequest" class="flex column full-height q-pl-md">
-            <h4 class="font-mono text-h6 q-mt-none q-mb-sm">{{ selectedRequest.method }} {{ selectedRequest.path }}</h4>
+            <h4 class="font-mono text-h6 q-mt-none q-mb-sm">
+              <strong :class="`http-${selectedRequest.method}`">{{ selectedRequest.method }}</strong>
+              {{ selectedRequest.path }}
+            </h4>
 
             <div class="col-grow q-mb-md">
               <code-editor v-model="selectedRequest.body" />
@@ -103,7 +106,7 @@
   const columns = [
     { label: t('query.rest_query_history.table.headers.query'), field: 'query', name: 'query', align: 'left' },
     {
-      label: t('query.rest_query_history.table.headers.date'), field: 'date', name: 'date', align: 'left',
+      label: t('query.rest_query_history.table.headers.timestamp'), field: 'date', name: 'date', align: 'left',
       sortOrder: 'da', sortable: true
     }
   ]

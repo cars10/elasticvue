@@ -307,6 +307,7 @@
           "label": "请求路径"
         },
         "send_request": "发送请求",
+        "save_request": null,
         "reset": "重置",
         "download_as_json": "下载为 JSON 文件"
       },
@@ -325,7 +326,7 @@
       "table": {
         "headers": {
           "query": "查询",
-          "date": "日期"
+          "timestamp": "日期"
         },
         "row": {
           "title": "点击预览请求正文，ctrl+点击 直接使用。",

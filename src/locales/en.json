@@ -326,7 +326,7 @@
       "table": {
         "headers": {
           "query": "Query",
-          "date": "Date"
+          "timestamp": "Timestamp"
         },
         "row": {
           "title": "Click to preview request body, ctrl+click to directly use.",
