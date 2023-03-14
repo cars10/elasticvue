@@ -60,7 +60,7 @@
           <tr>
             <td>{{ row.alias }}</td>
             <td class="text-right">
-              <q-btn :label="$t('defaults.delete')" @click="deleteAlias(row.alias)" />
+              <q-btn :label="$t('defaults.delete')" color="visible-bg" @click="deleteAlias(row.alias)" />
             </td>
           </tr>
         </template>

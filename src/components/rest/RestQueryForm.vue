@@ -12,6 +12,7 @@
                class="col-grow"
                autofocus
                @keydown.enter.prevent="sendRequest" />
+      <q-btn icon="send" flat type="submit" />
     </div>
 
     <resizable-container v-model="resizeStore.restForm" class="q-mb-md">

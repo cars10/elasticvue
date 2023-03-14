@@ -1,74 +1,55 @@
 <template>
-  <q-btn :label="$t('query.rest.history')"
-         icon="history"
-         :icon-right="historyOpen ? 'expand_less' : 'expand_more'"
-         color="visible-bg q-mb-sm"
-         @click="historyOpen = !historyOpen" />
+  <div class="row">
+    <div class="col q-pr-md">
+      <div class="flex justify-between q-pb-md">
+        <h4 class="text-h5 q-mb-none q-mt-sm">{{ heading }}</h4>
+        <q-input v-model="filter" :label="t('defaults.filter.label')" dense @keyup.esc="filter = ''">
+          <template #append>
+            <q-icon name="search" />
+          </template>
+        </q-input>
+      </div>
 
-  <q-slide-transition>
-    <div v-if="historyOpen">
-      <div class="row">
-        <div class="col q-pr-md">
-          <div class="flex justify-end q-pb-md">
-            <div class="flex">
-              <q-input v-model="filter" :label="t('defaults.filter.label')" dense @keyup.esc="filter = ''">
-                <template #append>
-                  <q-icon name="search" />
-                </template>
-              </q-input>
-            </div>
-          </div>
+      <q-table flat
+               dense
+               row-key="index"
+               :columns="columns"
+               :rows="filteredData"
+               :pagination="paginationOptions"
+               :rows-per-page-options="DEFAULT_ROWS_PER_PAGE">
+        <template #body="{row}">
+          <tr :class="{selected: selectedRow?.id === row.id, clickable: true}"
+              @click="selectedRow = row"
+              @dblclick="emit('useRequest', selectedRow)">
+            <slot :row="row" />
+          </tr>
+        </template>
+      </q-table>
+    </div>
 
-          <q-table flat
-                   dense
-                   row-key="index"
-                   :columns="columns"
-                   :rows="filteredHistory"
-                   :pagination="{sortBy: 'date', descending: true}"
-                   :rows-per-page-options="DEFAULT_ROWS_PER_PAGE">
-            <template #body="{row}">
-              <tr :class="{selected: selectedRequest?.id === row.id, clickable: true}"
-                  :title="row.body"
-                  @click="selectedRequest = row">
-                <td>
-                  <div class="q-py-xs">
-                    <strong :class="`http-${row.method}`">{{ row.method }}</strong> {{ row.path }}
-                    <div>
-                      <small class="text-muted ellipsis">{{ row.body.replace(/\s/g, '') }}</small>
-                    </div>
-                  </div>
-                </td>
-                <td class="small-wrap">{{ row.date.toLocaleString() }}</td>
-              </tr>
-            </template>
-          </q-table>
+    <div class="col">
+      <div v-if="selectedRow" class="flex column full-height q-pl-md">
+        <h4 class="font-mono text-h6 q-mt-none q-mb-sm">
+          <strong :class="`http-${selectedRow.method}`">{{ selectedRow.method }}</strong>
+          {{ selectedRow.path }}
+        </h4>
+
+        <div class="col-grow q-mb-md">
+          <code-editor v-model="selectedRow.body" />
         </div>
 
-        <div class="col">
-          <div v-if="selectedRequest" class="flex column full-height q-pl-md">
-            <h4 class="font-mono text-h6 q-mt-none q-mb-sm">
-              <strong :class="`http-${selectedRequest.method}`">{{ selectedRequest.method }}</strong>
-              {{ selectedRequest.path }}
-            </h4>
-
-            <div class="col-grow q-mb-md">
-              <code-editor v-model="selectedRequest.body" />
-            </div>
-
-            <div>
-              <q-btn :label="$t('query.rest_query_history.body_preview.use')"
-                     color="primary-dark"
-                     class="q-mr-sm"
-                     @click="emit('useRequest', selectedRequest)" />
-              <q-btn :label="$t('query.rest_query_history.body_preview.open_new_tab')"
-                     color="visible-bg"
-                     @click="emit('useRequestNewTab', selectedRequest)" />
-            </div>
-          </div>
+        <div>
+          <q-btn :label="t('query.rest_query_history.body_preview.use')"
+                 color="primary-dark"
+                 class="q-mr-sm"
+                 @click="emit('useRequest', selectedRow)" />
+          <q-btn :label="t('query.rest_query_history.body_preview.open_new_tab')"
+                 color="visible-bg"
+                 @click="emit('useRequestNewTab', selectedRow)" />
         </div>
       </div>
     </div>
-  </q-slide-transition>
+  </div>
 </template>
 
 <script setup>
@@ -76,38 +57,35 @@
   import CodeEditor from '../shared/CodeEditor.vue'
   import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
   import { useTranslation } from '../../composables/i18n'
+  const t = useTranslation()
 
   const props = defineProps({
-    restQueryHistory: {
+    data: {
       type: Array, default: () => []
+    },
+    columns: {
+      type: Array, default: () => []
+    },
+    heading: {
+      type: String,
+      default: ''
+    },
+    paginationOptions: {
+      type: Object,
+      default: () => {
+      }
     }
   })
 
-  const t = useTranslation()
   const emit = defineEmits(['useRequest', 'useRequestNewTab'])
 
-  const historyOpen = ref(false)
-  const selectedRequest = ref(null)
+  const selectedRow = ref(null)
 
   const filter = ref('')
-  const filteredHistory = computed(() => {
+  const filteredData = computed(() => {
     const search = filter.value.trim().toLowerCase()
-    if (search.length === 0) return props.restQueryHistory || []
+    if (search.length === 0) return props.data || []
 
-    return props.restQueryHistory.filter(element => (`${element.method} ${element.path}`.toLowerCase().includes(search)))
+    return props.data.filter(element => (`${element.method} ${element.path}`.toLowerCase().includes(search)))
   })
-
-  onMounted(async () => {
-    if (!selectedRequest.value && props.restQueryHistory.length > 0) {
-      selectedRequest.value = props.restQueryHistory[props.restQueryHistory.length - 1]
-    }
-  })
-
-  const columns = [
-    { label: t('query.rest_query_history.table.headers.query'), field: 'query', name: 'query', align: 'left' },
-    {
-      label: t('query.rest_query_history.table.headers.timestamp'), field: 'date', name: 'date', align: 'left',
-      sortOrder: 'da', sortable: true
-    }
-  ]
 </script>

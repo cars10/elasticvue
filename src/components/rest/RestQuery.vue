@@ -16,11 +16,65 @@
       <q-separator />
 
       <q-card-section>
-        <rest-query-history :rest-query-history="history"
-                            @use-request="useRequest"
-                            @use-request-new-tab="useRequestNewTab" />
+        <q-btn :label="$t('query.rest.history')"
+               icon="history"
+               :icon-right="historyOpen ? 'expand_less' : 'expand_more'"
+               color="visible-bg q-mb-sm q-mr-md"
+               :outline="historyOpen"
+               @click="toggleHistory" />
 
-        <rest-query-saved-queries />
+        <q-btn label="Saved queries"
+               icon="save"
+               :icon-right="savedQueriesOpen ? 'expand_less' : 'expand_more'"
+               color="visible-bg q-mb-sm"
+               :outline="savedQueriesOpen"
+               @click="toggleSavedQueries" />
+
+        <q-slide-transition>
+          <rest-query-history v-if="historyOpen"
+                              heading="History"
+                              :pagination-options="{sortBy: 'date', descending: true}"
+                              :data="history"
+                              :columns="historyColumns"
+                              @use-request="useRequest"
+                              @use-request-new-tab="useRequestNewTab">
+            <template #default="{row }">
+              <td>
+                <div class="q-py-xs">
+                  <strong :class="`http-${row.method}`">{{ row.method }}</strong> {{ row.path }}
+                  <div :title="row.body">
+                    <small class="text-muted ellipsis">{{ row.body.replace(/\s/g, '') }}</small>
+                  </div>
+                </div>
+              </td>
+              <td class="small-wrap">{{ row.date.toLocaleString() }}</td>
+            </template>
+          </rest-query-history>
+        </q-slide-transition>
+
+        <q-slide-transition>
+          <rest-query-history v-if="savedQueriesOpen"
+                              heading="Saved Queries"
+                              :pagination-options="{}"
+                              :data="savedQueries"
+                              :columns="savedQueriesColumns"
+                              @use-request="useRequest"
+                              @use-request-new-tab="useRequestNewTab">
+            <template #default="{row }">
+              <td>
+                <div class="q-py-xs">
+                  <strong :class="`http-${row.method}`">{{ row.method }}</strong> {{ row.path }}
+                  <div :title="row.body">
+                    <small class="text-muted ellipsis">{{ row.body.replace(/\s/g, '') }}</small>
+                  </div>
+                </div>
+              </td>
+              <td class="small-wrap">
+                <q-btn icon="delete" flat dense />
+              </td>
+            </template>
+          </rest-query-history>
+        </q-slide-transition>
       </q-card-section>
     </q-card>
 
@@ -63,12 +117,30 @@
   import RestQueryHistory from './RestQueryHistory.vue'
   import { buildDefaultRequest } from '../../consts'
   import { useIdbStore } from '../../composables/Idb'
-  import RestQuerySavedQueries from './RestQuerySavedQueries.vue'
+  import { useTranslation } from '../../composables/i18n'
+
+  const t = useTranslation()
+
+  const historyOpen = ref(false)
+  const savedQueriesOpen = ref(false)
+  const toggleHistory = () => {
+    historyOpen.value = !historyOpen.value
+    savedQueriesOpen.value = false
+  }
+  const toggleSavedQueries = () => {
+    savedQueriesOpen.value = !savedQueriesOpen.value
+    historyOpen.value = false
+  }
 
   const history = ref([])
   const tabs = ref([])
+  const savedQueries = ref([])
   const activeTabName = ref(null)
-  const { restQueryHistory, restQueryTabs } = useIdbStore(['restQueryHistory', 'restQueryTabs'])
+  const {
+    restQueryHistory,
+    restQueryTabs,
+    restQuerySavedQueries
+  } = useIdbStore(['restQueryHistory', 'restQueryTabs', 'restQuerySavedQueries'])
 
   const reloadTabs = async () => {
     tabs.value = await restQueryTabs.getAll()
@@ -77,6 +149,8 @@
   reloadTabs()
   const reloadHistory = () => (restQueryHistory.getAll().then(r => (history.value = r)))
   reloadHistory()
+  const reloadSavedQueries = () => (restQuerySavedQueries.getAll().then(r => savedQueries.value = r.reverse()))
+  reloadSavedQueries()
 
   const useRequest = async request => {
     const obj = Object.assign({}, toRaw(tabs.value[activeTabIndex()]), { request: toRaw(request) })
@@ -109,4 +183,18 @@
     if (tabs.value[index].name === activeTabName.value && tabs.value[0]) activeTabName.value = tabs.value[0].name
     tabs.value.splice(index, 1)
   }
+
+  const historyColumns = [
+    { label: t('query.rest_query_history.table.headers.query'), field: 'query', name: 'query', align: 'left' },
+    {
+      label: t('query.rest_query_history.table.headers.timestamp'), field: 'date', name: 'date', align: 'left',
+      sortOrder: 'da', sortable: true
+    }
+  ]
+
+  const savedQueriesColumns = [
+    { label: t('query.rest_query_history.table.headers.query'), field: 'query', name: 'query', align: 'left' },
+    { label: '' },
+  ]
+
 </script>
