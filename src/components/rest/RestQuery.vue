@@ -37,8 +37,8 @@
                               :data="history"
                               :columns="historyColumns"
                               @use-request="useRequest"
-                              @use-request-new-tab="useRequestNewTab">
-            <template #default="{row }">
+                              @use-request-new-tab="useRequestInNewTab">
+            <template #default="{row}">
               <td>
                 <div class="q-py-xs">
                   <strong :class="`http-${row.method}`">{{ row.method }}</strong> {{ row.path }}
@@ -48,6 +48,10 @@
                 </div>
               </td>
               <td class="small-wrap">{{ row.date.toLocaleString() }}</td>
+              <td class="small-wrap">
+                <q-btn icon="save" flat dense @click.stop="saveHistory(row)" />
+                <q-btn icon="delete" flat dense @click.stop="removeHistory(row.id)" />
+              </td>
             </template>
           </rest-query-history>
         </q-slide-transition>
@@ -59,8 +63,8 @@
                               :data="savedQueries"
                               :columns="savedQueriesColumns"
                               @use-request="useRequest"
-                              @use-request-new-tab="useRequestNewTab">
-            <template #default="{row }">
+                              @use-request-new-tab="useRequestInNewTab">
+            <template #default="{row}">
               <td>
                 <div class="q-py-xs">
                   <strong :class="`http-${row.method}`">{{ row.method }}</strong> {{ row.path }}
@@ -70,7 +74,7 @@
                 </div>
               </td>
               <td class="small-wrap">
-                <q-btn icon="delete" flat dense />
+                <q-btn icon="delete" flat dense @click.stop="removeSavedQuery(row.id)" />
               </td>
             </template>
           </rest-query-history>
@@ -79,9 +83,9 @@
     </q-card>
 
     <q-card>
-      <q-tabs v-model="activeTabName" align="left">
+      <q-tabs v-model="activeTabName" align="left" outside-arrows>
         <template v-for="(tab, index) in tabs" :key="tab.name">
-          <q-tab :name="tab.name">
+          <q-tab :name="tab.name" style="white-space: nowrap; flex-shrink: 0">
             <div class="flex">
               {{ tab.label }}
 
@@ -104,7 +108,7 @@
 
       <q-tab-panels v-model="activeTabName">
         <q-tab-panel v-for="tab in tabs" :key="`${tab.name}-panel`" :name="tab.name">
-          <rest-query-form :tab="tab" @reload-history="reloadHistory" />
+          <rest-query-form :tab="tab" @reload-history="reloadHistory" @reload-saved-queries="reloadSavedQueries" />
         </q-tab-panel>
       </q-tab-panels>
     </q-card>
@@ -115,11 +119,16 @@
   import { ref, toRaw } from 'vue'
   import RestQueryForm from './RestQueryForm.vue'
   import RestQueryHistory from './RestQueryHistory.vue'
-  import { buildDefaultRequest } from '../../consts'
   import { useIdbStore } from '../../composables/Idb'
   import { useTranslation } from '../../composables/i18n'
+  import { useRestQueryTabs } from '../../composables/RestQueryTabs'
 
   const t = useTranslation()
+  const {
+    restQueryHistory,
+    restQueryTabs,
+    restQuerySavedQueries
+  } = useIdbStore(['restQueryHistory', 'restQueryTabs', 'restQuerySavedQueries'])
 
   const historyOpen = ref(false)
   const savedQueriesOpen = ref(false)
@@ -133,63 +142,54 @@
   }
 
   const history = ref([])
-  const tabs = ref([])
   const savedQueries = ref([])
-  const activeTabName = ref(null)
-  const {
-    restQueryHistory,
-    restQueryTabs,
-    restQuerySavedQueries
-  } = useIdbStore(['restQueryHistory', 'restQueryTabs', 'restQuerySavedQueries'])
 
-  const reloadTabs = async () => {
-    tabs.value = await restQueryTabs.getAll()
-    if (!activeTabName.value && tabs.value[0]) activeTabName.value = tabs.value[0].name
-  }
-  reloadTabs()
   const reloadHistory = () => (restQueryHistory.getAll().then(r => (history.value = r)))
+  const removeHistory = id => (restQueryHistory.remove(id).then(reloadHistory))
   reloadHistory()
+
   const reloadSavedQueries = () => (restQuerySavedQueries.getAll().then(r => savedQueries.value = r.reverse()))
+  const removeSavedQuery = id => (restQuerySavedQueries.remove(id).then(reloadSavedQueries))
+  const saveHistory = row => {
+    const { method, path, body } = row
+    restQuerySavedQueries.insert({ method, path, body }).then(reloadSavedQueries)
+  }
   reloadSavedQueries()
 
   const useRequest = async request => {
-    const obj = Object.assign({}, toRaw(tabs.value[activeTabIndex()]), { request: toRaw(request) })
+    const activeTab = tabs.value[activeTabIndex()]
+    if (!activeTab || !request) return
+
+    const obj = Object.assign({}, toRaw(activeTab), { request: toRaw(request) })
     await restQueryTabs.update(obj)
-    tabs.value[activeTabIndex()].request.method = obj.request.method
-    tabs.value[activeTabIndex()].request.path = obj.request.path
-    tabs.value[activeTabIndex()].request.body = obj.request.body
+    activeTab.request.method = obj.request.method
+    activeTab.request.path = obj.request.path
+    activeTab.request.body = obj.request.body
   }
 
-  const useRequestNewTab = async request => {
+  const useRequestInNewTab = async request => {
     await addTab()
     await useRequest(request)
   }
 
-  const activeTabIndex = () => (tabs.value.findIndex(t => t.name === activeTabName.value) || 0)
-
-  const addTab = async () => {
-    const newTab = { name: `tab-${Date.now()}`, label: `Tab ${tabs.value.length + 1}`, request: buildDefaultRequest() }
-    await restQueryTabs.insert(newTab)
-    await reloadTabs()
-    activeTabName.value = tabs.value[tabs.value.length - 1].name
-  }
-
-  const updateTab = (label, tab) => {
-    restQueryTabs.update(Object.assign({}, toRaw(tab), { label }))
-  }
-
-  const removeTab = async index => {
-    await restQueryTabs.remove(tabs.value[index].id)
-    if (tabs.value[index].name === activeTabName.value && tabs.value[0]) activeTabName.value = tabs.value[0].name
-    tabs.value.splice(index, 1)
-  }
+  const {
+    tabs,
+    activeTabName,
+    activeTabIndex,
+    reloadTabs,
+    addTab,
+    updateTab,
+    removeTab
+  } = useRestQueryTabs(restQueryTabs)
+  reloadTabs()
 
   const historyColumns = [
     { label: t('query.rest_query_history.table.headers.query'), field: 'query', name: 'query', align: 'left' },
     {
       label: t('query.rest_query_history.table.headers.timestamp'), field: 'date', name: 'date', align: 'left',
       sortOrder: 'da', sortable: true
-    }
+    },
+    { label: '' },
   ]
 
   const savedQueriesColumns = [

@@ -53,10 +53,11 @@
 </template>
 
 <script setup>
-  import { computed, onMounted, ref } from 'vue'
+  import { computed, ref } from 'vue'
   import CodeEditor from '../shared/CodeEditor.vue'
   import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
   import { useTranslation } from '../../composables/i18n'
+
   const t = useTranslation()
 
   const props = defineProps({

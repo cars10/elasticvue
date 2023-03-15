@@ -87,12 +87,15 @@
       }
     }
   })
-  const emit = defineEmits(['updateTab', 'reloadHistory'])
+  const emit = defineEmits(['updateTab', 'reloadHistory', 'reloadSavedQueries'])
 
   const { restQueryTabs, restQuerySavedQueries } = useIdbStore(['restQueryTabs', 'restQuerySavedQueries'])
 
   const saveQuery = () => {
-    restQuerySavedQueries.insert(toRaw(ownRequest.value))
+    const { method, path, body } = toRaw(ownRequest.value)
+    restQuerySavedQueries.insert({ method, path, body }).then(() => {
+      emit('reloadSavedQueries')
+    })
   }
 
   const ownRequest = ref(props.tab.request)
