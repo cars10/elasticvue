@@ -8,6 +8,7 @@ export const useRestQueryTabs = restQueryTabs => {
   const reloadTabs = async () => {
     tabs.value = await restQueryTabs.getAll()
     if (!activeTabName.value && tabs.value[0]) activeTabName.value = tabs.value[0].name
+    if (tabs.value.length === 0) addTab()
   }
 
   const addTab = async () => {
