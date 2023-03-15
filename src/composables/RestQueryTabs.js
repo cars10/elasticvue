@@ -18,7 +18,7 @@ export const useRestQueryTabs = restQueryTabs => {
       request: buildDefaultRequest()
     }
     await restQueryTabs.insert(newTab)
-    await reloadTabs()
+    tabs.value = await restQueryTabs.getAll()
     activeTabName.value = tabs.value[tabs.value.length - 1].name
   }
 
