@@ -38,7 +38,7 @@
           </div>
         </td>
         <td>
-          <div class="ellipsis">
+          <div class="ellipsis" style="max-width: 300px;">
             {{ row.uri }}
             <copy-button :value="row.uri" round size="sm" flat />
           </div>

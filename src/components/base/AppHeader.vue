@@ -6,10 +6,8 @@
         <router-link :to="{name: 'home', params: {instanceId: 1}}" class="decoration-none">
           Elasticvue
         </router-link>
-        <cluster-selection class="q-ml-lg" />
+        <cluster-selection class="q-ml-lg q-my-sm" />
       </q-toolbar-title>
-
-      <q-space />
 
       <q-tabs stretch>
         <q-route-tab class="full-height" label="Home" :to="{name: 'home'}" exact />
