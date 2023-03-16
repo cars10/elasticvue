@@ -58,6 +58,8 @@
            type="button"
            @click="connectAndRedirect" />
 
+    <slot name="actions" />
+
     <q-banner v-if="testRequestState.error || connectRequestState.error" class="text-white bg-negative q-mt-lg q-py-md">
       <template #avatar>
         <q-icon name="error" />
@@ -74,7 +76,7 @@
         </li>
       </ol>
 
-      <div class="mt-2">
+      <div class="q-mt-sm">
         {{ testRequestState.errorMessage }}
       </div>
     </q-banner>
@@ -99,9 +101,9 @@
   const connectAndRedirect = () => {
     if (!formValid.value) return
 
-    connect().then(() => {
+    connect().then(idx => {
       showSuccessSnackbar({ title: t('setup.test_and_connect.connected') })
-      router.push({ name: 'home', params: { instanceId: '0' } })
+      router.push({ name: 'home', params: { instanceId: idx.toString() } })
     })
   }
 

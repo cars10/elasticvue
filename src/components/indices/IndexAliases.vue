@@ -51,7 +51,7 @@
 
       <q-table flat
                dense
-               row-key="index"
+               row-key="alias"
                :columns="columns"
                :rows="aliases"
                :pagination="{sortBy: 'alias'}"

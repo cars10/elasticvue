@@ -61,7 +61,10 @@ export const useClusterConnection = () => {
     const adapter = new ElasticsearchAdapter(newCluster.value)
     try {
       const infoResponse = await adapter.test()
-      const json = await infoResponse.json()
+      const infoJson = await infoResponse.json()
+
+      const clusterHealthResponse = await adapter.clusterHealth()
+      const clusterHealthBody = await clusterHealthResponse.json()
 
       let uri = newCluster.value.uri.trim()
       if (uri.endsWith('/')) uri = uri.slice(0, -1)
@@ -70,10 +73,10 @@ export const useClusterConnection = () => {
         username: newCluster.value.username,
         password: newCluster.value.password,
         uri,
-        clusterVersion: json.version.number,
-        clusterMajorVersion: parseInt(json.version.number[0]),
-        clusterUuid: json.cluster_uuid,
-        status: newCluster.value.status
+        version: infoJson.version.number,
+        majorVersion: parseInt(infoJson.version.number[0]),
+        uuid: infoJson.cluster_uuid,
+        status: clusterHealthBody.status
       })
 
       resetCluster()
@@ -87,6 +90,8 @@ export const useClusterConnection = () => {
       console.log(e)
       connectRequestState.value.loading = false
       connectRequestState.value.error = true
+
+      return Promise.reject(e)
     }
   }
 

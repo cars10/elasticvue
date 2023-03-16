@@ -3,11 +3,10 @@
     <q-toolbar style="height: 64px">
       <img :src="logo" alt="logo" height="48" width="48">
       <q-toolbar-title>
-        <router-link :to="{name: 'home', params: {instanceId: 1}}">
+        <router-link :to="{name: 'home', params: {instanceId: 1}}" class="decoration-none">
           Elasticvue
         </router-link>
-
-        {{ connectionStore.activeCluster?.name }}
+        <cluster-selection class="q-ml-lg" />
       </q-toolbar-title>
 
       <q-space />
@@ -30,7 +29,11 @@
 <script setup>
   import { useLogo } from '../../composables/Logo'
   import { useConnectionStore } from '../../store/connection'
+  import { ref } from 'vue'
+  import ClusterSelection from '../clusterselection/ClusterSelection.vue'
 
   const connectionStore = useConnectionStore()
   const logo = useLogo()
+
+  const open = ref(false)
 </script>

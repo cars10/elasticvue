@@ -16,7 +16,7 @@ let db = null
 export const useIdb = () => {
   if (!db) {
     const connectionStore = useConnectionStore()
-    const clusterUuid = connectionStore.activeCluster.clusterUuid
+    const clusterUuid = connectionStore.activeCluster.uuid
     db = new IdbAdapter({ database: databaseName(clusterUuid), version: dbVersion, tables })
   }
   return db

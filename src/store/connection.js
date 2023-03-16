@@ -18,6 +18,9 @@ export const useConnectionStore = defineStore('connection', {
       const len = this.clusters.push(Object.assign({}, cluster))
       this.activeClusterIndex = len - 1
       return this.activeClusterIndex
+    },
+    removeCluster (index) {
+      this.clusters.splice(index, 1)
     }
   },
   persist: true

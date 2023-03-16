@@ -12,7 +12,7 @@
 
       <q-table flat
                dense
-               row-key="index"
+               row-key="id"
                :columns="columns"
                :rows="filteredData"
                :pagination="paginationOptions"

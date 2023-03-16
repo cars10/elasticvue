@@ -11,7 +11,7 @@
 
   <q-table flat
            dense
-           row-key="index"
+           row-key="name"
            :columns="columns"
            :rows="items"
            :rows-per-page-options="DEFAULT_ROWS_PER_PAGE"

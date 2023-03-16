@@ -1,7 +1,4 @@
 table.q-table {
-  font-family: 'Hack', monospace;
-  font-size: 14px;
-
   th {
     font-weight: 600;
   }
@@ -26,7 +23,7 @@ table.q-table {
 
 .q-table--dense {
   tbody {
-    .q-btn {
+    .q-btn:not(.q-btn--round) {
       min-height: 2em;
       padding: 2px 10px;
     }

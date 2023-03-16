@@ -24,7 +24,6 @@
            flat
            dense
            :columns="columns"
-           row-key="index"
            binary-state-sort
            :rows="shards?.nodes || []"
            :rows-per-page-options="DEFAULT_ROWS_PER_PAGE"
@@ -39,10 +38,10 @@
               @mouseover="markColumn(i)"
               @mouseleave="unmarkColumn">
           <div>
-            <span :class="{'text-underline': currentReroutingShard.index === col.name}">{{ col.label }}</span>
-            <svg height="14" width="14">
+            <svg height="14" width="14" class="q-mr-xs">
               <circle :class="`health--${shards.indices[col.name].health}`" cx="7" cy="9" r="5" />
             </svg>
+            <span :class="{'text-underline': currentReroutingShard.index === col.name}">{{ col.label }}</span>
           </div>
           <small class="text-weight-regular">
             {{ shards.indices[col.name].pri }}/{{ shards.indices[col.name].rep }} shards

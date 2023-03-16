@@ -11,7 +11,7 @@
                      title="Copy response"
                      class="float-right" />
       </template>
-      <div v-else class="my-2 overflow-y-auto">
+      <div v-else class="overflow-auto">
         <q-btn :label="$t('defaults.close')" @click="close" />
       </div>
 
