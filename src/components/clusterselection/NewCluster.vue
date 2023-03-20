@@ -11,11 +11,11 @@
       <q-separator />
 
       <q-card-section>
-        <add-instance>
+        <add-cluster>
           <template #actions>
             <q-btn v-close-popup flat :label="$t('defaults.cancel')" class="q-ml-sm" />
           </template>
-        </add-instance>
+        </add-cluster>
       </q-card-section>
     </q-card>
   </q-dialog>
@@ -23,7 +23,7 @@
 
 <script setup>
   import { ref } from 'vue'
-  import AddInstance from '../setup/AddInstance.vue'
+  import AddCluster from '../setup/AddCluster.vue'
 
   const dialog = ref(false)
 </script>

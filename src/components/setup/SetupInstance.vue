@@ -25,14 +25,14 @@
         <h2 v-if="SHOW_CORS_HINT" class="text-h6 q-mb-md">
           {{ $t('setup.test_and_connect.heading') }}
         </h2>
-        <add-instance />
+        <add-cluster />
       </q-card-section>
     </q-card>
   </q-dialog>
 </template>
 
 <script setup>
-  import AddInstance from './AddInstance.vue'
+  import AddCluster from './AddCluster.vue'
   import { SHOW_CORS_HINT } from '../../consts'
   import ConfigureHelp from './ConfigureHelp.vue'
   import { ref } from 'vue'

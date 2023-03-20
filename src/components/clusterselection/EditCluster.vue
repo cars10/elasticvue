@@ -1,14 +1,12 @@
 <template>
-  <q-btn icon="edit" round flat size="sm" @click="dialog = true" />
+  <q-btn icon="edit" round flat size="sm" @click.stop="dialog = true" />
 
   <q-dialog v-model="dialog">
     <q-card>
-      <q-card-section>
-        <div class="flex">
-          <h2 class="text-h6 q-my-none">
-            {{ $t('elasticsearch_instance.rename_instance.heading') }}
-          </h2>
-        </div>
+      <q-card-section class="flex justify-between">
+        <h2 class="text-h6 q-my-none">
+          {{ $t('elasticsearch_instance.rename_instance.heading') }}
+        </h2>
 
         <q-btn v-close-popup icon="close" flat round dense />
       </q-card-section>
