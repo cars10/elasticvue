@@ -1,5 +1,5 @@
 <template>
-  <q-footer class="bg-darken q-pa-lg">
+  <q-footer class="bg-dark q-pa-lg">
     <div class="row">
       <div class="col-md-4">
         <theme-switcher />
@@ -9,7 +9,8 @@
       <div class="col-md-4 text-center">
         <div class="text-subtitle-1">
           Elasticvue {{ version }} |
-          <a href="https://github.com/cars10/elasticvue/blob/master/CHANGELOG.md" rel="nofollow" target="_blank">
+          <a href="https://github.com/cars10/elasticvue/blob/master/CHANGELOG.md" rel="nofollow" target="_blank"
+             class="decoration-none">
             {{ $t('app.footer.changelog') }}
           </a>
         </div>
@@ -17,8 +18,9 @@
       </div>
 
       <div class="col-md-4 text-right">
-        <a href="https://github.com/cars10/elasticvue" rel="nofollow" target="_blank">Github</a><br>
-        <a href="https://elasticvue.com" rel="nofollow" target="_blank">{{ $t('app.footer.homepage') }}</a>
+        <a href="https://github.com/cars10/elasticvue" rel="nofollow" target="_blank" class="decoration-none">Github</a><br>
+        <a href="https://elasticvue.com" rel="nofollow" target="_blank"
+           class="decoration-none">{{ $t('app.footer.homepage') }}</a>
       </div>
     </div>
   </q-footer>

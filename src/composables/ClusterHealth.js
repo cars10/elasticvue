@@ -32,6 +32,7 @@ export const checkHealth = async cluster => {
 
     cluster.version = version
     cluster.majorVersion = version[0]
+    cluster.clusterName = pingBody.cluster_name
 
     delete cluster.loading
   } catch (e) {

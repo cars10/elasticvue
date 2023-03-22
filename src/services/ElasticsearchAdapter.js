@@ -24,6 +24,10 @@ export default class ElasticsearchAdapter {
     return this.request('_cluster/health', 'GET')
   }
 
+  clusterStats () {
+    return this.request('_cluster/stats', 'GET')
+  }
+
   clusterSettings () {
     return this.request('_cluster/settings', 'GET', { include_defaults: true })
   }

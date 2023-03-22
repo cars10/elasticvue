@@ -575,7 +575,8 @@
     },
     "loader": {
       "copy_error": "Copy error",
-      "network_error": "Network error. Is your cluster reachable?"
+      "network_error": "Network error, cannot access your cluster.",
+      "cluster_uri": "Cluster uri:"
     },
     "modal_data_loader": {
       "modal_title": {

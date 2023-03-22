@@ -20,16 +20,23 @@
               <circle :class="`health--${row.status}`" cx="7" cy="9" r="5" />
             </svg>
 
-            <div class="ellipsis" style="max-width: 300px;">
-              {{ row.name }}
-              <q-chip v-if="row.index === connectionStore.activeClusterIndex"
-                      class="q-mx-sm"
-                      color="positive"
-                      text-color="white"
-                      dense>
-                active
-              </q-chip>
+            <div>
+              <div class="ellipsis" style="max-width: 300px;">
+                {{ row.name }}
+              </div>
+
+              <div class="ellipsis" style="max-width: 300px;">
+                <span class="text-13 text-muted">{{ row.clusterName }}</span>
+              </div>
             </div>
+
+            <q-chip v-if="row.index === connectionStore.activeClusterIndex"
+                    class="q-mx-sm"
+                    color="positive"
+                    text-color="white"
+                    dense>
+              active
+            </q-chip>
           </div>
         </td>
         <td>

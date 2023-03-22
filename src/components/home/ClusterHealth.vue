@@ -1,15 +1,10 @@
 <template>
   <q-card>
-    <q-card-section class="flex items-center">
-      <h1 class="text-h5 q-my-none">
-        {{ $t('home.cluster_health.heading') }}
-      </h1>
-      <reload-button :action="load" />
+    <q-card-section>
+      <h2 class="text-h5 q-my-none">{{ $t('home.cluster_health.heading') }}</h2>
     </q-card-section>
 
-    <q-separator />
-
-    <q-card-section class="fontsize-14">
+    <q-card-section class="fontsize-14 q-px-none">
       <loader-status :request-state="requestState">
         <q-list v-if="data" dense>
           <q-item v-for="key in Object.keys(data)" :key="key">
@@ -31,7 +26,6 @@
   import { useTranslation } from '../../composables/i18n'
   import LoaderStatus from '../shared/LoaderStatus.vue'
   import { useElasticsearchRequest } from '../../composables/CallElasticsearch'
-  import ReloadButton from '../shared/ReloadButton.vue'
 
   const t = useTranslation()
 

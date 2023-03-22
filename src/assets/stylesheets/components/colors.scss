@@ -12,6 +12,11 @@
     background-color: #F5F5F5;
   }
 
+  .bg-dark-page {
+    color: #000 !important;
+    background-color: #F5F5F5;
+  }
+
   .bg-visible-bg {
     background: #eee !important;
     color: #111 !important;
@@ -20,16 +25,25 @@
 
 .body--dark {
   .text-muted {
-    color: $grey-6;
+    color: #c3c8d5;
   }
 
   .bg-darken {
     color: #fff;
-    background-color: #272727;
+    background-color: var(--q-darken);
+  }
+
+  .bg-dark-page {
+    color: #fff;
+    background-color: var(--q-dark-page);
   }
 
   .bg-visible-bg {
     background: #383838 !important;
     color: #fff !important;
   }
+}
+
+.text-13 {
+  font-size: 13px
 }

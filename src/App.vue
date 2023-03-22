@@ -4,7 +4,14 @@
 
     <q-page-container>
       <div class="q-ma-md">
-        <router-view />
+        <router-view v-if="connectionStore.activeCluster.status !== 'unknown'" />
+        <div v-else class="q-pa-lg">
+          <div class="row">
+            <div class="col-6 offset-3">
+              <network-error />
+            </div>
+          </div>
+        </div>
       </div>
     </q-page-container>
 
@@ -23,6 +30,7 @@
   import ModalLoader from './components/shared/ModalLoader.vue'
   import AlertSnackbar from './components/shared/AlertSnackbar.vue'
   import { useConnectionStore } from './store/connection'
+  import NetworkError from './components/shared/NetworkError.vue'
 
   const themeStore = useThemeStore()
   const connectionStore = useConnectionStore()

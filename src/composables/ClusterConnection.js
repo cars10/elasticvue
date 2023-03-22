@@ -73,6 +73,7 @@ export const useClusterConnection = () => {
         username: newCluster.value.username,
         password: newCluster.value.password,
         uri,
+        clusterName: infoJson.cluster_name,
         version: infoJson.version.number,
         majorVersion: parseInt(infoJson.version.number[0]),
         uuid: infoJson.cluster_uuid,

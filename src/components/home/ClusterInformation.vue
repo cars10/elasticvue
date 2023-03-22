@@ -1,15 +1,10 @@
 <template>
   <q-card>
-    <q-card-section class="flex items-center">
-      <h1 class="text-h5 q-my-none">
-        {{ $t('home.client_information.heading') }}
-      </h1>
-      <reload-button :action="load" />
+    <q-card-section>
+      <h2 class="text-h5 q-my-none">{{ $t('home.client_information.heading') }}</h2>
     </q-card-section>
 
-    <q-separator />
-
-    <q-card-section class="fontsize-14">
+    <q-card-section class="fontsize-14 q-px-none">
       <loader-status :request-state="requestState">
         <q-list v-if="data && data['version']" dense>
           <q-item>
@@ -36,15 +31,6 @@
             </q-item-section>
             <q-item-section side>
               <q-item-label>{{ data['cluster_uuid'] }}</q-item-label>
-            </q-item-section>
-          </q-item>
-
-          <q-item>
-            <q-item-section>
-              <q-item-label>tagline</q-item-label>
-            </q-item-section>
-            <q-item-section side>
-              <q-item-label>{{ data['tagline'] }}</q-item-label>
             </q-item-section>
           </q-item>
 
@@ -143,7 +129,6 @@
   import { useTranslation } from '../../composables/i18n'
   import LoaderStatus from '../shared/LoaderStatus.vue'
   import { useElasticsearchRequest } from '../../composables/CallElasticsearch'
-  import ReloadButton from '../shared/ReloadButton.vue'
 
   const t = useTranslation()
 

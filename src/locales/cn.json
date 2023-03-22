@@ -575,7 +575,8 @@
     },
     "loader": {
       "copy_error": "复制错误",
-      "network_error": null
+      "network_error": null,
+      "cluster_uri": null
     },
     "modal_data_loader": {
       "modal_title": {
