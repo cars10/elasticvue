@@ -19,7 +19,7 @@
     } else if (numberValue < 90 && numberValue >= 80) {
       return 'warning'
     } else {
-      return 'primary-button'
+      return 'primary-dark'
     }
   })
 </script>

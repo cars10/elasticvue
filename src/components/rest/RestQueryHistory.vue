@@ -3,11 +3,8 @@
     <div class="col q-pr-md">
       <div class="flex justify-between q-pb-md">
         <h4 class="text-h5 q-mb-none q-mt-sm">{{ heading }}</h4>
-        <q-input v-model="filter" :label="t('defaults.filter.label')" dense @keyup.esc="filter = ''">
-          <template #append>
-            <q-icon name="search" />
-          </template>
-        </q-input>
+
+        <filter-input v-model="filter" />
       </div>
 
       <q-table flat
@@ -29,10 +26,10 @@
 
     <div class="col">
       <div v-if="selectedRow" class="flex column full-height q-pl-md">
-        <h4 class="font-mono text-h6 q-mt-none q-mb-sm">
+        <h5 class="font-mono text-subtitle1 q-mt-none q-mb-sm">
           <strong :class="`http-${selectedRow.method}`">{{ selectedRow.method }}</strong>
           {{ selectedRow.path }}
-        </h4>
+        </h5>
 
         <div class="col-grow q-mb-md">
           <code-editor v-model="selectedRow.body" />
@@ -57,6 +54,7 @@
   import CodeEditor from '../shared/CodeEditor.vue'
   import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
   import { useTranslation } from '../../composables/i18n'
+  import FilterInput from '../shared/FilterInput.vue'
 
   const t = useTranslation()
 

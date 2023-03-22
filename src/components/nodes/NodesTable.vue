@@ -1,12 +1,6 @@
 <template>
   <div class="flex justify-end q-pa-md">
-    <div class="flex">
-      <q-input v-model="filter" :label="t('defaults.filter.label')" dense @keyup.esc="filter = ''">
-        <template #append>
-          <q-icon name="search" />
-        </template>
-      </q-input>
-    </div>
+    <filter-input v-model="filter" />
   </div>
 
   <q-table flat
@@ -71,6 +65,7 @@
   import { useTranslation } from '../../composables/i18n'
   import { nodeRoleTitle } from '../../helpers/nodes'
   import { filterItems } from '../../helpers/filters'
+  import FilterInput from '../shared/FilterInput.vue'
 
   const t = useTranslation()
 

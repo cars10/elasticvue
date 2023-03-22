@@ -8,13 +8,9 @@
     </div>
 
     <div class="flex">
-      <q-input v-model="filter" :label="t('defaults.filter.label')" dense @keyup.esc="filter = ''">
-        <template #append>
-          <q-icon name="search" />
-        </template>
-      </q-input>
+      <filter-input v-model="filter" />
 
-      <q-btn icon="settings" round flat dense>
+      <q-btn icon="settings" round flat>
         <q-menu style="white-space: nowrap" anchor="bottom right" self="top end">
           <q-list dense>
             <q-item style="padding-left: 0">
@@ -83,6 +79,7 @@
   import { useResizeStore } from '../../store/resize'
   import { filterItems } from '../../helpers/filters'
   import { debounce } from '../../helpers/debounce'
+  import FilterInput from '../shared/FilterInput.vue'
 
   const t = useTranslation()
 
@@ -121,7 +118,7 @@
     items.value = results.map(index => new ElasticsearchIndex(index))
   }
 
-  const debouncedFilterTable = debounce(filterTable, 250)
+  const debouncedFilterTable = debounce(filterTable, 150)
   watch(() => filter.value, debouncedFilterTable)
   watch(() => indicesStore.showHiddenIndices, filterTable)
   watch(() => props.indices, filterTable)

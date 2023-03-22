@@ -1,12 +1,7 @@
 <template>
   <div class="flex justify-between q-pa-sm q-ma-sm">
     <new-cluster />
-
-    <q-input v-model="filter" :label="$t('defaults.filter.label')" dense autofocus @keyup.esc="filter = ''">
-      <template #append>
-        <q-icon name="search" />
-      </template>
-    </q-input>
+    <filter-input v-model="filter" />
   </div>
 
   <q-table flat
@@ -64,6 +59,7 @@
   import { useConnectionStore } from '../../store/connection'
   import { reloadHomePage } from '../../helpers/router'
   import { askConfirm } from '../../helpers/dialogs'
+  import FilterInput from '../shared/FilterInput.vue'
 
   const t = useTranslation()
   const connectionStore = useConnectionStore()

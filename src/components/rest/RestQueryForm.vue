@@ -51,9 +51,6 @@
         <q-btn :label="$t('query.rest.form.save_request')" icon="save" color="visible-bg q-mr-sm" @click="saveQuery" />
 
         <q-chip v-if="response.status" :label="response.status" :class="responseStatusClass" />
-
-        <br>
-        <q-btn size="12px" flat class="q-mt-md" :label="$t('query.rest.form.reset')" @click="resetRequest" />
       </div>
       <div class="col-6 text-right">
         <download-button color="visible-bg"
@@ -106,13 +103,7 @@
   }, 200)
 
   const resizeStore = useResizeStore()
-  const {
-    loading,
-    response,
-    sendRequest,
-    responseStatusClass,
-    resetRequest
-  } = useRestQuery(ownRequest.value, emit)
+  const { loading, response, sendRequest, responseStatusClass } = useRestQuery(ownRequest.value, emit)
 
   const editorCommands = [{
     bindKey: { win: 'Ctrl+ENTER', mac: 'Command+ENTER', linux: 'Ctrl+ENTER' },

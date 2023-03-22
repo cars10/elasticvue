@@ -1,23 +1,17 @@
 <template>
   <div class="flex justify-end q-pa-md">
-    <div class="flex">
-      <q-input v-model="filter" :label="t('defaults.filter.label')" dense @keyup.esc="filter = ''">
-        <template #append>
-          <q-icon name="search" />
-        </template>
-      </q-input>
+    <filter-input v-model="filter" />
 
-      <q-btn icon="settings" round flat dense>
-        <q-menu style="white-space: nowrap" anchor="bottom right" self="top end">
-          <q-list dense>
-            <q-item style="padding-left: 0">
-              <q-checkbox v-model="indicesStore.showHiddenIndices"
-                          :label="$t('indices.indices_table.show_hidden_indices.label')" />
-            </q-item>
-          </q-list>
-        </q-menu>
-      </q-btn>
-    </div>
+    <q-btn icon="settings" round flat>
+      <q-menu style="white-space: nowrap" anchor="bottom right" self="top end">
+        <q-list dense>
+          <q-item style="padding-left: 0">
+            <q-checkbox v-model="indicesStore.showHiddenIndices"
+                        :label="$t('indices.indices_table.show_hidden_indices.label')" />
+          </q-item>
+        </q-list>
+      </q-menu>
+    </q-btn>
   </div>
 
   <q-table v-model:pagination="pagination"
@@ -96,6 +90,7 @@
   import { useTableColumnHover } from '../../composables/TableColumnHover'
   import { useIndicesStore } from '../../store/indices'
   import IndexShard from './IndexShard.vue'
+  import FilterInput from '../shared/FilterInput.vue'
 
   const t = useTranslation()
 
