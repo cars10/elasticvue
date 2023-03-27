@@ -19,9 +19,9 @@
 
         <div class="col-3">
           <q-card v-if="data" class="full-height">
-            <q-card-section>
+            <q-card-section style="position: initial">
               <h3 class="text-h6 q-my-none">
-                <router-link :to="{name: 'nodes'}" class="decoration-none">
+                <router-link :to="{name: 'nodes'}" class="decoration-none stretched">
                   <span class="text-h3">{{ data.nodes.count.total }}</span> nodes
                 </router-link>
               </h3>
@@ -35,9 +35,9 @@
 
         <div class="col-3">
           <q-card v-if="data" class="full-height">
-            <q-card-section>
+            <q-card-section style="position: initial">
               <h3 class="text-h6 q-my-none">
-                <router-link :to="{name: 'shards'}" class="decoration-none">
+                <router-link :to="{name: 'shards'}" class="decoration-none stretched">
                   <span class="text-h3">{{ data.indices.shards.total }}</span> shards
                 </router-link>
               </h3>
@@ -51,9 +51,9 @@
 
         <div class="col-3">
           <q-card v-if="data" class="full-height">
-            <q-card-section>
+            <q-card-section style="position: initial">
               <h3 class="text-h6 q-my-none">
-                <router-link :to="{name: 'indices'}" class="decoration-none">
+                <router-link :to="{name: 'indices'}" class="decoration-none stretched">
                   <span class="text-h3">{{ data.indices.count }}</span> indices
                 </router-link>
               </h3>
