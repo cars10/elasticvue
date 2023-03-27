@@ -18,7 +18,7 @@
     </q-file>
 
     <q-btn :disable="!importFile"
-           color="primary"
+           color="primary-dark"
            icon="upload"
            type="submit"
            :label="$t('settings.import_export.import.import')" />

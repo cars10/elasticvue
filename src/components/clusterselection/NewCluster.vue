@@ -1,5 +1,5 @@
 <template>
-  <q-btn :label="$t('elasticsearch_instance.new_instance.add_cluster')" color="primary" @click="dialog = true" />
+  <q-btn :label="$t('elasticsearch_instance.new_instance.add_cluster')" color="primary-dark" @click="dialog = true" />
 
   <q-dialog v-model="dialog">
     <q-card style="min-width: 800px">

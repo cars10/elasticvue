@@ -1,16 +1,16 @@
 .health--green {
-  color: #2e7d32;
-  fill: #2e7d32;
+  color: #43a047;
+  fill: #43a047;
 }
 
 .health--yellow {
-  color: orange;
-  fill: orange;
+  color: var(--theme-warning);
+  fill: var(--theme-warning);
 }
 
 .health--error, .health--red {
-  color: red;
-  fill: red;
+  color: var(--theme-negative);
+  fill: var(--theme-negative);
 }
 
 .health--unknown {
