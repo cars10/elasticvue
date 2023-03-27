@@ -16,7 +16,7 @@
         <q-route-tab label="Indices" :to="{name: 'indices'}" exact />
         <q-route-tab label="Search" :to="{name: 'home'}" exact />
         <q-route-tab label="Rest" :to="{name: 'rest'}" exact />
-        <q-route-tab label="Snapshots" :to="{name: 'home'}" exact />
+        <q-route-tab label="Snapshots" :to="{name: 'snapshot_repositories'}" exact />
         <q-route-tab label="Utilities" :to="{name: 'home'}" exact />
         <q-route-tab icon="settings" :to="{name: 'settings'}" exact />
       </q-tabs>
@@ -27,7 +27,6 @@
 <script setup>
   import { useLogo } from '../../composables/Logo'
   import { useConnectionStore } from '../../store/connection'
-  import { ref } from 'vue'
   import ClusterSelection from '../clusterselection/ClusterSelection.vue'
 
   const connectionStore = useConnectionStore()
