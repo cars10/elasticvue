@@ -1,5 +1,5 @@
 <template>
-  <q-header class="bg-default">
+  <q-header class="bg-default shadow-3">
     <q-toolbar style="height: 64px">
       <img :src="logo" alt="logo" height="48" width="48">
       <q-toolbar-title>
