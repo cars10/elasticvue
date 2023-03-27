@@ -11,20 +11,33 @@
 
   <q-table flat
            dense
-           row-key="index"
+           row-key="name"
            :columns="columns"
            :rows="filteredItems"
            :pagination="{sortBy: 'name'}"
            :rows-per-page-options="DEFAULT_ROWS_PER_PAGE">
-    <template #body="{row}">
-      <tr>
-        <td>{{ row.name }}</td>
-        <td>{{ row.index_template.index_patterns }}</td>
-        <td>{{ row.index_template.priority }}</td>
-        <td>{{ row.index_template.version }}</td>
-        <td>{{ row.index_template.allow_auto_create }}</td>
-        <td>{{ JSON.stringify(row.index_template.template) }}</td>
-      </tr>
+    <template #body="props">
+      <q-tr @click="props.expand = !props.expand" class="clickable">
+        <q-td>
+          <q-icon :name="props.expand ? 'expand_less' : 'expand_more'" />
+        </q-td>
+        <q-td>{{ props.row.name }}</q-td>
+        <q-td>{{ props.row.index_template.index_patterns }}</q-td>
+        <q-td>{{ props.row.index_template.priority }}</q-td>
+        <q-td>{{ props.row.index_template.version }}</q-td>
+        <q-td>{{ props.row.index_template.allow_auto_create }}</q-td>
+        <q-td>{{ JSON.stringify(props.row.index_template.template) }}</q-td>
+      </q-tr>
+
+      <q-tr v-if="props.expand">
+        <q-td colspan="100%">
+          <div class="q-pa-md">
+            <resizable-container>
+              <code-viewer :value="JSON.stringify(props.row.index_template.template)" />
+            </resizable-container>
+          </div>
+        </q-td>
+      </q-tr>
     </template>
   </q-table>
 </template>
@@ -34,6 +47,8 @@
   import { useTranslation } from '../../composables/i18n'
   import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
   import { filterItems } from '../../helpers/filters'
+  import CodeViewer from '../shared/CodeViewer.vue'
+  import ResizableContainer from '../shared/ResizableContainer.vue'
 
   const t = useTranslation()
 
@@ -53,6 +68,7 @@
   })
 
   const columns = [
+    { label: '' },
     {
       label: t('index_templates.index_templates_table.table.headers.name'), field: 'name',
       name: 'name',
