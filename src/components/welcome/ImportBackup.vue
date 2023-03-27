@@ -1,5 +1,5 @@
 <template>
-  <q-btn color="primary-dark" label="Import elasticvue backup" icon="upload" @click="dialog = true" />
+  <q-btn color="primary" label="Import elasticvue backup" icon="upload" @click="dialog = true" />
 
   <q-dialog v-model="dialog" position="top" transition-show="scale" transition-hide="scale">
     <q-card style="width: 500px" class="q-mt-xl">

@@ -1,21 +1,33 @@
-@import 'base';
-@import 'quasar/overrides/q_banner';
-@import 'quasar/overrides/q_btn';
-@import 'quasar/overrides/q_card';
-@import 'quasar/overrides/q_input';
-@import 'quasar/overrides/q_separator';
-@import 'quasar/overrides/q_table';
+@import 'theme/variables';
 
-@import 'components/anchor';
-@import 'components/bordered';
-@import 'components/button';
-@import 'components/chip';
-@import 'components/code';
-@import 'components/code_editor';
-@import 'components/colors';
-@import 'components/health';
-@import 'components/http_method_color';
-@import 'components/reload_button';
-@import 'components/resizable';
-@import 'components/snackbar';
-@import 'components/table';
+@import 'theme/components/body';
+@import 'theme/components/colors';
+
+@import 'theme/components/anchor';
+@import 'theme/components/border';
+@import 'theme/components/button';
+@import 'theme/components/chip';
+@import 'theme/components/code';
+@import 'theme/components/code_editor';
+@import 'theme/components/health';
+@import 'theme/components/http_method_color';
+@import 'theme/components/reload_button';
+@import 'theme/components/resizable';
+@import 'theme/components/snackbar';
+@import 'theme/components/table';
+@import 'theme/components/text';
+
+@import 'quasar/q-banner';
+@import 'quasar/q-btn';
+@import 'quasar/q-card';
+@import 'quasar/q-form';
+@import 'quasar/q-menu';
+@import 'quasar/q-separator';
+@import 'quasar/q-table';
+@import 'quasar/q-tab';
+
+// components
+
+.q-item__section--side {
+  @extend .text-muted;
+}

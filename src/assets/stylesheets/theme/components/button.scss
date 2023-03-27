@@ -4,11 +4,5 @@ button.btn-link {
   padding: 0 !important;
   text-decoration: underline;
   cursor: pointer;
-  color: #1976d2;
-}
-
-.theme--dark {
-  button.btn-link {
-    color: #2196f3;
-  }
+  color: var(--theme-primary);
 }

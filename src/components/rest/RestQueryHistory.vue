@@ -37,11 +37,11 @@
 
         <div>
           <q-btn :label="t('query.rest_query_history.body_preview.use')"
-                 color="primary-dark"
+                 color="primary"
                  class="q-mr-sm"
                  @click="emit('useRequest', selectedRow)" />
           <q-btn :label="t('query.rest_query_history.body_preview.open_new_tab')"
-                 color="visible-bg"
+                 color="dark-grey"
                  @click="emit('useRequestNewTab', selectedRow)" />
         </div>
       </div>

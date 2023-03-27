@@ -1,5 +1,5 @@
 <template>
-  <q-btn icon="translate" round>
+  <q-btn icon="translate" round color="dark-grey">
     <q-menu>
       <q-list>
         <q-item v-close-popup

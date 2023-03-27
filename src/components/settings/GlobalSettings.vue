@@ -32,7 +32,7 @@
           <div>
             <p>{{ $t('settings.disconnect_and_reset.heading') }}</p>
 
-            <q-btn color="visible-bg" @click="reset">
+            <q-btn color="dark-grey" @click="reset">
               <q-icon name="warning" size="xs" color="negative" class="q-mr-sm" />
               {{ $t('settings.disconnect_and_reset.button') }}
             </q-btn>

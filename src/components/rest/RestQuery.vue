@@ -19,14 +19,14 @@
         <q-btn :label="$t('query.rest.history')"
                icon="history"
                :icon-right="historyOpen ? 'expand_less' : 'expand_more'"
-               color="visible-bg q-mb-sm q-mr-md"
+               color="dark-grey q-mb-sm q-mr-md"
                :outline="historyOpen"
                @click="toggleHistory" />
 
         <q-btn label="Saved queries"
                icon="save"
                :icon-right="savedQueriesOpen ? 'expand_less' : 'expand_more'"
-               color="visible-bg q-mb-sm"
+               color="dark-grey q-mb-sm"
                :outline="savedQueriesOpen"
                @click="toggleSavedQueries" />
 

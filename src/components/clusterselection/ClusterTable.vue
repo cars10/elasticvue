@@ -26,7 +26,7 @@
               </div>
 
               <div class="ellipsis" style="max-width: 300px;">
-                <span class="text-13 text-muted">{{ row.clusterName }}</span>
+                <span class="font-13 text-muted">{{ row.clusterName }}</span>
               </div>
             </div>
 

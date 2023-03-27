@@ -53,15 +53,15 @@
           <q-checkbox v-model="allItemsSelected" size="sm" @update:model-value="checkAll" />
         </template>
       </q-table>
-
-      <div class="q-pa-md">
-        <index-bulk :selected-indices="selectedItems"
-                    :total-items-count="indices.length"
-                    :filtered-items-count="items.length"
-                    @reload="emit('reload')"
-                    @indices-deleted="clearDeletedIndicesAndReload" />
-      </div>
     </resizable-container>
+
+    <div class="q-pa-md">
+      <index-bulk :selected-indices="selectedItems"
+                  :total-items-count="indices.length"
+                  :filtered-items-count="items.length"
+                  @reload="emit('reload')"
+                  @indices-deleted="clearDeletedIndicesAndReload" />
+    </div>
   </div>
 </template>
 

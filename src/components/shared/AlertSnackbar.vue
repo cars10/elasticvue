@@ -1,18 +1,18 @@
 <template>
   <q-card v-if="store.visible" class="snackbar" @mouseover="setHover" @mouseleave="unsetHover">
-    <div :class="`border--${store.color} q-pa-md border--left--8`">
+    <div :class="`border-none border-${store.color} q-pa-md border-l-8`">
       <strong class="q-mb-md inline-block">{{ store.title }}</strong>
       <template v-if="store.body">
         <div class="q-my-sm overflow-auto" style="max-height: 200px">
           <p>{{ store.body }}</p>
         </div>
-        <q-btn :label="$t('defaults.close')" @click="close" />
+        <q-btn :label="$t('defaults.close')" color="dark-grey" @click="close" />
         <copy-button v-if="store.copyableText && store.copyableText.length > 0" :value="store.copyableText"
                      title="Copy response"
                      class="float-right" />
       </template>
       <div v-else class="overflow-auto">
-        <q-btn :label="$t('defaults.close')" @click="close" />
+        <q-btn :label="$t('defaults.close')" color="dark-grey" @click="close" />
       </div>
 
       <div class="snackbar--progress-bar" :style="progressBarStyle" />

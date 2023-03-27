@@ -1,0 +1,29 @@
+.border-2 {
+  border: 2px;
+  border-style: solid;
+  border-color: var(--theme-border-color);
+}
+
+.border-l-8 {
+  border-left: 8px solid var(--theme-border-color) !important;
+}
+
+.border-none {
+  border: none
+}
+
+.border-positive {
+  border-color: var(--theme-positive) !important;
+}
+
+.border-warning {
+  border-color: var(--theme-warning) !important;
+}
+
+.border-negative {
+  border-color: var(--theme-negative) !important;
+}
+
+.border-grey {
+  border-color: lightgrey !important;
+}

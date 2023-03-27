@@ -1,5 +1,5 @@
 <template>
-  <div class="bordered code-editor">
+  <div class="border-2 code-editor">
     <div ref="editor" class="full-width full-height" />
 
     <div class="code-editor__actions">

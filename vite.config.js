@@ -7,9 +7,7 @@ export default defineConfig({
     vue({
       template: { transformAssetUrls }
     }),
-    quasar({
-      sassVariables: 'src/assets/stylesheets/quasar/quasar-variables.scss'
-    }),
+    quasar(),
   ],
   define: {
     '__APP_VERSION__': JSON.stringify(process.env.npm_package_version),

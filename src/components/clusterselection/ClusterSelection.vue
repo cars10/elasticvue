@@ -1,5 +1,5 @@
 <template>
-  <q-btn color="visible-bg" no-caps :title="btnTitle">
+  <q-btn color="dark-grey" no-caps :title="btnTitle">
     <cluster-status-indicator :status="connectionStore.activeCluster.status"
                               :loading="connectionStore.activeCluster.loading" />
 
@@ -8,9 +8,9 @@
     <q-icon :name="menuOpen ? 'expand_less' : 'expand_more'" />
 
     <q-menu v-model="menuOpen">
-      <q-card style="min-width: 650px">
+      <div style="min-width: 650px">
         <cluster-table />
-      </q-card>
+      </div>
     </q-menu>
   </q-btn>
 </template>

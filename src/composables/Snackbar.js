@@ -10,12 +10,12 @@ export const useSnackbar = () => {
   const store = useSnackbarStore()
 
   const showSuccessSnackbar = props => {
-    store.show(Object.assign({}, { timeout: TIMEOUTS.default, color: 'success' }, props))
+    store.show(Object.assign({}, { timeout: TIMEOUTS.default, color: 'positive' }, props))
   }
 
   const showErrorSnackbar = props => {
     if (props.body) console.error(props.body)
-    store.show(Object.assign({}, { timeout: TIMEOUTS.error, color: 'error' }, props))
+    store.show(Object.assign({}, { timeout: TIMEOUTS.error, color: 'negative' }, props))
   }
 
   const showDefaultSnackbar = props => {
@@ -28,7 +28,7 @@ export const useSnackbar = () => {
 
     if (status.match(/2\d\d/)) {
       snackbarOptions.timeout = TIMEOUTS.default
-      snackbarOptions.color = 'success'
+      snackbarOptions.color = 'positive'
       snackbarOptions.title = '200 OK'
       if (successOptions.title) snackbarOptions.title += ` - ${successOptions.title}`
       if (successOptions.body) snackbarOptions.body = successOptions.body
@@ -55,7 +55,7 @@ export const useSnackbar = () => {
       }
     } else if (status.match(/5\d\d/)) {
       snackbarOptions.timeout = TIMEOUTS.error
-      snackbarOptions.color = 'error'
+      snackbarOptions.color = 'negative'
       snackbarOptions.title = '500 Elasticsearch server error'
 
       const errorMessage = responseErrorMessage(requestState.apiErrorMessage)
@@ -67,7 +67,7 @@ export const useSnackbar = () => {
       }
     } else if (requestState.status === -1) {
       snackbarOptions.timeout = TIMEOUTS.error
-      snackbarOptions.color = 'error'
+      snackbarOptions.color = 'negative'
       snackbarOptions.title = 'Request error'
       snackbarOptions.body = requestState.apiErrorMessage
     }

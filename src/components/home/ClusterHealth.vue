@@ -4,7 +4,7 @@
       <h2 class="text-h5 q-my-none">{{ $t('home.cluster_health.heading') }}</h2>
     </q-card-section>
 
-    <q-card-section class="fontsize-14 q-px-none">
+    <q-card-section class="font-14 q-px-none">
       <loader-status :request-state="requestState">
         <q-list v-if="data" dense>
           <q-item v-for="key in Object.keys(data)" :key="key">

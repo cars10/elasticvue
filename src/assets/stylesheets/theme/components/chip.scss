@@ -1,4 +1,6 @@
 .q-chip {
+  color: var(--theme-color);
+
   &.outline--dashed {
     border-style: dashed !important;
   }

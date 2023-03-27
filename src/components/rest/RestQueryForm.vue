@@ -45,15 +45,15 @@
 
     <div class="row">
       <div class="col-6">
-        <q-btn class="q-mr-sm" :loading="loading" color="primary-dark" type="submit"
+        <q-btn class="q-mr-sm" :loading="loading" color="primary" type="submit"
                :label="$t('query.rest.form.send_request')" />
 
-        <q-btn :label="$t('query.rest.form.save_request')" icon="save" color="visible-bg q-mr-sm" @click="saveQuery" />
+        <q-btn :label="$t('query.rest.form.save_request')" icon="save" color="dark-grey q-mr-sm" @click="saveQuery" />
 
         <q-chip v-if="response.status" :label="response.status" :class="responseStatusClass" />
       </div>
       <div class="col-6 text-right">
-        <download-button color="visible-bg"
+        <download-button color="dark-grey"
                          :disable="response.bodyText.length === 0"
                          size="12px"
                          class="q-mb-md"

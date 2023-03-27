@@ -15,7 +15,7 @@
     </template>
     <template v-else-if="requestState.networkError">
       <div class="pa-4">
-        <q-banner class="bg-grey-7">
+        <q-banner class="q-pa-md bg-default">
           {{ $t('shared.loader.network_error') }}
         </q-banner>
       </div>

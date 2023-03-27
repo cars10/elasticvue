@@ -1,0 +1,11 @@
+a:not(.q-btn):not(.q-tab),
+a:visited:not(.q-btn):not(.q-tab),
+a:hover:not(.q-btn):not(.q-tab),
+a:focus:not(.q-btn):not(.q-tab) {
+  color: var(--theme-primary) !important;
+}
+
+a:hover:not(.q-tab) {
+  cursor: pointer;
+  text-decoration: underline;
+}

@@ -1,5 +1,5 @@
 <template>
-  <q-footer class="bg-dark q-pa-lg">
+  <q-footer class="bg-default q-pa-lg">
     <div class="row">
       <div class="col-md-4">
         <theme-switcher />

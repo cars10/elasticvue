@@ -4,7 +4,7 @@
       <h2 class="text-h5 q-my-none">{{ $t('home.client_information.heading') }}</h2>
     </q-card-section>
 
-    <q-card-section class="fontsize-14 q-px-none">
+    <q-card-section class="font-14 q-px-none">
       <loader-status :request-state="requestState">
         <q-list v-if="data && data['version']" dense>
           <q-item>

@@ -48,13 +48,13 @@
     <q-btn :label="$t('setup.test_and_connect.form.test_connection')"
            :disable="!formValid"
            :loading="testRequestState.loading"
-           color="primary-dark"
+           color="primary"
            class="q-mr-sm"
            type="submit" />
 
     <q-btn :label="$t('setup.test_and_connect.form.connect')"
            :disable="!formValid"
-           color="primary-dark"
+           color="primary"
            type="button"
            @click="connectAndRedirect" />
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="bordered code-editor">
+  <div class="border-2 code-editor">
     <div ref="editor" class="full-width full-height" />
 
     <div class="code-editor__actions">
@@ -13,7 +13,7 @@
             <q-item>
               <q-btn :disable="!validJson"
                      :title="$t('shared.code_editor.actions.beautify.title')"
-                     color="visible-bg"
+                     color="dark-grey"
                      class="full-width"
                      @click="beautifyEditorValue">
                 <q-icon dense name="auto_fix_normal" />

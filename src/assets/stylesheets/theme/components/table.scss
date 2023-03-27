@@ -5,7 +5,7 @@
     thead tr th {
       position: sticky;
       z-index: 1;
-      background-color: #fff;
+      background-color: var(--theme-background);
     }
 
     thead tr:first-child th {
@@ -17,14 +17,4 @@
 table td.small-wrap {
   width: 1%;
   white-space: nowrap;
-}
-
-td.marked:before, th.marked:before {
-  content: "";
-}
-
-.body--dark {
-  .table--sticky-header .q-table__container thead tr th {
-    background-color: #1d1d1d;
-  }
 }

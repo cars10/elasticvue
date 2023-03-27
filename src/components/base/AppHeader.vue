@@ -1,5 +1,5 @@
 <template>
-  <q-header class="bg-dark">
+  <q-header class="bg-default">
     <q-toolbar style="height: 64px">
       <img :src="logo" alt="logo" height="48" width="48">
       <q-toolbar-title>
@@ -32,6 +32,4 @@
 
   const connectionStore = useConnectionStore()
   const logo = useLogo()
-
-  const open = ref(false)
 </script>

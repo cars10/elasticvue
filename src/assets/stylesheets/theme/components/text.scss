@@ -1,5 +1,6 @@
-$border-light-color: #ccc;
-$border-dark-color: #212121;
+.text-muted {
+  color: var(--theme-muted-color) !important;
+}
 
 body {
   font-size: 16px;
@@ -13,14 +14,18 @@ body {
   text-decoration: none;
 }
 
-.fontsize-14 {
+.font-14 {
   font-size: 14px !important;
 }
 
-.clickable:hover {
-  cursor: pointer
+.font-13 {
+  font-size: 13px !important;
 }
 
 .font-mono {
   font-family: 'Hack', monospace;
+}
+
+.clickable:hover {
+  cursor: pointer
 }

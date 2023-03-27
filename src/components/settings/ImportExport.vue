@@ -16,7 +16,7 @@
         {{ $t('settings.import_export.export.heading') }}
       </h3>
 
-      <download-button color="primary-dark"
+      <download-button color="dark-grey"
                        class="q-mb-md"
                        :download="downloadFileName"
                        :label="$t('settings.import_export.export.download')"

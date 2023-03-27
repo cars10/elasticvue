@@ -1,5 +1,5 @@
 <template>
-  <q-btn round :icon="icon" class="q-mr-md" @click="store.toggleTheme" />
+  <q-btn round :icon="icon" class="q-mr-md" color="dark-grey" @click="store.toggleTheme" />
 </template>
 
 <script setup>
