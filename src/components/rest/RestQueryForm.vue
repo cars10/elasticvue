@@ -18,7 +18,7 @@
     <resizable-container v-model="resizeStore.restForm" class="q-mb-md">
       <div class="row q-my-md full-height">
         <div class="col-6 q-pr-sm full-height">
-          <q-banner v-show="['GET', 'HEAD'].includes(ownRequest.method)" class="bg-darken q-pa-md">
+          <q-banner v-show="['GET', 'HEAD'].includes(ownRequest.method)" class="bg-default q-pa-md">
             <template #avatar>
               <q-icon name="info" />
             </template>
