@@ -1,11 +1,11 @@
 import ElasticsearchAdapter from '@/services/ElasticsearchAdapter'
-import { DefaultClient } from '@/models/clients/DefaultClient'
+import { ClientProvider } from '@/models/clients/ClientProvider'
 import { CONNECTION_STATES } from '@/consts'
 import Vue from 'vue'
 
 export const checkHealth = async instance => {
   if (!instance) return
-  const adapter = new ElasticsearchAdapter(new DefaultClient(instance))
+  const adapter = new ElasticsearchAdapter(ClientProvider.getClient(instance))
 
   try {
     const result = await adapter.clusterHealth()

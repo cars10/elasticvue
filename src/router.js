@@ -16,7 +16,7 @@ import Shards from '@/views/Shards'
 import NestedView from '@/views/NestedView'
 import store from '@/store'
 import ElasticsearchAdapter from '@/services/ElasticsearchAdapter'
-import { DefaultClient } from '@/models/clients/DefaultClient'
+import { ClientProvider } from '@/models/clients/ClientProvider'
 
 Vue.use(Router)
 
@@ -86,7 +86,7 @@ router.beforeEach((to, from, next) => {
   }
 
   store.commit('connection/setActiveInstanceIdx', instanceId)
-  const adapter = new ElasticsearchAdapter(new DefaultClient(store.getters['connection/activeInstance']))
+  const adapter = new ElasticsearchAdapter(ClientProvider.getClient(store.getters['connection/activeInstance']))
   store.commit('connection/setElasticsearchAdapter', adapter)
 
   next()

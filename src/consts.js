@@ -11,8 +11,14 @@ export const CONNECTION_STATES = {
   ERROR: 'error'
 }
 
+export const ENVIRONMENT_VARIABLES = {
+  ELASTICSEARCH_HOST: 'http://localhost',
+  ELASTICSEARCH_PORT: '9200',
+  ELASTIC_CLIENT_TYPE: 'default'
+}
+
 export const DEFAULT_NAME = 'default cluster'
-export const DEFAULT_HOST = 'http://localhost:9200'
+export const DEFAULT_HOST = ENVIRONMENT_VARIABLES.ELASTICSEARCH_HOST + ':' + ENVIRONMENT_VARIABLES.ELASTICSEARCH_PORT
 export const LOCALSTORAGE_KEY = 'elasticvuex'
 export const INDEXEDDB_NAME = 'elasticvue'
 export const DEFAULT_SEARCH_QUERY = '{\n\t"query": {\n\t\t"query_string": {\n\t\t\t"query": "*"\n\t\t}\n\t},\n\t"size": 10,\n\t"from": 0,\n\t"sort": []\n}'
@@ -120,3 +126,5 @@ export const SUPPORTED_COUNTRY_LOCALES = {
   zh: 'cn'
 }
 export const DEFAULT_LOCALE = 'en'
+
+export const ELASTIC_CLIENT = ENVIRONMENT_VARIABLES.ELASTIC_CLIENT_TYPE;

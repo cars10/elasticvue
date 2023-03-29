@@ -1,7 +1,7 @@
 import { computed, ref } from 'vue'
 import { DEFAULT_ELASTICSEARCH_HOST, DEFAULT_HOST, DEFAULT_NAME } from '@/consts'
 import ElasticsearchAdapter from '@/services/ElasticsearchAdapter'
-import { DefaultClient } from '@/models/clients/DefaultClient'
+import { ClientProvider } from '@/models/clients/ClientProvider'
 import store from '@/store'
 import i18n from '@/i18n'
 import { showSuccessSnackbar } from '@/mixins/ShowSnackbar'
@@ -55,7 +55,7 @@ export const useTestConnection = () => {
     testState.value.testLoading = true
     testState.value.testSuccess = false
     testState.value.testError = false
-    new ElasticsearchAdapter(new DefaultClient(elasticsearchHost.value)).test()
+    new ElasticsearchAdapter(new ClientProvider.getClient(elasticsearchHost.value)).test()
       .then(() => {
         testState.value.testLoading = false
         testState.value.testSuccess = true
@@ -81,7 +81,7 @@ export const useTestConnection = () => {
   const connect = () => {
     testState.value.connectLoading = true
     testState.value.connectError = false
-    return new ElasticsearchAdapter(new DefaultClient(elasticsearchHost.value)).test()
+    return new ElasticsearchAdapter(ClientProvider.getClient(elasticsearchHost.value)).test()
       .then(() => {
         store.commit('connection/addElasticsearchInstance', {
           name: elasticsearchHost.value.name.trim(),
