@@ -1,27 +1,18 @@
+#!/bin/sh
+
 # Replace placeholders in app.*.js with environment variables
 ELASTICSEARCH_HOST=${ELASTICSEARCH_HOST:-http://localhost}
 ELASTICSEARCH_PORT=${ELASTICSEARCH_PORT:-9200}
 ELASTIC_CLIENT_TYPE=${ELASTIC_CLIENT_TYPE:-default}
-cp /original/app.*.js /usr/share/nginx/html/assets/js/app.*.js
-if [ -z "$ELASTICSEARCH_HOST" ] && [ -z "$ELASTICSEARCH_PORT" ] && [ -z "$ELASTIC_CLIENT_TYPE" ]; then
-  echo "No environment variables set. Skipping sed command."
-else
-  sed_cmd="ELASTICSEARCH_HOST:\"$ELASTICSEARCH_HOST\",ELASTICSEARCH_PORT:\"$ELASTICSEARCH_PORT\",ELASTIC_CLIENT_TYPE:\"$ELASTIC_CLIENT_TYPE\""
+ELASTIC_USERNAME=${ELASTIC_USERNAME:-}
+ELASTIC_PASSWORD=${ELASTIC_PASSWORD:-}
 
-  if [ -z "$ELASTICSEARCH_HOST" ]; then
-    sed_cmd="$(echo "$sed_cmd" | sed 's@ELASTICSEARCH_HOST:"[^"]\+",@@')"
-  fi
+original_app_js_path="$(find /original -name 'app.*.js')"
+app_js_path="$(find /usr/share/nginx/html/assets/js -name 'app.*.js')"
+rm -f app_js_path
+cp "$original_app_js_path" "$app_js_path"
 
-  if [ -z "$ELASTICSEARCH_PORT" ]; then
-    sed_cmd="$(echo "$sed_cmd" | sed 's@,ELASTICSEARCH_PORT:"[^"]\+"@@')"
-  fi
+search_str='{ELASTICSEARCH_HOST:"http:\/\/localhost",ELASTICSEARCH_PORT:"9200",ELASTIC_CLIENT_TYPE:"default",ELASTIC_USERNAME:"",ELASTIC_PASSWORD:""}'
+replace_str="{ELASTICSEARCH_HOST:\"${ELASTICSEARCH_HOST}\",ELASTICSEARCH_PORT:\"${ELASTICSEARCH_PORT}\",ELASTIC_CLIENT_TYPE:\"${ELASTIC_CLIENT_TYPE}\",ELASTIC_USERNAME:\"${ELASTIC_USERNAME}\",ELASTIC_PASSWORD:\"${ELASTIC_PASSWORD}\"}"
 
-  if [ -z "$ELASTIC_CLIENT_TYPE" ]; then
-    sed_cmd="$(echo "$sed_cmd" | sed 's@,ELASTIC_CLIENT_TYPE:"[^"]\+"@@')"
-  fi
-
-  SEDCMD="0,/{ELASTICSEARCH_HOST:\"http:\/\/localhost\",ELASTICSEARCH_PORT:\"9200\",ELASTIC_CLIENT_TYPE:\"default\"}/{s@@{$sed_cmd}@}"
-  echo "Replacing with sed: $SEDCMD in /usr/share/nginx/html/assets/js/app*.js"
-  sed -i "$SEDCMD" /usr/share/nginx/html/assets/js/app*.js
-fi
-
+sed -i "s#${search_str}#${replace_str}#g" "$app_js_path"

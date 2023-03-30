@@ -84,7 +84,7 @@
   import { computed, ref } from 'vue'
   import SslHint from '@/components/shared/SslHint'
   import AuthorizationHeaderHint from '@/components/shared/AuthorizationHeaderHint'
-  import { SHOW_CORS_HINT } from '@/consts'
+  import { SHOW_CORS_HINT, ENVIRONMENT_VARIABLES } from '@/consts'
   import { showSuccessSnackbar } from '@/mixins/ShowSnackbar'
   import { reloadHomePage } from '@/helpers'
   import { useRouter } from '@/helpers/composition'
@@ -118,6 +118,9 @@
             showSuccessSnackbar({ title: i18n.t('setup.test_and_connect.connected') })
             reloadHomePage(router, 0)
           })
+      }
+      if (ENVIRONMENT_VARIABLES.ELASTIC_CLIENT_TYPE === 'docker') {
+        connectCluster();
       }
 
       const passwordVisible = ref(false)

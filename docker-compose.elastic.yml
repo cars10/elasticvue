@@ -3,10 +3,14 @@ services:
   app:
     build: .
     container_name: elasticvue
+    networks:
+      - elasticvue
     environment:
         - ELASTICSEARCH_HOST=http://elasticsearch
         - ELASTICSEARCH_PORT=9200
         - ELASTIC_CLIENT_TYPE=docker
+        - ELASTIC_USERNAME=elastic
+        - ELASTIC_PASSWORD=changeme
     restart: unless-stopped
     ports:
       - 8080:8080
@@ -19,10 +23,12 @@ services:
       - discovery.type=single-node
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-      - http.cors.enabled=true
-      - http.cors.allow-origin=/.*/
     restart: unless-stopped
+    networks:
+      - elasticvue
     ports:
       - 9200:9200
       - 9300:9300
-
+networks:
+    elasticvue:
+        driver: bridge

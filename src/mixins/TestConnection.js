@@ -55,7 +55,7 @@ export const useTestConnection = () => {
     testState.value.testLoading = true
     testState.value.testSuccess = false
     testState.value.testError = false
-    new ElasticsearchAdapter(new ClientProvider.getClient(elasticsearchHost.value)).test()
+    new ElasticsearchAdapter(ClientProvider.getClient(elasticsearchHost.value)).test()
       .then(() => {
         testState.value.testLoading = false
         testState.value.testSuccess = true

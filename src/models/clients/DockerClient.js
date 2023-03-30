@@ -1,4 +1,8 @@
 import {DefaultClient} from "./DefaultClient";
+import { buildFetchAuthHeader } from '@/helpers'
+import { REQUEST_DEFAULT_HEADERS } from '@/consts'
+import { stringifyJsonBigInt } from '@/helpers/json_parse'
+import { fetchMethod } from '@/services/tauri/fetchReqwest'
 
 export class DockerClient extends DefaultClient {
   constructor(instance) {
@@ -17,15 +21,15 @@ export class DockerClient extends DefaultClient {
 
       const options = {
         method,
-        'X-EV-path': path,
         body: body && typeof body !== 'string' ? stringifyJsonBigInt(body) : body,
         headers: Object.assign({}, REQUEST_DEFAULT_HEADERS)
       }
+      options.headers['X-EV-path'] = path;
 
       if (this.username.length > 0 || this.password.length > 0) {
         options.headers.Authorization = buildFetchAuthHeader(this.username, this.password)
       }
-      const proxypath = location.protocol + '//' + location.host + (location.port ? ':' + location.port : '' ) + '/proxy';
+      const proxypath = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '' ) + '/proxy';
       return new Promise((resolve, reject) => {
         return fetchMethod(proxypath, options)
           .then(response => {

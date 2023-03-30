@@ -14,7 +14,9 @@ export const CONNECTION_STATES = {
 export const ENVIRONMENT_VARIABLES = {
   ELASTICSEARCH_HOST: 'http://localhost',
   ELASTICSEARCH_PORT: '9200',
-  ELASTIC_CLIENT_TYPE: 'default'
+  ELASTIC_CLIENT_TYPE: 'default',
+  ELASTIC_USERNAME: "",
+  ELASTIC_PASSWORD: ""
 }
 
 export const DEFAULT_NAME = 'default cluster'
@@ -43,8 +45,8 @@ export const HTTP_METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'O
 export const BASE_URI = process.env.VUE_APP_ROUTER_MODE ? 'index.html' : '/'
 export const DEFAULT_ELASTICSEARCH_HOST = {
   name: DEFAULT_NAME,
-  username: '',
-  password: '',
+  username: ENVIRONMENT_VARIABLES.ELASTIC_USERNAME,
+  password: ENVIRONMENT_VARIABLES.ELASTIC_PASSWORD,
   uri: DEFAULT_HOST,
   status: CONNECTION_STATES.UNKNOWN
 }
