@@ -1,7 +1,7 @@
 import { DESKTOP_BUILD } from '../consts'
 import { confirm } from '@tauri-apps/api/dialog'
 
-export const askConfirm = msg => {
+export const askConfirm = (msg: string) => {
   if (DESKTOP_BUILD) {
     return confirm(msg)
   } else {

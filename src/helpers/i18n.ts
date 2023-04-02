@@ -4,7 +4,7 @@ export const defaultLocale = () => {
   return getBrowserLocale(navigator.languages, DEFAULT_LOCALE) || DEFAULT_LOCALE
 }
 
-export const getBrowserLocale = (languages, fallback) => {
+export const getBrowserLocale = (languages: readonly string[], fallback: string): string => {
   if (!languages || languages.length === 0) return fallback
 
   const lang = languages[0]

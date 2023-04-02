@@ -11,9 +11,6 @@
 
 <script setup>
   import ElasticsearchNode from '../../models/ElasticsearchNode'
-  import { useTranslation } from '../../composables/i18n'
-
-  const t = useTranslation()
 
   defineProps({
     elasticsearchNode: {

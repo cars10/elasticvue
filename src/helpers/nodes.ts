@@ -1,4 +1,4 @@
-export const nodeRoleTitle = role => {
+export const nodeRoleTitle = (role: string): string => {
   let title = ''
   if (role.includes('c')) title += 'c - cold node\r\n'
   if (role.includes('d')) title += 'd - data node\r\n'

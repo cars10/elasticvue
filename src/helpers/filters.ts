@@ -1,9 +1,8 @@
-export function filterItems (items, searchQuery, headers) {
+export function filterItems (items: Record<string, object>[], searchQuery: string, headerNames: string[]): object[] {
   const search = searchQuery.toString().slice().toLowerCase().trim()
   if (search.length === 0) return items
 
   const searchSplit = search.split(':')
-  const headerNames = typeof headers[0] === 'string' ? headers : headers.map(h => h.value)
 
   if (filterSpecificColumn(searchSplit, headerNames)) {
     const column = searchSplit[0]
@@ -13,17 +12,21 @@ export function filterItems (items, searchQuery, headers) {
     if (column.trim() === '') return items
 
     return items.filter(item => {
-      return item[column] && item[column].toString().toLowerCase().includes(query)
+      if (Object.hasOwn(item, column)) {
+        return item[column].toString().toLowerCase().includes(query)
+      }
     })
   } else {
     return items.filter(item => {
       return headerNames.some(headerName => {
-        return item[headerName] && item[headerName].toString().toLowerCase().includes(search)
+        if (Object.hasOwn(item, headerName)) {
+          return item[headerName].toString().toLowerCase().includes(search)
+        }
       })
     })
   }
 }
 
-const filterSpecificColumn = (searchSplit, headerNames) => {
+const filterSpecificColumn = (searchSplit: string[], headerNames: string[]): boolean => {
   return searchSplit.length > 1 && headerNames.includes(searchSplit[0])
 }

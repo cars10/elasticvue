@@ -1,8 +1,24 @@
 import { addTrailingSlash, buildFetchAuthHeader } from '../helpers/elasticsearch_adapter'
 import { fetchMethod, REQUEST_DEFAULT_HEADERS } from '../consts'
 
+interface ElasticsearchConfig {
+  username: string,
+  password: string,
+  host: string,
+  uri: string
+}
+
+interface IndexGetArgs {
+  routing?: string
+}
+
 export default class ElasticsearchAdapter {
-  constructor (elasticsearch) {
+  username: string
+  password: string
+  host: string
+  authHeader?: string
+
+  constructor (elasticsearch: ElasticsearchConfig) {
     this.username = elasticsearch.username
     this.password = elasticsearch.password
     this.host = addTrailingSlash(elasticsearch.uri)
@@ -32,87 +48,87 @@ export default class ElasticsearchAdapter {
     return this.request('_cluster/settings', 'GET', { include_defaults: true })
   }
 
-  clusterReroute (commands) {
+  clusterReroute (commands: object) {
     return this.request('_cluster/reroute', 'POST', { commands })
   }
 
-  catIndices (params, filter) {
+  catIndices (params: object, filter?: string) {
     const query = filter ? `${filter}*` : ''
     return this.request(`_cat/indices/${query}`, 'GET', params)
   }
 
-  catIndexTemplates (params, filter) {
+  catIndexTemplates (params: object, filter?: string) {
     const query = filter ? `${filter}*` : ''
     return this.request(`_index_template/${query}`, 'GET', params)
   }
 
-  catShards (params, filter) {
+  catShards (params: object, filter?: string) {
     const query = filter ? `${filter}*` : ''
     return this.request(`_cat/shards/${query}`, 'GET', params)
   }
 
-  indexGetAlias ({ index }) {
+  indexGetAlias ({ index }: { index: string }) {
     return this.request(`${index}/_alias`, 'GET')
   }
 
-  indexAddAlias ({ index, alias }) {
+  indexAddAlias ({ index, alias }: { index: string, alias: string }) {
     return this.request(`${index}/_alias/${alias}`, 'PUT')
   }
 
-  indexDeleteAlias ({ index, alias }) {
+  indexDeleteAlias ({ index, alias }: { index: string, alias: string }) {
     return this.request(`${index}/_alias/${alias}`, 'DELETE')
   }
 
-  indexCreate ({ index, body }) {
+  indexCreate ({ index, body }: { index: string, body?: object }) {
     return this.request(`${index}`, 'PUT', body)
   }
 
-  indexDelete ({ index }) {
+  indexDelete ({ index }: { index: string }) {
     return this.request(`${index}`, 'DELETE')
   }
 
-  indexGet (params) {
+  indexGet (params: Record<string, any>) {
     const index = Array.isArray(params.index) ? params.index.join(',') : params.index
     return this.request(`${index}`, 'GET')
   }
 
-  indexStats ({ index }) {
+  indexStats ({ index }: { index: string }) {
     return this.request(`${index}/_stats`, 'GET')
   }
 
-  indexClose ({ index }) {
+  indexClose ({ index }: { index: string }) {
     return this.request(`${index}/_close`, 'POST')
   }
 
-  indexOpen ({ index }) {
+  indexOpen ({ index }: { index: string }) {
     return this.request(`${index}/_open`, 'POST')
   }
 
-  indexForcemerge ({ index }) {
+  indexForcemerge ({ index }: { index: string }) {
     return this.request(`${index}/_forcemerge`, 'POST')
   }
 
-  indexRefresh ({ index }) {
+  indexRefresh ({ index }: { index: string }) {
     return this.request(`${index}/_refresh`, 'POST')
   }
 
-  indexClearCache ({ index }) {
+  indexClearCache ({ index }: { index: string }) {
     return this.request(`${index}/_cache/clear`, 'POST')
   }
 
-  indexFlush ({ index }) {
+  indexFlush ({ index }: { index: string }) {
     return this.request(`${index}/_flush`, 'POST')
   }
 
-  indexExists ({ index }) {
+  indexExists ({ index }: { index: string }) {
     return this.request(`${index}`, 'HEAD')
   }
 
-  indexPutSettings ({ index, body }) {
+  indexPutSettings ({ index, body }: { index: string, body: object }) {
     return this.request(`${index}/_settings`, 'PUT', body)
   }
 
-  catNodes (params) {
+  catNodes (params: object) {
     return this.request('_cat/nodes', 'GET', params)
   }
 
@@ -120,16 +136,15 @@ export default class ElasticsearchAdapter {
     return this.request('_nodes', 'GET')
   }
 
-  get ({ index, type, id, routing }) {
+
+  get ({ index, type, id, routing }: { index: string, type: string, id: any, routing: any }) {
     const docType = type || '_doc'
-    const params = {}
-    if (routing) {
-      params.routing = routing
-    }
+    const params: IndexGetArgs = {}
+    if (routing) params.routing = routing
     return this.request(`${index}/${docType}/${encodeURIComponent(id)}`, 'GET', params)
   }
 
-  search (params, searchIndex) {
+  search (params: object, searchIndex?: string | string[]) {
     const index = Array.isArray(searchIndex) ? searchIndex.join(',') : searchIndex
 
     if (index && index.length > 0) {
@@ -139,44 +154,46 @@ export default class ElasticsearchAdapter {
     }
   }
 
-  catRepositories (params) {
+  catRepositories (params: object) {
     return this.request('_snapshot', 'GET', params)
   }
 
-  catSnapshots ({ repository }) {
+  catSnapshots ({ repository }: { repository: string }) {
     return this.request(`_cat/snapshots/${repository}`, 'GET')
   }
 
-  snapshotCreateRepository ({ repository, body }) {
+  snapshotCreateRepository ({ repository, body }: { repository: string, body: object }) {
     return this.request(`_snapshot/${repository}`, 'PUT', body)
   }
 
-  snapshotDeleteRepository ({ repository }) {
+  snapshotDeleteRepository ({ repository }: { repository: string }) {
     return this.request(`_snapshot/${repository}`, 'DELETE')
   }
 
-  snapshotCreate ({ repository, snapshot, body }) {
+  snapshotCreate ({ repository, snapshot, body }: { repository: string, snapshot: string, body: object }) {
     return this.request(`_snapshot/${repository}/${snapshot}`, 'PUT', body)
   }
 
-  snapshotDelete ({ repository, snapshot }) {
+  snapshotDelete ({ repository, snapshot }: { repository: string, snapshot: string }) {
     return this.request(`_snapshot/${repository}/${snapshot}`, 'DELETE')
   }
 
-  snapshotRestore ({ repository, snapshot, body }) {
+  snapshotRestore ({ repository, snapshot, body }: { repository: string, snapshot: string, body: object }) {
     return this.request(`_snapshot/${repository}/${snapshot}/_restore`, 'POST', body)
   }
 
-  getSnapshot ({ repository, snapshot }) {
+  getSnapshot ({ repository, snapshot }: { repository: string, snapshot: string }) {
     return this.request(`_snapshot/${repository}/${snapshot}`, 'GET')
   }
 
-  bulk ({ body }) {
+  /*
+  bulk ({ body }: { body: object[] }) {
     const data = body.map(d => JSON.stringify(d)).join('\n') + '\n'
     return this.request('_bulk', 'POST', data)
   }
+   */
 
-  request (path, method, params) {
+  request (path: string, method: string, params?: Record<string, any>) {
     const url = new URL(this.host + path)
 
     if (method === 'GET' && typeof params === 'object') {
@@ -186,27 +203,28 @@ export default class ElasticsearchAdapter {
     let body = null
     if (method === 'PUT' || method === 'POST') body = params
 
-    const options = {
+    const options: RequestInit = {
       method,
       body: body && typeof body !== 'string' ? JSON.stringify(body) : body,
       headers: Object.assign({}, REQUEST_DEFAULT_HEADERS)
     }
 
-    if (this.authHeader) options.headers.Authorization = this.authHeader
+    // @ts-ignore
+    if (this.authHeader) options.headers['Authorization'] = this.authHeader
 
     return new Promise((resolve, reject) => {
       return fetchMethod(url, options)
-        .then(response => {
-          if (options.method === 'HEAD') {
-            return resolve(response.ok)
-          }
+          .then(response => {
+            if (options.method === 'HEAD') {
+              return resolve(response.ok)
+            }
 
-          if (response.ok) {
-            resolve(response)
-          } else {
-            reject(response)
-          }
-        }).catch(reject)
+            if (response.ok) {
+              resolve(response)
+            } else {
+              reject(response)
+            }
+          }).catch(reject)
     })
   }
 
@@ -226,7 +244,7 @@ export default class ElasticsearchAdapter {
    * Creates multiple indices, one for each word. Only creates if they do not already exist
    * @param names {Array}
    */
-  async createIndices (names) {
+  async createIndices (names: string[]) {
     for (const name of [...new Set(names)]) {
       const exists = await this.indexExists({ index: name })
       if (!exists) await this.indexCreate({ index: name })

@@ -1,6 +1,10 @@
-export const reloadHomePage = (router, instanceId) => {
+import { Router } from 'vue-router'
+
+export const reloadHomePage = (router: Router, instanceId: number) => {
+  console.log(instanceId)
   try {
     const currentRoute = router.currentRoute.value
+    // @ts-ignore
     if (currentRoute.name === 'home' && currentRoute.params.instanceId === instanceId) {
       window.location.reload()
     } else {

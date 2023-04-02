@@ -83,7 +83,6 @@
 
 <script setup>
   import { computed, ref, watch } from 'vue'
-  import { useTranslation } from '../../composables/i18n'
   import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
   import { useElasticsearchAdapter } from '../../composables/CallElasticsearch'
   import { useSnackbar } from '../../composables/Snackbar'
@@ -91,8 +90,6 @@
   import { useIndicesStore } from '../../store/indices'
   import IndexShard from './IndexShard.vue'
   import FilterInput from '../shared/FilterInput.vue'
-
-  const t = useTranslation()
 
   const props = defineProps({
     shards: {

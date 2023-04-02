@@ -118,7 +118,6 @@
 <script setup>
   import { ref, toRaw } from 'vue'
   import RestQueryForm from './RestQueryForm.vue'
-  import RestQueryHistory from './RestQueryHistory.vue'
   import { useIdbStore } from '../../composables/Idb'
   import { useTranslation } from '../../composables/i18n'
   import { useRestQueryTabs } from '../../composables/RestQueryTabs'

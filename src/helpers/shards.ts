@@ -1,5 +1,5 @@
-export const convertShards = (shards, indexHealth) => {
-  const nodes = []
+export const convertShards = (shards: Record<string, any>[], indexHealth: Record<string, any> []): object => {
+  const nodes: string[] = []
   const indices = Object.assign({}, ...(indexHealth.map(i => ({
     [i.index]: {
       index: i.index,
@@ -9,8 +9,8 @@ export const convertShards = (shards, indexHealth) => {
     }
   }))))
 
-  const result = {}
-  const unassignedShards = {}
+  const result: Record<string, any> = {}
+  const unassignedShards: Record<string, any> = {}
   for (const shard of shards) {
     if (shard.node) {
       let node
@@ -45,7 +45,7 @@ export const convertShards = (shards, indexHealth) => {
   }
 }
 
-const sortShards = (a, b) => {
+const sortShards = (a: Record<string, any>, b: Record<string, any>): number => {
   const shardA = parseInt(a.shard)
   const shardB = parseInt(b.shard)
 

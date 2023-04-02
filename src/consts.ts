@@ -5,7 +5,7 @@ export const REQUEST_DEFAULT_HEADERS = {
   'Content-Type': 'application/json'
 }
 
-export const SUPPORTED_COUNTRY_LOCALES = {
+export const SUPPORTED_COUNTRY_LOCALES: Record<string, string> = {
   en: 'en',
   cn: 'cn',
   zh: 'cn'

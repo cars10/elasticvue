@@ -72,7 +72,7 @@
     })
   }
 
-  const setDownloadHref = async e => {
+  const setDownloadHref = async () => {
     loading.value = true
     href.value = ''
 

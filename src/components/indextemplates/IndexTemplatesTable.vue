@@ -16,24 +16,24 @@
            :rows="filteredItems"
            :pagination="{sortBy: 'name'}"
            :rows-per-page-options="DEFAULT_ROWS_PER_PAGE">
-    <template #body="props">
-      <q-tr @click="props.expand = !props.expand" class="clickable">
+    <template #body="body">
+      <q-tr class="clickable" @click="body.expand = !body.expand">
         <q-td>
-          <q-icon :name="props.expand ? 'expand_less' : 'expand_more'" />
+          <q-icon :name="body.expand ? 'expand_less' : 'expand_more'" />
         </q-td>
-        <q-td>{{ props.row.name }}</q-td>
-        <q-td>{{ props.row.index_template.index_patterns }}</q-td>
-        <q-td>{{ props.row.index_template.priority }}</q-td>
-        <q-td>{{ props.row.index_template.version }}</q-td>
-        <q-td>{{ props.row.index_template.allow_auto_create }}</q-td>
-        <q-td>{{ JSON.stringify(props.row.index_template.template) }}</q-td>
+        <q-td>{{ body.row.name }}</q-td>
+        <q-td>{{ body.row.index_template.index_patterns }}</q-td>
+        <q-td>{{ body.row.index_template.priority }}</q-td>
+        <q-td>{{ body.row.index_template.version }}</q-td>
+        <q-td>{{ body.row.index_template.allow_auto_create }}</q-td>
+        <q-td>{{ JSON.stringify(body.row.index_template.template) }}</q-td>
       </q-tr>
 
-      <q-tr v-if="props.expand">
+      <q-tr v-if="body.expand">
         <q-td colspan="100%">
           <div class="q-pa-md">
             <resizable-container>
-              <code-viewer :value="JSON.stringify(props.row.index_template.template)" />
+              <code-viewer :value="JSON.stringify(body.row.index_template.template)" />
             </resizable-container>
           </div>
         </q-td>

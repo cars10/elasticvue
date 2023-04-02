@@ -4,6 +4,7 @@ import { buildDefaultRequest, fetchMethod, REQUEST_DEFAULT_HEADERS } from '../co
 import { useConnectionStore } from '../store/connection'
 import { useSnackbar } from './Snackbar'
 import { useIdb } from './Idb'
+import { removeComments } from '../services/json/parse'
 
 export const useRestQuery = (request, emit) => {
   const connectionStore = useConnectionStore()
@@ -30,7 +31,7 @@ export const useRestQuery = (request, emit) => {
 
     const options = {
       method: request.method,
-      body: ['GET', 'HEAD'].includes(request.method) ? null : request.body,
+      body: ['GET', 'HEAD'].includes(request.method) ? null : removeComments(request.body),
       headers: Object.assign({}, REQUEST_DEFAULT_HEADERS)
     }
 

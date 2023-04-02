@@ -84,6 +84,6 @@
   import ClusterHealth from './ClusterHealth.vue'
   import ClusterInformation from './ClusterInformation.vue'
 
-  const { load, requestState, data } = useElasticsearchRequest('clusterStats')
+  const { load, data } = useElasticsearchRequest('clusterStats')
   onMounted(load)
 </script>

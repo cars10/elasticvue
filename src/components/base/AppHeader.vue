@@ -26,9 +26,7 @@
 
 <script setup>
   import { useLogo } from '../../composables/Logo'
-  import { useConnectionStore } from '../../store/connection'
   import ClusterSelection from '../clusterselection/ClusterSelection.vue'
 
-  const connectionStore = useConnectionStore()
   const logo = useLogo()
 </script>

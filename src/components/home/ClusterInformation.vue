@@ -126,11 +126,8 @@
 
 <script setup>
   import { onMounted } from 'vue'
-  import { useTranslation } from '../../composables/i18n'
   import LoaderStatus from '../shared/LoaderStatus.vue'
   import { useElasticsearchRequest } from '../../composables/CallElasticsearch'
-
-  const t = useTranslation()
 
   const { requestState, data, load } = useElasticsearchRequest('clusterInfo')
   onMounted(load)
