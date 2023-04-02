@@ -42,6 +42,7 @@
   import ReloadButton from './ReloadButton.vue'
   import ResizableContainer from './ResizableContainer.vue'
   import { useResizeStore } from '../../store/resize'
+  import { stringifyBigInt } from '../../services/json/stringify'
 
   const resizeStore = useResizeStore()
   const { requestState, callElasticsearch } = useElasticsearchAdapter()
@@ -49,7 +50,7 @@
   const data = ref(null)
   const load = () => {
     callElasticsearch(store.method, store.methodParams)
-        .then(body => (data.value = body))
+        .then(body => (data.value = stringifyBigInt(body)))
         .catch(() => (data.value = null))
   }
 

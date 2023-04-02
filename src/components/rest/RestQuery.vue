@@ -121,6 +121,8 @@
   import { useIdbStore } from '../../composables/Idb'
   import { useTranslation } from '../../composables/i18n'
   import { useRestQueryTabs } from '../../composables/RestQueryTabs'
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  import RestQueryHistory from './RestQueryHistory.vue'
 
   const t = useTranslation()
   const {

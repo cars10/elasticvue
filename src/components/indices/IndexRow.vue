@@ -52,7 +52,7 @@
                 <q-icon name="info" size="xs" />
               </q-item-section>
               <q-item-section>
-                <q-item-label>Show info</q-item-label>
+                <q-item-label>{{ $t('indices.index_row.options.show_info') }}</q-item-label>
               </q-item-section>
             </q-item>
             <q-item clickable @click="openModalWith('indexStats', {index: index.index})">
@@ -60,7 +60,7 @@
                 <q-icon name="show_chart" size="xs" />
               </q-item-section>
               <q-item-section>
-                <q-item-label>Show stats</q-item-label>
+                <q-item-label>{{ $t('indices.index_row.options.show_stats') }}</q-item-label>
               </q-item-section>
             </q-item>
 
