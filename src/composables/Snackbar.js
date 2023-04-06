@@ -42,14 +42,20 @@ export const useSnackbar = () => {
         snackbarOptions.title = '401 Not authorized'
       } else if (status === '404') {
         snackbarOptions.title = '404 Not found'
+      } else if (status === '405') {
+        snackbarOptions.title = '405 Not allowed'
       } else {
         snackbarOptions.title = status
       }
 
       const errorMessage = responseErrorMessage(requestState.apiErrorMessage)
       if (errorMessage && errorMessage.error) {
-        snackbarOptions.title += ` - ${errorMessage.error.type}`
-        snackbarOptions.body = `Reason: ${errorMessage.error.reason}`
+        if (errorMessage.error.type && errorMessage.error.reason) {
+          snackbarOptions.title += ` - ${errorMessage.error.type}`
+          snackbarOptions.body = `Reason: ${errorMessage.error.reason}`
+        } else if (typeof errorMessage.error === 'string') {
+          snackbarOptions.body = errorMessage.error
+        }
       } else {
         snackbarOptions.body = requestState.apiErrorMessage
       }

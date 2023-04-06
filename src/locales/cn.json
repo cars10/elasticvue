@@ -371,13 +371,13 @@
       "heading": "新建存储",
       "form": {
         "name": {
-          "label": "存储名称"
+          "label": "存储名称*"
         },
         "type": {
           "label": "存储类型"
         },
         "location": {
-          "label": "存储位置"
+          "label": "存储位置*"
         },
         "chunk_size": {
           "label": "块大小"

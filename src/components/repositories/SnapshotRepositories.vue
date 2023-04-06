@@ -8,7 +8,7 @@
     <q-separator />
 
     <loader-status :request-state="requestState" hide-progress>
-      {{ data }}
+      <snapshot-repositories-table :repositories="data || {}" @reload="load" />
     </loader-status>
   </q-card>
 </template>
@@ -18,6 +18,7 @@
   import LoaderStatus from '../shared/LoaderStatus.vue'
   import { onMounted } from 'vue'
   import { useElasticsearchRequest } from '../../composables/CallElasticsearch'
+  import SnapshotRepositoriesTable from './SnapshotRepositoriesTable.vue'
 
   const { load, requestState, data } = useElasticsearchRequest('catRepositories')
   onMounted(load)

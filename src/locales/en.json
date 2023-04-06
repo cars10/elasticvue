@@ -371,13 +371,13 @@
       "heading": "New repository",
       "form": {
         "name": {
-          "label": "Repository name"
+          "label": "Repository name*"
         },
         "type": {
           "label": "Repository type"
         },
         "location": {
-          "label": "Repository location"
+          "label": "Repository location*"
         },
         "chunk_size": {
           "label": "Chunk size"
