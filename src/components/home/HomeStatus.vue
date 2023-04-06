@@ -85,5 +85,8 @@
   import ClusterInformation from './ClusterInformation.vue'
 
   const { load, data } = useElasticsearchRequest('clusterStats')
-  onMounted(load)
+  onMounted(() => {
+    load()
+    setInterval(load, 5000)
+  })
 </script>
