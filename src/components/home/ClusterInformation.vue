@@ -124,7 +124,7 @@
   </q-card>
 </template>
 
-<script setup>
+<script setup lang="ts">
   import { onMounted } from 'vue'
   import LoaderStatus from '../shared/LoaderStatus.vue'
   import { useElasticsearchRequest } from '../../composables/CallElasticsearch'

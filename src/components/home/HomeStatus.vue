@@ -77,7 +77,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
   import { useElasticsearchRequest } from '../../composables/CallElasticsearch'
   import { onMounted } from 'vue'
   import prettyBytes from 'pretty-bytes'

@@ -15,7 +15,7 @@
   </q-card>
 </template>
 
-<script setup>
+<script setup lang="ts">
   import { onMounted } from 'vue'
   import ReloadButton from '../shared/ReloadButton.vue'
   import LoaderStatus from '../shared/LoaderStatus.vue'

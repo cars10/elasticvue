@@ -1,7 +1,6 @@
 interface ColumnOptions {
   label: string,
   field?: string,
-  sortable?: boolean,
   align?: string
 }
 
@@ -14,12 +13,12 @@ interface Column {
 }
 
 export const genColumns = (options: ColumnOptions[]): Column[] => {
-  return options.map(({ label, field, sortable, align }) => {
+  return options.map(({ label, field, align }) => {
     return {
       label,
       field,
       name: field,
-      sortable: sortable || false,
+      sortable: !!field,
       align: align || 'left',
     }
   })

@@ -27,8 +27,8 @@ export const useSnapshotRepositoriesTable = ({ repositories, emit }: {
   }
 
   const tableColumns = genColumns([
-    { label: t('repositories.repositories_table.table.headers.name'), field: 'name', sortable: true },
-    { label: t('repositories.repositories_table.table.headers.type'), field: 'type', sortable: true },
+    { label: t('repositories.repositories_table.table.headers.name'), field: 'name' },
+    { label: t('repositories.repositories_table.table.headers.type'), field: 'type' },
     { label: t('repositories.repositories_table.table.headers.settings') },
     { label: '' }
   ])

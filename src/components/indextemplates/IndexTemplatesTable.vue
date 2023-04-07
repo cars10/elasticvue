@@ -42,13 +42,14 @@
   </q-table>
 </template>
 
-<script setup>
+<script setup lang="ts">
   import { computed, ref } from 'vue'
   import { useTranslation } from '../../composables/i18n'
   import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
   import { filterItems } from '../../helpers/filters'
   import CodeViewer from '../shared/CodeViewer.vue'
   import ResizableContainer from '../shared/ResizableContainer.vue'
+  import { genColumns } from '../../helpers/tableColumns'
 
   const t = useTranslation()
 
@@ -67,41 +68,13 @@
     return filterItems(enrichedIndexTemplates.value, filter.value, ['name', 'indexPatterns'])
   })
 
-  const columns = [
+  const columns = genColumns([
     { label: '' },
-    {
-      label: t('index_templates.index_templates_table.table.headers.name'), field: 'name',
-      name: 'name',
-      align: 'left',
-      sortable: true,
-    },
-    {
-      label: t('index_templates.index_templates_table.table.headers.index_patterns'),
-      field: 'index_template.index_patterns',
-      align: 'left',
-      sortable: true,
-    },
-    {
-      label: t('index_templates.index_templates_table.table.headers.priority'),
-      field: 'index_template.priority',
-      align: 'left',
-      sortable: true,
-    },
-    {
-      label: t('index_templates.index_templates_table.table.headers.version'),
-      field: 'index_template.version',
-      align: 'left',
-      sortable: true,
-    },
-    {
-      label: t('index_templates.index_templates_table.table.headers.allow_auto_create'),
-      field: 'index_template.allow_auto_create', align: 'left',
-      sortable: true,
-    },
-    {
-      label: t('index_templates.index_templates_table.table.headers.template'),
-      align: 'left',
-      field: 'template'
-    }
-  ]
+    { label: t('index_templates.index_templates_table.table.headers.name'), field: 'name', },
+    { label: t('index_templates.index_templates_table.table.headers.index_patterns'), },
+    { label: t('index_templates.index_templates_table.table.headers.priority'), },
+    { label: t('index_templates.index_templates_table.table.headers.version'), },
+    { label: t('index_templates.index_templates_table.table.headers.allow_auto_create'), },
+    { label: t('index_templates.index_templates_table.table.headers.template') }
+  ])
 </script>

@@ -28,8 +28,8 @@ export const useClusterTable = () => {
 
   const loadCluster = (index: number) => (reloadHomePage(router, index))
   const columns = genColumns([
-    { label: t('elasticsearch_instance.instances_table.headers.cluster'), field: 'name', sortable: true },
-    { label: t('elasticsearch_instance.instances_table.headers.uri'), field: 'uri' },
+    { label: t('elasticsearch_instance.instances_table.headers.cluster'), field: 'name' },
+    { label: t('elasticsearch_instance.instances_table.headers.uri') },
     { label: t('elasticsearch_instance.instances_table.headers.version'), field: 'version' },
     { label: '' }
   ])
