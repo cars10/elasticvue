@@ -1,6 +1,6 @@
-import { defineStore } from 'pinia'
+import { defineStore, StoreDefinition } from 'pinia'
 
-interface ElasticsearchCluster {
+type ElasticsearchCluster = {
   name: string,
   username?: string,
   password?: string,
@@ -12,18 +12,23 @@ interface ElasticsearchCluster {
   status: string
 }
 
+type State = {
+  clusters: ElasticsearchCluster[],
+  activeClusterIndex: number | null
+}
+
 // @ts-ignore
-export const useConnectionStore = defineStore('connection', {
-  state: () => {
+export const useConnectionStore: StoreDefinition<'connection', State> = defineStore('connection', {
+  state: (): State => {
     return {
-      clusters: [] as ElasticsearchCluster[],
-      activeClusterIndex: null as number | null,
+      clusters: [],
+      activeClusterIndex: null
     }
   },
   getters: {
-    activeCluster: state => {
-      if (typeof state.activeClusterIndex !== 'number') return null
-      return state.clusters[state.activeClusterIndex]
+    activeCluster (): ElasticsearchCluster | null {
+      if (typeof this.activeClusterIndex !== 'number') return null
+      return this.clusters[this.activeClusterIndex]
     }
   },
   actions: {

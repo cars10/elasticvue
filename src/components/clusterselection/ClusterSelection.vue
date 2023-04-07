@@ -15,13 +15,13 @@
   </q-btn>
 </template>
 
-<script setup>
+<script setup lang="ts">
   import { computed, ref, watch } from 'vue'
-  import { useConnectionStore } from '../../store/connection'
-  import { useTranslation } from '../../composables/i18n'
-  import { useClusterHealth } from '../../composables/ClusterHealth'
   import ClusterTable from './ClusterTable.vue'
   import ClusterStatusIndicator from './ClusterStatusIndicator.vue'
+  import { useTranslation } from '../../composables/i18n'
+  import { useClusterHealth } from '../../composables/ClusterHealth'
+  import { useConnectionStore } from '../../store/connection'
 
   const t = useTranslation()
   const connectionStore = useConnectionStore()

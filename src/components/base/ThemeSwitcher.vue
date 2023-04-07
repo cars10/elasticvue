@@ -2,7 +2,7 @@
   <q-btn round :icon="icon" class="q-mr-md" color="dark-grey" @click="store.toggleTheme" />
 </template>
 
-<script setup>
+<script setup lang="ts">
   import { useThemeStore } from '../../store/theme.js'
   import { computed } from 'vue'
 

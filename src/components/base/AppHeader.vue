@@ -24,7 +24,7 @@
   </q-header>
 </template>
 
-<script setup>
+<script setup lang="ts">
   import { useLogo } from '../../composables/Logo'
   import ClusterSelection from '../clusterselection/ClusterSelection.vue'
 

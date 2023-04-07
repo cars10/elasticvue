@@ -26,7 +26,7 @@
   </q-footer>
 </template>
 
-<script setup>
+<script setup lang="ts">
   import LanguageSwitcher from './LanguageSwitcher.vue'
   import ThemeSwitcher from './ThemeSwitcher.vue'
 

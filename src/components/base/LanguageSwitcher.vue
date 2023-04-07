@@ -25,7 +25,7 @@
   </q-btn>
 </template>
 
-<script setup>
+<script setup lang="ts">
   import en from '../../assets/images/icons/flags/en.svg'
   import cn from '../../assets/images/icons/flags/cn.svg'
   import { useI18nStore } from '../../store/i18n'
