@@ -1,4 +1,5 @@
 import { useSnackbarStore } from '../store/snackbar'
+import { RequestState } from './CallElasticsearch'
 
 const TIMEOUTS = {
   default: 5000,
@@ -6,24 +7,35 @@ const TIMEOUTS = {
   error: 20000
 }
 
+interface SnackbarSuccessOptions {
+  title?: string
+  body?: string,
+}
+
+export interface SnackbarOptions extends SnackbarSuccessOptions {
+  timeout?: number,
+  color?: string,
+  copyableText?: string
+}
+
 export const useSnackbar = () => {
   const store = useSnackbarStore()
 
-  const showSuccessSnackbar = props => {
+  const showSuccessSnackbar = (props: SnackbarOptions) => {
     store.show(Object.assign({}, { timeout: TIMEOUTS.default, color: 'positive' }, props))
   }
 
-  const showErrorSnackbar = props => {
+  const showErrorSnackbar = (props: SnackbarOptions) => {
     if (props.body) console.error(props.body)
     store.show(Object.assign({}, { timeout: TIMEOUTS.error, color: 'negative' }, props))
   }
 
-  const showDefaultSnackbar = props => {
+  const showDefaultSnackbar = (props: SnackbarOptions) => {
     store.show(Object.assign({}, { timeout: TIMEOUTS.default, color: 'grey' }, props))
   }
 
-  const showSnackbar = (requestState, successOptions = {}) => {
-    const snackbarOptions = { timeout: 0, color: '', title: '', body: '' }
+  const showSnackbar = (requestState: RequestState, successOptions: SnackbarSuccessOptions = {}) => {
+    const snackbarOptions: SnackbarOptions = { timeout: 0, color: '', title: '', body: '' }
     const status = requestState.status.toString()
 
     if (status.match(/2\d\d/)) {
@@ -91,7 +103,7 @@ export const useSnackbar = () => {
   }
 }
 
-const responseErrorMessage = json => {
+const responseErrorMessage = (json: string) => {
   try {
     if (json && json.length > 0) {
       return JSON.parse(json)

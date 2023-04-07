@@ -28,6 +28,11 @@ export default class ElasticsearchAdapter {
     }
   }
 
+  call (method: keyof ElasticsearchAdapter, ...args: any[]): Promise<any> {
+    // @ts-ignore
+    return this[method](...args)
+  }
+
   ping () {
     return this.request('', 'GET')
   }

@@ -1,3 +1,4 @@
+// @ts-ignore
 import { useI18n } from 'vue-i18n/dist/vue-i18n.cjs'
 
 export const useTranslation = () => {

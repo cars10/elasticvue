@@ -79,57 +79,16 @@
   </q-dialog>
 </template>
 
-<script setup>
-  import { computed, ref } from 'vue'
-  import { useTranslation } from '../../composables/i18n'
-  import { useElasticsearchAdapter } from '../../composables/CallElasticsearch'
-  import { useSnackbar } from '../../composables/Snackbar'
-
-  const t = useTranslation()
-
-  const dialog = ref(false)
-  const repository = ref({})
-
-  const formValid = computed(() => {
-    return repository.value.repository.trim().length > 0 && repository.value.body.settings.location.trim().length > 0
-  })
-  const { showSnackbar } = useSnackbar()
-  const { requestState, callElasticsearch } = useElasticsearchAdapter()
-
-  const resetForm = () => {
-    repository.value = {
-      repository: '',
-      body: {
-        type: 'fs',
-        settings: {
-          location: '',
-          compress: true,
-          chunkSize: '',
-          maxRestoreBytesPerSec: '40mb',
-          maxSnapshotBytesPerSec: '40mb',
-          readonly: false
-        }
-      }
-    }
-  }
-  resetForm()
-
-  const closeDialog = () => {
-    resetForm()
-    dialog.value = false
-  }
+<script setup lang="ts">
+  import { useNewSnapshotRepository } from '../../composables/components/repositories/NewSnapshotRepository'
 
   const emit = defineEmits(['reload'])
-
-  const createRepository = () => {
-    callElasticsearch('snapshotCreateRepository', repository.value)
-      .then(() => {
-        emit('reload')
-        showSnackbar(requestState.value, {
-          body: t('repositories.new_repository.create_repository.growl', { repositoryName: repository.value.repository }),
-        })
-        closeDialog()
-      })
-      .catch(() => showSnackbar(requestState.value))
-  }
+  const {
+    repository,
+    requestState,
+    dialog,
+    formValid,
+    resetForm,
+    createRepository
+  } = useNewSnapshotRepository({ emit })
 </script>
