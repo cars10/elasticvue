@@ -4,7 +4,7 @@
 
     <q-page-container>
       <div class="q-ma-md">
-        <router-view v-if="connectionStore.activeCluster?.status !== 'unknown'" />
+        <router-view v-if="connectionStore.activeCluster?.status !== 'unknown' || route.name === 'settings'" />
         <div v-else class="q-pa-lg">
           <div class="row">
             <div class="col-6 offset-3">
@@ -24,6 +24,7 @@
 
 <script setup lang="ts">
   import { onMounted } from 'vue'
+  import { useRoute } from 'vue-router'
   import AppHeader from './components/base/AppHeader.vue'
   import AppFooter from './components/base/AppFooter.vue'
   import ModalLoader from './components/shared/ModalLoader.vue'
@@ -34,6 +35,8 @@
 
   const themeStore = useThemeStore()
   const connectionStore = useConnectionStore()
+
+  const route = useRoute()
 
   onMounted(() => {
     if (themeStore.dark) {
