@@ -1,7 +1,6 @@
 import { useTranslation } from '../../i18n'
 import { computed, Ref, ref } from 'vue'
-import { useSnackbar } from '../../Snackbar'
-import { useElasticsearchAdapter } from '../../CallElasticsearch'
+import { defineElasticsearchRequest, useElasticsearchAdapter } from '../../CallElasticsearch'
 
 type Repository = {
   repository: string,
@@ -44,8 +43,7 @@ export const useNewSnapshotRepository = ({ emit }: { emit: any }) => {
   const formValid = computed(() => {
     return repository.value.repository.trim().length > 0 && repository.value.body.settings.location.trim().length > 0
   })
-  const { showSnackbar } = useSnackbar()
-  const { requestState, callElasticsearch } = useElasticsearchAdapter()
+  const { requestState } = useElasticsearchAdapter()
 
   const resetForm = () => {
     repository.value = {
@@ -70,16 +68,15 @@ export const useNewSnapshotRepository = ({ emit }: { emit: any }) => {
     dialog.value = false
   }
 
-  const createRepository = () => {
-    callElasticsearch('snapshotCreateRepository', repository.value)
-        .then(() => {
-          emit('reload')
-          showSnackbar(requestState.value, {
-            body: t('repositories.new_repository.create_repository.growl', { repositoryName: repository.value.repository }),
-          })
-          closeDialog()
-        })
-        .catch(() => showSnackbar(requestState.value))
+  const callCreate = defineElasticsearchRequest({ emit, method: 'snapshotCreateRepository' })
+  const createRepository = async () => {
+    const success = await callCreate({
+      params: repository.value,
+      snackbarOptions: {
+        body: t('repositories.new_repository.create_repository.growl', { repositoryName: repository.value.repository }),
+      }
+    })
+    if (success) closeDialog()
   }
 
   return {
