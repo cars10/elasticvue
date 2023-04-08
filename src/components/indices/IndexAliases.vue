@@ -69,76 +69,14 @@
   </q-dialog>
 </template>
 
-<script setup>
-  import { ref, watch } from 'vue'
-  import { useTranslation } from '../../composables/i18n'
-  import { useElasticsearchAdapter } from '../../composables/CallElasticsearch'
-  import { useSnackbar } from '../../composables/Snackbar'
+<script setup lang="ts">
   import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
-  import { askConfirm } from '../../helpers/dialogs'
+  import { useIndexAliases } from '../../composables/components/indices/IndexAliases'
+  import { toRefs } from 'vue'
 
-  const t = useTranslation()
-
-  const props = defineProps({
-    index: {
-      type: String,
-      default: ''
-    }
-  })
-
+  const props = withDefaults(defineProps<{ index: string }>(), { index: '' })
+  const { index } = toRefs(props)
   const emit = defineEmits(['reload'])
 
-  const { showSnackbar } = useSnackbar()
-  const { requestState, callElasticsearch } = useElasticsearchAdapter()
-
-  const dialog = ref(false)
-  const newAlias = ref('')
-  const aliases = ref([])
-
-  watch(dialog, value => {
-    if (value) {
-      loadAliases()
-    } else {
-      emit('reload')
-    }
-  })
-
-  const loadAliases = () => {
-    callElasticsearch('indexGetAlias', { index: props.index })
-        .then(body => {
-          aliases.value = Object.keys(body[props.index].aliases).map(alias => ({ alias }))
-        })
-        .catch(() => (aliases.value = []))
-  }
-
-  const addAlias = () => {
-    callElasticsearch('indexAddAlias', { index: props.index, alias: newAlias.value })
-        .then(() => {
-          loadAliases()
-          newAlias.value = ''
-        })
-        .catch(() => showSnackbar(requestState.value))
-  }
-
-  const deleteAlias = alias => {
-    askConfirm(t('indices.index_aliases.delete_alias.confirm', { alias, index: props.index }))
-        .then(confirmed => {
-          if (confirmed) {
-            callElasticsearch('indexDeleteAlias', { index: props.index, alias })
-                .then(loadAliases)
-                .catch(() => showSnackbar(requestState.value))
-          }
-        })
-  }
-
-  const columns = [
-    {
-      label: t('indices.index_aliases.table.headers.alias'),
-      name: 'alias',
-      align: 'left',
-      sortable: true,
-      field: 'alias'
-    },
-    { label: '', sortable: false }
-  ]
+  const { dialog, requestState, newAlias, aliases, addAlias, deleteAlias, columns } = useIndexAliases({ index, emit })
 </script>

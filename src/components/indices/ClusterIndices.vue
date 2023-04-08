@@ -15,7 +15,7 @@
   </q-card>
 </template>
 
-<script setup>
+<script setup lang="ts">
   import IndicesTable from './IndicesTable.vue'
   import { useElasticsearchRequest } from '../../composables/CallElasticsearch'
   import { onMounted } from 'vue'

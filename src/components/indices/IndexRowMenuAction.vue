@@ -9,37 +9,20 @@
   </q-item>
 </template>
 
-<script setup>
+<script setup lang="ts">
   import { useElasticsearchAdapter } from '../../composables/CallElasticsearch'
   import { useSnackbar } from '../../composables/Snackbar'
   import { askConfirm } from '../../helpers/dialogs'
+  import { ElasticsearchMethod } from '../../services/ElasticsearchAdapter'
 
-  const props = defineProps({
-    method: {
-      type: String,
-      default: ''
-    },
-    index: {
-      type: String,
-      default: ''
-    },
-    icon: {
-      type: String,
-      default: ''
-    },
-    text: {
-      type: String,
-      default: ''
-    },
-    growl: {
-      type: String,
-      default: ''
-    },
-    confirm: {
-      type: String,
-      default: ''
-    }
-  })
+  const props = defineProps<{
+    method: ElasticsearchMethod,
+    index: string,
+    icon: string,
+    text: string,
+    growl: string,
+    confirm?: string
+  }>()
   const emit = defineEmits(['done'])
 
   const { requestState, callElasticsearch } = useElasticsearchAdapter()
@@ -54,12 +37,11 @@
         .catch(() => showSnackbar(requestState.value))
   }
 
-  const run = () => {
+  const run = async () => {
     if (props.confirm) {
-      askConfirm(props.confirm).then(confirmed => {
-        if (confirmed) load()
-      })
-    } else if (props.confirm.length === 0) {
+      const confirmed = await askConfirm(props.confirm)
+      if (confirmed) load()
+    } else {
       load()
     }
   }

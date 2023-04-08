@@ -1,4 +1,4 @@
-export function filterItems (items: Record<string, object>[], searchQuery: string, headerNames: string[]): object[] {
+export function filterItems (items: Record<string, any>[], searchQuery: string, headerNames: string[]): object[] {
   const search = searchQuery.toString().slice().toLowerCase().trim()
   if (search.length === 0) return items
 

@@ -12,6 +12,8 @@ interface IndexGetArgs {
   routing?: string
 }
 
+export type ElasticsearchMethod = keyof ElasticsearchAdapter
+
 export default class ElasticsearchAdapter {
   username: string
   password: string
@@ -28,7 +30,7 @@ export default class ElasticsearchAdapter {
     }
   }
 
-  call (method: keyof ElasticsearchAdapter, ...args: any[]): Promise<any> {
+  call (method: ElasticsearchMethod, ...args: any[]): Promise<any> {
     // @ts-ignore
     return this[method](...args)
   }

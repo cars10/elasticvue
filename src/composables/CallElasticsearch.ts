@@ -1,5 +1,5 @@
 import { Ref, ref } from 'vue'
-import ElasticsearchAdapter from '../services/ElasticsearchAdapter'
+import ElasticsearchAdapter, { ElasticsearchMethod } from '../services/ElasticsearchAdapter'
 import { useConnectionStore } from '../store/connection'
 import { askConfirm } from '../helpers/dialogs'
 import { SnackbarOptions, useSnackbar } from './Snackbar'
@@ -25,7 +25,7 @@ export function useElasticsearchAdapter () {
     status: -1
   })
 
-  const callElasticsearch = async (method: keyof ElasticsearchAdapter, ...args: any[]) => {
+  const callElasticsearch = async (method: ElasticsearchMethod, ...args: any[]) => {
     requestState.value = {
       loading: true,
       networkError: false,
@@ -114,9 +114,9 @@ export function useElasticsearchAdapter () {
  *   const { requestState, data, load } = useElasticsearchRequest('clusterInfo')
  *   onMounted(load)
  */
-export function useElasticsearchRequest (method: keyof ElasticsearchAdapter, params?: object) {
+export function useElasticsearchRequest<T> (method: ElasticsearchMethod, params?: object) {
   const { requestState, callElasticsearch } = useElasticsearchAdapter()
-  const data = ref(null)
+  const data: Ref<T | null> = ref(null)
 
   const load = () => {
     return callElasticsearch(method, params)
@@ -148,25 +148,35 @@ export function useElasticsearchRequest (method: keyof ElasticsearchAdapter, par
  */
 export const defineElasticsearchRequest = ({ emit, method }: {
   emit: Function,
-  method: keyof ElasticsearchAdapter
+  method: ElasticsearchMethod
 }) => {
   const { requestState, callElasticsearch } = useElasticsearchAdapter()
   const { showSnackbar } = useSnackbar()
 
   return async ({ confirmMsg, snackbarOptions, params = undefined }: {
-    confirmMsg: string,
-    snackbarOptions: SnackbarOptions,
+    confirmMsg?: string,
+    snackbarOptions: SnackbarOptions | SnackbarOptionsFunction,
     params?: object
   }) => {
-    const confirmed: boolean = await askConfirm(confirmMsg)
-    if (!confirmed) return
+    if (confirmMsg) {
+      const confirmed: boolean = await askConfirm(confirmMsg)
+      if (!confirmed) return false
+    }
 
     try {
-      await callElasticsearch(method, params)
+      const body = await callElasticsearch(method, params)
       if (emit) emit('reload')
-      showSnackbar(requestState.value, snackbarOptions)
+      if (typeof snackbarOptions === 'function') {
+        showSnackbar(requestState.value, snackbarOptions.call(null, body))
+      } else {
+        showSnackbar(requestState.value, snackbarOptions)
+      }
+      return true
     } catch (e) {
       showSnackbar(requestState.value)
+      return false
     }
   }
 }
+
+type SnackbarOptionsFunction = (body: any) => SnackbarOptions

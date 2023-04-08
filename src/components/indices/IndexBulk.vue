@@ -1,6 +1,6 @@
 <template>
   <q-btn-dropdown ref="menu"
-                  :label="$t('indices.index_bulk.bulk_action')"
+                  :label="t('indices.index_bulk.bulk_action')"
                   :disable="selectedIndices.length === 0"
                   color="positive"
                   menu-anchor="top left"
@@ -8,22 +8,22 @@
     <q-list padding dense>
       <index-row-menu-action method="indexForcemerge"
                              :index="selectedIndices.join(',')"
-                             :text="$t('indices.index_row.options.forcemerge.text')"
+                             :text="t('indices.index_row.options.forcemerge.text')"
                              icon="call_merge"
                              @done="emitAndCloseMenu('reload')" />
       <index-row-menu-action method="indexRefresh"
                              :index="selectedIndices.join(',')"
-                             :text="$t('indices.index_row.options.refresh.text')"
+                             :text="t('indices.index_row.options.refresh.text')"
                              icon="refresh"
                              @done="emitAndCloseMenu('reload')" />
       <index-row-menu-action method="indexFlush"
                              :index="selectedIndices.join(',')"
-                             :text="$t('indices.index_row.options.flush.text')"
+                             :text="t('indices.index_row.options.flush.text')"
                              icon="archive"
                              @done="emitAndCloseMenu('reload')" />
       <index-row-menu-action method="indexClearCache"
                              :index="selectedIndices.join(',')"
-                             :text="$t('indices.index_row.options.clear_cache.text')"
+                             :text="t('indices.index_row.options.clear_cache.text')"
                              icon="clear_all"
                              @done="emitAndCloseMenu('reload')" />
 
@@ -31,18 +31,18 @@
 
       <index-row-menu-action method="indexClose"
                              :index="selectedIndices.join(',')"
-                             :text="$t('indices.index_row.options.close.text')"
+                             :text="t('indices.index_row.options.close.text')"
                              icon="lock"
                              @done="emitAndCloseMenu('reload')" />
       <index-row-menu-action method="indexOpen"
                              :index="selectedIndices.join(',')"
-                             :text="$t('indices.index_row.options.open.text')"
+                             :text="t('indices.index_row.options.open.text')"
                              icon="lock_open"
                              @done="emitAndCloseMenu('reload')" />
       <index-row-menu-action method="indexDelete"
-                             :confirm="$t('indices.index_row.options.delete.confirm', {index: selectedIndices.join(',')})"
+                             :confirm="t('indices.index_row.options.delete.confirm', {index: selectedIndices.join(',')})"
                              :index="selectedIndices.join(',')"
-                             :text="$t('indices.index_row.options.delete.text')"
+                             :text="t('indices.index_row.options.delete.text')"
                              icon="delete"
                              @done="emitAndCloseMenu('indicesDeleted')" />
     </q-list>
@@ -54,31 +54,25 @@
   </div>
 </template>
 
-<script setup>
-  import { ref } from 'vue'
+<script setup lang="ts">
+  import { Ref, ref } from 'vue'
   import IndexRowMenuAction from './IndexRowMenuAction.vue'
+  import { QMenu } from 'quasar'
+  import { useTranslation } from '../../composables/i18n'
 
-  defineProps({
-    selectedIndices: {
-      default: () => ([]),
-      type: Array
-    },
-    totalItemsCount: {
-      default: 0,
-      type: Number
-    },
-    filteredItemsCount: {
-      default: 0,
-      type: Number
-    }
+  const t = useTranslation()
+
+  withDefaults(defineProps<{ selectedIndices: string[], totalItemsCount: number, filteredItemsCount: number }>(), {
+    selectedIndices: () => ([]),
+    totalItemsCount: 0,
+    filteredItemsCount: 0
   })
-
-  const menu = ref(null)
 
   const emit = defineEmits(['reload', 'indicesDeleted'])
 
+  const menu: Ref<QMenu | null> = ref(null)
   const emitAndCloseMenu = event => {
     emit(event)
-    menu.value.hide()
+    menu.value?.hide()
   }
 </script>

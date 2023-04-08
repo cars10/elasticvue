@@ -1,11 +1,7 @@
 <template>
   <div class="flex justify-end q-pa-md">
     <div class="flex">
-      <q-input v-model="filter" :label="t('defaults.filter.label')" dense @keyup.esc="filter = ''">
-        <template #append>
-          <q-icon name="search" />
-        </template>
-      </q-input>
+      <filter-input v-model="filter" />
     </div>
   </div>
 
@@ -43,38 +39,29 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, ref } from 'vue'
-  import { useTranslation } from '../../composables/i18n'
-  import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
-  import { filterItems } from '../../helpers/filters'
+  import { toRefs } from 'vue'
   import CodeViewer from '../shared/CodeViewer.vue'
+  import FilterInput from '../shared/FilterInput.vue'
   import ResizableContainer from '../shared/ResizableContainer.vue'
-  import { genColumns } from '../../helpers/tableColumns'
+  import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
+  import { useIndexTemplatesTable } from '../../composables/components/indextemplates/IndexTemplatesTable'
 
-  const t = useTranslation()
+  type IndexTemplate = {
+    name: string,
+    index_template: IndexTemplateSettings
+  }
 
-  const props = defineProps({
-    indexTemplates: {
-      default: () => ([]),
-      type: Array
-    }
+  type IndexTemplateSettings = {
+    index_patterns: string[],
+    priority: number,
+    version: number,
+    allow_auto_create?: boolean,
+    template: object
+  }
+  const props = withDefaults(defineProps<{ indexTemplates: IndexTemplate[] }>(), {
+    indexTemplates: () => ([])
   })
 
-  const filter = ref('')
-  const enrichedIndexTemplates = computed(() => {
-    return props.indexTemplates.map(i => (Object.assign({}, i, { indexPatterns: i.index_template.index_patterns.join(' ') })))
-  })
-  const filteredItems = computed(() => {
-    return filterItems(enrichedIndexTemplates.value, filter.value, ['name', 'indexPatterns'])
-  })
-
-  const columns = genColumns([
-    { label: '' },
-    { label: t('index_templates.index_templates_table.table.headers.name'), field: 'name', },
-    { label: t('index_templates.index_templates_table.table.headers.index_patterns'), },
-    { label: t('index_templates.index_templates_table.table.headers.priority'), },
-    { label: t('index_templates.index_templates_table.table.headers.version'), },
-    { label: t('index_templates.index_templates_table.table.headers.allow_auto_create'), },
-    { label: t('index_templates.index_templates_table.table.headers.template') }
-  ])
+  const { indexTemplates } = toRefs(props)
+  const { filter, filteredItems, columns } = useIndexTemplatesTable<IndexTemplate>({ indexTemplates })
 </script>

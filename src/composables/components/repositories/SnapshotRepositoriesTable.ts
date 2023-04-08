@@ -18,7 +18,7 @@ export const useSnapshotRepositoriesTable = ({ repositories, emit }: {
   })
 
   const callDelete = defineElasticsearchRequest({ emit, method: 'snapshotDeleteRepository' })
-  const deleteRepository = async (name: string) => {
+  const deleteRepository = (name: string) => {
     return callDelete({
       confirmMsg: t('repositories.repositories_table.delete_repository.confirm', { name }),
       params: { repository: name },

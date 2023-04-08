@@ -1,7 +1,30 @@
 import prettyBytes from 'pretty-bytes'
 
+export type Index = {
+  index: string
+  health: string
+  status: string
+  uuid: string
+  pri: string
+  rep: string
+  'docs.count': string
+  'store.size': string
+}
+
 export default class ElasticsearchIndex {
-  constructor (options) {
+  index: string
+  health: string
+  status: string
+  uuid: string
+  pri: string
+  parsedPri: number | string
+  rep: string
+  parsedDocsCount: number | string
+  storeSize: string
+  parsedStoreSize: number | string
+  humanStoreSize: string
+
+  constructor (options: Index) {
     this.index = options.index
     this.health = options.health
     this.status = options.status
@@ -16,19 +39,15 @@ export default class ElasticsearchIndex {
   }
 }
 
-function parseIntValue (value) {
-  if (typeof value === 'string') {
-    try {
-      return parseInt(value)
-    } catch (error) {
-      return value
-    }
-  } else {
-    return null
+function parseIntValue (value: string) {
+  try {
+    return parseInt(value)
+  } catch (error) {
+    return value
   }
 }
 
-function prettyPrintByteString (value) {
+function prettyPrintByteString (value: string | number): string {
   if (!value) return ''
 
   if (typeof value === 'number' && !isNaN(value)) {
