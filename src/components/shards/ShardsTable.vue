@@ -25,7 +25,7 @@
            @request="updateTable">
     <template #header="{cols}">
       <q-tr>
-        <q-th />
+        <q-th class="small-wrap text-left">Node</q-th>
         <q-th v-for="(col, i) in cols" :key="`${col.name}_header_${i}`"
               class="text-left"
               :class="{marked: markedColumnIndex === i}"
@@ -45,7 +45,7 @@
     </template>
     <template #top-row="{cols}">
       <q-tr>
-        <q-td>
+        <q-td class="small-wrap">
           <i>unassigned</i>
         </q-td>
         <q-td v-for="(col, i) in cols" :key="`${col.name}_unassigned_${i}`"
@@ -152,8 +152,8 @@
   const currentReroutingShard = ref({})
   const initReroute = shard => {
     if (currentReroutingShard.value.node === shard.node &&
-        currentReroutingShard.value.index === shard.index &&
-        currentReroutingShard.value.shard === shard.shard) {
+      currentReroutingShard.value.index === shard.index &&
+      currentReroutingShard.value.shard === shard.shard) {
       currentReroutingShard.value = {}
     } else {
       currentReroutingShard.value = shard
@@ -184,19 +184,19 @@
 
 <style scoped>
 .shard-reroute-target {
-  background-color: transparent;
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  border: 2px dashed grey;
+    background-color: transparent;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 2px dashed grey;
 }
 
 .shard-reroute-target:hover {
-  background-color: rgba(150, 150, 150, 0.5);
-  cursor: pointer;
+    background-color: rgba(150, 150, 150, 0.5);
+    cursor: pointer;
 }
 </style>
