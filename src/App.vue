@@ -22,24 +22,25 @@
   </q-layout>
 </template>
 
-<script setup>
-  import { useThemeStore } from './store/theme.js'
-  import AppFooter from './components/base/AppFooter.vue'
+<script setup lang="ts">
+  import { onMounted } from 'vue'
   import AppHeader from './components/base/AppHeader.vue'
+  import AppFooter from './components/base/AppFooter.vue'
   import ModalLoader from './components/shared/ModalLoader.vue'
   import AlertSnackbar from './components/shared/AlertSnackbar.vue'
-  import { useConnectionStore } from './store/connection'
   import NetworkError from './components/shared/NetworkError.vue'
-  import { onMounted } from 'vue'
+  import { useThemeStore } from './store/theme.js'
+  import { useConnectionStore } from './store/connection'
 
   const themeStore = useThemeStore()
   const connectionStore = useConnectionStore()
 
   onMounted(() => {
-    document.body.classList.remove('body--light')
     if (themeStore.dark) {
+      document.body.classList.remove('body--light')
       document.body.classList.add('theme--dark')
     } else {
+      document.body.classList.remove('theme--dark')
       document.body.classList.add('theme--light')
     }
   })

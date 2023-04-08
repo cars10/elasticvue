@@ -103,7 +103,7 @@
 
     connect().then(idx => {
       showSuccessSnackbar({ title: t('setup.test_and_connect.connected') })
-      router.push({ name: 'home', params: { instanceId: idx.toString() } })
+      router.push({ name: 'home', params: { clusterIndex: idx.toString() } })
     })
   }
 

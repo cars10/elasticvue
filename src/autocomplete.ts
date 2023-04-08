@@ -1,4 +1,3 @@
-/* eslint-disable */
 export const queryKeywords = [
   'size', 'from', 'sort',
   'analyzer', 'prefix_length', 'fuzziness',

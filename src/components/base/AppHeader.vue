@@ -3,7 +3,7 @@
     <q-toolbar style="height: 64px">
       <img :src="logo" alt="logo" height="48" width="48">
       <q-toolbar-title>
-        <router-link :to="{name: 'home', params: {instanceId: 1}}" class="decoration-none">
+        <router-link :to="{name: 'home', params: {clusterIndex: 1}}" class="decoration-none">
           Elasticvue
         </router-link>
         <cluster-selection class="q-ml-lg q-my-sm" />

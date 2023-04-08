@@ -13,9 +13,8 @@ import SnapshotRepositories from './components/repositories/SnapshotRepositories
 
 const routes = [
   {
-    path: '/cluster/:instanceId',
+    path: '/cluster/:clusterIndex',
     component: NestedView,
-    props: (route) => ({ id: route.params.instanceId }),
     children: [
       { path: '', name: 'home', component: HomeStatus },
       { path: 'indices', name: 'indices', component: ClusterIndices },
@@ -46,26 +45,27 @@ router.beforeEach((to, from, next) => {
   const numInstances = connectionStore.clusters.length
   if (numInstances === 0) return next('welcome')
 
-  let instanceId = to.params.instanceId
+  const clusterIndexParam = Array.isArray(to.params.clusterIndex) ? to.params.clusterIndex[0] : to.params.clusterIndex
+  let clusterIndex: number = 0
   try {
-    instanceId = parseInt(instanceId)
+    clusterIndex = parseInt(clusterIndexParam)
   } catch (e) {
   }
 
-  if (isNaN(instanceId) || (instanceId + 1) > numInstances || instanceId < 0) {
+  if (isNaN(clusterIndex) || (clusterIndex + 1) > numInstances || clusterIndex < 0) {
     return next({
       name: 'home',
-      params: { instanceId: 0 }
+      params: { clusterIndex: 0 }
     })
   }
 
-  connectionStore.activeClusterIndex = instanceId
+  connectionStore.activeClusterIndex = clusterIndex
 
   next()
 })
 
-router.afterEach((to, _from) => {
-  document.title = to.name ? `elasticvue | ${to.name}` : 'elasticvue'
+router.afterEach((to) => {
+  document.title = to.name ? `elasticvue | ${String(to.name)}` : 'elasticvue'
 })
 
 export default router
