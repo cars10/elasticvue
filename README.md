@@ -97,8 +97,13 @@ You can now define the following environment variables:
 * `ELASTICSEARCH_HOST` - The hostname of the elasticsearch instance (default: `localhost`)
 * `ELASTICSEARCH_PORT` - The port of the elasticsearch instance (default: `9200`)
 * `ELASTIC_CLIENT_TYPE` - The type of client to use (default: `default`)
+    - `default` - The default client, connects via network.
+    - `docker` - Connects to the elasticsearch instance in the docker compose network.
 * `ELASTIC_USERNAME` - The username to use for authentication (default: ``)
 * `ELASTIC_USERNAME` - The password to use for authentication (default: ``)
+* `ELASTICVUE_AUTOCONNECT` - Automatically connect to the elasticsearch instance (default: `false`)
+  - `true` - Automatically connect to the elasticsearch instance
+  - `false` - Do not automatically connect to the elasticsearch instance
 
 ```yaml
 version: '3.7'
@@ -137,6 +142,22 @@ networks:
         driver: bridge
 
 ```
+
+### Development of the docker variables implementation
+
+An example of a docker network file is in docker-compose.elastic.yml. You can run it with
+
+```bash
+docker compose --file docker-compose.elastic.yml up --build -d
+```
+
+The most important part that enables the insertion of enviroment variables on starting the docker image without a rebuild
+is in the file [100-replace-enviroment.sh](nginx/100-replace-enviroment.sh). It is executed on the start of the docker
+and replaces the current environment values into the javascript compiled file, which is copied over fresh on the start
+of the image.
+If the order of the constants in the js file is changed, then the `search_str` and `replace_str` variables in this shell script need to be
+updated as well.
+
 
 **Online version**
 
