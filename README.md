@@ -88,6 +88,56 @@ Or use `docker-compose`:
 
 Then open [http://localhost:8080](http://localhost:8080) in your browser.
 
+**Docker Compose**
+
+For use in a docker compose configuration, you can connect to the elasticsearch instance in the docker compose network
+
+You can now define the following environment variables:
+
+* `ELASTICSEARCH_HOST` - The hostname of the elasticsearch instance (default: `localhost`)
+* `ELASTICSEARCH_PORT` - The port of the elasticsearch instance (default: `9200`)
+* `ELASTIC_CLIENT_TYPE` - The type of client to use (default: `default`)
+* `ELASTIC_USERNAME` - The username to use for authentication (default: ``)
+* `ELASTIC_USERNAME` - The password to use for authentication (default: ``)
+
+```yaml
+version: '3.7'
+services:
+  app:
+    build: .
+    container_name: elasticvue
+    networks:
+      - elasticvue
+    environment:
+        - ELASTICSEARCH_HOST=http://elasticsearch
+        - ELASTICSEARCH_PORT=9200
+        - ELASTIC_CLIENT_TYPE=docker
+        - ELASTIC_USERNAME=elastic
+        - ELASTIC_PASSWORD=changeme
+    restart: unless-stopped
+    ports:
+      - 8080:8080
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.6.2
+    container_name: elasticsearch
+    environment:
+      - node.name=elasticsearch
+      - cluster.name=docker-cluster
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    restart: unless-stopped
+    networks:
+      - elasticvue
+    ports:
+      - 9200:9200
+      - 9300:9300
+networks:
+    elasticvue:
+        driver: bridge
+
+```
+
 **Online version**
 
 Visit [https://app.elasticvue.com](https://app.elasticvue.com).

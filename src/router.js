@@ -17,6 +17,11 @@ import NestedView from '@/views/NestedView'
 import store from '@/store'
 import ElasticsearchAdapter from '@/services/ElasticsearchAdapter'
 import { ClientProvider } from '@/models/clients/ClientProvider'
+import { useTestConnection } from "@/mixins/TestConnection";
+import { ENVIRONMENT_VARIABLES } from "@/consts";
+import {showErrorSnackbar, showSuccessSnackbar} from "@/mixins/ShowSnackbar";
+import i18n from "@/i18n";
+import {reloadHomePage} from "@/helpers";
 
 Vue.use(Router)
 
@@ -34,7 +39,32 @@ const router = new Router({
         if (store.state.connection.instances.length > 0) {
           next('/')
         } else {
-          next()
+          const auto = ENVIRONMENT_VARIABLES.ELASTICVUE_AUTOCONNECT;
+          if ((/^(?:t(?:rue)?|y(?:es)?|1)$/i.test(auto))) {
+            const {
+              testState,
+              connect
+            } = useTestConnection()
+
+            connect()
+            .then(() => {
+              if (testState.value.connectError) {
+                showErrorSnackbar({ title: i18n.t('setup.test_and_connect.connection_failed') })
+                next();
+                return;
+              }
+              store.commit('connection/setActiveInstanceIdx', 0)
+              showSuccessSnackbar({ title: i18n.t('setup.test_and_connect.connected') })
+              reloadHomePage(router, 0)
+            }).catch((e) => {
+              console.error(e);
+              showErrorSnackbar({ title: i18n.t('setup.test_and_connect.connection_failed') })
+              next();
+            });
+          }
+          else {
+            next()
+          }
         }
       }
     },

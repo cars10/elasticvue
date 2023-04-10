@@ -11,6 +11,7 @@ services:
         - ELASTIC_CLIENT_TYPE=docker
         - ELASTIC_USERNAME=elastic
         - ELASTIC_PASSWORD=changeme
+        - ELASTICVUE_AUTOCONNECT=true
     restart: unless-stopped
     ports:
       - 8080:8080

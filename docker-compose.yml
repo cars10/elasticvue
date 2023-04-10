@@ -4,5 +4,12 @@ services:
     build: .
     container_name: elasticvue
     restart: unless-stopped
+    environment:
+      - ELASTICSEARCH_HOST=http://localhost
+      - ELASTICSEARCH_PORT=9200
+      - ELASTIC_CLIENT_TYPE=default
+      - ELASTIC_USERNAME=
+      - ELASTIC_PASSWORD=
+      - ELASTICVUE_AUTOCONNECT=false
     ports:
       - 8080:8080

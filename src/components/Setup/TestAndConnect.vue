@@ -119,9 +119,6 @@
             reloadHomePage(router, 0)
           })
       }
-      if (ENVIRONMENT_VARIABLES.ELASTIC_CLIENT_TYPE === 'docker') {
-        connectCluster();
-      }
 
       const passwordVisible = ref(false)
       const usesSSL = computed(() => (elasticsearchHost.value.uri.match(/^https/)))
