@@ -10,6 +10,7 @@ import NestedView from './components/base/NestedView.vue'
 import { useConnectionStore } from './store/connection'
 import WelcomePage from './components/welcome/WelcomePage.vue'
 import SnapshotRepositories from './components/repositories/SnapshotRepositories.vue'
+import RepositorySnapshots from './components/snapshots/RepositorySnapshots.vue'
 
 const routes = [
   {
@@ -24,6 +25,7 @@ const routes = [
       { path: 'nodes', name: 'nodes', component: ClusterNodes },
       { path: 'rest', name: 'rest', component: RestQuery },
       { path: 'snapshot_repositories', name: 'snapshot_repositories', component: SnapshotRepositories },
+      { path: 'snapshot_repositories/:repositoryName', name: 'snapshots', component: RepositorySnapshots },
     ]
   },
   { path: '/welcome', name: 'welcome', component: WelcomePage },

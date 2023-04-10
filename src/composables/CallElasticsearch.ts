@@ -147,7 +147,7 @@ export function useElasticsearchRequest<T> (method: ElasticsearchMethod, params?
  *   }
  */
 export const defineElasticsearchRequest = ({ emit, method }: {
-  emit: Function,
+  emit?: Function,
   method: ElasticsearchMethod
 }) => {
   const { requestState, callElasticsearch } = useElasticsearchAdapter()
@@ -155,7 +155,7 @@ export const defineElasticsearchRequest = ({ emit, method }: {
 
   return async ({ confirmMsg, snackbarOptions, params = undefined }: {
     confirmMsg?: string,
-    snackbarOptions: SnackbarOptions | SnackbarOptionsFunction,
+    snackbarOptions?: SnackbarOptions | SnackbarOptionsFunction,
     params?: object
   }) => {
     if (confirmMsg) {
@@ -166,10 +166,12 @@ export const defineElasticsearchRequest = ({ emit, method }: {
     try {
       const body = await callElasticsearch(method, params)
       if (emit) emit('reload')
-      if (typeof snackbarOptions === 'function') {
-        showSnackbar(requestState.value, snackbarOptions.call(null, body))
-      } else {
-        showSnackbar(requestState.value, snackbarOptions)
+      if (snackbarOptions) {
+        if (typeof snackbarOptions === 'function') {
+          showSnackbar(requestState.value, snackbarOptions.call(null, body))
+        } else {
+          showSnackbar(requestState.value, snackbarOptions)
+        }
       }
       return true
     } catch (e) {

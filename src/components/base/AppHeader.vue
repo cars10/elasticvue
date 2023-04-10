@@ -11,14 +11,14 @@
 
       <q-tabs stretch>
         <q-route-tab class="full-height" label="Home" :to="{name: 'home'}" exact />
-        <q-route-tab label="Nodes" :to="{name: 'nodes'}" exact />
-        <q-route-tab label="Shards" :to="{name: 'shards'}" exact />
-        <q-route-tab label="Indices" :to="{name: 'indices'}" exact />
-        <q-route-tab label="Search" :to="{name: 'home'}" exact />
-        <q-route-tab label="Rest" :to="{name: 'rest'}" exact />
-        <q-route-tab label="Snapshots" :to="{name: 'snapshot_repositories'}" exact />
-        <q-route-tab label="Utilities" :to="{name: 'home'}" exact />
-        <q-route-tab icon="settings" :to="{name: 'settings'}" exact />
+        <q-route-tab label="Nodes" :to="{name: 'nodes'}" />
+        <q-route-tab label="Shards" :to="{name: 'shards'}" />
+        <q-route-tab label="Indices" :to="{name: 'indices'}" />
+        <q-route-tab label="Search" :to="{name: 'search'}" />
+        <q-route-tab label="Rest" :to="{name: 'rest'}" />
+        <q-route-tab label="Snapshots" :to="{name: 'snapshot_repositories'}" />
+        <q-route-tab label="Utilities" :to="{name: 'utilities'}" />
+        <q-route-tab icon="settings" :to="{name: 'settings'}" />
       </q-tabs>
     </q-toolbar>
   </q-header>

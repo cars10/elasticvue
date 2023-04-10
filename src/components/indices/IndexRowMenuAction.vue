@@ -20,7 +20,7 @@
     index: string,
     icon: string,
     text: string,
-    growl: string,
+    growl?: string,
     confirm?: string
   }>()
   const emit = defineEmits(['done'])
