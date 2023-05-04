@@ -1,6 +1,7 @@
 export default class ElasticsearchNode {
   constructor (options) {
     this.name = options.name
+    this.id = options.id
     this.ip = options.ip
     this.heapPercent = options['heap.percent']
     this.heapCurrent = options['heap.current']

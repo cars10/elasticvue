@@ -272,6 +272,7 @@
     },
     "node_properties": {
       "ip": "IP地址",
+      "id": null,
       "master": "主节点",
       "node_role": "节点角色",
       "load": "负载",

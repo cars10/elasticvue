@@ -272,6 +272,7 @@
     },
     "node_properties": {
       "ip": "ip",
+      "id": "id",
       "master": "master",
       "node_role": "node.role",
       "load": "load",

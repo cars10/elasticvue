@@ -16,6 +16,7 @@
           <node-icons :elasticsearch-node="row" />
         </q-td>
         <q-td>{{ row.name }}</q-td>
+        <q-td>{{ row.id }}</q-td>
         <q-td>{{ row.ip }}</q-td>
         <q-td>
           <span v-if="row.master">yes</span>
@@ -85,6 +86,7 @@
   const columns = [
     { label: t('nodes.node_properties.status'), field: '', align: 'left' },
     { label: t('nodes.node_properties.name'), field: 'name', name: 'name', sortable: true, align: 'left' },
+    { label: t('nodes.node_properties.id'), field: 'ip', align: 'left' },
     { label: t('nodes.node_properties.ip'), field: 'ip', sortable: true, align: 'left' },
     { label: t('nodes.node_properties.master'), field: 'master', sortable: true, align: 'left' },
     { label: t('nodes.node_properties.node_role'), field: 'nodeRole', sortable: true, align: 'left' },

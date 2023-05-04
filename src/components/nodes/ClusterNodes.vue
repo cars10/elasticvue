@@ -64,6 +64,7 @@
   const CAT_METHOD_PARAMS = {
     h: [
       'ip',
+      'id',
       'name',
       'heap.percent',
       'heap.current',
@@ -80,7 +81,8 @@
       'disk.used_percent',
       'disk.used',
       'disk.total'
-    ]
+    ],
+    full_id: true
   }
 
   const { load, requestState, data } = useElasticsearchRequest('catNodes', CAT_METHOD_PARAMS)
