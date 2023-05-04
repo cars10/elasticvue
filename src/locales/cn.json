@@ -525,7 +525,7 @@
         "input": {
           "label": "索引模式"
         },
-        "matched_indices": "找到 <strong title='{indices}'>{count} 个索引</strong>"
+        "matched_indices": "找到 {count} 个索引"
       },
       "index_select": {
         "select_indices": {

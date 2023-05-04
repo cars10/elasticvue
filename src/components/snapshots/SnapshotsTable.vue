@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-between q-pa-md">
-    <q-btn>new</q-btn>
+    <new-snapshot :repository="repository" @reload="emit('reload')" />
     <filter-input v-model="filter" />
   </div>
 
@@ -24,6 +24,7 @@
   import { genColumns } from '../../helpers/tableColumns'
   import { useTranslation } from '../../composables/i18n'
   import SnapshotRow from './SnapshotRow.vue'
+  import NewSnapshot from './NewSnapshot.vue'
 
   withDefaults(defineProps<{ snapshots: object, repository: string }>(), {
     snapshots: () => {

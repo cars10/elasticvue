@@ -1,0 +1,61 @@
+<template>
+  <q-btn color="primary-dark" :label="$t('snapshots.new_snapshot.heading')" @click="dialog = true" />
+
+  <q-dialog v-model="dialog" @hide="resetForm">
+    <q-card style="width: 500px">
+      <q-card-section class="flex justify-between">
+        <h2 class="text-h6 q-my-none">
+          {{ $t('snapshots.new_snapshot.heading') }}
+        </h2>
+        <q-btn v-close-popup icon="close" flat round dense />
+      </q-card-section>
+
+      <q-separator />
+
+      <q-form @submit="createSnapshot">
+        <q-card-section>
+          <q-input :model-value="repository"
+                   :label="$t('snapshots.new_snapshot.form.repository.label')"
+                   class="q-mb-sm"
+                   name="repository"
+                   disable />
+
+          <q-input v-model="snapshot.name"
+                   :label="$t('snapshots.new_snapshot.form.snapshot_name.label')"
+                   class="q-mb-sm"
+                   name="name"
+                   autocomplete="off"
+                   autofocus
+                   required />
+
+          <index-filter v-model="snapshot.indices"
+                        method="catIndices"
+                        :method-params="{ index: snapshot.indices, h: 'index' }" />
+        </q-card-section>
+
+        <q-card-section>
+          <q-btn :disable="requestState.loading || !formValid"
+                 :loading="requestState.loading"
+                 :label="$t('defaults.create')"
+                 color="positive"
+                 type="submit"
+                 class="q-mr-md" />
+          <q-btn v-close-popup flat :label="$t('defaults.close')" />
+        </q-card-section>
+      </q-form>
+    </q-card>
+  </q-dialog>
+</template>
+
+<script setup lang="ts">
+  import IndexFilter from '../shared/IndexFilter.vue'
+  import { useNewSnapshot } from '../../composables/components/snapshots/NewSnapshot'
+
+  const props = defineProps<{ repository: string }>()
+  const emit = defineEmits(['reload'])
+
+  const { dialog, snapshot, formValid, requestState, createSnapshot, resetForm } = useNewSnapshot({
+    emit,
+    repository: props.repository
+  })
+</script>

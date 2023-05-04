@@ -25,7 +25,7 @@
             <p>
               <!-- eslint-disable-next-line vue/no-v-html -->
               <span v-html="$t('query.rest.get_request_hint.cannot_send_body', { method: ownRequest.method })" />
-              <button class="btn-link" type="button" @click=" ownRequest.method = 'POST'">
+              <button class="btn-link q-pa-none" type="button" @click=" ownRequest.method = 'POST'">
                 {{ $t('query.rest.get_request_hint.use_post') }}
               </button>
               {{ $t('query.rest.get_request_hint.query_parameters') }}

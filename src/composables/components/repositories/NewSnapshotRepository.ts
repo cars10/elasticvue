@@ -63,11 +63,6 @@ export const useNewSnapshotRepository = ({ emit }: { emit: any }) => {
   }
   resetForm()
 
-  const closeDialog = () => {
-    resetForm()
-    dialog.value = false
-  }
-
   const callCreate = defineElasticsearchRequest({ emit, method: 'snapshotCreateRepository' })
   const createRepository = async () => {
     const success = await callCreate({
@@ -76,7 +71,7 @@ export const useNewSnapshotRepository = ({ emit }: { emit: any }) => {
         body: t('repositories.new_repository.create_repository.growl', { repositoryName: repository.value.repository }),
       }
     })
-    if (success) closeDialog()
+    if (success) dialog.value = false
   }
 
   return {

@@ -8,13 +8,13 @@
     <q-separator />
 
     <loader-status :request-state="requestState" hide-progress>
-      <snapshots-table :snapshots="data || []" :repository="repository" />
+      <snapshots-table :snapshots="data || []" :repository="repository" @reload="load" />
     </loader-status>
   </q-card>
 </template>
 
 <script setup lang="ts">
-  import { onMounted } from 'vue'
+  import { onMounted, ref } from 'vue'
   import { useRoute } from 'vue-router'
   import LoaderStatus from '../shared/LoaderStatus.vue'
   import ReloadButton from '../shared/ReloadButton.vue'
@@ -27,6 +27,6 @@
   const route = useRoute()
   const repository = route.params.repositoryName.toString()
 
-  const { load, requestState, data } = useElasticsearchRequest('catSnapshots', { repository })
+  const { load, requestState, data } = useElasticsearchRequest<object[]>('catSnapshots', { repository })
   onMounted(load)
 </script>

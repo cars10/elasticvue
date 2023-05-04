@@ -525,7 +525,7 @@
         "input": {
           "label": "Index pattern"
         },
-        "matched_indices": "matches <strong title='{indices}'>{count} indices</strong>"
+        "matched_indices": "matches {count} indices"
       },
       "index_select": {
         "select_indices": {

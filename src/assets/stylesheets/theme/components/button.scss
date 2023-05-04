@@ -1,8 +1,8 @@
 button.btn-link {
   background: none !important;
   border: none;
-  padding: 0 !important;
   text-decoration: underline;
   cursor: pointer;
   color: var(--theme-primary);
+  min-height: initial;
 }
