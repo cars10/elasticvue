@@ -79,7 +79,11 @@ export const useSnackbar = () => {
       const errorMessage = responseErrorMessage(requestState.apiErrorMessage)
       if (errorMessage && errorMessage.error) {
         snackbarOptions.title += ` - ${errorMessage.error.type}`
-        snackbarOptions.body = `Reason: ${errorMessage.error.reason}`
+        snackbarOptions.body = `Reason: ${errorMessage.error.reason}.`
+2
+        if (errorMessage.error.caused_by?.reason) {
+          snackbarOptions.body += ` Caused by: ${errorMessage.error.caused_by.reason}`
+        }
       } else {
         snackbarOptions.body = requestState.apiErrorMessage
       }

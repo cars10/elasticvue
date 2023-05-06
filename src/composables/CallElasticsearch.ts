@@ -84,6 +84,7 @@ export function useElasticsearchAdapter () {
             apiErrorMessage: errorResponse.toString(),
             status: -1
           }
+          console.error(errorResponse)
           return Promise.reject(new Error('Request error'))
         }
       }

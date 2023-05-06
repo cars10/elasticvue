@@ -33,7 +33,7 @@
     </td>
     <td class="text-right">
       <div :title="t('indices.index_row.shards.title', {pri: index.pri, rep: index.rep})">
-        {{ index.pri }}p | {{ index.rep }}r
+        {{ index.pri }}p&nbsp;&nbsp;{{ index.rep }}r
       </div>
     </td>
     <td class="text-right">

@@ -1,5 +1,5 @@
 <template>
-  <div class="q-mt-lg">
+  <div>
     <div v-if="showSelect" class="relative-position">
       <div class="absolute-right" style="z-index: 10; top: -4px">
         <q-btn class="btn-link q-px-xs q-py-none" flat :label="$t('shared.index_filter.use_index_pattern')"
@@ -35,7 +35,7 @@
   const toggle = () => (showSelect.value = !showSelect.value)
 
   const indices = ref([])
-  const indexNames = computed(() => (indices.value.map(i => i.index)).sort())
+  const indexNames = computed(() => (indices.value.map(i => (i.index || i))).sort())
 
   const { requestState, callElasticsearch } = useElasticsearchAdapter()
   const load = () => {
@@ -49,6 +49,7 @@
   watch(localIndices, newValue => emit('update:modelValue', newValue))
 
   // pattern
+  // TODO: dont watch localPattern ,watch props.methodParams
   watch(localPattern, newValue => {
     emit('update:modelValue', newValue)
     nextTick(() => {

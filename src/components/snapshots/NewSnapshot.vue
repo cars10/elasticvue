@@ -14,21 +14,16 @@
 
       <q-form @submit="createSnapshot">
         <q-card-section>
-          <q-input :model-value="repository"
-                   :label="$t('snapshots.new_snapshot.form.repository.label')"
-                   class="q-mb-sm"
-                   name="repository"
-                   disable />
-
           <q-input v-model="snapshot.name"
                    :label="$t('snapshots.new_snapshot.form.snapshot_name.label')"
+                   outlined
                    class="q-mb-sm"
-                   name="name"
                    autocomplete="off"
                    autofocus
                    required />
 
           <index-filter v-model="snapshot.indices"
+                        class="q-mt-lg"
                         method="catIndices"
                         :method-params="{ index: snapshot.indices, h: 'index' }" />
         </q-card-section>

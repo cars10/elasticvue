@@ -2,6 +2,7 @@
   <q-select v-model="localValue"
             class="full-width"
             :options="options"
+            outlined
             use-input
             options-dense
             input-debounce="0"

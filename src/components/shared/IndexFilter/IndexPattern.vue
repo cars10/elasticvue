@@ -1,5 +1,6 @@
 <template>
   <q-input v-model="localValue"
+           outlined
            bottom-slots
            :label="$t('shared.index_filter.index_pattern.input.label')"
            :loading="loading"

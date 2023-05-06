@@ -12,7 +12,7 @@
            :rows-per-page-options="DEFAULT_ROWS_PER_PAGE"
            :pagination="{sortBy: 'name'}">
     <template #body="{row}">
-      <snapshot-row :snapshot="row" :repository="repository" />
+      <snapshot-row :snapshot="row" :repository="repository" @reload="emit('reload')" />
     </template>
   </q-table>
 </template>
