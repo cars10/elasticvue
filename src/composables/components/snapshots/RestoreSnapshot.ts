@@ -1,6 +1,6 @@
 import { useTranslation } from '../../i18n'
 import { computed, ref } from 'vue'
-import { defineElasticsearchRequest, useElasticsearchAdapter } from '../../CallElasticsearch'
+import { defineElasticsearchRequest, useElasticsearchRequest } from '../../CallElasticsearch'
 
 export const useRestoreSnapshot = ({ emit, repository, snapshot }: {
   emit: any,
@@ -10,6 +10,7 @@ export const useRestoreSnapshot = ({ emit, repository, snapshot }: {
   const t = useTranslation()
 
   const dialog = ref(false)
+  const indexNames = ref([])
   const restoreOptions = ref({
     indices: [],
     ignoreUnavailable: true,
@@ -18,7 +19,9 @@ export const useRestoreSnapshot = ({ emit, repository, snapshot }: {
     renameReplacement: ''
   })
   const formValid = computed(() => (restoreOptions.value.indices.length > 0))
-  const { requestState } = useElasticsearchAdapter()
+
+  const { requestState, data, load } = useElasticsearchRequest<any>('getSnapshot', { repository, snapshot })
+  load().then(() => (indexNames.value = data.value.snapshots[0].indices.sort()))
 
   const resetForm = () => {
     restoreOptions.value = {
@@ -55,8 +58,9 @@ export const useRestoreSnapshot = ({ emit, repository, snapshot }: {
   return {
     dialog,
     restoreOptions,
-    formValid,
+    indexNames,
     requestState,
+    formValid,
     restoreSnapshot,
     resetForm
   }
