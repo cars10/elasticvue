@@ -1,6 +1,6 @@
 import { useTranslation } from '../../i18n'
 import { computed, Ref, ref } from 'vue'
-import { defineElasticsearchRequest, useElasticsearchAdapter } from '../../CallElasticsearch'
+import { defineElasticsearchRequest } from '../../CallElasticsearch'
 
 type Repository = {
   repository: string,
@@ -43,7 +43,6 @@ export const useNewSnapshotRepository = ({ emit }: { emit: any }) => {
   const formValid = computed(() => {
     return repository.value.repository.trim().length > 0 && repository.value.body.settings.location.trim().length > 0
   })
-  const { requestState } = useElasticsearchAdapter()
 
   const resetForm = () => {
     repository.value = {
@@ -63,9 +62,9 @@ export const useNewSnapshotRepository = ({ emit }: { emit: any }) => {
   }
   resetForm()
 
-  const callCreate = defineElasticsearchRequest({ emit, method: 'snapshotCreateRepository' })
+  const { run, loading } = defineElasticsearchRequest({ emit, method: 'snapshotCreateRepository' })
   const createRepository = async () => {
-    const success = await callCreate({
+    const success = await run({
       params: repository.value,
       snackbarOptions: {
         body: t('repositories.new_repository.create_repository.growl', { repositoryName: repository.value.repository }),
@@ -79,7 +78,7 @@ export const useNewSnapshotRepository = ({ emit }: { emit: any }) => {
     resetForm,
     dialog,
     formValid,
-    requestState,
+    loading,
     createRepository
   }
 }

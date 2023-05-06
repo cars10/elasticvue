@@ -9,11 +9,11 @@
       <div>
         <q-btn :label="hint" flat class="q-py-none q-px-xs" size="sm" no-caps>
           <q-menu>
-            <q-list dense>
-              <q-item v-for="index in indexNames" :key="index">
-                <q-item-section class="font-13">{{ index }}</q-item-section>
-              </q-item>
-            </q-list>
+            <div class="q-pa-sm">
+              <div v-for="index in indexNames" :key="index">
+                <span class="font-13">{{ index }}</span>
+              </div>
+            </div>
           </q-menu>
         </q-btn>
       </div>

@@ -1,6 +1,6 @@
 import { useTranslation } from '../../i18n'
 import { computed, ref } from 'vue'
-import { defineElasticsearchRequest, useElasticsearchAdapter } from '../../CallElasticsearch'
+import { defineElasticsearchRequest } from '../../CallElasticsearch'
 
 type Snapshot = {
   name: string,
@@ -14,8 +14,6 @@ export const useNewSnapshot = ({ emit, repository }: { emit: any, repository: st
   const snapshot = ref<Snapshot>({ name: '', indices: '*' })
   const formValid = computed(() => snapshot.value.name.trim().length > 0)
 
-  const { requestState } = useElasticsearchAdapter()
-
   const resetForm = () => {
     snapshot.value = {
       name: '',
@@ -24,9 +22,9 @@ export const useNewSnapshot = ({ emit, repository }: { emit: any, repository: st
   }
   resetForm()
 
-  const callCreate = defineElasticsearchRequest({ emit, method: 'snapshotCreate' })
+  const {run, loading} = defineElasticsearchRequest({ emit, method: 'snapshotCreate' })
   const createSnapshot = async () => {
-    const success = await callCreate({
+    const success = await run({
       params: {
         repository,
         snapshot: snapshot.value.name,
@@ -45,7 +43,7 @@ export const useNewSnapshot = ({ emit, repository }: { emit: any, repository: st
     dialog,
     snapshot,
     formValid,
-    requestState,
+    loading,
     createSnapshot,
     resetForm
   }

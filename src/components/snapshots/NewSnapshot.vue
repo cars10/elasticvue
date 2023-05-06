@@ -29,8 +29,8 @@
         </q-card-section>
 
         <q-card-section>
-          <q-btn :disable="requestState.loading || !formValid"
-                 :loading="requestState.loading"
+          <q-btn :disable="loading || !formValid"
+                 :loading="loading"
                  :label="$t('defaults.create')"
                  color="positive"
                  type="submit"
@@ -49,7 +49,7 @@
   const props = defineProps<{ repository: string }>()
   const emit = defineEmits(['reload'])
 
-  const { dialog, snapshot, formValid, requestState, createSnapshot, resetForm } = useNewSnapshot({
+  const { dialog, snapshot, formValid, loading, createSnapshot, resetForm } = useNewSnapshot({
     emit,
     repository: props.repository
   })

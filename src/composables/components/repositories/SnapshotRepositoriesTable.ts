@@ -17,9 +17,9 @@ export const useSnapshotRepositoriesTable = ({ repositories, emit }: {
     return filterItems(repos, filter.value, ['name'])
   })
 
-  const callDelete = defineElasticsearchRequest({ emit, method: 'snapshotDeleteRepository' })
+  const { run } = defineElasticsearchRequest({ emit, method: 'snapshotDeleteRepository' })
   const deleteRepository = (name: string) => {
-    return callDelete({
+    return run({
       confirmMsg: t('repositories.repositories_table.delete_repository.confirm', { name }),
       params: { repository: name },
       snackbarOptions: { body: t('repositories.repositories_table.delete_repository.growl', { name }) }

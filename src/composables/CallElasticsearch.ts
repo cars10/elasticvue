@@ -1,4 +1,4 @@
-import { Ref, ref } from 'vue'
+import { computed, Ref, ref } from 'vue'
 import ElasticsearchAdapter, { ElasticsearchMethod } from '../services/ElasticsearchAdapter'
 import { useConnectionStore } from '../store/connection'
 import { askConfirm } from '../helpers/dialogs'
@@ -103,6 +103,7 @@ export function useElasticsearchAdapter () {
 
   return {
     requestState,
+    loading: computed(() => requestState.value.loading),
     callElasticsearch
   }
 }
@@ -116,7 +117,7 @@ export function useElasticsearchAdapter () {
  *   onMounted(load)
  */
 export function useElasticsearchRequest<T> (method: ElasticsearchMethod, params?: object) {
-  const { requestState, callElasticsearch } = useElasticsearchAdapter()
+  const { requestState, loading, callElasticsearch } = useElasticsearchAdapter()
   const data: Ref<T | null> = ref(null)
 
   const load = () => {
@@ -127,6 +128,7 @@ export function useElasticsearchRequest<T> (method: ElasticsearchMethod, params?
 
   return {
     requestState,
+    loading,
     data,
     load
   }
@@ -151,10 +153,10 @@ export const defineElasticsearchRequest = ({ emit, method }: {
   emit?: Function,
   method: ElasticsearchMethod
 }) => {
-  const { requestState, callElasticsearch } = useElasticsearchAdapter()
+  const { requestState, loading, callElasticsearch } = useElasticsearchAdapter()
   const { showSnackbar } = useSnackbar()
 
-  return async ({ confirmMsg, snackbarOptions, params = undefined }: {
+  const run = async ({ confirmMsg, snackbarOptions, params = undefined }: {
     confirmMsg?: string,
     snackbarOptions?: SnackbarOptions | SnackbarOptionsFunction,
     params?: object
@@ -179,6 +181,12 @@ export const defineElasticsearchRequest = ({ emit, method }: {
       showSnackbar(requestState.value)
       return false
     }
+  }
+
+  return {
+    run,
+    requestState,
+    loading
   }
 }
 

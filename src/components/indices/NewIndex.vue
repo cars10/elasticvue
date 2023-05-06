@@ -39,8 +39,8 @@
 
         <q-card-section>
           <q-btn id="create_index"
-                 :disable="requestState.loading || !formValid"
-                 :loading="requestState.loading"
+                 :disable="loading || !formValid"
+                 :loading="loading"
                  :label="t('defaults.create')"
                  color="positive"
                  type="submit"
@@ -59,5 +59,5 @@
   const t = useTranslation()
   const emit = defineEmits(['reload'])
 
-  const { dialog, index, formValid, requestState, createIndex, resetForm } = useNewIndex({ emit })
+  const { dialog, index, formValid, loading, createIndex, resetForm } = useNewIndex({ emit })
 </script>

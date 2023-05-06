@@ -1,10 +1,9 @@
 import { useTranslation } from '../../i18n'
 import { computed, ref } from 'vue'
-import { defineElasticsearchRequest, useElasticsearchAdapter } from '../../CallElasticsearch'
+import { defineElasticsearchRequest } from '../../CallElasticsearch'
 
 export const useNewIndex = ({ emit }: { emit: any }) => {
   const t = useTranslation()
-  const { requestState, } = useElasticsearchAdapter()
 
   const dialog = ref(false)
   const index = ref({
@@ -30,16 +29,17 @@ export const useNewIndex = ({ emit }: { emit: any }) => {
     dialog.value = false
   }
 
-  const callCreate = defineElasticsearchRequest({ emit, method: 'indexCreate' })
+  const { run, loading } = defineElasticsearchRequest({ emit, method: 'indexCreate' })
   const createIndex = async () => {
-    const success = await callCreate({
+    const success = await run({
       params: {
         index: index.value.name,
         body: { settings: { number_of_shards: index.value.shards || 1, number_of_replicas: index.value.replicas || 1 } }
       },
       snackbarOptions: (body: any) => {
         return {
-          title: t('indices.new_index.create_index.growl', { index: index.value.name }), body: JSON.stringify(body)
+          title: t('indices.new_index.create_index.growl', { index: index.value.name }),
+          body: JSON.stringify(body)
         }
       }
     })
@@ -50,7 +50,7 @@ export const useNewIndex = ({ emit }: { emit: any }) => {
     dialog,
     index,
     formValid,
-    requestState,
+    loading,
     createIndex,
     resetForm
   }

@@ -14,7 +14,7 @@
 
       <q-form @submit="restoreSnapshot">
         <q-card-section>
-          <index-select v-model="restoreOptions.indices" :index-names="indexNames" :loading="requestState.loading"
+          <index-select v-model="restoreOptions.indices" :index-names="indexNames" :loading="false"
                         class="q-mb-md" />
 
           <q-input v-model="restoreOptions.renamePattern"
@@ -41,8 +41,8 @@
         </q-card-section>
 
         <q-card-section>
-          <q-btn :disable="requestState.loading || !formValid"
-                 :loading="requestState.loading"
+          <q-btn :disable="loading || !formValid"
+                 :loading="loading"
                  :label="$t('snapshots.restore_snapshot.form.restore')"
                  color="positive"
                  type="submit"
@@ -66,7 +66,7 @@
   const {
     dialog,
     formValid,
-    requestState,
+    loading,
     indexNames,
     restoreSnapshot,
     restoreOptions,

@@ -20,7 +20,7 @@ export const useRestoreSnapshot = ({ emit, repository, snapshot }: {
   })
   const formValid = computed(() => (restoreOptions.value.indices.length > 0))
 
-  const { requestState, data, load } = useElasticsearchRequest<any>('getSnapshot', { repository, snapshot })
+  const { data, load } = useElasticsearchRequest<any>('getSnapshot', { repository, snapshot })
   load().then(() => (indexNames.value = data.value.snapshots[0].indices.sort()))
 
   const resetForm = () => {
@@ -34,9 +34,9 @@ export const useRestoreSnapshot = ({ emit, repository, snapshot }: {
   }
   resetForm()
 
-  const callRestore = defineElasticsearchRequest({ emit, method: 'snapshotRestore' })
+  const {run, loading} = defineElasticsearchRequest({ emit, method: 'snapshotRestore' })
   const restoreSnapshot = async () => {
-    const success = await callRestore({
+    const success = await run({
       params: {
         repository,
         snapshot,
@@ -59,7 +59,7 @@ export const useRestoreSnapshot = ({ emit, repository, snapshot }: {
     dialog,
     restoreOptions,
     indexNames,
-    requestState,
+    loading,
     formValid,
     restoreSnapshot,
     resetForm

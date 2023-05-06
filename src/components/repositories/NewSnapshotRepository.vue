@@ -66,8 +66,8 @@
         </q-card-section>
 
         <q-card-section>
-          <q-btn :disable="requestState.loading || !formValid"
-                 :loading="requestState.loading"
+          <q-btn :disable="loading || !formValid"
+                 :loading="loading"
                  :label="$t('defaults.create')"
                  color="positive"
                  type="submit"
@@ -85,7 +85,7 @@
   const emit = defineEmits(['reload'])
   const {
     repository,
-    requestState,
+    loading,
     dialog,
     formValid,
     resetForm,
