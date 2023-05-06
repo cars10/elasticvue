@@ -647,10 +647,7 @@
       }
     },
     "snapshot": {
-      "indices": {
-        "show": "Show",
-        "hide": "Hide"
-      },
+      "indices": "{count} indices",
       "options": "Options",
       "delete": {
         "text": "Delete snapshot",

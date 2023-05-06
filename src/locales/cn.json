@@ -647,10 +647,7 @@
       }
     },
     "snapshot": {
-      "indices": {
-        "show": "显示",
-        "hide": "隐藏"
-      },
+      "indices": null,
       "options": "选项",
       "delete": {
         "text": "删除快照",

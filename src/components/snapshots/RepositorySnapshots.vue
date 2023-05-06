@@ -14,7 +14,7 @@
 </template>
 
 <script setup lang="ts">
-  import { onMounted, ref } from 'vue'
+  import { onMounted } from 'vue'
   import { useRoute } from 'vue-router'
   import LoaderStatus from '../shared/LoaderStatus.vue'
   import ReloadButton from '../shared/ReloadButton.vue'

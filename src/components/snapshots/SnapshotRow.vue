@@ -6,8 +6,10 @@
     <q-td>{{ snapshot.end_time }} ({{ snapshot.end_epoch }})</q-td>
     <q-td>{{ snapshot.duration }}</q-td>
     <q-td>
-      {{ snapshot.indices }}
-      <q-btn :label="$t('snapshots.snapshot.indices.show')" dense flat color="dark-grey q-ml-md">
+      <q-btn :label="t('snapshots.snapshot.indices', {count: snapshot.indices})"
+             dense
+             no-caps
+             color="dark-grey q-ml-md">
         <q-menu @before-show="load">
           <q-list dense>
             <q-item v-for="index in indexNames" :key="index">
@@ -32,9 +34,11 @@
 <script setup lang="ts">
   import { useSnapshotRow } from '../../composables/components/snapshots/SnapshotRow'
   import RestoreSnapshot from './RestoreSnapshot.vue'
+  import { useTranslation } from '../../composables/i18n'
 
   const props = defineProps<{ snapshot: object, repository: string }>()
   const emit = defineEmits(['reload'])
+  const t = useTranslation()
 
   const { load, indexNames, deleteSnapshot } = useSnapshotRow({
     emit,
