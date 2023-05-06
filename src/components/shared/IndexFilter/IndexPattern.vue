@@ -6,7 +6,7 @@
            autocomplete="off">
     <template #hint>
       <div>
-        <q-btn :label="hint" flat class="q-py-none q-px-sm" size="sm" no-caps>
+        <q-btn :label="hint" flat class="q-py-none q-px-xs" size="sm" no-caps>
           <q-menu>
             <q-list dense>
               <q-item v-for="index in indexNames" :key="index">

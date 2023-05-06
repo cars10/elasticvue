@@ -1,12 +1,18 @@
 <template>
-  <div>
-    <div v-if="showSelect" class="flex">
-      <q-btn class="btn-link q-px-xs q-py-none" flat label="use pattern" @click="toggle" />
+  <div class="q-mt-lg">
+    <div v-if="showSelect" class="relative-position">
+      <div class="absolute-right" style="z-index: 10; top: -4px">
+        <q-btn class="btn-link q-px-xs q-py-none" flat :label="$t('shared.index_filter.use_index_pattern')"
+               no-caps @click="toggle" />
+      </div>
       <index-select v-model="localIndices" :index-names="indexNames" :loading="requestState.loading" />
     </div>
 
-    <div v-else>
-      <q-btn class="btn-link q-px-xs q-py-none" flat label="use select" @click="toggle" />
+    <div v-else class="relative-position">
+      <div class="absolute-right" style="z-index: 10; top: -4px">
+        <q-btn class="btn-link q-px-xs q-py-none" flat :label="$t('shared.index_filter.use_index_select')"
+               no-caps @click="toggle" />
+      </div>
       <index-pattern v-model="localPattern" :index-names="indexNames" :loading="requestState.loading" />
     </div>
   </div>
@@ -40,7 +46,6 @@
   onMounted(load)
 
   // select
-
   watch(localIndices, newValue => emit('update:modelValue', newValue))
 
   // pattern
