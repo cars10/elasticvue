@@ -6,19 +6,19 @@ I will also convert everything to vue 3 and `script setup`.
 
 Current State:
 
-| Feature            | Status         |
-|--------------------|----------------|
-| Cluster management |                |
-| Backup & Restore   | Done           |
-| Home page          | Done           |
-| Nodes              | Done           |
-| Shards             | Done           |
-| Indices            | Done           |
-| Search             |                |
-| Rest               |                |
-| Snapshots          |                |
-| Utilities          |                |
-| Settings           | Partially done |
+| Feature            | Status |
+|--------------------|--------|
+| Cluster management |        |
+| Backup & Restore   | Done   |
+| Home page          | Done   |
+| Nodes              | Done   |
+| Shards             | Done   |
+| Indices            | Done   |
+| Search             |        |
+| Rest               | Done   |
+| Snapshots          | Done   |
+| Utilities          |        |
+| Settings           | Done   |
 
 
 Features that are no longer re-implemented:
