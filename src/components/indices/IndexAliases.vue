@@ -22,7 +22,7 @@
       <q-separator />
 
       <q-card-section>
-        <p>{{ $t('indices.index_aliases.index', { index }) }}</p>
+        <p>{{ t('indices.index_aliases.index', { index }) }}</p>
 
         <q-form @submit="addAlias">
           <div class="flex">
@@ -33,6 +33,7 @@
                      lazy-rules
                      autocomplete="off"
                      autofocus
+                     outlined
                      dense
                      required />
 
@@ -73,6 +74,9 @@
   import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
   import { useIndexAliases } from '../../composables/components/indices/IndexAliases'
   import { toRefs } from 'vue'
+  import { useTranslation } from '../../composables/i18n'
+
+  const t = useTranslation()
 
   const props = withDefaults(defineProps<{ index: string }>(), { index: '' })
   const { index } = toRefs(props)

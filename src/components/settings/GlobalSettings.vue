@@ -15,6 +15,7 @@
             <div class="col-md-6 col-sm-12">
               <q-input v-model="indicesStore.hideIndicesRegex"
                        autofocus
+                       outlined
                        :label="$t('settings.hide_indices_regex.label')"
                        :hint="$t('settings.hide_indices_regex.message')">
                 <template #append>

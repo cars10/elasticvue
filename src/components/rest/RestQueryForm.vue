@@ -4,12 +4,14 @@
       <q-select v-model="ownRequest.method"
                 :options="HTTP_METHODS"
                 options-dense
-                style="width: 120px"
+                style="width: 140px"
+                outlined
                 class="q-mr-md"
                 :label="$t('query.rest.form.method.label')" />
       <q-input v-model="ownRequest.path"
                :label="$t('query.rest.form.path.label')"
                class="col-grow"
+               outlined
                autofocus
                @keydown.enter.prevent="sendRequest" />
       <q-btn icon="send" flat type="submit" />

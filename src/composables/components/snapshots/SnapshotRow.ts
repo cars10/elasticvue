@@ -20,9 +20,9 @@ export const useSnapshotRow = ({ emit, repository, snapshot }: { emit: any, repo
     }).catch(() => showSnackbar(requestState.value))
   }
 
-  const callDelete = defineElasticsearchRequest({ emit, method: 'snapshotDelete' })
+  const { run } = defineElasticsearchRequest({ emit, method: 'snapshotDelete' })
   const deleteSnapshot = () => {
-    return callDelete({
+    return run({
       confirmMsg: t('snapshots.snapshot.delete.confirm', { snapshot }),
       params: { repository, snapshot },
       snackbarOptions: { body: t('snapshots.snapshot.delete.growl', { snapshot }) }

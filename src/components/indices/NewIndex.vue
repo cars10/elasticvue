@@ -16,23 +16,26 @@
         <q-card-section>
           <q-input v-model="index.name"
                    :label="t('indices.new_index.form.index_name.label')"
-                   class="q-mb-sm"
+                   class="q-mb-md"
                    lazy-rules
                    autocomplete="off"
                    autofocus
+                   outlined
                    required />
 
           <q-input v-model="index.shards"
                    :label="t('indices.new_index.form.shards.label')"
-                   class="q-mb-sm"
+                   class="q-mb-md"
                    lazy-rules
+                   outlined
                    autocomplete="off"
                    type="number" />
 
           <q-input v-model="index.replicas"
                    :label="t('indices.new_index.form.replicas.label')"
-                   class="q-mb-sm"
+                   class="q-mb-md"
                    lazy-rules
+                   outlined
                    autocomplete="off"
                    type="number" />
         </q-card-section>

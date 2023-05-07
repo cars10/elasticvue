@@ -1,5 +1,5 @@
 <template>
-  <q-input v-model="filter" :label="t('defaults.filter.label')" dense @keyup.esc="filter = ''">
+  <q-input v-model="filter" :label="t('defaults.filter.label')" dense @keyup.esc="filter = ''" outlined>
     <template #append>
       <q-icon name="search" />
     </template>

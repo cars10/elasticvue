@@ -6,12 +6,14 @@
                  required
                  label="Cluster name"
                  autocomplete="off"
+                 outlined
                  autofocus />
       </div>
 
       <div class="row q-mb-md">
         <div class="col-md-6 col-12 q-pr-sm">
           <q-input v-model="newCluster.username"
+                   outlined
                    :label="$t('setup.test_and_connect.form.username.label')"
                    autocomplete="off" />
         </div>
@@ -19,6 +21,7 @@
         <div class="col-md-6 col-12 q-pl-sm">
           <q-input v-model="newCluster.password"
                    autocomplete="off"
+                   outlined
                    :label="$t('setup.test_and_connect.form.password.label')"
                    :type="passwordVisible ? 'text' : 'password'">
             <template #append>
@@ -35,6 +38,7 @@
       <q-input v-model="newCluster.uri"
                :rules="[validUri]"
                required
+               outlined
                :label="$t('setup.test_and_connect.form.uri.label')"
                @keyup.ctrl.enter="connectAndRedirect">
         <template #append>

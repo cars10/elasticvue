@@ -92,7 +92,7 @@
               <q-btn icon="edit" flat dense size="sm" class="q-ml-sm">
                 <q-popup-edit v-slot="scope" v-model="tab.label" auto-save anchor="top left"
                               @save="value => {updateTab(value, tab)}">
-                  <q-input v-model="scope.value" dense autofocu @keyup.enter="scope.set" />
+                  <q-input v-model="scope.value" dense autofocu @keyup.enter="scope.set" outlined />
                 </q-popup-edit>
               </q-btn>
 

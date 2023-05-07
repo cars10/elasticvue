@@ -4,6 +4,7 @@
             accept="application/json"
             :label="$t('settings.import_export.import.select_file')"
             max-files="1"
+            outlined
             class="q-mb-md">
       <template #prepend>
         <q-icon name="attach_file" />
