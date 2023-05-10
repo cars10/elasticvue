@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { DEFAULT_SEARCH_QUERY } from '../consts'
+import { DEFAULT_PAGINATION, DEFAULT_SEARCH_QUERY } from '../consts'
 
 export const useSearchStore = defineStore('search', {
   state: () => ({
@@ -11,13 +11,7 @@ export const useSearchStore = defineStore('search', {
     selectedColumns: [],
     columns: [],
     stickyTableHeader: true,
-    pagination: {
-      sortBy: '',
-      descending: false,
-      page: 1,
-      rowsPerPage: 10,
-      rowsNumber: -1
-    }
+    pagination: DEFAULT_PAGINATION
   }),
   actions: {
     resetSearchQuery () {

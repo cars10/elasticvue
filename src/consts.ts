@@ -24,3 +24,11 @@ export const buildDefaultRequest = () => ({
 
 export const DEFAULT_SEARCH_QUERY = '{\n\t"query": {\n\t\t"query_string": {\n\t\t\t"query": "*"\n\t\t}\n\t},\n\t"size": 10,\n\t"from": 0,\n\t"sort": []\n}'
 export const DEFAULT_SEARCH_RESULT_COLUMNS = ['_index', '_type', '_id', '_score']
+export const DEFAULT_SORTABLE_COLUMNS = ['_index', '_type', '_score']
+export const DEFAULT_PAGINATION = {
+  sortBy: '',
+  descending: false,
+  page: 1,
+  rowsPerPage: 10,
+  rowsNumber: -1
+}

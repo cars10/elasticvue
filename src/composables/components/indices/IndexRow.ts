@@ -2,6 +2,9 @@ import { onMounted, Ref, ref, watch } from 'vue'
 import { useModal } from '../../Modal'
 import { useElasticsearchRequest } from '../../CallElasticsearch'
 import { QMenu } from 'quasar'
+import { useRouter } from 'vue-router'
+import { useSearchStore } from '../../../store/search'
+import { DEFAULT_PAGINATION, DEFAULT_SEARCH_QUERY } from '../../../consts'
 
 type Aliases = {
   aliases: string[]
@@ -34,8 +37,14 @@ export const useIndexRow = ({ index, emit }: { index: string, emit: any }) => {
     menu.value?.hide()
   }
 
+  const router = useRouter()
+  const searchStore = useSearchStore()
   const showDocuments = (index: string) => {
-    console.log(index)
+    searchStore.indices = index
+    searchStore.searchQueryCollapsed = false
+    searchStore.searchQuery = DEFAULT_SEARCH_QUERY
+    searchStore.pagination = DEFAULT_PAGINATION
+    router.push({ name: 'search' })
   }
 
   return {

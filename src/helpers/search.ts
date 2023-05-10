@@ -1,9 +1,9 @@
-import { DEFAULT_SEARCH_RESULT_COLUMNS } from '../consts'
+import { DEFAULT_SORTABLE_COLUMNS } from '../consts'
 
 const SORTABLE_TYPES = ['long', 'integer', 'double', 'float', 'date', 'boolean', 'keyword']
 
 export function sortableField (fieldName: string, property: any) {
-  if (DEFAULT_SEARCH_RESULT_COLUMNS.includes(fieldName)) return fieldName
+  if (DEFAULT_SORTABLE_COLUMNS.includes(fieldName)) return fieldName
 
   if (property) {
     if (SORTABLE_TYPES.includes(property.type)) {

@@ -1,5 +1,5 @@
 <template>
-  <q-card>
+  <q-card class="q-mb-md">
     <q-card-section class="flex items-center">
       <h1 class="text-h5 q-my-none">
         {{ $t('search.heading') }}
@@ -57,7 +57,9 @@
         </q-btn>
       </div>
     </q-card-section>
+  </q-card>
 
+  <q-card>
     <q-card v-if="queryParsingError">
       <q-banner class="q-pa-md bg-warning">
         <p>invalid search query</p>
