@@ -5,10 +5,28 @@
 
       <q-btn icon="settings" round flat>
         <q-menu style="white-space: nowrap" anchor="bottom right" self="top end">
-          <q-list dense>
-            <q-item style="padding-left: 0">
+          <q-list dense class="q-pb-sm">
+            <q-item style="padding-left: 6px">
               <q-checkbox v-model="searchStore.stickyTableHeader"
                           :label="$t('indices.indices_table.sticky_table_header.label')" />
+            </q-item>
+
+            <q-separator />
+
+            <q-item class="q-mt-sm">
+              <q-item-label style="flex-grow: 1">
+                <div class="flex justify-between items-center" style="flex-grow: 1">
+                  {{ $t('search.results_table.settings.columns') }}
+
+                  <q-btn :label="$t('shared.table_settings.reset')" flat size="sm" class="q-px-xs"
+                         @click="resetColumns" />
+                </div>
+              </q-item-label>
+            </q-item>
+
+            <q-item v-for="col in columns" :key="col.name" style="padding-left: 8px" dense>
+              <q-checkbox v-model="searchStore.visibleColumns" :val="col.name" :label="col.name" size="32px"
+                          style="flex-grow: 1" />
             </q-item>
           </q-list>
         </q-menu>
@@ -26,9 +44,10 @@
                :columns="columns"
                :rows="hits"
                :rows-per-page-options="rowsPerPage"
+               :visible-columns="searchStore.visibleColumns"
                @request="onRequest">
-        <template #body="{row}">
-          <search-result :columns="columns" :doc="row" />
+        <template #body="{row, cols}">
+          <search-result :columns="cols" :doc="row" />
         </template>
       </q-table>
     </resizable-container>
@@ -56,7 +75,7 @@
   const filter = ref('')
   const columns = ref([])
 
-  const { requestState, callElasticsearch } = useElasticsearchAdapter()
+  const { callElasticsearch } = useElasticsearchAdapter()
 
   watch(() => props.results, async newValue => {
     if (newValue?.hits?.hits?.length === 0) {
@@ -83,6 +102,7 @@
       }
     })
 
+    const previousColumns = columns.value.map(c => c.name)
     columns.value = results.uniqueColumns.map(field => {
       const filterableCol = sortableField(field, allProperties[field])
       let label
@@ -95,11 +115,18 @@
       return { label, field, name: field, sortable: !!filterableCol, align: 'left' }
     })
 
+    const newColumns = columns.value.filter(c => !previousColumns.includes(c))
+    searchStore.visibleColumns = searchStore.visibleColumns.concat(newColumns)
+
     hits.value = results.docs
   })
 
   const onRequest = a => {
     emit('request', a)
+  }
+
+  const resetColumns = () => {
+    searchStore.visibleColumns = columns.value.map(c => c.name)
   }
 
   const rowsPerPage = computed(() => {
