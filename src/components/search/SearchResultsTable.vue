@@ -52,6 +52,15 @@
       </q-table>
     </resizable-container>
   </div>
+
+  <div class="q-pa-md text-right">
+    <download-button color="dark-grey"
+                     :disable="hits.length === 0"
+                     size="12px"
+                     download="search.json"
+                     :label="$t('search.results_table.download_as_json')"
+                     :generate-download-data="generateDownloadData" />
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -65,6 +74,7 @@
   import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
   import { useElasticsearchAdapter } from '../../composables/CallElasticsearch'
   import { sortableField } from '../../helpers/search'
+  import DownloadButton from '../shared/DownloadButton.vue'
 
   const props = defineProps<{ results: object }>()
   const emit = defineEmits(['request'])
@@ -127,6 +137,10 @@
 
   const resetColumns = () => {
     searchStore.visibleColumns = columns.value.map(c => c.name)
+  }
+
+  const generateDownloadData = () => {
+    return JSON.stringify(props.results)
   }
 
   const rowsPerPage = computed(() => {
