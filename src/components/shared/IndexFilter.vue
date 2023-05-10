@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="showSelect" class="relative-position">
-      <div class="absolute-right" style="z-index: 10; top: -4px">
+      <div class="absolute inline-block" style="z-index: 10; top: -1px; right: 0">
         <q-btn class="btn-link q-px-xs q-py-none" flat :label="$t('shared.index_filter.use_index_pattern')"
                no-caps @click="toggle" />
       </div>
@@ -9,7 +9,7 @@
     </div>
 
     <div v-else class="relative-position">
-      <div class="absolute-right" style="z-index: 10; top: -4px">
+      <div class="absolute inline-block" style="z-index: 10; top: -1px; right: 0">
         <q-btn class="btn-link q-px-xs q-py-none" flat :label="$t('shared.index_filter.use_index_select')"
                no-caps @click="toggle" />
       </div>

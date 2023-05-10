@@ -25,3 +25,13 @@ Features that are no longer re-implemented:
 * Nodes grid view
 * Rest query vertical view
 * Support for numbers bigger then `Number.MAX_SAFE_INTEGER`
+
+Feature TODO:
+* Indices reindex option
+* Rest query examples
+
+Overall TODOs:
+* Cleanup i18n
+* a11y
+* keyup.esc modifiers
+* 
