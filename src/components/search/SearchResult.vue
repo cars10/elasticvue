@@ -5,7 +5,7 @@
       <template v-else-if="doc.hasOwnProperty(column)">{{ renderValue(doc[column]) }}</template>
     </q-td>
     <q-td>
-      <q-btn :label="$t('search.result.show')" />
+      <q-btn :label="$t('search.result.show')" color="dark-grey" />
     </q-td>
   </q-tr>
 </template>

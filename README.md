@@ -29,6 +29,7 @@ Features that are no longer re-implemented:
 Feature TODO:
 * Indices reindex option
 * Rest query examples
+* fix index filter, select only shows results from pattern
 
 Overall TODOs:
 * Cleanup i18n

@@ -9,7 +9,7 @@ export const useSearchStore = defineStore('search', {
     searchQueryCollapsed: false,
     filter: '',
     visibleColumns: [],
-    stickyTableHeader: true,
+    stickyTableHeader: false,
     pagination: DEFAULT_PAGINATION
   }),
   actions: {

@@ -78,7 +78,7 @@
   const { callElasticsearch } = useElasticsearchAdapter()
 
   watch(() => props.results, async newValue => {
-    if (newValue?.hits?.hits?.length === 0) {
+    if (newValue.length === 0 && newValue?.hits?.hits?.length === 0) {
       hits.value = []
       return
     }
@@ -102,7 +102,7 @@
       }
     })
 
-    const previousColumns = columns.value.map(c => c.name)
+    const previousColumns = columns.value.map(c => c.name).concat(searchStore.visibleColumns)
     columns.value = results.uniqueColumns.map(field => {
       const filterableCol = sortableField(field, allProperties[field])
       let label
@@ -115,7 +115,7 @@
       return { label, field, name: field, sortable: !!filterableCol, align: 'left' }
     })
 
-    const newColumns = columns.value.filter(c => !previousColumns.includes(c))
+    const newColumns = results.uniqueColumns.filter(c => !previousColumns.includes(c))
     searchStore.visibleColumns = searchStore.visibleColumns.concat(newColumns)
 
     hits.value = results.docs
