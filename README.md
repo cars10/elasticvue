@@ -27,7 +27,6 @@ Features that are no longer re-implemented:
 * Support for numbers bigger then `Number.MAX_SAFE_INTEGER`
 
 Feature TODO:
-* Indices reindex option
 * Rest query examples
 * fix index filter, select only shows results from pattern
 

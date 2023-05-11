@@ -140,6 +140,17 @@
         "confirm": "删除索引 '{index}' 的别名 '{alias}'？"
       }
     },
+    "index_reindex": {
+      "text": null,
+      "heading": null,
+      "index": null,
+      "form": {
+        "source": {
+          "label": null
+        },
+        "reindex": null
+      }
+    },
     "index_bulk": {
       "bulk_action": null
     },

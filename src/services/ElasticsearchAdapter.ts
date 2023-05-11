@@ -135,6 +135,10 @@ export default class ElasticsearchAdapter {
     return this.request(`${index}/_settings`, 'PUT', body)
   }
 
+  reindex ({ source, dest }: { source: string, dest: string }) {
+    return this.request('_reindex', 'POST', { source: { index: source }, dest: { index: dest } })
+  }
+
   catNodes (params: object) {
     return this.request('_cat/nodes', 'GET', params)
   }
@@ -142,7 +146,6 @@ export default class ElasticsearchAdapter {
   nodes () {
     return this.request('_nodes', 'GET')
   }
-
 
   get ({ index, type, id, routing }: { index: string, type: string, id: any, routing: any }) {
     const docType = type || '_doc'

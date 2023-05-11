@@ -67,6 +67,7 @@
             <q-separator />
 
             <index-aliases :index="index.index" @reload="remitReloadAndCloseMenu" />
+            <index-reindex :index="index.index" @reload="remitReloadAndCloseMenu" />
 
             <q-separator />
 
@@ -135,6 +136,7 @@
   import IndexRowMenuAction from './IndexRowMenuAction.vue'
   import { useIndexRow } from '../../composables/components/indices/IndexRow'
   import { useTranslation } from '../../composables/i18n'
+  import IndexReindex from './IndexReindex.vue'
 
   const t = useTranslation()
   type Index = {

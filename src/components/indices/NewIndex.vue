@@ -33,7 +33,6 @@
 
           <q-input v-model="index.replicas"
                    :label="t('indices.new_index.form.replicas.label')"
-                   class="q-mb-md"
                    lazy-rules
                    outlined
                    autocomplete="off"

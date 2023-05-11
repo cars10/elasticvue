@@ -140,6 +140,17 @@
         "confirm": "Delete alias '{alias}' for index '{index}'?"
       }
     },
+    "index_reindex": {
+      "text": "Reindex",
+      "heading": "Reindex index",
+      "index": "Index: {index}",
+      "form": {
+        "source": {
+          "label": "Reindex into..."
+        },
+        "reindex": "Reindex"
+      }
+    },
     "index_bulk": {
       "bulk_action": "Bulk action"
     },
