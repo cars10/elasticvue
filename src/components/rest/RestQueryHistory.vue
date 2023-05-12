@@ -9,6 +9,7 @@
 
       <q-table flat
                dense
+               class="table-mono"
                row-key="id"
                :columns="columns"
                :rows="filteredData"

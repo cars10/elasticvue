@@ -20,9 +20,13 @@ table.q-table {
     font-size: 13px;
     font-weight: 600;
   }
+}
 
-  tbody td {
-    font-family: 'Hack', monospace;
+.table-mono {
+  .q-table {
+    tbody td {
+      font-family: 'Hack', monospace;
+    }
   }
 }
 

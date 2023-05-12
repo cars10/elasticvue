@@ -5,6 +5,7 @@
   </div>
 
   <q-table flat
+           class="table-mono"
            dense
            row-key="name"
            :columns="tableColumns"

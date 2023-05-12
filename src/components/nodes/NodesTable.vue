@@ -3,7 +3,8 @@
     <filter-input v-model="filter" />
   </div>
 
-  <q-table flat
+  <q-table class="table-mono"
+           flat
            dense
            row-key="name"
            :columns="columns"

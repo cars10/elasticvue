@@ -31,6 +31,7 @@
   <div :class="{'table--sticky-header': indicesStore.stickyTableHeader}">
     <resizable-container v-model="resizeStore.indicesTable" :active="indicesStore.stickyTableHeader">
       <q-table :key="tableKey"
+               class="table-mono"
                flat
                dense
                row-key="index"

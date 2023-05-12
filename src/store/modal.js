@@ -20,9 +20,6 @@ export const useModalStore = defineStore('modal', {
     },
     setMethodParams (methodParams) {
       this.methodParams = methodParams
-    },
-    toggleShow () {
-      this.show = !this.show
     }
   }
 })

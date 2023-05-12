@@ -37,6 +37,7 @@
   <div :class="{'table--sticky-header': searchStore.stickyTableHeader}">
     <resizable-container v-model="resizeStore.searchTable" :active="searchStore.stickyTableHeader">
       <q-table v-model:pagination="searchStore.pagination"
+               class="table-mono"
                flat
                dense
                :virtual-scroll="searchStore.stickyTableHeader"

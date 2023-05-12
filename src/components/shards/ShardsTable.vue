@@ -15,6 +15,7 @@
   </div>
 
   <q-table v-model:pagination="pagination"
+           class="table-mono"
            flat
            dense
            :columns="columns"
