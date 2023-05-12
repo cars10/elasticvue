@@ -73,8 +73,19 @@
                   </div>
                 </div>
               </td>
+              <td>
+                {{ row.name }}
+              </td>
               <td class="small-wrap">
-                <q-btn icon="delete" flat dense @click.stop="removeSavedQuery(row.id)" />
+                <q-btn-group>
+                  <q-btn icon="edit" color="dark-grey" dense>
+                    <q-popup-edit v-slot="scope" v-model="row.name" auto-save anchor="center right"
+                                  @save="v => {renameSavedQuery(v, row)}">
+                      <q-input v-model="scope.value" dense autofocu outlined @keyup.enter="scope.set" />
+                    </q-popup-edit>
+                  </q-btn>
+                  <q-btn icon="delete" color="dark-grey" dense @click.stop="removeSavedQuery(row.id)" />
+                </q-btn-group>
               </td>
             </template>
           </rest-query-history>
@@ -89,9 +100,9 @@
             <div class="flex">
               {{ tab.label }}
 
-              <q-btn icon="edit" flat dense size="sm" class="q-ml-sm">
+              <q-btn icon="edit" flat dense size="sm">
                 <q-popup-edit v-slot="scope" v-model="tab.label" auto-save anchor="top left"
-                              @save="value => {updateTab(value, tab)}">
+                              @save="v => {updateTab(renameSavedQuery, tab)}">
                   <q-input v-model="scope.value" dense autofocu outlined @keyup.enter="scope.set" />
                 </q-popup-edit>
               </q-btn>
@@ -173,6 +184,11 @@
     await useRequest(request)
   }
 
+  const renameSavedQuery = (name, row) => {
+    const obj = Object.assign({}, toRaw(row), { name })
+    restQuerySavedQueries.update(obj)
+  }
+
   const {
     tabs,
     activeTabName,
@@ -195,6 +211,7 @@
 
   const savedQueriesColumns = [
     { label: t('query.rest_query_history.table.headers.query'), field: 'query', name: 'query', align: 'left' },
+    { label: 'Name', field: 'name', name: 'name', align: 'left', sortable: true },
     { label: '' },
   ]
 

@@ -86,6 +86,6 @@
     const search = filter.value.trim().toLowerCase()
     if (search.length === 0) return props.data || []
 
-    return props.data.filter(element => (`${element.method} ${element.path}`.toLowerCase().includes(search)))
+    return props.data.filter(element => (`${element.method} ${element.path} ${element.name}`.toLowerCase().includes(search)))
   })
 </script>

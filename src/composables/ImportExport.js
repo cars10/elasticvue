@@ -23,11 +23,12 @@ export const useImportExport = ({ confirmImport } = {}) => {
     const backup = {}
 
     for await (const cluster of connectionStore.clusters) {
-      const db = specificIdb(cluster.clusterUuid)
-      backup[cluster.clusterUuid] = {}
+      const db = specificIdb(cluster.uuid)
+      backup[cluster.uuid] = {}
 
       for (const tableName of Object.keys(db.stores)) {
-        backup[cluster.clusterUuid][tableName] = await db.stores[tableName].getAll()
+        const a = await db.stores[tableName].getAll()
+        backup[cluster.uuid][tableName] = a
       }
     }
 
@@ -68,12 +69,12 @@ export const useImportExport = ({ confirmImport } = {}) => {
       })
 
       // idb
-      for (const clusterUuid of Object.keys(backup.idb)) {
-        const db = specificIdb(clusterUuid)
+      for (const uuid of Object.keys(backup.idb)) {
+        const db = specificIdb(uuid)
 
-        for (const tableName of Object.keys(backup.idb[clusterUuid])) {
+        for (const tableName of Object.keys(backup.idb[uuid])) {
           await db.stores[tableName].clear()
-          await db.stores[tableName].bulkInsert(backup.idb[clusterUuid][tableName])
+          await db.stores[tableName].bulkInsert(backup.idb[uuid][tableName])
         }
       }
 
