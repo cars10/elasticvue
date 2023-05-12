@@ -1,6 +1,6 @@
 import { computed, ref } from 'vue'
 import { buildFetchAuthHeader } from '../helpers/elasticsearch_adapter'
-import { buildDefaultRequest, fetchMethod, REQUEST_DEFAULT_HEADERS } from '../consts'
+import { fetchMethod, REQUEST_DEFAULT_HEADERS } from '../consts'
 import { useConnectionStore } from '../store/connection'
 import { useSnackbar } from './Snackbar'
 import { useIdb } from './Idb'
@@ -13,17 +13,6 @@ export const useRestQuery = (request, emit) => {
 
   const response = ref({ status: '', ok: false, bodyText: '' })
   const loading = ref(false)
-
-  const resetRequest = () => {
-    const defaultRequest = buildDefaultRequest()
-    for (const [key, value] of Object.entries(defaultRequest)) {
-      request[key] = value
-    }
-
-    response.value.status = ''
-    response.value.ok = false
-    response.value.bodyText = ''
-  }
 
   const sendRequest = async () => {
     loading.value = true
@@ -95,7 +84,6 @@ export const useRestQuery = (request, emit) => {
   })
 
   return {
-    resetRequest,
     response,
     loading,
     sendRequest,

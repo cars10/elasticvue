@@ -26,7 +26,7 @@
             </template>
             <p>
               <!-- eslint-disable-next-line vue/no-v-html -->
-              <span v-html="$t('query.rest.get_request_hint.cannot_send_body', { method: ownRequest.method })" />
+              <span v-html="t('query.rest.get_request_hint.cannot_send_body', { method: ownRequest.method })" />
               <button class="btn-link q-pa-none" type="button" @click=" ownRequest.method = 'POST'">
                 {{ $t('query.rest.get_request_hint.use_post') }}
               </button>
@@ -67,7 +67,7 @@
   </q-form>
 </template>
 
-<script setup>
+<script setup lang="ts">
   import { computed, ref, toRaw, watch } from 'vue'
   import ResizableContainer from '../shared/ResizableContainer.vue'
   import DownloadButton from '../shared/DownloadButton.vue'
@@ -78,17 +78,17 @@
   import { useResizeStore } from '../../store/resize'
   import { useIdbStore } from '../../composables/Idb'
   import { debounce } from '../../helpers/debounce'
+  import { useTranslation } from '../../composables/i18n'
 
-  const props = defineProps({
-    tab: {
-      type: Object,
-      default: () => {
-      }
-    }
-  })
-  const emit = defineEmits(['updateTab', 'reloadHistory', 'reloadSavedQueries'])
+  const t = useTranslation()
 
+  const props = defineProps<{ tab: any }>()
+  const emit = defineEmits(['reloadHistory', 'reloadSavedQueries'])
+  const ownRequest = ref(props.tab.request)
+
+  const resizeStore = useResizeStore()
   const { restQueryTabs, restQuerySavedQueries } = useIdbStore(['restQueryTabs', 'restQuerySavedQueries'])
+  const { loading, response, sendRequest, responseStatusClass } = useRestQuery(ownRequest.value, emit)
 
   const saveQuery = () => {
     const { method, path, body } = toRaw(ownRequest.value)
@@ -97,15 +97,11 @@
     })
   }
 
-  const ownRequest = ref(props.tab.request)
   watch(ownRequest.value, value => (updateTab(value)))
   const updateTab = debounce((value) => {
     const obj = Object.assign({}, toRaw(props.tab), { request: toRaw(value) })
     restQueryTabs.update(obj)
   }, 200)
-
-  const resizeStore = useResizeStore()
-  const { loading, response, sendRequest, responseStatusClass } = useRestQuery(ownRequest.value, emit)
 
   const editorCommands = [{
     bindKey: { win: 'Ctrl+ENTER', mac: 'Command+ENTER', linux: 'Ctrl+ENTER' },
