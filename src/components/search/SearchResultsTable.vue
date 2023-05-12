@@ -7,7 +7,7 @@
         <q-menu style="white-space: nowrap" anchor="bottom right" self="top end">
           <q-list dense class="q-pb-sm">
             <q-item style="padding-left: 6px">
-              <q-checkbox v-model="searchStore.stickyTableHeader"
+              <q-checkbox v-model="searchStore.stickyTableHeader" size="32px"
                           :label="$t('indices.indices_table.sticky_table_header.label')" />
             </q-item>
 

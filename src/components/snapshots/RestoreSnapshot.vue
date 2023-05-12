@@ -28,13 +28,13 @@
                    class="q-mb-md" />
 
           <div class="q-mt-sm">
-            <q-checkbox v-model="restoreOptions.ignoreUnavailable"
+            <q-checkbox v-model="restoreOptions.ignoreUnavailable" size="32px"
                         :label="$t('snapshots.restore_snapshot.form.ignore_unavailable.label')"
                         class="q-mb-sm"
                         name="ignore_unavailable" />
           </div>
 
-          <q-checkbox v-model="restoreOptions.includeGlobalState"
+          <q-checkbox v-model="restoreOptions.includeGlobalState" size="32px"
                       :label="$t('snapshots.restore_snapshot.form.include_global_state.label')"
                       class="q-mb-sm"
                       name="include_global_state" />

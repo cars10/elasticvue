@@ -14,12 +14,12 @@
         <q-menu style="white-space: nowrap" anchor="bottom right" self="top end">
           <q-list dense>
             <q-item style="padding-left: 0">
-              <q-checkbox v-model="indicesStore.showHiddenIndices"
+              <q-checkbox v-model="indicesStore.showHiddenIndices" size="32px"
                           :label="t('indices.indices_table.show_hidden_indices.label')" />
             </q-item>
 
             <q-item style="padding-left: 0">
-              <q-checkbox v-model="indicesStore.stickyTableHeader"
+              <q-checkbox v-model="indicesStore.stickyTableHeader" size="32px"
                           :label="t('indices.indices_table.sticky_table_header.label')" />
             </q-item>
           </q-list>
@@ -44,13 +44,13 @@
         <template #body="{row}">
           <index-row :index="row" @reload="emit('reload')">
             <template #checkbox>
-              <q-checkbox v-model="selectedItems" :val="row.index" size="sm" @update:model-value="setIndeterminate" />
+              <q-checkbox v-model="selectedItems" :val="row.index" size="32px" @update:model-value="setIndeterminate" />
             </template>
           </index-row>
         </template>
 
         <template #header-selection>
-          <q-checkbox v-model="allItemsSelected" size="sm" @update:model-value="checkAll" />
+          <q-checkbox v-model="allItemsSelected" size="32px" @update:model-value="checkAll" />
         </template>
       </q-table>
     </resizable-container>

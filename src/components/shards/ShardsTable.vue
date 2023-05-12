@@ -6,7 +6,7 @@
       <q-menu style="white-space: nowrap" anchor="bottom right" self="top end">
         <q-list dense>
           <q-item style="padding-left: 0">
-            <q-checkbox v-model="indicesStore.showHiddenIndices"
+            <q-checkbox v-model="indicesStore.showHiddenIndices" size="32px"
                         :label="$t('indices.indices_table.show_hidden_indices.label')" />
           </q-item>
         </q-list>

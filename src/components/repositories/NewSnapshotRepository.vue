@@ -58,14 +58,14 @@
                    required />
 
           <div class="q-mt-md">
-            <q-checkbox v-model="repository.body.settings.compress"
+            <q-checkbox v-model="repository.body.settings.compress" size="32px"
                         :label="$t('repositories.new_repository.form.compress.label')"
                         class="q-mb-sm"
                         name="compress" />
           </div>
 
           <div>
-            <q-checkbox v-model="repository.body.settings.readonly"
+            <q-checkbox v-model="repository.body.settings.readonly" size="32px"
                         :label="$t('repositories.new_repository.form.readonly.label')"
                         name="readonly" />
           </div>

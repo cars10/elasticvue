@@ -10,14 +10,14 @@
       <div class="inline-block">
         <q-btn icon="settings" round flat dense>
           <q-menu style="white-space: nowrap" anchor="bottom right" self="top end">
-            <q-item class="q-pb-xs">
-              <q-checkbox v-model="codeEditorStore.useSpaces"
+            <q-item dense class="q-pt-sm">
+              <q-checkbox v-model="codeEditorStore.useSpaces" size="32px"
                           dense
                           :label="$t('shared.code_editor.actions.whitespace.label')"
                           :title="$t('shared.code_editor.actions.whitespace.title')" />
             </q-item>
-            <q-item class="q-pt-xs">
-              <q-checkbox v-model="codeEditorStore.wrapLines"
+            <q-item dense class="q-pb-sm">
+              <q-checkbox v-model="codeEditorStore.wrapLines" size="32px"
                           dense
                           :label="$t('shared.code_editor.actions.wrap_lines.label')"
                           :title="$t('shared.code_editor.actions.wrap_lines.title')" />
