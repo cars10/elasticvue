@@ -17,7 +17,12 @@
 
 table.q-table {
   th {
+    font-size: 13px;
     font-weight: 600;
+  }
+
+  tbody td {
+    font-family: 'Hack', monospace;
   }
 }
 
@@ -32,10 +37,6 @@ table.q-table {
 
 .q-table--dense .q-table thead tr, .q-table--dense .q-table tbody tr, .q-table--dense .q-table tbody td {
   height: 40px;
-}
-
-.q-table tbody td {
-  font-size: 14px;
 }
 
 .q-table--dense {

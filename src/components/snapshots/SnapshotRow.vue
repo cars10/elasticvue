@@ -9,7 +9,7 @@
       <q-btn :label="t('snapshots.snapshot.indices', {count: snapshot.indices})"
              dense
              no-caps
-             color="dark-grey q-ml-md">
+             color="dark-grey">
         <q-menu @before-show="load">
           <div class="q-pa-sm">
             <div v-for="index in indexNames" :key="index">
