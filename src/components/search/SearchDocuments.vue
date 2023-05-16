@@ -38,7 +38,7 @@
         <div v-if="searchStore.searchQueryCollapsed">
           <div class="q-mb-xs">Query</div>
           <resizable-container v-model="resizeStore.searchQuery">
-            <code-editor v-model="searchStore.searchQuery" />
+            <code-editor v-model="searchStore.searchQuery" :commands="editorCommands" />
           </resizable-container>
 
           <q-btn :label="$t('search.form.customize_query.reset')"
@@ -88,6 +88,7 @@
     resizeStore,
     queryParsingError,
     requestState,
+    editorCommands,
     onRequest
   } = useSearchDocuments()
   onMounted(search)

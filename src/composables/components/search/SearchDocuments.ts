@@ -66,6 +66,11 @@ export const useSearchDocuments = () => {
     searchStore.searchQuery = JSON.stringify(json, null, '\t')
   }
 
+  const editorCommands = [{
+    bindKey: { win: 'Ctrl+ENTER', mac: 'Command+ENTER', linux: 'Ctrl+ENTER' },
+    exec: search
+  }]
+
   return {
     search,
     searchResults,
@@ -73,6 +78,7 @@ export const useSearchDocuments = () => {
     resizeStore,
     queryParsingError,
     requestState,
+    editorCommands,
     onRequest
   }
 }

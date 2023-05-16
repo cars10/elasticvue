@@ -25,7 +25,7 @@
             </q-item>
 
             <q-item v-for="col in columns" :key="col.name" style="padding-left: 8px" dense>
-              <q-checkbox v-model="searchStore.visibleColumns" :val="col.name" :label="col.name" size="32px"
+              <q-checkbox v-model="searchStore.visibleColumns" :val="col.name" :label="col.label" size="32px"
                           style="flex-grow: 1" />
             </q-item>
           </q-list>
@@ -123,7 +123,7 @@
       } else {
         label = field
       }
-      return { label, field, name: field, sortable: !!filterableCol, align: 'left' }
+      return { label, field, name: filterableCol, sortable: !!filterableCol, align: 'left' }
     })
 
     const newColumns = results.uniqueColumns.filter(c => !previousColumns.includes(c))
