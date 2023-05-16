@@ -45,7 +45,7 @@
       </q-tr>
     </template>
     <template #top-row="{cols}">
-      <q-tr>
+      <q-tr v-if="shards?.nodes?.length > 0">
         <q-td class="small-wrap">
           <i>unassigned</i>
         </q-td>

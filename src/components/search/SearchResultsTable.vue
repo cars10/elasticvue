@@ -89,7 +89,7 @@
   const { callElasticsearch } = useElasticsearchAdapter()
 
   watch(() => props.results, async newValue => {
-    if (newValue.length === 0 && newValue?.hits?.hits?.length === 0) {
+    if (newValue?.hits?.hits?.length === 0) {
       hits.value = []
       return
     }

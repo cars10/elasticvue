@@ -56,7 +56,7 @@
       </q-table>
     </resizable-container>
 
-    <div class="q-pa-md">
+    <div v-if="indices.length > 0" class="q-pa-md">
       <index-bulk :selected-indices="selectedItems"
                   :total-items-count="indices.length"
                   :filtered-items-count="items.length"
