@@ -42,8 +42,8 @@
               <td>
                 <div class="q-py-xs">
                   <strong :class="`http-${row.method} q-pr-sm`">{{ row.method }}</strong> {{ row.path }}
-                  <div :title="row.body">
-                    <small class="text-muted ellipsis">{{ row.body.replace(/\s/g, '') }}</small>
+                  <div>
+                    <small class="text-muted ellipsis">{{ row.body.slice(0, 100).replace(/\s/g, '') }}</small>
                   </div>
                 </div>
               </td>
@@ -68,8 +68,8 @@
               <td>
                 <div class="q-py-xs">
                   <strong :class="`http-${row.method} q-pr-sm`">{{ row.method }}</strong> {{ row.path }}
-                  <div :title="row.body">
-                    <small class="text-muted ellipsis">{{ row.body.replace(/\s/g, '') }}</small>
+                  <div>
+                    <small class="text-muted ellipsis">{{ row.body.slice(0, 100).replace(/\s/g, '') }}</small>
                   </div>
                 </div>
               </td>
