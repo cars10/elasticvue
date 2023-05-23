@@ -10,7 +10,6 @@
            :columns="columns"
            :rows="clusters"
            :pagination="{sortBy: 'name'}"
-           :filter="filter"
            :rows-per-page-options="DEFAULT_ROWS_PER_PAGE">
     <template #body="{row}">
       <tr class="clickable" @click="loadCluster(row.index)">
