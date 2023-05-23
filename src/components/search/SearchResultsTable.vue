@@ -116,14 +116,8 @@
     const previousColumns = columns.value.map(c => c.name).concat(searchStore.visibleColumns)
     columns.value = results.uniqueColumns.map(field => {
       const filterableCol = sortableField(field, allProperties[field])
-      let label
 
-      if (filterableCol) {
-        label = field === filterableCol ? field : `${field} (${filterableCol})`
-      } else {
-        label = field
-      }
-      return { label, field, name: filterableCol, sortable: !!filterableCol, align: 'left' }
+      return { label: field, field, name: filterableCol, sortable: !!filterableCol, align: 'left' }
     })
 
     const newColumns = results.uniqueColumns.filter(c => !previousColumns.includes(c))
