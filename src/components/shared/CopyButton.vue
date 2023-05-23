@@ -1,5 +1,5 @@
 <template>
-  <q-btn :icon="icon" @click="copy" />
+  <q-btn :icon="icon" @click.prevent.stop="copy" />
 </template>
 
 <script setup>
