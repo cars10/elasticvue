@@ -26,9 +26,9 @@
         </loader-status>
       </q-card-section>
 
-      <q-card-actions>
+      <q-card-section>
         <q-btn v-close-popup flat :label="$t('defaults.close')" />
-      </q-card-actions>
+      </q-card-section>
     </q-card>
   </q-dialog>
 </template>
