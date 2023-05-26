@@ -10,7 +10,7 @@
     <div class="flex">
       <filter-input v-model="filter" />
 
-      <q-btn icon="settings" round flat>
+      <q-btn icon="settings" round flat class="q-ml-sm">
         <q-menu style="white-space: nowrap" anchor="bottom right" self="top end">
           <q-list dense>
             <q-item style="padding-left: 0">

@@ -3,7 +3,9 @@
     <div class="flex">
       <filter-input v-model="filter" />
 
-      <q-btn icon="settings" round flat>
+      <q-btn icon="settings" round flat class="q-ml-sm">
+        <q-badge v-if="columns.length !== searchStore.visibleColumns.length" color="positive" rounded floating />
+
         <q-menu style="white-space: nowrap" anchor="bottom right" self="top end">
           <q-list dense class="q-pb-sm">
             <q-item style="padding-left: 6px">
