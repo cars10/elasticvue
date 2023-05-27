@@ -9,8 +9,7 @@
         "search": "Search",
         "rest": "REST",
         "snapshots": "Snapshots",
-        "repositories": "Repositories",
-        "utilities": "Utilities"
+        "repositories": "Repositories"
       }
     },
     "footer": {
@@ -688,25 +687,6 @@
       "filter": {
         "label": "Filter id..."
       }
-    }
-  },
-  "utilities": {
-    "heading": "Utilities",
-    "run": "Run",
-    "create": {
-      "heading": "Create",
-      "empty_indices": "Create 10 empty indices",
-      "twitter_index": "Create twitter index and add 100 tweets"
-    },
-    "delete": {
-      "heading": "Delete",
-      "delete_all": "Delete all indices",
-      "confirm": "Are you sure? This will delete ALL data in your cluster!"
-    },
-    "misc": {
-      "heading": "Misc",
-      "flush_all": "Flush all indices to disk",
-      "set_all_to_writable": "Set all indices to writable"
     }
   }
 }

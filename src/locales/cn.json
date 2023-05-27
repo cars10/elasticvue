@@ -9,8 +9,7 @@
         "search": "搜索",
         "rest": "REST",
         "snapshots": "快照",
-        "repositories": "存储",
-        "utilities": "工具"
+        "repositories": "存储"
       }
     },
     "footer": {
@@ -688,25 +687,6 @@
       "filter": {
         "label": "过滤 id..."
       }
-    }
-  },
-  "utilities": {
-    "heading": "工具",
-    "run": "运行",
-    "create": {
-      "heading": "创建",
-      "empty_indices": "创建 10 个空索引",
-      "twitter_index": "创建 twitter 索引并添加 100 条 tweet"
-    },
-    "delete": {
-      "heading": "删除",
-      "delete_all": "删除所有索引",
-      "confirm": "你确定吗? 这会删除你集群上的所有数据！"
-    },
-    "misc": {
-      "heading": "其他",
-      "flush_all": "刷新索引到磁盘",
-      "set_all_to_writable": "设置所有索引为可写"
     }
   }
 }

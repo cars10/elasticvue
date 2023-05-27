@@ -17,7 +17,6 @@
         <q-route-tab label="Search" :to="{name: 'search'}" />
         <q-route-tab label="Rest" :to="{name: 'rest'}" />
         <q-route-tab label="Snapshots" :to="{name: 'snapshot_repositories'}" />
-        <q-route-tab label="Utilities" :to="{name: 'utilities'}" />
         <q-route-tab icon="settings" :to="{name: 'settings'}" />
       </q-tabs>
     </q-toolbar>

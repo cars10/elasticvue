@@ -17,7 +17,6 @@ Current State:
 | Search             |        |
 | Rest               | Done   |
 | Snapshots          | Done   |
-| Utilities          |        |
 | Settings           | Done   |
 
 
@@ -25,6 +24,7 @@ Features that are no longer re-implemented:
 * Nodes grid view
 * Rest query vertical view
 * Support for numbers bigger then `Number.MAX_SAFE_INTEGER`
+* Utilities
 
 Feature TODO:
 * Rest query examples
