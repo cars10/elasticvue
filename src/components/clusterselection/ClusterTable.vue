@@ -24,8 +24,8 @@
                 {{ row.name }}
               </div>
 
-              <div class="ellipsis" style="max-width: 300px;">
-                <span class="font-13 text-muted">{{ row.clusterName }}</span>
+              <div class="ellipsis font-13 text-muted" style="max-width: 300px;">
+                {{ row.clusterName }}
               </div>
             </div>
 
@@ -39,10 +39,10 @@
           </div>
         </td>
         <td>
-          <div class="ellipsis" style="max-width: 300px;">
+          <div class="ellipsis inline-block vertical-middle q-mr-sm" style="max-width: 300px;">
             {{ row.uri }}
-            <copy-button :value="row.uri" round size="sm" flat />
           </div>
+          <copy-button :value="row.uri" round size="sm" flat />
         </td>
         <td class="small-wrap">{{ row.version }}</td>
         <td class="small-wrap">
