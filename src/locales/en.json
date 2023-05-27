@@ -561,7 +561,7 @@
       "reset": "reset",
       "uncheck": "uncheck"
     },
-    "authorization_header_hint": "Your cluster uses authorization. Make sure that you have set \"http.cors.allow-headers\", otherwise you will not be able to connect.",
+    "authorization_header_hint": "If your cluster uses authorization make sure to set \"http.cors.allow-headers\", otherwise you will not be able to connect.",
     "code_editor": {
       "actions": {
         "copy_content": {
@@ -614,7 +614,7 @@
       }
     },
     "ssl_hint": {
-      "hint": "Your cluster uses ssl. Make sure that your browser trusts the certificate that you are using, otherwise you will not be able to connect.",
+      "hint": "If your cluster uses ssl make sure that your browser trusts the certificate, otherwise you will not be able to connect.",
       "help": "Help"
     }
   },

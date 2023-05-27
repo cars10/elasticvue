@@ -1,4 +1,25 @@
 <template>
+  <div v-if="SHOW_CORS_HINT" class="q-mb-md">
+    <p class="q-mb-sm">Configuration checklist</p>
+
+    <div>
+      <q-checkbox v-model="config.auth" class="q-my-sm">
+        Authorization: {{ $t('shared.authorization_header_hint') }}
+      </q-checkbox>
+
+      <q-checkbox v-model="config.ssl" class="q-my-sm">
+        SSL:
+        {{ $t('shared.ssl_hint.hint') }}
+        <a aria-label="SSL Configuration help"
+           href="https://github.com/cars10/elasticvue/wiki/Access-clusters-using-SSL"
+           rel="nofollow"
+           target="_blank">
+          {{ $t('shared.ssl_hint.help') }}
+        </a>
+      </q-checkbox>
+    </div>
+  </div>
+
   <form @submit.prevent="testConnection">
     <div class="q-mb-md">
       <div class="q-mb-md">
@@ -33,8 +54,6 @@
         </div>
       </div>
 
-      <authorization-header-hint v-if="SHOW_CORS_HINT && newCluster.username" />
-
       <q-input v-model="newCluster.uri"
                :rules="[validUri]"
                required
@@ -45,8 +64,6 @@
           <q-icon name="close" class="cursor-pointer" @click="resetCluster" />
         </template>
       </q-input>
-
-      <ssl-hint v-if="clusterHostSSL" />
     </div>
 
     <q-btn :label="$t('setup.test_and_connect.form.test_connection')"
@@ -90,12 +107,10 @@
 <script setup>
   import { ref } from 'vue'
   import { useRouter } from 'vue-router'
-  import AuthorizationHeaderHint from './AuthorizationHeaderHint.vue'
-  import SslHint from './SslHint.vue'
-  import { SHOW_CORS_HINT } from '../../consts'
   import { useClusterConnection } from '../../composables/ClusterConnection'
   import { useSnackbar } from '../../composables/Snackbar'
   import { useTranslation } from '../../composables/i18n'
+  import { SHOW_CORS_HINT } from '../../consts'
 
   const t = useTranslation()
   const { showSuccessSnackbar } = useSnackbar()
@@ -111,6 +126,8 @@
     })
   }
 
+  const config = ref({ ssl: false, auth: false })
+
   const {
     newCluster,
     testRequestState,
@@ -119,7 +136,6 @@
     validUri,
     resetCluster,
     formValid,
-    clusterHostSSL,
     connect
   } = useClusterConnection()
 </script>

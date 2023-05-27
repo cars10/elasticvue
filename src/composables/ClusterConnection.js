@@ -119,8 +119,6 @@ export const useClusterConnection = () => {
     }
   }
 
-  const clusterHostSSL = computed(() => (newCluster.value.uri.match(/^https/)))
-
   return {
     newCluster,
     testRequestState,
@@ -129,7 +127,6 @@ export const useClusterConnection = () => {
     connect,
     resetCluster,
     validUri,
-    formValid,
-    clusterHostSSL
+    formValid
   }
 }
