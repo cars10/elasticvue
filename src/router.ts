@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory, RouteLocation } from 'vue-router'
 import ClusterIndices from './components/indices/ClusterIndices.vue'
 import IndexTemplates from './components/indextemplates/IndexTemplates.vue'
 import GlobalSettings from './components/settings/GlobalSettings.vue'
@@ -28,7 +28,30 @@ const routes = [
       { path: 'rest', name: 'rest', component: RestQuery },
       { path: 'snapshot_repositories', name: 'snapshot_repositories', component: SnapshotRepositories },
       { path: 'snapshot_repositories/:repositoryName', name: 'snapshots', component: RepositorySnapshots },
-    ]
+    ],
+    beforeEnter: (to: RouteLocation, from: RouteLocation, next: any) => {
+      const connectionStore = useConnectionStore()
+      const numInstances = connectionStore.clusters.length
+      if (numInstances === 0) return next('welcome')
+
+      const clusterIndexParam = Array.isArray(to.params.clusterIndex) ? to.params.clusterIndex[0] : to.params.clusterIndex
+      let clusterIndex: number = 0
+      try {
+        clusterIndex = parseInt(clusterIndexParam)
+      } catch (e) {
+      }
+
+      if (isNaN(clusterIndex) || (clusterIndex + 1) > numInstances || clusterIndex < 0) {
+        return next({
+          name: 'home',
+          params: { clusterIndex: 0 }
+        })
+      }
+
+      connectionStore.activeClusterIndex = clusterIndex
+
+      next()
+    }
   },
   { path: '/welcome', name: 'welcome', component: WelcomePage },
   {
@@ -40,32 +63,6 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
-})
-
-router.beforeEach((to, from, next) => {
-  if (to.name === 'welcome') return next()
-
-  const connectionStore = useConnectionStore()
-  const numInstances = connectionStore.clusters.length
-  if (numInstances === 0) return next('welcome')
-
-  const clusterIndexParam = Array.isArray(to.params.clusterIndex) ? to.params.clusterIndex[0] : to.params.clusterIndex
-  let clusterIndex: number = 0
-  try {
-    clusterIndex = parseInt(clusterIndexParam)
-  } catch (e) {
-  }
-
-  if (isNaN(clusterIndex) || (clusterIndex + 1) > numInstances || clusterIndex < 0) {
-    return next({
-      name: 'home',
-      params: { clusterIndex: 0 }
-    })
-  }
-
-  connectionStore.activeClusterIndex = clusterIndex
-
-  next()
 })
 
 router.afterEach((to) => {
