@@ -15,6 +15,16 @@ import SearchDocuments from './components/search/SearchDocuments.vue'
 
 const routes = [
   {
+    path: '/',
+    redirect: () => {
+      const connectionStore = useConnectionStore()
+      const cluster = connectionStore.checkAndSetActiveCluster()
+
+      if (cluster) return ({ name: 'home', params: { clusterIndex: connectionStore.activeClusterIndex } })
+      return { name: 'welcome' }
+    }
+  },
+  {
     path: '/cluster/:clusterIndex',
     component: NestedView,
     children: [

@@ -25,5 +25,5 @@ export const setupClusterConnection = async page => {
     window.localStorage.setItem('theme', '{"dark":true}')
   })
 
-  await page.goto('http://localhost:5173/cluster/0')
+  await page.goto('http://localhost:5173')
 }

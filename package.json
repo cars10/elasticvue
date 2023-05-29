@@ -9,6 +9,7 @@
     "tsc": "tsc --noEmit",
     "lint": "eslint --ext .js,.vue,.ts src",
     "test:e2e":  "playwright test --project=chromium",
+    "test:e2e:all":  "playwright test",
     "test:e2e:watch": "PWTEST_WATCH=1 playwright test --project=chromium",
     "test:e2e:report": "playwright show-report"
   },
