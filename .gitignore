@@ -18,7 +18,13 @@ dist-ssr
 .idea
 .DS_Store
 *.suo
-*.ntvs*
+*.ntvs*packj
 *.njsproj
 *.sln
 *.sw?
+
+/test-results/
+/playwright-report/
+/playwright/.cache/
+playwright/.auth
+tests/*.png
