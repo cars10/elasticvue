@@ -35,22 +35,10 @@ const routes = [
       if (numInstances === 0) return next('welcome')
 
       const clusterIndexParam = Array.isArray(to.params.clusterIndex) ? to.params.clusterIndex[0] : to.params.clusterIndex
-      let clusterIndex: number = 0
-      try {
-        clusterIndex = parseInt(clusterIndexParam)
-      } catch (e) {
-      }
+      const indexValid = connectionStore.validateAndSetClusterIndex(clusterIndexParam)
 
-      if (isNaN(clusterIndex) || (clusterIndex + 1) > numInstances || clusterIndex < 0) {
-        return next({
-          name: 'home',
-          params: { clusterIndex: 0 }
-        })
-      }
-
-      connectionStore.activeClusterIndex = clusterIndex
-
-      next()
+      if (indexValid) return next()
+      next({ name: 'home', params: { clusterIndex: 0 } })
     }
   },
   {
@@ -61,11 +49,8 @@ const routes = [
       const connectionStore = useConnectionStore()
       const cluster = connectionStore.checkAndSetActiveCluster()
 
-      if (cluster) {
-        next({ name: 'home', params: { clusterIndex: connectionStore.activeClusterIndex } })
-      } else {
-        next()
-      }
+      if (cluster) return next({ name: 'home', params: { clusterIndex: connectionStore.activeClusterIndex } })
+      next()
     }
   },
   {
