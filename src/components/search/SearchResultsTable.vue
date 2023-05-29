@@ -4,7 +4,7 @@
       <filter-input v-model="filter" />
 
       <q-btn icon="settings" round flat class="q-ml-sm">
-        <q-badge v-if="columns.length !== searchStore.visibleColumns.length" color="positive" rounded floating />
+        <q-badge v-if="tableColumns.length !== searchStore.visibleColumns.length" color="positive" rounded floating />
 
         <q-menu style="white-space: nowrap" anchor="bottom right" self="top end">
           <q-list dense class="q-pb-sm">
@@ -26,7 +26,7 @@
               </q-item-label>
             </q-item>
 
-            <q-item v-for="col in columns" :key="col.name" style="padding-left: 8px" dense>
+            <q-item v-for="col in tableColumns" :key="col.name" style="padding-left: 8px" dense>
               <q-checkbox v-model="searchStore.visibleColumns" :val="col.name" :label="col.label" size="32px"
                           style="flex-grow: 1" />
             </q-item>
@@ -44,7 +44,7 @@
                dense
                :virtual-scroll="searchStore.stickyTableHeader"
                :virtual-scroll-item-size="14"
-               :columns="columns"
+               :columns="tableColumns"
                :rows="hits"
                :rows-per-page-options="rowsPerPage"
                :visible-columns="searchStore.visibleColumns"
@@ -86,7 +86,7 @@
   const resizeStore = useResizeStore()
   const searchStore = useSearchStore()
   const filter = ref('')
-  const columns = ref([])
+  const tableColumns = ref([])
 
   const { callElasticsearch } = useElasticsearchAdapter()
 
@@ -115,14 +115,15 @@
       }
     })
 
-    const previousColumns = columns.value.map(c => c.name).concat(searchStore.visibleColumns)
-    columns.value = results.uniqueColumns.map(field => {
+    tableColumns.value = results.uniqueColumns.map(field => {
       const filterableCol = sortableField(field, allProperties[field])
 
       return { label: field, field, name: filterableCol, sortable: !!filterableCol, align: 'left' }
     })
 
-    const newColumns = results.uniqueColumns.filter(c => !previousColumns.includes(c))
+    const oldColumns = searchStore.columns
+    searchStore.columns = tableColumns.value.map(c => c.name)
+    const newColumns = searchStore.columns.filter(m => !oldColumns.includes(m))
     searchStore.visibleColumns = searchStore.visibleColumns.concat(newColumns)
 
     hits.value = results.docs
@@ -133,7 +134,7 @@
   }
 
   const resetColumns = () => {
-    searchStore.visibleColumns = columns.value.map(c => c.name)
+    searchStore.visibleColumns = tableColumns.value.map(c => c.name)
   }
 
   const generateDownloadData = () => {

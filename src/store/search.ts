@@ -8,6 +8,7 @@ export const useSearchStore = defineStore('search', {
     searchQuery: DEFAULT_SEARCH_QUERY,
     searchQueryCollapsed: false,
     filter: '',
+    columns: [],
     visibleColumns: [],
     stickyTableHeader: false,
     pagination: DEFAULT_PAGINATION
@@ -25,6 +26,7 @@ export const useSearchStore = defineStore('search', {
       'searchQueryCollapsed',
       'stickyTableHeader',
       'pagination',
+      'columns',
       'visibleColumns'
     ]
   }
