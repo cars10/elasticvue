@@ -17,12 +17,29 @@ test.describe('Routing', () => {
       await page.goto('http://localhost:5173/cluster/42')
       expect(page.url()).toContain('/welcome')
     })
+
+    test('can open /welcome', async ({ page }) => {
+      await page.goto('http://localhost:5173/welcome')
+      expect(page.url()).toContain('/welcome')
+    })
   })
 
   test.describe('existing connections', () => {
     test('does not redirect to /welcome', async ({ page }) => {
       await setupClusterConnection(page)
       expect(page.url()).not.toContain('/welcome')
+    })
+
+    test('cannot open /welcome', async ({ page }) => {
+      await setupClusterConnection(page)
+      await page.goto('http://localhost:5173/welcome')
+      expect(page.url()).not.toContain('/welcome')
+    })
+
+    test('welcome redirects to current cluster if cluster is correct', async ({ page }) => {
+      await setupClusterConnection(page)
+      await page.goto('http://localhost:5173/welcome')
+      expect(page.url()).toContain('/cluster/0')
     })
 
     //test('cannot visit /welcome', async ({ page }) => {

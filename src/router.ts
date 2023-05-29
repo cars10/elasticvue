@@ -53,7 +53,21 @@ const routes = [
       next()
     }
   },
-  { path: '/welcome', name: 'welcome', component: WelcomePage },
+  {
+    path: '/welcome',
+    name: 'welcome',
+    component: WelcomePage,
+    beforeEnter: (to: RouteLocation, from: RouteLocation, next: any) => {
+      const connectionStore = useConnectionStore()
+      const cluster = connectionStore.checkAndSetActiveCluster()
+
+      if (cluster) {
+        next({ name: 'home', params: { clusterIndex: connectionStore.activeClusterIndex } })
+      } else {
+        next()
+      }
+    }
+  },
   {
     path: '/:pathMatch(.*)*',
     redirect: '/cluster/0'

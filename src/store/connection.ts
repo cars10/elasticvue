@@ -39,6 +39,14 @@ export const useConnectionStore: StoreDefinition<'connection', State> = defineSt
     },
     removeCluster (index: number) {
       this.clusters.splice(index, 1)
+    },
+    checkAndSetActiveCluster () {
+      if (this.activeClusterIndex === null || this.clusters.length === 0) return
+      if (!this.clusters[this.activeClusterIndex]) {
+        this.activeClusterIndex = 0
+      }
+
+      return this.clusters[this.activeClusterIndex]
     }
   },
   persist: true
