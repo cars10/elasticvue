@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-    <div class="col-md-6 offset-md-3 col-sm-12 offset-sm-0">
+    <div class="col-lg-6 offset-lg-3 col-md-8 offset-md-2 col-sm-12 offset-sm-0">
       <q-card class="q-mt-xl">
         <q-card-section class="text-center">
           <h1 class="text-h2 q-my-md flex justify-center items-center">
