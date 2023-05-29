@@ -1,5 +1,4 @@
 export const setupClusterConnection = async page => {
-  await page.goto('http://localhost:5173/')
   await page.addInitScript(() => {
     window.localStorage.clear()
 
@@ -7,6 +6,13 @@ export const setupClusterConnection = async page => {
       'clusters': [
         {
           'name': 'default cluster',
+          'username': '',
+          'password': '',
+          'uri': 'http://localhost:9200',
+          'status': 'green'
+        },
+        {
+          'name': 'dev cluster',
           'username': '',
           'password': '',
           'uri': 'http://localhost:9200',
@@ -19,6 +25,5 @@ export const setupClusterConnection = async page => {
     window.localStorage.setItem('theme', '{"dark":true}')
   })
 
-  await page.reload()
   await page.goto('http://localhost:5173/cluster/0')
 }

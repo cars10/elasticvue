@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
-import { setupClusterConnection } from '../helpers'
-import { mockElastic } from '../mocks/api'
+import { setupClusterConnection } from '../../helpers'
+import { mockElastic } from '../../mocks/api'
 
 test.describe('HomeStatus', () => {
   test('status card contains uuid and status', async ({ page }) => {
