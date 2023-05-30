@@ -14,8 +14,7 @@
 
       <q-form @submit="restoreSnapshot">
         <q-card-section>
-          <index-select v-model="restoreOptions.indices" :index-names="indexNames" :loading="false"
-                        class="q-mb-md" />
+          <index-select v-model="restoreOptions.indices" :index-names="indexNames" behavior="use" class="q-mb-md" />
 
           <q-input v-model="restoreOptions.renamePattern"
                    outlined

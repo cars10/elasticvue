@@ -7,7 +7,7 @@
             options-dense
             input-debounce="0"
             multiple
-            :loading="loading"
+            :loading="requestState.loading"
             :label="t('shared.index_filter.index_select.select_indices.label')"
             @filter="filter">
     <template #before-options>
@@ -34,27 +34,56 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, watch } from 'vue'
+  import { onMounted, ref, watch } from 'vue'
   import { useTranslation } from '../../../composables/i18n'
+  import { useElasticsearchAdapter } from '../../../composables/CallElasticsearch'
+  import { ElasticsearchMethod } from '../../../services/ElasticsearchAdapter'
 
   const t = useTranslation()
 
-  const props = defineProps<{ modelValue: string[], indexNames: string[], loading: boolean }>()
+  type Behavior = 'load' | 'use'
+  const props = withDefaults(defineProps<{
+    modelValue: string[],
+    indexNames: string[],
+    behavior: Behavior,
+    method: ElasticsearchMethod,
+    methodParams: any
+  }>(), {
+    modelValue: () => ([]),
+    indexNames: () => ([]),
+    behavior: 'use',
+    method: 'catIndices',
+    methodParams: null
+  })
   const emit = defineEmits(['update:modelValue'])
 
   const localValue = ref(props.modelValue)
   watch(localValue, v => emit('update:modelValue', v))
-  const options = ref(props.indexNames)
+
+  const options = ref(props.behavior === 'use' ? props.indexNames : [])
+  const indices = ref([])
+
+  const { requestState, callElasticsearch } = useElasticsearchAdapter()
+  if (props.behavior === 'load') {
+    const load = () => {
+      return callElasticsearch(props.method, props.methodParams)
+          .then(body => indices.value = body.map(i => (i.index || i)).sort())
+          .catch(() => (indices.value = []))
+    }
+    onMounted(load)
+  }
 
   const filter = (val, update) => {
+    const data = props.behavior === 'use' ? props.indexNames : indices.value
+
     if (val.length === 0) {
-      update(() => (options.value = props.indexNames))
+      update(() => (options.value = data))
       return
     }
 
     update(() => {
       const search = val.toLowerCase()
-      options.value = props.indexNames.filter(v => v.includes(search))
+      options.value = data.filter(v => v.includes(search))
     })
   }
 </script>

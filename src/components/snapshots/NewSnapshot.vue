@@ -22,10 +22,7 @@
                    autofocus
                    required />
 
-          <index-filter v-model="snapshot.indices"
-                        class="q-mt-lg"
-                        method="catIndices"
-                        :method-params="{ index: snapshot.indices, h: 'index' }" />
+          <index-filter v-model="snapshot.indices" class="q-mt-lg" />
         </q-card-section>
 
         <q-card-section>

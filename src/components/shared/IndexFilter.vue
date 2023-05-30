@@ -5,7 +5,10 @@
         <q-btn class="btn-link q-px-xs q-py-none" flat :label="$t('shared.index_filter.use_index_pattern')"
                no-caps @click="toggle" />
       </div>
-      <index-select v-model="localIndices" :index-names="indexNames" :loading="requestState.loading" />
+      <index-select v-model="localIndices"
+                    behavior="load"
+                    method="catIndices"
+                    :method-params="{ index: '*', h: 'index' }" />
     </div>
 
     <div v-else class="relative-position">
@@ -13,19 +16,17 @@
         <q-btn class="btn-link q-px-xs q-py-none" flat :label="$t('shared.index_filter.use_index_select')"
                no-caps @click="toggle" />
       </div>
-      <index-pattern v-model="localPattern" :index-names="indexNames" :loading="requestState.loading" />
+      <index-pattern v-model="localPattern" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-  import { computed, nextTick, onMounted, ref, watch } from 'vue'
-  import { ElasticsearchMethod } from '../../services/ElasticsearchAdapter'
+  import { ref, watch } from 'vue'
   import IndexPattern from './IndexFilter/IndexPattern.vue'
   import IndexSelect from './IndexFilter/IndexSelect.vue'
-  import { useElasticsearchAdapter } from '../../composables/CallElasticsearch'
 
-  const props = defineProps<{ method: ElasticsearchMethod, methodParams: any, modelValue: any }>()
+  const props = defineProps<{ modelValue: any }>()
   const emit = defineEmits(['update:modelValue'])
 
   const localIndices = Array.isArray(props.modelValue) ? ref(props.modelValue) : ref([])
@@ -34,26 +35,6 @@
   const showSelect = ref(typeof props.modelValue !== 'string')
   const toggle = () => (showSelect.value = !showSelect.value)
 
-  const indices = ref([])
-  const indexNames = computed(() => (indices.value.map(i => (i.index || i))).sort())
-
-  const { requestState, callElasticsearch } = useElasticsearchAdapter()
-  const load = () => {
-    return callElasticsearch(props.method, props.methodParams)
-        .then(body => (indices.value = body))
-        .catch(() => (indices.value = []))
-  }
-  onMounted(load)
-
-  // select
   watch(localIndices, newValue => emit('update:modelValue', newValue))
-
-  // pattern
-  // TODO: dont watch localPattern ,watch props.methodParams
-  watch(localPattern, newValue => {
-    emit('update:modelValue', newValue)
-    nextTick(() => {
-      load()
-    })
-  })
+  watch(localPattern, newValue => emit('update:modelValue', newValue))
 </script>

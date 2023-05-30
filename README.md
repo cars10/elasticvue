@@ -28,10 +28,8 @@ Features that are no longer re-implemented:
 
 Feature TODO:
 * Rest query examples
-* fix index filter, select only shows results from pattern
 
 Overall TODOs:
 * Cleanup i18n
 * a11y
 * keyup.esc modifiers
-* 

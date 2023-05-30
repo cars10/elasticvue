@@ -3,7 +3,7 @@
            outlined
            bottom-slots
            :label="$t('shared.index_filter.index_pattern.input.label')"
-           :loading="loading"
+           :loading="requestState.loading"
            autocomplete="off">
     <template #hint>
       <div>
@@ -22,16 +22,30 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, ref, watch } from 'vue'
+  import { computed, onMounted, ref, watch } from 'vue'
   import { useTranslation } from '../../../composables/i18n'
+  import { useElasticsearchAdapter } from '../../../composables/CallElasticsearch'
 
   const t = useTranslation()
 
-  const props = defineProps<{ modelValue: string, indexNames: string[], loading: boolean }>()
+  const props = defineProps<{ modelValue: string }>()
   const emit = defineEmits(['update:modelValue'])
-
+  const indices = ref([])
   const localValue = ref(props.modelValue)
-  watch(localValue, v => emit('update:modelValue', v))
 
-  const hint = computed(() => t('shared.index_filter.index_pattern.matched_indices', { count: props.indexNames.length }))
+  const { requestState, callElasticsearch } = useElasticsearchAdapter()
+  const load = () => {
+    return callElasticsearch('catIndices', { index: localValue.value, h: 'index' })
+        .then(body => (indices.value = body))
+        .catch(() => (indices.value = []))
+  }
+  onMounted(load)
+
+  watch(localValue, v => {
+    emit('update:modelValue', v)
+    load()
+  })
+
+  const indexNames = computed(() => (indices.value.map(i => (i.index || i))).sort())
+  const hint = computed(() => t('shared.index_filter.index_pattern.matched_indices', { count: indices.value.length }))
 </script>

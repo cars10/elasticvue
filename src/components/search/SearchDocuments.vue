@@ -21,9 +21,7 @@
           </div>
 
           <div class="col">
-            <index-filter v-model="searchStore.indices"
-                          method="catIndices"
-                          :method-params="{ index: searchStore.indices, h: 'index' }" />
+            <index-filter v-model="searchStore.indices" />
           </div>
 
           <div class="col-auto">
