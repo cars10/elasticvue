@@ -1,5 +1,8 @@
 <template>
-  <q-btn label="Details" dense color="dark-grey" icon="help">
+  <q-btn dense color="dark-grey">
+    <q-icon name="help" size="xs" class="q-mr-sm" />
+
+    <span>Details</span>
     <q-menu>
       <q-list>
         <template v-if="indices.yellow.length > 0">
