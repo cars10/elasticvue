@@ -32,3 +32,6 @@ export const DEFAULT_PAGINATION = {
   rowsPerPage: 10,
   rowsNumber: -1
 }
+
+export const DEFAULT_CLUSTER_NAME = 'default cluster'
+export const DEFAULT_CLUSTER_URI = 'http://localhost:9200'

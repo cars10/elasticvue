@@ -46,7 +46,7 @@
         </td>
         <td class="small-wrap">{{ row.version }}</td>
         <td class="small-wrap">
-          <edit-cluster />
+          <edit-cluster :index="row.index" />
           <q-btn icon="delete" round flat size="sm" @click.stop="removeInstance(row.index)" />
         </td>
       </tr>

@@ -1,19 +1,15 @@
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 import ElasticsearchAdapter from '../services/ElasticsearchAdapter'
 import { useTranslation } from './i18n'
 import { useSnackbar } from './Snackbar'
 import { useConnectionStore } from '../store/connection'
 
-const DEFAULT_NAME = 'default cluster'
-const DEFAULT_URI = 'http://localhost:9200'
-
-export const useClusterConnection = () => {
+export const useClusterConnection = ({ cluster }) => {
   const t = useTranslation()
   const connectionStore = useConnectionStore()
   const { showSuccessSnackbar } = useSnackbar()
 
   const formValid = ref(true)
-  const newCluster = ref({})
 
   const testRequestState = ref({
     success: false,
@@ -34,7 +30,7 @@ export const useClusterConnection = () => {
     testRequestState.value.success = false
     testRequestState.value.error = false
 
-    const adapter = new ElasticsearchAdapter(newCluster.value)
+    const adapter = new ElasticsearchAdapter(cluster.value)
     try {
       await adapter.test()
       testRequestState.value.success = true
@@ -58,7 +54,7 @@ export const useClusterConnection = () => {
     connectRequestState.value.success = false
     connectRequestState.value.error = false
 
-    const adapter = new ElasticsearchAdapter(newCluster.value)
+    const adapter = new ElasticsearchAdapter(cluster.value)
     try {
       const infoResponse = await adapter.test()
       const infoJson = await infoResponse.json()
@@ -66,12 +62,12 @@ export const useClusterConnection = () => {
       const clusterHealthResponse = await adapter.clusterHealth()
       const clusterHealthBody = await clusterHealthResponse.json()
 
-      let uri = newCluster.value.uri.trim()
+      let uri = cluster.value.uri.trim()
       if (uri.endsWith('/')) uri = uri.slice(0, -1)
       const newIdx = connectionStore.addCluster({
-        name: newCluster.value.name.trim(),
-        username: newCluster.value.username,
-        password: newCluster.value.password,
+        name: cluster.value.name.trim(),
+        username: cluster.value.username,
+        password: cluster.value.password,
         uri,
         clusterName: infoJson.cluster_name,
         version: infoJson.version.number,
@@ -79,8 +75,6 @@ export const useClusterConnection = () => {
         uuid: infoJson.cluster_uuid,
         status: clusterHealthBody.status
       })
-
-      resetCluster()
 
       connectRequestState.value.success = true
       testRequestState.value.error = false
@@ -96,37 +90,11 @@ export const useClusterConnection = () => {
     }
   }
 
-  const resetCluster = () => {
-    newCluster.value = {
-      name: DEFAULT_NAME,
-      username: '',
-      password: '',
-      uri: DEFAULT_URI
-    }
-  }
-  resetCluster()
-
-  const validUri = uri => {
-    try {
-      new URL(uri)
-      if (/^https?:\/\/.*/.test(uri)) {
-        formValid.value = true
-        return true
-      }
-    } catch (e) {
-      formValid.value = false
-      return 'Invalid uri'
-    }
-  }
-
   return {
-    newCluster,
     testRequestState,
     connectRequestState,
     testConnection,
     connect,
-    resetCluster,
-    validUri,
     formValid
   }
 }

@@ -1,6 +1,6 @@
 import { defineStore, StoreDefinition } from 'pinia'
 
-type ElasticsearchCluster = {
+export type ElasticsearchCluster = {
   name: string,
   username?: string,
   password?: string,
@@ -36,6 +36,9 @@ export const useConnectionStore: StoreDefinition<'connection', State> = defineSt
       const len = this.clusters.push(Object.assign({}, cluster))
       this.activeClusterIndex = len - 1
       return this.activeClusterIndex
+    },
+    updateCluster ({ cluster, index }: { cluster: ElasticsearchCluster, index: number }) {
+      this.clusters[index] = cluster
     },
     removeCluster (index: number) {
       this.clusters.splice(index, 1)
