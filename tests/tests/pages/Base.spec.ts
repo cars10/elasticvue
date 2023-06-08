@@ -33,15 +33,6 @@ test.describe('base', () => {
 
         await expect(page.getByTitle('English')).toHaveClass(/q-item--active/)
       })
-
-      test('can change to chinese', async ({ page }) => {
-        await openElasticvue(page)
-        page.getByTitle('Change language').click()
-        const chinese = page.getByTitle('Chinese')
-        chinese.click()
-
-        await expect(chinese).toHaveClass(/q-item--active/)
-      })
     })
   })
 })

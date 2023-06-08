@@ -33,3 +33,12 @@ Overall TODOs:
 * Cleanup i18n
 * a11y
 * keyup.esc modifiers
+
+
+## Makefile
+`make dev` start dev server  
+`make docker` build docker image   
+`make test` run tests  
+`make lint` run eslint  
+`make tsc` run typescript checks  
+`make ci` run eslint, typescript and tests
