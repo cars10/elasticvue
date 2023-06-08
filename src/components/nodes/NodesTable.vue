@@ -80,6 +80,7 @@
 
   const filter = ref('')
   const items = computed(() => {
+    console.log(props.nodes)
     const results = filterItems(props.nodes, filter.value, ['name', 'ip'])
     return results.map(r => new ElasticsearchNode(r))
   })

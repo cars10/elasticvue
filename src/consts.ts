@@ -1,4 +1,6 @@
-export const DESKTOP_BUILD = false
+// @ts-ignore
+export const DESKTOP_BUILD = true// !!import.meta.env.VUE_APP_DESKTOP_BUILD
+
 export const SHOW_CORS_HINT = true
 export const REQUEST_DEFAULT_HEADERS = {
   Accept: 'application/json',
@@ -11,7 +13,6 @@ export const SUPPORTED_COUNTRY_LOCALES: Record<string, string> = {
   zh: 'cn'
 }
 export const DEFAULT_LOCALE = 'en'
-export const fetchMethod = fetch
 
 export const DEFAULT_ROWS_PER_PAGE = [10, 20, 100, 0]
 export const DEFAULT_HIDE_INDICES_REGEX = '^\\..*'

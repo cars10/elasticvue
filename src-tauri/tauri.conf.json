@@ -5,9 +5,9 @@
   },
   "build": {
     "distDir": "../dist",
-    "devPath": "http://localhost:8080",
+    "devPath": "http://localhost:5173",
     "beforeDevCommand": "",
-    "beforeBuildCommand": "npx cross-env VUE_APP_DESKTOP_BUILD=true yarn build"
+    "beforeBuildCommand": "npx cross-env VITE_APP_DESKTOP_BUILD=true yarn build"
   },
   "tauri": {
     "bundle": {

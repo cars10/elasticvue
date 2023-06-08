@@ -1,10 +1,11 @@
 import { computed, ref } from 'vue'
 import { buildFetchAuthHeader } from '../helpers/elasticsearch_adapter'
-import { fetchMethod, REQUEST_DEFAULT_HEADERS } from '../consts'
+import { REQUEST_DEFAULT_HEADERS } from '../consts'
 import { useConnectionStore } from '../store/connection'
 import { useSnackbar } from './Snackbar'
 import { useIdb } from './Idb'
 import { removeComments } from '../services/json/parse'
+import { fetchMethod } from '../helpers/fetch'
 
 export const useRestQuery = (request, emit) => {
   const connectionStore = useConnectionStore()

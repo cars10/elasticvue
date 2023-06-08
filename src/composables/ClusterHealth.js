@@ -6,7 +6,7 @@ export const useClusterHealth = () => {
 
   const setupHealthLoading = () => {
     checkHealth(connectionStore.activeCluster)
-    setInterval(() => (checkHealth(connectionStore.activeCluster)), 30000)
+    //setInterval(() => (checkHealth(connectionStore.activeCluster)), 30000)
   }
   setupHealthLoading()
 
