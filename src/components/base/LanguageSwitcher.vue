@@ -1,11 +1,12 @@
 <template>
-  <q-btn icon="translate" round color="dark-grey">
+  <q-btn icon="translate" round color="dark-grey" :title="$t('app.change_language.title')">
     <q-menu>
       <q-list>
         <q-item v-close-popup
                 clickable
                 active-class="bg-grey-8"
                 :active="store.language === 'en'"
+                :title="$t('app.change_language.languages.en.title')"
                 @click="changeLanguage('en')">
           <q-item-section>
             <img :src="en" alt="English" height="16">
@@ -15,6 +16,7 @@
                 clickable
                 active-class="bg-grey-8"
                 :active="store.language === 'cn'"
+                :title="$t('app.change_language.languages.cn.title')"
                 @click="changeLanguage('cn')">
           <q-item-section>
             <img :src="cn" alt="Chinese" height="16">

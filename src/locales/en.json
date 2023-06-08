@@ -20,10 +20,10 @@
       "title": "Change language",
       "languages": {
         "en": {
-          "title": "Set language to english"
+          "title": "English"
         },
         "cn": {
-          "title": "Set language to chinese"
+          "title": "Chinese"
         }
       }
     },

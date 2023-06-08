@@ -8,7 +8,7 @@ Current State:
 
 | Feature            | Status |
 |--------------------|--------|
-| Cluster management |        |
+| Cluster management | Done   |
 | Backup & Restore   | Done   |
 | Home page          | Done   |
 | Nodes              | Done   |

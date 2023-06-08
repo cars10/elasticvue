@@ -1,5 +1,10 @@
 <template>
-  <q-btn round :icon="icon" class="q-mr-md" color="dark-grey" @click="store.toggleTheme" />
+  <q-btn round
+         :icon="icon"
+         class="q-mr-md"
+         color="dark-grey"
+         :title="$t('app.change_theme.title')"
+         @click="store.toggleTheme" />
 </template>
 
 <script setup lang="ts">

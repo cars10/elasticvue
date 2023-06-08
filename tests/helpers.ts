@@ -27,3 +27,7 @@ export const setupClusterConnection = async page => {
 
   await page.goto('http://localhost:5173')
 }
+
+export const openElasticvue = page => {
+  return page.goto('http://localhost:5173/')
+}
