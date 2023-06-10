@@ -46,21 +46,7 @@
   import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
   import { useIndexTemplatesTable } from '../../composables/components/indextemplates/IndexTemplatesTable'
 
-  type IndexTemplate = {
-    name: string,
-    index_template: IndexTemplateSettings
-  }
-
-  type IndexTemplateSettings = {
-    index_patterns: string[],
-    priority: number,
-    version: number,
-    allow_auto_create?: boolean,
-    template: object
-  }
-  const props = withDefaults(defineProps<{ indexTemplates: IndexTemplate[] }>(), {
-    indexTemplates: () => ([])
-  })
+  const props = defineProps<{ indexTemplates: IndexTemplate[] }>()
 
   const { indexTemplates } = toRefs(props)
   const { filter, filteredItems, columns } = useIndexTemplatesTable<IndexTemplate>({ indexTemplates })

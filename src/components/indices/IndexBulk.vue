@@ -62,11 +62,7 @@
 
   const t = useTranslation()
 
-  withDefaults(defineProps<{ selectedIndices: string[], totalItemsCount: number, filteredItemsCount: number }>(), {
-    selectedIndices: () => ([]),
-    totalItemsCount: 0,
-    filteredItemsCount: 0
-  })
+  defineProps<{ selectedIndices: string[], totalItemsCount: number, filteredItemsCount: number }>()
 
   const emit = defineEmits(['reload', 'indicesDeleted'])
 

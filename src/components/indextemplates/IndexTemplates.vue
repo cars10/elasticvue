@@ -25,6 +25,6 @@
   
   const t = useTranslation()
 
-  const { requestState, data, load } = useElasticsearchRequest('catIndexTemplates')
+  const { requestState, data, load } = useElasticsearchRequest<IndexTemplates>('catIndexTemplates')
   onMounted(load)
 </script>

@@ -67,7 +67,7 @@
   if (props.behavior === 'load') {
     const load = () => {
       return callElasticsearch(props.method, props.methodParams)
-          .then(body => indices.value = body.map(i => (i.index || i)).sort())
+          .then(body => indices.value = body.map((i: Index) => (i.index || i)).sort())
           .catch(() => (indices.value = []))
     }
     onMounted(load)

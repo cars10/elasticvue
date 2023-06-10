@@ -19,7 +19,7 @@
     console.log(props.doc)
   }
   const t = useTranslation()
-  const renderValue = value => {
+  const renderValue = (value: any) => {
     if (typeof value === 'object') {
       return JSON.stringify(value)
     } else {

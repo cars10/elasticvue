@@ -37,15 +37,15 @@
     red: []
   })
 
-  const unhealthyIndices = health => (callElasticsearch('catIndices', { h: 'index', health }))
+  const unhealthyIndices = (health: string) => (callElasticsearch('catIndices', { h: 'index', health }))
   const loadUnhealthyIndices = async () => {
     try {
       const yellow = await unhealthyIndices('yellow')
-      indices.value.yellow = yellow.map(i => i.index)
+      indices.value.yellow = yellow.map((i: Index) => i.index)
 
       if (props.health === 'red') {
         const red = await unhealthyIndices('red')
-        indices.value.red = red.map(i => i.index)
+        indices.value.red = red.map((i: Index) => i.index)
       }
     } catch (e) {
       console.log(e)

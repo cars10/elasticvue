@@ -39,9 +39,7 @@
   import { toRefs } from 'vue'
   import { useRouter } from 'vue-router'
 
-  const props = withDefaults(defineProps<{ repositories: object }>(), {
-    repositories: () => ({})
-  })
+  const props = defineProps<{ repositories: object }>()
   const emit = defineEmits(['reload'])
   const { repositories } = toRefs(props)
   const { filter, items, deleteRepository, tableColumns } = useSnapshotRepositoriesTable({ repositories, emit })

@@ -38,21 +38,23 @@
              outlined
              :label="t('setup.test_and_connect.form.uri.label')">
       <template #append>
-        <q-icon name="close" class="cursor-pointer" @click="cluster.uri = DEFAULT_CLUSTER_URI" />
+        <q-icon name="close" class="cursor-pointer" @click="resetUri" />
       </template>
     </q-input>
   </div>
 </template>
 
 <script setup lang="ts">
-  import { ref, watch } from 'vue'
+  import { Ref, ref, watch } from 'vue'
   import { useTranslation } from '../../composables/i18n.ts'
+  import { DEFAULT_CLUSTER_URI } from '../../consts.ts'
+  import { ElasticsearchCluster } from '../../store/connection.ts'
 
-  const props = defineProps<{ modelValue: object, formValid: boolean }>()
-  const cluster = ref(props.modelValue)
+  const props = defineProps<{ modelValue: ElasticsearchCluster, formValid: boolean }>()
+  const cluster: Ref<ElasticsearchCluster> = ref(props.modelValue)
   const passwordVisible = ref(false)
   const t = useTranslation()
-  const validateUri = uri => {
+  const validateUri = (uri: string) => {
     try {
       new URL(uri)
       if (/^https?:\/\/.*/.test(uri)) {
@@ -64,6 +66,8 @@
       return 'Invalid uri'
     }
   }
+
+  const resetUri = () => (cluster.value.uri = DEFAULT_CLUSTER_URI)
 
   const emit = defineEmits(['update:modelValue', 'update:formValid'])
   watch(cluster, value => emit('update:modelValue', value))

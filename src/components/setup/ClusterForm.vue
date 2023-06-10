@@ -32,8 +32,9 @@
   import ClusterFormFields from './ClusterFormFields.vue'
   import ClusterConnectionErrors from './ClusterConnectionErrors.vue'
   import { useTranslation } from '../../composables/i18n.ts'
+  import { ElasticsearchCluster } from '../../store/connection.ts'
 
-  const props = defineProps<{ modelValue: object, connectCallback: any }>()
+  const props = defineProps<{ modelValue: ElasticsearchCluster, connectCallback: any }>()
   const cluster = ref(props.modelValue)
   const t = useTranslation()
   const formValid = ref(true)

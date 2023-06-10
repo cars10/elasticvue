@@ -56,10 +56,9 @@
 
   const props = defineProps<{ index: number }>()
   const connectionStore = useConnectionStore()
-  const cluster: Ref<ElasticsearchCluster> = ref({})
 
+  const cluster: Ref<ElasticsearchCluster> = ref(Object.assign({}, toRaw(connectionStore.clusters[props.index])))
   const getCluster = (index: number) => (cluster.value = Object.assign({}, toRaw(connectionStore.clusters[index])))
-  getCluster(props.index)
   watch(() => props.index, getCluster)
 
   const formValid = ref(true)

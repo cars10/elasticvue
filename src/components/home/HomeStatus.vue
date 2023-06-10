@@ -87,7 +87,7 @@
   import ClusterInformation from './ClusterInformation.vue'
   import UnhealthyReason from './UnhealthyReason.vue'
 
-  const { load, data } = useElasticsearchRequest('clusterStats')
+  const { load, data } = useElasticsearchRequest<any>('clusterStats')
   onMounted(() => {
     load()
     setInterval(load, 5000)
