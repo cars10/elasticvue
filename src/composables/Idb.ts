@@ -8,11 +8,9 @@ const tables = [
 ]
 const dbVersion = 5
 
-const databaseName = clusterUuid => {
-  return `elasticvue-${clusterUuid}`
-}
+const databaseName = (clusterUuid: string) => (`elasticvue-${clusterUuid}`)
 
-let db = null
+let db: IdbAdapter | null = null
 export const useIdb = () => {
   if (!db) {
     const connectionStore = useConnectionStore()
@@ -22,9 +20,9 @@ export const useIdb = () => {
   return db
 }
 
-export const useIdbStore = tableNames => {
+export const useIdbStore = (tableNames: string[]) => {
   const handle = useIdb()
-  const stores = {}
+  const stores: any = {}
 
   if (!Array.isArray(tableNames)) tableNames = [tableNames]
   tableNames.forEach(tableName => {
@@ -34,6 +32,6 @@ export const useIdbStore = tableNames => {
   return stores
 }
 
-export const specificIdb = clusterUuid => {
+export const specificIdb = (clusterUuid: string) => {
   return new IdbAdapter({ database: databaseName(clusterUuid), version: dbVersion, tables })
 }

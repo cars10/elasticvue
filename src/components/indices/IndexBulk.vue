@@ -67,7 +67,7 @@
   const emit = defineEmits(['reload', 'indicesDeleted'])
 
   const menu: Ref<QMenu | null> = ref(null)
-  const emitAndCloseMenu = event => {
+  const emitAndCloseMenu = (event: 'reload' | 'indicesDeleted') => {
     emit(event)
     menu.value?.hide()
   }

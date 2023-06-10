@@ -36,7 +36,7 @@
   import RestoreSnapshot from './RestoreSnapshot.vue'
   import { useTranslation } from '../../composables/i18n'
 
-  const props = defineProps<{ snapshot: object, repository: string }>()
+  const props = defineProps<{ snapshot: Snapshot, repository: string }>()
   const emit = defineEmits(['reload'])
   const t = useTranslation()
 
