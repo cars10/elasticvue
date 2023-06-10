@@ -12,14 +12,14 @@ export function filterItems (items: Record<string, any>[], searchQuery: string, 
     if (column.trim() === '') return items
 
     return items.filter(item => {
-      if (Object.hasOwn(item, column)) {
+      if (item.hasOwnProperty(column)) {
         return item[column].toString().toLowerCase().includes(query)
       }
     })
   } else {
     return items.filter(item => {
       return headerNames.some(headerName => {
-        if (Object.hasOwn(item, headerName)) {
+        if (item.hasOwnProperty(headerName)) {
           return item[headerName].toString().toLowerCase().includes(search)
         }
       })

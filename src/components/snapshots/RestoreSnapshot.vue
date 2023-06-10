@@ -18,23 +18,23 @@
 
           <q-input v-model="restoreOptions.renamePattern"
                    outlined
-                   :label="$t('snapshots.restore_snapshot.form.rename_pattern.label')"
+                   :label="t('snapshots.restore_snapshot.form.rename_pattern.label')"
                    class="q-mb-md" />
 
           <q-input v-model="restoreOptions.renameReplacement"
                    outlined
-                   :label="$t('snapshots.restore_snapshot.form.rename_replacement.label')"
+                   :label="t('snapshots.restore_snapshot.form.rename_replacement.label')"
                    class="q-mb-md" />
 
           <div class="q-mt-sm">
             <q-checkbox v-model="restoreOptions.ignoreUnavailable" size="32px"
-                        :label="$t('snapshots.restore_snapshot.form.ignore_unavailable.label')"
+                        :label="t('snapshots.restore_snapshot.form.ignore_unavailable.label')"
                         class="q-mb-sm"
                         name="ignore_unavailable" />
           </div>
 
           <q-checkbox v-model="restoreOptions.includeGlobalState" size="32px"
-                      :label="$t('snapshots.restore_snapshot.form.include_global_state.label')"
+                      :label="t('snapshots.restore_snapshot.form.include_global_state.label')"
                       class="q-mb-sm"
                       name="include_global_state" />
         </q-card-section>
@@ -42,11 +42,11 @@
         <q-card-section>
           <q-btn :disable="loading || !formValid"
                  :loading="loading"
-                 :label="$t('snapshots.restore_snapshot.form.restore')"
+                 :label="t('snapshots.restore_snapshot.form.restore')"
                  color="positive"
                  type="submit"
                  class="q-mr-md" />
-          <q-btn v-close-popup flat :label="$t('defaults.close')" />
+          <q-btn v-close-popup flat :label="t('defaults.close')" />
         </q-card-section>
       </q-form>
     </q-card>

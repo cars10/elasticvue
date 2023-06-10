@@ -2,7 +2,7 @@
   <q-card class="q-mb-md">
     <q-card-section class="flex items-center">
       <h1 class="text-h5 q-my-none">
-        {{ $t('search.heading') }}
+        {{ t('search.heading') }}
       </h1>
     </q-card-section>
 
@@ -15,9 +15,9 @@
             <q-input v-model="searchStore.q"
                      outlined
                      autofocus
-                     :label="$t('search.form.query.label')" />
+                     :label="t('search.form.query.label')" />
             <!-- eslint-disable-next-line vue/no-v-html -->
-            <small v-html="$t('search.form.query.messages')" />
+            <small v-html="t('search.form.query.messages')" />
           </div>
 
           <div class="col">
@@ -25,7 +25,7 @@
           </div>
 
           <div class="col-auto">
-            <q-btn :label="$t('search.form.search')" color="primary-dark" type="submit" class="q-mt-sm" />
+            <q-btn :label="t('search.form.search')" color="primary-dark" type="submit" class="q-mt-sm" />
           </div>
         </div>
       </q-form>
@@ -39,7 +39,7 @@
             <code-editor v-model="searchStore.searchQuery" :commands="editorCommands" />
           </resizable-container>
 
-          <q-btn :label="$t('search.form.customize_query.reset')"
+          <q-btn :label="t('search.form.customize_query.reset')"
                  flat
                  size="md"
                  no-caps
@@ -51,7 +51,7 @@
       <div class="text-center">
         <q-btn flat @click="searchStore.searchQueryCollapsed = !searchStore.searchQueryCollapsed">
           <q-icon :name="searchStore.searchQueryCollapsed ? 'expand_less' : 'expand_more'" />
-          {{ $t('search.form.customize_query.button') }}
+          {{ t('search.form.customize_query.button') }}
         </q-btn>
       </div>
     </q-card-section>
@@ -78,7 +78,8 @@
   import ResizableContainer from '../shared/ResizableContainer.vue'
   import SearchResultsTable from './SearchResultsTable.vue'
   import { useSearchDocuments } from '../../composables/components/search/SearchDocuments'
-
+  import { useTranslation } from '../../composables/i18n.ts'
+  const t = useTranslation()
   const {
     search,
     searchResults,

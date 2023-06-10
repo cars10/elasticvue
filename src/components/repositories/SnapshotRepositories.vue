@@ -1,7 +1,7 @@
 <template>
   <q-card>
     <q-card-section class="flex items-center">
-      <h1 class="text-h5 q-my-none">{{ $t('repositories.heading') }}</h1>
+      <h1 class="text-h5 q-my-none">{{ t('repositories.heading') }}</h1>
       <reload-button :action="load" />
     </q-card-section>
 
@@ -19,7 +19,8 @@
   import { onMounted } from 'vue'
   import { useElasticsearchRequest } from '../../composables/CallElasticsearch'
   import SnapshotRepositoriesTable from './SnapshotRepositoriesTable.vue'
-
+  import { useTranslation } from '../../composables/i18n.ts'
+  const t = useTranslation()
   const { load, requestState, data } = useElasticsearchRequest('catRepositories')
   onMounted(load)
 </script>

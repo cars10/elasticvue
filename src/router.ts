@@ -39,7 +39,7 @@ const routes = [
       { path: 'snapshot_repositories', name: 'snapshot_repositories', component: SnapshotRepositories },
       { path: 'snapshot_repositories/:repositoryName', name: 'snapshots', component: RepositorySnapshots },
     ],
-    beforeEnter: (to: RouteLocation, from: RouteLocation, next: any) => {
+    beforeEnter: (to: RouteLocation, _from: RouteLocation, next: any) => {
       const connectionStore = useConnectionStore()
       const numInstances = connectionStore.clusters.length
       if (numInstances === 0) return next('welcome')
@@ -55,7 +55,7 @@ const routes = [
     path: '/welcome',
     name: 'welcome',
     component: WelcomePage,
-    beforeEnter: (to: RouteLocation, from: RouteLocation, next: any) => {
+    beforeEnter: (_to: RouteLocation, _from: RouteLocation, next: any) => {
       const connectionStore = useConnectionStore()
       const cluster = connectionStore.checkAndSetActiveCluster()
 

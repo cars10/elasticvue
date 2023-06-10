@@ -10,7 +10,7 @@
           <q-list dense class="q-pb-sm">
             <q-item style="padding-left: 6px">
               <q-checkbox v-model="searchStore.stickyTableHeader" size="32px"
-                          :label="$t('indices.indices_table.sticky_table_header.label')" />
+                          :label="t('indices.indices_table.sticky_table_header.label')" />
             </q-item>
 
             <q-separator />
@@ -18,9 +18,9 @@
             <q-item class="q-mt-sm">
               <q-item-label style="flex-grow: 1">
                 <div class="flex justify-between items-center" style="flex-grow: 1">
-                  {{ $t('search.results_table.settings.columns') }}
+                  {{ t('search.results_table.settings.columns') }}
 
-                  <q-btn :label="$t('shared.table_settings.reset')" flat size="sm" class="q-px-xs"
+                  <q-btn :label="t('shared.table_settings.reset')" flat size="sm" class="q-px-xs"
                          @click="resetColumns" />
                 </div>
               </q-item-label>
@@ -61,7 +61,7 @@
                      :disable="hits.length === 0"
                      size="12px"
                      download="search.json"
-                     :label="$t('search.results_table.download_as_json')"
+                     :label="t('search.results_table.download_as_json')"
                      :generate-download-data="generateDownloadData" />
   </div>
 </template>
@@ -78,11 +78,12 @@
   import { useElasticsearchAdapter } from '../../composables/CallElasticsearch'
   import { sortableField } from '../../helpers/search'
   import DownloadButton from '../shared/DownloadButton.vue'
+  import { useTranslation } from '../../composables/i18n.ts'
 
   const props = defineProps<{ results: object }>()
   const emit = defineEmits(['request'])
   const hits = ref([])
-
+  const t = useTranslation()
   const resizeStore = useResizeStore()
   const searchStore = useSearchStore()
   const filter = ref('')

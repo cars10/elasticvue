@@ -12,12 +12,12 @@
           <q-menu style="white-space: nowrap" dense anchor="bottom right" self="top end">
             <q-item>
               <q-btn :disable="!validJson"
-                     :title="$t('shared.code_editor.actions.beautify.title')"
+                     :title="t('shared.code_editor.actions.beautify.title')"
                      color="dark-grey"
                      class="full-width"
                      @click="beautifyEditorValue">
                 <q-icon dense name="auto_fix_normal" />
-                {{ $t('shared.code_editor.actions.beautify.text') }}
+                {{ t('shared.code_editor.actions.beautify.text') }}
               </q-btn>
             </q-item>
 
@@ -26,14 +26,14 @@
             <q-item dense class="q-pt-sm">
               <q-checkbox v-model="codeEditorStore.useSpaces" size="32px"
                           dense
-                          :label="$t('shared.code_editor.actions.whitespace.label')"
-                          :title="$t('shared.code_editor.actions.whitespace.title')" />
+                          :label="t('shared.code_editor.actions.whitespace.label')"
+                          :title="t('shared.code_editor.actions.whitespace.title')" />
             </q-item>
             <q-item dense class="q-pb-sm">
               <q-checkbox v-model="codeEditorStore.wrapLines" size="32px"
                           dense
-                          :label="$t('shared.code_editor.actions.wrap_lines.label')"
-                          :title="$t('shared.code_editor.actions.wrap_lines.title')" />
+                          :label="t('shared.code_editor.actions.wrap_lines.label')"
+                          :title="t('shared.code_editor.actions.wrap_lines.title')" />
             </q-item>
 
             <q-separator />
@@ -42,7 +42,7 @@
               <a href="https://github.com/ajaxorg/ace/wiki/Default-Keyboard-Shortcuts"
                  rel="nofollow"
                  target="_blank">
-                {{ $t('shared.code_editor.actions.keyboard_shortcuts.text') }}
+                {{ t('shared.code_editor.actions.keyboard_shortcuts.text') }}
               </a>
             </q-item>
           </q-menu>
@@ -57,6 +57,7 @@
   import { useCodeEditor } from '../../composables/CodeEditor'
   import { useCodeEditorStore } from '../../store/code_editor'
   import CopyButton from './CopyButton.vue'
+  import { useTranslation } from '../../composables/i18n'
 
   const props = defineProps({
     modelValue: {
@@ -70,7 +71,7 @@
     }
   })
   const emit = defineEmits(['update:modelValue'])
-
+  const t = useTranslation()
   const codeEditorStore = useCodeEditorStore()
 
   const editor = ref(null)

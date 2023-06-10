@@ -7,7 +7,7 @@
         <q-list dense>
           <q-item style="padding-left: 0">
             <q-checkbox v-model="indicesStore.showHiddenIndices" size="32px"
-                        :label="$t('indices.indices_table.show_hidden_indices.label')" />
+                        :label="t('indices.indices_table.show_hidden_indices.label')" />
           </q-item>
         </q-list>
       </q-menu>
@@ -91,7 +91,8 @@
   import { useIndicesStore } from '../../store/indices'
   import IndexShard from './IndexShard.vue'
   import FilterInput from '../shared/FilterInput.vue'
-
+  import { useTranslation } from '../../composables/i18n'
+  const t = useTranslation()
   const props = defineProps({
     shards: {
       type: Object,

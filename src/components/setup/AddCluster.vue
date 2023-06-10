@@ -4,19 +4,19 @@
 
     <div>
       <q-checkbox v-model="config.auth">
-        Authorization: {{ $t('shared.authorization_header_hint') }}
+        Authorization: {{ t('shared.authorization_header_hint') }}
       </q-checkbox>
 
       <q-checkbox v-model="config.ssl">
         SSL:
-        {{ $t('shared.ssl_hint.hint') }}
+        {{ t('shared.ssl_hint.hint') }}
       </q-checkbox>
       <a aria-label="SSL Configuration help"
          href="https://github.com/cars10/elasticvue/wiki/Access-clusters-using-SSL"
          rel="nofollow"
          target="_blank"
          class="q-ml-sm">
-        {{ $t('shared.ssl_hint.help') }}
+        {{ t('shared.ssl_hint.help') }}
       </a>
     </div>
   </div>

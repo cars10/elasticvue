@@ -1,11 +1,11 @@
 <template>
-  <q-btn color="primary-dark" :label="$t('snapshots.new_snapshot.heading')" @click="dialog = true" />
+  <q-btn color="primary-dark" :label="t('snapshots.new_snapshot.heading')" @click="dialog = true" />
 
   <q-dialog v-model="dialog" @hide="resetForm">
     <q-card style="width: 500px">
       <q-card-section class="flex justify-between">
         <h2 class="text-h6 q-my-none">
-          {{ $t('snapshots.new_snapshot.heading') }}
+          {{ t('snapshots.new_snapshot.heading') }}
         </h2>
         <q-btn v-close-popup icon="close" flat round dense />
       </q-card-section>
@@ -15,7 +15,7 @@
       <q-form @submit="createSnapshot">
         <q-card-section>
           <q-input v-model="snapshot.name"
-                   :label="$t('snapshots.new_snapshot.form.snapshot_name.label')"
+                   :label="t('snapshots.new_snapshot.form.snapshot_name.label')"
                    outlined
                    class="q-mb-sm"
                    autocomplete="off"
@@ -28,11 +28,11 @@
         <q-card-section>
           <q-btn :disable="loading || !formValid"
                  :loading="loading"
-                 :label="$t('defaults.create')"
+                 :label="t('defaults.create')"
                  color="positive"
                  type="submit"
                  class="q-mr-md" />
-          <q-btn v-close-popup flat :label="$t('defaults.close')" />
+          <q-btn v-close-popup flat :label="t('defaults.close')" />
         </q-card-section>
       </q-form>
     </q-card>
@@ -42,10 +42,11 @@
 <script setup lang="ts">
   import IndexFilter from '../shared/IndexFilter.vue'
   import { useNewSnapshot } from '../../composables/components/snapshots/NewSnapshot'
+  import { useTranslation } from '../../composables/i18n.ts'
 
   const props = defineProps<{ repository: string }>()
   const emit = defineEmits(['reload'])
-
+  const t = useTranslation()
   const { dialog, snapshot, formValid, loading, createSnapshot, resetForm } = useNewSnapshot({
     emit,
     repository: props.repository

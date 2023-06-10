@@ -7,7 +7,7 @@
 
           <template #action>
             <q-btn color="dark" @click="copy">
-              {{ $t('shared.loader.copy_error') }}
+              {{ t('shared.loader.copy_error') }}
             </q-btn>
           </template>
         </q-banner>
@@ -16,7 +16,7 @@
     <template v-else-if="requestState.networkError">
       <div class="pa-4">
         <q-banner class="q-pa-md bg-default">
-          {{ $t('shared.loader.network_error') }}
+          {{ t('shared.loader.network_error') }}
         </q-banner>
       </div>
     </template>
@@ -30,6 +30,7 @@
 
 <script setup>
   import { writeToClipboard } from '../../helpers/clipboard'
+  import { useTranslation } from '../../composables/i18n'
 
   const props = defineProps({
     requestState: {
@@ -37,7 +38,7 @@
       type: Object
     }
   })
-
+  const t = useTranslation()
   const copy = () => {
     writeToClipboard(props.requestState.apiErrorMessage)
   }

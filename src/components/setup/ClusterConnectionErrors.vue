@@ -3,15 +3,15 @@
     <template #avatar>
       <q-icon name="error" />
     </template>
-    {{ $t('setup.test_and_connect.error.heading') }}
+    {{ t('setup.test_and_connect.error.heading') }}
     <ol class="q-pl-lg q-my-sm">
       <li>
-        {{ $t('setup.test_and_connect.error.cluster_reachable') }}
+        {{ t('setup.test_and_connect.error.cluster_reachable') }}
         <a :href="uri" target="_blank">{{ uri }}</a>
       </li>
       <li>
-        {{ $t('setup.test_and_connect.error.correct_settings') }} <strong>elasticsearch.yml</strong>
-        {{ $t('setup.test_and_connect.error.cluster_restarted') }}
+        {{ t('setup.test_and_connect.error.correct_settings') }} <strong>elasticsearch.yml</strong>
+        {{ t('setup.test_and_connect.error.cluster_restarted') }}
       </li>
     </ol>
 
@@ -22,5 +22,8 @@
 </template>
 
 <script setup lang="ts">
+  import { useTranslation } from '../../composables/i18n.ts'
+
   defineProps<{ uri: string, errorMessage: string }>()
+  const t = useTranslation()
 </script>

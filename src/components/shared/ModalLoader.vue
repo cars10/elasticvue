@@ -27,7 +27,7 @@
       </q-card-section>
 
       <q-card-section>
-        <q-btn v-close-popup flat :label="$t('defaults.close')" />
+        <q-btn v-close-popup flat :label="t('defaults.close')" />
       </q-card-section>
     </q-card>
   </q-dialog>
@@ -43,7 +43,8 @@
   import ResizableContainer from './ResizableContainer.vue'
   import { useResizeStore } from '../../store/resize'
   import { stringifyBigInt } from '../../services/json/stringify'
-
+  import { useTranslation } from '../../composables/i18n'
+  const t = useTranslation()
   const resizeStore = useResizeStore()
   const { requestState, callElasticsearch } = useElasticsearchAdapter()
 

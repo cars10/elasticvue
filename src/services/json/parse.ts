@@ -17,7 +17,7 @@ export const removeComments = (str: string): string => {
 export const parseJsonCommentsBigInt = (jsonString: string): object => {
   const quoted = enquoteBigNumber(jsonString)
   const clean = removeComments(quoted)
-  return JSON.parse(clean, (key, value) => {
+  return JSON.parse(clean, (_key, value) => {
     if (!isNaN(value) && isBigNumber(value)) {
       return BigInt(value)
     } else {

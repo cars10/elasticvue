@@ -4,7 +4,7 @@
       <q-icon name="sync_alt" size="xs" />
     </q-item-section>
     <q-item-section>
-      <q-item-label>{{ $t('indices.index_reindex.text') }}</q-item-label>
+      <q-item-label>{{ t('indices.index_reindex.text') }}</q-item-label>
     </q-item-section>
   </q-item>
 
@@ -13,7 +13,7 @@
       <q-card-section class="flex justify-between">
         <div class="flex">
           <h2 class="text-h6 q-my-none flex">
-            {{ $t('indices.index_reindex.heading') }}
+            {{ t('indices.index_reindex.heading') }}
           </h2>
         </div>
         <q-btn v-close-popup icon="close" flat round dense />
@@ -26,7 +26,7 @@
           <p>{{ t('indices.index_reindex.index', { index }) }}</p>
 
           <q-input v-model="dest"
-                   :label="$t('indices.index_reindex.form.source.label')"
+                   :label="t('indices.index_reindex.form.source.label')"
                    autocomplete="off"
                    autofocus
                    outlined
@@ -37,7 +37,7 @@
           <q-btn :disable="requestState.loading || dest.length === 0"
                  color="positive"
                  :loading="requestState.loading"
-                 :label="$t('indices.index_reindex.form.reindex')"
+                 :label="t('indices.index_reindex.form.reindex')"
                  type="submit" />
         </q-card-section>
       </q-form>

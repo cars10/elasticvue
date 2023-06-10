@@ -1,7 +1,7 @@
 <template>
   <q-card>
     <q-card-section>
-      <h2 class="text-h5 q-my-none">{{ $t('home.client_information.heading') }}</h2>
+      <h2 class="text-h5 q-my-none">{{ t('home.client_information.heading') }}</h2>
     </q-card-section>
 
     <q-card-section class="font-14 q-px-none">
@@ -128,7 +128,10 @@
   import { onMounted } from 'vue'
   import LoaderStatus from '../shared/LoaderStatus.vue'
   import { useElasticsearchRequest } from '../../composables/CallElasticsearch'
+  import { useTranslation } from '../../composables/i18n.ts'
+  
+  const t = useTranslation()
 
-  const { requestState, data, load } = useElasticsearchRequest('clusterInfo')
+  const { requestState, data, load } = useElasticsearchRequest<any>('clusterInfo')
   onMounted(load)
 </script>

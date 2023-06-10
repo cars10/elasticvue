@@ -13,7 +13,7 @@
       <div class="col-md-6 col-12 q-pr-sm">
         <q-input v-model="cluster.username"
                  outlined
-                 :label="$t('setup.test_and_connect.form.username.label')"
+                 :label="t('setup.test_and_connect.form.username.label')"
                  autocomplete="off" />
       </div>
 
@@ -21,7 +21,7 @@
         <q-input v-model="cluster.password"
                  autocomplete="off"
                  outlined
-                 :label="$t('setup.test_and_connect.form.password.label')"
+                 :label="t('setup.test_and_connect.form.password.label')"
                  :type="passwordVisible ? 'text' : 'password'">
           <template #append>
             <q-icon :name="passwordVisible ? 'visibility' : 'visibility_off'"
@@ -36,7 +36,7 @@
              :rules="[validateUri]"
              required
              outlined
-             :label="$t('setup.test_and_connect.form.uri.label')">
+             :label="t('setup.test_and_connect.form.uri.label')">
       <template #append>
         <q-icon name="close" class="cursor-pointer" @click="cluster.uri = DEFAULT_CLUSTER_URI" />
       </template>
@@ -46,12 +46,12 @@
 
 <script setup lang="ts">
   import { ref, watch } from 'vue'
-  import { DEFAULT_CLUSTER_URI } from '../../consts'
+  import { useTranslation } from '../../composables/i18n.ts'
 
   const props = defineProps<{ modelValue: object, formValid: boolean }>()
   const cluster = ref(props.modelValue)
   const passwordVisible = ref(false)
-
+  const t = useTranslation()
   const validateUri = uri => {
     try {
       new URL(uri)

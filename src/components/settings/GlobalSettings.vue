@@ -4,7 +4,7 @@
       <q-card>
         <q-card-section>
           <h1 class="text-h5 q-my-none">
-            {{ $t('settings.heading') }}
+            {{ t('settings.heading') }}
           </h1>
         </q-card-section>
 
@@ -16,12 +16,12 @@
               <q-input v-model="indicesStore.hideIndicesRegex"
                        autofocus
                        outlined
-                       :label="$t('settings.hide_indices_regex.label')"
-                       :hint="$t('settings.hide_indices_regex.message')">
+                       :label="t('settings.hide_indices_regex.label')"
+                       :hint="t('settings.hide_indices_regex.message')">
                 <template #append>
                   <q-btn icon="settings_backup_restore"
                          flat round
-                         :title="$t('settings.hide_indices_regex.reset', {regex: DEFAULT_HIDE_INDICES_REGEX})"
+                         :title="t('settings.hide_indices_regex.reset', {regex: DEFAULT_HIDE_INDICES_REGEX})"
                          @click="resetHideIndicesRegex" />
                 </template>
               </q-input>
@@ -31,11 +31,11 @@
           <q-separator class="q-mb-md" />
 
           <div>
-            <p>{{ $t('settings.disconnect_and_reset.heading') }}</p>
+            <p>{{ t('settings.disconnect_and_reset.heading') }}</p>
 
             <q-btn color="dark-grey" @click="reset">
               <q-icon name="warning" size="xs" color="negative" class="q-mr-sm" />
-              {{ $t('settings.disconnect_and_reset.button') }}
+              {{ t('settings.disconnect_and_reset.button') }}
             </q-btn>
           </div>
         </q-card-section>

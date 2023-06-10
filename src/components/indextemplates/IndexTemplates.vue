@@ -2,7 +2,7 @@
   <q-card>
     <q-card-section class="flex items-center">
       <h1 class="text-h5 q-my-none">
-        {{ $t('index_templates.heading') }}
+        {{ t('index_templates.heading') }}
       </h1>
       <reload-button :action="load" />
     </q-card-section>
@@ -21,6 +21,9 @@
   import LoaderStatus from '../shared/LoaderStatus.vue'
   import IndexTemplatesTable from './IndexTemplatesTable.vue'
   import { useElasticsearchRequest } from '../../composables/CallElasticsearch'
+  import { useTranslation } from '../../composables/i18n.ts'
+  
+  const t = useTranslation()
 
   const { requestState, data, load } = useElasticsearchRequest('catIndexTemplates')
   onMounted(load)

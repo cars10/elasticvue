@@ -24,7 +24,7 @@
 
     <template #selected>
       <template v-if="localValue.length > 3">
-        {{ localValue.length }} {{ $t('shared.index_filter.index_select.indices_selected') }}
+        {{ localValue.length }} {{ t('shared.index_filter.index_select.indices_selected') }}
       </template>
       <template v-else-if="localValue.length > 0">
         {{ localValue.join(', ') }}

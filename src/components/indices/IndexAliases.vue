@@ -4,7 +4,7 @@
       <q-icon name="alternate_email" size="xs" />
     </q-item-section>
     <q-item-section>
-      <q-item-label>{{ $t('indices.index_aliases.text') }}</q-item-label>
+      <q-item-label>{{ t('indices.index_aliases.text') }}</q-item-label>
     </q-item-section>
   </q-item>
 
@@ -13,7 +13,7 @@
       <q-card-section class="flex justify-between">
         <div class="flex">
           <h2 class="text-h6 q-my-none flex">
-            {{ $t('indices.index_aliases.heading') }}
+            {{ t('indices.index_aliases.heading') }}
           </h2>
         </div>
         <q-btn v-close-popup icon="close" flat round dense />
@@ -29,7 +29,7 @@
             <q-input id="new_index_alias_name"
                      v-model="newAlias"
                      class="col-grow"
-                     :label="$t('indices.index_aliases.form.new_alias.label')"
+                     :label="t('indices.index_aliases.form.new_alias.label')"
                      lazy-rules
                      autocomplete="off"
                      autofocus
@@ -41,7 +41,7 @@
                    :disable="requestState.loading || newAlias.length === 0"
                    color="positive"
                    :loading="requestState.loading"
-                   :label="$t('indices.index_aliases.form.add_alias')"
+                   :label="t('indices.index_aliases.form.add_alias')"
                    type="submit"
                    class="q-ml-md" />
           </div>
@@ -61,7 +61,7 @@
           <tr>
             <td>{{ row.alias }}</td>
             <td class="text-right">
-              <q-btn :label="$t('defaults.delete')" color="dark-grey" @click="deleteAlias(row.alias)" />
+              <q-btn :label="t('defaults.delete')" color="dark-grey" @click="deleteAlias(row.alias)" />
             </td>
           </tr>
         </template>

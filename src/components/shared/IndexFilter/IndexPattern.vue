@@ -2,7 +2,7 @@
   <q-input v-model="localValue"
            outlined
            bottom-slots
-           :label="$t('shared.index_filter.index_pattern.input.label')"
+           :label="t('shared.index_filter.index_pattern.input.label')"
            :loading="requestState.loading"
            autocomplete="off">
     <template #hint>

@@ -7,9 +7,9 @@
                 style="width: 140px"
                 outlined
                 class="q-mr-md"
-                :label="$t('query.rest.form.method.label')" />
+                :label="t('query.rest.form.method.label')" />
       <q-input v-model="ownRequest.path"
-               :label="$t('query.rest.form.path.label')"
+               :label="t('query.rest.form.path.label')"
                class="col-grow"
                outlined
                autofocus
@@ -28,11 +28,11 @@
               <!-- eslint-disable-next-line vue/no-v-html -->
               <span v-html="t('query.rest.get_request_hint.cannot_send_body', { method: ownRequest.method })" />
               <button class="btn-link q-pa-none" type="button" @click=" ownRequest.method = 'POST'">
-                {{ $t('query.rest.get_request_hint.use_post') }}
+                {{ t('query.rest.get_request_hint.use_post') }}
               </button>
-              {{ $t('query.rest.get_request_hint.query_parameters') }}
+              {{ t('query.rest.get_request_hint.query_parameters') }}
             </p>
-            <p class="q-mb-none">{{ $t('query.rest.get_request_hint.search_post') }}</p>
+            <p class="q-mb-none">{{ t('query.rest.get_request_hint.search_post') }}</p>
           </q-banner>
 
           <code-editor v-show="!['GET', 'HEAD'].includes(ownRequest.method)"
@@ -48,9 +48,9 @@
     <div class="row">
       <div class="col-6">
         <q-btn class="q-mr-sm" :loading="loading" color="primary-dark" type="submit"
-               :label="$t('query.rest.form.send_request')" />
+               :label="t('query.rest.form.send_request')" />
 
-        <q-btn :label="$t('query.rest.form.save_request')" icon="save" color="dark-grey q-mr-sm" @click="saveQuery" />
+        <q-btn :label="t('query.rest.form.save_request')" icon="save" color="dark-grey q-mr-sm" @click="saveQuery" />
 
         <q-chip v-if="response.status" :label="response.status" :class="responseStatusClass" />
       </div>
@@ -60,7 +60,7 @@
                          size="12px"
                          class="q-mb-md"
                          :download="downloadFileName"
-                         :label="$t('query.rest.form.download_as_json')"
+                         :label="t('query.rest.form.download_as_json')"
                          :generate-download-data="generateDownloadData" />
       </div>
     </div>

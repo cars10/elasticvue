@@ -2,7 +2,7 @@
   <q-form @submit="importBackupAndRedirect">
     <q-file v-model="importFile"
             accept="application/json"
-            :label="$t('settings.import_export.import.select_file')"
+            :label="t('settings.import_export.import.select_file')"
             max-files="1"
             outlined
             class="q-mb-md">
@@ -22,14 +22,15 @@
            color="primary-dark"
            icon="upload"
            type="submit"
-           :label="$t('settings.import_export.import.import')" />
+           :label="t('settings.import_export.import.import')" />
   </q-form>
 </template>
 
 <script setup>
   import { useImportExport } from '../../composables/ImportExport'
   import { useSnackbar } from '../../composables/Snackbar'
-
+  import { useTranslation } from '../../composables/i18n'
+  const t = useTranslation()
   const props = defineProps({
     confirmImport: {
       type: Boolean,

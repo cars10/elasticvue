@@ -2,7 +2,7 @@
   <q-card>
     <q-card-section class="flex items-center">
       <h1 class="text-h5 q-my-none">
-        {{ $t('shards.heading') }}
+        {{ t('shards.heading') }}
       </h1>
       <reload-button :action="load" />
     </q-card-section>
@@ -22,7 +22,8 @@
   import { useElasticsearchAdapter } from '../../composables/CallElasticsearch'
   import { convertShards } from '../../helpers/shards'
   import ShardsTable from './ShardsTable.vue'
-
+  import { useTranslation } from '../../composables/i18n'
+  const t = useTranslation()
   const shards = ref({})
 
   const { requestState, callElasticsearch } = useElasticsearchAdapter()

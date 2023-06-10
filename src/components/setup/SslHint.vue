@@ -1,11 +1,17 @@
 <template>
   <p class="text-grey q-mb-lg">
-    {{ $t('shared.ssl_hint.hint') }}
+    {{ t('shared.ssl_hint.hint') }}
     <a aria-label="SSL Configuration help"
        href="https://github.com/cars10/elasticvue/wiki/Access-clusters-using-SSL"
        rel="nofollow"
        target="_blank">
-      {{ $t('shared.ssl_hint.help') }}
+      {{ t('shared.ssl_hint.help') }}
     </a>
   </p>
 </template>
+
+<script setup lang="ts">
+  import { useTranslation } from '../../composables/i18n.ts'
+
+  const t = useTranslation()
+</script>

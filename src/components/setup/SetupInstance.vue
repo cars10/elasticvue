@@ -13,7 +13,7 @@
       <template v-if="SHOW_CORS_HINT">
         <q-card-section>
           <h2 class="text-h6">
-            {{ $t('setup.configure.heading') }}
+            {{ t('setup.configure.heading') }}
           </h2>
           <configure-help />
         </q-card-section>
@@ -23,7 +23,7 @@
 
       <q-card-section>
         <h2 v-if="SHOW_CORS_HINT" class="text-h6 q-mb-md">
-          {{ $t('setup.test_and_connect.heading') }}
+          {{ t('setup.test_and_connect.heading') }}
         </h2>
         <add-cluster />
       </q-card-section>
@@ -31,11 +31,13 @@
   </q-dialog>
 </template>
 
-<script setup>
+<script setup lang="ts">
   import AddCluster from './AddCluster.vue'
   import { SHOW_CORS_HINT } from '../../consts'
   import ConfigureHelp from './ConfigureHelp.vue'
   import { ref } from 'vue'
+  import { useTranslation } from '../../composables/i18n.ts'
 
   const dialog = ref(false)
+  const t = useTranslation()
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div class="inline-block timer" :title="$t('shared.timer.settings.title')">
+  <div class="inline-block timer" :title="t('shared.timer.settings.title')">
     <q-select v-model="timer" :options="timerSettings" hide-hint borderless dense options-dense>
       <template #selected>
         <span v-if="timer?.value">{{ timer?.label }}</span>
@@ -10,6 +10,7 @@
 
 <script setup>
   import { onBeforeUnmount, ref, watch } from 'vue'
+  import { useTranslation } from '../../composables/i18n'
 
   const props = defineProps({
     action: {
@@ -18,7 +19,7 @@
       }
     }
   })
-
+  const t = useTranslation()
   const timerSettings = [
     { label: 'None', value: null },
     { label: '5s', value: 5 },
