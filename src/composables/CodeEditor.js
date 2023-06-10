@@ -1,13 +1,20 @@
 import { queryKeywords, querySnippets, queryValues } from '../autocomplete'
 
-import ace from 'ace-builds/src/ace'
+import ace from 'ace-builds/src-noconflict/ace'
 
-import 'ace-builds/src/theme-tomorrow_night'
-import 'ace-builds/src/mode-json'
-import 'ace-builds/src/ext-searchbox'
-import 'ace-builds/src/ext-language_tools'
-import { useThemeStore } from '../store/theme'
+import modeJsonUrl from 'ace-builds/src-noconflict/mode-json?url'
+import themeTomorrowNightUrl from 'ace-builds/src-noconflict/theme-tomorrow_night?url'
+import searchBoxUrl from 'ace-builds/src-noconflict/ext-searchbox?url'
+import languageToolsUrl from 'ace-builds/src-noconflict/ext-language_tools?url'
+
+ace.config.setModuleUrl('ace/mode/json', modeJsonUrl)
+ace.config.setModuleUrl('ace/theme/tomorrow_night', themeTomorrowNightUrl)
+ace.config.setModuleUrl('ace/ext/searchbox', searchBoxUrl)
+ace.config.setModuleUrl('ace/ext/language_tools', languageToolsUrl)
+ace.config.setModuleUrl('ace/snippets', languageToolsUrl)
+
 import { onBeforeUnmount, onMounted, watch } from 'vue'
+import { useThemeStore } from '../store/theme'
 import { useCodeEditorStore } from '../store/code_editor'
 import { beautify } from '../helpers/beautify'
 import { writeToClipboard } from '../helpers/clipboard'
@@ -85,12 +92,7 @@ export const useCodeEditor = (editorRef, { readOnly, focus, initialValue, emit, 
       }
     })
 
-    const { completer } = initializeSnippets()
-    aceEditor.setOptions({
-      enableBasicAutocompletion: [completer],
-      enableLiveAutocompletion: true,
-      enableSnippets: true
-    })
+    initializeSnippets(aceEditor)
 
     if (emit) {
       aceEditor.on('change', () => {
@@ -130,72 +132,72 @@ export const useCodeEditor = (editorRef, { readOnly, focus, initialValue, emit, 
   }
 }
 
-export const initializeSnippets = () => {
-  let snippetManager
-
+export const initializeSnippets = aceEditor => {
   ace.config.loadModule('ace/snippets', m => {
-    snippetManager = m.snippetManager
+    const snippetManager = m.snippetManager
     const parsedSnippets = snippetManager.parseSnippetFile(querySnippets)
     snippetManager.register(parsedSnippets, 'json')
-  })
 
-  const snippets = snippetManager.snippetMap.json.map(snip => {
-    return {
-      caption: snip.name,
-      snippet: snip.content,
-      meta: '[Snip]',
-      type: 'snippet',
-      score: 1,
-      docHTML: snip.content
-    }
-  })
+    const snippets = snippetManager.snippetMap.json.map(snip => {
+      return {
+        caption: snip.name,
+        snippet: snip.content,
+        meta: '[Snip]',
+        type: 'snippet',
+        score: 1,
+        docHTML: snip.content
+      }
+    })
 
-  const completer = {
-    getCompletions: function (editor, session, pos, prefix, callback) {
-      const token = session.getTokenAt(pos.row, pos.col)
-      const row = session.getLine(pos.row)
-      const addQuotes = token && token.type === 'text' && token.value.indexOf('"') === -1
-      const isKey = row && row.indexOf('":') === -1
+    const completer = {
+      getCompletions: function (editor, session, pos, prefix, callback) {
+        const token = session.getTokenAt(pos.row, pos.col)
+        const row = session.getLine(pos.row)
+        const addQuotes = token && token.type === 'text' && token.value.indexOf('"') === -1
+        const isKey = row && row.indexOf('":') === -1
 
-      const keywords = queryKeywords.map(word => {
-        let actualWord = word
-        if (addQuotes && isKey) {
-          actualWord = `"${word}": `
-        } else if (addQuotes) {
-          actualWord = `"${word}"`
-        }
+        const keywords = queryKeywords.map(word => {
+          let actualWord = word
+          if (addQuotes && isKey) {
+            actualWord = `"${word}": `
+          } else if (addQuotes) {
+            actualWord = `"${word}"`
+          }
 
-        return {
-          caption: word,
-          value: actualWord
-        }
-      })
-
-      const values = queryValues.map(word => {
-        if (addQuotes) {
           return {
             caption: word,
-            value: `"${word}"`
+            value: actualWord
           }
-        } else {
-          return {
-            caption: word,
-            value: word
+        })
+
+        const values = queryValues.map(word => {
+          if (addQuotes) {
+            return {
+              caption: word,
+              value: `"${word}"`
+            }
+          } else {
+            return {
+              caption: word,
+              value: word
+            }
           }
-        }
-      })
+        })
 
-      let allCompletions = []
+        let allCompletions = []
 
-      if (isKey && addQuotes) allCompletions = snippets
-      if (isKey) allCompletions = allCompletions.concat(keywords)
-      if (!isKey) allCompletions = allCompletions.concat(values)
+        if (isKey && addQuotes) allCompletions = snippets
+        if (isKey) allCompletions = allCompletions.concat(keywords)
+        if (!isKey) allCompletions = allCompletions.concat(values)
 
-      return callback(null, allCompletions)
+        return callback(null, allCompletions)
+      }
     }
-  }
 
-  return {
-    completer
-  }
+    aceEditor.setOptions({
+      enableBasicAutocompletion: [completer],
+      enableLiveAutocompletion: true,
+      enableSnippets: true
+    })
+  })
 }

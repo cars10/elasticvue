@@ -1,5 +1,5 @@
 // @ts-ignore
-export const DESKTOP_BUILD = true// !!import.meta.env.VUE_APP_DESKTOP_BUILD
+export const DESKTOP_BUILD = !!import.meta.env.VITE_APP_DESKTOP_BUILD
 
 export const SHOW_CORS_HINT = true
 export const REQUEST_DEFAULT_HEADERS = {

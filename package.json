@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "tsc": "tsc --noEmit",
+    "tsc": "tsc --noEmit && vue-tsc",
     "lint": "eslint --ext .js,.vue,.ts src",
     "test:e2e": "playwright test --project=chromium",
     "test:e2e:all": "playwright test",
@@ -32,6 +32,7 @@
     "@playwright/test": "^1.34.3",
     "@quasar/vite-plugin": "^1.3.3",
     "@tauri-apps/cli": "^1.3.1",
+    "@types/ace": "^0.0.48",
     "@vitejs/plugin-vue": "^4.2.3",
     "@vue/eslint-config-typescript": "^11.0.3",
     "@vue/tsconfig": "^0.4.0",

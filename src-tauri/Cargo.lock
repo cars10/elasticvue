@@ -822,6 +822,7 @@ dependencies = [
 [[package]]
 name = "fetch_reqwest"
 version = "0.1.0"
+source = "git+https://github.com/cars10/fetch_reqwest#be005519f3a13a06489a50c909df4272578bad96"
 dependencies = [
  "multimap",
  "reqwest",
@@ -1846,9 +1847,9 @@ dependencies = [
 
 [[package]]
 name = "multimap"
-version = "0.9.0"
+version = "0.8.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "70db9248a93dc36a36d9a47898caa007a32755c7ad140ec64eeeb50d5a730631"
+checksum = "e5ce46fe64a9d73be07dcbe690a38ce1b293be448fd8ce1e6c1b8062c9f72c6a"
 dependencies = [
  "serde",
 ]

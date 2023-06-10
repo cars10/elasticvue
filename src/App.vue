@@ -2,10 +2,6 @@
   <q-layout view="hHh lpR fff" style="outline: none !important;">
     <app-header v-if="connectionStore.activeCluster" />
 
-    <q-card>
-      {{ DESKTOP_BUILD}}
-    </q-card>
-
     <q-page-container>
       <div class="q-ma-md">
         <router-view v-if="connectionStore.activeCluster?.status !== 'unknown' || route.name === 'settings'" />
@@ -36,7 +32,6 @@
   import NetworkError from './components/shared/NetworkError.vue'
   import { useThemeStore } from './store/theme.js'
   import { useConnectionStore } from './store/connection'
-  import { DESKTOP_BUILD } from './consts'
 
   const themeStore = useThemeStore()
   const connectionStore = useConnectionStore()
