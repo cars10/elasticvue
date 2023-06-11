@@ -8,7 +8,7 @@ test.describe('HomeStatus', () => {
     await setupClusterConnection(page)
 
     const uuid = 'FofbxqW5TL-NWyTYyUcUsw'
-    const card = await page.locator('.q-card').nth(0)
+    const card = await page.getByTestId('cluster-status')
     await expect(card).toContainText(uuid)
     await expect(card).toContainText('green')
   })
@@ -17,7 +17,7 @@ test.describe('HomeStatus', () => {
     await mockElastic(page, 'yellow')
     await setupClusterConnection(page)
 
-    const card = await page.locator('.q-card').nth(0)
+    const card = await page.getByTestId('cluster-status')
     await expect(card).toContainText('yellow')
     await expect(card).toContainText('Details')
   })
@@ -26,7 +26,7 @@ test.describe('HomeStatus', () => {
     await mockElastic(page)
     await setupClusterConnection(page)
 
-    const card = await page.locator('.q-card').nth(1)
+    const card = await page.getByTestId('cluster-nodes')
     await expect(card).toContainText('2 nodes')
     await expect(card).toContainText('2 master')
     await expect(card).toContainText('2 data')
@@ -36,7 +36,7 @@ test.describe('HomeStatus', () => {
     await mockElastic(page)
     await setupClusterConnection(page)
 
-    const card = await page.locator('.q-card').nth(2)
+    const card = await page.getByTestId('cluster-shards')
     await expect(card).toContainText('16 shards')
     await expect(card).toContainText('8 primaries')
     await expect(card).toContainText('8 replicas')
@@ -46,7 +46,7 @@ test.describe('HomeStatus', () => {
     await mockElastic(page)
     await setupClusterConnection(page)
 
-    const card = await page.locator('.q-card').nth(3)
+    const card = await page.getByTestId('cluster-indices')
     await expect(card).toContainText('8 indices')
     await expect(card).toContainText('174 docs')
     await expect(card).toContainText('86.1 MB on disk')
@@ -56,7 +56,7 @@ test.describe('HomeStatus', () => {
     await mockElastic(page)
     await setupClusterConnection(page)
 
-    const card = await page.locator('.q-card').nth(4)
+    const card = await page.getByTestId('cluster-information')
     await expect(card).toContainText('es-7-node-1')
     await expect(card).toContainText('7.17.10')
   })
@@ -65,7 +65,7 @@ test.describe('HomeStatus', () => {
     await mockElastic(page)
     await setupClusterConnection(page)
 
-    const card = await page.locator('.q-card').nth(5)
+    const card = await page.getByTestId('cluster-health')
     await expect(card).toContainText('es-7')
     await expect(card).toContainText('green')
   })

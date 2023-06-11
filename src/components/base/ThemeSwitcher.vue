@@ -4,6 +4,7 @@
          class="q-mr-md"
          color="dark-grey"
          :title="t('app.change_theme.title')"
+         data-testid="change-theme-button"
          @click="store.toggleTheme" />
 </template>
 

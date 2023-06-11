@@ -19,7 +19,7 @@ test.describe('base', () => {
       test('can change to dark theme', async ({ page }) => {
         await openElasticvue(page)
         const body = await page.locator('body')
-        page.getByTitle('Change theme').click()
+        page.getByTestId('change-theme-button').click()
 
         await expect(body).toHaveClass(/theme--dark/)
         await expect(body).not.toHaveClass(/theme--light/)
@@ -29,9 +29,9 @@ test.describe('base', () => {
     test.describe('language', () => {
       test('defaults to english', async ({ page }) => {
         await openElasticvue(page)
-        page.getByTitle('Change language').click()
+        page.getByTestId('change-language-button').click()
 
-        await expect(page.getByTitle('English')).toHaveClass(/q-item--active/)
+        await expect(page.getByTestId('change-language__english')).toHaveClass(/q-item--active/)
       })
     })
   })

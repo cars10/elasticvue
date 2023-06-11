@@ -1,5 +1,6 @@
 <template>
-  <q-btn icon="translate" round color="dark-grey" :title="t('app.change_language.title')">
+  <q-btn icon="translate" round color="dark-grey" :title="t('app.change_language.title')"
+         data-testid="change-language-button">
     <q-menu>
       <q-list>
         <q-item v-close-popup
@@ -7,6 +8,7 @@
                 active-class="bg-grey-8"
                 :active="store.language === 'en'"
                 :title="t('app.change_language.languages.en.title')"
+                data-testid="change-language__english"
                 @click="changeLanguage('en')">
           <q-item-section>
             <img :src="en" alt="English" height="16">
@@ -17,6 +19,7 @@
                 active-class="bg-grey-8"
                 :active="store.language === 'cn'"
                 :title="t('app.change_language.languages.cn.title')"
+                data-testid="change-language__chinese"
                 @click="changeLanguage('cn')">
           <q-item-section>
             <img :src="cn" alt="Chinese" height="16">

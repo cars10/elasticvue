@@ -7,6 +7,7 @@
   <q-table flat
            dense
            row-key="index"
+           data-testid="cluster-table"
            :columns="columns"
            :rows="clusters"
            :pagination="{sortBy: 'name'}"

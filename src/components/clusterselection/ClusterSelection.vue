@@ -1,5 +1,5 @@
 <template>
-  <q-btn color="dark-grey" no-caps :title="btnTitle">
+  <q-btn color="dark-grey" no-caps :title="btnTitle" data-testid="cluster-selection">
     <cluster-status-indicator :status="connectionStore.activeCluster.status"
                               :loading="connectionStore.activeCluster.loading" />
 

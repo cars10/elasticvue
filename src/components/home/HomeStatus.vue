@@ -3,7 +3,7 @@
     <div class="col-lg-8 offset-lg-2">
       <div class="row q-col-gutter-lg">
         <div class="col-3">
-          <q-card v-if="data" class="full-height">
+          <q-card v-if="data" class="full-height" data-testid="cluster-status">
             <q-card-section>
               <h3 class="text-h6 q-my-none">{{ data.cluster_name }}</h3>
               <span class="text-muted font-13">{{ data.cluster_uuid }}</span>
@@ -20,7 +20,7 @@
         </div>
 
         <div class="col-3">
-          <q-card v-if="data" class="full-height">
+          <q-card v-if="data" class="full-height" data-testid="cluster-nodes">
             <q-card-section style="position: initial">
               <h3 class="text-h6 q-my-none">
                 <router-link :to="{name: 'nodes'}" class="decoration-none stretched">
@@ -36,7 +36,7 @@
         </div>
 
         <div class="col-3">
-          <q-card v-if="data" class="full-height">
+          <q-card v-if="data" class="full-height" data-testid="cluster-shards">
             <q-card-section style="position: initial">
               <h3 class="text-h6 q-my-none">
                 <router-link :to="{name: 'shards'}" class="decoration-none stretched">
@@ -52,7 +52,7 @@
         </div>
 
         <div class="col-3">
-          <q-card v-if="data" class="full-height">
+          <q-card v-if="data" class="full-height" data-testid="cluster-indices">
             <q-card-section style="position: initial">
               <h3 class="text-h6 q-my-none">
                 <router-link :to="{name: 'indices'}" class="decoration-none stretched">

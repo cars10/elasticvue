@@ -1,5 +1,5 @@
 <template>
-  <q-card>
+  <q-card data-testid="cluster-health">
     <q-card-section>
       <h2 class="text-h5 q-my-none">{{ t('home.cluster_health.heading') }}</h2>
     </q-card-section>
