@@ -19,7 +19,11 @@ test.describe('HomeStatus', () => {
 
     const card = await page.getByTestId('cluster-status')
     await expect(card).toContainText('yellow')
-    await expect(card).toContainText('Details')
+
+    await page.getByTestId('cluster-unhealthy-details').click()
+
+    const list = await page.getByTestId('cluster-unhealthy-indices')
+    await expect(list).toContainText('manymany')
   })
 
   test('node card contains node count', async ({ page }) => {

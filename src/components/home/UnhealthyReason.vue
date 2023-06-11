@@ -1,9 +1,9 @@
 <template>
-  <q-btn dense color="dark-grey">
+  <q-btn dense color="dark-grey" data-testid="cluster-unhealthy-details">
     <q-icon name="help" size="xs" class="q-mr-sm" />
 
     <span>Details</span>
-    <q-menu>
+    <q-menu data-testid="cluster-unhealthy-indices">
       <q-list>
         <template v-if="indices.yellow.length > 0">
           <q-item-label header>Yellow indices</q-item-label>
