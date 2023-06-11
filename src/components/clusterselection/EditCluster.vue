@@ -1,5 +1,5 @@
 <template>
-  <q-btn icon="edit" round flat size="sm" @click.stop="dialog = true" />
+  <q-btn icon="edit" round flat size="sm" data-testid="cluster-edit" @click.stop="dialog = true" />
 
   <q-dialog v-model="dialog">
     <q-card style="min-width: 800px">
@@ -29,6 +29,7 @@
                  color="primary-dark"
                  type="button"
                  class="q-mr-md"
+                 data-testid="cluster-edit-save"
                  @click="saveCluster" />
 
           <q-btn v-close-popup flat :label="t('defaults.close')" />

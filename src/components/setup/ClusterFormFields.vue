@@ -6,6 +6,7 @@
                label="Cluster name"
                autocomplete="off"
                outlined
+               data-testid="cluster-edit-name"
                autofocus />
     </div>
 

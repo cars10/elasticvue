@@ -89,9 +89,9 @@
     },
     "rename_instance": {
       "rename": {
-        "title": "Rename cluster"
+        "title": "Edit cluster"
       },
-      "heading": "Rename elasticsearch instance",
+      "heading": "Edit elasticsearch instance",
       "form": {
         "name": {
           "label": "Cluster name"

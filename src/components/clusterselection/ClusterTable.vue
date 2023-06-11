@@ -1,7 +1,7 @@
 <template>
   <div class="flex justify-between q-pa-sm q-ma-sm">
     <new-cluster />
-    <filter-input v-model="filter" />
+    <filter-input v-model="filter" data-testid="cluster-table-filter" />
   </div>
 
   <q-table flat
@@ -13,7 +13,7 @@
            :pagination="{sortBy: 'name'}"
            :rows-per-page-options="DEFAULT_ROWS_PER_PAGE">
     <template #body="{row}">
-      <tr class="clickable" @click="loadCluster(row.index)">
+      <tr class="clickable" :data-testid="`cluster-table-row-${row.index}`" @click="loadCluster(row.index)">
         <td>
           <div style="flex-shrink: 0" class="flex items-center">
             <svg class="q-mr-sm" height="14" width="14" style="margin-bottom: 6px">
@@ -48,7 +48,8 @@
         <td class="small-wrap">{{ row.version }}</td>
         <td class="small-wrap">
           <edit-cluster :index="row.index" />
-          <q-btn icon="delete" round flat size="sm" @click.stop="removeInstance(row.index)" />
+          <q-btn icon="delete" round flat size="sm" data-testid="cluster-delete"
+                 @click.stop="removeInstance(row.index)" />
         </td>
       </tr>
     </template>
