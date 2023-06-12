@@ -1,5 +1,8 @@
 <template>
   <q-tr class="clickable" @click="openDoc">
+    <td>
+      <slot name="checkbox" />
+    </td>
     <q-td v-for="{field: column} in columns" :key="column">
       <template v-if="column === '_type'">{{ doc[column] || '_doc' }}</template>
       <template v-else-if="doc.hasOwnProperty(column)">{{ renderValue(doc[column]) }}</template>

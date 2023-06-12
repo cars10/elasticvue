@@ -82,6 +82,14 @@
   const { indices } = toRefs(props)
   const emit = defineEmits(['reload'])
 
+  const checkAll = (val: boolean) => {
+    if (val) {
+      selectedItems.value = items.value.map(i => i.index)
+    } else {
+      selectedItems.value = []
+    }
+  }
+
   const {
     indicesStore,
     resizeStore,
@@ -92,7 +100,6 @@
     selectedItems,
     allItemsSelected,
     setIndeterminate,
-    checkAll,
     clearDeletedIndicesAndReload,
     columns
   } = useIndicesTable({ indices, emit })

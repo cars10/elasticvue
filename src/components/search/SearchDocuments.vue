@@ -65,7 +65,7 @@
     </q-card>
 
     <loader-status v-else :request-state="requestState">
-      <search-results-table :results="searchResults" @request="onRequest" />
+      <search-results-table :results="searchResults" @request="onRequest" @reload="search" />
     </loader-status>
   </q-card>
 </template>
@@ -79,6 +79,7 @@
   import SearchResultsTable from './SearchResultsTable.vue'
   import { useSearchDocuments } from '../../composables/components/search/SearchDocuments'
   import { useTranslation } from '../../composables/i18n.ts'
+
   const t = useTranslation()
   const {
     search,

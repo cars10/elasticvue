@@ -40,7 +40,8 @@
     "create": "Create",
     "delete": "Delete",
     "required": "Required",
-    "success": "Success"
+    "success": "Success",
+    "bulk": "Bulk Action"
   },
   "document": {
     "heading": "Show"
@@ -150,9 +151,6 @@
         "reindex": "Reindex"
       }
     },
-    "index_bulk": {
-      "bulk_action": "Bulk action"
-    },
     "index_row": {
       "search": {
         "title": "Search '{index}'"
@@ -190,7 +188,7 @@
         },
         "delete": {
           "text": "Delete index",
-          "confirm": "Delete index {index}? This will remove ALL data in your index!",
+          "confirm": "Delete index '{index}'? This will remove ALL data in your index!",
           "growl": "The index '{index}' cache was successfully deleted."
         }
       }
@@ -457,6 +455,13 @@
         }
       },
       "download_as_json": "Download as json"
+    },
+    "search_results_bulk": {
+      "delete": {
+        "text": "# | Delete document | Delete documents",
+        "confirm": "#  | Are you sure you want to delete this document? | Are you sure you want to delete {count} documents?",
+        "growl": "#  | Document successfully deleted. | Documents successfully deleted."
+      }
     }
   },
   "settings": {

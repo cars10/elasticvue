@@ -150,9 +150,6 @@
         "reindex": null
       }
     },
-    "index_bulk": {
-      "bulk_action": null
-    },
     "index_row": {
       "search": {
         "title": "搜索 '{index}'"
@@ -190,7 +187,7 @@
         },
         "delete": {
           "text": "删除",
-          "confirm": "删除索引 {index}？这将删除索引中的所有数据！",
+          "confirm": "删除索引 '{index}'？这将删除索引中的所有数据！",
           "growl": "索引 '{index}' 缓存已成功删除。"
         }
       }

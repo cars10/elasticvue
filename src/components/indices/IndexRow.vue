@@ -71,58 +71,58 @@
 
             <q-separator />
 
-            <index-row-menu-action method="indexForcemerge"
-                                   :index="index.index"
-                                   :text="t('indices.index_row.options.forcemerge.text')"
-                                   :growl="t('indices.index_row.options.forcemerge.growl', {index: index.index})"
-                                   icon="call_merge"
-                                   @done="remitReloadAndCloseMenu" />
+            <row-menu-action method="indexForcemerge"
+                             :method-params="{ index: props.index.index }"
+                             :text="t('indices.index_row.options.forcemerge.text')"
+                             :growl="t('indices.index_row.options.forcemerge.growl', {index: index.index})"
+                             icon="call_merge"
+                             @done="remitReloadAndCloseMenu" />
 
-            <index-row-menu-action method="indexRefresh"
-                                   :index="index.index"
-                                   :text="t('indices.index_row.options.refresh.text')"
-                                   :growl="t('indices.index_row.options.refresh.growl', {index: index.index})"
-                                   icon="refresh"
-                                   @done="remitReloadAndCloseMenu" />
+            <row-menu-action method="indexRefresh"
+                             :method-params="{ index: props.index.index }"
+                             :text="t('indices.index_row.options.refresh.text')"
+                             :growl="t('indices.index_row.options.refresh.growl', {index: index.index})"
+                             icon="refresh"
+                             @done="remitReloadAndCloseMenu" />
 
-            <index-row-menu-action method="indexFlush"
-                                   :index="index.index"
-                                   :text="t('indices.index_row.options.flush.text')"
-                                   :growl="t('indices.index_row.options.flush.growl', {index: index.index})"
-                                   icon="archive"
-                                   @done="remitReloadAndCloseMenu" />
+            <row-menu-action method="indexFlush"
+                             :method-params="{ index: props.index.index }"
+                             :text="t('indices.index_row.options.flush.text')"
+                             :growl="t('indices.index_row.options.flush.growl', {index: index.index})"
+                             icon="archive"
+                             @done="remitReloadAndCloseMenu" />
 
-            <index-row-menu-action method="indexClearCache"
-                                   :index="index.index"
-                                   :text="t('indices.index_row.options.clear_cache.text')"
-                                   :growl="t('indices.index_row.options.clear_cache.growl', {index: index.index})"
-                                   icon="clear_all"
-                                   @done="remitReloadAndCloseMenu" />
+            <row-menu-action method="indexClearCache"
+                             :method-params="{ index: props.index.index }"
+                             :text="t('indices.index_row.options.clear_cache.text')"
+                             :growl="t('indices.index_row.options.clear_cache.growl', {index: index.index})"
+                             icon="clear_all"
+                             @done="remitReloadAndCloseMenu" />
 
             <q-separator />
 
-            <index-row-menu-action v-if="index.status === 'open'"
-                                   method="indexClose"
-                                   :index="index.index"
-                                   :text="t('indices.index_row.options.close.text')"
-                                   :growl="t('indices.index_row.options.close.growl', {index: index.index})"
-                                   icon="lock"
-                                   @done="remitReloadAndCloseMenu" />
-            <index-row-menu-action v-else
-                                   method="indexOpen"
-                                   :index="index.index"
-                                   :text="t('indices.index_row.options.open.text')"
-                                   :growl="t('indices.index_row.options.open.growl', {index: index.index})"
-                                   icon="lock_open"
-                                   @done="remitReloadAndCloseMenu" />
+            <row-menu-action v-if="index.status === 'open'"
+                             method="indexClose"
+                             :method-params="{ index: props.index.index }"
+                             :text="t('indices.index_row.options.close.text')"
+                             :growl="t('indices.index_row.options.close.growl', {index: index.index})"
+                             icon="lock"
+                             @done="remitReloadAndCloseMenu" />
+            <row-menu-action v-else
+                             method="indexOpen"
+                             :method-params="{ index: props.index.index }"
+                             :text="t('indices.index_row.options.open.text')"
+                             :growl="t('indices.index_row.options.open.growl', {index: index.index})"
+                             icon="lock_open"
+                             @done="remitReloadAndCloseMenu" />
 
-            <index-row-menu-action method="indexDelete"
-                                   :index="index.index"
-                                   :text="t('indices.index_row.options.delete.text')"
-                                   :growl="t('indices.index_row.options.delete.growl', {index: index.index})"
-                                   :confirm="t('indices.index_row.options.delete.confirm', {index: index.index})"
-                                   icon="delete"
-                                   @done="remitReloadAndCloseMenu" />
+            <row-menu-action method="indexDelete"
+                             :method-params="{ index: props.index.index }"
+                             :text="t('indices.index_row.options.delete.text')"
+                             :growl="t('indices.index_row.options.delete.growl', {index: index.index})"
+                             :confirm="t('indices.index_row.options.delete.confirm', {index: index.index})"
+                             icon="delete"
+                             @done="remitReloadAndCloseMenu" />
           </q-list>
         </q-btn-dropdown>
       </q-btn-group>
@@ -133,10 +133,10 @@
 <script setup lang="ts">
   import { toRefs } from 'vue'
   import IndexAliases from './IndexAliases.vue'
-  import IndexRowMenuAction from './IndexRowMenuAction.vue'
   import { useIndexRow } from '../../composables/components/indices/IndexRow'
   import { useTranslation } from '../../composables/i18n'
   import IndexReindex from './IndexReindex.vue'
+  import RowMenuAction from './RowMenuAction.vue'
 
   const t = useTranslation()
   type Index = {

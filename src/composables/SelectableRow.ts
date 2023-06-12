@@ -1,8 +1,9 @@
 import { ref } from 'vue'
+import { Ref } from 'vue'
 
-export const useSelectableRows = data => {
-  const selectedItems = ref([])
-  const allItemsSelected = ref(false)
+export const useSelectableRows = (data: any) => {
+  const selectedItems: Ref<any[]> = ref([])
+  const allItemsSelected: Ref<boolean | null> = ref(false)
 
   const setIndeterminate = () => {
     if (selectedItems.value.length === data.value.length) {
@@ -13,18 +14,10 @@ export const useSelectableRows = data => {
       allItemsSelected.value = false
     }
   }
-  const checkAll = val => {
-    if (val) {
-      selectedItems.value = data.value.map(i => i.index)
-    } else {
-      selectedItems.value = []
-    }
-  }
 
   return {
     selectedItems,
     allItemsSelected,
-    setIndeterminate,
-    checkAll
+    setIndeterminate
   }
 }

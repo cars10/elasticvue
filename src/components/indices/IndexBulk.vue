@@ -1,50 +1,50 @@
 <template>
   <q-btn-dropdown ref="menu"
-                  :label="t('indices.index_bulk.bulk_action')"
+                  :label="t('defaults.bulk')"
                   :disable="selectedIndices.length === 0"
                   color="positive"
                   menu-anchor="top left"
                   menu-self="bottom left">
     <q-list padding dense>
-      <index-row-menu-action method="indexForcemerge"
-                             :index="selectedIndices.join(',')"
-                             :text="t('indices.index_row.options.forcemerge.text')"
-                             icon="call_merge"
-                             @done="emitAndCloseMenu('reload')" />
-      <index-row-menu-action method="indexRefresh"
-                             :index="selectedIndices.join(',')"
-                             :text="t('indices.index_row.options.refresh.text')"
-                             icon="refresh"
-                             @done="emitAndCloseMenu('reload')" />
-      <index-row-menu-action method="indexFlush"
-                             :index="selectedIndices.join(',')"
-                             :text="t('indices.index_row.options.flush.text')"
-                             icon="archive"
-                             @done="emitAndCloseMenu('reload')" />
-      <index-row-menu-action method="indexClearCache"
-                             :index="selectedIndices.join(',')"
-                             :text="t('indices.index_row.options.clear_cache.text')"
-                             icon="clear_all"
-                             @done="emitAndCloseMenu('reload')" />
+      <row-menu-action method="indexForcemerge"
+                       :method-params="{index: selectedIndices.join(',')}"
+                       :text="t('indices.index_row.options.forcemerge.text')"
+                       icon="call_merge"
+                       @done="emitAndCloseMenu('reload')" />
+      <row-menu-action method="indexRefresh"
+                       :method-params="{index: selectedIndices.join(',')}"
+                       :text="t('indices.index_row.options.refresh.text')"
+                       icon="refresh"
+                       @done="emitAndCloseMenu('reload')" />
+      <row-menu-action method="indexFlush"
+                       :method-params="{index: selectedIndices.join(',')}"
+                       :text="t('indices.index_row.options.flush.text')"
+                       icon="archive"
+                       @done="emitAndCloseMenu('reload')" />
+      <row-menu-action method="indexClearCache"
+                       :method-params="{index: selectedIndices.join(',')}"
+                       :text="t('indices.index_row.options.clear_cache.text')"
+                       icon="clear_all"
+                       @done="emitAndCloseMenu('reload')" />
 
       <q-separator />
 
-      <index-row-menu-action method="indexClose"
-                             :index="selectedIndices.join(',')"
-                             :text="t('indices.index_row.options.close.text')"
-                             icon="lock"
-                             @done="emitAndCloseMenu('reload')" />
-      <index-row-menu-action method="indexOpen"
-                             :index="selectedIndices.join(',')"
-                             :text="t('indices.index_row.options.open.text')"
-                             icon="lock_open"
-                             @done="emitAndCloseMenu('reload')" />
-      <index-row-menu-action method="indexDelete"
-                             :confirm="t('indices.index_row.options.delete.confirm', {index: selectedIndices.join(',')})"
-                             :index="selectedIndices.join(',')"
-                             :text="t('indices.index_row.options.delete.text')"
-                             icon="delete"
-                             @done="emitAndCloseMenu('indicesDeleted')" />
+      <row-menu-action method="indexClose"
+                       :method-params="{index: selectedIndices.join(',')}"
+                       :text="t('indices.index_row.options.close.text')"
+                       icon="lock"
+                       @done="emitAndCloseMenu('reload')" />
+      <row-menu-action method="indexOpen"
+                       :method-params="{index: selectedIndices.join(',')}"
+                       :text="t('indices.index_row.options.open.text')"
+                       icon="lock_open"
+                       @done="emitAndCloseMenu('reload')" />
+      <row-menu-action method="indexDelete"
+                       :confirm="t('indices.index_row.options.delete.confirm', {index: selectedIndices.join(',')})"
+                       :method-params="{index: selectedIndices.join(',')}"
+                       :text="t('indices.index_row.options.delete.text')"
+                       icon="delete"
+                       @done="emitAndCloseMenu('indicesDeleted')" />
     </q-list>
   </q-btn-dropdown>
 
@@ -56,9 +56,9 @@
 
 <script setup lang="ts">
   import { Ref, ref } from 'vue'
-  import IndexRowMenuAction from './IndexRowMenuAction.vue'
   import { QMenu } from 'quasar'
   import { useTranslation } from '../../composables/i18n'
+  import RowMenuAction from './RowMenuAction.vue'
 
   const t = useTranslation()
 

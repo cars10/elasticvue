@@ -197,6 +197,14 @@ export default class ElasticsearchAdapter {
     return this.request(`_snapshot/${repository}/${snapshot}`, 'GET')
   }
 
+  docsBulkDelete (documents: any[]) {
+    const body = documents.map(str => {
+      const matches = str.split(/####(.*)####(.*)/)
+      return JSON.stringify({ delete: { _index: matches[0], _id: matches[2] } })
+    }).join('\r\n') + '\r\n'
+    return this.request('_bulk?refresh=true', 'POST', body)
+  }
+
   /*
   bulk ({ body }: { body: object[] }) {
     const data = body.map(d => JSON.stringify(d)).join('\n') + '\n'
@@ -204,7 +212,7 @@ export default class ElasticsearchAdapter {
   }
    */
 
-  request (path: string, method: string, params?: Record<string, any>) {
+  request (path: string, method: string, params?: any) {
     const url = new URL(this.host + path)
 
     if (method === 'GET' && typeof params === 'object') {

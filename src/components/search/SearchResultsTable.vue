@@ -48,21 +48,41 @@
                :rows="hits"
                :rows-per-page-options="rowsPerPage"
                :visible-columns="searchStore.visibleColumns"
+               selection="multiple"
                @request="onRequest">
         <template #body="{row, cols}">
-          <search-result :columns="cols" :doc="row" />
+          <search-result :columns="cols" :doc="row">
+            <template #checkbox>
+              <q-checkbox v-model="selectedItems" :val="genDocStr(row)" size="32px"
+                          @update:model-value="setIndeterminate" />
+            </template>
+          </search-result>
+        </template>
+
+        <template #header-selection>
+          <q-checkbox v-model="allItemsSelected" size="32px" @update:model-value="checkAll" />
         </template>
       </q-table>
     </resizable-container>
   </div>
 
-  <div class="q-pa-md text-right">
-    <download-button color="dark-grey"
-                     :disable="hits.length === 0"
-                     size="12px"
-                     download="search.json"
-                     :label="t('search.results_table.download_as_json')"
-                     :generate-download-data="generateDownloadData" />
+  <div class="flex justify-between">
+    <div class="q-pa-md">
+      <search-results-bulk v-if="hits.length > 0"
+                           :selected="selectedItems"
+                           :total-items-count="hits.length"
+                           :filtered-items-count="hits.length"
+                           @reload="reload" />
+    </div>
+
+    <div class="q-pa-md ">
+      <download-button color="dark-grey"
+                       :disable="hits.length === 0"
+                       size="12px"
+                       download="search.json"
+                       :label="t('search.results_table.download_as_json')"
+                       :generate-download-data="generateDownloadData" />
+    </div>
   </div>
 </template>
 
@@ -79,9 +99,11 @@
   import { sortableField } from '../../helpers/search'
   import DownloadButton from '../shared/DownloadButton.vue'
   import { useTranslation } from '../../composables/i18n.ts'
+  import { useSelectableRows } from '../../composables/SelectableRow.js'
+  import SearchResultsBulk from './SearchResultsBulk.vue'
 
   const props = defineProps<{ results: object }>()
-  const emit = defineEmits(['request'])
+  const emit = defineEmits(['request', 'reload'])
   const hits = ref([])
   const t = useTranslation()
   const resizeStore = useResizeStore()
@@ -90,6 +112,22 @@
   const tableColumns = ref([])
 
   const { callElasticsearch } = useElasticsearchAdapter()
+
+  const { selectedItems, allItemsSelected, setIndeterminate } = useSelectableRows(hits)
+  const checkAll = val => {
+    if (val) {
+      selectedItems.value = hits.value.map(genDocStr)
+    } else {
+      selectedItems.value = []
+    }
+  }
+  const reload = () => {
+    checkAll(false)
+    setIndeterminate()
+    emit('reload')
+  }
+
+  const genDocStr = doc => ([doc._index, doc._type, doc._id].join('####'))
 
   watch(() => props.results, async newValue => {
     if (newValue?.hits?.hits?.length === 0) {
@@ -130,17 +168,9 @@
     hits.value = results.docs
   })
 
-  const onRequest = a => {
-    emit('request', a)
-  }
-
-  const resetColumns = () => {
-    searchStore.visibleColumns = tableColumns.value.map(c => c.name)
-  }
-
-  const generateDownloadData = () => {
-    return JSON.stringify(props.results)
-  }
+  const onRequest = a => (emit('request', a))
+  const resetColumns = () => (searchStore.visibleColumns = tableColumns.value.map(c => c.name))
+  const generateDownloadData = () => (JSON.stringify(props.results))
 
   const rowsPerPage = computed(() => {
     if (searchStore.stickyTableHeader) {
