@@ -18,11 +18,13 @@ export default class SearchResults {
   }
 
   add (result: any) {
-    if (result._source) this.columns = this.columns.concat(Object.keys(result._source))
+    let key = '_source'
+    if (!result._source && result.fields) key = 'fields'
+    if (result[key]) this.columns = this.columns.concat(Object.keys(result[key]))
     this.indices.push(result._index)
 
-    const el = Object.assign({}, result, result._source)
-    delete el._source
+    const el = Object.assign({}, result, result[key])
+    delete el[key]
     this.docs.push(el)
   }
 }

@@ -26,7 +26,7 @@
               </q-item-label>
             </q-item>
 
-            <q-item v-for="col in tableColumns" :key="col.name" style="padding-left: 8px" dense>
+            <q-item v-for="col in slicedTableColumns" :key="col.name" style="padding-left: 8px" dense>
               <q-checkbox v-model="searchStore.visibleColumns" :val="col.name" :label="col.label" size="32px"
                           style="flex-grow: 1" />
             </q-item>
@@ -50,8 +50,8 @@
                :visible-columns="searchStore.visibleColumns"
                selection="multiple"
                @request="onRequest">
-        <template #body="{row, cols}">
-          <search-result :columns="cols" :doc="row">
+        <template #body="{row}">
+          <search-result :columns="slicedTableColumns" :doc="row">
             <template #checkbox>
               <q-checkbox v-model="selectedItems" :val="genDocStr(row)" size="32px"
                           @update:model-value="setIndeterminate" />
@@ -159,6 +159,7 @@
 
       return { label: field, field, name: filterableCol, sortable: !!filterableCol, align: 'left' }
     })
+    tableColumns.value.push({ label: '', name: 'actions' })
 
     const oldColumns = searchStore.columns
     searchStore.columns = tableColumns.value.map(c => c.name)
@@ -167,6 +168,8 @@
 
     hits.value = results.docs
   })
+
+  const slicedTableColumns = computed(() => (tableColumns.value.slice(0, -1)))
 
   const onRequest = a => (emit('request', a))
   const resetColumns = () => (searchStore.visibleColumns = tableColumns.value.map(c => c.name))
