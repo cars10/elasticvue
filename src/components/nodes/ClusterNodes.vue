@@ -61,6 +61,7 @@
   import NodesTable from './NodesTable.vue'
   import { useElasticsearchRequest } from '../../composables/CallElasticsearch'
   import { useTranslation } from '../../composables/i18n'
+
   const t = useTranslation()
   const CAT_METHOD_PARAMS = {
     h: [

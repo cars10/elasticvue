@@ -135,19 +135,18 @@ export function useElasticsearchRequest<T> (method: ElasticsearchMethod, params?
 }
 
 /*
- * Use this when you need to make a call to elasticsearch with changing parameters, e.g. for deleting specific indices
- * or snapshot repositories.
- *
- * @example
- *   const emit = defineEmits(['reload'])
- *   const callDelete = defineElasticsearchRequest({ emit, method: 'snapshotDeleteRepository' })
- *   const deleteRepository = async (name) => {
- *     return callDelete({
- *       confirmMsg: t('repositories.repositories_table.delete_repository.confirm', { name }),
- *       params: { repository: name },
- *       snackbarOptions: { body: t('repositories.repositories_table.delete_repository.growl', { name }) }
- *     })
- *   }
+  Use this when you need to make a call to elasticsearch with changing parameters, e.g. for deleting specific indices
+  or snapshot repositories.
+
+  @example
+    const emit = defineEmits(['reload'])
+    const { run, loading } = defineElasticsearchRequest({ emit, method: 'index' })
+    const deleteRepository = async (name) => {
+      return run({
+        params: { repository: name },
+        snackbarOptions: { body: t('repositories.repositories_table.delete_repository.growl', { name }) }
+      })
+    }
  */
 export const defineElasticsearchRequest = ({ emit, method }: {
   emit?: Function,

@@ -7,10 +7,10 @@
                   menu-self="bottom left">
     <q-list padding dense>
       <row-menu-action method="docsBulkDelete"
-                       :confirm="t('search.search_results_bulk.delete.confirm', selected.length)"
                        :method-params="selected"
+                       :confirm="t('search.search_result.delete.confirm', selected.length)"
                        :text="t('search.search_results_bulk.delete.text', selected.length)"
-                       :growl="t('search.search_results_bulk.delete.growl', selected.length)"
+                       :growl="t('search.search_result.delete.growl', selected.length)"
                        icon="delete"
                        @done="emitAndCloseMenu" />
     </q-list>

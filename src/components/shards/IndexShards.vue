@@ -23,6 +23,7 @@
   import { convertShards } from '../../helpers/shards'
   import ShardsTable from './ShardsTable.vue'
   import { useTranslation } from '../../composables/i18n'
+
   const t = useTranslation()
   const shards = ref({})
 

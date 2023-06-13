@@ -34,7 +34,7 @@ export const useRestoreSnapshot = ({ emit, repository, snapshot }: {
   }
   resetForm()
 
-  const {run, loading} = defineElasticsearchRequest({ emit, method: 'snapshotRestore' })
+  const { run, loading } = defineElasticsearchRequest({ emit, method: 'snapshotRestore' })
   const restoreSnapshot = async () => {
     const success = await run({
       params: {

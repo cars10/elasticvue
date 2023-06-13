@@ -148,11 +148,18 @@ export default class ElasticsearchAdapter {
     return this.request('_nodes', 'GET')
   }
 
+  index ({ index, type, id, params }: { index: string, type: string, id: any, params: any }) {
+    return this.request(`${index}/${type}/${encodeURIComponent(id)}`, 'PUT', params)
+  }
+
   get ({ index, type, id, routing }: { index: string, type: string, id: any, routing: any }) {
-    const docType = type || '_doc'
     const params: IndexGetArgs = {}
     if (routing) params.routing = routing
-    return this.request(`${index}/${docType}/${encodeURIComponent(id)}`, 'GET', params)
+    return this.request(`${index}/${type}/${encodeURIComponent(id)}`, 'GET', params)
+  }
+
+  delete ({ index, type, id }: { index: string, type: string, id: any }) {
+    return this.request(`${index}/${type}/${encodeURIComponent(id)}?refresh=true`, 'DELETE')
   }
 
   search (params: object, searchIndex?: string | string[]) {

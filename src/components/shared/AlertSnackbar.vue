@@ -25,6 +25,7 @@
   import { useSnackbarStore } from '../../store/snackbar'
   import { computed, ref, watch } from 'vue'
   import { useTranslation } from '../../composables/i18n'
+
   const t = useTranslation()
   const store = useSnackbarStore()
 

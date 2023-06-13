@@ -51,7 +51,7 @@
                selection="multiple"
                @request="onRequest">
         <template #body="{row}">
-          <search-result :columns="slicedTableColumns" :doc="row">
+          <search-result :columns="slicedTableColumns" :doc="row" @reload="reload">
             <template #checkbox>
               <q-checkbox v-model="selectedItems" :val="genDocStr(row)" size="32px"
                           @update:model-value="setIndeterminate" />

@@ -440,8 +440,18 @@
         "reset_all": "Reset all"
       }
     },
-    "result": {
-      "show": "Show"
+    "search_result": {
+      "show": {
+        "title": "Show document"
+      },
+      "edit": {
+        "text": "Edit document"
+      },
+      "delete": {
+        "text": "# | Delete document | Delete documents",
+        "confirm": "#  | Are you sure you want to delete this document? | Are you sure you want to delete {count} documents?",
+        "growl": "#  | Document successfully deleted. | Documents successfully deleted."
+      }
     },
     "results_table": {
       "filter": {
@@ -456,11 +466,10 @@
       },
       "download_as_json": "Download as json"
     },
-    "search_results_bulk": {
-      "delete": {
-        "text": "# | Delete document | Delete documents",
-        "confirm": "#  | Are you sure you want to delete this document? | Are you sure you want to delete {count} documents?",
-        "growl": "#  | Document successfully deleted. | Documents successfully deleted."
+    "edit_document": {
+      "update": {
+        "text": "Update document",
+        "growl": "Document updated successfully."
       }
     }
   },

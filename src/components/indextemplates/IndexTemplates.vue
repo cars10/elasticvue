@@ -22,7 +22,7 @@
   import IndexTemplatesTable from './IndexTemplatesTable.vue'
   import { useElasticsearchRequest } from '../../composables/CallElasticsearch'
   import { useTranslation } from '../../composables/i18n.ts'
-  
+
   const t = useTranslation()
 
   const { requestState, data, load } = useElasticsearchRequest<IndexTemplates>('catIndexTemplates')

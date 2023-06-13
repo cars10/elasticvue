@@ -6,7 +6,8 @@ export const useResizeStore = defineStore('resize', {
     modalLoaderCodeViewer: 600,
     restForm: 400,
     searchQuery: 400,
-    searchTable: 500
+    searchTable: 500,
+    documentEdit: 500
   }),
   persist: true
 })

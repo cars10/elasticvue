@@ -20,6 +20,7 @@
   import { useElasticsearchRequest } from '../../composables/CallElasticsearch'
   import SnapshotRepositoriesTable from './SnapshotRepositoriesTable.vue'
   import { useTranslation } from '../../composables/i18n.ts'
+
   const t = useTranslation()
   const { load, requestState, data } = useElasticsearchRequest('catRepositories')
   onMounted(load)

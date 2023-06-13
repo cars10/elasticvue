@@ -80,7 +80,7 @@ export const useSnackbar = () => {
       if (errorMessage && errorMessage.error) {
         snackbarOptions.title += ` - ${errorMessage.error.type}`
         snackbarOptions.body = `Reason: ${errorMessage.error.reason}.`
-2
+        2
         if (errorMessage.error.caused_by?.reason) {
           snackbarOptions.body += ` Caused by: ${errorMessage.error.caused_by.reason}`
         }

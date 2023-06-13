@@ -22,7 +22,7 @@ export const useNewSnapshot = ({ emit, repository }: { emit: any, repository: st
   }
   resetForm()
 
-  const {run, loading} = defineElasticsearchRequest({ emit, method: 'snapshotCreate' })
+  const { run, loading } = defineElasticsearchRequest({ emit, method: 'snapshotCreate' })
   const createSnapshot = async () => {
     const success = await run({
       params: {

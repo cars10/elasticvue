@@ -16,7 +16,7 @@
 
       <q-card-section>
         <p>
-          {{ store.methodParams.index ? store.methodParams.index : store.methodParams }}
+          {{ store.methodParams }}
         </p>
 
         <loader-status :request-state="requestState">
@@ -44,6 +44,7 @@
   import { useResizeStore } from '../../store/resize'
   import { stringifyBigInt } from '../../services/json/stringify'
   import { useTranslation } from '../../composables/i18n'
+
   const t = useTranslation()
   const resizeStore = useResizeStore()
   const { requestState, callElasticsearch } = useElasticsearchAdapter()

@@ -129,7 +129,7 @@
   import LoaderStatus from '../shared/LoaderStatus.vue'
   import { useElasticsearchRequest } from '../../composables/CallElasticsearch'
   import { useTranslation } from '../../composables/i18n.ts'
-  
+
   const t = useTranslation()
 
   const { requestState, data, load } = useElasticsearchRequest<any>('clusterInfo')

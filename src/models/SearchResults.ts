@@ -24,6 +24,7 @@ export default class SearchResults {
     this.indices.push(result._index)
 
     const el = Object.assign({}, result, result[key])
+    if (!el._type) el._type = '_doc'
     delete el[key]
     this.docs.push(el)
   }

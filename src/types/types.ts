@@ -19,7 +19,7 @@ type Index = {
   index: string
 }
 
-type Snapshot ={
+type Snapshot = {
   id: string,
   status: string,
   start_time: string,

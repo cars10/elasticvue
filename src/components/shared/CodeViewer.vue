@@ -35,6 +35,7 @@
   import { useCodeEditorStore } from '../../store/code_editor'
   import CopyButton from './CopyButton.vue'
   import { useTranslation } from '../../composables/i18n'
+
   const t = useTranslation()
   const props = defineProps({
     value: {

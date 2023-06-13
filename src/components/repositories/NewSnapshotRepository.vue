@@ -88,6 +88,7 @@
 <script setup lang="ts">
   import { useNewSnapshotRepository } from '../../composables/components/repositories/NewSnapshotRepository'
   import { useTranslation } from '../../composables/i18n.ts'
+
   const t = useTranslation()
   const emit = defineEmits(['reload'])
   const {

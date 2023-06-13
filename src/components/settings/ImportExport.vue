@@ -66,6 +66,7 @@
   import { useImportExport } from '../../composables/ImportExport'
   import ImportBackupForm from './ImportBackupForm.vue'
   import { useTranslation } from '../../composables/i18n'
+
   const t = useTranslation()
   const { downloadFileName, backupJsonString } = useImportExport()
   const helpCollapsed = ref(false)

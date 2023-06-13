@@ -24,7 +24,7 @@
   import { useTranslation } from '../../composables/i18n.ts'
 
   const t = useTranslation()
-  
+
   const CAT_INDICES_PARAMS = { h: 'index,health,status,uuid,pri,rep,docs.count,store.size', bytes: 'b' }
   const { requestState, data, load } = useElasticsearchRequest('catIndices', CAT_INDICES_PARAMS)
   onMounted(load)
