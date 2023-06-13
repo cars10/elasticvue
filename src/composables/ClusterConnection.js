@@ -43,7 +43,7 @@ export const useClusterConnection = ({ cluster }) => {
       testRequestState.value.error = true
       if (e instanceof TypeError) {
         testRequestState.value.errorMessage = t('mixins.test_connection.cluster_not_reachable')
-      } else {
+      } else if (e.message) {
         testRequestState.value.errorMessage = e.message
       }
     }
