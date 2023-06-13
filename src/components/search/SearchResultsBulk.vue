@@ -9,7 +9,7 @@
       <row-menu-action method="docsBulkDelete"
                        :method-params="selected"
                        :confirm="t('search.search_result.delete.confirm', selected.length)"
-                       :text="t('search.search_results_bulk.delete.text', selected.length)"
+                       :text="t('search.search_result.delete.text', selected.length)"
                        :growl="t('search.search_result.delete.growl', selected.length)"
                        icon="delete"
                        @done="emitAndCloseMenu" />
