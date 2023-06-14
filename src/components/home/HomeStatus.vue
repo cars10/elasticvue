@@ -81,15 +81,17 @@
 
 <script setup lang="ts">
   import { useElasticsearchRequest } from '../../composables/CallElasticsearch'
-  import { onMounted } from 'vue'
+  import { onMounted, onUnmounted } from 'vue'
   import prettyBytes from 'pretty-bytes'
   import ClusterHealth from './ClusterHealth.vue'
   import ClusterInformation from './ClusterInformation.vue'
   import UnhealthyReason from './UnhealthyReason.vue'
 
   const { load, data } = useElasticsearchRequest<any>('clusterStats')
+  let interval
   onMounted(() => {
     load()
-    setInterval(load, 5000)
+    interval = setInterval(load, 5000)
   })
+  onUnmounted(() => (clearInterval(interval)))
 </script>
