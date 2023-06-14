@@ -34,6 +34,7 @@
                class="table-mono"
                flat
                dense
+               data-testid="indices-table"
                row-key="index"
                :virtual-scroll="indicesStore.stickyTableHeader"
                :virtual-scroll-item-size="14"

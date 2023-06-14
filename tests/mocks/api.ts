@@ -70,4 +70,93 @@ export const mockElastic = async (page, status = 'green') => {
     }
     await route.fulfill({ json })
   })
+
+  await page.route('http://localhost:9200/_cat/indices/?h=index%2Chealth%2Cstatus%2Cuuid%2Cpri%2Crep%2Cdocs.count%2Cstore.size&bytes=b', async route => {
+    const json = [
+      {
+        'index': '.geoip_databases',
+        'health': 'green',
+        'status': 'open',
+        'uuid': 'skBa9Dd1RpyXqrwFRSjz8A',
+        'pri': '1',
+        'rep': '1',
+        'docs.count': '42',
+        'store.size': '83786098'
+      },
+      {
+        'index': 'bignumbers',
+        'health': 'green',
+        'status': 'open',
+        'uuid': 'P9LB7HJPQoOIEs_lV9TD-w',
+        'pri': '1',
+        'rep': '1',
+        'docs.count': '1',
+        'store.size': '6789'
+      },
+      {
+        'index': 'manymany',
+        'health': 'yellow',
+        'status': 'open',
+        'uuid': 'geMVtqdZQYO04aguNpL9rQ',
+        'pri': '1',
+        'rep': '5',
+        'docs.count': '0',
+        'store.size': '454'
+      },
+      {
+        'index': 'shakespeare',
+        'health': 'green',
+        'status': 'open',
+        'uuid': 'WHi1Fy44QtS52hj1mrwhqA',
+        'pri': '1',
+        'rep': '1',
+        'docs.count': '178',
+        'store.size': '130546'
+      },
+      {
+        'index': 'many4',
+        'health': 'yellow',
+        'status': 'open',
+        'uuid': 'j9xFtgEZRgChqGXjwpVywQ',
+        'pri': '1',
+        'rep': '4',
+        'docs.count': '0',
+        'store.size': '454'
+      },
+      {
+        'index': 'omdb',
+        'health': 'green',
+        'status': 'open',
+        'uuid': 'g7uJJKtdQTSFCRKP3Glmuw',
+        'pri': '1',
+        'rep': '1',
+        'docs.count': '106',
+        'store.size': '423390'
+      }
+    ]
+    await route.fulfill({ json })
+  })
+
+  await page.route('http://localhost:9200/bignumbers/_alias', async route => {
+    const json = { 'bignumbers': { 'aliases': { 'dirkinator': {} } } }
+    await route.fulfill({ json })
+  })
+
+  await page.route('http://localhost:9200/many4/_alias', async route => {
+    const json = { 'many4': { 'aliases': { 'many4many4': {} } } }
+    await route.fulfill({ json })
+  })
+
+  await page.route('http://localhost:9200/manymany/_alias', async route => {
+    const json = { 'manymany': { 'aliases': {} } }
+    await route.fulfill({ json })
+  })
+  await page.route('http://localhost:9200/omdb/_alias', async route => {
+    const json = { 'manymany': { 'aliases': {} } }
+    await route.fulfill({ json })
+  })
+  await page.route('http://localhost:9200/shakespeare/_alias', async route => {
+    const json = { 'manymany': { 'aliases': {} } }
+    await route.fulfill({ json })
+  })
 }

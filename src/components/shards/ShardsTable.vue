@@ -50,9 +50,9 @@
           <i>unassigned</i>
         </td>
         <td v-for="(col, i) in cols" :key="`${col.name}_unassigned_${i}`"
-              :class="{marked: markedColumnIndex === i}"
-              @mouseover="markColumn(i)"
-              @mouseleave="unmarkColumn">
+            :class="{marked: markedColumnIndex === i}"
+            @mouseover="markColumn(i)"
+            @mouseleave="unmarkColumn">
           <index-shard v-for="(shard, j) in shards.unassignedShards[col.name]"
                        :key="`${col.name}_unassigned_${i}_${j}_shards`" :shard="shard" />
         </td>
@@ -62,10 +62,10 @@
       <tr>
         <td>{{ row }}</td>
         <td v-for="(col, i) in cols"
-              :key="`${col.name}_shards_${i}`"
-              :class="{marked: markedColumnIndex === i}"
-              @mouseover="markColumn(i)"
-              @mouseleave="unmarkColumn">
+            :key="`${col.name}_shards_${i}`"
+            :class="{marked: markedColumnIndex === i}"
+            @mouseover="markColumn(i)"
+            @mouseleave="unmarkColumn">
           <index-shard v-for="(shard, j) in shards.shards?.[row]?.[col.name]"
                        :key="`${col.name}_actual_shard_${i}_${j}`"
                        :shard="shard"

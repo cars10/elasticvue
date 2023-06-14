@@ -13,7 +13,7 @@
         <q-route-tab class="full-height" label="Home" :to="{name: 'home'}" exact />
         <q-route-tab label="Nodes" :to="{name: 'nodes'}" />
         <q-route-tab label="Shards" :to="{name: 'shards'}" />
-        <q-route-tab label="Indices" :to="{name: 'indices'}" />
+        <q-route-tab label="Indices" :to="{name: 'indices'}" data-testid="header-indices" />
         <q-route-tab label="Search" :to="{name: 'search'}" />
         <q-route-tab label="Rest" :to="{name: 'rest'}" />
         <q-route-tab label="Snapshots" :to="{name: 'snapshot_repositories'}" />

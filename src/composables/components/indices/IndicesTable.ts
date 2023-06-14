@@ -44,7 +44,7 @@ export const useIndicesTable = ({ indices, emit }: { indices: any, emit: any }) 
   watch(() => indices.value, filterTable)
   watch(() => indicesStore.stickyTableHeader, () => (tableKey.value += 1))
 
-  const { selectedItems, allItemsSelected, setIndeterminate, checkAll } = useSelectableRows(items)
+  const { selectedItems, allItemsSelected, setIndeterminate } = useSelectableRows(items)
 
   const clearDeletedIndicesAndReload = () => {
     selectedItems.value = []
@@ -75,7 +75,6 @@ export const useIndicesTable = ({ indices, emit }: { indices: any, emit: any }) 
     selectedItems,
     allItemsSelected,
     setIndeterminate,
-    checkAll,
     clearDeletedIndicesAndReload,
     columns
   }
