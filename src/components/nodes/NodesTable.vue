@@ -12,48 +12,48 @@
            :rows-per-page-options="DEFAULT_ROWS_PER_PAGE"
            :pagination="{sortBy: 'name'}">
     <template #body="{row}">
-      <q-tr>
-        <q-td>
+      <tr>
+        <td>
           <node-icons :elasticsearch-node="row" />
-        </q-td>
-        <q-td>{{ row.name }}</q-td>
-        <q-td>{{ row.id }}</q-td>
-        <q-td>{{ row.ip }}</q-td>
-        <q-td>
+        </td>
+        <td>{{ row.name }}</td>
+        <td>{{ row.id }}</td>
+        <td>{{ row.ip }}</td>
+        <td>
           <span v-if="row.master">yes</span>
           <span v-else-if="row.masterEligible">eligible</span>
           <span v-else>no</span>
-        </q-td>
-        <q-td :title="nodeRoleTitle(row.nodeRole)">
+        </td>
+        <td :title="nodeRoleTitle(row.nodeRole)">
           {{ row.nodeRole }}
-        </q-td>
-        <q-td>{{ row.load_1m }} / {{ row.load_5m }} / {{ row.load_15m }}</q-td>
-        <q-td>
+        </td>
+        <td>{{ row.load_1m }} / {{ row.load_5m }} / {{ row.load_15m }}</td>
+        <td>
           {{ row.cpu }}%
           <node-percent-progress :value="row.cpu" class="q-mt-xs" />
-        </q-td>
-        <q-td>
+        </td>
+        <td>
           <div class="flex justify-between">
             <small>{{ row.ramPercent }}%</small>
             <small>{{ row.ramCurrent }}/{{ row.ramMax }}</small>
           </div>
           <node-percent-progress :value="row.ramPercent" class="q-mt-xs" />
-        </q-td>
-        <q-td>
+        </td>
+        <td>
           <div class="flex justify-between">
             <small>{{ row.heapPercent }}%</small>
             <small>{{ row.heapCurrent }}/{{ row.heapMax }}</small>
           </div>
           <node-percent-progress :value="row.heapPercent" class="q-mt-xs" />
-        </q-td>
-        <q-td>
+        </td>
+        <td>
           <div class="flex justify-between">
             <small>{{ row.diskPercent }}%</small>
             <small>{{ row.diskCurrent }}/{{ row.diskMax }}</small>
           </div>
           <node-percent-progress :value="row.diskPercent" class="q-mt-xs" />
-        </q-td>
-      </q-tr>
+        </td>
+      </tr>
     </template>
   </q-table>
 </template>

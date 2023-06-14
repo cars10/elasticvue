@@ -94,7 +94,6 @@
   import SearchResults from '../../models/SearchResults'
   import { useResizeStore } from '../../store/resize'
   import { useSearchStore } from '../../store/search'
-  import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
   import { useElasticsearchAdapter } from '../../composables/CallElasticsearch'
   import { sortableField } from '../../helpers/search'
   import DownloadButton from '../shared/DownloadButton.vue'
@@ -179,7 +178,7 @@
     if (searchStore.stickyTableHeader) {
       return [0]
     } else {
-      return DEFAULT_ROWS_PER_PAGE
+      return [10, 20, 100, 10000]
     }
   })
 </script>

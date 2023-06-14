@@ -1,13 +1,13 @@
 <template>
-  <q-tr class="clickable" @click="openDoc">
+  <tr class="clickable" @click="openDoc">
     <td>
       <slot name="checkbox" />
     </td>
-    <q-td v-for="{field: column} in columns" :key="column">
+    <td v-for="{field: column} in columns" :key="column">
       <template v-if="column === '_type'">{{ doc[column] }}</template>
       <template v-else-if="doc.hasOwnProperty(column)">{{ renderValue(doc[column]) }}</template>
-    </q-td>
-    <q-td>
+    </td>
+    <td>
       <q-btn-group>
         <q-btn :title="t('search.search_result.show.title')" color="dark-grey" icon="info" />
 
@@ -27,8 +27,8 @@
           </q-list>
         </q-btn-dropdown>
       </q-btn-group>
-    </q-td>
-  </q-tr>
+    </td>
+  </tr>
 </template>
 
 <script setup lang="ts">

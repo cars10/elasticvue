@@ -25,7 +25,7 @@
            separator="cell"
            @request="updateTable">
     <template #header="{cols}">
-      <q-tr>
+      <tr>
         <q-th class="small-wrap text-left">Node</q-th>
         <q-th v-for="(col, i) in cols" :key="`${col.name}_header_${i}`"
               class="text-left"
@@ -42,26 +42,26 @@
             {{ shards.indices[col.name].pri }}/{{ shards.indices[col.name].rep }} shards
           </small>
         </q-th>
-      </q-tr>
+      </tr>
     </template>
     <template #top-row="{cols}">
-      <q-tr v-if="shards?.nodes?.length > 0">
-        <q-td class="small-wrap">
+      <tr v-if="shards?.nodes?.length > 0">
+        <td class="small-wrap">
           <i>unassigned</i>
-        </q-td>
-        <q-td v-for="(col, i) in cols" :key="`${col.name}_unassigned_${i}`"
+        </td>
+        <td v-for="(col, i) in cols" :key="`${col.name}_unassigned_${i}`"
               :class="{marked: markedColumnIndex === i}"
               @mouseover="markColumn(i)"
               @mouseleave="unmarkColumn">
           <index-shard v-for="(shard, j) in shards.unassignedShards[col.name]"
                        :key="`${col.name}_unassigned_${i}_${j}_shards`" :shard="shard" />
-        </q-td>
-      </q-tr>
+        </td>
+      </tr>
     </template>
     <template #body="{row, cols}">
-      <q-tr>
-        <q-td>{{ row }}</q-td>
-        <q-td v-for="(col, i) in cols"
+      <tr>
+        <td>{{ row }}</td>
+        <td v-for="(col, i) in cols"
               :key="`${col.name}_shards_${i}`"
               :class="{marked: markedColumnIndex === i}"
               @mouseover="markColumn(i)"
@@ -76,8 +76,8 @@
           <div v-if="currentReroutingShard.index === col.name && currentReroutingShard.node !== row">
             <button class="shard-reroute-target" @click="reroute(currentReroutingShard, row)" />
           </div>
-        </q-td>
-      </q-tr>
+        </td>
+      </tr>
     </template>
   </q-table>
 </template>

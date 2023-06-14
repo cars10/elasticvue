@@ -1,11 +1,11 @@
 <template>
-  <q-tr>
-    <q-td>{{ snapshot.id }}</q-td>
-    <q-td>{{ snapshot.status }}</q-td>
-    <q-td>{{ snapshot.start_time }} ({{ snapshot.start_epoch }})</q-td>
-    <q-td>{{ snapshot.end_time }} ({{ snapshot.end_epoch }})</q-td>
-    <q-td>{{ snapshot.duration }}</q-td>
-    <q-td>
+  <tr>
+    <td>{{ snapshot.id }}</td>
+    <td>{{ snapshot.status }}</td>
+    <td>{{ snapshot.start_time }} ({{ snapshot.start_epoch }})</td>
+    <td>{{ snapshot.end_time }} ({{ snapshot.end_epoch }})</td>
+    <td>{{ snapshot.duration }}</td>
+    <td>
       <q-btn :label="t('snapshots.snapshot.indices', {count: snapshot.indices})"
              dense
              no-caps
@@ -18,17 +18,17 @@
           </div>
         </q-menu>
       </q-btn>
-    </q-td>
-    <q-td>{{ snapshot.successful_shards }}</q-td>
-    <q-td>{{ snapshot.failed_shards }}</q-td>
-    <q-td>{{ snapshot.total_shards }}</q-td>
-    <q-td>
+    </td>
+    <td>{{ snapshot.successful_shards }}</td>
+    <td>{{ snapshot.failed_shards }}</td>
+    <td>{{ snapshot.total_shards }}</td>
+    <td>
       <q-btn-group>
         <restore-snapshot :snapshot="snapshot.id" :repository="repository" />
         <q-btn icon="delete" color="dark-grey" @click="deleteSnapshot" />
       </q-btn-group>
-    </q-td>
-  </q-tr>
+    </td>
+  </tr>
 </template>
 
 <script setup lang="ts">

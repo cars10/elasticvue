@@ -13,11 +13,11 @@
            :rows-per-page-options="DEFAULT_ROWS_PER_PAGE"
            :pagination="{sortBy: 'name'}">
     <template #body="{row}">
-      <q-tr class="clickable" @click="openSnapshots(row.name)">
-        <q-td>{{ row.name }}</q-td>
-        <q-td>{{ row.type }}</q-td>
-        <q-td :title="JSON.stringify(row.settings, null, '\t')">{{ row.settings }}</q-td>
-        <q-td>
+      <tr class="clickable" @click="openSnapshots(row.name)">
+        <td>{{ row.name }}</td>
+        <td>{{ row.type }}</td>
+        <td :title="JSON.stringify(row.settings, null, '\t')">{{ row.settings }}</td>
+        <td>
           <q-btn-group>
             <q-btn label="Snapshots"
                    icon="settings_backup_restore"
@@ -25,8 +25,8 @@
                    @click.stop="openSnapshots(row.name)" />
             <q-btn icon="delete" color="dark-grey" @click.stop="deleteRepository(row.name)" />
           </q-btn-group>
-        </q-td>
-      </q-tr>
+        </td>
+      </tr>
     </template>
   </q-table>
 </template>
