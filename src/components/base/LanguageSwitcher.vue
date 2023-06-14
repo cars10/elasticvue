@@ -1,5 +1,5 @@
 <template>
-  <q-btn icon="translate" round color="dark-grey" :title="t('app.change_language.title')"
+  <q-btn icon="translate" round color="dark-grey" :title="t('base.language_switcher.title')"
          data-testid="change-language-button">
     <q-menu>
       <q-list>
@@ -7,7 +7,7 @@
                 clickable
                 active-class="bg-grey-8"
                 :active="store.language === 'en'"
-                :title="t('app.change_language.languages.en.title')"
+                :title="t('base.language_switcher.languages.en.title')"
                 data-testid="change-language__english"
                 @click="changeLanguage('en')">
           <q-item-section>
@@ -18,7 +18,7 @@
                 clickable
                 active-class="bg-grey-8"
                 :active="store.language === 'cn'"
-                :title="t('app.change_language.languages.cn.title')"
+                :title="t('base.language_switcher.languages.cn.title')"
                 data-testid="change-language__chinese"
                 @click="changeLanguage('cn')">
           <q-item-section>

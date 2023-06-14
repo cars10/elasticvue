@@ -11,7 +11,7 @@
           Elasticvue {{ version }} |
           <a href="https://github.com/cars10/elasticvue/blob/master/CHANGELOG.md" rel="nofollow" target="_blank"
              class="decoration-none">
-            {{ t('app.footer.changelog') }}
+            {{ t('base.app_footer.changelog') }}
           </a>
         </div>
         &copy;{{ new Date().getFullYear() }} - Carsten K&ouml;nig<br>
@@ -20,7 +20,7 @@
       <div class="col-md-4 text-right">
         <a href="https://github.com/cars10/elasticvue" rel="nofollow" target="_blank" class="decoration-none">Github</a><br>
         <a href="https://elasticvue.com" rel="nofollow" target="_blank"
-           class="decoration-none">{{ t('app.footer.homepage') }}</a>
+           class="decoration-none">{{ t('base.app_footer.homepage') }}</a>
       </div>
     </div>
   </q-footer>

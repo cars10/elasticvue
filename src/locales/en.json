@@ -1,6 +1,10 @@
 {
-  "app": {
-    "header": {
+  "base": {
+    "app_footer": {
+      "homepage": "Homepage",
+      "changelog": "Changelog"
+    },
+    "app_header": {
       "navigation": {
         "home": "Home",
         "nodes": "Nodes",
@@ -12,11 +16,7 @@
         "repositories": "Repositories"
       }
     },
-    "footer": {
-      "homepage": "Homepage",
-      "changelog": "Changelog"
-    },
-    "change_language": {
+    "language_switcher": {
       "title": "Change language",
       "languages": {
         "en": {
@@ -27,7 +27,7 @@
         }
       }
     },
-    "change_theme": {
+    "theme_switcher": {
       "title": "Change theme"
     }
   },

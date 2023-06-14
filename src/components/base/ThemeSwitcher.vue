@@ -3,7 +3,7 @@
          :icon="icon"
          class="q-mr-md"
          color="dark-grey"
-         :title="t('app.change_theme.title')"
+         :title="t('base.theme_switcher.title')"
          data-testid="change-theme-button"
          @click="store.toggleTheme" />
 </template>

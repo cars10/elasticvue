@@ -10,13 +10,13 @@
       </q-toolbar-title>
 
       <q-tabs stretch>
-        <q-route-tab class="full-height" label="Home" :to="{name: 'home'}" exact />
-        <q-route-tab label="Nodes" :to="{name: 'nodes'}" />
-        <q-route-tab label="Shards" :to="{name: 'shards'}" />
-        <q-route-tab label="Indices" :to="{name: 'indices'}" data-testid="header-indices" />
-        <q-route-tab label="Search" :to="{name: 'search'}" />
-        <q-route-tab label="Rest" :to="{name: 'rest'}" />
-        <q-route-tab label="Snapshots" :to="{name: 'snapshot_repositories'}" />
+        <q-route-tab class="full-height" :label="t('base.app_header.navigation.home')" :to="{name: 'home'}" exact />
+        <q-route-tab :label="t('base.app_header.navigation.nodes')" :to="{name: 'nodes'}" />
+        <q-route-tab :label="t('base.app_header.navigation.shards')" :to="{name: 'shards'}" />
+        <q-route-tab :label="t('base.app_header.navigation.indices')" :to="{name: 'indices'}" data-testid="header-indices" />
+        <q-route-tab :label="t('base.app_header.navigation.search')" :to="{name: 'search'}" />
+        <q-route-tab :label="t('base.app_header.navigation.rest')" :to="{name: 'rest'}" />
+        <q-route-tab :label="t('base.app_header.navigation.snapshots')" :to="{name: 'snapshot_repositories'}" />
         <q-route-tab icon="settings" :to="{name: 'settings'}" />
       </q-tabs>
     </q-toolbar>
@@ -26,6 +26,8 @@
 <script setup lang="ts">
   import { useLogo } from '../../composables/Logo'
   import ClusterSelection from '../clusterselection/ClusterSelection.vue'
+  import { useTranslation } from '../../composables/i18n.ts'
 
+  const t = useTranslation()
   const logo = useLogo()
 </script>
