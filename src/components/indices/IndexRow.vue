@@ -18,7 +18,7 @@
     <td>{{ index.status }}</td>
     <td>{{ index.uuid }}</td>
     <td :title="aliases.join('\n')">
-      <q-circular-progress v-if="requestState.loading" indeterminate rounded color="primary" />
+      <q-circular-progress v-if="loading" indeterminate rounded color="primary" />
       <template v-else>
         [
         <span v-for="(alias, i) in aliases" :key="`${index}-alias-${alias}`">
@@ -131,7 +131,6 @@
 </template>
 
 <script setup lang="ts">
-  import { toRefs } from 'vue'
   import IndexAliases from './IndexAliases.vue'
   import { useIndexRow } from '../../composables/components/indices/IndexRow'
   import { useTranslation } from '../../composables/i18n'
@@ -150,11 +149,10 @@
     humanStoreSize: string
   }
   const props = defineProps<{ index: Index }>()
-  const { index } = toRefs(props)
   const emit = defineEmits(['reload'])
 
-  const { menu, aliases, openModalWith, requestState, remitReloadAndCloseMenu, showDocuments } = useIndexRow({
-    index: index.value.index,
+  const { menu, aliases, openModalWith, loading, remitReloadAndCloseMenu, showDocuments } = useIndexRow({
+    props,
     emit
   })
 </script>

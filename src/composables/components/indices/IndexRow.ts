@@ -1,6 +1,6 @@
 import { onMounted, Ref, ref, watch } from 'vue'
 import { useModal } from '../../Modal'
-import { useElasticsearchRequest } from '../../CallElasticsearch'
+import { useElasticsearchAdapter } from '../../CallElasticsearch'
 import { QMenu } from 'quasar'
 import { useRouter } from 'vue-router'
 import { useSearchStore } from '../../../store/search'
@@ -12,25 +12,34 @@ type Aliases = {
 
 type IndexAliases = Record<string, Aliases>
 
-export const useIndexRow = ({ index, emit }: { index: string, emit: any }) => {
+export const useIndexRow = ({ props, emit }: { props: any, emit: any }) => {
   const menu: Ref<QMenu | null> = ref(null)
   const aliases: Ref<string[]> = ref([])
 
   const { openModalWith } = useModal()
-  const { requestState, data, load } = useElasticsearchRequest<IndexAliases>('indexGetAlias', { index: index })
-  const loadAliases = () => {
-    load().then(() => {
+  const loadAliases = (index: string) => {
+    load(index).then(() => {
       if (!data.value) return
 
-      if (!data.value[index] || !data.value[index].aliases) {
+      if (!data.value[props.index.index] || !data.value[props.index.index].aliases) {
         aliases.value = []
       } else {
-        aliases.value = Object.keys(data.value[index].aliases).sort()
+        aliases.value = Object.keys(data.value[props.index.index].aliases).sort()
       }
     })
   }
-  onMounted(loadAliases)
-  watch(() => index, loadAliases)
+
+  const { loading, callElasticsearch } = useElasticsearchAdapter()
+  const data: Ref<IndexAliases | null> = ref(null)
+
+  const load = (index: string) => {
+    return callElasticsearch('indexGetAlias', { index })
+        .then(body => (data.value = body))
+        .catch(() => (data.value = null))
+  }
+
+  onMounted(() => (loadAliases(props.index.index)))
+  watch(() => props.index, (newValue) => loadAliases(newValue.index))
 
   const remitReloadAndCloseMenu = () => {
     emit('reload')
@@ -51,7 +60,7 @@ export const useIndexRow = ({ index, emit }: { index: string, emit: any }) => {
     menu,
     aliases,
     openModalWith,
-    requestState,
+    loading,
     remitReloadAndCloseMenu,
     showDocuments
   }
