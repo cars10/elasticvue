@@ -1,11 +1,12 @@
 <template>
-  <q-btn icon="edit" round flat size="sm" data-testid="cluster-edit" @click.stop="dialog = true" />
+  <q-btn icon="edit" round flat size="sm" data-testid="cluster-edit" @click.stop="dialog = true"
+         :title="t('cluster_selection.edit_cluster.edit.title')" />
 
   <q-dialog v-model="dialog">
     <q-card style="min-width: 800px">
       <q-card-section class="flex justify-between">
         <h2 class="text-h6 q-my-none">
-          {{ t('elasticsearch_instance.rename_instance.heading') }}
+          {{ t('cluster_selection.edit_cluster.heading') }}
         </h2>
 
         <q-btn v-close-popup icon="close" flat round dense />

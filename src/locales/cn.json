@@ -40,13 +40,14 @@
     "create": "创建",
     "delete": "删除",
     "required": "必需",
-    "success": "成功"
+    "success": "成功",
+    "copy":  null
   },
   "document": {
     "heading": "查看"
   },
-  "elasticsearch_instance": {
-    "instance_selection": {
+  "cluster_selection": {
+    "cluster_selection": {
       "connected_info": {
         "title": "连接至 '{activeInstanceName}' ({activeInstanceUri})"
       }
@@ -59,48 +60,20 @@
       },
       "row": {
         "title": "连接到集群 '{uri}'",
-        "cluster_health": {
-          "title": "集群健康状态：{status}"
-        },
-        "copy_uri": null,
         "remove_cluster": {
-          "title": "移除集群",
           "confirm": "移除集群 '{name}' ({uri})?"
         }
       }
     },
-    "new_instance": {
-      "add_cluster": "添加集群",
-      "heading": "添加Elasticsearch实例",
-      "configure": {
-        "heading": "1. 配置",
-        "show_help": "查看帮助"
-      },
-      "connect": {
-        "heading": "2. 连接",
-        "form": {
-          "name": {
-            "label": "集群名称"
-          },
-          "test_connection": "测试连接",
-          "connect": "连接"
-        }
-      }
-    },
-    "rename_instance": {
-      "rename": {
+    "edit_cluster": {
+      "edit": {
         "title": "重命名集群"
       },
-      "heading": "重命名Elasticsearch实例",
-      "form": {
-        "name": {
-          "label": "集群名称"
-        },
-        "uri": {
-          "label": "地址"
-        },
-        "rename": "重命名"
-      }
+      "heading": "重命名Elasticsearch实例"
+    },
+    "new_cluster": {
+      "add_cluster": "添加集群",
+      "heading": "添加Elasticsearch实例"
     }
   },
   "helpers": {

@@ -28,7 +28,7 @@
   const menuOpen = ref(false)
 
   const btnTitle = computed(() => {
-    return t('elasticsearch_instance.instance_selection.connected_info.title', {
+    return t('cluster_selection.cluster_selection.connected_info.title', {
       activeInstanceName: connectionStore.activeCluster?.name,
       activeInstanceUri: connectionStore.activeCluster?.uri
     })

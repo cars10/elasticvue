@@ -1,11 +1,13 @@
 <template>
-  <q-btn :icon="icon" @click.prevent.stop="copy" />
+  <q-btn :icon="icon" :title="t('defaults.copy')" @click.prevent.stop="copy" />
 </template>
 
 <script setup>
   import { ref } from 'vue'
   import { writeToClipboard } from '../../helpers/clipboard'
+  import { useTranslation } from '../../composables/i18n'
 
+  const t = useTranslation()
   const props = defineProps({
     value: {
       default: '',

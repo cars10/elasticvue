@@ -1,10 +1,10 @@
 <template>
-  <q-btn :label="t('elasticsearch_instance.new_instance.add_cluster')" color="primary-dark" @click="dialog = true" />
+  <q-btn :label="t('cluster_selection.new_cluster.add_cluster')" color="primary-dark" @click="dialog = true" />
 
   <q-dialog v-model="dialog">
     <q-card style="min-width: 800px">
       <q-card-section class="flex justify-between">
-        <h2 class="text-h6 q-my-none">{{ t('elasticsearch_instance.new_instance.heading') }}</h2>
+        <h2 class="text-h6 q-my-none">{{ t('cluster_selection.new_cluster.heading') }}</h2>
         <q-btn v-close-popup icon="close" flat round dense />
       </q-card-section>
 

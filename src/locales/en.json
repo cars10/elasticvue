@@ -41,18 +41,19 @@
     "delete": "Delete",
     "required": "Required",
     "success": "Success",
-    "bulk": "Bulk Action"
+    "bulk": "Bulk Action",
+    "copy":  "Copy"
   },
   "document": {
     "heading": "Show"
   },
-  "elasticsearch_instance": {
-    "instance_selection": {
+  "cluster_selection": {
+    "cluster_selection": {
       "connected_info": {
         "title": "Connected to '{activeInstanceName}' ({activeInstanceUri})"
       }
     },
-    "instances_table": {
+    "cluster_table": {
       "headers": {
         "cluster": "Cluster",
         "uri": "Uri",
@@ -60,48 +61,20 @@
       },
       "row": {
         "title": "Connect to cluster at '{uri}'",
-        "cluster_health": {
-          "title": "Cluster health: {status}"
-        },
-        "copy_uri": "Copy uri to clipboard",
         "remove_cluster": {
-          "title": "Remove cluster",
           "confirm": "Remove cluster '{name}' ({uri})?"
         }
       }
     },
-    "new_instance": {
-      "add_cluster": "Add cluster",
-      "heading": "Add elasticsearch instance",
-      "configure": {
-        "heading": "1. Configure",
-        "show_help": "show help"
-      },
-      "connect": {
-        "heading": "2. Connect",
-        "form": {
-          "name": {
-            "label": "Cluster name"
-          },
-          "test_connection": "Test connection",
-          "connect": "Connect"
-        }
-      }
-    },
-    "rename_instance": {
-      "rename": {
+    "edit_cluster": {
+      "edit": {
         "title": "Edit cluster"
       },
-      "heading": "Edit elasticsearch instance",
-      "form": {
-        "name": {
-          "label": "Cluster name"
-        },
-        "uri": {
-          "label": "Uri"
-        },
-        "rename": "Rename"
-      }
+      "heading": "Edit cluster"
+    },
+    "new_cluster": {
+      "add_cluster": "Add cluster",
+      "heading": "Add elasticsearch cluster"
     }
   },
   "helpers": {

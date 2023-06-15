@@ -26,7 +26,7 @@ export const useClusterTable = () => {
 
   const removeInstance = async (index: number) => {
     const cluster = connectionStore.clusters[index]
-    const confirmed = await askConfirm(t('elasticsearch_instance.instances_table.row.remove_cluster.confirm',
+    const confirmed = await askConfirm(t('cluster_selection.cluster_table.row.remove_cluster.confirm',
         { name: cluster.name, uri: cluster.uri }))
     if (!confirmed) return
 
@@ -36,9 +36,9 @@ export const useClusterTable = () => {
 
   const loadCluster = (index: number) => (reloadHomePage(router, index))
   const columns = genColumns([
-    { label: t('elasticsearch_instance.instances_table.headers.cluster'), field: 'name' },
-    { label: t('elasticsearch_instance.instances_table.headers.uri') },
-    { label: t('elasticsearch_instance.instances_table.headers.version'), field: 'version' },
+    { label: t('cluster_selection.cluster_table.headers.cluster'), field: 'name' },
+    { label: t('cluster_selection.cluster_table.headers.uri') },
+    { label: t('cluster_selection.cluster_table.headers.version'), field: 'version' },
     { label: '' }
   ])
 

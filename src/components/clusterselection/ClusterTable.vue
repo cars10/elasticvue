@@ -13,12 +13,12 @@
            :pagination="{sortBy: 'name'}"
            :rows-per-page-options="DEFAULT_ROWS_PER_PAGE">
     <template #body="{row}">
-      <tr class="clickable" :data-testid="`cluster-table-row-${row.index}`" @click="loadCluster(row.index)">
+      <tr class="clickable" :data-testid="`cluster-table-row-${row.index}`"
+          :title="t('cluster_selection.cluster_table.row.title', {uri: row.uri})"
+          @click="loadCluster(row.index)">
         <td>
           <div style="flex-shrink: 0" class="flex items-center">
-            <svg class="q-mr-sm" height="14" width="14" style="margin-bottom: 6px">
-              <circle :class="`health--${row.status}`" cx="7" cy="9" r="5" />
-            </svg>
+            <cluster-status-indicator :status="row.status" />
 
             <div>
               <div class="ellipsis" style="max-width: 300px;">
@@ -49,7 +49,7 @@
         <td class="small-wrap">
           <edit-cluster :index="row.index" />
           <q-btn icon="delete" round flat size="sm" data-testid="cluster-delete"
-                 @click.stop="removeInstance(row.index)" />
+                 :title="t('defaults.delete')" @click.stop="removeInstance(row.index)" />
         </td>
       </tr>
     </template>
@@ -64,7 +64,10 @@
   import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
   import { useClusterTable } from '../../composables/components/clusterselection/ClusterTable'
   import { useConnectionStore } from '../../store/connection'
+  import { useTranslation } from '../../composables/i18n.ts'
+  import ClusterStatusIndicator from './ClusterStatusIndicator.vue'
 
+  const t = useTranslation()
   const connectionStore = useConnectionStore()
   const { filter, clusters, removeInstance, loadCluster, columns } = useClusterTable()
 </script>
