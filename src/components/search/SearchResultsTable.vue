@@ -38,7 +38,8 @@
 
   <div :class="{'table--sticky-header': searchStore.stickyTableHeader}">
     <resizable-container v-model="resizeStore.searchTable" :active="searchStore.stickyTableHeader">
-      <q-table v-model:pagination="searchStore.pagination"
+      <q-table v-if="hits.length > 0"
+               v-model:pagination="searchStore.pagination"
                class="table-mono"
                flat
                dense
@@ -63,6 +64,7 @@
           <q-checkbox v-model="allItemsSelected" size="32px" @update:model-value="checkAll" />
         </template>
       </q-table>
+      <div v-else class="q-ma-md text-center">No Results</div>
     </resizable-container>
   </div>
 

@@ -70,7 +70,7 @@ export function useElasticsearchAdapter () {
             loading: false,
             networkError: false,
             apiError: true,
-            apiErrorMessage: JSON.stringify(errorJson),
+            apiErrorMessage: elasticsearchError(errorJson),
             status: errorResponse.status
           }
 
@@ -105,6 +105,15 @@ export function useElasticsearchAdapter () {
     requestState,
     loading: computed(() => requestState.value.loading),
     callElasticsearch
+  }
+}
+
+const elasticsearchError = (error: any) => {
+  switch (error.error?.type) {
+    case 'index_not_found_exception':
+      return 'Index not found'
+    default:
+      return JSON.stringify(error)
   }
 }
 
