@@ -40,7 +40,7 @@
             <q-card-section style="position: initial">
               <h3 class="text-h6 q-my-none">
                 <router-link :to="{name: 'shards'}" class="decoration-none stretched">
-                  <span class="text-h3">{{ data.indices.shards.total }}</span> shards
+                  <span class="text-h3">{{ data.indices?.shards?.total || 0 }}</span> shards
                 </router-link>
               </h3>
             </q-card-section>
