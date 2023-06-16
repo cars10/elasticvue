@@ -1,6 +1,6 @@
 <template>
-  <q-btn icon="edit" round flat size="sm" data-testid="cluster-edit" @click.stop="dialog = true"
-         :title="t('cluster_selection.edit_cluster.edit.title')" />
+  <q-btn icon="edit" round flat size="sm" data-testid="cluster-edit" :title="t('cluster_selection.edit_cluster.edit.title')"
+         @click.stop="dialog = true" />
 
   <q-dialog v-model="dialog">
     <q-card style="min-width: 800px">
