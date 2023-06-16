@@ -58,9 +58,9 @@
   </q-table>
 </template>
 
-<script setup>
+<script setup lang="ts">
   import { computed, ref } from 'vue'
-  import ElasticsearchNode from '../../models/ElasticsearchNode'
+  import ElasticsearchNode from '../../models/ElasticsearchNode.js'
   import NodeIcons from './NodeIcons.vue'
   import NodePercentProgress from './NodePercentProgress.vue'
   import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
@@ -68,33 +68,29 @@
   import { nodeRoleTitle } from '../../helpers/nodes'
   import { filterItems } from '../../helpers/filters'
   import FilterInput from '../shared/FilterInput.vue'
+import { genColumns } from '../../helpers/tableColumns'
 
   const t = useTranslation()
 
-  const props = defineProps({
-    nodes: {
-      type: Array,
-      default: () => ([])
-    }
-  })
+  const props = defineProps<{nodes: any[]}>()
 
   const filter = ref('')
   const items = computed(() => {
-    const results = filterItems(props.nodes, filter.value, ['name', 'ip'])
+    const results = filterItems<ElasticNode>(props.nodes, filter.value, ['name', 'ip'])
     return results.map(r => new ElasticsearchNode(r))
   })
 
-  const columns = [
+  const columns = genColumns([
     { label: t('nodes.node_properties.status'), field: '', align: 'left' },
-    { label: t('nodes.node_properties.name'), field: 'name', name: 'name', sortable: true, align: 'left' },
-    { label: t('nodes.node_properties.id'), field: 'ip', align: 'left' },
-    { label: t('nodes.node_properties.ip'), field: 'ip', sortable: true, align: 'left' },
-    { label: t('nodes.node_properties.master'), field: 'master', sortable: true, align: 'left' },
-    { label: t('nodes.node_properties.node_role'), field: 'nodeRole', sortable: true, align: 'left' },
-    { label: t('nodes.node_properties.load'), field: 'load_1m', sortable: true, align: 'left' },
-    { label: t('nodes.node_properties.cpu'), field: 'cpu', sortable: true, align: 'left' },
-    { label: t('nodes.node_properties.ram'), field: 'ramPercent', sortable: true, align: 'left' },
-    { label: t('nodes.node_properties.heap'), field: 'heapPercent', sortable: true, align: 'left' },
-    { label: t('nodes.node_properties.disk'), field: 'diskPercent', sortable: true, align: 'left' }
-  ]
+    { label: t('nodes.node_properties.name'), field: 'name', align: 'left' },
+    { label: t('nodes.node_properties.id'), field: 'id', align: 'left' },
+    { label: t('nodes.node_properties.ip'), field: 'ip', align: 'left' },
+    { label: t('nodes.node_properties.master'), field: 'master', align: 'left' },
+    { label: t('nodes.node_properties.node_role'), field: 'nodeRole', align: 'left' },
+    { label: t('nodes.node_properties.load'), field: 'load_1m', align: 'left' },
+    { label: t('nodes.node_properties.cpu'), field: 'cpu', align: 'left' },
+    { label: t('nodes.node_properties.ram'), field: 'ramPercent', align: 'left' },
+    { label: t('nodes.node_properties.heap'), field: 'heapPercent', align: 'left' },
+    { label: t('nodes.node_properties.disk'), field: 'diskPercent', align: 'left' }
+  ])
 </script>

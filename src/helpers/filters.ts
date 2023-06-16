@@ -1,4 +1,6 @@
-export function filterItems (items: Record<string, any>[], searchQuery: string, headerNames: string[]): object[] {
+type Filterable = Record<string, any>
+
+export function filterItems<T extends Filterable>(items: T[], searchQuery: string, headerNames: string[]): T[] {
   const search = searchQuery.toString().slice().toLowerCase().trim()
   if (search.length === 0) return items
 

@@ -54,7 +54,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
   import { onMounted } from 'vue'
   import ReloadButton from '../shared/ReloadButton.vue'
   import LoaderStatus from '../shared/LoaderStatus.vue'
@@ -87,6 +87,6 @@
     full_id: true
   }
 
-  const { load, requestState, data } = useElasticsearchRequest('catNodes', CAT_METHOD_PARAMS)
+  const { load, requestState, data } = useElasticsearchRequest<ElasticNode[]>('catNodes', CAT_METHOD_PARAMS)
   onMounted(load)
 </script>
