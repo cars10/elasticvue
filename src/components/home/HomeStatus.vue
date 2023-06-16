@@ -88,7 +88,7 @@
   import UnhealthyReason from './UnhealthyReason.vue'
 
   const { load, data } = useElasticsearchRequest<any>('clusterStats')
-  let interval
+  let interval: NodeJS.Timeout
   onMounted(() => {
     load()
     interval = setInterval(load, 5000)

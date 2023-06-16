@@ -27,11 +27,7 @@
   import SnapshotRow from './SnapshotRow.vue'
   import NewSnapshot from './NewSnapshot.vue'
 
-  withDefaults(defineProps<{ snapshots: object, repository: string }>(), {
-    snapshots: () => {
-      return []
-    }
-  })
+  defineProps<{ snapshots: any[], repository: string }>()
   const emit = defineEmits(['reload'])
 
   const t = useTranslation()

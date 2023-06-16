@@ -98,7 +98,7 @@
   }
 
   watch(ownRequest.value, value => (updateTab(value)))
-  const updateTab = debounce((value) => {
+  const updateTab = debounce((value: string) => {
     const obj = Object.assign({}, toRaw(props.tab), { request: toRaw(value) })
     restQueryTabs.update(obj)
   }, 200)

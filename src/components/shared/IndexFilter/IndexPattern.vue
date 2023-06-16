@@ -10,7 +10,7 @@
         <q-btn :label="hint" flat class="q-py-none q-px-xs" size="sm" no-caps>
           <q-menu>
             <div class="q-pa-sm">
-              <div v-for="index in indexNames" :key="index">
+              <div v-for="index in indexNames" :key="index as string">
                 <span class="font-13">{{ index }}</span>
               </div>
             </div>
@@ -22,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, onMounted, ref, watch } from 'vue'
+  import { Ref, computed, onMounted, ref, watch } from 'vue'
   import { useTranslation } from '../../../composables/i18n'
   import { useElasticsearchAdapter } from '../../../composables/CallElasticsearch'
 
@@ -30,7 +30,7 @@
 
   const props = defineProps<{ modelValue: string }>()
   const emit = defineEmits(['update:modelValue'])
-  const indices = ref([])
+  const indices: Ref<Index[]> = ref([])
   const localValue = ref(props.modelValue)
 
   const { requestState, callElasticsearch } = useElasticsearchAdapter()

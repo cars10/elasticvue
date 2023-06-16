@@ -103,7 +103,7 @@
   import { useSelectableRows } from '../../composables/SelectableRow.js'
   import SearchResultsBulk from './SearchResultsBulk.vue'
 
-  const props = defineProps<{ results: object }>()
+  const props = defineProps<{ results: SearchResult[] }>()
   const emit = defineEmits(['request', 'reload'])
   const hits = ref([])
   const t = useTranslation()
@@ -115,7 +115,7 @@
   const { callElasticsearch } = useElasticsearchAdapter()
 
   const { selectedItems, allItemsSelected, setIndeterminate } = useSelectableRows(hits)
-  const checkAll = val => {
+  const checkAll = (val: boolean) => {
     if (val) {
       selectedItems.value = hits.value.map(genDocStr)
     } else {
@@ -128,9 +128,14 @@
     emit('reload')
   }
 
-  const genDocStr = doc => ([doc._index, doc._type, doc._id].join('####'))
+  type Document = {
+    _index: string,
+    _type: string,
+    _id: string
+  }
+  const genDocStr = (doc: Document) => ([doc._index, doc._type, doc._id].join('####'))
 
-  watch(() => props.results, async newValue => {
+  watch(() => props.results, async (newValue: SearchResult) => {
     if (newValue?.hits?.hits?.length === 0) {
       hits.value = []
       return
@@ -170,7 +175,7 @@
     hits.value = results.docs
   })
 
-  const slicedTableColumns = computed(() => (tableColumns.value.slice(0, -1)))
+  const slicedTableColumns = computed((): any[] => (tableColumns.value.slice(0, -1)))
 
   const onRequest = a => (emit('request', a))
   const resetColumns = () => (searchStore.visibleColumns = tableColumns.value.map(c => c.name))

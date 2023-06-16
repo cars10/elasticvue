@@ -32,3 +32,11 @@ type Snapshot = {
   total_shards: number,
   indices: number
 }
+
+type SearchResult = {
+  hits: SearchResultHits
+}
+
+type SearchResultHits = {
+  hits: any
+}

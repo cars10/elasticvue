@@ -38,7 +38,7 @@
   import EditDocument from './EditDocument.vue'
   import { useModal } from '../../composables/Modal.ts'
 
-  const props = defineProps<{ columns: string[], doc: any }>()
+  const props = defineProps<{ columns: any[], doc: any }>()
   const emit = defineEmits(['reload'])
   const dropdown = ref(false)
 

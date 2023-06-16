@@ -78,7 +78,7 @@
 
   const t = useTranslation()
 
-  const props = withDefaults(defineProps<{ index: string }>(), { index: '' })
+  const props = defineProps<{ index: string }>()
   const { index } = toRefs(props)
   const emit = defineEmits(['reload'])
 

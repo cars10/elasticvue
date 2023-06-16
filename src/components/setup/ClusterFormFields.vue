@@ -66,6 +66,7 @@
       emit('update:formValid', false)
       return 'Invalid uri'
     }
+    return false
   }
 
   const resetUri = () => (cluster.value.uri = DEFAULT_CLUSTER_URI)

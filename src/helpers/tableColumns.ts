@@ -4,15 +4,7 @@ interface ColumnOptions {
   align?: string
 }
 
-interface Column {
-  label?: string,
-  field?: string,
-  name?: string,
-  sortable?: boolean,
-  align: string
-}
-
-export const genColumns = (options: ColumnOptions[]): Column[] => {
+export const genColumns = (options: ColumnOptions[]): any[] => {
   return options.map(({ label, field, align }) => {
     return {
       label,

@@ -73,7 +73,7 @@
     onMounted(load)
   }
 
-  const filter = (val, update) => {
+  const filter = (val: string, update: any) => {
     const data = props.behavior === 'use' ? props.indexNames : indices.value
 
     if (val.length === 0) {
