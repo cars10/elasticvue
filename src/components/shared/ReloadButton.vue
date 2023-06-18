@@ -14,17 +14,11 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
   import { useTranslation } from '../../composables/i18n'
   import TimerSelect from './TimerSelect.vue'
 
   const t = useTranslation()
 
-  defineProps({
-    action: {
-      type: Function,
-      default: () => {
-      }
-    }
-  })
+  defineProps<{ action: any }>()
 </script>

@@ -12,7 +12,7 @@
   </q-card>
 </template>
 
-<script setup>
+<script setup lang="ts">
   import { useConnectionStore } from '../../store/connection'
   import { useTranslation } from '../../composables/i18n'
 

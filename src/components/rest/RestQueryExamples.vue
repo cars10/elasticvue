@@ -90,7 +90,12 @@
   const filter = ref('')
   const emit = defineEmits(['useRequest'])
 
-  const useRequest = row => {
+  type Row = {
+    method: string,
+    path: string,
+    body: string
+  }
+  const useRequest = (row: Row) => {
     emit('useRequest', { method: row.method, path: row.path, body: row.body })
     dialog.value = false
   }

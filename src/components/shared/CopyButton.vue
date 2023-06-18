@@ -2,22 +2,13 @@
   <q-btn :icon="icon" :title="t('defaults.copy')" @click.prevent.stop="copy" />
 </template>
 
-<script setup>
+<script setup lang="ts">
   import { ref } from 'vue'
   import { writeToClipboard } from '../../helpers/clipboard'
   import { useTranslation } from '../../composables/i18n'
 
   const t = useTranslation()
-  const props = defineProps({
-    value: {
-      default: '',
-      type: String
-    },
-    customHandler: {
-      default: null,
-      type: [Function, Object]
-    }
-  })
+  const props = defineProps<{ value: string, customHandler?: any }>()
 
   const icon = ref('content_copy')
   const copy = () => {

@@ -12,46 +12,35 @@
   </div>
 </template>
 
-<script setup>
-  import { ref, nextTick } from 'vue'
+<script setup lang="ts">
+  import { ref, nextTick, Ref } from 'vue'
   import { save } from '@tauri-apps/api/dialog'
   import { invoke } from '@tauri-apps/api/tauri'
   import prettyBytes from 'pretty-bytes'
   import { DESKTOP_BUILD } from '../../consts'
   import { useSnackbar } from '../../composables/Snackbar'
 
-  const props = defineProps({
-    disable: {
-      type: Boolean,
-      default: false
+  const props = withDefaults(defineProps<{
+    disable?: boolean,
+    download?: string | undefined,
+    label?: string,
+    generateDownloadData?: any,
+    size?: string,
+    color?: string
+  }>(), {
+    disable: false,
+    download: DESKTOP_BUILD ? undefined : 'file.txt',
+    label: 'Download',
+    generateDownloadData: () => {
     },
-    download: {
-      type: String,
-      default: DESKTOP_BUILD ? null : 'file.txt'
-    },
-    label: {
-      type: String,
-      default: 'Download'
-    },
-    generateDownloadData: {
-      type: Function,
-      default: () => {
-      }
-    },
-    size: {
-      type: String,
-      default: 'md'
-    },
-    color: {
-      type: String,
-      default: 'primary'
-    }
+    size: 'md',
+    color: 'primary'
   })
 
   const { showSuccessSnackbar } = useSnackbar()
   const href = ref('')
   const loading = ref(false)
-  const downloadLink = ref(null)
+  const downloadLink: Ref<HTMLAnchorElement | null> = ref(null)
 
   const downloadData = () => {
     if (DESKTOP_BUILD) {
@@ -63,7 +52,7 @@
     }
   }
 
-  const saveFile = async path => {
+  const saveFile = async (path: string) => {
     const data = await props.generateDownloadData()
     invoke('save_file', { path, data }).then(result => {
       if (typeof result === 'number') {
@@ -81,6 +70,8 @@
     href.value = `data:application/json,${encodeURIComponent(data)}`
     loading.value = false
 
-    nextTick(() => (downloadLink.value.click()))
+    nextTick(() => {
+      if (downloadLink.value) downloadLink.value.click()
+    })
   }
 </script>

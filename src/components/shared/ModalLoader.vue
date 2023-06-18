@@ -33,8 +33,8 @@
   </q-dialog>
 </template>
 
-<script setup>
-  import { ref, watch } from 'vue'
+<script setup lang="ts">
+  import { Ref, ref, watch } from 'vue'
   import { useModalStore } from '../../store/modal'
   import LoaderStatus from './LoaderStatus.vue'
   import { useElasticsearchAdapter } from '../../composables/CallElasticsearch'
@@ -48,15 +48,15 @@
   const t = useTranslation()
   const resizeStore = useResizeStore()
   const { requestState, callElasticsearch } = useElasticsearchAdapter()
+  const store = useModalStore()
 
-  const data = ref(null)
+  const data: Ref<string | null> = ref(null)
   const load = () => {
     callElasticsearch(store.method, store.methodParams)
         .then(body => (data.value = stringifyBigInt(body)))
         .catch(() => (data.value = null))
   }
 
-  const store = useModalStore()
   const ownValue = ref(false)
 
   watch(() => store.show, newValue => (ownValue.value = newValue))

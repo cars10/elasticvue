@@ -12,30 +12,24 @@
   <slot v-else />
 </template>
 
-<script setup>
+<script setup lang="ts">
+  // @ts-ignore
   import VueResizable from 'vue-resizable'
 
-  defineProps({
-    modelValue: {
-      type: Number,
-      default: 500
-    },
-    minHeight: {
-      type: Number,
-      default: 100
-    },
-    directions: {
-      type: Array,
-      default: () => (['b'])
-    },
-    active: {
-      type: Boolean,
-      default: true
-    }
+  withDefaults(defineProps<{
+    modelValue: number,
+    minHeight: number,
+    directions: string[],
+    active: boolean
+  }>(), {
+    modelValue: 500,
+    minHeight: 100,
+    directions: () => (['b']),
+    active: true
   })
 
   const emit = defineEmits(['update:modelValue'])
-  const setHeight = ({ height }) => {
+  const setHeight = ({ height }: { height: number }) => {
     emit('update:modelValue', height)
     window?.dispatchEvent(new Event('resize'))
   }

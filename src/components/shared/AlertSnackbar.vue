@@ -20,7 +20,7 @@
   </q-card>
 </template>
 
-<script setup>
+<script setup lang="ts">
   import CopyButton from './CopyButton.vue'
   import { useSnackbarStore } from '../../store/snackbar'
   import { computed, ref, watch } from 'vue'
@@ -30,8 +30,8 @@
   const store = useSnackbarStore()
 
   const progressBarHeight = ref(100)
-  let closeTimer
-  let progressBarInterval
+  let closeTimer: NodeJS.Timer
+  let progressBarInterval: NodeJS.Timer
 
   const setTimer = () => {
     clearTimeout(closeTimer)
@@ -47,14 +47,14 @@
   watch(() => store.visible, setTimer)
   watch(() => store.id, setTimer)
 
-  const startCloseTimer = timeout => {
+  const startCloseTimer = (timeout: number) => {
     return setTimeout(() => {
       store.visible = false
       progressBarHeight.value = 100
     }, timeout)
   }
 
-  const startProgressInterval = timeLeft => {
+  const startProgressInterval = (timeLeft: number) => {
     return setInterval(() => {
       if (timeLeft > 0) {
         timeLeft -= 100

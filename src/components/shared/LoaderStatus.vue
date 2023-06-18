@@ -28,16 +28,12 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
   import { writeToClipboard } from '../../helpers/clipboard'
   import { useTranslation } from '../../composables/i18n'
+  import { RequestState } from '../../composables/CallElasticsearch.ts'
 
-  const props = defineProps({
-    requestState: {
-      default: () => ({}),
-      type: Object
-    }
-  })
+  const props = defineProps<{ requestState: RequestState }>()
   const t = useTranslation()
   const copy = () => {
     writeToClipboard(props.requestState.apiErrorMessage)
