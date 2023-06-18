@@ -14,7 +14,7 @@ Current State:
 | Nodes              | Done   |
 | Shards             | Done   |
 | Indices            | Done   |
-| Search             |        |
+| Search             | Done   |
 | Rest               | Done   |
 | Snapshots          | Done   |
 | Settings           | Done   |
@@ -25,9 +25,6 @@ Features that are no longer re-implemented:
 * Rest query vertical view
 * Support for numbers bigger then `Number.MAX_SAFE_INTEGER`
 * Utilities
-
-Feature TODO:
-* Rest query examples
 
 Overall TODOs:
 * Cleanup i18n

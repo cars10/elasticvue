@@ -23,7 +23,7 @@ export const buildDefaultRequest = () => ({
   body: ''
 })
 
-export const DEFAULT_SEARCH_QUERY = '{\n\t"query": {\n\t\t"query_string": {\n\t\t\t"query": "*"\n\t\t}\n\t},\n\t"size": 10,\n\t"from": 0,\n\t"sort": []\n}'
+export const DEFAULT_SEARCH_QUERY = '{"query": {"query_string": {"query": "*"}},"size": 10,"from": 0,"sort": []}'
 export const DEFAULT_SEARCH_RESULT_COLUMNS = ['_index', '_type', '_id', '_score']
 export const DEFAULT_SORTABLE_COLUMNS = ['_index', '_type', '_id', '_score']
 export const DEFAULT_PAGINATION = {
@@ -36,3 +36,76 @@ export const DEFAULT_PAGINATION = {
 
 export const DEFAULT_CLUSTER_NAME = 'default cluster'
 export const DEFAULT_CLUSTER_URI = 'http://localhost:9200'
+
+export const REST_QUERY_EXAMPLES = [
+  {
+    description: 'Returns high-level information about indices in a cluster',
+    method: 'GET',
+    path: '_cat/indices',
+    body: '',
+    doc: 'https://www.elastic.co/guide/en/elasticsearch/reference/current/cat-indices.html'
+  },
+  {
+    description: 'Retrieves the cluster’s index aliases, including filter and routing information',
+    method: 'GET',
+    path: '_cat/aliases',
+    body: '',
+    doc: 'https://www.elastic.co/guide/en/elasticsearch/reference/current/cat-aliases.html'
+  },
+  {
+    description: 'The shards command is the detailed view of what nodes contain which shards',
+    method: 'GET',
+    path: '_cat/shards',
+    body: '',
+    doc: 'https://www.elastic.co/guide/en/elasticsearch/reference/current/cat-shards.html'
+  },
+  {
+    description: 'Performs multiple indexing or delete operations in a single API call',
+    method: 'POST',
+    path: '_bulk',
+    body: '{ "index" : { "_index" : "test", "_id" : "1" } }\n' +
+        '{ "field1" : "value1" }\n' +
+        '{ "delete" : { "_index" : "test", "_id" : "2" } }\n' +
+        '{ "create" : { "_index" : "test", "_id" : "3" } }\n' +
+        '{ "field1" : "value3" }\n' +
+        '{ "update" : {"_id" : "1", "_index" : "test"} }\n' +
+        '{ "doc" : {"field2" : "value2"} }\n' +
+        '',
+    doc: 'https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-bulk.html'
+  },
+  {
+    description: 'Create an API key with 1d expiration',
+    method: 'POST',
+    path: '_security/api_key',
+    body: '{"name": "my-api-key","expiration": "1d"}',
+    doc: 'https://www.elastic.co/guide/en/elasticsearch/reference/current/security-api-create-api-key.html'
+  },
+  {
+    description: 'Flush all indices to disk',
+    method: 'POST',
+    path: '_flush',
+    body: '',
+    doc: 'https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-flush.html'
+  },
+  {
+    description: 'Create a simple index named "example_test_index"',
+    method: 'PUT',
+    path: 'example_test_index',
+    body: '{"settings": {"index": {"number_of_shards": 2,"number_of_replicas": 1}}}',
+    doc: 'https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-create-index.html'
+  },
+  {
+    description: 'Set all indices to writable',
+    method: 'PUT',
+    path: '_all/settings',
+    body: '{"index": {"blocks": {"read_only_allow_delete": "false" } } }',
+    doc: 'https://www.elastic.co/guide/en/elasticsearch/reference/current/index-modules-blocks.html'
+  },
+  {
+    description: 'Delete an index named "example_test_index".',
+    method: 'DELETE',
+    path: 'example_test_index',
+    body: '',
+    doc: 'https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-delete-index.html'
+  }
+]

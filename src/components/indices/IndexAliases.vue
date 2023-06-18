@@ -66,6 +66,10 @@
           </tr>
         </template>
       </q-table>
+
+      <q-card-section>
+        <q-btn v-close-popup flat :label="t('defaults.close')" />
+      </q-card-section>
     </q-card>
   </q-dialog>
 </template>

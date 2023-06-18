@@ -16,19 +16,25 @@
       <q-separator />
 
       <q-card-section>
-        <q-btn :label="t('query.rest.history')"
-               icon="history"
-               :icon-right="historyOpen ? 'expand_less' : 'expand_more'"
-               color="dark-grey q-mb-sm q-mr-md"
-               :outline="historyOpen"
-               @click="toggleHistory" />
+        <div class="flex justify-between">
+          <div>
+            <q-btn :label="t('query.rest.history')"
+                   icon="history"
+                   :icon-right="historyOpen ? 'expand_less' : 'expand_more'"
+                   color="dark-grey q-mb-sm q-mr-md"
+                   :outline="historyOpen"
+                   @click="toggleHistory" />
 
-        <q-btn label="Saved queries"
-               icon="save"
-               :icon-right="savedQueriesOpen ? 'expand_less' : 'expand_more'"
-               color="dark-grey q-mb-sm"
-               :outline="savedQueriesOpen"
-               @click="toggleSavedQueries" />
+            <q-btn label="Saved queries"
+                   icon="save"
+                   :icon-right="savedQueriesOpen ? 'expand_less' : 'expand_more'"
+                   color="dark-grey q-mb-sm"
+                   :outline="savedQueriesOpen"
+                   @click="toggleSavedQueries" />
+          </div>
+
+          <rest-query-examples @use-request="useRequest" />
+        </div>
 
         <q-slide-transition>
           <rest-query-history v-if="historyOpen"
@@ -41,8 +47,8 @@
             <template #default="{row}">
               <td>
                 <div class="q-py-xs">
-                  <strong :class="`http-${row.method} q-pr-sm`">{{ row.method }}</strong> {{ row.path }}
-                  <div>
+                  <span :class="`http-${row.method}`" class="text-bold">{{ row.method }}</span> {{ row.path }}
+                  <div >
                     <small class="text-muted ellipsis">{{ row.body.slice(0, 100).replace(/\s/g, '') }}</small>
                   </div>
                 </div>
@@ -69,7 +75,7 @@
             <template #default="{row}">
               <td>
                 <div class="q-py-xs">
-                  <strong :class="`http-${row.method} q-pr-sm`">{{ row.method }}</strong> {{ row.path }}
+                  <span :class="`http-${row.method}`" class="text-bold">{{ row.method }}</span> {{ row.path }}
                   <div>
                     <small class="text-muted ellipsis">{{ row.body.slice(0, 100).replace(/\s/g, '') }}</small>
                   </div>
@@ -136,6 +142,7 @@
   import { useRestQueryTabs } from '../../composables/RestQueryTabs'
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   import RestQueryHistory from './RestQueryHistory.vue'
+  import RestQueryExamples from './RestQueryExamples.vue'
 
   const t = useTranslation()
   const {

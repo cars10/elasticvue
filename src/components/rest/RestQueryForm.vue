@@ -7,7 +7,20 @@
                 style="width: 140px"
                 outlined
                 class="q-mr-md"
-                :label="t('query.rest.form.method.label')" />
+                :label="t('query.rest.form.method.label')">
+        <template #option="scope">
+          <q-item v-bind="scope.itemProps">
+            <q-item-section>
+              <q-item-label :class="`http-${scope.opt}`" class="text-bold">
+                {{ scope.opt }}
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+        </template>
+        <template #selected-item="scope">
+          <span :class="`http-${scope.opt}`" class="text-bold">{{ scope.opt }}</span>
+        </template>
+      </q-select>
       <q-input v-model="ownRequest.path"
                :label="t('query.rest.form.path.label')"
                class="col-grow"
