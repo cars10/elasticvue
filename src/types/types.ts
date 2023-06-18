@@ -26,7 +26,7 @@ type SearchResultHits = {
   hits: any
 }
 
-type ElasticNode = {
+export type EsNode = {
   name: string,
   id: string,
   ip: string,

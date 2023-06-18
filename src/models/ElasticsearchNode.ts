@@ -1,3 +1,5 @@
+import { EsNode } from '../types/types.ts'
+
 export default class ElasticsearchNode {
   name: string
   id: string
@@ -22,7 +24,7 @@ export default class ElasticsearchNode {
   ingestNode: boolean
   coordinatingNode: boolean
 
-  constructor (options: ElasticNode) {
+  constructor (options: EsNode) {
     this.name = options.name
     this.id = options.id
     this.ip = options.ip

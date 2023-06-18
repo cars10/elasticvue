@@ -69,14 +69,15 @@
   import { filterItems } from '../../helpers/filters'
   import FilterInput from '../shared/FilterInput.vue'
   import { genColumns } from '../../helpers/tableColumns'
+  import { EsNode } from '../../types/types.ts'
 
   const t = useTranslation()
 
-  const props = defineProps<{ nodes: any[] }>()
+  const props = defineProps<{ nodes: EsNode[] }>()
 
   const filter = ref('')
   const items = computed(() => {
-    const results = filterItems<ElasticNode>(props.nodes, filter.value, ['name', 'ip'])
+    const results = filterItems<EsNode>(props.nodes, filter.value, ['name', 'ip'])
     return results.map(r => new ElasticsearchNode(r))
   })
 

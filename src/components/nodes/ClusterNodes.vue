@@ -61,6 +61,7 @@
   import NodesTable from './NodesTable.vue'
   import { useElasticsearchRequest } from '../../composables/CallElasticsearch'
   import { useTranslation } from '../../composables/i18n'
+  import { EsNode } from '../../types/types.ts'
 
   const t = useTranslation()
   const CAT_METHOD_PARAMS = {
@@ -87,6 +88,6 @@
     full_id: true
   }
 
-  const { load, requestState, data } = useElasticsearchRequest<ElasticNode[]>('catNodes', CAT_METHOD_PARAMS)
+  const { load, requestState, data } = useElasticsearchRequest<EsNode[]>('catNodes', CAT_METHOD_PARAMS)
   onMounted(load)
 </script>
