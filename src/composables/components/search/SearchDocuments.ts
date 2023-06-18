@@ -68,7 +68,7 @@ export const useSearchDocuments = () => {
   }
 
   const editorCommands = [{
-    bindKey: { win: 'Ctrl+ENTER', mac: 'Command+ENTER', linux: 'Ctrl+ENTER' },
+    bindKey: { win: 'Ctrl+ENTER', mac: 'Command+ENTER' },
     exec: search
   }]
 

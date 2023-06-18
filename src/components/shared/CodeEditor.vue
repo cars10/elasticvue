@@ -52,29 +52,19 @@
   </div>
 </template>
 
-<script setup>
-  import { computed, ref, toRef } from 'vue'
+<script setup lang="ts">
+  import { computed, Ref, ref, toRef } from 'vue'
   import { useCodeEditor } from '../../composables/CodeEditor'
   import { useCodeEditorStore } from '../../store/code_editor'
   import CopyButton from './CopyButton.vue'
   import { useTranslation } from '../../composables/i18n'
 
-  const props = defineProps({
-    modelValue: {
-      type: String, // any
-      default: ''
-    },
-    commands: {
-      type: Object,
-      default: () => {
-      }
-    }
-  })
+  const props = defineProps<{ modelValue: string, commands?: AceAjax.EditorCommand[] }>()
   const emit = defineEmits(['update:modelValue'])
   const t = useTranslation()
   const codeEditorStore = useCodeEditorStore()
 
-  const editor = ref(null)
+  const editor: Ref<HTMLElement | null> = ref(null)
   const { copyContent, beautifyEditorValue } = useCodeEditor(editor, {
     readOnly: false,
     focus: false,

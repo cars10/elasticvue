@@ -29,31 +29,22 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
   import { ref, toRef } from 'vue'
   import { useCodeEditor } from '../../composables/CodeEditor'
   import { useCodeEditorStore } from '../../store/code_editor'
   import CopyButton from './CopyButton.vue'
   import { useTranslation } from '../../composables/i18n'
+  import { Ref } from 'vue/dist/vue'
 
   const t = useTranslation()
-  const props = defineProps({
-    value: {
-      type: null, // any
-      default: ''
-    },
-    focus: {
-      type: Boolean,
-      default: false
-    }
-  })
+  const props = defineProps<{value: string}>()
 
   const codeEditorStore = useCodeEditorStore()
 
-  const editor = ref(null)
+  const editor: Ref<HTMLElement | null> = ref(null)
   const { copyContent } = useCodeEditor(editor, {
     readOnly: true,
-    focus: props.focus,
     initialValue: toRef(props, 'value')
   })
 </script>

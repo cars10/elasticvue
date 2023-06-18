@@ -17,10 +17,10 @@
   import VueResizable from 'vue-resizable'
 
   withDefaults(defineProps<{
-    modelValue: number,
-    minHeight: number,
-    directions: string[],
-    active: boolean
+    modelValue?: number,
+    minHeight?: number,
+    directions?: string[],
+    active?: boolean
   }>(), {
     modelValue: 500,
     minHeight: 100,

@@ -8,10 +8,11 @@
   import { useTranslation } from '../../composables/i18n'
 
   const t = useTranslation()
-  const props = defineProps<{ value: string, customHandler?: any }>()
+  const props = defineProps<{ value?: string, customHandler?: any }>()
 
   const icon = ref('content_copy')
   const copy = () => {
+    if (!props.value) return
     icon.value = 'done'
 
     if (props.customHandler) {

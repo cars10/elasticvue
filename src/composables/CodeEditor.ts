@@ -1,10 +1,15 @@
 import { queryKeywords, querySnippets, queryValues } from '../autocomplete'
 
+// @ts-ignore
 import ace from 'ace-builds/src-noconflict/ace'
 
+// @ts-ignore
 import modeJsonUrl from 'ace-builds/src-noconflict/mode-json?url'
+// @ts-ignore
 import themeTomorrowNightUrl from 'ace-builds/src-noconflict/theme-tomorrow_night?url'
+// @ts-ignore
 import searchBoxUrl from 'ace-builds/src-noconflict/ext-searchbox?url'
+// @ts-ignore
 import languageToolsUrl from 'ace-builds/src-noconflict/ext-language_tools?url'
 
 ace.config.setModuleUrl('ace/mode/json', modeJsonUrl)
@@ -13,20 +18,37 @@ ace.config.setModuleUrl('ace/ext/searchbox', searchBoxUrl)
 ace.config.setModuleUrl('ace/ext/language_tools', languageToolsUrl)
 ace.config.setModuleUrl('ace/snippets', languageToolsUrl)
 
-import { onBeforeUnmount, onMounted, watch } from 'vue'
+import { onBeforeUnmount, onMounted, Ref, watch } from 'vue'
 import { useThemeStore } from '../store/theme'
 import { useCodeEditorStore } from '../store/code_editor'
 import { beautify } from '../helpers/beautify'
 import { writeToClipboard } from '../helpers/clipboard'
 
-export const useCodeEditor = (editorRef, { readOnly, focus, initialValue, emit, commands }) => {
-  let aceEditor = null
-  let aceEditorSession = null
+type Completion = SimpleCompletion | AceAjax.Completion
+type SimpleCompletion = {
+  value: string,
+  caption: string
+}
+
+export const useCodeEditor = (editorRef: Ref<HTMLElement | null>, {
+  readOnly,
+  initialValue,
+  emit,
+  commands
+}: {
+  readOnly: boolean,
+  initialValue: Ref<string>,
+  emit?: any,
+  commands?: AceAjax.EditorCommand[]
+}) => {
+  let aceEditor: AceAjax.Editor = <AceAjax.Editor>{}
+  let aceEditorSession: AceAjax.IEditSession = <AceAjax.IEditSession>{}
 
   const themeStore = useThemeStore()
   const codeEditorStore = useCodeEditorStore()
 
   onMounted(() => {
+    if (!editorRef.value) return
     setupAceEditor(editorRef.value, { readOnly })
     if (!readOnly) setupEditingUtils()
     setWrapLines(codeEditorStore.wrapLines)
@@ -36,7 +58,6 @@ export const useCodeEditor = (editorRef, { readOnly, focus, initialValue, emit, 
       const beautifulValue = beautify(initialValue.value, codeEditorStore.useSpaces)
       setEditorValue(beautifulValue)
     }
-    if (focus) aceEditor.focus()
   })
 
   watch(() => initialValue.value, newValue => {
@@ -46,7 +67,7 @@ export const useCodeEditor = (editorRef, { readOnly, focus, initialValue, emit, 
     }
   })
 
-  const setTheme = dark => {
+  const setTheme = (dark: boolean) => {
     if (dark) {
       aceEditor.setTheme('ace/theme/tomorrow_night')
     } else {
@@ -56,7 +77,7 @@ export const useCodeEditor = (editorRef, { readOnly, focus, initialValue, emit, 
 
   watch(() => themeStore.dark, newValue => (setTheme(newValue)))
 
-  const setWhitespace = useSpaces => {
+  const setWhitespace = (useSpaces: boolean) => {
     if (useSpaces) {
       aceEditorSession.setTabSize(2)
       aceEditorSession.setUseSoftTabs(true)
@@ -66,19 +87,20 @@ export const useCodeEditor = (editorRef, { readOnly, focus, initialValue, emit, 
     }
   }
 
-  const setWrapLines = wrapLines => {
+  const setWrapLines = (wrapLines: boolean) => {
     aceEditorSession.setUseWrapMode(wrapLines)
   }
 
-  const setupAceEditor = (editorRef, additionalOptions) => {
+  const setupAceEditor = (editorRef: HTMLElement, additionalOptions: object) => {
     aceEditor = ace.edit(editorRef, {
       autoScrollEditorIntoView: true
     })
     aceEditorSession = aceEditor.getSession()
     aceEditorSession.setUseWorker(false)
     aceEditorSession.setMode('ace/mode/json')
-    aceEditor.setFontSize(14)
+    aceEditor.setFontSize('14px')
     aceEditor.setShowPrintMargin(false)
+    // @ts-ignore
     aceEditor.$blockScrolling = Infinity
     if (additionalOptions) aceEditor.setOptions(additionalOptions)
     if (commands) aceEditor.commands.addCommands(commands)
@@ -86,7 +108,7 @@ export const useCodeEditor = (editorRef, { readOnly, focus, initialValue, emit, 
 
   const setupEditingUtils = () => {
     aceEditor.commands.addCommand({
-      bindKey: { win: 'Ctrl+Alt+L', mac: 'Command+Alt+L', linux: 'Ctrl+Alt+L' },
+      bindKey: { win: 'Ctrl+Alt+L', mac: 'Command+Alt+L' },
       exec: () => {
         beautifyEditorValue()
       }
@@ -117,12 +139,12 @@ export const useCodeEditor = (editorRef, { readOnly, focus, initialValue, emit, 
     beautifyEditorValue()
   })
 
-  const setEditorValue = value => {
-    aceEditor.setValue(value, 1)
-  }
+  const setEditorValue = (value: string) => (aceEditor.setValue(value, 1))
 
   const beautifyEditorValue = () => {
-    const newValue = beautify(aceEditor.getValue(), codeEditorStore.useSpaces)
+    const value = aceEditor.getValue()
+    if (!value) return
+    const newValue = beautify(value, codeEditorStore.useSpaces)
     setEditorValue(newValue)
   }
 
@@ -132,13 +154,13 @@ export const useCodeEditor = (editorRef, { readOnly, focus, initialValue, emit, 
   }
 }
 
-export const initializeSnippets = aceEditor => {
-  ace.config.loadModule('ace/snippets', m => {
+export const initializeSnippets = (aceEditor: AceAjax.Editor) => {
+  ace.config.loadModule('ace/snippets', (m: any) => {
     const snippetManager = m.snippetManager
     const parsedSnippets = snippetManager.parseSnippetFile(querySnippets)
     snippetManager.register(parsedSnippets, 'json')
 
-    const snippets = snippetManager.snippetMap.json.map(snip => {
+    const snippets: AceAjax.Completion[] = snippetManager.snippetMap.json.map((snip: Record<string, any>) => {
       return {
         caption: snip.name,
         snippet: snip.content,
@@ -150,8 +172,8 @@ export const initializeSnippets = aceEditor => {
     })
 
     const completer = {
-      getCompletions: function (editor, session, pos, prefix, callback) {
-        const token = session.getTokenAt(pos.row, pos.col)
+      getCompletions: function (_editor: AceAjax.Editor, session: AceAjax.IEditSession, pos: AceAjax.Position, _prefix: string, callback: any) {
+        const token = session.getTokenAt(pos.row, pos.column)
         const row = session.getLine(pos.row)
         const addQuotes = token && token.type === 'text' && token.value.indexOf('"') === -1
         const isKey = row && row.indexOf('":') === -1
@@ -184,7 +206,7 @@ export const initializeSnippets = aceEditor => {
           }
         })
 
-        let allCompletions = []
+        let allCompletions: Completion[] = []
 
         if (isKey && addQuotes) allCompletions = snippets
         if (isKey) allCompletions = allCompletions.concat(keywords)
