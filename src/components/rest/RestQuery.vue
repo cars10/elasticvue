@@ -49,8 +49,10 @@
               </td>
               <td class="small-wrap">{{ row.date.toLocaleString() }}</td>
               <td class="small-wrap">
-                <q-btn icon="save" flat dense @click.stop="saveHistory(row)" />
-                <q-btn icon="delete" flat dense @click.stop="removeHistory(row.id)" />
+                <q-btn-group>
+                  <q-btn icon="save" color="dark-grey" dense @click.stop="saveHistory(row)" />
+                  <q-btn icon="delete" color="dark-grey" dense @click.stop="removeHistory(row.id)" />
+                </q-btn-group>
               </td>
             </template>
           </rest-query-history>
