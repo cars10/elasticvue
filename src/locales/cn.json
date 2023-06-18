@@ -230,7 +230,8 @@
       }
     }
   },
-  "nodes": {
+  "cluster_nodes": {
+    "heading": null,
     "node_icons": {
       "master": {
         "title": "主节点"
@@ -260,13 +261,6 @@
       "disk": "磁盘",
       "name": "名称",
       "status": "状态"
-    },
-    "nodes_list": {
-      "heading": "节点",
-      "types": {
-        "grid": "网格",
-        "table": "列表"
-      }
     }
   },
   "query": {

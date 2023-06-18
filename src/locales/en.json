@@ -231,7 +231,8 @@
       }
     }
   },
-  "nodes": {
+  "cluster_nodes": {
+    "heading": "Nodes",
     "node_icons": {
       "master": {
         "title": "Master node"
@@ -261,13 +262,6 @@
       "disk": "disk",
       "name": "name",
       "status": "status"
-    },
-    "nodes_list": {
-      "heading": "Nodes",
-      "types": {
-        "grid": "Grid",
-        "table": "Table"
-      }
     }
   },
   "query": {

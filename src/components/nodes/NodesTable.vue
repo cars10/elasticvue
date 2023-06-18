@@ -82,16 +82,16 @@
   })
 
   const columns = genColumns([
-    { label: t('nodes.node_properties.status'), field: '', align: 'left' },
-    { label: t('nodes.node_properties.name'), field: 'name', align: 'left' },
-    { label: t('nodes.node_properties.id'), field: 'id', align: 'left' },
-    { label: t('nodes.node_properties.ip'), field: 'ip', align: 'left' },
-    { label: t('nodes.node_properties.master'), field: 'master', align: 'left' },
-    { label: t('nodes.node_properties.node_role'), field: 'nodeRole', align: 'left' },
-    { label: t('nodes.node_properties.load'), field: 'load_1m', align: 'left' },
-    { label: t('nodes.node_properties.cpu'), field: 'cpu', align: 'left' },
-    { label: t('nodes.node_properties.ram'), field: 'ramPercent', align: 'left' },
-    { label: t('nodes.node_properties.heap'), field: 'heapPercent', align: 'left' },
-    { label: t('nodes.node_properties.disk'), field: 'diskPercent', align: 'left' }
+    { label: t('cluster_nodes.node_properties.status'), field: '', align: 'left' },
+    { label: t('cluster_nodes.node_properties.name'), field: 'name', align: 'left' },
+    { label: t('cluster_nodes.node_properties.id'), field: 'id', align: 'left' },
+    { label: t('cluster_nodes.node_properties.ip'), field: 'ip', align: 'left' },
+    { label: t('cluster_nodes.node_properties.master'), field: 'master', align: 'left' },
+    { label: t('cluster_nodes.node_properties.node_role'), field: 'nodeRole', align: 'left' },
+    { label: t('cluster_nodes.node_properties.load'), field: 'load_1m', align: 'left' },
+    { label: t('cluster_nodes.node_properties.cpu'), field: 'cpu', align: 'left' },
+    { label: t('cluster_nodes.node_properties.ram'), field: 'ramPercent', align: 'left' },
+    { label: t('cluster_nodes.node_properties.heap'), field: 'heapPercent', align: 'left' },
+    { label: t('cluster_nodes.node_properties.disk'), field: 'diskPercent', align: 'left' }
   ])
 </script>

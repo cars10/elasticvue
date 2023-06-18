@@ -3,7 +3,7 @@
     <q-card class="q-mb-md">
       <q-card-section class="flex items-center">
         <h1 class="text-h5 q-my-none">
-          {{ t('nodes.nodes_list.heading') }}
+          {{ t('cluster_nodes.heading') }}
         </h1>
         <reload-button :action="load" />
       </q-card-section>
@@ -22,31 +22,31 @@
             <td>
               <q-icon name="star" size="xs" />
             </td>
-            <td>{{ t('nodes.node_icons.master.title') }}</td>
+            <td>{{ t('cluster_nodes.node_icons.master.title') }}</td>
           </tr>
           <tr>
             <td>
               <q-icon name="star_outline" size="xs" />
             </td>
-            <td>{{ t('nodes.node_icons.master_eligible.title') }}</td>
+            <td>{{ t('cluster_nodes.node_icons.master_eligible.title') }}</td>
           </tr>
           <tr>
             <td>
               <q-icon name="save" size="xs" />
             </td>
-            <td>{{ t('nodes.node_icons.data.title') }}</td>
+            <td>{{ t('cluster_nodes.node_icons.data.title') }}</td>
           </tr>
           <tr>
             <td>
               <q-icon name="drive_file_move" size="xs" />
             </td>
-            <td>{{ t('nodes.node_icons.ingest.title') }}</td>
+            <td>{{ t('cluster_nodes.node_icons.ingest.title') }}</td>
           </tr>
           <tr>
             <td>
               <q-icon name="route" size="xs" />
             </td>
-            <td>{{ t('nodes.node_icons.coordinating_only.title') }}</td>
+            <td>{{ t('cluster_nodes.node_icons.coordinating_only.title') }}</td>
           </tr>
         </table>
       </q-card-section>
