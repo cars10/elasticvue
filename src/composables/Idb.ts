@@ -6,7 +6,7 @@ const tables = [
   { name: 'restQueryTabs', indexes: [] },
   { name: 'restQuerySavedQueries', indexes: [] },
 ]
-const dbVersion = 5
+const dbVersion = 1
 
 const databaseName = (clusterUuid: string) => (`elasticvue-${clusterUuid}`)
 
