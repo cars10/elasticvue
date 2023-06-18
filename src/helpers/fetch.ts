@@ -39,7 +39,6 @@ class FetchReqwestResponse {
     this.status = response.status
     this.statusText = response.status_text
     this.body = response.text
-    console.log(response)
   }
 
   text () {

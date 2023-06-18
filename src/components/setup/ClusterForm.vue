@@ -40,7 +40,6 @@
   const formValid = ref(true)
 
   const connectAndRedirect = () => {
-    console.log(formValid.value)
     if (!formValid.value) return
 
     connect().then(idx => props.connectCallback(idx))

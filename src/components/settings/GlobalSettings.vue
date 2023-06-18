@@ -51,14 +51,7 @@
   import { DEFAULT_HIDE_INDICES_REGEX } from '../../consts'
   import { askConfirm } from '../../helpers/dialogs'
   import { useTranslation } from '../../composables/i18n'
-  import { useCodeEditorStore } from '../../store/code_editor'
-  import { useI18nStore } from '../../store/i18n'
-  import { useModalStore } from '../../store/modal'
-  import { useResizeStore } from '../../store/resize'
-  import { useSnackbarStore } from '../../store/snackbar'
-  import { useThemeStore } from '../../store/theme'
   import ImportExport from './ImportExport.vue'
-  import { useConnectionStore } from '../../store/connection'
 
   const t = useTranslation()
 
@@ -76,14 +69,7 @@
       databases.forEach(db => window.indexedDB.deleteDatabase(db.name))
     })
 
-    useCodeEditorStore().$reset()
-    useI18nStore().$reset()
-    useIndicesStore().$reset()
-    useModalStore().$reset()
-    useResizeStore().$reset()
-    useSnackbarStore().$reset()
-    useThemeStore().$reset()
-    useConnectionStore().$reset()
+    localStorage.clear()
 
     window.location.reload()
   }
