@@ -17,7 +17,7 @@
   </q-dialog>
 </template>
 
-<script setup>
+<script setup lang="ts">
   import { ref } from 'vue'
   import ImportBackupForm from '../settings/ImportBackupForm.vue'
 

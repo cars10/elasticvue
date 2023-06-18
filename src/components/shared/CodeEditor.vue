@@ -67,7 +67,6 @@
   const editor: Ref<HTMLElement | null> = ref(null)
   const { copyContent, beautifyEditorValue } = useCodeEditor(editor, {
     readOnly: false,
-    focus: false,
     initialValue: toRef(props, 'modelValue'),
     commands: props.commands,
     emit

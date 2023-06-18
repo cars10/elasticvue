@@ -50,11 +50,11 @@
   const { requestState, callElasticsearch } = useElasticsearchAdapter()
   const store = useModalStore()
 
-  const data: Ref<string | null> = ref(null)
+  const data: Ref<string> = ref('')
   const load = () => {
     callElasticsearch(store.method, store.methodParams)
         .then(body => (data.value = stringifyBigInt(body)))
-        .catch(() => (data.value = null))
+        .catch(() => (data.value = ''))
   }
 
   const ownValue = ref(false)

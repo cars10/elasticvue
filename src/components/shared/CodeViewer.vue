@@ -30,12 +30,11 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, toRef } from 'vue'
+  import { ref, toRef, Ref } from 'vue'
   import { useCodeEditor } from '../../composables/CodeEditor'
   import { useCodeEditorStore } from '../../store/code_editor'
   import CopyButton from './CopyButton.vue'
   import { useTranslation } from '../../composables/i18n'
-  import { Ref } from 'vue/dist/vue'
 
   const t = useTranslation()
   const props = defineProps<{value: string}>()

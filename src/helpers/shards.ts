@@ -1,4 +1,33 @@
-export const convertShards = (shards: Record<string, any>[], indexHealth: Record<string, any> []): object => {
+type IndexName = string
+type NodeName = string
+
+export type EsShard = {
+  index: IndexName,
+  shard: string,
+  prirep: string,
+  state: string,
+  node: NodeName
+}
+
+export type EsShardIndex = {
+  health: string,
+  index: IndexName,
+  pri: string,
+  rep: string,
+  status: string
+}
+
+export type UnassignedShards = Record<IndexName, EsShard[]>
+
+export type TableShards = {
+  nodes: NodeName[],
+  indexNames: IndexName[],
+  indices: Record<IndexName, EsShardIndex>,
+  unassignedShards: UnassignedShards,
+  shards: Record<NodeName, Record<IndexName, EsShard[]>>
+}
+
+export const convertShards = (shards: EsShard[], indexHealth: EsShardIndex[]): TableShards => {
   const nodes: string[] = []
   const indices = Object.assign({}, ...(indexHealth.map(i => ({
     [i.index]: {
@@ -10,7 +39,7 @@ export const convertShards = (shards: Record<string, any>[], indexHealth: Record
   }))))
 
   const result: Record<string, any> = {}
-  const unassignedShards: Record<string, any> = {}
+  const unassignedShards: UnassignedShards = {}
   for (const shard of shards) {
     if (shard.node) {
       let node
@@ -45,7 +74,7 @@ export const convertShards = (shards: Record<string, any>[], indexHealth: Record
   }
 }
 
-const sortShards = (a: Record<string, any>, b: Record<string, any>): number => {
+const sortShards = (a: EsShard, b: EsShard): number => {
   const shardA = parseInt(a.shard)
   const shardB = parseInt(b.shard)
 

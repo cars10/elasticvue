@@ -40,7 +40,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
   import { useLogo } from '../../composables/Logo'
   import ImportBackup from './ImportBackup.vue'
   import SetupInstance from '../setup/SetupInstance.vue'

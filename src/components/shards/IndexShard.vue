@@ -10,27 +10,20 @@
           @click="reRoutable ? action(shard) : null" />
 </template>
 
-<script setup>
+<script setup lang="ts">
   import { computed } from 'vue'
+  import { EsShard } from '../../helpers/shards.ts'
 
-  const props = defineProps({
-    shard: {
-      type: Object,
-      default: () => ({})
+  const props = withDefaults(defineProps<{
+    shard: EsShard,
+    action?: any,
+    reRoutable?: boolean,
+    outlined?: boolean
+  }>(), {
+    action: () => {
     },
-    action: {
-      type: Function,
-      default: () => {
-      }
-    },
-    reRoutable: {
-      type: Boolean,
-      default: false
-    },
-    outlined: {
-      type: Boolean,
-      default: true
-    }
+    reRoutable: false,
+    outlined: true
   })
 
   const replica = props.shard.prirep === 'r'
