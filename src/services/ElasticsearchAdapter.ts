@@ -1,13 +1,7 @@
 import { addTrailingSlash, buildFetchAuthHeader } from '../helpers/elasticsearch_adapter'
 import { REQUEST_DEFAULT_HEADERS } from '../consts'
 import { fetchMethod } from '../helpers/fetch'
-
-interface ElasticsearchConfig {
-  username: string,
-  password: string,
-  host: string,
-  uri: string
-}
+import { ElasticsearchCluster } from '../store/connection.ts'
 
 interface IndexGetArgs {
   routing?: string
@@ -21,7 +15,7 @@ export default class ElasticsearchAdapter {
   host: string
   authHeader?: string
 
-  constructor (elasticsearch: ElasticsearchConfig) {
+  constructor (elasticsearch: ElasticsearchCluster) {
     this.username = elasticsearch.username
     this.password = elasticsearch.password
     this.host = addTrailingSlash(elasticsearch.uri)

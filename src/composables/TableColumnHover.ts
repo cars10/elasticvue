@@ -1,8 +1,8 @@
-import { ref } from 'vue'
+import { Ref, ref } from 'vue'
 
 export const useTableColumnHover = () => {
-  const markedColumnIndex = ref(null)
-  const markColumn = i => {
+  const markedColumnIndex: Ref<number | null> = ref(null)
+  const markColumn = (i: number) => {
     if (markedColumnIndex.value !== i) markedColumnIndex.value = i
   }
   const unmarkColumn = () => (markedColumnIndex.value = null)
