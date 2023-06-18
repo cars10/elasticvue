@@ -46,7 +46,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
   import { useIndicesStore } from '../../store/indices'
   import { DEFAULT_HIDE_INDICES_REGEX } from '../../consts'
   import { askConfirm } from '../../helpers/dialogs'
@@ -66,7 +66,9 @@
     if (!confirmed) return
 
     window.indexedDB.databases().then(databases => {
-      databases.forEach(db => window.indexedDB.deleteDatabase(db.name))
+      databases.forEach(db => {
+        if (db?.name) window.indexedDB.deleteDatabase(db.name)
+      })
     })
 
     localStorage.clear()

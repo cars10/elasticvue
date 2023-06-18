@@ -60,7 +60,7 @@
   </q-card>
 </template>
 
-<script setup>
+<script setup lang="ts">
   import { ref } from 'vue'
   import DownloadButton from '../shared/DownloadButton.vue'
   import { useImportExport } from '../../composables/ImportExport'

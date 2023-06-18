@@ -26,7 +26,7 @@
   </q-form>
 </template>
 
-<script setup>
+<script setup lang="ts">
   import { useImportExport } from '../../composables/ImportExport'
   import { useSnackbar } from '../../composables/Snackbar'
   import { useTranslation } from '../../composables/i18n'
