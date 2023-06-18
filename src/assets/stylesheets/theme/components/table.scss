@@ -18,3 +18,7 @@ table td.small-wrap {
   width: 1%;
   white-space: nowrap;
 }
+
+th.marked, td.marked {
+  background: var(--theme-table-hover-background) !important;
+}
