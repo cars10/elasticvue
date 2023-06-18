@@ -1,5 +1,6 @@
 <template>
-  <q-btn icon="edit" round flat size="sm" data-testid="cluster-edit" :title="t('cluster_selection.edit_cluster.edit.title')"
+  <q-btn icon="edit" round flat size="sm" data-testid="cluster-edit"
+         :title="t('cluster_selection.edit_cluster.edit.title')"
          @click.stop="dialog = true" />
 
   <q-dialog v-model="dialog">
@@ -45,35 +46,20 @@
 </template>
 
 <script setup lang="ts">
-  import { Ref, ref, toRaw, watch } from 'vue'
-  import { ElasticsearchCluster, useConnectionStore } from '../../store/connection'
   import ClusterFormFields from '../setup/ClusterFormFields.vue'
   import ClusterConnectionErrors from '../setup/ClusterConnectionErrors.vue'
-  import { useClusterConnection } from '../../composables/ClusterConnection'
-  import { useSnackbar } from '../../composables/Snackbar'
   import { useTranslation } from '../../composables/i18n.ts'
+  import { EditClusterProps, useEditCluster } from '../../composables/components/clusterselection/EditCluster.ts'
 
-  const { showSuccessSnackbar } = useSnackbar()
   const t = useTranslation()
+  const props = defineProps<EditClusterProps>()
 
-  const props = defineProps<{ index: number }>()
-  const connectionStore = useConnectionStore()
-
-  const cluster: Ref<ElasticsearchCluster> = ref(Object.assign({}, toRaw(connectionStore.clusters[props.index])))
-  const getCluster = (index: number) => (cluster.value = Object.assign({}, toRaw(connectionStore.clusters[index])))
-  watch(() => props.index, getCluster)
-
-  const formValid = ref(true)
-
-  const dialog = ref(false)
-  const saveCluster = () => {
-    showSuccessSnackbar({ title: 'Cluster saved' })
-    connectionStore.updateCluster({ cluster: cluster.value, index: props.index })
-    dialog.value = false
-  }
-
-  watch([() => cluster.value.username, () => cluster.value.password, () => cluster.value.uri], () => {
-    testRequestState.value = { success: false, error: false, loading: false, errorMessage: '' }
-  })
-  const { testRequestState, testConnection } = useClusterConnection({ cluster })
+  const {
+    dialog,
+    cluster,
+    formValid,
+    saveCluster,
+    testConnection,
+    testRequestState
+  } = useEditCluster(props)
 </script>

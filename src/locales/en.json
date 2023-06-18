@@ -42,7 +42,7 @@
     "required": "Required",
     "success": "Success",
     "bulk": "Bulk Action",
-    "copy":  "Copy"
+    "copy": "Copy"
   },
   "document": {
     "heading": "Show"

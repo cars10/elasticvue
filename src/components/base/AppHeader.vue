@@ -13,7 +13,8 @@
         <q-route-tab class="full-height" :label="t('base.app_header.navigation.home')" :to="{name: 'home'}" exact />
         <q-route-tab :label="t('base.app_header.navigation.nodes')" :to="{name: 'nodes'}" />
         <q-route-tab :label="t('base.app_header.navigation.shards')" :to="{name: 'shards'}" />
-        <q-route-tab :label="t('base.app_header.navigation.indices')" :to="{name: 'indices'}" data-testid="header-indices" />
+        <q-route-tab :label="t('base.app_header.navigation.indices')" :to="{name: 'indices'}"
+                     data-testid="header-indices" />
         <q-route-tab :label="t('base.app_header.navigation.search')" :to="{name: 'search'}" />
         <q-route-tab :label="t('base.app_header.navigation.rest')" :to="{name: 'rest'}" />
         <q-route-tab :label="t('base.app_header.navigation.snapshots')" :to="{name: 'snapshot_repositories'}" />

@@ -68,11 +68,11 @@
   import { nodeRoleTitle } from '../../helpers/nodes'
   import { filterItems } from '../../helpers/filters'
   import FilterInput from '../shared/FilterInput.vue'
-import { genColumns } from '../../helpers/tableColumns'
+  import { genColumns } from '../../helpers/tableColumns'
 
   const t = useTranslation()
 
-  const props = defineProps<{nodes: any[]}>()
+  const props = defineProps<{ nodes: any[] }>()
 
   const filter = ref('')
   const items = computed(() => {

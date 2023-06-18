@@ -48,7 +48,7 @@
               <td>
                 <div class="q-py-xs">
                   <span :class="`http-${row.method}`" class="text-bold">{{ row.method }}</span> {{ row.path }}
-                  <div >
+                  <div>
                     <small class="text-muted ellipsis">{{ row.body.slice(0, 100).replace(/\s/g, '') }}</small>
                   </div>
                 </div>

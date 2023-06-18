@@ -38,11 +38,16 @@
     name: DEFAULT_CLUSTER_NAME,
     username: '',
     password: '',
-    uri: DEFAULT_CLUSTER_URI
+    uri: DEFAULT_CLUSTER_URI,
+    clusterName: '',
+    version: '',
+    majorVersion: 0,
+    uuid: '',
+    status: ''
   })
   const config = ref({ ssl: false, auth: false })
 
-  const connectCallback = (idx) => {
+  const connectCallback = (idx: number) => {
     showSuccessSnackbar({ title: t('setup.test_and_connect.connected') })
     window.location.replace(`/cluster/${idx.toString()}`)
   }

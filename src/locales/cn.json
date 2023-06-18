@@ -41,7 +41,7 @@
     "delete": "删除",
     "required": "必需",
     "success": "成功",
-    "copy":  null
+    "copy": null
   },
   "document": {
     "heading": "查看"
