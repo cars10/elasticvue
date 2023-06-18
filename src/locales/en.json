@@ -215,9 +215,7 @@
           "name": "Name",
           "index_patterns": "index_patterns",
           "priority": "priority",
-          "version": "version",
-          "allow_auto_create": "allow_auto_create",
-          "template": "template"
+          "version": "version"
         }
       }
     }

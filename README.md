@@ -30,7 +30,7 @@ Overall TODOs:
 * Cleanup i18n
 * a11y
 * keyup.esc modifiers
-
+* responsiveness
 
 ## Makefile
 `make dev` start dev server  

@@ -52,10 +52,6 @@ export default class ElasticsearchAdapter {
     return this.request('_cluster/stats', 'GET')
   }
 
-  clusterSettings () {
-    return this.request('_cluster/settings', 'GET', { include_defaults: true })
-  }
-
   clusterReroute (commands: object) {
     return this.request('_cluster/reroute', 'POST', { commands })
   }
@@ -65,9 +61,8 @@ export default class ElasticsearchAdapter {
     return this.request(`_cat/indices/${query}`, 'GET', params)
   }
 
-  catIndexTemplates (params: object, filter?: string) {
-    const query = filter ? `${filter}*` : ''
-    return this.request(`_index_template/${query}`, 'GET', params)
+  catIndexTemplates () {
+    return this.request('_template', 'GET')
   }
 
   catShards (params: object, filter?: string) {

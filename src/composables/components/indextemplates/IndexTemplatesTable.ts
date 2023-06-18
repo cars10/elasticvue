@@ -1,23 +1,31 @@
 import { useTranslation } from '../../i18n'
-import { computed, Ref, ref } from 'vue'
-import { filterItems } from '../../../helpers/filters'
+import { computed, ref } from 'vue'
 import { genColumns } from '../../../helpers/tableColumns'
+import { filterItems } from '../../../helpers/filters.ts'
 
-interface IndexTemplate {
-  index_template: IndexTemplateSettings
+export type EsIndexTemplate = {
+  name: string,
+  index_patterns: string[],
+  order: string,
+  version: string,
 }
 
-interface IndexTemplateSettings {
-  index_patterns: string[]
+export type EsIndexTemplates = Record<string, EsIndexTemplate>
+
+export type IndexTemplatesTableProps = {
+  indexTemplates: EsIndexTemplates
 }
 
-export const useIndexTemplatesTable = <T extends IndexTemplate> ({ indexTemplates }: { indexTemplates: Ref<T[]> }) => {
+export const useIndexTemplatesTable = (props: IndexTemplatesTableProps) => {
   const t = useTranslation()
 
   const filter = ref('')
   const enrichedIndexTemplates = computed(() => {
-    return indexTemplates.value.map((i) => (Object.assign({}, i, { indexPatterns: i.index_template.index_patterns.join(' ') })))
+    return Object.entries(props.indexTemplates).map(([name, template]) => {
+      return Object.assign({}, { name }, { indexPatterns: template.index_patterns?.join('') }, template)
+    })
   })
+
   const filteredItems = computed(() => {
     return filterItems(enrichedIndexTemplates.value, filter.value, ['name', 'indexPatterns'])
   })
@@ -28,8 +36,6 @@ export const useIndexTemplatesTable = <T extends IndexTemplate> ({ indexTemplate
     { label: t('index_templates.index_templates_table.table.headers.index_patterns') },
     { label: t('index_templates.index_templates_table.table.headers.priority') },
     { label: t('index_templates.index_templates_table.table.headers.version') },
-    { label: t('index_templates.index_templates_table.table.headers.allow_auto_create'), },
-    { label: t('index_templates.index_templates_table.table.headers.template') }
   ])
 
   return {

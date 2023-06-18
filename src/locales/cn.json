@@ -214,9 +214,7 @@
           "name": null,
           "index_patterns": null,
           "priority": null,
-          "version": null,
-          "allow_auto_create": null,
-          "template": null
+          "version": null
         }
       }
     }

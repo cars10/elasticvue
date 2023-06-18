@@ -10,7 +10,7 @@
     <q-separator />
 
     <loader-status :request-state="requestState">
-      <index-templates-table :index-templates="data?.index_templates || []" />
+      <index-templates-table :index-templates="data || {}" />
     </loader-status>
   </q-card>
 </template>
@@ -22,9 +22,10 @@
   import IndexTemplatesTable from './IndexTemplatesTable.vue'
   import { useElasticsearchRequest } from '../../composables/CallElasticsearch'
   import { useTranslation } from '../../composables/i18n.ts'
+  import { EsIndexTemplates } from '../../composables/components/indextemplates/IndexTemplatesTable.ts'
 
   const t = useTranslation()
 
-  const { requestState, data, load } = useElasticsearchRequest<IndexTemplates>('catIndexTemplates')
+  const { requestState, data, load } = useElasticsearchRequest<EsIndexTemplates>('catIndexTemplates')
   onMounted(load)
 </script>
