@@ -98,5 +98,5 @@
     formValid,
     resetForm,
     createRepository
-  } = useNewSnapshotRepository({ emit })
+  } = useNewSnapshotRepository(emit)
 </script>

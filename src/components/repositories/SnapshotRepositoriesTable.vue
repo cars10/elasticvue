@@ -32,17 +32,18 @@
 </template>
 
 <script setup lang="ts">
+  import { useRouter } from 'vue-router'
   import FilterInput from '../shared/FilterInput.vue'
   import NewSnapshotRepository from './NewSnapshotRepository.vue'
   import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
-  import { useSnapshotRepositoriesTable } from '../../composables/components/repositories/SnapshotRepositoriesTable'
-  import { toRefs } from 'vue'
-  import { useRouter } from 'vue-router'
+  import {
+    SnapshotRepositoriesTableProps,
+    useSnapshotRepositoriesTable
+  } from '../../composables/components/repositories/SnapshotRepositoriesTable'
 
-  const props = defineProps<{ repositories: object }>()
+  const props = defineProps<SnapshotRepositoriesTableProps>()
   const emit = defineEmits(['reload'])
-  const { repositories } = toRefs(props)
-  const { filter, items, deleteRepository, tableColumns } = useSnapshotRepositoriesTable({ repositories, emit })
+  const { filter, items, deleteRepository, tableColumns } = useSnapshotRepositoriesTable(props, emit)
 
   const router = useRouter()
   const openSnapshots = (repositoryName: string) => (router.push({ name: 'snapshots', params: { repositoryName } }))

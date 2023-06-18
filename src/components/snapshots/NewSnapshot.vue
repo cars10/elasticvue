@@ -41,14 +41,11 @@
 
 <script setup lang="ts">
   import IndexFilter from '../shared/IndexFilter.vue'
-  import { useNewSnapshot } from '../../composables/components/snapshots/NewSnapshot'
+  import { NewSnapshotProps, useNewSnapshot } from '../../composables/components/snapshots/NewSnapshot'
   import { useTranslation } from '../../composables/i18n.ts'
 
-  const props = defineProps<{ repository: string }>()
+  const props = defineProps<NewSnapshotProps>()
   const emit = defineEmits(['reload'])
   const t = useTranslation()
-  const { dialog, snapshot, formValid, loading, createSnapshot, resetForm } = useNewSnapshot({
-    emit,
-    repository: props.repository
-  })
+  const { dialog, snapshot, formValid, loading, createSnapshot, resetForm } = useNewSnapshot(props, emit)
 </script>

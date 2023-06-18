@@ -28,6 +28,7 @@
 <script setup lang="ts">
   import { onMounted, ref, watch } from 'vue'
   import { useElasticsearchAdapter } from '../../composables/CallElasticsearch'
+  import { EsIndex } from '../../composables/components/indices/IndicesTable.ts'
 
   const props = defineProps<{ health: string }>()
   const { callElasticsearch } = useElasticsearchAdapter()
@@ -41,11 +42,11 @@
   const loadUnhealthyIndices = async () => {
     try {
       const yellow = await unhealthyIndices('yellow')
-      indices.value.yellow = yellow.map((i: Index) => i.index)
+      indices.value.yellow = yellow.map((i: EsIndex) => i.index)
 
       if (props.health === 'red') {
         const red = await unhealthyIndices('red')
-        indices.value.red = red.map((i: Index) => i.index)
+        indices.value.red = red.map((i: EsIndex) => i.index)
       }
     } catch (e) {
       console.log(e)

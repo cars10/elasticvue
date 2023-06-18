@@ -32,17 +32,13 @@
 </template>
 
 <script setup lang="ts">
-  import { useSnapshotRow } from '../../composables/components/snapshots/SnapshotRow'
+  import { SnapshotRowProps, useSnapshotRow } from '../../composables/components/snapshots/SnapshotRow'
   import RestoreSnapshot from './RestoreSnapshot.vue'
   import { useTranslation } from '../../composables/i18n'
 
-  const props = defineProps<{ snapshot: Snapshot, repository: string }>()
+  const props = defineProps<SnapshotRowProps>()
   const emit = defineEmits(['reload'])
   const t = useTranslation()
 
-  const { load, indexNames, deleteSnapshot } = useSnapshotRow({
-    emit,
-    repository: props.repository,
-    snapshot: props.snapshot.id
-  })
+  const { load, indexNames, deleteSnapshot } = useSnapshotRow(props, emit)
 </script>

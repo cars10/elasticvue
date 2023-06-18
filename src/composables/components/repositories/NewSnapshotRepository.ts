@@ -2,17 +2,17 @@ import { useTranslation } from '../../i18n'
 import { computed, Ref, ref } from 'vue'
 import { defineElasticsearchRequest } from '../../CallElasticsearch'
 
-type Repository = {
+type NewRepository = {
   repository: string,
-  body: RepositoryOptions
+  body: NewRepositoryOptions
 }
 
-type RepositoryOptions = {
+type NewRepositoryOptions = {
   type: string,
-  settings: RepositorySettings
+  settings: NewRepositorySettings
 }
 
-type RepositorySettings = {
+type NewRepositorySettings = {
   location: string,
   compress: boolean,
   chunkSize: string,
@@ -21,11 +21,11 @@ type RepositorySettings = {
   readonly: boolean
 }
 
-export const useNewSnapshotRepository = ({ emit }: { emit: any }) => {
+export const useNewSnapshotRepository = (emit: any) => {
   const t = useTranslation()
 
   const dialog = ref(false)
-  const repository: Ref<Repository> = ref({
+  const repository: Ref<NewRepository> = ref({
     repository: '',
     body: {
       type: 'fs',

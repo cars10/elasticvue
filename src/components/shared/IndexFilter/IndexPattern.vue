@@ -25,12 +25,13 @@
   import { Ref, computed, onMounted, ref, watch } from 'vue'
   import { useTranslation } from '../../../composables/i18n'
   import { useElasticsearchAdapter } from '../../../composables/CallElasticsearch'
+  import { EsIndex } from '../../../composables/components/indices/IndicesTable.ts'
 
   const t = useTranslation()
 
   const props = defineProps<{ modelValue: string }>()
   const emit = defineEmits(['update:modelValue'])
-  const indices: Ref<Index[]> = ref([])
+  const indices: Ref<EsIndex[]> = ref([])
   const localValue = ref(props.modelValue)
 
   const { requestState, callElasticsearch } = useElasticsearchAdapter()

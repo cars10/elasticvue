@@ -38,6 +38,7 @@
   import { useTranslation } from '../../../composables/i18n'
   import { useElasticsearchAdapter } from '../../../composables/CallElasticsearch'
   import { ElasticsearchMethod } from '../../../services/ElasticsearchAdapter'
+  import { EsIndex } from '../../../composables/components/indices/IndicesTable.ts'
 
   const t = useTranslation()
 
@@ -67,7 +68,7 @@
   if (props.behavior === 'load') {
     const load = () => {
       return callElasticsearch(props.method, props.methodParams)
-          .then(body => indices.value = body.map((i: Index) => (i.index || i)).sort())
+          .then(body => indices.value = body.map((i: EsIndex) => (i.index || i)).sort())
           .catch(() => (indices.value = []))
     }
     onMounted(load)

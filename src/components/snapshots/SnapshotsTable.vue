@@ -26,8 +26,13 @@
   import { useTranslation } from '../../composables/i18n'
   import SnapshotRow from './SnapshotRow.vue'
   import NewSnapshot from './NewSnapshot.vue'
+  import { EsSnapshot } from '../../composables/components/snapshots/SnapshotRow.ts'
 
-  defineProps<{ snapshots: any[], repository: string }>()
+  type SnapshotsTableProps = {
+    repository: string,
+    snapshots: EsSnapshot[]
+  }
+  defineProps<SnapshotsTableProps>()
   const emit = defineEmits(['reload'])
 
   const t = useTranslation()

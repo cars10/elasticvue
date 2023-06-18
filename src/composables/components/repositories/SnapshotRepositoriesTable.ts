@@ -1,19 +1,34 @@
 import { useTranslation } from '../../i18n'
-import { computed, Ref, ref } from 'vue'
+import { computed, ref } from 'vue'
 import { filterItems } from '../../../helpers/filters'
 import { defineElasticsearchRequest } from '../../CallElasticsearch'
 import { genColumns } from '../../../helpers/tableColumns'
 
-export const useSnapshotRepositoriesTable = ({ repositories, emit }: {
-  repositories: Ref<object>,
-  emit: any
-}) => {
+export type EsSnapshotRepository = {
+  type: string,
+  uuid: string,
+  settings: EsSnapshotRepositorySettings
+}
+
+type EsSnapshotRepositorySettings = {
+  location: string,
+  maxRestoreBytesPerSec: string,
+  chunkSize: string,
+  readonly: string,
+  compress: string
+}
+
+export type SnapshotRepositoriesTableProps = {
+  repositories: Record<string, EsSnapshotRepository>
+}
+
+export const useSnapshotRepositoriesTable = (props: SnapshotRepositoriesTableProps, emit: any) => {
   const t = useTranslation()
 
   const filter = ref('')
   const items = computed(() => {
-    if (Object.keys(repositories.value).length === 0) return []
-    const repos = Object.entries(repositories.value).map(([name, repo]) => Object.assign({}, { name }, repo))
+    if (Object.keys(props.repositories).length === 0) return []
+    const repos = Object.entries(props.repositories).map(([name, repo]) => Object.assign({}, { name }, repo))
     return filterItems(repos, filter.value, ['name'])
   })
 

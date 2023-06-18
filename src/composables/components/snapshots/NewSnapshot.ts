@@ -2,16 +2,20 @@ import { useTranslation } from '../../i18n'
 import { computed, ref } from 'vue'
 import { defineElasticsearchRequest } from '../../CallElasticsearch'
 
-type Snapshot = {
+type NewSnapshot = {
   name: string,
   indices: string | string[]
 }
 
-export const useNewSnapshot = ({ emit, repository }: { emit: any, repository: string }) => {
+export type NewSnapshotProps = {
+  repository: string
+}
+
+export const useNewSnapshot = (props: NewSnapshotProps, emit: any) => {
   const t = useTranslation()
 
   const dialog = ref(false)
-  const snapshot = ref<Snapshot>({ name: '', indices: '*' })
+  const snapshot = ref<NewSnapshot>({ name: '', indices: '*' })
   const formValid = computed(() => snapshot.value.name.trim().length > 0)
 
   const resetForm = () => {
@@ -26,7 +30,7 @@ export const useNewSnapshot = ({ emit, repository }: { emit: any, repository: st
   const createSnapshot = async () => {
     const success = await run({
       params: {
-        repository,
+        repository: props.repository,
         snapshot: snapshot.value.name,
         body: {
           indices: snapshot.value.indices
