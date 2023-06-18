@@ -24,17 +24,15 @@
   <cluster-form v-model="newCluster" :connect-callback="connectCallback" />
 </template>
 
-<script setup>
+<script setup lang="ts">
   import { ref } from 'vue'
   import { DEFAULT_CLUSTER_NAME, DEFAULT_CLUSTER_URI, SHOW_CORS_HINT } from '../../consts'
   import ClusterForm from './ClusterForm.vue'
   import { useSnackbar } from '../../composables/Snackbar'
-  import { useRouter } from 'vue-router'
   import { useTranslation } from '../../composables/i18n'
 
   const t = useTranslation()
   const { showSuccessSnackbar } = useSnackbar()
-  const router = useRouter()
 
   const newCluster = ref({
     name: DEFAULT_CLUSTER_NAME,
@@ -46,6 +44,6 @@
 
   const connectCallback = (idx) => {
     showSuccessSnackbar({ title: t('setup.test_and_connect.connected') })
-    router.push({ name: 'home', params: { clusterIndex: idx.toString() } })
+    window.location.replace(`/cluster/${idx.toString()}`)
   }
 </script>
