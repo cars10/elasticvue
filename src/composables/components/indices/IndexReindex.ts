@@ -2,7 +2,11 @@ import { ref } from 'vue'
 import { useSnackbar } from '../../Snackbar'
 import { useElasticsearchAdapter } from '../../CallElasticsearch'
 
-export const useIndexReindex = ({ index, emit }: { index: string, emit: any }) => {
+export type IndexReindexProps = {
+  index: string
+}
+
+export const useIndexReindex = (props: IndexReindexProps, emit: any) => {
   const { showSnackbar } = useSnackbar()
   const { requestState, callElasticsearch } = useElasticsearchAdapter()
 
@@ -11,7 +15,7 @@ export const useIndexReindex = ({ index, emit }: { index: string, emit: any }) =
 
   const reindex = async () => {
     try {
-      const body = await callElasticsearch('reindex', { source: index, dest: dest.value })
+      const body = await callElasticsearch('reindex', { source: props.index, dest: dest.value })
       showSnackbar(requestState.value, { body: `${body.total} documents reindexed into ${dest.value}.` })
       dest.value = ''
       emit('reload')

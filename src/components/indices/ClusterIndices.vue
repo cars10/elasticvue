@@ -16,16 +16,17 @@
 </template>
 
 <script setup lang="ts">
-  import IndicesTable from './IndicesTable.vue'
-  import { useElasticsearchRequest } from '../../composables/CallElasticsearch'
   import { onMounted } from 'vue'
+  import IndicesTable from './IndicesTable.vue'
   import LoaderStatus from '../shared/LoaderStatus.vue'
   import ReloadButton from '../shared/ReloadButton.vue'
+  import { useElasticsearchRequest } from '../../composables/CallElasticsearch'
   import { useTranslation } from '../../composables/i18n.ts'
+  import { EsIndex } from '../../composables/components/indices/IndicesTable.ts'
 
   const t = useTranslation()
 
   const CAT_INDICES_PARAMS = { h: 'index,health,status,uuid,pri,rep,docs.count,store.size', bytes: 'b' }
-  const { requestState, data, load } = useElasticsearchRequest<{ index: string }[]>('catIndices', CAT_INDICES_PARAMS)
+  const { requestState, data, load } = useElasticsearchRequest<EsIndex[]>('catIndices', CAT_INDICES_PARAMS)
   onMounted(load)
 </script>

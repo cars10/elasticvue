@@ -47,12 +47,12 @@
 
 <script setup lang="ts">
   import { useTranslation } from '../../composables/i18n'
-  import { useIndexReindex } from '../../composables/components/indices/IndexReindex'
+  import { IndexReindexProps, useIndexReindex } from '../../composables/components/indices/IndexReindex'
 
   const t = useTranslation()
 
-  const props = defineProps<{ index: string }>()
+  const props = defineProps<IndexReindexProps>()
   const emit = defineEmits(['reload'])
 
-  const { dialog, requestState, reindex, dest } = useIndexReindex({ index: props.index, emit })
+  const { dialog, requestState, reindex, dest } = useIndexReindex(props, emit)
 </script>

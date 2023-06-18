@@ -68,22 +68,19 @@
 </template>
 
 <script setup lang="ts">
-  import { useTranslation } from '../../composables/i18n'
-  import NewIndex from './NewIndex.vue'
-  import IndexBulk from './IndexBulk.vue'
-  import ResizableContainer from '../shared/ResizableContainer.vue'
-  import IndexRow from './IndexRow.vue'
   import FilterInput from '../shared/FilterInput.vue'
-  import { useIndicesTable } from '../../composables/components/indices/IndicesTable'
-  import { toRefs } from 'vue'
+  import IndexBulk from './IndexBulk.vue'
+  import IndexRow from './IndexRow.vue'
+  import NewIndex from './NewIndex.vue'
+  import ResizableContainer from '../shared/ResizableContainer.vue'
+  import { useTranslation } from '../../composables/i18n'
+  import { EsTableProps, useIndicesTable } from '../../composables/components/indices/IndicesTable'
   import { useConnectionStore } from '../../store/connection.ts'
 
   const connectionStore = useConnectionStore()
-
   const t = useTranslation()
 
-  const props = defineProps<{ indices: { index: string }[] }>()
-  const { indices } = toRefs(props)
+  const props = defineProps<EsTableProps>()
   const emit = defineEmits(['reload'])
 
   const checkAll = (val: boolean) => {
@@ -106,5 +103,5 @@
     setIndeterminate,
     clearDeletedIndicesAndReload,
     columns
-  } = useIndicesTable({ indices, emit })
+  } = useIndicesTable(props, emit)
 </script>

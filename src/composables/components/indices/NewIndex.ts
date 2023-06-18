@@ -2,7 +2,7 @@ import { useTranslation } from '../../i18n'
 import { computed, ref } from 'vue'
 import { defineElasticsearchRequest } from '../../CallElasticsearch'
 
-export const useNewIndex = ({ emit }: { emit: any }) => {
+export const useNewIndex = (emit: any) => {
   const t = useTranslation()
 
   const dialog = ref(false)
@@ -12,9 +12,7 @@ export const useNewIndex = ({ emit }: { emit: any }) => {
     replicas: 1
   })
 
-  const formValid = computed(() => {
-    return index.value.name.length > 0 && index.value.shards > 0
-  })
+  const formValid = computed(() => (index.value.name.length > 0 && index.value.shards > 0))
 
   const resetForm = () => {
     index.value = {

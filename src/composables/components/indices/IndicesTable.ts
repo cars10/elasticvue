@@ -1,22 +1,37 @@
+import { computed, Ref, ref, watch } from 'vue'
 import { useTranslation } from '../../i18n'
 import { useIndicesStore } from '../../../store/indices'
 import { useResizeStore } from '../../../store/resize'
-import { computed, Ref, ref, watch } from 'vue'
 import { DEFAULT_ROWS_PER_PAGE } from '../../../consts'
 import { filterItems } from '../../../helpers/filters'
-import ElasticsearchIndex, { Index } from '../../../models/ElasticsearchIndex'
+import ElasticsearchIndex from '../../../models/ElasticsearchIndex'
 import { debounce } from '../../../helpers/debounce'
 import { useSelectableRows } from '../../SelectableRow'
 import { genColumns } from '../../../helpers/tableColumns'
 
-export const useIndicesTable = ({ indices, emit }: { indices: any, emit: any }) => {
+export type EsIndex = {
+  index: string,
+  health: string,
+  status: string,
+  uuid: string,
+  pri: string,
+  rep: string,
+  'docs.count': string,
+  'store.size': string
+}
+
+export type EsTableProps = {
+  indices: EsIndex[]
+}
+
+export const useIndicesTable = (props: EsTableProps, emit: any) => {
   const t = useTranslation()
 
   const indicesStore = useIndicesStore()
   const resizeStore = useResizeStore()
 
   const filter = ref('')
-  const items: Ref<Index[]> = ref([])
+  const items: Ref<ElasticsearchIndex[]> = ref([])
   const tableKey = ref(0)
 
   const rowsPerPage = computed(() => {
@@ -28,7 +43,7 @@ export const useIndicesTable = ({ indices, emit }: { indices: any, emit: any }) 
   })
 
   const filterTable = () => {
-    let results = indices.value
+    let results = props.indices
     if (results.length === 0) return []
     if (!indicesStore.showHiddenIndices) {
       results = results.filter((item: any) => !item.index.match(new RegExp(indicesStore.hideIndicesRegex)))
@@ -41,7 +56,7 @@ export const useIndicesTable = ({ indices, emit }: { indices: any, emit: any }) 
   const debouncedFilterTable = debounce(filterTable, 150)
   watch(() => filter.value, debouncedFilterTable)
   watch(() => indicesStore.showHiddenIndices, filterTable)
-  watch(() => indices.value, filterTable)
+  watch(() => props.indices, filterTable)
   watch(() => indicesStore.stickyTableHeader, () => (tableKey.value += 1))
 
   const { selectedItems, allItemsSelected, setIndeterminate } = useSelectableRows(items)

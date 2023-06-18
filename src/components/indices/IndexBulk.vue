@@ -63,7 +63,6 @@
   const t = useTranslation()
 
   defineProps<{ selectedIndices: string[], totalItemsCount: number, filteredItemsCount: number }>()
-
   const emit = defineEmits(['reload', 'indicesDeleted'])
 
   const menu: Ref<QMenu | null> = ref(null)

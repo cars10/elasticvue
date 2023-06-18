@@ -484,6 +484,9 @@
     "test_and_connect": {
       "heading": "2. Connect",
       "form": {
+        "name": {
+          "label": "Cluster name"
+        },
         "username": {
           "label": "Username (optional)"
         },

@@ -3,7 +3,7 @@
     <div class="q-mb-md">
       <q-input v-model="cluster.name"
                required
-               label="Cluster name"
+               :label="t('setup.test_and_connect.form.name.label')"
                autocomplete="off"
                outlined
                data-testid="cluster-edit-name"

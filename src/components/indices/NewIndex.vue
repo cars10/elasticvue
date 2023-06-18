@@ -61,5 +61,5 @@
   const t = useTranslation()
   const emit = defineEmits(['reload'])
 
-  const { dialog, index, formValid, loading, createIndex, resetForm } = useNewIndex({ emit })
+  const { dialog, index, formValid, loading, createIndex, resetForm } = useNewIndex(emit)
 </script>

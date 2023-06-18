@@ -9,7 +9,11 @@ type Alias = {
   alias: string
 }
 
-export const useIndexAliases = ({ index, emit }: { index: Ref<string>, emit: any }) => {
+export type IndexAliasProps = {
+  index: string
+}
+
+export const useIndexAliases = (props: IndexAliasProps, emit: any) => {
   const t = useTranslation()
   const { showSnackbar } = useSnackbar()
   const { requestState, callElasticsearch } = useElasticsearchAdapter()
@@ -27,15 +31,15 @@ export const useIndexAliases = ({ index, emit }: { index: Ref<string>, emit: any
   })
 
   const loadAliases = () => {
-    callElasticsearch('indexGetAlias', { index: index.value })
+    callElasticsearch('indexGetAlias', { index: props.index })
         .then(body => {
-          aliases.value = Object.keys(body[index.value].aliases).map(alias => ({ alias }))
+          aliases.value = Object.keys(body[props.index].aliases).map(alias => ({ alias }))
         })
         .catch(() => (aliases.value = []))
   }
 
   const addAlias = () => {
-    callElasticsearch('indexAddAlias', { index: index.value, alias: newAlias.value })
+    callElasticsearch('indexAddAlias', { index: props.index, alias: newAlias.value })
         .then(() => {
           loadAliases()
           newAlias.value = ''
@@ -47,10 +51,10 @@ export const useIndexAliases = ({ index, emit }: { index: Ref<string>, emit: any
   }
 
   const deleteAlias = (alias: string) => {
-    askConfirm(t('indices.index_aliases.delete_alias.confirm', { alias, index: index.value }))
+    askConfirm(t('indices.index_aliases.delete_alias.confirm', { alias, index: props.index }))
         .then(confirmed => {
           if (confirmed) {
-            callElasticsearch('indexDeleteAlias', { index: index.value, alias })
+            callElasticsearch('indexDeleteAlias', { index: props.index, alias })
                 .then(loadAliases)
                 .catch(() => showSnackbar(requestState.value))
           }

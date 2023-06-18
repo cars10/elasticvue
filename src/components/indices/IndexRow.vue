@@ -132,27 +132,14 @@
 
 <script setup lang="ts">
   import IndexAliases from './IndexAliases.vue'
-  import { useIndexRow } from '../../composables/components/indices/IndexRow'
+  import { IndexRowProps, useIndexRow } from '../../composables/components/indices/IndexRow'
   import { useTranslation } from '../../composables/i18n'
   import IndexReindex from './IndexReindex.vue'
   import RowMenuAction from './RowMenuAction.vue'
 
   const t = useTranslation()
-  type Index = {
-    index: string,
-    health: string,
-    status: string,
-    uuid: string,
-    pri: string,
-    rep: string,
-    parsedDocsCount: number,
-    humanStoreSize: string
-  }
-  const props = defineProps<{ index: Index }>()
+  const props = defineProps<IndexRowProps>()
   const emit = defineEmits(['reload'])
 
-  const { menu, aliases, openModalWith, loading, remitReloadAndCloseMenu, showDocuments } = useIndexRow({
-    props,
-    emit
-  })
+  const { menu, aliases, openModalWith, loading, remitReloadAndCloseMenu, showDocuments } = useIndexRow(props, emit)
 </script>

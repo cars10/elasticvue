@@ -467,6 +467,9 @@
     "test_and_connect": {
       "heading": "2. 连接",
       "form": {
+        "name": {
+          "label": null
+        },
         "username": {
           "label": "用户名 (可选)"
         },

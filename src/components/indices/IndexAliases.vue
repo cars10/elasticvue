@@ -76,15 +76,12 @@
 
 <script setup lang="ts">
   import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
-  import { useIndexAliases } from '../../composables/components/indices/IndexAliases'
-  import { toRefs } from 'vue'
+  import { IndexAliasProps, useIndexAliases } from '../../composables/components/indices/IndexAliases'
   import { useTranslation } from '../../composables/i18n'
 
   const t = useTranslation()
-
-  const props = defineProps<{ index: string }>()
-  const { index } = toRefs(props)
+  const props = defineProps<IndexAliasProps>()
   const emit = defineEmits(['reload'])
 
-  const { dialog, requestState, newAlias, aliases, addAlias, deleteAlias, columns } = useIndexAliases({ index, emit })
+  const { dialog, requestState, newAlias, aliases, addAlias, deleteAlias, columns } = useIndexAliases(props, emit)
 </script>

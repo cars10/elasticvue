@@ -5,6 +5,8 @@ import { QMenu } from 'quasar'
 import { useRouter } from 'vue-router'
 import { useSearchStore } from '../../../store/search'
 import { DEFAULT_PAGINATION, DEFAULT_SEARCH_QUERY } from '../../../consts'
+import ElasticsearchIndex from '../../../models/ElasticsearchIndex.ts'
+import { handleError } from '../../../helpers/error.ts'
 
 type Aliases = {
   aliases: string[]
@@ -12,13 +14,18 @@ type Aliases = {
 
 type IndexAliases = Record<string, Aliases>
 
-export const useIndexRow = ({ props, emit }: { props: any, emit: any }) => {
+export type IndexRowProps = {
+  index: ElasticsearchIndex
+}
+
+export const useIndexRow = (props: IndexRowProps, emit: any) => {
   const menu: Ref<QMenu | null> = ref(null)
   const aliases: Ref<string[]> = ref([])
 
   const { openModalWith } = useModal()
-  const loadAliases = (index: string) => {
-    load(index).then(() => {
+  const loadAliases = async (index: string) => {
+    try {
+      await load(index)
       if (!data.value) return
 
       if (!data.value[props.index.index] || !data.value[props.index.index].aliases) {
@@ -26,16 +33,22 @@ export const useIndexRow = ({ props, emit }: { props: any, emit: any }) => {
       } else {
         aliases.value = Object.keys(data.value[props.index.index].aliases).sort()
       }
-    })
+    } catch (e) {
+      handleError(e)
+      aliases.value = []
+    }
   }
 
   const { loading, callElasticsearch } = useElasticsearchAdapter()
   const data: Ref<IndexAliases | null> = ref(null)
 
-  const load = (index: string) => {
-    return callElasticsearch('indexGetAlias', { index })
-        .then(body => (data.value = body))
-        .catch(() => (data.value = null))
+  const load = async (index: string) => {
+    try {
+      data.value = await callElasticsearch('indexGetAlias', { index })
+    } catch (e) {
+      handleError(e)
+      data.value = null
+    }
   }
 
   onMounted(() => (loadAliases(props.index.index)))

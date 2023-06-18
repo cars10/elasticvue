@@ -1,15 +1,5 @@
 import prettyBytes from 'pretty-bytes'
-
-export type Index = {
-  index: string
-  health: string
-  status: string
-  uuid: string
-  pri: string
-  rep: string
-  'docs.count': string
-  'store.size': string
-}
+import { EsIndex } from '../composables/components/indices/IndicesTable.ts'
 
 export default class ElasticsearchIndex {
   index: string
@@ -24,7 +14,7 @@ export default class ElasticsearchIndex {
   parsedStoreSize: number | string
   humanStoreSize: string
 
-  constructor (options: Index) {
+  constructor (options: EsIndex) {
     this.index = options.index
     this.health = options.health
     this.status = options.status
