@@ -1,31 +1,3 @@
-
-
-type Index = {
-  index: string
-}
-
-type Snapshot = {
-  id: string,
-  status: string,
-  start_time: string,
-  start_epoch: string,
-  end_time: string,
-  end_epoch: string,
-  duration: string,
-  successful_shards: number,
-  failed_shards: number,
-  total_shards: number,
-  indices: number
-}
-
-type SearchResult = {
-  hits: SearchResultHits
-}
-
-type SearchResultHits = {
-  hits: any
-}
-
 export type EsNode = {
   name: string,
   id: string,

@@ -1,4 +1,4 @@
-interface ColumnOptions {
+type ColumnOptions = {
   label: string,
   field?: string,
   align?: string

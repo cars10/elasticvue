@@ -7,7 +7,7 @@ export default class SearchResults {
   uniqueIndices: string[]
   docs: any[]
 
-  constructor (results: SearchResult[]) {
+  constructor (results: any[]) {
     this.columns = DEFAULT_SEARCH_RESULT_COLUMNS.slice()
     this.indices = []
     this.docs = []

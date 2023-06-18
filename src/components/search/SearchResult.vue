@@ -13,7 +13,7 @@
 
         <q-btn-dropdown ref="menu" v-model="dropdown" icon="settings" color="dark-grey" @click.stop>
           <q-list padding dense>
-            <edit-document :id="doc._id" :index="doc._index" :type="doc._type" />
+            <edit-document :_id="doc._id" :_index="doc._index" :_type="doc._type" />
 
             <q-separator />
 

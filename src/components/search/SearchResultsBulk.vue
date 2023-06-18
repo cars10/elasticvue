@@ -30,7 +30,6 @@
   const t = useTranslation()
 
   defineProps<{ selected: string[], totalItemsCount: number, filteredItemsCount: number }>()
-
   const emit = defineEmits(['reload'])
 
   const menu: Ref<QMenu | null> = ref(null)

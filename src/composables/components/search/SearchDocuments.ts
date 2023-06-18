@@ -5,15 +5,16 @@ import { Ref, ref, watch } from 'vue'
 import { removeComments } from '../../../services/json/parse'
 import { DEFAULT_SEARCH_QUERY } from '../../../consts'
 
-type Response = {
-  hits: ResponseHits
+export type EsSearchResult = {
+  hits: EsSearchResultHits
 }
 
-type ResponseHits = {
-  total: ResponseHitsValue
+type EsSearchResultHits = {
+  total: EsSearchResultsHitsValues,
+  hits?: any
 }
 
-type ResponseHitsValue = {
+type EsSearchResultsHitsValues = {
   value: number
 }
 
@@ -23,7 +24,7 @@ export const useSearchDocuments = () => {
   const searchStore = useSearchStore()
   const resizeStore = useResizeStore()
 
-  const searchResults: Ref<Response> = ref({ hits: { total: { value: 0 } } })
+  const searchResults: Ref<EsSearchResult> = ref({ hits: { total: { value: 0 } } })
   const queryParsingError = ref(false)
   const search = async () => {
     let query

@@ -13,7 +13,7 @@
       <q-card-section class="flex justify-between">
         <div class="flex">
           <h2 class="text-h6 q-my-none">
-            {{ index }} / {{ type }} / {{ id }}
+            {{ _index }} / {{ _type }} / {{ _id }}
           </h2>
           <reload-button :action="loadDocument" />
         </div>
@@ -50,9 +50,9 @@
   import { useResizeStore } from '../../store/resize.js'
   import ReloadButton from '../shared/ReloadButton.vue'
   import { useTranslation } from '../../composables/i18n.ts'
-  import { useEditDocument } from '../../composables/components/search/EditDocument.ts'
+  import { EditDocumentProps, useEditDocument } from '../../composables/components/search/EditDocument.ts'
 
-  const props = defineProps<{ index: string, type: string, id: string }>()
+  const props = defineProps<EditDocumentProps>()
   const emit = defineEmits(['reload'])
   const resizeStore = useResizeStore()
   const t = useTranslation()
@@ -64,10 +64,5 @@
     requestState,
     loading,
     updateDocument
-  } = useEditDocument({
-    emit,
-    index: props.index,
-    type: props.type,
-    id: props.id
-  })
+  } = useEditDocument(props, emit)
 </script>
