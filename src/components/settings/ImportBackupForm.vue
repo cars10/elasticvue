@@ -28,8 +28,8 @@
 
 <script setup lang="ts">
   import { useImportExport } from '../../composables/ImportExport'
-  import { useSnackbar } from '../../composables/Snackbar'
   import { useTranslation } from '../../composables/i18n'
+  import { handleError } from '../../helpers/error.ts'
 
   const t = useTranslation()
   const props = defineProps({
@@ -39,15 +39,14 @@
     }
   })
 
-  const { showErrorSnackbar } = useSnackbar()
-
   const { importFile, importBackup } = useImportExport({ confirmImport: props.confirmImport })
 
-  const importBackupAndRedirect = () => {
-    importBackup().then(imported => {
+  const importBackupAndRedirect = async () => {
+    try {
+      const imported = await importBackup()
       if (imported) window.location.replace('/')
-    }).catch(e => {
-      showErrorSnackbar({ title: 'Error', body: e })
-    })
+    } catch (e) {
+      handleError(e, true)
+    }
   }
 </script>

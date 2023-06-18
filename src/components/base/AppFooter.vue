@@ -33,6 +33,5 @@
 
   const t = useTranslation()
 
-  // @ts-ignore
   const version = __APP_VERSION__
 </script>
