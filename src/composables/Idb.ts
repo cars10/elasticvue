@@ -8,13 +8,13 @@ const tables = [
 ]
 const dbVersion = 1
 
-const databaseName = (clusterUuid: string) => (`elasticvue-${clusterUuid}`)
+const databaseName = (clusterUuid?: string) => (`elasticvue-${clusterUuid}`)
 
 let db: IdbAdapter | null = null
 export const useIdb = () => {
   if (!db) {
     const connectionStore = useConnectionStore()
-    const clusterUuid = connectionStore.activeCluster.uuid
+    const clusterUuid = connectionStore.activeCluster?.uuid
     db = new IdbAdapter({ database: databaseName(clusterUuid), version: dbVersion, tables })
   }
   return db

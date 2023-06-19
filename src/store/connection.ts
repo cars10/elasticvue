@@ -1,4 +1,4 @@
-import { defineStore, StoreDefinition } from 'pinia'
+import { defineStore } from 'pinia'
 
 export type ElasticsearchCluster = {
   name: string,
@@ -13,14 +13,13 @@ export type ElasticsearchCluster = {
   loading?: boolean
 }
 
-type State = {
+type ConnectionState = {
   clusters: ElasticsearchCluster[],
   activeClusterIndex: number | null
 }
 
-// @ts-ignore
-export const useConnectionStore: StoreDefinition<'connection', State> = defineStore('connection', {
-  state: (): State => {
+export const useConnectionStore = defineStore('connection', {
+  state: (): ConnectionState => {
     return {
       clusters: [],
       activeClusterIndex: null
@@ -50,7 +49,7 @@ export const useConnectionStore: StoreDefinition<'connection', State> = defineSt
 
       return this.clusters[this.activeClusterIndex]
     },
-    validateAndSetClusterIndex (index) {
+    validateAndSetClusterIndex (index: string) {
       if (index === null || this.clusters.length === 0) return
 
       let clusterIndex: number = 0

@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { DEFAULT_PAGINATION, DEFAULT_SEARCH_QUERY } from '../consts'
 import { useConnectionStore } from './connection.ts'
 
-type State = {
+type SearchState = {
   q: string,
   indices: string,
   searchQuery: string,
@@ -15,10 +15,10 @@ type State = {
 
 export const useSearchStore = () => {
   const connectionStore = useConnectionStore()
-  const clusterUuid = connectionStore.activeCluster.uuid
+  const clusterUuid = connectionStore.activeCluster?.uuid
 
   return defineStore('search', {
-    state: (): State => ({
+    state: (): SearchState => ({
       q: '*',
       indices: '*',
       searchQuery: DEFAULT_SEARCH_QUERY,

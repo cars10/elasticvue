@@ -1,10 +1,10 @@
-import { ref } from 'vue'
+import { Ref, ref } from 'vue'
 import ElasticsearchAdapter from '../services/ElasticsearchAdapter'
 import { useTranslation } from './i18n'
 import { useSnackbar } from './Snackbar'
-import { useConnectionStore } from '../store/connection'
+import { ElasticsearchCluster, useConnectionStore } from '../store/connection'
 
-export const useClusterConnection = ({ cluster }) => {
+export const useClusterConnection = (cluster: Ref<ElasticsearchCluster>) => {
   const t = useTranslation()
   const connectionStore = useConnectionStore()
   const { showSuccessSnackbar } = useSnackbar()
@@ -38,7 +38,7 @@ export const useClusterConnection = ({ cluster }) => {
       testRequestState.value.loading = false
 
       showSuccessSnackbar({ title: t('defaults.success'), body: t('mixins.test_connection.cluster_reachable') })
-    } catch (e) {
+    } catch (e: any) {
       testRequestState.value.loading = false
       testRequestState.value.error = true
       if (e instanceof TypeError) {
@@ -56,10 +56,10 @@ export const useClusterConnection = ({ cluster }) => {
 
     const adapter = new ElasticsearchAdapter(cluster.value)
     try {
-      const infoResponse = await adapter.test()
+      const infoResponse: any = await adapter.test()
       const infoJson = await infoResponse.json()
 
-      const clusterHealthResponse = await adapter.clusterHealth()
+      const clusterHealthResponse: any = await adapter.clusterHealth()
       const clusterHealthBody = await clusterHealthResponse.json()
 
       let uri = cluster.value.uri.trim()

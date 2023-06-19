@@ -1,14 +1,14 @@
 import { defineStore } from 'pinia'
 import { ElasticsearchMethod } from '../services/ElasticsearchAdapter.ts'
 
-type State = {
+type ModalState = {
   show: boolean,
   method: ElasticsearchMethod,
   methodParams: any
 }
 
 export const useModalStore = defineStore('modal', {
-  state: (): State => ({
+  state: (): ModalState => ({
     show: false,
     method: 'ping',
     methodParams: null

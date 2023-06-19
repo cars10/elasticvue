@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { SnackbarOptions } from '../composables/Snackbar'
 
-interface State {
+interface SnackbarState {
   visible: boolean,
   timeout: number,
   color: string | null,
@@ -12,7 +12,7 @@ interface State {
 }
 
 export const useSnackbarStore = defineStore('snackbar', {
-  state: (): State => ({
+  state: (): SnackbarState => ({
     visible: false,
     timeout: -1,
     color: null,

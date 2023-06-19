@@ -35,11 +35,12 @@
   import cn from '../../assets/images/icons/flags/cn.svg'
   import { useI18nStore } from '../../store/i18n'
   import { useTranslation } from '../../composables/i18n.ts'
+  import { ValidLocale } from '../../consts.ts'
 
   const store = useI18nStore()
   const t = useTranslation()
 
-  const changeLanguage = (lang: string) => {
+  const changeLanguage = (lang: ValidLocale) => {
     store.setLanguage(lang)
     window.location.reload()
   }

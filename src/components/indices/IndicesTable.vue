@@ -2,7 +2,8 @@
   <div class="flex justify-between q-pa-md">
     <div>
       <new-index @reload="emit('reload')" />
-      <router-link v-if="connectionStore.activeCluster.majorVersion > 6" to="index_templates" class="q-ml-md">
+      <router-link v-if="connectionStore.activeCluster && connectionStore.activeCluster.majorVersion > 6"
+                   to="index_templates" class="q-ml-md">
         {{ t('index_templates.heading') }}
       </router-link>
     </div>

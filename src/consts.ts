@@ -7,12 +7,13 @@ export const REQUEST_DEFAULT_HEADERS = {
   'Content-Type': 'application/json'
 }
 
-export const SUPPORTED_COUNTRY_LOCALES: Record<string, string> = {
+export const SUPPORTED_COUNTRY_LOCALES: Record<string, ValidLocale> = {
   en: 'en',
   cn: 'cn',
   zh: 'cn'
 }
-export const DEFAULT_LOCALE = 'en'
+export type ValidLocale = 'en' | 'cn'
+export const DEFAULT_LOCALE: ValidLocale = 'en'
 
 export const DEFAULT_ROWS_PER_PAGE = [10, 20, 100, 0]
 export const DEFAULT_HIDE_INDICES_REGEX = '^\\..*'

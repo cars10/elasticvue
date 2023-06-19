@@ -1,9 +1,9 @@
 <template>
   <q-btn color="dark-grey" no-caps :title="btnTitle" data-testid="cluster-selection">
-    <cluster-status-indicator :status="connectionStore.activeCluster.status"
-                              :loading="connectionStore.activeCluster.loading" />
+    <cluster-status-indicator :status="connectionStore.activeCluster?.status"
+                              :loading="connectionStore.activeCluster?.loading" />
 
-    <span class="ellipsis" style="max-width: 200px">{{ connectionStore.activeCluster.name }}</span>
+    <span class="ellipsis" style="max-width: 200px">{{ connectionStore.activeCluster?.name }}</span>
 
     <q-icon :name="menuOpen ? 'expand_less' : 'expand_more'" />
 

@@ -1,10 +1,10 @@
-import { DEFAULT_LOCALE, SUPPORTED_COUNTRY_LOCALES } from '../consts'
+import { DEFAULT_LOCALE, SUPPORTED_COUNTRY_LOCALES, ValidLocale } from '../consts'
 
-export const defaultLocale = () => {
+export const defaultLocale = (): ValidLocale => {
   return getBrowserLocale(navigator.languages, DEFAULT_LOCALE) || DEFAULT_LOCALE
 }
 
-export const getBrowserLocale = (languages: readonly string[], fallback: string): string => {
+export const getBrowserLocale = (languages: readonly string[], fallback: ValidLocale): ValidLocale => {
   if (!languages || languages.length === 0) return fallback
 
   const lang = languages[0]

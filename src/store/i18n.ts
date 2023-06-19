@@ -1,12 +1,17 @@
 import { defineStore } from 'pinia'
 import { defaultLocale } from '../helpers/i18n'
+import { ValidLocale } from '../consts.ts'
+
+type I18nState = {
+  language: ValidLocale
+}
 
 export const useI18nStore = defineStore('i18n', {
-  state: () => ({
+  state: (): I18nState => ({
     language: defaultLocale()
   }),
   actions: {
-    setLanguage (language) {
+    setLanguage (language: ValidLocale) {
       this.language = language
     }
   },

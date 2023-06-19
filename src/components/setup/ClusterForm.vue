@@ -52,5 +52,5 @@
     connectRequestState,
     testConnection,
     connect
-  } = useClusterConnection({ cluster })
+  } = useClusterConnection(cluster)
 </script>

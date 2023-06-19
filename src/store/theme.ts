@@ -1,7 +1,11 @@
 import { defineStore } from 'pinia'
 
+type ThemeState = {
+  dark: boolean
+}
+
 export const useThemeStore = defineStore('theme', {
-  state: () => ({
+  state: (): ThemeState => ({
     dark: window.matchMedia('(prefers-color-scheme: dark)').matches
   }),
   actions: {
