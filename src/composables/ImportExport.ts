@@ -2,7 +2,7 @@ import { Ref, ref } from 'vue'
 import { askConfirm } from '../helpers/dialogs'
 import { useTranslation } from './i18n'
 import { useConnectionStore } from '../store/connection'
-import { specificIdb } from './Idb'
+import { specificIdb } from '../db/Idb.ts'
 
 type Backup = {
   version: string,

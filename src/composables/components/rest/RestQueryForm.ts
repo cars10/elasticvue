@@ -1,25 +1,34 @@
 import { computed, ref } from 'vue'
-import { buildFetchAuthHeader } from '../helpers/elasticsearch_adapter'
-import { REQUEST_DEFAULT_HEADERS } from '../consts'
-import { useConnectionStore } from '../store/connection'
-import { useSnackbar } from './Snackbar'
-import { useIdb } from './Idb'
-import { removeComments } from '../services/json/parse'
-import { fetchMethod } from '../helpers/fetch'
+import { buildFetchAuthHeader } from '../../../helpers/elasticsearch_adapter'
+import { REQUEST_DEFAULT_HEADERS } from '../../../consts'
+import { useConnectionStore } from '../../../store/connection'
+import { useSnackbar } from '../../Snackbar'
+import { useIdbStore } from '../../../db/Idb'
+import { removeComments } from '../../../services/json/parse'
+import { fetchMethod } from '../../../helpers/fetch'
+import { IdbRestQueryTabRequest } from '../../../db/types.ts'
 
-export const useRestQuery = (request, emit) => {
+type RestFetchOptions = {
+  method: string
+  body: string | null
+  headers: Record<string, string>
+}
+
+export const useRestQueryForm = (request: IdbRestQueryTabRequest) => {
   const connectionStore = useConnectionStore()
   const { showErrorSnackbar } = useSnackbar()
-  const db = useIdb()
+  const { restQueryHistory } = useIdbStore()
 
   const response = ref({ status: '', ok: false, bodyText: '' })
   const loading = ref(false)
 
   const sendRequest = async () => {
+    if (!connectionStore.activeCluster) return
+
     loading.value = true
     response.value.status = ''
 
-    const options = {
+    const options: RestFetchOptions = {
       method: request.method,
       body: ['GET', 'HEAD'].includes(request.method) ? null : removeComments(request.body),
       headers: Object.assign({}, REQUEST_DEFAULT_HEADERS)
@@ -51,25 +60,17 @@ export const useRestQuery = (request, emit) => {
       console.log(e)
       loading.value = false
       response.value.bodyText = '// Network Error'
-      showErrorSnackbar({ text: 'Error', body: 'Network Error' })
+      showErrorSnackbar({ title: 'Error', body: 'Network Error' })
     }
   }
 
-  const saveToHistory = request => {
-    db.stores.restQueryHistory.insert({
+  const saveToHistory = (request: IdbRestQueryTabRequest) => {
+    restQueryHistory.insert({
       path: request.path,
       method: request.method,
       body: ['GET', 'HEAD'].includes(request.method) ? '' : request.body,
       date: new Date()
-    }).then(() => (emit('reloadHistory')))
-  }
-
-  const resetResponse = () => {
-    response.value = {
-      body: '',
-      ok: false,
-      status: ''
-    }
+    })
   }
 
   const responseStatusClass = computed(() => {
@@ -88,7 +89,6 @@ export const useRestQuery = (request, emit) => {
     response,
     loading,
     sendRequest,
-    resetResponse,
     responseStatusClass
   }
 }

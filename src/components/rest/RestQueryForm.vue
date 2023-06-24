@@ -86,31 +86,40 @@
   import DownloadButton from '../shared/DownloadButton.vue'
   import CodeViewer from '../shared/CodeViewer.vue'
   import CodeEditor from '../shared/CodeEditor.vue'
-  import { useRestQuery } from '../../composables/RestQuery'
+  import { useRestQueryForm } from '../../composables/components/rest/RestQueryForm.ts'
   import { HTTP_METHODS } from '../../consts'
   import { useResizeStore } from '../../store/resize'
-  import { useIdbStore } from '../../composables/Idb'
+  import { useIdbStore } from '../../db/Idb.ts'
   import { debounce } from '../../helpers/debounce'
   import { useTranslation } from '../../composables/i18n'
+  import { IdbRestQueryTab } from '../../db/types.ts'
 
   const t = useTranslation()
 
-  const props = defineProps<{ tab: any }>()
-  const emit = defineEmits(['reloadHistory', 'reloadSavedQueries'])
+  const props = defineProps<{ tab: IdbRestQueryTab }>()
   const ownRequest = ref(props.tab.request)
+  let updateIdb = true
+
+  watch(() => props.tab, newValue => {
+    updateIdb = false
+    ownRequest.value.method = newValue.request.method
+    ownRequest.value.path = newValue.request.path
+    ownRequest.value.body = newValue.request.body
+    updateIdb = true
+  })
 
   const resizeStore = useResizeStore()
-  const { restQueryTabs, restQuerySavedQueries } = useIdbStore(['restQueryTabs', 'restQuerySavedQueries'])
-  const { loading, response, sendRequest, responseStatusClass } = useRestQuery(ownRequest.value, emit)
+  const { restQueryTabs, restQuerySavedQueries } = useIdbStore()
+  const { loading, response, sendRequest, responseStatusClass } = useRestQueryForm(ownRequest.value)
 
   const saveQuery = () => {
     const { method, path, body } = toRaw(ownRequest.value)
-    restQuerySavedQueries.insert({ method, path, body }).then(() => {
-      emit('reloadSavedQueries')
-    })
+    restQuerySavedQueries.insert({ method, path, body })
   }
 
-  watch(ownRequest.value, value => (updateTab(value)))
+  watch(ownRequest.value, value => {
+    if (updateIdb) updateTab(value)
+  })
   const updateTab = debounce((value: string) => {
     const obj = Object.assign({}, toRaw(props.tab), { request: toRaw(value) })
     restQueryTabs.update(obj)

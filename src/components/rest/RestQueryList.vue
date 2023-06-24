@@ -18,7 +18,7 @@
         <template #body="{row}">
           <tr :class="{selected: selectedRow?.id === row.id, clickable: true}"
               @click="selectedRow = row"
-              @dblclick="emit('useRequest', selectedRow)">
+              @dblclick="selectedRow ? emit('useRequest', selectedRow) : void(0)">
             <slot :row="row" />
           </tr>
         </template>
@@ -50,42 +50,34 @@
   </div>
 </template>
 
-<script setup>
-  import { computed, ref } from 'vue'
+<script setup lang="ts" generic="T extends RestQueryRequestLike">
+  import { computed, Ref, ref } from 'vue'
   import CodeEditor from '../shared/CodeEditor.vue'
+  import FilterInput from '../shared/FilterInput.vue'
   import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
   import { useTranslation } from '../../composables/i18n'
-  import FilterInput from '../shared/FilterInput.vue'
+  import { filterItems } from '../../helpers/filters.ts'
 
   const t = useTranslation()
+  const props = defineProps<{
+    data: T[],
+    columns: any[],
+    heading: string,
+    paginationOptions: any,
+    searchableColumns: string[]
+  }>()
+  const emit = defineEmits<{
+    useRequest: [request: RestQueryRequestLike],
+    useRequestNewTab: [request: RestQueryRequestLike]
+  }>()
 
-  const props = defineProps({
-    data: {
-      type: Array, default: () => []
-    },
-    columns: {
-      type: Array, default: () => []
-    },
-    heading: {
-      type: String,
-      default: ''
-    },
-    paginationOptions: {
-      type: Object,
-      default: () => {
-      }
-    }
-  })
-
-  const emit = defineEmits(['useRequest', 'useRequestNewTab'])
-
-  const selectedRow = ref(null)
+  const selectedRow: Ref<T | null> = ref(null)
 
   const filter = ref('')
   const filteredData = computed(() => {
     const search = filter.value.trim().toLowerCase()
     if (search.length === 0) return props.data || []
 
-    return props.data.filter(element => (`${element.method} ${element.path} ${element.name}`.toLowerCase().includes(search)))
+    return filterItems<T>(props.data, search, props.searchableColumns)
   })
 </script>

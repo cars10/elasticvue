@@ -37,120 +37,35 @@
         </div>
 
         <q-slide-transition>
-          <rest-query-history v-if="historyOpen"
-                              heading="History"
-                              :pagination-options="{sortBy: 'date', descending: true}"
-                              :data="history"
-                              :columns="historyColumns"
-                              @use-request="useRequest"
-                              @use-request-new-tab="useRequestInNewTab">
-            <template #default="{row}">
-              <td>
-                <div class="q-py-xs">
-                  <span :class="`http-${row.method}`" class="text-bold">{{ row.method }}</span> {{ row.path }}
-                  <div>
-                    <small class="text-muted ellipsis">{{ row.body.slice(0, 100).replace(/\s/g, '') }}</small>
-                  </div>
-                </div>
-              </td>
-              <td class="small-wrap">{{ row.date.toLocaleString() }}</td>
-              <td class="small-wrap">
-                <q-btn-group>
-                  <q-btn icon="save" color="dark-grey" dense @click.stop="saveHistory(row)" />
-                  <q-btn icon="delete" color="dark-grey" dense @click.stop="removeHistory(row.id)" />
-                </q-btn-group>
-              </td>
-            </template>
-          </rest-query-history>
+          <rest-query-history-list :open="historyOpen" @use-request="useRequest"
+                                   @use-request-new-tab="useRequestInNewTab" />
         </q-slide-transition>
 
         <q-slide-transition>
-          <rest-query-history v-if="savedQueriesOpen"
-                              heading="Saved Queries"
-                              :pagination-options="{}"
-                              :data="savedQueries"
-                              :columns="savedQueriesColumns"
-                              @use-request="useRequest"
-                              @use-request-new-tab="useRequestInNewTab">
-            <template #default="{row}">
-              <td>
-                <div class="q-py-xs">
-                  <span :class="`http-${row.method}`" class="text-bold">{{ row.method }}</span> {{ row.path }}
-                  <div>
-                    <small class="text-muted ellipsis">{{ row.body.slice(0, 100).replace(/\s/g, '') }}</small>
-                  </div>
-                </div>
-              </td>
-              <td>
-                {{ row.name }}
-              </td>
-              <td class="small-wrap">
-                <q-btn-group>
-                  <q-btn icon="edit" color="dark-grey" dense>
-                    <q-popup-edit v-slot="scope" v-model="row.name" auto-save anchor="center right"
-                                  @save="v => {renameSavedQuery(v, row)}">
-                      <q-input v-model="scope.value" dense autofocu outlined @keyup.enter="scope.set" />
-                    </q-popup-edit>
-                  </q-btn>
-                  <q-btn icon="delete" color="dark-grey" dense @click.stop="removeSavedQuery(row.id)" />
-                </q-btn-group>
-              </td>
-            </template>
-          </rest-query-history>
+          <rest-query-saved-queries-list :open="savedQueriesOpen" @use-request="useRequest"
+                                         @use-request-new-tab="useRequestInNewTab" />
         </q-slide-transition>
       </q-card-section>
     </q-card>
 
-    <q-card>
-      <q-tabs v-model="activeTabName" align="left" outside-arrows>
-        <template v-for="(tab, index) in tabs" :key="tab.name">
-          <q-tab :name="tab.name" style="white-space: nowrap; flex-shrink: 0">
-            <div class="flex">
-              {{ tab.label }}
-
-              <q-btn icon="edit" flat dense size="sm">
-                <q-popup-edit v-slot="scope" v-model="tab.label" auto-save anchor="top left"
-                              @save="v => {updateTab(renameSavedQuery, tab)}">
-                  <q-input v-model="scope.value" dense autofocu outlined @keyup.enter="scope.set" />
-                </q-popup-edit>
-              </q-btn>
-
-              <q-btn icon="close" flat dense size="sm" @click.stop="removeTab(index)" />
-            </div>
-          </q-tab>
-          <q-separator vertical />
-        </template>
-        <q-btn icon="add" flat style="height:48px;" @click="addTab" />
-      </q-tabs>
-
-      <q-separator />
-
-      <q-tab-panels v-model="activeTabName">
-        <q-tab-panel v-for="tab in tabs" :key="`${tab.name}-panel`" :name="tab.name">
-          <rest-query-form :tab="tab" @reload-history="reloadHistory" @reload-saved-queries="reloadSavedQueries" />
-        </q-tab-panel>
-      </q-tab-panels>
-    </q-card>
+    <rest-query-form-tabs ref="tabs" />
   </div>
 </template>
 
-<script setup>
-  import { ref, toRaw } from 'vue'
-  import RestQueryForm from './RestQueryForm.vue'
-  import { useIdbStore } from '../../composables/Idb'
+<script setup lang="ts">
+  import { Ref, ref, toRaw } from 'vue'
+  import { useIdbStore } from '../../db/Idb.ts'
   import { useTranslation } from '../../composables/i18n'
-  import { useRestQueryTabs } from '../../composables/RestQueryTabs'
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  import RestQueryHistory from './RestQueryHistory.vue'
   import RestQueryExamples from './RestQueryExamples.vue'
+  import RestQueryHistoryList from './RestQueryHistoryList.vue'
+  import RestQuerySavedQueriesList from './RestQuerySavedQueriesList.vue'
+  import RestQueryFormTabs from './RestQueryFormTabs.vue'
+  import { IdbRestQueryTabRequest } from '../../db/types.ts'
 
   const t = useTranslation()
-  const {
-    restQueryHistory,
-    restQueryTabs,
-    restQuerySavedQueries
-  } = useIdbStore(['restQueryHistory', 'restQueryTabs', 'restQuerySavedQueries'])
+  const { restQueryTabs } = useIdbStore()
 
+  const tabs: Ref<InstanceType<typeof RestQueryFormTabs> | null> = ref(null)
   const historyOpen = ref(false)
   const savedQueriesOpen = ref(false)
   const toggleHistory = () => {
@@ -162,66 +77,21 @@
     historyOpen.value = false
   }
 
-  const history = ref([])
-  const savedQueries = ref([])
+  const useRequest = async (request: IdbRestQueryTabRequest) => {
+    if (!request || !tabs.value) return
 
-  const reloadHistory = () => (restQueryHistory.getAll().then(r => (history.value = r)))
-  const removeHistory = id => (restQueryHistory.remove(id).then(reloadHistory))
-  reloadHistory()
+    const activeTab = restQueryTabs.all.value[tabs.value.activeTabIndex()]
+    if (!activeTab) return
 
-  const reloadSavedQueries = () => (restQuerySavedQueries.getAll().then(r => savedQueries.value = r.reverse()))
-  const removeSavedQuery = id => (restQuerySavedQueries.remove(id).then(reloadSavedQueries))
-  const saveHistory = row => {
-    const { method, path, body } = row
-    restQuerySavedQueries.insert({ method, path, body }).then(reloadSavedQueries)
-  }
-  reloadSavedQueries()
-
-  const useRequest = async request => {
-    const activeTab = tabs.value[activeTabIndex()]
-    if (!activeTab || !request) return
-
-    const obj = Object.assign({}, toRaw(activeTab), { request: toRaw(request) })
+    const { id, label, name } = activeTab
+    const obj = Object.assign({}, { id, label, name }, { request: toRaw(request) })
     await restQueryTabs.update(obj)
-    activeTab.request.method = obj.request.method
-    activeTab.request.path = obj.request.path
-    activeTab.request.body = obj.request.body
   }
 
-  const useRequestInNewTab = async request => {
-    await addTab()
+  const useRequestInNewTab = async (request: IdbRestQueryTabRequest) => {
+    if (!tabs.value) return
+
+    await tabs.value.addTab()
     await useRequest(request)
   }
-
-  const renameSavedQuery = (name, row) => {
-    const obj = Object.assign({}, toRaw(row), { name })
-    restQuerySavedQueries.update(obj)
-  }
-
-  const {
-    tabs,
-    activeTabName,
-    activeTabIndex,
-    reloadTabs,
-    addTab,
-    updateTab,
-    removeTab
-  } = useRestQueryTabs(restQueryTabs)
-  reloadTabs()
-
-  const historyColumns = [
-    { label: t('query.rest_query_history.table.headers.query'), field: 'query', name: 'query', align: 'left' },
-    {
-      label: t('query.rest_query_history.table.headers.timestamp'), field: 'date', name: 'date', align: 'left',
-      sortOrder: 'da', sortable: true
-    },
-    { label: '' },
-  ]
-
-  const savedQueriesColumns = [
-    { label: t('query.rest_query_history.table.headers.query'), field: 'query', name: 'query', align: 'left' },
-    { label: 'Name', field: 'name', name: 'name', align: 'left', sortable: true },
-    { label: '' },
-  ]
-
 </script>
