@@ -2,7 +2,7 @@ import { Ref, ref } from 'vue'
 import { askConfirm } from '../helpers/dialogs'
 import { useTranslation } from './i18n'
 import { useConnectionStore } from '../store/connection'
-import { specificIdb } from '../db/Idb.ts'
+import { initDb } from '../db/Idb.ts'
 
 type Backup = {
   version: string,
@@ -33,11 +33,11 @@ export const useImportExport = ({ confirmImport } = { confirmImport: false }) =>
     const backup: IdbBackup = {}
 
     for await (const cluster of connectionStore.clusters) {
-      const db = specificIdb(cluster.uuid)
+      const db = initDb(cluster.uuid)
       backup[cluster.uuid] = {}
 
-      for (const tableName of Object.keys(db.stores)) {
-        backup[cluster.uuid][tableName] = await db.stores[tableName].getAll()
+      for (const [tableName, model] of Object.entries(db.models)) {
+        backup[cluster.uuid][tableName] = await model.getAll()
       }
     }
 
@@ -82,11 +82,11 @@ export const useImportExport = ({ confirmImport } = { confirmImport: false }) =>
 
       // idb
       for (const uuid of Object.keys(backup.idb)) {
-        const db = specificIdb(uuid)
+        const db = initDb(uuid)
 
-        for (const tableName of Object.keys(backup.idb[uuid])) {
-          await db.stores[tableName].clear()
-          await db.stores[tableName].bulkInsert(backup.idb[uuid][tableName])
+        for (const [tableName, model] of Object.entries(db.models)) {
+          await model.clear()
+          await model.bulkInsert(backup.idb[uuid][tableName])
         }
       }
 

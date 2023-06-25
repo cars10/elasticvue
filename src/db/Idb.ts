@@ -20,14 +20,19 @@ export const useIdb = () => {
     const clusterUuid = connectionStore.activeCluster?.uuid
     if (!clusterUuid) return { models: {} as DbSchema }
 
-    db = new Db({ dbName: databaseName(clusterUuid), ...dbDefinition })
-    db.connect()
-    db.models.restQueryHistory = new DbModel<IdbRestQueryHistory>('restQueryHistory', db)
-    db.models.restQuerySavedQueries = new DbModel<IdbRestQuerySavedQuery>('restQuerySavedQueries', db)
-    db.models.restQueryTabs = new DbModel<IdbRestQueryTab>('restQueryTabs', db)
+    db = initDb(clusterUuid)
   }
   return db
 }
 
+export const initDb = (clusterUuid: string) => {
+  db = new Db({ dbName: databaseName(clusterUuid), ...dbDefinition })
+  db.connect()
+  db.models.restQueryHistory = new DbModel<IdbRestQueryHistory>('restQueryHistory', db)
+  db.models.restQuerySavedQueries = new DbModel<IdbRestQuerySavedQuery>('restQuerySavedQueries', db)
+  db.models.restQueryTabs = new DbModel<IdbRestQueryTab>('restQueryTabs', db)
+
+  return db
+}
+
 export const useIdbStore = () => (useIdb()?.models)
-export const specificIdb = (clusterUuid: string) => (new Db({ dbName: databaseName(clusterUuid), ...dbDefinition }))

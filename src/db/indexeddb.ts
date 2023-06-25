@@ -102,4 +102,14 @@ export class DbModel<T> {
     data.forEach(obj => (tx.store.put(obj)))
     return tx.done
   }
+
+  async getAll () {
+    await this.db.connect()
+    return this.db._idb.getAll(this.tableName)
+  }
+
+  async clear () {
+    await this.db.connect()
+    return this.db._idb?.clear(this.tableName)
+  }
 }
