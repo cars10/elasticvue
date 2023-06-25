@@ -5,7 +5,7 @@
     </td>
     <td v-for="{field: column} in columns" :key="column">
       <template v-if="column === '_type'">{{ doc[column] }}</template>
-      <template v-else-if="doc.hasOwnProperty(column)">{{ renderValue(doc[column]) }}</template>
+      <template v-else>{{ renderValue(doc, column) }}</template>
     </td>
     <td>
       <q-btn-group>
@@ -37,17 +37,28 @@
   import RowMenuAction from '../indices/RowMenuAction.vue'
   import EditDocument from './EditDocument.vue'
   import { useModal } from '../../composables/Modal.ts'
+  import { useSearchStore } from '../../store/search.ts'
 
   const props = defineProps<{ columns: any[], doc: any }>()
   const emit = defineEmits(['reload'])
+  const t = useTranslation()
+
   const dropdown = ref(false)
+  const searchStore = useSearchStore()
 
   const { openModalWith } = useModal()
   const openDoc = () => (openModalWith('get', docInfo()))
   const docInfo = () => ({ index: props.doc._index, type: props.doc._type, id: props.doc._id })
 
-  const t = useTranslation()
-  const renderValue = (value: any) => {
+  const renderValue = (doc: any, column: string) => {
+    if (!doc.hasOwnProperty(column)) return
+    const value = doc[column]
+
+    if (searchStore.localizeTimestamp && column === '@timestamp') {
+      const d = Date.parse(value)
+      return new Date(d).toLocaleString()
+    }
+
     if (typeof value === 'object') {
       return JSON.stringify(value)
     } else {

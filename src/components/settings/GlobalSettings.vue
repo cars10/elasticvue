@@ -28,6 +28,12 @@
             </div>
           </div>
 
+          <div class="row q-mb-lg">
+            <div class="col-md-6 col-sm-12">
+              <q-checkbox v-model="searchStore.localizeTimestamp" :label="t('settings.localize_timestamp.label')" />
+            </div>
+          </div>
+
           <q-separator class="q-mb-md" />
 
           <div>
@@ -52,10 +58,11 @@
   import { askConfirm } from '../../helpers/dialogs'
   import { useTranslation } from '../../composables/i18n'
   import ImportExport from './ImportExport.vue'
+  import { useSearchStore } from '../../store/search.ts'
 
   const t = useTranslation()
-
   const indicesStore = useIndicesStore()
+  const searchStore = useSearchStore()
 
   const resetHideIndicesRegex = () => {
     indicesStore.hideIndicesRegex = DEFAULT_HIDE_INDICES_REGEX

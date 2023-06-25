@@ -428,6 +428,9 @@
       "message": "与此正则表达式匹配的索引将默认隐藏在所有列出索引的位置",
       "reset": "重置为默认 {regex}"
     },
+    "localize_timestamp": {
+      "label": null
+    },
     "disconnect_and_reset": {
       "heading": "断开连接并重置所有配置",
       "button": "断开连接并重置",

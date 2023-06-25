@@ -3,13 +3,14 @@ import { DEFAULT_PAGINATION, DEFAULT_SEARCH_QUERY } from '../consts'
 import { useConnectionStore } from './connection.ts'
 
 type SearchState = {
-  q: string,
-  indices: string,
-  searchQuery: string,
-  searchQueryCollapsed: boolean,
-  columns: string[],
-  visibleColumns: string[],
-  stickyTableHeader: boolean,
+  localizeTimestamp: boolean
+  q: string
+  indices: string
+  searchQuery: string
+  searchQueryCollapsed: boolean
+  columns: string[]
+  visibleColumns: string[]
+  stickyTableHeader: boolean
   pagination: any
 }
 
@@ -19,6 +20,7 @@ export const useSearchStore = () => {
 
   return defineStore('search', {
     state: (): SearchState => ({
+      localizeTimestamp: true,
       q: '*',
       indices: '*',
       searchQuery: DEFAULT_SEARCH_QUERY,
@@ -35,6 +37,7 @@ export const useSearchStore = () => {
     },
     persist: {
       paths: [
+        'localizeTimestamp',
         'q',
         'indices',
         'searchQuery',

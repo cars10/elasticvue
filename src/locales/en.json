@@ -445,6 +445,9 @@
       "message": "Indices matching this regex will be hidden by default on all places where indices are listed",
       "reset": "Reset to default {regex}"
     },
+    "localize_timestamp": {
+      "label": "Localize value of '{'@'}timestamp' fields in search results"
+    },
     "disconnect_and_reset": {
       "heading": "Disconnect and reset all settings",
       "button": "Disconnect and reset",
