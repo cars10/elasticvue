@@ -16,10 +16,10 @@
   },
   "dependencies": {
     "@quasar/extras": "^1.16.4",
-    "@tauri-apps/api": "^1.3.0",
-    "ace-builds": "^1.22.0",
+    "@tauri-apps/api": "^1.4.0",
+    "ace-builds": "^1.23.0",
     "idb": "^7.1.1",
-    "pinia": "^2.1.3",
+    "pinia": "^2.1.4",
     "pinia-plugin-persistedstate": "^3.1.0",
     "pretty-bytes": "^6.1.0",
     "quasar": "^2.12.0",
@@ -29,18 +29,18 @@
     "vue-router": "^4.2.2"
   },
   "devDependencies": {
-    "@playwright/test": "^1.34.3",
-    "@quasar/vite-plugin": "^1.3.3",
-    "@tauri-apps/cli": "^1.3.1",
+    "@playwright/test": "^1.35.1",
+    "@quasar/vite-plugin": "^1.4.0",
+    "@tauri-apps/cli": "^1.4.0",
     "@types/ace": "^0.0.48",
     "@vitejs/plugin-vue": "^4.2.3",
     "@vue/eslint-config-typescript": "^11.0.3",
     "@vue/tsconfig": "^0.4.0",
-    "eslint": "^8.42.0",
-    "eslint-plugin-vue": "^9.14.1",
+    "eslint": "^8.43.0",
+    "eslint-plugin-vue": "^9.15.1",
     "sass": "1.32.13",
     "typescript": "^5.1.3",
     "vite": "^4.3.9",
-    "vue-tsc": "^1.6.5"
+    "vue-tsc": "^1.8.1"
   }
 }

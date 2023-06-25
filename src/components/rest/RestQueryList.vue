@@ -58,12 +58,17 @@
   import { useTranslation } from '../../composables/i18n'
   import { filterItems } from '../../helpers/filters.ts'
 
+  type PaginationOptions = {
+    sortBy?: string,
+    descending?: boolean
+  }
+
   const t = useTranslation()
   const props = defineProps<{
     data: T[],
     columns: any[],
     heading: string,
-    paginationOptions: any,
+    paginationOptions: PaginationOptions,
     searchableColumns: string[]
   }>()
   const emit = defineEmits<{
