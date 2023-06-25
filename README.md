@@ -19,20 +19,22 @@ Current State:
 | Snapshots          | Done   |
 | Settings           | Done   |
 
-
 Features that are no longer re-implemented:
+
 * Nodes grid view
 * Rest query vertical view
 * Support for numbers bigger then `Number.MAX_SAFE_INTEGER`
 * Utilities
 
 Overall TODOs:
+
 * Cleanup i18n
 * a11y
 * keyup.esc modifiers
 * responsiveness
 
 ## Makefile
+
 `make dev` start dev server  
 `make docker` build docker image   
 `make test` run tests  

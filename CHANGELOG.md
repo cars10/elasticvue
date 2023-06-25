@@ -368,8 +368,8 @@ case.
 ### 0.12.0
 
 * improvements for the code editor (json views):
-  * [feat] enable searchbox for code editor
-  * [feat] add beautify button to code editor (hotkey: ctrl+alt+l)
+    * [feat] enable searchbox for code editor
+    * [feat] add beautify button to code editor (hotkey: ctrl+alt+l)
 * [feat] show different "no results" text in results table based on current filters. thx @georgeyeint (see discussion
   in [#7][i7])
 * [bug] fix switching between index pattern and index selection ([#7][i7])
@@ -417,8 +417,8 @@ case.
 ### 0.9.0
 
 * snapshot management
-  * create and remove snapshot repositories
-  * take and restore snapshots for all/specific indices
+    * create and remove snapshot repositories
+    * take and restore snapshots for all/specific indices
 * updates dependencies (vue 2.6, vuetify 1.5)
 
 ### 0.8.0

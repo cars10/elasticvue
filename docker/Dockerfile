@@ -1,14 +1,15 @@
-FROM node:18-alpine AS builder
-WORKDIR /usr/src/app
+FROM node:18-bookworm AS builder
+RUN mkdir /app
+WORKDIR /app
 
 COPY package.json .
 COPY yarn.lock .
 
 RUN yarn install --ignore-optional
 COPY . .
-RUN yarn build
+RUN yarn build -l silent
 
 FROM nginx:mainline-alpine
-COPY --from=builder /usr/src/app/dist /usr/share/nginx/html
+COPY --from=builder /app/dist /usr/share/nginx/html
 RUN rm /etc/nginx/conf.d/default.conf
 COPY docker/nginx/elasticvue.conf /etc/nginx/conf.d/

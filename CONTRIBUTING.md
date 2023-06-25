@@ -2,8 +2,8 @@
 
 ## Bugs / Feature requests
 
-Please use one of the provided [issue templates](https://github.com/cars10/elasticvue/issues/new/choose) and create an issue.
-
+Please use one of the provided [issue templates](https://github.com/cars10/elasticvue/issues/new/choose) and create an
+issue.
 
 ## Development
 

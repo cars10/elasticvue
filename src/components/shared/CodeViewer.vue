@@ -37,7 +37,7 @@
   import { useTranslation } from '../../composables/i18n'
 
   const t = useTranslation()
-  const props = defineProps<{value: string}>()
+  const props = defineProps<{ value: string }>()
 
   const codeEditorStore = useCodeEditorStore()
 
