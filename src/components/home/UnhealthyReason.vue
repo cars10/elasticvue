@@ -6,7 +6,7 @@
     <q-menu data-testid="cluster-unhealthy-indices">
       <q-list>
         <template v-if="indices.yellow.length > 0">
-          <q-item-label header>Yellow indices</q-item-label>
+          <q-item-label header class="health--yellow">Yellow indices</q-item-label>
           <q-item v-for="yellow in indices.yellow" :key="yellow" dense>
             <q-item-label>{{ yellow }}</q-item-label>
           </q-item>
@@ -33,10 +33,7 @@
   const props = defineProps<{ health: string }>()
   const { callElasticsearch } = useElasticsearchAdapter()
 
-  const indices = ref({
-    yellow: [],
-    red: []
-  })
+  const indices = ref({ yellow: [], red: [] })
 
   const unhealthyIndices = (health: string) => (callElasticsearch('catIndices', { h: 'index', health }))
   const loadUnhealthyIndices = async () => {

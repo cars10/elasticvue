@@ -87,11 +87,37 @@
   import ClusterInformation from './ClusterInformation.vue'
   import UnhealthyReason from './UnhealthyReason.vue'
 
-  const { load, data } = useElasticsearchRequest<any>('clusterStats')
+  type ClusterStats = {
+    cluster_name: string
+    cluster_uuid: string
+    status: string
+    nodes: {
+      count: {
+        total: number
+        master: number
+        data: number
+      }
+    }
+    indices: {
+      count: number
+      shards: {
+        total: number
+        primaries: number
+      }
+      docs: {
+        count: number
+      }
+      store: {
+        size_in_bytes: number
+      }
+    }
+  }
+
+  const { load, data } = useElasticsearchRequest<ClusterStats>('clusterStats')
   let interval: NodeJS.Timeout
   onMounted(() => {
     load()
-    interval = setInterval(load, 5000)
+    interval = setInterval(load, 10000)
   })
   onUnmounted(() => (clearInterval(interval)))
 </script>
