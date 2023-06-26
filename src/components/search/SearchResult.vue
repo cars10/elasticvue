@@ -3,7 +3,7 @@
     <td>
       <slot name="checkbox" />
     </td>
-    <td v-for="{field: column} in columns" :key="column">
+    <td v-for="{field: column} in resultColumns" :key="column">
       <template v-if="column === '_type'">{{ doc[column] }}</template>
       <template v-else>{{ renderValue(doc, column) }}</template>
     </td>
@@ -26,17 +26,18 @@
 
 <script setup lang="ts">
   import { useTranslation } from '../../composables/i18n.ts'
-  import { ref } from 'vue'
+  import { computed, ref } from 'vue'
   import RowMenuAction from '../indices/RowMenuAction.vue'
   import EditDocument from './EditDocument.vue'
   import { useSearchStore } from '../../store/search.ts'
 
-  const props = defineProps<{ columns: any[], doc: any }>()
+  const props = defineProps<{ columns: any[], doc: Record<string, any> }>()
   const emit = defineEmits(['reload'])
   const t = useTranslation()
 
   const dropdown = ref(false)
   const searchStore = useSearchStore()
+  const resultColumns = computed(() => (props.columns.slice(0, -1)))
 
   const edit = ref(false)
   const docInfo = () => ({ index: props.doc._index, type: props.doc._type, id: props.doc._id })
