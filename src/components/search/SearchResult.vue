@@ -1,5 +1,5 @@
 <template>
-  <tr class="clickable" @click="openDoc">
+  <tr class="clickable" @click="edit = !edit">
     <td>
       <slot name="checkbox" />
     </td>
@@ -8,25 +8,18 @@
       <template v-else>{{ renderValue(doc, column) }}</template>
     </td>
     <td>
-      <q-btn-group>
-        <q-btn :title="t('search.search_result.show.title')" color="dark-grey" icon="info" />
-
-        <q-btn-dropdown ref="menu" v-model="dropdown" icon="settings" color="dark-grey" @click.stop>
-          <q-list padding dense>
-            <edit-document :_id="doc._id" :_index="doc._index" :_type="doc._type" />
-
-            <q-separator />
-
-            <row-menu-action method="delete"
-                             :method-params="docInfo()"
-                             :text="t('search.search_result.delete.text', 1)"
-                             :growl="t('search.search_result.delete.growl', 1)"
-                             :confirm="t('search.search_result.delete.confirm', 1)"
-                             icon="delete"
-                             @done="emit('reload')" />
-          </q-list>
-        </q-btn-dropdown>
-      </q-btn-group>
+      <edit-document v-model="edit" :_id="doc._id" :_index="doc._index" :_type="doc._type" />
+      <q-btn-dropdown ref="menu" v-model="dropdown" icon="settings" color="dark-grey" @click.stop>
+        <q-list padding dense>
+          <row-menu-action method="delete"
+                           :method-params="docInfo()"
+                           :text="t('search.search_result.delete.text', 1)"
+                           :growl="t('search.search_result.delete.growl', 1)"
+                           :confirm="t('search.search_result.delete.confirm', 1)"
+                           icon="delete"
+                           @done="emit('reload')" />
+        </q-list>
+      </q-btn-dropdown>
     </td>
   </tr>
 </template>
@@ -36,7 +29,6 @@
   import { ref } from 'vue'
   import RowMenuAction from '../indices/RowMenuAction.vue'
   import EditDocument from './EditDocument.vue'
-  import { useModal } from '../../composables/Modal.ts'
   import { useSearchStore } from '../../store/search.ts'
 
   const props = defineProps<{ columns: any[], doc: any }>()
@@ -46,8 +38,7 @@
   const dropdown = ref(false)
   const searchStore = useSearchStore()
 
-  const { openModalWith } = useModal()
-  const openDoc = () => (openModalWith('get', docInfo()))
+  const edit = ref(false)
   const docInfo = () => ({ index: props.doc._index, type: props.doc._type, id: props.doc._id })
 
   const renderValue = (doc: any, column: string) => {

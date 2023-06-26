@@ -1,14 +1,5 @@
 <template>
-  <q-item clickable @click="dialog = true">
-    <q-item-section side>
-      <q-icon name="edit" size="xs" />
-    </q-item-section>
-    <q-item-section>
-      <q-item-label>{{ t('search.search_result.edit.text') }}</q-item-label>
-    </q-item-section>
-  </q-item>
-
-  <q-dialog v-model="dialog">
+  <q-dialog v-model="ownValue">
     <q-card style="width: 800px; max-width: 800px;">
       <q-card-section class="flex justify-between">
         <div class="flex">
@@ -53,13 +44,13 @@
   import { EditDocumentProps, useEditDocument } from '../../composables/components/search/EditDocument.ts'
 
   const props = defineProps<EditDocumentProps>()
-  const emit = defineEmits(['reload'])
+  const emit = defineEmits(['reload', 'update:modelValue'])
   const resizeStore = useResizeStore()
   const t = useTranslation()
 
   const {
     document,
-    dialog,
+    ownValue,
     loadDocument,
     requestState,
     loading,
