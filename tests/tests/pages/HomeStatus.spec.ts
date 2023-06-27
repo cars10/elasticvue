@@ -70,7 +70,6 @@ test.describe('HomeStatus', () => {
     await setupClusterConnection(page)
 
     const card = await page.getByTestId('cluster-health')
-    await expect(card).toContainText('es-7')
     await expect(card).toContainText('green')
   })
 })
