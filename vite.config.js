@@ -2,6 +2,8 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { quasar, transformAssetUrls } from '@quasar/vite-plugin'
 import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'
+import { resolve, dirname } from 'node:path'
+import { fileURLToPath } from 'url'
 
 function removeDataTestid (node) {
   if (node.type === 1 /* NodeTypes.ELEMENT */) {
@@ -22,7 +24,10 @@ export default defineConfig({
       }
     }),
     quasar(),
-    VueI18nPlugin()
+    VueI18nPlugin({
+      include: resolve(dirname(fileURLToPath(import.meta.url)), './src/locales/**'),
+      strictMessage: false
+    })
   ],
   build: {
     sourcemap: true

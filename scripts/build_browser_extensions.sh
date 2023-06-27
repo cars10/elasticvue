@@ -7,7 +7,7 @@ PACKAGE_VERSION=$(cat package.json \
   | sed 's/[",]//g' \
   | tr -d '[[:space:]]')
 
-yarn build -l silent
+yarn build
 
 rm -rf artifacts/*.zip
 
