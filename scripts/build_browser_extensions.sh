@@ -16,6 +16,7 @@ rm -rf browser_extension/chrome/assets browser_extension/chrome/images browser_e
 cp -r ./src/assets/images/logo/manifest browser_extension/chrome/logo
 cp -r dist/* browser_extension/chrome/
 cd browser_extension/chrome && zip -rq ../../artifacts/elasticvue-"$PACKAGE_VERSION"-chrome.zip ./* && cd -
+cp artifacts/elasticvue-"$PACKAGE_VERSION"-chrome.zip artifacts/elasticvue-"$PACKAGE_VERSION"-edge.zip
 
 # build firefox extension
 if [[ $(command -v web-ext) ]]; then
@@ -29,4 +30,4 @@ fi
 
 echo ''
 echo -e '\xE2\x9C\x94 Browser extensions built in ./artifacts:'
-ls -l artifacts
+ls -l ../../artifacts
