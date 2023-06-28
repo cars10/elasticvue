@@ -53,7 +53,7 @@
 
       <div class="row">
         <div class="col-md-6 col-sm-12">
-          <import-backup-form />
+          <import-backup-form :confirm-import="true" />
         </div>
       </div>
     </q-card-section>

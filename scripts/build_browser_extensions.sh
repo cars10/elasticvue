@@ -7,9 +7,10 @@ PACKAGE_VERSION=$(cat package.json \
   | sed 's/[",]//g' \
   | tr -d '[[:space:]]')
 
-yarn build
+rm -rf dist/*
+VITE_APP_ROUTER_HASH_MODE=true yarn build
 
-rm -rf artifacts/*.zip
+rm -rf artifacts/*
 
 # build chrome extension
 rm -rf browser_extension/chrome/assets browser_extension/chrome/images browser_extension/chrome/index.html

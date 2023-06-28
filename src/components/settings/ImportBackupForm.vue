@@ -30,21 +30,19 @@
   import { useImportExport } from '../../composables/ImportExport'
   import { useTranslation } from '../../composables/i18n'
   import { handleError } from '../../helpers/error.ts'
+  import { reloadHomePage } from '../../helpers/router.ts'
+  import { useRouter } from 'vue-router'
 
   const t = useTranslation()
-  const props = defineProps({
-    confirmImport: {
-      type: Boolean,
-      default: true
-    }
-  })
+  const props = defineProps<{confirmImport: boolean}>()
+  const router = useRouter()
 
   const { importFile, importBackup } = useImportExport({ confirmImport: props.confirmImport })
 
   const importBackupAndRedirect = async () => {
     try {
       const imported = await importBackup()
-      if (imported) window.location.replace('/')
+      if (imported) reloadHomePage(router, 0)
     } catch (e) {
       handleError(e, true)
     }

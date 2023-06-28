@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory, RouteLocation } from 'vue-router'
+import { createRouter, createWebHashHistory, createWebHistory, RouteLocation } from 'vue-router'
 import ClusterIndices from './components/indices/ClusterIndices.vue'
 import IndexTemplates from './components/indextemplates/IndexTemplates.vue'
 import GlobalSettings from './components/settings/GlobalSettings.vue'
@@ -69,8 +69,10 @@ const routes = [
   }
 ]
 
+// @ts-ignore
+const history = import.meta.env.VITE_APP_ROUTER_HASH_MODE ? createWebHashHistory() : createWebHistory()
 const router = createRouter({
-  history: createWebHistory(),
+  history,
   routes,
 })
 

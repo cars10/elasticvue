@@ -31,7 +31,7 @@ export const useClusterTable = () => {
     if (!confirmed) return
 
     connectionStore.removeCluster(index)
-    window.location.reload()
+    router.go(0)
   }
 
   const loadCluster = (index: number) => (reloadHomePage(router, index))

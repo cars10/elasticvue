@@ -36,12 +36,14 @@
   import { useI18nStore } from '../../store/i18n'
   import { useTranslation } from '../../composables/i18n.ts'
   import { ValidLocale } from '../../consts.ts'
+  import { useRouter } from 'vue-router'
 
   const store = useI18nStore()
   const t = useTranslation()
+  const router = useRouter()
 
   const changeLanguage = (lang: ValidLocale) => {
     store.setLanguage(lang)
-    window.location.reload()
+    router.go(0)
   }
 </script>
