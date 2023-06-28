@@ -8,7 +8,7 @@ PACKAGE_VERSION=$(cat package.json \
   | tr -d '[[:space:]]')
 
 rm -rf dist/*
-VITE_APP_ROUTER_HASH_MODE=true yarn build
+VITE_APP_BUILD_MODE=browser_extension yarn build
 
 rm -rf artifacts/*
 

@@ -12,6 +12,7 @@ import WelcomePage from './components/welcome/WelcomePage.vue'
 import SnapshotRepositories from './components/repositories/SnapshotRepositories.vue'
 import RepositorySnapshots from './components/snapshots/RepositorySnapshots.vue'
 import SearchDocuments from './components/search/SearchDocuments.vue'
+import { buildConfig } from './config.ts'
 
 const routes = [
   {
@@ -69,8 +70,7 @@ const routes = [
   }
 ]
 
-// @ts-ignore
-const history = import.meta.env.VITE_APP_ROUTER_HASH_MODE ? createWebHashHistory() : createWebHistory()
+const history = buildConfig.router.mode === 'webHashHistory' ? createWebHashHistory() : createWebHistory()
 const router = createRouter({
   history,
   routes,

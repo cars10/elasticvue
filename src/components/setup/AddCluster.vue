@@ -1,5 +1,5 @@
 <template>
-  <div v-if="SHOW_CORS_HINT" class="q-mb-md">
+  <div v-if="buildConfig.hints.cors" class="q-mb-md">
     <p class="q-mb-sm">Configuration checklist</p>
 
     <div>
@@ -26,12 +26,13 @@
 
 <script setup lang="ts">
   import { ref } from 'vue'
-  import { DEFAULT_CLUSTER_NAME, DEFAULT_CLUSTER_URI, SHOW_CORS_HINT } from '../../consts'
+  import { DEFAULT_CLUSTER_NAME, DEFAULT_CLUSTER_URI } from '../../consts'
   import ClusterForm from './ClusterForm.vue'
   import { useSnackbar } from '../../composables/Snackbar'
   import { useTranslation } from '../../composables/i18n'
   import { reloadHomePage } from '../../helpers/router.ts'
   import { useRouter } from 'vue-router'
+  import { buildConfig } from '../../config.ts'
 
   const t = useTranslation()
   const { showSuccessSnackbar } = useSnackbar()

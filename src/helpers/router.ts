@@ -1,4 +1,5 @@
 import { Router } from 'vue-router'
+import { buildConfig } from '../config.ts'
 
 export const reloadHomePage = (router: Router, clusterIndex: number) => {
   try {
@@ -8,8 +9,7 @@ export const reloadHomePage = (router: Router, clusterIndex: number) => {
       router.go(0)
     } else {
       const route = { name: currentRoute.name || 'home', params: { clusterIndex } }
-      // @ts-ignore
-      if (import.meta.env.VITE_APP_ROUTER_HASH_MODE) {
+      if (buildConfig.router.mode === 'webHashHistory') {
         router.push(route).then(() => router.go(0))
       } else {
         const url = router.resolve(route).href

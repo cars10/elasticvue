@@ -1,10 +1,10 @@
-import { DESKTOP_BUILD } from '../consts'
 import { invoke } from '@tauri-apps/api/tauri'
+import { buildConfig } from '../config.ts'
 
 export const fetchReqwest = (resource: any, init: any) => {
   return invoke('fetch_reqwest', { resource, init }).then((r: any) => new FetchReqwestResponse(r))
 }
-export const fetchMethod = DESKTOP_BUILD ? fetchReqwest : window.fetch
+export const fetchMethod = buildConfig.tauri ? fetchReqwest : window.fetch
 
 class FetchReqwestResponseHeaders {
   headers: Record<string, string>

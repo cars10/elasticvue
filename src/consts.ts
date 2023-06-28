@@ -1,7 +1,3 @@
-// @ts-ignore
-export const DESKTOP_BUILD = !!import.meta.env.VITE_APP_DESKTOP_BUILD
-
-export const SHOW_CORS_HINT = true
 export const REQUEST_DEFAULT_HEADERS = {
   Accept: 'application/json',
   'Content-Type': 'application/json'

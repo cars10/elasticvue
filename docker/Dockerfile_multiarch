@@ -7,7 +7,7 @@ COPY yarn.lock .
 
 RUN yarn install --ignore-optional
 COPY . .
-RUN yarn build
+RUN VITE_APP_BUILD_MODE=native yarn build
 
 FROM nginx:mainline-alpine
 COPY --from=builder /app/dist /usr/share/nginx/html

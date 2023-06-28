@@ -17,8 +17,8 @@
   import { save } from '@tauri-apps/api/dialog'
   import { invoke } from '@tauri-apps/api/tauri'
   import prettyBytes from 'pretty-bytes'
-  import { DESKTOP_BUILD } from '../../consts'
   import { useSnackbar } from '../../composables/Snackbar'
+  import { buildConfig } from '../../config.ts'
 
   const props = withDefaults(defineProps<{
     disable?: boolean,
@@ -29,7 +29,7 @@
     color?: string
   }>(), {
     disable: false,
-    download: DESKTOP_BUILD ? undefined : 'file.txt',
+    download: buildConfig.tauri ? undefined : 'file.txt',
     label: 'Download',
     generateDownloadData: () => {
     },
@@ -43,7 +43,7 @@
   const downloadLink: Ref<HTMLAnchorElement | null> = ref(null)
 
   const downloadData = () => {
-    if (DESKTOP_BUILD) {
+    if (buildConfig.tauri) {
       save({ defaultPath: props.download }).then(path => {
         if (path) saveFile(path)
       })
