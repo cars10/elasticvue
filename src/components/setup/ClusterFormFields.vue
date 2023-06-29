@@ -61,7 +61,7 @@
   import { useTranslation } from '../../composables/i18n.ts'
   import { DEFAULT_CLUSTER_URI } from '../../consts.ts'
   import { ElasticsearchCluster } from '../../store/connection.ts'
-  import { buildConfig } from '../../config.ts'
+  import { buildConfig } from '../../buildConfig.ts'
 
   const props = defineProps<{ modelValue: ElasticsearchCluster, formValid: boolean }>()
   const cluster: Ref<ElasticsearchCluster> = ref(props.modelValue)

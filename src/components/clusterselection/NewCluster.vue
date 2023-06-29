@@ -40,7 +40,7 @@
   import { ref } from 'vue'
   import AddCluster from '../setup/AddCluster.vue'
   import { useTranslation } from '../../composables/i18n.ts'
-  import { buildConfig } from '../../config.ts'
+  import { buildConfig } from '../../buildConfig.ts'
   import ConfigureHelp from '../setup/ConfigureHelp.vue'
 
   const dialog = ref(false)

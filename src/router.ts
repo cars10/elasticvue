@@ -12,7 +12,7 @@ import WelcomePage from './components/welcome/WelcomePage.vue'
 import SnapshotRepositories from './components/repositories/SnapshotRepositories.vue'
 import RepositorySnapshots from './components/snapshots/RepositorySnapshots.vue'
 import SearchDocuments from './components/search/SearchDocuments.vue'
-import { buildConfig } from './config.ts'
+import { buildConfig } from './buildConfig.ts'
 
 const routes = [
   {

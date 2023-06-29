@@ -1,5 +1,5 @@
 import { Router } from 'vue-router'
-import { buildConfig } from '../config.ts'
+import { buildConfig } from '../buildConfig.ts'
 
 export const reloadHomePage = (router: Router, clusterIndex: number) => {
   try {

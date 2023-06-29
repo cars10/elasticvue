@@ -36,7 +36,7 @@
   import ConfigureHelp from './ConfigureHelp.vue'
   import { ref } from 'vue'
   import { useTranslation } from '../../composables/i18n.ts'
-  import { buildConfig } from '../../config.ts'
+  import { buildConfig } from '../../buildConfig.ts'
 
   const dialog = ref(false)
   const t = useTranslation()

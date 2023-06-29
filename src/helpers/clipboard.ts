@@ -1,5 +1,5 @@
 import { writeText } from '@tauri-apps/api/clipboard'
-import { buildConfig } from '../config.ts'
+import { buildConfig } from '../buildConfig.ts'
 
 export const writeToClipboard = (text: string) => {
   if (buildConfig.tauri) {

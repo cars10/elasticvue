@@ -2,14 +2,14 @@
  *
  *  | BUILD_MODE        | SSL Hint | CORS Hint | Router Mode    | Use Tauri |
  *  |-------------------|----------|-----------|----------------|-----------|
- *  | native            | ✓        | ✓         | webHistory     | X         |
+ *  | web               | ✓        | ✓         | webHistory     | X         |
  *  | browser_extension | ✓        | X         | webHashHistory | X         |
  *  | tauri             | X        | X         | webHistory     | ✓         |
  *
  */
 
 export enum BuildMode {
-  web = 'web',
+  web = 'web', // default, "normal" build
   browser_extension = 'browser_extension',
   tauri = 'tauri'
 }

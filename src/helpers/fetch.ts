@@ -1,5 +1,5 @@
 import { invoke } from '@tauri-apps/api/tauri'
-import { buildConfig } from '../config.ts'
+import { buildConfig } from '../buildConfig.ts'
 
 export const fetchReqwest = (resource: any, init: any) => {
   return invoke('fetch_reqwest', { resource, init }).then((r: any) => new FetchReqwestResponse(r))

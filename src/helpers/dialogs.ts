@@ -1,5 +1,5 @@
 import { confirm } from '@tauri-apps/api/dialog'
-import { buildConfig } from '../config.ts'
+import { buildConfig } from '../buildConfig.ts'
 
 export const askConfirm = (msg: string) => {
   if (buildConfig.tauri) {

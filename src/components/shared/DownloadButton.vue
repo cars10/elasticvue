@@ -18,7 +18,7 @@
   import { invoke } from '@tauri-apps/api/tauri'
   import prettyBytes from 'pretty-bytes'
   import { useSnackbar } from '../../composables/Snackbar'
-  import { buildConfig } from '../../config.ts'
+  import { buildConfig } from '../../buildConfig.ts'
 
   const props = withDefaults(defineProps<{
     disable?: boolean,
