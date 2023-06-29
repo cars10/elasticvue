@@ -42,14 +42,26 @@
         <q-icon name="close" class="cursor-pointer" @click="resetUri" />
       </template>
     </q-input>
+
+    <div v-if="buildConfig.hints.ssl" :class="{'text-muted': !ssl, 'text-bold': ssl}">
+      {{ t('shared.ssl_hint.hint') }}
+      <a aria-label="SSL Configuration help"
+         href="https://github.com/cars10/elasticvue/wiki/Access-clusters-using-SSL"
+         rel="nofollow"
+         target="_blank"
+         class="q-ml-sm">
+        {{ t('shared.ssl_hint.help') }}
+      </a>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-  import { Ref, ref, watch } from 'vue'
+  import { computed, Ref, ref, watch } from 'vue'
   import { useTranslation } from '../../composables/i18n.ts'
   import { DEFAULT_CLUSTER_URI } from '../../consts.ts'
   import { ElasticsearchCluster } from '../../store/connection.ts'
+  import { buildConfig } from '../../config.ts'
 
   const props = defineProps<{ modelValue: ElasticsearchCluster, formValid: boolean }>()
   const cluster: Ref<ElasticsearchCluster> = ref(props.modelValue)
@@ -70,6 +82,7 @@
   }
 
   const resetUri = () => (cluster.value.uri = DEFAULT_CLUSTER_URI)
+  const ssl = computed(() => (/^https/.test(cluster.value.uri)))
 
   const emit = defineEmits(['update:modelValue', 'update:formValid'])
   watch(cluster, value => emit('update:modelValue', value))

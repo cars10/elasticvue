@@ -472,11 +472,10 @@
     "heading": "Setup",
     "configure": {
       "heading": "1. Configure",
-      "introduction": "You have to setup CORS to use elasticvue. Add the following lines to your",
+      "introduction": "You have to setup CORS to use elasticvue web. Add the following lines to your",
       "allow_cors": "allow CORS requests from {domain}",
       "authorization": "and if your cluster uses authorization",
-      "restart": "Then restart your cluster",
-      "docker": "This can also be done if you run elasticsearch via docker, by adding the config via environment variables"
+      "restart": "Then restart your cluster"
     },
     "test_and_connect": {
       "heading": "2. Connect",
@@ -599,7 +598,7 @@
       }
     },
     "ssl_hint": {
-      "hint": "Make sure that your browser trusts the certificate",
+      "hint": "When using https make sure that your browser trusts the clusters ssl certificate.",
       "help": "Help"
     }
   },

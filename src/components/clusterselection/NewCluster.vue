@@ -10,7 +10,22 @@
 
       <q-separator />
 
+      <template v-if="buildConfig.hints.cors">
+        <q-card-section>
+          <h2 class="text-h6">
+            {{ t('setup.configure.heading') }}
+          </h2>
+          <configure-help />
+        </q-card-section>
+
+        <q-separator />
+      </template>
+
       <q-card-section>
+        <h2 v-if="buildConfig.hints.cors" class="text-h6 q-mb-md">
+          {{ t('setup.test_and_connect.heading') }}
+        </h2>
+
         <add-cluster>
           <template #actions>
             <q-btn v-close-popup flat :label="t('defaults.cancel')" class="q-ml-sm" />
@@ -25,6 +40,8 @@
   import { ref } from 'vue'
   import AddCluster from '../setup/AddCluster.vue'
   import { useTranslation } from '../../composables/i18n.ts'
+  import { buildConfig } from '../../config.ts'
+  import ConfigureHelp from '../setup/ConfigureHelp.vue'
 
   const dialog = ref(false)
   const t = useTranslation()

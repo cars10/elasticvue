@@ -9,19 +9,19 @@
  */
 
 export enum BuildMode {
-  native = 'native',
+  web = 'web',
   browser_extension = 'browser_extension',
   tauri = 'tauri'
 }
 
-const buildMode = import.meta.env.VITE_APP_BUILD_MODE || BuildMode.native
+const buildMode = import.meta.env.VITE_APP_BUILD_MODE || BuildMode.web
 export const buildConfig = {
   tauri: buildMode === BuildMode.tauri,
   router: {
     mode: buildMode === BuildMode.browser_extension ? 'webHashHistory' : 'webHistory'
   },
   hints: {
-    ssl: buildMode === BuildMode.native || buildMode === BuildMode.browser_extension,
-    cors: buildMode === BuildMode.native,
+    ssl: buildMode === BuildMode.web || buildMode === BuildMode.browser_extension,
+    cors: buildMode === BuildMode.web,
   }
 }

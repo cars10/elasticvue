@@ -1,26 +1,4 @@
 <template>
-  <div v-if="buildConfig.hints.cors" class="q-mb-md">
-    <p class="q-mb-sm">Configuration checklist</p>
-
-    <div>
-      <q-checkbox v-model="config.auth">
-        Authorization: {{ t('shared.authorization_header_hint') }}
-      </q-checkbox>
-
-      <q-checkbox v-model="config.ssl">
-        SSL:
-        {{ t('shared.ssl_hint.hint') }}
-      </q-checkbox>
-      <a aria-label="SSL Configuration help"
-         href="https://github.com/cars10/elasticvue/wiki/Access-clusters-using-SSL"
-         rel="nofollow"
-         target="_blank"
-         class="q-ml-sm">
-        {{ t('shared.ssl_hint.help') }}
-      </a>
-    </div>
-  </div>
-
   <cluster-form v-model="newCluster" :connect-callback="connectCallback" />
 </template>
 
@@ -32,7 +10,6 @@
   import { useTranslation } from '../../composables/i18n'
   import { reloadHomePage } from '../../helpers/router.ts'
   import { useRouter } from 'vue-router'
-  import { buildConfig } from '../../config.ts'
 
   const t = useTranslation()
   const { showSuccessSnackbar } = useSnackbar()
@@ -48,7 +25,6 @@
     uuid: '',
     status: ''
   })
-  const config = ref({ ssl: false, auth: false })
   const router = useRouter()
   const connectCallback = (idx: number) => {
     showSuccessSnackbar({ title: t('setup.test_and_connect.connected') })

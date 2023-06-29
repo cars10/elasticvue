@@ -458,8 +458,7 @@
       "introduction": "你必须设置 CORS 才能使用 elasticvue。将以下行添加到你的",
       "allow_cors": "允许 CORS 请求来自 {domain}",
       "authorization": "如果你的集群使用授权",
-      "restart": "然后重启你的集群",
-      "docker": "这也可以通过 docker 运行 elasticsearch 来完成，通过环境变量添加配置"
+      "restart": "然后重启你的集群"
     },
     "test_and_connect": {
       "heading": "2. 连接",
