@@ -39,11 +39,11 @@
   const loadUnhealthyIndices = async () => {
     try {
       const yellow = await unhealthyIndices('yellow')
-      indices.value.yellow = yellow.map((i: EsIndex) => i.index)
+      indices.value.yellow = yellow.map((i: EsIndex) => i.index).sort()
 
       if (props.health === 'red') {
         const red = await unhealthyIndices('red')
-        indices.value.red = red.map((i: EsIndex) => i.index)
+        indices.value.red = red.map((i: EsIndex) => i.index).sort()
       }
     } catch (e) {
       console.log(e)
