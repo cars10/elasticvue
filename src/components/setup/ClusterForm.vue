@@ -4,13 +4,14 @@
 
     <q-btn :label="t('setup.test_and_connect.form.test_connection')"
            :disable="!formValid"
-           :loading="testRequestState.loading"
+           :loading="testState.loading"
            color="primary-dark"
            class="q-mr-md"
            type="submit" />
 
     <q-btn :label="t('setup.test_and_connect.form.connect')"
            :disable="!formValid"
+           :loading="connectState.loading"
            color="primary-dark"
            type="button"
            class="q-mr-md"
@@ -20,9 +21,9 @@
 
     <slot name="actions" />
 
-    <cluster-connection-errors v-if="testRequestState.error || connectRequestState.error"
+    <cluster-connection-errors v-if="testState.error || connectState.error"
                                :uri="cluster.uri"
-                               :error-message="testRequestState.errorMessage" />
+                               :error-message="testState.errorMessage || connectState.errorMessage" />
   </form>
 </template>
 
@@ -43,13 +44,15 @@
     if (!formValid.value) return
 
     connect().then(idx => props.connectCallback(idx))
+        .catch(() => {
+        })
   }
   const emit = defineEmits(['update:modelValue'])
   watch(cluster, value => emit('update:modelValue', value))
 
   const {
-    testRequestState,
-    connectRequestState,
+    testState,
+    connectState,
     testConnection,
     connect
   } = useClusterConnection(cluster)

@@ -26,9 +26,9 @@ export const useEditCluster = (props: EditClusterProps) => {
   }
 
   watch([() => cluster.value.username, () => cluster.value.password, () => cluster.value.uri], () => {
-    testRequestState.value = { success: false, error: false, loading: false, errorMessage: '' }
+    testState.value = { success: false, error: false, loading: false, errorMessage: '' }
   })
-  const { testRequestState, testConnection } = useClusterConnection(cluster)
+  const { testState, testConnection } = useClusterConnection(cluster)
 
   return {
     dialog,
@@ -36,6 +36,6 @@ export const useEditCluster = (props: EditClusterProps) => {
     formValid,
     saveCluster,
     testConnection,
-    testRequestState
+    testState
   }
 }

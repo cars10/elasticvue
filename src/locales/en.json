@@ -495,12 +495,6 @@
         "test_connection": "Test connection",
         "connect": "Connect"
       },
-      "error": {
-        "heading": "Could not connect. Please make sure that",
-        "cluster_reachable": "Your cluster is reachable via",
-        "correct_settings": "You added the correct settings to your",
-        "cluster_restarted": "and restarted your cluster"
-      },
       "connected": "Successfully connected."
     }
   },
@@ -511,6 +505,17 @@
     }
   },
   "shared": {
+    "cluster_connection_errors": {
+      "connection_error": "Connection error",
+      "http_error": "HTTP error",
+      "cant_connect": "Can't connect to your cluster.",
+      "please_check": "Please make sure that",
+      "checklist": {
+        "reachable": "Your cluster is reachable via",
+        "ssl": "Your browser trusts the clusters ssl certificate",
+        "cors": "You have enabled CORS and restarted your cluster"
+      }
+    },
     "nothing_found_for_filter": "No entries found for filter '{filter}'.",
     "nothing_found": "No entries found.",
     "index_filter": {

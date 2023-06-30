@@ -21,7 +21,7 @@
 
           <q-btn :label="t('setup.test_and_connect.form.test_connection')"
                  :disable="!formValid"
-                 :loading="testRequestState.loading"
+                 :loading="testState.loading"
                  color="primary-dark"
                  class="q-mr-md"
                  type="submit"
@@ -36,9 +36,9 @@
 
           <q-btn v-close-popup flat :label="t('defaults.close')" />
 
-          <cluster-connection-errors v-if="testRequestState.error"
+          <cluster-connection-errors v-if="testState.error"
                                      :uri="cluster.uri"
-                                     :error-message="testRequestState.errorMessage" />
+                                     :error-message="testState.errorMessage" />
         </form>
       </q-card-section>
     </q-card>
@@ -60,6 +60,6 @@
     formValid,
     saveCluster,
     testConnection,
-    testRequestState
+    testState
   } = useEditCluster(props)
 </script>

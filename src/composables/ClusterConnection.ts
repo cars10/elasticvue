@@ -4,6 +4,22 @@ import { useTranslation } from './i18n'
 import { useSnackbar } from './Snackbar'
 import { ElasticsearchCluster, useConnectionStore } from '../store/connection'
 
+type TestConnectState = {
+  success: boolean
+  error: boolean
+  loading: boolean
+  errorMessage: string
+}
+
+const resetState = (state: Ref<TestConnectState>) => {
+  state.value = {
+    success: false,
+    error: false,
+    loading: false,
+    errorMessage: ''
+  }
+}
+
 export const useClusterConnection = (cluster: Ref<ElasticsearchCluster>) => {
   const t = useTranslation()
   const connectionStore = useConnectionStore()
@@ -11,48 +27,38 @@ export const useClusterConnection = (cluster: Ref<ElasticsearchCluster>) => {
 
   const formValid = ref(true)
 
-  const testRequestState = ref({
-    success: false,
-    error: false,
-    loading: false,
-    errorMessage: ''
-  })
-
-  const connectRequestState = ref({
-    success: false,
-    error: false,
-    loading: false,
-    errorMessage: ''
-  })
+  const testState = ref<TestConnectState>({} as TestConnectState)
+  const connectState = ref<TestConnectState>({} as TestConnectState)
 
   const testConnection = async () => {
-    testRequestState.value.loading = true
-    testRequestState.value.success = false
-    testRequestState.value.error = false
+    resetState(testState)
+    resetState(connectState)
+    testState.value.loading = true
 
     const adapter = new ElasticsearchAdapter(cluster.value)
     try {
       await adapter.test()
-      testRequestState.value.success = true
-      connectRequestState.value.error = false
-      testRequestState.value.loading = false
+      testState.value.success = true
+      testState.value.loading = false
 
       showSuccessSnackbar({ title: t('defaults.success'), body: t('mixins.test_connection.cluster_reachable') })
     } catch (e: any) {
-      testRequestState.value.loading = false
-      testRequestState.value.error = true
-      if (e instanceof TypeError) {
-        testRequestState.value.errorMessage = t('mixins.test_connection.cluster_not_reachable')
+      console.error(e)
+      testState.value.success = false
+      testState.value.error = true
+      testState.value.loading = false
+      if (e.status && e.statusText) {
+        testState.value.errorMessage = `${e.status} ${e.statusText}`
       } else if (e.message) {
-        testRequestState.value.errorMessage = e.message
+        testState.value.errorMessage = e.message
       }
     }
   }
 
   const connect = async () => {
-    connectRequestState.value.loading = true
-    connectRequestState.value.success = false
-    connectRequestState.value.error = false
+    resetState(testState)
+    resetState(connectState)
+    connectState.value.loading = true
 
     const adapter = new ElasticsearchAdapter(cluster.value)
     try {
@@ -76,23 +82,28 @@ export const useClusterConnection = (cluster: Ref<ElasticsearchCluster>) => {
         status: clusterHealthBody.status
       })
 
-      connectRequestState.value.success = true
-      testRequestState.value.error = false
-      connectRequestState.value.loading = false
+      connectState.value.success = true
+      connectState.value.loading = false
 
       return newIdx
-    } catch (e) {
-      console.log(e)
-      connectRequestState.value.loading = false
-      connectRequestState.value.error = true
+    } catch (e: any) {
+      console.error(e)
+      connectState.value.success = false
+      connectState.value.error = true
+      connectState.value.loading = false
+      if (e.status && e.statusText) {
+        connectState.value.errorMessage = `${e.status} ${e.statusText}`
+      } else if (e.message) {
+        connectState.value.errorMessage = e.message
+      }
 
       return Promise.reject(e)
     }
   }
 
   return {
-    testRequestState,
-    connectRequestState,
+    testState,
+    connectState,
     testConnection,
     connect,
     formValid
