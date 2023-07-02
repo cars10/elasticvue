@@ -348,7 +348,22 @@
           "label": "Repository name*"
         },
         "type": {
-          "label": "Repository type"
+          "label": "Repository type*"
+        },
+        "bucket": {
+          "label": "S3 bucket*"
+        },
+        "client": {
+          "label": "S3 client"
+        },
+        "protocol": {
+          "label": "Protocol*"
+        },
+        "region": {
+          "label": "S3 region"
+        },
+        "path_style_access": {
+          "label": "Path style access"
         },
         "location": {
           "label": "Repository location*"

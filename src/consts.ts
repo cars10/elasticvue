@@ -85,6 +85,13 @@ export const REST_QUERY_EXAMPLES = [
     doc: 'https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-flush.html'
   },
   {
+    description: 'Reloads the keystore on nodes in the cluster.',
+    method: 'POST',
+    path: '_nodes/reload_secure_settings',
+    body: '',
+    doc: 'https://www.elastic.co/guide/en/elasticsearch/reference/current/cluster-nodes-reload-secure-settings.html'
+  },
+  {
     description: 'Create a simple index named "example_test_index"',
     method: 'PUT',
     path: 'example_test_index',

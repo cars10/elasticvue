@@ -347,7 +347,7 @@
           "label": "存储名称*"
         },
         "type": {
-          "label": "存储类型"
+          "label": "存储类型*"
         },
         "location": {
           "label": "存储位置*"
