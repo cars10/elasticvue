@@ -85,8 +85,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.prepare.outputs.release_upload_url }}
-          asset_path: src-tauri/target/release/bundle/deb/elasticvue_${{ needs.prepare.outputs.package_version }}_amd64.deb
-          asset_name: elasticvue_${{ needs.prepare.outputs.package_version }}_linux_amd64.deb
+          asset_path: "src-tauri/target/release/bundle/deb/elasticvue_${{ needs.prepare.outputs.package_version }}_amd64.deb"
+          asset_name: "elasticvue_${{ needs.prepare.outputs.package_version }}_linux_amd64.deb"
           asset_content_type: application/octet-stream
 
       - name: (linux) upload .appimage
@@ -96,8 +96,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.prepare.outputs.release_upload_url }}
-          asset_path: src-tauri/target/release/bundle/appimage/elasticvue_${{ needs.prepare.outputs.package_version }}_amd64.AppImage
-          asset_name: elasticvue_${{ needs.prepare.outputs.package_version }}_linux_amd64.AppImage
+          asset_path: "src-tauri/target/release/bundle/appimage/elasticvue_${{ needs.prepare.outputs.package_version }}_amd64.AppImage"
+          asset_name: "elasticvue_${{ needs.prepare.outputs.package_version }}_linux_amd64.AppImage"
           asset_content_type: application/octet-stream
 
       - name: (linux) upload binary
@@ -168,9 +168,9 @@ jobs:
         with:
           context: .
           platforms: linux/amd64,linux/arm64,linux/arm/v7
-          file: Dockerfile_multiarch
+          file: docker/Dockerfile_multiarch
           push: true
-          tags: cars10/elasticvue:test-${{ needs.prepare.outputs.package_version }}
+          tags: cars10/elasticvue-test:latest,cars10/elasticvue-test:${{ needs.prepare.outputs.package_version }}
 
   publish:
     name: Publish github release
