@@ -76,6 +76,8 @@ jobs:
           asset_name: elasticvue_${{ needs.prepare.outputs.package_version }}_macos_aarch64.dmg
           asset_content_type: application/octet-stream
 
+      - run: yarn tauri:build
+
       - name: (linux) upload .deb
         if: matrix.platform == 'ubuntu-latest'
         uses: actions/upload-release-asset@v1
