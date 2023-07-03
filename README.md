@@ -80,9 +80,9 @@ Or build the image locally:
 * Build `docker build -t elasticvue .`
 * Run `docker run -p 8080:8080 elasticvue`
 
-Or use `docker-compose`:
+Or use `docker compose`:
 
-* `docker-compose up -d`
+* `docker compose -f docker/docker-compose.yml up`
 
 Then open [http://localhost:8080](http://localhost:8080) in your browser.
 
@@ -92,12 +92,7 @@ Visit [https://app.elasticvue.com](https://app.elasticvue.com).
 
 **Run locally**
 
-* Checkout the repo `git clone https://github.com/cars10/elasticvue.git`
-* Open the folder `cd elasticvue`
-* Install dependencies `yarn install`
-* Run a production server via `yarn prod` or dev server `yarn serve`
-
-Alternatively run `yarn build` and host the assets yourself. Example nginx config for hosting on `example.com`:
+You can also just run `yarn build` and host the assets on your own. Example nginx config for hosting on `example.com`:
 
 ```
 server {
@@ -113,10 +108,10 @@ server {
 **Run locally with subdirectory**
 
 If you want to host elasticvue under a subdirectory (like `www.example.com/elasticvue`) then you have to set the
-`VUE_APP_PUBLIC_PATH` environment variable while building elasticvue. **The path HAS to start and end with a slash!**
+`VITE_APP_PUBLIC_PATH` environment variable while building elasticvue. **The path HAS to start and end with a slash!**
 
 ```bash
-VUE_APP_PUBLIC_PATH=/elasticvue/ yarn build
+VITE_APP_PUBLIC_PATH=/elasticvue/ yarn build
 ```
 
 You also need to adjust your webserver config, for example:
@@ -133,8 +128,6 @@ server {
     }
 }
 ```
-
-See the [official vuejs deployment guide](https://cli.vuejs.org/guide/deployment.html#docker-nginx) for more details.
 
 ### Elasticsearch configuration
 
@@ -183,11 +176,7 @@ After configuration restart your cluster and you should be able to connect.
 
 ## Browser Support
 
-Please use an up-to-date version of:
-
-* Chrome / Chromium
-* Firefox
-* Edge (2020, Chrome based)
+Any current version of Chrome, Firefox and Edge (Chromium) should work without issues.
 
 ## Troubleshooting
 

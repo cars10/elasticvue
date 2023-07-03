@@ -70,7 +70,7 @@ const routes = [
   }
 ]
 
-const history = buildConfig.router.mode === 'webHashHistory' ? createWebHashHistory() : createWebHistory()
+const history = buildConfig.router.mode === 'webHashHistory' ? createWebHashHistory(buildConfig.router.base) : createWebHistory(buildConfig.router.base)
 const router = createRouter({
   history,
   routes,
