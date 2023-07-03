@@ -186,7 +186,7 @@ jobs:
             # Hello  
             ## Test
             ### Test3  
-            [link](${{{ needs.build_desktop.outputs.linux_binary_url }})
+            [link](${{ needs.build_desktop.outputs.linux_binary_url }})
       - uses: eregon/publish-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
