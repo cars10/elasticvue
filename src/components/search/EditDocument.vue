@@ -35,13 +35,15 @@
 </template>
 
 <script setup lang="ts">
+  import { defineAsyncComponent } from 'vue'
   import LoaderStatus from '../shared/LoaderStatus.vue'
-  import CodeEditor from '../shared/CodeEditor.vue'
   import ResizableContainer from '../shared/ResizableContainer.vue'
   import { useResizeStore } from '../../store/resize.js'
   import ReloadButton from '../shared/ReloadButton.vue'
   import { useTranslation } from '../../composables/i18n.ts'
   import { EditDocumentProps, useEditDocument } from '../../composables/components/search/EditDocument.ts'
+
+  const CodeEditor = defineAsyncComponent(() => import('../shared/CodeEditor.vue'))
 
   const props = defineProps<EditDocumentProps>()
   const emit = defineEmits(['reload', 'update:modelValue'])

@@ -77,13 +77,14 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, ref } from 'vue'
+  import { computed, ref, defineAsyncComponent } from 'vue'
   import { useTranslation } from '../../composables/i18n.ts'
   import FilterInput from '../shared/FilterInput.vue'
   import { REST_QUERY_EXAMPLES } from '../../consts.ts'
   import { genColumns } from '../../helpers/tableColumns.ts'
-  import CodeViewer from '../shared/CodeViewer.vue'
   import ResizableContainer from '../shared/ResizableContainer.vue'
+
+  const CodeViewer = defineAsyncComponent(() => import('../shared/CodeViewer.vue'))
 
   const t = useTranslation()
   const dialog = ref(false)

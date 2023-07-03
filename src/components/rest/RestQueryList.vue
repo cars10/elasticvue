@@ -51,12 +51,13 @@
 </template>
 
 <script setup lang="ts" generic="T extends RestQueryRequestLike">
-  import { computed, Ref, ref } from 'vue'
-  import CodeEditor from '../shared/CodeEditor.vue'
+  import { computed, Ref, ref, defineAsyncComponent } from 'vue'
   import FilterInput from '../shared/FilterInput.vue'
   import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
   import { useTranslation } from '../../composables/i18n'
   import { filterItems } from '../../helpers/filters.ts'
+
+  const CodeEditor = defineAsyncComponent(() => import('../shared/CodeEditor.vue'))
 
   type PaginationOptions = {
     sortBy?: string,

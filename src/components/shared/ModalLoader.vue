@@ -34,16 +34,17 @@
 </template>
 
 <script setup lang="ts">
-  import { Ref, ref, watch } from 'vue'
+  import { Ref, ref, watch, defineAsyncComponent } from 'vue'
   import { useModalStore } from '../../store/modal'
   import LoaderStatus from './LoaderStatus.vue'
   import { useElasticsearchAdapter } from '../../composables/CallElasticsearch'
-  import CodeViewer from './CodeViewer.vue'
   import ReloadButton from './ReloadButton.vue'
   import ResizableContainer from './ResizableContainer.vue'
   import { useResizeStore } from '../../store/resize'
   import { stringifyBigInt } from '../../services/json/stringify'
   import { useTranslation } from '../../composables/i18n'
+
+  const CodeViewer = defineAsyncComponent(() => import('../shared/CodeViewer.vue'))
 
   const t = useTranslation()
   const resizeStore = useResizeStore()

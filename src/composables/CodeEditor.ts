@@ -4,19 +4,15 @@ import { queryKeywords, querySnippets, queryValues } from '../autocomplete'
 import ace from 'ace-builds/src-noconflict/ace'
 
 // @ts-ignore
-import modeJsonUrl from 'ace-builds/src-noconflict/mode-json?url'
+ace.config.setModuleLoader('ace/mode/json', () => import('ace-builds/src-noconflict/mode-json.js'))
 // @ts-ignore
-import themeTomorrowNightUrl from 'ace-builds/src-noconflict/theme-tomorrow_night?url'
+ace.config.setModuleLoader('ace/theme/tomorrow_night', () => import('ace-builds/src-noconflict/theme-tomorrow_night.js'))
 // @ts-ignore
-import searchBoxUrl from 'ace-builds/src-noconflict/ext-searchbox?url'
+ace.config.setModuleLoader('ace/ext/searchbox', () => import('ace-builds/src-noconflict/ext-searchbox.js'))
 // @ts-ignore
-import languageToolsUrl from 'ace-builds/src-noconflict/ext-language_tools?url'
-
-ace.config.setModuleUrl('ace/mode/json', modeJsonUrl)
-ace.config.setModuleUrl('ace/theme/tomorrow_night', themeTomorrowNightUrl)
-ace.config.setModuleUrl('ace/ext/searchbox', searchBoxUrl)
-ace.config.setModuleUrl('ace/ext/language_tools', languageToolsUrl)
-ace.config.setModuleUrl('ace/snippets', languageToolsUrl)
+ace.config.setModuleLoader('ace/ext/language_tools', () => import('ace-builds/src-noconflict/ext-language_tools.js'))
+// @ts-ignore
+ace.config.setModuleLoader('ace/snippets', () => import('ace-builds/src-noconflict/ext-language_tools.js'))
 
 import { onBeforeUnmount, onMounted, Ref, watch } from 'vue'
 import { useThemeStore } from '../store/theme'
@@ -155,8 +151,8 @@ export const useCodeEditor = (editorRef: Ref<HTMLElement | null>, {
 }
 
 export const initializeSnippets = (aceEditor: AceAjax.Editor) => {
-  ace.config.loadModule('ace/snippets', (m: any) => {
-    const snippetManager = m.snippetManager
+  ace.config.loadModule('ace/snippets', () => {
+    const { snippetManager } = ace.require('ace/snippets')
     const parsedSnippets = snippetManager.parseSnippetFile(querySnippets)
     snippetManager.register(parsedSnippets, 'json')
 

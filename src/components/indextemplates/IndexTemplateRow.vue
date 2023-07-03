@@ -21,10 +21,11 @@
 </template>
 
 <script setup lang="ts">
+  import { ref, defineAsyncComponent } from 'vue'
   import ResizableContainer from '../shared/ResizableContainer.vue'
-  import CodeViewer from '../shared/CodeViewer.vue'
   import { EsIndexTemplate } from '../../composables/components/indextemplates/IndexTemplatesTable.ts'
-  import { ref } from 'vue'
+
+  const CodeViewer = defineAsyncComponent(() => import('../shared/CodeViewer.vue'))
 
   defineProps<{ row: EsIndexTemplate }>()
   const expand = ref(false)

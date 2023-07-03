@@ -81,11 +81,9 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, ref, toRaw, watch } from 'vue'
+  import { computed, defineAsyncComponent, ref, toRaw, watch } from 'vue'
   import ResizableContainer from '../shared/ResizableContainer.vue'
   import DownloadButton from '../shared/DownloadButton.vue'
-  import CodeViewer from '../shared/CodeViewer.vue'
-  import CodeEditor from '../shared/CodeEditor.vue'
   import { useRestQueryForm } from '../../composables/components/rest/RestQueryForm.ts'
   import { HTTP_METHODS } from '../../consts'
   import { useResizeStore } from '../../store/resize'
@@ -93,6 +91,9 @@
   import { debounce } from '../../helpers/debounce'
   import { useTranslation } from '../../composables/i18n'
   import { IdbRestQueryTab } from '../../db/types.ts'
+
+  const CodeViewer = defineAsyncComponent(() => import('../shared/CodeViewer.vue'))
+  const CodeEditor = defineAsyncComponent(() => import('../shared/CodeEditor.vue'))
 
   const t = useTranslation()
 
