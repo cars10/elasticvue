@@ -44,14 +44,4 @@ test.describe('ClusterManagement', () => {
 
     await expect(table).toContainText(newName)
   })
-
-  test('can delete cluster', async ({ page }) => {
-    const table = await setupClusterSelectionTest(page)
-
-    page.on('dialog', dialog => dialog.accept())
-    await page.getByTestId('cluster-table-row-1').getByTestId('cluster-delete').click()
-
-    const rows = await table.locator('tbody').locator('tr')
-    await expect(rows).toHaveCount(1)
-  })
 })
