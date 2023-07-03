@@ -7,7 +7,6 @@
     "build": "vite build",
     "tsc": "tsc --noEmit && vue-tsc",
     "lint": "eslint --ext .js,.vue,.ts src",
-    "ci": "yarn lint && yarn tsc && yarn test:e2e",
     "test:e2e": "playwright test --project=chromium",
     "test:e2e:all": "playwright test",
     "test:e2e:watch": "PWTEST_WATCH=1 playwright test --project=chromium",
