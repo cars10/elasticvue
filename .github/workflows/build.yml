@@ -78,6 +78,7 @@ jobs:
           asset_content_type: application/octet-stream
 
       - run: yarn tauri:build
+      - run: find src-tauri/target/release/bundle
 
       - name: (linux) upload .deb
         if: matrix.platform == 'ubuntu-latest'
