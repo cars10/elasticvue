@@ -24,7 +24,7 @@ jobs:
       - name: install playwright
         run: yarn playwright install --with-deps
       - name: run tests
-        run: playwright test
+        run: yarn playwright test
       - uses: actions/upload-artifact@v3
         with:
           name: playwright-report
