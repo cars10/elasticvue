@@ -14,7 +14,7 @@ jobs:
     outputs:
       release_upload_url: ${{ steps.create_release.outputs.upload_url }}
       release_id: ${{ steps.create_release.outputs.id }}
-      package_version: steps.package-version.outputs.current-version
+      package_version: ${{ steps.package-version.outputs.current-version }}
     steps:
       - uses: actions/checkout@v3
       - name: Create Github release draft
