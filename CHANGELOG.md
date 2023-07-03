@@ -1,5 +1,36 @@
 # Changelog
 
+# 1.0.0-beta-1
+
+This is basically a complete rewrite in vue 3. I also switched from vue-cli to vite, from vuetify to quasar and used
+typescript. Elasticvue received a lot of improvements, fixes and new features, some of the most notable are:
+
+**New features**
+
+* Setup: improved setup page with ability to directly import an elasticvue backup
+* Home: improved dashboard with more cluster information
+* Cluster management: ability to change cluster credentials
+* Indices: can reindex indices into other indices
+* Search: you can now edit documents on the search page directly. Also adds a setting to localize `@timestamp` values.
+* Rest: completely rewritten. Now includes tabs, history, saved queries - all saved separately per cluster.
+* Snapshots: can create s3 repositories.
+* New theme
+* Improved desktop version
+* Huge performance improvements
+* Ability to use comments in search query and rest request bodies `// some comment`
+
+**Fixes**
+
+This release includes many, many bugfixes. Some were fixed intentionally and many where fixed by upgrading to vue 3 and
+quasar.
+
+**Removed features**
+
+* Nodes grid view
+* Rest query vertical view
+* Support for numbers bigger then `Number.MAX_SAFE_INTEGER`
+* Utilities (these are now included in the rest query examples)
+
 # 0.44.1
 
 * update dockerfile base images, fixes [#129][i129]
