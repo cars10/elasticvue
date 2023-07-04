@@ -23,7 +23,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           generateReleaseNotes: true
-          prerelease: true
           draft: true
           tag: ${{github.ref_name}}
           name: ${{github.ref_name}}
@@ -182,8 +181,16 @@ jobs:
       - build_docker
     runs-on: ubuntu-latest
     steps:
-      - uses: eregon/publish-release@v1
+      - uses: ncipollo/release-action@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          release_id: ${{ needs.prepare.outputs.release_id }}
+          allowUpdates: true
+          draft: false
+          tag: ${{github.ref_name}}
+          name: ${{github.ref_name}}
+          body: |
+            # Henlo
+            ## Henlo 2  
+            ### Henlo 3  
+            [link](${{ needs.build_desktop.outputs.linux_binary_url }})
