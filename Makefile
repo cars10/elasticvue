@@ -26,4 +26,4 @@ build_docker_nginx_multiarch:
 # Build elasticvue browser extensions into ./artifacts via docker
 build_browser_extensions:
 	docker build -f docker/Dockerfile_browser_ext -t elasticvue:build_browser_ext .
-	docker run --rm -v ./artifacts:/app/artifacts elasticvue:build_browser_ext scripts/build_browser_extensions.sh
+	docker run --rm -v "$(CURDIR)/artifacts":/app/artifacts elasticvue:build_browser_ext scripts/build_browser_extensions.sh

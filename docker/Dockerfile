@@ -5,7 +5,7 @@ WORKDIR /app
 COPY package.json .
 COPY yarn.lock .
 
-RUN yarn install --ignore-optional
+RUN yarn install
 COPY . .
 RUN VITE_APP_BUILD_MODE=web yarn build
 

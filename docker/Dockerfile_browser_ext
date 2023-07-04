@@ -16,7 +16,7 @@ RUN apt-get update -qq \
 COPY package.json .
 COPY yarn.lock .
 
-RUN yarn install --ignore-optional
+RUN yarn install
 COPY . .
 
 ENTRYPOINT ["/bin/bash"]
