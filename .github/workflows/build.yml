@@ -136,7 +136,7 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: "*.zip"
+          file: "artifacts/*.zip"
           file_glob: true
 
   build_docker:
