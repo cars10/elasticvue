@@ -70,6 +70,7 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{github.ref_name}}
           file: src-tauri/target/aarch64-apple-darwin/release/bundle/dmg/elasticvue_${{ needs.prepare.outputs.package_version }}_aarch64.dmg
           asset_name: elasticvue_${{ needs.prepare.outputs.package_version }}_macos_aarch64.dmg
 
@@ -80,6 +81,7 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{github.ref_name}}
           file: src-tauri/target/release/bundle/dmg/elasticvue_${{ needs.prepare.outputs.package_version }}_x64.dmg
           asset_name: elasticvue_${{ needs.prepare.outputs.package_version }}_macos_x64.dmg
 
@@ -88,6 +90,7 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{github.ref_name}}
           file: src-tauri/target/release/bundle/deb/elasticvue_${{ needs.prepare.outputs.package_version }}_amd64.deb
           asset_name: elasticvue_${{ needs.prepare.outputs.package_version }}_linux_amd64.deb
 
@@ -96,6 +99,7 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{github.ref_name}}
           file: src-tauri/target/release/bundle/appimage/elasticvue_${{ needs.prepare.outputs.package_version }}_amd64.AppImage
           asset_name: elasticvue_${{ needs.prepare.outputs.package_version }}_linux_amd64.AppImage
 
@@ -105,6 +109,7 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{github.ref_name}}
           file: src-tauri/target/release/elasticvue
           asset_name: elasticvue_${{ needs.prepare.outputs.package_version }}_linux_amd64
 
@@ -113,6 +118,7 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{github.ref_name}}
           file: src-tauri/target/release/bundle/msi/elasticvue_${{ needs.prepare.outputs.package_version }}_x64_en-US.msi
           asset_name: elasticvue_${{ needs.prepare.outputs.package_version }}_windows_x64_en-US.msi
 
@@ -121,6 +127,7 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{github.ref_name}}
           file: src-tauri/target/release/elasticvue.exe
           asset_name: elasticvue_${{ needs.prepare.outputs.package_version }}_windows_x64.exe
 
@@ -136,6 +143,7 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{github.ref_name}}
           file: "artifacts/*.zip"
           file_glob: true
 
