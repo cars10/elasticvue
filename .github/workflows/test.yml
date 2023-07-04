@@ -25,4 +25,4 @@ jobs:
       - name: install playwright
         run: yarn playwright install --with-deps
       - name: run tests
-        run: yarn playwright test
+        run: make ci
