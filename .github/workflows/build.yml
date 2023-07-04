@@ -78,6 +78,17 @@ jobs:
 
       - run: yarn tauri:build
 
+      - name: (mac) upload .dmg
+        if: matrix.platform == 'macos-latest'
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.prepare.outputs.release_upload_url }}
+          asset_path: src-tauri/target/release/bundle/dmg/elasticvue_${{ needs.prepare.outputs.package_version }}_x64.dmg
+          asset_name: elasticvue_${{ needs.prepare.outputs.package_version }}_macos_x64.dmg
+          asset_content_type: application/octet-stream
+
       - name: (linux) upload .deb
         if: matrix.platform == 'ubuntu-latest'
         uses: actions/upload-release-asset@v1
@@ -85,8 +96,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.prepare.outputs.release_upload_url }}
-          asset_path: "src-tauri/target/release/bundle/deb/elasticvue_${{ needs.prepare.outputs.package_version }}_amd64.deb"
-          asset_name: "elasticvue_${{ needs.prepare.outputs.package_version }}_linux_amd64.deb"
+          asset_path: src-tauri/target/release/bundle/deb/elasticvue_${{ needs.prepare.outputs.package_version }}_amd64.deb
+          asset_name: elasticvue_${{ needs.prepare.outputs.package_version }}_linux_amd64.deb
           asset_content_type: application/octet-stream
 
       - name: (linux) upload .appimage
@@ -96,8 +107,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.prepare.outputs.release_upload_url }}
-          asset_path: "src-tauri/target/release/bundle/appimage/elasticvue_${{ needs.prepare.outputs.package_version }}_amd64.AppImage"
-          asset_name: "elasticvue_${{ needs.prepare.outputs.package_version }}_linux_amd64.AppImage"
+          asset_path: src-tauri/target/release/bundle/appimage/elasticvue_${{ needs.prepare.outputs.package_version }}_amd64.AppImage
+          asset_name: elasticvue_${{ needs.prepare.outputs.package_version }}_linux_amd64.AppImage
           asset_content_type: application/octet-stream
 
       - name: (linux) upload binary
@@ -110,17 +121,6 @@ jobs:
           upload_url: ${{ needs.prepare.outputs.release_upload_url }}
           asset_path: src-tauri/target/release/elasticvue
           asset_name: elasticvue_${{ needs.prepare.outputs.package_version }}_linux_amd64
-          asset_content_type: application/octet-stream
-
-      - name: (mac) upload .dmg
-        if: matrix.platform == 'macos-latest'
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ needs.prepare.outputs.release_upload_url }}
-          asset_path: src-tauri/target/release/bundle/dmg/elasticvue_${{ needs.prepare.outputs.package_version }}_x64.dmg
-          asset_name: elasticvue_${{ needs.prepare.outputs.package_version }}_macos_x64.dmg
           asset_content_type: application/octet-stream
 
       - name: (windows) upload .msi
@@ -144,6 +144,15 @@ jobs:
           asset_path: src-tauri/target/release/elasticvue.exe
           asset_name: elasticvue_${{ needs.prepare.outputs.package_version }}_windows_x64.exe
           asset_content_type: application/octet-stream
+
+  build_browser_extensions:
+    name: Build browser extensions
+    runs-on: ubuntu-latest
+    needs: prepare
+    steps:
+      - uses: actions/checkout@v3
+      - run: make build_browser_extensions
+      - run: ls ./artifacts
 
   build_docker:
     name: Build docker images
@@ -178,6 +187,7 @@ jobs:
     needs:
       - prepare
       - build_desktop
+      - build_browser_extensions
       - build_docker
     runs-on: ubuntu-latest
     steps:
@@ -190,7 +200,21 @@ jobs:
           tag: ${{github.ref_name}}
           name: ${{github.ref_name}}
           body: |
-            # Henlo
-            ## Henlo 2  
-            ### Henlo 3  
-            [link](${{ needs.build_desktop.outputs.linux_binary_url }})
+            ## Use
+                * [Docker](https://hub.docker.com/r/cars10/elasticvue)
+                * [Hosted](https://app.elasticvue.com)
+            ## Browser extension
+                * [Google Chrome](https://chrome.google.com/webstore/detail/elasticvue/hkedbapjpblbodpgbajblpnlpenaebaa)
+                * [Mozilla Firefox](https://addons.mozilla.org/en-US/firefox/addon/elasticvue/)
+                * [Microsoft Edge](https://microsoftedge.microsoft.com/addons/detail/elasticvue/geifniocjfnfilcbeloeidajlfmhdlgo)
+            ## Download desktop app
+            ### Linux
+                * [Binary](https://github.com/cars10/elasticvue-test/releases/download/${{github.ref_name}}/elasticvue_${{ needs.prepare.outputs.package_version }}_linux_amd64)
+                * [.deb](https://github.com/cars10/elasticvue-test/releases/download/${{github.ref_name}}/elasticvue_${{ needs.prepare.outputs.package_version }}_linux_amd64.deb)
+                * [.AppImage](https://github.com/cars10/elasticvue-test/releases/download/${{github.ref_name}}/elasticvue_${{ needs.prepare.outputs.package_version }}_linux_amd64.AppImage)
+            ### Mac
+                * [.dmg, x86 intel](https://github.com/cars10/elasticvue-test/releases/download/${{github.ref_name}}/elasticvue_${{ needs.prepare.outputs.package_version }}_macos_x64.dmg)
+                * [.dmg, aarch64 apple arm](https://github.com/cars10/elasticvue-test/releases/download/${{github.ref_name}}/elasticvue_${{ needs.prepare.outputs.package_version }}_macos_aarch64.dmg)
+            ### Windows
+                * [.msi](https://github.com/cars10/elasticvue-test/releases/download/${{github.ref_name}}/elasticvue_${{ needs.prepare.outputs.package_version }}_windows_x64.exe)
+                * [.exe, WebView2 required](https://github.com/cars10/elasticvue-test/releases/download/${{github.ref_name}}/elasticvue_${{ needs.prepare.outputs.package_version }}_windows_x64_en-US.msi)
