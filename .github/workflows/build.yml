@@ -22,6 +22,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
+          generateReleaseNotes: true
           prerelease: true
           draft: true
           tag: ${{github.ref_name}}
@@ -181,15 +182,6 @@ jobs:
       - build_docker
     runs-on: ubuntu-latest
     steps:
-      - uses: tubone24/update_release@v1.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          body: |
-            # Hello  
-            ## Test
-            ### Test3  
-            [link](${{ needs.build_desktop.outputs.linux_binary_url }})
       - uses: eregon/publish-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
