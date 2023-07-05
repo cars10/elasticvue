@@ -142,8 +142,7 @@ jobs:
         with:
           path: github-artifacts
 
-      - run: ls -lah github-artifacts
-      - run: ls -lah github-artifacts/*
+      - run: ls -lah github-artifacts/artifact/*
 
       - uses: ncipollo/release-action@v1
         env:
@@ -151,6 +150,7 @@ jobs:
         with:
           tag: ${{github.ref_name}}
           name: ${{github.ref_name}}
+          artifacts: "github-artifacts/artifact/*"
           body: |
             ## Use
                 * [Docker](https://hub.docker.com/r/cars10/elasticvue)
