@@ -133,9 +133,9 @@ jobs:
   publish:
     name: Publish github release
     needs:
-      #- build_desktop
+      - build_desktop
       - build_browser_extensions
-      #- build_docker
+      - build_docker
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v3
@@ -150,7 +150,7 @@ jobs:
         with:
           tag: ${{github.ref_name}}
           name: ${{github.ref_name}}
-          artifacts: "github-artifacts/artifact/*"
+          artifacts: github-artifacts/artifact/*
           body: |
             ## Use
             * [Docker](https://hub.docker.com/r/cars10/elasticvue)
