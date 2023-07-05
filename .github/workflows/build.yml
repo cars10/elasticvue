@@ -153,20 +153,20 @@ jobs:
           artifacts: "github-artifacts/artifact/*"
           body: |
             ## Use
-                * [Docker](https://hub.docker.com/r/cars10/elasticvue)
-                * [Hosted](https://app.elasticvue.com)
+            * [Docker](https://hub.docker.com/r/cars10/elasticvue)
+            * [Hosted](https://app.elasticvue.com)
             ## Browser extension
-                * [Google Chrome](https://chrome.google.com/webstore/detail/elasticvue/hkedbapjpblbodpgbajblpnlpenaebaa)
-                * [Mozilla Firefox](https://addons.mozilla.org/en-US/firefox/addon/elasticvue/)
-                * [Microsoft Edge](https://microsoftedge.microsoft.com/addons/detail/elasticvue/geifniocjfnfilcbeloeidajlfmhdlgo)
+            * [Google Chrome](https://chrome.google.com/webstore/detail/elasticvue/hkedbapjpblbodpgbajblpnlpenaebaa)
+            * [Mozilla Firefox](https://addons.mozilla.org/en-US/firefox/addon/elasticvue/)
+            * [Microsoft Edge](https://microsoftedge.microsoft.com/addons/detail/elasticvue/geifniocjfnfilcbeloeidajlfmhdlgo)
             ## Download desktop app
             ### Linux
-                * [Binary](https://github.com/cars10/elasticvue-test/releases/download/${{github.ref_name}}/elasticvue_*_linux_amd64)
-                * [.deb](https://github.com/cars10/elasticvue-test/releases/download/${{github.ref_name}}/elasticvue_*_linux_amd64.deb)
-                * [.AppImage](https://github.com/cars10/elasticvue-test/releases/download/${{github.ref_name}}/elasticvue_*_linux_amd64.AppImage)
+            * [Binary](https://github.com/cars10/elasticvue-test/releases/download/${{github.ref_name}}/elasticvue_*_linux_amd64)
+            * [.deb](https://github.com/cars10/elasticvue-test/releases/download/${{github.ref_name}}/elasticvue_*_linux_amd64.deb)
+            * [.AppImage](https://github.com/cars10/elasticvue-test/releases/download/${{github.ref_name}}/elasticvue_*_linux_amd64.AppImage)
             ### Mac
-                * [.dmg, x86 intel](https://github.com/cars10/elasticvue-test/releases/download/${{github.ref_name}}/elasticvue_*_macos_x64.dmg)
-                * [.dmg, aarch64 apple arm](https://github.com/cars10/elasticvue-test/releases/download/${{github.ref_name}}/elasticvue_*_macos_aarch64.dmg)
+            * [.dmg, x86 intel](https://github.com/cars10/elasticvue-test/releases/download/${{github.ref_name}}/elasticvue_*_macos_x64.dmg)
+            * [.dmg, aarch64 apple arm](https://github.com/cars10/elasticvue-test/releases/download/${{github.ref_name}}/elasticvue_*_macos_aarch64.dmg)
             ### Windows
-                * [.msi](https://github.com/cars10/elasticvue-test/releases/download/${{github.ref_name}}/elasticvue_*_windows_x64.exe)
-                * [.exe, WebView2 required](https://github.com/cars10/elasticvue-test/releases/download/${{github.ref_name}}/elasticvue_*_windows_x64_en-US.msi)
+            * [.msi](https://github.com/cars10/elasticvue-test/releases/download/${{github.ref_name}}/elasticvue_*_windows_x64.exe)
+            * [.exe, WebView2 required](https://github.com/cars10/elasticvue-test/releases/download/${{github.ref_name}}/elasticvue_*_windows_x64_en-US.msi)
