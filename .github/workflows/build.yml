@@ -8,33 +8,9 @@ on:
       - 'v*'
 
 jobs:
-  prepare:
-    name: Create github release
-    runs-on: ubuntu-latest
-    outputs:
-      release_upload_url: ${{ steps.create_release.outputs.upload_url }}
-      release_id: ${{ steps.create_release.outputs.id }}
-      package_version: ${{ steps.package-version.outputs.current-version }}
-    steps:
-      - uses: actions/checkout@v3
-      - uses: ncipollo/release-action@v1
-        id: create_release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          generateReleaseNotes: true
-          draft: true
-          tag: ${{github.ref_name}}
-          name: ${{github.ref_name}}
-      - name: Get current package version
-        id: package-version
-        uses: martinbeentjes/npm-get-version-action@v1.2.3
-
   build_desktop:
+    if: ${{ false }}
     name: Build desktop app for ${{ matrix.platform }}
-    needs: prepare
-    outputs:
-      linux_binary_url: ${{ steps.linux_upload_binary.outputs.browser_download_url }}
     strategy:
       matrix:
         platform: [ macos-latest, ubuntu-latest, windows-latest ]
@@ -67,90 +43,65 @@ jobs:
 
       - name: (mac arm) upload .dmg
         if: matrix.platform == 'macos-latest'
-        uses: svenstaro/upload-release-action@v2
+        uses: actions/upload-artifact@v3
         with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{github.ref_name}}
-          file: src-tauri/target/aarch64-apple-darwin/release/bundle/dmg/elasticvue_${{ needs.prepare.outputs.package_version }}_aarch64.dmg
-          asset_name: elasticvue_${{ needs.prepare.outputs.package_version }}_macos_aarch64.dmg
+          path: src-tauri/target/aarch64-apple-darwin/release/bundle/dmg/elasticvue_*_aarch64.dmg
 
       - run: yarn tauri:build
 
       - name: (mac) upload .dmg
         if: matrix.platform == 'macos-latest'
-        uses: svenstaro/upload-release-action@v2
+        uses: actions/upload-artifact@v3
         with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{github.ref_name}}
-          file: src-tauri/target/release/bundle/dmg/elasticvue_${{ needs.prepare.outputs.package_version }}_x64.dmg
-          asset_name: elasticvue_${{ needs.prepare.outputs.package_version }}_macos_x64.dmg
+          path: src-tauri/target/release/bundle/dmg/elasticvue_*_x64.dmg
 
       - name: (linux) upload .deb
         if: matrix.platform == 'ubuntu-latest'
-        uses: svenstaro/upload-release-action@v2
+        uses: actions/upload-artifact@v3
         with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{github.ref_name}}
-          file: src-tauri/target/release/bundle/deb/elasticvue_${{ needs.prepare.outputs.package_version }}_amd64.deb
-          asset_name: elasticvue_${{ needs.prepare.outputs.package_version }}_linux_amd64.deb
+          path: src-tauri/target/release/bundle/deb/elasticvue_*_amd64.deb
 
       - name: (linux) upload .appimage
         if: matrix.platform == 'ubuntu-latest'
-        uses: svenstaro/upload-release-action@v2
+        uses: actions/upload-artifact@v3
         with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{github.ref_name}}
-          file: src-tauri/target/release/bundle/appimage/elasticvue_${{ needs.prepare.outputs.package_version }}_amd64.AppImage
-          asset_name: elasticvue_${{ needs.prepare.outputs.package_version }}_linux_amd64.AppImage
+          path: src-tauri/target/release/bundle/appimage/elasticvue_*_amd64.AppImage
 
       - name: (linux) upload binary
         id: linux_upload_binary
         if: matrix.platform == 'ubuntu-latest'
-        uses: svenstaro/upload-release-action@v2
+        uses: actions/upload-artifact@v3
         with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{github.ref_name}}
-          file: src-tauri/target/release/elasticvue
-          asset_name: elasticvue_${{ needs.prepare.outputs.package_version }}_linux_amd64
+          path: src-tauri/target/release/elasticvue
 
       - name: (windows) upload .msi
         if: matrix.platform == 'windows-latest'
-        uses: svenstaro/upload-release-action@v2
+        uses: actions/upload-artifact@v3
         with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{github.ref_name}}
-          file: src-tauri/target/release/bundle/msi/elasticvue_${{ needs.prepare.outputs.package_version }}_x64_en-US.msi
-          asset_name: elasticvue_${{ needs.prepare.outputs.package_version }}_windows_x64_en-US.msi
+          path: src-tauri/target/release/bundle/msi/elasticvue_*_x64_en-US.msi
 
       - name: (windows) upload .exe
         if: matrix.platform == 'windows-latest'
-        uses: svenstaro/upload-release-action@v2
+        uses: actions/upload-artifact@v3
         with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{github.ref_name}}
-          file: src-tauri/target/release/elasticvue.exe
-          asset_name: elasticvue_${{ needs.prepare.outputs.package_version }}_windows_x64.exe
+          path: src-tauri/target/release/elasticvue.exe
 
   build_browser_extensions:
     name: Build browser extensions
     runs-on: ubuntu-latest
-    needs: prepare
     steps:
       - uses: actions/checkout@v3
       - run: make build_browser_extensions
 
       - name: upload chrome extension
-        uses: svenstaro/upload-release-action@v2
+        uses: actions/upload-artifact@v3
         with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{github.ref_name}}
-          file: "artifacts/*.zip"
-          file_glob: true
+          path: artifacts/*.zip
 
   build_docker:
+    if: ${{ false }}
     name: Build docker images
     runs-on: ubuntu-latest
-    needs: prepare
     steps:
       - name: Docker hub login
         uses: docker/login-action@v2
@@ -166,6 +117,10 @@ jobs:
       - name: Set up Docker buildx
         uses: docker/setup-buildx-action@v2
 
+      - name: Get current package version
+        id: package-version
+        uses: martinbeentjes/npm-get-version-action@v1.2.3
+
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
@@ -173,23 +128,27 @@ jobs:
           platforms: linux/amd64,linux/arm64,linux/arm/v7
           file: docker/Dockerfile_multiarch
           push: true
-          tags: cars10/elasticvue-test:latest,cars10/elasticvue-test:${{ needs.prepare.outputs.package_version }}
+          tags: cars10/elasticvue-test:latest,cars10/elasticvue-test:${{ steps.package-version.outputs.current-version }}
 
   publish:
     name: Publish github release
     needs:
-      - prepare
-      - build_desktop
+      #- build_desktop
       - build_browser_extensions
-      - build_docker
+      #- build_docker
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/download-artifact@v3
+        with:
+          path: github-artifacts
+
+      - run: ls -lah github-artifacts
+      - run: ls -lah github-artifacts/*
+
       - uses: ncipollo/release-action@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          allowUpdates: true
-          draft: false
           tag: ${{github.ref_name}}
           name: ${{github.ref_name}}
           body: |
@@ -202,12 +161,12 @@ jobs:
                 * [Microsoft Edge](https://microsoftedge.microsoft.com/addons/detail/elasticvue/geifniocjfnfilcbeloeidajlfmhdlgo)
             ## Download desktop app
             ### Linux
-                * [Binary](https://github.com/cars10/elasticvue-test/releases/download/${{github.ref_name}}/elasticvue_${{ needs.prepare.outputs.package_version }}_linux_amd64)
-                * [.deb](https://github.com/cars10/elasticvue-test/releases/download/${{github.ref_name}}/elasticvue_${{ needs.prepare.outputs.package_version }}_linux_amd64.deb)
-                * [.AppImage](https://github.com/cars10/elasticvue-test/releases/download/${{github.ref_name}}/elasticvue_${{ needs.prepare.outputs.package_version }}_linux_amd64.AppImage)
+                * [Binary](https://github.com/cars10/elasticvue-test/releases/download/${{github.ref_name}}/elasticvue_*_linux_amd64)
+                * [.deb](https://github.com/cars10/elasticvue-test/releases/download/${{github.ref_name}}/elasticvue_*_linux_amd64.deb)
+                * [.AppImage](https://github.com/cars10/elasticvue-test/releases/download/${{github.ref_name}}/elasticvue_*_linux_amd64.AppImage)
             ### Mac
-                * [.dmg, x86 intel](https://github.com/cars10/elasticvue-test/releases/download/${{github.ref_name}}/elasticvue_${{ needs.prepare.outputs.package_version }}_macos_x64.dmg)
-                * [.dmg, aarch64 apple arm](https://github.com/cars10/elasticvue-test/releases/download/${{github.ref_name}}/elasticvue_${{ needs.prepare.outputs.package_version }}_macos_aarch64.dmg)
+                * [.dmg, x86 intel](https://github.com/cars10/elasticvue-test/releases/download/${{github.ref_name}}/elasticvue_*_macos_x64.dmg)
+                * [.dmg, aarch64 apple arm](https://github.com/cars10/elasticvue-test/releases/download/${{github.ref_name}}/elasticvue_*_macos_aarch64.dmg)
             ### Windows
-                * [.msi](https://github.com/cars10/elasticvue-test/releases/download/${{github.ref_name}}/elasticvue_${{ needs.prepare.outputs.package_version }}_windows_x64.exe)
-                * [.exe, WebView2 required](https://github.com/cars10/elasticvue-test/releases/download/${{github.ref_name}}/elasticvue_${{ needs.prepare.outputs.package_version }}_windows_x64_en-US.msi)
+                * [.msi](https://github.com/cars10/elasticvue-test/releases/download/${{github.ref_name}}/elasticvue_*_windows_x64.exe)
+                * [.exe, WebView2 required](https://github.com/cars10/elasticvue-test/releases/download/${{github.ref_name}}/elasticvue_*_windows_x64_en-US.msi)
