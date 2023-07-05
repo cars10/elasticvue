@@ -136,13 +136,13 @@ jobs:
       - build_docker
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/download-artifact@v3
-        with:
-          path: github-artifacts
-
       - uses: actions/checkout@v3
       - uses: martinbeentjes/npm-get-version-action@v1.3.1
         id: package-version
+
+      - uses: actions/download-artifact@v3
+        with:
+          path: github-artifacts
 
       - uses: ncipollo/release-action@v1
         env:
