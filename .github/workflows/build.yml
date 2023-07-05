@@ -9,7 +9,6 @@ on:
 
 jobs:
   build_desktop:
-    if: ${{ false }}
     name: Build desktop app for ${{ matrix.platform }}
     strategy:
       matrix:
@@ -99,7 +98,6 @@ jobs:
           path: artifacts/*.zip
 
   build_docker:
-    if: ${{ false }}
     name: Build docker images
     runs-on: ubuntu-latest
     steps:
