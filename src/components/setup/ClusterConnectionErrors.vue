@@ -16,7 +16,7 @@
       <ul class="q-pl-lg q-my-sm">
         <li>
           {{ t('shared.cluster_connection_errors.checklist.reachable') }}
-          <a :href="uri" target="_blank">{{ uri }}</a>
+          <a :href="uriWithCredentials" target="_blank">{{ uri }}</a>
         </li>
         <li v-if="buildConfig.hints.ssl && ssl">{{ t('shared.cluster_connection_errors.checklist.ssl') }}</li>
         <li v-if="buildConfig.hints.cors">{{ t('shared.cluster_connection_errors.checklist.cors') }}</li>
@@ -30,7 +30,7 @@
   import { buildConfig } from '../../buildConfig.ts'
   import { computed } from 'vue'
 
-  const props = defineProps<{ uri: string, errorMessage?: string }>()
+  const props = defineProps<{ uri: string, uriWithCredentials: string, errorMessage?: string }>()
   const t = useTranslation()
 
   const ssl = computed(() => (/^https/.test(props.uri)))
