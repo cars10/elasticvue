@@ -1,4 +1,4 @@
-import { addTrailingSlash, buildFetchAuthHeader } from '../helpers/elasticsearch_adapter'
+import { addTrailingSlash, buildFetchAuthHeader } from '../helpers/elasticsearchAdapter.ts'
 import { REQUEST_DEFAULT_HEADERS } from '../consts'
 import { fetchMethod } from '../helpers/fetch'
 import { ElasticsearchCluster } from '../store/connection.ts'

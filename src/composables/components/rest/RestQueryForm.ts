@@ -1,5 +1,5 @@
 import { computed, ref } from 'vue'
-import { buildFetchAuthHeader } from '../../../helpers/elasticsearch_adapter'
+import { buildFetchAuthHeader } from '../../../helpers/elasticsearchAdapter.ts'
 import { REQUEST_DEFAULT_HEADERS } from '../../../consts'
 import { useConnectionStore } from '../../../store/connection'
 import { useSnackbar } from '../../Snackbar'

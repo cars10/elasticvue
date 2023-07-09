@@ -16,7 +16,7 @@ ace.config.setModuleLoader('ace/snippets', () => import('ace-builds/src-noconfli
 
 import { onBeforeUnmount, onMounted, Ref, watch } from 'vue'
 import { useThemeStore } from '../store/theme'
-import { useCodeEditorStore } from '../store/code_editor'
+import { useCodeEditorStore } from '../store/codeEditor.ts'
 import { beautify } from '../helpers/beautify'
 import { writeToClipboard } from '../helpers/clipboard'
 

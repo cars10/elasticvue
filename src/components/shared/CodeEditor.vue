@@ -55,7 +55,7 @@
 <script setup lang="ts">
   import { computed, Ref, ref, toRef } from 'vue'
   import { useCodeEditor } from '../../composables/CodeEditor'
-  import { useCodeEditorStore } from '../../store/code_editor'
+  import { useCodeEditorStore } from '../../store/codeEditor.ts'
   import CopyButton from './CopyButton.vue'
   import { useTranslation } from '../../composables/i18n'
 

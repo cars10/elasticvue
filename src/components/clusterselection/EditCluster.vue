@@ -51,7 +51,7 @@
   import ClusterConnectionErrors from '../setup/ClusterConnectionErrors.vue'
   import { useTranslation } from '../../composables/i18n.ts'
   import { EditClusterProps, useEditCluster } from '../../composables/components/clusterselection/EditCluster.ts'
-  import { uriWithCredentials } from '../../helpers/elasticsearch_adapter.ts'
+  import { uriWithCredentials } from '../../helpers/elasticsearchAdapter.ts'
 
   const t = useTranslation()
   const props = defineProps<EditClusterProps>()
