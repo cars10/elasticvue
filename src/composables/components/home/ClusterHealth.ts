@@ -1,5 +1,5 @@
-import { ElasticsearchCluster, useConnectionStore } from '../store/connection'
-import ElasticsearchAdapter from '../services/ElasticsearchAdapter'
+import { ElasticsearchCluster, useConnectionStore } from '../../../store/connection.ts'
+import ElasticsearchAdapter from '../../../services/ElasticsearchAdapter.ts'
 
 export const useClusterHealth = () => {
   const connectionStore = useConnectionStore()
@@ -31,9 +31,10 @@ export const checkHealth = async (cluster: ElasticsearchCluster) => {
     const pingBody = await pingResponse.json()
     const version = pingBody.version.number
 
+    cluster.clusterName = pingBody.cluster_name
     cluster.version = version
     cluster.majorVersion = version[0]
-    cluster.clusterName = pingBody.cluster_name
+    cluster.uuid = pingBody.cluster_uuid
 
     delete cluster.loading
   } catch (e) {

@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { defaultLocale } from '../helpers/i18n'
 import { ValidLocale } from '../consts.ts'
 
-type I18nState = {
+export type I18nState = {
   language: ValidLocale
 }
 

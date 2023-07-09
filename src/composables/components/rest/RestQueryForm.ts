@@ -4,7 +4,7 @@ import { REQUEST_DEFAULT_HEADERS } from '../../../consts'
 import { useConnectionStore } from '../../../store/connection'
 import { useSnackbar } from '../../Snackbar'
 import { useIdbStore } from '../../../db/Idb'
-import { removeComments } from '../../../services/json/parse'
+import { removeComments } from '../../../helpers/json/parse'
 import { fetchMethod } from '../../../helpers/fetch'
 import { IdbRestQueryTabRequest } from '../../../db/types.ts'
 

@@ -1,5 +1,5 @@
 test:
-	yarn test:e2e:all
+	yarn test:unit && yarn test:e2e:all
 
 lint:
 	yarn lint

@@ -13,7 +13,7 @@ export type ElasticsearchCluster = {
   loading?: boolean
 }
 
-type ConnectionState = {
+export type ConnectionState = {
   clusters: ElasticsearchCluster[],
   activeClusterIndex: number | null
 }

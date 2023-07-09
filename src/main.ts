@@ -7,7 +7,9 @@ import router from './router.js'
 
 import App from './App.vue'
 import './assets/stylesheets/style.scss'
+import { migrate } from './services/VuexMigrator.ts'
 
+migrate()
 const myApp = createApp(App)
 
 myApp.use(Quasar, quasarOptions)

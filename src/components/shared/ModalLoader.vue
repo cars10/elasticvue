@@ -41,7 +41,7 @@
   import ReloadButton from './ReloadButton.vue'
   import ResizableContainer from './ResizableContainer.vue'
   import { useResizeStore } from '../../store/resize'
-  import { stringifyBigInt } from '../../services/json/stringify'
+  import { stringifyBigInt } from '../../helpers/json/stringify'
   import { useTranslation } from '../../composables/i18n'
 
   const CodeViewer = defineAsyncComponent(() => import('../shared/CodeViewer.vue'))

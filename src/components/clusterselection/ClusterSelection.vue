@@ -20,7 +20,7 @@
   import ClusterTable from './ClusterTable.vue'
   import ClusterStatusIndicator from './ClusterStatusIndicator.vue'
   import { useTranslation } from '../../composables/i18n'
-  import { useClusterHealth } from '../../composables/ClusterHealth'
+  import { useClusterHealth } from '../../composables/components/home/ClusterHealth.ts'
   import { useConnectionStore } from '../../store/connection'
 
   const t = useTranslation()

@@ -2,7 +2,7 @@ import { useElasticsearchAdapter } from '../../CallElasticsearch'
 import { useSearchStore } from '../../../store/search'
 import { useResizeStore } from '../../../store/resize'
 import { Ref, ref, watch } from 'vue'
-import { removeComments } from '../../../services/json/parse'
+import { removeComments } from '../../../helpers/json/parse'
 import { DEFAULT_SEARCH_QUERY } from '../../../consts'
 
 export type EsSearchResult = {

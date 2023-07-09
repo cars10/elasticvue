@@ -70,7 +70,7 @@ Start elasticvue by clicking on the icon in your toolbar.
 
 Use the existing image:
 
-* `docker run -p 8080:8080 -d cars10/elasticvue` [Image at Docker Hub](https://hub.docker.com/r/cars10/elasticvue) (~
+* `docker run -p 8080:8080 --name elasticvue -d cars10/elasticvue` [Image at Docker Hub](https://hub.docker.com/r/cars10/elasticvue) (~
   10mb compressed)
 
 Or build the image locally:

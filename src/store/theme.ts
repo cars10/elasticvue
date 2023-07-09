@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 
-type ThemeState = {
+export type ThemeState = {
   dark: boolean
 }
 
