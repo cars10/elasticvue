@@ -20,26 +20,16 @@ Contents
 3. [Browser support](#browser-support)
 4. [Troubleshooting](#troubleshooting)
 5. [Comparing with other frontends](#comparing-with-other-frontends)
-6. [Development](#development)
 7. [i18n](#i18n)
 8. [Contributing](#contributing)
 
 ## About
 
-**Elasticvue** is a free and open-source gui for elasticsearch, allowing you to search and filter your clusters data
-right in your browser.
 [Screenshots](https://elasticvue.com/features)
 
-It officially works with the following elasticsearch versions:
-
-* `8.x` see [Elasticsearch 8](https://github.com/cars10/elasticvue/wiki/Elasticsearch-8)
-* `7.x`
-
-It also provides limited support for the following, **outdated** versions:
-
-* `6.8`
-
-Check the [FAQ](https://github.com/cars10/elasticvue/wiki/FAQ) for more details.
+**Elasticvue** is a free and open-source gui for elasticsearch that you can use to search and filter your clusters.
+It has full support for elasticsearch versions `8.x`, `7.x` and `6.8`. Check
+the [FAQ](https://github.com/cars10/elasticvue/wiki/FAQ) for more details.
 
 ### Features
 
@@ -47,92 +37,56 @@ Check the [FAQ](https://github.com/cars10/elasticvue/wiki/FAQ) for more details.
 * Index & alias management
 * Shard management
 * Searching and editing documents
-* Manually running any query against your cluster
+* Rest queries
 * Snapshot & repository management
 
 ## Usage
 
+You can use elasticvue in several ways:
+
+* [**Desktop app for linux, mac (intel/arm) and windows, recommended**](#desktop-app)
+* [Browser extension for chrome, firefox and edge](#browser-extensions)
+* [Docker image](#docker)
+* [Web version](#web-version)
+* [Self-hosted](#self-hosted)
+
 ### Running
 
-You can use one of the following ways to run elasticvue:
+#### Desktop App
 
-**Browser extensions**
+Please check the [releases page](https://github.com/cars10/elasticvue/releases) for the latest desktop app download.
 
-* Chrome: Install the extension from
-  the [chrome webstore](https://chrome.google.com/webstore/detail/elasticvue/hkedbapjpblbodpgbajblpnlpenaebaa)
-* Edge (2020): Install the extension from
-  the [microsoft webstore](https://microsoftedge.microsoft.com/addons/detail/geifniocjfnfilcbeloeidajlfmhdlgo)
-* Firefox: Install the extension from [addons.mozilla.org](https://addons.mozilla.org/en-US/firefox/addon/elasticvue/)
+#### Browser extensions
+
+* [Google chrome](https://chrome.google.com/webstore/detail/elasticvue/hkedbapjpblbodpgbajblpnlpenaebaa)
+* [Firefox](https://addons.mozilla.org/en-US/firefox/addon/elasticvue/)
+* [Microsoft edge](https://microsoftedge.microsoft.com/addons/detail/geifniocjfnfilcbeloeidajlfmhdlgo)
 
 Start elasticvue by clicking on the icon in your toolbar.
 
-**Docker**
+#### Docker
 
-Use the existing image:
-
-* `docker run -p 8080:8080 --name elasticvue -d cars10/elasticvue` [Image at Docker Hub](https://hub.docker.com/r/cars10/elasticvue) (~
-  10mb compressed)
-
-Or build the image locally:
-
-* Checkout the repo `git clone https://github.com/cars10/elasticvue.git`
-* Open the folder `cd elasticvue`
-* Build `docker build -t elasticvue .`
-* Run `docker run -p 8080:8080 elasticvue`
-
-Or use `docker compose`:
-
-* `docker compose -f docker/docker-compose.yml up`
-
-Then open [http://localhost:8080](http://localhost:8080) in your browser.
-
-**Online version**
-
-Visit [https://app.elasticvue.com](https://app.elasticvue.com).
-
-**Run locally**
-
-You can also just run `yarn build` and host the assets on your own. Example nginx config for hosting on `example.com`:
-
-```
-server {
-  listen 80;
-  server_name example.com;
-  root /var/www/elasticvue/dist;
-  location / {
-    try_files $uri $uri/ /index.html?$args;
-  }
-}
-```
-
-**Run locally with subdirectory**
-
-If you want to host elasticvue under a subdirectory (like `www.example.com/elasticvue`) then you have to set the
-`VITE_APP_PUBLIC_PATH` environment variable while building elasticvue. **The path HAS to start and end with a slash!**
+*You have to configure your elasticsearch cluster if you use elasticvue via docker*  
+Use the [existing image](https://hub.docker.com/r/cars10/elasticvue):
 
 ```bash
-VITE_APP_PUBLIC_PATH=/elasticvue/ yarn build
+docker run -p 8080:8080 --name elasticvue -d cars10/elasticvue
 ```
 
-You also need to adjust your webserver config, for example:
+#### Web version
 
-```
-server {
-    listen 80;
-    server_name _;
+*You have to configure your elasticsearch cluster if you use the web version of elasticvue*  
+Visit [https://app.elasticvue.com](https://app.elasticvue.com).
 
-    root /var/www/elasticvue/dist;
-    location ^~ /elasticvue {
-        alias /var/www/elasticvue/dist;
-        try_files $uri $uri/ /index.html?$args;
-    }
-}
-```
+#### Self-hosted
+
+*You have to configure your elasticsearch cluster if you use a self-hosted version of elasticvue*  
+Please check the [wiki](https://github.com/cars10/elasticvue/wiki/Building-Elasticvue) for more information.
 
 ### Elasticsearch configuration
 
 You have to [enable CORS](https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-network.html) to allow
-connection to your elasticsearch cluster **if you do not use the browser extensions**.
+connection to your elasticsearch cluster **if you do not use the desktop app or the browser extensions**.
 
 Find your elasticsearch configuration (for example `/etc/elasticsearch/elasticsearch.yml`) and add the following lines:
 
@@ -159,19 +113,6 @@ docker run -p 9200:9200 \
            elasticsearch
 ```
 
-This also works for `docker-compose`:
-
-```yaml
-services:
-  elasticsearch:
-    image: elasticsearch
-    environment:
-      - http.cors.enabled=true
-      - http.cors.allow-origin=/.*/
-    ports:
-      - 9200:9200
-```
-
 After configuration restart your cluster and you should be able to connect.
 
 ## Browser Support
@@ -192,33 +133,6 @@ an [issue](https://github.com/cars10/elasticvue/issues/new/choose) if your probl
 ## Comparing with other frontends
 
 See the Wiki. [Comparing to other frontends](https://github.com/cars10/elasticvue/wiki/Comparing-to-other-frontends)
-
-## Development
-
-*Please make sure to use node `18.x`*
-
-Setup and running
-
-```bash
-# clone
-git clone https://github.com/cars10/elasticvue.git
-cd elasticvue
-
-# install dependencies
-yarn install
-
-# serve with hot reload at localhost:5173
-yarn dev
-
-# check types, lint and tests
-make ci
-```
-
-Building the browser extensions:
-
-```bash
-make build_browser_extensions
-```
 
 ## i18n
 
