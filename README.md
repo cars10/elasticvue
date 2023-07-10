@@ -27,7 +27,7 @@ Contents
 
 [Screenshots](https://elasticvue.com/features)
 
-**Elasticvue** is a free and open-source gui for elasticsearch that you can use to search and filter your clusters.
+**Elasticvue** is a free and open-source gui for elasticsearch that you can use to manage the data in your cluster.
 It has full support for elasticsearch versions `8.x`, `7.x` and `6.8`. Check
 the [FAQ](https://github.com/cars10/elasticvue/wiki/FAQ) for more details.
 
@@ -50,13 +50,11 @@ You can use elasticvue in several ways:
 * [Web version](#web-version)
 * [Self-hosted](#self-hosted)
 
-### Running
-
-#### Desktop App
+### Desktop App
 
 Please check the [releases page](https://github.com/cars10/elasticvue/releases) for the latest desktop app download.
 
-#### Browser extensions
+### Browser extensions
 
 * [Google chrome](https://chrome.google.com/webstore/detail/elasticvue/hkedbapjpblbodpgbajblpnlpenaebaa)
 * [Firefox](https://addons.mozilla.org/en-US/firefox/addon/elasticvue/)
@@ -64,7 +62,7 @@ Please check the [releases page](https://github.com/cars10/elasticvue/releases) 
 
 Start elasticvue by clicking on the icon in your toolbar.
 
-#### Docker
+### Docker
 
 *You have to configure your elasticsearch cluster if you use elasticvue via docker*  
 Use the [existing image](https://hub.docker.com/r/cars10/elasticvue):
@@ -73,17 +71,17 @@ Use the [existing image](https://hub.docker.com/r/cars10/elasticvue):
 docker run -p 8080:8080 --name elasticvue -d cars10/elasticvue
 ```
 
-#### Web version
+### Web version
 
 *You have to configure your elasticsearch cluster if you use the web version of elasticvue*  
 Visit [https://app.elasticvue.com](https://app.elasticvue.com).
 
-#### Self-hosted
+### Self-hosted
 
 *You have to configure your elasticsearch cluster if you use a self-hosted version of elasticvue*  
 Please check the [wiki](https://github.com/cars10/elasticvue/wiki/Building-Elasticvue) for more information.
 
-### Elasticsearch configuration
+## Elasticsearch configuration
 
 You have to [enable CORS](https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-network.html) to allow
 connection to your elasticsearch cluster **if you do not use the desktop app or the browser extensions**.
