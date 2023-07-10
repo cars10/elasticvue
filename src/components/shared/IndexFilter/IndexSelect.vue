@@ -45,10 +45,10 @@
   type Behavior = 'load' | 'use'
   const props = withDefaults(defineProps<{
     modelValue: string[],
-    indexNames: string[],
+    indexNames?: string[],
     behavior: Behavior,
-    method: ElasticsearchMethod,
-    methodParams: any
+    method?: ElasticsearchMethod,
+    methodParams?: any
   }>(), {
     modelValue: () => ([]),
     indexNames: () => ([]),
