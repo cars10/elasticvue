@@ -4,7 +4,7 @@ import { useElasticsearchAdapter } from '../../CallElasticsearch'
 import { QMenu } from 'quasar'
 import { useRouter } from 'vue-router'
 import { useSearchStore } from '../../../store/search'
-import { DEFAULT_PAGINATION, DEFAULT_SEARCH_QUERY } from '../../../consts'
+import { DEFAULT_PAGINATION, DEFAULT_SEARCH_QUERY, DEFAULT_SEARCH_QUERY_OBJ } from '../../../consts'
 import ElasticsearchIndex from '../../../models/ElasticsearchIndex.ts'
 import { handleError } from '../../../helpers/error.ts'
 
@@ -65,7 +65,14 @@ export const useIndexRow = (props: IndexRowProps, emit: any) => {
     searchStore.indices = index
     searchStore.searchQueryCollapsed = false
     searchStore.searchQuery = DEFAULT_SEARCH_QUERY
+
+    const rowsPerPage = searchStore.pagination.rowsPerPage
     searchStore.pagination = DEFAULT_PAGINATION
+    if (rowsPerPage && rowsPerPage > 0 && rowsPerPage <= 10000) {
+      searchStore.searchQuery = JSON.stringify(Object.assign({}, DEFAULT_SEARCH_QUERY_OBJ, { size: rowsPerPage }))
+      searchStore.pagination.rowsPerPage = rowsPerPage
+    }
+
     router.push({ name: 'search' })
   }
 

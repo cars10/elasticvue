@@ -20,7 +20,8 @@ export const buildDefaultRequest = () => ({
   body: ''
 })
 
-export const DEFAULT_SEARCH_QUERY = '{"query": {"query_string": {"query": "*"}},"size": 10,"from": 0,"sort": []}'
+export const DEFAULT_SEARCH_QUERY_OBJ = { query: { query_string: { query: '*' } }, size: 10, from: 0, sort: [] }
+export const DEFAULT_SEARCH_QUERY = JSON.stringify(DEFAULT_SEARCH_QUERY_OBJ)
 export const DEFAULT_SEARCH_RESULT_COLUMNS = ['_index', '_type', '_id', '_score']
 export const DEFAULT_SORTABLE_COLUMNS = ['_index', '_type', '_id', '_score']
 export const DEFAULT_PAGINATION = {
