@@ -84,6 +84,11 @@ export default class ElasticsearchAdapter {
     return this.request(`${index}`, 'DELETE')
   }
 
+  deleteByQuery ({ index }: { index: string }) {
+    const body = { query: { match_all: {} } }
+    return this.request(`${index}/_delete_by_query?refresh=true`, 'POST', body)
+  }
+
   indexGet (params: Record<string, any>) {
     const index = Array.isArray(params.index) ? params.index.join(',') : params.index
     return this.request(`${index}`, 'GET')

@@ -1,5 +1,5 @@
 <template>
-  <q-item clickable @click="run">
+  <q-item clickable :disable="disabled" @click="run">
     <q-item-section side>
       <q-icon :name="icon" size="xs" />
     </q-item-section>
@@ -19,7 +19,8 @@
     icon: string,
     text: string,
     growl?: string,
-    confirm?: string
+    confirm?: string,
+    disabled?: boolean
   }>()
   const emit = defineEmits(['done'])
 

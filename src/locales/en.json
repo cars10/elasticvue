@@ -136,32 +136,37 @@
         "show_info": "Show info",
         "show_stats": "Show stats",
         "forcemerge": {
-          "text": "Forcemerge index",
+          "text": "Forcemerge all indices | Forcemerge index | Forcemerge {count} indices",
           "growl": "The index '{index}' was successfully merged."
         },
         "refresh": {
-          "text": "Refresh index",
+          "text": "Refresh all indices | Refresh index | Refresh {count} indices",
           "growl": "The index '{index}' was successfully refreshed."
         },
         "flush": {
-          "text": "Flush index",
+          "text": "Flush all indices | Flush index | Flush {count} indices",
           "growl": "The index '{index}' was successfully flushed."
         },
         "clear_cache": {
-          "text": "Clear index cache",
+          "text": "Clear all index caches | Clear index cache | Clear {count} indices cache",
           "growl": "The index '{index}' cache was successfully cleared."
         },
         "close": {
-          "text": "Close index",
+          "text": "Close index | Close index | Close {count} indices",
           "growl": "The index '{index}' cache was successfully closed."
         },
         "open": {
-          "text": "Open index",
+          "text": "Open index | Open index | Open {count} indices",
           "growl": "The index '{index}' cache was successfully opened."
         },
+        "delete_by_query": {
+          "text": "Delete all documents",
+          "confirm": "Delete all documents in index '{index}'? This will remove ALL data in your index!",
+          "growl": "The documents in index '{index}' where successfully deleted."
+        },
         "delete": {
-          "text": "Delete index",
-          "confirm": "Delete index '{index}'? This will remove ALL data in your index!",
+          "text": "Delete index | Delete index | Delete {count} indices",
+          "confirm": "Delete index '{index}'?",
           "growl": "The index '{index}' cache was successfully deleted."
         }
       }

@@ -99,8 +99,6 @@
                              icon="clear_all"
                              @done="remitReloadAndCloseMenu" />
 
-            <q-separator />
-
             <row-menu-action v-if="index.status === 'open'"
                              method="indexClose"
                              :method-params="{ index: props.index.index }"
@@ -114,6 +112,16 @@
                              :text="t('indices.index_row.options.open.text')"
                              :growl="t('indices.index_row.options.open.growl', {index: index.index})"
                              icon="lock_open"
+                             @done="remitReloadAndCloseMenu" />
+
+            <q-separator />
+
+            <row-menu-action method="deleteByQuery"
+                             :method-params="{ index: props.index.index }"
+                             :text="t('indices.index_row.options.delete_by_query.text')"
+                             :growl="t('indices.index_row.options.delete_by_query.growl', {index: index.index})"
+                             :confirm="t('indices.index_row.options.delete_by_query.confirm', {index: index.index})"
+                             icon="delete"
                              @done="remitReloadAndCloseMenu" />
 
             <row-menu-action method="indexDelete"
