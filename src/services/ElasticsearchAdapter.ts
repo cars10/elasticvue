@@ -143,7 +143,7 @@ export default class ElasticsearchAdapter {
   }
 
   index ({ index, type, id, params }: { index: string, type: string, id: any, params: any }) {
-    return this.request(`${index}/${type}/${encodeURIComponent(id)}`, 'PUT', params)
+    return this.request(`${index}/${type}/${encodeURIComponent(id)}?refresh=true`, 'PUT', params)
   }
 
   get ({ index, type, id, routing }: { index: string, type: string, id: any, routing: any }) {
