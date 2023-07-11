@@ -126,7 +126,8 @@ jobs:
           platforms: linux/amd64,linux/arm64,linux/arm/v7
           file: docker/Dockerfile_multiarch
           push: true
-          tags: cars10/elasticvue-test:latest,cars10/elasticvue-test:${{ steps.package-version.outputs.current-version }}
+          #tags: cars10/elasticvue:latest,cars10/elasticvue:${{ steps.package-version.outputs.current-version }}
+          tags: cars10/elasticvue:${{ steps.package-version.outputs.current-version }}
 
   publish:
     name: Publish release
@@ -148,18 +149,21 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
+          draft: true
+          prerelease: true
           tag: ${{ github.ref_name }}
           name: ${{ github.ref_name }}
           artifacts: github-artifacts/artifact/*
           body: |
-            ## Usage
-            * [Docker](https://hub.docker.com/r/cars10/elasticvue)
-            * [Hosted](https://app.elasticvue.com)
-            ### Browser extension
-            * [Google Chrome](https://chrome.google.com/webstore/detail/elasticvue/hkedbapjpblbodpgbajblpnlpenaebaa)
-            * [Mozilla Firefox](https://addons.mozilla.org/en-US/firefox/addon/elasticvue/)
-            * [Microsoft Edge](https://microsoftedge.microsoft.com/addons/detail/elasticvue/geifniocjfnfilcbeloeidajlfmhdlgo)
+            ## Using elasticvue
             ### Desktop app
             * [Linux .AppImage](https://github.com/cars10/elasticvue-test/releases/download/${{ github.ref_name }}/elasticvue_${{ steps.package-version.outputs.current-version }}_amd64.AppImage)
             * [Mac x68 .dmg](https://github.com/cars10/elasticvue-test/releases/download/${{ github.ref_name }}/elasticvue_${{ steps.package-version.outputs.current-version }}_x64.dmg) / [Mac aarch64 .dmg](https://github.com/cars10/elasticvue-test/releases/download/${{ github.ref_name }}/elasticvue_${{ steps.package-version.outputs.current-version }}_aarch64.dmg)
             * [Windows .msi](https://github.com/cars10/elasticvue-test/releases/download/${{ github.ref_name }}/elasticvue_${{ steps.package-version.outputs.current-version }}_x64_en-US.msi)
+            ### Browser extension
+            * [Google Chrome](https://chrome.google.com/webstore/detail/elasticvue/hkedbapjpblbodpgbajblpnlpenaebaa)
+            * [Mozilla Firefox](https://addons.mozilla.org/en-US/firefox/addon/elasticvue/)
+            * [Microsoft Edge](https://microsoftedge.microsoft.com/addons/detail/elasticvue/geifniocjfnfilcbeloeidajlfmhdlgo)
+            ### Other
+            * [Docker](https://hub.docker.com/r/cars10/elasticvue)
+            * [Hosted](https://app.elasticvue.com)

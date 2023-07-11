@@ -2,15 +2,20 @@
 
 # 1.0.0-beta-1
 
-This is basically a complete rewrite in vue 3. I also switched from vue-cli to vite, from vuetify to quasar and used
-typescript. Elasticvue received a lot of improvements, fixes and new features, some of the most notable are:
+[For downloads check the releases page](https://github.com/cars10/elasticvue/releases)
+
+*This is a beta version. The browser addons are not updated yet, and the `:latest` tag of the docker image still points
+to the previous stable version.*
+
+This release is a complete rewrite of elasticvue in vue 3. I also switched from vue-cli to vite, from vuetify to quasar
+and used typescript. Elasticvue received a lot of improvements, fixes and new features, some of the most notable are:
 
 **New features**
 
 * Setup: improved setup page with ability to directly import an elasticvue backup
 * Home: improved dashboard with more cluster information
 * Cluster management: ability to change cluster credentials
-* Indices: can reindex indices into other indices
+* Indices: can reindex indices into other indices and delete all documents from and index
 * Search: you can now edit documents on the search page directly. Also adds a setting to localize `@timestamp` values.
 * Rest: completely rewritten. Now includes tabs, history, saved queries - all saved separately per cluster.
 * Snapshots: can create s3 repositories.
