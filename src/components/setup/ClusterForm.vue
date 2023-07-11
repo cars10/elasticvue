@@ -9,7 +9,8 @@
            class="q-mr-md"
            type="submit" />
 
-    <q-btn :label="t('setup.test_and_connect.form.connect')"
+    <q-btn id="connect"
+           :label="t('setup.test_and_connect.form.connect')"
            :disable="!formValid"
            :loading="connectState.loading"
            color="primary-dark"

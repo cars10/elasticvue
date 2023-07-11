@@ -77,7 +77,7 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, ref, defineAsyncComponent } from 'vue'
+  import { computed, ref, defineAsyncComponent, watch } from 'vue'
   import { useTranslation } from '../../composables/i18n.ts'
   import FilterInput from '../shared/FilterInput.vue'
   import { REST_QUERY_EXAMPLES } from '../../consts.ts'
@@ -110,6 +110,10 @@
           example.path.includes(filterValue) ||
           example.description.includes(filterValue)
     })
+  })
+
+  watch(dialog, value => {
+    if (!value) filter.value = ''
   })
 
   const columns = genColumns([

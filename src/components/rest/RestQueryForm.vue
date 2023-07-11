@@ -22,12 +22,13 @@
         </template>
       </q-select>
       <q-input v-model="ownRequest.path"
+               name="path"
                :label="t('query.rest.form.path.label')"
                class="col-grow"
                outlined
                autofocus
                @keydown.enter.prevent="sendRequest" />
-      <q-btn icon="send" flat type="submit" />
+      <q-btn id="send_request" icon="send" flat type="submit" />
     </div>
 
     <resizable-container v-model="resizeStore.restForm" class="q-mb-md">

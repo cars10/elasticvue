@@ -157,9 +157,9 @@ jobs:
           body: |
             ## Using elasticvue
             ### Desktop app
-            * [Linux .AppImage](https://github.com/cars10/elasticvue-test/releases/download/${{ github.ref_name }}/elasticvue_${{ steps.package-version.outputs.current-version }}_amd64.AppImage)
-            * [Mac x68 .dmg](https://github.com/cars10/elasticvue-test/releases/download/${{ github.ref_name }}/elasticvue_${{ steps.package-version.outputs.current-version }}_x64.dmg) / [Mac aarch64 .dmg](https://github.com/cars10/elasticvue-test/releases/download/${{ github.ref_name }}/elasticvue_${{ steps.package-version.outputs.current-version }}_aarch64.dmg)
-            * [Windows .msi](https://github.com/cars10/elasticvue-test/releases/download/${{ github.ref_name }}/elasticvue_${{ steps.package-version.outputs.current-version }}_x64_en-US.msi)
+            * [Linux .AppImage](https://github.com/cars10/elasticvue/releases/download/${{ github.ref_name }}/elasticvue_${{ steps.package-version.outputs.current-version }}_amd64.AppImage)
+            * [Mac x68 .dmg](https://github.com/cars10/elasticvue/releases/download/${{ github.ref_name }}/elasticvue_${{ steps.package-version.outputs.current-version }}_x64.dmg) / [Mac aarch64 .dmg](https://github.com/cars10/elasticvue/releases/download/${{ github.ref_name }}/elasticvue_${{ steps.package-version.outputs.current-version }}_aarch64.dmg)
+            * [Windows .msi](https://github.com/cars10/elasticvue/releases/download/${{ github.ref_name }}/elasticvue_${{ steps.package-version.outputs.current-version }}_x64_en-US.msi)
             ### Browser extension
             * [Google Chrome](https://chrome.google.com/webstore/detail/elasticvue/hkedbapjpblbodpgbajblpnlpenaebaa)
             * [Mozilla Firefox](https://addons.mozilla.org/en-US/firefox/addon/elasticvue/)
