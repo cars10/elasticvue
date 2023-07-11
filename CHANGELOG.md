@@ -1,6 +1,46 @@
 # Changelog
 
-*Please check the [releases](https://github.com/cars10/elasticvue/releases) page if you need version release dates.*
+# 1.0.0-beta-1
+
+[For downloads check the releases page](https://github.com/cars10/elasticvue/releases)
+
+*This is a beta version. The browser addons are not updated yet, and the `:latest` tag of the docker image still points
+to the previous stable version.*
+
+This release is a complete rewrite of elasticvue in vue 3. I also switched from vue-cli to vite, from vuetify to quasar
+and used typescript. Elasticvue received a lot of improvements, fixes and new features, some of the most notable are:
+
+**New features**
+
+* Setup: improved setup page with ability to directly import an elasticvue backup
+* Home: improved dashboard with more cluster information
+* Cluster management: ability to change cluster credentials
+* Indices: can reindex indices into other indices and delete all documents from and index
+* Search: you can now edit documents on the search page directly. Also adds a setting to localize `@timestamp` values.
+* Rest: completely rewritten. Now includes tabs, history, saved queries - all saved separately per cluster.
+* Snapshots: can create s3 repositories.
+* New theme
+* Improved desktop version
+* Huge performance improvements
+* Ability to use comments in search query and rest request bodies `// some comment`
+
+**Fixes**
+
+This release includes many, many bugfixes. Some were fixed intentionally and many where fixed by upgrading to vue 3 and
+quasar.
+
+**Removed features**
+
+* Nodes grid view
+* Rest query vertical view
+* Support for numbers bigger then `Number.MAX_SAFE_INTEGER`
+* Utilities (these are now included in the rest query examples)
+
+# 0.44.1
+
+* update dockerfile base images, fixes [#129][i129]
+
+[i129]: https://github.com/cars10/elasticvue/issues/129
 
 # 0.44.0
 
@@ -364,8 +404,8 @@ case.
 ### 0.12.0
 
 * improvements for the code editor (json views):
-  * [feat] enable searchbox for code editor
-  * [feat] add beautify button to code editor (hotkey: ctrl+alt+l)
+    * [feat] enable searchbox for code editor
+    * [feat] add beautify button to code editor (hotkey: ctrl+alt+l)
 * [feat] show different "no results" text in results table based on current filters. thx @georgeyeint (see discussion
   in [#7][i7])
 * [bug] fix switching between index pattern and index selection ([#7][i7])
@@ -413,8 +453,8 @@ case.
 ### 0.9.0
 
 * snapshot management
-  * create and remove snapshot repositories
-  * take and restore snapshots for all/specific indices
+    * create and remove snapshot repositories
+    * take and restore snapshots for all/specific indices
 * updates dependencies (vue 2.6, vuetify 1.5)
 
 ### 0.8.0

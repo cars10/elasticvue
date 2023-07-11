@@ -1,52 +1,27 @@
 <template>
-  <v-btn icon :small="small" @click.stop="copy" :title="title">
-    <v-icon :small="small">{{ icon }}</v-icon>
-  </v-btn>
+  <q-btn :icon="icon" :title="t('defaults.copy')" @click.prevent.stop="copy" />
 </template>
 
-<script>
+<script setup lang="ts">
   import { ref } from 'vue'
-  import { writeToClipboard } from '@/services/tauri/clipboard'
+  import { writeToClipboard } from '../../helpers/clipboard'
+  import { useTranslation } from '../../composables/i18n'
 
-  export default {
-    name: 'copy-button',
-    props: {
-      title: {
-        default: '',
-        type: String
-      },
-      value: {
-        default: '',
-        type: String
-      },
-      small: {
-        default: false,
-        type: Boolean
-      },
-      customHandler: {
-        default: null,
-        type: [Function, Object]
-      }
-    },
-    setup (props) {
-      const icon = ref('mdi-content-copy')
-      const copy = () => {
-        icon.value = 'mdi-check'
+  const t = useTranslation()
+  const props = defineProps<{ value?: string, customHandler?: any }>()
 
-        if (props.customHandler) {
-          props.customHandler.call()
-        } else {
-          writeToClipboard(props.value)
-        }
-        setTimeout(() => {
-          icon.value = 'mdi-content-copy'
-        }, 1000)
-      }
+  const icon = ref('content_copy')
+  const copy = () => {
+    if (!props.value) return
+    icon.value = 'done'
 
-      return {
-        copy,
-        icon
-      }
+    if (props.customHandler) {
+      props.customHandler.call()
+    } else {
+      writeToClipboard(props.value)
     }
+    setTimeout(() => {
+      icon.value = 'content_copy'
+    }, 1000)
   }
 </script>

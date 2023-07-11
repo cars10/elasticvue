@@ -1,0 +1,21 @@
+code {
+  font-weight: bold !important;
+  color: #c0341d !important;
+  font-family: 'Hack', monospace;
+  font-size: 13px;
+  padding: .2em .4em;
+  border-radius: $generic-border-radius;
+}
+
+.code-block {
+  display: inline-block;
+  padding: 5px 6px !important;
+
+  &:before, &:after {
+    content: initial !important;
+  }
+}
+
+.code-comment {
+  color: #666;
+}

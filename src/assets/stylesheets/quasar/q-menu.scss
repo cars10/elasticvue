@@ -1,0 +1,16 @@
+.q-menu {
+  background: var(--theme-menu-background);
+  border: 1px solid var(--theme-background);
+
+  .q-separator {
+    background: var(--theme-menu-separator-background);
+  }
+}
+
+.q-dialog .q-card {
+  background: var(--theme-card-background);
+
+  .q-separator {
+    background: var(--theme-menu-separator-background);
+  }
+}

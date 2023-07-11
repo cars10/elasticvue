@@ -1,0 +1,22 @@
+FROM node:18-bookworm
+RUN mkdir /app
+WORKDIR /app
+
+RUN npm install --global web-ext
+
+RUN apt-get update -qq \
+        && apt-get upgrade -y \
+        && apt-get install -y \
+            zip \
+        && apt-get clean \
+        && apt-get autoclean \
+        && apt-get autoremove -y \
+        && rm -rf /var/lib/apt/lists/*
+
+COPY package.json .
+COPY yarn.lock .
+
+RUN yarn install
+COPY . .
+
+ENTRYPOINT ["/bin/bash"]

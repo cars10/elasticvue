@@ -1,13 +1,13 @@
 {
   "name": "Elasticvue",
-  "version": "0.44.0",
+  "version": "1.0.0",
   "description": "Elasticsearch frontend",
   "manifest_version": 3,
   "icons": {
-    "16": "./images/logo/manifest/blue_16.png",
-    "32": "./images/logo/manifest/blue_32.png",
-    "48": "./images/logo/manifest/blue_48.png",
-    "128": "./images/logo/manifest/blue_128.png"
+    "16": "./logo/blue_16.png",
+    "32": "./logo/blue_32.png",
+    "48": "./logo/blue_48.png",
+    "128": "./logo/blue_128.png"
   },
   "background": {
     "service_worker": "background.js"

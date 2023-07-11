@@ -1,6 +1,10 @@
 {
-  "app": {
-    "header": {
+  "base": {
+    "app_footer": {
+      "homepage": "Homepage",
+      "changelog": "Changelog"
+    },
+    "app_header": {
       "navigation": {
         "home": "Home",
         "nodes": "Nodes",
@@ -9,26 +13,21 @@
         "search": "Search",
         "rest": "REST",
         "snapshots": "Snapshots",
-        "repositories": "Repositories",
-        "utilities": "Utilities"
+        "repositories": "Repositories"
       }
     },
-    "footer": {
-      "homepage": "Homepage",
-      "changelog": "Changelog"
-    },
-    "change_language": {
+    "language_switcher": {
       "title": "Change language",
       "languages": {
         "en": {
-          "title": "Set language to english"
+          "title": "English"
         },
         "cn": {
-          "title": "Set language to chinese"
+          "title": "Chinese"
         }
       }
     },
-    "change_theme": {
+    "theme_switcher": {
       "title": "Change theme"
     }
   },
@@ -40,19 +39,17 @@
     "close": "Close",
     "create": "Create",
     "delete": "Delete",
-    "required": "Required",
-    "success": "Success"
+    "success": "Success",
+    "bulk": "Bulk Action",
+    "copy": "Copy"
   },
-  "document": {
-    "heading": "Show"
-  },
-  "elasticsearch_instance": {
-    "instance_selection": {
+  "cluster_selection": {
+    "cluster_selection": {
       "connected_info": {
         "title": "Connected to '{activeInstanceName}' ({activeInstanceUri})"
       }
     },
-    "instances_table": {
+    "cluster_table": {
       "headers": {
         "cluster": "Cluster",
         "uri": "Uri",
@@ -60,48 +57,20 @@
       },
       "row": {
         "title": "Connect to cluster at '{uri}'",
-        "cluster_health": {
-          "title": "Cluster health: {status}"
-        },
-        "copy_uri": "Copy uri to clipboard",
         "remove_cluster": {
-          "title": "Remove cluster",
           "confirm": "Remove cluster '{name}' ({uri})?"
         }
       }
     },
-    "new_instance": {
-      "add_cluster": "Add cluster",
-      "heading": "Add elasticsearch instance",
-      "configure": {
-        "heading": "1. Configure",
-        "show_help": "show help"
+    "edit_cluster": {
+      "edit": {
+        "title": "Edit cluster"
       },
-      "connect": {
-        "heading": "2. Connect",
-        "form": {
-          "name": {
-            "label": "Cluster name"
-          },
-          "test_connection": "Test connection",
-          "connect": "Connect"
-        }
-      }
+      "heading": "Edit cluster"
     },
-    "rename_instance": {
-      "rename": {
-        "title": "Rename cluster"
-      },
-      "heading": "Rename elasticsearch instance",
-      "form": {
-        "name": {
-          "label": "Cluster name"
-        },
-        "uri": {
-          "label": "Uri"
-        },
-        "rename": "Rename"
-      }
+    "new_cluster": {
+      "add_cluster": "Add cluster",
+      "heading": "Add elasticsearch cluster"
     }
   },
   "helpers": {
@@ -113,7 +82,7 @@
   },
   "home": {
     "client_information": {
-      "heading": "Node Information"
+      "heading": "Cluster Information"
     },
     "cluster_health": {
       "heading": "Cluster Health"
@@ -124,7 +93,7 @@
     "index_aliases": {
       "text": "Aliases",
       "heading": "Manage aliases",
-      "index": "Index: {indexName}",
+      "index": "Index: {index}",
       "form": {
         "new_alias": {
           "label": "New alias"
@@ -140,8 +109,16 @@
         "confirm": "Delete alias '{alias}' for index '{index}'?"
       }
     },
-    "index_bulk": {
-      "bulk_action": "Bulk action"
+    "index_reindex": {
+      "text": "Reindex",
+      "heading": "Reindex index",
+      "index": "Index: {index}",
+      "form": {
+        "source": {
+          "label": "Reindex into..."
+        },
+        "reindex": "Reindex"
+      }
     },
     "index_row": {
       "search": {
@@ -155,32 +132,37 @@
         "show_info": "Show info",
         "show_stats": "Show stats",
         "forcemerge": {
-          "text": "Forcemerge index",
+          "text": "Forcemerge all indices | Forcemerge index | Forcemerge {count} indices",
           "growl": "The index '{index}' was successfully merged."
         },
         "refresh": {
-          "text": "Refresh index",
+          "text": "Refresh all indices | Refresh index | Refresh {count} indices",
           "growl": "The index '{index}' was successfully refreshed."
         },
         "flush": {
-          "text": "Flush index",
+          "text": "Flush all indices | Flush index | Flush {count} indices",
           "growl": "The index '{index}' was successfully flushed."
         },
         "clear_cache": {
-          "text": "Clear index cache",
+          "text": "Clear all index caches | Clear index cache | Clear {count} indices cache",
           "growl": "The index '{index}' cache was successfully cleared."
         },
         "close": {
-          "text": "Close index",
+          "text": "Close index | Close index | Close {count} indices",
           "growl": "The index '{index}' cache was successfully closed."
         },
         "open": {
-          "text": "Open index",
+          "text": "Open index | Open index | Open {count} indices",
           "growl": "The index '{index}' cache was successfully opened."
         },
+        "delete_by_query": {
+          "text": "Delete all documents",
+          "confirm": "Delete all documents in index '{index}'? This will remove ALL data in your index!",
+          "growl": "The documents in index '{index}' where successfully deleted."
+        },
         "delete": {
-          "text": "Delete index",
-          "confirm": "Delete index {index}? This will remove ALL data in your index!",
+          "text": "Delete index | Delete index | Delete {count} indices",
+          "confirm": "Delete index '{index}'?",
           "growl": "The index '{index}' cache was successfully deleted."
         }
       }
@@ -234,25 +216,18 @@
           "name": "Name",
           "index_patterns": "index_patterns",
           "priority": "priority",
-          "version": "version",
-          "allow_auto_create": "allow_auto_create",
-          "template": "template"
+          "version": "version"
         }
       }
     }
   },
   "mixins": {
     "test_connection": {
-      "cluster_reachable": "You cluster is reachable and configured correctly.",
-      "cluster_not_reachable": "Either your cluster is not reachable or you did not configure CORS correctly."
-    },
-    "history": {
-      "clear_all": {
-        "confirm": "Are you sure? This will remove all entries from your history."
-      }
+      "cluster_reachable": "You cluster is reachable and configured correctly."
     }
   },
-  "nodes": {
+  "cluster_nodes": {
+    "heading": "Nodes",
     "node_icons": {
       "master": {
         "title": "Master node"
@@ -272,6 +247,7 @@
     },
     "node_properties": {
       "ip": "ip",
+      "id": "id",
       "master": "master",
       "node_role": "node.role",
       "load": "load",
@@ -281,13 +257,6 @@
       "disk": "disk",
       "name": "name",
       "status": "status"
-    },
-    "nodes_list": {
-      "heading": "Nodes",
-      "types": {
-        "grid": "Grid",
-        "table": "Table"
-      }
     }
   },
   "query": {
@@ -307,25 +276,22 @@
           "label": "Path"
         },
         "send_request": "Send request",
+        "save_request": "Save",
         "reset": "Reset",
-        "download_as_json": "Download as json"
+        "download_as_json": "Download response body"
       },
       "get_request_hint": {
         "cannot_send_body": "You cannot send a request body via {method}.<br> Please ",
         "use_post": "use POST",
-        "query_parameters": "if you want to send a request body, alternatively add query parameters to the url.",
+        "query_parameters": "if you want to send a request body.",
         "search_post": "You can use POST to search with the _search endpoint."
       }
     },
     "rest_query_history": {
-      "favorites_filter": {
-        "only_favorites": "Show only favorites",
-        "show_all": "Show all"
-      },
       "table": {
         "headers": {
           "query": "Query",
-          "date": "Date"
+          "timestamp": "Timestamp"
         },
         "row": {
           "title": "Click to preview request body, ctrl+click to directly use.",
@@ -341,7 +307,8 @@
         "only_non_favorites": "Delete only non-favorites"
       },
       "body_preview": {
-        "use": "Use",
+        "use": "Use in current tab",
+        "open_new_tab": "Open in new tab",
         "remove_entry": "Remove entry",
         "unselect": "unselect"
       }
@@ -369,13 +336,28 @@
       "heading": "New repository",
       "form": {
         "name": {
-          "label": "Repository name"
+          "label": "Repository name*"
         },
         "type": {
-          "label": "Repository type"
+          "label": "Repository type*"
+        },
+        "bucket": {
+          "label": "S3 bucket*"
+        },
+        "client": {
+          "label": "S3 client"
+        },
+        "protocol": {
+          "label": "Protocol*"
+        },
+        "region": {
+          "label": "S3 region"
+        },
+        "path_style_access": {
+          "label": "Path style access"
         },
         "location": {
-          "label": "Repository location"
+          "label": "Repository location*"
         },
         "chunk_size": {
           "label": "Chunk size"
@@ -429,8 +411,18 @@
         "reset_all": "Reset all"
       }
     },
-    "result": {
-      "show": "Show"
+    "search_result": {
+      "show": {
+        "title": "Show document"
+      },
+      "edit": {
+        "text": "Edit document"
+      },
+      "delete": {
+        "text": "# | Delete document | Delete documents",
+        "confirm": "# | Are you sure you want to delete this document? | Are you sure you want to delete {count} documents?",
+        "growl": "# | Document successfully deleted. | Documents successfully deleted."
+      }
     },
     "results_table": {
       "filter": {
@@ -444,6 +436,12 @@
         }
       },
       "download_as_json": "Download as json"
+    },
+    "edit_document": {
+      "update": {
+        "text": "Update document",
+        "growl": "Document updated successfully."
+      }
     }
   },
   "settings": {
@@ -452,6 +450,9 @@
       "label": "Hide indices regex",
       "message": "Indices matching this regex will be hidden by default on all places where indices are listed",
       "reset": "Reset to default {regex}"
+    },
+    "localize_timestamp": {
+      "label": "Localize value of '{'@'}timestamp' fields in search results"
     },
     "disconnect_and_reset": {
       "heading": "Disconnect and reset all settings",
@@ -464,13 +465,12 @@
       "export": {
         "heading": "Export",
         "included": "Whats included?",
-        "prepare_backup": "Create backup file",
-        "download": "Download"
+        "download": "Download backup"
       },
       "import": {
         "heading": "Import",
-        "select_file": "Select file...",
-        "import": "Import settings"
+        "select_file": "Chose file...",
+        "import": "Import backup"
       }
     }
   },
@@ -478,15 +478,17 @@
     "heading": "Setup",
     "configure": {
       "heading": "1. Configure",
-      "introduction": "You have to setup CORS to use elasticvue. Add the following lines to your",
+      "introduction": "You have to setup CORS to use elasticvue web. Add the following lines to your",
       "allow_cors": "allow CORS requests from {domain}",
       "authorization": "and if your cluster uses authorization",
-      "restart": "Then restart your cluster",
-      "docker": "This can also be done if you run elasticsearch via docker, by adding the config via environment variables"
+      "restart": "Then restart your cluster"
     },
     "test_and_connect": {
       "heading": "2. Connect",
       "form": {
+        "name": {
+          "label": "Cluster name"
+        },
         "username": {
           "label": "Username (optional)"
         },
@@ -499,12 +501,6 @@
         "test_connection": "Test connection",
         "connect": "Connect"
       },
-      "error": {
-        "heading": "Could not connect. Please make sure that",
-        "cluster_reachable": "Your cluster is reachable via",
-        "correct_settings": "You added the correct settings to your",
-        "cluster_restarted": "and restarted your cluster"
-      },
       "connected": "Successfully connected."
     }
   },
@@ -515,6 +511,17 @@
     }
   },
   "shared": {
+    "cluster_connection_errors": {
+      "connection_error": "Connection error",
+      "http_error": "HTTP error",
+      "cant_connect": "Can't connect to your cluster.",
+      "please_check": "Please make sure that",
+      "checklist": {
+        "reachable": "Your cluster is reachable via",
+        "ssl": "Your browser trusts the clusters ssl certificate",
+        "cors": "You have enabled CORS and restarted your cluster"
+      }
+    },
     "nothing_found_for_filter": "No entries found for filter '{filter}'.",
     "nothing_found": "No entries found.",
     "index_filter": {
@@ -524,7 +531,7 @@
         "input": {
           "label": "Index pattern"
         },
-        "matched_indices": "matches <strong title='{indices}'>{count} indices</strong>"
+        "matched_indices": "matches {count} indices"
       },
       "index_select": {
         "select_indices": {
@@ -549,7 +556,7 @@
       "reset": "reset",
       "uncheck": "uncheck"
     },
-    "authorization_header_hint": "Your cluster uses authorization. Make sure that you have set \"http.cors.allow-headers\", otherwise you will not be able to connect.",
+    "authorization_header_hint": "Make sure that \"http.cors.allow-headers\" is configured",
     "code_editor": {
       "actions": {
         "copy_content": {
@@ -574,7 +581,8 @@
     },
     "loader": {
       "copy_error": "Copy error",
-      "network_error": "Network error. Is your cluster reachable?"
+      "network_error": "Network error, cannot access your cluster.",
+      "cluster_uri": "Cluster uri:"
     },
     "modal_data_loader": {
       "modal_title": {
@@ -601,7 +609,7 @@
       }
     },
     "ssl_hint": {
-      "hint": "Your cluster uses ssl. Make sure that your browser trusts the certificate that you are using, otherwise you will not be able to connect.",
+      "hint": "When using https make sure that your browser trusts the clusters ssl certificate.",
       "help": "Help"
     }
   },
@@ -644,10 +652,7 @@
       }
     },
     "snapshot": {
-      "indices": {
-        "show": "Show",
-        "hide": "Hide"
-      },
+      "indices": "{count} indices",
       "options": "Options",
       "delete": {
         "text": "Delete snapshot",
@@ -677,25 +682,6 @@
       "filter": {
         "label": "Filter id..."
       }
-    }
-  },
-  "utilities": {
-    "heading": "Utilities",
-    "run": "Run",
-    "create": {
-      "heading": "Create",
-      "empty_indices": "Create 10 empty indices",
-      "twitter_index": "Create twitter index and add 100 tweets"
-    },
-    "delete": {
-      "heading": "Delete",
-      "delete_all": "Delete all indices",
-      "confirm": "Are you sure? This will delete ALL data in your cluster!"
-    },
-    "misc": {
-      "heading": "Misc",
-      "flush_all": "Flush all indices to disk",
-      "set_all_to_writable": "Set all indices to writable"
     }
   }
 }

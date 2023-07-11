@@ -1,13 +1,13 @@
 {
   "package": {
     "productName": "elasticvue",
-    "version": "0.44.0"
+    "version": "1.0.0"
   },
   "build": {
     "distDir": "../dist",
-    "devPath": "http://localhost:8080",
+    "devPath": "http://localhost:5173",
     "beforeDevCommand": "",
-    "beforeBuildCommand": "npx cross-env VUE_APP_DESKTOP_BUILD=true yarn build"
+    "beforeBuildCommand": "npx cross-env VITE_APP_BUILD_MODE=tauri yarn build"
   },
   "tauri": {
     "bundle": {

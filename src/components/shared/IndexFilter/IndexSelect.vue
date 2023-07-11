@@ -1,134 +1,90 @@
 <template>
-  <v-autocomplete v-model="localValue"
-                  :items="filteredIndices"
-                  :label="$t('shared.index_filter.index_select.select_indices.label')"
-                  :loading="loading"
-                  append-icon="mdi-menu-down"
-                  autocomplete="off"
-                  multiple
-                  name="indices"
-                  prepend-inner-icon="mdi-cached"
-                  @click:prepend-inner="resetSelection">
-    <template v-slot:item="data">
-      <v-list-item-action>
-        <v-checkbox :input-value="localValue.includes(data.item)" color="primary-button"/>
-      </v-list-item-action>
-      <v-list-item-content :title="data.item" class="text-truncate">
-        {{ data.item }}
-      </v-list-item-content>
+  <q-select v-model="localValue"
+            class="full-width"
+            :options="options"
+            outlined
+            use-input
+            options-dense
+            input-debounce="0"
+            multiple
+            :loading="requestState.loading"
+            :label="t('shared.index_filter.index_select.select_indices.label')"
+            @filter="filter">
+    <template #before-options>
+      <div class="q-pa-sm">
+        <q-btn color="dark-grey q-mr-md"
+               :label="t('shared.index_filter.index_select.select_all.text')"
+               @click="localValue = options" />
+        <q-btn color="dark-grey"
+               :label="t('shared.index_filter.index_select.deselect_all.text')"
+               @click="localValue= []" />
+      </div>
+      <q-separator />
     </template>
 
-    <template v-slot:selection="{ item, index }">
-      <template v-if="index === 0">
-        <template v-if="localValue.length === 1">
-          {{ item }}
-        </template>
-        <template v-else>
-          {{ localValue.length }} {{ $t('shared.index_filter.index_select.indices_selected') }}
-        </template>
+    <template #selected>
+      <template v-if="localValue.length > 3">
+        {{ localValue.length }} {{ t('shared.index_filter.index_select.indices_selected') }}
+      </template>
+      <template v-else-if="localValue.length > 0">
+        {{ localValue.join(', ') }}
       </template>
     </template>
-
-    <template v-slot:prepend-item>
-      <div class="px-4 mb-2">
-        <btn-group class="d-inline-block">
-          <v-btn :title="$t('shared.index_filter.index_select.select_all.title')" small @click="selectAll">
-            {{ $t('shared.index_filter.index_select.select_all.text') }}
-          </v-btn>
-
-          <v-btn :title="$t('shared.index_filter.index_select.deselect_all.title')" small @click="deselectAll">
-            {{ $t('shared.index_filter.index_select.deselect_all.text') }}
-          </v-btn>
-        </btn-group>
-
-        <div class="float-right d-inline-block">
-          <v-checkbox v-model="showHidden"
-                      :label="$t('shared.index_filter.index_select.show_hidden.label')"
-                      :title="$t('shared.index_filter.index_select.show_hidden.title')"
-                      class="mt-0"
-                      color="primary-button"
-                      hide-details/>
-        </div>
-      </div>
-      <v-divider/>
-    </template>
-  </v-autocomplete>
+  </q-select>
 </template>
 
-<script>
-  import BtnGroup from '@/components/shared/BtnGroup'
-  import { computed, ref } from 'vue'
-  import { vuexAccessors } from '@/helpers/store'
+<script setup lang="ts">
+  import { onMounted, ref, watch } from 'vue'
+  import { useTranslation } from '../../../composables/i18n'
+  import { useElasticsearchAdapter } from '../../../composables/CallElasticsearch'
+  import { ElasticsearchMethod } from '../../../services/ElasticsearchAdapter'
+  import { EsIndex } from '../../../composables/components/indices/IndicesTable.ts'
 
-  export default {
-    name: 'index-select',
-    components: {
-      BtnGroup
-    },
-    props: {
-      value: {
-        type: Array,
-        default: () => ([])
-      },
-      indices: {
-        type: Array,
-        default: () => ([])
-      },
-      loading: {
-        type: Boolean,
-        default: false
-      }
-    },
-    setup (props, context) {
-      const { hideIndicesRegex } = vuexAccessors('indices', ['hideIndicesRegex'])
-      const showHidden = ref(false)
-      const localValue = computed({
-        get () {
-          return props.value
-        },
-        set (value) {
-          context.emit('input', value)
-        }
-      })
+  const t = useTranslation()
 
-      const filteredIndices = computed(() => {
-        if (showHidden.value) {
-          return props.indices.slice(0).sort()
-        } else {
-          return props.indices.slice(0).filter(index => !index[0].match(new RegExp(hideIndicesRegex.value))).sort()
-        }
-      })
+  type Behavior = 'load' | 'use'
+  const props = withDefaults(defineProps<{
+    modelValue: string[],
+    indexNames?: string[],
+    behavior: Behavior,
+    method?: ElasticsearchMethod,
+    methodParams?: any
+  }>(), {
+    modelValue: () => ([]),
+    indexNames: () => ([]),
+    behavior: 'use',
+    method: 'catIndices',
+    methodParams: null
+  })
+  const emit = defineEmits(['update:modelValue'])
 
-      const resetSelection = () => {
-        localValue.value = []
-        context.emit('reload')
-      }
+  const localValue = ref(props.modelValue)
+  watch(localValue, v => emit('update:modelValue', v))
 
-      const selectAll = () => {
-        if (showHidden.value) {
-          localValue.value = props.indices
-        } else {
-          localValue.value = props.indices.filter(index => index[0] !== '.')
-        }
-      }
+  const options = ref(props.behavior === 'use' ? props.indexNames : [])
+  const indices = ref([])
 
-      const deselectAll = () => {
-        localValue.value = []
-      }
-
-      const toggleHidden = () => {
-        showHidden.value = !showHidden.value
-      }
-
-      return {
-        showHidden,
-        localValue,
-        resetSelection,
-        selectAll,
-        deselectAll,
-        toggleHidden,
-        filteredIndices
-      }
+  const { requestState, callElasticsearch } = useElasticsearchAdapter()
+  if (props.behavior === 'load') {
+    const load = () => {
+      return callElasticsearch(props.method, props.methodParams)
+          .then(body => indices.value = body.map((i: EsIndex) => (i.index || i)).sort())
+          .catch(() => (indices.value = []))
     }
+    onMounted(load)
+  }
+
+  const filter = (val: string, update: any) => {
+    const data = props.behavior === 'use' ? props.indexNames : indices.value
+
+    if (val.length === 0) {
+      update(() => (options.value = data))
+      return
+    }
+
+    update(() => {
+      const search = val.toLowerCase()
+      options.value = data.filter(v => v.includes(search))
+    })
   }
 </script>

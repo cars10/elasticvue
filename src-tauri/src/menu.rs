@@ -14,15 +14,13 @@ pub fn menu<A: Assets>(ctx: &Context<A>) -> Menu {
                 MenuItem::HideOthers.into(),
                 MenuItem::ShowAll.into(),
                 MenuItem::Separator.into(),
-                MenuItem::Quit.into()
+                MenuItem::Quit.into(),
             ]),
         )),
         #[cfg(not(target_os = "macos"))]
         MenuEntry::Submenu(Submenu::new(
             "File",
-            Menu::with_items([
-                MenuItem::Quit.into()
-            ]),
+            Menu::with_items([MenuItem::Quit.into()]),
         )),
         #[cfg(not(target_os = "linux"))]
         MenuEntry::Submenu(Submenu::new(
@@ -36,16 +34,13 @@ pub fn menu<A: Assets>(ctx: &Context<A>) -> Menu {
                 MenuItem::Paste.into(),
                 #[cfg(not(target_os = "macos"))]
                 MenuItem::Separator.into(),
-                MenuItem::SelectAll.into()
+                MenuItem::SelectAll.into(),
             ]),
         )),
         #[cfg(not(target_os = "linux"))]
         MenuEntry::Submenu(Submenu::new(
             "Window",
-            Menu::with_items([
-                MenuItem::Minimize.into(),
-                MenuItem::Zoom.into()
-            ]),
+            Menu::with_items([MenuItem::Minimize.into(), MenuItem::Zoom.into()]),
         )),
     ])
 }

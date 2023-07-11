@@ -1,0 +1,31 @@
+.text-muted {
+  color: var(--theme-muted-color) !important;
+}
+
+body {
+  font-size: 16px;
+}
+
+.text-underline {
+  text-decoration: underline;
+}
+
+.decoration-none {
+  text-decoration: none;
+}
+
+.font-14 {
+  font-size: 14px !important;
+}
+
+.font-13 {
+  font-size: 13px !important;
+}
+
+.font-mono {
+  font-family: 'Hack', monospace;
+}
+
+.clickable:hover {
+  cursor: pointer
+}

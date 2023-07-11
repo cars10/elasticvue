@@ -1,37 +1,50 @@
 <template>
-  <v-app :dark="dark">
-    <the-header/>
+  <q-layout view="hHh lpR fff" style="outline: none !important;">
+    <app-header v-if="connectionStore.activeCluster" />
 
-    <v-main>
-      <v-container fluid>
-        <router-view/>
-      </v-container>
-      <snackbar/>
-    </v-main>
+    <q-page-container>
+      <div class="q-ma-md">
+        <router-view v-if="connectionStore.activeCluster?.status !== 'unknown' || route.name === 'settings'" />
+        <div v-else class="q-pa-lg">
+          <div class="row">
+            <div class="col-6 offset-3">
+              <network-error />
+            </div>
+          </div>
+        </div>
+      </div>
+    </q-page-container>
 
-    <the-footer/>
-  </v-app>
+    <modal-loader />
+    <alert-snackbar />
+
+    <app-footer />
+  </q-layout>
 </template>
 
-<script>
-  import TheHeader from '@/components/App/TheHeader'
-  import TheFooter from '@/components/App/TheFooter'
-  import Snackbar from '@/components/Snackbar'
-  import { vuexAccessors } from '@/helpers/store'
+<script setup lang="ts">
+  import { onMounted } from 'vue'
+  import { useRoute } from 'vue-router'
+  import AppHeader from './components/base/AppHeader.vue'
+  import AppFooter from './components/base/AppFooter.vue'
+  import ModalLoader from './components/shared/ModalLoader.vue'
+  import AlertSnackbar from './components/shared/AlertSnackbar.vue'
+  import NetworkError from './components/shared/NetworkError.vue'
+  import { useThemeStore } from './store/theme.js'
+  import { useConnectionStore } from './store/connection'
 
-  export default {
-    name: 'App',
-    components: {
-      TheHeader,
-      TheFooter,
-      Snackbar
-    },
-    setup () {
-      const { dark } = vuexAccessors('theme', ['dark'])
+  const themeStore = useThemeStore()
+  const connectionStore = useConnectionStore()
 
-      return {
-        dark
-      }
+  const route = useRoute()
+
+  onMounted(() => {
+    if (themeStore.dark) {
+      document.body.classList.remove('body--light')
+      document.body.classList.add('theme--dark')
+    } else {
+      document.body.classList.remove('theme--dark')
+      document.body.classList.add('theme--light')
     }
-  }
+  })
 </script>

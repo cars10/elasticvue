@@ -1,96 +1,41 @@
 <template>
-  <content-toggle :first-slot-active="typeof value === 'string'" @changed="emitInput">
-    <template slot="first">
-      <index-pattern v-model="localPattern"/>
-    </template>
-    <template slot="first-activator">
-      <button class="btn-link ml-2" type="button">{{ $t('shared.index_filter.use_index_pattern') }}</button>
-    </template>
+  <div>
+    <div v-if="showSelect" class="relative-position">
+      <div class="absolute inline-block" style="z-index: 10; top: -1px; right: 0">
+        <q-btn class="btn-link q-px-xs q-py-none" flat :label="t('shared.index_filter.use_index_pattern')"
+               no-caps @click="toggle" />
+      </div>
+      <index-select v-model="localIndices"
+                    behavior="load"
+                    method="catIndices"
+                    :method-params="{ index: '*', h: 'index' }" />
+    </div>
 
-    <template slot="last">
-      <index-select v-model="localIndices" :indices="indexNames" :loading="requestState.loading" @reload="load"/>
-    </template>
-    <template slot="last-activator">
-      <button class="btn-link ml-2" type="button">{{ $t('shared.index_filter.use_index_select') }}</button>
-    </template>
-  </content-toggle>
+    <div v-else class="relative-position">
+      <div class="absolute inline-block" style="z-index: 10; top: -1px; right: 0">
+        <q-btn class="btn-link q-px-xs q-py-none" flat :label="t('shared.index_filter.use_index_select')"
+               no-caps @click="toggle" />
+      </div>
+      <index-pattern v-model="localPattern" />
+    </div>
+  </div>
 </template>
 
-<script>
-  import IndexSelect from '@/components/shared/IndexFilter/IndexSelect'
-  import IndexPattern from '@/components/shared/IndexFilter/IndexPattern'
-  import ContentToggle from '@/components/shared/ContentToggle'
-  import { computed, onMounted, ref, watch } from 'vue'
-  import { setupElasticsearchRequest } from '@/mixins/RequestComposition'
+<script setup lang="ts">
+  import { ref, watch } from 'vue'
+  import IndexPattern from './IndexFilter/IndexPattern.vue'
+  import IndexSelect from './IndexFilter/IndexSelect.vue'
+  import { useTranslation } from '../../composables/i18n.ts'
 
-  export default {
-    name: 'index-filter',
-    components: {
-      ContentToggle,
-      IndexSelect,
-      IndexPattern
-    },
-    props: {
-      method: {
-        type: String,
-        default: ''
-      },
-      methodParams: {
-        type: Object,
-        default: () => ({})
-      },
-      value: {
-        type: [String, Array],
-        default: () => ([])
-      }
-    },
-    setup (props, context) {
-      const localIndices = Array.isArray(props.value) ? ref(props.value) : ref([])
-      const localPattern = typeof props.value === 'string' ? ref(props.value) : ref('')
+  const props = defineProps<{ modelValue: any }>()
+  const emit = defineEmits(['update:modelValue'])
+  const t = useTranslation()
+  const localIndices = Array.isArray(props.modelValue) ? ref(props.modelValue) : ref([])
+  const localPattern = typeof props.modelValue === 'string' ? ref(props.modelValue) : ref('*')
 
-      const { load, requestState, data } = setupElasticsearchRequest(props.method, props.methodParams)
-      onMounted(load)
+  const showSelect = ref(typeof props.modelValue !== 'string')
+  const toggle = () => (showSelect.value = !showSelect.value)
 
-      const emitInput = firstActive => {
-        if (firstActive) {
-          context.emit('input', localPattern.value)
-        } else {
-          context.emit('input', localIndices.value)
-        }
-      }
-
-      const indexNames = computed(() => {
-        if (!data.value) return []
-        if (typeof data.value[0] === 'string') {
-          return data.value
-        } else {
-          if (data.value.snapshots) {
-            return data.value.snapshots[0].indices
-          } else if (data.value) {
-            return data.value.map(i => i.index)
-          } else {
-            return []
-          }
-        }
-      })
-
-      watch(localIndices, newValue => {
-        context.emit('input', newValue)
-      })
-
-      watch(localPattern, newValue => {
-        context.emit('input', newValue)
-      })
-
-      return {
-        localIndices,
-        localPattern,
-        emitInput,
-        indexNames,
-        load,
-        requestState,
-        data
-      }
-    }
-  }
+  watch(localIndices, newValue => emit('update:modelValue', newValue))
+  watch(localPattern, newValue => emit('update:modelValue', newValue))
 </script>

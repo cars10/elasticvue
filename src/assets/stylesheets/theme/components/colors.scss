@@ -1,0 +1,15 @@
+// use class="bg-default" or color="default"
+.bg-default {
+  color: var(--theme-color);
+  background: var(--theme-background);
+}
+
+// use class="bg-dark-grey" or color="dark-grey"
+.bg-dark-grey {
+  color: var(--theme-dark-grey-color) !important;
+  background: var(--theme-dark-grey-background) !important;
+}
+
+.bg-primary-dark {
+  background: var(--theme-primary-dark) !important;
+}

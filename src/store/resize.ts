@@ -1,0 +1,22 @@
+import { defineStore } from 'pinia'
+
+type ResizeState = {
+  indicesTable: number,
+  modalLoaderCodeViewer: number,
+  restForm: number,
+  searchQuery: number,
+  searchTable: number,
+  documentEdit: number
+}
+
+export const useResizeStore = defineStore('resize', {
+  state: (): ResizeState => ({
+    indicesTable: 500,
+    modalLoaderCodeViewer: 600,
+    restForm: 400,
+    searchQuery: 400,
+    searchTable: 500,
+    documentEdit: 500
+  }),
+  persist: true
+})

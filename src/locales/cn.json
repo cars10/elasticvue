@@ -1,6 +1,10 @@
 {
-  "app": {
-    "header": {
+  "base": {
+    "app_footer": {
+      "homepage": "主页",
+      "changelog": "变更日志"
+    },
+    "app_header": {
       "navigation": {
         "home": "首页",
         "nodes": "节点",
@@ -9,15 +13,10 @@
         "search": "搜索",
         "rest": "REST",
         "snapshots": "快照",
-        "repositories": "存储",
-        "utilities": "工具"
+        "repositories": "存储"
       }
     },
-    "footer": {
-      "homepage": "主页",
-      "changelog": "变更日志"
-    },
-    "change_language": {
+    "language_switcher": {
       "title": "变更语言",
       "languages": {
         "en": {
@@ -28,7 +27,7 @@
         }
       }
     },
-    "change_theme": {
+    "theme_switcher": {
       "title": "更改主题"
     }
   },
@@ -40,14 +39,12 @@
     "close": "关闭",
     "create": "创建",
     "delete": "删除",
-    "required": "必需",
-    "success": "成功"
+    "success": "成功",
+    "bulk": null,
+    "copy": null
   },
-  "document": {
-    "heading": "查看"
-  },
-  "elasticsearch_instance": {
-    "instance_selection": {
+  "cluster_selection": {
+    "cluster_selection": {
       "connected_info": {
         "title": "连接至 '{activeInstanceName}' ({activeInstanceUri})"
       }
@@ -60,48 +57,20 @@
       },
       "row": {
         "title": "连接到集群 '{uri}'",
-        "cluster_health": {
-          "title": "集群健康状态：{status}"
-        },
-        "copy_uri": null,
         "remove_cluster": {
-          "title": "移除集群",
           "confirm": "移除集群 '{name}' ({uri})?"
         }
       }
     },
-    "new_instance": {
-      "add_cluster": "添加集群",
-      "heading": "添加Elasticsearch实例",
-      "configure": {
-        "heading": "1. 配置",
-        "show_help": "查看帮助"
-      },
-      "connect": {
-        "heading": "2. 连接",
-        "form": {
-          "name": {
-            "label": "集群名称"
-          },
-          "test_connection": "测试连接",
-          "connect": "连接"
-        }
-      }
-    },
-    "rename_instance": {
-      "rename": {
+    "edit_cluster": {
+      "edit": {
         "title": "重命名集群"
       },
-      "heading": "重命名Elasticsearch实例",
-      "form": {
-        "name": {
-          "label": "集群名称"
-        },
-        "uri": {
-          "label": "地址"
-        },
-        "rename": "重命名"
-      }
+      "heading": "重命名Elasticsearch实例"
+    },
+    "new_cluster": {
+      "add_cluster": "添加集群",
+      "heading": "添加Elasticsearch实例"
     }
   },
   "helpers": {
@@ -124,7 +93,7 @@
     "index_aliases": {
       "text": "别名",
       "heading": "管理别名",
-      "index": "索引：{indexName}",
+      "index": "索引：{index}",
       "form": {
         "new_alias": {
           "label": "新别名"
@@ -140,8 +109,16 @@
         "confirm": "删除索引 '{index}' 的别名 '{alias}'？"
       }
     },
-    "index_bulk": {
-      "bulk_action": null
+    "index_reindex": {
+      "text": null,
+      "heading": null,
+      "index": null,
+      "form": {
+        "source": {
+          "label": null
+        },
+        "reindex": null
+      }
     },
     "index_row": {
       "search": {
@@ -178,9 +155,14 @@
           "text": "开启索引",
           "growl": "索引 '{index}' 缓存已成功开启。"
         },
+        "delete_by_query": {
+          "text": null,
+          "confirm": null,
+          "growl": null
+        },
         "delete": {
           "text": "删除",
-          "confirm": "删除索引 {index}？这将删除索引中的所有数据！",
+          "confirm": "删除索引 '{index}'？这将删除索引中的所有数据！",
           "growl": "索引 '{index}' 缓存已成功删除。"
         }
       }
@@ -234,25 +216,18 @@
           "name": null,
           "index_patterns": null,
           "priority": null,
-          "version": null,
-          "allow_auto_create": null,
-          "template": null
+          "version": null
         }
       }
     }
   },
   "mixins": {
     "test_connection": {
-      "cluster_reachable": "你的集群可以访问并正确配置。",
-      "cluster_not_reachable": "你的集群无法访问或你没有正确配置 CORS。"
-    },
-    "history": {
-      "clear_all": {
-        "confirm": "你确定吗? 这会删除你历史中的所有条目！"
-      }
+      "cluster_reachable": "你的集群可以访问并正确配置。"
     }
   },
-  "nodes": {
+  "cluster_nodes": {
+    "heading": null,
     "node_icons": {
       "master": {
         "title": "主节点"
@@ -272,6 +247,7 @@
     },
     "node_properties": {
       "ip": "IP地址",
+      "id": null,
       "master": "主节点",
       "node_role": "节点角色",
       "load": "负载",
@@ -281,13 +257,6 @@
       "disk": "磁盘",
       "name": "名称",
       "status": "状态"
-    },
-    "nodes_list": {
-      "heading": "节点",
-      "types": {
-        "grid": "网格",
-        "table": "列表"
-      }
     }
   },
   "query": {
@@ -307,6 +276,7 @@
           "label": "请求路径"
         },
         "send_request": "发送请求",
+        "save_request": null,
         "reset": "重置",
         "download_as_json": "下载为 JSON 文件"
       },
@@ -318,14 +288,10 @@
       }
     },
     "rest_query_history": {
-      "favorites_filter": {
-        "only_favorites": "只查看收藏",
-        "show_all": "查看所有"
-      },
       "table": {
         "headers": {
           "query": "查询",
-          "date": "日期"
+          "timestamp": "日期"
         },
         "row": {
           "title": "点击预览请求正文，ctrl+点击 直接使用。",
@@ -342,6 +308,7 @@
       },
       "body_preview": {
         "use": "使用",
+        "open_new_tab": null,
         "remove_entry": "删除条目",
         "unselect": "取消选择"
       }
@@ -369,13 +336,28 @@
       "heading": "新建存储",
       "form": {
         "name": {
-          "label": "存储名称"
+          "label": "存储名称*"
         },
         "type": {
-          "label": "存储类型"
+          "label": "存储类型*"
+        },
+        "bucket": {
+          "label": null
+        },
+        "client": {
+          "label": null
+        },
+        "protocol": {
+          "label": null
+        },
+        "region": {
+          "label": null
+        },
+        "path_style_access": {
+          "label": null
         },
         "location": {
-          "label": "存储位置"
+          "label": "存储位置*"
         },
         "chunk_size": {
           "label": "块大小"
@@ -429,8 +411,18 @@
         "reset_all": null
       }
     },
-    "result": {
-      "show": "查看"
+    "search_result": {
+      "show": {
+        "title": "查看"
+      },
+      "edit": {
+        "text": null
+      },
+      "delete": {
+        "text": null,
+        "confirm": null,
+        "growl": null
+      }
     },
     "results_table": {
       "filter": {
@@ -444,6 +436,12 @@
         }
       },
       "download_as_json": "下载为 JSON 文件"
+    },
+    "edit_document": {
+      "update": {
+        "text": null,
+        "growl": null
+      }
     }
   },
   "settings": {
@@ -452,6 +450,9 @@
       "label": "隐藏索引正则表达式",
       "message": "与此正则表达式匹配的索引将默认隐藏在所有列出索引的位置",
       "reset": "重置为默认 {regex}"
+    },
+    "localize_timestamp": {
+      "label": null
     },
     "disconnect_and_reset": {
       "heading": "断开连接并重置所有配置",
@@ -464,13 +465,12 @@
       "export": {
         "heading": "导出",
         "included": "什么内容会包含？",
-        "prepare_backup": "生成备份",
-        "download": "下载"
+        "download": "下载备份"
       },
       "import": {
         "heading": "导入",
         "select_file": "选择文件...",
-        "import": "导入配置"
+        "import": "导入备份"
       }
     }
   },
@@ -481,12 +481,14 @@
       "introduction": "你必须设置 CORS 才能使用 elasticvue。将以下行添加到你的",
       "allow_cors": "允许 CORS 请求来自 {domain}",
       "authorization": "如果你的集群使用授权",
-      "restart": "然后重启你的集群",
-      "docker": "这也可以通过 docker 运行 elasticsearch 来完成，通过环境变量添加配置"
+      "restart": "然后重启你的集群"
     },
     "test_and_connect": {
       "heading": "2. 连接",
       "form": {
+        "name": {
+          "label": null
+        },
         "username": {
           "label": "用户名 (可选)"
         },
@@ -499,12 +501,6 @@
         "test_connection": "测试连接",
         "connect": "连接"
       },
-      "error": {
-        "heading": "无法连接。请确保",
-        "cluster_reachable": "你的集群可以通过地址访问",
-        "correct_settings": "你添加了正确的配置在",
-        "cluster_restarted": "并且重启了集群"
-      },
       "connected": "连接成功！"
     }
   },
@@ -515,6 +511,17 @@
     }
   },
   "shared": {
+    "cluster_connection_errors": {
+      "connection_error": null,
+      "http_error": null,
+      "cant_connect": null,
+      "please_check": null,
+      "checklist": {
+        "reachable": null,
+        "ssl": null,
+        "cors": null
+      }
+    },
     "nothing_found_for_filter": null,
     "nothing_found": null,
     "index_filter": {
@@ -524,7 +531,7 @@
         "input": {
           "label": "索引模式"
         },
-        "matched_indices": "找到 <strong title='{indices}'>{count} 个索引</strong>"
+        "matched_indices": "找到 {count} 个索引"
       },
       "index_select": {
         "select_indices": {
@@ -574,7 +581,8 @@
     },
     "loader": {
       "copy_error": "复制错误",
-      "network_error": null
+      "network_error": null,
+      "cluster_uri": null
     },
     "modal_data_loader": {
       "modal_title": {
@@ -644,10 +652,7 @@
       }
     },
     "snapshot": {
-      "indices": {
-        "show": "显示",
-        "hide": "隐藏"
-      },
+      "indices": null,
       "options": "选项",
       "delete": {
         "text": "删除快照",
@@ -677,25 +682,6 @@
       "filter": {
         "label": "过滤 id..."
       }
-    }
-  },
-  "utilities": {
-    "heading": "工具",
-    "run": "运行",
-    "create": {
-      "heading": "创建",
-      "empty_indices": "创建 10 个空索引",
-      "twitter_index": "创建 twitter 索引并添加 100 条 tweet"
-    },
-    "delete": {
-      "heading": "删除",
-      "delete_all": "删除所有索引",
-      "confirm": "你确定吗? 这会删除你集群上的所有数据！"
-    },
-    "misc": {
-      "heading": "其他",
-      "flush_all": "刷新索引到磁盘",
-      "set_all_to_writable": "设置所有索引为可写"
     }
   }
 }
