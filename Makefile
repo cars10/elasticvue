@@ -17,7 +17,7 @@ build_docker_nginx:
 	docker build -f docker/Dockerfile -t elasticvue .
 
 run_docker_nginx:
-	docker run -p 8080:8080 elasticvue:latest
+	docker run -p 8080:8080 --name elasticvue elasticvue:latest
 
 # Build docker image to run elasticvue served by nginx MULTIARCH
 build_docker_nginx_multiarch:
