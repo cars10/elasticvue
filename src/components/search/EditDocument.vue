@@ -28,7 +28,7 @@
                type="submit"
                class="q-mr-md"
                @click="updateDocument" />
-        <q-btn v-close-popup flat :label="t('defaults.cancel')" />
+        <q-btn v-close-popup flat :label="t('defaults.close')" />
       </q-card-section>
     </q-card>
   </q-dialog>

@@ -137,7 +137,7 @@ See the Wiki. [Comparing to other frontends](https://github.com/cars10/elasticvu
 Elasticvue is available in the following languages:
 
 * english
-* chinese
+* chinese (about 80% translated)
 
 ### Help wanted
 
@@ -154,7 +154,6 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## TODO
 
-* Cleanup i18n
 * a11y
 * keyup.esc modifiers
 * responsiveness

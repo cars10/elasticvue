@@ -39,12 +39,9 @@
     "close": "关闭",
     "create": "创建",
     "delete": "删除",
-    "required": "必需",
     "success": "成功",
+    "bulk": null,
     "copy": null
-  },
-  "document": {
-    "heading": "查看"
   },
   "cluster_selection": {
     "cluster_selection": {
@@ -158,6 +155,11 @@
           "text": "开启索引",
           "growl": "索引 '{index}' 缓存已成功开启。"
         },
+        "delete_by_query": {
+          "text": null,
+          "confirm": null,
+          "growl": null
+        },
         "delete": {
           "text": "删除",
           "confirm": "删除索引 '{index}'？这将删除索引中的所有数据！",
@@ -221,13 +223,7 @@
   },
   "mixins": {
     "test_connection": {
-      "cluster_reachable": "你的集群可以访问并正确配置。",
-      "cluster_not_reachable": "你的集群无法访问或你没有正确配置 CORS。"
-    },
-    "history": {
-      "clear_all": {
-        "confirm": "你确定吗? 这会删除你历史中的所有条目！"
-      }
+      "cluster_reachable": "你的集群可以访问并正确配置。"
     }
   },
   "cluster_nodes": {
@@ -292,10 +288,6 @@
       }
     },
     "rest_query_history": {
-      "favorites_filter": {
-        "only_favorites": "只查看收藏",
-        "show_all": "查看所有"
-      },
       "table": {
         "headers": {
           "query": "查询",
@@ -348,6 +340,21 @@
         },
         "type": {
           "label": "存储类型*"
+        },
+        "bucket": {
+          "label": null
+        },
+        "client": {
+          "label": null
+        },
+        "protocol": {
+          "label": null
+        },
+        "region": {
+          "label": null
+        },
+        "path_style_access": {
+          "label": null
         },
         "location": {
           "label": "存储位置*"
@@ -404,8 +411,18 @@
         "reset_all": null
       }
     },
-    "result": {
-      "show": "查看"
+    "search_result": {
+      "show": {
+        "title": "查看"
+      },
+      "edit": {
+        "text": null
+      },
+      "delete": {
+        "text": null,
+        "confirm": null,
+        "growl": null
+      }
     },
     "results_table": {
       "filter": {
@@ -419,6 +436,12 @@
         }
       },
       "download_as_json": "下载为 JSON 文件"
+    },
+    "edit_document": {
+      "update": {
+        "text": null,
+        "growl": null
+      }
     }
   },
   "settings": {
@@ -478,12 +501,6 @@
         "test_connection": "测试连接",
         "connect": "连接"
       },
-      "error": {
-        "heading": "无法连接。请确保",
-        "cluster_reachable": "你的集群可以通过地址访问",
-        "correct_settings": "你添加了正确的配置在",
-        "cluster_restarted": "并且重启了集群"
-      },
       "connected": "连接成功！"
     }
   },
@@ -494,6 +511,17 @@
     }
   },
   "shared": {
+    "cluster_connection_errors": {
+      "connection_error": null,
+      "http_error": null,
+      "cant_connect": null,
+      "please_check": null,
+      "checklist": {
+        "reachable": null,
+        "ssl": null,
+        "cors": null
+      }
+    },
     "nothing_found_for_filter": null,
     "nothing_found": null,
     "index_filter": {

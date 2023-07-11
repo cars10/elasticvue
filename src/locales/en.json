@@ -39,13 +39,9 @@
     "close": "Close",
     "create": "Create",
     "delete": "Delete",
-    "required": "Required",
     "success": "Success",
     "bulk": "Bulk Action",
     "copy": "Copy"
-  },
-  "document": {
-    "heading": "Show"
   },
   "cluster_selection": {
     "cluster_selection": {
@@ -227,13 +223,7 @@
   },
   "mixins": {
     "test_connection": {
-      "cluster_reachable": "You cluster is reachable and configured correctly.",
-      "cluster_not_reachable": "Either your cluster is not reachable or you did not configure CORS correctly."
-    },
-    "history": {
-      "clear_all": {
-        "confirm": "Are you sure? This will remove all entries from your history."
-      }
+      "cluster_reachable": "You cluster is reachable and configured correctly."
     }
   },
   "cluster_nodes": {
@@ -298,10 +288,6 @@
       }
     },
     "rest_query_history": {
-      "favorites_filter": {
-        "only_favorites": "Show only favorites",
-        "show_all": "Show all"
-      },
       "table": {
         "headers": {
           "query": "Query",
@@ -434,8 +420,8 @@
       },
       "delete": {
         "text": "# | Delete document | Delete documents",
-        "confirm": "#  | Are you sure you want to delete this document? | Are you sure you want to delete {count} documents?",
-        "growl": "#  | Document successfully deleted. | Documents successfully deleted."
+        "confirm": "# | Are you sure you want to delete this document? | Are you sure you want to delete {count} documents?",
+        "growl": "# | Document successfully deleted. | Documents successfully deleted."
       }
     },
     "results_table": {
