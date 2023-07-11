@@ -152,11 +152,6 @@ If you want to add a new language: translate `src/locales/en.json` and open a PR
 
 See [CONTRIBUTING.md](CONTRIBUTING.md).
 
-## TODO
-
-* a11y
-* responsiveness
-
 ## License
 
 MIT
