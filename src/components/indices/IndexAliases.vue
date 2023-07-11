@@ -50,7 +50,8 @@
 
       <q-separator />
 
-      <q-table flat
+      <q-table v-if="aliases.length > 0"
+               flat
                dense
                row-key="alias"
                :columns="columns"
