@@ -7,6 +7,7 @@ import SearchResults from '../../../models/SearchResults.ts'
 import { sortableField } from '../../../helpers/search.ts'
 import { EsSearchResult } from './SearchDocuments.ts'
 import { ElasticsearchDocumentInfo } from './EditDocument.ts'
+import { filterItems } from '../../../helpers/filters.ts'
 
 export type SearchResultsTableProps = {
   results: EsSearchResult
@@ -78,6 +79,12 @@ export const useSearchResultsTable = (props: SearchResultsTableProps, emit: any)
     hits.value = results.docs
   })
 
+  const filteredHits = computed(() => {
+    if (filter.value.trim().length === 0) return hits.value
+
+    return filterItems(hits.value, filter.value, tableColumns.value.map(c => c.field))
+  })
+
   const slicedTableColumns = computed((): any[] => (tableColumns.value.slice(0, -1)))
 
   const onRequest = (pagination: any) => (emit('request', pagination))
@@ -100,6 +107,7 @@ export const useSearchResultsTable = (props: SearchResultsTableProps, emit: any)
     slicedTableColumns,
     resizeStore,
     hits,
+    filteredHits,
     rowsPerPage,
     onRequest,
     reload,

@@ -15,7 +15,8 @@
             <q-input v-model="searchStore.q"
                      outlined
                      autofocus
-                     :label="t('search.form.query.label')" />
+                     :label="t('search.form.query.label')"
+                     @keydown.esc="searchStore.q = '*'" />
             <!-- eslint-disable-next-line vue/no-v-html -->
             <small v-html="t('search.form.query.messages')" />
           </div>

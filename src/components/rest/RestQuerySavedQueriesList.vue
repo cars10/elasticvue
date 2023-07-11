@@ -24,7 +24,7 @@
           <q-btn icon="edit" color="dark-grey" dense>
             <q-popup-edit v-slot="scope" v-model="row.name" auto-save anchor="center right"
                           @save="(v:string) => (renameSavedQuery(v, row))">
-              <q-input v-model="scope.value" dense autofocu outlined @keyup.enter="scope.set" />
+              <q-input v-model="scope.value" dense autofocu outlined @keydown.enter="scope.set" />
             </q-popup-edit>
           </q-btn>
           <q-btn icon="delete" color="dark-grey" dense @click.stop="removeSavedQuery(row.id)" />

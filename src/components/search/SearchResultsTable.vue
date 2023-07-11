@@ -46,7 +46,7 @@
                :virtual-scroll="searchStore.stickyTableHeader"
                :virtual-scroll-item-size="14"
                :columns="tableColumns"
-               :rows="hits"
+               :rows="filteredHits"
                :rows-per-page-options="rowsPerPage"
                :visible-columns="searchStore.visibleColumns"
                selection="multiple"
@@ -113,6 +113,7 @@
     slicedTableColumns,
     resizeStore,
     hits,
+    filteredHits,
     rowsPerPage,
     onRequest,
     reload,

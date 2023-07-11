@@ -155,7 +155,6 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 ## TODO
 
 * a11y
-* keyup.esc modifiers
 * responsiveness
 
 ## License
