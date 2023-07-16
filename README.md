@@ -44,7 +44,7 @@ the [FAQ](https://github.com/cars10/elasticvue/wiki/FAQ) for more details.
 
 You can use elasticvue in several ways:
 
-* [**Desktop app for linux, mac (intel/arm) and windows, recommended**](#desktop-app)
+* [**Desktop app for linux, mac and windows, recommended**](#desktop-app)
 * [Browser extension for chrome, firefox and edge](#browser-extensions)
 * [Docker image](#docker)
 * [Web version](#web-version)
