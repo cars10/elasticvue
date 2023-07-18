@@ -44,7 +44,7 @@
     </td>
     <td>
       <q-btn-group>
-        <q-btn icon="search" color="dark-grey" />
+        <q-btn icon="search" color="dark-grey" @click="showDocuments(index.index)" />
         <q-btn-dropdown ref="menu" icon="settings" color="dark-grey">
           <q-list padding dense>
             <q-item clickable @click="openModalWith('indexGet', {index: index.index})">

@@ -64,7 +64,7 @@
           <q-checkbox v-model="allItemsSelected" size="32px" @update:model-value="checkAll" />
         </template>
       </q-table>
-      <div v-else class="q-ma-md text-center">No Results</div>
+      <div v-else class="q-ma-md text-center">No Documents found</div>
     </resizable-container>
   </div>
 

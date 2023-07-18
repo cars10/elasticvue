@@ -1,7 +1,6 @@
-const { chromium } = require('playwright');
+const { chromium } = require('@playwright/test');
 
 (async () => {
-  // Setup
   const browser = await chromium.launch()
   const page = await browser.newPage()
   await page.setViewportSize({ width: 1280, height: 800 })
@@ -42,6 +41,8 @@ let counter = 1
 const screenshot = async (page, name) => {
   await page.locator('body').click()
   await page.waitForTimeout(100)
-  await page.screenshot({ path: `scripts/screenshots/${counter}-${name}.png` })
+  const path = `scripts/screenshots/ext-${counter}-${name}.png`
+  await page.screenshot({ path })
+  console.log(path)
   counter++
 }

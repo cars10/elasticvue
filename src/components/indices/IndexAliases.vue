@@ -51,6 +51,7 @@
       <q-separator />
 
       <q-table v-if="aliases.length > 0"
+               class="table-mono"
                flat
                dense
                row-key="alias"
@@ -69,7 +70,7 @@
       </q-table>
 
       <q-card-section>
-        <q-btn v-close-popup flat :label="t('defaults.close')" />
+        <q-btn id="close" v-close-popup flat :label="t('defaults.close')" />
       </q-card-section>
     </q-card>
   </q-dialog>

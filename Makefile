@@ -1,13 +1,11 @@
-test:
-	yarn test:unit && yarn test:e2e:all
+build_docker_ci:
+	docker build -f docker/Dockerfile_ci -t elasticvue-ci .
 
-lint:
-	yarn lint
-
-tsc:
-	yarn tsc
-
-ci: tsc lint test
+ci: build_docker_ci
+	docker run --rm elasticvue-ci yarn lint
+	docker run --rm elasticvue-ci yarn tsc
+	docker run --rm elasticvue-ci yarn test:unit
+	docker run --rm elasticvue-ci yarn test:e2e:all
 
 build_tauri:
 	yarn tauri:build
@@ -15,9 +13,6 @@ build_tauri:
 # Build docker image to run elasticvue served by nginx
 build_docker_nginx:
 	docker build -f docker/Dockerfile -t elasticvue .
-
-run_docker_nginx:
-	docker run -p 8080:8080 --name elasticvue elasticvue:latest
 
 # Build docker image to run elasticvue served by nginx MULTIARCH
 build_docker_nginx_multiarch:

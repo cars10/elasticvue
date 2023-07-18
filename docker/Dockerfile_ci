@@ -1,0 +1,10 @@
+FROM node:18-bookworm AS builder
+RUN mkdir /app
+WORKDIR /app
+
+COPY package.json .
+COPY yarn.lock .
+
+RUN yarn install
+RUN yarn playwright install --with-deps
+COPY . .
