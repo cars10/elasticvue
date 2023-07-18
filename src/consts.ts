@@ -1,3 +1,4 @@
+export const SUPPORTED_MAJOR_VERSIONS = ['6', '7', '8']
 export const REQUEST_DEFAULT_HEADERS = {
   Accept: 'application/json',
   'Content-Type': 'application/json'

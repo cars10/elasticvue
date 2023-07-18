@@ -59,7 +59,8 @@
         "title": "连接到集群 '{uri}'",
         "remove_cluster": {
           "confirm": "移除集群 '{name}' ({uri})?"
-        }
+        },
+        "unsupported": null
       }
     },
     "edit_cluster": {
