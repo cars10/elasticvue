@@ -1,5 +1,11 @@
 # Changelog
 
+# 1.0.0-beta-2
+
+* show warning when using unsupported versions of elasticsearch
+* fix issue with opening documents in search view
+* save rest query tab responses
+
 # 1.0.0-beta-1
 
 [For downloads check the releases page](https://github.com/cars10/elasticvue/releases)

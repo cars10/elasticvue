@@ -1,7 +1,10 @@
 import { Ref, ref, toRaw } from 'vue'
-import { buildDefaultRequest } from '../../../consts.ts'
+import { HTTP_METHODS } from '../../../consts.ts'
 import { useIdbStore } from '../../../db/Idb.ts'
 import { IdbRestQueryTab } from '../../../db/types.ts'
+
+const buildDefaultRequest = () => ({ method: HTTP_METHODS[1], path: '', body: '' })
+const buildDefaultResponse = () => ({ status: '', ok: false, bodyText: '' })
 
 export const useRestQueryTabs = () => {
   const { restQueryTabs } = useIdbStore()
@@ -10,14 +13,15 @@ export const useRestQueryTabs = () => {
   const setActiveTab = async () => {
     await restQueryTabs.reload()
     if (!activeTabName.value && restQueryTabs.all.value[0]) activeTabName.value = restQueryTabs.all.value[0].name
-    if (restQueryTabs.all.value.length === 0) addTab()
+    if (restQueryTabs.all.value.length === 0) await addTab()
   }
 
   const addTab = async () => {
     const newTab = {
       name: `tab-${Date.now()}`,
       label: `Tab ${restQueryTabs.all.value.length + 1}`,
-      request: buildDefaultRequest()
+      request: buildDefaultRequest(),
+      response: buildDefaultResponse()
     }
     await restQueryTabs.insert(newTab)
     activeTabName.value = restQueryTabs.all.value[restQueryTabs.all.value.length - 1].name
