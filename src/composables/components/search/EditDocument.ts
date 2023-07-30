@@ -1,6 +1,9 @@
-import { ref, watch } from 'vue'
+import { ref, watch, Ref } from 'vue'
 import { useTranslation } from '../../i18n.ts'
-import { defineElasticsearchRequest, useElasticsearchRequest } from '../../CallElasticsearch.ts'
+import {
+  defineElasticsearchRequest,
+  useElasticsearchAdapter,
+} from '../../CallElasticsearch.ts'
 
 export type EditDocumentProps = {
   modelValue: boolean
@@ -17,11 +20,19 @@ export const useEditDocument = (props: EditDocumentProps, emit: any) => {
   const t = useTranslation()
   const document = ref('')
 
-  const { load, requestState, data } = useElasticsearchRequest<any>('get', {
-    index: props._index,
-    type: props._type,
-    id: props._id
-  })
+  const { requestState, callElasticsearch } = useElasticsearchAdapter()
+  const data: Ref<any> = ref(null)
+
+  const load = () => {
+    return callElasticsearch('get', {
+      index: props._index,
+      type: props._type,
+      id: props._id
+    })
+        .then(body => (data.value = body))
+        .catch(() => (data.value = null))
+  }
+
   watch(ownValue, value => (emit('update:modelValue', value)))
   watch(() => props.modelValue, value => {
     ownValue.value = value

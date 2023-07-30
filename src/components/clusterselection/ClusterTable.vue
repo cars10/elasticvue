@@ -13,10 +13,8 @@
            :pagination="{sortBy: 'name'}"
            :rows-per-page-options="DEFAULT_ROWS_PER_PAGE">
     <template #body="{row}">
-      <tr class="clickable" :data-testid="`cluster-table-row-${row.index}`"
-          :title="t('cluster_selection.cluster_table.row.title', {uri: row.uri})"
-          @click="loadCluster(row.index)">
-        <td>
+      <tr class="clickable" :data-testid="`cluster-table-row-${row.index}`" @click="loadCluster(row.index)">
+        <td :title="t('cluster_selection.cluster_table.row.title', {uri: row.uri})">
           <div style="flex-shrink: 0" class="flex items-center">
             <cluster-status-indicator :status="row.status" />
 
@@ -39,13 +37,28 @@
             </q-chip>
           </div>
         </td>
-        <td>
+        <td :title="t('cluster_selection.cluster_table.row.title', {uri: row.uri})">
           <div class="ellipsis inline-block vertical-middle q-mr-sm" style="max-width: 300px;">
             {{ row.uri }}
           </div>
           <copy-button :value="row.uri" round size="sm" flat />
         </td>
-        <td class="small-wrap">{{ row.version }}</td>
+        <td class="small-wrap">
+          <div class="flex items-center no-wrap">
+            {{ row.version }}
+            <q-icon v-if="!SUPPORTED_MAJOR_VERSIONS.includes(row.majorVersion)" name="warning" color="warning"
+                    class="q-pl-xs">
+              <q-tooltip class="bg-dark text-body2">
+                {{
+                  t('cluster_selection.cluster_table.row.unsupported', {
+                    majorVersion: row.majorVersion,
+                    supportedVersions: SUPPORTED_MAJOR_VERSIONS.join(", ")
+                  })
+                }}
+              </q-tooltip>
+            </q-icon>
+          </div>
+        </td>
         <td class="small-wrap">
           <edit-cluster :index="row.index" />
           <q-btn icon="delete" round flat size="sm" data-testid="cluster-delete"
@@ -61,7 +74,7 @@
   import EditCluster from './EditCluster.vue'
   import FilterInput from '../shared/FilterInput.vue'
   import NewCluster from './NewCluster.vue'
-  import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
+  import { DEFAULT_ROWS_PER_PAGE, SUPPORTED_MAJOR_VERSIONS } from '../../consts'
   import { useClusterTable } from '../../composables/components/clusterselection/ClusterTable'
   import { useConnectionStore } from '../../store/connection'
   import { useTranslation } from '../../composables/i18n.ts'

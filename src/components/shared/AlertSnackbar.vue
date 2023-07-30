@@ -6,13 +6,13 @@
         <div class="q-my-sm overflow-auto" style="max-height: 200px">
           <p>{{ store.body }}</p>
         </div>
-        <q-btn :label="t('defaults.close')" color="dark-grey" @click="close" />
+        <q-btn id="close_snackbar" :label="t('defaults.close')" color="dark-grey" @click="close" />
         <copy-button v-if="store.copyableText && store.copyableText.length > 0" :value="store.copyableText"
                      title="Copy response"
                      class="float-right" />
       </template>
       <div v-else class="overflow-auto">
-        <q-btn :label="t('defaults.close')" color="dark-grey" @click="close" />
+        <q-btn id="close_snackbar" :label="t('defaults.close')" color="dark-grey" @click="close" />
       </div>
 
       <div class="snackbar--progress-bar" :style="progressBarStyle" />

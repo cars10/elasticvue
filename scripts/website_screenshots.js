@@ -1,75 +1,80 @@
-const puppeteer = require('puppeteer');
+const { chromium } = require('@playwright/test');
 
 (async () => {
-  const browser = await puppeteer.launch({ args: ['--no-sandbox', '--disable-setuid-sandbox'] })
+  const browser = await chromium.launch()
   const page = await browser.newPage()
-  await page.setViewport({ width: 1920, height: 1080 })
-  await page.goto('http://localhost:8080')
-  await page.click('#theme_select')
-  await connectWithServer(page)
-  await removeSnackbar(page)
+  await page.setViewportSize({ width: 1920, height: 1080 })
 
-  await clickToNavigateAndScreenshot(page, '#navbar_home', 'screenshot_0_home_white.png')
-  await page.click('#theme_select')
-  await clickToNavigateAndScreenshot(page, '#navbar_nodes', 'screenshot_1_nodes.png')
-  await clickToNavigateAndScreenshot(page, '#navbar_shards', 'screenshot_2_shards.png')
-  await clickToNavigateAndScreenshot(page, ['#navbar_indices', 'button[title="Options"]'], 'screenshot_3_indices.png')
-  await clickToNavigateAndScreenshot(page, ['#navbar_indices', 'button[title="Options"]', 'i.mdi-at'], 'screenshot_4_indices.png')
-  await page.reload()
-  await page.click('#theme_select')
-  await clickToNavigateAndScreenshot(page, '#navbar_search', 'screenshot_5_search_dark.png', async page => {
-    await page.click('#search_submit')
-    await page.waitForTimeout(250)
-    await page.click('th[aria-label="author_name (author_name.keyword): Not sorted. Activate to sort ascending."')
-    await page.waitForTimeout(250)
-  })
-  await clickToNavigateAndScreenshot(page, '#navbar_query_rest', 'screenshot_6_query_dark.png', async page => {
-    await page.focus('#path')
-    await page.keyboard.type('_search')
-    await page.click('#execute_query')
-    await page.waitForTimeout(500)
-  })
-  await clickToNavigateAndScreenshot(page, ['#navbar_snapshots', '#navbar_snapshots_repositories', 'table tbody tr.tr--clickable'], 'screenshot_7_snapshots_dark.png')
-  await clickToNavigateAndScreenshot(page, '#navbar_utilities', 'screenshot_8_utilities_dark.png')
-  await clickToNavigateAndScreenshot(page, '#navbar_settings', 'screenshot_9_settings.png')
+  await page.goto('http://localhost:5173')
+  await connectWithServer(page)
+
+  await screenshotHome(page)
+  await toggleTheme(page)
+  await screenshotNodes(page)
+  await screenshotShards(page)
+  await screenshotIndices(page)
+  await screenshotIndexAliases(page)
+  await screenshotSearch(page)
+  await screenshotEditDocument(page)
+  await screenshotRest(page)
+  await screenshotSettings(page)
 
   await browser.close()
 })()
 
-async function connectWithServer (page) {
-  await page.waitForSelector('#test_connection')
-  await page.click('#test_connection')
-  await page.waitForSelector('#connect:not(.v-btn--disabled)')
-  await page.click('#connect')
-  await page.waitForTimeout(50)
+const screenshotHome = async page => (await screenshot(page, 'home'))
+const screenshotNodes = async page => (await navAndScreenshot(page, '#nodes', 'nodes'))
+const screenshotShards = async page => (await navAndScreenshot(page, '#shards', 'shards'))
+const screenshotIndices = async page => {
+  await page.locator('#indices').click()
+  await page.locator('table tbody tr').nth(2).locator('.q-btn').last().click()
+  await page.waitForTimeout(150)
+  await screenshot(page, 'indices', true)
+}
+const screenshotIndexAliases = async page => {
+  await page.locator('div.q-item__label').filter({ hasText: 'Aliases' }).click()
+  await page.waitForTimeout(200)
+  await screenshot(page, 'index-aliases')
+  await page.locator('#close').click()
+}
+const screenshotSearch = async page => (await navAndScreenshot(page, '#search', 'search', true))
+const screenshotEditDocument = async page => {
+  await navAndScreenshot(page, 'body', 'document')
+  await page.locator('#close').click()
+}
+const screenshotRest = async page => {
+  await page.locator('#rest').click()
+  await page.locator('input[name="path"]').fill('_flush')
+  await navAndScreenshot(page, '#send_request', 'rest')
+}
+const screenshotSettings = async page => (await navAndScreenshot(page, '#settings', 'settings'))
+
+const toggleTheme = async page => {
+  await page.locator('#change_theme').click()
 }
 
-async function removeSnackbar (page) {
-  await page.waitForSelector('.snackbar')
-  await page.evaluate(() => {
-    const div = document.querySelector('.snackbar')
-    div.parentNode.removeChild(div)
-  })
+const connectWithServer = async page => {
+  await page.locator('#add_cluster').click()
+  await page.locator('input[name="uri"]').fill('http://localhost:9507')
+  await page.locator('#connect').click()
+  await page.waitForURL('http://localhost:5173/cluster/0')
 }
 
-async function clickToNavigateAndScreenshot (page, selectors, screenshot, callback) {
-  console.log(screenshot)
-  if (Array.isArray(selectors)) {
-    for (const selector of selectors) {
-      await page.waitForTimeout(200)
-      try {
-        await page.click(selector)
-      } catch (e) {
-        console.log('error.', e)
-        await page.screenshot({ path: 'scripts/website_screenshots/error.png' })
-      }
-    }
-  } else {
-    await page.waitForTimeout(200)
-    await page.click(selectors)
-  }
+const navAndScreenshot = async (page, selector, name, persisted) => {
+  await page.locator(selector).click()
+  await screenshot(page, name, persisted)
+}
 
-  await page.waitForTimeout(500)
-  if (typeof callback === 'function') await callback(page)
-  await page.screenshot({ path: 'scripts/website_screenshots/' + screenshot })
+const closeSnackbar = async page => {
+  await page.locator('#close_snackbar').click()
+}
+
+let counter = 1
+const screenshot = async (page, name, persisted) => {
+  if (!persisted) await page.locator('body').click()
+  await page.waitForTimeout(200)
+  const path = `scripts/screenshots/website-${counter}-${name}.png`
+  await page.screenshot({ path })
+  console.log(path)
+  counter++
 }

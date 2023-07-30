@@ -6,7 +6,7 @@ import { useSnackbar } from '../../Snackbar'
 import { useIdbStore } from '../../../db/Idb'
 import { removeComments } from '../../../helpers/json/parse'
 import { fetchMethod } from '../../../helpers/fetch'
-import { IdbRestQueryTabRequest } from '../../../db/types.ts'
+import { IdbRestQueryTabRequest, IdbRestQueryTabResponse } from '../../../db/types.ts'
 
 type RestFetchOptions = {
   method: string
@@ -14,19 +14,18 @@ type RestFetchOptions = {
   headers: Record<string, string>
 }
 
-export const useRestQueryForm = (request: IdbRestQueryTabRequest) => {
+export const useRestQueryForm = (request: IdbRestQueryTabRequest, response: IdbRestQueryTabResponse) => {
   const connectionStore = useConnectionStore()
   const { showErrorSnackbar } = useSnackbar()
   const { restQueryHistory } = useIdbStore()
 
-  const response = ref({ status: '', ok: false, bodyText: '' })
   const loading = ref(false)
 
   const sendRequest = async () => {
     if (!connectionStore.activeCluster) return
 
     loading.value = true
-    response.value.status = ''
+    response.status = ''
 
     const options: RestFetchOptions = {
       method: request.method,
@@ -44,22 +43,22 @@ export const useRestQueryForm = (request: IdbRestQueryTabRequest) => {
 
     try {
       const fetchResponse = await fetchMethod(url, options)
-      response.value.status = `${fetchResponse.status} ${fetchResponse.statusText}`
-      response.value.ok = fetchResponse.ok
+      response.status = `${fetchResponse.status} ${fetchResponse.statusText}`
+      response.ok = fetchResponse.ok
       const text = await fetchResponse.text()
       loading.value = false
 
       if (text) {
-        response.value.bodyText = text
+        response.bodyText = text
       } else {
-        response.value.bodyText = ''
+        response.bodyText = ''
       }
 
-      if (response.value.ok) saveToHistory(Object.assign({}, request))
+      if (response.ok) saveToHistory(Object.assign({}, request))
     } catch (e) {
       console.log(e)
       loading.value = false
-      response.value.bodyText = '// Network Error'
+      response.bodyText = '// Network Error'
       showErrorSnackbar({ title: 'Error', body: 'Network Error' })
     }
   }
@@ -74,11 +73,11 @@ export const useRestQueryForm = (request: IdbRestQueryTabRequest) => {
   }
 
   const responseStatusClass = computed(() => {
-    if (response.value.status.match(/^2/)) {
+    if (response.status.match(/^2/)) {
       return 'bg-positive text-white'
-    } else if (response.value.status.match(/^3|4/)) {
+    } else if (response.status.match(/^3|4/)) {
       return 'bg-orange text-black'
-    } else if (response.value.status.match(/^5/)) {
+    } else if (response.status.match(/^5/)) {
       return 'bg-negative text-white'
     } else {
       return 'bg-grey'
@@ -86,7 +85,6 @@ export const useRestQueryForm = (request: IdbRestQueryTabRequest) => {
   })
 
   return {
-    response,
     loading,
     sendRequest,
     responseStatusClass

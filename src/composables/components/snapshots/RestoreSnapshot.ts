@@ -1,12 +1,13 @@
 import { useTranslation } from '../../i18n'
-import { computed, ref } from 'vue'
-import { defineElasticsearchRequest, useElasticsearchRequest } from '../../CallElasticsearch'
+import { computed, Ref, ref, watch } from 'vue'
+import { defineElasticsearchRequest, useElasticsearchAdapter } from '../../CallElasticsearch'
 
-export const useRestoreSnapshot = ({ emit, repository, snapshot }: {
-  emit: any,
-  repository: string,
+export type RestoreSnapshotProps = {
+  repository: string
   snapshot: string
-}) => {
+}
+
+export const useRestoreSnapshot = (props: RestoreSnapshotProps, emit: any) => {
   const t = useTranslation()
 
   const dialog = ref(false)
@@ -20,8 +21,18 @@ export const useRestoreSnapshot = ({ emit, repository, snapshot }: {
   })
   const formValid = computed(() => (restoreOptions.value.indices.length > 0))
 
-  const { data, load } = useElasticsearchRequest<any>('getSnapshot', { repository, snapshot })
-  load().then(() => (indexNames.value = data.value.snapshots[0].indices.sort()))
+  const { callElasticsearch } = useElasticsearchAdapter()
+  const data: Ref<any> = ref(null)
+
+  const load = () => {
+    return callElasticsearch('getSnapshot', { repository: props.repository, snapshot: props.snapshot })
+        .then(body => (data.value = body))
+        .catch(() => (data.value = null))
+  }
+
+  watch(dialog, newValue => {
+    if (newValue) load().then(() => (indexNames.value = data.value.snapshots[0].indices.sort()))
+  })
 
   const resetForm = () => {
     restoreOptions.value = {
@@ -38,8 +49,8 @@ export const useRestoreSnapshot = ({ emit, repository, snapshot }: {
   const restoreSnapshot = async () => {
     const success = await run({
       params: {
-        repository,
-        snapshot,
+        repository: props.repository,
+        snapshot: props.snapshot,
         body: {
           indices: restoreOptions.value.indices,
           ignore_unavailable: restoreOptions.value.ignoreUnavailable,
@@ -49,7 +60,7 @@ export const useRestoreSnapshot = ({ emit, repository, snapshot }: {
         }
       },
       snackbarOptions: {
-        body: t('snapshots.restore_snapshot.restore_snapshot.growl', { snapshot }),
+        body: t('snapshots.restore_snapshot.restore_snapshot.growl', { snapshot: props.snapshot }),
       }
     })
     if (success) dialog.value = false

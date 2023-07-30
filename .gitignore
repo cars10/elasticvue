@@ -30,3 +30,4 @@ browser_extension/*
 !browser_extension/firefox/manifest.json
 tmp
 src-tauri/target
+scripts/screenshots/*

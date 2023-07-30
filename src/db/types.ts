@@ -25,12 +25,19 @@ export type IdbRestQueryTab = {
   label: string
   name: string
   request: IdbRestQueryTabRequest
+  response: IdbRestQueryTabResponse
 }
 
 export type IdbRestQueryTabRequest = {
   method: string
   path: string
   body: string
+}
+
+export type IdbRestQueryTabResponse = {
+  status: string
+  ok: boolean
+  bodyText: string
 }
 
 export interface DbSchema {

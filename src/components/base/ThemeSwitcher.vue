@@ -1,5 +1,6 @@
 <template>
-  <q-btn round
+  <q-btn id="change_theme"
+         round
          :icon="icon"
          class="q-mr-md"
          color="dark-grey"

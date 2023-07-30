@@ -16,13 +16,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          cache: yarn
-          node-version: 18
-      - name: install dependencies
-        run: yarn
-      - name: install playwright
-        run: yarn playwright install --with-deps
       - name: run tests
-        run: make ci
+        run: make CI=1 ci

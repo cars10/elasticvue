@@ -56,9 +56,9 @@
 <script setup lang="ts">
   import IndexSelect from '../shared/IndexFilter/IndexSelect.vue'
   import { useTranslation } from '../../composables/i18n'
-  import { useRestoreSnapshot } from '../../composables/components/snapshots/RestoreSnapshot'
+  import { RestoreSnapshotProps, useRestoreSnapshot } from '../../composables/components/snapshots/RestoreSnapshot'
 
-  const props = defineProps<{ repository: string, snapshot: string }>()
+  const props = defineProps<RestoreSnapshotProps>()
   const emit = defineEmits(['reload'])
   const t = useTranslation()
 
@@ -70,9 +70,5 @@
     restoreSnapshot,
     restoreOptions,
     resetForm
-  } = useRestoreSnapshot({
-    emit,
-    repository: props.repository,
-    snapshot: props.snapshot
-  })
+  } = useRestoreSnapshot(props, emit)
 </script>

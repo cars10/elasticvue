@@ -155,11 +155,18 @@ jobs:
           name: ${{ github.ref_name }}
           artifacts: github-artifacts/artifact/*
           body: |
+            *This is a beta version. The browser addons are not updated yet, and the `:latest` tag of the docker image still points to the previous stable version.*
             ## Using elasticvue
+            This version of elasticvue supports elasticsearch `8.x`, `7.x` and `6.8`.
             ### Desktop app
-            * [Linux .AppImage](https://github.com/cars10/elasticvue-test/releases/download/${{ github.ref_name }}/elasticvue_${{ steps.package-version.outputs.current-version }}_amd64.AppImage)
-            * [Mac x68 .dmg](https://github.com/cars10/elasticvue-test/releases/download/${{ github.ref_name }}/elasticvue_${{ steps.package-version.outputs.current-version }}_x64.dmg) / [Mac aarch64 .dmg](https://github.com/cars10/elasticvue-test/releases/download/${{ github.ref_name }}/elasticvue_${{ steps.package-version.outputs.current-version }}_aarch64.dmg)
-            * [Windows .msi](https://github.com/cars10/elasticvue-test/releases/download/${{ github.ref_name }}/elasticvue_${{ steps.package-version.outputs.current-version }}_x64_en-US.msi)
+            * [Linux .AppImage](https://github.com/cars10/elasticvue/releases/download/${{ github.ref_name }}/elasticvue_${{ steps.package-version.outputs.current-version }}_amd64.AppImage) / [Linux .deb](https://github.com/cars10/elasticvue/releases/download/${{ github.ref_name }}/elasticvue_${{ steps.package-version.outputs.current-version }}_amd64.deb)
+            * [Mac x68 .dmg](https://github.com/cars10/elasticvue/releases/download/${{ github.ref_name }}/elasticvue_${{ steps.package-version.outputs.current-version }}_x64.dmg) / [Mac aarch64 .dmg](https://github.com/cars10/elasticvue/releases/download/${{ github.ref_name }}/elasticvue_${{ steps.package-version.outputs.current-version }}_aarch64.dmg)
+            * [Windows .msi](https://github.com/cars10/elasticvue/releases/download/${{ github.ref_name }}/elasticvue_${{ steps.package-version.outputs.current-version }}_x64_en-US.msi)
+            
+            If you get an error message when running the mac version of elasticvue (`"elasticvue" is damaged and can't be opened`) you might have to run (This happens because the builds are not signed (yet):
+            ```
+            xattr -c elasticvue_1.0.0_aarch64-fixed.dmg
+            ```
             ### Browser extension
             * [Google Chrome](https://chrome.google.com/webstore/detail/elasticvue/hkedbapjpblbodpgbajblpnlpenaebaa)
             * [Mozilla Firefox](https://addons.mozilla.org/en-US/firefox/addon/elasticvue/)

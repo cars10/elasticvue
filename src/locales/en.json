@@ -59,7 +59,8 @@
         "title": "Connect to cluster at '{uri}'",
         "remove_cluster": {
           "confirm": "Remove cluster '{name}' ({uri})?"
-        }
+        },
+        "unsupported": "Elasticsearch {majorVersion} is not officially supported by elasticvue. Only elasticsearch versions {supportedVersions} are supported."
       }
     },
     "edit_cluster": {

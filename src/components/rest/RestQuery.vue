@@ -62,6 +62,17 @@
   import RestQueryFormTabs from './RestQueryFormTabs.vue'
   import { IdbRestQueryTabRequest } from '../../db/types.ts'
 
+  const migrateTabs = async () => {
+    const { restQueryTabs } = useIdbStore()
+    const tabs = await restQueryTabs.getAll()
+    for await (const tab of tabs) {
+      if (!tab.response) {
+        await restQueryTabs.update(Object.assign({}, toRaw(tab), { response: { status: '', ok: false, bodyText: '' } }))
+      }
+    }
+  }
+  migrateTabs()
+
   const t = useTranslation()
   const { restQueryTabs } = useIdbStore()
 
@@ -84,7 +95,7 @@
     if (!activeTab) return
 
     const { id, label, name } = activeTab
-    const obj = Object.assign({}, { id, label, name }, { request: toRaw(request) })
+    const obj = Object.assign({}, { id, label, name }, { request: toRaw(request), response: { status: '', ok: false, bodyText: '' } })
     await restQueryTabs.update(obj)
   }
 

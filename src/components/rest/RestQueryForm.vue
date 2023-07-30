@@ -1,7 +1,7 @@
 <template>
   <q-form @submit.prevent="sendRequest">
     <div class="flex">
-      <q-select v-model="ownRequest.method"
+      <q-select v-model="ownTab.request.method"
                 :options="HTTP_METHODS"
                 options-dense
                 style="width: 140px"
@@ -21,26 +21,27 @@
           <span :class="`http-${scope.opt}`" class="text-bold">{{ scope.opt }}</span>
         </template>
       </q-select>
-      <q-input v-model="ownRequest.path"
+      <q-input v-model="ownTab.request.path"
+               name="path"
                :label="t('query.rest.form.path.label')"
                class="col-grow"
                outlined
                autofocus
                @keydown.enter.prevent="sendRequest" />
-      <q-btn icon="send" flat type="submit" />
+      <q-btn id="send_request" icon="send" flat type="submit" />
     </div>
 
     <resizable-container v-model="resizeStore.restForm" class="q-mb-md">
       <div class="row q-my-md full-height">
         <div class="col-6 q-pr-sm full-height">
-          <q-banner v-show="['GET', 'HEAD'].includes(ownRequest.method)" class="bg-dark-grey q-pa-md">
+          <q-banner v-show="['GET', 'HEAD'].includes(ownTab.request.method)" class="bg-dark-grey q-pa-md">
             <template #avatar>
               <q-icon name="info" />
             </template>
             <p>
               <!-- eslint-disable-next-line vue/no-v-html -->
-              <span v-html="t('query.rest.get_request_hint.cannot_send_body', { method: ownRequest.method })" />
-              <button class="btn-link q-pa-none" type="button" @click=" ownRequest.method = 'POST'">
+              <span v-html="t('query.rest.get_request_hint.cannot_send_body', { method: ownTab.request.method })" />
+              <button class="btn-link q-pa-none" type="button" @click=" ownTab.request.method = 'POST'">
                 {{ t('query.rest.get_request_hint.use_post') }}
               </button>
               {{ t('query.rest.get_request_hint.query_parameters') }}
@@ -48,12 +49,12 @@
             <p class="q-mb-none">{{ t('query.rest.get_request_hint.search_post') }}</p>
           </q-banner>
 
-          <code-editor v-show="!['GET', 'HEAD'].includes(ownRequest.method)"
-                       v-model="ownRequest.body"
+          <code-editor v-show="!['GET', 'HEAD'].includes(ownTab.request.method)"
+                       v-model="ownTab.request.body"
                        :commands="editorCommands" />
         </div>
         <div class="col-6 q-pl-sm">
-          <code-viewer :value="response.bodyText" />
+          <code-viewer :value="ownTab.response.bodyText" />
         </div>
       </div>
     </resizable-container>
@@ -65,11 +66,11 @@
 
         <q-btn :label="t('query.rest.form.save_request')" icon="save" color="dark-grey q-mr-sm" @click="saveQuery" />
 
-        <q-chip v-if="response.status" :label="response.status" :class="responseStatusClass" />
+        <q-chip v-if="ownTab.response.status" :label="ownTab.response.status" :class="responseStatusClass" />
       </div>
       <div class="col-6 text-right">
         <download-button color="dark-grey"
-                         :disable="response.bodyText.length === 0"
+                         :disable="ownTab.response.bodyText.length === 0"
                          size="12px"
                          class="q-mb-md"
                          :download="downloadFileName"
@@ -97,42 +98,47 @@
 
   const t = useTranslation()
 
-  const props = defineProps<{ tab: IdbRestQueryTab }>()
-  const ownRequest = ref(props.tab.request)
+  const props = defineProps<{
+    tab: IdbRestQueryTab
+  }>()
+  const ownTab = ref(props.tab)
   let updateIdb = true
 
   watch(() => props.tab, newValue => {
     updateIdb = false
-    ownRequest.value.method = newValue.request.method
-    ownRequest.value.path = newValue.request.path
-    ownRequest.value.body = newValue.request.body
+    ownTab.value.request.method = newValue.request.method
+    ownTab.value.request.path = newValue.request.path
+    ownTab.value.request.body = newValue.request.body
     updateIdb = true
   })
 
   const resizeStore = useResizeStore()
   const { restQueryTabs, restQuerySavedQueries } = useIdbStore()
-  const { loading, response, sendRequest, responseStatusClass } = useRestQueryForm(ownRequest.value)
+  const { loading, sendRequest, responseStatusClass } = useRestQueryForm(ownTab.value.request, ownTab.value.response)
 
   const saveQuery = () => {
-    const { method, path, body } = toRaw(ownRequest.value)
+    const { method, path, body } = toRaw(ownTab.value.request)
     restQuerySavedQueries.insert({ method, path, body })
   }
 
-  watch(ownRequest.value, value => {
-    if (updateIdb) updateTab(value)
+  watch(ownTab.value.request, value => {
+    if (updateIdb) updateTab({ request: toRaw(value) })
   })
-  const updateTab = debounce((value: string) => {
-    const obj = Object.assign({}, toRaw(props.tab), { request: toRaw(value) })
+  watch(ownTab.value.response, value => {
+    if (updateIdb) updateTab({ response: toRaw(value) })
+  })
+  const updateTab = debounce((value: object) => {
+    const obj = Object.assign({}, toRaw(props.tab), value)
     restQueryTabs.update(obj)
-  }, 200)
+  }, 50)
 
   const editorCommands = [{
     bindKey: { win: 'Ctrl+ENTER', mac: 'Command+ENTER' },
     exec: sendRequest
   }]
 
-  const generateDownloadData = () => (response.value.bodyText)
+  const generateDownloadData = () => (ownTab.value.response.bodyText)
   const downloadFileName = computed(() => {
-    return `${ownRequest.value.method.toLowerCase()}_${ownRequest.value.path.replace(/[\W_]+/g, '_')}.json`
+    return `${ownTab.value.request.method.toLowerCase()}_${ownTab.value.request.path.replace(/[\W_]+/g, '_')}.json`
   })
 </script>

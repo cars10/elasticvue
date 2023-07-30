@@ -34,7 +34,7 @@
   import { useRouter } from 'vue-router'
 
   const t = useTranslation()
-  const props = defineProps<{confirmImport: boolean}>()
+  const props = defineProps<{ confirmImport: boolean }>()
   const router = useRouter()
 
   const { importFile, importBackup } = useImportExport({ confirmImport: props.confirmImport })

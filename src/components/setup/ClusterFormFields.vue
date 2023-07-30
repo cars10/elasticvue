@@ -34,6 +34,7 @@
     </div>
 
     <q-input v-model="cluster.uri"
+             name="uri"
              :rules="[validateUri]"
              required
              outlined
