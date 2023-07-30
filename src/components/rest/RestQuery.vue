@@ -95,7 +95,7 @@
     if (!activeTab) return
 
     const { id, label, name } = activeTab
-    const obj = Object.assign({}, { id, label, name }, { request: toRaw(request) })
+    const obj = Object.assign({}, { id, label, name }, { request: toRaw(request), response: { status: '', ok: false, bodyText: '' } })
     await restQueryTabs.update(obj)
   }
 
