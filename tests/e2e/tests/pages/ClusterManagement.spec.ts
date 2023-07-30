@@ -21,6 +21,7 @@ test.describe('ClusterManagement', () => {
 
   test('can filter cluster names', async ({ page }) => {
     const table = await setupClusterSelectionTest(page)
+    await expect(table).toContainText('dev cluster')
     await page.getByTestId('cluster-table-filter').fill('default cluster')
 
     await expect(table).toContainText('default cluster')
