@@ -8,7 +8,7 @@
 
       <div class="col-md-4 text-center">
         <div class="text-subtitle-1">
-          Elasticvue {{ version }} |
+          Elasticvue {{ version }}-{{ VERSION_NAME }} |
           <a href="https://github.com/cars10/elasticvue/blob/master/CHANGELOG.md" rel="nofollow" target="_blank"
              class="decoration-none">
             {{ t('base.app_footer.changelog') }}
@@ -30,6 +30,7 @@
   import LanguageSwitcher from './LanguageSwitcher.vue'
   import ThemeSwitcher from './ThemeSwitcher.vue'
   import { useTranslation } from '../../composables/i18n.ts'
+  import { VERSION_NAME } from '../../consts.ts'
 
   const t = useTranslation()
 
