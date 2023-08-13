@@ -7,7 +7,7 @@ export type ElasticsearchCluster = {
   uri: string,
   clusterName: string,
   version: string,
-  majorVersion: number
+  majorVersion: string
   uuid: string,
   status: string,
   loading?: boolean

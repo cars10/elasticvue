@@ -3,7 +3,7 @@
     <cluster-status-indicator :status="connectionStore.activeCluster?.status"
                               :loading="connectionStore.activeCluster?.loading" />
 
-    <unsupported-version :major-version="connectionStore.activeCluster?.majorVersion" size="16px" class="q-mr-sm" />
+    <unsupported-version v-if="connectionStore.activeCluster" :major-version="connectionStore.activeCluster.majorVersion" size="16px" class="q-mr-sm" />
 
     <span class="ellipsis" style="max-width: 200px" :title="btnTitle">{{ connectionStore.activeCluster?.name }}</span>
 

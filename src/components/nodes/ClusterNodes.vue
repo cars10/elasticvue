@@ -67,7 +67,11 @@
   const t = useTranslation()
   const connectionStore = useConnectionStore()
 
-  const CAT_METHOD_PARAMS = {
+  type methodParams = {
+    h: string[],
+    full_id?: boolean
+  }
+  const CAT_METHOD_PARAMS: methodParams = {
     h: [
       'ip',
       'id',
@@ -90,7 +94,7 @@
     ]
   }
 
-  if (connectionStore.activeCluster && connectionStore.activeCluster.majorVersion > 5) {
+  if (connectionStore.activeCluster && parseInt(connectionStore.activeCluster.majorVersion) > 5) {
     CAT_METHOD_PARAMS.full_id = true
   }
 

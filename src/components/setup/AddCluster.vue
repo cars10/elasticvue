@@ -21,7 +21,7 @@
     uri: DEFAULT_CLUSTER_URI,
     clusterName: '',
     version: '',
-    majorVersion: 0,
+    majorVersion: '',
     uuid: '',
     status: ''
   })
