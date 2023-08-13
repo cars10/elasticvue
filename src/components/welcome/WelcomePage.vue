@@ -20,7 +20,7 @@
             This seems to be your first time using elasticvue.
           </p>
           <p class="text-center q-ma-md">
-            Start by adding your first cluster or importing a backup of your existing elasticvue configuration.
+            Start by adding your first cluster or by importing a backup of your existing elasticvue configuration.
           </p>
         </q-card-section>
 

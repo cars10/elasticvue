@@ -1,6 +1,13 @@
 <template>
   <div class="q-mb-md">
     <div class="q-mb-md">
+      <q-option-group v-model="authorizationType"
+                      inline
+                      :options="authorizationTypes"
+                      color="primary" />
+    </div>
+
+    <div class="q-mb-md">
       <q-input v-model="cluster.name"
                required
                :label="t('setup.test_and_connect.form.name.label')"
@@ -10,19 +17,19 @@
                autofocus />
     </div>
 
-    <div class="row q-mb-md">
-      <div class="col-md-6 col-12 q-pr-sm">
+    <div v-if="['basic', 'api'].includes(authorizationType)" class="row q-mb-md">
+      <div v-if="authorizationType === 'basic'" class="col q-pr-md">
         <q-input v-model="cluster.username"
                  outlined
                  :label="t('setup.test_and_connect.form.username.label')"
                  autocomplete="off" />
       </div>
 
-      <div class="col-md-6 col-12 q-pl-sm">
+      <div class="col">
         <q-input v-model="cluster.password"
                  autocomplete="off"
                  outlined
-                 :label="t('setup.test_and_connect.form.password.label')"
+                 :label="authorizationType === 'basic' ? t('setup.test_and_connect.form.password.label') : t('setup.test_and_connect.form.api_key.label')"
                  :type="passwordVisible ? 'text' : 'password'">
           <template #append>
             <q-icon :name="passwordVisible ? 'visibility' : 'visibility_off'"
@@ -65,6 +72,17 @@
   import { buildConfig } from '../../buildConfig.ts'
 
   const props = defineProps<{ modelValue: ElasticsearchCluster, formValid: boolean }>()
+
+  const authorizationType = ref('')
+  if (props.modelValue.username.length > 0 && props.modelValue.password.length > 0) authorizationType.value = 'basic'
+  if (props.modelValue.username.length === 0 && props.modelValue.password.length > 0) authorizationType.value = 'api'
+
+  const authorizationTypes = [
+    { value: '', label: 'No authorization' },
+    { value: 'basic', label: 'Basic auth' },
+    { value: 'api', label: 'API key' },
+  ]
+
   const cluster: Ref<ElasticsearchCluster> = ref(props.modelValue)
   const passwordVisible = ref(false)
   const t = useTranslation()

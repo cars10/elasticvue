@@ -491,10 +491,13 @@
           "label": "Cluster name"
         },
         "username": {
-          "label": "Username (optional)"
+          "label": "Username"
         },
         "password": {
-          "label": "Password or encoded API key (optional)"
+          "label": "Password"
+        },
+        "api_key": {
+          "label": "Encoded API key"
         },
         "uri": {
           "label": "Uri"
