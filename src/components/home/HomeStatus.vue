@@ -6,7 +6,7 @@
           <q-card v-if="data" class="full-height" data-testid="cluster-status">
             <q-card-section>
               <h3 class="text-h6 q-my-none">{{ data.cluster_name }}</h3>
-              <span class="text-muted font-13">{{ data.cluster_uuid }}</span>
+              <span class="text-muted font-13">{{ connectionStore.activeCluster.uuid }}</span>
             </q-card-section>
             <q-card-section class="items-center justify-between flex">
               <div :class="`text-h6 inline-block health--${data.status}`">
@@ -86,6 +86,8 @@
   import ClusterHealth from './ClusterHealth.vue'
   import ClusterInformation from './ClusterInformation.vue'
   import UnhealthyReason from './UnhealthyReason.vue'
+  import { useConnectionStore } from '../../store/connection.ts'
+  const connectionStore = useConnectionStore()
 
   type ClusterStats = {
     cluster_name: string

@@ -47,11 +47,13 @@
           <node-percent-progress :value="row.heapPercent" class="q-mt-xs" />
         </td>
         <td>
-          <div class="flex justify-between">
-            <small>{{ row.diskPercent }}%</small>
-            <small>{{ row.diskCurrent }}/{{ row.diskMax }}</small>
-          </div>
-          <node-percent-progress :value="row.diskPercent" class="q-mt-xs" />
+          <template v-if="row.diskPercent">
+            <div class="flex justify-between">
+              <small>{{ row.diskPercent }}%</small>
+              <small>{{ row.diskCurrent }}/{{ row.diskMax }}</small>
+            </div>
+            <node-percent-progress :value="row.diskPercent" class="q-mt-xs" />
+          </template>
         </td>
       </tr>
     </template>

@@ -62,8 +62,11 @@
   import { useElasticsearchRequest } from '../../composables/CallElasticsearch'
   import { useTranslation } from '../../composables/i18n'
   import { EsNode } from '../../types/types.ts'
+  import { useConnectionStore } from '../../store/connection.ts'
 
   const t = useTranslation()
+  const connectionStore = useConnectionStore()
+
   const CAT_METHOD_PARAMS = {
     h: [
       'ip',
@@ -84,8 +87,11 @@
       'disk.used_percent',
       'disk.used',
       'disk.total'
-    ],
-    full_id: true
+    ]
+  }
+
+  if (connectionStore.activeCluster && connectionStore.activeCluster.majorVersion > 5) {
+    CAT_METHOD_PARAMS.full_id = true
   }
 
   const { load, requestState, data } = useElasticsearchRequest<EsNode[]>('catNodes', CAT_METHOD_PARAMS)

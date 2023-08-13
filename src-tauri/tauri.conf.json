@@ -6,7 +6,7 @@
   "build": {
     "distDir": "../dist",
     "devPath": "http://localhost:5173",
-    "beforeDevCommand": "",
+    "beforeDevCommand": "npx cross-env VITE_APP_BUILD_MODE=tauri yarn dev",
     "beforeBuildCommand": "npx cross-env VITE_APP_BUILD_MODE=tauri yarn build"
   },
   "tauri": {

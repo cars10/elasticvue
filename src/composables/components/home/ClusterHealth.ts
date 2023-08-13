@@ -34,7 +34,7 @@ export const checkHealth = async (cluster: ElasticsearchCluster) => {
     cluster.clusterName = pingBody.cluster_name
     cluster.version = version
     cluster.majorVersion = version[0]
-    cluster.uuid = pingBody.cluster_uuid
+    if (pingBody.cluster_uuid) cluster.uuid = pingBody.cluster_uuid
 
     delete cluster.loading
   } catch (e) {
