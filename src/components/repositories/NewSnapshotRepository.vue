@@ -23,12 +23,11 @@
                    outlined
                    required />
 
-          <q-select v-model="repository.body.type"
-                    :label="t('repositories.new_repository.form.type.label')"
-                    class="q-mb-md"
-                    name="type"
-                    :options="Object.keys(RepositoryType)"
-                    outlined />
+          {{ t('repositories.new_repository.form.type.label') }}
+          <q-option-group v-model="repository.body.type"
+                          inline
+                          :options="Object.keys(RepositoryType).map(type => ({value: type, label: type}))"
+                          color="primary" />
 
           <q-separator class="q-my-lg" />
           <p>{{ repository.body.type.toUpperCase() }} settings</p>
