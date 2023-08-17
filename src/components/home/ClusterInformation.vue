@@ -25,7 +25,7 @@
             </q-item-section>
           </q-item>
 
-          <q-item>
+          <q-item v-if="data.cluster_uuid">
             <q-item-section>
               <q-item-label>Cluster uuid</q-item-label>
             </q-item-section>
@@ -54,7 +54,7 @@
             </q-item-section>
           </q-item>
 
-          <q-item>
+          <q-item v-if="data.version.build_flavor">
             <q-item-section>
               <q-item-label>Build flavor</q-item-label>
             </q-item-section>
@@ -63,7 +63,7 @@
             </q-item-section>
           </q-item>
 
-          <q-item>
+          <q-item v-if="data.version.build_type">
             <q-item-section>
               <q-item-label>Build type</q-item-label>
             </q-item-section>
@@ -72,7 +72,7 @@
             </q-item-section>
           </q-item>
 
-          <q-item>
+          <q-item v-if="data.version.build_hash">
             <q-item-section>
               <q-item-label>Build hash</q-item-label>
             </q-item-section>
@@ -81,7 +81,7 @@
             </q-item-section>
           </q-item>
 
-          <q-item>
+          <q-item v-if="data.version.build_date">
             <q-item-section>
               <q-item-label>Build date</q-item-label>
             </q-item-section>
@@ -90,7 +90,7 @@
             </q-item-section>
           </q-item>
 
-          <q-item>
+          <q-item v-if="data.version.build_snapshot">
             <q-item-section>
               <q-item-label>Build snapshot</q-item-label>
             </q-item-section>
@@ -99,7 +99,7 @@
             </q-item-section>
           </q-item>
 
-          <q-item>
+          <q-item v-if="data.version.lucene_version">
             <q-item-section>
               <q-item-label>Lucene version</q-item-label>
             </q-item-section>
@@ -108,7 +108,7 @@
             </q-item-section>
           </q-item>
 
-          <q-item>
+          <q-item v-if="data.version.minimum_wire_compatibility_version">
             <q-item-section>
               <q-item-label>Minimum wire compatibility version</q-item-label>
             </q-item-section>
@@ -117,7 +117,7 @@
             </q-item-section>
           </q-item>
 
-          <q-item>
+          <q-item v-if="data.version.minimum_index_compatibility_version">
             <q-item-section>
               <q-item-label>Minimum index compatibility version</q-item-label>
             </q-item-section>

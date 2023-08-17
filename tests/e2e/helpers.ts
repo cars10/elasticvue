@@ -1,4 +1,6 @@
-export const setupClusterConnection = async page => {
+import { Page } from '@playwright/test'
+
+export const setupClusterConnection = async (page: Page) => {
   await page.addInitScript(() => {
     window.localStorage.clear()
 

@@ -114,5 +114,5 @@ const clusterUuid = (infoJson: any) => {
   if (infoJson.cluster_uuid) return infoJson.cluster_uuid
 
   // fallback for elasticsearch < 5
-  return `${infoJson.cluster_name}-${infoJson.version.number}-${infoJson.version.build_hash}`.replaceAll(/\s/g, '')
+  return `${infoJson.cluster_name}-${infoJson.name}`.replaceAll(/\s/g, '')
 }

@@ -29,8 +29,8 @@
               </h3>
             </q-card-section>
             <q-card-section class="text-muted">
-              <p class="q-mb-sm">{{ data.nodes.count.master }} master</p>
-              <p class="q-mb-none">{{ data.nodes.count.data }} data</p>
+              <p v-if="data.nodes.count.master" class="q-mb-sm">{{ data.nodes.count.master }} master</p>
+              <p v-if="data.nodes.count.data" class="q-mb-none">{{ data.nodes.count.data }} data</p>
             </q-card-section>
           </q-card>
         </div>
@@ -45,8 +45,8 @@
               </h3>
             </q-card-section>
             <q-card-section class="text-muted">
-              <p class="q-mb-sm">{{ data.indices.shards.primaries }} primaries</p>
-              <p class="q-mb-none">{{ data.indices.shards.total - data.indices.shards.primaries }} replicas</p>
+              <p class="q-mb-sm">{{ data.indices.shards?.primaries || 0 }} primaries</p>
+              <p class="q-mb-none">{{ (data.indices?.shards?.total || 0) - (data.indices.shards?.primaries || 0) }} replicas</p>
             </q-card-section>
           </q-card>
         </div>

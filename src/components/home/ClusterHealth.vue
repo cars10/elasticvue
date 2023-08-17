@@ -74,6 +74,17 @@
               <q-item-label>Active shards</q-item-label>
             </q-item-section>
             <q-item-section side>
+              <q-item-label :title="data.active_shards">
+                {{ data.active_shards }}
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+
+          <q-item v-if="data.active_shards_percent_as_number">
+            <q-item-section>
+              <q-item-label>Active shards percent</q-item-label>
+            </q-item-section>
+            <q-item-section side>
               <q-item-label :title="data.active_shards_percent_as_number"
                             :class="{'health--yellow': data.active_shards_percent_as_number < 100}">
                 {{ data.active_shards_percent_as_number.toFixed(2) }}%
@@ -99,7 +110,7 @@
             </q-item-section>
           </q-item>
 
-          <q-item>
+          <q-item v-if="data.task_max_waiting_in_queue_millis">
             <q-item-section>
               <q-item-label>Task max waiting in queue</q-item-label>
             </q-item-section>
@@ -135,8 +146,8 @@
     delayed_unassigned_shards: number
     number_of_pending_tasks: number
     number_of_in_flight_fetch: number
-    task_max_waiting_in_queue_millis: number
-    active_shards_percent_as_number: number
+    task_max_waiting_in_queue_millis?: number
+    active_shards_percent_as_number?: number
   }
 
   const { requestState, data, load } = useElasticsearchRequest<ClusterHealth>('clusterHealth')
