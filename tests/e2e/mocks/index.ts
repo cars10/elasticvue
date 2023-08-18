@@ -2,6 +2,8 @@ import { mockElastic1 } from './elastic_1'
 import { mockElastic2 } from './elastic_2'
 import { mockElastic5 } from './elastic_5'
 import { mockElastic6 } from './elastic_6'
+import { mockElastic7 } from './elastic_7'
+import { mockElastic8 } from './elastic_8'
 
 const mocks = {
   1: {
@@ -30,6 +32,20 @@ const mocks = {
     elastic: {
       version: '6.8.2',
       uuid: '8zo4CaCKQHKigIFzjdOPVA'
+    }
+  },
+  7: {
+    mockElastic: mockElastic7,
+    elastic: {
+      version: '7.17.10',
+      uuid: 'S3K3y-CNQaub_lLzyOv2Vg'
+    }
+  },
+  8: {
+    mockElastic: mockElastic8,
+    elastic: {
+      version: '8.7.1',
+      uuid: 'ecdKaffmR9WkFbKDW4PUWw'
     }
   }
 }
