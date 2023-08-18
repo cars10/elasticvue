@@ -1,6 +1,6 @@
 import { Page } from '@playwright/test'
 
-export const mockElastic1Home = async (page: Page, { health }: { health?: string }) => {
+export const mockElasticHome = async (page: Page, { health }: { health?: string }) => {
   const status = health
 
   const mocks = {

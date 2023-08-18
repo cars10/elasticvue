@@ -1,6 +1,8 @@
 import { Page } from '@playwright/test'
-import { mockElastic6Home } from './home'
+import { mockElasticHome } from './home'
+import { mockElasticNodes } from './nodes'
 
 export const mockElastic6 = async (page: Page, { health }: { health: string } = { health: 'green' }) => {
-  await mockElastic6Home(page, { health })
+  await mockElasticHome(page, { health })
+  await mockElasticNodes(page)
 }
