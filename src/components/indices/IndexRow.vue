@@ -67,11 +67,13 @@
             <q-separator />
 
             <index-aliases :index="index.index" @reload="remitReloadAndCloseMenu" />
-            <index-reindex :index="index.index" @reload="remitReloadAndCloseMenu" />
+            <index-reindex v-if="connectionStore.activeCluster && parseInt(connectionStore.activeCluster.majorVersion) > 1"
+                           :index="index.index" @reload="remitReloadAndCloseMenu" />
 
             <q-separator />
 
-            <row-menu-action method="indexForcemerge"
+            <row-menu-action v-if="connectionStore.activeCluster && parseInt(connectionStore.activeCluster.majorVersion) > 1"
+                             method="indexForcemerge"
                              :method-params="{ index: props.index.index }"
                              :text="t('indices.index_row.options.forcemerge.text')"
                              :growl="t('indices.index_row.options.forcemerge.growl', {index: index.index})"
@@ -116,7 +118,8 @@
 
             <q-separator />
 
-            <row-menu-action method="deleteByQuery"
+            <row-menu-action v-if="connectionStore.activeCluster && parseInt(connectionStore.activeCluster.majorVersion) >= 5"
+                             method="deleteByQuery"
                              :method-params="{ index: props.index.index }"
                              :text="t('indices.index_row.options.delete_by_query.text')"
                              :growl="t('indices.index_row.options.delete_by_query.growl', {index: index.index})"
@@ -144,6 +147,9 @@
   import { useTranslation } from '../../composables/i18n'
   import IndexReindex from './IndexReindex.vue'
   import RowMenuAction from './RowMenuAction.vue'
+  import { useConnectionStore } from '../../store/connection.ts'
+
+  const connectionStore = useConnectionStore()
 
   const t = useTranslation()
   const props = defineProps<IndexRowProps>()

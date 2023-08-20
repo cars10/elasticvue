@@ -27,9 +27,9 @@ export const setupClusterConnection = async (page: Page) => {
     window.localStorage.setItem('theme', '{"dark":true}')
   })
 
-  await page.goto('http://localhost:5173')
+  await page.goto('http://localhost:5175')
 }
 
 export const openElasticvue = page => {
-  return page.goto('http://localhost:5173/')
+  return page.goto('http://localhost:5175/')
 }

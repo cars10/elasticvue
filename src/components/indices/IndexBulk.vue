@@ -5,7 +5,8 @@
                   menu-anchor="top left"
                   menu-self="bottom left">
     <q-list padding dense>
-      <row-menu-action method="indexForcemerge"
+      <row-menu-action v-if="connectionStore.activeCluster && parseInt(connectionStore.activeCluster.majorVersion) > 1"
+                       method="indexForcemerge"
                        :method-params="{index: selectedIndices.join(',')}"
                        :text="t('indices.index_row.options.forcemerge.text', selectedIndices.length)"
                        icon="call_merge"
@@ -62,8 +63,10 @@
   import { QMenu } from 'quasar'
   import { useTranslation } from '../../composables/i18n'
   import RowMenuAction from './RowMenuAction.vue'
+  import { useConnectionStore } from '../../store/connection.ts'
 
   const t = useTranslation()
+  const connectionStore = useConnectionStore()
 
   defineProps<{ selectedIndices: string[], totalItemsCount: number, filteredItemsCount: number }>()
   const emit = defineEmits(['reload', 'indicesDeleted'])

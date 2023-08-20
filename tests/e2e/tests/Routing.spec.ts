@@ -7,22 +7,22 @@ withElastic(({ mockElastic, elastic }) => {
     test.describe('Routing', () => {
       test.describe('empty state', () => {
         test('redirects to /welcome', async ({ page }) => {
-          await page.goto('http://localhost:5173/')
+          await page.goto('http://localhost:5175/')
           expect(page.url()).toContain('/welcome')
         })
 
         test('wrong url redirects to /welcome', async ({ page }) => {
-          await page.goto('http://localhost:5173/foo')
+          await page.goto('http://localhost:5175/foo')
           expect(page.url()).toContain('/welcome')
         })
 
         test('wrong cluster id redirects to /welcome', async ({ page }) => {
-          await page.goto('http://localhost:5173/cluster/42')
+          await page.goto('http://localhost:5175/cluster/42')
           expect(page.url()).toContain('/welcome')
         })
 
         test('can open /welcome', async ({ page }) => {
-          await page.goto('http://localhost:5173/welcome')
+          await page.goto('http://localhost:5175/welcome')
           expect(page.url()).toContain('/welcome')
         })
       })
@@ -35,13 +35,13 @@ withElastic(({ mockElastic, elastic }) => {
 
         test('cannot open /welcome', async ({ page }) => {
           await setupClusterConnection(page)
-          await page.goto('http://localhost:5173/welcome')
+          await page.goto('http://localhost:5175/welcome')
           expect(page.url()).not.toContain('/welcome')
         })
 
         test('welcome redirects to current cluster if cluster is correct', async ({ page }) => {
           await setupClusterConnection(page)
-          await page.goto('http://localhost:5173/welcome')
+          await page.goto('http://localhost:5175/welcome')
           expect(page.url()).toContain('/cluster/0')
         })
 
@@ -72,7 +72,7 @@ withElastic(({ mockElastic, elastic }) => {
           })
 
           await mockElastic(page)
-          await page.goto('http://localhost:5173')
+          await page.goto('http://localhost:5175')
           expect(page.url()).toContain('/cluster/1')
         })
 
@@ -103,7 +103,7 @@ withElastic(({ mockElastic, elastic }) => {
           })
 
           await mockElastic(page)
-          await page.goto('http://localhost:5173')
+          await page.goto('http://localhost:5175')
           expect(page.url()).toContain('/cluster/0')
         })
 
@@ -119,17 +119,17 @@ withElastic(({ mockElastic, elastic }) => {
           })
 
           await mockElastic(page)
-          await page.goto('http://localhost:5173')
+          await page.goto('http://localhost:5175')
           expect(page.url()).toContain('/welcome')
         })
 
         test('can access existing clusters', async ({ page }) => {
           await setupClusterConnection(page)
 
-          await page.goto('http://localhost:5173/cluster/0')
+          await page.goto('http://localhost:5175/cluster/0')
           expect(page.url()).toContain('/cluster/0')
 
-          await page.goto('http://localhost:5173/cluster/1')
+          await page.goto('http://localhost:5175/cluster/1')
           expect(page.url()).toContain('/cluster/1')
         })
 
@@ -139,7 +139,7 @@ withElastic(({ mockElastic, elastic }) => {
           const invalids = [42, '42', true, 'true', 'hello', null, '']
 
           for (const value of invalids) {
-            await page.goto(`http://localhost:5173/cluster/${value}`)
+            await page.goto(`http://localhost:5175/cluster/${value}`)
             expect(page.url()).toContain('/cluster/0')
           }
         })
