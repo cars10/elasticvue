@@ -1,6 +1,10 @@
 import { useTranslation } from '../../i18n'
 import { defineElasticsearchRequest } from '../../CallElasticsearch'
 
+export type EsSnapshotList = {
+  snapshots: EsSnapshot[]
+}
+
 export type EsSnapshot = {
   snapshot: string,
   repository: string,

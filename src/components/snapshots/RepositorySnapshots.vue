@@ -21,13 +21,13 @@
   import SnapshotsTable from './SnapshotsTable.vue'
   import { useTranslation } from '../../composables/i18n'
   import { useElasticsearchRequest } from '../../composables/CallElasticsearch'
-  import { EsSnapshot } from '../../composables/components/snapshots/SnapshotRow.ts'
+  import { EsSnapshotList } from '../../composables/components/snapshots/SnapshotRow.ts'
 
   const t = useTranslation()
 
   const route = useRoute()
   const repository = route.params.repositoryName.toString()
 
-  const { load, requestState, data } = useElasticsearchRequest<EsSnapshot[]>('catSnapshots', { repository })
+  const { load, requestState, data } = useElasticsearchRequest<EsSnapshotList>('catSnapshots', { repository })
   onMounted(load)
 </script>
