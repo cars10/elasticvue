@@ -1,5 +1,8 @@
 # Changelog
 
+# 1.0.0-beta-4
+* fix build issues
+
 # 1.0.0-beta-3
 
 * improve compatability with older versions of elasticsearch
