@@ -1,30 +1,40 @@
 <template>
   <tr>
-    <td>{{ snapshot.id }}</td>
-    <td>{{ snapshot.status }}</td>
-    <td>{{ snapshot.start_time }} ({{ snapshot.start_epoch }})</td>
-    <td>{{ snapshot.end_time }} ({{ snapshot.end_epoch }})</td>
-    <td>{{ snapshot.duration }}</td>
+    <td>{{ snapshot.snapshot }}</td>
+    <td>{{ snapshot.state }}</td>
     <td>
-      <q-btn :label="t('snapshots.snapshot.indices', {count: snapshot.indices})"
+      <span v-if="snapshot.start_time">{{ new Date(snapshot.start_time).toLocaleString() }}</span>
+      <span v-if="snapshot.start_time_in_millis"> ({{ Math.floor(snapshot.start_time_in_millis / 1000) }})</span>
+    </td>
+    <td>
+      <span v-if="snapshot.end_time">{{ new Date(snapshot.end_time).toLocaleString() }}</span>
+      <span v-if="snapshot.end_time_in_millis"> ({{ Math.floor(snapshot.end_time_in_millis / 1000) }})</span>
+    </td>
+    <td>
+      <span v-if="typeof snapshot.duration_in_millis != 'undefined'">
+        {{ Math.floor(snapshot.duration_in_millis / 1000) }}s
+      </span>
+    </td>
+    <td>
+      <q-btn :label="t('snapshots.snapshot.indices', {count: snapshot.indices.length})"
              dense
              no-caps
              color="dark-grey">
-        <q-menu @before-show="load">
+        <q-menu>
           <div class="q-pa-sm">
-            <div v-for="index in indexNames" :key="index">
+            <div v-for="index in snapshot.indices" :key="index">
               <span class="font-13">{{ index }}</span>
             </div>
           </div>
         </q-menu>
       </q-btn>
     </td>
-    <td>{{ snapshot.successful_shards }}</td>
-    <td>{{ snapshot.failed_shards }}</td>
-    <td>{{ snapshot.total_shards }}</td>
+    <td>{{ snapshot.shards.successful }}</td>
+    <td>{{ snapshot.shards.failed }}</td>
+    <td>{{ snapshot.shards.total }}</td>
     <td>
       <q-btn-group>
-        <restore-snapshot :snapshot="snapshot.id" :repository="repository" />
+        <restore-snapshot :snapshot="snapshot.snapshot" :repository="repository" />
         <q-btn icon="delete" color="dark-grey" @click="deleteSnapshot" />
       </q-btn-group>
     </td>
@@ -40,5 +50,5 @@
   const emit = defineEmits(['reload'])
   const t = useTranslation()
 
-  const { load, indexNames, deleteSnapshot } = useSnapshotRow(props, emit)
+  const { deleteSnapshot } = useSnapshotRow(props, emit)
 </script>

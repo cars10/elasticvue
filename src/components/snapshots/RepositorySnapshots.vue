@@ -8,7 +8,7 @@
     <q-separator />
 
     <loader-status :request-state="requestState" hide-progress>
-      <snapshots-table :snapshots="data || []" :repository="repository" @reload="load" />
+      <snapshots-table :snapshots="data?.snapshots || []" :repository="repository" @reload="load" />
     </loader-status>
   </q-card>
 </template>

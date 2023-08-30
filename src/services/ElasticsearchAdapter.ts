@@ -171,7 +171,7 @@ export default class ElasticsearchAdapter {
   }
 
   catSnapshots ({ repository }: { repository: string }) {
-    return this.request(`_cat/snapshots/${repository}`, 'GET')
+    return this.request(`_snapshot/${repository}/_all`, 'GET')
   }
 
   snapshotCreateRepository ({ repository, body }: { repository: string, body: object }) {
