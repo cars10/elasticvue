@@ -6,7 +6,7 @@
           <q-card v-if="data" class="full-height" data-testid="cluster-status">
             <q-card-section>
               <h3 class="text-h6 q-my-none">{{ data.cluster_name }}</h3>
-              <span class="text-muted font-13">{{ data.cluster_uuid }}</span>
+              <span class="text-muted font-13">{{ connectionStore.activeCluster?.uuid }}</span>
             </q-card-section>
             <q-card-section class="items-center justify-between flex">
               <div :class="`text-h6 inline-block health--${data.status}`">
@@ -29,8 +29,8 @@
               </h3>
             </q-card-section>
             <q-card-section class="text-muted">
-              <p class="q-mb-sm">{{ data.nodes.count.master }} master</p>
-              <p class="q-mb-none">{{ data.nodes.count.data }} data</p>
+              <p v-if="data.nodes.count.master" class="q-mb-sm">{{ data.nodes.count.master }} master</p>
+              <p v-if="data.nodes.count.data" class="q-mb-none">{{ data.nodes.count.data }} data</p>
             </q-card-section>
           </q-card>
         </div>
@@ -45,8 +45,8 @@
               </h3>
             </q-card-section>
             <q-card-section class="text-muted">
-              <p class="q-mb-sm">{{ data.indices.shards.primaries }} primaries</p>
-              <p class="q-mb-none">{{ data.indices.shards.total - data.indices.shards.primaries }} replicas</p>
+              <p class="q-mb-sm">{{ data.indices.shards?.primaries || 0 }} primaries</p>
+              <p class="q-mb-none">{{ (data.indices?.shards?.total || 0) - (data.indices.shards?.primaries || 0) }} replicas</p>
             </q-card-section>
           </q-card>
         </div>
@@ -86,6 +86,8 @@
   import ClusterHealth from './ClusterHealth.vue'
   import ClusterInformation from './ClusterInformation.vue'
   import UnhealthyReason from './UnhealthyReason.vue'
+  import { useConnectionStore } from '../../store/connection.ts'
+  const connectionStore = useConnectionStore()
 
   type ClusterStats = {
     cluster_name: string

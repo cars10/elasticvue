@@ -77,8 +77,8 @@ export const useClusterConnection = (cluster: Ref<ElasticsearchCluster>) => {
         uri,
         clusterName: infoJson.cluster_name,
         version: infoJson.version.number,
-        majorVersion: parseInt(infoJson.version.number[0]),
-        uuid: infoJson.cluster_uuid,
+        majorVersion: infoJson.version.number[0],
+        uuid: clusterUuid(infoJson),
         status: clusterHealthBody.status
       })
 
@@ -108,4 +108,11 @@ export const useClusterConnection = (cluster: Ref<ElasticsearchCluster>) => {
     connect,
     formValid
   }
+}
+
+const clusterUuid = (infoJson: any) => {
+  if (infoJson.cluster_uuid) return infoJson.cluster_uuid
+
+  // fallback for elasticsearch < 5
+  return `${infoJson.cluster_name}-${infoJson.name}`.replaceAll(/\s/g, '')
 }

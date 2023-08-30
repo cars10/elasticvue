@@ -39,14 +39,14 @@
   const filter = ref('')
   const tableColumns = genColumns([
     { label: 'id' },
-    { label: t('snapshots.snapshots_table.table.headers.status'), field: 'status' },
+    { label: t('snapshots.snapshots_table.table.headers.status'), field: 'state' },
     { label: t('snapshots.snapshots_table.table.headers.start_time') },
     { label: t('snapshots.snapshots_table.table.headers.end_time') },
     { label: t('snapshots.snapshots_table.table.headers.duration') },
-    { label: t('snapshots.snapshots_table.table.headers.indices'), field: 'indices' },
-    { label: t('snapshots.snapshots_table.table.headers.successful_shards'), field: 'successful_shards' },
-    { label: t('snapshots.snapshots_table.table.headers.failed_shards'), field: 'failed_shards' },
-    { label: t('snapshots.snapshots_table.table.headers.total_shards'), field: 'total_shards' },
+    { label: t('snapshots.snapshots_table.table.headers.indices') },
+    { label: t('snapshots.snapshots_table.table.headers.successful_shards') },
+    { label: t('snapshots.snapshots_table.table.headers.failed_shards') },
+    { label: t('snapshots.snapshots_table.table.headers.total_shards') },
     { label: '' }
   ])
 </script>

@@ -13,7 +13,7 @@ type NewRepository = {
 
 type BaseRepositorySettings = {
   compress: boolean
-  chunkSize: string
+  chunkSize?: string
   maxRestoreBytesPerSec: string
   maxSnapshotBytesPerSec: string
   readonly: boolean
@@ -101,7 +101,7 @@ export const useNewSnapshotRepository = (emit: any) => {
             protocol: RepositoryProtocol.https,
             path_style_access: false,
             compress: true,
-            chunkSize: '',
+            chunkSize: '5tb',
             maxRestoreBytesPerSec: '40mb',
             maxSnapshotBytesPerSec: '40mb',
             readonly: false
@@ -117,8 +117,11 @@ export const useNewSnapshotRepository = (emit: any) => {
 
   const { run, loading } = defineElasticsearchRequest({ emit, method: 'snapshotCreateRepository' })
   const createRepository = async () => {
+    const params = Object.assign({}, repository.value)
+    if (params.body.settings.chunkSize?.length === 0) delete params.body.settings.chunkSize
+
     const success = await run({
-      params: repository.value,
+      params,
       snackbarOptions: {
         body: t('repositories.new_repository.create_repository.growl', { repositoryName: repository.value.repository }),
       }

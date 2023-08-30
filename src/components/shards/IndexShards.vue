@@ -33,7 +33,7 @@
       h: ['index', 'health', 'pri', 'rep', 'status'],
       s: ['index']
     })
-    const rawShards: EsShard[] = await callElasticsearch('catShards', CAT_METHOD_PARAMS, '*')
+    const rawShards: EsShard[] = await callElasticsearch('catShards', CAT_METHOD_PARAMS)
 
     shards.value = convertShards(rawShards, indices)
   }

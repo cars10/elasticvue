@@ -9,6 +9,7 @@
            row-key="name"
            :columns="columns"
            :rows="items"
+           data-testid="nodes-table"
            :rows-per-page-options="DEFAULT_ROWS_PER_PAGE"
            :pagination="{sortBy: 'name'}">
     <template #body="{row}">
@@ -27,10 +28,14 @@
         <td :title="nodeRoleTitle(row.nodeRole)">
           {{ row.nodeRole }}
         </td>
-        <td>{{ row.load_1m }} / {{ row.load_5m }} / {{ row.load_15m }}</td>
         <td>
-          {{ row.cpu }}%
-          <node-percent-progress :value="row.cpu" class="q-mt-xs" />
+          <span v-if="row.load_1m">{{ row.load_1m }} / {{ row.load_5m }} / {{ row.load_15m }}</span>
+        </td>
+        <td>
+          <div v-if="row.cpu">
+            {{ row.cpu }}%
+            <node-percent-progress :value="row.cpu" class="q-mt-xs" />
+          </div>
         </td>
         <td>
           <div class="flex justify-between">
@@ -47,11 +52,13 @@
           <node-percent-progress :value="row.heapPercent" class="q-mt-xs" />
         </td>
         <td>
-          <div class="flex justify-between">
-            <small>{{ row.diskPercent }}%</small>
-            <small>{{ row.diskCurrent }}/{{ row.diskMax }}</small>
-          </div>
-          <node-percent-progress :value="row.diskPercent" class="q-mt-xs" />
+          <template v-if="row.diskPercent">
+            <div class="flex justify-between">
+              <small>{{ row.diskPercent }}%</small>
+              <small>{{ row.diskCurrent }}/{{ row.diskMax }}</small>
+            </div>
+            <node-percent-progress :value="row.diskPercent" class="q-mt-xs" />
+          </template>
         </td>
       </tr>
     </template>

@@ -1,9 +1,11 @@
 <template>
-  <q-btn color="dark-grey" no-caps :title="btnTitle" data-testid="cluster-selection">
+  <q-btn color="dark-grey" no-caps data-testid="cluster-selection">
     <cluster-status-indicator :status="connectionStore.activeCluster?.status"
                               :loading="connectionStore.activeCluster?.loading" />
 
-    <span class="ellipsis" style="max-width: 200px">{{ connectionStore.activeCluster?.name }}</span>
+    <unsupported-version v-if="connectionStore.activeCluster" :major-version="connectionStore.activeCluster.majorVersion" size="16px" class="q-mr-sm" />
+
+    <span class="ellipsis" style="max-width: 200px" :title="btnTitle">{{ connectionStore.activeCluster?.name }}</span>
 
     <q-icon :name="menuOpen ? 'expand_less' : 'expand_more'" />
 
@@ -22,6 +24,7 @@
   import { useTranslation } from '../../composables/i18n'
   import { useClusterHealth } from '../../composables/components/home/ClusterHealth.ts'
   import { useConnectionStore } from '../../store/connection'
+  import UnsupportedVersion from './UnsupportedVersion.vue'
 
   const t = useTranslation()
   const connectionStore = useConnectionStore()

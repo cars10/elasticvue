@@ -46,17 +46,7 @@
         <td class="small-wrap">
           <div class="flex items-center no-wrap">
             {{ row.version }}
-            <q-icon v-if="!SUPPORTED_MAJOR_VERSIONS.includes(row.majorVersion)" name="warning" color="warning"
-                    class="q-pl-xs">
-              <q-tooltip class="bg-dark text-body2">
-                {{
-                  t('cluster_selection.cluster_table.row.unsupported', {
-                    majorVersion: row.majorVersion,
-                    supportedVersions: SUPPORTED_MAJOR_VERSIONS.join(", ")
-                  })
-                }}
-              </q-tooltip>
-            </q-icon>
+            <unsupported-version :major-version="row.majorVersion" />
           </div>
         </td>
         <td class="small-wrap">
@@ -74,11 +64,12 @@
   import EditCluster from './EditCluster.vue'
   import FilterInput from '../shared/FilterInput.vue'
   import NewCluster from './NewCluster.vue'
-  import { DEFAULT_ROWS_PER_PAGE, SUPPORTED_MAJOR_VERSIONS } from '../../consts'
+  import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
   import { useClusterTable } from '../../composables/components/clusterselection/ClusterTable'
   import { useConnectionStore } from '../../store/connection'
   import { useTranslation } from '../../composables/i18n.ts'
   import ClusterStatusIndicator from './ClusterStatusIndicator.vue'
+  import UnsupportedVersion from './UnsupportedVersion.vue'
 
   const t = useTranslation()
   const connectionStore = useConnectionStore()

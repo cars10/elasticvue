@@ -1,5 +1,12 @@
 # Changelog
 
+# 1.0.0-beta-3
+
+* improve compatability with older versions of elasticsearch
+* improve snapshot repository creation
+* various small bugfixes
+* updates dependencies
+
 # 1.0.0-beta-2
 
 * show warning when using unsupported versions of elasticsearch

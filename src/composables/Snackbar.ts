@@ -77,7 +77,7 @@ export const useSnackbar = () => {
       snackbarOptions.title = '500 Elasticsearch server error'
 
       const errorMessage = responseErrorMessage(requestState.apiErrorMessage)
-      if (errorMessage && errorMessage.error) {
+      if (errorMessage && errorMessage.error?.type) {
         snackbarOptions.title += ` - ${errorMessage.error.type}`
         snackbarOptions.body = `Reason: ${errorMessage.error.reason}.`
         2
