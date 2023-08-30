@@ -67,7 +67,7 @@ export const useSearchResultsTable = (props: SearchResultsTableProps, emit: any)
     tableColumns.value = results.uniqueColumns.map(field => {
       const filterableCol = sortableField(field, allProperties[field])
 
-      return { label: field, field, name: filterableCol, sortable: !!filterableCol, align: 'left' }
+      return { label: field, field, name: filterableCol || field, sortable: !!filterableCol, align: 'left' }
     })
     tableColumns.value.push({ label: '', name: 'actions' })
 
