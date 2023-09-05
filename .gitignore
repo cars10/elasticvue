@@ -16,6 +16,7 @@ yarn-*.log
 # Tests
 /test-results/
 /playwright-report/
+/playwright-report-ci/
 /playwright/.cache/
 playwright/.auth
 tests/*.png

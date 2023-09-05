@@ -41,7 +41,7 @@
   import ReloadButton from './ReloadButton.vue'
   import ResizableContainer from './ResizableContainer.vue'
   import { useResizeStore } from '../../store/resize'
-  import { stringifyBigInt } from '../../helpers/json/stringify'
+  import { stringifyJson } from '../../helpers/json/stringify'
   import { useTranslation } from '../../composables/i18n'
 
   const CodeViewer = defineAsyncComponent(() => import('../shared/CodeViewer.vue'))
@@ -54,7 +54,7 @@
   const data: Ref<string> = ref('')
   const load = () => {
     callElasticsearch(store.method, store.methodParams)
-        .then(body => (data.value = stringifyBigInt(body)))
+        .then(body => (data.value = stringifyJson(body)))
         .catch(() => (data.value = ''))
   }
 

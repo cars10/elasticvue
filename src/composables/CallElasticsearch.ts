@@ -3,6 +3,7 @@ import ElasticsearchAdapter, { ElasticsearchMethod } from '../services/Elasticse
 import { useConnectionStore } from '../store/connection'
 import { askConfirm } from '../helpers/dialogs'
 import { SnackbarOptions, useSnackbar } from './Snackbar'
+import { parseJson } from '../helpers/json/parse.ts'
 
 let elasticsearchAdapter: ElasticsearchAdapter
 
@@ -49,7 +50,7 @@ export function useElasticsearchAdapter () {
         let body
         if (contentType && contentType.includes('application/json')) {
           const text = await response.text()
-          body = JSON.parse(text)
+          body = parseJson(text)
         } else {
           body = true
         }

@@ -1,5 +1,6 @@
 import { invoke } from '@tauri-apps/api/tauri'
 import { buildConfig } from '../buildConfig.ts'
+import { parseJson } from './json/parse.ts'
 
 export const fetchReqwest = (resource: any, init: any) => {
   return invoke('fetch_reqwest', { resource, init }).then((r: any) => new FetchReqwestResponse(r))
@@ -47,7 +48,7 @@ class FetchReqwestResponse {
 
   json () {
     try {
-      return Promise.resolve(JSON.parse(this.body))
+      return Promise.resolve(parseJson(this.body))
     } catch (e) {
       return Promise.reject(e)
     }

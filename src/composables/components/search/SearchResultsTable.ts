@@ -8,6 +8,7 @@ import { sortableField } from '../../../helpers/search.ts'
 import { EsSearchResult } from './SearchDocuments.ts'
 import { ElasticsearchDocumentInfo } from './EditDocument.ts'
 import { filterItems } from '../../../helpers/filters.ts'
+import { stringifyJson } from '../../../helpers/json/stringify.ts'
 
 export type SearchResultsTableProps = {
   results: EsSearchResult
@@ -89,7 +90,7 @@ export const useSearchResultsTable = (props: SearchResultsTableProps, emit: any)
 
   const onRequest = (pagination: any) => (emit('request', pagination))
   const resetColumns = () => (searchStore.visibleColumns = tableColumns.value.map(c => c.name))
-  const generateDownloadData = () => (JSON.stringify(props.results))
+  const generateDownloadData = () => (stringifyJson(props.results))
 
   const rowsPerPage = computed(() => {
     if (searchStore.stickyTableHeader) {

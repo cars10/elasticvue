@@ -4,6 +4,7 @@ import {
   defineElasticsearchRequest,
   useElasticsearchAdapter,
 } from '../../CallElasticsearch.ts'
+import { stringifyJson } from '../../../helpers/json/stringify.ts'
 
 export type EditDocumentProps = {
   modelValue: boolean
@@ -41,7 +42,7 @@ export const useEditDocument = (props: EditDocumentProps, emit: any) => {
 
   const loadDocument = async () => {
     await load()
-    document.value = JSON.stringify(data.value._source)
+    document.value = stringifyJson(data.value._source)
   }
 
   const { run, loading } = defineElasticsearchRequest({ emit, method: 'index' })
