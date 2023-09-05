@@ -2,7 +2,7 @@
 
 # 1.0.0-beta-5
 * re-adds `json-bigint` to support numbers bigger then `Number.MAX_SAFE_INTEGER`
-
+* add `Hack` font
 
 # 1.0.0-beta-4
 * fix build issues
