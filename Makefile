@@ -7,7 +7,7 @@ ci: build_docker_ci
 	docker run --rm elasticvue-ci yarn lint
 	docker run --rm elasticvue-ci yarn tsc
 	docker run --rm elasticvue-ci yarn test:unit
-	docker run --rm -e CI="$(CI)" elasticvue-ci yarn test:e2e:all
+	docker run --rm -e CI="$(CI)" -v ./playwright-report:/app/playwright-report elasticvue-ci yarn test:e2e:all
 
 build_tauri:
 	yarn tauri:build
