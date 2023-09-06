@@ -29,7 +29,289 @@ exports.mock = async page => {
         'took': 2, 'timed_out': false, '_shards': { 'total': 2, 'successful': 1, 'skipped': 0, 'failed': 0 },
         'hits': {
           'total': { 'value': 25, 'relation': 'eq' }, 'max_score': 1.0,
-          'hits': []
+          'hits': [
+            {
+              '_index': 'movies',
+              '_type': '_doc',
+              '_id': 'iSJ6CYoBC9ASmdmkJcae',
+              '_score': 1.0,
+              '_source': {
+                'Title': 'Iron Man',
+                'Year': '2008',
+                'Rated': 'PG-13',
+                'Released': '02 May 2008',
+                'Runtime': '126 min',
+                'Genre': 'Action, Adventure, Sci-Fi',
+                'Director': 'Jon Favreau',
+                'Writer': 'Mark Fergus (screenplay), Hawk Ostby (screenplay), Art Marcum (screenplay), Matt Holloway (screenplay), Stan Lee (characters), Don Heck (characters), Larry Lieber (characters), Jack Kirby (characters)',
+                'Actors': 'Robert Downey Jr., Terrence Howard, Jeff Bridges, Gwyneth Paltrow',
+                'Plot': 'After being held captive in an Afghan cave, a billionaire engineer creates a unique weaponized suit of armor to fight evil.',
+                'Language': 'English, Persian, Urdu, Arabic, Hungarian',
+                'Country': 'USA',
+                'Awards': 'Nominated for 2 Oscars. Another 19 wins & 61 nominations.',
+                'Poster': 'http://ia.media-imdb.com/images/M/MV5BMTczNTI2ODUwOF5BMl5BanBnXkFtZTcwMTU0NTIzMw@@._V1_SX300.jpg',
+                'Metascore': '79',
+                'imdbRating': '7.9',
+                'imdbVotes': '689,098',
+                'imdbID': 'tt0371746',
+                'Type': 'movie',
+                'Response': 'True'
+              }
+            },
+            {
+              '_index': 'movies',
+              '_type': '_doc',
+              '_id': 'iiJ6CYoBC9ASmdmkJcag',
+              '_score': 1.0,
+              '_source': {
+                'Title': 'Iron Man 2',
+                'Year': '2010',
+                'Rated': 'PG-13',
+                'Released': '07 May 2010',
+                'Runtime': '124 min',
+                'Genre': 'Action, Adventure, Sci-Fi',
+                'Director': 'Jon Favreau',
+                'Writer': 'Justin Theroux (screenplay), Stan Lee (Marvel comic book), Don Heck (Marvel comic book), Larry Lieber (Marvel comic book), Jack Kirby (Marvel comic book)',
+                'Actors': 'Robert Downey Jr., Gwyneth Paltrow, Don Cheadle, Scarlett Johansson',
+                'Plot': 'With the world now aware of his identity as Iron Man, Tony Stark must contend with both his declining health and a vengeful mad man with ties to his fathers legacy.',
+                'Language': 'English, French, Russian',
+                'Country': 'USA',
+                'Awards': 'Nominated for 1 Oscar. Another 7 wins & 40 nominations.',
+                'Poster': 'http://ia.media-imdb.com/images/M/MV5BMTM0MDgwNjMyMl5BMl5BanBnXkFtZTcwNTg3NzAzMw@@._V1_SX300.jpg',
+                'Metascore': '57',
+                'imdbRating': '7.0',
+                'imdbVotes': '515,464',
+                'imdbID': 'tt1228705',
+                'Type': 'movie',
+                'Response': 'True'
+              }
+            },
+            {
+              '_index': 'movies',
+              '_type': '_doc',
+              '_id': 'iyJ6CYoBC9ASmdmkJcag',
+              '_score': 1.0,
+              '_source': {
+                'Title': 'Frozen',
+                'Year': '2013',
+                'Rated': 'PG',
+                'Released': '27 Nov 2013',
+                'Runtime': '102 min',
+                'Genre': 'Animation, Adventure, Comedy',
+                'Director': 'Chris Buck, Jennifer Lee',
+                'Writer': 'Jennifer Lee (screenplay), Hans Christian Andersen (story inspired by \'The Snow Queen\' by), Chris Buck (story by), Jennifer Lee (story by), Shane Morris (story by)',
+                'Actors': 'Kristen Bell, Idina Menzel, Jonathan Groff, Josh Gad',
+                'Plot': 'When the newly crowned Queen Elsa accidentally uses her power to turn things into ice to curse her home in infinite winter, her sister, Anna, teams up with a mountain man, his playful reindeer, and a snowman to change the weather condition.',
+                'Language': 'English, Icelandic',
+                'Country': 'USA',
+                'Awards': 'Won 2 Oscars. Another 72 wins & 57 nominations.',
+                'Poster': 'http://ia.media-imdb.com/images/M/MV5BMTQ1MjQwMTE5OF5BMl5BanBnXkFtZTgwNjk3MTcyMDE@._V1_SX300.jpg',
+                'Metascore': '74',
+                'imdbRating': '7.6',
+                'imdbVotes': '415,027',
+                'imdbID': 'tt2294629',
+                'Type': 'movie',
+                'Response': 'True'
+              }
+            },
+            {
+              '_index': 'movies',
+              '_type': '_doc',
+              '_id': 'jCJ6CYoBC9ASmdmkJcag',
+              '_score': 1.0,
+              '_source': {
+                'Title': 'Ghostbusters',
+                'Year': '1984',
+                'Rated': 'PG',
+                'Released': '08 Jun 1984',
+                'Runtime': '105 min',
+                'Genre': 'Adventure, Comedy, Fantasy',
+                'Director': 'Ivan Reitman',
+                'Writer': 'Dan Aykroyd, Harold Ramis',
+                'Actors': 'Bill Murray, Dan Aykroyd, Sigourney Weaver, Harold Ramis',
+                'Plot': 'Three former parapsychology professors set up shop as a unique ghost removal service.',
+                'Language': 'English',
+                'Country': 'USA',
+                'Awards': 'Nominated for 2 Oscars. Another 6 wins & 6 nominations.',
+                'Poster': 'http://ia.media-imdb.com/images/M/MV5BMTkxMjYyNzgwMl5BMl5BanBnXkFtZTgwMTE3MjYyMTE@._V1_SX300.jpg',
+                'Metascore': '67',
+                'imdbRating': '7.8',
+                'imdbVotes': '261,569',
+                'imdbID': 'tt0087332',
+                'Type': 'movie',
+                'Response': 'True'
+              }
+            },
+            {
+              '_index': 'movies',
+              '_type': '_doc',
+              '_id': 'jSJ6CYoBC9ASmdmkJcag',
+              '_score': 1.0,
+              '_source': {
+                'Title': 'The Bourne Identity',
+                'Year': '2002',
+                'Rated': 'PG-13',
+                'Released': '14 Jun 2002',
+                'Runtime': '119 min',
+                'Genre': 'Action, Mystery, Thriller',
+                'Director': 'Doug Liman',
+                'Writer': 'Tony Gilroy (screenplay), W. Blake Herron (screenplay), Robert Ludlum (novel)',
+                'Actors': 'Matt Damon, Franka Potente, Chris Cooper, Clive Owen',
+                'Plot': 'A man is picked up by a fishing boat, bullet-riddled and suffering from amnesia, before racing to elude assassins and regain his memory.',
+                'Language': 'English, French, German, Dutch, Italian',
+                'Country': 'USA, Germany, Czech Republic',
+                'Awards': '3 wins & 5 nominations.',
+                'Poster': 'http://ia.media-imdb.com/images/M/MV5BMTQ3MDA4MDIyN15BMl5BanBnXkFtZTYwOTg0Njk4._V1_SX300.jpg',
+                'Metascore': '68',
+                'imdbRating': '7.9',
+                'imdbVotes': '399,968',
+                'imdbID': 'tt0258463',
+                'Type': 'movie',
+                'Response': 'True'
+              }
+            },
+            {
+              '_index': 'movies',
+              '_type': '_doc',
+              '_id': 'jiJ6CYoBC9ASmdmkJcag',
+              '_score': 1.0,
+              '_source': {
+                'Title': 'Game of Thrones',
+                'Year': '2011–',
+                'Rated': 'TV-MA',
+                'Released': '17 Apr 2011',
+                'Runtime': '56 min',
+                'Genre': 'Adventure, Drama, Fantasy',
+                'Director': 'N/A',
+                'Writer': 'David Benioff, D.B. Weiss',
+                'Actors': 'Peter Dinklage, Lena Headey, Emilia Clarke, Kit Harington',
+                'Plot': 'While a civil war brews between several noble families in Westeros, the children of the former rulers of the land attempt to rise up to power. Meanwhile a forgotten race, bent on destruction, plans to return after thousands of years in the North.',
+                'Language': 'English',
+                'Country': 'USA, UK',
+                'Awards': 'Won 1 Golden Globe. Another 183 wins & 307 nominations.',
+                'Poster': 'http://ia.media-imdb.com/images/M/MV5BMjM5OTQ1MTY5Nl5BMl5BanBnXkFtZTgwMjM3NzMxODE@._V1_SX300.jpg',
+                'Metascore': 'N/A',
+                'imdbRating': '9.5',
+                'imdbVotes': '1,010,798',
+                'imdbID': 'tt0944947',
+                'Type': 'series',
+                'Response': 'True',
+                'totalSeasons': '7'
+              }
+            },
+            {
+              '_index': 'movies',
+              '_type': '_doc',
+              '_id': 'jyJ6CYoBC9ASmdmkJcag',
+              '_score': 1.0,
+              '_source': {
+                'Title': 'The Hunger Games',
+                'Year': '2012',
+                'Rated': 'PG-13',
+                'Released': '23 Mar 2012',
+                'Runtime': '142 min',
+                'Genre': 'Adventure, Drama, Sci-Fi',
+                'Director': 'Gary Ross',
+                'Writer': 'Gary Ross (screenplay), Suzanne Collins (screenplay), Billy Ray (screenplay), Suzanne Collins (novel)',
+                'Actors': 'Stanley Tucci, Wes Bentley, Jennifer Lawrence, Willow Shields',
+                'Plot': 'Katniss Everdeen voluntarily takes her younger sisters place in the Hunger Games, a televised competition in which two teenagers from each of the twelve Districts of Panem are chosen at random to fight to the death.',
+                'Language': 'English',
+                'Country': 'USA',
+                'Awards': 'Nominated for 1 Golden Globe. Another 34 wins & 42 nominations.',
+                'Poster': 'http://ia.media-imdb.com/images/M/MV5BMjA4NDg3NzYxMF5BMl5BanBnXkFtZTcwNTgyNzkyNw@@._V1_SX300.jpg',
+                'Metascore': '68',
+                'imdbRating': '7.3',
+                'imdbVotes': '695,328',
+                'imdbID': 'tt1392170',
+                'Type': 'movie',
+                'Response': 'True'
+              }
+            },
+            {
+              '_index': 'movies',
+              '_type': '_doc',
+              '_id': 'kCJ6CYoBC9ASmdmkJcag',
+              '_score': 1.0,
+              '_source': {
+                'Title': 'Guardians of the Galaxy',
+                'Year': '2014',
+                'Rated': 'PG-13',
+                'Released': '01 Aug 2014',
+                'Runtime': '121 min',
+                'Genre': 'Action, Adventure, Sci-Fi',
+                'Director': 'James Gunn',
+                'Writer': 'James Gunn, Nicole Perlman, Dan Abnett (comic book), Andy Lanning (comic book)',
+                'Actors': 'Chris Pratt, Zoe Saldana, Dave Bautista, Vin Diesel',
+                'Plot': 'A group of intergalactic criminals are forced to work together to stop a fanatical warrior from taking control of the universe.',
+                'Language': 'English',
+                'Country': 'USA, UK',
+                'Awards': 'Nominated for 2 Oscars. Another 48 wins & 92 nominations.',
+                'Poster': 'http://ia.media-imdb.com/images/M/MV5BMTAwMjU5OTgxNjZeQTJeQWpwZ15BbWU4MDUxNDYxODEx._V1_SX300.jpg',
+                'Metascore': '76',
+                'imdbRating': '8.1',
+                'imdbVotes': '669,684',
+                'imdbID': 'tt2015381',
+                'Type': 'movie',
+                'Response': 'True'
+              }
+            },
+            {
+              '_index': 'movies',
+              '_type': '_doc',
+              '_id': 'kSJ6CYoBC9ASmdmkJcag',
+              '_score': 1.0,
+              '_source': {
+                'Title': 'The Hunger Games: Catching Fire',
+                'Year': '2013',
+                'Rated': 'PG-13',
+                'Released': '22 Nov 2013',
+                'Runtime': '146 min',
+                'Genre': 'Adventure, Sci-Fi, Thriller',
+                'Director': 'Francis Lawrence',
+                'Writer': 'Simon Beaufoy (screenplay), Michael Arndt (screenplay), Suzanne Collins (novel)',
+                'Actors': 'Jennifer Lawrence, Liam Hemsworth, Jack Quaid, Taylor St. Clair',
+                'Plot': 'Katniss Everdeen and Peeta Mellark become targets of the Capitol after their victory in the 74th Hunger Games sparks a rebellion in the Districts of Panem.',
+                'Language': 'English',
+                'Country': 'USA',
+                'Awards': 'Nominated for 1 Golden Globe. Another 21 wins & 59 nominations.',
+                'Poster': 'http://ia.media-imdb.com/images/M/MV5BMTAyMjQ3OTAxMzNeQTJeQWpwZ15BbWU4MDU0NzA1MzAx._V1_SX300.jpg',
+                'Metascore': '76',
+                'imdbRating': '7.6',
+                'imdbVotes': '493,490',
+                'imdbID': 'tt1951264',
+                'Type': 'movie',
+                'Response': 'True'
+              }
+            },
+            {
+              '_index': 'movies',
+              '_type': '_doc',
+              '_id': 'kiJ6CYoBC9ASmdmkJcag',
+              '_score': 1.0,
+              '_source': {
+                'Title': 'The Imitation Game',
+                'Year': '2014',
+                'Rated': 'PG-13',
+                'Released': '25 Dec 2014',
+                'Runtime': '114 min',
+                'Genre': 'Biography, Drama, Thriller',
+                'Director': 'Morten Tyldum',
+                'Writer': 'Graham Moore, Andrew Hodges (book)',
+                'Actors': 'Benedict Cumberbatch, Keira Knightley, Matthew Goode, Rory Kinnear',
+                'Plot': 'During World War II, mathematician Alan Turing tries to crack the enigma code with help from fellow mathematicians.',
+                'Language': 'English, German',
+                'Country': 'UK, USA',
+                'Awards': 'Won 1 Oscar. Another 44 wins & 147 nominations.',
+                'Poster': 'http://ia.media-imdb.com/images/M/MV5BNDkwNTEyMzkzNl5BMl5BanBnXkFtZTgwNTAwNzk3MjE@._V1_SX300.jpg',
+                'Metascore': '73',
+                'imdbRating': '8.1',
+                'imdbVotes': '452,678',
+                'imdbID': 'tt2084970',
+                'Type': 'movie',
+                'Response': 'True'
+              }
+            }
+          ]
         }
       }
     },
@@ -198,7 +480,26 @@ exports.mock = async page => {
       url: 'http://localhost:9200/movies/_doc/*',
       json: {
         '_source': {
-          'name': 'Star Wars: Revenge of the Sith'
+          'Title': 'Iron Man',
+          'Year': '2008',
+          'Rated': 'PG-13',
+          'Released': '02 May 2008',
+          'Runtime': '126 min',
+          'Genre': 'Action, Adventure, Sci-Fi',
+          'Director': 'Jon Favreau',
+          'Writer': 'Mark Fergus (screenplay), Hawk Ostby (screenplay), Art Marcum (screenplay), Matt Holloway (screenplay), Stan Lee (characters), Don Heck (characters), Larry Lieber (characters), Jack Kirby (characters)',
+          'Actors': 'Robert Downey Jr., Terrence Howard, Jeff Bridges, Gwyneth Paltrow',
+          'Plot': 'After being held captive in an Afghan cave, a billionaire engineer creates a unique weaponized suit of armor to fight evil.',
+          'Language': 'English, Persian, Urdu, Arabic, Hungarian',
+          'Country': 'USA',
+          'Awards': 'Nominated for 2 Oscars. Another 19 wins & 61 nominations.',
+          'Poster': 'http://ia.media-imdb.com/images/M/MV5BMTczNTI2ODUwOF5BMl5BanBnXkFtZTcwMTU0NTIzMw@@._V1_SX300.jpg',
+          'Metascore': '79',
+          'imdbRating': '7.9',
+          'imdbVotes': '689,098',
+          'imdbID': 'tt0371746',
+          'Type': 'movie',
+          'Response': 'True'
         }
       }
     },
@@ -210,7 +511,7 @@ exports.mock = async page => {
     }
   }
 
-  const indices = ['movies', 'omdb', 'imdb', 'actors', 'genres', 'scenes', 'sales', 'products', 'categories', 'tweets']
+  const indices = ['movies', 'movies', 'imdb', 'actors', 'genres', 'scenes', 'sales', 'products', 'categories', 'tweets']
 
   for (const idx of indices) {
     // shards
@@ -249,16 +550,6 @@ exports.mock = async page => {
       'rep': '1',
       'docs.count': (Math.random() * 10000).toString(),
       'store.size': (Math.random() * 1000000).toString()
-    })
-  }
-
-  const movies = ['Iron Man', 'Iron Man 2', 'Star Wars: Revenge of the Sith', '96 Hours', 'The Lord of the Rings', '300', 'Fight Club', 'Europa Report', 'Avengers: Age of Ultron', 'Lost in Translation', 'Frozen', 'Ghostbusters', 'The Bourne Identity', 'The Hunger Games', 'Guardians of the Galaxy', 'American Gangster', 'Battlestar Galactica'].sort()
-  for (let i = 0; i < 25; i++) {
-    mocks.searchSearch.json.hits.hits.push({
-      '_index': 'movies', '_type': '_doc', '_id': randomId(), '_score': 1.0,
-      '_source': {
-        'name': movies[i]
-      }
     })
   }
 
