@@ -108,6 +108,105 @@ exports.mock = async page => {
     flush: {
       url: 'http://localhost:9200/_flush',
       json: { '_shards': { 'total': 50, 'successful': 50, 'failed': 0 } }
+    },
+    nodes: {
+      url: 'http://localhost:9200/_cat/nodes?h=ip%2Cid%2Cname%2Cheap.percent%2Cheap.current%2Cheap.max%2Cram.percent%2Cram.current%2Cram.max%2Cnode.role%2Cmaster%2Ccpu%2Cload_1m%2Cload_5m%2Cload_15m%2Cdisk.used_percent%2Cdisk.used%2Cdisk.total&full_id=true',
+      json: [
+        {
+          'ip': '192.168.112.1',
+          'id': randomId(),
+          'name': 'feeds-prod-1',
+          'heap.percent': '42',
+          'heap.current': '215.2mb',
+          'heap.max': '512mb',
+          'ram.percent': '73',
+          'ram.current': '22.9gb',
+          'ram.max': '31.2gb',
+          'node.role': 'cdfhilmrstw',
+          'master': '*',
+          'cpu': '8',
+          'load_1m': '0.72',
+          'load_5m': '0.78',
+          'load_15m': '1.10',
+          'disk.used_percent': '40.71',
+          'disk.used': '358.9gb',
+          'disk.total': '881.6gb'
+        },
+        {
+          'ip': '192.168.112.2',
+          'id': randomId(),
+          'name': 'feeds-prod-2',
+          'heap.percent': '42',
+          'heap.current': '215.2mb',
+          'heap.max': '512mb',
+          'ram.percent': '73',
+          'ram.current': '22.9gb',
+          'ram.max': '31.2gb',
+          'node.role': 'cdfhilmrstw',
+          'master': '*',
+          'cpu': '8',
+          'load_1m': '0.72',
+          'load_5m': '0.78',
+          'load_15m': '1.10',
+          'disk.used_percent': '40.71',
+          'disk.used': '358.9gb',
+          'disk.total': '881.6gb'
+        },
+        {
+          'ip': '192.168.112.3',
+          'id': randomId(),
+          'name': 'feeds-prod-3',
+          'heap.percent': '42',
+          'heap.current': '215.2mb',
+          'heap.max': '512mb',
+          'ram.percent': '73',
+          'ram.current': '22.9gb',
+          'ram.max': '31.2gb',
+          'node.role': 'cdfhilmrstw',
+          'master': '*',
+          'cpu': '8',
+          'load_1m': '0.72',
+          'load_5m': '0.78',
+          'load_15m': '1.10',
+          'disk.used_percent': '40.71',
+          'disk.used': '358.9gb',
+          'disk.total': '881.6gb'
+        },
+        {
+          'ip': '192.168.112.4',
+          'id': randomId(),
+          'name': 'feeds-prod-4',
+          'heap.percent': '42',
+          'heap.current': '215.2mb',
+          'heap.max': '512mb',
+          'ram.percent': '73',
+          'ram.current': '22.9gb',
+          'ram.max': '31.2gb',
+          'node.role': 'cdfhilmrstw',
+          'master': '*',
+          'cpu': '8',
+          'load_1m': '0.72',
+          'load_5m': '0.78',
+          'load_15m': '1.10',
+          'disk.used_percent': '40.71',
+          'disk.used': '358.9gb',
+          'disk.total': '881.6gb'
+        }
+      ]
+    },
+    document: {
+      url: 'http://localhost:9200/movies/_doc/*',
+      json: {
+        '_source': {
+          'name': 'Star Wars: Revenge of the Sith'
+        }
+      }
+    },
+    searchIndexIndices: {
+      url: 'http://localhost:9200/_cat/indices/?index=*&h=index',
+      json: [
+        { 'index': 'foo' }
+      ]
     }
   }
 
@@ -129,7 +228,7 @@ exports.mock = async page => {
       'index': idx,
       'health': 'green',
       'status': 'open',
-      'uuid': (Math.random() + 1).toString(36).substring(2) + (Math.random() + 1).toString(36).substring(2),
+      'uuid': randomId(),
       'pri': '1',
       'rep': '1',
       'docs.count': docs.toString(),
@@ -145,7 +244,7 @@ exports.mock = async page => {
       'index': `tweets${i}`,
       'health': 'green',
       'status': 'open',
-      'uuid': (Math.random() + 1).toString(36).substring(2) + (Math.random() + 1).toString(36).substring(2),
+      'uuid': randomId(),
       'pri': '1',
       'rep': '1',
       'docs.count': (Math.random() * 10000).toString(),
@@ -153,10 +252,10 @@ exports.mock = async page => {
     })
   }
 
-  const movies = ['Iron Man', 'Iron Man 2', 'Star Wars: Revenge of the Sith', '96 Hours', 'The Lord of the Rings', '300', 'Fight Club', 'Europa Report', 'Avengers: Age of Ultron', 'Lost in Translation']
+  const movies = ['Iron Man', 'Iron Man 2', 'Star Wars: Revenge of the Sith', '96 Hours', 'The Lord of the Rings', '300', 'Fight Club', 'Europa Report', 'Avengers: Age of Ultron', 'Lost in Translation', 'Frozen', 'Ghostbusters', 'The Bourne Identity', 'The Hunger Games', 'Guardians of the Galaxy', 'American Gangster', 'Battlestar Galactica'].sort()
   for (let i = 0; i < 25; i++) {
     mocks.searchSearch.json.hits.hits.push({
-      '_index': 'movies', '_type': '_doc', '_id': 'cS9nZooBXKihOZ47aiTk', '_score': 1.0,
+      '_index': 'movies', '_type': '_doc', '_id': randomId(), '_score': 1.0,
       '_source': {
         'name': movies[i]
       }
@@ -169,4 +268,8 @@ exports.mock = async page => {
 
     await page.route(url, async route => (await route.fulfill({ json })))
   }
+}
+
+const randomId = () => {
+  return (Math.random() + 1).toString(36).substring(2) + (Math.random() + 1).toString(36).substring(2)
 }

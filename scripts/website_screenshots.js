@@ -1,9 +1,11 @@
 const { chromium } = require('@playwright/test');
+const { mock } = require('./mock');
 
 (async () => {
   const browser = await chromium.launch()
   const page = await browser.newPage()
   await page.setViewportSize({ width: 1920, height: 1080 })
+  await mock(page)
 
   await page.goto('http://localhost:5173')
   await connectWithServer(page)
@@ -55,7 +57,6 @@ const toggleTheme = async page => {
 
 const connectWithServer = async page => {
   await page.locator('#add_cluster').click()
-  await page.locator('input[name="uri"]').fill('http://localhost:9507')
   await page.locator('#connect').click()
   await page.waitForURL('http://localhost:5173/cluster/0')
 }

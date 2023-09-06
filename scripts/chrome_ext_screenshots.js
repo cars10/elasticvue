@@ -6,6 +6,7 @@ const { mock } = require('./mock');
   const page = await browser.newPage()
   await page.setViewportSize({ width: 1280, height: 800 })
   await mock(page)
+
   await page.goto('http://localhost:5173')
   await connectWithServer(page)
 
