@@ -44,7 +44,10 @@
       }
     },
     "updater": {
-      "active": false,
+      "active": true,
+      "endpoints": [
+        "https://update.elasticvue.com/api/update_check/{{target}}/{{arch}}/{{current_version}}"
+      ],
       "dialog": true,
       "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEU3OEJEOUYwQjg4RDgyQjMKUldTemdvMjQ4Tm1MNTdqNy9LaWFYenVweHFsTnE4eU1XRWNzR2Z5TEFkbzgySHMycDl0NFFaSmsK"
     },
