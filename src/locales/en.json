@@ -150,6 +150,7 @@
         },
         "close": {
           "text": "Close index | Close index | Close {count} indices",
+          "confirm": "Close index '{index}'?",
           "growl": "The index '{index}' cache was successfully closed."
         },
         "open": {

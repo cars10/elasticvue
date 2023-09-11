@@ -1,28 +1,36 @@
 # Changelog
 
-# 1.0.0-beta-5
+## 1.0.0-beta-6
+
+* adds confirm when closing indices, fixes [#153][f153]
+
+[f153]: https://github.com/cars10/elasticvue/issues/153
+
+## 1.0.0-beta-5
+
 * re-adds `json-bigint` to support numbers bigger then `Number.MAX_SAFE_INTEGER`
 * add `Hack` font
 * update to node 20
 * adjust mock data for tests & screenshot scripts
 
-# 1.0.0-beta-4
+## 1.0.0-beta-4
+
 * fix build issues
 
-# 1.0.0-beta-3
+## 1.0.0-beta-3
 
 * improve compatability with older versions of elasticsearch
 * improve snapshot repository creation
 * various small bugfixes
 * updates dependencies
 
-# 1.0.0-beta-2
+## 1.0.0-beta-2
 
 * show warning when using unsupported versions of elasticsearch
 * fix issue with opening documents in search view
 * save rest query tab responses
 
-# 1.0.0-beta-1
+## 1.0.0-beta-1
 
 [For downloads check the releases page](https://github.com/cars10/elasticvue/releases)
 
@@ -58,13 +66,13 @@ quasar.
 * Support for numbers bigger then `Number.MAX_SAFE_INTEGER`
 * Utilities (these are now included in the rest query examples)
 
-# 0.44.1
+## 0.44.1
 
 * update dockerfile base images, fixes [#129][i129]
 
 [i129]: https://github.com/cars10/elasticvue/issues/129
 
-# 0.44.0
+## 0.44.0
 
 * [feat]: show content while reloading, fixes [#125][f125]
 * [feat]: adds index templates table, fixes [#126][f126]
@@ -74,7 +82,7 @@ quasar.
 
 [f126]: https://github.com/cars10/elasticvue/issues/126
 
-# 0.43.0
+## 0.43.0
 
 * [feat]: add support to connect via API key, thanks @tkdave, [#110][f110]
 * [feat]: desktop app menu & icon fixes for mac
@@ -82,24 +90,24 @@ quasar.
 
 [f110]: https://github.com/cars10/elasticvue/pull/110
 
-# 0.42.1
+## 0.42.1
 
 * fix build action
 
-# 0.42.0
+## 0.42.0
 
 * [fix]: fix additional issues with cluster selection, fixes [#103][i103]
 * [feat]: show `_score` in search results, fixes [#104][i104]
 
 [i104]: https://github.com/cars10/elasticvue/issues/104
 
-# 0.41.0
+## 0.41.0
 
 * [fix]: fix some issues with browser extensions and cluster swapping, fixes [#103][i103]
 
 [i103]: https://github.com/cars10/elasticvue/issues/103
 
-# 0.40.0
+## 0.40.0
 
 * [fix]: fix shards overview, fixes [#92][i92]
 * [fix]: reset current page if new search has less results than current page, fixes [#99][i99]
@@ -113,7 +121,7 @@ quasar.
 
 [i75]: https://github.com/cars10/elasticvue/issues/75
 
-# 0.39.0
+## 0.39.0
 
 * [fix]: improve elasticsearch 8 support, fixes [#93][i93]
 * [fix]: elasticsearch version not updated, fixes [#94][i94]
@@ -128,7 +136,7 @@ quasar.
 
 [i95]: https://github.com/cars10/elasticvue/issues/95
 
-# 0.38.0
+## 0.38.0
 
 This version includes some fixes for outdated versions of elasticsearch (like `2.x` and `5.x`).
 
@@ -139,7 +147,7 @@ This version includes some fixes for outdated versions of elasticsearch (like `2
 
 [i90]: https://github.com/cars10/elasticvue/issues/90
 
-# 0.37.0
+## 0.37.0
 
 * [feat]: BETA: adds shard overview + relocation, fixes [#72][i72]
 * [feat]: adds index bulk actions, fixes [#78][i78]

@@ -150,6 +150,7 @@
         },
         "close": {
           "text": "关闭索引",
+          "confirm": null,
           "growl": "索引 '{index}' 缓存已成功关闭。"
         },
         "open": {
