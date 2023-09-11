@@ -2,8 +2,9 @@ import { useElasticsearchAdapter } from '../../CallElasticsearch'
 import { useSearchStore } from '../../../store/search'
 import { useResizeStore } from '../../../store/resize'
 import { Ref, ref, watch } from 'vue'
-import { removeComments } from '../../../helpers/json/parse'
-import { DEFAULT_SEARCH_QUERY } from '../../../consts'
+import { parseJson } from '../../../helpers/json/parse'
+import { DEFAULT_SEARCH_QUERY_OBJ } from '../../../consts'
+import { stringifyJson } from '../../../helpers/json/stringify.ts'
 
 export type EsSearchResult = {
   hits: EsSearchResultHits
@@ -30,7 +31,7 @@ export const useSearchDocuments = () => {
     let query
     try {
       queryParsingError.value = false
-      query = JSON.parse(removeComments(searchStore.searchQuery))
+      query = parseJson(searchStore.searchQuery)
     } catch (e) {
       queryParsingError.value = true
       return
@@ -56,15 +57,15 @@ export const useSearchDocuments = () => {
     searchStore.pagination.sortBy = pagination.sortBy
     searchStore.pagination.descending = pagination.descending
 
-    const query = JSON.parse(removeComments(searchStore.searchQuery))
+    const query = parseJson(searchStore.searchQuery)
     Object.assign(query, buildQueryFromTableOptions(pagination))
-    searchStore.searchQuery = JSON.stringify(query)
+    searchStore.searchQuery = stringifyJson(query)
     search()
   }
 
   const mergeQuery = (params: any) => {
-    const json = Object.assign({}, JSON.parse(DEFAULT_SEARCH_QUERY), params)
-    searchStore.searchQuery = JSON.stringify(json, null, '\t')
+    const json = Object.assign({}, DEFAULT_SEARCH_QUERY_OBJ, params)
+    searchStore.searchQuery = stringifyJson(json, null, '\t')
   }
 
   const editorCommands = [{

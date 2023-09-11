@@ -2,6 +2,7 @@ import { addTrailingSlash, buildFetchAuthHeader } from '../helpers/elasticsearch
 import { REQUEST_DEFAULT_HEADERS } from '../consts'
 import { fetchMethod } from '../helpers/fetch'
 import { ElasticsearchCluster } from '../store/connection.ts'
+import { stringifyJson } from '../helpers/json/stringify.ts'
 
 interface IndexGetArgs {
   routing?: string
@@ -206,13 +207,6 @@ export default class ElasticsearchAdapter {
     return this.request('_bulk?refresh=true', 'POST', body)
   }
 
-  /*
-  bulk ({ body }: { body: object[] }) {
-    const data = body.map(d => JSON.stringify(d)).join('\n') + '\n'
-    return this.request('_bulk', 'POST', data)
-  }
-   */
-
   request (path: string, method: string, params?: any) {
     const url = new URL(this.host + path)
 
@@ -225,7 +219,7 @@ export default class ElasticsearchAdapter {
 
     const options: RequestInit = {
       method,
-      body: body && typeof body !== 'string' ? JSON.stringify(body) : body,
+      body: body && typeof body !== 'string' ? stringifyJson(body) : body,
       headers: Object.assign({}, REQUEST_DEFAULT_HEADERS)
     }
 

@@ -60,7 +60,7 @@
         "remove_cluster": {
           "confirm": "Remove cluster '{name}' ({uri})?"
         },
-        "unsupported": "Elasticsearch {majorVersion} is not supported by elasticvue. Only versions {supportedVersions} are supported. You may encounter bugs and limited functionality."
+        "unsupported": "Elasticsearch '{majorVersion}' is not supported by elasticvue. Only versions {supportedVersions} are supported. You may encounter bugs and limited functionality."
       }
     },
     "edit_cluster": {

@@ -3,6 +3,8 @@ import { askConfirm } from '../helpers/dialogs'
 import { useTranslation } from './i18n'
 import { useConnectionStore } from '../store/connection'
 import { initDb } from '../db/Idb.ts'
+import { parseJson } from '../helpers/json/parse.ts'
+import { stringifyJson } from '../helpers/json/stringify.ts'
 
 type Backup = {
   version: string,
@@ -22,10 +24,10 @@ export const useImportExport = ({ confirmImport } = { confirmImport: false }) =>
 
     storesToBackup.forEach(store => {
       const rawValue = localStorage.getItem(store)
-      if (rawValue) backup[store] = JSON.parse(rawValue)
+      if (rawValue) backup[store] = parseJson(rawValue)
     })
 
-    return JSON.parse(JSON.stringify(backup))
+    return parseJson(stringifyJson(backup))
   }
 
   const idbAsJson = async () => {
@@ -51,7 +53,7 @@ export const useImportExport = ({ confirmImport } = { confirmImport: false }) =>
       idb: await idbAsJson()
     }
 
-    return JSON.stringify(backup)
+    return stringifyJson(backup)
   }
 
   const importFile: Ref<File | null> = ref(null)
@@ -71,13 +73,13 @@ export const useImportExport = ({ confirmImport } = { confirmImport: false }) =>
       const rawData = await loadFileDataContent(importFile.value)
       if (typeof rawData !== 'string') return Promise.reject('Invalid backup')
 
-      const backup = JSON.parse(rawData)
+      const backup = parseJson(rawData)
       if (!backup.store) return Promise.reject('Invalid backup')
 
       // pinia store
       localStorage.clear()
-      Object.entries(backup.store).forEach(([name, value]) => {
-        localStorage.setItem(name, JSON.stringify(value))
+      Object.entries(backup.store).forEach(([name, value]: [string, any]) => {
+        localStorage.setItem(name, stringifyJson(value))
       })
 
       // idb

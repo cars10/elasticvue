@@ -496,6 +496,9 @@
         "password": {
           "label": "密码或加密的API密钥（可选"
         },
+        "api_key": {
+          "label": null
+        },
         "uri": {
           "label": "地址"
         },

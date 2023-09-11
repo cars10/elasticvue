@@ -7,6 +7,7 @@ import { useSearchStore } from '../../../store/search'
 import { DEFAULT_PAGINATION, DEFAULT_SEARCH_QUERY, DEFAULT_SEARCH_QUERY_OBJ } from '../../../consts'
 import ElasticsearchIndex from '../../../models/ElasticsearchIndex.ts'
 import { handleError } from '../../../helpers/error.ts'
+import { stringifyJson } from '../../../helpers/json/stringify.ts'
 
 type Aliases = {
   aliases: string[]
@@ -69,7 +70,7 @@ export const useIndexRow = (props: IndexRowProps, emit: any) => {
     const rowsPerPage = searchStore.pagination.rowsPerPage
     searchStore.pagination = DEFAULT_PAGINATION
     if (rowsPerPage && rowsPerPage > 0 && rowsPerPage <= 10000) {
-      searchStore.searchQuery = JSON.stringify(Object.assign({}, DEFAULT_SEARCH_QUERY_OBJ, { size: rowsPerPage }))
+      searchStore.searchQuery = stringifyJson(Object.assign({}, DEFAULT_SEARCH_QUERY_OBJ, { size: rowsPerPage }))
       searchStore.pagination.rowsPerPage = rowsPerPage
     }
 

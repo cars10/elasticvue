@@ -94,10 +94,10 @@ export const useCodeEditor = (editorRef: Ref<HTMLElement | null>, {
     aceEditorSession = aceEditor.getSession()
     aceEditorSession.setUseWorker(false)
     aceEditorSession.setMode('ace/mode/json')
-    aceEditor.setFontSize('14px')
     aceEditor.setShowPrintMargin(false)
     // @ts-ignore
     aceEditor.$blockScrolling = Infinity
+    aceEditor.setOptions({ fontFamily: 'Hack', fontSize: '14px' })
     if (additionalOptions) aceEditor.setOptions(additionalOptions)
     if (commands) aceEditor.commands.addCommands(commands)
   }

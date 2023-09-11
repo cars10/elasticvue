@@ -30,6 +30,7 @@
   import RowMenuAction from '../indices/RowMenuAction.vue'
   import EditDocument from './EditDocument.vue'
   import { useSearchStore } from '../../store/search.ts'
+  import { stringifyJson } from '../../helpers/json/stringify.ts'
 
   const props = defineProps<{ columns: any[], doc: Record<string, any> }>()
   const emit = defineEmits(['reload'])
@@ -52,7 +53,7 @@
     }
 
     if (typeof value === 'object') {
-      return JSON.stringify(value)
+      return stringifyJson(value)
     } else {
       return value
     }
