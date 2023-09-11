@@ -4,6 +4,7 @@
 * re-adds `json-bigint` to support numbers bigger then `Number.MAX_SAFE_INTEGER`
 * add `Hack` font
 * update to node 20
+* adjust mock data for tests & screenshot scripts
 
 # 1.0.0-beta-4
 * fix build issues
