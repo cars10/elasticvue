@@ -571,10 +571,6 @@
           "title": "格式化 (Ctrl+ALT+L)",
           "text": "格式化"
         },
-        "whitespace": {
-          "label": "使用空格",
-          "title": "将空格改为 2 个空格而不是制表符"
-        },
         "wrap_lines": {
           "label": "换行",
           "title": "长行换行"

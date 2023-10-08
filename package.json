@@ -17,11 +17,14 @@
     "bundle:report": "vite-bundle-visualizer"
   },
   "dependencies": {
+    "@codemirror/lang-json": "^6.0.1",
     "@intlify/unplugin-vue-i18n": "^1.4.0",
     "@quasar/extras": "^1.16.7",
     "@tauri-apps/api": "^1.5.0",
-    "@types/json-bigint": "^1.0.2",
     "ace-builds": "^1.24.1",
+    "cm6-theme-basic-light": "^0.2.0",
+    "cm6-theme-material-dark": "^0.2.0",
+    "codemirror": "^6.0.1",
     "idb": "^7.1.1",
     "json-bigint": "^1.0.0",
     "pinia": "^2.1.6",
@@ -38,6 +41,7 @@
     "@quasar/vite-plugin": "^1.5.0",
     "@tauri-apps/cli": "^1.5.1",
     "@types/ace": "^0.0.49",
+    "@types/json-bigint": "^1.0.2",
     "@vitejs/plugin-vue": "^4.4.0",
     "@vue/eslint-config-typescript": "^12.0.0",
     "@vue/tsconfig": "^0.4.0",

@@ -571,10 +571,6 @@
           "title": "Beautify (Ctrl+ALT+L)",
           "text": "Beautify"
         },
-        "whitespace": {
-          "label": "Use spaces",
-          "title": "Change whitespace to 2 spaces instead of tabs"
-        },
         "wrap_lines": {
           "label": "Wrap lines",
           "title": "Wrap long lines"

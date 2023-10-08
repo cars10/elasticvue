@@ -23,27 +23,11 @@
 
             <q-separator />
 
-            <q-item dense class="q-pt-sm">
-              <q-checkbox v-model="codeEditorStore.useSpaces" size="32px"
-                          dense
-                          :label="t('shared.code_editor.actions.whitespace.label')"
-                          :title="t('shared.code_editor.actions.whitespace.title')" />
-            </q-item>
-            <q-item dense class="q-pb-sm">
+            <q-item dense class="q-py-sm">
               <q-checkbox v-model="codeEditorStore.wrapLines" size="32px"
                           dense
                           :label="t('shared.code_editor.actions.wrap_lines.label')"
                           :title="t('shared.code_editor.actions.wrap_lines.title')" />
-            </q-item>
-
-            <q-separator />
-
-            <q-item>
-              <a href="https://github.com/ajaxorg/ace/wiki/Default-Keyboard-Shortcuts"
-                 rel="nofollow"
-                 target="_blank">
-                {{ t('shared.code_editor.actions.keyboard_shortcuts.text') }}
-              </a>
             </q-item>
           </q-menu>
         </q-btn>
@@ -58,15 +42,15 @@
   import { useCodeEditorStore } from '../../store/codeEditor.ts'
   import CopyButton from './CopyButton.vue'
   import { useTranslation } from '../../composables/i18n'
+  import { KeyBinding } from '@codemirror/view'
 
-  const props = defineProps<{ modelValue: string, commands?: AceAjax.EditorCommand[] }>()
+  const props = defineProps<{ modelValue: string, commands?: KeyBinding[] }>()
   const emit = defineEmits(['update:modelValue'])
   const t = useTranslation()
   const codeEditorStore = useCodeEditorStore()
 
   const editor: Ref<HTMLElement | null> = ref(null)
   const { copyContent, beautifyEditorValue } = useCodeEditor(editor, {
-    readOnly: false,
     initialValue: toRef(props, 'modelValue'),
     commands: props.commands,
     emit
