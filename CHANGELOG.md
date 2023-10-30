@@ -3,10 +3,12 @@
 ## 1.0.0-beta-6
 
 * adds confirm when closing indices, fixes [#153][f153]
+* link rest api docs to current version docs, fixes [#163][f163]
 * fixes index table filter
 * dependency updates
 
 [f153]: https://github.com/cars10/elasticvue/issues/153
+[f163]: https://github.com/cars10/elasticvue/issues/163
 
 ## 1.0.0-beta-5
 
