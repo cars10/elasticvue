@@ -108,7 +108,7 @@ export const useCodeEditor = (editorRef: Ref<HTMLElement | null>, {
   const setEditorValue = (value: string) => {
     if (value === editorValue()) return
 
-    codeMirrorEditor.dispatch({ changes: { from: 0, to: codeMirrorEditor.state.doc.length, insert: value } })
+    codeMirrorEditor.dispatch({ changes: { from: 0, to: codeMirrorEditor.state.doc.length, insert: beautify(value) } })
   }
   const setWrapLines = (value: boolean) => {
     codeMirrorEditor.dispatch({ effects: wrapLines.reconfigure(value ? EditorView.lineWrapping : []) })
