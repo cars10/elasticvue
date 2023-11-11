@@ -4,16 +4,16 @@ code {
   font-family: 'Hack', monospace;
   font-size: 13px;
   padding: .2em .4em;
-  border-radius: $generic-border-radius;
+  border-radius: 4px;
 }
 
 .code-block {
   display: inline-block;
   padding: 5px 6px !important;
+}
 
-  &:before, &:after {
-    content: initial !important;
-  }
+.code-block:before, .code-block:after {
+  content: initial !important;
 }
 
 .code-comment {

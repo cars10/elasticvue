@@ -4,12 +4,50 @@ import { KeyBinding, keymap } from '@codemirror/view'
 import { Compartment } from '@codemirror/state'
 import { indentWithTab } from '@codemirror/commands'
 import { json } from '@codemirror/lang-json'
-import { basicLight } from 'cm6-theme-basic-light'
-import { materialDark } from 'cm6-theme-material-dark'
+import { baseTheme } from './CodeEditor/theme.ts'
 import { beautify } from '../helpers/beautify.ts'
 import { writeToClipboard } from '../helpers/clipboard.ts'
 import { useCodeEditorStore } from '../store/codeEditor.ts'
-import { useThemeStore } from '../store/theme.ts'
+
+import { syntaxTree } from '@codemirror/language'
+import { autocompletion } from '@codemirror/autocomplete'
+import { queryKeywords, queryValues } from '../autocomplete.ts'
+
+/*
+ JsonText
+ {
+ [
+ Object
+ PropertyName
+ Property
+ String
+ */
+const completions = (context: any) => {
+  const word = context.matchBefore(/\w*/)
+  const nodeBefore = syntaxTree(context.state).resolveInner(context.pos, -1)
+  if (nodeBefore.name === 'Property') {
+    return {
+      from: word?.from,
+      options: [
+        ...queryValues.map(w => ({ label: w, type: 'text', apply: `"${w}"` })),
+      ]
+    }
+  } else if (nodeBefore.name === 'String') {
+    return {
+      from: word?.from,
+      options: [
+        ...queryValues.map(w => ({ label: w, type: 'text', apply: w }))
+      ]
+    }
+  } else {
+    return {
+      from: word?.from,
+      options: [
+        ...queryKeywords.map(w => ({ label: w, type: 'keyword', apply: `"${w}"` })),
+      ]
+    }
+  }
+}
 
 export const useCodeEditor = (editorRef: Ref<HTMLElement | null>, {
   initialValue,
@@ -20,7 +58,6 @@ export const useCodeEditor = (editorRef: Ref<HTMLElement | null>, {
   emit?: any,
   commands?: KeyBinding[]
 }) => {
-  const themeStore = useThemeStore()
   const codeEditorStore = useCodeEditorStore()
 
   let codeMirrorEditor: EditorView = <EditorView>{}
@@ -43,12 +80,13 @@ export const useCodeEditor = (editorRef: Ref<HTMLElement | null>, {
       extensions: [
         basicSetup,
         json(),
+        autocompletion({ override: [completions] }),
         onChange,
         keymap.of([indentWithTab]),
         keymap.of(commands || []),
         keymap.of([{ key: 'Ctrl-Alt-l', mac: 'Ctrl-Cmd-l', run: beautifyEditorValue }]),
         wrapLines.of(codeEditorStore.wrapLines ? EditorView.lineWrapping : []),
-        theme.of(themeStore.dark ? materialDark : basicLight)
+        theme.of(baseTheme)
       ],
       parent: editorRef.value,
       doc: beautify(initialValue.value),
@@ -76,10 +114,6 @@ export const useCodeEditor = (editorRef: Ref<HTMLElement | null>, {
     codeMirrorEditor.dispatch({ effects: wrapLines.reconfigure(value ? EditorView.lineWrapping : []) })
   }
   watch(() => codeEditorStore.wrapLines, setWrapLines)
-  const setTheme = (value: boolean) => {
-    codeMirrorEditor.dispatch({ effects: theme.reconfigure(value ? materialDark : basicLight) })
-  }
-  watch(() => themeStore.dark, setTheme)
 
   return {
     copyContent,

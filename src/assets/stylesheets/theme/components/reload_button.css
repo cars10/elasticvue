@@ -1,0 +1,16 @@
+.reload-button {
+  margin-left: 12px;
+}
+
+.reload-button .q-field--auto-height .q-field__control, .reload-button .q-field--auto-height .q-field__native {
+  height: initial !important;
+  min-height: 36px !important;
+}
+
+.reload-button .q-field__marginal {
+  height: initial !important;
+}
+
+.reload-button .q-field__after, .reload-button .q-field__append {
+  padding-left: 2px !important;
+}

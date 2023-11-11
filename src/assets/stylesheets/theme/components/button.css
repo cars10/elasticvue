@@ -1,0 +1,8 @@
+button.btn-link {
+    background: none !important;
+    border: none;
+    text-decoration: underline;
+    cursor: pointer;
+    color: var(--theme-primary);
+    min-height: initial;
+}
