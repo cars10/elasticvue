@@ -6,7 +6,7 @@
     "dev": "vite",
     "build": "vite build",
     "tsc": "tsc --noEmit && vue-tsc",
-    "lint": "eslint --ext .js,.vue,.ts src",
+    "lint": "eslint --ext .js,.vue,.ts src --fix",
     "test:unit": "vitest run tests/unit",
     "test:e2e": "playwright test --project=chromium",
     "test:e2e:all": "playwright test",
