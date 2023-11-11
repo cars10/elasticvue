@@ -4,11 +4,14 @@
 
 * adds confirm when closing indices, fixes [#153][f153]
 * link rest api docs to current version docs, fixes [#163][f163]
+* sort shards by health, fixes [#161][i161]
 * fixes index table filter
+* replaces `ace` editor with `codemirror-6`
 * dependency updates
 
 [f153]: https://github.com/cars10/elasticvue/issues/153
 [f163]: https://github.com/cars10/elasticvue/issues/163
+[i161]: https://github.com/cars10/elasticvue/issues/161
 
 ## 1.0.0-beta-5
 
