@@ -60,7 +60,7 @@
         "remove_cluster": {
           "confirm": "Remove cluster '{name}' ({uri})?"
         },
-        "unsupported": "Elasticsearch '{majorVersion}' is not supported by elasticvue. Only versions {supportedVersions} are supported. You may encounter bugs and limited functionality."
+        "unsupported": "Elasticsearch {majorVersion} is EOL and not fully supported by elasticvue. You may encounter bugs and limited functionality."
       }
     },
     "edit_cluster": {
@@ -150,6 +150,7 @@
         },
         "close": {
           "text": "Close index | Close index | Close {count} indices",
+          "confirm": "Close index '{index}'?",
           "growl": "The index '{index}' cache was successfully closed."
         },
         "open": {
@@ -569,10 +570,6 @@
         "beautify": {
           "title": "Beautify (Ctrl+ALT+L)",
           "text": "Beautify"
-        },
-        "whitespace": {
-          "label": "Use spaces",
-          "title": "Change whitespace to 2 spaces instead of tabs"
         },
         "wrap_lines": {
           "label": "Wrap lines",

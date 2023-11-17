@@ -16,7 +16,7 @@
         <q-route-tab id="shards" :label="t('base.app_header.navigation.shards')" :to="{name: 'shards'}"
                      :ripple="false" />
         <q-route-tab id="indices" :label="t('base.app_header.navigation.indices')" :to="{name: 'indices'}"
-                     data-testid="header-indices" :ripple="false" />
+                     :ripple="false" />
         <q-route-tab id="search" :label="t('base.app_header.navigation.search')" :to="{name: 'search'}"
                      :ripple="false" />
         <q-route-tab id="rest" :label="t('base.app_header.navigation.rest')" :to="{name: 'rest'}" :ripple="false" />

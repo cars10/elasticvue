@@ -6,7 +6,7 @@
           <q-card v-if="data" class="full-height" data-testid="cluster-status">
             <q-card-section>
               <h3 class="text-h6 q-my-none">{{ data.cluster_name }}</h3>
-              <span class="text-muted font-13">{{ connectionStore.activeCluster?.uuid }}</span>
+              <span class="text-muted font-13 word-break-all">{{ connectionStore.activeCluster?.uuid }}</span>
             </q-card-section>
             <q-card-section class="items-center justify-between flex">
               <div :class="`text-h6 inline-block health--${data.status}`">

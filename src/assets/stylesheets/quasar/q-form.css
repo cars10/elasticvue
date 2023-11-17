@@ -1,8 +1,8 @@
-.q-field__control, {
+.q-field__control {
   color: var(--theme-primary);
 }
 
-.q-field__marginal, {
+.q-field__marginal {
   color: var(--theme-muted-color);
 }
 
@@ -22,14 +22,12 @@
   border-color: var(--theme-dark-grey-color);
 }
 
-.q-field.q-field--standard.q-field--highlighted {
-  .q-field__label {
-    color: var(--theme-primary) !important;
-  }
+.q-field.q-field--standard.q-field--highlighted .q-field__label {
+  color: var(--theme-primary) !important;
 }
 
 .q-field__bottom {
-  @extend .text-muted;
+  color: var(--theme-muted-color) !important;
   padding: 2px 0 0 0;
 }
 
@@ -46,5 +44,5 @@
 }
 
 .q-radio__inner {
-  color: var(--theme-muted-color)
+  color: var(--theme-muted-color);
 }

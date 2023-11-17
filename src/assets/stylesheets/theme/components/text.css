@@ -29,3 +29,7 @@ body {
 .clickable:hover {
   cursor: pointer
 }
+
+.word-break-all {
+  word-break: break-all;
+}

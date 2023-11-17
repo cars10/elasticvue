@@ -1,4 +1,4 @@
-export const VERSION_NAME = 'beta-5'
+export const VERSION_NAME = 'beta-6'
 export const SUPPORTED_MAJOR_VERSIONS = ['6', '7', '8']
 export const REQUEST_DEFAULT_HEADERS = {
   Accept: 'application/json',

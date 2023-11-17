@@ -53,7 +53,7 @@
                        v-model="ownTab.request.body"
                        :commands="editorCommands" />
         </div>
-        <div class="col-7 q-pl-sm">
+        <div class="col-6 q-pl-sm full-height">
           <code-viewer :value="ownTab.response.bodyText" />
         </div>
       </div>
@@ -133,8 +133,10 @@
   }, 50)
 
   const editorCommands = [{
-    bindKey: { win: 'Ctrl+ENTER', mac: 'Command+ENTER' },
-    exec: sendRequest
+    key: 'Alt-Enter', mac: 'Cmd-Enter', run: () => {
+      sendRequest()
+      return true
+    }
   }]
 
   const generateDownloadData = () => (ownTab.value.response.bodyText)

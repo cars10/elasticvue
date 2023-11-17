@@ -18,9 +18,7 @@
   fill: grey !important;
 }
 
-.theme--dark {
-  .health--green {
-    color: #4caf50 !important;
-    fill: #4caf50 !important;
-  }
+.theme--dark .health--green {
+  color: #4caf50 !important;
+  fill: #4caf50 !important;
 }

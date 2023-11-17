@@ -5,7 +5,7 @@
         <h1 class="text-h5 q-my-none">
           {{ t('query.heading') }}
         </h1>
-        <q-btn href="https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html"
+        <q-btn :href="`https://www.elastic.co/guide/en/elasticsearch/reference/${clusterMinor}/index.html`"
                flat
                class="q-ml-md"
                icon="launch"
@@ -53,7 +53,7 @@
 </template>
 
 <script setup lang="ts">
-  import { Ref, ref, toRaw } from 'vue'
+  import { computed, Ref, ref, toRaw } from 'vue'
   import { useIdbStore } from '../../db/Idb.ts'
   import { useTranslation } from '../../composables/i18n'
   import RestQueryExamples from './RestQueryExamples.vue'
@@ -61,17 +61,10 @@
   import RestQuerySavedQueriesList from './RestQuerySavedQueriesList.vue'
   import RestQueryFormTabs from './RestQueryFormTabs.vue'
   import { IdbRestQueryTabRequest } from '../../db/types.ts'
+  import { useConnectionStore } from '../../store/connection.ts'
 
-  const migrateTabs = async () => {
-    const { restQueryTabs } = useIdbStore()
-    const tabs = await restQueryTabs.getAll()
-    for await (const tab of tabs) {
-      if (!tab.response) {
-        await restQueryTabs.update(Object.assign({}, toRaw(tab), { response: { status: '', ok: false, bodyText: '' } }))
-      }
-    }
-  }
-  migrateTabs()
+  const { activeCluster } = useConnectionStore()
+  const clusterMinor = computed(() => (activeCluster?.version?.split('.')?.slice(0, 2)?.join('.')))
 
   const t = useTranslation()
   const { restQueryTabs } = useIdbStore()
@@ -95,7 +88,10 @@
     if (!activeTab) return
 
     const { id, label, name } = activeTab
-    const obj = Object.assign({}, { id, label, name }, { request: toRaw(request), response: { status: '', ok: false, bodyText: '' } })
+    const obj = Object.assign({}, { id, label, name }, {
+      request: toRaw(request),
+      response: { status: '', ok: false, bodyText: '' }
+    })
     await restQueryTabs.update(obj)
   }
 
