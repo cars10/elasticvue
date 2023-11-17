@@ -33,7 +33,7 @@
 
     <resizable-container v-model="resizeStore.restForm" class="q-mb-md">
       <div class="row q-my-md full-height">
-        <div class="col-6 q-pr-sm full-height">
+        <div class="col-5 q-pr-sm full-height">
           <q-banner v-show="['GET', 'HEAD'].includes(ownTab.request.method)" class="bg-dark-grey q-pa-md">
             <template #avatar>
               <q-icon name="info" />
@@ -53,7 +53,7 @@
                        v-model="ownTab.request.body"
                        :commands="editorCommands" />
         </div>
-        <div class="col-6 q-pl-sm">
+        <div class="col-7 q-pl-sm">
           <code-viewer :value="ownTab.response.bodyText" />
         </div>
       </div>
