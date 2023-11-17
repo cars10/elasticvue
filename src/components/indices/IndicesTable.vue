@@ -23,6 +23,10 @@
               <q-checkbox v-model="indicesStore.stickyTableHeader" size="32px"
                           :label="t('indices.indices_table.sticky_table_header.label')" />
             </q-item>
+            <q-item style="padding-left: 0">
+              <q-checkbox v-model="indicesStore.indicesWithoutReplica" size="32px"
+                          :label="t('indices.indices_table.indices_without_replica.label')" />
+            </q-item>
           </q-list>
         </q-menu>
       </q-btn>

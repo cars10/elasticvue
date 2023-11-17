@@ -53,7 +53,7 @@
                        v-model="ownTab.request.body"
                        :commands="editorCommands" />
         </div>
-        <div class="col-6 q-pl-sm full-height">
+        <div class="col-7 q-pl-sm full-height">
           <code-viewer :value="ownTab.response.bodyText" />
         </div>
       </div>

@@ -176,6 +176,9 @@
       "sticky_table_header": {
         "label": null
       },
+      "indices_without_replica": {
+        "label": "没有副本的索引"
+      },
       "table": {
         "headers": {
           "name": "名称",

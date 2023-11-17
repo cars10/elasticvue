@@ -176,6 +176,9 @@
       "sticky_table_header": {
         "label": "Sticky table header"
       },
+      "indices_without_replica": {
+        "label": "Indices without replica"
+      },
       "table": {
         "headers": {
           "name": "Name",

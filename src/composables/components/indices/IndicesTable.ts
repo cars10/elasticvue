@@ -49,6 +49,10 @@ export const useIndicesTable = (props: EsTableProps, emit: any) => {
       results = results.filter((item: any) => !item.index.match(new RegExp(indicesStore.hideIndicesRegex)))
     }
 
+    if (indicesStore.indicesWithoutReplica) {
+      results = results.filter((item: any) => item.rep === '0')
+    }
+
     results = filterItems(results, filter.value, ['index', 'uuid'])
     items.value = results.map((index: any) => new ElasticsearchIndex(index))
   }
@@ -56,6 +60,7 @@ export const useIndicesTable = (props: EsTableProps, emit: any) => {
   const debouncedFilterTable = debounce(filterTable, 150)
   watch(() => filter.value, debouncedFilterTable)
   watch(() => indicesStore.showHiddenIndices, filterTable)
+  watch(() => indicesStore.indicesWithoutReplica, filterTable)
   watch(() => props.indices, filterTable)
   watch(() => indicesStore.stickyTableHeader, () => (tableKey.value += 1))
 
