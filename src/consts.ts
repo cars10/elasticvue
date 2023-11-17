@@ -34,6 +34,62 @@ export const DEFAULT_CLUSTER_URI = 'http://localhost:9200'
 
 export const REST_QUERY_EXAMPLES = [
   {
+    description: 'Get health status of a cluster',
+    method: 'GET',
+    path: '_cluster/health',
+    body: '',
+    doc: ''
+  },
+  {
+    description: 'Explain allocation',
+    method: 'GET',
+    path: '_cluster/allocation/explain',
+    body: '',
+    doc: ''
+  },
+  {
+    description: 'Get cluster settings',
+    method: 'GET',
+    path: '_cluster/settings?include_defaults',
+    body: '',
+    doc: ''
+  },
+  {
+    description: 'Clean all cache',
+    method: 'POST',
+    path: '_cache/clear',
+    body: '',
+    doc: ''
+  },
+  {
+    description: 'Retry changing the allocation of shards',
+    method: 'POST',
+    path: '_cluster/reroute?retry_failed=true',
+    body: '',
+    doc: ''
+  },
+  {
+    description: 'Get memory usage',
+    method: 'GET',
+    path: '_cat/nodes?h=name,heapCurrent,fielddataMemory,queryCacheMemory,requestCacheMemory,segmentsMemory&v',
+    body: '',
+    doc: ''
+  },
+  {
+    description: 'Get fieldata memory usage of each index',
+    method: 'GET',
+    path: '_stats/fieldata?fields=*',
+    body: '',
+    doc: ''
+  },
+  {
+    description: 'Get JVM usage',
+    method: 'GET',
+    path: '_nodes/stats/jvm?human',
+    body: '',
+    doc: ''
+  },
+  {
     description: 'Returns high-level information about indices in a cluster',
     method: 'GET',
     path: '_cat/indices',
@@ -41,39 +97,12 @@ export const REST_QUERY_EXAMPLES = [
     doc: 'https://www.elastic.co/guide/en/elasticsearch/reference/current/cat-indices.html'
   },
   {
-    description: 'Retrieves the cluster’s index aliases, including filter and routing information',
-    method: 'GET',
-    path: '_cat/aliases',
-    body: '',
-    doc: 'https://www.elastic.co/guide/en/elasticsearch/reference/current/cat-aliases.html'
-  },
-  {
-    description: 'The shards command is the detailed view of what nodes contain which shards',
-    method: 'GET',
-    path: '_cat/shards',
-    body: '',
-    doc: 'https://www.elastic.co/guide/en/elasticsearch/reference/current/cat-shards.html'
-  },
-  {
-    description: 'Performs multiple indexing or delete operations in a single API call',
-    method: 'POST',
-    path: '_bulk',
-    body: '{ "index" : { "_index" : "test", "_id" : "1" } }\n' +
-        '{ "field1" : "value1" }\n' +
-        '{ "delete" : { "_index" : "test", "_id" : "2" } }\n' +
-        '{ "create" : { "_index" : "test", "_id" : "3" } }\n' +
-        '{ "field1" : "value3" }\n' +
-        '{ "update" : {"_id" : "1", "_index" : "test"} }\n' +
-        '{ "doc" : {"field2" : "value2"} }\n' +
-        '',
-    doc: 'https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-bulk.html'
-  },
-  {
-    description: 'Create an API key with 1d expiration',
-    method: 'POST',
-    path: '_security/api_key',
-    body: '{"name": "my-api-key","expiration": "1d"}',
-    doc: 'https://www.elastic.co/guide/en/elasticsearch/reference/current/security-api-create-api-key.html'
+    description: 'Disallow replica shard allocation',
+    method: 'PUT',
+    path: '_cluster/settings',
+    body: '{"persistent": {"cluster.routing.allocation.enable": "primaries" } }',
+    doc: ''
+
   },
   {
     description: 'Flush all indices to disk',
@@ -83,31 +112,10 @@ export const REST_QUERY_EXAMPLES = [
     doc: 'https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-flush.html'
   },
   {
-    description: 'Reloads the keystore on nodes in the cluster.',
-    method: 'POST',
-    path: '_nodes/reload_secure_settings',
-    body: '',
-    doc: 'https://www.elastic.co/guide/en/elasticsearch/reference/current/cluster-nodes-reload-secure-settings.html'
-  },
-  {
-    description: 'Create a simple index named "example_test_index"',
-    method: 'PUT',
-    path: 'example_test_index',
-    body: '{"settings": {"index": {"number_of_shards": 2,"number_of_replicas": 1}}}',
-    doc: 'https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-create-index.html'
-  },
-  {
     description: 'Set all indices to writable',
     method: 'PUT',
     path: '_all/settings',
     body: '{"index": {"blocks": {"read_only_allow_delete": "false" } } }',
     doc: 'https://www.elastic.co/guide/en/elasticsearch/reference/current/index-modules-blocks.html'
-  },
-  {
-    description: 'Delete an index named "example_test_index".',
-    method: 'DELETE',
-    path: 'example_test_index',
-    body: '',
-    doc: 'https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-delete-index.html'
   }
 ]
