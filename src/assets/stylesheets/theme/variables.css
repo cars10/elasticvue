@@ -24,7 +24,7 @@
   --code-editor-gutter-background: #f0f0f0;
   --code-editor-gutter-color: #333;
   --code-editor-gutter-border-color: #f0f0f0;
-  --code-editor-active-line-background: #ddd;
+  --code-editor-active-line-background: #cceeff44;
   --code-editor-search-selected-background: #555;
   --code-editor-button-background: var(--theme-dark-grey-background);
   --code-editor-button-hover-background: #535353;
