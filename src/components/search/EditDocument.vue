@@ -1,5 +1,5 @@
 <template>
-  <q-dialog v-model="ownValue">
+  <q-dialog v-model="ownValue" @show="triggerResize">
     <q-card style="width: 1000px; max-width: 1000px;">
       <q-card-section class="flex justify-between">
         <div class="flex">
@@ -49,6 +49,8 @@
   const emit = defineEmits(['reload', 'update:modelValue'])
   const resizeStore = useResizeStore()
   const t = useTranslation()
+
+  const triggerResize = () => (window.dispatchEvent(new Event('resize')))
 
   const {
     document,
