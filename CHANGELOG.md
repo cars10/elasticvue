@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.0-beta-7
+* don't create duplicates in rest history when sending the same request again, fixes [#162][i162]
+
+[i162]: https://github.com/cars10/elasticvue/issues/162
+
 ## 1.0.0-beta-6
 
 * adds confirm when closing indices, fixes [#153][f153]
