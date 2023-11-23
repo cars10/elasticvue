@@ -1,16 +1,34 @@
 import { test, expect } from '@playwright/test'
 import { setupClusterConnection } from '../../helpers'
-import { mockElastic } from '../../mocks/api'
+import { withElastic } from '../../mocks'
 
-test.describe('Indices', () => {
-  test('shows a list of indices', async ({ page }) => {
-    await mockElastic(page)
-    await setupClusterConnection(page)
-    await page.getByTestId('header-indices').click()
-    const table = await page.getByTestId('indices-table')
+const setup = async (page: any, mockElastic: any) => {
+  await mockElastic(page)
+  await setupClusterConnection(page)
+  await page.locator('#indices').click()
+  return page.getByTestId('indices-table')
+}
 
-    await expect(table).toContainText('bignumbers')
-    await expect(table).toContainText('geMVtqdZQYO04aguNpL9rQ')
-    await expect(table).toContainText('dirkinator')
+withElastic(({ mockElastic, elastic }) => {
+  test.describe(`elasticsearch ${elastic.version}`, () => {
+    test.describe('Indices', () => {
+      test('shows a list of indices', async ({ page }) => {
+        const table = await setup(page, mockElastic)
+
+        await expect(table).toContainText('movies')
+        await expect(table).toContainText('omdb')
+      })
+
+      test('can filter indices', async ({ page }) => {
+        const table = await setup(page, mockElastic)
+
+        await expect(table).toContainText('movies')
+        await expect(table).toContainText('omdb')
+
+        page.locator('input[name="filter"]').fill('movies')
+        await expect(table).toContainText('movies')
+        await expect(table).not.toContainText('omdb')
+      })
+    })
   })
 })

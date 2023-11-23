@@ -150,6 +150,7 @@
         },
         "close": {
           "text": "关闭索引",
+          "confirm": null,
           "growl": "索引 '{index}' 缓存已成功关闭。"
         },
         "open": {
@@ -569,10 +570,6 @@
         "beautify": {
           "title": "格式化 (Ctrl+ALT+L)",
           "text": "格式化"
-        },
-        "whitespace": {
-          "label": "使用空格",
-          "title": "将空格改为 2 个空格而不是制表符"
         },
         "wrap_lines": {
           "label": "换行",

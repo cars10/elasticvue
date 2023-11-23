@@ -511,7 +511,7 @@ exports.mock = async page => {
     }
   }
 
-  const indices = ['movies', 'movies', 'imdb', 'actors', 'genres', 'scenes', 'sales', 'products', 'categories', 'tweets']
+  const indices = ['mentions', 'movies', 'imdb', 'actors', 'genres', 'scenes', 'sales', 'products', 'categories', 'tweets']
 
   for (const idx of indices) {
     // shards

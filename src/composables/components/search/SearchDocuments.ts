@@ -11,7 +11,7 @@ export type EsSearchResult = {
 }
 
 type EsSearchResultHits = {
-  total: EsSearchResultsHitsValues,
+  total: EsSearchResultsHitsValues | number,
   hits?: any
 }
 
@@ -39,7 +39,8 @@ export const useSearchDocuments = () => {
 
     try {
       searchResults.value = await callElasticsearch('search', query, searchStore.indices)
-      searchStore.pagination.rowsNumber = searchResults.value.hits?.total?.value
+      const total = searchResults.value.hits?.total
+      searchStore.pagination.rowsNumber = typeof total === 'number' ? total : total.value
     } catch (e) {
       console.error(e)
       searchResults.value = { hits: { total: { value: 0 } } }
@@ -69,8 +70,10 @@ export const useSearchDocuments = () => {
   }
 
   const editorCommands = [{
-    bindKey: { win: 'Ctrl+ENTER', mac: 'Command+ENTER' },
-    exec: search
+    key: 'Alt-Enter', mac: 'Cmd-Enter', run: () => {
+      search()
+      return true
+    }
   }]
 
   return {

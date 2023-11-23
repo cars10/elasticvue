@@ -1,6 +1,8 @@
 import { ConnectionState } from '../store/connection.ts'
 import { ThemeState } from '../store/theme.ts'
 import { I18nState } from '../store/i18n.ts'
+import { useIdbStore } from '../db/Idb.ts'
+import { toRaw } from 'vue'
 
 type PiniaData = {
   theme?: ThemeState
@@ -33,6 +35,16 @@ export const migrateVuexData = (data: string): PiniaData => {
   return newData
 }
 
+const migrateTabs = async () => {
+  const { restQueryTabs } = useIdbStore()
+  const tabs = await restQueryTabs.getAll()
+  for await (const tab of tabs) {
+    if (!tab.response) {
+      await restQueryTabs.update(Object.assign({}, toRaw(tab), { response: { status: '', ok: false, bodyText: '' } }))
+    }
+  }
+}
+
 export const migrate = () => {
   if (localStorage.getItem('connection')) return
 
@@ -43,4 +55,5 @@ export const migrate = () => {
   Object.entries(migrated).forEach(([key, value]) => {
     localStorage.setItem(key, JSON.stringify(value))
   })
+  migrateTabs()
 }

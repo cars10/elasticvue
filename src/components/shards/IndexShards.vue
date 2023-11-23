@@ -31,7 +31,7 @@
   const load = async () => {
     const indices: EsShardIndex[] = await callElasticsearch('catIndices', {
       h: ['index', 'health', 'pri', 'rep', 'status'],
-      s: ['index']
+      s: ['health:desc', 'index']
     })
     const rawShards: EsShard[] = await callElasticsearch('catShards', CAT_METHOD_PARAMS)
 

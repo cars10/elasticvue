@@ -12,13 +12,12 @@
 
   const icon = ref('content_copy')
   const copy = () => {
-    if (!props.value) return
     icon.value = 'done'
 
     if (props.customHandler) {
       props.customHandler.call()
     } else {
-      writeToClipboard(props.value)
+      if (props.value) writeToClipboard(props.value)
     }
     setTimeout(() => {
       icon.value = 'content_copy'
