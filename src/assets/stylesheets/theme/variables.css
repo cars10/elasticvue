@@ -24,7 +24,8 @@
   --code-editor-gutter-background: #f0f0f0;
   --code-editor-gutter-color: #333;
   --code-editor-gutter-border-color: #f0f0f0;
-  --code-editor-active-line-background: #cceeff44;
+  --code-editor-active-line-background: rgba(204, 238, 255, 0.48);
+  --code-editor-selection-background: #bbb;
   --code-editor-search-selected-background: #555;
   --code-editor-button-background: var(--theme-dark-grey-background);
   --code-editor-button-hover-background: #535353;
@@ -67,7 +68,8 @@
   --code-editor-gutter-background: #25282c;
   --code-editor-gutter-color: #ccc;
   --code-editor-gutter-border-color: #4f5b66;
-  --code-editor-active-line-background: rgba(18, 18, 18, 0.8);
+  --code-editor-active-line-background: rgba(18, 18, 18, 0.5);
+  --code-editor-selection-background: #333;
   --code-editor-search-selected-background: #555;
   --code-editor-button-background: var(--theme-dark-grey-background);
   --code-editor-button-hover-background: #535353;
@@ -77,7 +79,7 @@
   --code-editor-tooltip-background: var(--theme-menu-background);
   --code-editor-tooltip-color: #fff;
   --code-editor-tooltip-selected-background: #545b61;
-  --code-editor-syntax-property-name-color: #BA68C8;
+  --code-editor-syntax-property-name-color: #c06ccf;
   --code-editor-syntax-keyword-color: #EF5350;
   --code-editor-syntax-bool-color: #FFA726;
   --code-editor-syntax-number-color: #29e0c5;

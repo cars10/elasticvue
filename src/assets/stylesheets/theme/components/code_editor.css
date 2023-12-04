@@ -103,6 +103,10 @@
   background: transparent;
 }
 
+.cm-editor .cm-selectionBackground {
+  background: var(--code-editor-selection-background) !important;
+}
+
 .cm-editor.cm-focused .cm-matchingBracket {
   outline: 1px solid var(--code-editor-bracket-outline-color);
   background: transparent;
