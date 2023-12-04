@@ -41,6 +41,7 @@
 .cm-editor .cm-textfield {
   font-size: 100%;
   border-radius: 3px;
+  color: #222;
 }
 
 .cm-editor .cm-button {
