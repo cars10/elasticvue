@@ -132,7 +132,10 @@ export default class ElasticsearchAdapter {
   }
 
   reindex ({ source, dest }: { source: string, dest: string }) {
-    return this.request('_reindex', 'POST', { source: { index: source }, dest: { index: dest } })
+    return this.request('_reindex?wait_for_completion=false', 'POST', {
+      source: { index: source },
+      dest: { index: dest }
+    })
   }
 
   catNodes (params: object) {
