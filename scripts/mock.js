@@ -384,7 +384,7 @@ exports.mock = async page => {
       json: []
     },
     indexIndices: {
-      url: 'http://localhost:9200/_cat/indices/?h=index%2Chealth%2Cstatus%2Cuuid%2Cpri%2Crep%2Cdocs.count%2Cstore.size&bytes=b',
+      url: 'http://localhost:9200/_cat/indices/?h=index%2Chealth%2Cstatus%2Cuuid%2Cpri%2Crep%2Cdocs.count%2Cstore.size%2Csc&bytes=b',
       json: []
     },
     flush: {
@@ -532,6 +532,7 @@ exports.mock = async page => {
       'uuid': randomId(),
       'pri': '1',
       'rep': '1',
+      'sc': '1',
       'docs.count': docs.toString(),
       'store.size': (docs * 1024 * 10).toString()
     })
@@ -548,6 +549,7 @@ exports.mock = async page => {
       'uuid': randomId(),
       'pri': '1',
       'rep': '1',
+      'sc': '1',
       'docs.count': (Math.random() * 10000).toString(),
       'store.size': (Math.random() * 1000000).toString()
     })
