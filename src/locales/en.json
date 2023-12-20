@@ -184,6 +184,7 @@
           "uuid": "UUID",
           "aliases": "Aliases",
           "shards": "Shards",
+          "segments": "Segments",
           "docs": "Lucene docs",
           "storage": "Storage",
           "parsed_docs_count": {

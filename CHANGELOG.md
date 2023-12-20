@@ -2,8 +2,10 @@
 
 ## 1.0.0-beta-7
 * don't create duplicates in rest history when sending the same request again, fixes [#162][i162]
+* show number of segments in indices table, fixes [#171][i171]
 
 [i162]: https://github.com/cars10/elasticvue/issues/162
+[i171]: https://github.com/cars10/elasticvue/issues/171
 
 ## 1.0.0-beta-6
 

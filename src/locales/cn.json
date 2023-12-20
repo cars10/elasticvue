@@ -184,6 +184,7 @@
           "uuid": "UUID",
           "aliases": "别名",
           "shards": "分片",
+          "segments": null,
           "docs": "Lucene 文档",
           "storage": "储存空间",
           "parsed_docs_count": {

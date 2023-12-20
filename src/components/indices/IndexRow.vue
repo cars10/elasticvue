@@ -37,6 +37,9 @@
       </div>
     </td>
     <td class="text-right">
+      {{ index.parsedSegmentsCount }}
+    </td>
+    <td class="text-right">
       {{ index.parsedDocsCount }}
     </td>
     <td class="text-right">

@@ -13,12 +13,14 @@ export default class ElasticsearchIndex {
   storeSize: string
   parsedStoreSize: number | string
   humanStoreSize: string
+  parsedSegmentsCount: number | string
 
   constructor (options: EsIndex) {
     this.index = options.index
     this.health = options.health
     this.status = options.status
     this.uuid = options.uuid
+    this.parsedSegmentsCount = parseIntValue(options.sc)
     this.pri = options.pri
     this.parsedPri = parseIntValue(options.pri)
     this.rep = options.rep
