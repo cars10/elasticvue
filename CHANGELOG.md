@@ -1,11 +1,16 @@
 # Changelog
 
 ## 1.0.0-beta-7
+
 * don't create duplicates in rest history when sending the same request again, fixes [#162][i162]
 * show number of segments in indices table, fixes [#171][i171]
+* show node attributes, fixes [#169][i169]
 
 [i162]: https://github.com/cars10/elasticvue/issues/162
+
 [i171]: https://github.com/cars10/elasticvue/issues/171
+
+[i169]: https://github.com/cars10/elasticvue/issues/169
 
 ## 1.0.0-beta-6
 
@@ -18,7 +23,9 @@
 * dependency updates
 
 [f153]: https://github.com/cars10/elasticvue/issues/153
+
 [f163]: https://github.com/cars10/elasticvue/issues/163
+
 [i161]: https://github.com/cars10/elasticvue/issues/161
 
 ## 1.0.0-beta-5

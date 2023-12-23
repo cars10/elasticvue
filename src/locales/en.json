@@ -253,6 +253,7 @@
       "id": "id",
       "master": "master",
       "node_role": "node.role",
+      "attr": "attributes",
       "load": "load",
       "cpu": "cpu",
       "ram": "ram",
@@ -452,6 +453,11 @@
     "hide_indices_regex": {
       "label": "Hide indices regex",
       "message": "Indices matching this regex will be hidden by default on all places where indices are listed",
+      "reset": "Reset to default {regex}"
+    },
+    "hide_nodes_attributes_regex": {
+      "label": "Hide node attributes regex",
+      "message": "Node attributes matching this regex will be hidden by default on the nodes overview",
       "reset": "Reset to default {regex}"
     },
     "localize_timestamp": {

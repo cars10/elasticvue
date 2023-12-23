@@ -2,12 +2,12 @@ import { Page } from '@playwright/test'
 
 export const mockElasticNodes = async (page: Page) => {
   const mocks = {
-    ping: {
-      url: 'http://localhost:9200/_cat/nodes?h=ip%2Cid%2Cname%2Cheap.percent%2Cheap.current%2Cheap.max%2Cram.percent%2Cram.current%2Cram.max%2Cnode.role%2Cmaster%2Ccpu%2Cload_1m%2Cload_5m%2Cload_15m%2Cdisk.used_percent%2Cdisk.used%2Cdisk.total',
+    catNodes: {
+      url: 'http://localhost:9200/_cat/nodes?h=ip%2Cid%2Cname%2Cheap.percent%2Cheap.current%2Cheap.max%2Cram.percent%2Cram.current%2Cram.max%2Cnode.role%2Cmaster%2Ccpu%2Cload_1m%2Cload_5m%2Cload_15m%2Cdisk.used_percent%2Cdisk.used%2Cdisk.total&full_id=true',
       json: [
         {
           'ip': '192.168.112.2',
-          'id': 'WmKA',
+          'id': '80VY7GdJQ266bnC3oX_gSw',
           'name': 'es-5-node-1',
           'heap.percent': '21',
           'heap.current': '431.2mb',
@@ -27,6 +27,23 @@ export const mockElasticNodes = async (page: Page) => {
         }
       ],
     },
+    nodes: {
+      url: 'http://localhost:9200/_nodes',
+      json: {
+        'nodes': {
+          '80VY7GdJQ266bnC3oX_gSw': {
+            'settings': {
+              'node': {
+                'attr': {
+                  'datacenter': 'es5'
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
   }
 
   for (const method in mocks) {

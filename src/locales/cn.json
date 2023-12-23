@@ -253,6 +253,7 @@
       "id": null,
       "master": "主节点",
       "node_role": "节点角色",
+      "attr": null,
       "load": "负载",
       "cpu": "CPU",
       "ram": "内存",
@@ -453,6 +454,11 @@
       "label": "隐藏索引正则表达式",
       "message": "与此正则表达式匹配的索引将默认隐藏在所有列出索引的位置",
       "reset": "重置为默认 {regex}"
+    },
+    "hide_nodes_attributes_regex": {
+      "label": null,
+      "message": null,
+      "reset": null
     },
     "localize_timestamp": {
       "label": null

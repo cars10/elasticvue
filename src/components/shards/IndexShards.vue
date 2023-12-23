@@ -28,11 +28,10 @@
   const shards: Ref<TableShards> = ref({} as TableShards)
 
   const { requestState, callElasticsearch } = useElasticsearchAdapter()
+  const catIndicesArgs = { h: ['index', 'health', 'pri', 'rep', 'status'], s: ['health:desc', 'index'] }
+
   const load = async () => {
-    const catIndices = callElasticsearch('catIndices', {
-      h: ['index', 'health', 'pri', 'rep', 'status'],
-      s: ['health:desc', 'index']
-    })
+    const catIndices = callElasticsearch('catIndices', catIndicesArgs)
     const catShards = callElasticsearch('catShards', CAT_METHOD_PARAMS)
 
     const [indices, rawShards]: [EsShardIndex[], EsShard[]] = await Promise.all([catIndices, catShards])

@@ -23,6 +23,7 @@ export default class ElasticsearchNode {
   dataNode: boolean
   ingestNode: boolean
   coordinatingNode: boolean
+  attributes: Record<string, string>
 
   constructor (options: EsNode) {
     this.name = options.name
@@ -42,6 +43,7 @@ export default class ElasticsearchNode {
     this.load_5m = options.load_5m
     this.load_15m = options.load_15m
     this.nodeRole = options['node.role']
+    this.attributes = options.attributes
 
     this.masterEligible = false
     this.dataNode = false

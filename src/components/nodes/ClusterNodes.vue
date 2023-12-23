@@ -55,23 +55,18 @@
 </template>
 
 <script setup lang="ts">
-  import { onMounted } from 'vue'
+  import { onMounted, Ref, ref } from 'vue'
   import ReloadButton from '../shared/ReloadButton.vue'
   import LoaderStatus from '../shared/LoaderStatus.vue'
   import NodesTable from './NodesTable.vue'
-  import { useElasticsearchRequest } from '../../composables/CallElasticsearch'
+  import { useElasticsearchAdapter } from '../../composables/CallElasticsearch'
   import { useTranslation } from '../../composables/i18n'
-  import { EsNode } from '../../types/types.ts'
-  import { useConnectionStore } from '../../store/connection.ts'
+  import { EsNode, NodeAttributes } from '../../types/types.ts'
+  import { flattenObj } from '../../helpers/flatten.ts'
 
   const t = useTranslation()
-  const connectionStore = useConnectionStore()
 
-  type methodParams = {
-    h: string[],
-    full_id?: boolean
-  }
-  const CAT_METHOD_PARAMS: methodParams = {
+  const CAT_METHOD_PARAMS = {
     h: [
       'ip',
       'id',
@@ -91,13 +86,24 @@
       'disk.used_percent',
       'disk.used',
       'disk.total'
-    ]
+    ],
+    full_id: true
   }
 
-  if (connectionStore.activeCluster && parseInt(connectionStore.activeCluster.majorVersion) > 5) {
-    CAT_METHOD_PARAMS.full_id = true
+  const data: Ref<EsNode[]> = ref([])
+  const { requestState, callElasticsearch } = useElasticsearchAdapter()
+  const load = async () => {
+    data.value = []
+    const catNodes = callElasticsearch('catNodes', CAT_METHOD_PARAMS)
+    const nodesInfo = callElasticsearch('nodes')
+
+    const [nodes, nodeAttributes]: [EsNode[], NodeAttributes] = await Promise.all([catNodes, nodesInfo])
+
+    data.value = nodes.map(node => {
+      const attributes = flattenObj(nodeAttributes.nodes[node.id]?.settings?.node?.attr)
+      return Object.assign({}, node, { attributes })
+    })
   }
 
-  const { load, requestState, data } = useElasticsearchRequest<EsNode[]>('catNodes', CAT_METHOD_PARAMS)
   onMounted(load)
 </script>
