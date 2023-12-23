@@ -7,11 +7,11 @@
       <span v-if="snapshot.start_time_in_millis"> ({{ Math.floor(snapshot.start_time_in_millis / 1000) }})</span>
     </td>
     <td>
-      <span v-if="snapshot.end_time">{{ new Date(snapshot.end_time).toLocaleString() }}</span>
-      <span v-if="snapshot.end_time_in_millis"> ({{ Math.floor(snapshot.end_time_in_millis / 1000) }})</span>
+      <span v-if="snapshot.end_time_in_millis > 0">{{ new Date(snapshot.end_time).toLocaleString() }}</span>
+      <span v-if="snapshot.end_time_in_millis > 0"> ({{ Math.floor(snapshot.end_time_in_millis / 1000) }})</span>
     </td>
     <td>
-      <span v-if="typeof snapshot.duration_in_millis != 'undefined'">
+      <span v-if="typeof snapshot.duration_in_millis != 'undefined' && snapshot.duration_in_millis > 0">
         {{ Math.floor(snapshot.duration_in_millis / 1000) }}s
       </span>
     </td>
@@ -22,7 +22,7 @@
              color="dark-grey">
         <q-menu>
           <div class="q-pa-sm">
-            <div v-for="index in snapshot.indices" :key="index">
+            <div v-for="index in snapshot.indices.sort()" :key="index">
               <span class="font-13">{{ index }}</span>
             </div>
           </div>

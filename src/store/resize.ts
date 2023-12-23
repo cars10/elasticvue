@@ -16,7 +16,7 @@ export const useResizeStore = defineStore('resize', {
     restForm: 400,
     searchQuery: 400,
     searchTable: 500,
-    documentEdit: 500
+    documentEdit: 800
   }),
   persist: true
 })

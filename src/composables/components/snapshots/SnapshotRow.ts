@@ -14,7 +14,7 @@ export type EsSnapshot = {
   end_time: string,
   end_time_in_millis: number,
   duration_in_millis: number,
-  indices: string,
+  indices: string[],
   shards: {
     successful: number,
     failed: number,
