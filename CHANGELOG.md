@@ -1,5 +1,57 @@
 # Changelog
 
+## 1.0.0
+
+This is the first stable release of elasticvue `1.0`. Elasticvue now uses vue 3, vite, quasar and typescript.
+This significantly improves performance in development and in production.
+
+### FAQ
+
+#### Which versions of elasticsearch are supported by elasticvue `1.0`?
+
+Elasticvue always supports the two latest major versions of elasticsearch. Currently, this means `8.x` and `7.x`.
+Older versions of elasticsearch should work, but you might encounter small bugs or limited features.
+
+#### How to run elasticvue?
+
+* Recommended: desktop app for linux, mac and windows (no cluster configuration required)
+    * Download on the [releases page](https://github.com/cars10/elasticvue/releases/latest)
+* Browser extension (no cluster configuration required)
+    * [Google chrome](https://chrome.google.com/webstore/detail/elasticvue/hkedbapjpblbodpgbajblpnlpenaebaa)
+    * [Firefox](https://addons.mozilla.org/en-US/firefox/addon/elasticvue/)
+    * [Microsoft edge](https://microsoftedge.microsoft.com/addons/detail/geifniocjfnfilcbeloeidajlfmhdlgo)
+* [Docker](https://hub.docker.com/r/cars10/elasticvue) (cluster configuration **required**)
+* [Web version](https://app.elasticvue.com/) (cluster configuration **required**)
+* [Building manually](https://github.com/cars10/elasticvue/wiki/Building-Elasticvue) (cluster configuration
+  **required**)
+
+### Updates & new features
+
+Elasticvue `1.0` adds many new features:
+
+* Modernized tech stack and huge performance improvements
+* Setup:
+    * New welcome page
+    * Adds the ability to directly import a backup
+    * Improved cluster setup, can also update cluster credentials
+* Home: New dashboard that includes more information about your cluster
+* Indices: You can reindex indices into other indices, you can also delete all documents from and index
+* Search: You are able to edit documents on the search page directly. Also values of `@timestamp` fields are localized
+  by default
+* Rest: Now includes tabs, history and saved queries - all saved separately per cluster.
+* Snapshots: You can now create s3 repositories.
+* New theme and improved accessibility
+* Improved desktop version
+* You can use comments in search query and rest request bodies `// some comment`
+* Improved compatibility with old versions of elasticsearch. The official support is still limited to non-EOL versions,
+  but older versions should work better now.
+
+### Removed features
+
+* Nodes grid view
+* Rest query vertical view
+* Utilities (these are now included in the rest query examples)
+
 ## 1.0.0-beta-7
 
 * don't create duplicates in rest history when sending the same request again, fixes [#162][i162]
@@ -41,7 +93,7 @@
 
 ## 1.0.0-beta-3
 
-* improve compatability with older versions of elasticsearch
+* improve compatibility with older versions of elasticsearch
 * improve snapshot repository creation
 * various small bugfixes
 * updates dependencies
