@@ -30,8 +30,8 @@
   const store = useSnackbarStore()
 
   const progressBarHeight = ref(100)
-  let closeTimer: NodeJS.Timeout
-  let progressBarInterval: NodeJS.Timeout
+  let closeTimer: number
+  let progressBarInterval: number
 
   const setTimer = () => {
     clearTimeout(closeTimer)

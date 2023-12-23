@@ -116,7 +116,7 @@
   }
 
   const { load, data } = useElasticsearchRequest<ClusterStats>('clusterStats')
-  let interval: NodeJS.Timeout
+  let interval: number
   onMounted(() => {
     load()
     interval = setInterval(load, 10000)

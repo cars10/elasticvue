@@ -1,4 +1,4 @@
-export const VERSION_NAME = 'beta-6'
+export const VERSION_NAME = 'stable'
 export const SUPPORTED_MAJOR_VERSIONS = ['6', '7', '8']
 export const REQUEST_DEFAULT_HEADERS = {
   Accept: 'application/json',
@@ -15,6 +15,7 @@ export const DEFAULT_LOCALE: ValidLocale = 'en'
 
 export const DEFAULT_ROWS_PER_PAGE = [10, 20, 100, 0]
 export const DEFAULT_HIDE_INDICES_REGEX = '^\\..*'
+export const DEFAULT_HIDE_NODE_ATTRIBUTES_REGEX = '^(ml|xpack|transform)\\.'
 export const HTTP_METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS']
 
 export const DEFAULT_SEARCH_QUERY_OBJ = { query: { query_string: { query: '*' } }, size: 10, from: 0, sort: [] }

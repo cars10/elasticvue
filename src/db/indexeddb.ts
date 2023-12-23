@@ -65,6 +65,10 @@ export class DbModel<T> {
     this.all = ref([])
   }
 
+  last () {
+    return this.all.value[this.all.value.length - 1]
+  }
+
   async reload () {
     await this.db.connect()
 

@@ -376,7 +376,7 @@ exports.mock = async page => {
       }
     },
     shardIndices: {
-      url: 'http://localhost:9200/_cat/indices/?h=index%2Chealth%2Cpri%2Crep%2Cstatus&s=index',
+      url: 'http://localhost:9200/_cat/indices/?h=index%2Chealth%2Cpri%2Crep%2Cstatus&s=health%3Adesc%2Cindex',
       json: []
     },
     shardShards: {
@@ -384,19 +384,19 @@ exports.mock = async page => {
       json: []
     },
     indexIndices: {
-      url: 'http://localhost:9200/_cat/indices/?h=index%2Chealth%2Cstatus%2Cuuid%2Cpri%2Crep%2Cdocs.count%2Cstore.size&bytes=b',
+      url: 'http://localhost:9200/_cat/indices/?h=index%2Chealth%2Cstatus%2Cuuid%2Cpri%2Crep%2Cdocs.count%2Cstore.size%2Csc&bytes=b',
       json: []
     },
     flush: {
       url: 'http://localhost:9200/_flush',
       json: { '_shards': { 'total': 50, 'successful': 50, 'failed': 0 } }
     },
-    nodes: {
+    catNodes: {
       url: 'http://localhost:9200/_cat/nodes?h=ip%2Cid%2Cname%2Cheap.percent%2Cheap.current%2Cheap.max%2Cram.percent%2Cram.current%2Cram.max%2Cnode.role%2Cmaster%2Ccpu%2Cload_1m%2Cload_5m%2Cload_15m%2Cdisk.used_percent%2Cdisk.used%2Cdisk.total&full_id=true',
       json: [
         {
           'ip': '192.168.112.1',
-          'id': randomId(),
+          'id': 'tz7KYbj8RSeyum3J-v4VZQ',
           'name': 'feeds-prod-1',
           'heap.percent': '42',
           'heap.current': '215.2mb',
@@ -416,7 +416,7 @@ exports.mock = async page => {
         },
         {
           'ip': '192.168.112.2',
-          'id': randomId(),
+          'id': '0tgdUvIbSOCHzADG18paPQ',
           'name': 'feeds-prod-2',
           'heap.percent': '42',
           'heap.current': '215.2mb',
@@ -436,7 +436,7 @@ exports.mock = async page => {
         },
         {
           'ip': '192.168.112.3',
-          'id': randomId(),
+          'id': 'o8NZD5umQdiBmKWIXd_Ueg',
           'name': 'feeds-prod-3',
           'heap.percent': '42',
           'heap.current': '215.2mb',
@@ -456,7 +456,7 @@ exports.mock = async page => {
         },
         {
           'ip': '192.168.112.4',
-          'id': randomId(),
+          'id': 'VPQwd_2ORE284KaE3TQABQ',
           'name': 'feeds-prod-4',
           'heap.percent': '42',
           'heap.current': '215.2mb',
@@ -475,6 +475,50 @@ exports.mock = async page => {
           'disk.total': '881.6gb'
         }
       ]
+    },
+    nodes: {
+      url: 'http://localhost:9200/_nodes',
+      json: {
+        'nodes': {
+          'tz7KYbj8RSeyum3J-v4VZQ': {
+            'settings': {
+              'node': {
+                'attr': {
+                  'datacenter': 'main'
+                }
+              }
+            }
+          },
+          '0tgdUvIbSOCHzADG18paPQ': {
+            'settings': {
+              'node': {
+                'attr': {
+                  'datacenter': 'main'
+                }
+              }
+            }
+          },
+          'o8NZD5umQdiBmKWIXd_Ueg': {
+            'settings': {
+              'node': {
+                'attr': {
+                  'datacenter': 'offside'
+                }
+              }
+            }
+          },
+          'VPQwd_2ORE284KaE3TQABQ': {
+            'settings': {
+              'node': {
+                'attr': {
+                  'datacenter': 'backup'
+                }
+              }
+            }
+          }
+
+        }
+      }
     },
     document: {
       url: 'http://localhost:9200/movies/_doc/*',
@@ -532,6 +576,7 @@ exports.mock = async page => {
       'uuid': randomId(),
       'pri': '1',
       'rep': '1',
+      'sc': '1',
       'docs.count': docs.toString(),
       'store.size': (docs * 1024 * 10).toString()
     })
@@ -548,6 +593,7 @@ exports.mock = async page => {
       'uuid': randomId(),
       'pri': '1',
       'rep': '1',
+      'sc': '1',
       'docs.count': (Math.random() * 10000).toString(),
       'store.size': (Math.random() * 1000000).toString()
     })

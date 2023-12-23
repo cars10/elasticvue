@@ -28,7 +28,7 @@ Contents
 [Screenshots](https://elasticvue.com/features)
 
 **Elasticvue** is a free and open-source gui for elasticsearch that you can use to manage the data in your cluster.
-It has full support for elasticsearch versions `8.x`, `7.x` and `6.8`. Check
+It has full support for elasticsearch versions `8.x` and `7.x`. Check
 the [FAQ](https://github.com/cars10/elasticvue/wiki/FAQ) for more details.
 
 ### Features
@@ -44,7 +44,10 @@ the [FAQ](https://github.com/cars10/elasticvue/wiki/FAQ) for more details.
 
 You can use elasticvue in several ways:
 
-* [**Desktop app for linux, mac and windows, recommended**](#desktop-app)
+* **Recommended:** [desktop app for linux, mac and windows](#desktop-app)
+
+Other:
+
 * [Browser extension for chrome, firefox and edge](#browser-extensions)
 * [Docker image](#docker)
 * [Web version](#web-version)
@@ -115,7 +118,8 @@ After configuration restart your cluster and you should be able to connect.
 
 ## Browser Support
 
-Any current version of Chrome, Firefox and Edge (Chromium) should work without issues.
+Any current version of Chrome, Firefox and Edge (Chromium) should work without issues. Safari is mostly untested so your
+mileage may vary.
 
 ## Troubleshooting
 

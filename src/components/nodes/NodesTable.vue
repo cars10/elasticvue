@@ -29,6 +29,9 @@
           {{ row.nodeRole }}
         </td>
         <td>
+          <node-attributes v-if="row.attributes" :attributes="row.attributes" />
+        </td>
+        <td>
           <span v-if="row.load_1m">{{ row.load_1m }} / {{ row.load_5m }} / {{ row.load_15m }}</span>
         </td>
         <td>
@@ -77,6 +80,7 @@
   import FilterInput from '../shared/FilterInput.vue'
   import { genColumns } from '../../helpers/tableColumns'
   import { EsNode } from '../../types/types.ts'
+  import NodeAttributes from './NodeAttributes.vue'
 
   const t = useTranslation()
 
@@ -84,7 +88,7 @@
 
   const filter = ref('')
   const items = computed(() => {
-    const results = filterItems<EsNode>(props.nodes, filter.value, ['name', 'ip'])
+    const results = filterItems<EsNode>(props.nodes, filter.value, ['name', 'ip', 'id'])
     return results.map(r => new ElasticsearchNode(r))
   })
 
@@ -95,6 +99,7 @@
     { label: t('cluster_nodes.node_properties.ip'), field: 'ip', align: 'left' },
     { label: t('cluster_nodes.node_properties.master'), field: 'master', align: 'left' },
     { label: t('cluster_nodes.node_properties.node_role'), field: 'nodeRole', align: 'left' },
+    { label: t('cluster_nodes.node_properties.attr'), align: 'left' },
     { label: t('cluster_nodes.node_properties.load'), field: 'load_1m', align: 'left' },
     { label: t('cluster_nodes.node_properties.cpu'), field: 'cpu', align: 'left' },
     { label: t('cluster_nodes.node_properties.ram'), field: 'ramPercent', align: 'left' },

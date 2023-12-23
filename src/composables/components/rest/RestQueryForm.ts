@@ -1,4 +1,4 @@
-import { computed, ref } from 'vue'
+import { computed, ref, toRaw } from 'vue'
 import { buildFetchAuthHeader } from '../../../helpers/elasticsearchAdapter.ts'
 import { REQUEST_DEFAULT_HEADERS } from '../../../consts'
 import { useConnectionStore } from '../../../store/connection'
@@ -64,6 +64,9 @@ export const useRestQueryForm = (request: IdbRestQueryTabRequest, response: IdbR
   }
 
   const saveToHistory = (request: IdbRestQueryTabRequest) => {
+    const prev = toRaw(restQueryHistory.last())
+    if (prev?.method === request.method && prev?.path === request.path && prev?.body === request.body) return
+
     restQueryHistory.insert({
       path: request.path,
       method: request.method,

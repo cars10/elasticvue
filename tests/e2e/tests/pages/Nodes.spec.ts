@@ -28,6 +28,17 @@ withElastic(({ mockElastic, elastic }) => {
         page.locator('input[name="filter"]').fill('LOREM_IPSUM_INVALID_NODE_NAME')
         await expect(table).not.toContainText(elastic.node)
       })
+
+      test('shows a list of node attributes', async ({ page }) => {
+        await mockElastic(page)
+        await setupClusterConnection(page)
+        await page.locator('#nodes').click()
+
+        const table = page.getByTestId('nodes-table')
+
+        await expect(table).toContainText('datacenter')
+        await expect(table).not.toContainText('xpack.')
+      })
     })
   })
 })
