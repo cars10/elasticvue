@@ -29,12 +29,13 @@
 
   const { requestState, callElasticsearch } = useElasticsearchAdapter()
   const load = async () => {
-    const indices: EsShardIndex[] = await callElasticsearch('catIndices', {
+    const catIndices = callElasticsearch('catIndices', {
       h: ['index', 'health', 'pri', 'rep', 'status'],
       s: ['health:desc', 'index']
     })
-    const rawShards: EsShard[] = await callElasticsearch('catShards', CAT_METHOD_PARAMS)
+    const catShards = callElasticsearch('catShards', CAT_METHOD_PARAMS)
 
+    const [indices, rawShards]: [EsShardIndex[], EsShard[]] = await Promise.all([catIndices, catShards])
     shards.value = convertShards(rawShards, indices)
   }
 
