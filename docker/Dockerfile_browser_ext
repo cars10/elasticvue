@@ -1,8 +1,4 @@
 FROM node:20-bookworm
-RUN mkdir /app
-WORKDIR /app
-
-RUN npm install --global web-ext
 
 RUN apt-get update -qq \
         && apt-get upgrade -y \
@@ -13,10 +9,18 @@ RUN apt-get update -qq \
         && apt-get autoremove -y \
         && rm -rf /var/lib/apt/lists/*
 
+RUN mkdir /app
+WORKDIR /app
+
+RUN npm install --global web-ext
+
 COPY package.json .
 COPY yarn.lock .
 
 RUN yarn install
 COPY . .
+
+RUN chown -R 1000:1000 /app
+USER 1000
 
 ENTRYPOINT ["/bin/bash"]
