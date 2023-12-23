@@ -27,7 +27,7 @@
     value: number
   }
   const timer: Ref<Timer | null> = ref(null)
-  let intervalID: NodeJS.Timeout
+  let intervalID: number
 
   const createInterval = () => {
     if (!timer.value) return
