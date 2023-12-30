@@ -33,7 +33,8 @@ export const useShardsTable = (props: ShardsTableProps, emit: any) => {
 
   const columns = computed(() => {
     const start = (pagination.value.page - 1) * pagination.value.rowsPerPage
-    const end = start + pagination.value.rowsPerPage
+    let end = start + pagination.value.rowsPerPage
+    if (pagination.value.rowsPerPage === 0) end = filteredShards.value?.indexNames.length
     const slice = filteredShards.value?.indexNames?.slice(start, end) || []
     return slice.map(val => ({ label: val, name: val, field: val }))
   })
