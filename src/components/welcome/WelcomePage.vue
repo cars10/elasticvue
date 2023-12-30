@@ -8,7 +8,7 @@
             elasticvue
           </h1>
           <h2 class="text-h5 q-my-md text-muted text-weight-light">
-            The fastest and most user-friendly gui for elasticsearch
+            {{ t('welcome.welcome_page.intro') }}
           </h2>
         </q-card-section>
 
@@ -17,21 +17,29 @@
         <q-card-section>
           <p class="q-ma-md flex items-center justify-center text-center">
             <q-icon name="info_outline" size="sm" class="q-mr-sm" />
-            This seems to be your first time using elasticvue.
+            {{ t('welcome.welcome_page.first_time') }}
           </p>
           <p class="text-center q-ma-md">
-            Start by adding your first cluster or by importing a backup of your existing elasticvue configuration.
+            {{ t('welcome.welcome_page.add_clusters') }}
           </p>
         </q-card-section>
 
         <q-card-section horizontal>
-          <q-card-section vertical style="width: 50%" class="flex justify-center items-center q-pa-lg">
+          <template v-if="buildConfig.checkPredefinedClusters">
+            <q-card-section vertical class="full-width flex justify-center items-center q-pa-lg">
+              <predefined-clusters />
+            </q-card-section>
+
+            <q-separator vertical />
+          </template>
+
+          <q-card-section vertical class="full-width flex justify-center items-center q-pa-lg">
             <setup-instance />
           </q-card-section>
 
           <q-separator vertical />
 
-          <q-card-section vertical style="width: 50%" class="flex justify-center items-center q-pa-lg">
+          <q-card-section vertical class="full-width flex justify-center items-center q-pa-lg">
             <import-backup />
           </q-card-section>
         </q-card-section>
@@ -44,6 +52,10 @@
   import { useLogo } from '../../composables/Logo'
   import ImportBackup from './ImportBackup.vue'
   import SetupInstance from '../setup/SetupInstance.vue'
+  import PredefinedClusters from '../predefinedclusters/PredefinedClusters.vue'
+  import { useTranslation } from '../../composables/i18n.ts'
+  import { buildConfig } from '../../buildConfig.ts'
 
   const logo = useLogo()
+  const t = useTranslation()
 </script>

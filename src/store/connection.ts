@@ -2,15 +2,18 @@ import { defineStore } from 'pinia'
 
 export type ElasticsearchCluster = {
   name: string,
-  username: string,
-  password: string,
-  uri: string,
   clusterName: string,
   version: string,
   majorVersion: string
   uuid: string,
   status: string,
   loading?: boolean
+} & ElasticsearchClusterCredentials
+
+export type ElasticsearchClusterCredentials = {
+  uri: string,
+  username: string,
+  password: string
 }
 
 export type ConnectionState = {

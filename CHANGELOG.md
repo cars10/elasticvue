@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.1
+
+* You can add predefined clusters when starting elasticvue via docker, check the readme for details. Fixes [#112][i112]
+
+[i112]: https://github.com/cars10/elasticvue/issues/112
+
+
 ## 1.0.0
 
 This is the first stable release of elasticvue `1.0`. Elasticvue now uses vue 3, vite, quasar and typescript.
@@ -19,7 +26,7 @@ Older versions of elasticsearch should work, but you might encounter small bugs 
 * Browser extension (no cluster configuration required)
     * [Google chrome](https://chrome.google.com/webstore/detail/elasticvue/hkedbapjpblbodpgbajblpnlpenaebaa)
     * [Firefox](https://addons.mozilla.org/en-US/firefox/addon/elasticvue/)
-    * [Microsoft edge](https://microsoftedge.microsoft.com/addons/detail/geifniocjfnfilcbeloeidajlfmhdlgo)
+    * [Microsoft Edge](https://microsoftedge.microsoft.com/addons/detail/geifniocjfnfilcbeloeidajlfmhdlgo)
 * [Docker](https://hub.docker.com/r/cars10/elasticvue) (cluster configuration **required**)
 * [Web version](https://app.elasticvue.com/) (cluster configuration **required**)
 * [Building manually](https://github.com/cars10/elasticvue/wiki/Building-Elasticvue) (cluster configuration

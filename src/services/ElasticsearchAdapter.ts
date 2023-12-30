@@ -1,8 +1,8 @@
 import { addTrailingSlash, buildFetchAuthHeader } from '../helpers/elasticsearchAdapter.ts'
 import { REQUEST_DEFAULT_HEADERS } from '../consts'
 import { fetchMethod } from '../helpers/fetch'
-import { ElasticsearchCluster } from '../store/connection.ts'
 import { stringifyJson } from '../helpers/json/stringify.ts'
+import { ElasticsearchClusterCredentials } from '../store/connection.ts'
 
 interface IndexGetArgs {
   routing?: string
@@ -11,15 +11,15 @@ interface IndexGetArgs {
 export type ElasticsearchMethod = keyof ElasticsearchAdapter
 
 export default class ElasticsearchAdapter {
-  username: string
-  password: string
-  host: string
+  username?: string
+  password?: string
+  uri: string
   authHeader?: string
 
-  constructor (elasticsearch: ElasticsearchCluster) {
-    this.username = elasticsearch.username
-    this.password = elasticsearch.password
-    this.host = addTrailingSlash(elasticsearch.uri)
+  constructor ({ uri, username, password }: ElasticsearchClusterCredentials) {
+    this.username = username
+    this.password = password
+    this.uri = addTrailingSlash(uri)
 
     if (this.username.length > 0 || this.password.length > 0) {
       this.authHeader = buildFetchAuthHeader(this.username, this.password)
@@ -211,7 +211,7 @@ export default class ElasticsearchAdapter {
   }
 
   request (path: string, method: string, params?: any) {
-    const url = new URL(this.host + path)
+    const url = new URL(this.uri + path)
 
     if (method === 'GET' && typeof params === 'object') {
       Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))

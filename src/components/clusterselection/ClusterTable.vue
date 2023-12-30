@@ -1,6 +1,7 @@
 <template>
   <div class="flex justify-between q-pa-sm q-ma-sm">
     <new-cluster />
+    <predefined-clusters v-if="buildConfig.checkPredefinedClusters" />
     <filter-input v-model="filter" data-testid="cluster-table-filter" />
   </div>
 
@@ -46,7 +47,7 @@
         <td class="small-wrap">
           <div class="flex items-center no-wrap">
             {{ row.version }}
-            <unsupported-version :major-version="row.majorVersion" />
+            <unsupported-version v-if="row.majorVersion" :major-version="row.majorVersion" />
           </div>
         </td>
         <td class="small-wrap">
@@ -70,6 +71,8 @@
   import { useTranslation } from '../../composables/i18n.ts'
   import ClusterStatusIndicator from './ClusterStatusIndicator.vue'
   import UnsupportedVersion from './UnsupportedVersion.vue'
+  import PredefinedClusters from '../predefinedclusters/PredefinedClusters.vue'
+  import { buildConfig } from '../../buildConfig.ts'
 
   const t = useTranslation()
   const connectionStore = useConnectionStore()

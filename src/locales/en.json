@@ -492,6 +492,24 @@
       "authorization": "and if your cluster uses authorization",
       "restart": "Then restart your cluster"
     },
+    "import_predefined_clusters": {
+      "heading": "Predefined clusters",
+      "import": "Import clusters | Import 1 cluster | Import {count} clusters",
+      "table": {
+        "headers": {
+          "health": "Health",
+          "cluster_name": "Cluster name",
+          "uri": "Uri",
+          "username": "Username",
+          "password": "Password"
+        }
+      }
+    },
+    "setup_instance": {
+      "heading": "Add elasticsearch cluster",
+      "configure": "1. Configure",
+      "connect": "2. Connect"
+    },
     "test_and_connect": {
       "heading": "2. Connect",
       "form": {
@@ -690,6 +708,16 @@
       "filter": {
         "label": "Filter id..."
       }
+    }
+  },
+  "welcome": {
+    "import_backup": {
+      "heading": "Import elasticvue backup"
+    },
+    "welcome_page": {
+      "intro": "The fastest and most user-friendly gui for elasticsearch",
+      "first_time": "This seems to be your first time using elasticvue.",
+      "add_clusters": "Start by adding your first cluster or by importing a backup of your existing elasticvue configuration."
     }
   }
 }

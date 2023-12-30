@@ -1,10 +1,10 @@
 <template>
-  <q-btn id="add_cluster" color="primary-dark" icon="add" label="Add elasticsearch cluster" @click="dialog = true" />
+  <q-btn id="add_cluster" color="primary-dark" icon="add" :label="t('setup.setup_instance.heading')" @click="dialog = true" />
 
   <q-dialog v-model="dialog" position="top" transition-show="scale" transition-hide="scale">
     <q-card style="width: 1000px;max-width: 1000px" class="q-mt-xl">
       <q-card-section class="flex justify-between">
-        <h2 class="text-h5 q-my-none">Add cluster</h2>
+        <h2 class="text-h5 q-my-none">{{ t('setup.setup_instance.heading') }}</h2>
         <q-btn v-close-popup icon="close" flat round dense />
       </q-card-section>
 
@@ -13,7 +13,7 @@
       <template v-if="buildConfig.hints.cors">
         <q-card-section>
           <h2 class="text-h6">
-            {{ t('setup.configure.heading') }}
+            {{ t('setup.setup_instance.configure') }}
           </h2>
           <configure-help />
         </q-card-section>
@@ -23,7 +23,7 @@
 
       <q-card-section>
         <h2 v-if="buildConfig.hints.cors" class="text-h6 q-mb-md">
-          {{ t('setup.test_and_connect.heading') }}
+          {{ t('setup.setup_instance.connect') }}
         </h2>
         <add-cluster />
       </q-card-section>

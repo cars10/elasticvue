@@ -2,6 +2,8 @@
   <form @submit.prevent="testConnection">
     <cluster-form-fields v-model="cluster" v-model:formValid="formValid" />
 
+    <q-separator class="q-my-lg" />
+
     <q-btn :label="t('setup.test_and_connect.form.test_connection')"
            :disable="!formValid"
            :loading="testState.loading"
