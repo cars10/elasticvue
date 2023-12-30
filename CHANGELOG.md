@@ -3,8 +3,10 @@
 ## 1.0.1
 
 * You can add predefined clusters when starting elasticvue via docker, check the readme for details. Fixes [#112][i112]
+* Fix issues when showing documents if `routing` is enabled, fixes [#177][i177]
 
 [i112]: https://github.com/cars10/elasticvue/issues/112
+[i177]: https://github.com/cars10/elasticvue/issues/177
 
 
 ## 1.0.0

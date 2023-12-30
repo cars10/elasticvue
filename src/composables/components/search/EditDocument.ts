@@ -13,7 +13,8 @@ export type EditDocumentProps = {
 export type ElasticsearchDocumentInfo = {
   _index: string,
   _type: string,
-  _id: string
+  _id: string,
+  _routing?: string
 }
 
 export const useEditDocument = (props: EditDocumentProps, emit: any) => {
@@ -28,7 +29,8 @@ export const useEditDocument = (props: EditDocumentProps, emit: any) => {
     return callElasticsearch('get', {
       index: props._index,
       type: props._type,
-      id: props._id
+      id: props._id,
+      routing: props._routing
     })
         .then(body => (data.value = body))
         .catch(() => (data.value = null))
