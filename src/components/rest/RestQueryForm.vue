@@ -96,7 +96,7 @@
 
   const t = useTranslation()
   const props = defineProps<{ tab: IdbRestQueryTab }>()
-  const emit = defineEmits(['reloadHistory'])
+  const emit = defineEmits(['reloadHistory', 'reloadSavedQueries'])
 
   const resizeStore = useResizeStore()
   const {

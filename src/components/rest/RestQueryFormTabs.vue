@@ -25,7 +25,9 @@
 
     <q-tab-panels v-model="activeTabName">
       <q-tab-panel v-for="tab in tabs" :key="`${tab.name}-panel`" :name="tab.name">
-        <rest-query-form :tab="tab" @reload-history="emit('reloadHistory')" />
+        <rest-query-form :tab="tab"
+                         @reload-history="emit('reloadHistory')"
+                         @reload-saved-queries="emit('reloadSavedQueries')" />
       </q-tab-panel>
     </q-tab-panels>
   </q-card>
@@ -35,7 +37,7 @@
   import RestQueryForm from './RestQueryForm.vue'
   import { useRestQueryTabs } from '../../composables/components/rest/RestQueryTabs.ts'
 
-  const emit = defineEmits(['reloadHistory'])
+  const emit = defineEmits(['reloadHistory', 'reloadSavedQueries'])
 
   const { tabs, activeTabName, addTab, updateTab, removeTab } = useRestQueryTabs()
 </script>

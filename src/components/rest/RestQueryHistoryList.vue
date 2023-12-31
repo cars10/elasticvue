@@ -36,7 +36,8 @@
   const emit = defineEmits<{
     useRequest: [request: RestQueryRequestLike],
     useRequestNewTab: [request: RestQueryRequestLike],
-    reloadHistory: []
+    reloadHistory: [],
+    reloadSavedQueries: []
   }>()
 
   const { saveHistory, removeHistory, columns } = useRestQueryHistoryList(emit)

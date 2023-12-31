@@ -105,6 +105,7 @@ export const useRestQueryForm = (props: RestQueryFormProps, emit: any) => {
   const saveQuery = () => {
     const { method, path, body } = toRaw(ownTab.value.request)
     restQuerySavedQueries.insert({ method, path, body })
+    emit('reloadSavedQueries')
   }
 
   watch(ownTab.value.request, value => {

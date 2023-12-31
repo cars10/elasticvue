@@ -39,19 +39,23 @@
         <q-slide-transition>
           <rest-query-history-list :history="history"
                                    :open="historyOpen"
+                                   @reload-saved-queries="reloadSavedQueries"
                                    @reload-history="reloadHistory"
                                    @use-request="useRequest"
                                    @use-request-new-tab="useRequestInNewTab" />
         </q-slide-transition>
 
         <q-slide-transition>
-          <rest-query-saved-queries-list :open="savedQueriesOpen" @use-request="useRequest"
+          <rest-query-saved-queries-list :saved-queries="savedQueries"
+                                         :open="savedQueriesOpen"
+                                         @reload-saved-queries="reloadSavedQueries"
+                                         @use-request="useRequest"
                                          @use-request-new-tab="useRequestInNewTab" />
         </q-slide-transition>
       </q-card-section>
     </q-card>
 
-    <rest-query-form-tabs @reload-history="reloadHistory" />
+    <rest-query-form-tabs @reload-history="reloadHistory" @reload-saved-queries="reloadSavedQueries" />
   </div>
 </template>
 
@@ -67,9 +71,11 @@
   const {
     clusterMinor,
     history,
+    savedQueries,
     historyOpen,
     savedQueriesOpen,
     reloadHistory,
+    reloadSavedQueries,
     toggleHistory,
     toggleSavedQueries,
     useRequest,

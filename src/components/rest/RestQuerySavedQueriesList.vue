@@ -36,28 +36,11 @@
 
 <script setup lang="ts">
   import RestQueryList from './RestQueryList.vue'
-  import { useTranslation } from '../../composables/i18n.ts'
-  import { useIdbStore } from '../../db/Idb.ts'
-  import { ref, toRaw } from 'vue'
+  import { useRestQuerySavedQueriesList } from '../../composables/components/rest/RestQuerySavedQueriesList.ts'
   import { IdbRestQuerySavedQuery } from '../../db/types.ts'
 
-  defineProps<{ open: boolean }>()
-  const emit = defineEmits(['useRequest', 'useRequestNewTab'])
-  const t = useTranslation()
+  defineProps<{ savedQueries: IdbRestQuerySavedQuery[], open: boolean }>()
+  const emit = defineEmits(['reloadSavedQueries', 'useRequest', 'useRequestNewTab'])
 
-  const { restQuerySavedQueries } = useIdbStore()
-  const savedQueries = ref([] as IdbRestQuerySavedQuery[])
-  restQuerySavedQueries.getAll().then(saved => (savedQueries.value = saved))
-
-  const removeSavedQuery = (id: number) => (restQuerySavedQueries.remove(id))
-  const renameSavedQuery = (name: string, row: IdbRestQuerySavedQuery) => {
-    const obj = Object.assign({}, toRaw(row), { name })
-    restQuerySavedQueries.update(obj)
-  }
-
-  const columns = [
-    { label: t('query.rest_query_history.table.headers.query'), field: 'query', name: 'query', align: 'left' },
-    { label: 'Name', field: 'name', name: 'name', align: 'left', sortable: true },
-    { label: '' },
-  ]
+  const { removeSavedQuery, renameSavedQuery, columns } = useRestQuerySavedQueriesList(emit)
 </script>

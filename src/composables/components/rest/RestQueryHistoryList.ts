@@ -9,6 +9,7 @@ export const useRestQueryHistoryList = (emit: any) => {
   const saveHistory = (row: IdbRestQueryHistory) => {
     const { method, path, body } = row
     restQuerySavedQueries.insert({ method, path, body })
+    emit('reloadSavedQueries')
   }
   const removeHistory = async (id: number) => {
     await restQueryHistory.remove(id)
