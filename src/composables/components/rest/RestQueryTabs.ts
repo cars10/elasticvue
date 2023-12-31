@@ -8,23 +8,21 @@ const buildDefaultResponse = () => ({ status: '', ok: false, bodyText: '' })
 
 export const useRestQueryTabs = () => {
   const { restQueryTabs } = useIdbStore()
-  const activeTabName: Ref<string | null> = ref(null)
+  const tabs = ref([] as IdbRestQueryTab[])
 
-  const setActiveTab = async () => {
-    await restQueryTabs.reload()
-    if (!activeTabName.value && restQueryTabs.all.value[0]) activeTabName.value = restQueryTabs.all.value[0].name
-    if (restQueryTabs.all.value.length === 0) await addTab()
-  }
+  const activeTabName: Ref<string | null> = ref(null)
 
   const addTab = async () => {
     const newTab = {
       name: `tab-${Date.now()}`,
-      label: `Tab ${restQueryTabs.all.value.length + 1}`,
+      label: `Tab ${tabs.value.length + 1}`,
       request: buildDefaultRequest(),
       response: buildDefaultResponse()
     }
-    await restQueryTabs.insert(newTab)
-    activeTabName.value = restQueryTabs.all.value[restQueryTabs.all.value.length - 1].name
+    const key = await restQueryTabs.insert(newTab)
+    const newIdbTab = await restQueryTabs.get(key)
+    tabs.value.push(newIdbTab)
+    activeTabName.value = newIdbTab.name
   }
 
   const updateTab = (label: string, tab: IdbRestQueryTab) => {
@@ -32,18 +30,27 @@ export const useRestQueryTabs = () => {
   }
 
   const removeTab = async (index: number) => {
-    if (restQueryTabs.all.value[index].name === activeTabName.value && restQueryTabs.all.value[0]) {
-      activeTabName.value = restQueryTabs.all.value[0].name
+    if (tabs.value[index].name === activeTabName.value && tabs.value[0]) {
+      activeTabName.value = tabs.value[0].name
     }
-    await restQueryTabs.remove(restQueryTabs.all.value[index].id)
+    await restQueryTabs.remove(tabs.value[index].id)
+    tabs.value.splice(index, 1)
   }
 
-  const activeTabIndex = () => (restQueryTabs.all.value.findIndex(t => t.name === activeTabName.value) || 0)
+  const activeTabIndex = () => (tabs.value.findIndex(t => t.name === activeTabName.value) || 0)
+
+  const loadTabs = async () => {
+    tabs.value = await restQueryTabs.getAll()
+
+    if (!activeTabName.value && tabs.value[0]) activeTabName.value = tabs.value[0].name
+    if (tabs.value.length === 0) await addTab()
+  }
+  loadTabs()
 
   return {
+    tabs,
     activeTabName,
     activeTabIndex,
-    setActiveTab,
     addTab,
     updateTab,
     removeTab

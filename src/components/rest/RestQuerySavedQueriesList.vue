@@ -2,7 +2,7 @@
   <rest-query-list v-if="open"
                    heading="Saved Queries"
                    :pagination-options="{}"
-                   :data="restQuerySavedQueries.all.value"
+                   :data="savedQueries"
                    :columns="columns"
                    :searchable-columns="['name', 'path', 'method']"
                    @use-request="(v: RestQueryRequestLike) => emit('useRequest', v)"
@@ -38,7 +38,7 @@
   import RestQueryList from './RestQueryList.vue'
   import { useTranslation } from '../../composables/i18n.ts'
   import { useIdbStore } from '../../db/Idb.ts'
-  import { onMounted, toRaw } from 'vue'
+  import { ref, toRaw } from 'vue'
   import { IdbRestQuerySavedQuery } from '../../db/types.ts'
 
   defineProps<{ open: boolean }>()
@@ -46,7 +46,8 @@
   const t = useTranslation()
 
   const { restQuerySavedQueries } = useIdbStore()
-  onMounted(() => (restQuerySavedQueries.reload()))
+  const savedQueries = ref([] as IdbRestQuerySavedQuery[])
+  restQuerySavedQueries.getAll().then(saved => (savedQueries.value = saved))
 
   const removeSavedQuery = (id: number) => (restQuerySavedQueries.remove(id))
   const renameSavedQuery = (name: string, row: IdbRestQuerySavedQuery) => {

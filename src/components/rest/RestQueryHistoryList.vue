@@ -2,7 +2,7 @@
   <rest-query-list v-if="open"
                    heading="History"
                    :pagination-options="{sortBy: 'date', descending: true}"
-                   :data="restQueryHistory.all.value"
+                   :data="history"
                    :columns="columns"
                    :searchable-columns="['method', 'path']"
                    @use-request="(v: RestQueryRequestLike) => emit('useRequest', v)"
@@ -31,7 +31,7 @@
   import RestQueryList from './RestQueryList.vue'
   import { useTranslation } from '../../composables/i18n.ts'
   import { useIdbStore } from '../../db/Idb.ts'
-  import { onMounted } from 'vue'
+  import { ref } from 'vue'
   import { IdbRestQueryHistory } from '../../db/types.ts'
 
   defineProps<{ open: boolean }>()
@@ -43,7 +43,8 @@
   const t = useTranslation()
 
   const { restQueryHistory, restQuerySavedQueries } = useIdbStore()
-  onMounted(() => (restQueryHistory.reload()))
+  const history = ref([] as IdbRestQueryHistory[])
+  restQueryHistory.getAll().then(hist => (history.value = hist))
 
   const saveHistory = (row: IdbRestQueryHistory) => {
     const { method, path, body } = row
