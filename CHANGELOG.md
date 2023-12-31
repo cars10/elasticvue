@@ -2,14 +2,21 @@
 
 ## 1.0.1
 
-* you can add predefined clusters when starting elasticvue via docker, check the readme for details. Fixes [#112][i112]
+This release fixes some bugs that where introduced in `1.0`. It also adds the ability to configure clusters when using
+elasticvue via docker.
+
+* you can add predefined clusters when starting elasticvue via docker, check the readme for details. fixes [#112][i112]
 * fix issues when showing documents if `routing` is enabled, fixes [#177][i177]
 * fix issue when trying to show all shards, fixes [#174][i174]
+* fix issue with jumping cursor in rest editor, fixes [#180][i180]
 
 [i112]: https://github.com/cars10/elasticvue/issues/112
+
 [i177]: https://github.com/cars10/elasticvue/issues/177
+
 [i174]: https://github.com/cars10/elasticvue/issues/174
 
+[i180]: https://github.com/cars10/elasticvue/issues/180
 
 ## 1.0.0
 
