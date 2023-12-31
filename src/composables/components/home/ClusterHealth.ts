@@ -1,4 +1,4 @@
-import { ElasticsearchCluster, useConnectionStore } from '../../../store/connection.ts'
+import { ElasticsearchCluster, ElasticsearchClusterCredentials, useConnectionStore } from '../../../store/connection.ts'
 import ElasticsearchAdapter from '../../../services/ElasticsearchAdapter.ts'
 
 export const useClusterHealth = () => {
@@ -20,7 +20,7 @@ export const useClusterHealth = () => {
 
 export const checkHealth = async (cluster: ElasticsearchCluster) => {
   cluster.loading = true
-  const adapter = new ElasticsearchAdapter(cluster)
+  const adapter = new ElasticsearchAdapter(cluster as ElasticsearchClusterCredentials)
 
   try {
     const clusterHealthResponse: any = await adapter.clusterHealth()
@@ -40,5 +40,17 @@ export const checkHealth = async (cluster: ElasticsearchCluster) => {
   } catch (e) {
     cluster.status = 'unknown'
     delete cluster.loading
+  }
+}
+
+export const checkClusterHealth = async (credentials: ElasticsearchClusterCredentials): Promise<string> => {
+  const adapter = new ElasticsearchAdapter(credentials)
+
+  try {
+    const clusterHealthResponse: any = await adapter.clusterHealth()
+    const clusterHealthBody = await clusterHealthResponse.json()
+    return clusterHealthBody.status
+  } catch (e) {
+    return 'error'
   }
 }

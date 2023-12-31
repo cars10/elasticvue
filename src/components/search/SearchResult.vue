@@ -8,7 +8,7 @@
       <template v-else>{{ renderValue(doc, column) }}</template>
     </td>
     <td>
-      <edit-document v-model="edit" :_id="doc._id" :_index="doc._index" :_type="doc._type" />
+      <edit-document v-model="edit" :_id="doc._id" :_index="doc._index" :_type="doc._type" :_routing="doc._routing" />
       <q-btn-dropdown ref="menu" v-model="dropdown" icon="settings" color="dark-grey" @click.stop>
         <q-list padding dense>
           <row-menu-action method="delete"

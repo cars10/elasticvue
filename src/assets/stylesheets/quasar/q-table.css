@@ -1,61 +1,61 @@
 .q-table thead, .q-table tr, .q-table th, .q-table td, .q-table__bottom {
-  border-color: var(--theme-table-border-color);
+    border-color: var(--theme-table-border-color);
 }
 
 .q-table tbody tr:hover {
-  background-color: var(--theme-table-hover-background);
+    background-color: var(--theme-table-hover-background);
 }
 
 .theme--dark .q-table__control .q-btn:not(:disabled) {
-  color: #fff !important;
+    color: #fff !important;
 }
 
 table.q-table th {
-  font-size: 13px;
-  font-weight: 600;
+    font-size: 13px;
+    font-weight: 600;
 }
 
 table.q-table td {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 .table-mono .q-table tbody td {
-  font-family: 'Hack', monospace;
+    font-family: 'Hack', monospace;
 }
 
 .q-table--dense .q-table th {
-  padding: 2px 8px;
-  height: 40px !important;
+    padding: 2px 8px;
+    height: 40px !important;
 }
 
 .q-table--dense .q-table td {
-  padding: 2px 8px;
+    padding: 2px 8px;
 }
 
 .q-table--dense .q-table thead tr, .q-table--dense .q-table tbody tr, .q-table--dense .q-table tbody td {
-  height: 40px;
+    height: 40px;
 }
 
 .q-table--dense tbody .q-btn:not(.q-btn--round) {
-  min-height: 2em;
-  padding: 2px 10px;
+    min-height: 2em;
+    padding: 2px 10px;
 }
 
 .q-table--dense tbody td {
-  max-width: 500px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+    max-width: 500px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .q-table--dense .q-table__bottom {
-  min-height: 50px;
+    min-height: 50px;
 }
 
 .q-table--dense .q-table__bottom .q-btn {
-  padding: 4px;
+    padding: 4px;
 }
 
 .q-table--dense .q-table__bottom .q-btn .q-icon {
-  font-size: 2.5em;
+    font-size: 2.5em;
 }

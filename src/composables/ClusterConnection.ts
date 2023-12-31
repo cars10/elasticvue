@@ -2,7 +2,7 @@ import { Ref, ref } from 'vue'
 import ElasticsearchAdapter from '../services/ElasticsearchAdapter'
 import { useTranslation } from './i18n'
 import { useSnackbar } from './Snackbar'
-import { ElasticsearchCluster, useConnectionStore } from '../store/connection'
+import { ElasticsearchCluster, ElasticsearchClusterCredentials, useConnectionStore } from '../store/connection'
 
 type TestConnectState = {
   success: boolean
@@ -35,7 +35,7 @@ export const useClusterConnection = (cluster: Ref<ElasticsearchCluster>) => {
     resetState(connectState)
     testState.value.loading = true
 
-    const adapter = new ElasticsearchAdapter(cluster.value)
+    const adapter = new ElasticsearchAdapter(cluster.value as ElasticsearchClusterCredentials)
     try {
       await adapter.test()
       testState.value.success = true
@@ -60,7 +60,7 @@ export const useClusterConnection = (cluster: Ref<ElasticsearchCluster>) => {
     resetState(connectState)
     connectState.value.loading = true
 
-    const adapter = new ElasticsearchAdapter(cluster.value)
+    const adapter = new ElasticsearchAdapter(cluster.value as ElasticsearchClusterCredentials)
     try {
       const infoResponse: any = await adapter.test()
       const infoJson = await infoResponse.json()

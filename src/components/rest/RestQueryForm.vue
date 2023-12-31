@@ -82,14 +82,12 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, defineAsyncComponent, ref, toRaw, watch } from 'vue'
+  import { defineAsyncComponent } from 'vue'
   import ResizableContainer from '../shared/ResizableContainer.vue'
   import DownloadButton from '../shared/DownloadButton.vue'
   import { useRestQueryForm } from '../../composables/components/rest/RestQueryForm.ts'
   import { HTTP_METHODS } from '../../consts'
   import { useResizeStore } from '../../store/resize'
-  import { useIdbStore } from '../../db/Idb.ts'
-  import { debounce } from '../../helpers/debounce'
   import { useTranslation } from '../../composables/i18n'
   import { IdbRestQueryTab } from '../../db/types.ts'
 
@@ -97,50 +95,18 @@
   const CodeEditor = defineAsyncComponent(() => import('../shared/CodeEditor.vue'))
 
   const t = useTranslation()
-
-  const props = defineProps<{
-    tab: IdbRestQueryTab
-  }>()
-  const ownTab = ref(props.tab)
-  let updateIdb = true
-
-  watch(() => props.tab, newValue => {
-    updateIdb = false
-    ownTab.value.request.method = newValue.request.method
-    ownTab.value.request.path = newValue.request.path
-    ownTab.value.request.body = newValue.request.body
-    updateIdb = true
-  })
+  const props = defineProps<{ tab: IdbRestQueryTab }>()
+  const emit = defineEmits(['reloadHistory', 'reloadSavedQueries'])
 
   const resizeStore = useResizeStore()
-  const { restQueryTabs, restQuerySavedQueries } = useIdbStore()
-  const { loading, sendRequest, responseStatusClass } = useRestQueryForm(ownTab.value.request, ownTab.value.response)
-
-  const saveQuery = () => {
-    const { method, path, body } = toRaw(ownTab.value.request)
-    restQuerySavedQueries.insert({ method, path, body })
-  }
-
-  watch(ownTab.value.request, value => {
-    if (updateIdb) updateTab({ request: toRaw(value) })
-  })
-  watch(ownTab.value.response, value => {
-    if (updateIdb) updateTab({ response: toRaw(value) })
-  })
-  const updateTab = debounce((value: object) => {
-    const obj = Object.assign({}, toRaw(props.tab), value)
-    restQueryTabs.update(obj)
-  }, 50)
-
-  const editorCommands = [{
-    key: 'Alt-Enter', mac: 'Cmd-Enter', run: () => {
-      sendRequest()
-      return true
-    }
-  }]
-
-  const generateDownloadData = () => (ownTab.value.response.bodyText)
-  const downloadFileName = computed(() => {
-    return `${ownTab.value.request.method.toLowerCase()}_${ownTab.value.request.path.replace(/[\W_]+/g, '_')}.json`
-  })
+  const {
+    saveQuery,
+    ownTab,
+    editorCommands,
+    generateDownloadData,
+    downloadFileName,
+    loading,
+    sendRequest,
+    responseStatusClass
+  } = useRestQueryForm(props, emit)
 </script>

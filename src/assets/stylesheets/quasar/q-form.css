@@ -1,48 +1,57 @@
 .q-field__control {
-  color: var(--theme-primary);
+    color: var(--theme-primary);
+}
+
+.q-field--small .q-field__control, .q-field--small .q-field__marginal {
+    height: initial;
+}
+
+.q-field--small .q-field__native {
+    padding: 3px 0;
+    font-size: 14px;
 }
 
 .q-field__marginal {
-  color: var(--theme-muted-color);
+    color: var(--theme-muted-color);
 }
 
 .q-field__native {
-  color: var(--theme-color);
+    color: var(--theme-color);
 }
 
 .q-field__label {
-  color: var(--theme-muted-color);
+    color: var(--theme-muted-color);
 }
 
 .q-field__control:before {
-  border-color: var(--theme-muted-color) !important;
+    border-color: var(--theme-muted-color) !important;
 }
 
 .q-field.q-field--standard:hover .q-field__control:before {
-  border-color: var(--theme-dark-grey-color);
+    border-color: var(--theme-dark-grey-color);
 }
 
 .q-field.q-field--standard.q-field--highlighted .q-field__label {
-  color: var(--theme-primary) !important;
+    color: var(--theme-primary) !important;
 }
 
 .q-field__bottom {
-  color: var(--theme-muted-color) !important;
-  padding: 2px 0 0 0;
+    color: var(--theme-muted-color) !important;
+    padding: 2px 0 0 0;
 }
 
 .q-checkbox__inner--falsy .q-checkbox__bg {
-  border-color: var(--theme-muted-color);
+    border-color: var(--theme-muted-color);
 }
 
 .q-input {
-  font-size: 16px !important;
+    font-size: 16px !important;
 }
 
 .q-field__input {
-  color: var(--theme-color);
+    color: var(--theme-color);
 }
 
 .q-radio__inner {
-  color: var(--theme-muted-color);
+    color: var(--theme-muted-color);
 }

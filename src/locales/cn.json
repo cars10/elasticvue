@@ -492,6 +492,24 @@
       "authorization": "如果你的集群使用授权",
       "restart": "然后重启你的集群"
     },
+    "import_predefined_clusters": {
+      "heading": null,
+      "import": null,
+      "table": {
+        "headers": {
+          "health": null,
+          "cluster_name": null,
+          "uri": null,
+          "username": null,
+          "password": null
+        }
+      }
+    },
+    "setup_instance": {
+      "heading": null,
+      "configure": null,
+      "connect": null
+    },
     "test_and_connect": {
       "heading": "2. 连接",
       "form": {
@@ -690,6 +708,16 @@
       "filter": {
         "label": "过滤 id..."
       }
+    }
+  },
+  "welcome": {
+    "import_backup": {
+      "heading": null
+    },
+    "welcome_page": {
+      "intro": null,
+      "first_time": null,
+      "add_clusters": null
     }
   }
 }

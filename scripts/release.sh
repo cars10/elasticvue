@@ -12,8 +12,9 @@ sed -e "s/\"version\":\s\".*\"/\"version\": \"$VERSION\"/" -i browser_extension/
 
 # commit new version
 git add package.json
-git add browser_extension/chrome/manifest.json
-git add browser_extension/firefox/manifest.json
+git add src-tauri/tauri.conf.json
+git add -f browser_extension/chrome/manifest.json
+git add -f browser_extension/firefox/manifest.json
 git commit -am "bumps version to $VERSION"
 
 git push

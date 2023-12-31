@@ -37,68 +37,51 @@
         </div>
 
         <q-slide-transition>
-          <rest-query-history-list :open="historyOpen" @use-request="useRequest"
+          <rest-query-history-list :history="history"
+                                   :open="historyOpen"
+                                   @reload-saved-queries="reloadSavedQueries"
+                                   @reload-history="reloadHistory"
+                                   @use-request="useRequest"
                                    @use-request-new-tab="useRequestInNewTab" />
         </q-slide-transition>
 
         <q-slide-transition>
-          <rest-query-saved-queries-list :open="savedQueriesOpen" @use-request="useRequest"
+          <rest-query-saved-queries-list :saved-queries="savedQueries"
+                                         :open="savedQueriesOpen"
+                                         @reload-saved-queries="reloadSavedQueries"
+                                         @use-request="useRequest"
                                          @use-request-new-tab="useRequestInNewTab" />
         </q-slide-transition>
       </q-card-section>
     </q-card>
 
-    <rest-query-form-tabs ref="tabs" />
+    <rest-query-form-tabs ref="tabs" @reload-history="reloadHistory" @reload-saved-queries="reloadSavedQueries" />
   </div>
 </template>
 
 <script setup lang="ts">
-  import { computed, Ref, ref, toRaw } from 'vue'
-  import { useIdbStore } from '../../db/Idb.ts'
   import { useTranslation } from '../../composables/i18n'
+  import { useRestQuery } from '../../composables/components/rest/RestQuery.ts'
   import RestQueryExamples from './RestQueryExamples.vue'
   import RestQueryHistoryList from './RestQueryHistoryList.vue'
   import RestQuerySavedQueriesList from './RestQuerySavedQueriesList.vue'
   import RestQueryFormTabs from './RestQueryFormTabs.vue'
-  import { IdbRestQueryTabRequest } from '../../db/types.ts'
-  import { useConnectionStore } from '../../store/connection.ts'
-
-  const { activeCluster } = useConnectionStore()
-  const clusterMinor = computed(() => (activeCluster?.version?.split('.')?.slice(0, 2)?.join('.')))
+  import { Ref, ref } from 'vue'
 
   const t = useTranslation()
-  const { restQueryTabs } = useIdbStore()
+  const tabs: Ref<typeof RestQueryFormTabs | null> = ref(null)
 
-  const tabs: Ref<InstanceType<typeof RestQueryFormTabs> | null> = ref(null)
-  const historyOpen = ref(false)
-  const savedQueriesOpen = ref(false)
-  const toggleHistory = () => {
-    historyOpen.value = !historyOpen.value
-    savedQueriesOpen.value = false
-  }
-  const toggleSavedQueries = () => {
-    savedQueriesOpen.value = !savedQueriesOpen.value
-    historyOpen.value = false
-  }
-
-  const useRequest = async (request: IdbRestQueryTabRequest) => {
-    if (!request || !tabs.value) return
-
-    const activeTab = restQueryTabs.all.value[tabs.value.activeTabIndex()]
-    if (!activeTab) return
-
-    const { id, label, name } = activeTab
-    const obj = Object.assign({}, { id, label, name }, {
-      request: toRaw(request),
-      response: { status: '', ok: false, bodyText: '' }
-    })
-    await restQueryTabs.update(obj)
-  }
-
-  const useRequestInNewTab = async (request: IdbRestQueryTabRequest) => {
-    if (!tabs.value) return
-
-    await tabs.value.addTab()
-    await useRequest(request)
-  }
+  const {
+    clusterMinor,
+    history,
+    savedQueries,
+    historyOpen,
+    savedQueriesOpen,
+    reloadHistory,
+    reloadSavedQueries,
+    toggleHistory,
+    toggleSavedQueries,
+    useRequest,
+    useRequestInNewTab
+  } = useRestQuery(tabs)
 </script>

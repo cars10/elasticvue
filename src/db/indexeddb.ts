@@ -1,5 +1,4 @@
 import { IDBPDatabase, openDB } from 'idb'
-import { ref, Ref } from 'vue'
 import { DbSchema, TableDefinition } from './types.ts'
 
 type MaybePromise<T> = Promise<T> | null
@@ -55,48 +54,49 @@ export class Db {
 
 export class DbModel<T> {
   tableName: string
-  all: Ref<T[]>
   db: Db
-  reloadPromise: MaybePromise<T[]>
 
   constructor (tableName: string, db: Db) {
     this.tableName = tableName
     this.db = db
-    this.all = ref([])
   }
 
-  last () {
-    return this.all.value[this.all.value.length - 1]
-  }
-
-  async reload () {
+  async count (): Promise<number> {
     await this.db.connect()
+    return this.db._idb.count(this.tableName)
+  }
 
-    if (!this.reloadPromise) this.reloadPromise = this.db._idb.getAll(this.tableName)
-    this.all.value = await this.reloadPromise
+  async first (): Promise<T | null> {
+    await this.db.connect()
+    const cursor = await this.db._idb.transaction(this.tableName).store.openCursor(null, 'next')
+    return cursor?.value
+  }
 
-    this.reloadPromise = null
+  async last (): Promise<T | null> {
+    await this.db.connect()
+    const cursor = await this.db._idb.transaction(this.tableName).store.openCursor(null, 'prev')
+    return cursor?.value
   }
 
   async insert (obj: T) {
     await this.db.connect()
-    const id = await this.db._idb.add(this.tableName, obj)
-    await this.reload()
-    return id
+    return this.db._idb.add(this.tableName, obj)
+  }
+
+  async get (key: IDBValidKey): Promise<T> {
+    await this.db.connect()
+    return this.db._idb.get(this.tableName, key)
   }
 
   async update (obj: T) {
     await this.db.connect()
-    const id = await this.db._idb.put(this.tableName, obj)
-    await this.reload()
-    return id
+    return this.db._idb.put(this.tableName, obj)
   }
 
   async remove (id?: number) {
     if (!id) return
     await this.db.connect()
     await this.db._idb.delete(this.tableName, id)
-    await this.reload()
   }
 
   async bulkInsert (data: T[]) {
@@ -107,7 +107,7 @@ export class DbModel<T> {
     return tx.done
   }
 
-  async getAll () {
+  async getAll (): Promise<T[]> {
     await this.db.connect()
     return this.db._idb.getAll(this.tableName)
   }
