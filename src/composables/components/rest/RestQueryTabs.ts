@@ -45,7 +45,24 @@ export const useRestQueryTabs = () => {
   }
   loadTabs()
 
+  const activeTabIndex = () => (tabs.value.findIndex(t => t.name === activeTabName.value) || 0)
+
+  const setTabContent = ({ method, path, body }: { method: string, path: string, body: string }) => {
+    const idx = activeTabIndex()
+    tabs.value[idx].request.method = method
+    tabs.value[idx].request.path = path
+    tabs.value[idx].request.body = body
+    tabs.value[idx].response.status = ''
+    tabs.value[idx].response.ok = false
+    tabs.value[idx].response.bodyText = ''
+
+    const obj = toRaw(tabs.value[idx])
+    restQueryTabs.update(obj)
+    return obj
+  }
+
   return {
+    setTabContent,
     tabs,
     activeTabName,
     addTab,

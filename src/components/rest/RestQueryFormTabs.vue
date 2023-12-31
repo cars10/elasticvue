@@ -39,5 +39,6 @@
 
   const emit = defineEmits(['reloadHistory', 'reloadSavedQueries'])
 
-  const { tabs, activeTabName, addTab, updateTab, removeTab } = useRestQueryTabs()
+  const { tabs, activeTabName, addTab, updateTab, removeTab, setTabContent } = useRestQueryTabs()
+  defineExpose({ setTabContent, addTab })
 </script>

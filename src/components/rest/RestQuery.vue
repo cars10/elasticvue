@@ -55,7 +55,7 @@
       </q-card-section>
     </q-card>
 
-    <rest-query-form-tabs @reload-history="reloadHistory" @reload-saved-queries="reloadSavedQueries" />
+    <rest-query-form-tabs ref="tabs" @reload-history="reloadHistory" @reload-saved-queries="reloadSavedQueries" />
   </div>
 </template>
 
@@ -66,8 +66,11 @@
   import RestQueryHistoryList from './RestQueryHistoryList.vue'
   import RestQuerySavedQueriesList from './RestQuerySavedQueriesList.vue'
   import RestQueryFormTabs from './RestQueryFormTabs.vue'
+  import { Ref, ref } from 'vue'
 
   const t = useTranslation()
+  const tabs: Ref<typeof RestQueryFormTabs | null> = ref(null)
+
   const {
     clusterMinor,
     history,
@@ -80,5 +83,5 @@
     toggleSavedQueries,
     useRequest,
     useRequestInNewTab
-  } = useRestQuery()
+  } = useRestQuery(tabs)
 </script>

@@ -1,10 +1,10 @@
 import { useConnectionStore } from '../../../store/connection.ts'
 import { computed, ref, Ref, toRaw } from 'vue'
 import { useIdbStore } from '../../../db/Idb.ts'
-import RestQueryFormTabs from '../../../components/rest/RestQueryFormTabs.vue'
 import { IdbRestQueryHistory, IdbRestQuerySavedQuery, IdbRestQueryTabRequest } from '../../../db/types.ts'
+import RestQueryFormTabs from '../../../components/rest/RestQueryFormTabs.vue'
 
-export const useRestQuery = () => {
+export const useRestQuery = (formTabs: Ref<typeof RestQueryFormTabs | null>) => {
   const { activeCluster } = useConnectionStore()
   const clusterMinor = computed(() => (activeCluster?.version?.split('.')?.slice(0, 2)?.join('.')))
 
@@ -18,7 +18,6 @@ export const useRestQuery = () => {
   const reloadSavedQueries = async () => (savedQueries.value = await restQuerySavedQueries.getAll())
   reloadSavedQueries()
 
-  const tabs: Ref<InstanceType<typeof RestQueryFormTabs> | null> = ref(null)
   const historyOpen = ref(false)
   const savedQueriesOpen = ref(false)
   const toggleHistory = () => {
@@ -31,23 +30,16 @@ export const useRestQuery = () => {
   }
 
   const useRequest = async (request: IdbRestQueryTabRequest) => {
-    if (!request || !tabs.value) return
+    if (!request || !formTabs.value) return
 
-    const activeTab = restQueryTabs.all.value[tabs.value.activeTabIndex()]
-    if (!activeTab) return
-
-    const { id, label, name } = activeTab
-    const obj = Object.assign({}, { id, label, name }, {
-      request: toRaw(request),
-      response: { status: '', ok: false, bodyText: '' }
-    })
+    const obj = formTabs.value.setTabContent(toRaw(request))
     await restQueryTabs.update(obj)
   }
 
   const useRequestInNewTab = async (request: IdbRestQueryTabRequest) => {
-    if (!tabs.value) return
+    if (!formTabs.value) return
 
-    await tabs.value.addTab()
+    await formTabs.value.addTab()
     await useRequest(request)
   }
 
