@@ -29,35 +29,15 @@
 
 <script setup lang="ts">
   import RestQueryList from './RestQueryList.vue'
-  import { useTranslation } from '../../composables/i18n.ts'
-  import { useIdbStore } from '../../db/Idb.ts'
-  import { ref } from 'vue'
   import { IdbRestQueryHistory } from '../../db/types.ts'
+  import { useRestQueryHistoryList } from '../../composables/components/rest/RestQueryHistoryList.ts'
 
-  defineProps<{ open: boolean }>()
+  defineProps<{ history: IdbRestQueryHistory[], open: boolean }>()
   const emit = defineEmits<{
     useRequest: [request: RestQueryRequestLike],
-    useRequestNewTab: [request: RestQueryRequestLike]
+    useRequestNewTab: [request: RestQueryRequestLike],
+    reloadHistory: []
   }>()
 
-  const t = useTranslation()
-
-  const { restQueryHistory, restQuerySavedQueries } = useIdbStore()
-  const history = ref([] as IdbRestQueryHistory[])
-  restQueryHistory.getAll().then(hist => (history.value = hist))
-
-  const saveHistory = (row: IdbRestQueryHistory) => {
-    const { method, path, body } = row
-    restQuerySavedQueries.insert({ method, path, body })
-  }
-  const removeHistory = (id: number) => (restQueryHistory.remove(id))
-
-  const columns = [
-    { label: t('query.rest_query_history.table.headers.query'), field: 'query', name: 'query', align: 'left' },
-    {
-      label: t('query.rest_query_history.table.headers.timestamp'), field: 'date', name: 'date', align: 'left',
-      sortOrder: 'da', sortable: true
-    },
-    { label: '' },
-  ]
+  const { saveHistory, removeHistory, columns } = useRestQueryHistoryList(emit)
 </script>

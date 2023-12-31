@@ -2,14 +2,17 @@ import { useConnectionStore } from '../../../store/connection.ts'
 import { computed, ref, Ref, toRaw } from 'vue'
 import { useIdbStore } from '../../../db/Idb.ts'
 import RestQueryFormTabs from '../../../components/rest/RestQueryFormTabs.vue'
-import { IdbRestQueryTabRequest } from '../../../db/types.ts'
+import { IdbRestQueryHistory, IdbRestQueryTabRequest } from '../../../db/types.ts'
 
 export const useRestQuery = () => {
-
   const { activeCluster } = useConnectionStore()
   const clusterMinor = computed(() => (activeCluster?.version?.split('.')?.slice(0, 2)?.join('.')))
 
-  const { restQueryTabs } = useIdbStore()
+  const { restQueryTabs, restQueryHistory } = useIdbStore()
+  const history = ref([] as IdbRestQueryHistory[])
+
+  const reloadHistory = async () => (history.value = await restQueryHistory.getAll())
+  reloadHistory()
 
   const tabs: Ref<InstanceType<typeof RestQueryFormTabs> | null> = ref(null)
   const historyOpen = ref(false)
@@ -45,7 +48,9 @@ export const useRestQuery = () => {
   }
 
   return {
+    reloadHistory,
     clusterMinor,
+    history,
     historyOpen,
     savedQueriesOpen,
     toggleHistory,

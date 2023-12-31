@@ -61,6 +61,17 @@ export class DbModel<T> {
     this.db = db
   }
 
+  async count (): Promise<number> {
+    await this.db.connect()
+    return this.db._idb.count(this.tableName)
+  }
+
+  async first (): Promise<T | null> {
+    await this.db.connect()
+    const cursor = await this.db._idb.transaction(this.tableName).store.openCursor(null, 'next')
+    return cursor?.value
+  }
+
   async last (): Promise<T | null> {
     await this.db.connect()
     const cursor = await this.db._idb.transaction(this.tableName).store.openCursor(null, 'prev')

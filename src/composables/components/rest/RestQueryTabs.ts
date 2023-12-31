@@ -37,8 +37,6 @@ export const useRestQueryTabs = () => {
     tabs.value.splice(index, 1)
   }
 
-  const activeTabIndex = () => (tabs.value.findIndex(t => t.name === activeTabName.value) || 0)
-
   const loadTabs = async () => {
     tabs.value = await restQueryTabs.getAll()
 
@@ -50,7 +48,6 @@ export const useRestQueryTabs = () => {
   return {
     tabs,
     activeTabName,
-    activeTabIndex,
     addTab,
     updateTab,
     removeTab

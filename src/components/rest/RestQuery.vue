@@ -37,7 +37,10 @@
         </div>
 
         <q-slide-transition>
-          <rest-query-history-list :open="historyOpen" @use-request="useRequest"
+          <rest-query-history-list :history="history"
+                                   :open="historyOpen"
+                                   @reload-history="reloadHistory"
+                                   @use-request="useRequest"
                                    @use-request-new-tab="useRequestInNewTab" />
         </q-slide-transition>
 
@@ -48,7 +51,7 @@
       </q-card-section>
     </q-card>
 
-    <rest-query-form-tabs ref="tabs" />
+    <rest-query-form-tabs @reload-history="reloadHistory" />
   </div>
 </template>
 
@@ -63,8 +66,10 @@
   const t = useTranslation()
   const {
     clusterMinor,
+    history,
     historyOpen,
     savedQueriesOpen,
+    reloadHistory,
     toggleHistory,
     toggleSavedQueries,
     useRequest,
