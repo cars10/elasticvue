@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.2
+
+* fixes issue with old versions of elasticsearch that do not provide a uuid, fixes [#182][i182]
+
+[i182]: https://github.com/cars10/elasticvue/issues/182
+
 ## 1.0.1
 
 This release fixes some bugs that where introduced in `1.0`. It also adds the ability to configure clusters when using
