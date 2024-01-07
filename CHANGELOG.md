@@ -3,8 +3,10 @@
 ## 1.0.2
 
 * fixes issue with old versions of elasticsearch that do not provide a uuid, fixes [#182][i182]
+* adds document meta information when editing documents, fixes [#187][i187]
 
 [i182]: https://github.com/cars10/elasticvue/issues/182
+[i187]: https://github.com/cars10/elasticvue/issues/187
 
 ## 1.0.1
 
