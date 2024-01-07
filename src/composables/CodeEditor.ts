@@ -1,7 +1,7 @@
 import { onMounted, Ref, watch } from 'vue'
 import { EditorView, basicSetup } from 'codemirror'
 import { KeyBinding, keymap } from '@codemirror/view'
-import { Compartment } from '@codemirror/state'
+import { Compartment, Prec } from '@codemirror/state'
 import { indentWithTab } from '@codemirror/commands'
 import { json } from '@codemirror/lang-json'
 import { baseTheme } from './CodeEditor/theme.ts'
@@ -83,7 +83,7 @@ export const useCodeEditor = (editorRef: Ref<HTMLElement | null>, {
         autocompletion({ override: [completions] }),
         onChange,
         keymap.of([indentWithTab]),
-        keymap.of(commands || []),
+        Prec.highest(keymap.of(commands || [])),
         keymap.of([{ key: 'Ctrl-Alt-l', mac: 'Ctrl-Cmd-l', run: beautifyEditorValue }]),
         wrapLines.of(codeEditorStore.wrapLines ? EditorView.lineWrapping : []),
         theme.of(baseTheme)
