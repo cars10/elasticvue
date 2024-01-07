@@ -66,7 +66,7 @@ export const useEditDocument = (props: EditDocumentProps, emit: any) => {
   }
 
   const validDocumentMeta = computed(() => {
-    return Object.fromEntries(Object.entries(documentMeta.value).filter(([_, v]) => v != null))
+    return Object.fromEntries(Object.entries(documentMeta.value).filter((keyval) => keyval[1] != null))
   })
 
   const { run, loading } = defineElasticsearchRequest({ emit, method: 'index' })

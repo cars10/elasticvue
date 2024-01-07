@@ -9,7 +9,7 @@
     </div>
 
     <div class="flex">
-      <filter-input v-model="filter" />
+      <filter-input v-model="indicesStore.filter" />
 
       <q-btn icon="settings" round flat class="q-ml-sm">
         <q-menu style="white-space: nowrap" anchor="bottom right" self="top end">
@@ -95,7 +95,6 @@
   const {
     indicesStore,
     resizeStore,
-    filter,
     items,
     tableKey,
     rowsPerPage,
