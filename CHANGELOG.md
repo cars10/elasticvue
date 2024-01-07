@@ -8,8 +8,11 @@
 * cache index table filter, fixes [#181][i181]
 
 [i182]: https://github.com/cars10/elasticvue/issues/182
+
 [i187]: https://github.com/cars10/elasticvue/issues/187
+
 [i183]: https://github.com/cars10/elasticvue/issues/183
+
 [i181]: https://github.com/cars10/elasticvue/issues/181
 
 ## 1.0.1
