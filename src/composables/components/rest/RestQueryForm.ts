@@ -128,7 +128,7 @@ export const useRestQueryForm = (props: RestQueryFormProps, emit: any) => {
   })
 
   const editorCommands = [{
-    key: 'Alt-Enter', mac: 'Cmd-Enter', run: () => {
+    key: 'Ctrl-Enter', mac: 'Cmd-Enter', run: () => {
       sendRequest()
       return true
     }

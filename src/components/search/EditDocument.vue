@@ -15,7 +15,18 @@
 
       <q-card-section>
         <loader-status :request-state="requestState">
-          <resizable-container v-model="resizeStore.documentEdit">
+          <q-list v-if="validDocumentMeta" class="flex justify-between q-mb-md">
+            <q-item v-for="(value, key) of validDocumentMeta" :key="`${key}_${value}`" class="q-px-none q-mx-sm">
+              <q-item-section>
+                <q-item-label>{{ key }}</q-item-label>
+              </q-item-section>
+              <q-item-section side style="padding-left: 8px;">
+                <q-item-label>{{ value }}</q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-list>
+
+          <resizable-container v-model="resizeStore.documentEdit" dense>
             <code-editor v-model="document" />
           </resizable-container>
         </loader-status>
@@ -54,6 +65,7 @@
 
   const {
     document,
+    validDocumentMeta,
     ownValue,
     loadDocument,
     requestState,

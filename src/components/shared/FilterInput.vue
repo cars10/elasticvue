@@ -12,9 +12,9 @@
 
   const t = useTranslation()
 
-  defineProps<{ modelValue: string }>()
+  const props = defineProps<{ modelValue: string }>()
 
   const emit = defineEmits(['update:modelValue'])
-  const filter = ref('')
+  const filter = ref(props.modelValue)
   watch(filter, newValue => (emit('update:modelValue', newValue)))
 </script>

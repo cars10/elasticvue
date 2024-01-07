@@ -31,7 +31,6 @@ export const useIndicesTable = (props: EsTableProps, emit: any) => {
   const indicesStore = useIndicesStore()
   const resizeStore = useResizeStore()
 
-  const filter = ref('')
   const items: Ref<ElasticsearchIndex[]> = ref([])
   const tableKey = ref(0)
 
@@ -50,12 +49,12 @@ export const useIndicesTable = (props: EsTableProps, emit: any) => {
       results = results.filter((item: any) => !item.index.match(new RegExp(indicesStore.hideIndicesRegex)))
     }
 
-    results = filterItems(results, filter.value, ['index', 'uuid'])
+    results = filterItems(results, indicesStore.filter, ['index', 'uuid'])
     items.value = results.map((index: any) => new ElasticsearchIndex(index))
   }
 
   const debouncedFilterTable = debounce(filterTable, 150)
-  watch(() => filter.value, debouncedFilterTable)
+  watch(() => indicesStore.filter, debouncedFilterTable)
   watch(() => indicesStore.showHiddenIndices, filterTable)
   watch(() => props.indices, filterTable)
   watch(() => indicesStore.stickyTableHeader, () => (tableKey.value += 1))
@@ -84,7 +83,6 @@ export const useIndicesTable = (props: EsTableProps, emit: any) => {
   return {
     indicesStore,
     resizeStore,
-    filter,
     items,
     tableKey,
     rowsPerPage,

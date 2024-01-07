@@ -1,5 +1,20 @@
 # Changelog
 
+## 1.0.2
+
+* fixes issue with old versions of elasticsearch that do not provide a uuid, fixes [#182][i182]
+* adds document meta information when editing documents, fixes [#187][i187]
+* remap hotkey for sending rest request to `Ctrl+Enter`, fixes [#183][i183]
+* cache index table filter, fixes [#181][i181]
+
+[i182]: https://github.com/cars10/elasticvue/issues/182
+
+[i187]: https://github.com/cars10/elasticvue/issues/187
+
+[i183]: https://github.com/cars10/elasticvue/issues/183
+
+[i181]: https://github.com/cars10/elasticvue/issues/181
+
 ## 1.0.1
 
 This release fixes some bugs that where introduced in `1.0`. It also adds the ability to configure clusters when using

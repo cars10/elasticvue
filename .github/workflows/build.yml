@@ -68,7 +68,7 @@ jobs:
         if: matrix.platform == 'ubuntu-latest'
         uses: actions/upload-artifact@v3
         with:
-          path: src-tauri/target/release/bundle/appimage/elasticvue_*_amd64.AppImage
+          path: src-tauri/target/release/bundle/appimage/elasticvue_*_amd64.*
 
       - name: (linux) upload binary
         id: linux_upload_binary
@@ -81,7 +81,7 @@ jobs:
         if: matrix.platform == 'windows-latest'
         uses: actions/upload-artifact@v3
         with:
-          path: src-tauri/target/release/bundle/msi/elasticvue_*_x64_en-US.msi
+          path: src-tauri/target/release/bundle/msi/elasticvue_*_x64*
 
       - name: (windows) upload .exe
         if: matrix.platform == 'windows-latest'

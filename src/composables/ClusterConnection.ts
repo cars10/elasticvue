@@ -110,7 +110,7 @@ export const useClusterConnection = (cluster: Ref<ElasticsearchCluster>) => {
   }
 }
 
-const clusterUuid = (infoJson: any) => {
+export const clusterUuid = (infoJson: any) => {
   if (infoJson.cluster_uuid) return infoJson.cluster_uuid
 
   // fallback for elasticsearch < 5

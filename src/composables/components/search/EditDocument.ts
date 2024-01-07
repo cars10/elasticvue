@@ -1,4 +1,4 @@
-import { ref, watch, Ref } from 'vue'
+import { ref, watch, Ref, computed } from 'vue'
 import { useTranslation } from '../../i18n.ts'
 import {
   defineElasticsearchRequest,
@@ -17,10 +17,20 @@ export type ElasticsearchDocumentInfo = {
   _routing?: string
 }
 
+type ElasticsearchDocumentMeta = {
+  _index?: string,
+  _type?: string,
+  _id?: string,
+  _version?: number,
+  _primary_term?: number,
+  _seq_no?: number
+}
+
 export const useEditDocument = (props: EditDocumentProps, emit: any) => {
   const ownValue = ref(false)
   const t = useTranslation()
   const document = ref('')
+  const documentMeta = ref({} as ElasticsearchDocumentMeta)
 
   const { requestState, callElasticsearch } = useElasticsearchAdapter()
   const data: Ref<any> = ref(null)
@@ -45,7 +55,19 @@ export const useEditDocument = (props: EditDocumentProps, emit: any) => {
   const loadDocument = async () => {
     await load()
     document.value = stringifyJson(data.value._source)
+    documentMeta.value = {
+      _index: data.value._index,
+      _type: data.value._type,
+      _id: data.value._id,
+      _version: data.value._version,
+      _primary_term: data.value._primary_term,
+      _seq_no: data.value._seq_no
+    }
   }
+
+  const validDocumentMeta = computed(() => {
+    return Object.fromEntries(Object.entries(documentMeta.value).filter((keyval) => keyval[1] != null))
+  })
 
   const { run, loading } = defineElasticsearchRequest({ emit, method: 'index' })
   const updateDocument = async () => {
@@ -63,6 +85,7 @@ export const useEditDocument = (props: EditDocumentProps, emit: any) => {
 
   return {
     document,
+    validDocumentMeta,
     ownValue,
     loadDocument,
     requestState,
