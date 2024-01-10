@@ -9,7 +9,7 @@
         "home": "首页",
         "nodes": "节点",
         "indices": "索引",
-        "shards": null,
+        "shards": "分片",
         "search": "搜索",
         "rest": "REST",
         "snapshots": "快照",
@@ -40,8 +40,8 @@
     "create": "创建",
     "delete": "删除",
     "success": "成功",
-    "bulk": null,
-    "copy": null
+    "bulk": "批量操作",
+    "copy": "复制"
   },
   "cluster_selection": {
     "cluster_selection": {
@@ -53,14 +53,14 @@
       "headers": {
         "cluster": "集群名称",
         "uri": "地址",
-        "version": null
+        "version": "版本"
       },
       "row": {
         "title": "连接到集群 '{uri}'",
         "remove_cluster": {
           "confirm": "移除集群 '{name}' ({uri})?"
         },
-        "unsupported": null
+        "unsupported": "Elasticsearch {majorVersion} 版本已经终止生命周期, elasticvue不保证完全支持. 您在使用过程中可能会遭遇bug或者功能受限."
       }
     },
     "edit_cluster": {
@@ -111,14 +111,14 @@
       }
     },
     "index_reindex": {
-      "text": null,
-      "heading": null,
-      "index": null,
+      "text": "重建索引",
+      "heading": "重建索引",
+      "index": "源索引: {index}",
       "form": {
         "source": {
-          "label": null
+          "label": "目标索引:.."
         },
-        "reindex": null
+        "reindex": "重建索引(Reindex)"
       }
     },
     "index_row": {
@@ -150,7 +150,7 @@
         },
         "close": {
           "text": "关闭索引",
-          "confirm": null,
+          "confirm": "关闭索引 '{index}' ?",
           "growl": "索引 '{index}' 缓存已成功关闭。"
         },
         "open": {
@@ -158,9 +158,9 @@
           "growl": "索引 '{index}' 缓存已成功开启。"
         },
         "delete_by_query": {
-          "text": null,
-          "confirm": null,
-          "growl": null
+          "text": "删除所有文档",
+          "confirm": "确认删除索引 '{index}' 中的所有文档? 这意味着移除此索引中的所有数据!",
+          "growl": "索引 '{index}' 中的全部文档已成功删除."
         },
         "delete": {
           "text": "删除",
@@ -174,7 +174,7 @@
         "label": "查看隐藏索引"
       },
       "sticky_table_header": {
-        "label": null
+        "label": "固定表格高度"
       },
       "table": {
         "headers": {
@@ -184,7 +184,7 @@
           "uuid": "UUID",
           "aliases": "别名",
           "shards": "分片",
-          "segments": null,
+          "segments": "分段",
           "docs": "Lucene 文档",
           "storage": "储存空间",
           "parsed_docs_count": {
@@ -212,14 +212,14 @@
     }
   },
   "index_templates": {
-    "heading": null,
+    "heading": "索引模板",
     "index_templates_table": {
       "table": {
         "headers": {
-          "name": null,
-          "index_patterns": null,
-          "priority": null,
-          "version": null
+          "name": "名字",
+          "index_patterns": "索引模式",
+          "priority": "优先级",
+          "version": "版本"
         }
       }
     }
@@ -230,7 +230,7 @@
     }
   },
   "cluster_nodes": {
-    "heading": null,
+    "heading": "节点",
     "node_icons": {
       "master": {
         "title": "主节点"
@@ -250,10 +250,10 @@
     },
     "node_properties": {
       "ip": "IP地址",
-      "id": null,
+      "id": "id",
       "master": "主节点",
       "node_role": "节点角色",
-      "attr": null,
+      "attr": "属性",
       "load": "负载",
       "cpu": "CPU",
       "ram": "内存",
@@ -280,7 +280,7 @@
           "label": "请求路径"
         },
         "send_request": "发送请求",
-        "save_request": null,
+        "save_request": "保存",
         "reset": "重置",
         "download_as_json": "下载为 JSON 文件"
       },
@@ -312,7 +312,7 @@
       },
       "body_preview": {
         "use": "使用",
-        "open_new_tab": null,
+        "open_new_tab": "新标签页打开",
         "remove_entry": "删除条目",
         "unselect": "取消选择"
       }
@@ -346,16 +346,16 @@
           "label": "存储类型*"
         },
         "bucket": {
-          "label": null
+          "label": "s3 存储桶(bucket)*"
         },
         "client": {
-          "label": null
+          "label": "s3 客户端(client)*"
         },
         "protocol": {
-          "label": null
+          "label": "协议*"
         },
         "region": {
-          "label": null
+          "label": "s3  区域(region)*"
         },
         "path_style_access": {
           "label": null
@@ -367,10 +367,10 @@
           "label": "块大小"
         },
         "max_restore_bytes_per_sec": {
-          "label": "max_restore_bytes_per_sec"
+          "label": "每秒最大恢复数据量(max_restore_bytes_per_sec)"
         },
         "max_snapshot_bytes_per_sec": {
-          "label": "max_snapshot_bytes_per_sec"
+          "label": "每秒最大快照数据量(max_snapshot_bytes_per_sec)"
         },
         "compress": {
           "label": "压缩"
@@ -409,10 +409,10 @@
       },
       "search": "搜索",
       "customize_query": {
-        "button": null,
+        "button": "自定义查询",
         "hint": "提示：对查询的更改不会更新搜索框中的相关输入（如搜索查询或表中的分页/排序），但对输入的更改将合并到查询中。",
-        "reset": null,
-        "reset_all": null
+        "reset": "重置语句",
+        "reset_all": "全部重置"
       }
     },
     "search_result": {
@@ -420,12 +420,12 @@
         "title": "查看"
       },
       "edit": {
-        "text": null
+        "text": "编辑文档"
       },
       "delete": {
-        "text": null,
-        "confirm": null,
-        "growl": null
+        "text": "# | 删除文档 | 批量删除文档",
+        "confirm": "# | 是否删除这个文档? | 是否批量删除 {count} 个文档?",
+        "growl": "# | 删除文档成功. | 批量删除文档成功."
       }
     },
     "results_table": {
@@ -436,32 +436,32 @@
         "title": "表格设置",
         "columns": "列",
         "sticky_table_header": {
-          "label": null
+          "label": "固定表格高度"
         }
       },
       "download_as_json": "下载为 JSON 文件"
     },
     "edit_document": {
       "update": {
-        "text": null,
-        "growl": null
+        "text": "更新文档",
+        "growl": "更新文档成功."
       }
     }
   },
   "settings": {
     "heading": "设置",
     "hide_indices_regex": {
-      "label": "隐藏索引正则表达式",
-      "message": "与此正则表达式匹配的索引将默认隐藏在所有列出索引的位置",
+      "label": "正则表达式: 隐藏索引",
+      "message": "匹配的索引将默认隐藏 (所有位置)",
       "reset": "重置为默认 {regex}"
     },
     "hide_nodes_attributes_regex": {
-      "label": null,
-      "message": null,
-      "reset": null
+      "label": "正则表达式: 隐藏节点属性",
+      "message": "匹配的节点属性将默认隐藏 (所有位置)",
+      "reset":  "重置为默认 {regex}"
     },
     "localize_timestamp": {
-      "label": null
+      "label": "在搜索结果中显示字段 '{'@'}timestamp' 的本地化值"
     },
     "disconnect_and_reset": {
       "heading": "断开连接并重置所有配置",
@@ -493,37 +493,37 @@
       "restart": "然后重启你的集群"
     },
     "import_predefined_clusters": {
-      "heading": null,
-      "import": null,
+      "heading": "预设的批量集群",
+      "import": "导入集群 | 导入 1 个集群 | 导入 {count} 个集群",
       "table": {
         "headers": {
-          "health": null,
-          "cluster_name": null,
-          "uri": null,
-          "username": null,
-          "password": null
+          "health": "健康",
+          "cluster_name": "集群名称",
+          "uri": "uri",
+          "username": "用户名",
+          "password": "密码"
         }
       }
     },
     "setup_instance": {
-      "heading": null,
-      "configure": null,
-      "connect": null
+      "heading": "添加elasticsearch集群",
+      "configure": "1. 配置",
+      "connect": "2. 连接"
     },
     "test_and_connect": {
       "heading": "2. 连接",
       "form": {
         "name": {
-          "label": null
+          "label": "集群名称"
         },
         "username": {
           "label": "用户名 (可选)"
         },
         "password": {
-          "label": "密码或加密的API密钥（可选"
+          "label": "密码或加密的API密钥（可选）"
         },
         "api_key": {
-          "label": null
+          "label": "加密的API密匙"
         },
         "uri": {
           "label": "地址"
@@ -535,25 +535,25 @@
     }
   },
   "shards": {
-    "heading": null,
+    "heading": "分片",
     "shards_table": {
-      "cancel_relocation": null
+      "cancel_relocation": "取消relocation"
     }
   },
   "shared": {
     "cluster_connection_errors": {
-      "connection_error": null,
-      "http_error": null,
-      "cant_connect": null,
-      "please_check": null,
+      "connection_error": "连接错误",
+      "http_error": "http错误",
+      "cant_connect": "无法连接你的集群",
+      "please_check": "请确认集群可以连接",
       "checklist": {
-        "reachable": null,
-        "ssl": null,
-        "cors": null
+        "reachable": "你的集群可以连接",
+        "ssl": "你的浏览器信任集群的ssl凭证",
+        "cors": "你已开启跨域(CORS)并重启了你的集群"
       }
     },
-    "nothing_found_for_filter": null,
-    "nothing_found": null,
+    "nothing_found_for_filter": "没有找到 '{filter}' 对应的记录.",
+    "nothing_found": "无记录",
     "index_filter": {
       "use_index_pattern": "使用索引模式",
       "use_index_select": "选择索引",
@@ -607,8 +607,8 @@
     },
     "loader": {
       "copy_error": "复制错误",
-      "network_error": null,
-      "cluster_uri": null
+      "network_error": "网络错误, 无法访问你的集群",
+      "cluster_uri": "集群uri:"
     },
     "modal_data_loader": {
       "modal_title": {
@@ -640,7 +640,7 @@
     }
   },
   "snapshots": {
-    "heading": null,
+    "heading": "存储 '{name}' - 快照",
     "new_snapshot": {
       "heading": "新建快照",
       "form": {
@@ -678,7 +678,7 @@
       }
     },
     "snapshot": {
-      "indices": null,
+      "indices": "{count} 个索引",
       "options": "选项",
       "delete": {
         "text": "删除快照",
@@ -712,12 +712,12 @@
   },
   "welcome": {
     "import_backup": {
-      "heading": null
+      "heading": "导入 elasticvue 的备份"
     },
     "welcome_page": {
-      "intro": null,
-      "first_time": null,
-      "add_clusters": null
+      "intro": "最快最好用的elasticsearch可视化界面",
+      "first_time": "您似乎是首次使用elasticvue",
+      "add_clusters": "请添加第一个集群, 或者导入一个之前的elasticvue配置备份"
     }
   }
 }
