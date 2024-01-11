@@ -2,9 +2,12 @@
 
 ## 1.0.3
 
-* dont automatically open autocomplete, press `ctrl+space` to open, fixes [#189][i189]
+* don't automatically open autocomplete, press `Ctrl+Space` to open, fixes [#189][i189]
+* send search query with `Ctrl+Enter` when editing query, fixes [#190][i190]
 
 [i189]: https://github.com/cars10/elasticvue/issues/189
+
+[i190]: https://github.com/cars10/elasticvue/issues/190
 
 ## 1.0.2
 
