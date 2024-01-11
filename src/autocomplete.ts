@@ -5,7 +5,7 @@ export const queryKeywords = [
   'fields', 'type',
   'filter', 'boost',
   'operator', 'cutoff_frequency', 'bool', 'must', 'should', 'term', 'terms', 'prefix',
-  'query', 'match', 'match_phrase', 'range', 'gte', 'lte',
+  'query', 'query_string', 'match', 'match_phrase', 'range', 'gte', 'lte',
   '_source'
 ]
 

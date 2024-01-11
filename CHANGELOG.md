@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.3
+
+* dont automatically open autocomplete, press `ctrl+space` to open, fixes [#189][i189]
+
+[i189]: https://github.com/cars10/elasticvue/issues/189
+
 ## 1.0.2
 
 * fixes issue with old versions of elasticsearch that do not provide a uuid, fixes [#182][i182]
