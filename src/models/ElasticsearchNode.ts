@@ -4,16 +4,16 @@ export default class ElasticsearchNode {
   name: string
   id: string
   ip: string
-  heapPercent: string
+  heapPercent: number
   heapCurrent: string
   heapMax: string
-  ramPercent: string
+  ramPercent: number
   ramCurrent: string
   ramMax: string
-  diskPercent: string
+  diskPercent: number
   diskCurrent: string
   diskMax: string
-  cpu: string
+  cpu: number
   load_1m: string
   load_5m: string
   load_15m: string
@@ -29,16 +29,16 @@ export default class ElasticsearchNode {
     this.name = options.name
     this.id = options.id
     this.ip = options.ip
-    this.heapPercent = options['heap.percent']
+    this.heapPercent = parseFloatValue(options['heap.percent'])
     this.heapCurrent = options['heap.current']
     this.heapMax = options['heap.max']
-    this.ramPercent = options['ram.percent']
+    this.ramPercent = parseFloatValue(options['ram.percent'])
     this.ramCurrent = options['ram.current']
     this.ramMax = options['ram.max']
-    this.diskPercent = options['disk.used_percent']
+    this.diskPercent = parseFloatValue(options['disk.used_percent'])
     this.diskCurrent = options['disk.used']
     this.diskMax = options['disk.total']
-    this.cpu = options.cpu
+    this.cpu = parseFloatValue(options.cpu)
     this.load_1m = options.load_1m
     this.load_5m = options.load_5m
     this.load_15m = options.load_15m
@@ -59,5 +59,13 @@ export default class ElasticsearchNode {
     this.dataNode = roles.includes('d')
     this.ingestNode = roles.includes('i')
     this.coordinatingNode = roles === '-'
+  }
+}
+
+function parseFloatValue (value: string) {
+  try {
+    return parseFloat(value)
+  } catch (error) {
+    return -1
   }
 }

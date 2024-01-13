@@ -100,7 +100,7 @@
     { label: t('cluster_nodes.node_properties.master'), field: 'master', align: 'left' },
     { label: t('cluster_nodes.node_properties.node_role'), field: 'nodeRole', align: 'left' },
     { label: t('cluster_nodes.node_properties.attr'), align: 'left' },
-    { label: t('cluster_nodes.node_properties.load'), field: 'load_1m', align: 'left' },
+    { label: t('cluster_nodes.node_properties.load'), align: 'left' },
     { label: t('cluster_nodes.node_properties.cpu'), field: 'cpu', align: 'left' },
     { label: t('cluster_nodes.node_properties.ram'), field: 'ramPercent', align: 'left' },
     { label: t('cluster_nodes.node_properties.heap'), field: 'heapPercent', align: 'left' },

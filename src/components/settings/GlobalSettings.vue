@@ -31,7 +31,6 @@
           <div class="row q-mb-lg">
             <div class="col-md-6 col-sm-12">
               <q-input v-model="nodesStore.hideAttributesRegex"
-                       autofocus
                        outlined
                        :label="t('settings.hide_nodes_attributes_regex.label')"
                        :hint="t('settings.hide_nodes_attributes_regex.message')">
