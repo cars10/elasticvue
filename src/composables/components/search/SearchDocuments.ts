@@ -70,7 +70,7 @@ export const useSearchDocuments = () => {
   }
 
   const editorCommands = [{
-    key: 'Alt-Enter', mac: 'Cmd-Enter', run: () => {
+    key: 'Ctrl-Enter', run: () => {
       search()
       return true
     }

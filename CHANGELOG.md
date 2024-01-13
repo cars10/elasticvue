@@ -1,37 +1,32 @@
 # Changelog
 
+## 1.0.3
+
+* updates chinese translations. thanks @slow-groovin! [#192](https://github.com/cars10/elasticvue/pull/192)
+* don't automatically open autocomplete in editor, press `Ctrl+Space` to open,
+  fixes [#189](https://github.com/cars10/elasticvue/issues/189)
+* send search query with `Ctrl+Enter` when editing query, fixes [#190](https://github.com/cars10/elasticvue/issues/190)
+* fix sorting in nodes table, fixes [#193](https://github.com/cars10/elasticvue/issues/193)
+
 ## 1.0.2
 
-* fixes issue with old versions of elasticsearch that do not provide a uuid, fixes [#182][i182]
-* adds document meta information when editing documents, fixes [#187][i187]
-* remap hotkey for sending rest request to `Ctrl+Enter`, fixes [#183][i183]
-* cache index table filter, fixes [#181][i181]
-
-[i182]: https://github.com/cars10/elasticvue/issues/182
-
-[i187]: https://github.com/cars10/elasticvue/issues/187
-
-[i183]: https://github.com/cars10/elasticvue/issues/183
-
-[i181]: https://github.com/cars10/elasticvue/issues/181
+* fixes issue with old versions of elasticsearch that do not provide a uuid,
+  fixes [#182](https://github.com/cars10/elasticvue/issues/182)
+* adds document meta information when editing documents, fixes [#187](https://github.com/cars10/elasticvue/issues/187)
+* remap hotkey for sending rest request to `Ctrl+Enter`, fixes [#183](https://github.com/cars10/elasticvue/issues/183)
+* cache index table filter, fixes [#181](https://github.com/cars10/elasticvue/issues/181)
 
 ## 1.0.1
 
 This release fixes some bugs that where introduced in `1.0`. It also adds the ability to configure clusters when using
 elasticvue via docker.
 
-* you can add predefined clusters when starting elasticvue via docker, check the readme for details. fixes [#112][i112]
-* fix issues when showing documents if `routing` is enabled, fixes [#177][i177]
-* fix issue when trying to show all shards, fixes [#174][i174]
-* fix issue with jumping cursor in rest editor, fixes [#180][i180]
-
-[i112]: https://github.com/cars10/elasticvue/issues/112
-
-[i177]: https://github.com/cars10/elasticvue/issues/177
-
-[i174]: https://github.com/cars10/elasticvue/issues/174
-
-[i180]: https://github.com/cars10/elasticvue/issues/180
+* you can add predefined clusters when starting elasticvue via docker, check the readme for details.
+  fixes [#112](https://github.com/cars10/elasticvue/issues/112)
+* fix issues when showing documents if `routing` is enabled,
+  fixes [#177](https://github.com/cars10/elasticvue/issues/177)
+* fix issue when trying to show all shards, fixes [#174](https://github.com/cars10/elasticvue/issues/174)
+* fix issue with jumping cursor in rest editor, fixes [#180](https://github.com/cars10/elasticvue/issues/180)
 
 ## 1.0.0
 
@@ -87,31 +82,20 @@ Elasticvue `1.0` adds many new features:
 
 ## 1.0.0-beta-7
 
-* don't create duplicates in rest history when sending the same request again, fixes [#162][i162]
-* show number of segments in indices table, fixes [#171][i171]
-* show node attributes, fixes [#169][i169]
-
-[i162]: https://github.com/cars10/elasticvue/issues/162
-
-[i171]: https://github.com/cars10/elasticvue/issues/171
-
-[i169]: https://github.com/cars10/elasticvue/issues/169
+* don't create duplicates in rest history when sending the same request again,
+  fixes [#162](https://github.com/cars10/elasticvue/issues/162)
+* show number of segments in indices table, fixes [#171](https://github.com/cars10/elasticvue/issues/171)
+* show node attributes, fixes [#169](https://github.com/cars10/elasticvue/issues/169)
 
 ## 1.0.0-beta-6
 
-* adds confirm when closing indices, fixes [#153][f153]
-* link rest api docs to current version docs, fixes [#163][f163]
-* sort shards by health, fixes [#161][i161]
+* adds confirm when closing indices, fixes [#153](https://github.com/cars10/elasticvue/issues/153)
+* link rest api docs to current version docs, fixes [#163](https://github.com/cars10/elasticvue/issues/163)
+* sort shards by health, fixes [#161](https://github.com/cars10/elasticvue/issues/161)
 * fixes index table filter
 * replaces `ace` editor with `codemirror 6`
 * more improvements for older versions of elasticvue
 * dependency updates
-
-[f153]: https://github.com/cars10/elasticvue/issues/153
-
-[f163]: https://github.com/cars10/elasticvue/issues/163
-
-[i161]: https://github.com/cars10/elasticvue/issues/161
 
 ## 1.0.0-beta-5
 
@@ -175,27 +159,19 @@ quasar.
 
 ## 0.44.1
 
-* update dockerfile base images, fixes [#129][i129]
-
-[i129]: https://github.com/cars10/elasticvue/issues/129
+* update dockerfile base images, fixes [#129](https://github.com/cars10/elasticvue/issues/129)
 
 ## 0.44.0
 
-* [feat]: show content while reloading, fixes [#125][f125]
-* [feat]: adds index templates table, fixes [#126][f126]
+* [feat]: show content while reloading, fixes [#125](https://github.com/cars10/elasticvue/issues/125)
+* [feat]: adds index templates table, fixes [#126](https://github.com/cars10/elasticvue/issues/126)
 * restructure snapshots & repositories table
-
-[f125]: https://github.com/cars10/elasticvue/issues/125
-
-[f126]: https://github.com/cars10/elasticvue/issues/126
 
 ## 0.43.0
 
-* [feat]: add support to connect via API key, thanks @tkdave, [#110][f110]
+* [feat]: add support to connect via API key, thanks @tkdave, [#110](https://github.com/cars10/elasticvue/issues/110)
 * [feat]: desktop app menu & icon fixes for mac
 * [feat]: dependency updates, use vue 2.7, prepare vue 3.0 update
-
-[f110]: https://github.com/cars10/elasticvue/pull/110
 
 ## 0.42.1
 
@@ -203,63 +179,46 @@ quasar.
 
 ## 0.42.0
 
-* [fix]: fix additional issues with cluster selection, fixes [#103][i103]
-* [feat]: show `_score` in search results, fixes [#104][i104]
-
-[i104]: https://github.com/cars10/elasticvue/issues/104
+* [fix]: fix additional issues with cluster selection, fixes [#103](https://github.com/cars10/elasticvue/issues/103)
+* [feat]: show `_score` in search results, fixes [#104](https://github.com/cars10/elasticvue/issues/104)
 
 ## 0.41.0
 
-* [fix]: fix some issues with browser extensions and cluster swapping, fixes [#103][i103]
-
-[i103]: https://github.com/cars10/elasticvue/issues/103
+* [fix]: fix some issues with browser extensions and cluster swapping,
+  fixes [#103](https://github.com/cars10/elasticvue/issues/103)
 
 ## 0.40.0
 
-* [fix]: fix shards overview, fixes [#92][i92]
-* [fix]: reset current page if new search has less results than current page, fixes [#99][i99]
-* [fix]: adds option to disable sticky table headers, fixes [#75][i75]
+* [fix]: fix shards overview, fixes [#92](https://github.com/cars10/elasticvue/issues/92)
+* [fix]: reset current page if new search has less results than current page,
+  fixes [#99](https://github.com/cars10/elasticvue/issues/99)
+* [fix]: adds option to disable sticky table headers, fixes [#75](https://github.com/cars10/elasticvue/issues/75)
 * [feat]: change url to include cluster the id. This makes it much easier to work with different clusters in different
   browser tabs.
 
-[i92]: https://github.com/cars10/elasticvue/issues/92
-
-[i99]: https://github.com/cars10/elasticvue/issues/99
-
-[i75]: https://github.com/cars10/elasticvue/issues/75
-
 ## 0.39.0
 
-* [fix]: improve elasticsearch 8 support, fixes [#93][i93]
-* [fix]: elasticsearch version not updated, fixes [#94][i94]
-* [fix]: add additional button to reset the whole custom search body, fixes [#95][i95]
-* adds support for arm64 and arm/v7, fixes [#76][i76]
-
-[i76]: https://github.com/cars10/elasticvue/issues/76
-
-[i93]: https://github.com/cars10/elasticvue/issues/93
-
-[i94]: https://github.com/cars10/elasticvue/issues/94
-
-[i95]: https://github.com/cars10/elasticvue/issues/95
+* [fix]: improve elasticsearch 8 support, fixes [#93](https://github.com/cars10/elasticvue/issues/93)
+* [fix]: elasticsearch version not updated, fixes [#94](https://github.com/cars10/elasticvue/issues/94)
+* [fix]: add additional button to reset the whole custom search body,
+  fixes [#95](https://github.com/cars10/elasticvue/issues/95)
+* adds support for arm64 and arm/v7, fixes [#76](https://github.com/cars10/elasticvue/issues/76)
 
 ## 0.38.0
 
 This version includes some fixes for outdated versions of elasticsearch (like `2.x` and `5.x`).
 
-* [fix]: support snapshots for elasticsearch < 6, fixes [#83][i83]
-* [revert]: revert [#85][i85], fixes [#90][i90]
-
-[i83]: https://github.com/cars10/elasticvue/issues/83
-
-[i90]: https://github.com/cars10/elasticvue/issues/90
+* [fix]: support snapshots for elasticsearch < 6, fixes [#83](https://github.com/cars10/elasticvue/issues/83)
+* [revert]: revert [#85](https://github.com/cars10/elasticvue/issues/85],
+  fixes [#90](https://github.com/cars10/elasticvue/issues/90)
 
 ## 0.37.0
 
-* [feat]: BETA: adds shard overview + relocation, fixes [#72][i72]
-* [feat]: adds index bulk actions, fixes [#78][i78]
-* [feat]: save active cluster in sessionStorage instead of localStorage, fixes [#81][i81]
-* [feat]: add `track_total_hits` to default search query, fixes [#85][i85]
+* [feat]: BETA: adds shard overview + relocation, fixes [#72](https://github.com/cars10/elasticvue/issues/72)
+* [feat]: adds index bulk actions, fixes [#78](https://github.com/cars10/elasticvue/issues/78)
+* [feat]: save active cluster in sessionStorage instead of localStorage,
+  fixes [#81](https://github.com/cars10/elasticvue/issues/81)
+* [feat]: add `track_total_hits` to default search query, fixes [#85](https://github.com/cars10/elasticvue/issues/85)
 * [feat]: set page title (e.g. `elasticvue | Search`)
 * [feat]: show node role explanation on hover
 * [feat]: can copy node uri to clipboard in cluster selection table
@@ -267,37 +226,20 @@ This version includes some fixes for outdated versions of elasticsearch (like `2
 * [fix]: fix missing favicon, thanks @rdc-112
 * many small improvements and bugfixes
 
-[i72]: https://github.com/cars10/elasticvue/issues/72
-
-[i78]: https://github.com/cars10/elasticvue/issues/78
-
-[i81]: https://github.com/cars10/elasticvue/issues/81
-
-[i85]: https://github.com/cars10/elasticvue/issues/85
-
 ## 0.36.4
 
-* [fix]: syntax error in query leads to errors during result loading, fixes [#68][i68]
-* [fix]: rest query bug when cluster url ends with a slash, fixes [#69][i69]
-
-[i68]: https://github.com/cars10/elasticvue/issues/68
-
-[i69]: https://github.com/cars10/elasticvue/issues/69
+* [fix]: syntax error in query leads to errors during result loading,
+  fixes [#68](https://github.com/cars10/elasticvue/issues/68)
+* [fix]: rest query bug when cluster url ends with a slash, fixes [#69](https://github.com/cars10/elasticvue/issues/69)
 
 ## 0.36.3
 
-* [fix]: error when having an uneven amount of cpu cores, fixes [#61][i61]
-* [fix]: reset search after failed query [#66][p66]
-
-[i61]: https://github.com/cars10/elasticvue/issues/61
-
-[p66]: https://github.com/cars10/elasticvue/pull/66
+* [fix]: error when having an uneven amount of cpu cores, fixes [#61](https://github.com/cars10/elasticvue/issues/61)
+* [fix]: reset search after failed query [#66][p66)
 
 ## 0.36.2
 
-* [fix]: Rest requests not sending body, fixes [#65][i65]
-
-[i65]: https://github.com/cars10/elasticvue/issues/65
+* [fix]: Rest requests not sending body, fixes [#65](https://github.com/cars10/elasticvue/issues/65)
 
 ## 0.36.1
 
@@ -317,13 +259,12 @@ This version includes many fixes and improvements mentioned in the survey. Thank
 * [feat]: Can send a request body via GET when using rest queries
 * [feat]: Cleanup code editor settings
 * [feat]: Simplify footer, move link to reset settings to settings page
-* [fix]: Adds tooltip to document count column in the indices table, fixes [#54][i54]
+* [fix]: Adds tooltip to document count column in the indices table,
+  fixes [#54](https://github.com/cars10/elasticvue/issues/54)
 * removes link to survey, view the results [here](https://github.com/cars10/elasticvue/issues/55)
 * some small css and color improvements
 
 Big thanks to @qiwihui for the chinese translation!
-
-[i54]: https://github.com/cars10/elasticvue/issues/54
 
 ## 0.35.0
 
@@ -336,21 +277,17 @@ Big thanks to @qiwihui for the chinese translation!
 
 ## 0.34.0
 
-* Use `json-bigint` to parse responses, fixes [#52][i52]. This adds support for displaying numbers bigger
+* Use `json-bigint` to parse responses, fixes [#52](https://github.com/cars10/elasticvue/issues/52]. This adds support
+  for displaying numbers bigger
   than `9007199254740991`. I still recommend to use strings for numbers like this if you do not need the value for
   calculations.
-* Add import/export for elasticvue settings, fixes [#53][i53]
-* Add configurable regex to hide indices, fixes [#50][i50]. The default value is `^\..*`
+* Add import/export for elasticvue settings, fixes [#53](https://github.com/cars10/elasticvue/issues/53)
+* Add configurable regex to hide indices, fixes [#50](https://github.com/cars10/elasticvue/issues/50]. The default value
+  is `^\..*`
 * Improve visibility of active buttons in code viewer/editor
 * Autofocus code editor in modals
 * Remove fuzzy table filtering. You can still filter specific fields when filtering search results
 * Adds a link to an upcoming survey about elasticvue
-
-[i50]: https://github.com/cars10/elasticvue/issues/50
-
-[i52]: https://github.com/cars10/elasticvue/issues/52
-
-[i53]: https://github.com/cars10/elasticvue/issues/53
 
 ## 0.33.0
 
@@ -363,29 +300,20 @@ Big thanks to @qiwihui for the chinese translation!
 
 ## 0.32.0
 
-* [feat]: adds ability to completely customize the search query, fixes [#42][f42]
+* [feat]: adds ability to completely customize the search query,
+  fixes [#42](https://github.com/cars10/elasticvue/issues/42)
 * [feat]: adds autocomplete to editors on `Seach` and `Rest` pages (it is *not* context sensitive)
 * [feat]: change forms to connect/add a cluster, adds dedicated fields for username and password. This should fix any
-  issues with passwords that are not urlsafe, fixes [#43][f43]
+  issues with passwords that are not urlsafe, fixes [#43](https://github.com/cars10/elasticvue/issues/43)
 * [feat]: small color changes to improve a11y and contrast
 * converted the remaining components to the new vue composition api
 
-[f42]: https://github.com/cars10/elasticvue/issues/42
-
-[f43]: https://github.com/cars10/elasticvue/issues/43
-
 ## 0.31.0
 
-* [feat]: support `_bulk` api, fixes [#39][f39]
-* [feat]: can show, add and remove index aliases, fixes [#38][f38]
-* [feat]: can rename elasticsearch instances, fixes [#41][f41]
+* [feat]: support `_bulk` api, fixes [#39](https://github.com/cars10/elasticvue/issues/39)
+* [feat]: can show, add and remove index aliases, fixes [#38](https://github.com/cars10/elasticvue/issues/38)
+* [feat]: can rename elasticsearch instances, fixes [#41](https://github.com/cars10/elasticvue/issues/41)
 * [feat]: adds `x` to all modals
-
-[f38]: https://github.com/cars10/elasticvue/issues/38
-
-[f39]: https://github.com/cars10/elasticvue/issues/39
-
-[f41]: https://github.com/cars10/elasticvue/issues/41
 
 ## 0.30.1
 
@@ -397,18 +325,14 @@ For this release i rewrote almost all components to use the new vue composition 
 performance and prepares elasticvue for the update to vuejs 3, but might have added some bugs. Please reach out if you
 encounter any issues!
 
-* [feat]: can add multiple elasticsearch instances, fixes [#35][f35]
+* [feat]: can add multiple elasticsearch instances, fixes [#35](https://github.com/cars10/elasticvue/issues/35)
 * [feat]: adds "copy error" button to error messages
 * [feat]: can search indices by clicking on their name in the indices table
 * [feat]: cleanup tables and remove "sticky header" option. The tables now always use a sticky header
 
-[f35]: https://github.com/cars10/elasticvue/issues/35
-
 ## 0.26.0
 
-* [feat]: can host elasticvue inside subdirectory, fixes [#31][i31]
-
-[i31]: https://github.com/cars10/elasticvue/issues/31
+* [feat]: can host elasticvue inside subdirectory, fixes [#31](https://github.com/cars10/elasticvue/issues/31)
 
 ## 0.25.0
 
@@ -417,68 +341,50 @@ This is a re-release of 0.24.0 because i made a mistake publishing it.
 ## 0.24.0
 
 * [fix]: fix sorting on search page ASC/DESC beeing the wrong way around
-* [fix]: fix opening documents with ids containing a forward slash (`/`), fixes [#29][i29]
-
-[i29]: https://github.com/cars10/elasticvue/issues/29
+* [fix]: fix opening documents with ids containing a forward slash (`/`),
+  fixes [#29](https://github.com/cars10/elasticvue/issues/29)
 
 ## 0.23.1
 
-* [fix]: fix parsing issue when indices are closed [#28][i28]
-
-[i28]: https://github.com/cars10/elasticvue/issues/28
+* [fix]: fix parsing issue when indices are closed [#28](https://github.com/cars10/elasticvue/issues/28)
 
 ## 0.23.0
 
-* [feat]: initial support for elasticsearch 8, fix [#23][i23]
-* [feat]: hide the *request body* input when doing rest queries as GET or HEAD, fixes [#26][i26]
-* [fix]: fix sorting indices by storage. now takes units into consideration, fixes [#24][i24]
-
-[i23]: https://github.com/cars10/elasticvue/issues/23
-
-[i24]: https://github.com/cars10/elasticvue/issues/24
-
-[i26]: https://github.com/cars10/elasticvue/issues/26
+* [feat]: initial support for elasticsearch 8, fix [#23](https://github.com/cars10/elasticvue/issues/23)
+* [feat]: hide the *request body* input when doing rest queries as GET or HEAD,
+  fixes [#26](https://github.com/cars10/elasticvue/issues/26)
+* [fix]: fix sorting indices by storage. now takes units into consideration,
+  fixes [#24](https://github.com/cars10/elasticvue/issues/24)
 
 ## 0.22.0
 
 * [feat]: change searching to use elasticsearch pagination+sort. **this limits the filter to the current
-  page.** [#20][i20]
+  page.** [#20](https://github.com/cars10/elasticvue/issues/20)
 * [feat]: can click on index aliases on index overview to directly search
 * [fix]: fix showing index info/stats not always showing the correct result in modal
 * remove the deprecated [elasticsearch](https://www.npmjs.com/package/elasticsearch) library and api browser page.
-  see [#22][i22] for details
-
-[i20]: https://github.com/cars10/elasticvue/issues/20
-
-[i22]: https://github.com/cars10/elasticvue/issues/22
+  see [#22](https://github.com/cars10/elasticvue/issues/22] for details
 
 ## 0.21.0
 
 * [fix]: adds support for hosts with path/subdirectory where elasticsearch is not available at the url root, for
-  example `example.com/elasticsearch` ([#19][i19])
-
-[i19]: https://github.com/cars10/elasticvue/issues/19
+  example `example.com/elasticsearch` ([#19](https://github.com/cars10/elasticvue/issues/19))
 
 ## 0.20.0
 
 This version removes the need to configure CORS **if you use one of the browser extensions**. I am not entirely happy
-with this change, but after some discussion ([#14][i14], [#17][p17]) i think we i should prioritize usability in this
+with this change, but after some discussion ([#14](https://github.com/cars10/elasticvue/issues/14], [#17][p17)) i think
+we i should prioritize usability in this
 case.
 
 **You still have to configure CORS if you use the docker image or the web version of elasticvue.**
-
-[i14]: https://github.com/cars10/elasticvue/issues/14
-
-[p17]: https://github.com/cars10/elasticvue/pull/17
 
 ## 0.19.0
 
 * beautify code on paste (for rest and api browser)
 * improve visibility of modal dialogs
-* add edge extension, thx @yoke88, fixes [#15][i15]
+* add edge extension, thx @yoke88, fixes [#15](https://github.com/cars10/elasticvue/issues/15)
 * add docker environment variables example to configure page
-
-[i15]: https://github.com/cars10/elasticvue/issues/15
 
 ## 0.18.0
 
@@ -491,39 +397,29 @@ case.
 
 ### 0.17.0
 
-* [feat] show index aliases on index overview, fixes [#13][i13]
+* [feat] show index aliases on index overview, fixes [#13](https://github.com/cars10/elasticvue/issues/13)
 * use node 12
-
-[i13]: https://github.com/cars10/elasticvue/issues/13
 
 ### 0.16.2
 
-* [fix] fix connecting to servers on port 80 and 443 [#11][i11]
+* [fix] fix connecting to servers on port 80 and 443 [#11](https://github.com/cars10/elasticvue/issues/11)
 * increase width of `host` input field in setup form
-
-[i11]: https://github.com/cars10/elasticvue/issues/11
 
 ### 0.16.1
 
-* [fix] fix connecting with passwords with special characters [#10][i10]
-
-[i10]: https://github.com/cars10/elasticvue/issues/10
+* [fix] fix connecting with passwords with special characters [#10](https://github.com/cars10/elasticvue/issues/10)
 
 ### 0.16.0
 
-* [merge] merge fix, thx @cengler [#9][i9]
+* [merge] merge fix, thx @cengler [#9](https://github.com/cars10/elasticvue/issues/9)
 * updates dependencies
 * supported elasticsearch versions: `5.6`, `6.8`, `7.0`, `7.1`, `7.2`, `7.3`, `7.4`, `7.5`
 
-[i9]: https://github.com/cars10/elasticvue/issues/9
-
 ### 0.15.0
 
-* [fix] fix [#8][i8]
+* [fix] fix [#8](https://github.com/cars10/elasticvue/issues/8)
 * [fix] fix exact filtering (using `"query"`) when filtering for fields that contain uppercase characters
 * [fix] fix filtering for numbers
-
-[i8]: https://github.com/cars10/elasticvue/issues/8
 
 ### 0.14.0
 
@@ -544,11 +440,9 @@ case.
     * [feat] enable searchbox for code editor
     * [feat] add beautify button to code editor (hotkey: ctrl+alt+l)
 * [feat] show different "no results" text in results table based on current filters. thx @georgeyeint (see discussion
-  in [#7][i7])
-* [bug] fix switching between index pattern and index selection ([#7][i7])
+  in [#7](https://github.com/cars10/elasticvue/issues/7))
+* [bug] fix switching between index pattern and index selection ([#7](https://github.com/cars10/elasticvue/issues/7))
 * [bug] fix indices & search table not showing empty results when search result is empty
-
-[i7]: https://github.com/cars10/elasticvue/issues/7
 
 ### 0.11.0
 
@@ -560,24 +454,20 @@ case.
 
 ### 0.10.2
 
-* [bug] fix usage with elasticsearch `7.1.1`. thx @iDmple ([#5][i5])
-
-[i5]: https://github.com/cars10/elasticvue/issues/5
+* [bug] fix usage with elasticsearch `7.1.1`. thx @iDmple ([#5](https://github.com/cars10/elasticvue/issues/5))
 
 ### 0.10.1
 
-* [bug] fix clicking search result item might open previous opened item. thx @foqq ([#4][i4])
-
-[i4]: https://github.com/cars10/elasticvue/issues/4
+* [bug] fix clicking search result item might open previous opened item. thx
+  @foqq ([#4](https://github.com/cars10/elasticvue/issues/4))
 
 ### 0.10.0
 
-* [bug] fix redirect loop in chrome extension on macos and windows. thx @foqq ([#2][i2])
+* [bug] fix redirect loop in chrome extension on macos and windows. thx
+  @foqq ([#2](https://github.com/cars10/elasticvue/issues/2))
 * [feat] you can now switch between index selection and index patterns
 * performance improvements (removes global components and mixins)
 * updates dependencies
-
-[i2]: https://github.com/cars10/elasticvue/issues/2
 
 ### 0.9.2
 

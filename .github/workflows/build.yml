@@ -89,18 +89,6 @@ jobs:
         with:
           path: src-tauri/target/release/elasticvue.exe
 
-  build_browser_extensions:
-    name: Build browser extensions
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - run: make build_browser_extensions
-
-      - name: upload extensions
-        uses: actions/upload-artifact@v3
-        with:
-          path: artifacts/*.zip
-
   build_docker:
     name: Build docker images
     runs-on: ubuntu-latest
@@ -136,7 +124,6 @@ jobs:
     name: Publish release
     needs:
       - build_desktop
-      - build_browser_extensions
       - build_docker
     runs-on: ubuntu-latest
     steps:
@@ -153,7 +140,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           draft: true
-          prerelease: true
+          prerelease: false
           tag: ${{ github.ref_name }}
           name: ${{ github.ref_name }}
           artifacts: github-artifacts/artifact/*

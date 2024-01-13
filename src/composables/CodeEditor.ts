@@ -24,6 +24,8 @@ import { queryKeywords, queryValues } from '../autocomplete.ts'
  */
 const completions = (context: any) => {
   const word = context.matchBefore(/\w*/)
+  if (!context.explicit) return null
+
   const nodeBefore = syntaxTree(context.state).resolveInner(context.pos, -1)
   if (nodeBefore.name === 'Property') {
     return {
