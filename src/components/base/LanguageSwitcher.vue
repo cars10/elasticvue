@@ -28,9 +28,6 @@
       </q-list>
     </q-menu>
   </q-btn>
-
-  <a v-if="store.language === 'cn'" class="q-px-md" target="_blank"
-     href="https://github.com/cars10/elasticvue/wiki/Help-translating-elasticvue">帮忙翻译elasticvue</a>
 </template>
 
 <script setup lang="ts">
