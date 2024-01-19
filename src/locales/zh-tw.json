@@ -1,0 +1,225 @@
+{
+    "base": {
+      "app_footer": {
+        "homepage": "首頁",
+        "changelog": "變更日誌"
+      },
+      "app_header": {
+        "navigation": {
+          "home": "首頁",
+          "nodes": "節點",
+          "indices": "索引",
+          "shards": "分片",
+          "search": "搜尋",
+          "rest": "REST",
+          "snapshots": "快照",
+          "repositories": "儲存庫"
+        }
+      },
+      "language_switcher": {
+        "title": "變更語言",
+        "languages": {
+          "en": {
+            "title": "設定為英語"
+          },
+          "cn": {
+            "title": "設定為中文"
+          }
+        }
+      },
+      "theme_switcher": {
+        "title": "更改主題"
+      }
+    },
+    "defaults": {
+      "filter": {
+        "label": "過濾..."
+      },
+      "cancel": "取消",
+      "close": "關閉",
+      "create": "新建",
+      "delete": "刪除",
+      "success": "成功",
+      "bulk": "批量操作",
+      "copy": "複製"
+    },
+    "cluster_selection": {
+      "cluster_selection": {
+        "connected_info": {
+          "title": "連接至 '{activeInstanceName}' ({activeInstanceUri})"
+        }
+      },
+      "instances_table": {
+        "headers": {
+          "cluster": "集群名稱",
+          "uri": "地址",
+          "version": "版本"
+        },
+        "row": {
+          "title": "連接到集群 '{uri}'",
+          "remove_cluster": {
+            "confirm": "移除集群 '{name}' ({uri})?"
+          },
+          "unsupported": "Elasticsearch {majorVersion} 版本已終止生命周期，elasticvue不保證完全支持。您在使用過程中可能會遭遇bug或者功能受限."
+        }
+      },
+      "edit_cluster": {
+        "edit": {
+          "title": "重命名集群"
+        },
+        "heading": "重命名Elasticsearch實例"
+      },
+      "new_cluster": {
+        "add_cluster": "新增集群",
+        "heading": "新增Elasticsearch實例"
+      }
+    },
+    "helpers": {
+      "import_export": {
+        "import_backup": {
+          "confirm": "你確定嗎？導入備份將覆蓋您當前的設置和既有的集群！"
+        }
+      }
+    },
+    "home": {
+      "client_information": {
+        "heading": "節點信息"
+      },
+      "cluster_health": {
+        "heading": "集群健康"
+      }
+    },
+    "indices": {
+      "heading": "索引",
+      "index_aliases": {
+        "text": "別名",
+        "heading": "管理別名",
+        "index": "索引：{index}",
+        "form": {
+          "new_alias": {
+            "label": "新別名"
+          },
+          "add_alias": "添加新別名"
+        },
+        "table": {
+          "headers": {
+            "alias": "別名"
+          }
+        },
+        "delete_alias": {
+          "confirm": "刪除索引 '{index}' 的別名 '{alias}'？"
+        }
+      },
+      "index_reindex": {
+        "text": "重建索引",
+        "heading": "重建索引",
+        "index": "源索引: {index}",
+        "form": {
+          "source": {
+            "label": "目標索引:.."
+          },
+          "reindex": "重建索引(Reindex)"
+        }
+      },
+      "index_row": {
+        "search": {
+          "title": "搜索 '{index}'"
+        },
+        "shards": {
+          "title": "{pre} 主\n{replica} 副本"
+        },
+        "options": {
+          "title": "選項",
+          "show_info": "查看信息",
+          "show_stats": "查看狀態",
+          "forcemerge": {
+            "text": "強制合併索引",
+            "growl": "索引 '{index}' 已成功合併。"
+          },
+          "refresh": {
+            "text": "刷新索引",
+            "growl": "索引 '{index}' 已成功刷新。"
+          },
+          "flush": {
+            "text": "Flush索引",
+            "growl": "索引 '{index}' 已成功flush。"
+          },
+          "clear_cache": {
+            "text": "清除索引緩存",
+            "growl": "索引 '{index}' 緩存已成功清除。"
+          },
+          "close": {
+            "text": "關閉索引",
+            "confirm": "關閉索引 '{index}' ?",
+            "growl": "索引 '{index}' 緩存已成功關閉。"
+          },
+          "open": {
+            "text": "開啟索引",
+            "growl": "索引 '{index}' 緩存已成功開啟。"
+          },
+          "delete_by_query": {
+            "text": "刪除所有文檔",
+            "confirm": "確認刪除索引 '{index}' 中的所有文檔? 這意味著移除此索引中的所有數據!",
+            "growl": "索引 '{index}' 中的全部文檔已成功刪除."
+          },
+          "delete": {
+            "text": "刪除",
+            "confirm": "刪除索引 '{index}'？這將刪除索引中的所有數據！",
+            "growl": "索引 '{index}' 緩存已成功刪除。"
+          }
+        }
+      },
+      "indices_table": {
+        "show_hidden_indices": {
+          "label": "查看隱藏索引"
+        },
+        "sticky_table_header": {
+          "label": "固定表格高度"
+        },
+        "table": {
+          "headers": {
+            "name": "名稱",
+            "status": "狀態",
+            "health": "健康",
+            "primary": "主要分片",
+            "replica": "副本分片",
+            "documents": "文檔數",
+            "size": "大小",
+            "primary_size": "主要大小"
+          }
+        }
+      }
+    },
+    "nodes": {
+      "nodes": {
+        "cluster_nodes": "集群節點",
+        "disconnect": {
+          "text": "斷開連接",
+          "confirm": "確定要斷開連接嗎？"
+        },
+        "delete": {
+          "text": "刪除節點",
+          "confirm": "確定要刪除節點嗎？"
+        },
+        "disconnected_nodes": {
+          "title": "已斷開連接的節點"
+        },
+        "edit_node": {
+          "title": "編輯節點"
+        },
+        "table": {
+          "headers": {
+            "name": "名稱",
+            "ip": "IP地址",
+            "version": "版本",
+            "jvm": "JVM",
+            "heap": "堆積",
+            "disk": "磁盤"
+          },
+          "row": {
+            "title": "連接到節點 '{name}' ({ip})"
+          }
+        }
+      }
+    }
+  }
