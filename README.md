@@ -7,6 +7,9 @@
 [![Docker build](https://img.shields.io/docker/image-size/cars10/elasticvue)](https://hub.docker.com/r/cars10/elasticvue)
 [![AUR version](https://img.shields.io/aur/version/elasticvue-bin?label=UNOFFICIAL%20aur)](https://aur.archlinux.org/packages/elasticvue-bin)
 
+English / [简体中文](./docs/README_CN.md)
+
+
 Elasticsearch gui for your browser [https://elasticvue.com](https://elasticvue.com)
 
 > Elasticsearch is a trademark of Elasticsearch BV, registered in the U.S. and in other countries.
