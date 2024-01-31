@@ -34,5 +34,9 @@ export default defineConfig({
   },
   define: {
     '__APP_VERSION__': JSON.stringify(process.env.npm_package_version),
+  },
+  test: {
+    setupFiles: resolve(dirname(fileURLToPath(import.meta.url)), './tests/vitest.setup.ts'),
+    environment: 'jsdom'
   }
 })
