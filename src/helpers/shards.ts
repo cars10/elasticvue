@@ -6,7 +6,8 @@ export type EsShard = {
   shard: string,
   prirep: string,
   state: string,
-  node: NodeName
+  node: NodeName,
+  stats?: ShardStats
 }
 
 export type EsShardIndex = {
@@ -15,6 +16,38 @@ export type EsShardIndex = {
   pri: string,
   rep: string,
   status: string
+}
+
+export type DocStats = {
+  count: number,
+  deleted: number
+}
+
+export type StoreStats = {
+  size_in_bytes: number,
+  reserved_in_bytes: number
+}
+
+export type ShardStats = {
+  docs: DocStats,
+  store: StoreStats
+}
+
+export type ClusterStats = {
+  [key: number]: ShardStats[]
+}
+
+export type IndexStats = {
+  uuid: string,
+  shards: ClusterStats
+}
+
+export type Indices = {
+  [key: string]: IndexStats
+}
+
+export type EsClusterStats = {
+  indices: Indices
 }
 
 export type UnassignedShards = Record<IndexName, EsShard[]>
@@ -27,7 +60,7 @@ export type TableShards = {
   shards: Record<NodeName, Record<IndexName, EsShard[]>>
 }
 
-export const convertShards = (shards: EsShard[], indexHealth: EsShardIndex[]): TableShards => {
+export const convertShards = (shards: EsShard[], indexHealth: EsShardIndex[], stats?: EsClusterStats): TableShards => {
   const nodes: string[] = []
   const indices = Object.assign({}, ...(indexHealth.map(i => ({
     [i.index]: {
@@ -43,6 +76,8 @@ export const convertShards = (shards: EsShard[], indexHealth: EsShardIndex[]): T
   for (const shard of shards) {
     if (shard.node) {
       let node
+      const index = shard.index;
+      const indexStats = stats?.indices[index];
 
       if (shard.state !== 'RELOCATING') {
         node = shard.node
@@ -53,10 +88,19 @@ export const convertShards = (shards: EsShard[], indexHealth: EsShardIndex[]): T
       if (!result[node]) result[node] = {}
       if (!nodes.includes(node)) nodes.push(node)
 
-      const index = shard.index
       if (!result[node][index]) result[node][index] = []
       result[node][index].push(shard)
       result[node][index].sort(sortShards)
+      if (indexStats) {
+        shard.stats = Object.values(indexStats.shards)
+        .flatMap(_shard => _shard)
+        .map(_shard => {
+          // Using Extract<T, U>
+          const {docs, store} = _shard;
+          return { docs, store };
+        })
+        .find((_shard, key: any) => key == shard.shard);
+      }
     } else {
       const index = shard.index
       if (!unassignedShards[index]) unassignedShards[index] = []

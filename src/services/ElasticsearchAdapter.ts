@@ -95,8 +95,8 @@ export default class ElasticsearchAdapter {
     return this.request(`${index}`, 'GET')
   }
 
-  indexStats ({ index }: { index: string }) {
-    return this.request(`${index}/_stats`, 'GET')
+  indexStats ({ index, params }: { index: string, params?: any }) {
+    return this.request(`${index}/_stats`, 'GET', params)
   }
 
   indexClose ({ index }: { index: string }) {
@@ -208,6 +208,10 @@ export default class ElasticsearchAdapter {
       return JSON.stringify({ delete: { _index: matches[0], _id: matches[2] } })
     }).join('\r\n') + '\r\n'
     return this.request('_bulk?refresh=true', 'POST', body)
+  }
+
+  instanceStats ({ params }: { params?: any }) {
+    return this.request('/_stats', 'GET', params)
   }
 
   request (path: string, method: string, params?: any) {

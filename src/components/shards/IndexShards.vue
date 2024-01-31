@@ -20,7 +20,7 @@
   import ReloadButton from '../shared/ReloadButton.vue'
   import LoaderStatus from '../shared/LoaderStatus.vue'
   import { useElasticsearchAdapter } from '../../composables/CallElasticsearch'
-  import { convertShards, EsShardIndex, EsShard, TableShards } from '../../helpers/shards'
+  import { convertShards, EsShardIndex, EsShard, TableShards, EsClusterStats } from '../../helpers/shards'
   import ShardsTable from './ShardsTable.vue'
   import { useTranslation } from '../../composables/i18n'
 
@@ -33,9 +33,10 @@
   const load = async () => {
     const catIndices = callElasticsearch('catIndices', catIndicesArgs)
     const catShards = callElasticsearch('catShards', CAT_METHOD_PARAMS)
+    const clusterStats = callElasticsearch('instanceStats', {params : {level: 'shards'}});
 
-    const [indices, rawShards]: [EsShardIndex[], EsShard[]] = await Promise.all([catIndices, catShards])
-    shards.value = convertShards(rawShards, indices)
+    const [indices, rawShards, stats]: [EsShardIndex[], EsShard[], EsClusterStats] = await Promise.all([catIndices, catShards, clusterStats])
+    shards.value = convertShards(rawShards, indices, stats)
   }
 
   onMounted(load)
