@@ -11,7 +11,7 @@ const dbDefinition = {
   ]
 }
 
-const databaseName = (clusterUuid: string) => (`elasticvue-${clusterUuid}`)
+const databaseName = (clusterUuid?: string) => (`elasticvue${clusterUuid ? '-' + clusterUuid : ''}`)
 
 let db: Db
 export const useIdb = () => {
@@ -25,7 +25,7 @@ export const useIdb = () => {
   return db
 }
 
-export const initDb = (clusterUuid: string) => {
+export const initDb = (clusterUuid?: string) => {
   db = new Db({ dbName: databaseName(clusterUuid), ...dbDefinition })
   db.connect()
   db.models.restQueryHistory = new DbModel<IdbRestQueryHistory>('restQueryHistory', db)
@@ -36,3 +36,14 @@ export const initDb = (clusterUuid: string) => {
 }
 
 export const useIdbStore = () => (useIdb()?.models)
+export const useOldIdbStore = async () => {
+  const instance = new Db({
+    dbName: databaseName(), dbVersion: 1, tables: [
+      { name: 'rest', indexes: ['date', 'favorite'] }
+    ]
+  });
+  await instance.connect();
+
+  instance.models.restQuerySavedQueries = new DbModel<IdbRestQuerySavedQuery>('rest', instance)
+  return instance.models;
+}

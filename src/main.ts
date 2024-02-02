@@ -10,10 +10,12 @@ import './assets/stylesheets/style.scss'
 import { migrate } from './services/VuexMigrator.ts'
 
 migrate()
-const myApp = createApp(App)
+.finally(() => {
+    const myApp = createApp(App)
 
-myApp.use(Quasar, quasarOptions)
-myApp.use(pinia)
-myApp.use(vueI18n())
-myApp.use(router)
-myApp.mount('#app')
+    myApp.use(Quasar, quasarOptions)
+    myApp.use(pinia)
+    myApp.use(vueI18n())
+    myApp.use(router)
+    myApp.mount('#app')
+})
