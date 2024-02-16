@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.4
+
+* show shard size on hover, fixes [#199](https://github.com/cars10/elasticvue/pull/199) and [#203](https://github.com/cars10/elasticvue/pull/203)
+
 ## 1.0.3
 
 * updates chinese translations. thanks @slow-groovin! [#192](https://github.com/cars10/elasticvue/pull/192)
