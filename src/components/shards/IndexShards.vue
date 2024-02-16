@@ -46,7 +46,12 @@
       'shard',
       'prirep',
       'state',
-      'node'
+      'node',
+      'docs',
+      'store',
+      'ip',
+      'node',
+      'unassigned.reason'
     ]
   }
 </script>
