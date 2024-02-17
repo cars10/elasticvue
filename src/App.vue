@@ -4,6 +4,7 @@
 
     <q-page-container>
       <div class="q-ma-md">
+        <survey-display />
         <router-view v-if="connectionStore.activeCluster?.status !== 'unknown' || route.name === 'settings'" />
         <div v-else class="q-pa-lg">
           <div class="row">
@@ -32,6 +33,7 @@
   import NetworkError from './components/shared/NetworkError.vue'
   import { useThemeStore } from './store/theme.js'
   import { useConnectionStore } from './store/connection'
+  import SurveyDisplay from './components/base/SurveyDisplay.vue'
 
   const themeStore = useThemeStore()
   const connectionStore = useConnectionStore()
