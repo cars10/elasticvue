@@ -3,6 +3,7 @@
 ## 1.0.4
 
 * show shard size on hover, fixes [#199](https://github.com/cars10/elasticvue/pull/199) and [#203](https://github.com/cars10/elasticvue/pull/203)
+* fix cluster selection filter, fixes [#210](https://github.com/cars10/elasticvue/issues/210)
 
 ## 1.0.3
 
