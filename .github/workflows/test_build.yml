@@ -50,11 +50,17 @@ jobs:
         with:
           path: src-tauri/target/aarch64-apple-darwin/release/bundle/dmg/elasticvue_*_aarch64.dmg
 
+      - name: (mac arm) rename artifacts
+        if: matrix.platform == 'macos-latest'
+        run: |
+          mv src-tauri/target/aarch64-apple-darwin/release/bundle/macos/elasticvue.app.tar.gz src-tauri/target/aarch64-apple-darwin/release/bundle/macos/elasticvue_aarch64.app.tar.gz
+          mv src-tauri/target/aarch64-apple-darwin/release/bundle/macos/elasticvue.app.tar.gz.sig src-tauri/target/aarch64-apple-darwin/release/bundle/macos/elasticvue_aarch64.app.tar.gz.sig
+
       - name: (mac arm) upload .app and artifacts
         if: matrix.platform == 'macos-latest'
         uses: actions/upload-artifact@v3
         with:
-          path: src-tauri/target/aarch64-apple-darwin/release/bundle/macos/elasticvue*
+          path: src-tauri/target/aarch64-apple-darwin/release/bundle/macos/elasticvue_aarch64*
 
       - run: yarn tauri:build
 
@@ -64,8 +70,14 @@ jobs:
         with:
           path: src-tauri/target/release/bundle/dmg/elasticvue_*_x64.dmg
 
+      - name: (mac) rename artifacts
+        if: matrix.platform == 'macos-latest'
+        run: |
+          mv src-tauri/target/release/bundle/macos/elasticvue.app.tar.gz src-tauri/target/release/bundle/macos/elasticvue_x64.app.tar.gz
+          mv src-tauri/target/release/bundle/macos/elasticvue.app.tar.gz.sig src-tauri/target/release/bundle/macos/elasticvue_x64.app.tar.gz.sig
+
       - name: (mac) upload .app and artifacts
         if: matrix.platform == 'macos-latest'
         uses: actions/upload-artifact@v3
         with:
-          path: src-tauri/target/release/bundle/macos/elasticvue*
+          path: src-tauri/target/release/bundle/macos/elasticvue_x64*
