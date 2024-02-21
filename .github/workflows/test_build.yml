@@ -50,6 +50,12 @@ jobs:
         with:
           path: src-tauri/target/aarch64-apple-darwin/release/bundle/dmg/elasticvue_*_aarch64.dmg
 
+      - name: (mac arm) upload .app and artifacts
+        if: matrix.platform == 'macos-latest'
+        uses: actions/upload-artifact@v3
+        with:
+          path: src-tauri/target/aarch64-apple-darwin/release/bundle/macos/elasticvue*
+
       - run: yarn tauri:build
 
       - name: (mac) upload .dmg
@@ -57,3 +63,9 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           path: src-tauri/target/release/bundle/dmg/elasticvue_*_x64.dmg
+
+      - name: (mac) upload .app and artifacts
+        if: matrix.platform == 'macos-latest'
+        uses: actions/upload-artifact@v3
+        with:
+          path: src-tauri/target/release/bundle/macos/elasticvue*
