@@ -2,6 +2,9 @@ name: Test build
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - develop
 
 jobs:
   build_desktop:
