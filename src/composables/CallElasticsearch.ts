@@ -41,7 +41,7 @@ export function useElasticsearchAdapter () {
         const cluster = connectionStore.activeCluster
         if (!cluster) return
         elasticsearchAdapter = new ElasticsearchAdapter(cluster as ElasticsearchClusterCredentials)
-        await elasticsearchAdapter.ping()
+        // await elasticsearchAdapter.ping()
       }
 
       try {

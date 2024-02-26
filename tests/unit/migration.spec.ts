@@ -1,5 +1,6 @@
-import { describe, it } from 'vitest'
+import { describe, it, vi } from 'vitest'
 import { migrateVuexData } from '../../src/services/VuexMigrator'
+import ElasticsearchAdapter from '../../src/services/ElasticsearchAdapter'
 
 const vuexData = {
   'connection': {
@@ -35,7 +36,7 @@ const newData = {
       'clusterName': '',
       'version': '6.8.2',
       'majorVersion': '6',
-      'uuid': '',
+      'uuid': 'D_qHru2wRbSM6kZwsP853Q',
       'status': ''
     },
       {
@@ -46,7 +47,7 @@ const newData = {
         'clusterName': '',
         'version': '8.7.1',
         'majorVersion': '8',
-        'uuid': '',
+        'uuid': 'D_qHru2wRbSM6kZwsP853Q',
         'status': ''
       }],
     'activeClusterIndex': 0
@@ -61,7 +62,13 @@ const newData = {
 
 describe.concurrent('migrate vuex', () => {
   it('migrate', async ({ expect }) => {
+    // Given
     const data = JSON.stringify(vuexData)
-    expect(migrateVuexData(data)).toEqual(newData)
+
+    // When
+    vi.spyOn(ElasticsearchAdapter.prototype, 'ping').mockResolvedValue({ json: () => ({ cluster_uuid: 'D_qHru2wRbSM6kZwsP853Q' }) });
+
+    // Then
+    expect(migrateVuexData(data)).resolves.toStrictEqual(newData)
   })
 })

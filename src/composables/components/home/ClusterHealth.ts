@@ -1,13 +1,11 @@
 import { ElasticsearchCluster, ElasticsearchClusterCredentials, useConnectionStore } from '../../../store/connection.ts'
 import ElasticsearchAdapter from '../../../services/ElasticsearchAdapter.ts'
-import { clusterUuid } from '../../ClusterConnection.ts'
 
 export const useClusterHealth = () => {
   const connectionStore = useConnectionStore()
 
   const setupHealthLoading = () => {
     if (!connectionStore.activeCluster) return
-    checkHealth(connectionStore.activeCluster)
     //setInterval(() => (checkHealth(connectionStore.activeCluster)), 30000)
   }
   setupHealthLoading()
@@ -27,15 +25,6 @@ export const checkHealth = async (cluster: ElasticsearchCluster) => {
     const clusterHealthResponse: any = await adapter.clusterHealth()
     const clusterHealthBody = await clusterHealthResponse.json()
     cluster.status = clusterHealthBody.status
-
-    const pingResponse: any = await adapter.ping()
-    const pingBody = await pingResponse.json()
-    const version = pingBody.version.number
-
-    cluster.clusterName = pingBody.cluster_name
-    cluster.version = version
-    cluster.majorVersion = version[0]
-    if (!cluster.uuid || cluster.uuid.length === 0) cluster.uuid = clusterUuid(pingBody)
 
     delete cluster.loading
   } catch (e) {

@@ -18,6 +18,7 @@ export type IdbRestQuerySavedQuery = {
   method: string
   path: string
   body: string
+  favorite?: 1 | 0
 }
 
 export type IdbRestQueryTab = {

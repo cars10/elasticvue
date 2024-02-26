@@ -112,6 +112,11 @@ export class DbModel<T> {
     return this.db._idb.getAll(this.tableName)
   }
 
+  async getAllByCriteria (criteria: IDBKeyRange): Promise<T[]> {
+    await this.db.connect()
+    return this.db._idb.getAll(this.tableName, criteria)
+  }
+
   async clear () {
     await this.db.connect()
     return this.db._idb?.clear(this.tableName)
