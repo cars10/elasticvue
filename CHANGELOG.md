@@ -4,6 +4,7 @@
 
 * show shard size on hover, fixes [#199](https://github.com/cars10/elasticvue/pull/199) and [#203](https://github.com/cars10/elasticvue/pull/203)
 * fix cluster selection filter, fixes [#210](https://github.com/cars10/elasticvue/issues/210)
+* limit index bulk actions to 16 indices sent in chunks, fixes [#213](https://github.com/cars10/elasticvue/issues/213)
 
 ## 1.0.3
 

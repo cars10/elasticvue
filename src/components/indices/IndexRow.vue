@@ -70,35 +70,37 @@
             <q-separator />
 
             <index-aliases :index="index.index" @reload="remitReloadAndCloseMenu" />
-            <index-reindex v-if="connectionStore.activeCluster && parseInt(connectionStore.activeCluster.majorVersion) > 1"
-                           :index="index.index" @reload="remitReloadAndCloseMenu" />
+            <index-reindex
+                v-if="connectionStore.activeCluster && parseInt(connectionStore.activeCluster.majorVersion) > 1"
+                :index="index.index" @reload="remitReloadAndCloseMenu" />
 
             <q-separator />
 
-            <row-menu-action v-if="connectionStore.activeCluster && parseInt(connectionStore.activeCluster.majorVersion) > 1"
-                             method="indexForcemerge"
-                             :method-params="{ index: props.index.index }"
-                             :text="t('indices.index_row.options.forcemerge.text')"
-                             :growl="t('indices.index_row.options.forcemerge.growl', {index: index.index})"
-                             icon="call_merge"
-                             @done="remitReloadAndCloseMenu" />
+            <row-menu-action
+                v-if="connectionStore.activeCluster && parseInt(connectionStore.activeCluster.majorVersion) > 1"
+                method="indexForcemerge"
+                :method-params="{ indices: [props.index.index] }"
+                :text="t('indices.index_row.options.forcemerge.text')"
+                :growl="t('indices.index_row.options.forcemerge.growl', {index: index.index})"
+                icon="call_merge"
+                @done="remitReloadAndCloseMenu" />
 
             <row-menu-action method="indexRefresh"
-                             :method-params="{ index: props.index.index }"
+                             :method-params="{ indices: [props.index.index] }"
                              :text="t('indices.index_row.options.refresh.text')"
                              :growl="t('indices.index_row.options.refresh.growl', {index: index.index})"
                              icon="refresh"
                              @done="remitReloadAndCloseMenu" />
 
             <row-menu-action method="indexFlush"
-                             :method-params="{ index: props.index.index }"
+                             :method-params="{ indices: [props.index.index] }"
                              :text="t('indices.index_row.options.flush.text')"
                              :growl="t('indices.index_row.options.flush.growl', {index: index.index})"
                              icon="archive"
                              @done="remitReloadAndCloseMenu" />
 
             <row-menu-action method="indexClearCache"
-                             :method-params="{ index: props.index.index }"
+                             :method-params="{ indices: [props.index.index] }"
                              :text="t('indices.index_row.options.clear_cache.text')"
                              :growl="t('indices.index_row.options.clear_cache.growl', {index: index.index})"
                              icon="clear_all"
@@ -106,7 +108,7 @@
 
             <row-menu-action v-if="index.status === 'open'"
                              method="indexClose"
-                             :method-params="{ index: props.index.index }"
+                             :method-params="{ indices: [props.index.index] }"
                              :confirm="t('indices.index_row.options.close.confirm', {index: index.index})"
                              :text="t('indices.index_row.options.close.text')"
                              :growl="t('indices.index_row.options.close.growl', {index: index.index})"
@@ -114,7 +116,7 @@
                              @done="remitReloadAndCloseMenu" />
             <row-menu-action v-else
                              method="indexOpen"
-                             :method-params="{ index: props.index.index }"
+                             :method-params="{ indices: [props.index.index] }"
                              :text="t('indices.index_row.options.open.text')"
                              :growl="t('indices.index_row.options.open.growl', {index: index.index})"
                              icon="lock_open"
@@ -122,17 +124,18 @@
 
             <q-separator />
 
-            <row-menu-action v-if="connectionStore.activeCluster && parseInt(connectionStore.activeCluster.majorVersion) >= 5"
-                             method="deleteByQuery"
-                             :method-params="{ index: props.index.index }"
-                             :text="t('indices.index_row.options.delete_by_query.text')"
-                             :growl="t('indices.index_row.options.delete_by_query.growl', {index: index.index})"
-                             :confirm="t('indices.index_row.options.delete_by_query.confirm', {index: index.index})"
-                             icon="delete"
-                             @done="remitReloadAndCloseMenu" />
+            <row-menu-action
+              v-if="connectionStore.activeCluster && parseInt(connectionStore.activeCluster.majorVersion) >= 5"
+              method="deleteByQuery"
+              :method-params="{ index: props.index.index }"
+              :text="t('indices.index_row.options.delete_by_query.text')"
+              :growl="t('indices.index_row.options.delete_by_query.growl', {index: index.index})"
+              :confirm="t('indices.index_row.options.delete_by_query.confirm', {index: index.index})"
+              icon="delete"
+              @done="remitReloadAndCloseMenu" />
 
             <row-menu-action method="indexDelete"
-                             :method-params="{ index: props.index.index }"
+                             :method-params="{ indices: [props.index.index] }"
                              :text="t('indices.index_row.options.delete.text')"
                              :growl="t('indices.index_row.options.delete.growl', {index: index.index})"
                              :confirm="t('indices.index_row.options.delete.confirm', {index: index.index})"
