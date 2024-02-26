@@ -71,19 +71,19 @@
 
             <index-aliases :index="index.index" @reload="remitReloadAndCloseMenu" />
             <index-reindex
-                v-if="connectionStore.activeCluster && parseInt(connectionStore.activeCluster.majorVersion) > 1"
-                :index="index.index" @reload="remitReloadAndCloseMenu" />
+              v-if="connectionStore.activeCluster && parseInt(connectionStore.activeCluster.majorVersion) > 1"
+              :index="index.index" @reload="remitReloadAndCloseMenu" />
 
             <q-separator />
 
             <row-menu-action
-                v-if="connectionStore.activeCluster && parseInt(connectionStore.activeCluster.majorVersion) > 1"
-                method="indexForcemerge"
-                :method-params="{ indices: [props.index.index] }"
-                :text="t('indices.index_row.options.forcemerge.text')"
-                :growl="t('indices.index_row.options.forcemerge.growl', {index: index.index})"
-                icon="call_merge"
-                @done="remitReloadAndCloseMenu" />
+              v-if="connectionStore.activeCluster && parseInt(connectionStore.activeCluster.majorVersion) > 1"
+              method="indexForcemerge"
+              :method-params="{ indices: [props.index.index] }"
+              :text="t('indices.index_row.options.forcemerge.text')"
+              :growl="t('indices.index_row.options.forcemerge.growl', {index: index.index})"
+              icon="call_merge"
+              @done="remitReloadAndCloseMenu" />
 
             <row-menu-action method="indexRefresh"
                              :method-params="{ indices: [props.index.index] }"
