@@ -1,4 +1,4 @@
-name: Build
+name: release
 
 on:
   workflow_dispatch:
@@ -13,32 +13,39 @@ jobs:
     strategy:
       matrix:
         platform: [ macos-latest, ubuntu-latest, windows-latest ]
-        #platform: [ ubuntu-latest ]
     runs-on: ${{ matrix.platform }}
     env:
       TAURI_PRIVATE_KEY: "${{ secrets.TAURI_PRIVATE_KEY }}"
       TAURI_KEY_PASSWORD: "${{ secrets.TAURI_KEY_PASSWORD }}"
+      APPLE_CERTIFICATE: "${{ secrets.APPLE_CERTIFICATE }}"
+      APPLE_CERTIFICATE_PASSWORD: "${{ secrets.APPLE_CERTIFICATE_PASSWORD }}"
+      APPLE_SIGNING_IDENTITY: "${{ secrets.APPLE_SIGNING_IDENTITY }}"
+      APPLE_ID: "${{ secrets.APPLE_ID }}"
+      APPLE_PASSWORD: "${{ secrets.APPLE_PASSWORD }}"
+      APPLE_TEAM_ID: "${{ secrets.APPLE_TEAM_ID }}"
 
     steps:
       - uses: actions/checkout@v3
+
       - uses: actions/setup-node@v3
         with:
-          cache: yarn
-          node-version: 18
+          node-version: '20'
+          cache: 'yarn'
+      - run: yarn
 
       - run: rustup toolchain install stable
-
       - run: rustup target add aarch64-apple-darwin
         if: matrix.platform == 'macos-latest'
+      - uses: swatinem/rust-cache@v2
+        with:
+          workspaces: './src-tauri -> target'
+          key: ${{ matrix.platform }}
 
       - name: (linux) install dependencies
         if: matrix.platform == 'ubuntu-latest'
         run: |
           sudo apt-get update
           sudo apt-get install -y libgtk-3-dev webkit2gtk-4.0 librsvg2-dev patchelf
-
-      - name: install app dependencies
-        run: yarn
 
       - name: build apple-silicon app
         if: matrix.platform == 'macos-latest'
@@ -50,6 +57,18 @@ jobs:
         with:
           path: src-tauri/target/aarch64-apple-darwin/release/bundle/dmg/elasticvue_*_aarch64.dmg
 
+      - name: (mac arm) rename artifacts
+        if: matrix.platform == 'macos-latest'
+        run: |
+          mv src-tauri/target/aarch64-apple-darwin/release/bundle/macos/elasticvue.app.tar.gz src-tauri/target/aarch64-apple-darwin/release/bundle/macos/elasticvue_aarch64.app.tar.gz
+          mv src-tauri/target/aarch64-apple-darwin/release/bundle/macos/elasticvue.app.tar.gz.sig src-tauri/target/aarch64-apple-darwin/release/bundle/macos/elasticvue_aarch64.app.tar.gz.sig
+
+      - name: (mac arm) upload .app and artifacts
+        if: matrix.platform == 'macos-latest'
+        uses: actions/upload-artifact@v3
+        with:
+          path: src-tauri/target/aarch64-apple-darwin/release/bundle/macos/elasticvue_aarch64*
+
       - run: yarn tauri:build
 
       - name: (mac) upload .dmg
@@ -57,6 +76,18 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           path: src-tauri/target/release/bundle/dmg/elasticvue_*_x64.dmg
+
+      - name: (mac) rename artifacts
+        if: matrix.platform == 'macos-latest'
+        run: |
+          mv src-tauri/target/release/bundle/macos/elasticvue.app.tar.gz src-tauri/target/release/bundle/macos/elasticvue_x64.app.tar.gz
+          mv src-tauri/target/release/bundle/macos/elasticvue.app.tar.gz.sig src-tauri/target/release/bundle/macos/elasticvue_x64.app.tar.gz.sig
+
+      - name: (mac) upload .app and artifacts
+        if: matrix.platform == 'macos-latest'
+        uses: actions/upload-artifact@v3
+        with:
+          path: src-tauri/target/release/bundle/macos/elasticvue_x64*
 
       - name: (linux) upload .deb
         if: matrix.platform == 'ubuntu-latest'
@@ -151,10 +182,6 @@ jobs:
             * [Mac x68 .dmg](https://github.com/cars10/elasticvue/releases/download/${{ github.ref_name }}/elasticvue_${{ steps.package-version.outputs.current-version }}_x64.dmg) / [Mac aarch64 .dmg](https://github.com/cars10/elasticvue/releases/download/${{ github.ref_name }}/elasticvue_${{ steps.package-version.outputs.current-version }}_aarch64.dmg)
             * [Windows .msi](https://github.com/cars10/elasticvue/releases/download/${{ github.ref_name }}/elasticvue_${{ steps.package-version.outputs.current-version }}_x64_en-US.msi)
             
-            If you get an error message when running the mac version of elasticvue (`"elasticvue" is damaged and can't be opened`) you might have to run (This happens because the builds are not signed yet):
-            ```
-            xattr -cr elasticvue_1.0.0*.dmg
-            ```
             ### Browser extension
             * [Google Chrome](https://chrome.google.com/webstore/detail/elasticvue/hkedbapjpblbodpgbajblpnlpenaebaa)
             * [Mozilla Firefox](https://addons.mozilla.org/en-US/firefox/addon/elasticvue/)

@@ -16,12 +16,12 @@ export const useClusterTable = () => {
     const search = filter.value.toLowerCase().trim()
 
     return [...connectionStore.clusters]
+        .map((cluster, i) => Object.assign({}, cluster, { index: i }))
         .filter((cluster) => {
           return cluster.name.toLowerCase().includes(search) ||
               cluster.uri.toLowerCase().includes(search) ||
               cluster.clusterName.toLowerCase().includes(search)
         })
-        .map((cluster, i) => Object.assign({}, cluster, { index: i }))
   })
 
   const removeInstance = async (index: number) => {

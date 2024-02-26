@@ -9,6 +9,11 @@ interface IndexGetArgs {
 }
 
 export type ElasticsearchMethod = keyof ElasticsearchAdapter
+const MAX_INDICES_PER_REQUEST = 16
+
+const chunk = (array: any[], size: number) => {
+  return Array.from({ length: Math.ceil(array.length / size) }, (_, i) => array.slice(i * size, i * size + size))
+}
 
 export default class ElasticsearchAdapter {
   username?: string
@@ -29,6 +34,17 @@ export default class ElasticsearchAdapter {
   call (method: ElasticsearchMethod, ...args: any[]): Promise<any> {
     // @ts-ignore
     return this[method](...args)
+  }
+
+  async callInChunks ({ method, indices }: { method: keyof ElasticsearchAdapter, indices: string[] }) {
+    const chunks = chunk(indices, MAX_INDICES_PER_REQUEST)
+    let response = null
+
+    for (const c of chunks) {
+      response = await this.call(method, { indices: c })
+    }
+
+    return response
   }
 
   ping () {
@@ -81,10 +97,6 @@ export default class ElasticsearchAdapter {
     return this.request(`${index}`, 'PUT', body)
   }
 
-  indexDelete ({ index }: { index: string }) {
-    return this.request(`${index}`, 'DELETE')
-  }
-
   deleteByQuery ({ index }: { index: string }) {
     const body = { query: { match_all: {} } }
     return this.request(`${index}/_delete_by_query?refresh=true`, 'POST', body)
@@ -99,28 +111,60 @@ export default class ElasticsearchAdapter {
     return this.request(`${index}/_stats`, 'GET')
   }
 
-  indexClose ({ index }: { index: string }) {
-    return this.request(`${index}/_close`, 'POST')
+  indexDelete ({ indices }: { indices: string[] }) {
+    if (indices.length > MAX_INDICES_PER_REQUEST) {
+      return this.callInChunks({ method: 'indexDelete', indices })
+    } else {
+      return this.request(indices.join(','), 'DELETE')
+    }
   }
 
-  indexOpen ({ index }: { index: string }) {
-    return this.request(`${index}/_open`, 'POST')
+  indexClose ({ indices }: { indices: string[] }) {
+    if (indices.length > MAX_INDICES_PER_REQUEST) {
+      return this.callInChunks({ method: 'indexClose', indices })
+    } else {
+      return this.request(`${indices.join(',')}/_close`, 'POST')
+    }
   }
 
-  indexForcemerge ({ index }: { index: string }) {
-    return this.request(`${index}/_forcemerge`, 'POST')
+  indexOpen ({ indices }: { indices: string[] }) {
+    if (indices.length > MAX_INDICES_PER_REQUEST) {
+      return this.callInChunks({ method: 'indexOpen', indices })
+    } else {
+      return this.request(`${indices.join(',')}/_open`, 'POST')
+    }
   }
 
-  indexRefresh ({ index }: { index: string }) {
-    return this.request(`${index}/_refresh`, 'POST')
+  indexForcemerge ({ indices }: { indices: string[] }) {
+    if (indices.length > MAX_INDICES_PER_REQUEST) {
+      return this.callInChunks({ method: 'indexForcemerge', indices })
+    } else {
+      return this.request(`${indices.join(',')}/_forcemerge`, 'POST')
+    }
   }
 
-  indexClearCache ({ index }: { index: string }) {
-    return this.request(`${index}/_cache/clear`, 'POST')
+  indexRefresh ({ indices }: { indices: string[] }) {
+    if (indices.length > MAX_INDICES_PER_REQUEST) {
+      return this.callInChunks({ method: 'indexRefresh', indices })
+    } else {
+      return this.request(`${indices.join(',')}/_refresh`, 'POST')
+    }
   }
 
-  indexFlush ({ index }: { index: string }) {
-    return this.request(`${index}/_flush`, 'POST')
+  indexClearCache ({ indices }: { indices: string[] }) {
+    if (indices.length > MAX_INDICES_PER_REQUEST) {
+      return this.callInChunks({ method: 'indexClearCache', indices })
+    } else {
+      return this.request(`${indices.join(',')}/_cache/clear`, 'POST')
+    }
+  }
+
+  indexFlush ({ indices }: { indices: string[] }) {
+    if (indices.length > MAX_INDICES_PER_REQUEST) {
+      return this.callInChunks({ method: 'indexFlush', indices })
+    } else {
+      return this.request(`${indices.join(',')}/_flush`, 'POST')
+    }
   }
 
   indexExists ({ index }: { index: string }) {

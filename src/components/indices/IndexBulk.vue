@@ -7,22 +7,22 @@
     <q-list padding dense>
       <row-menu-action v-if="connectionStore.activeCluster && parseInt(connectionStore.activeCluster.majorVersion) > 1"
                        method="indexForcemerge"
-                       :method-params="{index: selectedIndices.join(',')}"
+                       :method-params="{indices: selectedIndices}"
                        :text="t('indices.index_row.options.forcemerge.text', selectedIndices.length)"
                        icon="call_merge"
                        @done="emitAndCloseMenu('reload')" />
       <row-menu-action method="indexRefresh"
-                       :method-params="{index: selectedIndices.join(',')}"
+                       :method-params="{indices: selectedIndices}"
                        :text="t('indices.index_row.options.refresh.text', selectedIndices.length)"
                        icon="refresh"
                        @done="emitAndCloseMenu('reload')" />
       <row-menu-action method="indexFlush"
-                       :method-params="{index: selectedIndices.join(',')}"
+                       :method-params="{indices: selectedIndices}"
                        :text="t('indices.index_row.options.flush.text', selectedIndices.length)"
                        icon="archive"
                        @done="emitAndCloseMenu('reload')" />
       <row-menu-action method="indexClearCache"
-                       :method-params="{index: selectedIndices.join(',')}"
+                       :method-params="{indices: selectedIndices}"
                        :text="t('indices.index_row.options.clear_cache.text', selectedIndices.length)"
                        icon="clear_all"
                        @done="emitAndCloseMenu('reload')" />
@@ -31,20 +31,20 @@
 
       <row-menu-action method="indexClose"
                        :disabled="selectedIndices.length === 0"
-                       :method-params="{index: selectedIndices.join(',')}"
+                       :method-params="{indices: selectedIndices}"
                        :text="t('indices.index_row.options.close.text', selectedIndices.length)"
                        icon="lock"
                        @done="emitAndCloseMenu('reload')" />
       <row-menu-action method="indexOpen"
                        :disabled="selectedIndices.length === 0"
-                       :method-params="{index: selectedIndices.join(',')}"
+                       :method-params="{indices: selectedIndices}"
                        :text="t('indices.index_row.options.open.text', selectedIndices.length)"
                        icon="lock_open"
                        @done="emitAndCloseMenu('reload')" />
       <row-menu-action method="indexDelete"
                        :disabled="selectedIndices.length === 0"
-                       :confirm="t('indices.index_row.options.delete.confirm', {index: selectedIndices.join(',')})"
-                       :method-params="{index: selectedIndices.join(',')}"
+                       :confirm="t('indices.index_row.options.delete.confirm', {index: selectedIndices})"
+                       :method-params="{indices: selectedIndices}"
                        :text="t('indices.index_row.options.delete.text', selectedIndices.length)"
                        icon="delete"
                        @done="emitAndCloseMenu('indicesDeleted')" />
