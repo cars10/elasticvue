@@ -5,7 +5,6 @@
 [![Edge extension](https://img.shields.io/badge/dynamic/json?label=microsoft%20edge%20add-on&query=%24.version&url=https%3A%2F%2Fmicrosoftedge.microsoft.com%2Faddons%2Fgetproductdetailsbycrxid%2Fgeifniocjfnfilcbeloeidajlfmhdlgo)](https://microsoftedge.microsoft.com/addons/detail/geifniocjfnfilcbeloeidajlfmhdlgo)
 [![Firefox addon](https://img.shields.io/amo/v/elasticvue?label=firefox%20add-on)](https://addons.mozilla.org/en-US/firefox/addon/elasticvue/)
 [![Docker build](https://img.shields.io/docker/image-size/cars10/elasticvue)](https://hub.docker.com/r/cars10/elasticvue)
-[![AUR version](https://img.shields.io/aur/version/elasticvue-bin?label=UNOFFICIAL%20aur)](https://aur.archlinux.org/packages/elasticvue-bin)
 
 English / [简体中文](./docs/README_CN.md)
 
@@ -47,18 +46,11 @@ the [FAQ](https://github.com/cars10/elasticvue/wiki/FAQ) for more details.
 
 You can use elasticvue in several ways:
 
-* **Recommended:** [desktop app for linux, mac and windows](#desktop-app)
+### Desktop App *recommended*
 
-Other:
-
-* [Browser extension for chrome, firefox and edge](#browser-extensions)
-* [Docker image](#docker)
-* [Web version](#web-version)
-* [Self-hosted](#self-hosted)
-
-### Desktop App
-
-Please check the [releases page](https://github.com/cars10/elasticvue/releases) for the latest desktop app download.
+* [Windows .msi](https://update.elasticvue.com/download/windows/x86_64)
+* [Mac x68 .dmg](https://update.elasticvue.com/download/darwin/x86_64) / [Mac aarch64 .dmg](https://update.elasticvue.com/download/darwin/aarch64)
+* [Linux .AppImage](https://update.elasticvue.com/download/linux/x86_64)
 
 ### Browser extensions
 
