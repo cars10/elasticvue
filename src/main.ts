@@ -3,7 +3,7 @@ import { Quasar } from 'quasar'
 import { quasarOptions } from './plugins/quasar'
 import { pinia } from './plugins/pinia'
 import { vueI18n } from './plugins/vue-i18n'
-import router from './router.js'
+import router from './router'
 
 import App from './App.vue'
 import './assets/stylesheets/style.scss'

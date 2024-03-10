@@ -52,6 +52,6 @@ export const checkClusterHealth = async (credentials: ElasticsearchClusterCreden
     const clusterHealthBody = await clusterHealthResponse.json()
     return clusterHealthBody.status
   } catch (e) {
-    return 'error'
+    return 'unknown'
   }
 }
