@@ -46,23 +46,22 @@ the [FAQ](https://github.com/cars10/elasticvue/wiki/FAQ) for more details.
 
 You can use elasticvue in several ways:
 
-### Desktop App *recommended*
+### Desktop App - *recommended*
 
 * [Windows .msi](https://update.elasticvue.com/download/windows/x86_64)
 * [Mac x68 .dmg](https://update.elasticvue.com/download/darwin/x86_64) / [Mac aarch64 .dmg](https://update.elasticvue.com/download/darwin/aarch64)
 * [Linux .AppImage](https://update.elasticvue.com/download/linux/x86_64)
 
-### Browser extensions
+### Browser extension
 
 * [Google chrome](https://chrome.google.com/webstore/detail/elasticvue/hkedbapjpblbodpgbajblpnlpenaebaa)
 * [Firefox](https://addons.mozilla.org/en-US/firefox/addon/elasticvue/)
 * [Microsoft edge](https://microsoftedge.microsoft.com/addons/detail/geifniocjfnfilcbeloeidajlfmhdlgo)
 
-Start elasticvue by clicking on the icon in your toolbar.
-
 ### Docker
 
-*You have to configure your elasticsearch cluster if you use elasticvue via docker*  
+> **You have to configure your elasticsearch cluster if you want to use elasticvue via docker**
+
 Use the [existing image](https://hub.docker.com/r/cars10/elasticvue):
 
 ```bash
@@ -112,12 +111,14 @@ Your users will be prompted to optionally import these clusters.
 
 ### Web version
 
-*You have to configure your elasticsearch cluster if you use the web version of elasticvue*  
+> **You have to configure your elasticsearch cluster if you want to use elasticvue via docker**
+
 Visit [https://app.elasticvue.com](https://app.elasticvue.com).
 
 ### Self-hosted
 
-*You have to configure your elasticsearch cluster if you use a self-hosted version of elasticvue*  
+> **You have to configure your elasticsearch cluster if you want to use elasticvue via docker**
+
 Please check the [wiki](https://github.com/cars10/elasticvue/wiki/Building-Elasticvue) for more information.
 
 ## Elasticsearch configuration
