@@ -14,6 +14,7 @@ function removeDataTestid (node) {
 const prod = process.env.NODE_ENV === 'production'
 
 export default defineConfig({
+  base: process.env.VITE_APP_PUBLIC_PATH || '/',
   plugins: [
     vue({
       template: {
