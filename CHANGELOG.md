@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.5
+
+* adds request logging to desktop app
+* fix issue when elasticsearch url ends with a slash, fixes [#214](https://github.com/cars10/elasticvue/pull/214)
+* fix build setup when hosting elasticvue on a subdirectory
+
 ## 1.0.4
 
 * show shard size on hover, fixes [#199](https://github.com/cars10/elasticvue/pull/199) and [#203](https://github.com/cars10/elasticvue/pull/203)

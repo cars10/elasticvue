@@ -46,7 +46,7 @@ export const useRestQueryForm = (props: RestQueryFormProps, emit: any) => {
     }
 
     let url = connectionStore.activeCluster.uri
-    if (!props.tab.request.path.startsWith('/')) url += '/'
+    if (!url.endsWith('/') && !props.tab.request.path.startsWith('/')) url += '/'
     url += props.tab.request.path
 
     try {

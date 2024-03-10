@@ -17,7 +17,7 @@ export const setupClusterConnection = async (page: Page) => {
           'name': 'dev cluster',
           'username': '',
           'password': '',
-          'uri': 'http://localhost:9200',
+          'uri': 'http://localhost:9200/',
           'status': 'green'
         }
       ],
