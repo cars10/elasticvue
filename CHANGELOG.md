@@ -5,10 +5,12 @@
 * adds request logging to desktop app
 * fix issue when elasticsearch url ends with a slash, fixes [#214](https://github.com/cars10/elasticvue/pull/214)
 * fix build setup when hosting elasticvue on a subdirectory
+* fix error when showing documents that include `id` prop, fixes [#219](https://github.com/cars10/elasticvue/issues/219)
 
 ## 1.0.4
 
-* show shard size on hover, fixes [#199](https://github.com/cars10/elasticvue/pull/199) and [#203](https://github.com/cars10/elasticvue/pull/203)
+* show shard size on hover, fixes [#199](https://github.com/cars10/elasticvue/pull/199)
+  and [#203](https://github.com/cars10/elasticvue/pull/203)
 * fix cluster selection filter, fixes [#210](https://github.com/cars10/elasticvue/issues/210)
 * limit index bulk actions to 16 indices sent in chunks, fixes [#213](https://github.com/cars10/elasticvue/issues/213)
 
