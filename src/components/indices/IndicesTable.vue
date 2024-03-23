@@ -32,6 +32,7 @@
   <div :class="{'table--sticky-header': indicesStore.stickyTableHeader}">
     <resizable-container v-model="resizeStore.indicesTable" :active="indicesStore.stickyTableHeader">
       <q-table :key="tableKey"
+               v-model:pagination="indicesStore.pagination"
                class="table-mono"
                flat
                dense
@@ -42,7 +43,6 @@
                :columns="columns"
                :rows="items"
                :rows-per-page-options="rowsPerPage"
-               :pagination="{sortBy: 'index'}"
                selection="multiple">
         <template #body="{row}">
           <index-row :index="row" @reload="emit('reload')">
