@@ -12,9 +12,6 @@
           <a href="https://github.com/cars10/elasticvue/blob/master/CHANGELOG.md" rel="nofollow" target="_blank"
              class="decoration-none">
             {{ t('base.app_footer.changelog') }}
-          </a> |
-          <a href="https://elasticvue.com/survey" class="text-bold decoration-none" rel="nofollow" target="_blank">
-            2024 Survey
           </a>
         </div>
         &copy;{{ new Date().getFullYear() }} - Carsten K&ouml;nig
