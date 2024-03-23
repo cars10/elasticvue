@@ -185,8 +185,9 @@
           "aliases": "Aliases",
           "shards": "Shards",
           "segments": "Segments",
-          "docs": "Lucene docs",
+          "docs": "Docs",
           "storage": "Storage",
+          "created": "Created",
           "parsed_docs_count": {
             "title": "If your index has fields with \"type\": \"nested\" then the number of lucene documents might not match the number of elasticsearch documents in your index. Each nested object counts as a separate document. Use the _count API if you need the number of elasticsearch documents."
           }

@@ -18,7 +18,8 @@ export type EsIndex = {
   rep: string,
   sc: string,
   'docs.count': string,
-  'store.size': string
+  'store.size': string,
+  cd: string
 }
 
 export type EsTableProps = {
@@ -77,6 +78,7 @@ export const useIndicesTable = (props: EsTableProps, emit: any) => {
     { label: t('indices.indices_table.table.headers.segments'), field: 'parsedSegmentsCount', align: 'right' },
     { label: t('indices.indices_table.table.headers.docs'), field: 'parsedDocsCount', align: 'right' },
     { label: t('indices.indices_table.table.headers.storage'), field: 'parsedStoreSize', align: 'right' },
+    { label: t('indices.indices_table.table.headers.created'), field: 'created' },
     { label: '' }
   ])
 

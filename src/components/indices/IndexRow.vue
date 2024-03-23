@@ -46,6 +46,9 @@
       {{ index.humanStoreSize }}
     </td>
     <td>
+      <template v-if="index.created && typeof index.created === 'number'">{{ new Date(index.created).toLocaleString() }}</template>
+    </td>
+    <td>
       <q-btn-group>
         <q-btn icon="search" color="dark-grey" @click="showDocuments(index.index)" />
         <q-btn-dropdown ref="menu" icon="settings" color="dark-grey">

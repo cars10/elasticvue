@@ -185,8 +185,9 @@
           "aliases": "别名",
           "shards": "分片",
           "segments": "分段",
-          "docs": "Lucene 文档",
+          "docs": "文档",
           "storage": "储存空间",
+          "created": "日期",
           "parsed_docs_count": {
             "title": "如果你的索引具有 \"type\": \"nested\" 字段，那么 lucene 文档的数量可能与索引中的 elasticsearch 文档的数量不匹配。每个嵌套对象都算作一个单独的文档。如果你需要 elasticsearch 文档的数量，请使用 _count API。"
           }
