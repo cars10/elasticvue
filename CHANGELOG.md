@@ -9,6 +9,7 @@
 * save per_page & sort settings on indices page
 * show index creation date on indices page
 * warn when selecting huge page sizes
+* add some query string examples
 
 ## 1.0.4
 
