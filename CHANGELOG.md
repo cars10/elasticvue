@@ -8,6 +8,7 @@
 * fix error when showing documents that include `id` prop, fixes [#219](https://github.com/cars10/elasticvue/issues/219)
 * save per_page & sort settings on indices page
 * show index creation date on indices page
+* warn when selecting huge page sizes
 
 ## 1.0.4
 

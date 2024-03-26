@@ -12,6 +12,7 @@ type SearchState = {
   visibleColumns: string[]
   stickyTableHeader: boolean
   pagination: any
+  rowsPerPageAccepted: boolean
 }
 
 export const useSearchStore = () => {
@@ -28,7 +29,8 @@ export const useSearchStore = () => {
       columns: [],
       visibleColumns: [],
       stickyTableHeader: false,
-      pagination: DEFAULT_PAGINATION
+      pagination: DEFAULT_PAGINATION,
+      rowsPerPageAccepted: false
     }),
     actions: {
       resetSearchQuery () {
@@ -45,7 +47,8 @@ export const useSearchStore = () => {
         'stickyTableHeader',
         'pagination',
         'columns',
-        'visibleColumns'
+        'visibleColumns',
+        'rowsPerPageAccepted'
       ],
       key: `search-${clusterUuid}`
     }

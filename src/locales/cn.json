@@ -583,6 +583,11 @@
         }
       }
     },
+    "table_bottom": {
+      "rows_per_page": {
+        "confirm": "警告：您确定吗？一次性显示 {value} 条目可能会导致问题或冻结。建议使用搜索/过滤功能来限制结果。"
+      }
+    },
     "table_settings": {
       "reset": "重置",
       "uncheck": "反选"

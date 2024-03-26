@@ -54,7 +54,6 @@ export const useSearchDocuments = () => {
   // pagination = {sortBy: '', descending: false, page: 2, rowsPerPage: 10, rowsNumber: 2593}
   const onRequest = ({ pagination }: any) => {
     searchStore.pagination.page = pagination.page
-    searchStore.pagination.rowsPerPage = pagination.rowsPerPage
     searchStore.pagination.sortBy = pagination.sortBy
     searchStore.pagination.descending = pagination.descending
 

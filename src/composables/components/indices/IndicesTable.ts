@@ -1,8 +1,7 @@
-import { computed, Ref, ref, watch } from 'vue'
+import { Ref, ref, watch } from 'vue'
 import { useTranslation } from '../../i18n'
 import { useIndicesStore } from '../../../store/indices'
 import { useResizeStore } from '../../../store/resize'
-import { DEFAULT_ROWS_PER_PAGE } from '../../../consts'
 import { filterItems } from '../../../helpers/filters'
 import ElasticsearchIndex from '../../../models/ElasticsearchIndex'
 import { debounce } from '../../../helpers/debounce'
@@ -35,13 +34,12 @@ export const useIndicesTable = (props: EsTableProps, emit: any) => {
   const items: Ref<ElasticsearchIndex[]> = ref([])
   const tableKey = ref(0)
 
-  const rowsPerPage = computed(() => {
-    if (indicesStore.stickyTableHeader) {
-      return [0]
-    } else {
-      return DEFAULT_ROWS_PER_PAGE
-    }
-  })
+  const rowsPerPage = [
+    { label: '10', value: 10, enabled: true },
+    { label: '20', value: 20, enabled: true },
+    { label: '100', value: 100, enabled: true },
+    { label: 'All', value: 0, enabled: indicesStore.rowsPerPageAccepted, needsConfirm: true }
+  ]
 
   const filterTable = () => {
     let results = props.indices
@@ -68,6 +66,16 @@ export const useIndicesTable = (props: EsTableProps, emit: any) => {
     emit('reload')
   }
 
+  const acceptRowsPerPage = (value: boolean) => (indicesStore.rowsPerPageAccepted = value)
+
+  const checkAll = (val: boolean) => {
+    if (val) {
+      selectedItems.value = items.value.map(i => i.index)
+    } else {
+      selectedItems.value = []
+    }
+  }
+
   const columns = genColumns([
     { label: t('indices.indices_table.table.headers.name'), field: 'index' },
     { label: t('indices.indices_table.table.headers.health'), field: 'health' },
@@ -88,6 +96,8 @@ export const useIndicesTable = (props: EsTableProps, emit: any) => {
     items,
     tableKey,
     rowsPerPage,
+    acceptRowsPerPage,
+    checkAll,
     filterTable,
     selectedItems,
     allItemsSelected,

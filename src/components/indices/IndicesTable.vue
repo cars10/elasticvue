@@ -42,7 +42,6 @@
                :virtual-scroll-item-size="14"
                :columns="columns"
                :rows="items"
-               :rows-per-page-options="rowsPerPage"
                selection="multiple">
         <template #body="{row}">
           <index-row :index="row" @reload="emit('reload')">
@@ -54,6 +53,14 @@
 
         <template #header-selection>
           <q-checkbox v-model="allItemsSelected" size="32px" @update:model-value="checkAll" />
+        </template>
+
+        <template #bottom="scope">
+          <table-bottom v-model="indicesStore.pagination.rowsPerPage"
+                        :scope="scope"
+                        :total="items.length"
+                        :rows-per-page="rowsPerPage"
+                        @rows-per-page-accepted="acceptRowsPerPage" />
         </template>
       </q-table>
     </resizable-container>
@@ -70,6 +77,7 @@
 
 <script setup lang="ts">
   import FilterInput from '../shared/FilterInput.vue'
+  import TableBottom from '../shared/TableBottom.vue'
   import IndexBulk from './IndexBulk.vue'
   import IndexRow from './IndexRow.vue'
   import NewIndex from './NewIndex.vue'
@@ -84,15 +92,8 @@
   const props = defineProps<EsTableProps>()
   const emit = defineEmits(['reload'])
 
-  const checkAll = (val: boolean) => {
-    if (val) {
-      selectedItems.value = items.value.map(i => i.index)
-    } else {
-      selectedItems.value = []
-    }
-  }
-
   const {
+    checkAll,
     indicesStore,
     resizeStore,
     items,
@@ -100,6 +101,7 @@
     rowsPerPage,
     selectedItems,
     allItemsSelected,
+    acceptRowsPerPage,
     setIndeterminate,
     clearDeletedIndicesAndReload,
     columns

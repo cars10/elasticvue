@@ -6,7 +6,8 @@ type IndicesState = {
   showHiddenIndices: boolean,
   stickyTableHeader: boolean,
   hideIndicesRegex: string,
-  pagination: any
+  pagination: any,
+  rowsPerPageAccepted: boolean
 }
 
 export const useIndicesStore = defineStore('indices', {
@@ -19,7 +20,8 @@ export const useIndicesStore = defineStore('indices', {
       sortBy: 'index',
       descending: false,
       rowsPerPage: 10
-    }
+    },
+    rowsPerPageAccepted: false
   }),
   persist: {
     paths: [
@@ -30,6 +32,7 @@ export const useIndicesStore = defineStore('indices', {
       'pagination.sortBy',
       'pagination.descending',
       'pagination.rowsPerPage',
+      'rowsPerPageAccepted'
     ]
   }
 })

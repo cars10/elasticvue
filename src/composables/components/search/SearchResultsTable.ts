@@ -40,6 +40,10 @@ export const useSearchResultsTable = (props: SearchResultsTableProps, emit: any)
 
   const genDocStr = (doc: ElasticsearchDocumentInfo) => ([doc._index, doc._type, doc._id].join('####'))
 
+  watch(() => searchStore.pagination.rowsPerPage, () => {
+    onRequest({ pagination: searchStore.pagination })
+  })
+
   watch(() => props.results, async (newValue: EsSearchResult) => {
     if (newValue?.hits?.hits?.length === 0) {
       hits.value = []
@@ -92,15 +96,18 @@ export const useSearchResultsTable = (props: SearchResultsTableProps, emit: any)
   const resetColumns = () => (searchStore.visibleColumns = tableColumns.value.map(c => c.name))
   const generateDownloadData = () => (stringifyJson(props.results))
 
-  const rowsPerPage = computed(() => {
-    if (searchStore.stickyTableHeader) {
-      return [0]
-    } else {
-      return [10, 20, 100, 10000]
-    }
-  })
+  const rowsPerPage = [
+    { label: '10', value: 10, enabled: true },
+    { label: '20', value: 20, enabled: true },
+    { label: '100', value: 100, enabled: true },
+    { label: '1000', value: 1000, enabled: true },
+    { label: '10000', value: 10000, enabled: searchStore.rowsPerPageAccepted, needsConfirm: true }
+  ]
+
+  const acceptRowsPerPage = (value: boolean) => (searchStore.rowsPerPageAccepted = value)
 
   return {
+    acceptRowsPerPage,
     filter,
     tableColumns,
     searchStore,
