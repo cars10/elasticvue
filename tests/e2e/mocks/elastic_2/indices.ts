@@ -3,7 +3,7 @@ import { Page } from '@playwright/test'
 export const mockElasticIndices = async (page: Page) => {
   const mocks = {
     catIndices: {
-      url: 'http://localhost:9200/_cat/indices/?h=index%2Chealth%2Cstatus%2Cuuid%2Cpri%2Crep%2Cdocs.count%2Cstore.size%2Csc&bytes=b',
+      url: 'http://localhost:9200/_cat/indices/?h=index%2Chealth%2Cstatus%2Cuuid%2Cpri%2Crep%2Cdocs.count%2Cstore.size%2Csc%2Ccd&bytes=b',
       json: [
         {
           'index': 'movies',
@@ -12,7 +12,8 @@ export const mockElasticIndices = async (page: Page) => {
           'pri': '1',
           'rep': '1',
           'docs.count': 0,
-          'store.size': 0
+          'store.size': 0,
+          'cd': 1708025870704
         },
         {
           'index': 'omdb',
@@ -21,7 +22,8 @@ export const mockElasticIndices = async (page: Page) => {
           'pri': '1',
           'rep': '1',
           'docs.count': 0,
-          'store.size': 0
+          'store.size': 0,
+          'cd': 1708025870706
         }
       ]
     },
