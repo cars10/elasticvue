@@ -11,6 +11,7 @@
 * warn when selecting huge page sizes
 * add some query string examples
 * show search query execution time
+* adds "clear" button to search column selection options
 
 ## 1.0.4
 

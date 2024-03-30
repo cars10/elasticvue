@@ -594,7 +594,7 @@
     },
     "table_settings": {
       "reset": "重置",
-      "uncheck": "反选"
+      "clear": "反选"
     },
     "authorization_header_hint": "你的集群使用了授权。确保你已经设置了\"http.cors.allow-headers\"，否则将无法连接。",
     "code_editor": {

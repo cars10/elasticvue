@@ -93,6 +93,7 @@ export const useSearchResultsTable = (props: SearchResultsTableProps, emit: any)
   const slicedTableColumns = computed((): any[] => (tableColumns.value.slice(0, -1)))
 
   const onRequest = (pagination: any) => (emit('request', pagination))
+  const clearColumns = () => (searchStore.visibleColumns = ['actions'])
   const resetColumns = () => (searchStore.visibleColumns = tableColumns.value.map(c => c.name))
   const generateDownloadData = () => (stringifyJson(props.results))
 
@@ -111,6 +112,7 @@ export const useSearchResultsTable = (props: SearchResultsTableProps, emit: any)
     filter,
     tableColumns,
     searchStore,
+    clearColumns,
     resetColumns,
     slicedTableColumns,
     resizeStore,

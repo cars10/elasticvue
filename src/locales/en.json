@@ -593,7 +593,7 @@
     },
     "table_settings": {
       "reset": "reset",
-      "uncheck": "uncheck"
+      "clear": "clear"
     },
     "authorization_header_hint": "Make sure that \"http.cors.allow-headers\" is configured",
     "code_editor": {

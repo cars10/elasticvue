@@ -20,6 +20,8 @@
                 <div class="flex justify-between items-center" style="flex-grow: 1">
                   {{ t('search.results_table.settings.columns') }}
 
+                  <q-btn :label="t('shared.table_settings.clear')" flat size="sm" class="q-px-xs"
+                         @click="clearColumns" />
                   <q-btn :label="t('shared.table_settings.reset')" flat size="sm" class="q-px-xs"
                          @click="resetColumns" />
                 </div>
@@ -119,6 +121,7 @@
     acceptRowsPerPage,
     tableColumns,
     searchStore,
+    clearColumns,
     resetColumns,
     slicedTableColumns,
     resizeStore,
