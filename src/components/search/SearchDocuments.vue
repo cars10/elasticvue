@@ -27,6 +27,9 @@
 
           <div class="col-auto">
             <q-btn :label="t('search.form.search')" color="primary-dark" type="submit" class="q-mt-sm" />
+            <div v-if="searchResults?.took" class="text-muted font-13 text-center">
+              {{ searchResults.took }}ms
+            </div>
           </div>
         </div>
       </q-form>
@@ -82,7 +85,6 @@
   import SearchExamples from './SearchExamples.vue'
 
   const CodeEditor = defineAsyncComponent(() => import('../shared/CodeEditor.vue'))
-
 
   const t = useTranslation()
   const {

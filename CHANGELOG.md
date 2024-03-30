@@ -10,6 +10,7 @@
 * show index creation date on indices page
 * warn when selecting huge page sizes
 * add some query string examples
+* show search query execution time
 
 ## 1.0.4
 

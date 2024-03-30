@@ -7,6 +7,7 @@ import { DEFAULT_SEARCH_QUERY_OBJ } from '../../../consts'
 import { stringifyJson } from '../../../helpers/json/stringify.ts'
 
 export type EsSearchResult = {
+  took: number | null
   hits: EsSearchResultHits
 }
 
@@ -25,7 +26,7 @@ export const useSearchDocuments = () => {
   const searchStore = useSearchStore()
   const resizeStore = useResizeStore()
 
-  const searchResults: Ref<EsSearchResult> = ref({ hits: { total: { value: 0 } } })
+  const searchResults: Ref<EsSearchResult> = ref({ took: null, hits: { total: { value: 0 } } })
   const queryParsingError = ref(false)
   const search = async () => {
     let query
@@ -43,7 +44,7 @@ export const useSearchDocuments = () => {
       searchStore.pagination.rowsNumber = typeof total === 'number' ? total : total.value
     } catch (e) {
       console.error(e)
-      searchResults.value = { hits: { total: { value: 0 } } }
+      searchResults.value = { took: null, hits: { total: { value: 0 } } }
     }
   }
 
