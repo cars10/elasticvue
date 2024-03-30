@@ -77,7 +77,7 @@
   import { computed, ref, watch } from 'vue'
   import { useTranslation } from '../../composables/i18n.ts'
 
-  type TableBottomScope = {
+  export type TableBottomScope = {
     pagesNumber: number
     isFirstPage: boolean
     isLastPage: boolean
@@ -85,10 +85,14 @@
     lastPage: () => {}
     nextPage: () => {}
     prevPage: () => {}
+    inFullscreen: boolean
+    toggleFullscreen: () => {}
     pagination: {
       rowsPerPage: number
       page: number
       rowsNumber?: number
+      sortBy: string | null
+      descending: boolean
     }
   }
 

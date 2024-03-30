@@ -57,7 +57,7 @@
 
         <template #bottom="scope">
           <table-bottom v-model="indicesStore.pagination.rowsPerPage"
-                        :scope="scope"
+                        :scope="scope as TableBottomScope"
                         :total="items.length"
                         :rows-per-page="rowsPerPage"
                         @rows-per-page-accepted="acceptRowsPerPage" />
@@ -78,6 +78,7 @@
 <script setup lang="ts">
   import FilterInput from '../shared/FilterInput.vue'
   import TableBottom from '../shared/TableBottom.vue'
+  import type { TableBottomScope } from '../shared/TableBottom.vue'
   import IndexBulk from './IndexBulk.vue'
   import IndexRow from './IndexRow.vue'
   import NewIndex from './NewIndex.vue'

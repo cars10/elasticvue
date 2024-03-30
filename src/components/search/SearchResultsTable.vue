@@ -65,7 +65,7 @@
 
         <template #bottom="scope">
           <table-bottom v-model="searchStore.pagination.rowsPerPage"
-                        :scope="scope"
+                        :scope="scope as TableBottomScope"
                         :total="hits.length"
                         :rows-per-page="rowsPerPage"
                         @rows-per-page-accepted="acceptRowsPerPage" />
@@ -107,6 +107,7 @@
     useSearchResultsTable
   } from '../../composables/components/search/SearchResultsTable.ts'
   import TableBottom from '../shared/TableBottom.vue'
+  import type { TableBottomScope } from '../shared/TableBottom.vue'
 
   const props = defineProps<SearchResultsTableProps>()
   const emit = defineEmits(['request', 'reload'])
