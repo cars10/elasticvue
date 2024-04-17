@@ -24,22 +24,17 @@
   import EditDocument from './EditDocument.vue'
   import { useSearchResult } from '../../composables/components/search/SearchResult.ts'
   import type { SearchResultProps } from '../../composables/components/search/SearchResult.ts'
-  import { ref } from 'vue'
 
   const props = defineProps<SearchResultProps>()
   const emit = defineEmits<{ reload: [] }>()
 
-  const buttonsVisible = ref(false)
-  const onIntersection = (entry: IntersectionObserverEntry) => {
-    if (entry.isIntersecting) console.log("yes")
-    buttonsVisible.value = entry.isIntersecting
-    return true
-  }
   const {
     resultColumns,
     edit,
     showDocument,
     deleteDocument,
-    renderValue
+    renderValue,
+    buttonsVisible,
+    onIntersection
   } = useSearchResult(props, emit)
 </script>
