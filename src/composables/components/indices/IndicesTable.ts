@@ -38,7 +38,7 @@ export const useIndicesTable = (props: EsTableProps, emit: any) => {
     { label: '10', value: 10, enabled: true },
     { label: '20', value: 20, enabled: true },
     { label: '100', value: 100, enabled: true },
-    { label: 'All', value: 0, enabled: indicesStore.rowsPerPageAccepted, needsConfirm: true }
+    { label: '1000', value: 1000, enabled: indicesStore.rowsPerPageAccepted, needsConfirm: true }
   ]
 
   const filterTable = () => {

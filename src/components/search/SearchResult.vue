@@ -1,5 +1,5 @@
 <template>
-  <tr class="clickable" @click="edit = !edit">
+  <tr>
     <td>
       <slot name="checkbox" />
     </td>
@@ -8,54 +8,38 @@
       <template v-else>{{ renderValue(doc, column) }}</template>
     </td>
     <td>
-      <edit-document v-model="edit" :_id="doc._id" :_index="doc._index" :_type="doc._type" :_routing="doc._routing" />
-      <q-btn-dropdown ref="menu" v-model="dropdown" icon="settings" color="dark-grey" @click.stop>
-        <q-list padding dense>
-          <row-menu-action method="delete"
-                           :method-params="docInfo()"
-                           :text="t('search.search_result.delete.text', 1)"
-                           :growl="t('search.search_result.delete.growl', 1)"
-                           :confirm="t('search.search_result.delete.confirm', 1)"
-                           icon="delete"
-                           @done="emit('reload')" />
-        </q-list>
-      </q-btn-dropdown>
+      <div v-intersection="onIntersection" class="inline-block" style="min-width: 134px">
+        <edit-document v-model="edit" :_id="doc._id" :_index="doc._index" :_type="doc._type" :_routing="doc._routing" />
+        <q-btn-group v-if="buttonsVisible">
+          <q-btn icon="info" color="dark-grey" @click="showDocument" />
+          <q-btn icon="edit" color="dark-grey" @click="edit = true" />
+          <q-btn icon="delete" color="dark-grey" @click="deleteDocument" />
+        </q-btn-group>
+      </div>
     </td>
   </tr>
 </template>
 
 <script setup lang="ts">
-  import { useTranslation } from '../../composables/i18n.ts'
-  import { computed, ref } from 'vue'
-  import RowMenuAction from '../indices/RowMenuAction.vue'
   import EditDocument from './EditDocument.vue'
-  import { useSearchStore } from '../../store/search.ts'
-  import { stringifyJson } from '../../helpers/json/stringify.ts'
+  import { useSearchResult } from '../../composables/components/search/SearchResult.ts'
+  import type { SearchResultProps } from '../../composables/components/search/SearchResult.ts'
+  import { ref } from 'vue'
 
-  const props = defineProps<{ columns: any[], doc: Record<string, any> }>()
-  const emit = defineEmits(['reload'])
-  const t = useTranslation()
+  const props = defineProps<SearchResultProps>()
+  const emit = defineEmits<{ reload: [] }>()
 
-  const dropdown = ref(false)
-  const searchStore = useSearchStore()
-  const resultColumns = computed(() => (props.columns.slice(0, -1)))
-
-  const edit = ref(false)
-  const docInfo = () => ({ index: props.doc._index, type: props.doc._type, id: props.doc._id })
-
-  const renderValue = (doc: any, column: string) => {
-    if (!doc.hasOwnProperty(column)) return
-    const value = doc[column]
-
-    if (searchStore.localizeTimestamp && column === '@timestamp') {
-      const d = Date.parse(value)
-      return new Date(d).toLocaleString()
-    }
-
-    if (typeof value === 'object') {
-      return stringifyJson(value)
-    } else {
-      return value
-    }
+  const buttonsVisible = ref(false)
+  const onIntersection = (entry: IntersectionObserverEntry) => {
+    if (entry.isIntersecting) console.log("yes")
+    buttonsVisible.value = entry.isIntersecting
+    return true
   }
+  const {
+    resultColumns,
+    edit,
+    showDocument,
+    deleteDocument,
+    renderValue
+  } = useSearchResult(props, emit)
 </script>

@@ -101,8 +101,7 @@ export const useSearchResultsTable = (props: SearchResultsTableProps, emit: any)
     { label: '10', value: 10, enabled: true },
     { label: '20', value: 20, enabled: true },
     { label: '100', value: 100, enabled: true },
-    { label: '1000', value: 1000, enabled: true },
-    { label: '10000', value: 10000, enabled: searchStore.rowsPerPageAccepted, needsConfirm: true }
+    { label: '1000', value: 1000, enabled: searchStore.rowsPerPageAccepted, needsConfirm: true }
   ]
 
   const acceptRowsPerPage = (value: boolean) => (searchStore.rowsPerPageAccepted = value)
