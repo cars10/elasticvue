@@ -41,6 +41,9 @@ export const useSearchResultsTable = (props: SearchResultsTableProps, emit: any)
   const genDocStr = (doc: ElasticsearchDocumentInfo) => ([doc._index, doc._type, doc._id].join('####'))
 
   watch(() => searchStore.pagination.rowsPerPage, () => {
+    if (searchStore.pagination.rowsPerPage === rowsPerPage[rowsPerPage.length - 1].value) {
+      searchStore.stickyTableHeader = true
+    }
     onRequest({ pagination: searchStore.pagination })
   })
 

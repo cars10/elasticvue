@@ -57,6 +57,11 @@ export const useIndicesTable = (props: EsTableProps, emit: any) => {
   watch(() => indicesStore.showHiddenIndices, filterTable)
   watch(() => props.indices, filterTable)
   watch(() => indicesStore.stickyTableHeader, () => (tableKey.value += 1))
+  watch(() => indicesStore.pagination.rowsPerPage, () => {
+    if (indicesStore.pagination.rowsPerPage === rowsPerPage[rowsPerPage.length - 1].value) {
+      indicesStore.stickyTableHeader = true
+    }
+  })
 
   const { selectedItems, allItemsSelected, setIndeterminate } = useSelectableRows(items)
 
