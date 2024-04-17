@@ -103,7 +103,7 @@ export const buildQueryFromTableOptions = (pagination: any) => {
     // @ts-ignore
     sortOptions[sort] = { order }
     // @ts-ignore
-    if (sort !== '_score') sortOptions[sort].unmapped_type = 'keyword'
+    // if (sort !== '_score') sortOptions[sort].unmapped_type = 'keyword'
     // @ts-ignore
     newQueryParts.sort = [sortOptions]
   }
