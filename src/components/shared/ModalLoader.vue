@@ -34,7 +34,7 @@
 </template>
 
 <script setup lang="ts">
-  import { Ref, ref, watch, defineAsyncComponent } from 'vue'
+  import { ref, watch, defineAsyncComponent } from 'vue'
   import { useModalStore } from '../../store/modal'
   import LoaderStatus from './LoaderStatus.vue'
   import { useElasticsearchAdapter } from '../../composables/CallElasticsearch'
@@ -51,7 +51,7 @@
   const { requestState, callElasticsearch } = useElasticsearchAdapter()
   const store = useModalStore()
 
-  const data: Ref<string> = ref('')
+  const data = ref('')
   const load = () => {
     callElasticsearch(store.method, store.methodParams)
         .then(body => (data.value = stringifyJson(body)))
@@ -62,7 +62,11 @@
 
   watch(() => store.show, newValue => (ownValue.value = newValue))
   watch(() => ownValue.value, newValue => {
-    load()
+    if (newValue) {
+      load()
+    } else {
+      data.value = ''
+    }
     store.setShow(newValue)
   })
 </script>

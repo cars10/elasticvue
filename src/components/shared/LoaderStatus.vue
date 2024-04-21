@@ -25,6 +25,7 @@
   <div v-else>
     <q-linear-progress v-if="requestState.loading" indeterminate />
     <slot />
+    <q-linear-progress v-if="requestState.loading" indeterminate />
   </div>
 </template>
 

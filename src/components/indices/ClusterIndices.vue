@@ -26,7 +26,7 @@
 
   const t = useTranslation()
 
-  const CAT_INDICES_PARAMS = { h: 'index,health,status,uuid,pri,rep,docs.count,store.size,sc', bytes: 'b' }
+  const CAT_INDICES_PARAMS = { h: 'index,health,status,uuid,pri,rep,docs.count,store.size,sc,cd', bytes: 'b' }
   const { requestState, data, load } = useElasticsearchRequest<EsIndex[]>('catIndices', CAT_INDICES_PARAMS)
   onMounted(load)
 </script>

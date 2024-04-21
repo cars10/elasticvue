@@ -3,6 +3,7 @@ import ElasticsearchAdapter from '../services/ElasticsearchAdapter'
 import { useTranslation } from './i18n'
 import { useSnackbar } from './Snackbar'
 import { ElasticsearchCluster, ElasticsearchClusterCredentials, useConnectionStore } from '../store/connection'
+import { DISTRIBUTIONS } from '../consts.ts'
 
 type TestConnectState = {
   success: boolean
@@ -78,6 +79,7 @@ export const useClusterConnection = (cluster: Ref<ElasticsearchCluster>) => {
         clusterName: infoJson.cluster_name,
         version: infoJson.version.number,
         majorVersion: infoJson.version.number[0],
+        distribution: infoJson.version.distribution || DISTRIBUTIONS.elasticsearch,
         uuid: clusterUuid(infoJson),
         status: clusterHealthBody.status
       })

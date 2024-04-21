@@ -47,7 +47,8 @@
         <td class="small-wrap">
           <div class="flex items-center no-wrap">
             {{ row.version }}
-            <unsupported-version v-if="row.majorVersion" :major-version="row.majorVersion" />
+            <unsupported-version v-if="row.majorVersion && row.distribution === DISTRIBUTIONS.elasticsearch"
+                                 :major-version="row.majorVersion" />
           </div>
         </td>
         <td class="small-wrap">
@@ -65,7 +66,7 @@
   import EditCluster from './EditCluster.vue'
   import FilterInput from '../shared/FilterInput.vue'
   import NewCluster from './NewCluster.vue'
-  import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
+  import { DEFAULT_ROWS_PER_PAGE, DISTRIBUTIONS } from '../../consts'
   import { useClusterTable } from '../../composables/components/clusterselection/ClusterTable'
   import { useConnectionStore } from '../../store/connection'
   import { useTranslation } from '../../composables/i18n.ts'

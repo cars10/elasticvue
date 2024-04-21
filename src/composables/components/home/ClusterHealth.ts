@@ -1,6 +1,7 @@
 import { ElasticsearchCluster, ElasticsearchClusterCredentials, useConnectionStore } from '../../../store/connection.ts'
 import ElasticsearchAdapter from '../../../services/ElasticsearchAdapter.ts'
 import { clusterUuid } from '../../ClusterConnection.ts'
+import { DISTRIBUTIONS } from '../../../consts.ts'
 
 export const useClusterHealth = () => {
   const connectionStore = useConnectionStore()
@@ -33,6 +34,7 @@ export const checkHealth = async (cluster: ElasticsearchCluster) => {
     const version = pingBody.version.number
 
     cluster.clusterName = pingBody.cluster_name
+    cluster.distribution = pingBody.version.distribution || DISTRIBUTIONS.elasticsearch
     cluster.version = version
     cluster.majorVersion = version[0]
     if (!cluster.uuid || cluster.uuid.length === 0) cluster.uuid = clusterUuid(pingBody)
@@ -52,6 +54,6 @@ export const checkClusterHealth = async (credentials: ElasticsearchClusterCreden
     const clusterHealthBody = await clusterHealthResponse.json()
     return clusterHealthBody.status
   } catch (e) {
-    return 'error'
+    return 'unknown'
   }
 }

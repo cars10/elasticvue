@@ -1,7 +1,7 @@
 <template>
   <div class="flex justify-end q-pa-md">
     <div class="flex">
-      <filter-input v-model="filter" />
+      <filter-input v-model="filter" label="Filter CURRENT PAGE only" />
 
       <q-btn icon="settings" round flat class="q-ml-sm">
         <q-badge v-if="tableColumns.length !== searchStore.visibleColumns.length" color="positive" rounded floating />
@@ -20,6 +20,8 @@
                 <div class="flex justify-between items-center" style="flex-grow: 1">
                   {{ t('search.results_table.settings.columns') }}
 
+                  <q-btn :label="t('shared.table_settings.clear')" flat size="sm" class="q-px-xs"
+                         @click="clearColumns" />
                   <q-btn :label="t('shared.table_settings.reset')" flat size="sm" class="q-px-xs"
                          @click="resetColumns" />
                 </div>
@@ -47,7 +49,6 @@
                :virtual-scroll-item-size="14"
                :columns="tableColumns"
                :rows="filteredHits"
-               :rows-per-page-options="rowsPerPage"
                :visible-columns="searchStore.visibleColumns"
                selection="multiple"
                @request="onRequest">
@@ -62,6 +63,14 @@
 
         <template #header-selection>
           <q-checkbox v-model="allItemsSelected" size="32px" @update:model-value="checkAll" />
+        </template>
+
+        <template #bottom="scope">
+          <table-bottom v-model="searchStore.pagination.rowsPerPage"
+                        :scope="scope as TableBottomScope"
+                        :total="hits.length"
+                        :rows-per-page="rowsPerPage"
+                        @rows-per-page-accepted="acceptRowsPerPage" />
         </template>
       </q-table>
       <div v-else class="q-ma-md text-center">No Documents found</div>
@@ -99,6 +108,8 @@
     SearchResultsTableProps,
     useSearchResultsTable
   } from '../../composables/components/search/SearchResultsTable.ts'
+  import TableBottom from '../shared/TableBottom.vue'
+  import type { TableBottomScope } from '../shared/TableBottom.vue'
 
   const props = defineProps<SearchResultsTableProps>()
   const emit = defineEmits(['request', 'reload'])
@@ -107,8 +118,10 @@
 
   const {
     filter,
+    acceptRowsPerPage,
     tableColumns,
     searchStore,
+    clearColumns,
     resetColumns,
     slicedTableColumns,
     resizeStore,

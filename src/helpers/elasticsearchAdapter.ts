@@ -16,7 +16,7 @@ const base64EncodeUtf8 = (str: string): string => {
 }
 
 export const addTrailingSlash = (uri: string): string => {
-  return uri[uri.length - 1] === '/' ? uri : uri + '/'
+  return uri.endsWith('/') ? uri : uri + '/'
 }
 
 export const uriWithCredentials = (uri: string, username: string, password: string): string => {

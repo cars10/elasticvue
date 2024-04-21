@@ -3,6 +3,7 @@ import { ThemeState } from '../store/theme.ts'
 import { I18nState } from '../store/i18n.ts'
 import { useIdbStore } from '../db/Idb.ts'
 import { toRaw } from 'vue'
+import { DISTRIBUTIONS } from '../consts.ts'
 
 type PiniaData = {
   theme?: ThemeState
@@ -27,6 +28,7 @@ export const migrateVuexData = (data: string): PiniaData => {
       clusterName: '',
       version: cluster.version,
       majorVersion: cluster.major_version,
+      distribution: DISTRIBUTIONS.elasticsearch,
       uuid: '',
       status: ''
     })

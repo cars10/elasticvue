@@ -185,8 +185,9 @@
           "aliases": "Aliases",
           "shards": "Shards",
           "segments": "Segments",
-          "docs": "Lucene docs",
+          "docs": "Docs",
           "storage": "Storage",
+          "created": "Created",
           "parsed_docs_count": {
             "title": "If your index has fields with \"type\": \"nested\" then the number of lucene documents might not match the number of elasticsearch documents in your index. Each nested object counts as a separate document. Use the _count API if you need the number of elasticsearch documents."
           }
@@ -404,8 +405,11 @@
     "heading": "Search",
     "form": {
       "query": {
-        "label": "Search",
-        "messages": "Searching supports the <a tabindex='-1' target='_blank' rel='noopener' href='https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html'>query string DSL</a>"
+        "label": "Search"
+      },
+      "search_examples": {
+        "button": "Search examples",
+        "hint": "Search examples, see <a tabindex='-1' target='_blank' rel='noopener' href='https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html'>query string query</a> for details"
       },
       "search": "Search",
       "customize_query": {
@@ -582,9 +586,14 @@
         }
       }
     },
+    "table_bottom": {
+      "rows_per_page": {
+        "confirm": "WARNING: Are you sure? Showing {value} entries at once might cause issues or freezes. It is recommended to use the search/filter functionality to limit the results."
+      }
+    },
     "table_settings": {
       "reset": "reset",
-      "uncheck": "uncheck"
+      "clear": "clear"
     },
     "authorization_header_hint": "Make sure that \"http.cors.allow-headers\" is configured",
     "code_editor": {

@@ -5,7 +5,9 @@ type IndicesState = {
   filter: string,
   showHiddenIndices: boolean,
   stickyTableHeader: boolean,
-  hideIndicesRegex: string
+  hideIndicesRegex: string,
+  pagination: any,
+  rowsPerPageAccepted: boolean
 }
 
 export const useIndicesStore = defineStore('indices', {
@@ -13,7 +15,24 @@ export const useIndicesStore = defineStore('indices', {
     filter: '',
     showHiddenIndices: false,
     stickyTableHeader: false,
-    hideIndicesRegex: DEFAULT_HIDE_INDICES_REGEX
+    hideIndicesRegex: DEFAULT_HIDE_INDICES_REGEX,
+    pagination: {
+      sortBy: 'index',
+      descending: false,
+      rowsPerPage: 10
+    },
+    rowsPerPageAccepted: false
   }),
-  persist: true
+  persist: {
+    paths: [
+      'filter',
+      'showHiddenIndices',
+      'stickyTableHeader',
+      'hideIndicesRegex',
+      'pagination.sortBy',
+      'pagination.descending',
+      'pagination.rowsPerPage',
+      'rowsPerPageAccepted'
+    ]
+  }
 })

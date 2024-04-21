@@ -185,8 +185,9 @@
           "aliases": "别名",
           "shards": "分片",
           "segments": "分段",
-          "docs": "Lucene 文档",
+          "docs": "文档",
           "storage": "储存空间",
+          "created": "日期",
           "parsed_docs_count": {
             "title": "如果你的索引具有 \"type\": \"nested\" 字段，那么 lucene 文档的数量可能与索引中的 elasticsearch 文档的数量不匹配。每个嵌套对象都算作一个单独的文档。如果你需要 elasticsearch 文档的数量，请使用 _count API。"
           }
@@ -407,6 +408,10 @@
         "label": "搜索",
         "messages": "搜索 <a tabindex='-1' target='_blank' rel='noopener' href='https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html'>查询 DSL</a> 获取支持"
       },
+      "search_examples": {
+        "button": "搜索示例",
+        "hint": "搜索示例，详见 <a tabindex='-1' target='_blank' rel='noopener' href='https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html'>查询字符串查询</a>"
+      },
       "search": "搜索",
       "customize_query": {
         "button": "自定义查询",
@@ -458,7 +463,7 @@
     "hide_nodes_attributes_regex": {
       "label": "正则表达式: 隐藏节点属性",
       "message": "匹配的节点属性将默认隐藏 (所有位置)",
-      "reset":  "重置为默认 {regex}"
+      "reset": "重置为默认 {regex}"
     },
     "localize_timestamp": {
       "label": "在搜索结果中显示字段 '{'@'}timestamp' 的本地化值"
@@ -582,9 +587,14 @@
         }
       }
     },
+    "table_bottom": {
+      "rows_per_page": {
+        "confirm": "警告：您确定吗？一次性显示 {value} 条目可能会导致问题或冻结。建议使用搜索/过滤功能来限制结果。"
+      }
+    },
     "table_settings": {
       "reset": "重置",
-      "uncheck": "反选"
+      "clear": "反选"
     },
     "authorization_header_hint": "你的集群使用了授权。确保你已经设置了\"http.cors.allow-headers\"，否则将无法连接。",
     "code_editor": {

@@ -45,6 +45,15 @@
 
           <q-item-label header class="q-mt-sm">Version</q-item-label>
 
+          <q-item v-if="data.version.distribution">
+            <q-item-section>
+              <q-item-label>Distribution</q-item-label>
+            </q-item-section>
+            <q-item-section side>
+              <q-item-label>{{ data.version.distribution }}</q-item-label>
+            </q-item-section>
+          </q-item>
+
           <q-item>
             <q-item-section>
               <q-item-label>Number</q-item-label>
@@ -144,6 +153,7 @@
     cluster_name: string
     cluster_uuid: string
     version: {
+      distribution?: string
       number: string
       build_flavor: string
       build_type: string

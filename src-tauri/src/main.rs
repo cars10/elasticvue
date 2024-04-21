@@ -19,6 +19,8 @@ async fn fetch_reqwest(resource: String, init: Option<FetchOptions>) -> FetchRes
 }
 
 fn main() {
+    env_logger::init();
+
     let ctx = tauri::generate_context!();
 
     tauri::Builder::default()

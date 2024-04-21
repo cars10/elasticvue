@@ -3,7 +3,9 @@
     <cluster-status-indicator :status="connectionStore.activeCluster?.status"
                               :loading="connectionStore.activeCluster?.loading" />
 
-    <unsupported-version v-if="connectionStore.activeCluster" :major-version="connectionStore.activeCluster.majorVersion" size="16px" class="q-mr-sm" />
+    <unsupported-version
+      v-if="connectionStore.activeCluster && connectionStore.activeCluster.distribution === DISTRIBUTIONS.elasticsearch"
+      :major-version="connectionStore.activeCluster.majorVersion" size="16px" class="q-mr-sm" />
 
     <span class="ellipsis" style="max-width: 200px" :title="btnTitle">{{ connectionStore.activeCluster?.name }}</span>
 
@@ -25,6 +27,7 @@
   import { useClusterHealth } from '../../composables/components/home/ClusterHealth.ts'
   import { useConnectionStore } from '../../store/connection'
   import UnsupportedVersion from './UnsupportedVersion.vue'
+  import { DISTRIBUTIONS } from '../../consts.ts'
 
   const t = useTranslation()
   const connectionStore = useConnectionStore()

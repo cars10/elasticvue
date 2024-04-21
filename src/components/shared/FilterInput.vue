@@ -1,5 +1,8 @@
 <template>
-  <q-input v-model="filter" :label="t('defaults.filter.label')" dense outlined name="filter" @keydown.esc="filter = ''">
+  <q-input v-model="filter"
+           :label="props.label || t('defaults.filter.label')"
+           dense outlined name="filter"
+           @keydown.esc="filter = ''">
     <template #append>
       <q-icon name="search" />
     </template>
@@ -12,7 +15,7 @@
 
   const t = useTranslation()
 
-  const props = defineProps<{ modelValue: string }>()
+  const props = defineProps<{ modelValue: string, label?: string }>()
 
   const emit = defineEmits(['update:modelValue'])
   const filter = ref(props.modelValue)

@@ -33,6 +33,11 @@ export const DEFAULT_PAGINATION = {
 export const DEFAULT_CLUSTER_NAME = 'default cluster'
 export const DEFAULT_CLUSTER_URI = 'http://localhost:9200'
 
+export const DISTRIBUTIONS = {
+  elasticsearch: 'elasticsearch',
+  opensearch: 'opensearch'
+}
+
 export const REST_QUERY_EXAMPLES = [
   {
     description: 'Returns high-level information about indices in a cluster',
