@@ -25,6 +25,8 @@ jobs:
       APPLE_TEAM_ID: "${{ secrets.APPLE_TEAM_ID }}"
 
     steps:
+      ### system setup
+
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
@@ -34,100 +36,109 @@ jobs:
       - run: yarn
 
       - run: rustup toolchain install stable
-      - run: rustup target add aarch64-apple-darwin
+      - name: mac > setup targets
         if: matrix.platform == 'macos-latest'
-      - run: rustup target add x86_64-apple-darwin
-        if: matrix.platform == 'macos-latest'
+        run: |
+          rustup target add aarch64-apple-darwin
+          rustup target add x86_64-apple-darwin
 
-      - name: (linux) install dependencies
+      - name: linux > install dependencies
         if: matrix.platform == 'ubuntu-latest'
         run: |
           sudo apt-get update
           sudo apt-get install -y libgtk-3-dev webkit2gtk-4.0 librsvg2-dev patchelf
 
-      - name: build apple-silicon app
+      ### build apple arm
+
+      - name: mac aaarch64 > build
         run: yarn tauri:build --target aarch64-apple-darwin
         if: matrix.platform == 'macos-latest'
 
-      - name: (mac arm) upload .dmg
-        if: matrix.platform == 'macos-latest'
-        uses: actions/upload-artifact@v4
-        with:
-          path: src-tauri/target/aarch64-apple-darwin/release/bundle/dmg/elasticvue_*_aarch64.dmg
-
-      - name: (mac arm) rename artifacts
+      - name: mac aaarch64 > rename artifacts
         if: matrix.platform == 'macos-latest'
         run: |
           mv src-tauri/target/aarch64-apple-darwin/release/bundle/macos/elasticvue.app.tar.gz src-tauri/target/aarch64-apple-darwin/release/bundle/macos/elasticvue_aarch64.app.tar.gz
           mv src-tauri/target/aarch64-apple-darwin/release/bundle/macos/elasticvue.app.tar.gz.sig src-tauri/target/aarch64-apple-darwin/release/bundle/macos/elasticvue_aarch64.app.tar.gz.sig
 
-      - name: (mac arm) upload .app and artifacts
+      - name: mac aaarch64 > upload artifacts
         if: matrix.platform == 'macos-latest'
         uses: actions/upload-artifact@v4
         with:
-          path: src-tauri/target/aarch64-apple-darwin/release/bundle/macos/elasticvue_aarch64*
+          name: mac_aaarch64_artifacts
+          if-no-files-found: error
+          path: |
+            src-tauri/target/aarch64-apple-darwin/release/bundle/dmg/elasticvue_*_aarch64.dmg
+            src-tauri/target/aarch64-apple-darwin/release/bundle/macos/elasticvue_aarch64*
 
-      - run: yarn tauri:build
-        if: matrix.platform != 'macos-latest'
+      ### build apple x86_64
 
-      - run: yarn tauri:build --target x86_64-apple-darwin
+      - name: mac x86_64 > build
+        run: yarn tauri:build --target x86_64-apple-darwin
         if: matrix.platform == 'macos-latest'
 
-      - name: (mac) upload .dmg
-        if: matrix.platform == 'macos-latest'
-        uses: actions/upload-artifact@v4
-        with:
-          path: src-tauri/target/release/bundle/dmg/elasticvue_*_x64.dmg
-
-      - name: (mac) rename artifacts
+      - name: mac x86_64 > rename artifacts
         if: matrix.platform == 'macos-latest'
         run: |
           mv src-tauri/target/release/bundle/macos/elasticvue.app.tar.gz src-tauri/target/release/bundle/macos/elasticvue_x64.app.tar.gz
           mv src-tauri/target/release/bundle/macos/elasticvue.app.tar.gz.sig src-tauri/target/release/bundle/macos/elasticvue_x64.app.tar.gz.sig
 
-      - name: (mac) upload .app and artifacts
+      - name: mac x86_64 > upload artifacts
         if: matrix.platform == 'macos-latest'
         uses: actions/upload-artifact@v4
         with:
-          path: src-tauri/target/release/bundle/macos/elasticvue_x64*
+          name: mac_x86_64_artifacts
+          if-no-files-found: error
+          path: |
+            src-tauri/target/release/bundle/dmg/elasticvue_*_x64.dmg
+            src-tauri/target/release/bundle/macos/elasticvue_x64*
 
-      - name: (linux) upload .deb
+      ### build linux
+
+      - name: linux > build
+        run: yarn tauri:build
+        if: matrix.platform == 'ubuntu-latest'
+
+      - name: linux > upload artifacts
         if: matrix.platform == 'ubuntu-latest'
         uses: actions/upload-artifact@v4
         with:
-          path: src-tauri/target/release/bundle/deb/elasticvue_*_amd64.deb
+          name: linux_artifacts
+          if-no-files-found: error
+          path: |
+            src-tauri/target/release/bundle/deb/elasticvue_*_amd64.deb
+            src-tauri/target/release/bundle/appimage/elasticvue_*_amd64.*
+            src-tauri/target/release/elasticvue
 
-      - name: (linux) upload .appimage
-        if: matrix.platform == 'ubuntu-latest'
-        uses: actions/upload-artifact@v4
-        with:
-          path: src-tauri/target/release/bundle/appimage/elasticvue_*_amd64.*
+      ### build windows
 
-      - name: (linux) upload binary
-        id: linux_upload_binary
-        if: matrix.platform == 'ubuntu-latest'
-        uses: actions/upload-artifact@v4
-        with:
-          path: src-tauri/target/release/elasticvue
+      - name: windows > build
+        run: yarn tauri:build
+        if: matrix.platform == 'windows-latest'
 
-      - name: (windows) upload .msi
+      - name: windows > upload artifacts
         if: matrix.platform == 'windows-latest'
         uses: actions/upload-artifact@v4
         with:
-          path: src-tauri/target/release/bundle/msi/elasticvue_*_x64*
+          name: windows_msi
+          if-no-files-found: error
+          path: |
+            src-tauri/target/release/bundle/msi/elasticvue_*_x64*
+            src-tauri/target/release/elasticvue.exe
 
-      - name: (windows) upload .exe
-        if: matrix.platform == 'windows-latest'
-        uses: actions/upload-artifact@v4
+      ### merge artifacts
+
+      - name: Merge artifacts
+        uses: actions/upload-artifact/merge@v4
         with:
-          path: src-tauri/target/release/elasticvue.exe
+          name: artifacts
+          delete-merged: true
 
   build_docker:
     name: Build docker images
     runs-on: ubuntu-latest
     steps:
       - name: Docker hub login
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
@@ -135,16 +146,16 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
+        uses: docker/setup-qemu-action@v3
 
       - name: Set up Docker buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
 
       - uses: martinbeentjes/npm-get-version-action@v1.3.1
         id: package-version
 
       - name: Build and push
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v5
         with:
           context: .
           platforms: linux/amd64,linux/arm64,linux/arm/v7
