@@ -79,8 +79,8 @@ jobs:
       - name: mac x86_64 > rename artifacts
         if: matrix.platform == 'macos-latest'
         run: |
-          mv src-tauri/target/release/bundle/macos/elasticvue.app.tar.gz src-tauri/target/release/bundle/macos/elasticvue_x64.app.tar.gz
-          mv src-tauri/target/release/bundle/macos/elasticvue.app.tar.gz.sig src-tauri/target/release/bundle/macos/elasticvue_x64.app.tar.gz.sig
+          mv src-tauri/target/x86_64-apple-darwin/release/bundle/macos/elasticvue.app.tar.gz src-tauri/target/x86_64-apple-darwin/release/bundle/macos/elasticvue_x64.app.tar.gz
+          mv src-tauri/target/x86_64-apple-darwin/release/bundle/macos/elasticvue.app.tar.gz.sig src-tauri/target/x86_64-apple-darwin/release/bundle/macos/elasticvue_x64.app.tar.gz.sig
 
       - name: mac x86_64 > upload artifacts
         if: matrix.platform == 'macos-latest'
@@ -89,8 +89,8 @@ jobs:
           name: mac_x86_64_artifacts
           if-no-files-found: error
           path: |
-            src-tauri/target/release/bundle/dmg/elasticvue_*_x64.dmg
-            src-tauri/target/release/bundle/macos/elasticvue_x64*
+            src-tauri/target/x86_64-apple-darwin/release/bundle/dmg/elasticvue_*_x64.dmg
+            src-tauri/target/x86_64-apple-darwin/release/bundle/macos/elasticvue_x64*
 
       ### build linux
 
