@@ -2,7 +2,7 @@
   <q-btn :label="t('query.rest_query_examples.heading')" icon="info" color="dark-grey" class="q-mb-sm"
          @click="dialog = true" />
 
-  <q-dialog v-model="dialog">
+  <q-dialog v-model="dialog" transition-duration="100">
     <q-card style="min-width: 900px; max-width: 1600px;">
       <q-card-section class="flex justify-between">
         <div class="flex">

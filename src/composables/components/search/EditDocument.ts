@@ -48,8 +48,8 @@ export const useEditDocument = (props: EditDocumentProps, emit: any) => {
 
   watch(ownValue, value => (emit('update:modelValue', value)))
   watch(() => props.modelValue, value => {
-    ownValue.value = value
     if (value) loadDocument()
+    ownValue.value = value
   })
 
   const loadDocument = async () => {

@@ -8,7 +8,7 @@
     </q-item-section>
   </q-item>
 
-  <q-dialog v-model="dialog">
+  <q-dialog v-model="dialog" transition-duration="100">
     <q-card style="width: 600px; max-width: 80vw;">
       <q-card-section class="flex justify-between">
         <div class="flex">

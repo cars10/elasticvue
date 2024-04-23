@@ -1,7 +1,7 @@
 <template>
   <q-btn color="primary-dark" :label="t('repositories.new_repository.heading')" @click="dialog = true" />
 
-  <q-dialog v-model="dialog" @hide="hide">
+  <q-dialog v-model="dialog" transition-duration="100" @hide="hide">
     <q-card style="width: 500px">
       <q-card-section class="flex justify-between">
         <h2 class="text-h6 q-my-none">

@@ -1,7 +1,7 @@
 <template>
   <q-btn id="add_cluster" color="primary-dark" icon="add" :label="t('setup.setup_instance.heading')" @click="dialog = true" />
 
-  <q-dialog v-model="dialog" position="top" transition-show="scale" transition-hide="scale">
+  <q-dialog v-model="dialog" position="top" transition-show="scale" transition-hide="scale" transition-duration="100">
     <q-card style="width: 1000px;max-width: 1000px" class="q-mt-xl">
       <q-card-section class="flex justify-between">
         <h2 class="text-h5 q-my-none">{{ t('setup.setup_instance.heading') }}</h2>
