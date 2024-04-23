@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.7
+
+This release contains no changes to elasticvue itself. It is only done to fix build issues with the macos desktop
+version.
+
 ## 1.0.6
 
 * double click to edit search results, fixes [#225](https://github.com/cars10/elasticvue/issues/225)
