@@ -1,7 +1,7 @@
 <template>
   <q-btn id="new_index" color="primary-dark" :label="t('indices.new_index.heading')" @click="dialog = true" />
 
-  <q-dialog v-model="dialog" @hide="resetForm">
+  <q-dialog v-model="dialog" transition-duration="100" @hide="resetForm">
     <q-card style="width: 500px">
       <q-card-section class="flex justify-between">
         <h2 class="text-h6 q-my-none">

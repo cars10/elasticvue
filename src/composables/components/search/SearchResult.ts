@@ -1,7 +1,6 @@
 import { useTranslation } from '../../i18n.ts'
 import { useSearchStore } from '../../../store/search.ts'
 import { computed, ref } from 'vue'
-import { useModal } from '../../Modal.ts'
 import { defineElasticsearchRequest } from '../../CallElasticsearch.ts'
 import { stringifyJson } from '../../../helpers/json/stringify.ts'
 
@@ -20,8 +19,6 @@ export const useSearchResult = (props: SearchResultProps, emit: any) => {
     id: props.doc._id,
     routing: props.doc._routing
   })
-  const { openModalWith } = useModal()
-  const showDocument = () => (openModalWith('get', docInfo()))
 
   const { run } = defineElasticsearchRequest({ emit, method: 'delete' })
   const deleteDocument = async () => {
@@ -57,7 +54,6 @@ export const useSearchResult = (props: SearchResultProps, emit: any) => {
   return {
     resultColumns,
     edit,
-    showDocument,
     deleteDocument,
     renderValue,
     buttonsVisible,

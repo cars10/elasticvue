@@ -1,5 +1,5 @@
 <template>
-  <q-dialog v-model="ownValue" @show="triggerResize">
+  <q-dialog v-model="ownValue" transition-duration="100" @show="triggerResize">
     <q-card style="width: 1000px; max-width: 1000px;">
       <q-card-section class="flex justify-between">
         <div class="flex">

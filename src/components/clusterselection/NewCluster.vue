@@ -1,7 +1,7 @@
 <template>
   <q-btn :label="t('cluster_selection.new_cluster.add_cluster')" color="primary-dark" @click="dialog = true" />
 
-  <q-dialog v-model="dialog">
+  <q-dialog v-model="dialog" transition-duration="100">
     <q-card style="min-width: 800px">
       <q-card-section class="flex justify-between">
         <h2 class="text-h6 q-my-none">{{ t('cluster_selection.new_cluster.heading') }}</h2>

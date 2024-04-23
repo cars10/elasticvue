@@ -1,7 +1,7 @@
 <template>
   <q-btn color="primary-dark" :label="t('welcome.import_backup.heading')" icon="upload" @click="dialog = true" />
 
-  <q-dialog v-model="dialog" position="top" transition-show="scale" transition-hide="scale">
+  <q-dialog v-model="dialog" position="top" transition-show="scale" transition-hide="scale" transition-duration="100">
     <q-card style="width: 500px" class="q-mt-xl">
       <q-card-section class="flex justify-between">
         <h2 class="text-h5 q-my-none">{{ t('welcome.import_backup.heading') }}</h2>

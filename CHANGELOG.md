@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.6
+
+* double click to edit search results, fixes [#225](https://github.com/cars10/elasticvue/issues/225)
+
 ## 1.0.5
 
 * adds request logging to desktop app
