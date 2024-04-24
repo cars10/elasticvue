@@ -179,7 +179,7 @@ jobs:
           prerelease: false
           tag: ${{ github.ref_name }}
           name: ${{ github.ref_name }}
-          artifacts: github-artifacts/*/*
+          artifacts: github-artifacts/**/*
           body: |
             ## Using elasticvue
             ### Desktop app
