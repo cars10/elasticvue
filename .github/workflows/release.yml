@@ -184,9 +184,9 @@ jobs:
             github-artifacts/linux_artifacts/bundle/deb/elasticvue_*_amd64.deb
             github-artifacts/linux_artifacts/elasticvue
             github-artifacts/mac_aaarch64_artifacts/dmg/elasticvue_*_aarch64.dmg
-            github-artifacts/mac_aaarch64_artifacts/macos/elasticvue_*_aarch64*
+            github-artifacts/mac_aaarch64_artifacts/macos/elasticvue_aarch64*
             github-artifacts/mac_x86_64_artifacts/dmg/elasticvue_*_x64.dmg
-            github-artifacts/mac_x86_64_artifacts/macos/elasticvue_*_x64*
+            github-artifacts/mac_x86_64_artifacts/macos/elasticvue_x64*
             github-artifacts/windows_artifacts/bundle/msi/elasticvue_*_x64*
             github-artifacts/windows_artifacts/elasticvue.exe
           body: |
