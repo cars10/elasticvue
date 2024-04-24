@@ -11,6 +11,10 @@
             </q-btn>
           </template>
         </q-banner>
+
+        <div>
+          <slot name="error" />
+        </div>
       </div>
     </template>
     <template v-else-if="requestState.networkError">

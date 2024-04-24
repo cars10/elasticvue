@@ -70,6 +70,13 @@
 
     <loader-status v-else :request-state="requestState">
       <search-results-table :results="searchResults" @request="onRequest" @reload="search" />
+      <template #error>
+        <q-btn :label="t('search.form.customize_query.reset')"
+               size="md"
+               color="primary-dark"
+               class="q-ma-md"
+               @click="resetAndLoad" />
+      </template>
     </loader-status>
   </q-card>
 </template>
@@ -85,6 +92,10 @@
   import SearchExamples from './SearchExamples.vue'
 
   const CodeEditor = defineAsyncComponent(() => import('../shared/CodeEditor.vue'))
+  const resetAndLoad = () => {
+    searchStore.resetSearchQuery()
+    search()
+  }
 
   const t = useTranslation()
   const {
