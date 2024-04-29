@@ -359,7 +359,7 @@
           "label": "s3  区域(region)*"
         },
         "path_style_access": {
-          "label": null
+          "label": "使用路径风格访问(path_style_access)"
         },
         "location": {
           "label": "存储位置*"
