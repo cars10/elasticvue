@@ -35,7 +35,7 @@
           <span v-if="row.load_1m">{{ row.load_1m }} / {{ row.load_5m }} / {{ row.load_15m }}</span>
         </td>
         <td>
-          <div v-if="row.cpu">
+          <div v-if="!isNaN(row.cpu)">
             {{ row.cpu }}%
             <node-percent-progress :value="row.cpu" class="q-mt-xs" />
           </div>
