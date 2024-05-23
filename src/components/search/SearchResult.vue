@@ -8,7 +8,8 @@
       <template v-else>{{ renderValue(doc, column) }}</template>
     </td>
     <td>
-      <edit-document v-model="edit" :_id="doc._id" :_index="doc._index" :_type="doc._type" :_routing="doc._routing" />
+      <edit-document v-model="edit" :_id="doc._id" :_index="doc._index" :_type="doc._type" :_routing="doc._routing"
+                     @reload="emit('reload')" />
       <div v-intersection="onIntersection" class="inline-block" style="min-width: 134px">
         <q-btn-group v-if="buttonsVisible">
           <q-btn icon="edit" color="dark-grey" @click="edit = true" />
