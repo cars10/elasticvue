@@ -542,7 +542,10 @@
   "shards": {
     "heading": "分片",
     "shards_table": {
-      "cancel_relocation": "取消relocation"
+      "cancel_relocation": "取消relocation",
+      "reroute": {
+        "confirm": null
+      }
     }
   },
   "shared": {

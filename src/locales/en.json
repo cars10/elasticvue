@@ -541,7 +541,11 @@
   "shards": {
     "heading": "Shards",
     "shards_table": {
-      "cancel_relocation": "Cancel relocation"
+      "cancel_relocation": "Cancel reroute",
+      "reroute": {
+        "label": "reroute to '{node}'",
+        "confirm": "Reroute shard '{shard}' from node '{fromNode}' to '{toNode}'?"
+      }
     }
   },
   "shared": {

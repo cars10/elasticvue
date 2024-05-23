@@ -4,6 +4,7 @@ import { useTableColumnHover } from '../../TableColumnHover.ts'
 import { useSnackbar } from '../../Snackbar.ts'
 import { useElasticsearchAdapter } from '../../CallElasticsearch.ts'
 import { EsShard, TableShards } from '../../../helpers/shards.ts'
+import { useTranslation } from '../../i18n.ts'
 
 export type ShardsTableProps = {
   shards: TableShards
@@ -72,9 +73,16 @@ export const useShardsTable = (props: ShardsTableProps, emit: any) => {
     }
   }
 
+  const t = useTranslation()
   const { showSnackbar } = useSnackbar()
   const { requestState, callElasticsearch } = useElasticsearchAdapter()
-  const reroute = (shardToReroute: EsShard, targetNode: string) => {
+  const reroute = async (shardToReroute: EsShard, targetNode: string) => {
+    if (!confirm(t('shards.shards_table.reroute.confirm', {
+      shard: shardToReroute.shard,
+      fromNode: shardToReroute.node,
+      toNode: targetNode
+    }))) return
+
     const commands = [
       {
         move: {
@@ -85,12 +93,17 @@ export const useShardsTable = (props: ShardsTableProps, emit: any) => {
         }
       }]
 
-    callElasticsearch('clusterReroute', commands).then(() => {
+    try {
+      await callElasticsearch('clusterReroute', commands)
       currentReroutingShard.value = {} as EsShard
       emit('reload')
-    }).catch(() => {
+    } catch (_e) {
       showSnackbar(requestState.value)
-    })
+    }
+  }
+
+  const cancelRelocation = () => {
+    currentReroutingShard.value = {} as EsShard
   }
 
   return {
@@ -103,6 +116,7 @@ export const useShardsTable = (props: ShardsTableProps, emit: any) => {
     markColumn,
     unmarkColumn,
     currentReroutingShard,
+    cancelRelocation,
     initReroute,
     reroute
   }

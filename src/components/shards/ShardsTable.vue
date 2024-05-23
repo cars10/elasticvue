@@ -1,17 +1,26 @@
 <template>
-  <div class="flex justify-end q-pa-md">
-    <filter-input v-model="filter" />
+  <div class="flex justify-between q-pa-md">
+    <div class="flex">
+      <q-btn v-if="Object.keys(currentReroutingShard).length > 0"
+             :label="t('shards.shards_table.cancel_relocation')"
+             color="primary-dark"
+             @click="cancelRelocation" />
+    </div>
 
-    <q-btn icon="settings" round flat class="q-ml-sm">
-      <q-menu style="white-space: nowrap" anchor="bottom right" self="top end">
-        <q-list dense>
-          <q-item style="padding-left: 0">
-            <q-checkbox v-model="indicesStore.showHiddenIndices" size="32px"
-                        :label="t('indices.indices_table.show_hidden_indices.label')" />
-          </q-item>
-        </q-list>
-      </q-menu>
-    </q-btn>
+    <div class="flex">
+      <filter-input v-model="filter" />
+
+      <q-btn icon="settings" round flat class="q-ml-sm">
+        <q-menu style="white-space: nowrap" anchor="bottom right" self="top end">
+          <q-list dense>
+            <q-item style="padding-left: 0">
+              <q-checkbox v-model="indicesStore.showHiddenIndices" size="32px"
+                          :label="t('indices.indices_table.show_hidden_indices.label')" />
+            </q-item>
+          </q-list>
+        </q-menu>
+      </q-btn>
+    </div>
   </div>
 
   <q-table v-model:pagination="pagination"
@@ -74,7 +83,9 @@
                        :outlined="!(currentReroutingShard.index === col.name && currentReroutingShard.node === row && currentReroutingShard.shard === shard.shard)" />
 
           <div v-if="currentReroutingShard.index === col.name && currentReroutingShard.node !== row">
-            <button class="shard-reroute-target" @click="reroute(currentReroutingShard, row)" />
+            <button class="shard-reroute-target" @click="reroute(currentReroutingShard, row)">
+              {{ t('shards.shards_table.reroute.label', { node: row }) }}
+            </button>
           </div>
         </td>
       </tr>
@@ -103,6 +114,7 @@
     markColumn,
     unmarkColumn,
     currentReroutingShard,
+    cancelRelocation,
     initReroute,
     reroute
   } = useShardsTable(props, emit)

@@ -3,6 +3,7 @@
 ## 1.0.8
 
 * fix update&delete documents that use `routing`, fixes [#235](https://github.com/cars10/elasticvue/issues/235)
+* adds shard relocation confirm msg and cancel button, fixes [#236](https://github.com/cars10/elasticvue/issues/236)
 
 ## 1.0.7
 
