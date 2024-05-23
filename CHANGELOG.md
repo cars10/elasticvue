@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.8
+
+* fix update&delete documents that use `routing`, fixes [#235](https://github.com/cars10/elasticvue/issues/235)
+
 ## 1.0.7
 
 This release contains no changes to elasticvue itself. It is only done to fix build issues with the macos desktop

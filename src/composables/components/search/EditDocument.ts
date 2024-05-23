@@ -23,7 +23,8 @@ type ElasticsearchDocumentMeta = {
   _id?: string,
   _version?: number,
   _primary_term?: number,
-  _seq_no?: number
+  _seq_no?: number,
+  _routing?: string
 }
 
 export const useEditDocument = (props: EditDocumentProps, emit: any) => {
@@ -61,7 +62,8 @@ export const useEditDocument = (props: EditDocumentProps, emit: any) => {
       _id: data.value._id,
       _version: data.value._version,
       _primary_term: data.value._primary_term,
-      _seq_no: data.value._seq_no
+      _seq_no: data.value._seq_no,
+      _routing: data.value._routing
     }
   }
 
@@ -76,6 +78,7 @@ export const useEditDocument = (props: EditDocumentProps, emit: any) => {
         index: props._index,
         type: props._type,
         id: props._id,
+        routing: props._routing,
         params: document.value
       },
       snackbarOptions: { body: t('search.edit_document.update.growl') }

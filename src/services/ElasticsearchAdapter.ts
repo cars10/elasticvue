@@ -190,18 +190,28 @@ export default class ElasticsearchAdapter {
     return this.request('_nodes', 'GET')
   }
 
-  index ({ index, type, id, params }: { index: string, type: string, id: any, params: any }) {
-    return this.request(`${index}/${type}/${encodeURIComponent(id)}?refresh=true`, 'PUT', params)
+  index ({ index, type, id, routing, params }: {
+    index: string,
+    type: string,
+    id: any,
+    routing: string,
+    params: any
+  }) {
+    let path = `${index}/${type}/${encodeURIComponent(id)}?refresh=true`
+    if (routing) path += `&routing=${routing}`
+    return this.request(path, 'PUT', params)
   }
 
-  get ({ index, type, id, routing }: { index: string, type: string, id: any, routing: any }) {
+  get ({ index, type, id, routing }: { index: string, type: string, id: any, routing?: string }) {
     const params: IndexGetArgs = {}
     if (routing) params.routing = routing
     return this.request(`${index}/${type}/${encodeURIComponent(id)}`, 'GET', params)
   }
 
-  delete ({ index, type, id }: { index: string, type: string, id: any }) {
-    return this.request(`${index}/${type}/${encodeURIComponent(id)}?refresh=true`, 'DELETE')
+  delete ({ index, type, id, routing }: { index: string, type: string, id: any, routing?: string }) {
+    let path = `${index}/${type}/${encodeURIComponent(id)}?refresh=true`
+    if (routing) path += `&routing=${routing}`
+    return this.request(path, 'DELETE')
   }
 
   search (params: object, searchIndex?: string | string[]) {
