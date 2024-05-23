@@ -71,11 +71,13 @@
     <loader-status v-else :request-state="requestState">
       <search-results-table :results="searchResults" @request="onRequest" @reload="search" />
       <template #error>
-        <q-btn :label="t('search.form.customize_query.reset')"
-               size="md"
-               color="primary-dark"
-               class="q-ma-md"
-               @click="resetAndLoad" />
+        <div class="text-center">
+          <q-btn :label="t('search.form.customize_query.reset')"
+                 size="md"
+                 color="positive"
+                 class="q-ma-md"
+                 @click="resetAndLoad" />
+        </div>
       </template>
     </loader-status>
   </q-card>
