@@ -4,6 +4,7 @@
 
 * fix update&delete documents that use `routing`, fixes [#235](https://github.com/cars10/elasticvue/issues/235)
 * adds shard relocation confirm msg and cancel button, fixes [#236](https://github.com/cars10/elasticvue/issues/236)
+* fix ui issue with long cluster names, fixes [#230](https://github.com/cars10/elasticvue/issues/230)
 
 ## 1.0.7
 

@@ -5,7 +5,7 @@
         <div class="col-3">
           <q-card v-if="data" class="full-height" data-testid="cluster-status">
             <q-card-section>
-              <h3 class="text-h6 q-my-none">{{ data.cluster_name }}</h3>
+              <h3 class="text-h6 q-my-none ellipsis" :title="data.cluster_name"> {{ data.cluster_name }}</h3>
               <span class="text-muted font-13 word-break-all">{{ connectionStore.activeCluster?.uuid }}</span>
             </q-card-section>
             <q-card-section class="items-center justify-between flex">
@@ -46,7 +46,9 @@
             </q-card-section>
             <q-card-section class="text-muted">
               <p class="q-mb-sm">{{ data.indices.shards?.primaries || 0 }} primaries</p>
-              <p class="q-mb-none">{{ (data.indices?.shards?.total || 0) - (data.indices.shards?.primaries || 0) }} replicas</p>
+              <p class="q-mb-none">
+                {{ (data.indices?.shards?.total || 0) - (data.indices.shards?.primaries || 0) }} replicas
+              </p>
             </q-card-section>
           </q-card>
         </div>
@@ -87,6 +89,7 @@
   import ClusterInformation from './ClusterInformation.vue'
   import UnhealthyReason from './UnhealthyReason.vue'
   import { useConnectionStore } from '../../store/connection.ts'
+
   const connectionStore = useConnectionStore()
 
   type ClusterStats = {
