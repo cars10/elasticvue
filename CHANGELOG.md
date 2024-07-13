@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.9
+
+* dependency updates
+
 ## 1.0.8
 
 * fix update&delete documents that use `routing`, fixes [#235](https://github.com/cars10/elasticvue/issues/235)
