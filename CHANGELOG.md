@@ -4,6 +4,7 @@
 
 * improve index templates, fixes [#242](https://github.com/cars10/elasticvue/issues/242)
 * improve shards table, fixes [#237](https://github.com/cars10/elasticvue/issues/237)
+* fix handling of index names including `%`, fixes [#221](https://github.com/cars10/elasticvue/issues/221)
 * dependency updates
 
 ## 1.0.8

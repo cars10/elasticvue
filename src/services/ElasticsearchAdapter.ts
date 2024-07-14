@@ -90,33 +90,33 @@ export default class ElasticsearchAdapter {
   }
 
   indexGetAlias ({ index }: { index: string }) {
-    return this.request(`${index}/_alias`, 'GET')
+    return this.request(`${cleanIndexName(index)}/_alias`, 'GET')
   }
 
   indexAddAlias ({ index, alias }: { index: string, alias: string }) {
-    return this.request(`${index}/_alias/${alias}`, 'PUT')
+    return this.request(`${cleanIndexName(index)}/_alias/${alias}`, 'PUT')
   }
 
   indexDeleteAlias ({ index, alias }: { index: string, alias: string }) {
-    return this.request(`${index}/_alias/${alias}`, 'DELETE')
+    return this.request(`${cleanIndexName(index)}/_alias/${alias}`, 'DELETE')
   }
 
   indexCreate ({ index, body }: { index: string, body?: object }) {
-    return this.request(`${index}`, 'PUT', body)
+    return this.request(`${cleanIndexName(index)}`, 'PUT', body)
   }
 
   deleteByQuery ({ index }: { index: string }) {
     const body = { query: { match_all: {} } }
-    return this.request(`${index}/_delete_by_query?refresh=true`, 'POST', body)
+    return this.request(`${cleanIndexName(index)}/_delete_by_query?refresh=true`, 'POST', body)
   }
 
   indexGet (params: Record<string, any>) {
     const index = Array.isArray(params.index) ? params.index.join(',') : params.index
-    return this.request(`${index}`, 'GET')
+    return this.request(`${cleanIndexName(index)}`, 'GET')
   }
 
   indexStats ({ index }: { index: string }) {
-    return this.request(`${index}/_stats`, 'GET')
+    return this.request(`${cleanIndexName(index)}/_stats`, 'GET')
   }
 
   indexDelete ({ indices }: { indices: string[] }) {
@@ -176,11 +176,11 @@ export default class ElasticsearchAdapter {
   }
 
   indexExists ({ index }: { index: string }) {
-    return this.request(`${index}`, 'HEAD')
+    return this.request(`${cleanIndexName(index)}`, 'HEAD')
   }
 
   indexPutSettings ({ index, body }: { index: string, body: object }) {
-    return this.request(`${index}/_settings`, 'PUT', body)
+    return this.request(`${cleanIndexName(index)}/_settings`, 'PUT', body)
   }
 
   reindex ({ source, dest }: { source: string, dest: string }) {
@@ -205,7 +205,7 @@ export default class ElasticsearchAdapter {
     routing: string,
     params: any
   }) {
-    let path = `${index}/${type}/${encodeURIComponent(id)}?refresh=true`
+    let path = `${cleanIndexName(index)}/${type}/${encodeURIComponent(id)}?refresh=true`
     if (routing) path += `&routing=${routing}`
     return this.request(path, 'PUT', params)
   }
@@ -213,11 +213,11 @@ export default class ElasticsearchAdapter {
   get ({ index, type, id, routing }: { index: string, type: string, id: any, routing?: string }) {
     const params: IndexGetArgs = {}
     if (routing) params.routing = routing
-    return this.request(`${index}/${type}/${encodeURIComponent(id)}`, 'GET', params)
+    return this.request(`${cleanIndexName(index)}/${type}/${encodeURIComponent(id)}`, 'GET', params)
   }
 
   delete ({ index, type, id, routing }: { index: string, type: string, id: any, routing?: string }) {
-    let path = `${index}/${type}/${encodeURIComponent(id)}?refresh=true`
+    let path = `${cleanIndexName(index)}/${type}/${encodeURIComponent(id)}?refresh=true`
     if (routing) path += `&routing=${routing}`
     return this.request(path, 'DELETE')
   }
@@ -226,7 +226,7 @@ export default class ElasticsearchAdapter {
     const index = Array.isArray(searchIndex) ? searchIndex.join(',') : searchIndex
 
     if (index && index.length > 0) {
-      return this.request(`${index}/_search`, 'POST', params)
+      return this.request(`${cleanIndexName(index)}/_search`, 'POST', params)
     } else {
       return this.request('_search', 'POST', params)
     }
@@ -330,3 +330,5 @@ export default class ElasticsearchAdapter {
     }
   }
 }
+
+const cleanIndexName = (index: string) => (index.replace(/%/g, '%25'))
