@@ -72,8 +72,16 @@ export default class ElasticsearchAdapter {
     return this.request(`_cat/indices/${query}`, 'GET', params)
   }
 
-  catIndexTemplates () {
+  templates () {
     return this.request('_template', 'GET')
+  }
+
+  indexTemplates () {
+    return this.request('_index_template', 'GET')
+  }
+
+  componentTemplates () {
+    return this.request('_component_template', 'GET')
   }
 
   catShards (params: object, filter?: string) {

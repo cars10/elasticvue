@@ -10,7 +10,7 @@
     <q-separator />
 
     <loader-status :request-state="requestState">
-      <index-templates-table :index-templates="data || {}" />
+      <index-templates-table :index-templates="data || []" />
     </loader-status>
   </q-card>
 </template>
@@ -20,12 +20,12 @@
   import ReloadButton from '../shared/ReloadButton.vue'
   import LoaderStatus from '../shared/LoaderStatus.vue'
   import IndexTemplatesTable from './IndexTemplatesTable.vue'
-  import { useElasticsearchRequest } from '../../composables/CallElasticsearch'
   import { useTranslation } from '../../composables/i18n.ts'
-  import { EsIndexTemplates } from '../../composables/components/indextemplates/IndexTemplatesTable.ts'
+  import { useIndexTemplates } from '../../composables/components/indextemplates/IndexTemplates.ts'
 
   const t = useTranslation()
 
-  const { requestState, data, load } = useElasticsearchRequest<EsIndexTemplates>('catIndexTemplates')
+  const { data, requestState, load } = useIndexTemplates()
+
   onMounted(load)
 </script>

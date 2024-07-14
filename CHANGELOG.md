@@ -2,6 +2,7 @@
 
 ## 1.0.9
 
+* improve index templates, fixes [#242](https://github.com/cars10/elasticvue/issues/242)
 * dependency updates
 
 ## 1.0.8
