@@ -24,7 +24,7 @@
   </div>
 
   <q-table v-model:pagination="pagination"
-           class="table-mono"
+           class="table-mono table-hide-overflow"
            flat
            dense
            :columns="columns"
@@ -62,8 +62,10 @@
             :class="{marked: markedColumnIndex === i}"
             @mouseover="markColumn(i)"
             @mouseleave="unmarkColumn">
-          <index-shard v-for="(shard, j) in shards.unassignedShards[col.name]"
-                       :key="`${col.name}_unassigned_${i}_${j}_shards`" :shard="shard" />
+          <div class="flex">
+            <index-shard v-for="(shard, j) in shards.unassignedShards[col.name]"
+                         :key="`${col.name}_unassigned_${i}_${j}_shards`" :shard="shard" />
+          </div>
         </td>
       </tr>
     </template>
@@ -75,17 +77,19 @@
             :class="{marked: markedColumnIndex === i}"
             @mouseover="markColumn(i)"
             @mouseleave="unmarkColumn">
-          <index-shard v-for="(shard, j) in shards.shards?.[row]?.[col.name]"
-                       :key="`${col.name}_actual_shard_${i}_${j}`"
-                       :shard="shard"
-                       :action="initReroute"
-                       re-routable
-                       :outlined="!(currentReroutingShard.index === col.name && currentReroutingShard.node === row && currentReroutingShard.shard === shard.shard)" />
+          <div class="flex">
+            <index-shard v-for="(shard, j) in shards.shards?.[row]?.[col.name]"
+                         :key="`${col.name}_actual_shard_${i}_${j}`"
+                         :shard="shard"
+                         :action="initReroute"
+                         re-routable
+                         :outlined="!(currentReroutingShard.index === col.name && currentReroutingShard.node === row && currentReroutingShard.shard === shard.shard)" />
 
-          <div v-if="currentReroutingShard.index === col.name && currentReroutingShard.node !== row">
-            <button class="shard-reroute-target" @click="reroute(currentReroutingShard, row)">
-              {{ t('shards.shards_table.reroute.label', { node: row }) }}
-            </button>
+            <div v-if="currentReroutingShard.index === col.name && currentReroutingShard.node !== row">
+              <button class="shard-reroute-target" @click="reroute(currentReroutingShard, row)">
+                {{ t('shards.shards_table.reroute.label', { node: row }) }}
+              </button>
+            </div>
           </div>
         </td>
       </tr>

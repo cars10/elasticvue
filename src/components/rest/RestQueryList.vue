@@ -9,7 +9,7 @@
 
       <q-table flat
                dense
-               class="table-mono"
+               class="table-mono table-hide-overflow"
                row-key="id"
                :columns="columns"
                :rows="filteredData"

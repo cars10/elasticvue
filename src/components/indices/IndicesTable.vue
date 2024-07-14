@@ -33,7 +33,7 @@
     <resizable-container v-model="resizeStore.indicesTable" :active="indicesStore.stickyTableHeader">
       <q-table :key="tableKey"
                v-model:pagination="indicesStore.pagination"
-               class="table-mono"
+               class="table-mono table-hide-overflow"
                flat
                dense
                data-testid="indices-table"

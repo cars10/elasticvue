@@ -51,7 +51,7 @@
       <q-separator />
 
       <q-table v-if="aliases.length > 0"
-               class="table-mono"
+               class="table-mono table-hide-overflow"
                flat
                dense
                row-key="alias"

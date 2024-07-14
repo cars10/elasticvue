@@ -42,7 +42,7 @@
     <resizable-container v-model="resizeStore.searchTable" :active="searchStore.stickyTableHeader">
       <q-table v-if="hits.length > 0"
                v-model:pagination="searchStore.pagination"
-               class="table-mono"
+               class="table-mono table-hide-overflow"
                flat
                dense
                :virtual-scroll="searchStore.stickyTableHeader"

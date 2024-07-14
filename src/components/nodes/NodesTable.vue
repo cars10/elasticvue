@@ -3,7 +3,7 @@
     <filter-input v-model="filter" />
   </div>
 
-  <q-table class="table-mono"
+  <q-table class="table-mono table-hide-overflow"
            flat
            dense
            row-key="name"
