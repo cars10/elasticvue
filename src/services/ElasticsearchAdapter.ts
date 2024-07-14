@@ -123,7 +123,7 @@ export default class ElasticsearchAdapter {
     if (indices.length > MAX_INDICES_PER_REQUEST) {
       return this.callInChunks({ method: 'indexDelete', indices })
     } else {
-      return this.request(indices.join(','), 'DELETE')
+      return this.request(cleanIndexName(indices.join(',')), 'DELETE')
     }
   }
 
