@@ -13,6 +13,7 @@
     "test:e2e:all": "playwright test",
     "test:e2e:watch": "PWTEST_WATCH=1 playwright test --project=chromium",
     "test:e2e:report": "playwright show-report",
+    "ci": "yarn lint && yarn tsc && yarn test:unit && yarn test:e2e:all",
     "tauri:dev": "tauri dev",
     "tauri:build": "tauri build",
     "bundle:report": "vite-bundle-visualizer"

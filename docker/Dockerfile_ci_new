@@ -1,0 +1,19 @@
+FROM mcr.microsoft.com/playwright:v1.45.1-noble
+ENV ASDF_DIR=/root/.asdf
+
+RUN mkdir /app
+WORKDIR /app
+
+COPY .tool-versions .
+
+RUN git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.14.0 \
+    && . "$HOME/.asdf/asdf.sh" \
+    && asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git \
+    && asdf install
+
+COPY package.json .
+COPY yarn.lock .
+
+RUN yarn install
+
+COPY . .

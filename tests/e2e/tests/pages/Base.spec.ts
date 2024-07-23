@@ -1,6 +1,8 @@
 import { test, expect } from '@playwright/test'
 import { openElasticvue } from '../../helpers'
 
+test.describe.configure({ mode: 'parallel' });
+
 test.describe('base', () => {
   test('has a title', async ({ page }) => {
     await openElasticvue(page)
