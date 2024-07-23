@@ -14,14 +14,14 @@ export function filterItems<T extends Filterable> (items: T[], searchQuery: stri
     if (column.trim() === '') return items
 
     return items.filter(item => {
-      if (Object.hasOwnProperty.bind(item)(column)) {
+      if (Object.hasOwnProperty.bind(item)(column) && item[column] !== null) {
         return item[column].toString().toLowerCase().includes(query)
       }
     })
   } else {
     return items.filter(item => {
       return headerNames.some(headerName => {
-        if (Object.hasOwnProperty.bind(item)(headerName)) {
+        if (Object.hasOwnProperty.bind(item)(headerName) && item[headerName] !== null) {
           return item[headerName].toString().toLowerCase().includes(search)
         }
       })
