@@ -4,6 +4,7 @@ build_docker_ci:
 	docker build -f docker/Dockerfile_ci -t elasticvue-ci .
 
 ci: build_docker_ci
+    cat /proc/cpuinfo
 	docker run --rm elasticvue-ci yarn lint
 	docker run --rm elasticvue-ci yarn tsc
 	docker run --rm elasticvue-ci yarn test:unit
