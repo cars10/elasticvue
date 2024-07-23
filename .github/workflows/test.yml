@@ -24,13 +24,9 @@ jobs:
           username: cars10
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build and push
-        uses: docker/build-push-action@v6
-        with:
-          push: true
-          pull: true
-          file: docker/Dockerfile_ci
-          tags: ghcr.io/cars10/elasticvue_ci:latest
+      - name: pull ci image
+        run: |
+          docker pull ghcr.io/cars10/elasticvue_ci:latest
 
       - name: run tests
         run: make CI=1 ci
