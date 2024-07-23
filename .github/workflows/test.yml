@@ -17,4 +17,4 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: run tests
-        run: make CI=1 ci_new
+        run: make CI=1 ci
