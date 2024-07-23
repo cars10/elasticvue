@@ -16,17 +16,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: login to ghcr
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: cars10
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: pull ci image
-        run: |
-          docker pull ghcr.io/cars10/elasticvue_ci:latest
-
       - name: run tests
         run: make CI=1 ci
