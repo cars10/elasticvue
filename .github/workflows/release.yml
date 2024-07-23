@@ -204,3 +204,12 @@ jobs:
             ### Other
             * [Docker](https://hub.docker.com/r/cars10/elasticvue)
             * [Hosted](https://app.elasticvue.com)
+
+      - name: deploy
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: 'https://autodok.cars10k.de/update'
+          timeout: 60000
+          method: 'POST'
+          customHeaders: '{"Content-Type": "application/json", "authorization": "${{ secrets.AUTODOK_API_KEY }}"}'
+          data: '{"container": "elasticvue", "image": "cars10/elasticvue:latest"}'
