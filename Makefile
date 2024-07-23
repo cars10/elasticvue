@@ -6,12 +6,6 @@ build_docker_ci:
 ci: build_docker_ci
 	docker run --rm -e CI="$(CI)" -v ./playwright-report-ci:/app/playwright-report elasticvue-ci yarn ci
 
-build_docker_ci_new:
-	docker build -f docker/Dockerfile_ci_new -t elasticvue-ci-new .
-
-ci_new: build_docker_ci_new
-	docker run --rm -e CI="$(CI)" -v ./playwright-report-ci:/app/playwright-report elasticvue-ci-new yarn ci
-
 build_tauri:
 	yarn tauri:build
 
