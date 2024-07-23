@@ -8,6 +8,7 @@
     "tsc": "tsc --noEmit && vue-tsc",
     "lint": "eslint src",
     "test:unit": "vitest run tests/unit",
+    "test:unit:watch": "vitest watch tests/unit",
     "test:e2e": "playwright test --project=chromium",
     "test:e2e:all": "playwright test",
     "test:e2e:watch": "PWTEST_WATCH=1 playwright test --project=chromium",
