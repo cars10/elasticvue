@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.10
+
+* fix table column size regression introduced in `1.0.9`, fixes [#245](https://github.com/cars10/elasticvue/issues/245)
+
 ## 1.0.9
 
 * improve index templates, fixes [#242](https://github.com/cars10/elasticvue/issues/242)

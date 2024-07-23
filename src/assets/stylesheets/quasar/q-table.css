@@ -41,7 +41,7 @@ table.q-table td {
     padding: 2px 10px;
 }
 
-.table-hide-overflow .q-table--dense tbody td {
+.table-hide-overflow.q-table--dense tbody td {
     max-width: 500px;
     overflow: hidden;
     text-overflow: ellipsis;
