@@ -1,4 +1,4 @@
-FROM node:20-bookworm AS builder
+FROM node:22.5.1-bookworm AS builder
 RUN mkdir /app
 WORKDIR /app
 
