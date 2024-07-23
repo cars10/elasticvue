@@ -22,7 +22,7 @@ jobs:
         with:
           registry: ghcr.io
           username: cars10
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build and push
         uses: docker/build-push-action@v6
