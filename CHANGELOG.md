@@ -4,6 +4,7 @@
 
 * fix table column size regression introduced in `1.0.9`, fixes [#245](https://github.com/cars10/elasticvue/issues/245)
 * fix filtering when `null` values are present, fixes [#244](https://github.com/cars10/elasticvue/issues/244)
+* reset search table sort when changing index
 
 ## 1.0.9
 

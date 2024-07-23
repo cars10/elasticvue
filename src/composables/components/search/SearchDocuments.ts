@@ -48,6 +48,11 @@ export const useSearchDocuments = () => {
     }
   }
 
+  watch(() => (searchStore.indices), () => {
+    searchStore.pagination.sortBy = ''
+    mergeQuery({sort: []})
+  })
+
   watch(() => (searchStore.q), value => {
     mergeQuery({ query: { query_string: { query: value } } })
   })
