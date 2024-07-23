@@ -1,14 +1,14 @@
 CI ?=
+CI_IMAGE=ghcr.io/cars10/elasticvue_ci:latest
 
 build_docker_ci:
-	docker build -f docker/Dockerfile_ci -t elasticvue-ci .
+	docker build -f docker/Dockerfile_ci -t ${CI_IMAGE} .
 
 ci: build_docker_ci
-	cat /proc/cpuinfo
-	docker run --rm elasticvue-ci yarn lint
-	docker run --rm elasticvue-ci yarn tsc
-	docker run --rm elasticvue-ci yarn test:unit
-	docker run --rm -e CI="$(CI)" -v ./playwright-report-ci:/app/playwright-report elasticvue-ci yarn test:e2e:all
+	docker run --rm ${CI_IMAGE} yarn lint
+	docker run --rm ${CI_IMAGE} yarn tsc
+	docker run --rm ${CI_IMAGE} yarn test:unit
+	docker run --rm -e CI="$(CI)" -v ./playwright-report-ci:/app/playwright-report ${CI_IMAGE} yarn test:e2e:all
 
 build_tauri:
 	yarn tauri:build

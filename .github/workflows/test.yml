@@ -16,5 +16,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          push: true
+          pull: true
+          file: docker/Dockerfile_ci
+          tags: ghcr.io/cars10/elasticvue_ci:latest
+
       - name: run tests
         run: make CI=1 ci
