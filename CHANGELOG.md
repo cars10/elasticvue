@@ -3,6 +3,7 @@
 ## 1.0.11
 
 * update chinese translation, thanks @XiangtingLee, fixes [#251](https://github.com/cars10/elasticvue/pull/251)
+* adds french translation, thanks @XNxa, fixes [#250](https://github.com/cars10/elasticvue/pull/250)
 
 ## 1.0.10
 

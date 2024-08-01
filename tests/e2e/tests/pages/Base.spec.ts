@@ -33,7 +33,7 @@ test.describe('base', () => {
         await openElasticvue(page)
         page.getByTestId('change-language-button').click()
 
-        await expect(page.getByTestId('change-language__english')).toHaveClass(/q-item--active/)
+        await expect(page.getByTestId('change-language__en')).toHaveClass(/q-item--active/)
       })
     })
   })
