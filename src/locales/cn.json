@@ -405,12 +405,11 @@
     "heading": "搜索",
     "form": {
       "query": {
-        "label": "搜索",
-        "messages": "搜索 <a tabindex='-1' target='_blank' rel='noopener' href='https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html'>查询 DSL</a> 获取支持"
+        "label": "搜索"
       },
       "search_examples": {
         "button": "搜索示例",
-        "hint": "搜索示例，详见 <a tabindex='-1' target='_blank' rel='noopener' href='https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html'>查询字符串查询</a>"
+        "hint": "搜索 <a tabindex='-1' target='_blank' rel='noopener' href='https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html'>查询 DSL</a> 获取支持"
       },
       "search": "搜索",
       "customize_query": {

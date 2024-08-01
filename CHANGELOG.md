@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.11
+
+* update chinese translation, thanks @XiangtingLee, fixes [#251](https://github.com/cars10/elasticvue/pull/251)
+
 ## 1.0.10
 
 * fix table column size regression introduced in `1.0.9`, fixes [#245](https://github.com/cars10/elasticvue/issues/245)
