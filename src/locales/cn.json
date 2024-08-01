@@ -542,9 +542,10 @@
   "shards": {
     "heading": "分片",
     "shards_table": {
-      "cancel_relocation": "取消relocation",
+      "cancel_relocation": "取消迁移",
       "reroute": {
-        "confirm": null
+        "label": "迁移到节点 '{node}'",
+        "confirm": "将分片 '{shard}' 从节点 '{fromNode}' 迁移到节点 '{toNode}'？"
       }
     }
   },
