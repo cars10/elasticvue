@@ -23,6 +23,7 @@
     "@intlify/unplugin-vue-i18n": "^4.0.0",
     "@lezer/common": "^1.2.1",
     "@quasar/extras": "^1.16.12",
+    "@replit/codemirror-vim": "^6.2.1",
     "@tauri-apps/api": "^1.6.0",
     "codemirror": "^6.0.1",
     "idb": "^8.0.0",

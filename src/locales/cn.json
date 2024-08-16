@@ -455,6 +455,10 @@
       }
     }
   },
+  "editor": {
+    "heading": "编辑器",
+    "description": "VIM支持"
+  },
   "settings": {
     "heading": "设置",
     "hide_indices_regex": {
