@@ -7,7 +7,7 @@ export const useLogo = () => {
   const themeStore = useThemeStore()
 
   return computed(() => {
-    if (themeStore.dark) {
+    if (themeStore.isDark) {
       return white
     } else {
       return blue

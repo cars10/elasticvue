@@ -1,18 +1,24 @@
 import { defineStore } from 'pinia'
+import { ValidTheme } from '../consts.ts'
 
 export type ThemeState = {
-  dark: boolean
+  dark: ValidTheme
 }
 
 export const useThemeStore = defineStore('theme', {
   state: (): ThemeState => ({
-    dark: window.matchMedia('(prefers-color-scheme: dark)').matches
+    dark: 'auto'
   }),
+  getters: {
+    isDark(state) {
+      return state.dark === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : state.dark
+    }
+  },
   actions: {
-    toggleTheme () {
-      this.dark = !this.dark
+    setTheme(theme: ValidTheme) {
+      this.dark = theme
 
-      if (this.dark) {
+      if (this.isDark) {
         document.body.classList.add('theme--dark')
         document.body.classList.remove('theme--light')
       } else {

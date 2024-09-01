@@ -31,7 +31,12 @@
       }
     },
     "theme_switcher": {
-      "title": "Changer de thème"
+      "title": "Changer de thème",
+      "themes": {
+        "light": "Clair",
+        "dark": "Sombre",
+        "auto": "Paramètres par défaut"
+      }
     }
   },
   "defaults": {

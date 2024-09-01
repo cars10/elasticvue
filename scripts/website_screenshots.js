@@ -53,6 +53,7 @@ const screenshotSettings = async page => (await navAndScreenshot(page, '#setting
 
 const toggleTheme = async page => {
   await page.locator('#change_theme').click()
+  await page.locator('.q-menu .q-item--clickable', { hasText: 'nightlight' }).click()
 }
 
 const connectWithServer = async page => {

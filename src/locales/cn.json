@@ -28,7 +28,12 @@
       }
     },
     "theme_switcher": {
-      "title": "更改主题"
+      "title": "更改主题",
+      "themes": {
+        "light": "浅色",
+        "dark": "深色",
+        "auto": "跟随系统"
+      }
     }
   },
   "defaults": {

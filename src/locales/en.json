@@ -28,7 +28,12 @@
       }
     },
     "theme_switcher": {
-      "title": "Change theme"
+      "title": "Change theme",
+      "themes": {
+        "light": "Light",
+        "dark": "Dark",
+        "auto": "OS default"
+      }
     }
   },
   "defaults": {
