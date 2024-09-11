@@ -1,7 +1,7 @@
 import { onMounted, Ref, watch } from 'vue'
 import { EditorView, basicSetup } from 'codemirror'
 import { KeyBinding, keymap } from '@codemirror/view'
-import { Compartment , Extension, Prec } from '@codemirror/state'
+import { Compartment, Prec } from '@codemirror/state'
 import { indentWithTab } from '@codemirror/commands'
 import { json } from '@codemirror/lang-json'
 import { baseTheme } from './CodeEditor/theme.ts'
@@ -79,9 +79,7 @@ export const useCodeEditor = (editorRef: Ref<HTMLElement | null>, {
       emit('update:modelValue', editorValue())
     })
 
-    const vimExtension = vim();
-    //fix dark theme can't see cursor and letters
-    customizeVimTheme(vimExtension);
+    const vimExtension = vim()
     codeMirrorEditor = new EditorView({
       extensions: [
         // make sure vim is included before other keymaps
@@ -127,28 +125,4 @@ export const useCodeEditor = (editorRef: Ref<HTMLElement | null>, {
     copyContent,
     beautifyEditorValue
   }
-}
-
-// I don't know how to customize the font color of the vim panel,
-// seems like they don't have provided a way to change the CSS
-// so I just let font color inherit
-function customizeVimTheme(vimInstance: Extension) {
-  (vimInstance as Extension[])[0] = EditorView.baseTheme({
-    '.cm-vimMode .cm-cursorLayer:not(.cm-vimCursorLayer)': {
-      display: 'none',
-    },
-    '.cm-vim-panel': {
-      padding: '0px 10px',
-      fontFamily: 'monospace',
-      minHeight: '1.3em',
-    },
-    '.cm-vim-panel input': {
-      border: 'none',
-      outline: 'none',
-      backgroundColor: 'inherit',
-      color: 'inherit', // it works with editor global theme
-    },
-    '&light .cm-searchMatch': {backgroundColor: '#ffff0054'},
-    '&dark .cm-searchMatch': {backgroundColor: '#00ffff8a'},
-  })
 }

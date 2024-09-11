@@ -128,3 +128,28 @@
 .cm-editor .cm-tooltip-autocomplete > ul > li[aria-selected] {
   background-color: var(--code-editor-tooltip-selected-background);
 }
+
+/* vim */
+.cm-vimMode .cm-cursorLayer:not(.cm-vimCursorLayer) {
+  display: none;
+}
+
+.cm-vim-panel {
+  padding: 0 10px;
+  font-family: monospace;
+  min-height: 1.3em;
+}
+
+.cm-vim-panel input {
+  border: none;
+  outline: none;
+  background-color: inherit;
+  color: inherit;
+}
+
+.light .cm-searchMatch {
+}
+
+.dark .cm-searchMatch {
+}
+
