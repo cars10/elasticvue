@@ -12,8 +12,7 @@
         "shards": "Partitions",
         "search": "Rechercher",
         "rest": "REST",
-        "snapshots": "Sauvegardes",
-        "repositories": "Repositories"
+        "snapshots": "Sauvegardes"
       }
     },
     "language_switcher": {
@@ -132,7 +131,6 @@
         "title": "{pri} primary\n{rep} replica"
       },
       "options": {
-        "title": "Options",
         "show_info": "Afficher infos",
         "show_stats": "Afficher les stats",
         "forcemerge": {
@@ -192,7 +190,6 @@
           "storage": "Stockage",
           "created": "Créé",
           "parsed_docs_count": {
-            "title": "Si votre index contient des champs avec \"type\": \"nested\", le nombre de documents lucene peut ne pas correspondre au nombre de documents elasticsearch dans votre index. Chaque objet imbriqué est compté comme un document séparé. Utilisez l'API _count si vous avez besoin du nombre de documents elasticsearch."
           }
         }
       }
@@ -221,9 +218,7 @@
       "table": {
         "headers": {
           "name": "Nom",
-          "index_patterns": "index_patterns",
-          "priority": "Priorité",
-          "version": "Version"
+          "index_patterns": "index_patterns"
         }
       }
     }
@@ -272,8 +267,6 @@
     "heading": "Rest",
     "api_documentation": "Documentation de l'API",
     "orientation": {
-      "horizontal": "Horizontal",
-      "vertical": "Vertical"
     },
     "rest": {
       "history": "Historique",
@@ -286,7 +279,6 @@
         },
         "send_request": "Envoyer la requète",
         "save_request": "Enregistrer",
-        "reset": "Réinitialiser",
         "download_as_json": "Télécharger la réponse JSON"
       },
       "get_request_hint": {
@@ -303,23 +295,15 @@
           "timestamp": "Date et heure"
         },
         "row": {
-          "title": "Cliquer pour apercevoir le corps de la requète, ctrl+click pour l'utiliser directement.",
           "favorite": {
-            "add": "Favori",
-            "remove": "Supprimer des favoris"
           }
         }
       },
       "clear": {
-        "text": "Effacer",
-        "all": "Tout supprimer",
-        "only_non_favorites": "Supprimer uniquement les non-favoris"
       },
       "body_preview": {
         "use": "Utiliser dans l'onglet courant",
-        "open_new_tab": "Utiliser dans un nouvel onglet",
-        "remove_entry": "Supprimer l'entrée",
-        "unselect": "Désélectionner"
+        "open_new_tab": "Utiliser dans un nouvel onglet"
       }
     },
     "rest_query_examples": {
@@ -327,13 +311,9 @@
       "table": {
         "headers": {
           "query": "Requète",
-          "description": "Description",
-          "body": "Corps",
-          "use": "Utiliser"
+          "description": "Description"
         },
         "row": {
-          "title": "Cliquer pour apercevoir le corps de la requète, ctrl+click pour l'utiliser directement.",
-          "docs": "Docs",
           "use": "Utiliser"
         }
       }
@@ -396,7 +376,6 @@
           "settings": "Réglages"
         },
         "row": {
-          "delete": "Supprimer"
         }
       },
       "delete_repository": {
@@ -418,17 +397,13 @@
       "search": "Recherche",
       "customize_query": {
         "button": "Recherche avancée",
-        "hint": "Astuce : les modifications apportées à la requête n'actualiseront pas les champs correspondants dans l'interface utilisateur (comme la requête de recherche ou la pagination/le tri dans le tableau), mais les modifications apportées aux champs seront à nouveau fusionnées dans la requête.",
-        "reset": "Réinitialiser la requête",
-        "reset_all": "Tout réinitialiser"
+        "reset": "Réinitialiser la requête"
       }
     },
     "search_result": {
       "show": {
-        "title": "Afficher le document"
       },
       "edit": {
-        "text": "Modifier le document"
       },
       "delete": {
         "text": "# | Supprimer le document | Supprimer les documents",
@@ -438,13 +413,10 @@
     },
     "results_table": {
       "filter": {
-        "label": "Filtrer la page *courante*..."
       },
       "settings": {
-        "title": "Réglages du tableau",
         "columns": "Colomnes",
         "sticky_table_header": {
-          "label": "En-tête de tableau fixe"
         }
       },
       "download_as_json": "Télécharger en JSON"
@@ -457,8 +429,6 @@
     }
   },
   "editor": {
-    "heading": "Éditeur",
-    "description": "Prise en charge de VIM"
   },
   "settings": {
     "heading": "Réglages",
@@ -493,10 +463,12 @@
         "select_file": "Choisir un fichier...",
         "import": "Importer une sauvegarde"
       }
+    },
+    "editor_vim_mode": {
+      "label": "Utiliser les raccourcis clavier de vim dans l'éditeur"
     }
   },
   "setup": {
-    "heading": "Configuration",
     "configure": {
       "heading": "1. Configurer",
       "introduction": "Vous devez configurer CORS pour utiliser elasticvue web. Ajoutez les lignes suivantes à votre",
@@ -559,7 +531,6 @@
   "shared": {
     "cluster_connection_errors": {
       "connection_error": "Erreur de connexion",
-      "http_error": "Erreur HTTP",
       "cant_connect": "Connexion a votre cluster impossible",
       "please_check": "Veuillez vérifier que",
       "checklist": {
@@ -568,8 +539,6 @@
         "cors": "Vous avez activé CORS et redémarré votre cluster."
       }
     },
-    "nothing_found_for_filter": "Aucun résultat pour le filter '{filter}'.",
-    "nothing_found": "Aucun résultat.",
     "index_filter": {
       "use_index_pattern": "utiliser le patterne d'index",
       "use_index_select": "sélectionner des index",
@@ -585,16 +554,12 @@
         },
         "indices_selected": "index sélectionnés",
         "select_all": {
-          "text": "tout sélectionner",
-          "title": "Sélectionner tous les index"
+          "text": "tout sélectionner"
         },
         "deselect_all": {
-          "text": "tout désélectionner",
-          "title": "Désélectionner tous les index"
+          "text": "tout désélectionner"
         },
         "show_hidden": {
-          "label": "montrer les index cachés",
-          "title": "Afficher les index commençant par un point"
         }
       }
     },
@@ -611,7 +576,6 @@
     "code_editor": {
       "actions": {
         "copy_content": {
-          "title": "Copier le contenu"
         },
         "beautify": {
           "title": "Formatter (Ctrl+ALT+L)",
@@ -622,7 +586,6 @@
           "title": "Retourner à la ligne pour les longues lignes"
         },
         "keyboard_shortcuts": {
-          "text": "Raccourcis clavier"
         }
       }
     },
@@ -633,19 +596,7 @@
     },
     "modal_data_loader": {
       "modal_title": {
-        "default": "Afficher"
       }
-    },
-    "path_repo_info": {
-      "success": {
-        "info": "Votre paramètre <strong>path.repo</strong> semble être configuré correctement, cela signifie que vous pouvez utiliser des dépôts et des snapshots.",
-        "current_value": "The current value is: "
-      },
-      "error": {
-        "info": "Votre paramètre <strong>path.repo</strong> n'est pas configuré correctement.<br> Vous devez définir <strong>path.repo</strong> dans votre fichier <strong>elasticsearch.yml</strong> si vous souhaitez utiliser des snapshots et des dépôts."
-      },
-      "docs": "Docs",
-      "reload": "Recharger"
     },
     "reload_button": {
       "reload": "Recharger"
@@ -666,7 +617,6 @@
       "heading": "Nouvelle snapshot",
       "form": {
         "repository": {
-          "label": "Dépôt"
         },
         "snapshot_name": {
           "label": "Nom de snapshot"
@@ -677,7 +627,6 @@
       }
     },
     "restore_snapshot": {
-      "button": "Restorer",
       "heading": "Restorer '{name}'",
       "form": {
         "ignore_unavailable": {
@@ -700,15 +649,12 @@
     },
     "snapshot": {
       "indices": "{count} index",
-      "options": "Options",
       "delete": {
-        "text": "Supprimer snapshot",
         "confirm": "Supprimer snapshot '{snapshot}'?",
         "growl": "La snapshot '{snapshot}' a été correctement supprimée."
       }
     },
     "snapshots_table": {
-      "no_repository_selected": "Veuillez d'abord choisir un dépot.",
       "table": {
         "headers": {
           "status": "Statut",
@@ -724,10 +670,8 @@
     },
     "snapshots_table_wrapper": {
       "repository": {
-        "label": "Dépôt"
       },
       "filter": {
-        "label": "Filtrer id..."
       }
     }
   },

@@ -12,8 +12,7 @@
         "shards": "分片",
         "search": "搜索",
         "rest": "REST",
-        "snapshots": "快照",
-        "repositories": "存储"
+        "snapshots": "快照"
       }
     },
     "language_switcher": {
@@ -52,7 +51,7 @@
         "title": "连接至 '{activeInstanceName}' ({activeInstanceUri})"
       }
     },
-    "instances_table": {
+    "cluster_table": {
       "headers": {
         "cluster": "集群名称",
         "uri": "地址",
@@ -132,7 +131,6 @@
         "title": "{pre} 主\n{replica} 副本"
       },
       "options": {
-        "title": "选项",
         "show_info": "查看信息",
         "show_stats": "查看状态",
         "forcemerge": {
@@ -192,7 +190,6 @@
           "storage": "储存空间",
           "created": "日期",
           "parsed_docs_count": {
-            "title": "如果你的索引具有 \"type\": \"nested\" 字段，那么 lucene 文档的数量可能与索引中的 elasticsearch 文档的数量不匹配。每个嵌套对象都算作一个单独的文档。如果你需要 elasticsearch 文档的数量，请使用 _count API。"
           }
         }
       }
@@ -221,9 +218,7 @@
       "table": {
         "headers": {
           "name": "名字",
-          "index_patterns": "索引模式",
-          "priority": "优先级",
-          "version": "版本"
+          "index_patterns": "索引模式"
         }
       }
     }
@@ -272,8 +267,6 @@
     "heading": "Rest",
     "api_documentation": "api 文档",
     "orientation": {
-      "horizontal": "水平",
-      "vertical": "垂直"
     },
     "rest": {
       "history": "查询历史",
@@ -286,7 +279,6 @@
         },
         "send_request": "发送请求",
         "save_request": "保存",
-        "reset": "重置",
         "download_as_json": "下载为 JSON 文件"
       },
       "get_request_hint": {
@@ -303,23 +295,15 @@
           "timestamp": "日期"
         },
         "row": {
-          "title": "点击预览请求正文，ctrl+点击 直接使用。",
           "favorite": {
-            "add": "收藏",
-            "remove": "移除收藏"
           }
         }
       },
       "clear": {
-        "text": "清除",
-        "all": "删除所有",
-        "only_non_favorites": "仅删除非收藏"
       },
       "body_preview": {
         "use": "使用",
-        "open_new_tab": "新标签页打开",
-        "remove_entry": "删除条目",
-        "unselect": "取消选择"
+        "open_new_tab": "新标签页打开"
       }
     },
     "rest_query_examples": {
@@ -327,13 +311,9 @@
       "table": {
         "headers": {
           "query": "查询",
-          "description": "描述",
-          "body": "查询体",
-          "use": "使用"
+          "description": "描述"
         },
         "row": {
-          "title": "点击预览请求正文，ctrl+点击 直接使用示例。",
-          "docs": "文档",
           "use": "使用"
         }
       }
@@ -396,7 +376,6 @@
           "settings": "配置"
         },
         "row": {
-          "delete": "删除"
         }
       },
       "delete_repository": {
@@ -418,17 +397,13 @@
       "search": "搜索",
       "customize_query": {
         "button": "自定义查询",
-        "hint": "提示：对查询的更改不会更新搜索框中的相关输入（如搜索查询或表中的分页/排序），但对输入的更改将合并到查询中。",
-        "reset": "重置语句",
-        "reset_all": "全部重置"
+        "reset": "重置语句"
       }
     },
     "search_result": {
       "show": {
-        "title": "查看"
       },
       "edit": {
-        "text": "编辑文档"
       },
       "delete": {
         "text": "# | 删除文档 | 批量删除文档",
@@ -438,13 +413,10 @@
     },
     "results_table": {
       "filter": {
-        "label": "过滤 *当前* 页面..."
       },
       "settings": {
-        "title": "表格设置",
         "columns": "列",
         "sticky_table_header": {
-          "label": "固定表格高度"
         }
       },
       "download_as_json": "下载为 JSON 文件"
@@ -457,8 +429,6 @@
     }
   },
   "editor": {
-    "heading": "编辑器",
-    "description": "VIM支持"
   },
   "settings": {
     "heading": "设置",
@@ -493,10 +463,12 @@
         "select_file": "选择文件...",
         "import": "导入备份"
       }
+    },
+    "editor_vim_mode": {
+      "label": "在编辑器中使用 vim 键绑定"
     }
   },
   "setup": {
-    "heading": "设置",
     "configure": {
       "heading": "1. 配置",
       "introduction": "你必须设置 CORS 才能使用 elasticvue。将以下行添加到你的",
@@ -559,7 +531,6 @@
   "shared": {
     "cluster_connection_errors": {
       "connection_error": "连接错误",
-      "http_error": "http错误",
       "cant_connect": "无法连接你的集群",
       "please_check": "请确认集群可以连接",
       "checklist": {
@@ -568,8 +539,6 @@
         "cors": "你已开启跨域(CORS)并重启了你的集群"
       }
     },
-    "nothing_found_for_filter": "没有找到 '{filter}' 对应的记录.",
-    "nothing_found": "无记录",
     "index_filter": {
       "use_index_pattern": "使用索引模式",
       "use_index_select": "选择索引",
@@ -585,16 +554,12 @@
         },
         "indices_selected": "个索引已选择",
         "select_all": {
-          "text": "选择全部",
-          "title": "选择全部索引"
+          "text": "选择全部"
         },
         "deselect_all": {
-          "text": "反选全部",
-          "title": "反选全部索引"
+          "text": "反选全部"
         },
         "show_hidden": {
-          "label": "显示隐藏",
-          "title": "显示以点开头的索引"
         }
       }
     },
@@ -611,7 +576,6 @@
     "code_editor": {
       "actions": {
         "copy_content": {
-          "title": "复制内容"
         },
         "beautify": {
           "title": "格式化 (Ctrl+ALT+L)",
@@ -622,7 +586,6 @@
           "title": "长行换行"
         },
         "keyboard_shortcuts": {
-          "text": "快捷键"
         }
       }
     },
@@ -633,19 +596,7 @@
     },
     "modal_data_loader": {
       "modal_title": {
-        "default": "查看"
       }
-    },
-    "path_repo_info": {
-      "success": {
-        "info": "你的 <strong>path.repo</strong> 似乎设置正确，这意味着你可以使用存储和快照。",
-        "current_value": "当前值为："
-      },
-      "error": {
-        "info": "你的 <strong>path.repo</strong> 未正确设置。 <br>如果你想使用快照和存储，你必须在你的 <strong>elasticsearch.yml</strong> 中设置 <strong>path.repo</strong>。"
-      },
-      "docs": "文档",
-      "reload": "重新加载"
     },
     "reload_button": {
       "reload": "重新加载"
@@ -666,7 +617,6 @@
       "heading": "新建快照",
       "form": {
         "repository": {
-          "label": "储存"
         },
         "snapshot_name": {
           "label": "快照名称"
@@ -677,7 +627,6 @@
       }
     },
     "restore_snapshot": {
-      "button": "恢复",
       "heading": "恢复 '{name}'",
       "form": {
         "ignore_unavailable": {
@@ -700,15 +649,12 @@
     },
     "snapshot": {
       "indices": "{count} 个索引",
-      "options": "选项",
       "delete": {
-        "text": "删除快照",
         "confirm": "删除快照 '{snapshot}'?",
         "growl": "快照 '{snapshot}' 删除成功。"
       }
     },
     "snapshots_table": {
-      "no_repository_selected": "请先选择一个存储。",
       "table": {
         "headers": {
           "status": "状态",
@@ -724,10 +670,8 @@
     },
     "snapshots_table_wrapper": {
       "repository": {
-        "label": "储存"
       },
       "filter": {
-        "label": "过滤 id..."
       }
     }
   },

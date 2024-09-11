@@ -38,6 +38,7 @@
     "vue-router": "^4.4.4"
   },
   "devDependencies": {
+    "@intlify/eslint-plugin-vue-i18n": "^3.0.0",
     "@playwright/test": "^1.47.0",
     "@quasar/vite-plugin": "^1.7.0",
     "@tauri-apps/cli": "^1.6.1",
