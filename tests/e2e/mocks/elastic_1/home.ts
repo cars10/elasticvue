@@ -70,8 +70,8 @@ export const mockElasticHome = async (page: Page, { health }: { health?: string 
   }
 
   for (const method in mocks) {
-    const url = mocks[method].url
-    const json = mocks[method].json
+    const url = mocks[method as keyof typeof mocks].url
+    const json = mocks[method as keyof typeof mocks].json
 
     await page.route(url, async route => (await route.fulfill({ json })))
   }

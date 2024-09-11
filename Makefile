@@ -25,3 +25,6 @@ build_browser_extensions:
 
 run_docker_nginx:
 	docker run -p 8080:8080 elasticvue
+
+e2e: build_docker_ci
+	docker run --rm -v ./playwright-report-ci:/app/playwright-report elasticvue-ci yarn test:e2e $(TEST)
