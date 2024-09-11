@@ -2,6 +2,7 @@ import { EsNode } from '../types/types.ts'
 
 export default class ElasticsearchNode {
   name: string
+  version: string
   id: string
   ip: string
   heapPercent: number
@@ -27,6 +28,7 @@ export default class ElasticsearchNode {
 
   constructor (options: EsNode) {
     this.name = options.name
+    this.version = options.version
     this.id = options.id
     this.ip = options.ip
     this.heapPercent = parseFloatValue(options['heap.percent'])

@@ -2,6 +2,7 @@ export type EsNode = {
   name: string,
   id: string,
   ip: string,
+  version: string,
   'heap.percent': string,
   'heap.current': string,
   'heap.max': string,

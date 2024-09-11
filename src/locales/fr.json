@@ -264,7 +264,8 @@
       "heap": "Heap",
       "disk": "Disque",
       "name": "Nom",
-      "status": "Statut"
+      "status": "Statut",
+      "version": "Version"
     }
   },
   "query": {

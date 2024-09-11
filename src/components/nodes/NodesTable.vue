@@ -12,12 +12,13 @@
            data-testid="nodes-table"
            :rows-per-page-options="DEFAULT_ROWS_PER_PAGE"
            :pagination="{sortBy: 'name'}">
-    <template #body="{row}">
+    <template #body="{row}: {row: ElasticsearchNode}">
       <tr>
         <td>
           <node-icons :elasticsearch-node="row" />
         </td>
         <td>{{ row.name }}</td>
+        <td>{{ row.version }}</td>
         <td>{{ row.id }}</td>
         <td>{{ row.ip }}</td>
         <td>
@@ -88,13 +89,14 @@
 
   const filter = ref('')
   const items = computed(() => {
-    const results = filterItems<EsNode>(props.nodes, filter.value, ['name', 'ip', 'id'])
+    const results = filterItems<EsNode>(props.nodes, filter.value, ['name', 'ip', 'id', 'version'])
     return results.map(r => new ElasticsearchNode(r))
   })
 
   const columns = genColumns([
     { label: t('cluster_nodes.node_properties.status'), field: '', align: 'left' },
     { label: t('cluster_nodes.node_properties.name'), field: 'name', align: 'left' },
+    { label: t('cluster_nodes.node_properties.version'), field: 'version', align: 'left' },
     { label: t('cluster_nodes.node_properties.id'), field: 'id', align: 'left' },
     { label: t('cluster_nodes.node_properties.ip'), field: 'ip', align: 'left' },
     { label: t('cluster_nodes.node_properties.master'), field: 'master', align: 'left' },

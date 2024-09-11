@@ -73,6 +73,7 @@
       'ip',
       'id',
       'name',
+      'version',
       'heap.percent',
       'heap.current',
       'heap.max',

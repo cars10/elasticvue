@@ -264,7 +264,8 @@
       "heap": "堆内存",
       "disk": "磁盘",
       "name": "名称",
-      "status": "状态"
+      "status": "状态",
+      "version": "版本"
     }
   },
   "query": {

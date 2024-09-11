@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.0
+
+* show node version on nodes overview, fixes [#260](https://github.com/cars10/elasticvue/issues/260)
+* update to vue `3.5`
+
 ## 1.0.11
 
 * update chinese translation, thanks @XiangtingLee, fixes [#251](https://github.com/cars10/elasticvue/pull/251)
