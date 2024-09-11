@@ -1,0 +1,30 @@
+name: changelog
+
+on:
+  push:
+    branches:
+      - gh-workflow
+
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Extract changelog for latest version
+        id: changelog
+        run: |
+          # Extract the changelog for the latest version and trim blank lines
+          CHANGELOG=$(awk '/^## [0-9]+\.[0-9]+\.[0-9]+/ {if (p) exit; p=1; next} p' CHANGELOG.md | sed '/^[[:space:]]*$/d')
+
+          # Output the extracted changelog for debugging
+          echo "$CHANGELOG"
+
+          # Save the changelog as an output to be used in other steps
+          echo "::set-output name=changelog::$CHANGELOG"
+
+      - name: echo changelog again
+        run: |
+          echo "The extracted changelog is: ${{ steps.changelog.outputs.changelog }}"
