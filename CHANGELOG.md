@@ -1,15 +1,12 @@
 # Changelog
 
-## 1.1.0
+## 1.0.11
 
 * show node version on nodes overview, fixes [#260](https://github.com/cars10/elasticvue/issues/260)
 * add vim mode in editor, thanks @fqdeng, fixes [#253](https://github.com/cars10/elasticvue/pull/253)
-* update to vue `3.5`
-
-## 1.0.11
-
 * update chinese translation, thanks @XiangtingLee, fixes [#251](https://github.com/cars10/elasticvue/pull/251)
 * adds french translation, thanks @XNxa, fixes [#250](https://github.com/cars10/elasticvue/pull/250)
+* update to vue `3.5`
 
 ## 1.0.10
 
