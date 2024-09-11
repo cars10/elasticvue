@@ -22,8 +22,7 @@ jobs:
           # Output the extracted changelog for debugging
           echo "$CHANGELOG"
 
-          # Save the changelog as an output to be used in other steps
-          echo "::set-output name=changelog::$CHANGELOG"
+          echo "changelog=$CHANGELOG" >> $GITHUB_OUTPUT
 
       - name: echo changelog again
         run: |
