@@ -456,6 +456,10 @@
       }
     }
   },
+  "editor": {
+    "heading": "Editor",
+    "description": "VIM support"
+  },
   "settings": {
     "heading": "Settings",
     "hide_indices_regex": {

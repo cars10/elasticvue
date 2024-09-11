@@ -456,6 +456,10 @@
       }
     }
   },
+  "editor": {
+    "heading": "Éditeur",
+    "description": "Prise en charge de VIM"
+  },
   "settings": {
     "heading": "Réglages",
     "hide_indices_regex": {
