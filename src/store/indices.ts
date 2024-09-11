@@ -24,7 +24,7 @@ export const useIndicesStore = defineStore('indices', {
     rowsPerPageAccepted: false
   }),
   persist: {
-    paths: [
+    pick: [
       'filter',
       'showHiddenIndices',
       'stickyTableHeader',

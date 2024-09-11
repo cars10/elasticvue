@@ -47,7 +47,7 @@
             </svg>
             <span :class="{'text-underline': currentReroutingShard.index === col.name}">{{ col.label }}</span>
           </div>
-          <small class="text-weight-regular">
+          <small class="text-weight-regular" :title="`${shards.indices[col.name].pri} pri / ${shards.indices[col.name].rep} rep`">
             {{ shards.indices[col.name].pri }}/{{ shards.indices[col.name].rep }} shards
           </small>
         </q-th>

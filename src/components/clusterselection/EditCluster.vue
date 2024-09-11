@@ -17,7 +17,7 @@
 
       <q-card-section>
         <form @submit.prevent>
-          <cluster-form-fields v-model="cluster" v-model:formValid="formValid" />
+          <cluster-form-fields v-model="cluster" v-model:form-valid="formValid" />
 
           <q-btn :label="t('setup.test_and_connect.form.test_connection')"
                  :disable="!formValid"

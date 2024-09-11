@@ -50,7 +50,7 @@ export const useShardsTable = (props: ShardsTableProps, emit: any) => {
     descending: false,
     page: 1,
     rowsPerPage: 10,
-    rowsNumber
+    rowsNumber: rowsNumber.value
   })
 
   const updateTable = (requestProps: any) => {

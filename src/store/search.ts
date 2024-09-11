@@ -38,7 +38,7 @@ export const useSearchStore = () => {
       }
     },
     persist: {
-      paths: [
+      pick: [
         'localizeTimestamp',
         'q',
         'indices',

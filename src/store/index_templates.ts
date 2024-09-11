@@ -19,7 +19,7 @@ export const useIndexTemplatesStore = defineStore('indexTemplates', {
     },
   }),
   persist: {
-    paths: [
+    pick: [
       'filter',
       'showHiddenIndices',
       'stickyTableHeader',
