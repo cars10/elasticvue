@@ -2,12 +2,12 @@ import { defineStore } from 'pinia'
 
 type CodeEditorState = {
   wrapLines: boolean,
-  vimSupport: boolean
+  vimMode: boolean
 }
 
 export const useCodeEditorStore = defineStore('codeEditor', {
   state: (): CodeEditorState => ({
-    vimSupport: false,
+    vimMode: false,
     wrapLines: false
   }),
   persist: true

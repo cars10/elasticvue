@@ -85,7 +85,7 @@ export const useCodeEditor = (editorRef: Ref<HTMLElement | null>, {
     codeMirrorEditor = new EditorView({
       extensions: [
         // make sure vim is included before other keymaps
-        codeEditorStore.vimSupport ? vimExtension : [],
+        codeEditorStore.vimMode ? vimExtension : [],
         basicSetup,
         json(),
         autocompletion({ override: [completions] }),
