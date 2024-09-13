@@ -68,7 +68,7 @@ export const useIndexRow = (props: IndexRowProps, emit: any) => {
     searchStore.searchQuery = DEFAULT_SEARCH_QUERY
 
     const rowsPerPage = searchStore.pagination.rowsPerPage
-    searchStore.pagination = DEFAULT_PAGINATION
+    searchStore.pagination = Object.assign({}, DEFAULT_PAGINATION)
     if (rowsPerPage && rowsPerPage > 0 && rowsPerPage <= 10000) {
       searchStore.searchQuery = stringifyJson(Object.assign({}, DEFAULT_SEARCH_QUERY_OBJ, { size: rowsPerPage }))
       searchStore.pagination.rowsPerPage = rowsPerPage

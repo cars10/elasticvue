@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.12
+
+* fix sorting issue when changing indices, fixes [#261](https://github.com/cars10/elasticvue/issues/261)
+
 ## 1.0.11
 
 * show node version on nodes overview, fixes [#260](https://github.com/cars10/elasticvue/issues/260)

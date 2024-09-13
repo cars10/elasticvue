@@ -29,12 +29,13 @@ export const useSearchStore = () => {
       columns: [],
       visibleColumns: [],
       stickyTableHeader: false,
-      pagination: DEFAULT_PAGINATION,
+      pagination: Object.assign({}, DEFAULT_PAGINATION),
       rowsPerPageAccepted: false
     }),
     actions: {
       resetSearchQuery () {
         this.searchQuery = DEFAULT_SEARCH_QUERY
+        this.pagination = Object.assign({}, DEFAULT_PAGINATION)
       }
     },
     persist: {
