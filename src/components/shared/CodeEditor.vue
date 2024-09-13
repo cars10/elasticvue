@@ -44,7 +44,7 @@
   import { useTranslation } from '../../composables/i18n'
   import { KeyBinding } from '@codemirror/view'
 
-  const props = defineProps<{ modelValue: string, commands?: KeyBinding[] }>()
+  const props = defineProps<{ modelValue: string, commands?: KeyBinding[], onPaste?: (data: string) => void }>()
   const emit = defineEmits(['update:modelValue'])
   const t = useTranslation()
   const codeEditorStore = useCodeEditorStore()
@@ -53,7 +53,8 @@
   const { copyContent, beautifyEditorValue } = useCodeEditor(editor, {
     initialValue: toRef(props, 'modelValue'),
     commands: props.commands,
-    emit
+    emit,
+    onPaste: props.onPaste
   })
 
   const validJson = computed(() => {

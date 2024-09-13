@@ -2,6 +2,7 @@
 
 ## 1.0.12
 
+* parse kibana console queries on paste in REST editor. You can paste kibana console queries into the editor (or use the dedicated button) to fill out the form automatically.
 * fix sorting issue when changing indices, fixes [#261](https://github.com/cars10/elasticvue/issues/261)
 
 ## 1.0.11

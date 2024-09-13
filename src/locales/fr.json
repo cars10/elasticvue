@@ -279,7 +279,8 @@
         },
         "send_request": "Envoyer la requète",
         "save_request": "Enregistrer",
-        "download_as_json": "Télécharger la réponse JSON"
+        "download_as_json": "Télécharger la réponse JSON",
+        "paste_kibana": "Coller la requête de la console kibana"
       },
       "get_request_hint": {
         "cannot_send_body": "Vous ne pouvez pas envoyer de corps via {method}.<br> Veuillez ",

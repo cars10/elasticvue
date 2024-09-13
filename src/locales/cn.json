@@ -279,7 +279,8 @@
         },
         "send_request": "发送请求",
         "save_request": "保存",
-        "download_as_json": "下载为 JSON 文件"
+        "download_as_json": "下载为 JSON 文件",
+        "paste_kibana": "粘贴 kibana 控制台查询"
       },
       "get_request_hint": {
         "cannot_send_body": "你无法通过 {method} 发送请求体，如果要发送请求体，请",

@@ -1,4 +1,4 @@
-import { computed, ref, toRaw, watch } from 'vue'
+import { computed, ref, toRaw, watch, nextTick } from 'vue'
 import { buildFetchAuthHeader } from '../../../helpers/elasticsearchAdapter.ts'
 import { REQUEST_DEFAULT_HEADERS } from '../../../consts'
 import { useConnectionStore } from '../../../store/connection'
@@ -8,6 +8,7 @@ import { removeComments } from '../../../helpers/json/parse'
 import { fetchMethod } from '../../../helpers/fetch'
 import { IdbRestQueryTab, IdbRestQueryTabRequest } from '../../../db/types.ts'
 import { debounce } from '../../../helpers/debounce.ts'
+import { parseKibana } from '../../../helpers/parseKibana.ts'
 
 type RestQueryFormProps = {
   tab: IdbRestQueryTab
@@ -139,6 +140,18 @@ export const useRestQueryForm = (props: RestQueryFormProps, emit: any) => {
     return `${ownTab.value.request.method.toLowerCase()}_${ownTab.value.request.path.replace(/[\W_]+/g, '_')}.json`
   })
 
+  const onPaste = (data: string) => {
+    const kibanaRequest = parseKibana(data)
+
+      nextTick(() => {
+      if (kibanaRequest.method) {
+        ownTab.value.request.method = kibanaRequest.method
+        ownTab.value.request.path = kibanaRequest.path ||  ''
+        ownTab.value.request.body = kibanaRequest.body ||  ''
+      }
+    })
+  }
+
   return {
     saveQuery,
     ownTab,
@@ -147,6 +160,7 @@ export const useRestQueryForm = (props: RestQueryFormProps, emit: any) => {
     downloadFileName,
     loading,
     sendRequest,
-    responseStatusClass
+    responseStatusClass,
+    onPaste
   }
 }

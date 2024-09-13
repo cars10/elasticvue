@@ -1,5 +1,14 @@
 <template>
   <q-form @submit.prevent="sendRequest">
+    <div class="q-mb-md">
+      <q-btn :label="t('query.rest.form.paste_kibana')"
+             flat
+             size="md"
+             no-caps
+             class="btn-link q-py-none q-px-sm"
+             @click="pasteClipboard" />
+    </div>
+
     <div class="flex">
       <q-select v-model="ownTab.request.method"
                 :options="HTTP_METHODS"
@@ -51,7 +60,8 @@
 
           <code-editor v-show="!['GET', 'HEAD'].includes(ownTab.request.method)"
                        v-model="ownTab.request.body"
-                       :commands="editorCommands" />
+                       :commands="editorCommands"
+                       :on-paste="onPaste" />
         </div>
         <div class="col-6 q-pl-sm full-height">
           <code-viewer :value="ownTab.response.bodyText" />
@@ -97,6 +107,10 @@
   const t = useTranslation()
   const props = defineProps<{ tab: IdbRestQueryTab }>()
   const emit = defineEmits(['reloadHistory', 'reloadSavedQueries'])
+  const pasteClipboard = async () => {
+    const text = await navigator.clipboard.readText()
+    onPaste(text)
+  }
 
   const resizeStore = useResizeStore()
   const {
@@ -107,6 +121,7 @@
     downloadFileName,
     loading,
     sendRequest,
-    responseStatusClass
+    responseStatusClass,
+    onPaste
   } = useRestQueryForm(props, emit)
 </script>

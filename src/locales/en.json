@@ -279,7 +279,8 @@
         },
         "send_request": "Send request",
         "save_request": "Save",
-        "download_as_json": "Download response body"
+        "download_as_json": "Download response body",
+        "paste_kibana": "Paste kibana console query"
       },
       "get_request_hint": {
         "cannot_send_body": "You cannot send a request body via {method}.<br> Please ",
