@@ -30,6 +30,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Extract changelog for latest version - just for testing, so the pipeline fails earily if it breaks
+        if: matrix.platform == 'ubuntu-latest'
         id: changelog
         run: |
           # Extract the changelog for the latest version and trim blank lines
