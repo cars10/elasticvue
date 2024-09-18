@@ -5,6 +5,8 @@ export const REQUEST_DEFAULT_HEADERS = {
   'Content-Type': 'application/json'
 }
 
+export type ValidTheme = boolean | 'auto'
+
 export const SUPPORTED_COUNTRY_LOCALES: Record<string, ValidLocale> = {
   en: 'en',
   cn: 'cn',

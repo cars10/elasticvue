@@ -11,9 +11,19 @@ test.describe('base', () => {
 
   test.describe('footer', () => {
     test.describe('theme', () => {
-      test('defaults to light theme', async ({ page }) => {
+      test('defaults to auto theme', async ({ page }) => {
         await openElasticvue(page)
-        const body = page.locator('body')
+        page.getByTestId('change-theme-button').click()
+
+        await expect(page.getByTestId('change-theme__auto')).toHaveClass(/q-item--active/)
+      })
+
+      test('can change to light theme', async ({ page }) => {
+        await openElasticvue(page)
+        const body = await page.locator('body')
+        page.getByTestId('change-theme-button').click()
+        page.getByTestId('change-theme__light').click()
+
         await expect(body).toHaveClass(/theme--light/)
         await expect(body).not.toHaveClass(/theme--dark/)
       })
@@ -22,6 +32,7 @@ test.describe('base', () => {
         await openElasticvue(page)
         const body = await page.locator('body')
         page.getByTestId('change-theme-button').click()
+        page.getByTestId('change-theme__dark').click()
 
         await expect(body).toHaveClass(/theme--dark/)
         await expect(body).not.toHaveClass(/theme--light/)

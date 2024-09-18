@@ -39,12 +39,6 @@
   const route = useRoute()
 
   onMounted(() => {
-    if (themeStore.dark) {
-      document.body.classList.remove('body--light')
-      document.body.classList.add('theme--dark')
-    } else {
-      document.body.classList.remove('theme--dark')
-      document.body.classList.add('theme--light')
-    }
+    themeStore.updateThemeClass()
   })
 </script>
