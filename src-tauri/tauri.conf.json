@@ -1,58 +1,60 @@
 {
-  "package": {
-    "productName": "elasticvue",
-    "version": "1.0.12"
-  },
-  "build": {
-    "distDir": "../dist",
-    "devPath": "http://localhost:5174",
-    "beforeDevCommand": "npx cross-env VITE_APP_BUILD_MODE=tauri yarn dev --port=5174",
-    "beforeBuildCommand": "npx cross-env VITE_APP_BUILD_MODE=tauri yarn build"
-  },
-  "tauri": {
-    "bundle": {
-      "active": true,
-      "targets": "all",
-      "identifier": "com.elasticvue.app",
-      "icon": [
-        "icons/32x32.png",
-        "icons/128x128.png",
-        "icons/128x128@2x.png",
-        "icons/icon.icns",
-        "icons/icon.ico"
-      ],
-      "resources": [],
-      "externalBin": [],
-      "copyright": "",
-      "category": "DeveloperTool",
-      "shortDescription": "",
-      "longDescription": "",
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "windows": {
+      "certificateThumbprint": null,
+      "digestAlgorithm": "sha256",
+      "timestampUrl": ""
+    },
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "resources": [],
+    "externalBin": [],
+    "copyright": "",
+    "category": "DeveloperTool",
+    "shortDescription": "",
+    "longDescription": "",
+    "macOS": {
+      "frameworks": [],
+      "exceptionDomain": "",
+      "signingIdentity": null,
+      "providerShortName": null,
+      "entitlements": null
+    },
+    "linux": {
       "deb": {
         "depends": []
-      },
-      "macOS": {
-        "frameworks": [],
-        "exceptionDomain": "",
-        "signingIdentity": null,
-        "providerShortName": null,
-        "entitlements": null
-      },
-      "windows": {
-        "certificateThumbprint": null,
-        "digestAlgorithm": "sha256",
-        "timestampUrl": ""
       }
     },
+    "createUpdaterArtifacts": "v1Compatible"
+  },
+  "build": {
+    "beforeBuildCommand": "npx cross-env VITE_APP_BUILD_MODE=tauri yarn build",
+    "frontendDist": "../dist",
+    "beforeDevCommand": "npx cross-env VITE_APP_BUILD_MODE=tauri yarn dev --port=5174",
+    "devUrl": "http://localhost:5174"
+  },
+  "productName": "elasticvue",
+  "mainBinaryName": "elasticvue",
+  "version": "1.0.12",
+  "identifier": "com.elasticvue.app",
+  "plugins": {
     "updater": {
-      "active": true,
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEU3OEJEOUYwQjg4RDgyQjMKUldTemdvMjQ4Tm1MNTdqNy9LaWFYenVweHFsTnE4eU1XRWNzR2Z5TEFkbzgySHMycDl0NFFaSmsK",
       "endpoints": [
         "https://update.elasticvue.com/api/update_check/{{target}}/{{arch}}/{{current_version}}"
-      ],
-      "dialog": true,
-      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEU3OEJEOUYwQjg4RDgyQjMKUldTemdvMjQ4Tm1MNTdqNy9LaWFYenVweHFsTnE4eU1XRWNzR2Z5TEFkbzgySHMycDl0NFFaSmsK"
-    },
-    "allowlist": {
-      "all": true
+      ]
+    }
+  },
+  "app": {
+    "security": {
+      "csp": null
     },
     "windows": [
       {
@@ -62,9 +64,6 @@
         "resizable": true,
         "fullscreen": false
       }
-    ],
-    "security": {
-      "csp": null
-    }
+    ]
   }
 }

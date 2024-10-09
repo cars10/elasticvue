@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.0
+
+* update to tauri `2.0`
+
 ## 1.0.12
 
 * parse kibana console queries on paste in REST editor. You can paste kibana console queries into the editor (or use the dedicated button) to fill out the form automatically.

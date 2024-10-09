@@ -14,8 +14,8 @@
 
 <script setup lang="ts">
   import { ref, nextTick, Ref } from 'vue'
-  import { save } from '@tauri-apps/api/dialog'
-  import { invoke } from '@tauri-apps/api/tauri'
+  import { save } from '@tauri-apps/plugin-dialog'
+  import { invoke } from '@tauri-apps/api/core'
   import prettyBytes from 'pretty-bytes'
   import { useSnackbar } from '../../composables/Snackbar'
   import { buildConfig } from '../../buildConfig.ts'

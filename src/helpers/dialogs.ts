@@ -1,4 +1,4 @@
-import { confirm } from '@tauri-apps/api/dialog'
+import { confirm } from '@tauri-apps/plugin-dialog'
 import { buildConfig } from '../buildConfig.ts'
 
 export const askConfirm = (msg: string) => {

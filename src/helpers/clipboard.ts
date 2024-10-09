@@ -1,4 +1,4 @@
-import { writeText } from '@tauri-apps/api/clipboard'
+import { writeText } from '@tauri-apps/plugin-clipboard-manager'
 import { buildConfig } from '../buildConfig.ts'
 
 export const writeToClipboard = (text: string) => {

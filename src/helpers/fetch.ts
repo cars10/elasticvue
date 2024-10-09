@@ -1,4 +1,4 @@
-import { invoke } from '@tauri-apps/api/tauri'
+import { invoke } from '@tauri-apps/api/core'
 import { buildConfig } from '../buildConfig.ts'
 import { parseJson } from './json/parse.ts'
 

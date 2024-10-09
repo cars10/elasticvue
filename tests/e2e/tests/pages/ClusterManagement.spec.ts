@@ -40,6 +40,7 @@ withElastic(({ mockElastic, elastic }) => {
         await setupClusterSelectionTest(page)
         await page.getByTestId('cluster-table-row-1').click()
 
+        await page.waitForURL('**/cluster/1')
         expect(page.url()).toContain('/cluster/1')
       })
 
