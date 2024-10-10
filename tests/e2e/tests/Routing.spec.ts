@@ -142,6 +142,7 @@ withElastic(({ mockElastic, elastic }) => {
 
           for (const value of invalids) {
             await page.goto(`http://localhost:5175/cluster/${value}`)
+            await page.waitForURL('**/cluster/0')
             expect(page.url()).toContain('/cluster/0')
           }
         })
