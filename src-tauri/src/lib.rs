@@ -33,7 +33,9 @@ pub fn run() {
                     .with_shortcut("CmdOrCtrl+Q")?
                     .with_handler(|_app, shortcut, event| {
                         if event.state == ShortcutState::Pressed {
-                            if shortcut.matches(Modifiers::CONTROL, Code::KeyQ) {
+                            if shortcut.matches(Modifiers::CONTROL, Code::KeyQ)
+                                || shortcut.matches(Modifiers::SUPER, Code::KeyQ)
+                            {
                                 std::process::exit(0);
                             }
                         }
