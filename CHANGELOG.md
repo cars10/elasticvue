@@ -2,7 +2,8 @@
 
 ## 1.1.0
 
-* update to tauri `2.0`
+* update to tauri `2.0`, fixes [#228](https://github.com/cars10/elasticvue/issues/228)
+* adds `auto` theme setting (default), fixes [#255](https://github.com/cars10/elasticvue/issues/255)
 
 ## 1.0.12
 
