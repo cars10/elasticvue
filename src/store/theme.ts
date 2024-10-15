@@ -1,23 +1,34 @@
 import { defineStore } from 'pinia'
 
-export type ThemeState = {
-  dark: boolean
+export enum ThemePreferences  {
+  light = 'light',
+  dark = 'dark',
+  auto = 'auto'
+}
+
+export enum AppThemes {
+  light = 'light',
+  dark = 'dark'
+}
+
+type ThemeState = {
+  preference: ThemePreferences,
+  appTheme: AppThemes
 }
 
 export const useThemeStore = defineStore('theme', {
   state: (): ThemeState => ({
-    dark: window.matchMedia('(prefers-color-scheme: dark)').matches
+    preference: ThemePreferences.auto,
+    appTheme: window.matchMedia('(prefers-color-scheme: light)').matches ? AppThemes.light : AppThemes.dark
   }),
   actions: {
-    toggleTheme () {
-      this.dark = !this.dark
+    setPreference(preference: ThemePreferences) {
+      this.preference = preference
 
-      if (this.dark) {
-        document.body.classList.add('theme--dark')
-        document.body.classList.remove('theme--light')
+      if (preference === ThemePreferences.auto) {
+        this.appTheme = window.matchMedia('(prefers-color-scheme: light)').matches ? AppThemes.light : AppThemes.dark
       } else {
-        document.body.classList.add('theme--light')
-        document.body.classList.remove('theme--dark')
+        this.appTheme = preference as unknown as AppThemes
       }
     }
   },

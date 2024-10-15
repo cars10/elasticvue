@@ -8,7 +8,6 @@
                 v-close-popup
                 clickable
                 dense
-                
                 active-class="bg-grey-8"
                 :active="store.language === code"
                 :title="title"
