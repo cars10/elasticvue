@@ -29,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-  import { useThemeStore } from '../../store/theme.js'
+  import { ThemePreferences, useThemeStore } from '../../store/theme.js'
   import { computed } from 'vue'
   import { useTranslation } from '../../composables/i18n.ts'
   import { setAppThemeCss } from '../../helpers/theme.ts'
@@ -37,11 +37,11 @@
   const themeStore = useThemeStore()
   const t = useTranslation()
   const themes = {
-    light: 'light_mode',
-    dark: 'dark_mode',
-    auto: 'brightness_medium'
+    [ThemePreferences.light]: 'light_mode',
+    [ThemePreferences.dark]: 'dark_mode',
+    [ThemePreferences.auto]: 'brightness_medium'
   }
-  const changeTheme = (theme) => {
+  const changeTheme = (theme: ThemePreferences) => {
     themeStore.setPreference(theme)
     setAppThemeCss(themeStore.appTheme)
   }

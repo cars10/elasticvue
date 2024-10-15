@@ -11,7 +11,7 @@ export enum AppThemes {
   dark = 'dark'
 }
 
-type ThemeState = {
+export type ThemeState = {
   preference: ThemePreferences,
   appTheme: AppThemes
 }
