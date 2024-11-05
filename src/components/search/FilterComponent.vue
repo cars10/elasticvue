@@ -10,7 +10,7 @@
         <select
           v-model="filter.bool"
           class="filter"
-          @change="updateFilter(index)"
+          @change="updateQueryString(index)"
         >
           <option value="must">must</option>
           <option value="must_not">must not</option>
@@ -34,6 +34,21 @@
           class="filter"
           @change="updateOp(index)"
         >
+          <option
+            v-for="option in opOptions"
+            :key="option.value"
+            :value="option.value"
+          >
+            {{ option.label }}
+          </option>
+        </select>
+
+        <!-- <select
+          v-if="filter.field !== 'match_all'"
+          v-model="filter.op"
+          class="filter"
+          @change="updateOp(index)"
+        >
           <option v-if="filter.field !== '_all'" value="match">match</option>
           <option v-if="filter.field !== '_all'" value="term">term</option>
           <option v-if="filter.field !== '_all'" value="wildcard">wildcard</option>
@@ -43,7 +58,7 @@
           <option value="query_string">query_string</option>
           <option v-if="filter.field !== '_all'" value="text">text</option>
           <option v-if="filter.field !== '_all'" value="missing">missing</option>
-        </select>
+        </select> -->
 
         <!-- Handle Fuzzy -->
 
@@ -143,13 +158,14 @@ const {
   filters,
   addFilterRow,
   removeFilterRow,
-  updateFilter,
+  updateQueryString,
   updateValue,
   updateRangeValue,
   updateFuzzyValue,
   updateOp,
   updateField,
   allFields,
+  opOptions,
 } = useFilterComponent();
 </script>
 

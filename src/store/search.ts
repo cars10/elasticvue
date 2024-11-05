@@ -12,7 +12,8 @@ type SearchState = {
   visibleColumns: string[]
   stickyTableHeader: boolean
   pagination: any
-  rowsPerPageAccepted: boolean
+  rowsPerPageAccepted: boolean,
+  allColumnProperties: any;
 }
 
 export const useSearchStore = () => {
@@ -30,7 +31,8 @@ export const useSearchStore = () => {
       visibleColumns: [],
       stickyTableHeader: false,
       pagination: Object.assign({}, DEFAULT_PAGINATION),
-      rowsPerPageAccepted: false
+      rowsPerPageAccepted: false,
+      allColumnProperties: {}
     }),
     actions: {
       resetSearchQuery () {
