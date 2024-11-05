@@ -29,10 +29,10 @@ export const useFilterComponent = () => {
     { label: 'range', value: 'range', alwaysShow: false },
     { label: 'query_string', value: 'query_string', alwaysShow: true },
     { label: 'text', value: 'text', alwaysShow: false },
-    { label: 'missing', value: 'missing', alwaysShow: false }
-  ]
+    { label: 'missing', value: 'missing', alwaysShow: false },
+  ];
 
-  let opOptions = ref([...operations]);
+  const opOptions = ref([...operations]);
 
   const allFields = ref<string[]>([]);
 
@@ -112,37 +112,58 @@ export const useFilterComponent = () => {
   const updateField = (index: number) => {
     const { field } = filters.value[index];
     const computedOp = computed(() => {
-        return updateFilterWithType(field);
+      return updateFilterWithType(field);
     });
     filters.value[index].op = computedOp.value;
     filters.value[index].value = '';
-    field === 'match_all' ? updateMatchAllFilter(index) : updateQueryString(index);
+    field === 'match_all'
+      ? updateMatchAllFilter(index)
+      : updateQueryString(index);
   };
 
   const updateFilterWithType = (field: string): string => {
     resetOpOptions();
-   if (field === '_all') {
-      removeItemsByLabels(['match', 'term', 'wildcard', 'prefix', 'fuzzy', 'range', 'text', 'missing']);
+    if (field === '_all') {
+      removeItemsByLabels([
+        'match',
+        'term',
+        'wildcard',
+        'prefix',
+        'fuzzy',
+        'range',
+        'text',
+        'missing',
+      ]);
       return 'query_string';
-    }
-    else if(field === 'match_all'){
-      removeItemsByLabels(['match', 'term', 'wildcard', 'prefix', 'fuzzy', 'range', 'text', 'missing', 'query_string']);
-      return ''; 
-    }
-    else if (searchStore.allColumnProperties[field].type === 'date') {
+    } else if (field === 'match_all') {
+      removeItemsByLabels([
+        'match',
+        'term',
+        'wildcard',
+        'prefix',
+        'fuzzy',
+        'range',
+        'text',
+        'missing',
+        'query_string',
+      ]);
+      return '';
+    } else if (searchStore.allColumnProperties[field].type === 'date') {
       removeItemsByLabels(['match', 'prefix', 'wildcard', 'text']);
       return 'term';
-    }
-    else if (searchStore.allColumnProperties[field].type === 'integer' || searchStore.allColumnProperties[field].type === 'long') {
+    } else if (
+      searchStore.allColumnProperties[field].type === 'integer' ||
+      searchStore.allColumnProperties[field].type === 'long'
+    ) {
       removeItemsByLabels(['match', 'prefix', 'wildcard', 'text']);
       return 'term';
     }
     return 'match';
-    function removeItemsByLabels(labelsToRemove:string[]) {
+    function removeItemsByLabels(labelsToRemove: string[]) {
       opOptions.value = opOptions.value.filter(
         (item) => !labelsToRemove.includes(item.label)
       );
-      opOptions 
+      opOptions;
     }
     function resetOpOptions() {
       opOptions.value = [...operations];
@@ -224,7 +245,7 @@ export const useFilterComponent = () => {
     let newCondition: TermQuery = {
       [field]: {},
     };
-    if(op === ''){
+    if (op === '') {
       return newCondition;
     }
     if (op === 'missing') {
@@ -240,15 +261,13 @@ export const useFilterComponent = () => {
           query: value,
         },
       };
-    }
-    else if(op === 'range'){
+    } else if (op === 'range') {
       newCondition = {
         [op]: {
           [field]: {},
         },
       };
-    }
-    else{
+    } else {
       newCondition = {
         [op]: {
           [field]: value,
@@ -277,53 +296,47 @@ export const useFilterComponent = () => {
       if (bool === 'must') {
         targetObject.query.bool.must[index]['query_string']['query'] = value;
       } else if (bool === 'must_not') {
-        targetObject.query.bool.must_not[index]['query_string']['query'] = value;
+        targetObject.query.bool.must_not[index]['query_string']['query'] =
+          value;
       } else if (bool === 'should') {
         targetObject.query.bool.should[index]['query_string']['query'] = value;
       }
       setSearchQuery(targetObject);
       return;
-    }
-    else{
-      if (bool === 'must') {
-        targetObject.query.bool.must[index][op][field] = value;
-      } else if (bool === 'must_not') {
-        targetObject.query.bool.must_not[index][op][field] = value;
-      } else if (bool === 'should') {
-        targetObject.query.bool.should[index][op][field] = value;
-      }
+    } else {
+      updateTargetObject(index, value);
       setSearchQuery(targetObject);
     }
   };
 
   const updateRangeValue = (index: number) => {
-    const {
-      bool,
-      field,
-      op,
-      rangeLevel1,
-      rangeLevel1Value,
-      rangeLevel2,
-      rangeLevel2Value,
-    } = filters.value[index];
+    const { rangeLevel1, rangeLevel1Value, rangeLevel2, rangeLevel2Value } =
+      filters.value[index];
     const newCondition: TermQuery = {
-        [rangeLevel1]: rangeLevel1Value,
-        [rangeLevel2]: rangeLevel2Value,
+      [rangeLevel1]: rangeLevel1Value,
+      [rangeLevel2]: rangeLevel2Value,
     };
-    if (bool === 'must') {
-      targetObject.query.bool.must[index][op][field] = newCondition;
-    } else if (bool === 'must_not') {
-      targetObject.query.bool.must_not[index][op][field] = newCondition;
-    } else if (bool === 'should') {
-      targetObject.query.bool.should[index][op][field] = newCondition;
-    }
+    updateTargetObject(index, newCondition);
     setSearchQuery(targetObject);
   };
 
   const updateFuzzyValue = (index: number) => {
-    const { bool, field, op, fuzzyOp, fuzzyLevel, fuzzyLevelValue } =
-      filters.value[index];
-    const newCondition: TermQuery = getFuzzyOpCondition();
+    const { fuzzyOp, fuzzyLevel, fuzzyLevelValue } = filters.value[index];
+    let newCondition: TermQuery = {
+      ['value']: fuzzyOp,
+      [fuzzyLevel]: fuzzyLevelValue,
+    };
+    if (fuzzyLevelValue === '') {
+      newCondition = {
+        ['value']: fuzzyOp,
+      };
+    }
+    updateTargetObject(index, newCondition);
+    setSearchQuery(targetObject);
+  };
+
+  function updateTargetObject(index: number, newCondition: any) {
+    const { bool, field, op } = filters.value[index];
     if (bool === 'must') {
       targetObject.query.bool.must[index][op][field] = newCondition;
     } else if (bool === 'must_not') {
@@ -331,21 +344,7 @@ export const useFilterComponent = () => {
     } else if (bool === 'should') {
       targetObject.query.bool.should[index][op][field] = newCondition;
     }
-    setSearchQuery(targetObject);
-
-    function getFuzzyOpCondition() {
-      let newCondition: TermQuery = {
-        ['value']: fuzzyOp,
-        [fuzzyLevel]: fuzzyLevelValue,
-      };
-      if (fuzzyLevelValue === '') {
-        newCondition = {
-          ['value']: fuzzyOp,
-        };
-      }
-      return newCondition;
-    }
-  };
+  }
 
   return {
     filters,
@@ -358,6 +357,6 @@ export const useFilterComponent = () => {
     updateOp,
     updateField,
     allFields,
-    opOptions
+    opOptions,
   };
 };
