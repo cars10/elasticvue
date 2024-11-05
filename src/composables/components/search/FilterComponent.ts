@@ -304,7 +304,13 @@ export const useFilterComponent = () => {
       setSearchQuery(targetObject);
       return;
     } else {
-      updateTargetObject(index, value);
+      if (bool === 'must') {
+        targetObject.query.bool.must[index][op][field] = value;
+      } else if (bool === 'must_not') {
+        targetObject.query.bool.must_not[index][op][field] = value;
+      } else if (bool === 'should') {
+        targetObject.query.bool.should[index][op][field] = value;
+      }
       setSearchQuery(targetObject);
     }
   };
@@ -322,20 +328,27 @@ export const useFilterComponent = () => {
 
   const updateFuzzyValue = (index: number) => {
     const { fuzzyOp, fuzzyLevel, fuzzyLevelValue } = filters.value[index];
-    let newCondition: TermQuery = {
-      ['value']: fuzzyOp,
-      [fuzzyLevel]: fuzzyLevelValue,
-    };
-    if (fuzzyLevelValue === '') {
-      newCondition = {
-        ['value']: fuzzyOp,
-      };
-    }
-    updateTargetObject(index, newCondition);
+    updateTargetObject(index, getFuzzyOpCondition());
     setSearchQuery(targetObject);
+
+    function getFuzzyOpCondition() {
+      let newCondition: TermQuery = {
+        ['value']: fuzzyOp,
+        [fuzzyLevel]: fuzzyLevelValue,
+      };
+      if (fuzzyLevelValue === '') {
+        newCondition = {
+          ['value']: fuzzyOp,
+        };
+      }
+      return newCondition;
+    }
   };
 
-  function updateTargetObject(index: number, newCondition: any) {
+  function updateTargetObject(
+    index: number,
+    newCondition: any
+  ) {
     const { bool, field, op } = filters.value[index];
     if (bool === 'must') {
       targetObject.query.bool.must[index][op][field] = newCondition;
