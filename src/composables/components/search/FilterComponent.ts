@@ -132,48 +132,29 @@ export const useFilterComponent = () => {
 
   const updateFilterWithType = (field: string): string => {
     resetOpOptions();
-    if (field === '_all') {
-      removeItemsByLabels([
-        'match',
-        'term',
-        'wildcard',
-        'prefix',
-        'fuzzy',
-        'range',
-        'text',
-        'missing',
-      ]);
-      return 'query_string';
-    } else if (field === 'match_all') {
-      removeItemsByLabels([
-        'match',
-        'term',
-        'wildcard',
-        'prefix',
-        'fuzzy',
-        'range',
-        'text',
-        'missing',
-        'query_string',
-      ]);
-      return '';
-    } else if (searchStore.allColumnProperties[field].type === 'date') {
-      removeItemsByLabels(['match', 'prefix', 'wildcard', 'text']);
-      return 'term';
-    } else if (
-      searchStore.allColumnProperties[field].type === 'integer' ||
-      searchStore.allColumnProperties[field].type === 'long'
-    ) {
-      removeItemsByLabels(['match', 'prefix', 'wildcard', 'text']);
-      return 'term';
+  
+    switch (field) {
+      case '_all':
+        removeItems(['match', 'term', 'wildcard', 'prefix', 'fuzzy', 'range', 'text', 'missing']);
+        return 'query_string';
+  
+      case 'match_all':
+        removeItems(['match', 'term', 'wildcard', 'prefix', 'fuzzy', 'range', 'text', 'missing', 'query_string']);
+        return '';
+  
+      default:
+        const fieldType = searchStore.allColumnProperties[field]?.type;
+        if (fieldType === 'date' || fieldType === 'integer' || fieldType === 'long') {
+          removeItems(['match', 'prefix', 'wildcard', 'text']);
+          return 'term';
+        }
+        return 'match';
     }
-    return 'match';
-    function removeItemsByLabels(labelsToRemove: string[]) {
-      opOptions.value = opOptions.value.filter(
-        (item) => !labelsToRemove.includes(item.label)
-      );
-      opOptions;
+  
+    function removeItems(labels: string[]) {
+      opOptions.value = opOptions.value.filter(item => !labels.includes(item.label));
     }
+  
     function resetOpOptions() {
       opOptions.value = [...operations];
     }
@@ -181,18 +162,9 @@ export const useFilterComponent = () => {
 
   const updateOp = (index: number) => {
     const { op } = filters.value[index];
-    const computedFuzzyLevel = computed(() => {
-      return op === 'fuzzy' ? 'max_expansions' : 'match';
-    });
-    const computedRangeLevel1 = computed(() => {
-      return op === 'range' ? 'gt' : 'gte';
-    });
-    const computedRangeLevel2 = computed(() => {
-      return op === 'range' ? 'lt' : 'lte';
-    });
-    filters.value[index].fuzzyLevel = computedFuzzyLevel.value;
-    filters.value[index].rangeLevel1 = computedRangeLevel1.value;
-    filters.value[index].rangeLevel2 = computedRangeLevel2.value;
+    filters.value[index].fuzzyLevel = op === 'fuzzy' ? 'max_expansions' : 'match';
+    filters.value[index].rangeLevel1 = op === 'range' ? 'gt' : 'gte';
+    filters.value[index].rangeLevel2 = op === 'range' ? 'lt' : 'lte';
     updateQueryString(index);
   };
 
