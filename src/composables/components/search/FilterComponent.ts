@@ -66,7 +66,7 @@ export const useFilterComponent = () => {
     searchStore.searchQuery = JSON.stringify(targetObject);
     allFields.value.push('match_all');
     allFields.value.push('_all');
-    const fieldsToAdd = filterDisplayFieldName(searchStore.visibleColumns);
+    const fieldsToAdd = filterDisplayFieldName(searchStore.columns);
     allFields.value.push(...fieldsToAdd);
   });
 
@@ -103,9 +103,7 @@ export const useFilterComponent = () => {
 
   const removeFilterRow = (index: number) => {
     filters.value.splice(index, 1);
-    targetObject.query.bool.must[index] = {};
-    targetObject.query.bool.must_not[index] = {};
-    targetObject.query.bool.should[index] = {};
+    resetTargetObject(index);
     setSearchQuery(targetObject);
   };
 
@@ -119,6 +117,17 @@ export const useFilterComponent = () => {
     field === 'match_all'
       ? updateMatchAllFilter(index)
       : updateQueryString(index);
+  };
+
+  const updateQueryString = (index: number) => {
+    resetTargetObject(index);
+    updateMatchAllFilter(index);
+  };
+
+  const updateMatchAllFilter = (index: number) => {
+    const newCondition: TermQuery = getOpCondition(index);
+    updateTargetObject(index, newCondition);
+    setSearchQuery(targetObject);
   };
 
   const updateFilterWithType = (field: string): string => {
@@ -187,18 +196,90 @@ export const useFilterComponent = () => {
     updateQueryString(index);
   };
 
-  const updateQueryString = (index: number) => {
-    const { bool, op } = filters.value[index];
-    handleBoolChange(index);
-    const newCondition: TermQuery = getOpCondition(index);
-    if (op === 'missing') {
-      setMissingOperatorQuery();
-    } else {
-      setNonMissingOperatorQuery();
-    }
-    setSearchQuery(targetObject);
+  const setSearchQuery = (targetObject: SearchQuery) => {
+    const filterNonEmpty = (items: any[]) =>
+      items.filter((item) => item && Object.keys(item).length > 0);
+    const formattedTargetObject: SearchQuery = {
+      ...targetObject,
+      query: {
+        ...targetObject.query,
+        bool: {
+          ...targetObject.query.bool,
+          must: filterNonEmpty(targetObject.query.bool.must),
+          must_not: filterNonEmpty(targetObject.query.bool.must_not),
+          should: filterNonEmpty(targetObject.query.bool.should),
+        },
+      },
+    };
+    searchStore.searchQuery = JSON.stringify(formattedTargetObject);
+  };
 
-    function setNonMissingOperatorQuery() {
+  const getOpCondition = (index: number) => {
+    const {
+      field,
+      op,
+      value,
+      fuzzyOp,
+      fuzzyLevel,
+      fuzzyLevelValue,
+      rangeLevel1,
+      rangeLevel2,
+      rangeLevel1Value,
+      rangeLevel2Value,
+    } = filters.value[index];
+    if (op === '' || field === 'match_all') {
+      return { [field]: {} };
+    }
+    switch (op) {
+      case 'missing':
+        return { exists: { field } };
+
+      case 'query_string':
+        return { query_string: { default_field: field, query: value } };
+
+      case 'range':
+        return {
+          [op]: {
+            [field]:
+              rangeLevel1Value !== ''
+                ? {
+                    [rangeLevel1]: rangeLevel1Value,
+                    [rangeLevel2]: rangeLevel2Value,
+                  }
+                : {},
+          },
+        };
+
+      case 'fuzzy':
+        return {
+          [op]: {
+            [field]:
+              fuzzyLevelValue !== ''
+                ? { value: fuzzyOp, [fuzzyLevel]: fuzzyLevelValue }
+                : { value: fuzzyOp },
+          },
+        };
+
+      default:
+        return { [op]: { [field]: value } };
+    }
+  };
+
+  const updateValue = (index: number) => {
+    const newCondition: TermQuery = getOpCondition(index);
+    updateTargetObject(index, newCondition);
+    setSearchQuery(targetObject);
+  };
+
+  function updateTargetObject(index: number, newCondition: any) {
+    const { bool, op } = filters.value[index];
+    if (op == 'missing') {
+      if (bool === 'must' || bool === 'should') {
+        targetObject.query.bool.must_not[index] = newCondition;
+      } else if (bool === 'must_not') {
+        targetObject.query.bool.must[index] = newCondition;
+      }
+    } else {
       if (bool === 'must') {
         targetObject.query.bool.must[index] = newCondition;
       } else if (bool === 'must_not') {
@@ -207,156 +288,12 @@ export const useFilterComponent = () => {
         targetObject.query.bool.should[index] = newCondition;
       }
     }
-    function setMissingOperatorQuery() {
-      if (bool === 'must' || bool === 'should') {
-        targetObject.query.bool.must_not[index] = newCondition;
-      } else if (bool === 'must_not') {
-        targetObject.query.bool.must[index] = newCondition;
-      }
-    }
-  };
+  }
 
-  const setSearchQuery = (targetObject: SearchQuery) => {
-    const formattedTargetObject: SearchQuery = JSON.parse(
-      JSON.stringify(targetObject)
-    );
-    formattedTargetObject.query.bool.must = targetObject.query.bool.must.filter(
-      (item) => item && Object.keys(item).length > 0
-    );
-    formattedTargetObject.query.bool.must_not =
-      targetObject.query.bool.must_not.filter(
-        (item) => item && Object.keys(item).length > 0
-      );
-    formattedTargetObject.query.bool.should =
-      targetObject.query.bool.should.filter(
-        (item) => item && Object.keys(item).length > 0
-      );
-    searchStore.searchQuery = JSON.stringify(formattedTargetObject);
-  };
-
-  const handleBoolChange = (index: number) => {
+  function resetTargetObject(index: number) {
     targetObject.query.bool.must[index] = {};
     targetObject.query.bool.must_not[index] = {};
     targetObject.query.bool.should[index] = {};
-  };
-
-  const getOpCondition = (index: number) => {
-    const { field, op, value } = filters.value[index];
-    let newCondition: TermQuery = {
-      [field]: {},
-    };
-    if (op === '') {
-      return newCondition;
-    }
-    if (op === 'missing') {
-      newCondition = {
-        ['exists']: {
-          field: field,
-        },
-      };
-    } else if (op === 'query_string') {
-      newCondition = {
-        ['query_string']: {
-          default_field: field,
-          query: value,
-        },
-      };
-    } else if (op === 'range') {
-      newCondition = {
-        [op]: {
-          [field]: {},
-        },
-      };
-    } else {
-      newCondition = {
-        [op]: {
-          [field]: value,
-        },
-      };
-    }
-    return newCondition;
-  };
-
-  const updateMatchAllFilter = (index: number) => {
-    const { bool, field } = filters.value[index];
-    const newCondition: TermQuery = { [field]: {} };
-    if (bool === 'must') {
-      targetObject.query.bool.must[index] = newCondition;
-    } else if (bool === 'must_not') {
-      targetObject.query.bool.must_not[index] = newCondition;
-    } else if (bool === 'should') {
-      targetObject.query.bool.should[index] = newCondition;
-    }
-    setSearchQuery(targetObject);
-  };
-
-  const updateValue = (index: number) => {
-    const { bool, field, op, value } = filters.value[index];
-    if (op === 'query_string') {
-      if (bool === 'must') {
-        targetObject.query.bool.must[index]['query_string']['query'] = value;
-      } else if (bool === 'must_not') {
-        targetObject.query.bool.must_not[index]['query_string']['query'] =
-          value;
-      } else if (bool === 'should') {
-        targetObject.query.bool.should[index]['query_string']['query'] = value;
-      }
-      setSearchQuery(targetObject);
-      return;
-    } else {
-      if (bool === 'must') {
-        targetObject.query.bool.must[index][op][field] = value;
-      } else if (bool === 'must_not') {
-        targetObject.query.bool.must_not[index][op][field] = value;
-      } else if (bool === 'should') {
-        targetObject.query.bool.should[index][op][field] = value;
-      }
-      setSearchQuery(targetObject);
-    }
-  };
-
-  const updateRangeValue = (index: number) => {
-    const { rangeLevel1, rangeLevel1Value, rangeLevel2, rangeLevel2Value } =
-      filters.value[index];
-    const newCondition: TermQuery = {
-      [rangeLevel1]: rangeLevel1Value,
-      [rangeLevel2]: rangeLevel2Value,
-    };
-    updateTargetObject(index, newCondition);
-    setSearchQuery(targetObject);
-  };
-
-  const updateFuzzyValue = (index: number) => {
-    const { fuzzyOp, fuzzyLevel, fuzzyLevelValue } = filters.value[index];
-    updateTargetObject(index, getFuzzyOpCondition());
-    setSearchQuery(targetObject);
-
-    function getFuzzyOpCondition() {
-      let newCondition: TermQuery = {
-        ['value']: fuzzyOp,
-        [fuzzyLevel]: fuzzyLevelValue,
-      };
-      if (fuzzyLevelValue === '') {
-        newCondition = {
-          ['value']: fuzzyOp,
-        };
-      }
-      return newCondition;
-    }
-  };
-
-  function updateTargetObject(
-    index: number,
-    newCondition: any
-  ) {
-    const { bool, field, op } = filters.value[index];
-    if (bool === 'must') {
-      targetObject.query.bool.must[index][op][field] = newCondition;
-    } else if (bool === 'must_not') {
-      targetObject.query.bool.must_not[index][op][field] = newCondition;
-    } else if (bool === 'should') {
-      targetObject.query.bool.should[index][op][field] = newCondition;
-    }
   }
 
   return {
@@ -365,8 +302,6 @@ export const useFilterComponent = () => {
     removeFilterRow,
     updateQueryString,
     updateValue,
-    updateRangeValue,
-    updateFuzzyValue,
     updateOp,
     updateField,
     allFields,
