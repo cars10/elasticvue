@@ -107,8 +107,8 @@
 
     return REST_QUERY_EXAMPLES.filter(example => {
       return example.method.includes(filterValue) ||
-          example.path.includes(filterValue) ||
-          example.description.includes(filterValue)
+        example.path.includes(filterValue) ||
+        example.description.includes(filterValue)
     })
   })
 

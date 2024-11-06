@@ -39,8 +39,8 @@
   const { requestState, callElasticsearch } = useElasticsearchAdapter()
   const load = () => {
     return callElasticsearch('catIndices', { index: localValue.value, h: 'index' })
-        .then(body => (indices.value = body))
-        .catch(() => (indices.value = []))
+      .then(body => (indices.value = body))
+      .catch(() => (indices.value = []))
   }
   onMounted(load)
 

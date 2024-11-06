@@ -49,8 +49,8 @@
     if (!formValid.value) return
 
     connect().then(idx => props.connectCallback(idx))
-        .catch(() => {
-        })
+      .catch(() => {
+      })
   }
   const emit = defineEmits(['update:modelValue'])
   watch(cluster, value => emit('update:modelValue', value))

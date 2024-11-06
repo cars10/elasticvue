@@ -54,8 +54,8 @@
   const data = ref('')
   const load = () => {
     callElasticsearch(store.method, store.methodParams)
-        .then(body => (data.value = stringifyJson(body)))
-        .catch(() => (data.value = ''))
+      .then(body => (data.value = stringifyJson(body)))
+      .catch(() => (data.value = ''))
   }
 
   const ownValue = ref(false)
