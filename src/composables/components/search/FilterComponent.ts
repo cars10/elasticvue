@@ -1,4 +1,4 @@
-import { onMounted, ref, computed } from 'vue';
+import { onMounted, ref, computed, watch } from 'vue';
 import { useSearchStore } from '../../../store/search';
 import { DEFAULT_SEARCH_QUERY_OBJ } from '../../../consts';
 
@@ -35,6 +35,7 @@ export const useFilterComponent = () => {
   const opOptions = ref([...operations]);
 
   const allFields = ref<string[]>([]);
+  const fieldsToAdd = computed(() => filterDisplayFieldName(searchStore.columns));
 
   type TermQuery =
     | { [key: string]: { [key: string]: any } }
@@ -64,10 +65,13 @@ export const useFilterComponent = () => {
 
   onMounted(() => {
     searchStore.searchQuery = JSON.stringify(targetObject);
-    allFields.value.push('match_all');
-    allFields.value.push('_all');
-    const fieldsToAdd = filterDisplayFieldName(searchStore.columns);
-    allFields.value.push(...fieldsToAdd);
+    watch(
+      fieldsToAdd,
+      (newFields) => {
+        allFields.value = ['match_all', '_all', ...newFields];
+      },
+      { immediate: true } 
+    );
   });
 
   const filterDisplayFieldName = (columnNames: string[]) => {
