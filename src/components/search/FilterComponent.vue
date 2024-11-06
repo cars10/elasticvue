@@ -10,7 +10,7 @@
         </select>
 
         <select v-if="allFields && allFields.length > 0" v-model="filter.field" class="filter"
-          @change="updateField(index)">
+                @change="updateField(index)">
           <option v-for="f in allFields" :key="f" :value="f">
             {{ f }}
           </option>
@@ -25,7 +25,7 @@
         <!-- Handle Fuzzy -->
 
         <input v-if="filter.op === 'fuzzy'" id="fuzzyInput" v-model="filter.fuzzyOp" type="text"
-          @input="updateValue(index)">
+               @input="updateValue(index)">
 
         <select v-if="filter.op === 'fuzzy'" v-model="filter.fuzzyLevel" class="filter" @change="updateValue(index)">
           <option value="max_expansions">max_expansions</option>
@@ -33,7 +33,7 @@
         </select>
 
         <input v-if="filter.op === 'fuzzy'" id="fuzzyInput" v-model="filter.fuzzyLevelValue" type="text"
-          @input="updateValue(index)">
+               @input="updateValue(index)">
 
         <!-- Handle Range -->
         <select v-if="filter.op === 'range'" v-model="filter.rangeLevel1" class="filter" @change="updateValue(index)">
@@ -42,14 +42,14 @@
         </select>
 
         <input v-if="filter.op === 'range'" id="rangeInput" v-model="filter.rangeLevel1Value" type="text"
-          @input="updateValue(index)">
+               @input="updateValue(index)">
         <select v-if="filter.op === 'range'" v-model="filter.rangeLevel2" class="filter" @change="updateValue(index)">
           <option value="lt">lt</option>
           <option value="lte">lte</option>
         </select>
 
         <input v-if="filter.op === 'range'" id="fuzzyInput" v-model="filter.rangeLevel2Value" type="text"
-          @input="updateValue(index)">
+               @input="updateValue(index)">
 
         <input
           v-if="filter.field !== 'match_all' && filter.op !== 'fuzzy' && filter.op !== 'range' && filter.op !== 'missing'"

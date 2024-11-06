@@ -38,7 +38,7 @@
     <q-card-section>
       <q-slide-transition>
         <div v-if="searchStore.searchQueryCollapsed">
-        <FilterComponent />
+          <FilterComponent />
           <div class="q-mb-xs">Query</div>
           <resizable-container v-model="resizeStore.searchQuery">
             <code-editor v-model="searchStore.searchQuery" :commands="editorCommands" />
