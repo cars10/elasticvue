@@ -71,7 +71,7 @@ export const useSearchResultsTable = (props: SearchResultsTableProps, emit: any)
         Object.assign(allProperties, mappings.properties)
       }
     })
-
+    searchStore.allColumnProperties = allProperties;
     tableColumns.value = results.uniqueColumns.map(field => {
       const filterableCol = sortableField(field, allProperties[field])
 

@@ -38,6 +38,7 @@
     <q-card-section>
       <q-slide-transition>
         <div v-if="searchStore.searchQueryCollapsed">
+          <FilterComponent />
           <div class="q-mb-xs">Query</div>
           <resizable-container v-model="resizeStore.searchQuery">
             <code-editor v-model="searchStore.searchQuery" :commands="editorCommands" />
@@ -92,6 +93,7 @@
   import { useSearchDocuments } from '../../composables/components/search/SearchDocuments'
   import { useTranslation } from '../../composables/i18n.ts'
   import SearchExamples from './SearchExamples.vue'
+  import FilterComponent from './FilterComponent.vue';
 
   const CodeEditor = defineAsyncComponent(() => import('../shared/CodeEditor.vue'))
   const resetAndLoad = () => {
