@@ -4,6 +4,7 @@
 
 * update to tauri `2.0`, fixes [#228](https://github.com/cars10/elasticvue/issues/228)
 * adds `auto` theme setting (default), fixes [#255](https://github.com/cars10/elasticvue/issues/255)
+* adds support for `http_proxy` env variable for elasticvue desktop, fixes [#241](https://github.com/cars10/elasticvue/issues/241)
 
 ## 1.0.12
 
