@@ -188,9 +188,7 @@
           "segments": "Segments",
           "docs": "Documents",
           "storage": "Stockage",
-          "created": "Créé",
-          "parsed_docs_count": {
-          }
+          "created": "Créé"
         }
       }
     },
@@ -266,8 +264,6 @@
   "query": {
     "heading": "Rest",
     "api_documentation": "Documentation de l'API",
-    "orientation": {
-    },
     "rest": {
       "history": "Historique",
       "form": {
@@ -294,13 +290,7 @@
         "headers": {
           "query": "Requète",
           "timestamp": "Date et heure"
-        },
-        "row": {
-          "favorite": {
-          }
         }
-      },
-      "clear": {
       },
       "body_preview": {
         "use": "Utiliser dans l'onglet courant",
@@ -375,8 +365,6 @@
           "name": "Nom",
           "type": "Type",
           "settings": "Réglages"
-        },
-        "row": {
         }
       },
       "delete_repository": {
@@ -402,10 +390,6 @@
       }
     },
     "search_result": {
-      "show": {
-      },
-      "edit": {
-      },
       "delete": {
         "text": "# | Supprimer le document | Supprimer les documents",
         "confirm": "# | Voulez-vous vraiment supprimer ce document ? | Voulez-vous vraiment supprimer {count} documents?",
@@ -413,12 +397,8 @@
       }
     },
     "results_table": {
-      "filter": {
-      },
       "settings": {
-        "columns": "Colomnes",
-        "sticky_table_header": {
-        }
+        "columns": "Colomnes"
       },
       "download_as_json": "Télécharger en JSON"
     },
@@ -428,8 +408,6 @@
         "growl": "Le document a été modifié avec succès."
       }
     }
-  },
-  "editor": {
   },
   "settings": {
     "heading": "Réglages",
@@ -442,6 +420,11 @@
       "label": "Masquer les attributs des nœuds avec regex",
       "message": "Les attributs des nœuds correspondant à cette expression régulière seront masqués par défaut dans la vue d'ensemble des nœuds.",
       "reset": "Réinitialiser à la valeur par défaut {regex}"
+    },
+    "document_field_max_length": {
+      "label": "Longueur maximale des champs de document",
+      "message": "Longueur maximale des valeurs des champs de document dans les résultats de recherche, les valeurs plus longues seront tronquées.",
+      "reset": "Réinitialiser à la valeur par défaut {value}"
     },
     "localize_timestamp": {
       "label": "Localiser la valeur des champs '{'@'}timestamp' dans les résultats de recherche"
@@ -559,8 +542,6 @@
         },
         "deselect_all": {
           "text": "tout désélectionner"
-        },
-        "show_hidden": {
         }
       }
     },
@@ -576,8 +557,6 @@
     "authorization_header_hint": "Assurez-vous que \"http.cors.allow-headers\" est configuré",
     "code_editor": {
       "actions": {
-        "copy_content": {
-        },
         "beautify": {
           "title": "Formatter (Ctrl+ALT+L)",
           "text": "Formatter"
@@ -585,8 +564,6 @@
         "wrap_lines": {
           "label": "Retour à la ligne",
           "title": "Retourner à la ligne pour les longues lignes"
-        },
-        "keyboard_shortcuts": {
         }
       }
     },
@@ -594,10 +571,6 @@
       "copy_error": "Copier l'erreur",
       "network_error": "Erreur réseau, accès a votre cluster impossible.",
       "cluster_uri": "Uri du cluster :"
-    },
-    "modal_data_loader": {
-      "modal_title": {
-      }
     },
     "reload_button": {
       "reload": "Recharger"
@@ -617,8 +590,6 @@
     "new_snapshot": {
       "heading": "Nouvelle snapshot",
       "form": {
-        "repository": {
-        },
         "snapshot_name": {
           "label": "Nom de snapshot"
         }
@@ -667,12 +638,6 @@
           "failed_shards": "Partitions ratées",
           "total_shards": "Total des partitions"
         }
-      }
-    },
-    "snapshots_table_wrapper": {
-      "repository": {
-      },
-      "filter": {
       }
     }
   },

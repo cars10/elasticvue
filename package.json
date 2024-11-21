@@ -6,7 +6,7 @@
     "dev": "vite",
     "build": "vite build",
     "tsc": "tsc --noEmit && vue-tsc",
-    "lint": "eslint src",
+    "lint": "eslint src tests",
     "test:unit": "vitest run tests/unit",
     "test:unit:watch": "vitest watch tests/unit",
     "test:e2e": "playwright test --project=chromium",

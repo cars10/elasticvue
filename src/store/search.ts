@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { DEFAULT_PAGINATION, DEFAULT_SEARCH_QUERY } from '../consts'
+import { DEFAULT_PAGINATION, DEFAULT_SEARCH_QUERY, DEFAULT_DOCUMENT_FIELD_MAX_LENGTH } from '../consts'
 import { useConnectionStore } from './connection.ts'
 
 type SearchState = {
@@ -13,6 +13,7 @@ type SearchState = {
   stickyTableHeader: boolean
   pagination: any
   rowsPerPageAccepted: boolean
+  documentFieldMaxLength: number
 }
 
 export const useSearchStore = () => {
@@ -30,7 +31,8 @@ export const useSearchStore = () => {
       visibleColumns: [],
       stickyTableHeader: false,
       pagination: Object.assign({}, DEFAULT_PAGINATION),
-      rowsPerPageAccepted: false
+      rowsPerPageAccepted: false,
+      documentFieldMaxLength: DEFAULT_DOCUMENT_FIELD_MAX_LENGTH
     }),
     actions: {
       resetSearchQuery () {
@@ -49,7 +51,8 @@ export const useSearchStore = () => {
         'pagination',
         'columns',
         'visibleColumns',
-        'rowsPerPageAccepted'
+        'rowsPerPageAccepted',
+        'documentFieldMaxLength'
       ],
       key: `search-${clusterUuid}`
     }
