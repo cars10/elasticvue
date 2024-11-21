@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test'
 import { setupClusterConnection } from '../../helpers'
 import { withElastic } from '../../mocks'
 
-test.describe.configure({ mode: 'parallel' });
+test.describe.configure({ mode: 'parallel' })
 
 const setup = async (page: any, mockElastic: any) => {
   await mockElastic(page)

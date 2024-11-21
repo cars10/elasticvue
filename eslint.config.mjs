@@ -38,7 +38,7 @@ export default [
       }],
       quotes: ['error', 'single'],
     },
-    files: ['src/**/*.{js,vue,ts,json}'],
+    files: ['src/**/*.{js,vue,ts,json}', 'tests/**/*.ts}'],
     settings: {
       'vue-i18n': {
         localeDir: {
