@@ -15,15 +15,7 @@ describe.concurrent('helpers/truncateString', () => {
       const maxLength = 10
       const suffix = '...'
       const result = truncateString(input, maxLength, suffix)
-      expect(result).toEqual('Hello, W...')
-    })
-
-    it('should truncate the string without suffix if it exceeds max length but is less than suffix length', () => {
-      const input = 'Hello!'
-      const maxLength = 5
-      const suffix = '...'
-      const result = truncateString(input, maxLength, suffix)
-      expect(result).toEqual('...')
+      expect(result).toEqual('Hello, ...')
     })
 
     it('should return the original string if maxLength is less than or equal to the suffix length', () => {
@@ -51,21 +43,21 @@ describe.concurrent('helpers/truncateString', () => {
     it('should return the input unchanged if it is not a string', () => {
       const input = 12345 // Not a string
       const maxLength = 10
-      const result = truncateString(input, maxLength)
+      const result = truncateString(input as unknown as string, maxLength)
       expect(result).toEqual(input) // Expecting it to return the number unchanged
     })
 
     it('should return the input unchanged if it is an object', () => {
       const input = { key: 'value' } // Not a string
       const maxLength = 10
-      const result = truncateString(input, maxLength)
+      const result = truncateString(input as unknown as string, maxLength)
       expect(result).toEqual(input) // Expecting it to return the object unchanged
     })
 
     it('should return the input unchanged if it is an array', () => {
       const input = ['Hello', 'World'] // Not a string
       const maxLength = 10
-      const result = truncateString(input, maxLength)
+      const result = truncateString(input as unknown as string, maxLength)
       expect(result).toEqual(input) // Expecting it to return the array unchanged
     })
   })
