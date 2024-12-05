@@ -37,7 +37,6 @@ export function useElasticsearchAdapter () {
 
     try {
       if (!elasticsearchAdapter) {
-        // @ts-ignore
         const cluster = connectionStore.activeCluster
         if (!cluster) return
         elasticsearchAdapter = new ElasticsearchAdapter(cluster as ElasticsearchClusterCredentials)
@@ -161,7 +160,7 @@ export function useElasticsearchRequest<T> (method: ElasticsearchMethod, params?
     }
  */
 export const defineElasticsearchRequest = ({ emit, method }: {
-  emit?: Function,
+  emit?: (event: string) => void,
   method: ElasticsearchMethod
 }) => {
   const { requestState, loading, callElasticsearch } = useElasticsearchAdapter()
@@ -188,7 +187,7 @@ export const defineElasticsearchRequest = ({ emit, method }: {
         }
       }
       return true
-    } catch (e) {
+    } catch (_e) {
       showSnackbar(requestState.value)
       return false
     }

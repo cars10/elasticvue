@@ -40,7 +40,7 @@ export const checkHealth = async (cluster: ElasticsearchCluster) => {
     if (!cluster.uuid || cluster.uuid.length === 0) cluster.uuid = clusterUuid(pingBody)
 
     delete cluster.loading
-  } catch (e) {
+  } catch (_e) {
     cluster.status = 'unknown'
     delete cluster.loading
   }
@@ -53,7 +53,7 @@ export const checkClusterHealth = async (credentials: ElasticsearchClusterCreden
     const clusterHealthResponse: any = await adapter.clusterHealth()
     const clusterHealthBody = await clusterHealthResponse.json()
     return clusterHealthBody.status
-  } catch (e) {
+  } catch (_e) {
     return 'unknown'
   }
 }

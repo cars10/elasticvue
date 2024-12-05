@@ -14,7 +14,7 @@ export const useNodeAttributes = (props: NodeAttributesProps) => {
 
     try {
       return new RegExp(trimmed)
-    } catch (e) {
+    } catch (_e) {
       console.error('invalid regex:', nodesStore.hideAttributesRegex)
       return false
     }

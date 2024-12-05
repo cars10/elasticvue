@@ -23,6 +23,15 @@ export default [
       'vue/first-attribute-linebreak': 'off',
       'vue/html-closing-bracket-newline': 'off',
       'vue/singleline-html-element-content-newline': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-unused-vars': [
+        'error', 
+        {
+          'argsIgnorePattern': '^_',
+          'varsIgnorePattern': '^_',
+          'caughtErrorsIgnorePattern': '^_'
+        }
+      ],
       '@intlify/vue-i18n/no-raw-text': 'off',
       '@intlify/vue-i18n/no-v-html': 'off',
       '@intlify/vue-i18n/no-html-messages': 'off',

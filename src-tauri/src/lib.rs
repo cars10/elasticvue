@@ -1,5 +1,4 @@
 use fetch_reqwest::{FetchOptions, FetchResponseResult};
-use tauri_plugin_global_shortcut::{Code, Modifiers, ShortcutState};
 
 mod load_file;
 mod menu;

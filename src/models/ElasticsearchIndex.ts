@@ -36,7 +36,7 @@ export default class ElasticsearchIndex {
 function parseIntValue (value: string) {
   try {
     return parseInt(value)
-  } catch (error) {
+  } catch (_e) {
     return value
   }
 }

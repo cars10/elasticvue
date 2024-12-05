@@ -19,9 +19,7 @@ describe.concurrent('helpers/search.ts', () => {
 
     it('should return fieldName when property.type is a sortable type', () => {
       for (const type of ['long', 'integer', 'double', 'float', 'date', 'boolean', 'keyword']) {
-        const property = {
-          type: 'keyword'
-        }
+        const property = { type }
     
         expect(sortableField('random fieldName', property)).toBe('random fieldName')
       }              

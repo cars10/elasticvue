@@ -10,7 +10,7 @@ export const beautify = (text: string): string => {
   try {
     const parsed = parseJson(copy)
     return stringifyJson(parsed, null, '  ')
-  } catch (error) {
+  } catch (_e) {
     return copy
   }
 }

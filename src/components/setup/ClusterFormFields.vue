@@ -93,7 +93,7 @@
         emit('update:formValid', true)
         return true
       }
-    } catch (e) {
+    } catch (_e) {
       emit('update:formValid', false)
       return 'Invalid uri'
     }

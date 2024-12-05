@@ -62,7 +62,7 @@
     try {
       JSON.parse(props.modelValue)
       return true
-    } catch (error) {
+    } catch (_e) {
       return false
     }
   })

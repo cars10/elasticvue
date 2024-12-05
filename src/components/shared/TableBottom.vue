@@ -81,12 +81,12 @@
     pagesNumber: number
     isFirstPage: boolean
     isLastPage: boolean
-    firstPage: () => {}
-    lastPage: () => {}
-    nextPage: () => {}
-    prevPage: () => {}
+    firstPage: () => void
+    lastPage: () => void
+    nextPage: () => void
+    prevPage: () => void
     inFullscreen: boolean
-    toggleFullscreen: () => {}
+    toggleFullscreen: () => void
     pagination: {
       rowsPerPage: number
       page: number

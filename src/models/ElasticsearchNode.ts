@@ -67,7 +67,7 @@ export default class ElasticsearchNode {
 function parseFloatValue (value: string) {
   try {
     return parseFloat(value)
-  } catch (error) {
+  } catch (_e) {
     return -1
   }
 }

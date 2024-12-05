@@ -65,7 +65,7 @@ const mocks = {
   }
 }
 
-export const withElastic = (callback: any) => {
+export const withElastic = (callback: (version: string) => void) => {
   for (const major in mocks) {
     callback(mocks[major])
   }

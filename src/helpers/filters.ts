@@ -36,7 +36,7 @@ const columnFilterable = (item: any, headerName: string) =>{
 const filterColumn = (item: any, headerName: string, search: string) => {
   try {
     return item[headerName].toString().toLowerCase().includes(search)
-  } catch(e) {
+  } catch(_e) {
     return false
   }
 }
