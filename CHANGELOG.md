@@ -3,6 +3,7 @@
 ## 1.1.1
 
 * truncate long fields in search results table, fixes [#211](https://github.com/cars10/elasticvue/issues/211)
+* fix search results table column filtering again, fixes [#244](https://github.com/cars10/elasticvue/issues/244)
 
 ## 1.1.0
 
