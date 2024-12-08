@@ -380,11 +380,11 @@ exports.mock = async page => {
       json: []
     },
     shardShards: {
-      url: 'http://localhost:9200/_cat/shards/?h=index%2Cshard%2Cprirep%2Cstate%2Cnode',
+      url: 'http://localhost:9200/_cat/shards/?h=index%2Cshard%2Cprirep%2Cstate%2Cnode%2Cdocs%2Cstore%2Cip%2Cnode%2Cunassigned.reason',
       json: []
     },
     indexIndices: {
-      url: 'http://localhost:9200/_cat/indices/?h=index%2Chealth%2Cstatus%2Cuuid%2Cpri%2Crep%2Cdocs.count%2Cstore.size%2Csc&bytes=b',
+      url: 'http://localhost:9200/_cat/indices/?h=index%2Chealth%2Cstatus%2Cuuid%2Cpri%2Crep%2Cdocs.count%2Cstore.size%2Csc%2Ccd&bytes=b',
       json: []
     },
     flush: {
