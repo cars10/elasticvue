@@ -8,6 +8,8 @@
     </div>
 
     <div class="flex">
+      <slot />
+
       <filter-input v-model="filter" />
 
       <q-btn icon="settings" round flat class="q-ml-sm">
@@ -47,7 +49,8 @@
             </svg>
             <span :class="{'text-underline': currentReroutingShard.index === col.name}">{{ col.label }}</span>
           </div>
-          <small class="text-weight-regular" :title="`${shards.indices[col.name].pri} pri / ${shards.indices[col.name].rep} rep`">
+          <small class="text-weight-regular"
+                 :title="`${shards.indices[col.name].pri} pri / ${shards.indices[col.name].rep} rep`">
             {{ shards.indices[col.name].pri }}/{{ shards.indices[col.name].rep }} shards
           </small>
         </q-th>

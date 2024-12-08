@@ -10,13 +10,16 @@
     <q-separator />
 
     <loader-status :request-state="requestState">
-      <shards-table :shards="shards" @reload="load" />
+      <shards-table :shards="shards" @reload="load">
+        <q-select v-model="health" :options="['green', 'yellow', 'red']" label="Health" clearable dense outlined
+                  class="q-mr-md" style="min-width: 140px" />
+      </shards-table>
     </loader-status>
   </q-card>
 </template>
 
 <script setup lang="ts">
-  import { onMounted, Ref, ref } from 'vue'
+  import { onMounted, Ref, ref, watch } from 'vue'
   import ReloadButton from '../shared/ReloadButton.vue'
   import LoaderStatus from '../shared/LoaderStatus.vue'
   import { useElasticsearchAdapter } from '../../composables/CallElasticsearch'
@@ -28,9 +31,13 @@
   const shards: Ref<TableShards> = ref({} as TableShards)
 
   const { requestState, callElasticsearch } = useElasticsearchAdapter()
-  const catIndicesArgs = { h: ['index', 'health', 'pri', 'rep', 'status'], s: ['health:desc', 'index'] }
+  const health = ref(null)
 
   const load = async () => {
+    let catIndicesArgs = { h: ['index', 'health', 'pri', 'rep', 'status'], s: ['health:desc', 'index'] }
+
+    if (health.value) catIndicesArgs['health'] = health.value
+
     const catIndices = callElasticsearch('catIndices', catIndicesArgs)
     const catShards = callElasticsearch('catShards', CAT_METHOD_PARAMS)
 
@@ -38,6 +45,7 @@
     shards.value = convertShards(rawShards, indices)
   }
 
+  watch(health, load)
   onMounted(load)
 
   const CAT_METHOD_PARAMS = {
