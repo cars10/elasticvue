@@ -33,8 +33,14 @@
   const { requestState, callElasticsearch } = useElasticsearchAdapter()
   const health = ref(null)
 
+  type CatIndicesArgs = {
+    h: string[],
+    s: string[],
+    health?: string
+  }
+
   const load = async () => {
-    let catIndicesArgs = { h: ['index', 'health', 'pri', 'rep', 'status'], s: ['health:desc', 'index'] }
+    let catIndicesArgs: CatIndicesArgs = { h: ['index', 'health', 'pri', 'rep', 'status'], s: ['health:desc', 'index'] }
 
     if (health.value) catIndicesArgs['health'] = health.value
 
