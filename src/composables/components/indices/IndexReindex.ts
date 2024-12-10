@@ -19,7 +19,7 @@ export const useIndexReindex = (props: IndexReindexProps, emit: any) => {
       showSnackbar(requestState.value, { body: `Reindex into ${dest.value} started.` })
       dest.value = ''
       emit('reload')
-    } catch (e) {
+    } catch (_e) {
       console.log(requestState.value)
       showSnackbar(requestState.value)
     }

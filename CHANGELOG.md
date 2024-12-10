@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.1.1
+
+* truncate long fields in search results table, fixes [#211](https://github.com/cars10/elasticvue/issues/211)
+* fix search results table column filtering again, fixes [#244](https://github.com/cars10/elasticvue/issues/244)
+* fix hotkey issues, fixes [#273](https://github.com/cars10/elasticvue/issues/273)
+* adds health filter to shards view
+
 ## 1.1.0
 
 * update to tauri `2.0`, fixes [#228](https://github.com/cars10/elasticvue/issues/228)

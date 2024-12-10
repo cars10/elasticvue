@@ -11,7 +11,7 @@ const parseDefaultClusters = rawDefaultClusters => {
   if (rawDefaultClusters.length > 0) {
     try {
       return JSON.parse(rawDefaultClusters)
-    } catch (e) {
+    } catch (_e) {
       errorExit(`${ENV_NAME} is not valid json:`, rawDefaultClusters)
     }
   }

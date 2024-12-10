@@ -14,6 +14,7 @@ export const SUPPORTED_COUNTRY_LOCALES: Record<string, ValidLocale> = {
 export type ValidLocale = 'en' | 'cn' | 'fr'
 export const DEFAULT_LOCALE: ValidLocale = 'en'
 
+export const DEFAULT_DOCUMENT_FIELD_MAX_LENGTH = 200
 export const DEFAULT_ROWS_PER_PAGE = [10, 20, 100, 0]
 export const DEFAULT_HIDE_INDICES_REGEX = '^\\..*'
 export const DEFAULT_HIDE_NODE_ATTRIBUTES_REGEX = '^(ml|xpack|transform)\\.'

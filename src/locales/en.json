@@ -188,9 +188,7 @@
           "segments": "Segments",
           "docs": "Docs",
           "storage": "Storage",
-          "created": "Created",
-          "parsed_docs_count": {
-          }
+          "created": "Created"
         }
       }
     },
@@ -266,8 +264,6 @@
   "query": {
     "heading": "Rest",
     "api_documentation": "api documentation",
-    "orientation": {
-    },
     "rest": {
       "history": "History",
       "form": {
@@ -294,13 +290,7 @@
         "headers": {
           "query": "Query",
           "timestamp": "Timestamp"
-        },
-        "row": {
-          "favorite": {
-          }
         }
-      },
-      "clear": {
       },
       "body_preview": {
         "use": "Use in current tab",
@@ -375,8 +365,6 @@
           "name": "name",
           "type": "type",
           "settings": "settings"
-        },
-        "row": {
         }
       },
       "delete_repository": {
@@ -402,10 +390,6 @@
       }
     },
     "search_result": {
-      "show": {
-      },
-      "edit": {
-      },
       "delete": {
         "text": "# | Delete document | Delete documents",
         "confirm": "# | Are you sure you want to delete this document? | Are you sure you want to delete {count} documents?",
@@ -413,12 +397,8 @@
       }
     },
     "results_table": {
-      "filter": {
-      },
       "settings": {
-        "columns": "Columns",
-        "sticky_table_header": {
-        }
+        "columns": "Columns"
       },
       "download_as_json": "Download as json"
     },
@@ -428,8 +408,6 @@
         "growl": "Document updated successfully."
       }
     }
-  },
-  "editor": {
   },
   "settings": {
     "heading": "Settings",
@@ -442,6 +420,11 @@
       "label": "Hide node attributes regex",
       "message": "Node attributes matching this regex will be hidden by default on the nodes overview",
       "reset": "Reset to default {regex}"
+    },
+    "document_field_max_length": {
+      "label": "Document field max length",
+      "message": "Max length of document field values in search results, longer will be truncated.",
+      "reset": "Reset to default {value}"
     },
     "localize_timestamp": {
       "label": "Localize value of '{'@'}timestamp' fields in search results"
@@ -559,8 +542,6 @@
         },
         "deselect_all": {
           "text": "deselect all"
-        },
-        "show_hidden": {
         }
       }
     },
@@ -576,8 +557,6 @@
     "authorization_header_hint": "Make sure that \"http.cors.allow-headers\" is configured",
     "code_editor": {
       "actions": {
-        "copy_content": {
-        },
         "beautify": {
           "title": "Beautify (Ctrl+ALT+L)",
           "text": "Beautify"
@@ -585,8 +564,6 @@
         "wrap_lines": {
           "label": "Wrap lines",
           "title": "Wrap long lines"
-        },
-        "keyboard_shortcuts": {
         }
       }
     },
@@ -594,10 +571,6 @@
       "copy_error": "Copy error",
       "network_error": "Network error, cannot access your cluster.",
       "cluster_uri": "Cluster uri:"
-    },
-    "modal_data_loader": {
-      "modal_title": {
-      }
     },
     "reload_button": {
       "reload": "Reload"
@@ -617,8 +590,6 @@
     "new_snapshot": {
       "heading": "New snapshot",
       "form": {
-        "repository": {
-        },
         "snapshot_name": {
           "label": "Snapshot name"
         }
@@ -667,12 +638,6 @@
           "failed_shards": "failed_shards",
           "total_shards": "total_shards"
         }
-      }
-    },
-    "snapshots_table_wrapper": {
-      "repository": {
-      },
-      "filter": {
       }
     }
   },

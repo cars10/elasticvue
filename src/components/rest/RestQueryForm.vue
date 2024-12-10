@@ -36,6 +36,7 @@
                class="col-grow"
                outlined
                autofocus
+               @paste="pasteClipboard"
                @keydown.enter.prevent="sendRequest" />
       <q-btn id="send_request" icon="send" flat type="submit" />
     </div>

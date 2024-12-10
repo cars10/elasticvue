@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-  // @ts-ignore
+  // @ts-expect-error component import
   import VueResizable from 'vue-resizable'
 
   withDefaults(defineProps<{

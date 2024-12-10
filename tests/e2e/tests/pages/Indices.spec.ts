@@ -1,10 +1,10 @@
-import { test, expect } from '@playwright/test'
+import { test, expect, Page } from '@playwright/test'
 import { setupClusterConnection } from '../../helpers'
 import { withElastic } from '../../mocks'
 
-test.describe.configure({ mode: 'parallel' });
+test.describe.configure({ mode: 'parallel' })
 
-const setup = async (page: any, mockElastic: any) => {
+const setup = async (page: Page, mockElastic: (page: Page) => void) => {
   await mockElastic(page)
   await setupClusterConnection(page)
   await page.locator('#indices').click()

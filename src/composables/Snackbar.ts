@@ -80,7 +80,7 @@ export const useSnackbar = () => {
       if (errorMessage && errorMessage.error?.type) {
         snackbarOptions.title += ` - ${errorMessage.error.type}`
         snackbarOptions.body = `Reason: ${errorMessage.error.reason}.`
-        2
+
         if (errorMessage.error.caused_by?.reason) {
           snackbarOptions.body += ` Caused by: ${errorMessage.error.caused_by.reason}`
         }
@@ -112,6 +112,6 @@ const responseErrorMessage = (json: string) => {
     if (json && json.length > 0) {
       return JSON.parse(json)
     }
-  } catch (e) {
+  } catch (_e) {
   }
 }

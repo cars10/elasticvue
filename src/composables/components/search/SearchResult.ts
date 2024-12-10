@@ -3,6 +3,8 @@ import { useSearchStore } from '../../../store/search.ts'
 import { computed, ref } from 'vue'
 import { defineElasticsearchRequest } from '../../CallElasticsearch.ts'
 import { stringifyJson } from '../../../helpers/json/stringify.ts'
+import { truncateString } from '../../../helpers/truncate.ts'
+import { DEFAULT_DOCUMENT_FIELD_MAX_LENGTH } from '../../../consts.ts'
 
 export type SearchResultProps = { columns: any[], doc: Record<string, any> }
 
@@ -39,7 +41,9 @@ export const useSearchResult = (props: SearchResultProps, emit: any) => {
     }
 
     if (typeof value === 'object') {
-      return stringifyJson(value)
+      return truncateString(stringifyJson(value), searchStore.documentFieldMaxLength || DEFAULT_DOCUMENT_FIELD_MAX_LENGTH)
+    } else if (typeof value === 'string') {
+      return truncateString(value, searchStore.documentFieldMaxLength || DEFAULT_DOCUMENT_FIELD_MAX_LENGTH)
     } else {
       return value
     }

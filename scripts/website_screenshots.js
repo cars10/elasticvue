@@ -41,6 +41,7 @@ const screenshotIndexAliases = async page => {
 }
 const screenshotSearch = async page => (await navAndScreenshot(page, '#search', 'search', true))
 const screenshotEditDocument = async page => {
+  await page.locator('body').dblclick()
   await navAndScreenshot(page, 'body', 'document')
   await page.locator('#close').click()
 }
@@ -52,7 +53,8 @@ const screenshotRest = async page => {
 const screenshotSettings = async page => (await navAndScreenshot(page, '#settings', 'settings'))
 
 const toggleTheme = async page => {
-  await page.locator('#change_theme').click()
+  await page.locator('[data-testid="change-theme-button"]').click()
+  await page.locator('[data-testid="change-theme__dark"]').click()
 }
 
 const connectWithServer = async page => {
@@ -64,10 +66,6 @@ const connectWithServer = async page => {
 const navAndScreenshot = async (page, selector, name, persisted) => {
   await page.locator(selector).click()
   await screenshot(page, name, persisted)
-}
-
-const closeSnackbar = async page => {
-  await page.locator('#close_snackbar').click()
 }
 
 let counter = 1

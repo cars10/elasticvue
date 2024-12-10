@@ -188,9 +188,7 @@
           "segments": "分段",
           "docs": "文档",
           "storage": "储存空间",
-          "created": "日期",
-          "parsed_docs_count": {
-          }
+          "created": "日期"
         }
       }
     },
@@ -266,8 +264,6 @@
   "query": {
     "heading": "Rest",
     "api_documentation": "api 文档",
-    "orientation": {
-    },
     "rest": {
       "history": "查询历史",
       "form": {
@@ -294,13 +290,7 @@
         "headers": {
           "query": "查询",
           "timestamp": "日期"
-        },
-        "row": {
-          "favorite": {
-          }
         }
-      },
-      "clear": {
       },
       "body_preview": {
         "use": "使用",
@@ -375,8 +365,6 @@
           "name": "名称",
           "type": "类型",
           "settings": "配置"
-        },
-        "row": {
         }
       },
       "delete_repository": {
@@ -402,10 +390,6 @@
       }
     },
     "search_result": {
-      "show": {
-      },
-      "edit": {
-      },
       "delete": {
         "text": "# | 删除文档 | 批量删除文档",
         "confirm": "# | 是否删除这个文档? | 是否批量删除 {count} 个文档?",
@@ -413,12 +397,8 @@
       }
     },
     "results_table": {
-      "filter": {
-      },
       "settings": {
-        "columns": "列",
-        "sticky_table_header": {
-        }
+        "columns": "列"
       },
       "download_as_json": "下载为 JSON 文件"
     },
@@ -428,8 +408,6 @@
         "growl": "更新文档成功."
       }
     }
-  },
-  "editor": {
   },
   "settings": {
     "heading": "设置",
@@ -442,6 +420,11 @@
       "label": "正则表达式: 隐藏节点属性",
       "message": "匹配的节点属性将默认隐藏 (所有位置)",
       "reset": "重置为默认 {regex}"
+    },
+    "document_field_max_length": {
+      "label": "文档字段最大长度",
+      "message": "搜索结果中文档字段值的最大长度，超出部分将被截断。",
+      "reset": "重置为默认值 {value}"
     },
     "localize_timestamp": {
       "label": "在搜索结果中显示字段 '{'@'}timestamp' 的本地化值"
@@ -559,8 +542,6 @@
         },
         "deselect_all": {
           "text": "反选全部"
-        },
-        "show_hidden": {
         }
       }
     },
@@ -576,8 +557,6 @@
     "authorization_header_hint": "你的集群使用了授权。确保你已经设置了\"http.cors.allow-headers\"，否则将无法连接。",
     "code_editor": {
       "actions": {
-        "copy_content": {
-        },
         "beautify": {
           "title": "格式化 (Ctrl+ALT+L)",
           "text": "格式化"
@@ -585,8 +564,6 @@
         "wrap_lines": {
           "label": "换行",
           "title": "长行换行"
-        },
-        "keyboard_shortcuts": {
         }
       }
     },
@@ -594,10 +571,6 @@
       "copy_error": "复制错误",
       "network_error": "网络错误, 无法访问你的集群",
       "cluster_uri": "集群uri:"
-    },
-    "modal_data_loader": {
-      "modal_title": {
-      }
     },
     "reload_button": {
       "reload": "重新加载"
@@ -617,8 +590,6 @@
     "new_snapshot": {
       "heading": "新建快照",
       "form": {
-        "repository": {
-        },
         "snapshot_name": {
           "label": "快照名称"
         }
@@ -667,12 +638,6 @@
           "failed_shards": "失败分片",
           "total_shards": "总分片"
         }
-      }
-    },
-    "snapshots_table_wrapper": {
-      "repository": {
-      },
-      "filter": {
       }
     }
   },

@@ -1,5 +1,4 @@
 use fetch_reqwest::{FetchOptions, FetchResponseResult};
-use tauri_plugin_global_shortcut::{Code, Modifiers, ShortcutState};
 
 mod load_file;
 mod menu;
@@ -27,21 +26,6 @@ pub fn run() {
         .setup(|app| {
             let menu = menu::menu(app)?;
             app.set_menu(menu)?;
-
-            app.handle().plugin(
-                tauri_plugin_global_shortcut::Builder::new()
-                    .with_shortcut("CmdOrCtrl+Q")?
-                    .with_handler(|_app, shortcut, event| {
-                        if event.state == ShortcutState::Pressed {
-                            if shortcut.matches(Modifiers::CONTROL, Code::KeyQ)
-                                || shortcut.matches(Modifiers::SUPER, Code::KeyQ)
-                            {
-                                std::process::exit(0);
-                            }
-                        }
-                    })
-                    .build(),
-            )?;
 
             Ok(())
         })

@@ -60,7 +60,6 @@
     "core:app:allow-app-hide",
     "fs:default",
     "dialog:default",
-    "clipboard-manager:default",
-    "global-shortcut:allow-register"
+    "clipboard-manager:default"
   ]
 }

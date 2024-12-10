@@ -46,6 +46,24 @@
 
           <div class="row q-mb-lg">
             <div class="col-md-6 col-sm-12">
+              <q-input v-model="searchStore.documentFieldMaxLength"
+                       outlined
+                       type="number"
+                       :rules="[ val => /^\d+$/.test(val) && val >= 1 && val <= 1000 || 'Only full numbers between 1 and 1000']"
+                       :label="t('settings.document_field_max_length.label')"
+                       :hint="t('settings.document_field_max_length.message')">
+                <template #append>
+                  <q-btn icon="settings_backup_restore"
+                         flat round
+                         :title="t('settings.document_field_max_length.reset', {value: DEFAULT_DOCUMENT_FIELD_MAX_LENGTH})"
+                         @click="resetDocumentFieldMaxLength" />
+                </template>
+              </q-input>
+            </div>
+          </div>
+
+          <div class="row q-mb-lg">
+            <div class="col-md-6 col-sm-12">
               <q-checkbox v-model="searchStore.localizeTimestamp" :label="t('settings.localize_timestamp.label')" />
             </div>
           </div>
@@ -82,7 +100,7 @@
 
 <script setup lang="ts">
   import { useIndicesStore } from '../../store/indices'
-  import { DEFAULT_HIDE_INDICES_REGEX, DEFAULT_HIDE_NODE_ATTRIBUTES_REGEX } from '../../consts'
+  import { DEFAULT_HIDE_INDICES_REGEX, DEFAULT_HIDE_NODE_ATTRIBUTES_REGEX, DEFAULT_DOCUMENT_FIELD_MAX_LENGTH } from '../../consts'
   import { askConfirm } from '../../helpers/dialogs'
   import { useTranslation } from '../../composables/i18n'
   import ImportExport from './ImportExport.vue'
@@ -98,6 +116,7 @@
 
   const resetHideIndicesRegex = () => (indicesStore.hideIndicesRegex = DEFAULT_HIDE_INDICES_REGEX)
   const resetHideNodesAttributesRegex = () => (nodesStore.hideAttributesRegex = DEFAULT_HIDE_NODE_ATTRIBUTES_REGEX)
+  const resetDocumentFieldMaxLength = () => (searchStore.documentFieldMaxLength = DEFAULT_DOCUMENT_FIELD_MAX_LENGTH)
 
   const reset = async () => {
     const confirmed = await askConfirm(t('settings.disconnect_and_reset.confirm'))

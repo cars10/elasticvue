@@ -33,7 +33,7 @@ export const useSearchDocuments = () => {
     try {
       queryParsingError.value = false
       query = parseJson(searchStore.searchQuery)
-    } catch (e) {
+    } catch (_e) {
       queryParsingError.value = true
       return
     }
@@ -105,11 +105,9 @@ export const buildQueryFromTableOptions = (pagination: any) => {
 
   if (sort && order) {
     const sortOptions = {}
-    // @ts-ignore
+    // @ts-expect-error any
     sortOptions[sort] = { order }
-    // @ts-ignore
-    // if (sort !== '_score') sortOptions[sort].unmapped_type = 'keyword'
-    // @ts-ignore
+    // @ts-expect-error never type
     newQueryParts.sort = [sortOptions]
   }
 

@@ -32,7 +32,7 @@ export default class ElasticsearchAdapter {
   }
 
   call (method: ElasticsearchMethod, ...args: any[]): Promise<any> {
-    // @ts-ignore
+    // @ts-expect-error dynamic function call
     return this[method](...args)
   }
 
@@ -288,7 +288,7 @@ export default class ElasticsearchAdapter {
       headers: Object.assign({}, REQUEST_DEFAULT_HEADERS)
     }
 
-    // @ts-ignore
+    // @ts-expect-error header definition
     if (this.authHeader) options.headers['Authorization'] = this.authHeader
 
     return new Promise((resolve, reject) => {

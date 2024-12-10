@@ -1,4 +1,3 @@
-// @ts-ignore
 import { createI18n } from 'vue-i18n'
 import en from '../locales/en.json'
 import cn from '../locales/cn.json'
