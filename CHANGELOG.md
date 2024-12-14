@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.2
+
+This version re-adds the automatic updater for the desktop app. Since the update to tauri 2.0 
+(done in elasticvue `1.1.0`) the automatic updater was missing. You need to manually install a new version of elasticvue
+if you are using the desktop app. Sorry for the inconvenience.
+
 ## 1.1.1
 
 * truncate long fields in search results table, fixes [#211](https://github.com/cars10/elasticvue/issues/211)

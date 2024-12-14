@@ -6,6 +6,7 @@
     "linux"
   ],
   "permissions": [
-    "updater:default"
+    "updater:default",
+    "process:default"
   ]
 }

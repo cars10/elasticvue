@@ -17,6 +17,7 @@
 
     <modal-loader />
     <alert-snackbar />
+    <update-check />
 
     <app-footer />
   </q-layout>
@@ -33,6 +34,7 @@
   import { useThemeStore } from './store/theme.ts'
   import { useConnectionStore } from './store/connection'
   import { setAppThemeCss, setupThemeListener } from './helpers/theme.ts'
+  import UpdateCheck from './components/base/UpdateCheck.vue'
 
   const themeStore = useThemeStore()
   const connectionStore = useConnectionStore()

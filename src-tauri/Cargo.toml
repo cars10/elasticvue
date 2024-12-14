@@ -26,6 +26,7 @@ env_logger = "0.11.3"
 tauri-plugin-fs = "2"
 tauri-plugin-dialog = "2"
 tauri-plugin-clipboard-manager = "2"
+tauri-plugin-process = "2"
 
 [features]
 # by default Tauri runs in production mode

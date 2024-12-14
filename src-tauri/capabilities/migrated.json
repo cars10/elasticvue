@@ -60,6 +60,8 @@
     "core:app:allow-app-hide",
     "fs:default",
     "dialog:default",
-    "clipboard-manager:default"
+    "clipboard-manager:default",
+    "process:default",
+    "updater:default"
   ]
 }

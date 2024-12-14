@@ -1,8 +1,7 @@
 {
   "base": {
     "app_footer": {
-      "homepage": "Homepage",
-      "changelog": "Changelog"
+      "homepage": "Homepage"
     },
     "app_header": {
       "navigation": {
@@ -640,6 +639,13 @@
         }
       }
     }
+  },
+  "update_check": {
+    "downloading": "Downloading... {progress}%",
+    "heading": "A new version of elasticvue is available.",
+    "installing": "Installing update, please wait...",
+    "update_info": "Elasticvue {version} is available. Do you want to install it now?",
+    "yes": "Yes"
   },
   "welcome": {
     "import_backup": {

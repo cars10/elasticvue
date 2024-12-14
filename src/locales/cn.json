@@ -1,8 +1,7 @@
 {
   "base": {
     "app_footer": {
-      "homepage": "主页",
-      "changelog": "变更日志"
+      "homepage": "主页"
     },
     "app_header": {
       "navigation": {
@@ -640,6 +639,13 @@
         }
       }
     }
+  },
+  "update_check": {
+    "downloading": "下载中... {progress}%",
+    "heading": "一个新的 elasticvue 版本可用。",
+    "installing": "正在安装更新，请稍候...",
+    "update_info": "Elasticvue {version} 可用。您现在想安装吗？",
+    "yes": "是"
   },
   "welcome": {
     "import_backup": {
