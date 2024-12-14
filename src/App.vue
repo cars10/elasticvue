@@ -17,7 +17,7 @@
 
     <modal-loader />
     <alert-snackbar />
-    <update-check />
+    <update-check v-if="buildConfig.tauri" />
 
     <app-footer />
   </q-layout>
@@ -35,6 +35,7 @@
   import { useConnectionStore } from './store/connection'
   import { setAppThemeCss, setupThemeListener } from './helpers/theme.ts'
   import UpdateCheck from './components/base/UpdateCheck.vue'
+  import { buildConfig } from './buildConfig.ts'
 
   const themeStore = useThemeStore()
   const connectionStore = useConnectionStore()

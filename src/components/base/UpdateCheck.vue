@@ -18,7 +18,7 @@
         <div v-else-if="installing">
           {{ t('update_check.installing') }}
         </div>
-        <div v-else>
+        <div v-else-if="updateInfo">
           {{ t('update_check.update_info', { version: updateInfo.version }) }}
         </div>
       </q-card-section>
