@@ -1,8 +1,7 @@
 {
   "base": {
     "app_footer": {
-      "homepage": "Site web",
-      "changelog": "Changelog"
+      "homepage": "Site web"
     },
     "app_header": {
       "navigation": {
@@ -640,6 +639,13 @@
         }
       }
     }
+  },
+  "update_check": {
+    "downloading": "Téléchargement... {progress}%",
+    "heading": "Une nouvelle version d'elasticvue est disponible.",
+    "installing": "Installation de la mise à jour, veuillez patienter...",
+    "update_info": "Elasticvue {version} est disponible. Voulez-vous l'installer maintenant ?",
+    "yes": "Oui"
   },
   "welcome": {
     "import_backup": {

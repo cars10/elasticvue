@@ -7,14 +7,12 @@
       </div>
 
       <div class="col-md-4 text-center">
-        <div class="text-subtitle-1">
-          Elasticvue {{ version }}-{{ VERSION_NAME }} |
-          <a href="https://github.com/cars10/elasticvue/blob/master/CHANGELOG.md" rel="nofollow" target="_blank"
-             class="decoration-none">
-            {{ t('base.app_footer.changelog') }}
-          </a>
+        <div>
+          Elasticvue {{ version }}-{{ VERSION_NAME }}
         </div>
-        &copy;{{ new Date().getFullYear() }} - Carsten K&ouml;nig
+        <div>
+          &copy;{{ new Date().getFullYear() }} - Carsten K&ouml;nig
+        </div>
       </div>
 
       <div class="col-md-4 text-right">
