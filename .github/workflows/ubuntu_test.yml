@@ -10,7 +10,7 @@ jobs:
     name: Build desktop app for ${{ matrix.platform }}
     strategy:
       matrix:
-        platform: [ ubuntu-24.04 ]
+        platform: [ ubuntu-22.04 ]
     runs-on: ${{ matrix.platform }}
     env:
       TAURI_SIGNING_PRIVATE_KEY: "${{ secrets.TAURI_PRIVATE_KEY }}"
