@@ -10,7 +10,7 @@ jobs:
     name: Build desktop app for ${{ matrix.platform }}
     strategy:
       matrix:
-        platform: [ ubuntu-22.04 ]
+        platform: [ ubuntu-24.04 ]
     runs-on: ${{ matrix.platform }}
     env:
       TAURI_SIGNING_PRIVATE_KEY: "${{ secrets.TAURI_PRIVATE_KEY }}"
@@ -33,7 +33,7 @@ jobs:
       - name: linux > install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y libwebkit2gtk-4.0-37=2.36.0-2ubuntu1 libwebkit2gtk-4.0-dev=2.36.0-2ubuntu1 libjavascriptcoregtk-4.0-18=2.36.0-2ubuntu1 libjavascriptcoregtk-4.0-dev=2.36.0-2ubuntu1 gir1.2-javascriptcoregtk-4.0=2.36.0-2ubuntu1 gir1.2-webkit2-4.0=2.36.0-2ubuntu1 build-essential curl wget file libxdo-dev libssl-dev libayatana-appindicator3-dev librsvg2-dev
+          sudo apt-get install -y libwebkit2gtk-4.1-0 2.44.3-0ubuntu0.24.04.1 libwebkit2gtk-4.1-dev 2.44.3-0ubuntu0.24.04.1 build-essential curl wget file libxdo-dev libssl-dev libayatana-appindicator3-dev librsvg2-dev
     
       ### build linux
 
