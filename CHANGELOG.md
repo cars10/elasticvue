@@ -1,5 +1,10 @@
 # Changelog
 
+# 1.2.0
+
+* adds support for date math in index names. You can use something like `<kube-{now/d}>` as your index name, when 
+searching and also in the `REST` view. fixes [#267](https://github.com/cars10/elasticvue/issues/267)
+
 ## 1.1.2
 
 This version re-adds the automatic updater for the desktop app. Since the update to tauri 2.0 

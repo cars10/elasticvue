@@ -3,6 +3,7 @@ import { REQUEST_DEFAULT_HEADERS } from '../consts'
 import { fetchMethod } from '../helpers/fetch'
 import { stringifyJson } from '../helpers/json/stringify.ts'
 import { ElasticsearchClusterCredentials } from '../store/connection.ts'
+import { cleanIndexName } from '../helpers/cleanIndexName.ts'
 
 interface IndexGetArgs {
   routing?: string
@@ -131,7 +132,7 @@ export default class ElasticsearchAdapter {
     if (indices.length > MAX_INDICES_PER_REQUEST) {
       return this.callInChunks({ method: 'indexClose', indices })
     } else {
-      return this.request(`${indices.join(',')}/_close`, 'POST')
+      return this.request(`${cleanIndexName(indices.join(','))}/_close`, 'POST')
     }
   }
 
@@ -139,7 +140,7 @@ export default class ElasticsearchAdapter {
     if (indices.length > MAX_INDICES_PER_REQUEST) {
       return this.callInChunks({ method: 'indexOpen', indices })
     } else {
-      return this.request(`${indices.join(',')}/_open`, 'POST')
+      return this.request(`${cleanIndexName(indices.join(','))}/_open`, 'POST')
     }
   }
 
@@ -147,7 +148,7 @@ export default class ElasticsearchAdapter {
     if (indices.length > MAX_INDICES_PER_REQUEST) {
       return this.callInChunks({ method: 'indexForcemerge', indices })
     } else {
-      return this.request(`${indices.join(',')}/_forcemerge`, 'POST')
+      return this.request(`${cleanIndexName(indices.join(','))}/_forcemerge`, 'POST')
     }
   }
 
@@ -155,7 +156,7 @@ export default class ElasticsearchAdapter {
     if (indices.length > MAX_INDICES_PER_REQUEST) {
       return this.callInChunks({ method: 'indexRefresh', indices })
     } else {
-      return this.request(`${indices.join(',')}/_refresh`, 'POST')
+      return this.request(`${cleanIndexName(indices.join(','))}/_refresh`, 'POST')
     }
   }
 
@@ -163,7 +164,7 @@ export default class ElasticsearchAdapter {
     if (indices.length > MAX_INDICES_PER_REQUEST) {
       return this.callInChunks({ method: 'indexClearCache', indices })
     } else {
-      return this.request(`${indices.join(',')}/_cache/clear`, 'POST')
+      return this.request(`${cleanIndexName(indices.join(','))}/_cache/clear`, 'POST')
     }
   }
 
@@ -171,7 +172,7 @@ export default class ElasticsearchAdapter {
     if (indices.length > MAX_INDICES_PER_REQUEST) {
       return this.callInChunks({ method: 'indexFlush', indices })
     } else {
-      return this.request(`${indices.join(',')}/_flush`, 'POST')
+      return this.request(`${cleanIndexName(indices.join(','))}/_flush`, 'POST')
     }
   }
 
@@ -316,19 +317,4 @@ export default class ElasticsearchAdapter {
       return Promise.reject(e)
     }
   }
-
-  /********/
-
-  /**
-   * Creates multiple indices, one for each word. Only creates if they do not already exist
-   * @param names {Array}
-   */
-  async createIndices (names: string[]) {
-    for (const name of [...new Set(names)]) {
-      const exists = await this.indexExists({ index: name })
-      if (!exists) await this.indexCreate({ index: name })
-    }
-  }
 }
-
-const cleanIndexName = (index: string) => (index.replace(/%/g, '%25'))
