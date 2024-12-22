@@ -80,6 +80,12 @@
             :class="{marked: markedColumnIndex === i}"
             @mouseover="markColumn(i)"
             @mouseleave="unmarkColumn">
+          <div v-if="currentReroutingShard.index === col.name && currentReroutingShard.node !== row" class="flex">
+            <q-btn class="q-mx-sm q-my-md" @click="reroute(currentReroutingShard, row)" color="primary-dark">
+              {{ t('shards.shards_table.reroute.label', { node: row }) }}
+            </q-btn>
+          </div>
+
           <div class="flex">
             <index-shard v-for="(shard, j) in shards.shards?.[row]?.[col.name]"
                          :key="`${col.name}_actual_shard_${i}_${j}`"
@@ -87,12 +93,6 @@
                          :action="initReroute"
                          re-routable
                          :outlined="!(currentReroutingShard.index === col.name && currentReroutingShard.node === row && currentReroutingShard.shard === shard.shard)" />
-
-            <div v-if="currentReroutingShard.index === col.name && currentReroutingShard.node !== row">
-              <button class="shard-reroute-target" @click="reroute(currentReroutingShard, row)">
-                {{ t('shards.shards_table.reroute.label', { node: row }) }}
-              </button>
-            </div>
           </div>
         </td>
       </tr>

@@ -9,6 +9,7 @@ import { fetchMethod } from '../../../helpers/fetch'
 import { IdbRestQueryTab, IdbRestQueryTabRequest } from '../../../db/types.ts'
 import { debounce } from '../../../helpers/debounce.ts'
 import { parseKibana } from '../../../helpers/parseKibana.ts'
+import { cleanIndexName } from '../../../helpers/cleanIndexName.ts'
 
 type RestQueryFormProps = {
   tab: IdbRestQueryTab
@@ -48,7 +49,7 @@ export const useRestQueryForm = (props: RestQueryFormProps, emit: any) => {
 
     let url = connectionStore.activeCluster.uri
     if (!url.endsWith('/') && !props.tab.request.path.startsWith('/')) url += '/'
-    url += props.tab.request.path
+    url += cleanIndexName(props.tab.request.path)
 
     try {
       const fetchResponse = await fetchMethod(url, options)
@@ -143,11 +144,11 @@ export const useRestQueryForm = (props: RestQueryFormProps, emit: any) => {
   const onPaste = (data: string) => {
     const kibanaRequest = parseKibana(data)
 
-      nextTick(() => {
+    nextTick(() => {
       if (kibanaRequest.method) {
         ownTab.value.request.method = kibanaRequest.method
-        ownTab.value.request.path = kibanaRequest.path ||  ''
-        ownTab.value.request.body = kibanaRequest.body ||  ''
+        ownTab.value.request.path = kibanaRequest.path || ''
+        ownTab.value.request.body = kibanaRequest.body || ''
       }
     })
   }
