@@ -194,6 +194,7 @@ jobs:
     needs:
       - build_desktop
       - build_docker
+      - build_browser_extensions
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
