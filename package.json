@@ -51,6 +51,7 @@
     "@vitejs/plugin-vue": "^5.2.1",
     "@vue/eslint-config-typescript": "^13.0.0",
     "@vue/tsconfig": "^0.7.0",
+    "cross-env": "^7.0.3",
     "eslint": "^9.16.0",
     "eslint-plugin-vue": "^9.32.0",
     "sass": "^1.82.0",
