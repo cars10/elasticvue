@@ -1,12 +1,13 @@
 FROM ubuntu:jammy
+ARG USERID=1000
 
 ENV NODE_VERSION=22
 ENV APP_HOME=/app
 ENV BUILD_USER=tauri
 
-RUN useradd --uid 1000 -m $BUILD_USER
+RUN useradd --uid $USERID -m $BUILD_USER
 RUN mkdir -p $APP_HOME
-RUN chown -R 1000:1000 $APP_HOME
+RUN chown -R $USERID:$USERID $APP_HOME
 
 WORKDIR $APP_HOME
 

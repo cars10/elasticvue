@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.3.0
+## 1.3.1
 
 Change the build process for the linux desktop app. It now requires glibc `3.35`, so it should run distros using 
 older versions of glibc, like `debian:bookworm` or `ubuntu:jammy`.
