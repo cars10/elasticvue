@@ -2,8 +2,8 @@
 
 ## 1.3.0
 
-Change the build process for the linux desktop app. It now requires glibc `3.36`, so it should run distros using 
-outdated versions of glibc, like `debian:bookworm`.
+Change the build process for the linux desktop app. It now requires glibc `3.35`, so it should run distros using 
+older versions of glibc, like `debian:bookworm` or `ubuntu:jammy`.
 
 ## 1.2.0
 
