@@ -138,17 +138,36 @@ jobs:
             src-tauri/target/x86_64-apple-darwin/release/bundle/dmg/elasticvue_*_x64.dmg
             src-tauri/target/x86_64-apple-darwin/release/bundle/macos/elasticvue_x64*
 
+
+  build_browser_extensions:
+    name: Build browser extensions
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: build extensions
+        run: make build_browser_extensions
+
+      - name: upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser_extension_artifacts
+          if-no-files-found: error
+          path: |
+            artifacts/*.zip
+
+
   build_docker:
     name: Build docker images
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+
       - name: Docker hub login
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - uses: actions/checkout@v4
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -168,6 +187,7 @@ jobs:
           push: true
           tags: cars10/elasticvue:latest,cars10/elasticvue:${{ steps.package-version.outputs.current-version }}
           #tags: cars10/elasticvue:${{ steps.package-version.outputs.current-version }}
+
 
   publish:
     name: Publish release
@@ -216,6 +236,7 @@ jobs:
             github-artifacts/mac_x86_64_artifacts/macos/elasticvue_x64*
             github-artifacts/windows_artifacts/bundle/msi/elasticvue_*_x64*
             github-artifacts/windows_artifacts/elasticvue.exe
+            github-artifacts/browser_extension_artifacts/*.zip
           body: |
             ## Changelog
             ${{ steps.changelog.outputs.changelog }}
