@@ -16,6 +16,7 @@ yarn-*.log
 # Tests
 /test-results/
 /playwright-report/
+/playwright-report-ci/
 /playwright/.cache/
 playwright/.auth
 tests/*.png
@@ -30,3 +31,4 @@ browser_extension/*
 !browser_extension/firefox/manifest.json
 tmp
 src-tauri/target
+scripts/screenshots/*

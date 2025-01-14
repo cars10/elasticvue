@@ -1,6 +1,11 @@
 # Changelog
 
-# 1.2.0
+## 1.3.0
+
+Change the build process for the linux desktop app. It now requires glibc `3.35`, so it should run distros using 
+older versions of glibc, like `debian:bookworm` or `ubuntu:jammy`.
+
+## 1.2.0
 
 * adds support for date math in index names. You can use something like `<kube-{now/d}>` as your index name, when 
 searching and also in the `REST` view. fixes [#267](https://github.com/cars10/elasticvue/issues/267)

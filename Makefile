@@ -1,4 +1,6 @@
 CI ?=
+TAURI_SIGNING_PRIVATE_KEY ?=
+TAURI_SIGNING_PRIVATE_KEY_PASSWORD ?=
 
 build_docker_ci:
 	docker build -f docker/Dockerfile_ci -t elasticvue-ci .
@@ -8,6 +10,13 @@ ci: build_docker_ci
 
 build_tauri:
 	yarn tauri:build
+
+build_docker_tauri:
+	docker build . -t elasticvue-linux-tauri -f docker/Dockerfile_tauri
+	docker run --rm -e TAURI_SIGNING_PRIVATE_KEY="$(TAURI_SIGNING_PRIVATE_KEY)" \
+	                -e TAURI_SIGNING_PRIVATE_KEY_PASSWORD="$(TAURI_SIGNING_PRIVATE_KEY_PASSWORD)" \
+	                -v .:/app \
+	                elasticvue-linux-tauri bash -c "yarn && . ~/.cargo/env && rm -rf src-tauri/target && yarn tauri:build"
 
 # Build docker image to run elasticvue served by nginx
 build_docker_nginx:
