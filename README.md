@@ -13,7 +13,7 @@ Elasticsearch gui for your browser [https://elasticvue.com](https://elasticvue.c
 
 > Elasticsearch is a trademark of Elasticsearch BV, registered in the U.S. and in other countries.
 
-[![Demo](http://static.cars10k.de/demo.gif)](http://static.cars10k.de/demo.gif)
+[![Demo](http://static.cars10k.de/demo.gif)](http://static.cars10k.de/demo.gif?v=2)
 
 Contents
 
@@ -178,7 +178,8 @@ See the Wiki. [Comparing to other frontends](https://github.com/cars10/elasticvu
 Elasticvue is available in the following languages:
 
 * english
-* chinese (about 80% translated)
+* chinese 
+* french
 
 ### Help wanted
 
