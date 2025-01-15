@@ -3,9 +3,8 @@ ARG USERID=1000
 
 ENV NODE_VERSION=22
 ENV APP_HOME=/app
-ENV BUILD_USER=tauri
 
-RUN useradd --uid $USERID -m $BUILD_USER
+RUN useradd --uid $USERID -m dev
 RUN mkdir -p $APP_HOME
 RUN chown -R $USERID:$USERID $APP_HOME
 
@@ -18,7 +17,7 @@ RUN apt-get update && \
     && apt-get autoremove -y \
     && rm -rf /var/lib/apt/lists/*
 
-USER $BUILD_USER
+USER $USERID
 
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --default-toolchain stable -y
 
@@ -67,4 +66,4 @@ RUN apt-get update \
     && apt-get autoremove -y \
     && rm -rf /var/lib/apt/lists/*
 
-USER $BUILD_USER
+USER $USERID
