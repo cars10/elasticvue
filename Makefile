@@ -1,7 +1,7 @@
 CI ?=
 TAURI_SIGNING_PRIVATE_KEY ?=
 TAURI_SIGNING_PRIVATE_KEY_PASSWORD ?=
-DOCKER_USERID ?= 1000
+UID := $(shell id -u)
 
 build_docker_ci:
 	docker build -f docker/Dockerfile_ci -t elasticvue-ci .
@@ -13,7 +13,7 @@ build_tauri:
 	yarn tauri:build
 
 build_docker_tauri:
-	docker build -t elasticvue-linux-tauri -f docker/Dockerfile_tauri --build-arg USERID="$(DOCKER_USERID)" .
+	docker build -t elasticvue-linux-tauri -f docker/Dockerfile_tauri --build-arg USERID="$(UID)" .
 	docker run --rm -e TAURI_SIGNING_PRIVATE_KEY="$(TAURI_SIGNING_PRIVATE_KEY)" \
 	                -e TAURI_SIGNING_PRIVATE_KEY_PASSWORD="$(TAURI_SIGNING_PRIVATE_KEY_PASSWORD)" \
 	                -v .:/app \
@@ -30,7 +30,7 @@ build_docker_nginx_multiarch:
 # Build elasticvue browser extensions into ./artifacts via docker
 build_browser_extensions:
 	mkdir -p "$(CURDIR)/artifacts"
-	docker build -f docker/Dockerfile_browser_ext -t elasticvue-build_browser_ext --build-arg USERID="$(DOCKER_USERID)" .
+	docker build -f docker/Dockerfile_browser_ext -t elasticvue-build_browser_ext --build-arg USERID="$(UID)" .
 	docker run --rm -v "$(CURDIR)/artifacts":/app/artifacts elasticvue-build_browser_ext scripts/build_browser_extensions.sh
 
 run_docker_nginx:
