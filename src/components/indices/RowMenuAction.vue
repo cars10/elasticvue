@@ -1,7 +1,8 @@
 <template>
-  <q-item clickable :disable="disabled" @click="run">
+  <q-item clickable :disable="disabled || requestState.loading" @click="run">
     <q-item-section side>
-      <q-icon :name="icon" size="xs" />
+      <q-spinner v-if="requestState.loading" />
+      <q-icon v-else :name="icon" size="xs" />
     </q-item-section>
     <q-item-section>
       <q-item-label>{{ text }}</q-item-label>
@@ -24,7 +25,7 @@
   }>()
   const emit = defineEmits(['done'])
 
-  const { run } = useRowMenuAction({
+  const { run, requestState } = useRowMenuAction({
     method: props.method,
     methodParams: props.methodParams,
     growl: props.growl,

@@ -32,6 +32,7 @@ export const useRowMenuAction = ({ method, methodParams = {}, growl, confirm, em
   }
 
   return {
-    run
+    run,
+    requestState
   }
 }
