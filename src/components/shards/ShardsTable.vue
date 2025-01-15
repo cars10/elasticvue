@@ -81,7 +81,7 @@
             @mouseover="markColumn(i)"
             @mouseleave="unmarkColumn">
           <div v-if="currentReroutingShard.index === col.name && currentReroutingShard.node !== row" class="flex">
-            <q-btn class="q-mx-sm q-my-md" @click="reroute(currentReroutingShard, row)" color="primary-dark">
+            <q-btn class="q-mx-sm q-my-md" color="primary-dark" @click="reroute(currentReroutingShard, row)">
               {{ t('shards.shards_table.reroute.label', { node: row }) }}
             </q-btn>
           </div>

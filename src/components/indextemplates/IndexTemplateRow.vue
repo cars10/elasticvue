@@ -4,6 +4,7 @@
       <q-icon :name="expand ? 'expand_less' : 'expand_more'" />
     </td>
     <td>{{ row.name }}</td>
+    <td>{{ row.endpoint }}</td>
     <td>{{ row.index_patterns || row.template || row.index_template?.index_patterns }}</td>
   </tr>
 

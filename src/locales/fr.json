@@ -212,9 +212,16 @@
   "index_templates": {
     "heading": "Modèles d'index",
     "index_templates_table": {
+      "show_hidden_templates": {
+        "label": "Afficher les modèles masqués"
+      },
+      "sticky_table_header": {
+        "label": "En-tête de table fixe"
+      },
       "table": {
         "headers": {
           "name": "Nom",
+          "endpoint": "endpoint",
           "index_patterns": "index_patterns"
         }
       }

@@ -34,6 +34,8 @@ export default class ElasticsearchIndex {
 }
 
 function parseIntValue (value: string) {
+  if (!value) return ''
+
   try {
     return parseInt(value)
   } catch (_e) {

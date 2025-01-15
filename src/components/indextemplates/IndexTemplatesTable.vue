@@ -8,12 +8,12 @@
           <q-list dense>
             <q-item style="padding-left: 0">
               <q-checkbox v-model="indexTemplatesStore.showHiddenIndices" size="32px"
-                          :label="t('indices.indices_table.show_hidden_indices.label')" />
+                          :label="t('index_templates.index_templates_table.show_hidden_templates.label')" />
             </q-item>
 
             <q-item style="padding-left: 0">
               <q-checkbox v-model="indexTemplatesStore.stickyTableHeader" size="32px"
-                          :label="t('indices.indices_table.sticky_table_header.label')" />
+                          :label="t('index_templates.index_templates_table.sticky_table_header.label')" />
             </q-item>
           </q-list>
         </q-menu>

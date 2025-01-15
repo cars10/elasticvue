@@ -1,9 +1,11 @@
 import { useElasticsearchAdapter } from '../../CallElasticsearch.ts'
 import { ref, Ref } from 'vue'
 import { useConnectionStore } from '../../../store/connection.ts'
+import ElasticsearchAdapter from '../../../services/ElasticsearchAdapter.ts'
 
 export type GenericIndexTemplate = {
   name: string,
+  endpoint: string,
   order?: string,
   version?: string,
   priority?: string,
@@ -28,12 +30,18 @@ export const useIndexTemplates = () => {
   const load = async () => {
     if (!connectionStore.activeCluster) return
     const majorVersion = parseInt(connectionStore.activeCluster.majorVersion)
-    const method = templateEndpoint(majorVersion)
+    const method = templateEndpoints(majorVersion)
     if (!method) return
 
-    return callElasticsearch(method)
-        .then(body => (data.value = enrich(body)))
-        .catch(() => (data.value = null))
+    data.value = []
+
+    for (const m of method) {
+      try {
+        const body = await callElasticsearch(m as unknown as keyof ElasticsearchAdapter)
+        data.value = data.value.concat(enrich(body, m))
+      } catch (error) {
+      }
+    }
   }
 
   return {
@@ -43,13 +51,14 @@ export const useIndexTemplates = () => {
   }
 }
 
-const enrich = (data: IndexTemplates) => {
+const enrich = (data: IndexTemplates, endpoint: string) => {
   const templates = data.index_templates || data.component_templates || data
   const results: GenericIndexTemplate[] = []
   Object.entries(templates).map(([name, template]) => {
     const indexPatterns = template.index_patterns?.join('') || template.index_template?.index_patterns?.join('') || template.component_template?.index_patterns?.join('') || template.template
     results.push({
       name,
+      endpoint: convertToSnakeCase(endpoint),
       indexPatterns,
       ...template,
     })
@@ -57,17 +66,21 @@ const enrich = (data: IndexTemplates) => {
   return results
 }
 
-const templateEndpoint = (majorVersion: number) => {
+const templateEndpoints = (majorVersion: number) => {
   switch (majorVersion) {
     case 5:
-      return 'templates'
+      return ['template']
     case 6:
-      return 'templates'
+      return ['template']
     case 7:
-      return 'templates'
+      return ['template', 'indexTemplate']
     case 8:
-      return 'indexTemplates'
+      return ['template', 'indexTemplate']
     default:
       return null
   }
+}
+
+const convertToSnakeCase = (input: string) => {
+  return input.replace(/([A-Z])/g, '_$1').replace(/^/, '_').toLowerCase()
 }

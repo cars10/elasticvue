@@ -212,9 +212,16 @@
   "index_templates": {
     "heading": "索引模板",
     "index_templates_table": {
+      "show_hidden_templates": {
+        "label": "显示隐藏模板"
+      },
+      "sticky_table_header": {
+        "label": "固定表头"
+      },
       "table": {
         "headers": {
           "name": "名字",
+          "endpoint": "端点",
           "index_patterns": "索引模式"
         }
       }

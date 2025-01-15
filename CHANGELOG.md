@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.0
+
+* for elasticsearch 7 and 8, query both `_template` and `_index_template` endpoints, fixes [#281](https://github.com/cars10/elasticvue/issues/281)
+
 ## 1.3.1
 
 Change the build process for the linux desktop app. It now requires glibc `3.35`, so it should run distros using 
