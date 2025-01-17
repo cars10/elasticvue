@@ -76,19 +76,19 @@
 
             <index-aliases :index="index.index" @reload="emitReloadAndCloseMenu" />
             <index-reindex
-                v-if="connectionStore.activeCluster && parseInt(connectionStore.activeCluster.majorVersion) > 1"
-                :index="index.index" @reload="emitReloadAndCloseMenu" />
+              v-if="connectionStore.activeCluster && parseInt(connectionStore.activeCluster.majorVersion) > 1"
+              :index="index.index" @reload="emitReloadAndCloseMenu" />
 
             <q-separator />
 
             <row-menu-action
-                v-if="connectionStore.activeCluster && parseInt(connectionStore.activeCluster.majorVersion) > 1"
-                method="indexForcemerge"
-                :method-params="{ indices: [props.index.index] }"
-                :text="t('indices.index_row.options.forcemerge.text')"
-                :growl="t('indices.index_row.options.forcemerge.growl', {index: index.index})"
-                icon="call_merge"
-                @done="emitReloadAndCloseMenu" />
+              v-if="connectionStore.activeCluster && parseInt(connectionStore.activeCluster.majorVersion) > 1"
+              method="indexForcemerge"
+              :method-params="{ indices: [props.index.index] }"
+              :text="t('indices.index_row.options.forcemerge.text')"
+              :growl="t('indices.index_row.options.forcemerge.growl', {index: index.index})"
+              icon="call_merge"
+              @done="emitReloadAndCloseMenu" />
 
             <row-menu-action method="indexRefresh"
                              :method-params="{ indices: [props.index.index] }"
@@ -130,14 +130,14 @@
             <q-separator />
 
             <row-menu-action
-                v-if="connectionStore.activeCluster && parseInt(connectionStore.activeCluster.majorVersion) >= 5"
-                method="deleteByQuery"
-                :method-params="{ index: props.index.index }"
-                :text="t('indices.index_row.options.delete_by_query.text')"
-                :growl="t('indices.index_row.options.delete_by_query.growl', {index: index.index})"
-                :confirm="t('indices.index_row.options.delete_by_query.confirm', {index: index.index})"
-                icon="delete"
-                @done="emitReloadAndCloseMenu" />
+              v-if="connectionStore.activeCluster && parseInt(connectionStore.activeCluster.majorVersion) >= 5"
+              method="deleteByQuery"
+              :method-params="{ index: props.index.index }"
+              :text="t('indices.index_row.options.delete_by_query.text')"
+              :growl="t('indices.index_row.options.delete_by_query.growl', {index: index.index})"
+              :confirm="t('indices.index_row.options.delete_by_query.confirm', {index: index.index})"
+              icon="delete"
+              @done="emitReloadAndCloseMenu" />
 
             <row-menu-action method="indexDelete"
                              :method-params="{ indices: [props.index.index] }"

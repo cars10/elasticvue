@@ -221,7 +221,6 @@
       "table": {
         "headers": {
           "name": "名字",
-          "endpoint": "端点",
           "index_patterns": "索引模式"
         }
       }

@@ -221,7 +221,6 @@
       "table": {
         "headers": {
           "name": "Name",
-          "endpoint": "Endpoint",
           "index_patterns": "index_patterns"
         }
       }

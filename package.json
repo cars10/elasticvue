@@ -38,12 +38,12 @@
     "pretty-bytes": "^6.1.1",
     "quasar": "^2.17.6",
     "vue": "^3.5.13",
-    "vue-i18n": "^10.0.5",
+    "vue-i18n": "^11.0.1",
     "vue-resizable": "^2.1.7",
     "vue-router": "^4.5.0"
   },
   "devDependencies": {
-    "@intlify/eslint-plugin-vue-i18n": "^3.1.0",
+    "@intlify/eslint-plugin-vue-i18n": "^3.2.0",
     "@playwright/test": "^1.49.1",
     "@quasar/vite-plugin": "^1.8.1",
     "@tauri-apps/cli": "^2.2.4",
