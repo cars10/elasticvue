@@ -10,7 +10,11 @@
     <q-separator />
 
     <loader-status :request-state="requestState">
-      <index-templates-table :index-templates="data || []" />
+      <index-templates-table :index-templates="data || []">
+        <q-select v-if="connectionStore.activeCluster && parseInt(connectionStore.activeCluster.majorVersion) >= 7"
+                  v-model="endpoint" :options="endpointOptions" label="Endpoint" dense outlined
+                  class="q-mr-md" style="min-width: 140px" />
+      </index-templates-table>
     </loader-status>
   </q-card>
 </template>
@@ -22,10 +26,12 @@
   import IndexTemplatesTable from './IndexTemplatesTable.vue'
   import { useTranslation } from '../../composables/i18n.ts'
   import { useIndexTemplates } from '../../composables/components/indextemplates/IndexTemplates.ts'
+  import { useConnectionStore } from '../../store/connection.ts'
 
   const t = useTranslation()
 
-  const { data, requestState, load } = useIndexTemplates()
+  const connectionStore = useConnectionStore()
+  const { data, requestState, load, endpoint, endpointOptions } = useIndexTemplates()
 
   onMounted(load)
 </script>

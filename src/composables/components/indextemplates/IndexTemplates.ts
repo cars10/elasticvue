@@ -1,11 +1,11 @@
 import { useElasticsearchAdapter } from '../../CallElasticsearch.ts'
-import { ref, Ref } from 'vue'
+import { ref, Ref, watch } from 'vue'
 import { useConnectionStore } from '../../../store/connection.ts'
 import ElasticsearchAdapter from '../../../services/ElasticsearchAdapter.ts'
+import { QSelectOption } from 'quasar'
 
 export type GenericIndexTemplate = {
   name: string,
-  endpoint: string,
   order?: string,
   version?: string,
   priority?: string,
@@ -23,42 +23,47 @@ type IndexTemplates = {
 } | Record<string, { template: string }>
 
 export const useIndexTemplates = () => {
+  const connectionStore = useConnectionStore()
+  const endpoint: Ref<QSelectOption> = ref(defaultTemplateEndpoint(connectionStore.activeCluster?.majorVersion))
+  const endpointOptions = [
+    { label: '_template', value: 'template' },
+    { label: '_index_template', value: 'indexTemplate' }
+  ]
+
   const { requestState, callElasticsearch } = useElasticsearchAdapter()
   const data: Ref<GenericIndexTemplate[] | null> = ref(null)
-  const connectionStore = useConnectionStore()
 
   const load = async () => {
-    if (!connectionStore.activeCluster) return
-    const majorVersion = parseInt(connectionStore.activeCluster.majorVersion)
-    const method = templateEndpoints(majorVersion)
+    const method = endpoint.value.value
     if (!method) return
 
     data.value = []
 
-    for (const m of method) {
-      try {
-        const body = await callElasticsearch(m as unknown as keyof ElasticsearchAdapter)
-        data.value = data.value.concat(enrich(body, m))
-      } catch (error) {
-      }
+    try {
+      const body = await callElasticsearch(method as unknown as keyof ElasticsearchAdapter)
+      data.value = enrich(body)
+    } catch (error) {
     }
   }
+
+  watch(endpoint, () => (load()))
 
   return {
     data,
     requestState,
-    load
+    load,
+    endpoint,
+    endpointOptions
   }
 }
 
-const enrich = (data: IndexTemplates, endpoint: string) => {
+const enrich = (data: IndexTemplates) => {
   const templates = data.index_templates || data.component_templates || data
   const results: GenericIndexTemplate[] = []
   Object.entries(templates).map(([name, template]) => {
     const indexPatterns = template.index_patterns?.join('') || template.index_template?.index_patterns?.join('') || template.component_template?.index_patterns?.join('') || template.template
     results.push({
       name,
-      endpoint: convertToSnakeCase(endpoint),
       indexPatterns,
       ...template,
     })
@@ -66,21 +71,17 @@ const enrich = (data: IndexTemplates, endpoint: string) => {
   return results
 }
 
-const templateEndpoints = (majorVersion: number) => {
-  switch (majorVersion) {
-    case 5:
-      return ['template']
-    case 6:
-      return ['template']
-    case 7:
-      return ['template', 'indexTemplate']
-    case 8:
-      return ['template', 'indexTemplate']
-    default:
-      return null
-  }
-}
+const defaultTemplateEndpoint = (majorVersion: string | undefined): QSelectOption => {
+  if (!majorVersion) return { label: '_template', value: 'template' }
 
-const convertToSnakeCase = (input: string) => {
-  return input.replace(/([A-Z])/g, '_$1').replace(/^/, '_').toLowerCase()
+  try {
+    const version = parseInt(majorVersion)
+    if (version >= 8) {
+      return { label: '_index_template', value: 'indexTemplate' }
+    } else {
+      return { label: '_template', value: 'template' }
+    }
+  } catch (e) {
+    return { label: '_template', value: 'template' }
+  }
 }

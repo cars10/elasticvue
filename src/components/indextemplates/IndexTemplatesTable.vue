@@ -1,6 +1,8 @@
 <template>
   <div class="flex justify-end q-pa-md">
     <div class="flex">
+      <slot />
+
       <filter-input v-model="indexTemplatesStore.filter" />
 
       <q-btn icon="settings" round flat class="q-ml-sm">

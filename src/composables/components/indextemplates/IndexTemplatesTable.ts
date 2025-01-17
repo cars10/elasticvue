@@ -27,7 +27,6 @@ export const useIndexTemplatesTable = (props: IndexTemplatesTableProps) => {
   const columns = genColumns([
     { label: '' },
     { label: t('index_templates.index_templates_table.table.headers.name'), field: 'name', },
-    { label: t('index_templates.index_templates_table.table.headers.endpoint'), field: 'endpoint', },
     { label: t('index_templates.index_templates_table.table.headers.index_patterns') },
   ])
 
