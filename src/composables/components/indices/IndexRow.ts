@@ -55,7 +55,7 @@ export const useIndexRow = (props: IndexRowProps, emit: any) => {
   onMounted(() => (loadAliases(props.index.index)))
   watch(() => props.index, (newValue) => loadAliases(newValue.index))
 
-  const remitReloadAndCloseMenu = () => {
+  const emitReloadAndCloseMenu = () => {
     emit('reload')
     menu.value?.hide()
   }
@@ -82,7 +82,7 @@ export const useIndexRow = (props: IndexRowProps, emit: any) => {
     aliases,
     openModalWith,
     loading,
-    remitReloadAndCloseMenu,
+    emitReloadAndCloseMenu,
     showDocuments
   }
 }

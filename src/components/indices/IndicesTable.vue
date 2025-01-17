@@ -44,7 +44,7 @@
                :rows="items"
                selection="multiple">
         <template #body="{row}">
-          <index-row :index="row" @reload="emit('reload')">
+          <index-row :index="row" @reload="emit('reload')" @index-deleted="reloadSelectedItems">
             <template #checkbox>
               <q-checkbox v-model="selectedItems" :val="row.index" size="32px" @update:model-value="setIndeterminate" />
             </template>
@@ -101,6 +101,7 @@
     tableKey,
     rowsPerPage,
     selectedItems,
+    reloadSelectedItems,
     allItemsSelected,
     acceptRowsPerPage,
     setIndeterminate,

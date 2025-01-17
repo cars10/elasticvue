@@ -81,6 +81,10 @@ export const useIndicesTable = (props: EsTableProps, emit: any) => {
     }
   }
 
+  const reloadSelectedItems = (index: string) => {
+    selectedItems.value = selectedItems.value.filter(i => i != index)
+  }
+
   const columns = genColumns([
     { label: t('indices.indices_table.table.headers.name'), field: 'index' },
     { label: t('indices.indices_table.table.headers.health'), field: 'health' },
@@ -105,6 +109,7 @@ export const useIndicesTable = (props: EsTableProps, emit: any) => {
     checkAll,
     filterTable,
     selectedItems,
+    reloadSelectedItems,
     allItemsSelected,
     setIndeterminate,
     clearDeletedIndicesAndReload,
