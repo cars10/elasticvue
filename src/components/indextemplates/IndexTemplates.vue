@@ -12,7 +12,7 @@
     <loader-status :request-state="requestState">
       <index-templates-table :index-templates="data || []">
         <q-select v-if="connectionStore.activeCluster && parseInt(connectionStore.activeCluster.majorVersion) >= 7"
-                  v-model="endpoint" :options="endpointOptions" label="Endpoint" dense outlined
+                  v-model="endpoint" :options="endpointOptions" :label="t('index_templates.endpoint')" dense outlined
                   class="q-mr-md" style="min-width: 140px" />
       </index-templates-table>
     </loader-status>

@@ -211,6 +211,7 @@
   },
   "index_templates": {
     "heading": "Index templates",
+    "endpoint": "Endpoint",
     "index_templates_table": {
       "show_hidden_templates": {
         "label": "Show hidden templates"
@@ -509,6 +510,7 @@
   },
   "shards": {
     "heading": "Shards",
+    "health": "Health",
     "shards_table": {
       "cancel_relocation": "Cancel reroute",
       "reroute": {

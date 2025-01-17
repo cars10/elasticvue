@@ -211,6 +211,7 @@
   },
   "index_templates": {
     "heading": "索引模板",
+    "endpoint": "端点",
     "index_templates_table": {
       "show_hidden_templates": {
         "label": "显示隐藏模板"
@@ -509,6 +510,7 @@
   },
   "shards": {
     "heading": "分片",
+    "health": "健康状态",
     "shards_table": {
       "cancel_relocation": "取消迁移",
       "reroute": {
