@@ -26,6 +26,7 @@
   import { convertShards, EsShardIndex, EsShard, TableShards } from '../../helpers/shards'
   import ShardsTable from './ShardsTable.vue'
   import { useTranslation } from '../../composables/i18n'
+  import { EsNode } from '../../types/types.ts'
 
   const t = useTranslation()
   const shards: Ref<TableShards> = ref({} as TableShards)
@@ -33,28 +34,32 @@
   const { requestState, callElasticsearch } = useElasticsearchAdapter()
   const health = ref(null)
 
-  type CatIndicesArgs = {
+  type CatIndicesParams = {
     h: string[],
     s: string[],
     health?: string
   }
 
   const load = async () => {
-    let catIndicesArgs: CatIndicesArgs = { h: ['index', 'health', 'pri', 'rep', 'status'], s: ['health:desc', 'index'] }
+    let catIndicesParams: CatIndicesParams = {
+      h: ['index', 'health', 'pri', 'rep', 'status'],
+      s: ['health:desc', 'index']
+    }
 
-    if (health.value) catIndicesArgs['health'] = health.value
+    if (health.value) catIndicesParams['health'] = health.value
 
-    const catIndices = callElasticsearch('catIndices', catIndicesArgs)
-    const catShards = callElasticsearch('catShards', CAT_METHOD_PARAMS)
+    const catIndices = callElasticsearch('catIndices', catIndicesParams)
+    const catShards = callElasticsearch('catShards', CAT_SHARDS_PARAMS)
+    const catNodes = callElasticsearch('catNodes', { h: ['name'] })
 
-    const [indices, rawShards]: [EsShardIndex[], EsShard[]] = await Promise.all([catIndices, catShards])
-    shards.value = convertShards(rawShards, indices)
+    const [indices, rawShards, nodes]: [EsShardIndex[], EsShard[], Partial<EsNode>[]] = await Promise.all([catIndices, catShards, catNodes])
+    shards.value = convertShards(rawShards, indices, nodes)
   }
 
   watch(health, load)
   onMounted(load)
 
-  const CAT_METHOD_PARAMS = {
+  const CAT_SHARDS_PARAMS = {
     h: [
       'index',
       'shard',
