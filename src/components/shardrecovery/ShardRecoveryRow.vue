@@ -2,7 +2,8 @@
   <tr>
     <td>
       {{ shardRecovery.index }} <br>
-      Shard: {{ shardRecovery.shard }} ({{ shardRecovery.type }})
+      Shard: {{ shardRecovery.shard }} <br>
+      <span class="text-muted">{{ shardRecovery.type }}</span>
     </td>
     <td>
       <span v-if="shardRecovery.stage === 'done'">{{ shardRecovery.stage }}</span>

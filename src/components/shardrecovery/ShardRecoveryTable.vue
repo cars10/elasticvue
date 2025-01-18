@@ -79,7 +79,6 @@
   const resizeStore = useResizeStore()
   const filteredItems = computed(() => (props.shardRecoveries))
 
-
   const columns = genColumns([
     { label: t('shard_recovery_table.columns.index'), field: 'index' },
     { label: t('shard_recovery_table.columns.stage'), field: 'stage' },
