@@ -39,13 +39,14 @@ export default class ElasticsearchAdapter {
 
   async callInChunks ({ method, indices }: { method: keyof ElasticsearchAdapter, indices: string[] }) {
     const chunks = chunk(indices, MAX_INDICES_PER_REQUEST)
-    let response = null
+    const responses = []
 
     for (const c of chunks) {
-      response = await this.call(method, { indices: c })
+      const response = await this.call(method, { indices: c })
+      responses.push(response)
     }
 
-    return response
+    return responses
   }
 
   ping () {
