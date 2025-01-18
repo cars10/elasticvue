@@ -1,10 +1,15 @@
 <template>
   <div class="flex justify-between q-pa-md">
-    <div class="flex">
+    <div class="flex items-center">
       <q-btn v-if="Object.keys(currentReroutingShard).length > 0"
              :label="t('shards.shards_table.cancel_relocation')"
              color="primary-dark"
+             class="q-mr-md"
              @click="cancelRelocation" />
+
+      <router-link to="shards/recovery">
+        {{ t('shard_recovery.heading') }}
+      </router-link>
     </div>
 
     <div class="flex">
@@ -82,8 +87,11 @@
             @mouseleave="unmarkColumn">
           <div class="flex items-center">
             <q-btn v-if="currentReroutingShard.index === col.name && currentReroutingShard.node !== row"
-                   class="q-mx-xs q-my-xs" color="primary-dark" no-caps @click="reroute(currentReroutingShard, row)">
-              {{ t('shards.shards_table.reroute.label', { node: row }) }}
+                   class="q-mx-xs q-my-xs"
+                   color="primary-dark"
+                   icon="check"
+                   no-caps
+                   @click="reroute(currentReroutingShard, row)">
             </q-btn>
 
             <index-shard v-for="(shard, j) in shards.shards?.[row]?.[col.name]"

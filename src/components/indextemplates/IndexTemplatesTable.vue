@@ -50,7 +50,7 @@
     useIndexTemplatesTable
   } from '../../composables/components/indextemplates/IndexTemplatesTable'
   import IndexTemplateRow from './IndexTemplateRow.vue'
-  import { useIndexTemplatesStore } from '../../store/index_templates.ts'
+  import { useIndexTemplatesStore } from '../../store/indexTemplates.ts'
   import { useTranslation } from '../../composables/i18n.ts'
   import ResizableContainer from '../shared/ResizableContainer.vue'
   import { useResizeStore } from '../../store/resize.ts'

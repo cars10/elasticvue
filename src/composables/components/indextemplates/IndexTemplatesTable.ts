@@ -3,7 +3,7 @@ import { computed } from 'vue'
 import { genColumns } from '../../../helpers/tableColumns'
 import { filterItems } from '../../../helpers/filters.ts'
 import { GenericIndexTemplate } from './IndexTemplates.ts'
-import { useIndexTemplatesStore } from '../../../store/index_templates.ts'
+import { useIndexTemplatesStore } from '../../../store/indexTemplates.ts'
 import { DEFAULT_HIDE_INDICES_REGEX } from '../../../consts.ts'
 
 export type IndexTemplatesTableProps = {

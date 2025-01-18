@@ -519,6 +519,17 @@
       }
     }
   },
+  "shard_recovery_table": {
+    "columns": {
+      "index": "索引",
+      "stage": "阶段",
+      "source_target": "源 / 目标",
+      "time": "时间",
+      "files": "文件",
+      "bytes": "字节",
+      "translog_ops": "转录操作"
+    }
+  },
   "shared": {
     "cluster_connection_errors": {
       "connection_error": "连接错误",

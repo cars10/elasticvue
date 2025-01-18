@@ -519,6 +519,20 @@
       }
     }
   },
+  "shard_recovery": {
+    "heading": "Shard recovery"
+  },
+  "shard_recovery_table": {
+    "columns": {
+      "index": "Index",
+      "stage": "Stage",
+      "source_target": "Source / Target",
+      "time": "Time",
+      "files": "Files",
+      "bytes": "Bytes",
+      "translog_ops": "Translog Ops"
+    }
+  },
   "shared": {
     "cluster_connection_errors": {
       "connection_error": "Connection error",

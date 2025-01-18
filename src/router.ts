@@ -12,6 +12,7 @@ import WelcomePage from './components/welcome/WelcomePage.vue'
 import SnapshotRepositories from './components/repositories/SnapshotRepositories.vue'
 import RepositorySnapshots from './components/snapshots/RepositorySnapshots.vue'
 import SearchDocuments from './components/search/SearchDocuments.vue'
+import ShardRecovery from './components/shardrecovery/ShardRecovery.vue'
 import { buildConfig } from './buildConfig.ts'
 
 const routes = [
@@ -34,6 +35,7 @@ const routes = [
       { path: 'index_templates', name: 'index_templates', component: IndexTemplates },
       { path: 'settings', name: 'settings', component: GlobalSettings },
       { path: 'shards', name: 'shards', component: IndexShards },
+      { path: 'shards/recovery', name: 'shard_recovery', component: ShardRecovery },
       { path: 'nodes', name: 'nodes', component: ClusterNodes },
       { path: 'search', name: 'search', component: SearchDocuments },
       { path: 'rest', name: 'rest', component: RestQuery },

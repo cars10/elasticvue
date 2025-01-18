@@ -519,6 +519,17 @@
       }
     }
   },
+  "shard_recovery_table": {
+    "columns": {
+      "index": "Index",
+      "stage": "Étape",
+      "source_target": "Source / Cible",
+      "time": "Temps",
+      "files": "Fichiers",
+      "bytes": "Octets",
+      "translog_ops": "Opérations Translog"
+    }
+  },
   "shared": {
     "cluster_connection_errors": {
       "connection_error": "Erreur de connexion",

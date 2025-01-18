@@ -86,6 +86,10 @@ export default class ElasticsearchAdapter {
     return this.request(`_cat/shards/${query}`, 'GET', params)
   }
 
+  catRecovery () {
+    return this.request('_cat/recovery?s=start_time_millis:desc', 'GET')
+  }
+
   indexGetAlias ({ index }: { index: string }) {
     return this.request(`${cleanIndexName(index)}/_alias`, 'GET')
   }
