@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="600">
+    <rect width="900" height="200" fill="#fff"/> <!-- Белая полоса -->
+    <rect y="200" width="900" height="200" fill="#0039A6"/> <!-- Синяя полоса -->
+    <rect y="400" width="900" height="200" fill="#D52B1E"/> <!-- Красная полоса -->
+</svg>

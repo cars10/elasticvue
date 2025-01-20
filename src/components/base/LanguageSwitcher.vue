@@ -26,6 +26,7 @@
   import en from '../../assets/images/icons/flags/en.svg'
   import cn from '../../assets/images/icons/flags/cn.svg'
   import fr from '../../assets/images/icons/flags/fr.svg'
+  import ru from '../../assets/images/icons/flags/ru.svg'
   import { useI18nStore } from '../../store/i18n'
   import { useTranslation } from '../../composables/i18n.ts'
   import { ValidLocale } from '../../consts.ts'
@@ -48,6 +49,7 @@
   const languages: Language[] = [
     { code: 'en', title: t('base.language_switcher.languages.en.title'), icon: en },
     { code: 'cn', title: t('base.language_switcher.languages.cn.title'), icon: cn },
-    { code: 'fr', title: t('base.language_switcher.languages.fr.title'), icon: fr }
+    { code: 'fr', title: t('base.language_switcher.languages.fr.title'), icon: fr },
+    { code: 'ru', title: t('base.language_switcher.languages.ru.title'), icon: ru }
   ]
 </script>

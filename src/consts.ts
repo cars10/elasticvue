@@ -9,9 +9,10 @@ export const SUPPORTED_COUNTRY_LOCALES: Record<string, ValidLocale> = {
   en: 'en',
   cn: 'cn',
   zh: 'cn',
-  fr: 'fr'
+  fr: 'fr',
+  ru: 'ru'
 }
-export type ValidLocale = 'en' | 'cn' | 'fr'
+export type ValidLocale = 'en' | 'cn' | 'fr' | 'ru'
 export const DEFAULT_LOCALE: ValidLocale = 'en'
 
 export const DEFAULT_DOCUMENT_FIELD_MAX_LENGTH = 200
