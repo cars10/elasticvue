@@ -91,6 +91,10 @@ export default class ElasticsearchAdapter {
     return this.request('_cat/recovery?s=start_time_millis:desc', 'GET')
   }
 
+  recovery () {
+    return this.request('_recovery', 'GET')
+  }
+
   indexGetAlias ({ index }: { index: string }) {
     return this.request(`${cleanIndexName(index)}/_alias`, 'GET')
   }

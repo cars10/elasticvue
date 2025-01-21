@@ -5,6 +5,7 @@
 * for elasticsearch 7 and 8, query both `_template` and `_index_template` endpoints, fixes [#281](https://github.com/cars10/elasticvue/issues/281)
 * improve shards view
 * fix issue when multiple indices are selected and one is manually deleted
+* add shard recovery view, fixes [#272](https://github.com/cars10/elasticvue/issues/272)
 
 ## 1.3.1
 

@@ -21,11 +21,12 @@
   import { onMounted } from 'vue'
   import ReloadButton from '../shared/ReloadButton.vue'
   import LoaderStatus from '../shared/LoaderStatus.vue'
-  import ShardRecoveryTable, { ShardRecovery } from './ShardRecoveryTable.vue'
+  import ShardRecoveryTable from './ShardRecoveryTable.vue'
+  import { IndexRecovery } from '../../composables/components/shardrecovery/ShardRecoveryTable.ts'
 
   const t = useTranslation()
 
-  const { requestState, data, load } = useElasticsearchRequest<ShardRecovery[]>('catRecovery')
+  const { requestState, data, load } = useElasticsearchRequest<IndexRecovery>('recovery')
 
   onMounted(() => (load()))
 </script>

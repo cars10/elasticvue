@@ -526,8 +526,10 @@
     "columns": {
       "index": "Index",
       "stage": "Stage",
-      "source_target": "Source / Target",
+      "source": "Source",
+      "target": "Target",
       "time": "Time",
+      "duration": "Duration",
       "files": "Files",
       "bytes": "Bytes",
       "translog_ops": "Translog Ops"

@@ -6,12 +6,12 @@ type ShardRecoveryState = {
   pagination: any,
 }
 
-export const useShardRecoveryState = defineStore('shardRecovery', {
+export const useShardRecoveryStore = defineStore('shardRecovery', {
   state: (): ShardRecoveryState => ({
     filter: '',
     stickyTableHeader: false,
     pagination: {
-      sortBy: 'name',
+      sortBy: 'start_time_in_millis',
       descending: false,
       rowsPerPage: 10
     },

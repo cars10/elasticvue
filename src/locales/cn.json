@@ -523,8 +523,10 @@
     "columns": {
       "index": "索引",
       "stage": "阶段",
-      "source_target": "源 / 目标",
+      "source": "源",
+      "target": "目标",
       "time": "时间",
+      "duration": "持续时间",
       "files": "文件",
       "bytes": "字节",
       "translog_ops": "转录操作"
