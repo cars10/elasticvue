@@ -5,6 +5,8 @@ import { useSnackbar } from '../../Snackbar.ts'
 import { useElasticsearchAdapter } from '../../CallElasticsearch.ts'
 import { EsShard, TableShards } from '../../../helpers/shards.ts'
 import { useTranslation } from '../../i18n.ts'
+import { setupFilterState } from '../shared/FilterState.ts'
+import { useShardsStore } from '../../../store/shards.ts'
 
 export type ShardsTableProps = {
   shards: TableShards
@@ -13,7 +15,7 @@ export type ShardsTableProps = {
 export const useShardsTable = (props: ShardsTableProps, emit: any) => {
   const indicesStore = useIndicesStore()
 
-  const filter = ref('')
+  const shardsStore = useShardsStore()
   const { markedColumnIndex, markColumn, unmarkColumn } = useTableColumnHover()
 
   const filteredShards = computed(() => {
@@ -24,8 +26,8 @@ export const useShardsTable = (props: ShardsTableProps, emit: any) => {
       Object.assign(shards, { indexNames: shards.indexNames.filter(item => !item.match(new RegExp(indicesStore.hideIndicesRegex))) })
     }
 
-    if (filter.value.length !== 0) {
-      const query = filter.value.slice().toLowerCase().trim()
+    if (shardsStore.filter.length !== 0) {
+      const query = shardsStore.filter.slice().toLowerCase().trim()
       Object.assign(shards, { indexNames: shards.indexNames.filter(item => item.includes(query)) })
     }
 
@@ -46,7 +48,7 @@ export const useShardsTable = (props: ShardsTableProps, emit: any) => {
   })
 
   const pagination = ref({
-    sortBy: 'desc',
+    sortBy: '',
     descending: false,
     page: 1,
     rowsPerPage: 10,
@@ -106,8 +108,12 @@ export const useShardsTable = (props: ShardsTableProps, emit: any) => {
     currentReroutingShard.value = {} as EsShard
   }
 
+  const results = computed(() => props.shards.indexNames || [])
+  const filterStateProps = setupFilterState(results, columns)
+
   return {
-    filter,
+    shardsStore,
+    filterStateProps,
     indicesStore,
     pagination,
     columns,

@@ -514,10 +514,12 @@
     "shards_table": {
       "cancel_relocation": "取消迁移",
       "reroute": {
-        "label": "迁移到节点 '{node}'",
         "confirm": "将分片 '{shard}' 从节点 '{fromNode}' 迁移到节点 '{toNode}'？"
       }
     }
+  },
+  "shard_recovery": {
+    "heading": "分片恢复"
   },
   "shard_recovery_table": {
     "columns": {

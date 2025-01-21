@@ -9,6 +9,7 @@ import { EsSearchResult } from './SearchDocuments.ts'
 import { ElasticsearchDocumentInfo } from './EditDocument.ts'
 import { filterItems } from '../../../helpers/filters.ts'
 import { stringifyJson } from '../../../helpers/json/stringify.ts'
+import { setupFilterState } from '../shared/FilterState.ts'
 
 export type SearchResultsTableProps = {
   results: EsSearchResult
@@ -19,7 +20,6 @@ export const useSearchResultsTable = (props: SearchResultsTableProps, emit: any)
   const searchStore = useSearchStore()
 
   const hits: Ref<any[]> = ref([])
-  const filter = ref('')
   const tableColumns: Ref<any[]> = ref([])
 
   const { callElasticsearch } = useElasticsearchAdapter()
@@ -88,9 +88,9 @@ export const useSearchResultsTable = (props: SearchResultsTableProps, emit: any)
   })
 
   const filteredHits = computed(() => {
-    if (filter.value.trim().length === 0) return hits.value
+    if (searchStore.filter.trim().length === 0) return hits.value
 
-    return filterItems(hits.value, filter.value, tableColumns.value.map(c => c.field))
+    return filterItems(hits.value, searchStore.filter, tableColumns.value.map(c => c.field))
   })
 
   const slicedTableColumns = computed((): any[] => (tableColumns.value.slice(0, -1)))
@@ -107,11 +107,13 @@ export const useSearchResultsTable = (props: SearchResultsTableProps, emit: any)
     { label: '1000', value: 1000, enabled: searchStore.rowsPerPageAccepted, needsConfirm: true }
   ]
 
+  const filterStateProps = setupFilterState(hits, filteredHits)
+
   const acceptRowsPerPage = (value: boolean) => (searchStore.rowsPerPageAccepted = value)
 
   return {
     acceptRowsPerPage,
-    filter,
+    filterStateProps,
     tableColumns,
     searchStore,
     clearColumns,

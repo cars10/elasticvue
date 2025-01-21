@@ -6,6 +6,7 @@
 * improve shards view
 * fix issue when multiple indices are selected and one is manually deleted
 * add shard recovery view, fixes [#272](https://github.com/cars10/elasticvue/issues/272)
+* adds chip indicating filtered tables. This should fix issues with users not noticing that the filter is still present.
 
 ## 1.3.1
 

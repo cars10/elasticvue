@@ -10,12 +10,17 @@
       <router-link to="shards/recovery">
         {{ t('shard_recovery.heading') }}
       </router-link>
+
+      <filter-state v-model="shardsStore.filter"
+                    :results-count="filterStateProps.resultsCount"
+                    :filtered-results-count="filterStateProps.filteredResultsCount"
+                    class="q-ml-md" />
     </div>
 
     <div class="flex">
       <slot />
 
-      <filter-input v-model="filter" />
+      <filter-input v-model="shardsStore.filter" :columns="['index']" />
 
       <q-btn icon="settings" round flat class="q-ml-sm">
         <q-menu style="white-space: nowrap" anchor="bottom right" self="top end">
@@ -91,8 +96,7 @@
                    color="primary-dark"
                    icon="check"
                    no-caps
-                   @click="reroute(currentReroutingShard, row)">
-            </q-btn>
+                   @click="reroute(currentReroutingShard, row)" />
 
             <index-shard v-for="(shard, j) in shards.shards?.[row]?.[col.name]"
                          :key="`${col.name}_actual_shard_${i}_${j}`"
@@ -113,13 +117,15 @@
   import FilterInput from '../shared/FilterInput.vue'
   import { useTranslation } from '../../composables/i18n'
   import { ShardsTableProps, useShardsTable } from '../../composables/components/shards/ShardsTable.ts'
+  import FilterState from '../shared/FilterState.vue'
 
   const t = useTranslation()
   const props = defineProps<ShardsTableProps>()
   const emit = defineEmits(['reload'])
 
   const {
-    filter,
+    shardsStore,
+    filterStateProps,
     indicesStore,
     pagination,
     columns,

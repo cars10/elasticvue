@@ -1,7 +1,10 @@
 <template>
-  <div class="flex justify-end q-pa-md">
-    <div class="flex">
-      <filter-input v-model="filter" label="Filter CURRENT PAGE only" />
+  <div class="flex justify-between q-pa-md">
+    <filter-state v-model="searchStore.filter" :results-count="filterStateProps.resultsCount"
+                  :filtered-results-count="filterStateProps.filteredResultsCount" />
+
+    <div class="flex q-ml-auto">
+      <filter-input v-model="searchStore.filter" label="Filter CURRENT PAGE only" />
 
       <q-btn icon="settings" round flat class="q-ml-sm">
         <q-badge v-if="tableColumns.length !== searchStore.visibleColumns.length" color="positive" rounded floating />
@@ -67,7 +70,7 @@
 
         <template #bottom="scope">
           <table-bottom v-model="searchStore.pagination.rowsPerPage"
-                        :scope="scope as TableBottomScope"
+                        :scope="scope"
                         :total="hits.length"
                         :rows-per-page="rowsPerPage"
                         @rows-per-page-accepted="acceptRowsPerPage" />
@@ -109,7 +112,7 @@
     useSearchResultsTable
   } from '../../composables/components/search/SearchResultsTable.ts'
   import TableBottom from '../shared/TableBottom.vue'
-  import type { TableBottomScope } from '../shared/TableBottom.vue'
+  import FilterState from '../shared/FilterState.vue'
 
   const props = defineProps<SearchResultsTableProps>()
   const emit = defineEmits(['request', 'reload'])
@@ -117,7 +120,7 @@
   const t = useTranslation()
 
   const {
-    filter,
+    filterStateProps,
     acceptRowsPerPage,
     tableColumns,
     searchStore,

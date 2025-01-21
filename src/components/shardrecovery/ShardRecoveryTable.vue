@@ -1,9 +1,11 @@
 <template>
-  <div class="flex justify-end q-pa-md">
-    <div class="flex">
-      <slot />
+  <div class="flex justify-between q-pa-md">
+    <filter-state v-model="shardRecoveryStore.filter"
+                  :results-count="filterStateProps.resultsCount"
+                  :filtered-results-count="filterStateProps.filteredResultsCount" />
 
-      <filter-input v-model="shardRecoveryStore.filter" />
+    <div class="flex q-ml-auto">
+      <filter-input v-model="shardRecoveryStore.filter" :columns="['index']" />
 
       <q-btn icon="settings" round flat class="q-ml-sm">
         <q-menu style="white-space: nowrap" anchor="bottom right" self="top end">
@@ -27,7 +29,7 @@
                :columns="columns"
                :virtual-scroll="shardRecoveryStore.stickyTableHeader"
                :virtual-scroll-item-size="14"
-               :rows="filteredShards"
+               :rows="filteredResults"
                :rows-per-page-options="DEFAULT_ROWS_PER_PAGE">
         <template #body="{row}">
           <shard-recovery-row :shard-recovery="row" />
@@ -38,6 +40,7 @@
 </template>
 
 <script setup lang="ts">
+  import FilterState from '../shared/FilterState.vue'
   import FilterInput from '../shared/FilterInput.vue'
   import { useTranslation } from '../../composables/i18n.ts'
   import { DEFAULT_ROWS_PER_PAGE } from '../../consts.ts'
@@ -56,5 +59,5 @@
   const shardRecoveryStore = useShardRecoveryStore()
   const resizeStore = useResizeStore()
 
-  const { filteredShards, columns } = useShardRecoveryTable(props)
+  const { filterStateProps, filteredResults, columns } = useShardRecoveryTable(props)
 </script>

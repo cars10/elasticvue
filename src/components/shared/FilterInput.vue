@@ -1,6 +1,7 @@
 <template>
   <q-input v-model="filter"
            :label="props.label || t('defaults.filter.label')"
+           :title="columns"
            dense outlined name="filter"
            @keydown.esc="filter = ''">
     <template #append>
@@ -15,9 +16,10 @@
 
   const t = useTranslation()
 
-  const props = defineProps<{ modelValue: string, label?: string }>()
+  const props = defineProps<{ modelValue: string, label?: string, columns?: string[] }>()
 
   const emit = defineEmits(['update:modelValue'])
   const filter = ref(props.modelValue)
   watch(filter, newValue => (emit('update:modelValue', newValue)))
+  watch(() => props.modelValue, newValue => (filter.value = newValue))
 </script>

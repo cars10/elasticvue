@@ -514,10 +514,12 @@
     "shards_table": {
       "cancel_relocation": "Annuler le reroutage",
       "reroute": {
-        "label": "rerouter vers '{node}'",
         "confirm": "Rerouter la partition '{shard}' du noeud '{fromNode}' vers '{toNode}' ?"
       }
     }
+  },
+  "shard_recovery": {
+    "heading": "Récupération de shard"
   },
   "shard_recovery_table": {
     "columns": {

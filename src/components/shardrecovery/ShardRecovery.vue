@@ -10,7 +10,7 @@
     <q-separator />
 
     <loader-status :request-state="requestState">
-      <shard-recovery-table :shard-recoveries="data || []" />
+      <shard-recovery-table :shard-recoveries="data || {}" />
     </loader-status>
   </q-card>
 </template>

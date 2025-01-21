@@ -514,7 +514,6 @@
     "shards_table": {
       "cancel_relocation": "Cancel reroute",
       "reroute": {
-        "label": "reroute to '{node}'",
         "confirm": "Reroute shard '{shard}' from node '{fromNode}' to '{toNode}'?"
       }
     }

@@ -2,6 +2,7 @@ import { genColumns } from '../../../helpers/tableColumns.ts'
 import { useTranslation } from '../../i18n.ts'
 import { computed } from 'vue'
 import { useShardRecoveryStore } from '../../../store/shardRecovery.ts'
+import { setupFilterState } from '../shared/FilterState.ts'
 
 export type ShardRecovery = {
   index: string
@@ -90,11 +91,11 @@ export const useShardRecoveryTable = (props: ShardRecoveryTableProps) => {
   const t = useTranslation()
   const shardRecoveryStore = useShardRecoveryStore()
 
-  const filteredShards = computed(() => {
-    const results = transformRecoveryResponse(props.shardRecoveries)
-    if (shardRecoveryStore.filter.length === 0) return results
+  const results = computed(() => transformRecoveryResponse(props.shardRecoveries))
+  const filteredResults = computed(() => {
+    if (shardRecoveryStore.filter.length === 0) return results.value
 
-    return results.filter(shard => shard.index.includes(shardRecoveryStore.filter))
+    return results.value.filter(shard => shard.index.includes(shardRecoveryStore.filter))
   })
 
   function transformRecoveryResponse (input: IndexRecovery): ShardRecovery[] {
@@ -131,6 +132,8 @@ export const useShardRecoveryTable = (props: ShardRecoveryTableProps) => {
     return results
   }
 
+  const filterStateProps = setupFilterState(results, filteredResults)
+
   const columns = genColumns([
     { label: t('shard_recovery_table.columns.index'), field: 'index' },
     { label: t('shard_recovery_table.columns.stage'), field: 'stage' },
@@ -144,7 +147,8 @@ export const useShardRecoveryTable = (props: ShardRecoveryTableProps) => {
   ])
 
   return {
-    filteredShards,
+    filterStateProps,
+    filteredResults,
     columns
   }
 }
