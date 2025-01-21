@@ -5,6 +5,14 @@
                   :filtered-results-count="filterStateProps.filteredResultsCount" />
 
     <div class="flex q-ml-auto">
+      <q-select v-model="stage"
+                :options="['INIT', 'INDEX', 'VERIFY_INDEX', 'TRANSLOG', 'FINALIZE', 'DONE']"
+                :label="t('shard_recovery_table.stage')"
+                clearable
+                dense
+                outlined
+                class="q-mr-md"
+                style="min-width: 140px" />
       <filter-input v-model="shardRecoveryStore.filter" :columns="['index']" />
 
       <q-btn icon="settings" round flat class="q-ml-sm">
@@ -59,5 +67,5 @@
   const shardRecoveryStore = useShardRecoveryStore()
   const resizeStore = useResizeStore()
 
-  const { filterStateProps, filteredResults, columns } = useShardRecoveryTable(props)
+  const { filterStateProps, filteredResults, columns, stage } = useShardRecoveryTable(props)
 </script>

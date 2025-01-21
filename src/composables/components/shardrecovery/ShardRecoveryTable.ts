@@ -1,8 +1,9 @@
 import { genColumns } from '../../../helpers/tableColumns.ts'
 import { useTranslation } from '../../i18n.ts'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useShardRecoveryStore } from '../../../store/shardRecovery.ts'
 import { setupFilterState } from '../shared/FilterState.ts'
+import { filterItems } from '../../../helpers/filters.ts'
 
 export type ShardRecovery = {
   index: string
@@ -90,12 +91,18 @@ export type ShardRecoveryTableProps = {
 export const useShardRecoveryTable = (props: ShardRecoveryTableProps) => {
   const t = useTranslation()
   const shardRecoveryStore = useShardRecoveryStore()
+  const stage = ref(null)
 
   const results = computed(() => transformRecoveryResponse(props.shardRecoveries))
   const filteredResults = computed(() => {
-    if (shardRecoveryStore.filter.length === 0) return results.value
+    if (shardRecoveryStore.filter.length === 0 && !stage.value) return results.value
 
-    return results.value.filter(shard => shard.index.includes(shardRecoveryStore.filter))
+    let items = results.value
+    if (stage.value) {
+      items = items.filter(r => r.stage === stage.value)
+    }
+
+    return filterItems(items, shardRecoveryStore.filter, ['index'])
   })
 
   function transformRecoveryResponse (input: IndexRecovery): ShardRecovery[] {
@@ -110,8 +117,8 @@ export const useShardRecoveryTable = (props: ShardRecoveryTableProps) => {
           total_time_in_millis: shard.total_time_in_millis,
           start_time_in_millis: shard.start_time_in_millis,
           stop_time_in_millis: shard.stop_time_in_millis,
-          type: shard.type.toLowerCase(),
-          stage: shard.stage.toLowerCase(),
+          type: shard.type,
+          stage: shard.stage,
           source_host: shard.source.host,
           source_node: shard.source.name,
           target_host: shard.target.host,
@@ -147,6 +154,7 @@ export const useShardRecoveryTable = (props: ShardRecoveryTableProps) => {
   ])
 
   return {
+    stage,
     filterStateProps,
     filteredResults,
     columns

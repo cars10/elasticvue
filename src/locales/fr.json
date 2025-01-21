@@ -522,6 +522,7 @@
     "heading": "Récupération de shard"
   },
   "shard_recovery_table": {
+    "stage": "Étape",
     "columns": {
       "index": "Index",
       "stage": "Étape",

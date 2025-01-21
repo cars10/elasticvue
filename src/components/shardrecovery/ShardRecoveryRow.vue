@@ -6,7 +6,7 @@
       <span class="text-muted">Type: {{ shardRecovery.type }}</span>
     </td>
     <td>
-      <span v-if="shardRecovery.stage === 'done'">{{ shardRecovery.stage }}</span>
+      <span v-if="shardRecovery.stage === 'DONE'">{{ shardRecovery.stage }}</span>
       <span v-else class="text-warning">{{ shardRecovery.stage }}</span>
     </td>
     <td>

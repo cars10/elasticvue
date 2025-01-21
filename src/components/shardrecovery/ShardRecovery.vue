@@ -27,6 +27,5 @@
   const t = useTranslation()
 
   const { requestState, data, load } = useElasticsearchRequest<IndexRecovery>('recovery')
-
   onMounted(() => (load()))
 </script>

@@ -522,6 +522,7 @@
     "heading": "分片恢复"
   },
   "shard_recovery_table": {
+    "stage": "阶段",
     "columns": {
       "index": "索引",
       "stage": "阶段",

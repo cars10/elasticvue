@@ -522,6 +522,7 @@
     "heading": "Shard recovery"
   },
   "shard_recovery_table": {
+    "stage": "Stage",
     "columns": {
       "index": "Index",
       "stage": "Stage",
