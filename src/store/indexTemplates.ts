@@ -13,7 +13,7 @@ export const useIndexTemplatesStore = defineStore('indexTemplates', {
     showHiddenIndices: false,
     stickyTableHeader: false,
     pagination: {
-      sortBy: 'index',
+      sortBy: 'name',
       descending: false,
       rowsPerPage: 10
     },

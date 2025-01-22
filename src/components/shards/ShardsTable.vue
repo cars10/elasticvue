@@ -1,16 +1,26 @@
 <template>
   <div class="flex justify-between q-pa-md">
-    <div class="flex">
+    <div class="flex items-center">
       <q-btn v-if="Object.keys(currentReroutingShard).length > 0"
              :label="t('shards.shards_table.cancel_relocation')"
              color="primary-dark"
+             class="q-mr-md"
              @click="cancelRelocation" />
+
+      <router-link to="shards/recovery">
+        {{ t('shard_recovery.heading') }}
+      </router-link>
+
+      <filter-state v-model="shardsStore.filter"
+                    :results-count="filterStateProps.resultsCount"
+                    :filtered-results-count="filterStateProps.filteredResultsCount"
+                    class="q-ml-md" />
     </div>
 
     <div class="flex">
       <slot />
 
-      <filter-input v-model="filter" />
+      <filter-input v-model="shardsStore.filter" :columns="['index']" />
 
       <q-btn icon="settings" round flat class="q-ml-sm">
         <q-menu style="white-space: nowrap" anchor="bottom right" self="top end">
@@ -80,13 +90,14 @@
             :class="{marked: markedColumnIndex === i}"
             @mouseover="markColumn(i)"
             @mouseleave="unmarkColumn">
-          <div v-if="currentReroutingShard.index === col.name && currentReroutingShard.node !== row" class="flex">
-            <q-btn class="q-mx-sm q-my-md" @click="reroute(currentReroutingShard, row)" color="primary-dark">
-              {{ t('shards.shards_table.reroute.label', { node: row }) }}
-            </q-btn>
-          </div>
+          <div class="flex items-center">
+            <q-btn v-if="currentReroutingShard.index === col.name && currentReroutingShard.node !== row"
+                   class="q-mx-xs q-my-xs"
+                   color="primary-dark"
+                   icon="check"
+                   no-caps
+                   @click="reroute(currentReroutingShard, row)" />
 
-          <div class="flex">
             <index-shard v-for="(shard, j) in shards.shards?.[row]?.[col.name]"
                          :key="`${col.name}_actual_shard_${i}_${j}`"
                          :shard="shard"
@@ -106,13 +117,15 @@
   import FilterInput from '../shared/FilterInput.vue'
   import { useTranslation } from '../../composables/i18n'
   import { ShardsTableProps, useShardsTable } from '../../composables/components/shards/ShardsTable.ts'
+  import FilterState from '../shared/FilterState.vue'
 
   const t = useTranslation()
   const props = defineProps<ShardsTableProps>()
   const emit = defineEmits(['reload'])
 
   const {
-    filter,
+    shardsStore,
+    filterStateProps,
     indicesStore,
     pagination,
     columns,

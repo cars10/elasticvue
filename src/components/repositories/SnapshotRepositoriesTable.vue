@@ -1,15 +1,22 @@
 <template>
   <div class="flex justify-between q-pa-md">
-    <new-snapshot-repository @reload="emit('reload')" />
-    <filter-input v-model="filter" />
+    <div class="flex items-center">
+      <new-snapshot-repository @reload="emit('reload')" />
+      <filter-state v-model="filter"
+                    :results-count="filterStateProps.resultsCount"
+                    :filtered-results-count="filterStateProps.filteredResultsCount"
+                    class="q-ml-md" />
+    </div>
+
+    <filter-input v-model="filter" :columns="['name']" />
   </div>
 
   <q-table flat
            class="table-mono table-hide-overflow"
            dense
            row-key="name"
-           :columns="tableColumns"
-           :rows="items"
+           :columns="columns"
+           :rows="filteredResults"
            :rows-per-page-options="DEFAULT_ROWS_PER_PAGE"
            :pagination="{sortBy: 'name'}">
     <template #body="{row}">
@@ -32,7 +39,6 @@
 </template>
 
 <script setup lang="ts">
-  import { useRouter } from 'vue-router'
   import FilterInput from '../shared/FilterInput.vue'
   import NewSnapshotRepository from './NewSnapshotRepository.vue'
   import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
@@ -40,11 +46,16 @@
     SnapshotRepositoriesTableProps,
     useSnapshotRepositoriesTable
   } from '../../composables/components/repositories/SnapshotRepositoriesTable'
+  import FilterState from '../shared/FilterState.vue'
 
   const props = defineProps<SnapshotRepositoriesTableProps>()
   const emit = defineEmits(['reload'])
-  const { filter, items, deleteRepository, tableColumns } = useSnapshotRepositoriesTable(props, emit)
-
-  const router = useRouter()
-  const openSnapshots = (repositoryName: string) => (router.push({ name: 'snapshots', params: { repositoryName } }))
+  const {
+    filter,
+    filterStateProps,
+    filteredResults,
+    deleteRepository,
+    columns,
+    openSnapshots
+  } = useSnapshotRepositoriesTable(props, emit)
 </script>

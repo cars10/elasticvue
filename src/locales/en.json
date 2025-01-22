@@ -211,7 +211,14 @@
   },
   "index_templates": {
     "heading": "Index templates",
+    "endpoint": "Endpoint",
     "index_templates_table": {
+      "show_hidden_templates": {
+        "label": "Show hidden templates"
+      },
+      "sticky_table_header": {
+        "label": "Sticky table header"
+      },
       "table": {
         "headers": {
           "name": "Name",
@@ -503,12 +510,29 @@
   },
   "shards": {
     "heading": "Shards",
+    "health": "Health",
     "shards_table": {
       "cancel_relocation": "Cancel reroute",
       "reroute": {
-        "label": "reroute to '{node}'",
         "confirm": "Reroute shard '{shard}' from node '{fromNode}' to '{toNode}'?"
       }
+    }
+  },
+  "shard_recovery": {
+    "heading": "Shard recovery"
+  },
+  "shard_recovery_table": {
+    "stage": "Stage",
+    "columns": {
+      "index": "Index",
+      "stage": "Stage",
+      "source": "Source",
+      "target": "Target",
+      "time": "Time",
+      "duration": "Duration",
+      "files": "Files",
+      "bytes": "Bytes",
+      "translog_ops": "Translog Ops"
     }
   },
   "shared": {

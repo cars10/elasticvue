@@ -3,6 +3,8 @@ import { computed, ref } from 'vue'
 import { filterItems } from '../../../helpers/filters'
 import { defineElasticsearchRequest } from '../../CallElasticsearch'
 import { genColumns } from '../../../helpers/tableColumns'
+import { useRouter } from 'vue-router'
+import { setupFilterState } from '../shared/FilterState.ts'
 
 export type EsSnapshotRepository = {
   type: string,
@@ -26,9 +28,11 @@ export const useSnapshotRepositoriesTable = (props: SnapshotRepositoriesTablePro
   const t = useTranslation()
 
   const filter = ref('')
-  const items = computed(() => {
-    if (Object.keys(props.repositories).length === 0) return []
-    const repos = Object.entries(props.repositories).map(([name, repo]) => Object.assign({}, { name }, repo))
+
+  const results = computed(() => Object.entries(props.repositories))
+  const filteredResults = computed(() => {
+    if (results.value.length === 0) return []
+    const repos = results.value.map(([name, repo]) => Object.assign({}, { name }, repo))
     return filterItems(repos, filter.value, ['name'])
   })
 
@@ -41,7 +45,12 @@ export const useSnapshotRepositoriesTable = (props: SnapshotRepositoriesTablePro
     })
   }
 
-  const tableColumns = genColumns([
+  const router = useRouter()
+  const openSnapshots = (repositoryName: string) => (router.push({ name: 'snapshots', params: { repositoryName } }))
+
+  const filterStateProps = setupFilterState(results, filteredResults)
+
+  const columns = genColumns([
     { label: t('repositories.repositories_table.table.headers.name'), field: 'name' },
     { label: t('repositories.repositories_table.table.headers.type'), field: 'type' },
     { label: t('repositories.repositories_table.table.headers.settings') },
@@ -50,10 +59,12 @@ export const useSnapshotRepositoriesTable = (props: SnapshotRepositoriesTablePro
 
   return {
     emit,
+    openSnapshots,
     filter,
-    items,
+    filteredResults,
+    filterStateProps,
     deleteRepository,
-    tableColumns
+    columns
   }
 }
 

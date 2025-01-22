@@ -1,5 +1,5 @@
-import prettyBytes from 'pretty-bytes'
 import { EsIndex } from '../composables/components/indices/IndicesTable.ts'
+import { prettyPrintByteString } from '../helpers/bytes.ts'
 
 export default class ElasticsearchIndex {
   index: string
@@ -34,19 +34,11 @@ export default class ElasticsearchIndex {
 }
 
 function parseIntValue (value: string) {
+  if (!value) return ''
+
   try {
     return parseInt(value)
   } catch (_e) {
     return value
-  }
-}
-
-function prettyPrintByteString (value: string | number): string {
-  if (!value) return ''
-
-  if (typeof value === 'number' && !isNaN(value)) {
-    return prettyBytes(value)
-  } else {
-    return `${value} B`
   }
 }

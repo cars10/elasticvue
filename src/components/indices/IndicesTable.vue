@@ -1,15 +1,20 @@
 <template>
   <div class="flex justify-between q-pa-md">
-    <div>
+    <div class="flex items-center">
       <new-index @reload="emit('reload')" />
       <router-link v-if="connectionStore.activeCluster && parseInt(connectionStore.activeCluster.majorVersion) >= 5"
                    to="index_templates" class="q-ml-md">
         {{ t('index_templates.heading') }}
       </router-link>
+
+      <filter-state v-model="indicesStore.filter"
+                    :results-count="filterStateProps.resultsCount"
+                    :filtered-results-count="filterStateProps.filteredResultsCount"
+                    class="q-ml-md" />
     </div>
 
     <div class="flex">
-      <filter-input v-model="indicesStore.filter" />
+      <filter-input v-model="indicesStore.filter" :columns="['index', 'uuid']" />
 
       <q-btn icon="settings" round flat class="q-ml-sm">
         <q-menu style="white-space: nowrap" anchor="bottom right" self="top end">
@@ -44,7 +49,7 @@
                :rows="items"
                selection="multiple">
         <template #body="{row}">
-          <index-row :index="row" @reload="emit('reload')">
+          <index-row :index="row" @reload="emit('reload')" @index-deleted="reloadSelectedItems">
             <template #checkbox>
               <q-checkbox v-model="selectedItems" :val="row.index" size="32px" @update:model-value="setIndeterminate" />
             </template>
@@ -57,7 +62,7 @@
 
         <template #bottom="scope">
           <table-bottom v-model="indicesStore.pagination.rowsPerPage"
-                        :scope="scope as TableBottomScope"
+                        :scope="scope"
                         :total="items.length"
                         :rows-per-page="rowsPerPage"
                         @rows-per-page-accepted="acceptRowsPerPage" />
@@ -78,7 +83,6 @@
 <script setup lang="ts">
   import FilterInput from '../shared/FilterInput.vue'
   import TableBottom from '../shared/TableBottom.vue'
-  import type { TableBottomScope } from '../shared/TableBottom.vue'
   import IndexBulk from './IndexBulk.vue'
   import IndexRow from './IndexRow.vue'
   import NewIndex from './NewIndex.vue'
@@ -86,6 +90,7 @@
   import { useTranslation } from '../../composables/i18n'
   import { EsTableProps, useIndicesTable } from '../../composables/components/indices/IndicesTable'
   import { useConnectionStore } from '../../store/connection.ts'
+  import FilterState from '../shared/FilterState.vue'
 
   const connectionStore = useConnectionStore()
   const t = useTranslation()
@@ -98,9 +103,11 @@
     indicesStore,
     resizeStore,
     items,
+    filterStateProps,
     tableKey,
     rowsPerPage,
     selectedItems,
+    reloadSelectedItems,
     allItemsSelected,
     acceptRowsPerPage,
     setIndeterminate,

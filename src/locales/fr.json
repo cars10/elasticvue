@@ -211,7 +211,14 @@
   },
   "index_templates": {
     "heading": "Modèles d'index",
+    "endpoint": "Endpoint",
     "index_templates_table": {
+      "show_hidden_templates": {
+        "label": "Afficher les modèles masqués"
+      },
+      "sticky_table_header": {
+        "label": "En-tête de table fixe"
+      },
       "table": {
         "headers": {
           "name": "Nom",
@@ -503,12 +510,29 @@
   },
   "shards": {
     "heading": "Partitions",
+    "health": "État",
     "shards_table": {
       "cancel_relocation": "Annuler le reroutage",
       "reroute": {
-        "label": "rerouter vers '{node}'",
         "confirm": "Rerouter la partition '{shard}' du noeud '{fromNode}' vers '{toNode}' ?"
       }
+    }
+  },
+  "shard_recovery": {
+    "heading": "Récupération de shard"
+  },
+  "shard_recovery_table": {
+    "stage": "Étape",
+    "columns": {
+      "index": "Index",
+      "stage": "Étape",
+      "source": "Source",
+      "target": "Cible",
+      "time": "Temps",
+      "duration": "Durée",
+      "files": "Fichiers",
+      "bytes": "Octets",
+      "translog_ops": "Opérations Translog"
     }
   },
   "shared": {

@@ -1,4 +1,4 @@
-import { Ref, ref, watch } from 'vue'
+import { computed, Ref, ref, watch } from 'vue'
 import { useTranslation } from '../../i18n'
 import { useIndicesStore } from '../../../store/indices'
 import { useResizeStore } from '../../../store/resize'
@@ -7,6 +7,7 @@ import ElasticsearchIndex from '../../../models/ElasticsearchIndex'
 import { debounce } from '../../../helpers/debounce'
 import { useSelectableRows } from '../../SelectableRow'
 import { genColumns } from '../../../helpers/tableColumns'
+import { setupFilterState } from '../shared/FilterState.ts'
 
 export type EsIndex = {
   index: string,
@@ -41,15 +42,17 @@ export const useIndicesTable = (props: EsTableProps, emit: any) => {
     { label: '1000', value: 1000, enabled: indicesStore.rowsPerPageAccepted, needsConfirm: true }
   ]
 
+  const results = computed(() => props.indices)
+
   const filterTable = () => {
-    let results = props.indices
-    if (results.length === 0) return []
+    let indices = results.value
+    if (indices.length === 0) return []
     if (!indicesStore.showHiddenIndices) {
-      results = results.filter((item: any) => !item.index.match(new RegExp(indicesStore.hideIndicesRegex)))
+      indices = indices.filter((item: any) => !item.index.match(new RegExp(indicesStore.hideIndicesRegex)))
     }
 
-    results = filterItems(results, indicesStore.filter, ['index', 'uuid'])
-    items.value = results.map((index: any) => new ElasticsearchIndex(index))
+    indices = filterItems(indices, indicesStore.filter, ['index', 'uuid'])
+    items.value = indices.map((index: any) => new ElasticsearchIndex(index))
   }
 
   const debouncedFilterTable = debounce(filterTable, 150)
@@ -81,6 +84,12 @@ export const useIndicesTable = (props: EsTableProps, emit: any) => {
     }
   }
 
+  const reloadSelectedItems = (index: string) => {
+    selectedItems.value = selectedItems.value.filter(i => i != index)
+  }
+
+  const filterStateProps = setupFilterState(results, items)
+
   const columns = genColumns([
     { label: t('indices.indices_table.table.headers.name'), field: 'index' },
     { label: t('indices.indices_table.table.headers.health'), field: 'health' },
@@ -97,6 +106,7 @@ export const useIndicesTable = (props: EsTableProps, emit: any) => {
 
   return {
     indicesStore,
+    filterStateProps,
     resizeStore,
     items,
     tableKey,
@@ -105,6 +115,7 @@ export const useIndicesTable = (props: EsTableProps, emit: any) => {
     checkAll,
     filterTable,
     selectedItems,
+    reloadSelectedItems,
     allItemsSelected,
     setIndeterminate,
     clearDeletedIndicesAndReload,

@@ -46,7 +46,9 @@
       {{ index.humanStoreSize }}
     </td>
     <td>
-      <template v-if="index.created && typeof index.created === 'number'">{{ new Date(index.created).toLocaleString() }}</template>
+      <template v-if="index.created && typeof index.created === 'number'">
+        {{ new Date(index.created).toLocaleString() }}
+      </template>
     </td>
     <td>
       <q-btn-group>
@@ -72,10 +74,10 @@
 
             <q-separator />
 
-            <index-aliases :index="index.index" @reload="remitReloadAndCloseMenu" />
+            <index-aliases :index="index.index" @reload="emitReloadAndCloseMenu" />
             <index-reindex
               v-if="connectionStore.activeCluster && parseInt(connectionStore.activeCluster.majorVersion) > 1"
-              :index="index.index" @reload="remitReloadAndCloseMenu" />
+              :index="index.index" @reload="emitReloadAndCloseMenu" />
 
             <q-separator />
 
@@ -86,28 +88,28 @@
               :text="t('indices.index_row.options.forcemerge.text')"
               :growl="t('indices.index_row.options.forcemerge.growl', {index: index.index})"
               icon="call_merge"
-              @done="remitReloadAndCloseMenu" />
+              @done="emitReloadAndCloseMenu" />
 
             <row-menu-action method="indexRefresh"
                              :method-params="{ indices: [props.index.index] }"
                              :text="t('indices.index_row.options.refresh.text')"
                              :growl="t('indices.index_row.options.refresh.growl', {index: index.index})"
                              icon="refresh"
-                             @done="remitReloadAndCloseMenu" />
+                             @done="emitReloadAndCloseMenu" />
 
             <row-menu-action method="indexFlush"
                              :method-params="{ indices: [props.index.index] }"
                              :text="t('indices.index_row.options.flush.text')"
                              :growl="t('indices.index_row.options.flush.growl', {index: index.index})"
                              icon="archive"
-                             @done="remitReloadAndCloseMenu" />
+                             @done="emitReloadAndCloseMenu" />
 
             <row-menu-action method="indexClearCache"
                              :method-params="{ indices: [props.index.index] }"
                              :text="t('indices.index_row.options.clear_cache.text')"
                              :growl="t('indices.index_row.options.clear_cache.growl', {index: index.index})"
                              icon="clear_all"
-                             @done="remitReloadAndCloseMenu" />
+                             @done="emitReloadAndCloseMenu" />
 
             <row-menu-action v-if="index.status === 'open'"
                              method="indexClose"
@@ -116,14 +118,14 @@
                              :text="t('indices.index_row.options.close.text')"
                              :growl="t('indices.index_row.options.close.growl', {index: index.index})"
                              icon="lock"
-                             @done="remitReloadAndCloseMenu" />
+                             @done="emitReloadAndCloseMenu" />
             <row-menu-action v-else
                              method="indexOpen"
                              :method-params="{ indices: [props.index.index] }"
                              :text="t('indices.index_row.options.open.text')"
                              :growl="t('indices.index_row.options.open.growl', {index: index.index})"
                              icon="lock_open"
-                             @done="remitReloadAndCloseMenu" />
+                             @done="emitReloadAndCloseMenu" />
 
             <q-separator />
 
@@ -135,7 +137,7 @@
               :growl="t('indices.index_row.options.delete_by_query.growl', {index: index.index})"
               :confirm="t('indices.index_row.options.delete_by_query.confirm', {index: index.index})"
               icon="delete"
-              @done="remitReloadAndCloseMenu" />
+              @done="emitReloadAndCloseMenu" />
 
             <row-menu-action method="indexDelete"
                              :method-params="{ indices: [props.index.index] }"
@@ -143,7 +145,7 @@
                              :growl="t('indices.index_row.options.delete.growl', {index: index.index})"
                              :confirm="t('indices.index_row.options.delete.confirm', {index: index.index})"
                              icon="delete"
-                             @done="remitReloadAndCloseMenu" />
+                             @done="() => (afterDelete(props.index.index))" />
           </q-list>
         </q-btn-dropdown>
       </q-btn-group>
@@ -163,7 +165,12 @@
 
   const t = useTranslation()
   const props = defineProps<IndexRowProps>()
-  const emit = defineEmits(['reload'])
+  const emit = defineEmits(['reload', 'indexDeleted'])
 
-  const { menu, aliases, openModalWith, loading, remitReloadAndCloseMenu, showDocuments } = useIndexRow(props, emit)
+  const afterDelete = (index: string) => {
+    emit('indexDeleted', index)
+    emitReloadAndCloseMenu()
+  }
+
+  const { menu, aliases, openModalWith, loading, emitReloadAndCloseMenu, showDocuments } = useIndexRow(props, emit)
 </script>

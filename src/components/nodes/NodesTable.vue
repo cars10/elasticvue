@@ -1,6 +1,9 @@
 <template>
-  <div class="flex justify-end q-pa-md">
-    <filter-input v-model="filter" />
+  <div class="flex justify-between q-pa-md">
+    <filter-state v-model="nodesStore.filter"
+                  :results-count="filterStateProps.resultsCount"
+                  :filtered-results-count="filterStateProps.filteredResultsCount" />
+    <filter-input v-model="nodesStore.filter" class="q-ml-auto" :columns="['name', 'ip', 'id', 'version']" />
   </div>
 
   <q-table class="table-mono table-hide-overflow"
@@ -8,7 +11,7 @@
            dense
            row-key="name"
            :columns="columns"
-           :rows="items"
+           :rows="filteredResults"
            data-testid="nodes-table"
            :rows-per-page-options="DEFAULT_ROWS_PER_PAGE"
            :pagination="{sortBy: 'name'}">
@@ -70,42 +73,19 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, ref } from 'vue'
   import ElasticsearchNode from '../../models/ElasticsearchNode.js'
   import NodeIcons from './NodeIcons.vue'
   import NodePercentProgress from './NodePercentProgress.vue'
   import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
-  import { useTranslation } from '../../composables/i18n'
   import { nodeRoleTitle } from '../../helpers/nodes'
-  import { filterItems } from '../../helpers/filters'
   import FilterInput from '../shared/FilterInput.vue'
-  import { genColumns } from '../../helpers/tableColumns'
-  import { EsNode } from '../../types/types.ts'
   import NodeAttributes from './NodeAttributes.vue'
+  import FilterState from '../shared/FilterState.vue'
+  import { useNodesStore } from '../../store/nodes.ts'
+  import { NodesTableProps, useNodesTable } from '../../composables/components/nodes/NodesTable.ts'
 
-  const t = useTranslation()
+  const nodesStore = useNodesStore()
 
-  const props = defineProps<{ nodes: EsNode[] }>()
-
-  const filter = ref('')
-  const items = computed(() => {
-    const results = filterItems<EsNode>(props.nodes, filter.value, ['name', 'ip', 'id', 'version'])
-    return results.map(r => new ElasticsearchNode(r))
-  })
-
-  const columns = genColumns([
-    { label: t('cluster_nodes.node_properties.status'), field: '', align: 'left' },
-    { label: t('cluster_nodes.node_properties.name'), field: 'name', align: 'left' },
-    { label: t('cluster_nodes.node_properties.version'), field: 'version', align: 'left' },
-    { label: t('cluster_nodes.node_properties.id'), field: 'id', align: 'left' },
-    { label: t('cluster_nodes.node_properties.ip'), field: 'ip', align: 'left' },
-    { label: t('cluster_nodes.node_properties.master'), field: 'master', align: 'left' },
-    { label: t('cluster_nodes.node_properties.node_role'), field: 'nodeRole', align: 'left' },
-    { label: t('cluster_nodes.node_properties.attr'), align: 'left' },
-    { label: t('cluster_nodes.node_properties.load'), align: 'left' },
-    { label: t('cluster_nodes.node_properties.cpu'), field: 'cpu', align: 'left' },
-    { label: t('cluster_nodes.node_properties.ram'), field: 'ramPercent', align: 'left' },
-    { label: t('cluster_nodes.node_properties.heap'), field: 'heapPercent', align: 'left' },
-    { label: t('cluster_nodes.node_properties.disk'), field: 'diskPercent', align: 'left' }
-  ])
+  const props = defineProps<NodesTableProps>()
+  const { filteredResults, filterStateProps, columns } = useNodesTable(props)
 </script>

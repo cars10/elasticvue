@@ -5,6 +5,7 @@ import { useConnectionStore } from './connection.ts'
 type SearchState = {
   localizeTimestamp: boolean
   q: string
+  filter: string
   indices: string
   searchQuery: string
   searchQueryCollapsed: boolean
@@ -24,6 +25,7 @@ export const useSearchStore = () => {
     state: (): SearchState => ({
       localizeTimestamp: true,
       q: '*',
+      filter: '',
       indices: '*',
       searchQuery: DEFAULT_SEARCH_QUERY,
       searchQueryCollapsed: false,
@@ -44,6 +46,7 @@ export const useSearchStore = () => {
       pick: [
         'localizeTimestamp',
         'q',
+        'filter',
         'indices',
         'searchQuery',
         'searchQueryCollapsed',

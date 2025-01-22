@@ -1,3 +1,5 @@
+import { EsNode } from '../types/types.ts'
+
 type IndexName = string
 type NodeName = string
 
@@ -27,8 +29,7 @@ export type TableShards = {
   shards: Record<NodeName, Record<IndexName, EsShard[]>>
 }
 
-export const convertShards = (shards: EsShard[], indexHealth: EsShardIndex[]): TableShards => {
-  const nodes: string[] = []
+export const convertShards = (shards: EsShard[], indexHealth: EsShardIndex[], nodes: Partial<EsNode>[]): TableShards => {
   const indices = Object.assign({}, ...(indexHealth.map(i => ({
     [i.index]: {
       index: i.index,
@@ -51,7 +52,6 @@ export const convertShards = (shards: EsShard[], indexHealth: EsShardIndex[]): T
       }
 
       if (!result[node]) result[node] = {}
-      if (!nodes.includes(node)) nodes.push(node)
 
       const index = shard.index
       if (!result[node][index]) result[node][index] = []
@@ -66,7 +66,7 @@ export const convertShards = (shards: EsShard[], indexHealth: EsShardIndex[]): T
   }
 
   return {
-    nodes: nodes.sort(),
+    nodes: nodes.map(n => n.name).filter(name => typeof name === 'string').sort(),
     indices,
     indexNames: Object.keys(indices),
     shards: result,

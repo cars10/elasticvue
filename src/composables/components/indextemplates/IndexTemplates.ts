@@ -1,6 +1,8 @@
 import { useElasticsearchAdapter } from '../../CallElasticsearch.ts'
-import { ref, Ref } from 'vue'
+import { ref, Ref, watch } from 'vue'
 import { useConnectionStore } from '../../../store/connection.ts'
+import ElasticsearchAdapter from '../../../services/ElasticsearchAdapter.ts'
+import { QSelectOption } from 'quasar'
 
 export type GenericIndexTemplate = {
   name: string,
@@ -21,25 +23,37 @@ type IndexTemplates = {
 } | Record<string, { template: string }>
 
 export const useIndexTemplates = () => {
+  const connectionStore = useConnectionStore()
+  const endpoint: Ref<QSelectOption> = ref(defaultTemplateEndpoint(connectionStore.activeCluster?.majorVersion))
+  const endpointOptions = [
+    { label: '_template', value: 'template' },
+    { label: '_index_template', value: 'indexTemplate' }
+  ]
+
   const { requestState, callElasticsearch } = useElasticsearchAdapter()
   const data: Ref<GenericIndexTemplate[] | null> = ref(null)
-  const connectionStore = useConnectionStore()
 
   const load = async () => {
-    if (!connectionStore.activeCluster) return
-    const majorVersion = parseInt(connectionStore.activeCluster.majorVersion)
-    const method = templateEndpoint(majorVersion)
+    const method = endpoint.value.value
     if (!method) return
 
-    return callElasticsearch(method)
-        .then(body => (data.value = enrich(body)))
-        .catch(() => (data.value = null))
+    data.value = []
+
+    try {
+      const body = await callElasticsearch(method as unknown as keyof ElasticsearchAdapter)
+      data.value = enrich(body)
+    } catch (error) {
+    }
   }
+
+  watch(endpoint, () => (load()))
 
   return {
     data,
     requestState,
-    load
+    load,
+    endpoint,
+    endpointOptions
   }
 }
 
@@ -57,17 +71,17 @@ const enrich = (data: IndexTemplates) => {
   return results
 }
 
-const templateEndpoint = (majorVersion: number) => {
-  switch (majorVersion) {
-    case 5:
-      return 'templates'
-    case 6:
-      return 'templates'
-    case 7:
-      return 'templates'
-    case 8:
-      return 'indexTemplates'
-    default:
-      return null
+const defaultTemplateEndpoint = (majorVersion: string | undefined): QSelectOption => {
+  if (!majorVersion) return { label: '_template', value: 'template' }
+
+  try {
+    const version = parseInt(majorVersion)
+    if (version >= 8) {
+      return { label: '_index_template', value: 'indexTemplate' }
+    } else {
+      return { label: '_template', value: 'template' }
+    }
+  } catch (e) {
+    return { label: '_template', value: 'template' }
   }
 }

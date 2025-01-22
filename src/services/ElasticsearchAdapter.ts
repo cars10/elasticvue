@@ -39,13 +39,14 @@ export default class ElasticsearchAdapter {
 
   async callInChunks ({ method, indices }: { method: keyof ElasticsearchAdapter, indices: string[] }) {
     const chunks = chunk(indices, MAX_INDICES_PER_REQUEST)
-    let response = null
+    const responses = []
 
     for (const c of chunks) {
-      response = await this.call(method, { indices: c })
+      const response = await this.call(method, { indices: c })
+      responses.push(response)
     }
 
-    return response
+    return responses
   }
 
   ping () {
@@ -73,21 +74,25 @@ export default class ElasticsearchAdapter {
     return this.request(`_cat/indices/${query}`, 'GET', params)
   }
 
-  templates () {
+  template () {
     return this.request('_template', 'GET')
   }
 
-  indexTemplates () {
+  indexTemplate () {
     return this.request('_index_template', 'GET')
-  }
-
-  componentTemplates () {
-    return this.request('_component_template', 'GET')
   }
 
   catShards (params: object, filter?: string) {
     const query = filter ? `${filter}*` : ''
     return this.request(`_cat/shards/${query}`, 'GET', params)
+  }
+
+  catRecovery () {
+    return this.request('_cat/recovery?s=start_time_millis:desc', 'GET')
+  }
+
+  recovery () {
+    return this.request('_recovery', 'GET')
   }
 
   indexGetAlias ({ index }: { index: string }) {

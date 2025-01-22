@@ -1,6 +1,8 @@
 <template>
   <div class="flex justify-end q-pa-md">
     <div class="flex">
+      <slot />
+
       <filter-input v-model="indexTemplatesStore.filter" />
 
       <q-btn icon="settings" round flat class="q-ml-sm">
@@ -8,12 +10,12 @@
           <q-list dense>
             <q-item style="padding-left: 0">
               <q-checkbox v-model="indexTemplatesStore.showHiddenIndices" size="32px"
-                          :label="t('indices.indices_table.show_hidden_indices.label')" />
+                          :label="t('index_templates.index_templates_table.show_hidden_templates.label')" />
             </q-item>
 
             <q-item style="padding-left: 0">
               <q-checkbox v-model="indexTemplatesStore.stickyTableHeader" size="32px"
-                          :label="t('indices.indices_table.sticky_table_header.label')" />
+                          :label="t('index_templates.index_templates_table.sticky_table_header.label')" />
             </q-item>
           </q-list>
         </q-menu>
@@ -48,7 +50,7 @@
     useIndexTemplatesTable
   } from '../../composables/components/indextemplates/IndexTemplatesTable'
   import IndexTemplateRow from './IndexTemplateRow.vue'
-  import { useIndexTemplatesStore } from '../../store/index_templates.ts'
+  import { useIndexTemplatesStore } from '../../store/indexTemplates.ts'
   import { useTranslation } from '../../composables/i18n.ts'
   import ResizableContainer from '../shared/ResizableContainer.vue'
   import { useResizeStore } from '../../store/resize.ts'
