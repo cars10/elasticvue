@@ -27,6 +27,7 @@
   import cn from '../../assets/images/icons/flags/cn.svg'
   import fr from '../../assets/images/icons/flags/fr.svg'
   import ru from '../../assets/images/icons/flags/ru.svg'
+  import jp from '../../assets/images/icons/flags/jp.svg'
   import { useI18nStore } from '../../store/i18n'
   import { useTranslation } from '../../composables/i18n.ts'
   import { ValidLocale } from '../../consts.ts'
@@ -50,6 +51,7 @@
     { code: 'en', title: t('base.language_switcher.languages.en.title'), icon: en },
     { code: 'cn', title: t('base.language_switcher.languages.cn.title'), icon: cn },
     { code: 'fr', title: t('base.language_switcher.languages.fr.title'), icon: fr },
-    { code: 'ru', title: t('base.language_switcher.languages.ru.title'), icon: ru }
+    { code: 'ru', title: t('base.language_switcher.languages.ru.title'), icon: ru },
+    { code: 'jp', title: t('base.language_switcher.languages.jp.title'), icon: jp }
   ]
 </script>

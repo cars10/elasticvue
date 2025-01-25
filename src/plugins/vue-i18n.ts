@@ -3,6 +3,7 @@ import en from '../locales/en.json'
 import cn from '../locales/cn.json'
 import fr from '../locales/fr.json'
 import ru from '../locales/ru.json'
+import jp from '../locales/jp.json'
 import { useI18nStore } from '../store/i18n'
 
 export const vueI18n = () => {
@@ -16,7 +17,7 @@ export const vueI18n = () => {
     legacy: false,
     locale: language,
     fallbackLocale: 'en',
-    messages: { en, cn, fr, ru },
+    messages: { en, cn, fr, ru, jp },
     warnHtmlMessage: false
   })
 }
