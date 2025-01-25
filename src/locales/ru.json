@@ -1,0 +1,670 @@
+{
+  "base": {
+    "app_footer": {
+      "homepage": "Главная страница"
+    },
+    "app_header": {
+      "navigation": {
+        "home": "Главная",
+        "nodes": "Узлы",
+        "indices": "Индексы",
+        "shards": "Шарды",
+        "search": "Поиск",
+        "rest": "REST",
+        "snapshots": "Снимки"
+      }
+    },
+    "language_switcher": {
+      "title": "Изменить язык",
+      "languages": {
+        "en": {
+          "title": "Английский"
+        },
+        "cn": {
+          "title": "Китайский"
+        },
+        "fr": {
+          "title": "Французский"
+        },
+        "ru": {
+          "title": "Русский"
+        }
+      }
+    },
+    "theme_switcher": {
+      "title": "Изменить тему"
+    }
+  },
+  "defaults": {
+    "filter": {
+      "label": "Фильтр..."
+    },
+    "cancel": "Отмена",
+    "close": "Закрыть",
+    "create": "Создать",
+    "delete": "Удалить",
+    "success": "Успех",
+    "bulk": "Массовое действие",
+    "copy": "Копировать"
+  },
+  "cluster_selection": {
+    "cluster_selection": {
+      "connected_info": {
+        "title": "Подключено к '{activeInstanceName}' ({activeInstanceUri})"
+      }
+    },
+    "cluster_table": {
+      "headers": {
+        "cluster": "Кластер",
+        "uri": "URI",
+        "version": "Версия"
+      },
+      "row": {
+        "title": "Подключиться к кластеру по адресу '{uri}'",
+        "remove_cluster": {
+          "confirm": "Удалить кластер '{name}' ({uri})?"
+        },
+        "unsupported": "Elasticsearch {majorVersion} больше не поддерживается, и elasticvue не полностью совместим с этой версией. Возможны ошибки и ограниченная функциональность."
+      }
+    },
+    "edit_cluster": {
+      "edit": {
+        "title": "Редактировать кластер"
+      },
+      "heading": "Редактировать кластер"
+    },
+    "new_cluster": {
+      "add_cluster": "Добавить кластер",
+      "heading": "Добавить кластер Elasticsearch"
+    }
+  },
+  "helpers": {
+    "import_export": {
+      "import_backup": {
+        "confirm": "Вы уверены? Импорт резервной копии перезапишет текущие настройки и сохраненные кластеры!"
+      }
+    }
+  },
+  "home": {
+    "client_information": {
+      "heading": "Информация о кластере"
+    },
+    "cluster_health": {
+      "heading": "Состояние кластера"
+    }
+  },
+  "indices": {
+    "heading": "Индексы",
+    "index_aliases": {
+      "text": "Алиасы",
+      "heading": "Управление алиасами",
+      "index": "Индекс: {index}",
+      "form": {
+        "new_alias": {
+          "label": "Новый алиас"
+        },
+        "add_alias": "Добавить новый алиас"
+      },
+      "table": {
+        "headers": {
+          "alias": "Алиас"
+        }
+      },
+      "delete_alias": {
+        "confirm": "Удалить алиас '{alias}' для индекса '{index}'?"
+      }
+    },
+    "index_reindex": {
+      "text": "Переиндексация",
+      "heading": "Переиндексация индекса",
+      "index": "Индекс: {index}",
+      "form": {
+        "source": {
+          "label": "Переиндексировать в..."
+        },
+        "reindex": "Переиндексировать"
+      }
+    },
+    "index_row": {
+      "search": {
+        "title": "Поиск по '{index}'"
+      },
+      "shards": {
+        "title": "{pri} основной\n{rep} реплика"
+      },
+      "options": {
+        "show_info": "Показать информацию",
+        "show_stats": "Показать статистику",
+        "forcemerge": {
+          "text": "Слияние всех индексов | Слияние индекса | Слияние {count} индексов",
+          "growl": "Индекс '{index}' успешно объединен."
+        },
+        "refresh": {
+          "text": "Обновить все индексы | Обновить индекс | Обновить {count} индексов",
+          "growl": "Индекс '{index}' успешно обновлен."
+        },
+        "flush": {
+          "text": "Сбросить все индексы | Сбросить индекс | Сбросить {count} индексов",
+          "growl": "Индекс '{index}' успешно сброшен."
+        },
+        "clear_cache": {
+          "text": "Очистить кэш всех индексов | Очистить кэш индекса | Очистить кэш {count} индексов",
+          "growl": "Кэш индекса '{index}' успешно очищен."
+        },
+        "close": {
+          "text": "Закрыть индекс | Закрыть индекс | Закрыть {count} индексов",
+          "confirm": "Закрыть индекс '{index}'?",
+          "growl": "Индекс '{index}' успешно закрыт."
+        },
+        "open": {
+          "text": "Открыть индекс | Открыть индекс | Открыть {count} индексов",
+          "growl": "Индекс '{index}' успешно открыт."
+        },
+        "delete_by_query": {
+          "text": "Удалить все документы",
+          "confirm": "Удалить все документы в индексе '{index}'? Это удалит ВСЕ данные в вашем индексе!",
+          "growl": "Документы в индексе '{index}' успешно удалены."
+        },
+        "delete": {
+          "text": "Удалить индекс | Удалить индекс | Удалить {count} индексов",
+          "confirm": "Удалить индекс '{index}'?",
+          "growl": "Индекс '{index}' успешно удален."
+        }
+      }
+    },
+    "indices_table": {
+      "show_hidden_indices": {
+        "label": "Показать скрытые индексы"
+      },
+      "sticky_table_header": {
+        "label": "Закрепленный заголовок таблицы"
+      },
+      "table": {
+        "headers": {
+          "name": "Имя",
+          "status": "Статус",
+          "health": "Состояние",
+          "uuid": "UUID",
+          "aliases": "Алиасы",
+          "shards": "Шарды",
+          "segments": "Сегменты",
+          "docs": "Документы",
+          "storage": "Хранилище",
+          "created": "Создан"
+        }
+      }
+    },
+    "new_index": {
+      "heading": "Новый индекс",
+      "form": {
+        "index_name": {
+          "label": "Имя индекса"
+        },
+        "shards": {
+          "label": "Количество шардов"
+        },
+        "replicas": {
+          "label": "Количество реплик"
+        }
+      },
+      "create_index": {
+        "growl": "Индекс '{index}' успешно создан."
+      }
+    }
+  },
+  "index_templates": {
+    "heading": "Шаблоны индексов",
+    "index_templates_table": {
+      "show_hidden_templates": {
+        "label": "Показать скрытые шаблоны"
+      },
+      "sticky_table_header": {
+        "label": "Закрепленный заголовок таблицы"
+      },
+      "table": {
+        "headers": {
+          "name": "Имя",
+          "endpoint": "Конечная точка",
+          "index_patterns": "Шаблоны индексов"
+        }
+      }
+    }
+  },
+  "mixins": {
+    "test_connection": {
+      "cluster_reachable": "Ваш кластер доступен и настроен правильно."
+    }
+  },
+  "cluster_nodes": {
+    "heading": "Узлы",
+    "node_icons": {
+      "master": {
+        "title": "Мастер-узел"
+      },
+      "master_eligible": {
+        "title": "Мастер-кандидат"
+      },
+      "data": {
+        "title": "Узел данных"
+      },
+      "ingest": {
+        "title": "Узел обработки"
+      },
+      "coordinating_only": {
+        "title": "Координационный узел"
+      }
+    },
+    "node_properties": {
+      "ip": "IP",
+      "id": "ID",
+      "master": "Мастер",
+      "node_role": "Роль узла",
+      "attr": "Атрибуты",
+      "load": "Нагрузка",
+      "cpu": "CPU",
+      "ram": "ОЗУ",
+      "heap": "Куча",
+      "disk": "Диск",
+      "name": "Имя",
+      "status": "Статус",
+      "version": "Версия"
+    }
+  },
+  "query": {
+    "heading": "REST",
+    "api_documentation": "Документация API",
+    "rest": {
+      "history": "История",
+      "form": {
+        "method": {
+          "label": "HTTP Метод"
+        },
+        "path": {
+          "label": "Путь"
+        },
+        "send_request": "Отправить запрос",
+        "save_request": "Сохранить",
+        "download_as_json": "Скачать тело ответа",
+        "paste_kibana": "Вставить запрос из Kibana"
+      },
+      "get_request_hint": {
+        "cannot_send_body": "Вы не можете отправить тело запроса с помощью {method}.<br> Пожалуйста, ",
+        "use_post": "используйте POST",
+        "query_parameters": "если вы хотите отправить тело запроса.",
+        "search_post": "Вы можете использовать POST для поиска через конечную точку _search."
+      }
+    },
+    "rest_query_history": {
+      "table": {
+        "headers": {
+          "query": "Запрос",
+          "timestamp": "Время"
+        }
+      },
+      "body_preview": {
+        "use": "Использовать в текущей вкладке",
+        "open_new_tab": "Открыть в новой вкладке"
+      }
+    },
+    "rest_query_examples": {
+      "heading": "Примеры запросов",
+      "table": {
+        "headers": {
+          "query": "Запрос",
+          "description": "Описание"
+        },
+        "row": {
+          "use": "Использовать"
+        }
+      }
+    }
+  },
+  "repositories": {
+    "heading": "Репозитории снимков",
+    "new_repository": {
+      "heading": "Новый репозиторий",
+      "form": {
+        "name": {
+          "label": "Имя репозитория*"
+        },
+        "type": {
+          "label": "Тип репозитория*"
+        },
+        "bucket": {
+          "label": "S3 bucket*"
+        },
+        "client": {
+          "label": "S3 клиент"
+        },
+        "protocol": {
+          "label": "Протокол*"
+        },
+        "region": {
+          "label": "S3 регион"
+        },
+        "path_style_access": {
+          "label": "Доступ по пути"
+        },
+        "location": {
+          "label": "Расположение репозитория*"
+        },
+        "chunk_size": {
+          "label": "Размер чанка"
+        },
+        "max_restore_bytes_per_sec": {
+          "label": "Макс. скорость восстановления (байт/сек)"
+        },
+        "max_snapshot_bytes_per_sec": {
+          "label": "Макс. скорость создания снимка (байт/сек)"
+        },
+        "compress": {
+          "label": "Сжатие"
+        },
+        "readonly": {
+          "label": "Только для чтения"
+        }
+      },
+      "create_repository": {
+        "growl": "Репозиторий '{repositoryName}' успешно создан."
+      }
+    },
+    "repositories_table": {
+      "table": {
+        "headers": {
+          "name": "Имя",
+          "type": "Тип",
+          "settings": "Настройки"
+        }
+      },
+      "delete_repository": {
+        "confirm": "Удалить репозиторий '{name}' и все снимки внутри?",
+        "growl": "Репозиторий '{name}' успешно удален."
+      }
+    }
+  },
+  "search": {
+    "heading": "Поиск",
+    "form": {
+      "query": {
+        "label": "Поиск"
+      },
+      "search_examples": {
+        "button": "Примеры поиска",
+        "hint": "Примеры поиска, см. <a tabindex='-1' target='_blank' rel='noopener' href='https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html'>запрос строки запроса</a> для подробностей"
+      },
+      "search": "Поиск",
+      "customize_query": {
+        "button": "Настроить поиск",
+        "reset": "Сбросить запрос"
+      }
+    },
+    "search_result": {
+      "delete": {
+        "text": "# | Удалить документ | Удалить документы",
+        "confirm": "# | Вы уверены, что хотите удалить этот документ? | Вы уверены, что хотите удалить {count} документов?",
+        "growl": "# | Документ успешно удален. | Документы успешно удалены."
+      }
+    },
+    "results_table": {
+      "settings": {
+        "columns": "Колонки"
+      },
+      "download_as_json": "Скачать как JSON"
+    },
+    "edit_document": {
+      "update": {
+        "text": "Обновить документ",
+        "growl": "Документ успешно обновлен."
+      }
+    }
+  },
+  "settings": {
+    "heading": "Настройки",
+    "hide_indices_regex": {
+      "label": "Скрыть индексы по регулярному выражению",
+      "message": "Индексы, соответствующие этому регулярному выражению, будут скрыты по умолчанию во всех местах, где перечислены индексы",
+      "reset": "Сбросить на значение по умолчанию {regex}"
+    },
+    "hide_nodes_attributes_regex": {
+      "label": "Скрыть атрибуты узлов по регулярному выражению",
+      "message": "Атрибуты узлов, соответствующие этому регулярному выражению, будут скрыты по умолчанию в обзоре узлов",
+      "reset": "Сбросить на значение по умолчанию {regex}"
+    },
+    "document_field_max_length": {
+      "label": "Максимальная длина поля документа",
+      "message": "Максимальная длина значений полей документа в результатах поиска, более длинные значения будут обрезаны.",
+      "reset": "Сбросить на значение по умолчанию {value}"
+    },
+    "localize_timestamp": {
+      "label": "Локализовать значение полей '{'@'}timestamp' в результатах поиска"
+    },
+    "disconnect_and_reset": {
+      "heading": "Отключиться и сбросить все настройки",
+      "button": "Отключиться и сбросить",
+      "confirm": "Вы уверены? Это удалит все данные, сохраненные elasticvue! Вам придется заново подключиться к вашему кластеру."
+    },
+    "import_export": {
+      "heading": "Импорт/Экспорт данных elasticvue",
+      "message": "Вы можете импортировать и экспортировать вашу конфигурацию elasticvue в формате JSON. Это <strong>не</strong> резервная копия данных вашего кластера, используйте снимки, если вам нужно создать резервную копию ваших индексов.",
+      "export": {
+        "heading": "Экспорт",
+        "included": "Что включено?",
+        "download": "Скачать резервную копию"
+      },
+      "import": {
+        "heading": "Импорт",
+        "select_file": "Выберите файл...",
+        "import": "Импортировать резервную копию"
+      }
+    },
+    "editor_vim_mode": {
+      "label": "Использовать привязки клавиш Vim в редакторе"
+    }
+  },
+  "setup": {
+    "configure": {
+      "heading": "1. Настройка",
+      "introduction": "Вам нужно настроить CORS для использования elasticvue web. Добавьте следующие строки в ваш",
+      "allow_cors": "разрешить CORS запросы с {domain}",
+      "authorization": "и если ваш кластер использует авторизацию",
+      "restart": "Затем перезапустите ваш кластер"
+    },
+    "import_predefined_clusters": {
+      "heading": "Предопределенные кластеры",
+      "import": "Импортировать кластеры | Импортировать 1 кластер | Импортировать {count} кластеров",
+      "table": {
+        "headers": {
+          "health": "Состояние",
+          "cluster_name": "Имя кластера",
+          "uri": "URI",
+          "username": "Имя пользователя",
+          "password": "Пароль"
+        }
+      }
+    },
+    "setup_instance": {
+      "heading": "Добавить кластер Elasticsearch",
+      "configure": "1. Настройка",
+      "connect": "2. Подключение"
+    },
+    "test_and_connect": {
+      "heading": "2. Подключение",
+      "form": {
+        "name": {
+          "label": "Имя кластера"
+        },
+        "username": {
+          "label": "Имя пользователя"
+        },
+        "password": {
+          "label": "Пароль"
+        },
+        "api_key": {
+          "label": "Закодированный API ключ"
+        },
+        "uri": {
+          "label": "URI"
+        },
+        "test_connection": "Проверить подключение",
+        "connect": "Подключиться"
+      },
+      "connected": "Успешно подключено."
+    }
+  },
+  "shards": {
+    "heading": "Шарды",
+    "shards_table": {
+      "cancel_relocation": "Отменить перемещение",
+      "reroute": {
+        "label": "Перенаправить на '{node}'",
+        "confirm": "Перенаправить шард '{shard}' с узла '{fromNode}' на '{toNode}'?"
+      }
+    }
+  },
+  "shared": {
+    "cluster_connection_errors": {
+      "connection_error": "Ошибка подключения",
+      "cant_connect": "Не удается подключиться к вашему кластеру.",
+      "please_check": "Пожалуйста, убедитесь, что",
+      "checklist": {
+        "reachable": "Ваш кластер доступен по",
+        "ssl": "Ваш браузер доверяет SSL-сертификату кластера",
+        "cors": "Вы включили CORS и перезапустили ваш кластер"
+      }
+    },
+    "index_filter": {
+      "use_index_pattern": "использовать шаблон индекса",
+      "use_index_select": "выбрать индексы",
+      "index_pattern": {
+        "input": {
+          "label": "Шаблон индекса"
+        },
+        "matched_indices": "соответствует {count} индексам"
+      },
+      "index_select": {
+        "select_indices": {
+          "label": "Выбрать индексы"
+        },
+        "indices_selected": "индексов выбрано",
+        "select_all": {
+          "text": "выбрать все"
+        },
+        "deselect_all": {
+          "text": "отменить выбор"
+        }
+      }
+    },
+    "table_bottom": {
+      "rows_per_page": {
+        "confirm": "ВНИМАНИЕ: Вы уверены? Показ {value} записей одновременно может вызвать проблемы или зависания. Рекомендуется использовать функцию поиска/фильтрации для ограничения результатов."
+      }
+    },
+    "table_settings": {
+      "reset": "сбросить",
+      "clear": "очистить"
+    },
+    "authorization_header_hint": "Убедитесь, что \"http.cors.allow-headers\" настроен",
+    "code_editor": {
+      "actions": {
+        "beautify": {
+          "title": "Форматировать (Ctrl+ALT+L)",
+          "text": "Форматировать"
+        },
+        "wrap_lines": {
+          "label": "Перенос строк",
+          "title": "Перенос длинных строк"
+        }
+      }
+    },
+    "loader": {
+      "copy_error": "Копировать ошибку",
+      "network_error": "Ошибка сети, невозможно получить доступ к вашему кластеру.",
+      "cluster_uri": "URI кластера:"
+    },
+    "reload_button": {
+      "reload": "Перезагрузить"
+    },
+    "timer": {
+      "settings": {
+        "title": "Автоперезагрузка"
+      }
+    },
+    "ssl_hint": {
+      "hint": "При использовании HTTPS убедитесь, что ваш браузер доверяет SSL-сертификату кластера.",
+      "help": "Помощь"
+    }
+  },
+  "snapshots": {
+    "heading": "Снимки репозитория '{name}'",
+    "new_snapshot": {
+      "heading": "Новый снимок",
+      "form": {
+        "snapshot_name": {
+          "label": "Имя снимка"
+        }
+      },
+      "create_snapshot": {
+        "growl": "Снимок '{name}' успешно создан."
+      }
+    },
+    "restore_snapshot": {
+      "heading": "Восстановить '{name}'",
+      "form": {
+        "ignore_unavailable": {
+          "label": "Игнорировать недоступные"
+        },
+        "include_global_state": {
+          "label": "Включать глобальное состояние"
+        },
+        "rename_pattern": {
+          "label": "Шаблон переименования"
+        },
+        "rename_replacement": {
+          "label": "Замена переименования"
+        },
+        "restore": "Восстановить"
+      },
+      "restore_snapshot": {
+        "growl": "Снимок '{snapshot}' успешно восстановлен."
+      }
+    },
+    "snapshot": {
+      "indices": "{count} индексов",
+      "delete": {
+        "confirm": "Удалить снимок '{snapshot}'?",
+        "growl": "Снимок '{snapshot}' успешно удален."
+      }
+    },
+    "snapshots_table": {
+      "table": {
+        "headers": {
+          "status": "Статус",
+          "start_time": "Время начала",
+          "end_time": "Время окончания",
+          "duration": "Длительность",
+          "indices": "Индексы",
+          "successful_shards": "Успешные шарды",
+          "failed_shards": "Неудачные шарды",
+          "total_shards": "Всего шардов"
+        }
+      }
+    }
+  },
+  "update_check": {
+    "downloading": "Загрузка... {progress}%",
+    "heading": "Доступна новая версия elasticvue.",
+    "installing": "Установка обновления, пожалуйста, подождите...",
+    "update_info": "Elasticvue {version} доступен. Хотите установить его сейчас?",
+    "yes": "Да"
+  },
+  "welcome": {
+    "import_backup": {
+      "heading": "Импорт резервной копии elasticvue"
+    },
+    "welcome_page": {
+      "intro": "Самый быстрый и удобный интерфейс для Elasticsearch",
+      "first_time": "Похоже, вы впервые используете elasticvue.",
+      "add_clusters": "Начните с добавления вашего первого кластера или импорта резервной копии вашей текущей конфигурации elasticvue."
+    }
+  }
+}

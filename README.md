@@ -6,7 +6,7 @@
 [![Firefox addon](https://img.shields.io/amo/v/elasticvue?label=firefox%20add-on)](https://addons.mozilla.org/en-US/firefox/addon/elasticvue/)
 [![Docker build](https://img.shields.io/docker/image-size/cars10/elasticvue)](https://hub.docker.com/r/cars10/elasticvue)
 
-English / [简体中文](./docs/README_CN.md)
+English / [简体中文](./docs/README_CN.md) / [Русский](./README_RU.md)
 
 
 Elasticsearch gui for your browser [https://elasticvue.com](https://elasticvue.com)

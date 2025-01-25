@@ -39,7 +39,7 @@ export default [
       '@intlify/vue-i18n/no-duplicate-keys-in-locale': ['error'],
       '@intlify/vue-i18n/no-dynamic-keys': 'error',
       '@intlify/vue-i18n/no-missing-keys-in-other-locales': 'error',
-      '@intlify/vue-i18n/no-unknown-locale': ['error', { locales: ['en', 'fr', 'cn'] }],
+      '@intlify/vue-i18n/no-unknown-locale': ['error', { locales: ['en', 'fr', 'cn', 'ru'] }],
       '@intlify/vue-i18n/no-unused-keys': ['error', {
         'src': './src',
         'extensions': ['.js', '.vue', '.ts'],
