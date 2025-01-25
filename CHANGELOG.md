@@ -2,7 +2,7 @@
 
 ## 1.5.0
 
-* adds russian language, thanks @AnchorI
+* adds russian and japanese translation, thanks to @AnchorI
 
 ## 1.4.0
 
