@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.5.0
+
+* adds russian language, thanks @AnchorI
+
 ## 1.4.0
 
 * for elasticsearch 7 and 8, query both `_template` and `_index_template` endpoints, fixes [#281](https://github.com/cars10/elasticvue/issues/281)

@@ -214,6 +214,7 @@
   },
   "index_templates": {
     "heading": "Шаблоны индексов",
+    "endpoint": "Конечная точка",
     "index_templates_table": {
       "show_hidden_templates": {
         "label": "Показать скрытые шаблоны"
@@ -224,7 +225,6 @@
       "table": {
         "headers": {
           "name": "Имя",
-          "endpoint": "Конечная точка",
           "index_patterns": "Шаблоны индексов"
         }
       }
@@ -513,12 +513,29 @@
   },
   "shards": {
     "heading": "Шарды",
+    "health": "Состояние",
     "shards_table": {
       "cancel_relocation": "Отменить перемещение",
       "reroute": {
-        "label": "Перенаправить на '{node}'",
         "confirm": "Перенаправить шард '{shard}' с узла '{fromNode}' на '{toNode}'?"
       }
+    }
+  },
+  "shard_recovery": {
+    "heading": "Восстановление шардов"
+  },
+  "shard_recovery_table": {
+    "stage": "Этап",
+    "columns": {
+      "index": "Индекс",
+      "stage": "Этап",
+      "source": "Источник",
+      "target": "Цель",
+      "time": "Время",
+      "duration": "Продолжительность",
+      "files": "Файлы",
+      "bytes": "Байты",
+      "translog_ops": "Операции Translog"
     }
   },
   "shared": {

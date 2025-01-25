@@ -6,9 +6,6 @@
 [![Firefox addon](https://img.shields.io/amo/v/elasticvue?label=firefox%20add-on)](https://addons.mozilla.org/en-US/firefox/addon/elasticvue/)
 [![Docker build](https://img.shields.io/docker/image-size/cars10/elasticvue)](https://hub.docker.com/r/cars10/elasticvue)
 
-English / [简体中文](./docs/README_CN.md) / [Русский](./README_RU.md)
-
-
 Elasticsearch gui for your browser [https://elasticvue.com](https://elasticvue.com)
 
 > Elasticsearch is a trademark of Elasticsearch BV, registered in the U.S. and in other countries.
@@ -30,7 +27,7 @@ Contents
 [Screenshots](https://elasticvue.com/features)
 
 **Elasticvue** is a free and open-source gui for elasticsearch that you can use to manage the data in your cluster.
-It has full support for elasticsearch versions `8.x` and `7.x`. Check
+It supports every version of elasticsearch, even those that are EOL. Check
 the [FAQ](https://github.com/cars10/elasticvue/wiki/FAQ) for more details.
 
 ### Features
@@ -41,6 +38,7 @@ the [FAQ](https://github.com/cars10/elasticvue/wiki/FAQ) for more details.
 * Searching and editing documents
 * Rest queries
 * Snapshot & repository management
+* ... and much more
 
 ## Usage
 
@@ -56,7 +54,7 @@ You can use elasticvue in several ways:
 
 * [Google chrome](https://chrome.google.com/webstore/detail/elasticvue/hkedbapjpblbodpgbajblpnlpenaebaa)
 * [Firefox](https://addons.mozilla.org/en-US/firefox/addon/elasticvue/)
-* [Microsoft edge](https://microsoftedge.microsoft.com/addons/detail/geifniocjfnfilcbeloeidajlfmhdlgo)
+* [Microsoft Edge](https://microsoftedge.microsoft.com/addons/detail/geifniocjfnfilcbeloeidajlfmhdlgo)
 
 ### Docker
 
@@ -155,7 +153,7 @@ After configuration restart your cluster and you should be able to connect.
 
 ## Browser Support
 
-Any current version of Chrome, Firefox and Edge (Chromium) should work without issues. Safari is mostly untested so your
+Any current version of Chrome, Firefox and Edge should work without issues. Safari is mostly untested so your
 mileage may vary.
 
 ## Troubleshooting
@@ -178,13 +176,15 @@ See the Wiki. [Comparing to other frontends](https://github.com/cars10/elasticvu
 Elasticvue is available in the following languages:
 
 * english
-* chinese 
+* chinese
 * french
+* russian
 
 ### Help wanted
 
-I do not speak chinese and therefore rely on your help to keep the chinese translation up-to-date. Please open a PR if
-you notice missing/wrong translations in the chinese version.
+I do not speak Chinese, French or Russian, and therefore rely on your help to keep the translations up-to-date. Please
+open a PR if
+you notice missing or wrong translations.
 
 ### Adding a new language
 
