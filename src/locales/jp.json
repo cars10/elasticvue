@@ -1,0 +1,690 @@
+{
+  "base": {
+    "app_footer": {
+      "homepage": "ホームページ"
+    },
+    "app_header": {
+      "navigation": {
+        "home": "ホーム",
+        "nodes": "ノード",
+        "indices": "インデックス",
+        "shards": "シャード",
+        "search": "検索",
+        "rest": "REST",
+        "snapshots": "スナップショット"
+      }
+    },
+    "language_switcher": {
+      "title": "言語を変更",
+      "languages": {
+        "en": {
+          "title": "英語"
+        },
+        "cn": {
+          "title": "中国語"
+        },
+        "fr": {
+          "title": "フランス語"
+        },
+        "ru": {
+          "title": "ロシア語"
+        },
+        "jp": {
+          "title": "日本語"
+        }
+      }
+    },
+    "theme_switcher": {
+      "title": "テーマを変更"
+    }
+  },
+  "defaults": {
+    "filter": {
+      "label": "フィルター..."
+    },
+    "cancel": "キャンセル",
+    "close": "閉じる",
+    "create": "作成",
+    "delete": "削除",
+    "success": "成功",
+    "bulk": "一括操作",
+    "copy": "コピー"
+  },
+  "cluster_selection": {
+    "cluster_selection": {
+      "connected_info": {
+        "title": "'{activeInstanceName}' に接続中 ({activeInstanceUri})"
+      }
+    },
+    "cluster_table": {
+      "headers": {
+        "cluster": "クラスター",
+        "uri": "URI",
+        "version": "バージョン"
+      },
+      "row": {
+        "title": "'{uri}' のクラスターに接続",
+        "remove_cluster": {
+          "confirm": "クラスター '{name}' ({uri}) を削除しますか？"
+        },
+        "unsupported": "Elasticsearch {majorVersion} はサポート終了（EOL）であり、elasticvue で完全にはサポートされていません。バグや機能制限が発生する可能性があります。"
+      }
+    },
+    "edit_cluster": {
+      "edit": {
+        "title": "クラスターを編集"
+      },
+      "heading": "クラスターを編集"
+    },
+    "new_cluster": {
+      "add_cluster": "クラスターを追加",
+      "heading": "Elasticsearch クラスターを追加"
+    }
+  },
+  "helpers": {
+    "import_export": {
+      "import_backup": {
+        "confirm": "本当に実行しますか？バックアップをインポートすると、現在の設定と保存されたクラスターが上書きされます！"
+      }
+    }
+  },
+  "home": {
+    "client_information": {
+      "heading": "クラスター情報"
+    },
+    "cluster_health": {
+      "heading": "クラスターの健全性"
+    }
+  },
+  "indices": {
+    "heading": "インデックス",
+    "index_aliases": {
+      "text": "エイリアス",
+      "heading": "エイリアスを管理",
+      "index": "インデックス: {index}",
+      "form": {
+        "new_alias": {
+          "label": "新しいエイリアス"
+        },
+        "add_alias": "新しいエイリアスを追加"
+      },
+      "table": {
+        "headers": {
+          "alias": "エイリアス"
+        }
+      },
+      "delete_alias": {
+        "confirm": "インデックス '{index}' のエイリアス '{alias}' を削除しますか？"
+      }
+    },
+    "index_reindex": {
+      "text": "再インデックス",
+      "heading": "インデックスを再インデックス",
+      "index": "インデックス: {index}",
+      "form": {
+        "source": {
+          "label": "再インデックス先..."
+        },
+        "reindex": "再インデックス"
+      }
+    },
+    "index_row": {
+      "search": {
+        "title": "'{index}' を検索"
+      },
+      "shards": {
+        "title": "{pri} プライマリ\n{rep} レプリカ"
+      },
+      "options": {
+        "show_info": "情報を表示",
+        "show_stats": "統計を表示",
+        "forcemerge": {
+          "text": "すべてのインデックスを強制マージ | インデックスを強制マージ | {count} 個のインデックスを強制マージ",
+          "growl": "インデックス '{index}' は正常にマージされました。"
+        },
+        "refresh": {
+          "text": "すべてのインデックスをリフレッシュ | インデックスをリフレッシュ | {count} 個のインデックスをリフレッシュ",
+          "growl": "インデックス '{index}' は正常にリフレッシュされました。"
+        },
+        "flush": {
+          "text": "すべてのインデックスをフラッシュ | インデックスをフラッシュ | {count} 個のインデックスをフラッシュ",
+          "growl": "インデックス '{index}' は正常にフラッシュされました。"
+        },
+        "clear_cache": {
+          "text": "すべてのインデックスキャッシュをクリア | インデックスキャッシュをクリア | {count} 個のインデックスキャッシュをクリア",
+          "growl": "インデックス '{index}' のキャッシュは正常にクリアされました。"
+        },
+        "close": {
+          "text": "インデックスを閉じる | インデックスを閉じる | {count} 個のインデックスを閉じる",
+          "confirm": "インデックス '{index}' を閉じますか？",
+          "growl": "インデックス '{index}' は正常に閉じられました。"
+        },
+        "open": {
+          "text": "インデックスを開く | インデックスを開く | {count} 個のインデックスを開く",
+          "growl": "インデックス '{index}' は正常に開かれました。"
+        },
+        "delete_by_query": {
+          "text": "すべてのドキュメントを削除",
+          "confirm": "インデックス '{index}' のすべてのドキュメントを削除しますか？これにより、インデックス内のすべてのデータが削除されます！",
+          "growl": "インデックス '{index}' のドキュメントは正常に削除されました。"
+        },
+        "delete": {
+          "text": "インデックスを削除 | インデックスを削除 | {count} 個のインデックスを削除",
+          "confirm": "インデックス '{index}' を削除しますか？",
+          "growl": "インデックス '{index}' は正常に削除されました。"
+        }
+      }
+    },
+    "indices_table": {
+      "show_hidden_indices": {
+        "label": "隠しインデックスを表示"
+      },
+      "sticky_table_header": {
+        "label": "テーブルヘッダーを固定"
+      },
+      "table": {
+        "headers": {
+          "name": "名前",
+          "status": "ステータス",
+          "health": "健全性",
+          "uuid": "UUID",
+          "aliases": "エイリアス",
+          "shards": "シャード",
+          "segments": "セグメント",
+          "docs": "ドキュメント",
+          "storage": "ストレージ",
+          "created": "作成日"
+        }
+      }
+    },
+    "new_index": {
+      "heading": "新しいインデックス",
+      "form": {
+        "index_name": {
+          "label": "インデックス名"
+        },
+        "shards": {
+          "label": "シャード数"
+        },
+        "replicas": {
+          "label": "レプリカ数"
+        }
+      },
+      "create_index": {
+        "growl": "インデックス '{index}' は正常に作成されました。"
+      }
+    }
+  },
+  "index_templates": {
+    "heading": "インデックステンプレート",
+    "endpoint": "エンドポイント",
+    "index_templates_table": {
+      "show_hidden_templates": {
+        "label": "隠しテンプレートを表示"
+      },
+      "sticky_table_header": {
+        "label": "テーブルヘッダーを固定"
+      },
+      "table": {
+        "headers": {
+          "name": "名前",
+          "index_patterns": "インデックスパターン"
+        }
+      }
+    }
+  },
+  "mixins": {
+    "test_connection": {
+      "cluster_reachable": "クラスターに接続可能で、正しく設定されています。"
+    }
+  },
+  "cluster_nodes": {
+    "heading": "ノード",
+    "node_icons": {
+      "master": {
+        "title": "マスターノード"
+      },
+      "master_eligible": {
+        "title": "マスター候補"
+      },
+      "data": {
+        "title": "データノード"
+      },
+      "ingest": {
+        "title": "インジェストノード"
+      },
+      "coordinating_only": {
+        "title": "コーディネーションノード"
+      }
+    },
+    "node_properties": {
+      "ip": "IP",
+      "id": "ID",
+      "master": "マスター",
+      "node_role": "ノードの役割",
+      "attr": "属性",
+      "load": "負荷",
+      "cpu": "CPU",
+      "ram": "RAM",
+      "heap": "ヒープ",
+      "disk": "ディスク",
+      "name": "名前",
+      "status": "ステータス",
+      "version": "バージョン"
+    }
+  },
+  "query": {
+    "heading": "REST",
+    "api_documentation": "API ドキュメント",
+    "rest": {
+      "history": "履歴",
+      "form": {
+        "method": {
+          "label": "HTTP メソッド"
+        },
+        "path": {
+          "label": "パス"
+        },
+        "send_request": "リクエストを送信",
+        "save_request": "保存",
+        "download_as_json": "レスポンスボディをダウンロード",
+        "paste_kibana": "Kibana コンソールクエリを貼り付け"
+      },
+      "get_request_hint": {
+        "cannot_send_body": "{method} ではリクエストボディを送信できません。<br> リクエストボディを送信する場合は、",
+        "use_post": "POST を使用してください",
+        "query_parameters": "。",
+        "search_post": "_search エンドポイントで検索する場合は POST を使用できます。"
+      }
+    },
+    "rest_query_history": {
+      "table": {
+        "headers": {
+          "query": "クエリ",
+          "timestamp": "タイムスタンプ"
+        }
+      },
+      "body_preview": {
+        "use": "現在のタブで使用",
+        "open_new_tab": "新しいタブで開く"
+      }
+    },
+    "rest_query_examples": {
+      "heading": "クエリの例",
+      "table": {
+        "headers": {
+          "query": "クエリ",
+          "description": "説明"
+        },
+        "row": {
+          "use": "使用"
+        }
+      }
+    }
+  },
+  "repositories": {
+    "heading": "スナップショットリポジトリ",
+    "new_repository": {
+      "heading": "新しいリポジトリ",
+      "form": {
+        "name": {
+          "label": "リポジトリ名*"
+        },
+        "type": {
+          "label": "リポジトリタイプ*"
+        },
+        "bucket": {
+          "label": "S3 バケット*"
+        },
+        "client": {
+          "label": "S3 クライアント"
+        },
+        "protocol": {
+          "label": "プロトコル*"
+        },
+        "region": {
+          "label": "S3 リージョン"
+        },
+        "path_style_access": {
+          "label": "パススタイルアクセス"
+        },
+        "location": {
+          "label": "リポジトリの場所*"
+        },
+        "chunk_size": {
+          "label": "チャンクサイズ"
+        },
+        "max_restore_bytes_per_sec": {
+          "label": "最大復元バイト数/秒"
+        },
+        "max_snapshot_bytes_per_sec": {
+          "label": "最大スナップショットバイト数/秒"
+        },
+        "compress": {
+          "label": "圧縮"
+        },
+        "readonly": {
+          "label": "読み取り専用"
+        }
+      },
+      "create_repository": {
+        "growl": "リポジトリ '{repositoryName}' は正常に作成されました。"
+      }
+    },
+    "repositories_table": {
+      "table": {
+        "headers": {
+          "name": "名前",
+          "type": "タイプ",
+          "settings": "設定"
+        }
+      },
+      "delete_repository": {
+        "confirm": "リポジトリ '{name}' とその中のすべてのスナップショットを削除しますか？",
+        "growl": "リポジトリ '{name}' は正常に削除されました。"
+      }
+    }
+  },
+  "search": {
+    "heading": "検索",
+    "form": {
+      "query": {
+        "label": "検索"
+      },
+      "search_examples": {
+        "button": "検索例",
+        "hint": "検索例については、<a tabindex='-1' target='_blank' rel='noopener' href='https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html'>クエリ文字列クエリ</a>を参照してください"
+      },
+      "search": "検索",
+      "customize_query": {
+        "button": "カスタム検索",
+        "reset": "クエリをリセット"
+      }
+    },
+    "search_result": {
+      "delete": {
+        "text": "# | ドキュメントを削除 | ドキュメントを削除",
+        "confirm": "# | このドキュメントを削除しますか？ | {count} 個のドキュメントを削除しますか？",
+        "growl": "# | ドキュメントは正常に削除されました。 | ドキュメントは正常に削除されました。"
+      }
+    },
+    "results_table": {
+      "settings": {
+        "columns": "列"
+      },
+      "download_as_json": "JSON としてダウンロード"
+    },
+    "edit_document": {
+      "update": {
+        "text": "ドキュメントを更新",
+        "growl": "ドキュメントは正常に更新されました。"
+      }
+    }
+  },
+  "settings": {
+    "heading": "設定",
+    "hide_indices_regex": {
+      "label": "隠しインデックスの正規表現",
+      "message": "この正規表現に一致するインデックスは、インデックスがリストされているすべての場所でデフォルトで非表示になります",
+      "reset": "デフォルトにリセット {regex}"
+    },
+    "hide_nodes_attributes_regex": {
+      "label": "ノード属性の正規表現",
+      "message": "この正規表現に一致するノード属性は、ノードの概要でデフォルトで非表示になります",
+      "reset": "デフォルトにリセット {regex}"
+    },
+    "document_field_max_length": {
+      "label": "ドキュメントフィールドの最大長",
+      "message": "検索結果におけるドキュメントフィールド値の最大長。これより長い値は切り捨てられます。",
+      "reset": "デフォルトにリセット {value}"
+    },
+    "localize_timestamp": {
+      "label": "検索結果の '{'@'}timestamp' フィールドの値をローカライズする"
+    },
+    "disconnect_and_reset": {
+      "heading": "切断してすべての設定をリセット",
+      "button": "切断してリセット",
+      "confirm": "本当に実行しますか？これにより、elasticvue によって保存されたすべてのデータが削除されます！クラスターに再接続する必要があります。"
+    },
+    "import_export": {
+      "heading": "elasticvue データのインポート/エクスポート",
+      "message": "elasticvue の設定を JSON としてインポートおよびエクスポートできます。これはクラスターデータのバックアップ<strong>ではありません</strong>。インデックスのバックアップが必要な場合は、スナップショットを使用してください。",
+      "export": {
+        "heading": "エクスポート",
+        "included": "含まれる内容",
+        "download": "バックアップをダウンロード"
+      },
+      "import": {
+        "heading": "インポート",
+        "select_file": "ファイルを選択...",
+        "import": "バックアップをインポート"
+      }
+    },
+    "editor_vim_mode": {
+      "label": "エディターで Vim キーバインドを使用する"
+    }
+  },
+  "setup": {
+    "configure": {
+      "heading": "1. 設定",
+      "introduction": "elasticvue を使用するには、CORS を設定する必要があります。以下の行を追加してください",
+      "allow_cors": "{domain} からの CORS リクエストを許可",
+      "authorization": "クラスターで認証を使用している場合",
+      "restart": "その後、クラスターを再起動してください"
+    },
+    "import_predefined_clusters": {
+      "heading": "事前定義されたクラスター",
+      "import": "クラスターをインポート | 1 つのクラスターをインポート | {count} 個のクラスターをインポート",
+      "table": {
+        "headers": {
+          "health": "健全性",
+          "cluster_name": "クラスター名",
+          "uri": "URI",
+          "username": "ユーザー名",
+          "password": "パスワード"
+        }
+      }
+    },
+    "setup_instance": {
+      "heading": "Elasticsearch クラスターを追加",
+      "configure": "1. 設定",
+      "connect": "2. 接続"
+    },
+    "test_and_connect": {
+      "heading": "2. 接続",
+      "form": {
+        "name": {
+          "label": "クラスター名"
+        },
+        "username": {
+          "label": "ユーザー名"
+        },
+        "password": {
+          "label": "パスワード"
+        },
+        "api_key": {
+          "label": "エンコードされた API キー"
+        },
+        "uri": {
+          "label": "URI"
+        },
+        "test_connection": "接続をテスト",
+        "connect": "接続"
+      },
+      "connected": "正常に接続されました。"
+    }
+  },
+  "shards": {
+    "heading": "シャード",
+    "health": "健全性",
+    "shards_table": {
+      "cancel_relocation": "再ルーティングをキャンセル",
+      "reroute": {
+        "confirm": "シャード '{shard}' をノード '{fromNode}' から '{toNode}' に再ルーティングしますか？"
+      }
+    }
+  },
+  "shard_recovery": {
+    "heading": "シャードの復元"
+  },
+  "shard_recovery_table": {
+    "stage": "ステージ",
+    "columns": {
+      "index": "インデックス",
+      "stage": "ステージ",
+      "source": "ソース",
+      "target": "ターゲット",
+      "time": "時間",
+      "duration": "期間",
+      "files": "ファイル",
+      "bytes": "バイト",
+      "translog_ops": "トランザクションログ操作"
+    }
+  },
+  "shared": {
+    "cluster_connection_errors": {
+      "connection_error": "接続エラー",
+      "cant_connect": "クラスターに接続できません。",
+      "please_check": "以下を確認してください",
+      "checklist": {
+        "reachable": "クラスターに接続可能",
+        "ssl": "ブラウザがクラスターの SSL 証明書を信頼している",
+        "cors": "CORS を有効にしてクラスターを再起動した"
+      }
+    },
+    "index_filter": {
+      "use_index_pattern": "インデックスパターンを使用",
+      "use_index_select": "インデックスを選択",
+      "index_pattern": {
+        "input": {
+          "label": "インデックスパターン"
+        },
+        "matched_indices": "{count} 個のインデックスに一致"
+      },
+      "index_select": {
+        "select_indices": {
+          "label": "インデックスを選択"
+        },
+        "indices_selected": "インデックスが選択されました",
+        "select_all": {
+          "text": "すべて選択"
+        },
+        "deselect_all": {
+          "text": "すべて解除"
+        }
+      }
+    },
+    "table_bottom": {
+      "rows_per_page": {
+        "confirm": "警告: 本当に実行しますか？一度に {value} エントリを表示すると、問題やフリーズが発生する可能性があります。結果を制限するには、検索/フィルター機能を使用することをお勧めします。"
+      }
+    },
+    "table_settings": {
+      "reset": "リセット",
+      "clear": "クリア"
+    },
+    "authorization_header_hint": "\"http.cors.allow-headers\" が設定されていることを確認してください",
+    "code_editor": {
+      "actions": {
+        "beautify": {
+          "title": "整形 (Ctrl+ALT+L)",
+          "text": "整形"
+        },
+        "wrap_lines": {
+          "label": "行を折り返す",
+          "title": "長い行を折り返す"
+        }
+      }
+    },
+    "loader": {
+      "copy_error": "エラーをコピー",
+      "network_error": "ネットワークエラー、クラスターにアクセスできません。",
+      "cluster_uri": "クラスター URI:"
+    },
+    "reload_button": {
+      "reload": "再読み込み"
+    },
+    "timer": {
+      "settings": {
+        "title": "自動再読み込み"
+      }
+    },
+    "ssl_hint": {
+      "hint": "HTTPS を使用する場合は、ブラウザがクラスターの SSL 証明書を信頼していることを確認してください。",
+      "help": "ヘルプ"
+    }
+  },
+  "snapshots": {
+    "heading": "リポジトリ '{name}' のスナップショット",
+    "new_snapshot": {
+      "heading": "新しいスナップショット",
+      "form": {
+        "snapshot_name": {
+          "label": "スナップショット名"
+        }
+      },
+      "create_snapshot": {
+        "growl": "スナップショット '{name}' は正常に作成されました。"
+      }
+    },
+    "restore_snapshot": {
+      "heading": "'{name}' を復元",
+      "form": {
+        "ignore_unavailable": {
+          "label": "利用不可を無視"
+        },
+        "include_global_state": {
+          "label": "グローバル状態を含める"
+        },
+        "rename_pattern": {
+          "label": "名前変更パターン"
+        },
+        "rename_replacement": {
+          "label": "名前変更置換"
+        },
+        "restore": "復元"
+      },
+      "restore_snapshot": {
+        "growl": "スナップショット '{snapshot}' は正常に復元されました。"
+      }
+    },
+    "snapshot": {
+      "indices": "{count} 個のインデックス",
+      "delete": {
+        "confirm": "スナップショット '{snapshot}' を削除しますか？",
+        "growl": "スナップショット '{snapshot}' は正常に削除されました。"
+      }
+    },
+    "snapshots_table": {
+      "table": {
+        "headers": {
+          "status": "ステータス",
+          "start_time": "開始時間",
+          "end_time": "終了時間",
+          "duration": "期間",
+          "indices": "インデックス",
+          "successful_shards": "成功したシャード",
+          "failed_shards": "失敗したシャード",
+          "total_shards": "総シャード数"
+        }
+      }
+    }
+  },
+  "update_check": {
+    "downloading": "ダウンロード中... {progress}%",
+    "heading": "新しいバージョンの elasticvue が利用可能です。",
+    "installing": "更新をインストール中、お待ちください...",
+    "update_info": "Elasticvue {version} が利用可能です。今すぐインストールしますか？",
+    "yes": "はい"
+  },
+  "welcome": {
+    "import_backup": {
+      "heading": "elasticvue バックアップをインポート"
+    },
+    "welcome_page": {
+      "intro": "Elasticsearch の最も高速でユーザーフレンドリーな GUI",
+      "first_time": "これは elasticvue を初めて使用するようです。",
+      "add_clusters": "最初のクラスターを追加するか、既存の elasticvue 設定のバックアップをインポートしてください。"
+    }
+  }
+}
