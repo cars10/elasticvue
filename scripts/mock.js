@@ -383,9 +383,17 @@ exports.mock = async page => {
       url: 'http://localhost:9200/_cat/shards/?h=index%2Cshard%2Cprirep%2Cstate%2Cnode%2Cdocs%2Cstore%2Cip%2Cnode%2Cunassigned.reason',
       json: []
     },
+    shardNodes: {
+      url: 'http://localhost:9200/_cat/nodes?h=name',
+      json: []
+    },
     indexIndices: {
       url: 'http://localhost:9200/_cat/indices/?h=index%2Chealth%2Cstatus%2Cuuid%2Cpri%2Crep%2Cdocs.count%2Cstore.size%2Csc%2Ccd&bytes=b',
       json: []
+    },
+    indexAlias: {
+      url: 'http://localhost:9200/genres/_alias',
+      json: { 'genres': { 'aliases': { 'categories': {} } } }
     },
     flush: {
       url: 'http://localhost:9200/_flush',
@@ -397,6 +405,7 @@ exports.mock = async page => {
         {
           'ip': '192.168.112.1',
           'id': 'tz7KYbj8RSeyum3J-v4VZQ',
+          'version': '8.3.16',
           'name': 'feeds-prod-1',
           'heap.percent': '42',
           'heap.current': '215.2mb',
@@ -417,6 +426,7 @@ exports.mock = async page => {
         {
           'ip': '192.168.112.2',
           'id': '0tgdUvIbSOCHzADG18paPQ',
+          'version': '8.3.16',
           'name': 'feeds-prod-2',
           'heap.percent': '42',
           'heap.current': '215.2mb',
@@ -437,6 +447,7 @@ exports.mock = async page => {
         {
           'ip': '192.168.112.3',
           'id': 'o8NZD5umQdiBmKWIXd_Ueg',
+          'version': '8.3.16',
           'name': 'feeds-prod-3',
           'heap.percent': '42',
           'heap.current': '215.2mb',
@@ -457,6 +468,7 @@ exports.mock = async page => {
         {
           'ip': '192.168.112.4',
           'id': 'VPQwd_2ORE284KaE3TQABQ',
+          'version': '8.3.16',
           'name': 'feeds-prod-4',
           'heap.percent': '42',
           'heap.current': '215.2mb',
@@ -581,6 +593,8 @@ exports.mock = async page => {
       'store.size': (docs * 1024 * 10).toString()
     })
   }
+
+  ['feeds-prod-1', 'feeds-prod-2', 'feeds-prod-3', 'feeds-prod-4'].forEach(node => (mocks.shardNodes.json.push({ name: node })))
 
   for (let i = 0; i < 15; i++) {
     // shards

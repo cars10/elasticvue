@@ -8,7 +8,7 @@
 
       <div class="col-md-4 text-center">
         <div>
-          Elasticvue {{ version }}-{{ VERSION_NAME }}
+          Elasticvue <span id="version">{{ version }}-{{ VERSION_NAME }}</span>
         </div>
         <div>
           &copy;{{ new Date().getFullYear() }} - Carsten K&ouml;nig
