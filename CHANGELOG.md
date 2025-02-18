@@ -3,6 +3,7 @@
 ## 1.5.0
 
 * adds russian and japanese translation, thanks to @AnchorI
+* the docker image now works in openshift, thanks @Fearvel , fixes [#286](https://github.com/cars10/elasticvue/issues/286)
 
 ## 1.4.0
 
