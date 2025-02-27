@@ -1,0 +1,687 @@
+{
+  "base": {
+    "app_footer": {
+      "homepage": "Homepage"
+    },
+    "app_header": {
+      "navigation": {
+        "home": "Home",
+        "nodes": "Nodi",
+        "indices": "Indici",
+        "shards": "Frammenti",
+        "search": "Ricerca",
+        "rest": "REST",
+        "snapshots": "Snapshots"
+      }
+    },
+    "language_switcher": {
+      "title": "Cambia lingua",
+      "languages": {
+        "en": {
+          "title": "Inglese"
+        },
+        "cn": {
+          "title": "Cinese"
+        },
+        "fr": {
+          "title": "Francese"
+        },
+        "it": {
+          "title": "Italiano"
+        }
+      }
+    },
+    "theme_switcher": {
+      "title": "Cambia tema"
+    }
+  },
+  "defaults": {
+    "filter": {
+      "label": "Filtra..."
+    },
+    "cancel": "Annulla",
+    "close": "Chiudi",
+    "create": "Crea",
+    "delete": "Elimina",
+    "success": "Successo",
+    "bulk": "Azione di massa",
+    "copy": "Copia"
+  },
+  "cluster_selection": {
+    "cluster_selection": {
+      "connected_info": {
+        "title": "Connesso a '{activeInstanceName}' ({activeInstanceUri})"
+      }
+    },
+    "cluster_table": {
+      "headers": {
+        "cluster": "Cluster",
+        "uri": "Uri",
+        "version": "Versione"
+      },
+      "row": {
+        "title": "Connetti al cluster a '{uri}'",
+        "remove_cluster": {
+          "confirm": "Rimuovere il cluster '{name}' ({uri})?"
+        },
+        "unsupported": "Elasticsearch {majorVersion} è EOL e non completamente supportato da elasticvue. Potresti riscontrare bug e funzionalità limitate."
+      }
+    },
+    "edit_cluster": {
+      "edit": {
+        "title": "Modifica cluster"
+      },
+      "heading": "Modifica cluster"
+    },
+    "new_cluster": {
+      "add_cluster": "Aggiungi cluster",
+      "heading": "Aggiungi cluster elasticsearch"
+    }
+  },
+  "helpers": {
+    "import_export": {
+      "import_backup": {
+        "confirm": "Sei sicuro? L'importazione di un backup sovrascriverà le tue impostazioni correnti e i cluster salvati!"
+      }
+    }
+  },
+  "home": {
+    "client_information": {
+      "heading": "Informazioni Cluster"
+    },
+    "cluster_health": {
+      "heading": "Salute Cluster"
+    }
+  },
+  "indices": {
+    "heading": "Indici",
+    "index_aliases": {
+      "text": "Alias",
+      "heading": "Gestisci alias",
+      "index": "Indice: {index}",
+      "form": {
+        "new_alias": {
+          "label": "Nuovo alias"
+        },
+        "add_alias": "Aggiungi nuovo alias"
+      },
+      "table": {
+        "headers": {
+          "alias": "Alias"
+        }
+      },
+      "delete_alias": {
+        "confirm": "Eliminare l'alias '{alias}' per l'indice '{index}'?"
+      }
+    },
+    "index_reindex": {
+      "text": "Reindicizza",
+      "heading": "Reindicizza indice",
+      "index": "Indice: {index}",
+      "form": {
+        "source": {
+          "label": "Reindicizza in..."
+        },
+        "reindex": "Reindicizza"
+      }
+    },
+    "index_row": {
+      "search": {
+        "title": "Cerca '{index}'"
+      },
+      "shards": {
+        "title": "{pri} primari\n{rep} repliche"
+      },
+      "options": {
+        "show_info": "Mostra info",
+        "show_stats": "Mostra statistiche",
+        "forcemerge": {
+          "text": "Forcemerge tutti gli indici | Forcemerge indice | Forcemerge {count} indici",
+          "growl": "L'indice '{index}' è stato unito con successo."
+        },
+        "refresh": {
+          "text": "Aggiorna tutti gli indici | Aggiorna indice | Aggiorna {count} indici",
+          "growl": "L'indice '{index}' è stato aggiornato con successo."
+        },
+        "flush": {
+          "text": "Svuota tutti gli indici | Svuota indice | Svuota {count} indici",
+          "growl": "L'indice '{index}' è stato svuotato con successo."
+        },
+        "clear_cache": {
+          "text": "Cancella tutte le cache degli indici | Cancella cache dell'indice | Cancella la cache di {count} indici",
+          "growl": "La cache dell'indice '{index}' è stata cancellata con successo."
+        },
+        "close": {
+          "text": "Chiudi indice | Chiudi indice | Chiudi {count} indici",
+          "confirm": "Chiudere l'indice '{index}'?",
+          "growl": "L'indice '{index}' è stato chiuso con successo."
+        },
+        "open": {
+          "text": "Apri indice | Apri indice | Apri {count} indici",
+          "growl": "L'indice '{index}' è stato aperto con successo."
+        },
+        "delete_by_query": {
+          "text": "Elimina tutti i documenti",
+          "confirm": "Eliminare tutti i documenti nell'indice '{index}'? Questo rimuoverà TUTTI i dati nel tuo indice!",
+          "growl": "I documenti nell'indice '{index}' sono stati eliminati con successo."
+        },
+        "delete": {
+          "text": "Elimina indice | Elimina indice | Elimina {count} indici",
+          "confirm": "Eliminare l'indice '{index}'?",
+          "growl": "L'indice '{index}' è stato eliminato con successo."
+        }
+      }
+    },
+    "indices_table": {
+      "show_hidden_indices": {
+        "label": "Mostra indici nascosti"
+      },
+      "sticky_table_header": {
+        "label": "Intestazione tabella fissa"
+      },
+      "table": {
+        "headers": {
+          "name": "Nome",
+          "status": "Stato",
+          "health": "Salute",
+          "uuid": "UUID",
+          "aliases": "Alias",
+          "shards": "Frammenti",
+          "segments": "Segmenti",
+          "docs": "Documenti",
+          "storage": "Archiviazione",
+          "created": "Creato"
+        }
+      }
+    },
+    "new_index": {
+      "heading": "Nuovo Indice",
+      "form": {
+        "index_name": {
+          "label": "Nome indice"
+        },
+        "shards": {
+          "label": "Numero di frammenti"
+        },
+        "replicas": {
+          "label": "Numero di repliche"
+        }
+      },
+      "create_index": {
+        "growl": "L'indice '{index}' è stato creato con successo."
+      }
+    }
+  },
+  "index_templates": {
+    "heading": "Template di indici",
+    "endpoint": "Endpoint",
+    "index_templates_table": {
+      "show_hidden_templates": {
+        "label": "Mostra template nascosti"
+      },
+      "sticky_table_header": {
+        "label": "Intestazione tabella fissa"
+      },
+      "table": {
+        "headers": {
+          "name": "Nome",
+          "index_patterns": "Modelli di indice"
+        }
+      }
+    }
+  },
+  "mixins": {
+    "test_connection": {
+      "cluster_reachable": "Il tuo cluster è raggiungibile e configurato correttamente."
+    }
+  },
+  "cluster_nodes": {
+    "heading": "Nodi",
+    "node_icons": {
+      "master": {
+        "title": "Nodo master"
+      },
+      "master_eligible": {
+        "title": "Eleggibile a master"
+      },
+      "data": {
+        "title": "Nodo dati"
+      },
+      "ingest": {
+        "title": "Nodo di ingestione"
+      },
+      "coordinating_only": {
+        "title": "Nodo solo di coordinamento"
+      }
+    },
+    "node_properties": {
+      "ip": "ip",
+      "id": "id",
+      "master": "master",
+      "node_role": "ruolo.nodo",
+      "attr": "attributi",
+      "load": "carico",
+      "cpu": "cpu",
+      "ram": "ram",
+      "heap": "heap",
+      "disk": "disco",
+      "name": "nome",
+      "status": "stato",
+      "version": "versione"
+    }
+  },
+  "query": {
+    "heading": "Rest",
+    "api_documentation": "documentazione api",
+    "rest": {
+      "history": "Cronologia",
+      "form": {
+        "method": {
+          "label": "Metodo HTTP"
+        },
+        "path": {
+          "label": "Percorso"
+        },
+        "send_request": "Invia richiesta",
+        "save_request": "Salva",
+        "download_as_json": "Scarica corpo della risposta",
+        "paste_kibana": "Incolla query della console kibana"
+      },
+      "get_request_hint": {
+        "cannot_send_body": "Non puoi inviare un corpo della richiesta tramite {method}.<br> Per favore ",
+        "use_post": "usa POST",
+        "query_parameters": "se vuoi inviare un corpo della richiesta.",
+        "search_post": "Puoi usare POST per cercare con l'endpoint _search."
+      }
+    },
+    "rest_query_history": {
+      "table": {
+        "headers": {
+          "query": "Query",
+          "timestamp": "Timestamp"
+        }
+      },
+      "body_preview": {
+        "use": "Usa nella scheda corrente",
+        "open_new_tab": "Apri in una nuova scheda"
+      }
+    },
+    "rest_query_examples": {
+      "heading": "Esempi di query",
+      "table": {
+        "headers": {
+          "query": "Query",
+          "description": "Descrizione"
+        },
+        "row": {
+          "use": "Usa"
+        }
+      }
+    }
+  },
+  "repositories": {
+    "heading": "Repository di Istantanee",
+    "new_repository": {
+      "heading": "Nuovo repository",
+      "form": {
+        "name": {
+          "label": "Nome repository*"
+        },
+        "type": {
+          "label": "Tipo repository*"
+        },
+        "bucket": {
+          "label": "Bucket S3*"
+        },
+        "client": {
+          "label": "Client S3"
+        },
+        "protocol": {
+          "label": "Protocollo*"
+        },
+        "region": {
+          "label": "Regione S3"
+        },
+        "path_style_access": {
+          "label": "Accesso stile percorso"
+        },
+        "location": {
+          "label": "Posizione repository*"
+        },
+        "chunk_size": {
+          "label": "Dimensione chunk"
+        },
+        "max_restore_bytes_per_sec": {
+          "label": "max_restore_bytes_per_sec"
+        },
+        "max_snapshot_bytes_per_sec": {
+          "label": "max_snapshot_bytes_per_sec"
+        },
+        "compress": {
+          "label": "Comprimi"
+        },
+        "readonly": {
+          "label": "Sola lettura"
+        }
+      },
+      "create_repository": {
+        "growl": "Il repository '{repositoryName}' è stato creato con successo."
+      }
+    },
+    "repositories_table": {
+      "table": {
+        "headers": {
+          "name": "nome",
+          "type": "tipo",
+          "settings": "impostazioni"
+        }
+      },
+      "delete_repository": {
+        "confirm": "Eliminare il repository '{name}' e tutte le istantanee al suo interno?",
+        "growl": "Il repository '{name}' è stato eliminato con successo."
+      }
+    }
+  },
+  "search": {
+    "heading": "Ricerca",
+    "form": {
+      "query": {
+        "label": "Cerca"
+      },
+      "search_examples": {
+        "button": "Esempi di ricerca",
+        "hint": "Esempi di ricerca, vedi <a tabindex='-1' target='_blank' rel='noopener' href='https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html'>query string query</a> per dettagli"
+      },
+      "search": "Cerca",
+      "customize_query": {
+        "button": "Ricerca personalizzata",
+        "reset": "Reimposta query"
+      }
+    },
+    "search_result": {
+      "delete": {
+        "text": "# | Elimina documento | Elimina documenti",
+        "confirm": "# | Sei sicuro di voler eliminare questo documento? | Sei sicuro di voler eliminare {count} documenti?",
+        "growl": "# | Documento eliminato con successo. | Documenti eliminati con successo."
+      }
+    },
+    "results_table": {
+      "settings": {
+        "columns": "Colonne"
+      },
+      "download_as_json": "Scarica come json"
+    },
+    "edit_document": {
+      "update": {
+        "text": "Aggiorna documento",
+        "growl": "Documento aggiornato con successo."
+      }
+    }
+  },
+  "settings": {
+    "heading": "Impostazioni",
+    "hide_indices_regex": {
+      "label": "Nascondi regex indici",
+      "message": "Gli indici che corrispondono a questa regex saranno nascosti di default in tutti i luoghi dove gli indici sono elencati",
+      "reset": "Reimposta al valore predefinito {regex}"
+    },
+    "hide_nodes_attributes_regex": {
+      "label": "Nascondi regex attributi nodo",
+      "message": "Gli attributi del nodo che corrispondono a questa regex saranno nascosti di default nella panoramica dei nodi",
+      "reset": "Reimposta al valore predefinito {regex}"
+    },
+    "document_field_max_length": {
+      "label": "Lunghezza massima campo documento",
+      "message": "Lunghezza massima dei valori dei campi del documento nei risultati di ricerca, i più lunghi saranno troncati.",
+      "reset": "Reimposta al valore predefinito {value}"
+    },
+    "localize_timestamp": {
+      "label": "Localizza il valore dei campi '{'@'}timestamp' nei risultati di ricerca"
+    },
+    "disconnect_and_reset": {
+      "heading": "Disconnetti e reimposta tutte le impostazioni",
+      "button": "Disconnetti e reimposta",
+      "confirm": "Sei sicuro? Questo eliminerà tutti i dati salvati da elasticvue! Dovrai riconnetterti al tuo cluster."
+    },
+    "import_export": {
+      "heading": "Importa/Esporta dati elasticvue",
+      "message": "Puoi importare ed esportare la tua configurazione elasticvue come json. Questo <strong>non</strong> è un backup dei dati dei tuoi cluster, usa le istantanee se hai bisogno di eseguire il backup dei tuoi indici.",
+      "export": {
+        "heading": "Esporta",
+        "included": "Cosa è incluso?",
+        "download": "Scarica backup"
+      },
+      "import": {
+        "heading": "Importa",
+        "select_file": "Scegli file...",
+        "import": "Importa backup"
+      }
+    },
+    "editor_vim_mode": {
+      "label": "Usa associazioni di tasti vim nell'editor"
+    }
+  },
+  "setup": {
+    "configure": {
+      "heading": "1. Configura",
+      "introduction": "Devi impostare CORS per utilizzare elasticvue web. Aggiungi le seguenti righe al tuo",
+      "allow_cors": "consenti richieste CORS da {domain}",
+      "authorization": "e se il tuo cluster utilizza l'autorizzazione",
+      "restart": "Quindi riavvia il tuo cluster"
+    },
+    "import_predefined_clusters": {
+      "heading": "Cluster predefiniti",
+      "import": "Importa cluster | Importa 1 cluster | Importa {count} cluster",
+      "table": {
+        "headers": {
+          "health": "Salute",
+          "cluster_name": "Nome cluster",
+          "uri": "Uri",
+          "username": "Nome utente",
+          "password": "Password"
+        }
+      }
+    },
+    "setup_instance": {
+      "heading": "Aggiungi cluster elasticsearch",
+      "configure": "1. Configura",
+      "connect": "2. Connetti"
+    },
+    "test_and_connect": {
+      "heading": "2. Connetti",
+      "form": {
+        "name": {
+          "label": "Nome cluster"
+        },
+        "username": {
+          "label": "Nome utente"
+        },
+        "password": {
+          "label": "Password"
+        },
+        "api_key": {
+          "label": "Chiave API codificata"
+        },
+        "uri": {
+          "label": "Uri"
+        },
+        "test_connection": "Testa connessione",
+        "connect": "Connetti"
+      },
+      "connected": "Connesso con successo."
+    }
+  },
+  "shards": {
+    "heading": "Frammenti",
+    "health": "Salute",
+    "shards_table": {
+      "cancel_relocation": "Annulla reindirizzamento",
+      "reroute": {
+        "confirm": "Reindirizzare il frammento '{shard}' dal nodo '{fromNode}' a '{toNode}'?"
+      }
+    }
+  },
+  "shard_recovery": {
+    "heading": "Recupero frammenti"
+  },
+  "shard_recovery_table": {
+    "stage": "Fase",
+    "columns": {
+      "index": "Indice",
+      "stage": "Fase",
+      "source": "Origine",
+      "target": "Destinazione",
+      "time": "Tempo",
+      "duration": "Durata",
+      "files": "File",
+      "bytes": "Byte",
+      "translog_ops": "Operazioni Translog"
+    }
+  },
+  "shared": {
+    "cluster_connection_errors": {
+      "connection_error": "Errore di connessione",
+      "cant_connect": "Impossibile connettersi al tuo cluster.",
+      "please_check": "Assicurati che",
+      "checklist": {
+        "reachable": "Il tuo cluster sia raggiungibile tramite",
+        "ssl": "Il tuo browser consideri attendibile il certificato ssl del cluster",
+        "cors": "Tu abbia abilitato CORS e riavviato il tuo cluster"
+      }
+    },
+    "index_filter": {
+      "use_index_pattern": "usa modello di indice",
+      "use_index_select": "seleziona indici",
+      "index_pattern": {
+        "input": {
+          "label": "Modello di indice"
+        },
+        "matched_indices": "corrisponde a {count} indici"
+      },
+      "index_select": {
+        "select_indices": {
+          "label": "Seleziona indici"
+        },
+        "indices_selected": "indici selezionati",
+        "select_all": {
+          "text": "seleziona tutti"
+        },
+        "deselect_all": {
+          "text": "deseleziona tutti"
+        }
+      }
+    },
+    "table_bottom": {
+      "rows_per_page": {
+        "confirm": "ATTENZIONE: Sei sicuro? Mostrare {value} voci alla volta potrebbe causare problemi o blocchi. Si consiglia di utilizzare la funzionalità di ricerca/filtro per limitare i risultati."
+      }
+    },
+    "table_settings": {
+      "reset": "reimposta",
+      "clear": "cancella"
+    },
+    "authorization_header_hint": "Assicurati che \"http.cors.allow-headers\" sia configurato",
+    "code_editor": {
+      "actions": {
+        "beautify": {
+          "title": "Abbellisci (Ctrl+ALT+L)",
+          "text": "Abbellisci"
+        },
+        "wrap_lines": {
+          "label": "A capo automatico",
+          "title": "A capo automatico per linee lunghe"
+        }
+      }
+    },
+    "loader": {
+      "copy_error": "Copia errore",
+      "network_error": "Errore di rete, impossibile accedere al tuo cluster.",
+      "cluster_uri": "Uri del cluster:"
+    },
+    "reload_button": {
+      "reload": "Ricarica"
+    },
+    "timer": {
+      "settings": {
+        "title": "Ricarica automatica"
+      }
+    },
+    "ssl_hint": {
+      "hint": "Quando si utilizza https, assicurati che il tuo browser consideri attendibile il certificato ssl del cluster.",
+      "help": "Aiuto"
+    }
+  },
+  "snapshots": {
+    "heading": "Istantanee del repository '{name}'",
+    "new_snapshot": {
+      "heading": "Nuova istantanea",
+      "form": {
+        "snapshot_name": {
+          "label": "Nome istantanea"
+        }
+      },
+      "create_snapshot": {
+        "growl": "L'istantanea '{name}' è stata creata con successo."
+      }
+    },
+    "restore_snapshot": {
+      "heading": "Ripristina '{name}'",
+      "form": {
+        "ignore_unavailable": {
+          "label": "Ignora non disponibili"
+        },
+        "include_global_state": {
+          "label": "Includi stato globale"
+        },
+        "rename_pattern": {
+          "label": "Modello di ridenominazione"
+        },
+        "rename_replacement": {
+          "label": "Sostituzione di ridenominazione"
+        },
+        "restore": "Ripristina"
+      },
+      "restore_snapshot": {
+        "growl": "L'istantanea '{snapshot}' è stata ripristinata con successo."
+      }
+    },
+    "snapshot": {
+      "indices": "{count} indici",
+      "delete": {
+        "confirm": "Eliminare l'istantanea '{snapshot}'?",
+        "growl": "L'istantanea '{snapshot}' è stata eliminata con successo."
+      }
+    },
+    "snapshots_table": {
+      "table": {
+        "headers": {
+          "status": "stato",
+          "start_time": "ora_inizio",
+          "end_time": "ora_fine",
+          "duration": "durata",
+          "indices": "indici",
+          "successful_shards": "frammenti_riusciti",
+          "failed_shards": "frammenti_falliti",
+          "total_shards": "frammenti_totali"
+        }
+      }
+    }
+  },
+  "update_check": {
+    "downloading": "Download in corso... {progress}%",
+    "heading": "È disponibile una nuova versione di elasticvue.",
+    "installing": "Installazione aggiornamento, attendere prego...",
+    "update_info": "Elasticvue {version} è disponibile. Vuoi installarlo ora?",
+    "yes": "Sì"
+  },
+  "welcome": {
+    "import_backup": {
+      "heading": "Importa backup elasticvue"
+    },
+    "welcome_page": {
+      "intro": "L'interfaccia grafica più veloce e facile da usare per elasticsearch",
+      "first_time": "Sembra essere la prima volta che usi elasticvue.",
+      "add_clusters": "Inizia aggiungendo il tuo primo cluster o importando un backup della tua configurazione elasticvue esistente."
+    }
+  }
+}
