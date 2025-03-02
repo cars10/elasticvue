@@ -3,8 +3,9 @@
 ## 1.5.0
 
 * adds russian and japanese translation, thanks to @AnchorI
+* adds italian translation, thanks to @mikiubo
 * the docker image now works in openshift, thanks @Fearvel , fixes [#286](https://github.com/cars10/elasticvue/issues/286)
-* adds update check. this check is also used to track daily users of elasticvue.
+* adds update check. this check is also used to anonymously track daily users of elasticvue.
 
 ## 1.4.0
 

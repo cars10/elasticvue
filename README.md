@@ -179,16 +179,8 @@ Elasticvue is available in the following languages:
 * chinese
 * french
 * russian
-
-### Help wanted
-
-I do not speak Chinese, French or Russian, and therefore rely on your help to keep the translations up-to-date. Please
-open a PR if
-you notice missing or wrong translations.
-
-### Adding a new language
-
-If you want to add a new language: translate `src/locales/en.json` and open a PR.
+* japanese
+* italian
 
 ## Contributing
 
