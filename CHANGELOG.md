@@ -4,12 +4,15 @@
 
 * adds russian and japanese translation, thanks to @AnchorI
 * adds italian translation, thanks to @mikiubo
-* the docker image now works in openshift, thanks @Fearvel , fixes [#286](https://github.com/cars10/elasticvue/issues/286)
+* the docker image now works in openshift, thanks @Fearvel ,
+  fixes [#286](https://github.com/cars10/elasticvue/issues/286)
 * adds update check. this check is also used to anonymously track daily users of elasticvue.
+  Check [PRIVACY.md](https://github.com/cars10/elasticvue/blob/master/PRIVACY.md) for details.
 
 ## 1.4.0
 
-* for elasticsearch 7 and 8, query both `_template` and `_index_template` endpoints, fixes [#281](https://github.com/cars10/elasticvue/issues/281)
+* for elasticsearch 7 and 8, query both `_template` and `_index_template` endpoints,
+  fixes [#281](https://github.com/cars10/elasticvue/issues/281)
 * improve shards view
 * fix issue when multiple indices are selected and one is manually deleted
 * add shard recovery view, fixes [#272](https://github.com/cars10/elasticvue/issues/272)
@@ -17,17 +20,17 @@
 
 ## 1.3.1
 
-Change the build process for the linux desktop app. It now requires glibc `3.35`, so it should run distros using 
+Change the build process for the linux desktop app. It now requires glibc `3.35`, so it should run distros using
 older versions of glibc, like `debian:bookworm` or `ubuntu:jammy`.
 
 ## 1.2.0
 
-* adds support for date math in index names. You can use something like `<kube-{now/d}>` as your index name, when 
-searching and also in the `REST` view. fixes [#267](https://github.com/cars10/elasticvue/issues/267)
+* adds support for date math in index names. You can use something like `<kube-{now/d}>` as your index name, when
+  searching and also in the `REST` view. fixes [#267](https://github.com/cars10/elasticvue/issues/267)
 
 ## 1.1.2
 
-This version re-adds the automatic updater for the desktop app. Since the update to tauri 2.0 
+This version re-adds the automatic updater for the desktop app. Since the update to tauri 2.0
 (done in elasticvue `1.1.0`) the automatic updater was missing. You need to manually install a new version of elasticvue
 if you are using the desktop app. Sorry for the inconvenience.
 
@@ -42,11 +45,13 @@ if you are using the desktop app. Sorry for the inconvenience.
 
 * update to tauri `2.0`, fixes [#228](https://github.com/cars10/elasticvue/issues/228)
 * adds `auto` theme setting (default), fixes [#255](https://github.com/cars10/elasticvue/issues/255)
-* adds support for `http_proxy` env variable for elasticvue desktop, fixes [#241](https://github.com/cars10/elasticvue/issues/241)
+* adds support for `http_proxy` env variable for elasticvue desktop,
+  fixes [#241](https://github.com/cars10/elasticvue/issues/241)
 
 ## 1.0.12
 
-* parse kibana console queries on paste in REST editor. You can paste kibana console queries into the editor (or use the dedicated button) to fill out the form automatically.
+* parse kibana console queries on paste in REST editor. You can paste kibana console queries into the editor (or use the
+  dedicated button) to fill out the form automatically.
 * fix sorting issue when changing indices, fixes [#261](https://github.com/cars10/elasticvue/issues/261)
 
 ## 1.0.11
