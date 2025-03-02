@@ -9,8 +9,8 @@ RUN apt-get update  \
     && apt-get autoremove -y \
     && rm -rf /var/lib/apt/lists/*
 
-COPY package.json .
-COPY yarn.lock .
+RUN corepack enable
+COPY package.json yarn.lock .yarnrc.yml ./
 
 RUN yarn install
 RUN yarn playwright install --with-deps

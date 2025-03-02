@@ -15,6 +15,8 @@ RUN apt-get update -qq \
 
 WORKDIR $APP_HOME
 
+RUN corepack enable
+
 RUN npm install --global web-ext
 
 COPY . .

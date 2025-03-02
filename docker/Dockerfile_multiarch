@@ -2,8 +2,8 @@ FROM --platform=$BUILDPLATFORM node:22.5.1-bookworm AS builder
 RUN mkdir /app
 WORKDIR /app
 
-COPY package.json .
-COPY yarn.lock .
+RUN corepack enable
+COPY package.json yarn.lock .yarnrc.yml ./
 
 RUN yarn install
 COPY . .
