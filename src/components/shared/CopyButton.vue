@@ -19,7 +19,7 @@
     } else {
       if (props.value) writeToClipboard(props.value)
     }
-    setTimeout(() => {
+    window.setTimeout(() => {
       icon.value = 'content_copy'
     }, 1000)
   }

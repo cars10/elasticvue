@@ -48,14 +48,14 @@
   watch(() => store.id, setTimer)
 
   const startCloseTimer = (timeout: number) => {
-    return setTimeout(() => {
+    return window.setTimeout(() => {
       store.visible = false
       progressBarHeight.value = 100
     }, timeout)
   }
 
   const startProgressInterval = (timeLeft: number) => {
-    return setInterval(() => {
+    return window.setInterval(() => {
       if (timeLeft > 0) {
         timeLeft -= 100
         progressBarHeight.value = (timeLeft / store.timeout) * 100

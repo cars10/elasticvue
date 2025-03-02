@@ -122,7 +122,7 @@
   let interval: number
   onMounted(() => {
     load()
-    interval = setInterval(load, 10000)
+    interval = window.setInterval(load, 10000)
   })
   onUnmounted(() => (clearInterval(interval)))
 </script>

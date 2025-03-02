@@ -43,12 +43,12 @@
     const data = parser.getResult()
 
     return {
-      target: data.os.name,
-      arch: data.cpu.architecture,
+      target: data.os.name as string,
+      arch: data.cpu.architecture as string,
     }
   }
 
-  const mapUaData = (uaData) => {
+  const mapUaData = (uaData: { target: string, arch: string }) => {
     let target = uaData.target.toLowerCase()
     let arch = uaData.arch
 

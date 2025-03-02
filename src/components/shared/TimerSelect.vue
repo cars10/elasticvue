@@ -32,7 +32,7 @@
 
   const createInterval = () => {
     if (!timer.value) return
-    intervalID = setInterval(() => {
+    intervalID = window.setInterval(() => {
       props.action.call()
     }, timer.value.value * 1000)
   }

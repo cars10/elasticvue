@@ -3,7 +3,7 @@ export const debounce = (fn: any, timeout: number) => {
 
   return function (...args: any[]) {
     clearTimeout(timerId)
-    timerId = setTimeout(() => {
+    timerId = window.setTimeout(() => {
       fn(...args)
     }, timeout)
   }

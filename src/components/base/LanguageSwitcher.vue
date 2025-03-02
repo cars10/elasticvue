@@ -46,7 +46,7 @@
   type Language = {
     code: ValidLocale
     title: string
-    icon: {}
+    icon: any
   }
   const languages: Language[] = [
     { code: 'en', title: t('base.language_switcher.languages.en.title'), icon: en },
