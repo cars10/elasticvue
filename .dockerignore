@@ -27,6 +27,8 @@ node_modules
 browser_extension/*
 !browser_extension/chrome/background.js
 !browser_extension/chrome/manifest.json
+!browser_extension/edge/background.js
+!browser_extension/edge/manifest.json
 !browser_extension/firefox/background.js
 !browser_extension/firefox/manifest.json
 tmp

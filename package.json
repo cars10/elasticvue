@@ -37,6 +37,8 @@
     "pinia-plugin-persistedstate": "^4.2.0",
     "pretty-bytes": "^6.1.1",
     "quasar": "^2.18.0",
+    "ua-parser-js": "^2.0.2",
+    "uuid": "^11.1.0",
     "vue": "^3.5.13",
     "vue-i18n": "^11.1.1",
     "vue-resizable": "^2.1.7",

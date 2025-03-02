@@ -4,6 +4,7 @@
       <div class="col-md-4">
         <theme-switcher />
         <language-switcher />
+        <update-check v-if="!buildConfig.tauri" />
       </div>
 
       <div class="col-md-4 text-center">
@@ -29,6 +30,8 @@
   import ThemeSwitcher from './ThemeSwitcher.vue'
   import { useTranslation } from '../../composables/i18n.ts'
   import { VERSION_NAME } from '../../consts.ts'
+  import UpdateCheck from './UpdateCheck.vue'
+  import { buildConfig } from '../../buildConfig.ts'
 
   const t = useTranslation()
 

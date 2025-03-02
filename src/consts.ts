@@ -4,6 +4,7 @@ export const REQUEST_DEFAULT_HEADERS = {
   Accept: 'application/json',
   'Content-Type': 'application/json'
 }
+export const UUID_HEADER_NAME = 'X-Elasticvue-Uuid'
 
 export const SUPPORTED_COUNTRY_LOCALES: Record<string, ValidLocale> = {
   en: 'en',

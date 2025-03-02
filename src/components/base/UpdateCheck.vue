@@ -1,56 +1,67 @@
 <template>
-  <q-dialog v-model="dialog" transition-duration="100" persistent>
-    <q-card style="width: 500px">
-      <q-card-section class="flex justify-between">
-        <h2 class="text-h6 q-my-none">
-          {{ t('update_check.heading') }}
-        </h2>
-        <q-btn v-if="!downloading && !installing" v-close-popup icon="close" flat round dense />
-      </q-card-section>
-
-      <q-separator />
-
-      <q-card-section>
-        <div v-if="downloading">
-          {{ t('update_check.downloading', { progress: Math.floor(downloadProgress * 100) }) }}
-          <q-linear-progress instant-feedback :value="downloadProgress" size="12" class="q-mt-sm" />
-        </div>
-        <div v-else-if="installing">
-          {{ t('update_check.installing') }}
-        </div>
-        <div v-else-if="updateInfo">
-          {{ t('update_check.update_info', { version: updateInfo.version }) }}
-        </div>
-      </q-card-section>
-
-      <q-card-section v-if="!downloading && !installing">
-        <q-btn :label="t('update_check.yes')"
-               color="positive"
-               type="submit"
-               class="q-mr-md"
-               @click="downloadUpdate" />
-        <q-btn v-close-popup flat :label="t('defaults.cancel')" />
-      </q-card-section>
-    </q-card>
-  </q-dialog>
+  <div v-if="newVersion" class="inline-block q-ml-md">
+    <a href="https://github.com/cars10/elasticvue/releases" target="_blank" class="decoration-none">
+      Update: Elasticvue {{ newVersion }} available!
+    </a>
+  </div>
 </template>
 
 <script setup lang="ts">
-  import { onMounted } from 'vue'
-  import { useTranslation } from '../../composables/i18n.ts'
-  import { useUpdateCheck } from '../../composables/UpdateCheck.ts'
+  import { UAParser } from 'ua-parser-js'
+  import { buildConfig } from '../../buildConfig.ts'
+  import { onMounted, ref } from 'vue'
+  import { uuidHeader } from '../../helpers/uuidHeader.ts'
 
-  const t = useTranslation()
+  const version = __APP_VERSION__
 
-  onMounted(() => checkUpdate())
+  const newVersion = ref(null)
 
-  const {
-    checkUpdate,
-    downloadUpdate,
-    downloading,
-    downloadProgress,
-    installing,
-    updateInfo,
-    dialog
-  } = useUpdateCheck()
+  const check = async () => {
+    const url = updateCheckUrl()
+    try {
+      const response = await fetch(url, { headers: uuidHeader() })
+      if (response.status === 200) {
+        const json = await response.json()
+        newVersion.value = json.version
+      }
+    } catch (e) {
+    }
+  }
+  onMounted(check)
+
+  const updateCheckUrl = () => {
+    const data = uaData()
+    const mappedData = mapUaData(data)
+
+    const pathData = [version, buildConfig.buildMode, mappedData.target, mappedData.arch, buildConfig.variant]
+    const path = pathData.filter(d => d.length > 0).join('/')
+    return `https://update.elasticvue.com/api/update/${path}`
+  }
+
+  const uaData = () => {
+    const parser = new UAParser(navigator.userAgent)
+    const data = parser.getResult()
+
+    return {
+      target: data.os.name,
+      arch: data.cpu.architecture,
+    }
+  }
+
+  const mapUaData = (uaData) => {
+    let target = uaData.target.toLowerCase()
+    let arch = uaData.arch
+
+    if (target === 'macOS') {
+      target = 'darwin'
+    }
+
+    if (arch === 'amd64') {
+      arch = 'x86_64'
+    } else if (arch === 'arm64') {
+      arch = 'aarch64'
+    }
+
+    return { target, arch }
+  }
 </script>

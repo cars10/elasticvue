@@ -1,6 +1,7 @@
 import { Ref, ref } from 'vue'
 import { check, Update } from '@tauri-apps/plugin-updater'
 import { relaunch } from '@tauri-apps/plugin-process'
+import { uuidHeader } from '../helpers/uuidHeader.ts'
 
 type UpdateInfo = {
   version: string
@@ -15,7 +16,8 @@ export const useUpdateCheck = () => {
   let update: Update | null = null
 
   const checkUpdate = async () => {
-    update = await check()
+    const headers = uuidHeader()
+    update = await check({ headers })
 
     if (update) {
       updateInfo.value = { version: update.version }

@@ -1,5 +1,5 @@
 #!/bin/bash -e
-
+set -e
 PACKAGE_VERSION=$(cat package.json \
   | grep version \
   | head -1 \
@@ -7,23 +7,28 @@ PACKAGE_VERSION=$(cat package.json \
   | sed 's/[",]//g' \
   | tr -d '[[:space:]]')
 
-rm -rf dist/*
-VITE_APP_BUILD_MODE=browser_extension yarn build
-
 rm -rf artifacts/*
 
+function buildExtension () {
+  VARIANT=$1
+  rm -rf dist/*
+  VITE_APP_BUILD_MODE=browser_extension VITE_APP_VARIANT=$VARIANT yarn build
+  rm -rf browser_extension/"$VARIANT"/assets browser_extension/"$VARIANT"/images browser_extension/"$VARIANT"/index.html
+  cp -r ./src/assets/images/logo/manifest browser_extension/"$VARIANT"/logo
+  cp -r dist/* browser_extension/"$VARIANT"/
+}
+
 # build chrome extension
-rm -rf browser_extension/chrome/assets browser_extension/chrome/images browser_extension/chrome/index.html
-cp -r ./src/assets/images/logo/manifest browser_extension/chrome/logo
-cp -r dist/* browser_extension/chrome/
+buildExtension chrome
 cd browser_extension/chrome && zip -rq ../../artifacts/elasticvue-"$PACKAGE_VERSION"-chrome.zip ./* && cd -
-cp artifacts/elasticvue-"$PACKAGE_VERSION"-chrome.zip artifacts/elasticvue-"$PACKAGE_VERSION"-edge.zip
+
+# build edge extension
+buildExtension edge
+cd browser_extension/edge && zip -rq ../../artifacts/elasticvue-"$PACKAGE_VERSION"-edge.zip ./* && cd -
 
 # build firefox extension
 if [[ $(command -v web-ext) ]]; then
-  rm -rf browser_extension/firefox/assets browser_extension/firefox/images browser_extension/firefox/index.html
-  cp -r ./src/assets/images/logo/manifest browser_extension/firefox/logo
-  cp -r dist/* browser_extension/firefox/
+  buildExtension firefox
   cd browser_extension/firefox && web-ext build -s ./ -a ../../artifacts --filename="elasticvue-$PACKAGE_VERSION-firefox.zip"
 else
   echo 'web-ext not found, cannot build firefox extension'

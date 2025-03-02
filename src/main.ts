@@ -8,8 +8,10 @@ import router from './router'
 import App from './App.vue'
 import './assets/stylesheets/style.scss'
 import { migrate } from './services/VuexMigrator.ts'
+import { setUuid } from './services/Uuid.ts'
 
 migrate()
+setUuid()
 const myApp = createApp(App)
 
 myApp.use(Quasar, quasarOptions)
