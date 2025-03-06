@@ -1,0 +1,20 @@
+{
+  "name": "Elasticvue",
+  "version": "1.4.0",
+  "description": "Elasticsearch frontend",
+  "manifest_version": 3,
+  "icons": {
+    "16": "./logo/blue_16.png",
+    "32": "./logo/blue_32.png",
+    "48": "./logo/blue_48.png",
+    "128": "./logo/blue_128.png"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {},
+  "host_permissions": [
+    "http://*/*",
+    "https://*/*"
+  ]
+}

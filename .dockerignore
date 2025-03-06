@@ -24,7 +24,7 @@ tests/*.png
 artifacts/*
 dist
 node_modules
-browser_extension/*
+browser_extension/*/*
 !browser_extension/chrome/background.js
 !browser_extension/chrome/manifest.json
 !browser_extension/edge/background.js

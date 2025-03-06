@@ -8,12 +8,14 @@ set -e
 sed -e "s/\"version\":\s\".*\"/\"version\": \"$VERSION\"/" -i package.json
 sed -e "s/\"version\":\s\".*\"/\"version\": \"$VERSION\"/" -i src-tauri/tauri.conf.json
 sed -e "s/\"version\":\s\".*\"/\"version\": \"$VERSION\"/" -i browser_extension/chrome/manifest.json
+sed -e "s/\"version\":\s\".*\"/\"version\": \"$VERSION\"/" -i browser_extension/edge/manifest.json
 sed -e "s/\"version\":\s\".*\"/\"version\": \"$VERSION\"/" -i browser_extension/firefox/manifest.json
 
 # commit new version
 git add package.json
 git add src-tauri/tauri.conf.json
 git add -f browser_extension/chrome/manifest.json
+git add -f browser_extension/edge/manifest.json
 git add -f browser_extension/firefox/manifest.json
 git commit -am "bumps version to $VERSION"
 
