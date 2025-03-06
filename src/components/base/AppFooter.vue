@@ -1,22 +1,22 @@
 <template>
   <q-footer class="bg-default q-pa-lg">
     <div class="row">
-      <div class="col-md-4">
+      <div class="col-4">
         <theme-switcher />
         <language-switcher />
-        <update-check v-if="!buildConfig.tauri" />
       </div>
 
-      <div class="col-md-4 text-center">
+      <div class="col-4 text-center">
         <div>
           Elasticvue <span id="version">{{ version }}-{{ VERSION_NAME }}</span>
+          <update-check v-if="!buildConfig.tauri" class="q-mx-md" />
         </div>
         <div>
           &copy;{{ new Date().getFullYear() }} - Carsten K&ouml;nig
         </div>
       </div>
 
-      <div class="col-md-4 text-right">
+      <div class="col-4 text-right">
         <a href="https://github.com/cars10/elasticvue" rel="nofollow" target="_blank" class="decoration-none">Github</a><br>
         <a href="https://elasticvue.com" rel="nofollow" target="_blank"
            class="decoration-none">{{ t('base.app_footer.homepage') }}</a>

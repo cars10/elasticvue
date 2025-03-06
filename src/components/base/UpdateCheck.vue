@@ -1,7 +1,7 @@
 <template>
-  <div v-if="newVersion" class="inline-block q-ml-md">
+  <div v-if="newVersion" class="inline-block">
     <a href="https://github.com/cars10/elasticvue/releases" target="_blank" class="decoration-none">
-      Update: Elasticvue {{ newVersion }} available!
+      Update {{ newVersion }}
     </a>
   </div>
 </template>
@@ -34,7 +34,7 @@
     const mappedData = mapUaData(data)
 
     const pathData = [version, buildConfig.buildMode, mappedData.target, mappedData.arch, buildConfig.variant]
-    const path = pathData.filter(d => d.length > 0).join('/')
+    const path = pathData.filter(d => d?.length > 0).join('/')
     return `https://update.elasticvue.com/api/update/${path}`
   }
 
@@ -52,13 +52,13 @@
     let target = uaData.target.toLowerCase()
     let arch = uaData.arch
 
-    if (target === 'macOS') {
+    if (target.toLowerCase() === 'macos') {
       target = 'darwin'
     }
 
     if (arch === 'amd64') {
       arch = 'x86_64'
-    } else if (arch === 'arm64') {
+    } else if (!arch && target === 'darwin') {
       arch = 'aarch64'
     }
 
