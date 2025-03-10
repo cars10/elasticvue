@@ -9,7 +9,7 @@
     <q-separator />
 
     <q-card-section>
-      <q-form @submit="search">
+      <q-form @submit="search" @keydown="handleKeydownToSearch">
         <div class="row q-col-gutter-lg">
           <div v-if="!searchStore.searchQueryCollapsed" class="col">
             <q-input v-model="searchStore.q"
@@ -111,4 +111,10 @@
     onRequest
   } = useSearchDocuments()
   onMounted(search)
+
+  const handleKeydownToSearch = (event: KeyboardEvent) => {
+    if ((event.metaKey || event.ctrlKey) && event.key === 'Enter') {
+      search()
+    }
+  }
 </script>
