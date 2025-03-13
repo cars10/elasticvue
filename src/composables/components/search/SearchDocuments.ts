@@ -74,12 +74,20 @@ export const useSearchDocuments = () => {
     searchStore.searchQuery = stringifyJson(json, null, '\t')
   }
 
-  const editorCommands = [{
-    key: 'Ctrl-Enter', run: () => {
-      search()
-      return true
+  const editorCommands = [
+    {
+      key: 'Ctrl-Enter', run: () => {
+        search()
+        return true
+      }
+    },
+    {
+      key: 'Cmd-Enter', run: () => {
+        search()
+        return true
+      }
     }
-  }]
+  ]
 
   return {
     search,
