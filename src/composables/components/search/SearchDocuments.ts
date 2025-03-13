@@ -50,7 +50,11 @@ export const useSearchDocuments = () => {
 
   watch(() => (searchStore.indices), () => {
     searchStore.pagination.sortBy = ''
-    mergeQuery({sort: []})
+    try {
+      mergeQuery(Object.assign({}, parseJson(searchStore.searchQuery), { sort: [] }))
+    } catch(e) {
+      console.error(e)
+    }
   })
 
   watch(() => (searchStore.q), value => {

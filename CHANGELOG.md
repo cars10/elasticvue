@@ -8,6 +8,7 @@
   fixes [#286](https://github.com/cars10/elasticvue/issues/286)
 * adds update check. this check is also used to anonymously track daily users of elasticvue.
   Check [PRIVACY.md](https://github.com/cars10/elasticvue/blob/master/PRIVACY.md) for details.
+* fix issue when changing search indices - the search query was wrongly reset
 
 ## 1.4.0
 

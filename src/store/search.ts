@@ -38,6 +38,7 @@ export const useSearchStore = () => {
     }),
     actions: {
       resetSearchQuery () {
+        this.q = '*'
         this.searchQuery = DEFAULT_SEARCH_QUERY
         this.pagination = Object.assign({}, DEFAULT_PAGINATION)
       }
