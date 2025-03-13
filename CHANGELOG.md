@@ -10,6 +10,7 @@
   Check [PRIVACY.md](https://github.com/cars10/elasticvue/blob/master/PRIVACY.md) for details.
 * fix issue when changing search indices - the search query was wrongly reset
 * adds buttons to collapse/expand json, fixes [#291](https://github.com/cars10/elasticvue/issues/291)
+* added keyboard shortcuts to search for mac, thanks @prashantsingh3553
 
 ## 1.4.0
 

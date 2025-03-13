@@ -129,12 +129,20 @@ export const useRestQueryForm = (props: RestQueryFormProps, emit: any) => {
     updateIdb = true
   })
 
-  const editorCommands = [{
-    key: 'Ctrl-Enter', run: () => {
-      sendRequest()
-      return true
+  const editorCommands = [
+    {
+      key: 'Ctrl-Enter', run: () => {
+        sendRequest()
+        return true
+      },
+    },
+    {
+      key: 'Cmd-Enter', run: () => {
+        sendRequest()
+        return true
+      },
     }
-  }]
+  ]
 
   const generateDownloadData = () => (ownTab.value.response.bodyText)
   const downloadFileName = computed(() => {
