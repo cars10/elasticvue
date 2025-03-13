@@ -596,6 +596,12 @@
         "wrap_lines": {
           "label": "Retour à la ligne",
           "title": "Retourner à la ligne pour les longues lignes"
+        },
+        "collapse_all": {
+          "title": "Réduire"
+        },
+        "expand_all": {
+          "title": "Développer"
         }
       }
     },

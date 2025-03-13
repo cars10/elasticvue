@@ -596,6 +596,12 @@
         "wrap_lines": {
           "label": "行を折り返す",
           "title": "長い行を折り返す"
+        },
+        "collapse_all": {
+          "title": "折りたたむ"
+        },
+        "expand_all": {
+          "title": "展開する"
         }
       }
     },

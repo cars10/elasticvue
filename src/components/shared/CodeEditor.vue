@@ -4,6 +4,8 @@
 
     <div class="code-editor__actions">
       <div class="inline-block">
+        <q-btn :disable="!validJson" round flat dense icon="unfold_more" :title="t('shared.code_editor.actions.expand_all.title')" @click="expandAll" />
+        <q-btn :disable="!validJson" round flat dense icon="unfold_less" :title="t('shared.code_editor.actions.collapse_all.title')" @click="collapseAll" />
         <copy-button round flat dense :custom-handler="copyContent" />
       </div>
 
@@ -50,7 +52,7 @@
   const codeEditorStore = useCodeEditorStore()
 
   const editor: Ref<HTMLElement | null> = ref(null)
-  const { copyContent, beautifyEditorValue } = useCodeEditor(editor, {
+  const { copyContent, beautifyEditorValue, collapseAll, expandAll } = useCodeEditor(editor, {
     initialValue: toRef(props, 'modelValue'),
     commands: props.commands,
     emit,

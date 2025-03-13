@@ -9,7 +9,7 @@ import { beautify } from '../helpers/beautify.ts'
 import { writeToClipboard } from '../helpers/clipboard.ts'
 import { useCodeEditorStore } from '../store/codeEditor.ts'
 
-import { syntaxTree } from '@codemirror/language'
+import { foldable, foldEffect, unfoldEffect, syntaxTree } from '@codemirror/language'
 import { autocompletion } from '@codemirror/autocomplete'
 import { queryKeywords, queryValues } from '../autocomplete.ts'
 import { vim } from '@replit/codemirror-vim'
@@ -65,7 +65,7 @@ export const useCodeEditor = (editorRef: Ref<HTMLElement | null>, {
 }) => {
   const codeEditorStore = useCodeEditorStore()
 
-  let codeMirrorEditor: EditorView = <EditorView>{}
+  let codeMirrorEditorView: EditorView = <EditorView>{}
   const wrapLines = new Compartment
   const theme = new Compartment
 
@@ -93,7 +93,7 @@ export const useCodeEditor = (editorRef: Ref<HTMLElement | null>, {
     }
 
     const vimExtension = vim()
-    codeMirrorEditor = new EditorView({
+    codeMirrorEditorView = new EditorView({
       extensions: [
         // make sure vim is included before other keymaps
         codeEditorStore.vimMode ? vimExtension : [],
@@ -123,20 +123,41 @@ export const useCodeEditor = (editorRef: Ref<HTMLElement | null>, {
     return true
   }
 
-  const editorValue = () => (codeMirrorEditor.state.doc.toString())
+  const editorValue = () => (codeMirrorEditorView.state.doc.toString())
   const copyContent = () => (writeToClipboard(editorValue()))
   const setEditorValue = (value: string) => {
     if (value === editorValue()) return
 
-    codeMirrorEditor.dispatch({ changes: { from: 0, to: codeMirrorEditor.state.doc.length, insert: beautify(value) } })
+    codeMirrorEditorView.dispatch({ changes: { from: 0, to: codeMirrorEditorView.state.doc.length, insert: beautify(value) } })
   }
   const setWrapLines = (value: boolean) => {
-    codeMirrorEditor.dispatch({ effects: wrapLines.reconfigure(value ? EditorView.lineWrapping : []) })
+    codeMirrorEditorView.dispatch({ effects: wrapLines.reconfigure(value ? EditorView.lineWrapping : []) })
   }
   watch(() => codeEditorStore.wrapLines, setWrapLines)
 
+  const foldRecursive = (effect: typeof foldEffect | typeof unfoldEffect) => {
+    const state = codeMirrorEditorView.state
+
+    const foldRanges: { from: number, to: number }[] = []
+    syntaxTree(state).iterate({
+      enter(node) {
+        if (node.from === 0) return
+        const isFoldable = foldable(state, node.from, node.to)
+        if (isFoldable) foldRanges.push({ from: isFoldable.from, to: isFoldable.to })
+      }
+    })
+
+    codeMirrorEditorView.dispatch({
+      effects: foldRanges.map(range => effect.of({ from: range.from, to: range.to }))
+    })
+  }
+  const collapseAll = () => (foldRecursive(foldEffect))
+  const expandAll = () => (foldRecursive(unfoldEffect))
+
   return {
     copyContent,
+    collapseAll,
+    expandAll,
     beautifyEditorValue
   }
 }

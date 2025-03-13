@@ -596,7 +596,13 @@
         "wrap_lines": {
           "label": "换行",
           "title": "长行换行"
-        }
+        },
+        "collapse_all": {
+          "title": "折叠"
+        },
+        "expand_all": {
+          "title": "展开"
+        } ,
       }
     },
     "loader": {

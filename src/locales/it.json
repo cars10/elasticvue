@@ -596,6 +596,12 @@
         "wrap_lines": {
           "label": "A capo automatico",
           "title": "A capo automatico per linee lunghe"
+        },
+        "collapse_all": {
+          "title": "Collassa"
+        },
+        "expand_all": {
+          "title": "Espandi"
         }
       }
     },

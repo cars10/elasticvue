@@ -596,6 +596,12 @@
         "wrap_lines": {
           "label": "Wrap lines",
           "title": "Wrap long lines"
+        },
+        "collapse_all": {
+          "title": "Collapse"
+        },
+        "expand_all": {
+          "title": "Expand"
         }
       }
     },
