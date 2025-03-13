@@ -88,7 +88,8 @@
       'load_15m',
       'disk.used_percent',
       'disk.used',
-      'disk.total'
+      'disk.total',
+      'shards' // es >= 8
     ],
     full_id: true
   }

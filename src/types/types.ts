@@ -19,6 +19,7 @@ export type EsNode = {
   'node.role': string,
   master: string,
   attributes: Record<string, string>
+  shards?: string
 }
 
 export type NodeAttributes = {

@@ -265,6 +265,7 @@
       "id": "Id",
       "master": "Maître",
       "node_role": "node.role",
+      "shards": "Fragments",
       "attr": "Attributs",
       "load": "Charge",
       "cpu": "Utilisation CPU",

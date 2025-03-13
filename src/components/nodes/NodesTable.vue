@@ -32,6 +32,7 @@
         <td :title="nodeRoleTitle(row.nodeRole)">
           {{ row.nodeRole }}
         </td>
+        <td v-if="showNodeShards" class="text-right">{{ row.shards }}</td>
         <td>
           <node-attributes v-if="row.attributes" :attributes="row.attributes" />
         </td>
@@ -87,5 +88,5 @@
   const nodesStore = useNodesStore()
 
   const props = defineProps<NodesTableProps>()
-  const { filteredResults, filterStateProps, columns } = useNodesTable(props)
+  const { filteredResults, filterStateProps, columns, showNodeShards } = useNodesTable(props)
 </script>

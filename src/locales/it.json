@@ -265,6 +265,7 @@
       "id": "id",
       "master": "master",
       "node_role": "ruolo.nodo",
+      "shards": "frammenti",
       "attr": "attributi",
       "load": "carico",
       "cpu": "cpu",

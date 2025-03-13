@@ -265,6 +265,7 @@
       "id": "ID",
       "master": "マスター",
       "node_role": "ノードの役割",
+      "shards": "シャード",
       "attr": "属性",
       "load": "負荷",
       "cpu": "CPU使用率",

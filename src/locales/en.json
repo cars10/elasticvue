@@ -265,6 +265,7 @@
       "id": "id",
       "master": "master",
       "node_role": "node.role",
+      "shards": "shards",
       "attr": "attributes",
       "load": "load",
       "cpu": "cpu usage",

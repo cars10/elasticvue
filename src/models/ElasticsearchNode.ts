@@ -25,6 +25,7 @@ export default class ElasticsearchNode {
   ingestNode: boolean
   coordinatingNode: boolean
   attributes: Record<string, string>
+  shards?: number | null
 
   constructor (options: EsNode) {
     this.name = options.name
@@ -45,6 +46,7 @@ export default class ElasticsearchNode {
     this.load_5m = options.load_5m
     this.load_15m = options.load_15m
     this.nodeRole = options['node.role']
+    this.shards = options.shards ? parseFloatValue(options.shards) : null
     this.attributes = options.attributes
 
     this.masterEligible = false

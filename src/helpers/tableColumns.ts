@@ -2,10 +2,10 @@ type ColumnOptions = {
   label: string,
   field?: string,
   align?: string
-}
+} | null
 
 export const genColumns = (options: ColumnOptions[]): any[] => {
-  return options.map(({ label, field, align }) => {
+  return options.filter(c => !!c).map(({ label, field, align }) => {
     return {
       label,
       field,

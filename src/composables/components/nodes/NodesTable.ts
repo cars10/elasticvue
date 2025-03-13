@@ -6,6 +6,7 @@ import { setupFilterState } from '../shared/FilterState.ts'
 import { genColumns } from '../../../helpers/tableColumns.ts'
 import { useNodesStore } from '../../../store/nodes.ts'
 import { useTranslation } from '../../i18n.ts'
+import { useConnectionStore } from '../../../store/connection.ts'
 
 export type NodesTableProps = { nodes: EsNode[] }
 
@@ -21,6 +22,9 @@ export const useNodesTable = (props: NodesTableProps) => {
 
   const filterStateProps = setupFilterState(results, filteredResults)
 
+  const connectionStore = useConnectionStore()
+  const showNodeShards = connectionStore.activeCluster && parseInt(connectionStore.activeCluster.majorVersion) >= 8
+
   const columns = genColumns([
     { label: t('cluster_nodes.node_properties.status'), field: '', align: 'left' },
     { label: t('cluster_nodes.node_properties.name'), field: 'name', align: 'left' },
@@ -29,6 +33,7 @@ export const useNodesTable = (props: NodesTableProps) => {
     { label: t('cluster_nodes.node_properties.ip'), field: 'ip', align: 'left' },
     { label: t('cluster_nodes.node_properties.master'), field: 'master', align: 'left' },
     { label: t('cluster_nodes.node_properties.node_role'), field: 'nodeRole', align: 'left' },
+    showNodeShards ? { label: t('cluster_nodes.node_properties.shards'), field: 'shards', align: 'right' } : null,
     { label: t('cluster_nodes.node_properties.attr'), align: 'left' },
     { label: t('cluster_nodes.node_properties.load'), align: 'left' },
     { label: t('cluster_nodes.node_properties.cpu'), field: 'cpu', align: 'left' },
@@ -40,6 +45,7 @@ export const useNodesTable = (props: NodesTableProps) => {
   return {
     filteredResults,
     filterStateProps,
-    columns
+    columns,
+    showNodeShards
   }
 }

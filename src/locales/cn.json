@@ -265,6 +265,7 @@
       "id": "id",
       "master": "主节点",
       "node_role": "节点角色",
+      "shards": "碎片",
       "attr": "属性",
       "load": "负载",
       "cpu": "CPU使用率",
