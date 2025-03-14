@@ -37,6 +37,9 @@ jobs:
           cache: 'yarn'
         if: matrix.platform == 'windows-latest'
 
+      - run: corepack enable
+        if: matrix.platform == 'windows-latest'
+
       - run: yarn
         if: matrix.platform == 'windows-latest'
 
@@ -80,6 +83,9 @@ jobs:
         with:
           node-version: '22.5.1'
           cache: 'yarn'
+        if: matrix.platform == 'macos-latest'
+
+      - run: corepack enable
         if: matrix.platform == 'macos-latest'
 
       - run: yarn
