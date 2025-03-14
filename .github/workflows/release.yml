@@ -34,7 +34,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22.5.1'
-          cache: 'yarn'
         if: matrix.platform == 'windows-latest'
 
       - run: corepack enable
@@ -82,7 +81,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22.5.1'
-          cache: 'yarn'
         if: matrix.platform == 'macos-latest'
 
       - run: corepack enable
