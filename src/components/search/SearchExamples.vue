@@ -19,7 +19,9 @@
         <tbody>
           <tr>
             <td class="font-mon">server error</td>
-            <td>Get all documents that contain the words <strong>server</strong> or <strong>error</strong> in any field</td>
+            <td>
+              Get all documents that contain the words <strong>server</strong> or <strong>error</strong> in any field
+            </td>
           </tr>
           <tr>
             <td class="font-mon">_id:1</td>
@@ -35,7 +37,8 @@
           <tr>
             <td class="font-mon">first_name:(John OR Pete)</td>
             <td>
-              Get all documents where the <strong>first_name</strong> field is <strong>John</strong> or <strong>Pete</strong>
+              Get all documents where the <strong>first_name</strong> field is <strong>John</strong> or
+              <strong>Pete</strong>
             </td>
           </tr>
           <tr>

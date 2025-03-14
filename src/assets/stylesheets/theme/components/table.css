@@ -1,22 +1,22 @@
 .table--sticky-header .q-table__container {
-  height: 100%;
+    height: 100%;
 }
 
 .table--sticky-header .q-table__container thead tr th {
-  position: sticky;
-  z-index: 1;
-  background-color: var(--theme-background);
+    position: sticky;
+    z-index: 1;
+    background-color: var(--theme-background);
 }
 
 .table--sticky-header .q-table__container thead tr:first-child th {
-  top: 0;
+    top: 0;
 }
 
 table td.small-wrap {
-  width: 1%;
-  white-space: nowrap;
+    width: 1%;
+    white-space: nowrap;
 }
 
 th.marked, td.marked {
-  background: var(--theme-table-hover-background) !important;
+    background: var(--theme-table-hover-background) !important;
 }

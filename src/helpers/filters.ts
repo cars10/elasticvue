@@ -29,14 +29,14 @@ export function filterItems<T extends Filterable> (items: T[], searchQuery: stri
   }
 }
 
-const columnFilterable = (item: any, headerName: string) =>{
+const columnFilterable = (item: any, headerName: string) => {
   return Object.hasOwnProperty.bind(item)(headerName) && item[headerName] !== null
 }
 
 const filterColumn = (item: any, headerName: string, search: string) => {
   try {
     return item[headerName].toString().toLowerCase().includes(search)
-  } catch(_e) {
+  } catch (_e) {
     return false
   }
 }

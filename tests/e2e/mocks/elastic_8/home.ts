@@ -7,21 +7,21 @@ export const mockElasticHome = async (page: Page, { health }: { health?: string 
     ping: {
       url: 'http://localhost:9200/',
       json: {
-        'name' : 'es-8-node-1',
-        'cluster_name' : 'es-8',
-        'cluster_uuid' : 'ecdKaffmR9WkFbKDW4PUWw',
-        'version' : {
-          'number' : '8.7.1',
-          'build_flavor' : 'default',
-          'build_type' : 'docker',
-          'build_hash' : 'f229ed3f893a515d590d0f39b05f68913e2d9b53',
-          'build_date' : '2023-04-27T04:33:42.127815583Z',
-          'build_snapshot' : false,
-          'lucene_version' : '9.5.0',
-          'minimum_wire_compatibility_version' : '7.17.0',
-          'minimum_index_compatibility_version' : '7.0.0'
+        'name': 'es-8-node-1',
+        'cluster_name': 'es-8',
+        'cluster_uuid': 'ecdKaffmR9WkFbKDW4PUWw',
+        'version': {
+          'number': '8.7.1',
+          'build_flavor': 'default',
+          'build_type': 'docker',
+          'build_hash': 'f229ed3f893a515d590d0f39b05f68913e2d9b53',
+          'build_date': '2023-04-27T04:33:42.127815583Z',
+          'build_snapshot': false,
+          'lucene_version': '9.5.0',
+          'minimum_wire_compatibility_version': '7.17.0',
+          'minimum_index_compatibility_version': '7.0.0'
         },
-        'tagline' : 'You Know, for Search'
+        'tagline': 'You Know, for Search'
       },
     },
     clusterHealth: {

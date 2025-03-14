@@ -14,15 +14,15 @@ describe.concurrent('helpers/search.ts', () => {
     it('should return null when fieldName is not a default sortable column name and property is falsy', () => {
       for (const falsyProperty of [null, undefined, 0, '', false, NaN]) {
         expect(sortableField('non-default sortable column', falsyProperty)).toBe(null)
-      }    
+      }
     })
 
     it('should return fieldName when property.type is a sortable type', () => {
       for (const type of ['long', 'integer', 'double', 'float', 'date', 'boolean', 'keyword']) {
         const property = { type }
-    
+
         expect(sortableField('random fieldName', property)).toBe('random fieldName')
-      }              
+      }
     })
 
     it('should return fieldName with \'.keyword\' appended when property.fields.keyword is truthy', () => {
@@ -55,7 +55,7 @@ describe.concurrent('helpers/search.ts', () => {
             b: 2
           }
         }
-  
+
         expect(sortableField('random fieldName', property)).toBe('random fieldName.a')
       }
     })
@@ -68,9 +68,9 @@ describe.concurrent('helpers/search.ts', () => {
           }
         }
       }
-    
+
       expect(sortableField('random fieldName', property)).toBe(null)
-    })      
+    })
 
     it('should return property has fields but none of them have a type', () => {
       const property = {
@@ -79,8 +79,8 @@ describe.concurrent('helpers/search.ts', () => {
           b: {}
         }
       }
-      
+
       expect(sortableField('random fieldName', property)).toBe(null)
-    })      
+    })
   })
 })

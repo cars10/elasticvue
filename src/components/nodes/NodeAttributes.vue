@@ -6,6 +6,7 @@
 
 <script setup lang="ts">
   import { NodeAttributesProps, useNodeAttributes } from '../../composables/components/nodes/NodeAttributes.ts'
+
   const props = defineProps<NodeAttributesProps>()
 
   const { filtered } = useNodeAttributes(props)

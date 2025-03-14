@@ -1,24 +1,24 @@
 .health--green {
-  color: #43a047 !important;
-  fill: #43a047 !important;
+    color: #43a047 !important;
+    fill: #43a047 !important;
 }
 
 .health--yellow {
-  color: var(--theme-warning) !important;
-  fill: var(--theme-warning) !important;
+    color: var(--theme-warning) !important;
+    fill: var(--theme-warning) !important;
 }
 
 .health--error, .health--red {
-  color: var(--theme-negative) !important;
-  fill: var(--theme-negative) !important;
+    color: var(--theme-negative) !important;
+    fill: var(--theme-negative) !important;
 }
 
 .health--unknown {
-  color: grey !important;
-  fill: grey !important;
+    color: grey !important;
+    fill: grey !important;
 }
 
 .theme--dark .health--green {
-  color: #4caf50 !important;
-  fill: #4caf50 !important;
+    color: #4caf50 !important;
+    fill: #4caf50 !important;
 }

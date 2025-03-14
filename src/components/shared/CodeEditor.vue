@@ -4,8 +4,10 @@
 
     <div class="code-editor__actions">
       <div class="inline-block">
-        <q-btn :disable="!validJson" round flat dense icon="unfold_more" :title="t('shared.code_editor.actions.expand_all.title')" @click="expandAll" />
-        <q-btn :disable="!validJson" round flat dense icon="unfold_less" :title="t('shared.code_editor.actions.collapse_all.title')" @click="collapseAll" />
+        <q-btn :disable="!validJson" round flat dense icon="unfold_more"
+               :title="t('shared.code_editor.actions.expand_all.title')" @click="expandAll" />
+        <q-btn :disable="!validJson" round flat dense icon="unfold_less"
+               :title="t('shared.code_editor.actions.collapse_all.title')" @click="collapseAll" />
         <copy-button round flat dense :custom-handler="copyContent" />
       </div>
 

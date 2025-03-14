@@ -1,21 +1,21 @@
 code {
-  font-weight: bold !important;
-  color: #c0341d !important;
-  font-family: 'Hack', monospace;
-  font-size: 13px;
-  padding: .2em .4em;
-  border-radius: 4px;
+    font-weight: bold !important;
+    color: #c0341d !important;
+    font-family: 'Hack', monospace;
+    font-size: 13px;
+    padding: .2em .4em;
+    border-radius: 4px;
 }
 
 .code-block {
-  display: inline-block;
-  padding: 5px 6px !important;
+    display: inline-block;
+    padding: 5px 6px !important;
 }
 
 .code-block:before, .code-block:after {
-  content: initial !important;
+    content: initial !important;
 }
 
 .code-comment {
-  color: #666;
+    color: #666;
 }

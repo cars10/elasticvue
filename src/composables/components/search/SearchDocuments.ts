@@ -52,7 +52,7 @@ export const useSearchDocuments = () => {
     searchStore.pagination.sortBy = ''
     try {
       mergeQuery(Object.assign({}, parseJson(searchStore.searchQuery), { sort: [] }))
-    } catch(e) {
+    } catch (e) {
       console.error(e)
     }
   })

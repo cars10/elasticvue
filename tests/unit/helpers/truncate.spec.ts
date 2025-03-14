@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest'
 
 import { truncateString } from '../../../src/helpers/truncate'
+
 describe.concurrent('helpers/truncateString', () => {
   describe.concurrent('truncateString function', () => {
     it('should return the original string if it is shorter than the max length', () => {

@@ -100,7 +100,11 @@
 
 <script setup lang="ts">
   import { useIndicesStore } from '../../store/indices'
-  import { DEFAULT_HIDE_INDICES_REGEX, DEFAULT_HIDE_NODE_ATTRIBUTES_REGEX, DEFAULT_DOCUMENT_FIELD_MAX_LENGTH } from '../../consts'
+  import {
+    DEFAULT_HIDE_INDICES_REGEX,
+    DEFAULT_HIDE_NODE_ATTRIBUTES_REGEX,
+    DEFAULT_DOCUMENT_FIELD_MAX_LENGTH
+  } from '../../consts'
   import { askConfirm } from '../../helpers/dialogs'
   import { useTranslation } from '../../composables/i18n'
   import ImportExport from './ImportExport.vue'

@@ -1,5 +1,6 @@
 <template>
-  <q-btn id="add_cluster" color="primary-dark" icon="add" :label="t('setup.setup_instance.heading')" @click="dialog = true" />
+  <q-btn id="add_cluster" color="primary-dark" icon="add" :label="t('setup.setup_instance.heading')"
+         @click="dialog = true" />
 
   <q-dialog v-model="dialog" position="top" transition-show="scale" transition-hide="scale" transition-duration="100">
     <q-card style="width: 1000px;max-width: 1000px" class="q-mt-xl">

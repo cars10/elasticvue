@@ -39,7 +39,7 @@ describe.concurrent('helpers/tableColumns.ts', () => {
         }
       ])
     })
-  
+
     it('should set sortable to false when field is undefined or an empty string', () => {
       const options = [
         {
@@ -53,7 +53,7 @@ describe.concurrent('helpers/tableColumns.ts', () => {
           align: 'align value 2'
         }
       ]
-  
+
       expect(genColumns(options)).toStrictEqual([
         expect.objectContaining({
           field: undefined,
@@ -66,8 +66,8 @@ describe.concurrent('helpers/tableColumns.ts', () => {
           sortable: false
         })
       ])
-    })    
-  
+    })
+
     it('should set align to \'left\' when undefind or an empty string', () => {
       const options = [
         {
@@ -81,7 +81,7 @@ describe.concurrent('helpers/tableColumns.ts', () => {
           align: ''
         }
       ]
-    
+
       expect(genColumns(options)).toStrictEqual([
         expect.objectContaining({
           align: 'left'

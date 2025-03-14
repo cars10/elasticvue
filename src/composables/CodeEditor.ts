@@ -84,7 +84,7 @@ export const useCodeEditor = (editorRef: Ref<HTMLElement | null>, {
     const eventHandlers = []
     if (onPaste) {
       const handler = EditorView.domEventHandlers({
-        paste(event) {
+        paste (event) {
           const newValue = event.clipboardData?.getData('text')
           if (newValue) onPaste(newValue)
         }
@@ -128,7 +128,13 @@ export const useCodeEditor = (editorRef: Ref<HTMLElement | null>, {
   const setEditorValue = (value: string) => {
     if (value === editorValue()) return
 
-    codeMirrorEditorView.dispatch({ changes: { from: 0, to: codeMirrorEditorView.state.doc.length, insert: beautify(value) } })
+    codeMirrorEditorView.dispatch({
+      changes: {
+        from: 0,
+        to: codeMirrorEditorView.state.doc.length,
+        insert: beautify(value)
+      }
+    })
   }
   const setWrapLines = (value: boolean) => {
     codeMirrorEditorView.dispatch({ effects: wrapLines.reconfigure(value ? EditorView.lineWrapping : []) })
@@ -140,7 +146,7 @@ export const useCodeEditor = (editorRef: Ref<HTMLElement | null>, {
 
     const foldRanges: { from: number, to: number }[] = []
     syntaxTree(state).iterate({
-      enter(node) {
+      enter (node) {
         if (node.from === 0) return
         const isFoldable = foldable(state, node.from, node.to)
         if (isFoldable) foldRanges.push({ from: isFoldable.from, to: isFoldable.to })

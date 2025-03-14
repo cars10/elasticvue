@@ -59,7 +59,7 @@ export const useConnectionStore = defineStore('connection', {
       let clusterIndex: number = 0
       try {
         clusterIndex = parseInt(index)
-      } catch (_e) { 
+      } catch (_e) {
       }
 
       if (isNaN(clusterIndex) || (clusterIndex + 1) > this.clusters.length || clusterIndex < 0) {

@@ -25,7 +25,7 @@ const validateDefaultClusters = parsedDefaultClusters => {
   const validKeys = ['name', 'username', 'password', 'uri']
   parsedDefaultClusters.forEach(cluster => {
     if (!cluster.uri || cluster.uri.trim().length === 0) {
-        errorExit('Cluster uri missing', cluster)
+      errorExit('Cluster uri missing', cluster)
     }
 
     const keys = Object.keys(cluster)

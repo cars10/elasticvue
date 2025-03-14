@@ -32,33 +32,33 @@ describe.concurrent('helpers/nodes.ts', () => {
     })
 
     it('should only include a single role title when input is a single role character', () => {
-        const supportedRoles = new Map([
-            ['c','c - cold node'],
-            ['d','d - data node'],
-            ['f','f - frozen node'],
-            ['h','h - hot node'],
-            ['i','i - ingest node'],
-            ['l','l - machine learning node'],
-            ['m','m - master-eligible node'],
-            ['r','r - remote cluster client node'],
-            ['s','s - content node'],
-            ['t','t - transform node'],
-            ['v','v - voting-only node'],
-            ['w','w - warm node'],
-            ['-','coordinating nodes']
-        ])
+      const supportedRoles = new Map([
+        ['c', 'c - cold node'],
+        ['d', 'd - data node'],
+        ['f', 'f - frozen node'],
+        ['h', 'h - hot node'],
+        ['i', 'i - ingest node'],
+        ['l', 'l - machine learning node'],
+        ['m', 'm - master-eligible node'],
+        ['r', 'r - remote cluster client node'],
+        ['s', 's - content node'],
+        ['t', 't - transform node'],
+        ['v', 'v - voting-only node'],
+        ['w', 'w - warm node'],
+        ['-', 'coordinating nodes']
+      ])
 
-        for (const [role, title] of supportedRoles) {
-          expect(nodeRoleTitle(role).trimEnd()).toBe(title)
-        }
+      for (const [role, title] of supportedRoles) {
+        expect(nodeRoleTitle(role).trimEnd()).toBe(title)
+      }
     })
 
     it('should return an empty string for all unsupported latin-1 lowercase letters', () => {
-        const unsupportedRoleTypes = ['a', 'b', 'e', 'g', 'j', 'k', 'n', 'o', 'p', 'q', 'u', 'x', 'y', 'z']
+      const unsupportedRoleTypes = ['a', 'b', 'e', 'g', 'j', 'k', 'n', 'o', 'p', 'q', 'u', 'x', 'y', 'z']
 
-        for (const role of unsupportedRoleTypes) {
-          expect(nodeRoleTitle(role)).toBe('')
-        }
+      for (const role of unsupportedRoleTypes) {
+        expect(nodeRoleTitle(role)).toBe('')
+      }
     })
   })
 })

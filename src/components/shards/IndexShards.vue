@@ -11,8 +11,8 @@
 
     <loader-status :request-state="requestState">
       <shards-table :shards="shards" @reload="load">
-        <q-select v-model="health" :options="['green', 'yellow', 'red']" :label="t('shards.health')" clearable dense outlined
-                  class="q-mr-md" style="min-width: 140px" />
+        <q-select v-model="health" :options="['green', 'yellow', 'red']" :label="t('shards.health')" clearable dense
+                  outlined class="q-mr-md" style="min-width: 140px" />
       </shards-table>
     </loader-status>
   </q-card>
