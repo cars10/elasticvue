@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.6.0
+
+* fix hidden indices in elasticsearch >= 8
+* disable spellcheck on all inputs to disable macos automatically changing quotes
+
 ## 1.5.0
 
 * adds russian and japanese translation, thanks to @AnchorI

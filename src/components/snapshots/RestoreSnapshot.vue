@@ -16,15 +16,15 @@
         <q-card-section>
           <index-select v-model="restoreOptions.indices" :index-names="indexNames" behavior="use" class="q-mb-md" />
 
-          <q-input v-model="restoreOptions.renamePattern"
-                   outlined
-                   :label="t('snapshots.restore_snapshot.form.rename_pattern.label')"
-                   class="q-mb-md" />
+          <custom-input v-model="restoreOptions.renamePattern"
+                        outlined
+                        :label="t('snapshots.restore_snapshot.form.rename_pattern.label')"
+                        class="q-mb-md" />
 
-          <q-input v-model="restoreOptions.renameReplacement"
-                   outlined
-                   :label="t('snapshots.restore_snapshot.form.rename_replacement.label')"
-                   class="q-mb-md" />
+          <custom-input v-model="restoreOptions.renameReplacement"
+                        outlined
+                        :label="t('snapshots.restore_snapshot.form.rename_replacement.label')"
+                        class="q-mb-md" />
 
           <div class="q-mt-sm">
             <q-checkbox v-model="restoreOptions.ignoreUnavailable" size="32px"
@@ -57,6 +57,7 @@
   import IndexSelect from '../shared/IndexFilter/IndexSelect.vue'
   import { useTranslation } from '../../composables/i18n'
   import { RestoreSnapshotProps, useRestoreSnapshot } from '../../composables/components/snapshots/RestoreSnapshot'
+  import CustomInput from '../shared/CustomInput.vue'
 
   const props = defineProps<RestoreSnapshotProps>()
   const emit = defineEmits(['reload'])

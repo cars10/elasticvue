@@ -30,14 +30,14 @@
           <span :class="`http-${scope.opt}`" class="text-bold">{{ scope.opt }}</span>
         </template>
       </q-select>
-      <q-input v-model="ownTab.request.path"
-               name="path"
-               :label="t('query.rest.form.path.label')"
-               class="col-grow"
-               outlined
-               autofocus
-               @paste="pasteClipboard"
-               @keydown.enter.prevent="sendRequest" />
+      <custom-input v-model="ownTab.request.path"
+                    name="path"
+                    :label="t('query.rest.form.path.label')"
+                    class="col-grow"
+                    outlined
+                    autofocus
+                    @paste="pasteClipboard"
+                    @keydown.enter.prevent="sendRequest" />
       <q-btn id="send_request" icon="send" flat type="submit" />
     </div>
 
@@ -101,6 +101,7 @@
   import { useResizeStore } from '../../store/resize'
   import { useTranslation } from '../../composables/i18n'
   import { IdbRestQueryTab } from '../../db/types.ts'
+  import CustomInput from '../shared/CustomInput.vue'
 
   const CodeViewer = defineAsyncComponent(() => import('../shared/CodeViewer.vue'))
   const CodeEditor = defineAsyncComponent(() => import('../shared/CodeEditor.vue'))

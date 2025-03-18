@@ -8,48 +8,48 @@
     </div>
 
     <div class="q-mb-md">
-      <q-input v-model="cluster.name"
-               required
-               :label="t('setup.test_and_connect.form.name.label')"
-               autocomplete="off"
-               outlined
-               data-testid="cluster-edit-name"
-               autofocus />
+      <custom-input v-model="cluster.name"
+                    required
+                    :label="t('setup.test_and_connect.form.name.label')"
+                    autocomplete="off"
+                    outlined
+                    data-testid="cluster-edit-name"
+                    autofocus />
     </div>
 
     <div v-if="['basic', 'api'].includes(authorizationType)" class="row q-mb-md">
       <div v-if="authorizationType === 'basic'" class="col q-pr-md">
-        <q-input v-model="cluster.username"
-                 outlined
-                 :label="t('setup.test_and_connect.form.username.label')"
-                 autocomplete="off" />
+        <custom-input v-model="cluster.username"
+                      outlined
+                      :label="t('setup.test_and_connect.form.username.label')"
+                      autocomplete="off" />
       </div>
 
       <div class="col">
-        <q-input v-model="cluster.password"
-                 autocomplete="off"
-                 outlined
-                 :label="authorizationType === 'basic' ? t('setup.test_and_connect.form.password.label') : t('setup.test_and_connect.form.api_key.label')"
-                 :type="passwordVisible ? 'text' : 'password'">
+        <custom-input v-model="cluster.password"
+                      autocomplete="off"
+                      outlined
+                      :label="authorizationType === 'basic' ? t('setup.test_and_connect.form.password.label') : t('setup.test_and_connect.form.api_key.label')"
+                      :type="passwordVisible ? 'text' : 'password'">
           <template #append>
             <q-icon :name="passwordVisible ? 'visibility' : 'visibility_off'"
                     class="cursor-pointer"
                     @click="passwordVisible = !passwordVisible" />
           </template>
-        </q-input>
+        </custom-input>
       </div>
     </div>
 
-    <q-input v-model="cluster.uri"
-             name="uri"
-             :rules="[validateUri]"
-             required
-             outlined
-             :label="t('setup.test_and_connect.form.uri.label')">
+    <custom-input v-model="cluster.uri"
+                  name="uri"
+                  :rules="[validateUri]"
+                  required
+                  outlined
+                  :label="t('setup.test_and_connect.form.uri.label')">
       <template #append>
         <q-icon name="close" class="cursor-pointer" @click="resetUri" />
       </template>
-    </q-input>
+    </custom-input>
 
     <div v-if="buildConfig.hints.ssl" :class="{'text-muted': !ssl, 'text-bold': ssl}">
       {{ t('shared.ssl_hint.hint') }}
@@ -70,6 +70,7 @@
   import { DEFAULT_CLUSTER_URI } from '../../consts.ts'
   import { ElasticsearchCluster } from '../../store/connection.ts'
   import { buildConfig } from '../../buildConfig.ts'
+  import CustomInput from '../shared/CustomInput.vue'
 
   const props = defineProps<{ modelValue: ElasticsearchCluster, formValid: boolean }>()
 

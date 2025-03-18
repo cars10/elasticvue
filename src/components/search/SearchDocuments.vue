@@ -12,11 +12,11 @@
       <q-form @submit="search" @keydown="handleKeydownToSearch">
         <div class="row q-col-gutter-lg">
           <div v-if="!searchStore.searchQueryCollapsed" class="col">
-            <q-input v-model="searchStore.q"
-                     outlined
-                     autofocus
-                     :label="t('search.form.query.label')"
-                     @keydown.esc="searchStore.q = '*'" />
+            <custom-input v-model="searchStore.q"
+                          outlined
+                          autofocus
+                          :label="t('search.form.query.label')"
+                          @keydown.esc="searchStore.q = '*'" />
 
             <search-examples />
           </div>
@@ -92,6 +92,7 @@
   import { useSearchDocuments } from '../../composables/components/search/SearchDocuments'
   import { useTranslation } from '../../composables/i18n.ts'
   import SearchExamples from './SearchExamples.vue'
+  import CustomInput from '../shared/CustomInput.vue'
 
   const CodeEditor = defineAsyncComponent(() => import('../shared/CodeEditor.vue'))
   const resetAndLoad = () => {

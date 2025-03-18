@@ -14,14 +14,14 @@
 
       <q-form @submit="createRepository">
         <q-card-section>
-          <q-input v-model="repository.repository"
-                   :label="t('repositories.new_repository.form.name.label')"
-                   class="q-mb-md"
-                   name="name"
-                   autocomplete="off"
-                   autofocus
-                   outlined
-                   required />
+          <custom-input v-model="repository.repository"
+                        :label="t('repositories.new_repository.form.name.label')"
+                        class="q-mb-md"
+                        name="name"
+                        autocomplete="off"
+                        autofocus
+                        outlined
+                        required />
 
           {{ t('repositories.new_repository.form.type.label') }}
           <q-option-group v-model="repository.body.type"
@@ -33,23 +33,23 @@
           <p>{{ repository.body.type.toUpperCase() }} settings</p>
 
           <template v-if="repository.body.type == RepositoryType.s3">
-            <q-input v-model="repository.body.settings.bucket"
-                     :label="t('repositories.new_repository.form.bucket.label')"
-                     class="q-mb-md"
-                     outlined
-                     required />
+            <custom-input v-model="repository.body.settings.bucket"
+                          :label="t('repositories.new_repository.form.bucket.label')"
+                          class="q-mb-md"
+                          outlined
+                          required />
 
-            <q-input v-model="repository.body.settings.client"
-                     :label="t('repositories.new_repository.form.client.label')"
-                     class="q-mb-md"
-                     outlined
-                     required />
+            <custom-input v-model="repository.body.settings.client"
+                          :label="t('repositories.new_repository.form.client.label')"
+                          class="q-mb-md"
+                          outlined
+                          required />
 
-            <q-input v-model="repository.body.settings.region"
-                     :label="t('repositories.new_repository.form.region.label')"
-                     class="q-mb-md"
-                     outlined
-                     required />
+            <custom-input v-model="repository.body.settings.region"
+                          :label="t('repositories.new_repository.form.region.label')"
+                          class="q-mb-md"
+                          outlined
+                          required />
 
             <q-select v-model="repository.body.settings.protocol"
                       :label="t('repositories.new_repository.form.protocol.label')"
@@ -65,36 +65,36 @@
             </div>
           </template>
 
-          <q-input v-if="repository.body.type == 'fs'"
-                   v-model="repository.body.settings.location"
-                   :label="t('repositories.new_repository.form.location.label')"
-                   class="q-mb-md"
-                   name="location"
-                   outlined
-                   required />
+          <custom-input v-if="repository.body.type == 'fs'"
+                        v-model="repository.body.settings.location"
+                        :label="t('repositories.new_repository.form.location.label')"
+                        class="q-mb-md"
+                        name="location"
+                        outlined
+                        required />
 
           <q-separator class="q-my-lg" />
           <p>General settings</p>
 
-          <q-input v-model="repository.body.settings.chunkSize"
-                   :label="t('repositories.new_repository.form.chunk_size.label')"
-                   class="q-mb-md"
-                   outlined
-                   name="chunkSize" />
+          <custom-input v-model="repository.body.settings.chunkSize"
+                        :label="t('repositories.new_repository.form.chunk_size.label')"
+                        class="q-mb-md"
+                        outlined
+                        name="chunkSize" />
 
-          <q-input v-model="repository.body.settings.maxRestoreBytesPerSec"
-                   :label="t('repositories.new_repository.form.max_restore_bytes_per_sec.label')"
-                   class="q-mb-md"
-                   name="maxRestoreBytesPerSec"
-                   outlined
-                   required />
+          <custom-input v-model="repository.body.settings.maxRestoreBytesPerSec"
+                        :label="t('repositories.new_repository.form.max_restore_bytes_per_sec.label')"
+                        class="q-mb-md"
+                        name="maxRestoreBytesPerSec"
+                        outlined
+                        required />
 
-          <q-input v-model="repository.body.settings.maxSnapshotBytesPerSec"
-                   :label="t('repositories.new_repository.form.max_snapshot_bytes_per_sec.label')"
-                   class="q-mb-md"
-                   name="maxSnapshotBytesPerSec"
-                   outlined
-                   required />
+          <custom-input v-model="repository.body.settings.maxSnapshotBytesPerSec"
+                        :label="t('repositories.new_repository.form.max_snapshot_bytes_per_sec.label')"
+                        class="q-mb-md"
+                        name="maxSnapshotBytesPerSec"
+                        outlined
+                        required />
 
           <div class="q-mt-md">
             <q-checkbox v-model="repository.body.settings.compress" size="32px"
@@ -131,6 +131,7 @@
     useNewSnapshotRepository
   } from '../../composables/components/repositories/NewSnapshotRepository'
   import { useTranslation } from '../../composables/i18n.ts'
+  import CustomInput from '../shared/CustomInput.vue'
 
   const t = useTranslation()
   const emit = defineEmits(['reload'])

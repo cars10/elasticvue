@@ -1,11 +1,11 @@
 <template>
-  <q-input v-model="localValue"
-           outlined
-           bottom-slots
-           :label="t('shared.index_filter.index_pattern.input.label')"
-           :loading="requestState.loading"
-           autocomplete="off"
-           @keydown.esc="localValue = '*'">
+  <custom-input v-model="localValue"
+                outlined
+                bottom-slots
+                :label="t('shared.index_filter.index_pattern.input.label')"
+                :loading="requestState.loading"
+                autocomplete="off"
+                @keydown.esc="localValue = '*'">
     <template #hint>
       <div>
         <q-btn :label="hint" flat class="q-py-none q-px-xs" size="sm" no-caps
@@ -20,7 +20,7 @@
         </q-btn>
       </div>
     </template>
-  </q-input>
+  </custom-input>
 </template>
 
 <script setup lang="ts">
@@ -28,6 +28,7 @@
   import { useTranslation } from '../../../composables/i18n'
   import { useElasticsearchAdapter } from '../../../composables/CallElasticsearch'
   import { EsIndex } from '../../../composables/components/indices/IndicesTable.ts'
+  import CustomInput from '../CustomInput.vue'
 
   const t = useTranslation()
 

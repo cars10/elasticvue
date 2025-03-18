@@ -24,7 +24,7 @@
           <q-btn icon="edit" color="dark-grey" dense>
             <q-popup-edit v-slot="scope" v-model="row.name" auto-save anchor="center right"
                           @save="(v:string) => (renameSavedQuery(v, row))">
-              <q-input v-model="scope.value" dense autofocu outlined @keydown.enter="scope.set" />
+              <custom-input v-model="scope.value" dense autofocu outlined @keydown.enter="scope.set" />
             </q-popup-edit>
           </q-btn>
           <q-btn icon="delete" color="dark-grey" dense @click.stop="removeSavedQuery(row.id)" />
@@ -38,6 +38,7 @@
   import RestQueryList from './RestQueryList.vue'
   import { useRestQuerySavedQueriesList } from '../../composables/components/rest/RestQuerySavedQueriesList.ts'
   import { IdbRestQuerySavedQuery } from '../../db/types.ts'
+  import CustomInput from '../shared/CustomInput.vue'
 
   defineProps<{ savedQueries: IdbRestQuerySavedQuery[], open: boolean }>()
   const emit = defineEmits(['reloadSavedQueries', 'useRequest', 'useRequestNewTab'])

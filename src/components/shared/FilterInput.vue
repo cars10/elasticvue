@@ -1,18 +1,19 @@
 <template>
-  <q-input v-model="filter"
-           :label="props.label || t('defaults.filter.label')"
-           :title="columns"
-           dense outlined name="filter"
-           @keydown.esc="filter = ''">
+  <custom-input v-model="filter"
+                :label="props.label || t('defaults.filter.label')"
+                :title="columns"
+                dense outlined name="filter"
+                @keydown.esc="filter = ''">
     <template #append>
       <q-icon name="search" />
     </template>
-  </q-input>
+  </custom-input>
 </template>
 
 <script setup lang="ts">
   import { ref, watch } from 'vue'
   import { useTranslation } from '../../composables/i18n'
+  import CustomInput from './CustomInput.vue'
 
   const t = useTranslation()
 

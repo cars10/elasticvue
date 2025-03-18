@@ -14,13 +14,13 @@
 
       <q-form @submit="createSnapshot">
         <q-card-section>
-          <q-input v-model="snapshot.name"
-                   :label="t('snapshots.new_snapshot.form.snapshot_name.label')"
-                   outlined
-                   class="q-mb-sm"
-                   autocomplete="off"
-                   autofocus
-                   required />
+          <custom-input v-model="snapshot.name"
+                        :label="t('snapshots.new_snapshot.form.snapshot_name.label')"
+                        outlined
+                        class="q-mb-sm"
+                        autocomplete="off"
+                        autofocus
+                        required />
 
           <index-filter v-model="snapshot.indices" class="q-mt-lg" />
         </q-card-section>
@@ -43,6 +43,7 @@
   import IndexFilter from '../shared/IndexFilter.vue'
   import { NewSnapshotProps, useNewSnapshot } from '../../composables/components/snapshots/NewSnapshot'
   import { useTranslation } from '../../composables/i18n.ts'
+  import CustomInput from '../shared/CustomInput.vue'
 
   const props = defineProps<NewSnapshotProps>()
   const emit = defineEmits(['reload'])

@@ -25,12 +25,12 @@
         <q-card-section>
           <p>{{ t('indices.index_reindex.index', { index }) }}</p>
 
-          <q-input v-model="dest"
-                   :label="t('indices.index_reindex.form.source.label')"
-                   autocomplete="off"
-                   autofocus
-                   outlined
-                   required />
+          <custom-input v-model="dest"
+                        :label="t('indices.index_reindex.form.source.label')"
+                        autocomplete="off"
+                        autofocus
+                        outlined
+                        required />
         </q-card-section>
 
         <q-card-section>
@@ -48,6 +48,7 @@
 <script setup lang="ts">
   import { useTranslation } from '../../composables/i18n'
   import { IndexReindexProps, useIndexReindex } from '../../composables/components/indices/IndexReindex'
+  import CustomInput from '../shared/CustomInput.vue'
 
   const t = useTranslation()
 
