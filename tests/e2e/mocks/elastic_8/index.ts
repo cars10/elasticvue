@@ -1,7 +1,7 @@
 import { Page } from '@playwright/test'
 import { mockElasticHome } from './home'
 import { mockElasticNodes } from './nodes'
-import { catIndices } from '../default/indices'
+import { catIndices } from './indices'
 
 export const mockElastic8 = async (page: Page, { health }: { health: string } = { health: 'green' }) => {
   await mockElasticHome(page, { health })
