@@ -1,7 +1,7 @@
 <template>
   <q-input v-bind="props" spellcheck="false" hide-bottom-space>
     <template v-if="slots.hint" #hint>
-      <slot name="hint"></slot>
+      <slot name="hint" />
     </template>
   </q-input>
 </template>
