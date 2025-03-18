@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.6.0
+
+* fix hidden indices in elasticsearch >= 8
+
 ## 1.5.0
 
 * adds russian and japanese translation, thanks to @AnchorI
