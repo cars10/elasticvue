@@ -18,6 +18,7 @@ pub fn menu(app: &mut App) -> Result<Menu<Wry>, tauri::Error> {
     let edit = SubmenuBuilder::new(app, "Edit")
         .copy()
         .paste()
+        .cut()
         .undo()
         .redo()
         .separator()
