@@ -80,9 +80,12 @@ export const useSearchResultsTable = (props: SearchResultsTableProps, emit: any)
     tableColumns.value.push({ label: '', name: 'actions' })
 
     const oldColumns = searchStore.columns
-    searchStore.columns = tableColumns.value.map(c => c.name)
-    const newColumns = searchStore.columns.filter(m => !oldColumns.includes(m))
-    searchStore.visibleColumns = searchStore.visibleColumns.concat(newColumns)
+    const newColumnsList = tableColumns.value.map(c => c.name)
+    const addedColumns = newColumnsList.filter(c => !oldColumns.includes(c))
+    const removedColumns = oldColumns.filter(c => !newColumnsList.includes(c))
+
+    searchStore.columns = newColumnsList
+    searchStore.visibleColumns = searchStore.visibleColumns.filter(c => !removedColumns.includes(c)).concat(addedColumns)
 
     hits.value = results.docs
   })
