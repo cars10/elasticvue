@@ -1,5 +1,5 @@
 <template>
-  <q-input v-bind="props" spellcheck="false" />
+  <q-input v-bind="props" spellcheck="false" hide-bottom-space />
 </template>
 
 <script setup lang="ts">
