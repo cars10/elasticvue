@@ -26,16 +26,16 @@
 
         <q-form @submit="addAlias">
           <div class="flex">
-            <q-input id="new_index_alias_name"
-                     v-model="newAlias"
-                     class="col-grow"
-                     :label="t('indices.index_aliases.form.new_alias.label')"
-                     lazy-rules
-                     autocomplete="off"
-                     autofocus
-                     outlined
-                     dense
-                     required />
+            <custom-input id="new_index_alias_name"
+                          v-model="newAlias"
+                          class="col-grow"
+                          :label="t('indices.index_aliases.form.new_alias.label')"
+                          lazy-rules
+                          autocomplete="off"
+                          autofocus
+                          outlined
+                          dense
+                          required />
 
             <q-btn id="add_index_alias"
                    :disable="requestState.loading || newAlias.length === 0"
@@ -80,6 +80,7 @@
   import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
   import { IndexAliasProps, useIndexAliases } from '../../composables/components/indices/IndexAliases'
   import { useTranslation } from '../../composables/i18n'
+  import CustomInput from '../shared/CustomInput.vue'
 
   const t = useTranslation()
   const props = defineProps<IndexAliasProps>()

@@ -9,7 +9,7 @@
             <q-btn icon="edit" flat dense size="sm">
               <q-popup-edit v-slot="scope" v-model="tab.label" auto-save anchor="top left"
                             @save="(v) => {updateTab(v, tab)}">
-                <q-input v-model="scope.value" dense autofocu outlined @keydown.enter="scope.set" />
+                <custom-input v-model="scope.value" dense autofocu outlined @keydown.enter="scope.set" />
               </q-popup-edit>
             </q-btn>
 
@@ -36,6 +36,7 @@
 <script setup lang="ts">
   import RestQueryForm from './RestQueryForm.vue'
   import { useRestQueryTabs } from '../../composables/components/rest/RestQueryTabs.ts'
+  import CustomInput from '../shared/CustomInput.vue'
 
   const emit = defineEmits(['reloadHistory', 'reloadSavedQueries'])
 
