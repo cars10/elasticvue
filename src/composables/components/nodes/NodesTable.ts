@@ -6,7 +6,7 @@ import { setupFilterState } from '../shared/FilterState.ts'
 import { genColumns } from '../../../helpers/tableColumns.ts'
 import { useNodesStore } from '../../../store/nodes.ts'
 import { useTranslation } from '../../i18n.ts'
-import { useConnectionStore } from '../../../store/connection.ts'
+import { clusterVersionGte } from '../../../helpers/minClusterVersion.ts'
 
 export type NodesTableProps = { nodes: EsNode[] }
 
@@ -22,8 +22,7 @@ export const useNodesTable = (props: NodesTableProps) => {
 
   const filterStateProps = setupFilterState(results, filteredResults)
 
-  const connectionStore = useConnectionStore()
-  const showNodeShards = connectionStore.activeCluster && parseInt(connectionStore.activeCluster.majorVersion) >= 8
+  const showNodeShards = clusterVersionGte(8)
 
   const columns = genColumns([
     { label: t('cluster_nodes.node_properties.status'), field: '', align: 'left' },

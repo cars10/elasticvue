@@ -11,3 +11,8 @@ export const clusterVersionGte = (version: number): boolean => {
   const majorVersion = getClusterMajorVersion()
   return majorVersion !== null && majorVersion >= version
 }
+
+export const clusterVersionGt = (version: number): boolean => {
+  const majorVersion = getClusterMajorVersion()
+  return majorVersion !== null && majorVersion > version
+}
