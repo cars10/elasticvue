@@ -1,7 +1,7 @@
 {
   "name": "elasticvue",
   "private": true,
-  "version": "1.6.0",
+  "version": "1.6.1",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
