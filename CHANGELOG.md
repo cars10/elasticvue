@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.6.2
+
+This release only contains a new docker image.
+
+* fix docker image predefined clusters, for real this time, fixes [#293](https://github.com/cars10/elasticvue/issues/293)
+
 ## 1.6.1
 
 This release only contains a new docker image.
