@@ -47,6 +47,12 @@
         <td class="small-wrap">
           <div class="flex items-center no-wrap">
             {{ row.version }}
+            <q-chip v-if="row.flavor === BuildFlavor.serverless" class="q-mx-sm"
+                    color="purple-7"
+                    text-color="white"
+                    dense>
+              serverless
+            </q-chip>
             <unsupported-version v-if="row.majorVersion && row.distribution === DISTRIBUTIONS.elasticsearch"
                                  :major-version="row.majorVersion" />
           </div>
@@ -68,7 +74,7 @@
   import NewCluster from './NewCluster.vue'
   import { DEFAULT_ROWS_PER_PAGE, DISTRIBUTIONS } from '../../consts'
   import { useClusterTable } from '../../composables/components/clusterselection/ClusterTable'
-  import { useConnectionStore } from '../../store/connection'
+  import {BuildFlavor, useConnectionStore} from '../../store/connection'
   import { useTranslation } from '../../composables/i18n.ts'
   import ClusterStatusIndicator from './ClusterStatusIndicator.vue'
   import UnsupportedVersion from './UnsupportedVersion.vue'

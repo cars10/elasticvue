@@ -1,4 +1,9 @@
-import { ElasticsearchCluster, ElasticsearchClusterCredentials, useConnectionStore } from '../../../store/connection.ts'
+import {
+    BuildFlavor,
+    ElasticsearchCluster,
+    ElasticsearchClusterCredentials,
+    useConnectionStore
+} from '../../../store/connection.ts'
 import ElasticsearchAdapter from '../../../services/ElasticsearchAdapter.ts'
 import { clusterUuid } from '../../ClusterConnection.ts'
 import { DISTRIBUTIONS } from '../../../consts.ts'
@@ -9,7 +14,9 @@ export const useClusterHealth = () => {
   const setupHealthLoading = () => {
     if (!connectionStore.activeCluster) return
     checkHealth(connectionStore.activeCluster)
-    //window.setInterval(() => (checkHealth(connectionStore.activeCluster)), 30000)
+    window.setInterval(() => {
+      if (connectionStore.activeCluster) checkHealth(connectionStore.activeCluster)
+    }, 30000)
   }
   setupHealthLoading()
 
@@ -25,19 +32,30 @@ export const checkHealth = async (cluster: ElasticsearchCluster) => {
   const adapter = new ElasticsearchAdapter(cluster as ElasticsearchClusterCredentials)
 
   try {
-    const clusterHealthResponse: any = await adapter.clusterHealth()
-    const clusterHealthBody = await clusterHealthResponse.json()
-    cluster.status = clusterHealthBody.status
-
     const pingResponse: any = await adapter.ping()
     const pingBody = await pingResponse.json()
+    const flavor = pingBody.version.build_flavor || BuildFlavor.default
+
+    let status
+    if (flavor === BuildFlavor.serverless) {
+      status = 'green'
+    } else {
+      const clusterHealthResponse: any = await adapter.clusterHealth()
+      const clusterHealthBody = await clusterHealthResponse.json()
+      status = clusterHealthBody.status
+    }
+
+    cluster.status = status
+
     const version = pingBody.version.number
 
     cluster.clusterName = pingBody.cluster_name
     cluster.distribution = pingBody.version.distribution || DISTRIBUTIONS.elasticsearch
     cluster.version = version
     cluster.majorVersion = version[0]
+    cluster.flavor = flavor
     if (!cluster.uuid || cluster.uuid.length === 0) cluster.uuid = clusterUuid(pingBody)
+      console.log(cluster)
 
     delete cluster.loading
   } catch (_e) {

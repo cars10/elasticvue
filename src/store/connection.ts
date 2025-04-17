@@ -1,5 +1,10 @@
 import { defineStore } from 'pinia'
 
+export enum BuildFlavor {
+  serverless = 'serverless',
+  default = 'default'
+}
+
 export type ElasticsearchCluster = {
   name: string
   clusterName: string
@@ -9,6 +14,7 @@ export type ElasticsearchCluster = {
   uuid: string
   status: string
   loading?: boolean
+  flavor: BuildFlavor
 } & ElasticsearchClusterCredentials
 
 export type ElasticsearchClusterCredentials = {
@@ -33,6 +39,10 @@ export const useConnectionStore = defineStore('connection', {
     activeCluster (): ElasticsearchCluster | null {
       if (typeof this.activeClusterIndex !== 'number') return null
       return this.clusters[this.activeClusterIndex]
+    },
+    serverless (): boolean {
+      if (typeof this.activeClusterIndex !== 'number') return false
+      return this.clusters[this.activeClusterIndex].flavor === BuildFlavor.serverless
     }
   },
   actions: {

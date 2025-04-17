@@ -2,7 +2,12 @@ import { Ref, ref } from 'vue'
 import ElasticsearchAdapter from '../services/ElasticsearchAdapter'
 import { useTranslation } from './i18n'
 import { useSnackbar } from './Snackbar'
-import { ElasticsearchCluster, ElasticsearchClusterCredentials, useConnectionStore } from '../store/connection'
+import {
+  BuildFlavor,
+  ElasticsearchCluster,
+  ElasticsearchClusterCredentials,
+  useConnectionStore
+} from '../store/connection'
 import { DISTRIBUTIONS } from '../consts.ts'
 
 type TestConnectState = {
@@ -66,8 +71,16 @@ export const useClusterConnection = (cluster: Ref<ElasticsearchCluster>) => {
       const infoResponse: any = await adapter.test()
       const infoJson = await infoResponse.json()
 
-      const clusterHealthResponse: any = await adapter.clusterHealth()
-      const clusterHealthBody = await clusterHealthResponse.json()
+      const flavor = infoJson.version.build_flavor || BuildFlavor.default
+
+      let status
+      if (flavor === BuildFlavor.serverless) {
+        status = 'green'
+      } else {
+        const clusterHealthResponse: any = await adapter.clusterHealth()
+        const clusterHealthBody = await clusterHealthResponse.json()
+        status = clusterHealthBody.status
+      }
 
       let uri = cluster.value.uri.trim()
       if (uri.endsWith('/')) uri = uri.slice(0, -1)
@@ -81,7 +94,8 @@ export const useClusterConnection = (cluster: Ref<ElasticsearchCluster>) => {
         majorVersion: infoJson.version.number[0],
         distribution: infoJson.version.distribution || DISTRIBUTIONS.elasticsearch,
         uuid: clusterUuid(infoJson),
-        status: clusterHealthBody.status
+        flavor,
+        status
       })
 
       connectState.value.success = true

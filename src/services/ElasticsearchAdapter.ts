@@ -49,24 +49,14 @@ export default class ElasticsearchAdapter {
     return responses
   }
 
+  /** routes always available **/
+
   ping () {
     return this.request('', 'GET')
   }
 
   clusterInfo () {
     return this.ping()
-  }
-
-  clusterHealth () {
-    return this.request('_cluster/health', 'GET')
-  }
-
-  clusterStats () {
-    return this.request('_cluster/stats', 'GET')
-  }
-
-  clusterReroute (commands: object) {
-    return this.request('_cluster/reroute', 'POST', { commands })
   }
 
   catIndices (params: object, filter?: string) {
@@ -80,19 +70,6 @@ export default class ElasticsearchAdapter {
 
   indexTemplate () {
     return this.request('_index_template', 'GET')
-  }
-
-  catShards (params: object, filter?: string) {
-    const query = filter ? `${filter}*` : ''
-    return this.request(`_cat/shards/${query}`, 'GET', params)
-  }
-
-  catRecovery () {
-    return this.request('_cat/recovery?s=start_time_millis:desc', 'GET')
-  }
-
-  recovery () {
-    return this.request('_recovery', 'GET')
   }
 
   indexGetAlias ({ index }: { index: string }) {
@@ -130,30 +107,6 @@ export default class ElasticsearchAdapter {
       return this.callInChunks({ method: 'indexDelete', indices })
     } else {
       return this.request(cleanIndexName(indices.join(',')), 'DELETE')
-    }
-  }
-
-  indexClose ({ indices }: { indices: string[] }) {
-    if (indices.length > MAX_INDICES_PER_REQUEST) {
-      return this.callInChunks({ method: 'indexClose', indices })
-    } else {
-      return this.request(`${cleanIndexName(indices.join(','))}/_close`, 'POST')
-    }
-  }
-
-  indexOpen ({ indices }: { indices: string[] }) {
-    if (indices.length > MAX_INDICES_PER_REQUEST) {
-      return this.callInChunks({ method: 'indexOpen', indices })
-    } else {
-      return this.request(`${cleanIndexName(indices.join(','))}/_open`, 'POST')
-    }
-  }
-
-  indexForcemerge ({ indices }: { indices: string[] }) {
-    if (indices.length > MAX_INDICES_PER_REQUEST) {
-      return this.callInChunks({ method: 'indexForcemerge', indices })
-    } else {
-      return this.request(`${cleanIndexName(indices.join(','))}/_forcemerge`, 'POST')
     }
   }
 
@@ -196,14 +149,6 @@ export default class ElasticsearchAdapter {
     })
   }
 
-  catNodes (params: object) {
-    return this.request('_cat/nodes', 'GET', params)
-  }
-
-  nodes () {
-    return this.request('_nodes', 'GET')
-  }
-
   index ({ index, type, id, routing, params }: {
     index: string,
     type: string,
@@ -238,6 +183,73 @@ export default class ElasticsearchAdapter {
     }
   }
 
+  docsBulkDelete (documents: any[]) {
+    const body = documents.map(str => {
+      const matches = str.split(/####(.*)####(.*)/)
+      return JSON.stringify({ delete: { _index: matches[0], _id: matches[2] } })
+    }).join('\r\n') + '\r\n'
+    return this.request('_bulk?refresh=true', 'POST', body)
+  }
+
+  /** routes only available in default elasticsearch, but not in serverless **/
+
+  clusterHealth () {
+    return this.request('_cluster/health', 'GET')
+  }
+
+  clusterStats () {
+    return this.request('_cluster/stats', 'GET')
+  }
+
+  clusterReroute (commands: object) {
+    return this.request('_cluster/reroute', 'POST', { commands })
+  }
+
+  catShards (params: object, filter?: string) {
+    const query = filter ? `${filter}*` : ''
+    return this.request(`_cat/shards/${query}`, 'GET', params)
+  }
+
+  catRecovery () {
+    return this.request('_cat/recovery?s=start_time_millis:desc', 'GET')
+  }
+
+  recovery () {
+    return this.request('_recovery', 'GET')
+  }
+
+  indexClose ({ indices }: { indices: string[] }) {
+    if (indices.length > MAX_INDICES_PER_REQUEST) {
+      return this.callInChunks({ method: 'indexClose', indices })
+    } else {
+      return this.request(`${cleanIndexName(indices.join(','))}/_close`, 'POST')
+    }
+  }
+
+  indexOpen ({ indices }: { indices: string[] }) {
+    if (indices.length > MAX_INDICES_PER_REQUEST) {
+      return this.callInChunks({ method: 'indexOpen', indices })
+    } else {
+      return this.request(`${cleanIndexName(indices.join(','))}/_open`, 'POST')
+    }
+  }
+
+  indexForcemerge ({ indices }: { indices: string[] }) {
+    if (indices.length > MAX_INDICES_PER_REQUEST) {
+      return this.callInChunks({ method: 'indexForcemerge', indices })
+    } else {
+      return this.request(`${cleanIndexName(indices.join(','))}/_forcemerge`, 'POST')
+    }
+  }
+
+  catNodes (params: object) {
+    return this.request('_cat/nodes', 'GET', params)
+  }
+
+  nodes () {
+    return this.request('_nodes', 'GET')
+  }
+
   catRepositories (params: object) {
     return this.request('_snapshot', 'GET', params)
   }
@@ -268,14 +280,6 @@ export default class ElasticsearchAdapter {
 
   getSnapshot ({ repository, snapshot }: { repository: string, snapshot: string }) {
     return this.request(`_snapshot/${repository}/${snapshot}`, 'GET')
-  }
-
-  docsBulkDelete (documents: any[]) {
-    const body = documents.map(str => {
-      const matches = str.split(/####(.*)####(.*)/)
-      return JSON.stringify({ delete: { _index: matches[0], _id: matches[2] } })
-    }).join('\r\n') + '\r\n'
-    return this.request('_bulk?refresh=true', 'POST', body)
   }
 
   request (path: string, method: string, params?: any) {

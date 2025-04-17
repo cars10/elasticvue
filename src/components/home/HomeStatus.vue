@@ -1,7 +1,7 @@
 <template>
   <div class="row q-pt-sm">
     <div class="col-lg-8 offset-lg-2">
-      <div class="row q-col-gutter-lg">
+      <div class="row q-col-gutter-lg justify-center">
         <div class="col-3">
           <q-card v-if="data" class="full-height" data-testid="cluster-status">
             <q-card-section>
@@ -73,7 +73,7 @@
           <ClusterInformation />
         </div>
 
-        <div class="col-6">
+        <div v-if="!connectionStore.serverless" class="col-6">
           <ClusterHealth />
         </div>
       </div>

@@ -82,7 +82,7 @@
             <q-separator />
 
             <row-menu-action
-              v-if="clusterVersionGt(1)"
+              v-if="clusterVersionGt(1) && !connectionStore.serverless"
               method="indexForcemerge"
               :method-params="{ indices: [props.index.index] }"
               :text="t('indices.index_row.options.forcemerge.text')"
@@ -111,7 +111,7 @@
                              icon="clear_all"
                              @done="emitReloadAndCloseMenu" />
 
-            <row-menu-action v-if="index.status === 'open'"
+            <row-menu-action v-if="index.status === 'open' && !connectionStore.serverless"
                              method="indexClose"
                              :method-params="{ indices: [props.index.index] }"
                              :confirm="t('indices.index_row.options.close.confirm', {index: index.index})"
@@ -119,7 +119,7 @@
                              :growl="t('indices.index_row.options.close.growl', {index: index.index})"
                              icon="lock"
                              @done="emitReloadAndCloseMenu" />
-            <row-menu-action v-else
+            <row-menu-action v-else-if="!connectionStore.serverless"
                              method="indexOpen"
                              :method-params="{ indices: [props.index.index] }"
                              :text="t('indices.index_row.options.open.text')"
@@ -160,10 +160,12 @@
   import IndexReindex from './IndexReindex.vue'
   import RowMenuAction from './RowMenuAction.vue'
   import { clusterVersionGt, clusterVersionGte } from '../../helpers/minClusterVersion.ts'
+  import {useConnectionStore} from '../../store/connection.ts'
 
   const t = useTranslation()
   const props = defineProps<IndexRowProps>()
   const emit = defineEmits(['reload', 'indexDeleted'])
+  const connectionStore = useConnectionStore()
 
   const afterDelete = (index: string) => {
     emit('indexDeleted', index)
