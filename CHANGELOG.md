@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.7.0
+
+* adds copy button to CORS settings
+
 ## 1.6.2
 
 This release only contains a new docker image.
