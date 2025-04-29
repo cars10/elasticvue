@@ -3,6 +3,7 @@
 ## 1.7.0
 
 * adds copy button to CORS settings
+* remove deprecation for elasticsearch 9, fixes [#297](https://github.com/cars10/elasticvue/issues/297)
 
 ## 1.6.2
 
