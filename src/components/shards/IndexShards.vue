@@ -41,7 +41,7 @@
   }
 
   const load = async () => {
-    let catIndicesParams: CatIndicesParams = {
+    const catIndicesParams: CatIndicesParams = {
       h: ['index', 'health', 'pri', 'rep', 'status'],
       s: ['health:desc', 'index']
     }

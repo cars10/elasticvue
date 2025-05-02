@@ -42,7 +42,7 @@ export const useIndexTemplates = () => {
     try {
       const body = await callElasticsearch(method as unknown as keyof ElasticsearchAdapter)
       data.value = enrich(body)
-    } catch (error) {
+    } catch (_error) {
     }
   }
 
@@ -81,7 +81,7 @@ const defaultTemplateEndpoint = (majorVersion: string | undefined): QSelectOptio
     } else {
       return { label: '_template', value: 'template' }
     }
-  } catch (e) {
+  } catch (_e) {
     return { label: '_template', value: 'template' }
   }
 }

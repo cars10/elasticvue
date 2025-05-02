@@ -1,20 +1,14 @@
-import path from 'node:path'
-import { fileURLToPath } from 'node:url'
-import js from '@eslint/js'
-import { FlatCompat } from '@eslint/eslintrc'
-
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-  recommendedConfig: js.configs.recommended,
-  allConfig: js.configs.all
-})
+import pluginVue from 'eslint-plugin-vue'
+import {
+  defineConfigWithVueTs,
+  vueTsConfigs,
+} from '@vue/eslint-config-typescript'
 import vueI18n from '@intlify/eslint-plugin-vue-i18n'
 
-export default [
-  ...compat.extends('plugin:vue/vue3-recommended', '@vue/eslint-config-typescript'),
-  ...vueI18n.configs['flat/recommended'],
+export default defineConfigWithVueTs(
+  pluginVue.configs['flat/essential'],
+  vueI18n.configs['flat/recommended'],
+  vueTsConfigs.recommended,
   {
     rules: {
       'semi': ['error', 'never'],
@@ -25,7 +19,7 @@ export default [
       'vue/singleline-html-element-content-newline': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-unused-vars': [
-        'error', 
+        'error',
         {
           'argsIgnorePattern': '^_',
           'varsIgnorePattern': '^_',
@@ -54,11 +48,18 @@ export default [
           pattern: './src/locales/*.json',
           localeKey: 'file'
         },
-        messageSyntaxVersion: '^9.0.0'
+        messageSyntaxVersion: '^11.0.0'
       }
     },
     languageOptions: {
       ecmaVersion: 2020
     }
   },
-]
+  {
+    files: ['src/locales/*.json'],
+    rules: {
+      'quotes': 'off',
+      '@typescript-eslint/no-unused-expressions': 'off'
+    }
+  }
+)

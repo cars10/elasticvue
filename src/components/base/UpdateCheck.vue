@@ -24,7 +24,7 @@
         const json = await response.json()
         newVersion.value = json.version
       }
-    } catch (e) {
+    } catch (_e) {
     }
   }
   onMounted(check)
