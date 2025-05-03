@@ -4,6 +4,7 @@
 
 * adds copy button to CORS settings
 * remove deprecation for elasticsearch 9, fixes [#297](https://github.com/cars10/elasticvue/issues/297)
+* adds support for serverless mode, fixes [#288](https://github.com/cars10/elasticvue/issues/288)
 
 ## 1.6.2
 

@@ -3,7 +3,7 @@ import ClusterIndices from './components/indices/ClusterIndices.vue'
 import IndexTemplates from './components/indextemplates/IndexTemplates.vue'
 import GlobalSettings from './components/settings/GlobalSettings.vue'
 import IndexShards from './components/shards/IndexShards.vue'
-import HomeStatus from './components/home/HomeStatus.vue'
+import Home from './components/home/Home.vue'
 import ClusterNodes from './components/nodes/ClusterNodes.vue'
 import RestQuery from './components/rest/RestQuery.vue'
 import NestedView from './components/base/NestedView.vue'
@@ -30,7 +30,7 @@ const routes = [
     path: '/cluster/:clusterIndex',
     component: NestedView,
     children: [
-      { path: '', name: 'home', component: HomeStatus },
+      { path: '', name: 'home', component: Home },
       { path: 'indices', name: 'indices', component: ClusterIndices },
       { path: 'index_templates', name: 'index_templates', component: IndexTemplates },
       { path: 'settings', name: 'settings', component: GlobalSettings },

@@ -9,8 +9,9 @@ build_docker_ci:
 ci: build_docker_ci
 	docker run --rm -e CI="$(CI)" -v ./playwright-report-ci:/app/playwright-report elasticvue-ci yarn ci
 
+# https://github.com/tauri-apps/tauri/issues/8929
 build_tauri:
-	yarn tauri:build
+	NO_STRIP=true yarn tauri:build --verbose
 
 build_docker_tauri:
 	docker build -t elasticvue-linux-tauri -f docker/Dockerfile_tauri --build-arg USERID="$(UID)" .

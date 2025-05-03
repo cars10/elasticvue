@@ -1,8 +1,8 @@
 import {
-    BuildFlavor,
-    ElasticsearchCluster,
-    ElasticsearchClusterCredentials,
-    useConnectionStore
+  BuildFlavor,
+  ElasticsearchCluster,
+  ElasticsearchClusterCredentials,
+  useConnectionStore
 } from '../../../store/connection.ts'
 import ElasticsearchAdapter from '../../../services/ElasticsearchAdapter.ts'
 import { clusterUuid } from '../../ClusterConnection.ts'
@@ -55,7 +55,6 @@ export const checkHealth = async (cluster: ElasticsearchCluster) => {
     cluster.majorVersion = version[0]
     cluster.flavor = flavor
     if (!cluster.uuid || cluster.uuid.length === 0) cluster.uuid = clusterUuid(pingBody)
-      console.log(cluster)
 
     delete cluster.loading
   } catch (_e) {
