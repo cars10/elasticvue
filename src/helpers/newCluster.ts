@@ -1,4 +1,5 @@
 import { DEFAULT_CLUSTER_NAME, DEFAULT_CLUSTER_URI } from '../consts.ts'
+import { BuildFlavor } from '../store/connection.ts'
 
 export const newElasticsearchCluster = () => {
   return {
@@ -11,6 +12,7 @@ export const newElasticsearchCluster = () => {
     version: '',
     majorVersion: '',
     uuid: '',
-    status: ''
+    status: '',
+    flavor: BuildFlavor.default
   }
 }

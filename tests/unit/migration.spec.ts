@@ -27,18 +27,20 @@ const vuexData = {
 
 const newData = {
   'connection': {
-    'clusters': [{
-      'name': 'default cluster',
-      'username': '',
-      'password': '',
-      'uri': 'http://localhost:9506',
-      'distribution': 'elasticsearch',
-      'clusterName': '',
-      'version': '6.8.2',
-      'majorVersion': '6',
-      'uuid': '',
-      'status': ''
-    },
+    'clusters': [
+      {
+        'name': 'default cluster',
+        'username': '',
+        'password': '',
+        'uri': 'http://localhost:9506',
+        'distribution': 'elasticsearch',
+        'clusterName': '',
+        'version': '6.8.2',
+        'majorVersion': '6',
+        'uuid': '',
+        'status': '',
+        'flavor': 'default'
+      },
       {
         'name': 'es8',
         'username': 'elastic',
@@ -49,8 +51,10 @@ const newData = {
         'version': '8.7.1',
         'majorVersion': '8',
         'uuid': '',
-        'status': ''
-      }],
+        'status': '',
+        'flavor': 'default'
+      }
+    ],
     'activeClusterIndex': 0
   },
   'theme': {

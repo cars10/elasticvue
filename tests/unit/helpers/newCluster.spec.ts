@@ -16,7 +16,8 @@ describe.concurrent('helpers/newCluster.ts', () => {
         version: '',
         majorVersion: '',
         uuid: '',
-        status: ''
+        status: '',
+        flavor: 'default'
       })
     })
   })

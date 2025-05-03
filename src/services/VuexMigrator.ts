@@ -1,4 +1,4 @@
-import { ConnectionState } from '../store/connection.ts'
+import { BuildFlavor, ConnectionState } from '../store/connection.ts'
 import { ThemeState } from '../store/theme.ts'
 import { I18nState } from '../store/i18n.ts'
 import { useIdbStore } from '../db/Idb.ts'
@@ -30,7 +30,8 @@ export const migrateVuexData = (data: string): PiniaData => {
       majorVersion: cluster.major_version,
       distribution: DISTRIBUTIONS.elasticsearch,
       uuid: '',
-      status: ''
+      status: '',
+      flavor: BuildFlavor.default
     })
   })
 
