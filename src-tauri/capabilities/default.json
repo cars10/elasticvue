@@ -1,0 +1,20 @@
+{
+    "identifier": "desktop-capability",
+    "windows": [
+        "main"
+    ],
+    "platforms": [
+        "macOS",
+        "windows",
+        "linux"
+    ],
+    "permissions": [
+        "core:default",
+        "updater:default",
+        "process:default",
+        "dialog:default",
+        "clipboard-manager:default",
+        "fs:default",
+        "opener:default"
+    ]
+}

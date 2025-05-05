@@ -1801,6 +1801,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tauri-apps/plugin-opener@npm:~2":
+  version: 2.2.6
+  resolution: "@tauri-apps/plugin-opener@npm:2.2.6"
+  dependencies:
+    "@tauri-apps/api": "npm:^2.0.0"
+  checksum: 10c0/4d1f21c839467c27c73f2e41d15407f8f2f9a43d1e743022bf4e585fca6a8a60c828c9b4d9db5884d9b9c6e4271fec49c580624f011dc0963d02f5d313f0b713
+  languageName: node
+  linkType: hard
+
 "@tauri-apps/plugin-process@npm:^2.2.1":
   version: 2.2.1
   resolution: "@tauri-apps/plugin-process@npm:2.2.1"
@@ -2916,6 +2925,7 @@ __metadata:
     "@tauri-apps/plugin-clipboard-manager": "npm:^2.2.2"
     "@tauri-apps/plugin-dialog": "npm:^2.2.1"
     "@tauri-apps/plugin-fs": "npm:^2.2.1"
+    "@tauri-apps/plugin-opener": "npm:~2"
     "@tauri-apps/plugin-process": "npm:^2.2.1"
     "@tauri-apps/plugin-updater": "npm:^2.7.1"
     "@types/json-bigint": "npm:^1.0.4"
