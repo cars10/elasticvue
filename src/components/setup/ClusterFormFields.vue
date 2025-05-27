@@ -43,11 +43,11 @@
     <div v-if="authorizationType === 'aws-iam'" class="q-mb-md">
       <custom-input v-model="cluster.accessKeyId"
                     outlined
-                    label="AWS Access Key ID"
+                    :label="t('setup.test_and_connect.form.aws_access_key_id.label')"
                     autocomplete="off" />
       <custom-input v-model="cluster.secretAccessKey"
                     outlined
-                    label="AWS Secret Access Key"
+                    :label="t('setup.test_and_connect.form.aws_secret_access_key.label')"
                     autocomplete="off"
                     :type="passwordVisible ? 'text' : 'password'">
         <template #append>
@@ -58,11 +58,11 @@
       </custom-input>
       <custom-input v-model="cluster.sessionToken"
                     outlined
-                    label="AWS Session Token (optional)"
+                    :label="t('setup.test_and_connect.form.aws_session_token.label')"
                     autocomplete="off" />
       <custom-input v-model="cluster.region"
                     outlined
-                    label="AWS Region (e.g. us-east-1)"
+                    :label="t('setup.test_and_connect.form.aws_region.label')"
                     autocomplete="off" />
     </div>
 

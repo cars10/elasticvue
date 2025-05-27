@@ -512,6 +512,18 @@
         "uri": {
           "label": "地址"
         },
+        "aws_access_key_id": {
+          "label": "AWS 访问密钥 ID"
+        },
+        "aws_secret_access_key": {
+          "label": "AWS 秘密访问密钥"
+        },
+        "aws_session_token": {
+          "label": "AWS 会话令牌（可选）"
+        },
+        "aws_region": {
+          "label": "AWS 区域 (例如 us-east-1)"
+        },
         "test_connection": "测试连接",
         "connect": "连接"
       },

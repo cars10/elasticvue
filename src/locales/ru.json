@@ -509,6 +509,18 @@
         "api_key": {
           "label": "Закодированный API ключ"
         },
+        "aws_access_key_id": {
+          "label": "Идентификатор ключа доступа AWS"
+        },
+        "aws_secret_access_key": {
+          "label": "Секретный ключ доступа AWS"
+        },
+        "aws_session_token": {
+          "label": "Токен сессии AWS (необязательно)"
+        },
+        "aws_region": {
+          "label": "Регион AWS (us-east-1)"
+        },
         "uri": {
           "label": "URI"
         },

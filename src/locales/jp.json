@@ -512,6 +512,18 @@
         "uri": {
           "label": "URI"
         },
+        "aws_access_key_id": {
+          "label": "AWS アクセスキー ID"
+        },
+        "aws_secret_access_key": {
+          "label": "AWS シークレットアクセスキー"
+        },
+        "aws_session_token": {
+          "label": "AWSセッショントークン（オプション）"
+        },
+        "aws_region": {
+          "label": "AWSリージョン（例: us-east-1）"
+        },
         "test_connection": "接続をテスト",
         "connect": "接続"
       },

@@ -512,6 +512,18 @@
         "uri": {
           "label": "Uri"
         },
+        "aws_access_key_id": {
+          "label": "ID de clé d’accès AWS"
+        },
+        "aws_secret_access_key": {
+          "label": "Clé d’accès secrète AWS"
+        },
+        "aws_session_token": {
+          "label": "Jeton de session AWS (optionnel)"
+        },
+        "aws_region": {
+          "label": "AWS Région (ex. us-east-1)"
+        },
         "test_connection": "Tester la connexion",
         "connect": "Connecter"
       },
