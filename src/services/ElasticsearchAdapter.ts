@@ -321,9 +321,14 @@ export default class ElasticsearchAdapter {
     if (this.authHeader) (options.headers as Record<string, string>)['Authorization'] = this.authHeader
 
     if (this.authType === 'aws-iam' && this.awsClient) {
-      // Remove Authorization header if present
       delete (options.headers as Record<string, string>)['Authorization']
-      return this.awsClient.fetch(url.toString(), options)
+      return (async () => {
+        const signed = await this.awsClient?.sign(url.toString(), options)
+        signed?.headers.forEach((value, key) => {
+          (options.headers as Record<string, string>)[key] = value
+        })
+        return fetchMethod(url, options)
+      })()
     }
 
     return new Promise((resolve, reject) => {
