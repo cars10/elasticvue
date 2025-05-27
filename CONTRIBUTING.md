@@ -16,3 +16,9 @@ issue first.
 4. **Lint your code!** `yarn lint --fix`
 5. Push your branch `git push origin my-feature`
 6. Create a pull request
+
+## Running tests
+
+1. Install Yarn https://yarnpkg.com/getting-started/install
+2. Install the packages `yarn install`
+3. Install Playwright (with dependencies) `yarn playwright install --with-deps`

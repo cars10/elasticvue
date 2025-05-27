@@ -4,6 +4,7 @@ import { fetchMethod } from '../helpers/fetch'
 import { stringifyJson } from '../helpers/json/stringify.ts'
 import { ElasticsearchClusterCredentials } from '../store/connection.ts'
 import { cleanIndexName } from '../helpers/cleanIndexName.ts'
+import { AwsClient } from 'aws4fetch'
 
 interface IndexGetArgs {
   routing?: string
@@ -21,13 +22,32 @@ export default class ElasticsearchAdapter {
   password?: string
   uri: string
   authHeader?: string
+  authType?: 'basic' | 'api' | 'aws-iam' | ''
+  accessKeyId?: string
+  secretAccessKey?: string
+  sessionToken?: string
+  region?: string
+  awsClient?: AwsClient
 
-  constructor ({ uri, username, password }: ElasticsearchClusterCredentials) {
+  constructor ({ uri, username, password, authType, accessKeyId, secretAccessKey, sessionToken, region }: ElasticsearchClusterCredentials) {
     this.username = username
     this.password = password
     this.uri = addTrailingSlash(uri)
+    this.authType = authType
+    this.accessKeyId = accessKeyId
+    this.secretAccessKey = secretAccessKey
+    this.sessionToken = sessionToken
+    this.region = region
 
-    if (this.username.length > 0 || this.password.length > 0) {
+    if (this.authType === 'aws-iam') {
+      this.awsClient = new AwsClient({
+        accessKeyId: this.accessKeyId || '',
+        secretAccessKey: this.secretAccessKey || '',
+        sessionToken: this.sessionToken || undefined,
+        service: 'es',
+        region: this.region || 'us-east-1',
+      })
+    } else if (this.username.length > 0 || this.password.length > 0) {
       this.authHeader = buildFetchAuthHeader(this.username, this.password)
     }
   }
@@ -298,8 +318,13 @@ export default class ElasticsearchAdapter {
       headers: Object.assign({}, REQUEST_DEFAULT_HEADERS)
     }
 
-    // @ts-expect-error header definition
-    if (this.authHeader) options.headers['Authorization'] = this.authHeader
+    if (this.authHeader) (options.headers as Record<string, string>)['Authorization'] = this.authHeader
+
+    if (this.authType === 'aws-iam' && this.awsClient) {
+      // Remove Authorization header if present
+      delete (options.headers as Record<string, string>)['Authorization']
+      return this.awsClient.fetch(url.toString(), options)
+    }
 
     return new Promise((resolve, reject) => {
       return fetchMethod(url, options)

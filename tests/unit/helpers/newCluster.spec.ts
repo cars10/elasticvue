@@ -17,7 +17,12 @@ describe.concurrent('helpers/newCluster.ts', () => {
         majorVersion: '',
         uuid: '',
         status: '',
-        flavor: 'default'
+        flavor: 'default',
+        authType: '',
+        accessKeyId: '',
+        secretAccessKey: '',
+        sessionToken: '',
+        region: ''
       })
     })
   })

@@ -95,7 +95,12 @@ export const useClusterConnection = (cluster: Ref<ElasticsearchCluster>) => {
         distribution: infoJson.version.distribution || DISTRIBUTIONS.elasticsearch,
         uuid: clusterUuid(infoJson),
         flavor,
-        status
+        status,
+        authType: cluster.value.authType,
+        accessKeyId: cluster.value.accessKeyId,
+        secretAccessKey: cluster.value.secretAccessKey,
+        sessionToken: cluster.value.sessionToken,
+        region: cluster.value.region
       })
 
       connectState.value.success = true

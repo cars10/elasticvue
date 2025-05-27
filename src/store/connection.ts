@@ -21,6 +21,11 @@ export type ElasticsearchClusterCredentials = {
   uri: string
   username: string
   password: string
+  authType?: 'basic' | 'api' | 'aws-iam' | ''
+  accessKeyId?: string
+  secretAccessKey?: string
+  sessionToken?: string
+  region?: string
 }
 
 export type ConnectionState = {

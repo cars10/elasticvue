@@ -27,8 +27,8 @@ export const usePredefinedClusters = () => {
     const defaultClusters = await response.json()
 
     clusters.value = defaultClusters
-        .filter((cluster: PredefinedCluster) => (cluster.uri && cluster.uri.length > 0))
-        .map((cluster: PredefinedCluster) => (Object.assign({}, { name: '', username: '', password: '' }, cluster)))
+      .filter((cluster: PredefinedCluster) => (cluster.uri && cluster.uri.length > 0))
+      .map((cluster: PredefinedCluster) => (Object.assign({}, { name: '', username: '', password: '' }, cluster)))
     selectedClusters.value = clusters.value
   }
   loadPredefinedClusters()
@@ -74,13 +74,20 @@ const importClusters = (clusters: PredefinedCluster[]) => {
 
   const emptyCluster = newElasticsearchCluster()
   missingClusters.forEach(missingCluster => {
-    connectionStore.addCluster(Object.assign({}, emptyCluster, missingCluster))
+    const allowedAuthTypes = ['', 'basic', 'api', 'aws-iam'] as const
+    let authType = (missingCluster as any).authType
+    if (!allowedAuthTypes.includes(authType)) authType = ''
+    connectionStore.addCluster({
+      ...emptyCluster,
+      ...missingCluster,
+      authType
+    })
   })
 }
 
 const compareClusters = (a: PredefinedCluster, b: PredefinedCluster) => (
-    (!a.name || !b.name || a.name === b.name) &&
-    (!a.uri || !b.uri || a.uri === b.uri) &&
-    (!a.username || !b.username || a.username === b.username) &&
-    (!a.password || !b.password || a.password === b.password)
+  (!a.name || !b.name || a.name === b.name) &&
+  (!a.uri || !b.uri || a.uri === b.uri) &&
+  (!a.username || !b.username || a.username === b.username) &&
+  (!a.password || !b.password || a.password === b.password)
 )

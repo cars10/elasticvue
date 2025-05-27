@@ -40,6 +40,32 @@
       </div>
     </div>
 
+    <div v-if="authorizationType === 'aws-iam'" class="q-mb-md">
+      <custom-input v-model="cluster.accessKeyId"
+                    outlined
+                    label="AWS Access Key ID"
+                    autocomplete="off" />
+      <custom-input v-model="cluster.secretAccessKey"
+                    outlined
+                    label="AWS Secret Access Key"
+                    autocomplete="off"
+                    :type="passwordVisible ? 'text' : 'password'">
+        <template #append>
+          <q-icon :name="passwordVisible ? 'visibility' : 'visibility_off'"
+                  class="cursor-pointer"
+                  @click="passwordVisible = !passwordVisible" />
+        </template>
+      </custom-input>
+      <custom-input v-model="cluster.sessionToken"
+                    outlined
+                    label="AWS Session Token (optional)"
+                    autocomplete="off" />
+      <custom-input v-model="cluster.region"
+                    outlined
+                    label="AWS Region (e.g. us-east-1)"
+                    autocomplete="off" />
+    </div>
+
     <custom-input v-model="cluster.uri"
                   name="uri"
                   :rules="[validateUri]"
@@ -75,13 +101,15 @@
   const props = defineProps<{ modelValue: ElasticsearchCluster, formValid: boolean }>()
 
   const authorizationType = ref('')
-  if (props.modelValue.username.length > 0 && props.modelValue.password.length > 0) authorizationType.value = 'basic'
-  if (props.modelValue.username.length === 0 && props.modelValue.password.length > 0) authorizationType.value = 'api'
+  if (props.modelValue.authType === 'aws-iam') authorizationType.value = 'aws-iam'
+  else if (props.modelValue.username.length > 0 && props.modelValue.password.length > 0) authorizationType.value = 'basic'
+  else if (props.modelValue.username.length === 0 && props.modelValue.password.length > 0) authorizationType.value = 'api'
 
   const authorizationTypes = [
     { value: '', label: 'No authorization' },
     { value: 'basic', label: 'Basic auth' },
     { value: 'api', label: 'API key' },
+    { value: 'aws-iam', label: 'AWS IAM (OpenSearch)' },
   ]
 
   const cluster: Ref<ElasticsearchCluster> = ref(props.modelValue)
@@ -105,5 +133,20 @@
   const ssl = computed(() => (/^https/.test(cluster.value.uri)))
 
   const emit = defineEmits(['update:modelValue', 'update:formValid'])
-  watch(cluster, value => emit('update:modelValue', value))
+  watch(cluster, (value: ElasticsearchCluster) => emit('update:modelValue', value))
+  watch(authorizationType, (type: string) => {
+    cluster.value.authType = type as '' | 'basic' | 'api' | 'aws-iam'
+    if (type !== 'aws-iam') {
+      cluster.value.accessKeyId = ''
+      cluster.value.secretAccessKey = ''
+      cluster.value.sessionToken = ''
+      cluster.value.region = ''
+    }
+    if (type !== 'basic') {
+      cluster.value.username = ''
+    }
+    if (type !== 'api') {
+      cluster.value.password = ''
+    }
+  })
 </script>

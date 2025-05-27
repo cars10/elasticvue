@@ -31,6 +31,7 @@
     "@tauri-apps/plugin-opener": "~2",
     "@tauri-apps/plugin-process": "^2.2.1",
     "@tauri-apps/plugin-updater": "^2.7.1",
+    "aws4fetch": "^1.0.20",
     "codemirror": "^6.0.1",
     "idb": "^8.0.2",
     "json-bigint": "^1.0.0",
@@ -64,5 +65,5 @@
     "vitest": "^3.1.2",
     "vue-tsc": "^2.2.10"
   },
-  "packageManager": "yarn@4.7.0"
+  "packageManager": "yarn@4.9.1"
 }
