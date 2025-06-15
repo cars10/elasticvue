@@ -1,5 +1,5 @@
 import { computed, ref, toRaw, watch, nextTick } from 'vue'
-import { buildFetchAuthHeader } from '../../../helpers/elasticsearchAdapter.ts'
+import { clusterAuthHeader } from '../../../helpers/elasticsearchAdapter.ts'
 import { REQUEST_DEFAULT_HEADERS } from '../../../consts'
 import { useConnectionStore } from '../../../store/connection'
 import { useSnackbar } from '../../Snackbar'
@@ -43,9 +43,8 @@ export const useRestQueryForm = (props: RestQueryFormProps, emit: any) => {
       headers: Object.assign({}, REQUEST_DEFAULT_HEADERS)
     }
 
-    if (connectionStore.activeCluster.password.length > 0) {
-      options.headers.Authorization = buildFetchAuthHeader(connectionStore.activeCluster.username, connectionStore.activeCluster.password)
-    }
+    const authHeader = clusterAuthHeader(connectionStore.activeCluster.auth)
+    if (authHeader) options.headers.Authorization = authHeader
 
     let url = connectionStore.activeCluster.uri
     if (!url.endsWith('/') && !props.tab.request.path.startsWith('/')) url += '/'

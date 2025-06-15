@@ -1,9 +1,9 @@
-import { addTrailingSlash, buildFetchAuthHeader } from '../helpers/elasticsearchAdapter.ts'
+import { addTrailingSlash, clusterAuthHeader } from '../helpers/elasticsearchAdapter.ts'
 import { REQUEST_DEFAULT_HEADERS } from '../consts'
 import { fetchMethod } from '../helpers/fetch'
 import { stringifyJson } from '../helpers/json/stringify.ts'
-import { ElasticsearchClusterCredentials } from '../store/connection.ts'
 import { cleanIndexName } from '../helpers/cleanIndexName.ts'
+import { ElasticsearchClusterConnection } from '../store/connection.ts'
 
 interface IndexGetArgs {
   routing?: string
@@ -17,19 +17,12 @@ const chunk = (array: any[], size: number) => {
 }
 
 export default class ElasticsearchAdapter {
-  username?: string
-  password?: string
   uri: string
   authHeader?: string
 
-  constructor ({ uri, username, password }: ElasticsearchClusterCredentials) {
-    this.username = username
-    this.password = password
+  constructor ({ uri, auth }: ElasticsearchClusterConnection) {
     this.uri = addTrailingSlash(uri)
-
-    if (this.username.length > 0 || this.password.length > 0) {
-      this.authHeader = buildFetchAuthHeader(this.username, this.password)
-    }
+    this.authHeader = clusterAuthHeader(auth)
   }
 
   call (method: ElasticsearchMethod, ...args: any[]): Promise<any> {

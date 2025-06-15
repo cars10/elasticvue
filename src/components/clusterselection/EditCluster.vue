@@ -37,8 +37,7 @@
           <q-btn v-close-popup flat :label="t('defaults.close')" />
 
           <cluster-connection-errors v-if="testState.error"
-                                     :uri="cluster.uri"
-                                     :uri-with-credentials="uriWithCredentials(cluster.uri, cluster.username, cluster.password)"
+                                     :cluster="cluster"
                                      :error-message="testState.errorMessage" />
         </form>
       </q-card-section>
@@ -51,7 +50,6 @@
   import ClusterConnectionErrors from '../setup/ClusterConnectionErrors.vue'
   import { useTranslation } from '../../composables/i18n.ts'
   import { EditClusterProps, useEditCluster } from '../../composables/components/clusterselection/EditCluster.ts'
-  import { uriWithCredentials } from '../../helpers/elasticsearchAdapter.ts'
 
   const t = useTranslation()
   const props = defineProps<EditClusterProps>()

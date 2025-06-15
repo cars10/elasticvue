@@ -1,7 +1,7 @@
 <template>
   <div class="q-mb-md">
     <div class="q-mb-md">
-      <q-option-group v-model="authorizationType"
+      <q-option-group v-model="cluster.auth.authType"
                       inline
                       :options="authorizationTypes"
                       color="primary" />
@@ -17,19 +17,34 @@
                     autofocus />
     </div>
 
-    <div v-if="['basic', 'api'].includes(authorizationType)" class="row q-mb-md">
-      <div v-if="authorizationType === 'basic'" class="col q-pr-md">
-        <custom-input v-model="cluster.username"
+    <div v-if="cluster.auth.authType === AuthType.basicAuth || cluster.auth.authType === AuthType.apiKey"
+         class="row q-mb-md">
+      <div v-if="cluster.auth.authType === AuthType.basicAuth" class="col q-pr-md">
+        <custom-input v-model="cluster.auth.authData.username"
                       outlined
                       :label="t('setup.test_and_connect.form.username.label')"
                       autocomplete="off" />
       </div>
 
-      <div class="col">
-        <custom-input v-model="cluster.password"
+      <div v-if="cluster.auth.authType === AuthType.basicAuth" class="col">
+        <custom-input v-model="cluster.auth.authData.password"
                       autocomplete="off"
                       outlined
-                      :label="authorizationType === 'basic' ? t('setup.test_and_connect.form.password.label') : t('setup.test_and_connect.form.api_key.label')"
+                      :label="t('setup.test_and_connect.form.password.label')"
+                      :type="passwordVisible ? 'text' : 'password'">
+          <template #append>
+            <q-icon :name="passwordVisible ? 'visibility' : 'visibility_off'"
+                    class="cursor-pointer"
+                    @click="passwordVisible = !passwordVisible" />
+          </template>
+        </custom-input>
+      </div>
+
+      <div v-if="cluster.auth.authType === AuthType.apiKey" class="col">
+        <custom-input v-model="cluster.auth.authData.apiKey"
+                      autocomplete="off"
+                      outlined
+                      :label="t('setup.test_and_connect.form.api_key.label')"
                       :type="passwordVisible ? 'text' : 'password'">
           <template #append>
             <q-icon :name="passwordVisible ? 'visibility' : 'visibility_off'"
@@ -50,7 +65,6 @@
         <q-icon name="close" class="cursor-pointer" @click="resetUri" />
       </template>
     </custom-input>
-
     <div v-if="buildConfig.hints.ssl" :class="{'text-muted': !ssl, 'text-bold': ssl}">
       {{ t('shared.ssl_hint.hint') }}
       <a aria-label="SSL Configuration help"
@@ -65,26 +79,49 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, Ref, ref, watch } from 'vue'
+  import { computed, ref, watch } from 'vue'
   import { useTranslation } from '../../composables/i18n.ts'
   import { DEFAULT_CLUSTER_URI } from '../../consts.ts'
-  import { ElasticsearchCluster } from '../../store/connection.ts'
+  import { AuthType, ElasticsearchClusterConnection } from '../../store/connection.ts'
   import { buildConfig } from '../../buildConfig.ts'
   import CustomInput from '../shared/CustomInput.vue'
 
-  const props = defineProps<{ modelValue: ElasticsearchCluster, formValid: boolean }>()
-
-  const authorizationType = ref('')
-  if (props.modelValue.username.length > 0 && props.modelValue.password.length > 0) authorizationType.value = 'basic'
-  if (props.modelValue.username.length === 0 && props.modelValue.password.length > 0) authorizationType.value = 'api'
+  const props = defineProps<{ modelValue: ElasticsearchClusterConnection, formValid: boolean }>()
 
   const authorizationTypes = [
-    { value: '', label: 'No authorization' },
-    { value: 'basic', label: 'Basic auth' },
-    { value: 'api', label: 'API key' },
+    { value: AuthType.none, label: 'No authorization' },
+    { value: AuthType.basicAuth, label: 'Basic auth' },
+    { value: AuthType.apiKey, label: 'API key' },
+    { value: AuthType.awsIAM, label: 'AWS IAM' },
   ]
 
-  const cluster: Ref<ElasticsearchCluster> = ref(props.modelValue)
+  const cluster = ref(props.modelValue)
+  watch(() => cluster.value.auth.authType, () => {
+    switch (cluster.value.auth.authType) {
+    case AuthType.none:
+      cluster.value.auth.authData = undefined
+      break
+    case AuthType.basicAuth:
+      cluster.value.auth.authData = {
+        username: '',
+        password: ''
+      }
+      break
+    case AuthType.apiKey:
+      cluster.value.auth.authData = {
+        apiKey: ''
+      }
+      break
+    case AuthType.awsIAM:
+      cluster.value.auth.authData = {
+        accessKeyId: '',
+        secretAccessKey: '',
+        sessionToken: '',
+        region: '',
+      }
+    }
+  })
+
   const passwordVisible = ref(false)
   const t = useTranslation()
   const validateUri = (uri: string) => {

@@ -1,7 +1,6 @@
 import {
   BuildFlavor,
-  ElasticsearchCluster,
-  ElasticsearchClusterCredentials,
+  ElasticsearchCluster, ElasticsearchClusterConnection,
   useConnectionStore
 } from '../../../store/connection.ts'
 import ElasticsearchAdapter from '../../../services/ElasticsearchAdapter.ts'
@@ -29,7 +28,7 @@ export const useClusterHealth = () => {
 
 export const checkHealth = async (cluster: ElasticsearchCluster) => {
   cluster.loading = true
-  const adapter = new ElasticsearchAdapter(cluster as ElasticsearchClusterCredentials)
+  const adapter = new ElasticsearchAdapter(cluster)
 
   try {
     const pingResponse: any = await adapter.ping()
@@ -63,7 +62,7 @@ export const checkHealth = async (cluster: ElasticsearchCluster) => {
   }
 }
 
-export const checkClusterHealth = async (credentials: ElasticsearchClusterCredentials): Promise<string> => {
+export const checkClusterHealth = async (credentials: ElasticsearchClusterConnection): Promise<string> => {
   const adapter = new ElasticsearchAdapter(credentials)
 
   try {

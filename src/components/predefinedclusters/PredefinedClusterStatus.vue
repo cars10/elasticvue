@@ -6,9 +6,9 @@
   import ClusterStatusIndicator from '../clusterselection/ClusterStatusIndicator.vue'
   import { checkClusterHealth } from '../../composables/components/home/ClusterHealth.ts'
   import { ref } from 'vue'
-  import { ElasticsearchClusterCredentials } from '../../store/connection.ts'
+  import { ElasticsearchCluster } from '../../store/connection.ts'
 
-  const props = defineProps<{ cluster: ElasticsearchClusterCredentials }>()
+  const props = defineProps<{ cluster: ElasticsearchCluster }>()
   const health = ref('unknown')
 
   const load = async () => {

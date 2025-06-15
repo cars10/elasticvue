@@ -3,6 +3,9 @@
     <template v-if="slots.hint" #hint>
       <slot name="hint" />
     </template>
+    <template v-if="slots.append" #append>
+      <slot name="append" />
+    </template>
   </q-input>
 </template>
 

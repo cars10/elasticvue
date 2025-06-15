@@ -7,7 +7,7 @@ import router from './router'
 
 import App from './App.vue'
 import './assets/stylesheets/style.scss'
-import { migrate } from './services/VuexMigrator.ts'
+import { migrate } from './services/migrations.ts'
 import { setUuid } from './services/Uuid.ts'
 
 migrate()

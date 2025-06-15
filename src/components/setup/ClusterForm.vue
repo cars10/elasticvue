@@ -25,8 +25,7 @@
     <slot name="actions" />
 
     <cluster-connection-errors v-if="testState.error || connectState.error"
-                               :uri="cluster.uri"
-                               :uri-with-credentials="uriWithCredentials(cluster.uri, cluster.username, cluster.password)"
+                               :cluster="cluster"
                                :error-message="testState.errorMessage || connectState.errorMessage" />
   </form>
 </template>
@@ -37,10 +36,9 @@
   import ClusterFormFields from './ClusterFormFields.vue'
   import ClusterConnectionErrors from './ClusterConnectionErrors.vue'
   import { useTranslation } from '../../composables/i18n.ts'
-  import { ElasticsearchCluster } from '../../store/connection.ts'
-  import { uriWithCredentials } from '../../helpers/elasticsearchAdapter.ts'
+  import { ElasticsearchClusterConnection } from '../../store/connection.ts'
 
-  const props = defineProps<{ modelValue: ElasticsearchCluster, connectCallback: any }>()
+  const props = defineProps<{ modelValue: ElasticsearchClusterConnection, connectCallback: any }>()
   const cluster = ref(props.modelValue)
   const t = useTranslation()
   const formValid = ref(true)

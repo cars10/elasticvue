@@ -1,6 +1,6 @@
 import { computed, Ref, ref } from 'vue'
 import ElasticsearchAdapter, { ElasticsearchMethod } from '../services/ElasticsearchAdapter'
-import { ElasticsearchClusterCredentials, useConnectionStore } from '../store/connection'
+import { useConnectionStore } from '../store/connection'
 import { askConfirm } from '../helpers/dialogs'
 import { SnackbarOptions, useSnackbar } from './Snackbar'
 import { parseJson } from '../helpers/json/parse.ts'
@@ -39,7 +39,7 @@ export function useElasticsearchAdapter () {
       if (!elasticsearchAdapter) {
         const cluster = connectionStore.activeCluster
         if (!cluster) return
-        elasticsearchAdapter = new ElasticsearchAdapter(cluster as ElasticsearchClusterCredentials)
+        elasticsearchAdapter = new ElasticsearchAdapter(cluster)
         await elasticsearchAdapter.ping()
       }
 

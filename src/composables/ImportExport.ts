@@ -5,6 +5,7 @@ import { useConnectionStore } from '../store/connection'
 import { initDb } from '../db/Idb.ts'
 import { parseJson } from '../helpers/json/parse.ts'
 import { stringifyJson } from '../helpers/json/stringify.ts'
+import { migrateAuthType } from '../services/migrations.ts'
 
 type Backup = {
   version: string,
@@ -75,6 +76,13 @@ export const useImportExport = ({ confirmImport } = { confirmImport: false }) =>
 
       const backup = parseJson(rawData)
       if (!backup.store) return Promise.reject('Invalid backup')
+
+      if (backup.store.connection) {
+        const connectionData = backup.store.connection
+        if (connectionData.clusters?.length > 0 && !connectionData.clusters[0].auth) {
+          backup.store.connection.clusters = migrateAuthType(connectionData.clusters)
+        }
+      }
 
       // pinia store
       localStorage.clear()

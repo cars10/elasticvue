@@ -1,11 +1,10 @@
-import { Ref, ref } from 'vue'
+import { Ref, ref, UnwrapRef } from 'vue'
 import ElasticsearchAdapter from '../services/ElasticsearchAdapter'
 import { useTranslation } from './i18n'
 import { useSnackbar } from './Snackbar'
 import {
   BuildFlavor,
-  ElasticsearchCluster,
-  ElasticsearchClusterCredentials,
+  ElasticsearchClusterConnection,
   useConnectionStore
 } from '../store/connection'
 import { DISTRIBUTIONS } from '../consts.ts'
@@ -26,7 +25,7 @@ const resetState = (state: Ref<TestConnectState>) => {
   }
 }
 
-export const useClusterConnection = (cluster: Ref<ElasticsearchCluster>) => {
+export const useClusterConnection = (formCluster: Ref<UnwrapRef<ElasticsearchClusterConnection>>) => {
   const t = useTranslation()
   const connectionStore = useConnectionStore()
   const { showSuccessSnackbar } = useSnackbar()
@@ -41,7 +40,7 @@ export const useClusterConnection = (cluster: Ref<ElasticsearchCluster>) => {
     resetState(connectState)
     testState.value.loading = true
 
-    const adapter = new ElasticsearchAdapter(cluster.value as ElasticsearchClusterCredentials)
+    const adapter = new ElasticsearchAdapter(formCluster.value)
     try {
       await adapter.test()
       testState.value.success = true
@@ -66,7 +65,7 @@ export const useClusterConnection = (cluster: Ref<ElasticsearchCluster>) => {
     resetState(connectState)
     connectState.value.loading = true
 
-    const adapter = new ElasticsearchAdapter(cluster.value as ElasticsearchClusterCredentials)
+    const adapter = new ElasticsearchAdapter(formCluster.value)
     try {
       const infoResponse: any = await adapter.test()
       const infoJson = await infoResponse.json()
@@ -82,20 +81,20 @@ export const useClusterConnection = (cluster: Ref<ElasticsearchCluster>) => {
         status = clusterHealthBody.status
       }
 
-      let uri = cluster.value.uri.trim()
+      let uri = formCluster.value.uri.trim()
       if (uri.endsWith('/')) uri = uri.slice(0, -1)
       const newIdx = connectionStore.addCluster({
-        name: cluster.value.name.trim(),
-        username: cluster.value.username,
-        password: cluster.value.password,
-        uri,
+        name: formCluster.value.name.trim(),
         clusterName: infoJson.cluster_name,
         version: infoJson.version.number,
         majorVersion: infoJson.version.number[0],
         distribution: infoJson.version.distribution || DISTRIBUTIONS.elasticsearch,
         uuid: clusterUuid(infoJson),
+        status,
+        loading: false,
+        uri,
         flavor,
-        status
+        auth: formCluster.value.auth
       })
 
       connectState.value.success = true

@@ -1,14 +1,25 @@
 import { genColumns } from '../../../helpers/tableColumns.ts'
 import { useTranslation } from '../../i18n.ts'
 import { ref } from 'vue'
-import { useConnectionStore } from '../../../store/connection.ts'
-import { newElasticsearchCluster } from '../../../helpers/newCluster.ts'
+import {
+  AuthType,
+  BuildFlavor,
+  ElasticsearchCluster,
+  ElasticsearchClusterAuth,
+  useConnectionStore
+} from '../../../store/connection.ts'
+import { DEFAULT_CLUSTER_NAME } from '../../../consts.ts'
 
 export type PredefinedCluster = {
-  name?: string,
-  username?: string,
-  password?: string,
+  name?: string
+  username?: string
+  password?: string
+  apiKey?: string
   uri: string
+  accessKeyId?: string
+  secretAccessKey?: string
+  sessionToken?: string
+  region?: string
 }
 
 export const usePredefinedClusters = () => {
@@ -28,7 +39,16 @@ export const usePredefinedClusters = () => {
 
     clusters.value = defaultClusters
         .filter((cluster: PredefinedCluster) => (cluster.uri && cluster.uri.length > 0))
-        .map((cluster: PredefinedCluster) => (Object.assign({}, { name: '', username: '', password: '' }, cluster)))
+        .map((cluster: PredefinedCluster) => (Object.assign({}, {
+          name: '',
+          username: '',
+          password: '',
+          apiKey: '',
+          accessKeyId: '',
+          secretAccessKey: '',
+          sessionToken: '',
+          region: ''
+        }, cluster)))
     selectedClusters.value = clusters.value
   }
   loadPredefinedClusters()
@@ -43,7 +63,9 @@ export const usePredefinedClusters = () => {
   ])
 
   const submit = () => {
-    importClusters(selectedClusters.value)
+    const connectionStore = useConnectionStore()
+    const newClusters = importClusters(selectedClusters.value, connectionStore.clusters)
+    newClusters.forEach(connectionStore.addCluster)
     window.location.reload()
   }
 
@@ -57,30 +79,106 @@ export const usePredefinedClusters = () => {
   }
 }
 
-const importClusters = (clusters: PredefinedCluster[]) => {
-  if (clusters.length === 0) return
+export const importClusters = (
+    inputClusters: PredefinedCluster[],
+    existingClusters: ElasticsearchCluster[]
+): ElasticsearchCluster[] => {
+  if (inputClusters.length === 0) return []
 
-  const connectionStore = useConnectionStore()
+  const result: ElasticsearchCluster[] = []
 
-  const missingClusters = clusters.filter(defaultCluster => {
-    const alreadyExists = connectionStore.clusters.some(existingCluster => {
-      if (compareClusters(existingCluster, defaultCluster)) {
-        return true
-      }
-    })
+  const emptyCluster: Partial<ElasticsearchCluster> = {
+    name: '',
+    uri: '',
+    clusterName: '',
+    version: '',
+    majorVersion: '',
+    distribution: '',
+    uuid: '',
+    status: '',
+    loading: false,
+    flavor: BuildFlavor.default
+  }
 
-    return !alreadyExists && defaultCluster.uri && defaultCluster.uri.length > 0
+  inputClusters.forEach(predefined => {
+    const alreadyExists = existingClusters.some(existing =>
+        compareClusters(existing, predefined)
+    )
+
+    if (alreadyExists || !predefined.uri?.length) return
+
+    const auth = buildAuth(predefined)
+
+    const newCluster: ElasticsearchCluster = {
+      ...emptyCluster,
+      ...predefined,
+      auth,
+      uri: predefined.uri,
+      name: predefined.name || DEFAULT_CLUSTER_NAME
+    } as ElasticsearchCluster
+
+    result.push(newCluster)
   })
 
-  const emptyCluster = newElasticsearchCluster()
-  missingClusters.forEach(missingCluster => {
-    connectionStore.addCluster(Object.assign({}, emptyCluster, missingCluster))
-  })
+  return result
 }
 
-const compareClusters = (a: PredefinedCluster, b: PredefinedCluster) => (
-    (!a.name || !b.name || a.name === b.name) &&
-    (!a.uri || !b.uri || a.uri === b.uri) &&
-    (!a.username || !b.username || a.username === b.username) &&
-    (!a.password || !b.password || a.password === b.password)
-)
+const buildAuth = (cluster: PredefinedCluster): ElasticsearchClusterAuth => {
+  const { username, password, apiKey, accessKeyId, secretAccessKey, sessionToken, region } = cluster
+
+  if (username?.length && password?.length) {
+    return {
+      authType: AuthType.basicAuth,
+      authData: { username, password }
+    }
+  }
+
+  if (password?.length) {
+    return {
+      authType: AuthType.apiKey,
+      authData: { apiKey: password }
+    }
+  }
+
+  if (apiKey?.length) {
+    return {
+      authType: AuthType.apiKey,
+      authData: { apiKey }
+    }
+  }
+
+  if (accessKeyId?.length && secretAccessKey?.length && region?.length) {
+    return {
+      authType: AuthType.awsIAM,
+      authData: {
+        accessKeyId,
+        secretAccessKey,
+        sessionToken,
+        region
+      }
+    }
+  }
+
+  return {
+    authType: AuthType.none,
+    authData: undefined
+  }
+}
+
+const compareClusters = (a: PredefinedCluster, b: PredefinedCluster): boolean => {
+  const fieldsToCompare = [
+    'name',
+    'uri',
+    'username',
+    'password',
+    'apiKey',
+    'accessKeyId',
+    'secretAccessKey',
+    'sessionToken',
+    'region'
+  ] as const
+
+  return fieldsToCompare.every(field =>
+      !a[field] || !b[field] || a[field] === b[field]
+  )
+}

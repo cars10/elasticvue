@@ -620,7 +620,7 @@
       }
     },
     "ssl_hint": {
-      "hint": "When using https make sure that your browser trusts the clusters ssl certificate.",
+      "hint": "Make sure your browser trusts the cluster's SSL certificate when using HTTPS.",
       "help": "Help"
     }
   },

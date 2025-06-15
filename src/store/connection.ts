@@ -5,8 +5,14 @@ export enum BuildFlavor {
   default = 'default'
 }
 
+export enum AuthType {
+  none = 'none',
+  basicAuth = 'basicAuth',
+  apiKey = 'apiKey',
+  awsIAM = 'awsIAM',
+}
+
 export type ElasticsearchCluster = {
-  name: string
   clusterName: string
   version: string
   majorVersion: string
@@ -15,12 +21,26 @@ export type ElasticsearchCluster = {
   status: string
   loading?: boolean
   flavor: BuildFlavor
-} & ElasticsearchClusterCredentials
+} & ElasticsearchClusterConnection
 
-export type ElasticsearchClusterCredentials = {
+export type ElasticsearchClusterConnection = {
+  name: string
   uri: string
-  username: string
-  password: string
+  auth: ElasticsearchClusterAuth
+}
+
+export type ElasticsearchClusterAuth = {
+  authType: AuthType.none,
+  authData: undefined
+} | {
+  authType: AuthType.basicAuth,
+  authData: { username: string, password: string }
+} | {
+  authType: AuthType.apiKey,
+  authData: { apiKey: string }
+} | {
+  authType: AuthType.awsIAM,
+  authData: { accessKeyId: string, secretAccessKey: string, sessionToken?: string, region: string }
 }
 
 export type ConnectionState = {
@@ -51,8 +71,9 @@ export const useConnectionStore = defineStore('connection', {
       this.activeClusterIndex = len - 1
       return this.activeClusterIndex
     },
-    updateCluster ({ cluster, index }: { cluster: ElasticsearchCluster, index: number }) {
-      this.clusters[index] = cluster
+    updateCluster ({ cluster, index }: { cluster: ElasticsearchClusterConnection, index: number }) {
+      const old = this.clusters[index]
+      this.clusters[index] = Object.assign({}, old, cluster)
     },
     removeCluster (index: number) {
       this.clusters.splice(index, 1)

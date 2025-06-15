@@ -9,12 +9,20 @@
   import { useTranslation } from '../../composables/i18n'
   import { reloadHomePage } from '../../helpers/router.ts'
   import { useRouter } from 'vue-router'
-  import { newElasticsearchCluster } from '../../helpers/newCluster.ts'
+  import { DEFAULT_CLUSTER_NAME, DEFAULT_CLUSTER_URI } from '../../consts.ts'
+  import { AuthType, ElasticsearchClusterConnection } from '../../store/connection.ts'
 
   const t = useTranslation()
   const { showSuccessSnackbar } = useSnackbar()
 
-  const newCluster = ref(newElasticsearchCluster())
+  const newCluster = ref({
+    name: DEFAULT_CLUSTER_NAME,
+    uri: DEFAULT_CLUSTER_URI,
+    auth: {
+      authType: AuthType.none,
+      authData: undefined
+    }
+  } as ElasticsearchClusterConnection)
   const router = useRouter()
   const connectCallback = (idx: number) => {
     showSuccessSnackbar({ title: t('setup.test_and_connect.connected') })

@@ -53,27 +53,33 @@ describe.concurrent('helpers/elasticsearchAdapter.ts', () => {
   })
 
   describe.concurrent('elasticsearchAdapter.ts uriWithCredentials', () => {
+    it('should stringify URI without username and password when both are undefined', () => {
+      const uri = 'http://localhost:9200/'
+      const result = uriWithCredentials({ uri, username: undefined, password: undefined })
+      expect(result).toBe('http://localhost:9200/')
+    })
+
     it('should stringify URI with username and password when username is non-zero length', () => {
       const uri = 'http://localhost:9200/'
-      const result = uriWithCredentials(uri, 'username', 'password')
+      const result = uriWithCredentials({ uri, username: 'username', password: 'password' })
       expect(result).toBe('http://username:password@localhost:9200/')
     })
 
     it('should not stringify URI with username and password when username is zero length', () => {
       const uri = 'http://localhost:9200/'
-      const result = uriWithCredentials(uri, '', 'password')
+      const result = uriWithCredentials({ uri, username: '', password: 'password' })
       expect(result).toBe(uri)
     })
 
     it('should replace embedded username and password when new username is non-zero length', () => {
       const uri = 'http://original_username:original_password@localhost:9200/'
-      const result = uriWithCredentials(uri, 'username', 'password')
+      const result = uriWithCredentials({ uri, username: 'username', password: 'password' })
       expect(result).toBe('http://username:password@localhost:9200/')
     })
 
     it('should replace username and retain password when new username is zero length', () => {
       const uri = 'http://original_username:original_password@localhost:9200/'
-      const result = uriWithCredentials(uri, '', 'password')
+      const result = uriWithCredentials({ uri, username: '', password: 'password' })
       expect(result).toBe('http://:original_password@localhost:9200/')
     })
   })
