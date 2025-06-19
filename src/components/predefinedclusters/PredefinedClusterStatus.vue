@@ -7,12 +7,19 @@
   import { checkClusterHealth } from '../../composables/components/home/ClusterHealth.ts'
   import { ref } from 'vue'
   import { ElasticsearchCluster } from '../../store/connection.ts'
+  import { buildAuth } from '../../composables/components/predefinedclusters/PredefinedClusters.ts'
 
   const props = defineProps<{ cluster: ElasticsearchCluster }>()
   const health = ref('unknown')
 
   const load = async () => {
-    health.value = await checkClusterHealth(props.cluster)
+    const auth = buildAuth(props.cluster)
+    const cluster = {
+      uri: props.cluster.uri,
+      name: props.cluster.name,
+      auth
+    }
+    health.value = await checkClusterHealth(cluster)
   }
   load()
 </script>

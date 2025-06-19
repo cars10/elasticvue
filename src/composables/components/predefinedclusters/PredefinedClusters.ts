@@ -123,7 +123,7 @@ export const importClusters = (
   return result
 }
 
-const buildAuth = (cluster: PredefinedCluster): ElasticsearchClusterAuth => {
+export const buildAuth = (cluster: PredefinedCluster): ElasticsearchClusterAuth => {
   const { username, password, apiKey, accessKeyId, secretAccessKey, sessionToken, region } = cluster
 
   if (username?.length && password?.length) {
