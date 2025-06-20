@@ -1,4 +1,4 @@
-import { AuthType, BuildFlavor, ElasticsearchCluster } from '../store/connection.ts'
+import { AuthType, BuildFlavor, ElasticsearchCluster, ElasticsearchClusterAuth } from '../store/connection.ts'
 
 export type OldElasticsearchCluster = {
   name: string
@@ -37,7 +37,7 @@ export const migrate = () => {
 export const migrateAuthType = (clusters: OldElasticsearchCluster[]): ElasticsearchCluster[] => {
   return clusters.map(cluster => {
     let authType: AuthType
-    let authData: any
+    let authData: unknown
 
     const { username, password, ...rest } = cluster
 
@@ -57,7 +57,7 @@ export const migrateAuthType = (clusters: OldElasticsearchCluster[]): Elasticsea
       auth: {
         authType,
         authData
-      }
+      } as ElasticsearchClusterAuth
     }
   })
 }

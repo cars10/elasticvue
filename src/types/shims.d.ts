@@ -10,7 +10,7 @@ declare module '*.svg' {
 
 declare module '*.vue' {
   import { DefineComponent } from 'vue'
-  const component: DefineComponent<object, object, any>
+  const component: DefineComponent<object, object, never>
   export default component
 }
 

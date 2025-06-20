@@ -477,19 +477,6 @@
       "authorization": "クラスターで認証を使用している場合",
       "restart": "その後、クラスターを再起動してください"
     },
-    "import_predefined_clusters": {
-      "heading": "事前定義されたクラスター",
-      "import": "クラスターをインポート | 1 つのクラスターをインポート | {count} 個のクラスターをインポート",
-      "table": {
-        "headers": {
-          "health": "健全性",
-          "cluster_name": "クラスター名",
-          "uri": "URI",
-          "username": "ユーザー名",
-          "password": "パスワード"
-        }
-      }
-    },
     "setup_instance": {
       "heading": "Elasticsearch クラスターを追加",
       "configure": "1. 設定",
@@ -513,13 +500,13 @@
         "uri": {
           "label": "URI"
         },
-        "accessKeyId": {
+        "access_key_id": {
           "label": "アクセスキー ID"
         },
-        "secretAccessKey": {
+        "secret_access_key": {
           "label": "シークレットアクセスキー"
         },
-        "sessionToken": {
+        "session_token": {
           "label": "セッショントークン（オプション）"
         },
         "region": {

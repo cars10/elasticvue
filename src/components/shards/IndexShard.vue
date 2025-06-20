@@ -16,7 +16,7 @@
 
   const props = withDefaults(defineProps<{
     shard: EsShard,
-    action?: any,
+    action?: (shard) => void,
     reRoutable?: boolean,
     outlined?: boolean
   }>(), {

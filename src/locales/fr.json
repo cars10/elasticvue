@@ -477,19 +477,6 @@
       "authorization": "et si votre cluster utilise l'autorisation",
       "restart": "alors, redémarrez votre cluster"
     },
-    "import_predefined_clusters": {
-      "heading": "Clusters prédéfinis",
-      "import": "Importer des clusters | Importer 1 cluster | Importer {count} clusters",
-      "table": {
-        "headers": {
-          "health": "État",
-          "cluster_name": "Nom du cluster",
-          "uri": "Uri",
-          "username": "Nom d'utilisateur",
-          "password": "Mot de passe"
-        }
-      }
-    },
     "setup_instance": {
       "heading": "Ajouter un cluster Elasticsearch",
       "configure": "1. Configurer",
@@ -513,13 +500,13 @@
         "uri": {
           "label": "Uri"
         },
-        "accessKeyId": {
+        "access_key_id": {
           "label": "ID de clé d'accès"
         },
-        "secretAccessKey": {
+        "secret_access_key": {
           "label": "Clé d'accès secrète"
         },
-        "sessionToken": {
+        "session_token": {
           "label": "Jeton de session (optionnel)"
         },
         "region": {

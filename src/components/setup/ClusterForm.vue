@@ -38,7 +38,7 @@
   import { useTranslation } from '../../composables/i18n.ts'
   import { ElasticsearchClusterConnection } from '../../store/connection.ts'
 
-  const props = defineProps<{ modelValue: ElasticsearchClusterConnection, connectCallback: any }>()
+  const props = defineProps<{ modelValue: ElasticsearchClusterConnection, connectCallback: (idx: number) => void }>()
   const cluster = ref(props.modelValue)
   const t = useTranslation()
 

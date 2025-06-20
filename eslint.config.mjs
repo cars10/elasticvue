@@ -6,9 +6,9 @@ import {
 import vueI18n from '@intlify/eslint-plugin-vue-i18n'
 
 export default defineConfigWithVueTs(
+  vueTsConfigs.recommended, // THIS HAS TO BE THE FIRST ENTRY!!!
   pluginVue.configs['flat/essential'],
   vueI18n.configs['flat/recommended'],
-  vueTsConfigs.recommended,
   {
     rules: {
       'semi': ['error', 'never'],

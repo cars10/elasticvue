@@ -20,7 +20,7 @@
     uri: DEFAULT_CLUSTER_URI,
     auth: {
       authType: AuthType.none,
-      authData: undefined
+      authData: {}
     }
   } as ElasticsearchClusterConnection)
   const router = useRouter()

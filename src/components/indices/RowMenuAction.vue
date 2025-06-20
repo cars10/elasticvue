@@ -16,7 +16,7 @@
 
   const props = defineProps<{
     method: ElasticsearchMethod,
-    methodParams: any,
+    methodParams: unknown,
     icon: string,
     text: string,
     growl?: string,

@@ -477,19 +477,6 @@
       "authorization": "и если ваш кластер использует авторизацию",
       "restart": "Затем перезапустите ваш кластер"
     },
-    "import_predefined_clusters": {
-      "heading": "Предопределенные кластеры",
-      "import": "Импортировать кластеры | Импортировать 1 кластер | Импортировать {count} кластеров",
-      "table": {
-        "headers": {
-          "health": "Состояние",
-          "cluster_name": "Имя кластера",
-          "uri": "URI",
-          "username": "Имя пользователя",
-          "password": "Пароль"
-        }
-      }
-    },
     "setup_instance": {
       "heading": "Добавить кластер Elasticsearch",
       "configure": "1. Настройка",
@@ -513,13 +500,13 @@
         "uri": {
           "label": "URI"
         },
-        "accessKeyId": {
+        "access_key_id": {
           "label": "ID ключа доступа"
         },
-        "secretAccessKey": {
+        "secret_access_key": {
           "label": "Секретный ключ доступа"
         },
-        "sessionToken": {
+        "session_token": {
           "label": "Токен сессии (необязательно)"
         },
         "region": {

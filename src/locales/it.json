@@ -477,19 +477,6 @@
       "authorization": "e se il tuo cluster utilizza l'autorizzazione",
       "restart": "Quindi riavvia il tuo cluster"
     },
-    "import_predefined_clusters": {
-      "heading": "Cluster predefiniti",
-      "import": "Importa cluster | Importa 1 cluster | Importa {count} cluster",
-      "table": {
-        "headers": {
-          "health": "Salute",
-          "cluster_name": "Nome cluster",
-          "uri": "Uri",
-          "username": "Nome utente",
-          "password": "Password"
-        }
-      }
-    },
     "setup_instance": {
       "heading": "Aggiungi cluster elasticsearch",
       "configure": "1. Configura",
@@ -513,13 +500,13 @@
         "uri": {
           "label": "Uri"
         },
-        "accessKeyId": {
+        "access_key_id": {
           "label": "ID chiave di accesso"
         },
-        "secretAccessKey": {
+        "secret_access_key": {
           "label": "Chiave di accesso segreta"
         },
-        "sessionToken": {
+        "session_token": {
           "label": "Token di sessione (opzionale)"
         },
         "region": {

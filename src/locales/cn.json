@@ -477,19 +477,6 @@
       "authorization": "如果你的集群使用授权",
       "restart": "然后重启你的集群"
     },
-    "import_predefined_clusters": {
-      "heading": "预设的批量集群",
-      "import": "导入集群 | 导入 1 个集群 | 导入 {count} 个集群",
-      "table": {
-        "headers": {
-          "health": "健康",
-          "cluster_name": "集群名称",
-          "uri": "uri",
-          "username": "用户名",
-          "password": "密码"
-        }
-      }
-    },
     "setup_instance": {
       "heading": "添加elasticsearch集群",
       "configure": "1. 配置",
@@ -513,13 +500,13 @@
         "uri": {
           "label": "地址"
         },
-        "accessKeyId": {
+        "access_key_id": {
           "label": "访问密钥 ID"
         },
-        "secretAccessKey": {
+        "secret_access_key": {
           "label": "秘密访问密钥"
         },
-        "sessionToken": {
+        "session_token": {
           "label": "会话令牌（可选）"
         },
         "region": {

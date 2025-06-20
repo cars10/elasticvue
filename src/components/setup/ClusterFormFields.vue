@@ -63,13 +63,13 @@
                     autocomplete="off"
                     outlined
                     :rules="[required]"
-                    :label="t('setup.test_and_connect.form.accessKeyId.label')"
+                    :label="t('setup.test_and_connect.form.access_key_id.label')"
                     class="q-mb-md" />
       <custom-input v-model="cluster.auth.authData.secretAccessKey"
                     autocomplete="off"
                     outlined
                     :rules="[required]"
-                    :label="t('setup.test_and_connect.form.secretAccessKey.label')"
+                    :label="t('setup.test_and_connect.form.secret_access_key.label')"
                     class="q-mb-md" />
       <custom-input v-model="cluster.auth.authData.region"
                     autocomplete="off"
@@ -80,7 +80,7 @@
       <custom-input v-model="cluster.auth.authData.sessionToken"
                     autocomplete="off"
                     outlined
-                    :label="t('setup.test_and_connect.form.sessionToken.label')"
+                    :label="t('setup.test_and_connect.form.session_token.label')"
                     class="q-mb-md" />
     </div>
 
