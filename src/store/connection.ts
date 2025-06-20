@@ -20,6 +20,7 @@ export type ElasticsearchCluster = {
   uuid: string
   status: string
   loading?: boolean
+  predefined?: boolean
   flavor: BuildFlavor
 } & ElasticsearchClusterConnection
 

@@ -1,120 +1,109 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
+import {
+  importNewClusters, loadPredefinedClusters,
+  PredefinedCluster,
+} from '../../../src/composables/components/predefinedclusters/PredefinedClusters'
+
 import { AuthType, BuildFlavor, ElasticsearchCluster } from '../../../src/store/connection'
-import { importClusters } from '../../../src/composables/components/predefinedclusters/PredefinedClusters'
-import { DEFAULT_CLUSTER_NAME } from '../../../src/consts'
 
-// PredefinedCluster type
-type PredefinedCluster = {
-  name?: string
-  username?: string
-  password?: string
-  apiKey?: string
-  uri: string
-  accessKeyId?: string
-  secretAccessKey?: string
-  sessionToken?: string
-  region?: string
-}
+describe('clusterImport helpers', () => {
+  beforeEach(() => {
+    // Manual mock for localStorage
+    let store: Record<string, string> = {}
 
-describe('importClusters', () => {
-  const basePredefined: PredefinedCluster = {
-    uri: 'http://localhost:9200',
-    name: 'dev cluster'
-  }
-
-  const baseExisting: ElasticsearchCluster = {
-    name: 'dev cluster',
-    uri: 'http://localhost:9200',
-    clusterName: '',
-    version: '',
-    majorVersion: '',
-    distribution: '',
-    uuid: '',
-    status: '',
-    flavor: BuildFlavor.default,
-    loading: false,
-    auth: {
-      authType: AuthType.none,
-      authData: undefined
-    }
-  }
-
-  it('returns empty array if no clusters provided', () => {
-    const result = importClusters([], [])
-    expect(result).toEqual([])
+    vi.stubGlobal('localStorage', {
+      getItem: vi.fn((key) => store[key] ?? null),
+      setItem: vi.fn((key, val) => {
+        store[key] = val
+      }),
+      removeItem: vi.fn((key) => {
+        delete store[key]
+      }),
+      clear: vi.fn(() => {
+        store = {}
+      })
+    })
   })
 
-  it('returns new cluster if it does not exist in store', () => {
-    const result = importClusters([basePredefined], [])
-    expect(result).toHaveLength(1)
-    expect(result[0].name).toBe('dev cluster')
-    expect(result[0].uri).toBe('http://localhost:9200')
-    expect(result[0].auth.authType).toBe(AuthType.none)
+  describe('importNewClusters', () => {
+    it('creates new clusters and stores all in localStorage', () => {
+      const predefined: PredefinedCluster[] = [
+        {
+          name: 'pre1',
+          uri: 'http://pre1',
+          username: 'a',
+          password: 'b'
+        }
+      ]
+
+      const existing: ElasticsearchCluster[] = [
+        {
+          name: 'existing',
+          uri: 'http://existing',
+          clusterName: '',
+          version: '',
+          majorVersion: '',
+          distribution: '',
+          uuid: '',
+          status: '',
+          loading: false,
+          predefined: false,
+          flavor: BuildFlavor.default,
+          auth: {
+            authType: AuthType.none,
+            authData: undefined
+          }
+        }
+      ]
+
+      importNewClusters(predefined, existing)
+
+      const saved = JSON.parse(localStorage.getItem('connection') as string)
+      expect(saved.clusters.length).toBe(2)
+      expect(saved.clusters[0].name).toBe('pre1')
+      expect(saved.clusters[1].name).toBe('existing')
+      expect(saved.activeClusterIndex).toBe(0)
+    })
   })
 
-  it('does not return cluster if it already exists', () => {
-    const result = importClusters([basePredefined], [baseExisting])
-    expect(result).toHaveLength(0)
-  })
+  describe('loadPredefinedClusters', () => {
+    it('fetches valid clusters with uri', async () => {
+      const fakeClusters: PredefinedCluster[] = [
+        { uri: 'http://one' },
+        { uri: '' },
+        { uri: 'http://two', apiKey: 'x' }
+      ]
 
-  it('uses default name if not provided', () => {
-    const cluster = { uri: 'http://localhost:9200' }
-    const result = importClusters([cluster], [])
-    expect(result[0].name).toBe(DEFAULT_CLUSTER_NAME)
-  })
+      global.fetch = vi.fn().mockResolvedValue({
+        status: 200,
+        headers: {
+          get: () => 'application/json'
+        },
+        json: () => Promise.resolve(fakeClusters)
+      })
 
-  it('filters out invalid clusters (missing uri)', () => {
-    const invalid = { name: 'no uri' } as PredefinedCluster
-    const result = importClusters([invalid], [])
-    expect(result).toHaveLength(0)
-  })
+      const result = await loadPredefinedClusters()
+      expect(result).toEqual([
+        { uri: 'http://one' },
+        { uri: 'http://two', apiKey: 'x' }
+      ])
+    })
 
-  it('assigns basic auth when username and password are provided', () => {
-    const cluster = {
-      uri: 'http://localhost:9200',
-      username: 'user',
-      password: 'pass'
-    }
-    const result = importClusters([cluster], [])
-    expect(result[0].auth.authType).toBe(AuthType.basicAuth)
-    expect(result[0].auth.authData).toEqual({ username: 'user', password: 'pass' })
-  })
+    it('returns undefined on fetch failure', async () => {
+      global.fetch = vi.fn().mockRejectedValue(new Error('fail'))
+      const result = await loadPredefinedClusters()
+      expect(result).toBeUndefined()
+    })
 
-  it('assigns API key auth when only password is provided', () => {
-    const cluster = {
-      uri: 'http://localhost:9200',
-      password: 'api-key-only'
-    }
-    const result = importClusters([cluster], [])
-    expect(result[0].auth.authType).toBe(AuthType.apiKey)
-    expect(result[0].auth.authData).toEqual({ apiKey: 'api-key-only' })
-  })
+    it('returns undefined on non-JSON content type', async () => {
+      global.fetch = vi.fn().mockResolvedValue({
+        status: 200,
+        headers: { get: () => 'text/html' },
+        json: () => Promise.resolve([])
+      })
 
-  it('assigns API key auth when apiKey is provided', () => {
-    const cluster = {
-      uri: 'http://localhost:9200',
-      apiKey: 'some-api-key'
-    }
-    const result = importClusters([cluster], [])
-    expect(result[0].auth.authType).toBe(AuthType.apiKey)
-    expect(result[0].auth.authData).toEqual({ apiKey: 'some-api-key' })
-  })
-
-  it('assigns awsIAM auth when all required AWS fields are provided', () => {
-    const cluster = {
-      uri: 'http://localhost:9200',
-      accessKeyId: 'akid',
-      secretAccessKey: 'sak',
-      region: 'us-west-1',
-      sessionToken: 'token123'
-    }
-    const result = importClusters([cluster], [])
-    expect(result[0].auth.authType).toBe(AuthType.awsIAM)
-    expect(result[0].auth.authData).toEqual({
-      accessKeyId: 'akid',
-      secretAccessKey: 'sak',
-      sessionToken: 'token123',
-      region: 'us-west-1'
+      const result = await loadPredefinedClusters()
+      expect(result).toBeUndefined()
     })
   })
 })

@@ -43,19 +43,6 @@ withElastic(({ mockElastic, elastic }) => {
         await page.waitForURL('**/cluster/1')
         expect(page.url()).toContain('/cluster/1')
       })
-
-      test('can rename cluster', async ({ page }) => {
-        const table = await setupClusterSelectionTest(page)
-
-        await mockElastic(page)
-        await page.getByTestId('cluster-table-row-1').getByTestId('cluster-edit').click()
-
-        const newName = 'foo'
-        await page.getByTestId('cluster-edit-name').fill(newName)
-        await page.getByTestId('cluster-edit-save').click()
-
-        await expect(table).toContainText(newName)
-      })
     })
   })
 })

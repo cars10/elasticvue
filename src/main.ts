@@ -9,13 +9,20 @@ import App from './App.vue'
 import './assets/stylesheets/style.scss'
 import { migrate } from './services/migrations.ts'
 import { setUuid } from './services/Uuid.ts'
+import { buildConfig } from './buildConfig.ts'
+import { importPredefinedClusters } from './composables/components/predefinedclusters/PredefinedClusters.ts'
 
-migrate()
-setUuid()
-const myApp = createApp(App)
+const setup = async () => {
+  migrate()
+  setUuid()
 
-myApp.use(Quasar, quasarOptions)
-myApp.use(pinia)
-myApp.use(vueI18n())
-myApp.use(router)
-myApp.mount('#app')
+  if (buildConfig.checkPredefinedClusters) await importPredefinedClusters()
+
+  const myApp = createApp(App)
+  myApp.use(Quasar, quasarOptions)
+  myApp.use(pinia)
+  myApp.use(vueI18n())
+  myApp.use(router)
+  myApp.mount('#app')
+}
+setup()

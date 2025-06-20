@@ -8,28 +8,53 @@ export const setupClusterConnection = async (page: Page) => {
       'clusters': [
         {
           'name': 'default cluster',
-          'username': '',
-          'password': '',
-          'uri': 'http://localhost:9200',
-          'status': 'green'
+          'uri': 'http://localhost:9200/',
+          'status': 'green',
+          'clusterName': '',
+          'version': '',
+          'majorVersion': '',
+          'distribution': 'elasticsearch',
+          'uuid': '',
+          'predefined': false,
+          'flavor': 'default',
+          'auth': {
+            'authType': 'basicAuth',
+            'authData': {
+              'username': '',
+              'password': ''
+            }
+          }
         },
         {
           'name': 'dev cluster',
           'username': '',
           'password': '',
           'uri': 'http://localhost:9200/',
-          'status': 'green'
+          'status': 'green',
+          'clusterName': '',
+          'version': '',
+          'majorVersion': '',
+          'distribution': 'elasticsearch',
+          'uuid': '',
+          'predefined': false,
+          'flavor': 'default',
+          'auth': {
+            'authType': 'basicAuth',
+            'authData': {
+              'username': '',
+              'password': ''
+            }
+          }
         }
       ],
       'activeClusterIndex': 0
     }
     window.localStorage.setItem('connection', JSON.stringify(connection))
-    window.localStorage.setItem('theme', '{"dark":true}')
   })
 
   await page.goto('http://localhost:5175')
 }
 
-export const openElasticvue = page => {
+export const openElasticvue = (page: Page) => {
   return page.goto('http://localhost:5175/')
 }

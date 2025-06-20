@@ -1,7 +1,6 @@
 <template>
   <div class="flex justify-between q-pa-sm q-ma-sm">
     <new-cluster />
-    <predefined-clusters v-if="buildConfig.checkPredefinedClusters" />
     <filter-input v-model="filter" data-testid="cluster-table-filter" />
   </div>
 
@@ -13,7 +12,7 @@
            :rows="clusters"
            :pagination="{sortBy: 'name'}"
            :rows-per-page-options="DEFAULT_ROWS_PER_PAGE">
-    <template #body="{row}">
+    <template #body="{row}: {row: ElasticsearchCluster & {index: number}}">
       <tr class="clickable" :data-testid="`cluster-table-row-${row.index}`" @click="loadCluster(row.index)">
         <td :title="t('cluster_selection.cluster_table.row.title', {uri: row.uri})">
           <div style="flex-shrink: 0" class="flex items-center">
@@ -58,9 +57,21 @@
           </div>
         </td>
         <td class="small-wrap">
-          <edit-cluster :index="row.index" />
-          <q-btn icon="delete" round flat size="sm" data-testid="cluster-delete"
-                 :title="t('defaults.delete')" @click.stop="removeInstance(row.index)" />
+          <div v-if="row.predefined">
+            <q-btn icon="edit" disabled round flat size="sm" />
+            <q-btn icon="delete" disabled round flat size="sm" />
+            <q-tooltip>
+              <div class="flex items-center" style="gap: 4px">
+                <q-icon name="warning" />
+                This cluster was setup by your administrator. You cannot change it directly.
+              </div>
+            </q-tooltip>
+          </div>
+          <div v-else>
+            <edit-cluster :index="row.index" />
+            <q-btn icon="delete" round flat size="sm" data-testid="cluster-delete"
+                   :title="t('defaults.delete')" @click.stop="removeInstance(row.index)" />
+          </div>
         </td>
       </tr>
     </template>
@@ -74,12 +85,10 @@
   import NewCluster from './NewCluster.vue'
   import { DEFAULT_ROWS_PER_PAGE, DISTRIBUTIONS } from '../../consts'
   import { useClusterTable } from '../../composables/components/clusterselection/ClusterTable'
-  import {BuildFlavor, useConnectionStore} from '../../store/connection'
+  import { BuildFlavor, ElasticsearchCluster, useConnectionStore } from '../../store/connection'
   import { useTranslation } from '../../composables/i18n.ts'
   import ClusterStatusIndicator from './ClusterStatusIndicator.vue'
   import UnsupportedVersion from './UnsupportedVersion.vue'
-  import PredefinedClusters from '../predefinedclusters/PredefinedClusters.vue'
-  import { buildConfig } from '../../buildConfig.ts'
 
   const t = useTranslation()
   const connectionStore = useConnectionStore()

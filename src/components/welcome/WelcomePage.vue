@@ -25,14 +25,6 @@
         </q-card-section>
 
         <q-card-section horizontal>
-          <template v-if="buildConfig.checkPredefinedClusters">
-            <q-card-section vertical class="full-width flex justify-center items-center q-pa-lg">
-              <predefined-clusters />
-            </q-card-section>
-
-            <q-separator vertical />
-          </template>
-
           <q-card-section vertical class="full-width flex justify-center items-center q-pa-lg">
             <setup-instance />
           </q-card-section>
@@ -52,9 +44,7 @@
   import { useLogo } from '../../composables/Logo'
   import ImportBackup from './ImportBackup.vue'
   import SetupInstance from '../setup/SetupInstance.vue'
-  import PredefinedClusters from '../predefinedclusters/PredefinedClusters.vue'
   import { useTranslation } from '../../composables/i18n.ts'
-  import { buildConfig } from '../../buildConfig.ts'
 
   const logo = useLogo()
   const t = useTranslation()

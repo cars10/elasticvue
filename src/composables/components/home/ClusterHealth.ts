@@ -55,11 +55,10 @@ export const checkHealth = async (cluster: ElasticsearchCluster) => {
     cluster.flavor = flavor
     if (!cluster.uuid || cluster.uuid.length === 0) cluster.uuid = clusterUuid(pingBody)
 
-    delete cluster.loading
   } catch (_e) {
     cluster.status = 'unknown'
-    delete cluster.loading
   }
+  cluster.loading = false
 }
 
 export const checkClusterHealth = async (credentials: ElasticsearchClusterConnection): Promise<string> => {
