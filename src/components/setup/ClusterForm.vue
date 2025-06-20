@@ -1,6 +1,6 @@
 <template>
-  <form @submit.prevent="testConnection">
-    <cluster-form-fields v-model="cluster" v-model:form-valid="formValid" />
+  <q-form @submit.prevent="testConnection" ref="form" greedy>
+    <cluster-form-fields v-model="cluster" />
 
     <q-separator class="q-my-lg" />
 
@@ -27,7 +27,7 @@
     <cluster-connection-errors v-if="testState.error || connectState.error"
                                :cluster="cluster"
                                :error-message="testState.errorMessage || connectState.errorMessage" />
-  </form>
+  </q-form>
 </template>
 
 <script setup lang="ts">
@@ -41,15 +41,7 @@
   const props = defineProps<{ modelValue: ElasticsearchClusterConnection, connectCallback: any }>()
   const cluster = ref(props.modelValue)
   const t = useTranslation()
-  const formValid = ref(true)
 
-  const connectAndRedirect = () => {
-    if (!formValid.value) return
-
-    connect().then(idx => props.connectCallback(idx))
-      .catch(() => {
-      })
-  }
   const emit = defineEmits(['update:modelValue'])
   watch(cluster, value => emit('update:modelValue', value))
 
@@ -57,6 +49,8 @@
     testState,
     connectState,
     testConnection,
-    connect
-  } = useClusterConnection(cluster)
+    connectAndRedirect,
+    form,
+    formValid
+  } = useClusterConnection(cluster, props.connectCallback)
 </script>

@@ -9,7 +9,7 @@
 
     <div class="q-mb-md">
       <custom-input v-model="cluster.name"
-                    required
+                    :rules="[required]"
                     :label="t('setup.test_and_connect.form.name.label')"
                     autocomplete="off"
                     outlined
@@ -22,6 +22,7 @@
       <div v-if="cluster.auth.authType === AuthType.basicAuth" class="col q-pr-md">
         <custom-input v-model="cluster.auth.authData.username"
                       outlined
+                      :rules="[required]"
                       :label="t('setup.test_and_connect.form.username.label')"
                       autocomplete="off" />
       </div>
@@ -30,6 +31,7 @@
         <custom-input v-model="cluster.auth.authData.password"
                       autocomplete="off"
                       outlined
+                      :rules="[required]"
                       :label="t('setup.test_and_connect.form.password.label')"
                       :type="passwordVisible ? 'text' : 'password'">
           <template #append>
@@ -44,6 +46,7 @@
         <custom-input v-model="cluster.auth.authData.apiKey"
                       autocomplete="off"
                       outlined
+                      :rules="[required]"
                       :label="t('setup.test_and_connect.form.api_key.label')"
                       :type="passwordVisible ? 'text' : 'password'">
           <template #append>
@@ -55,10 +58,35 @@
       </div>
     </div>
 
+    <div v-if="cluster.auth.authType === AuthType.awsIAM">
+      <custom-input v-model="cluster.auth.authData.accessKeyId"
+                    autocomplete="off"
+                    outlined
+                    :rules="[required]"
+                    :label="t('setup.test_and_connect.form.accessKeyId.label')"
+                    class="q-mb-md" />
+      <custom-input v-model="cluster.auth.authData.secretAccessKey"
+                    autocomplete="off"
+                    outlined
+                    :rules="[required]"
+                    :label="t('setup.test_and_connect.form.secretAccessKey.label')"
+                    class="q-mb-md" />
+      <custom-input v-model="cluster.auth.authData.region"
+                    autocomplete="off"
+                    outlined
+                    :rules="[required]"
+                    :label="t('setup.test_and_connect.form.region.label')"
+                    class="q-mb-md" />
+      <custom-input v-model="cluster.auth.authData.sessionToken"
+                    autocomplete="off"
+                    outlined
+                    :label="t('setup.test_and_connect.form.sessionToken.label')"
+                    class="q-mb-md" />
+    </div>
+
     <custom-input v-model="cluster.uri"
                   name="uri"
-                  :rules="[validateUri]"
-                  required
+                  :rules="[validateUri, required]"
                   outlined
                   :label="t('setup.test_and_connect.form.uri.label')">
       <template #append>
@@ -86,7 +114,7 @@
   import { buildConfig } from '../../buildConfig.ts'
   import CustomInput from '../shared/CustomInput.vue'
 
-  const props = defineProps<{ modelValue: ElasticsearchClusterConnection, formValid: boolean }>()
+  const props = defineProps<{ modelValue: ElasticsearchClusterConnection }>()
 
   const authorizationTypes = [
     { value: AuthType.none, label: 'No authorization' },
@@ -96,31 +124,6 @@
   ]
 
   const cluster = ref(props.modelValue)
-  watch(() => cluster.value.auth.authType, () => {
-    switch (cluster.value.auth.authType) {
-    case AuthType.none:
-      cluster.value.auth.authData = undefined
-      break
-    case AuthType.basicAuth:
-      cluster.value.auth.authData = {
-        username: '',
-        password: ''
-      }
-      break
-    case AuthType.apiKey:
-      cluster.value.auth.authData = {
-        apiKey: ''
-      }
-      break
-    case AuthType.awsIAM:
-      cluster.value.auth.authData = {
-        accessKeyId: '',
-        secretAccessKey: '',
-        sessionToken: '',
-        region: '',
-      }
-    }
-  })
 
   const passwordVisible = ref(false)
   const t = useTranslation()
@@ -128,15 +131,15 @@
     try {
       new URL(uri)
       if (/^https?:\/\/.*/.test(uri)) {
-        emit('update:formValid', true)
         return true
       }
     } catch (_e) {
-      emit('update:formValid', false)
       return 'Invalid uri'
     }
     return false
   }
+
+  const required = (val: string) => (!!val || 'required')
 
   const resetUri = () => (cluster.value.uri = DEFAULT_CLUSTER_URI)
   const ssl = computed(() => (/^https/.test(cluster.value.uri)))

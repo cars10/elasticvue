@@ -49,7 +49,7 @@ export const migrateAuthType = (clusters: OldElasticsearchCluster[]): Elasticsea
       authData = { apiKey: password }
     } else {
       authType = AuthType.none
-      authData = undefined
+      authData = {}
     }
 
     return {

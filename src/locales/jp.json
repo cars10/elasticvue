@@ -70,7 +70,8 @@
         "remove_cluster": {
           "confirm": "クラスター '{name}' ({uri}) を削除しますか？"
         },
-        "unsupported": "Elasticsearch {majorVersion} はサポート終了（EOL）であり、elasticvue で完全にはサポートされていません。バグや機能制限が発生する可能性があります。"
+        "unsupported": "Elasticsearch {majorVersion} はサポート終了（EOL）であり、elasticvue で完全にはサポートされていません。バグや機能制限が発生する可能性があります。",
+        "predefined": "このクラスターは管理者によって設定されました。直接変更することはできません。"
       }
     },
     "edit_cluster": {
@@ -511,6 +512,18 @@
         },
         "uri": {
           "label": "URI"
+        },
+        "accessKeyId": {
+          "label": "アクセスキー ID"
+        },
+        "secretAccessKey": {
+          "label": "シークレットアクセスキー"
+        },
+        "sessionToken": {
+          "label": "セッショントークン（オプション）"
+        },
+        "region": {
+          "label": "AWS リージョン"
         },
         "test_connection": "接続をテスト",
         "connect": "接続"

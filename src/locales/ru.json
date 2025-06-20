@@ -70,7 +70,8 @@
         "remove_cluster": {
           "confirm": "Удалить кластер '{name}' ({uri})?"
         },
-        "unsupported": "Elasticsearch {majorVersion} больше не поддерживается, и elasticvue не полностью совместим с этой версией. Возможны ошибки и ограниченная функциональность."
+        "unsupported": "Elasticsearch {majorVersion} больше не поддерживается, и elasticvue не полностью совместим с этой версией. Возможны ошибки и ограниченная функциональность.",
+        "predefined": "Этот кластер был настроен вашим администратором. Вы не можете изменить его напрямую."
       }
     },
     "edit_cluster": {
@@ -511,6 +512,18 @@
         },
         "uri": {
           "label": "URI"
+        },
+        "accessKeyId": {
+          "label": "ID ключа доступа"
+        },
+        "secretAccessKey": {
+          "label": "Секретный ключ доступа"
+        },
+        "sessionToken": {
+          "label": "Токен сессии (необязательно)"
+        },
+        "region": {
+          "label": "Регион AWS"
         },
         "test_connection": "Проверить подключение",
         "connect": "Подключиться"

@@ -70,7 +70,8 @@
         "remove_cluster": {
           "confirm": "移除集群 '{name}' ({uri})?"
         },
-        "unsupported": "Elasticsearch {majorVersion} 版本已经终止生命周期, elasticvue不保证完全支持. 您在使用过程中可能会遭遇bug或者功能受限."
+        "unsupported": "Elasticsearch {majorVersion} 版本已经终止生命周期, elasticvue不保证完全支持. 您在使用过程中可能会遭遇bug或者功能受限.",
+        "predefined": "此集群由您的管理员设置。您无法直接更改它。"
       }
     },
     "edit_cluster": {
@@ -511,6 +512,18 @@
         },
         "uri": {
           "label": "地址"
+        },
+        "accessKeyId": {
+          "label": "访问密钥 ID"
+        },
+        "secretAccessKey": {
+          "label": "秘密访问密钥"
+        },
+        "sessionToken": {
+          "label": "会话令牌（可选）"
+        },
+        "region": {
+          "label": "AWS 区域"
         },
         "test_connection": "测试连接",
         "connect": "连接"

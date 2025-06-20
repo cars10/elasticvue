@@ -63,7 +63,7 @@
             <q-tooltip>
               <div class="flex items-center" style="gap: 4px">
                 <q-icon name="warning" />
-                This cluster was setup by your administrator. You cannot change it directly.
+                {{ t('cluster_selection.cluster_table.row.predefined', { uri: row.uri }) }}
               </div>
             </q-tooltip>
           </div>

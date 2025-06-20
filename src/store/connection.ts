@@ -32,7 +32,7 @@ export type ElasticsearchClusterConnection = {
 
 export type ElasticsearchClusterAuth = {
   authType: AuthType.none,
-  authData: undefined
+  authData: object
 } | {
   authType: AuthType.basicAuth,
   authData: { username: string, password: string }
@@ -74,7 +74,7 @@ export const useConnectionStore = defineStore('connection', {
     },
     updateCluster ({ cluster, index }: { cluster: ElasticsearchClusterConnection, index: number }) {
       const old = this.clusters[index]
-      this.clusters[index] = Object.assign({}, old, cluster)
+      this.clusters[index] = cleanupClusterAuth(Object.assign({}, old, cluster))
     },
     removeCluster (index: number) {
       this.clusters.splice(index, 1)
@@ -105,3 +105,50 @@ export const useConnectionStore = defineStore('connection', {
   },
   persist: true
 })
+
+const cleanupClusterAuth = (cluster: ElasticsearchCluster): ElasticsearchCluster => {
+  switch (cluster.auth.authType) {
+    case AuthType.none:
+      return {
+        ...cluster,
+        auth: {
+          authType: AuthType.none,
+          authData: {}
+        }
+      }
+    case AuthType.basicAuth:
+      return {
+        ...cluster,
+        auth: {
+          authType: AuthType.basicAuth,
+          authData: {
+            username: cluster.auth.authData.username,
+            password: cluster.auth.authData.password
+          }
+        }
+      }
+    case AuthType.apiKey:
+      return {
+        ...cluster,
+        auth: {
+          authType: AuthType.apiKey,
+          authData: {
+            apiKey: cluster.auth.authData.apiKey
+          }
+        }
+      }
+    case AuthType.awsIAM:
+      return {
+        ...cluster,
+        auth: {
+          authType: AuthType.awsIAM,
+          authData: {
+            accessKeyId: cluster.auth.authData.accessKeyId,
+            secretAccessKey: cluster.auth.authData.secretAccessKey,
+            sessionToken: cluster.auth.authData.sessionToken,
+            region: cluster.auth.authData.region
+          }
+        }
+      }
+  }
+}

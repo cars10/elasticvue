@@ -70,7 +70,8 @@
         "remove_cluster": {
           "confirm": "Rimuovere il cluster '{name}' ({uri})?"
         },
-        "unsupported": "Elasticsearch {majorVersion} è EOL e non completamente supportato da elasticvue. Potresti riscontrare bug e funzionalità limitate."
+        "unsupported": "Elasticsearch {majorVersion} è EOL e non completamente supportato da elasticvue. Potresti riscontrare bug e funzionalità limitate.",
+        "predefined": "Questo cluster è stato configurato dal tuo amministratore. Non puoi modificarlo direttamente."
       }
     },
     "edit_cluster": {
@@ -511,6 +512,18 @@
         },
         "uri": {
           "label": "Uri"
+        },
+        "accessKeyId": {
+          "label": "ID chiave di accesso"
+        },
+        "secretAccessKey": {
+          "label": "Chiave di accesso segreta"
+        },
+        "sessionToken": {
+          "label": "Token di sessione (opzionale)"
+        },
+        "region": {
+          "label": "Regione AWS"
         },
         "test_connection": "Testa connessione",
         "connect": "Connetti"

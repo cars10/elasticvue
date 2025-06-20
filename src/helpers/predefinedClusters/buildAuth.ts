@@ -39,6 +39,6 @@ export const buildAuth = (cluster: PredefinedCluster): ElasticsearchClusterAuth 
 
   return {
     authType: AuthType.none,
-    authData: undefined
+    authData: {}
   }
 }

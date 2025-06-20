@@ -16,11 +16,10 @@
       <q-separator />
 
       <q-card-section>
-        <form @submit.prevent>
-          <cluster-form-fields v-model="cluster" v-model:form-valid="formValid" />
+        <q-form @submit.prevent ref="form" greedy>
+          <cluster-form-fields v-model="cluster"  />
 
           <q-btn :label="t('setup.test_and_connect.form.test_connection')"
-                 :disable="!formValid"
                  :loading="testState.loading"
                  color="primary-dark"
                  class="q-mr-md"
@@ -39,7 +38,7 @@
           <cluster-connection-errors v-if="testState.error"
                                      :cluster="cluster"
                                      :error-message="testState.errorMessage" />
-        </form>
+        </q-form>
       </q-card-section>
     </q-card>
   </q-dialog>
@@ -57,7 +56,6 @@
   const {
     dialog,
     cluster,
-    formValid,
     saveCluster,
     testConnection,
     testState

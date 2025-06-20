@@ -70,7 +70,8 @@
         "remove_cluster": {
           "confirm": "Supprimer le cluster '{name}' ({uri}) ?"
         },
-        "unsupported": "Elasticsearch {majorVersion} est en fin de vie et n'est pas entièrement pris en charge par Elasticvue. Vous pouvez rencontrer des bugs et des fonctionnalités limitées."
+        "unsupported": "Elasticsearch {majorVersion} est en fin de vie et n'est pas entièrement pris en charge par Elasticvue. Vous pouvez rencontrer des bugs et des fonctionnalités limitées.",
+        "predefined": "Ce cluster a été configuré par votre administrateur. Vous ne pouvez pas le modifier directement."
       }
     },
     "edit_cluster": {
@@ -511,6 +512,18 @@
         },
         "uri": {
           "label": "Uri"
+        },
+        "accessKeyId": {
+          "label": "ID de clé d'accès"
+        },
+        "secretAccessKey": {
+          "label": "Clé d'accès secrète"
+        },
+        "sessionToken": {
+          "label": "Jeton de session (optionnel)"
+        },
+        "region": {
+          "label": "Région AWS"
         },
         "test_connection": "Tester la connexion",
         "connect": "Connecter"

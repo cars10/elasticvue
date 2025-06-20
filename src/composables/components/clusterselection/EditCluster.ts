@@ -23,12 +23,11 @@ export const useEditCluster = (props: EditClusterProps) => {
   const cluster: Ref<ElasticsearchClusterConnection> = ref(getCluster(props.index))
   watch(() => props.index, (index) => (cluster.value = getCluster(index)))
 
-  const formValid = ref(true)
 
   const dialog = ref(false)
   const saveCluster = () => {
-    showSuccessSnackbar({ title: 'Cluster saved' })
     connectionStore.updateCluster({ cluster: cluster.value, index: props.index })
+    showSuccessSnackbar({ title: 'Cluster saved' })
     window.location.reload()
   }
 
@@ -40,7 +39,6 @@ export const useEditCluster = (props: EditClusterProps) => {
   return {
     dialog,
     cluster,
-    formValid,
     saveCluster,
     testConnection,
     testState
