@@ -69,6 +69,6 @@ describe('buildAuth', () => {
     const cluster: PredefinedCluster = { uri: 'http://localhost:9200' }
     const result = buildAuth(cluster)
 
-    expect(result).toEqual({ authType: AuthType.none, authData: undefined })
+    expect(result).toEqual({ authType: AuthType.none, authData: {} })
   })
 })
