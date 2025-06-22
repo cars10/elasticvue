@@ -46,7 +46,10 @@ export const useIndicesTable = (props: EsTableProps, emit: any) => {
 
   const filterTable = () => {
     let indices = results.value
-    if (indices.length === 0) return []
+    if (indices.length === 0) {
+      items.value = []
+      return
+    }
     if (!indicesStore.showHiddenIndices) {
       indices = indices.filter((item: any) => !item.index.match(new RegExp(indicesStore.hideIndicesRegex)))
     }

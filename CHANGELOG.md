@@ -5,6 +5,7 @@
 * adds support for connecting to elasticsearch with aws iam credentials, fixes [#304](https://github.com/cars10/elasticvue/pull/304)
 , thanks @ChrisMcKee
 * automatically import predefined clusters when using docker, fixes [#254](https://github.com/cars10/elasticvue/issues/254)
+* fix filtering indices
 
 ## 1.7.0
 
