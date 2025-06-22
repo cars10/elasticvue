@@ -2,8 +2,9 @@ import { invoke } from '@tauri-apps/api/core'
 import { buildConfig } from '../buildConfig.ts'
 import { parseJson } from './json/parse.ts'
 
-export const fetchReqwest = (resource: any, init: any) => {
-  return invoke('fetch_reqwest', { resource, init }).then((r: any) => new FetchReqwestResponse(r))
+export const fetchReqwest = async (resource: any, init: any) => {
+  const r: Response = await invoke('fetch_reqwest', { resource, init })
+  return new FetchReqwestResponse(r)
 }
 export const fetchMethod = buildConfig.tauri ? fetchReqwest : window.fetch
 

@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.8.0
+
+* adds support for connecting to elasticsearch with aws iam credentials, fixes [#304](https://github.com/cars10/elasticvue/pull/304)
+, thanks @ChrisMcKee
+* automatically import predefined clusters when using docker, fixes [#254](https://github.com/cars10/elasticvue/issues/254)
+
 ## 1.7.0
 
 * adds copy button to CORS settings

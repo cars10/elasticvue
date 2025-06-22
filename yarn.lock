@@ -2326,6 +2326,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"aws4fetch@npm:^1.0.20":
+  version: 1.0.20
+  resolution: "aws4fetch@npm:1.0.20"
+  checksum: 10c0/a4eac7bd0d1c3e611c17ed1ef41ac0b48c0a8e74a985ad968c071e74d94586d3572edc943b43fa5ca756c686ea73baa2f48e264d657bb8c2e95c8e0037d48a87
+  languageName: node
+  linkType: hard
+
 "balanced-match@npm:^1.0.0":
   version: 1.0.2
   resolution: "balanced-match@npm:1.0.2"
@@ -2799,6 +2806,7 @@ __metadata:
     "@vitejs/plugin-vue": "npm:^5.2.4"
     "@vue/eslint-config-typescript": "npm:^14.5.1"
     "@vue/tsconfig": "npm:^0.7.0"
+    aws4fetch: "npm:^1.0.20"
     codemirror: "npm:^6.0.2"
     cross-env: "npm:^7.0.3"
     eslint: "npm:^9.29.0"

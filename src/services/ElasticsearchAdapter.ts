@@ -3,7 +3,8 @@ import { REQUEST_DEFAULT_HEADERS } from '../consts'
 import { fetchMethod } from '../helpers/fetch'
 import { stringifyJson } from '../helpers/json/stringify.ts'
 import { cleanIndexName } from '../helpers/cleanIndexName.ts'
-import { ElasticsearchClusterConnection } from '../store/connection.ts'
+import { AuthType, ElasticsearchClusterConnection } from '../store/connection.ts'
+import { AwsClient } from 'aws4fetch'
 
 interface IndexGetArgs {
   routing?: string
@@ -18,10 +19,22 @@ const chunk = (array: any[], size: number) => {
 
 export default class ElasticsearchAdapter {
   uri: string
+  awsClient: AwsClient | null
   authHeader?: string
 
   constructor ({ uri, auth }: ElasticsearchClusterConnection) {
     this.uri = addTrailingSlash(uri)
+
+    if (auth.authType === AuthType.awsIAM) {
+      this.awsClient = new AwsClient({
+        accessKeyId: auth.authData.accessKeyId,
+        secretAccessKey: auth.authData.secretAccessKey,
+        sessionToken: auth.authData.sessionToken,
+        region: auth.authData.region,
+        service: 'es',
+      })
+    }
+
     this.authHeader = clusterAuthHeader(auth)
   }
 
@@ -275,7 +288,7 @@ export default class ElasticsearchAdapter {
     return this.request(`_snapshot/${repository}/${snapshot}`, 'GET')
   }
 
-  request (path: string, method: string, params?: any) {
+  async request (path: string, method: string, params?: any) {
     const url = new URL(this.uri + path)
 
     if (method === 'GET' && typeof params === 'object') {
@@ -288,11 +301,20 @@ export default class ElasticsearchAdapter {
     const options: RequestInit = {
       method,
       body: body && typeof body !== 'string' ? stringifyJson(body) : body,
-      headers: Object.assign({}, REQUEST_DEFAULT_HEADERS)
+      headers: { ...REQUEST_DEFAULT_HEADERS }
     }
 
-    // @ts-expect-error header definition
-    if (this.authHeader) options.headers['Authorization'] = this.authHeader
+    if (this.authHeader) {
+      // @ts-expect-error header definition
+      options.headers['Authorization'] = this.authHeader
+    } else if (this.awsClient) {
+      const signed = await this.awsClient.sign(url.toString(), options)
+      options.headers = {} as HeadersInit
+      signed.headers.forEach((value, key) => {
+        // @ts-expect-error header definition
+        options.headers[key] = value
+      })
+    }
 
     return new Promise((resolve, reject) => {
       return fetchMethod(url, options)

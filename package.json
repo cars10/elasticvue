@@ -31,6 +31,7 @@
     "@tauri-apps/plugin-opener": "^2.3.0",
     "@tauri-apps/plugin-process": "^2.2.2",
     "@tauri-apps/plugin-updater": "^2.8.1",
+    "aws4fetch": "^1.0.20",
     "codemirror": "^6.0.2",
     "idb": "^8.0.3",
     "json-bigint": "^1.0.0",

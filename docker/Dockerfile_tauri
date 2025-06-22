@@ -59,6 +59,7 @@ RUN apt-get update \
                           libxdo-dev \
                           libayatana-appindicator3-dev \
                           librsvg2-dev \
+                          xdg-utils \
     && apt-get install -y /tmp/ubuntu-packages/*.deb \
     && rm -rf /tmp/ubuntu-packages \
     && apt-get clean \
