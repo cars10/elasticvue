@@ -1,0 +1,703 @@
+{
+  "base": {
+    "app_footer": {
+      "homepage": "首頁"
+    },
+    "app_header": {
+      "navigation": {
+        "home": "首頁",
+        "nodes": "節點",
+        "indices": "索引",
+        "shards": "分片",
+        "search": "搜尋",
+        "rest": "REST",
+        "snapshots": "快照"
+      }
+    },
+    "language_switcher": {
+      "title": "切換語言",
+      "languages": {
+        "en": {
+          "title": "英文"
+        },
+        "cn": {
+          "title": "簡體中文"
+        },
+        "fr": {
+          "title": "法文"
+        },
+        "it": {
+          "title": "義大利文"
+        },
+        "ru": {
+          "title": "俄文"
+        },
+        "jp": {
+          "title": "日文"
+        },
+        "tw": {
+          "title": "正體中文"
+        }
+      }
+    },
+    "theme_switcher": {
+      "title": "切換主題"
+    }
+  },
+  "defaults": {
+    "filter": {
+      "label": "篩選..."
+    },
+    "cancel": "取消",
+    "close": "關閉",
+    "create": "建立",
+    "delete": "刪除",
+    "success": "成功",
+    "bulk": "批次操作",
+    "copy": "複製"
+  },
+  "cluster_selection": {
+    "cluster_selection": {
+      "connected_info": {
+        "title": "已連線至 '{activeInstanceName}' ({activeInstanceUri})"
+      }
+    },
+    "cluster_table": {
+      "headers": {
+        "cluster": "叢集",
+        "uri": "URI",
+        "version": "版本"
+      },
+      "row": {
+        "title": "連線至位於 '{uri}' 的叢集",
+        "remove_cluster": {
+          "confirm": "確定要移除叢集 '{name}' ({uri})？"
+        },
+        "unsupported": "Elasticsearch {majorVersion} 已終止支援 (EOL)，elasticvue 未完整支援。您可能會遇到程式錯誤和功能受限的問題。",
+        "predefined": "此叢集由您的管理員設定，您無法直接變更。"
+      }
+    },
+    "edit_cluster": {
+      "edit": {
+        "title": "編輯叢集"
+      },
+      "heading": "編輯叢集"
+    },
+    "new_cluster": {
+      "add_cluster": "新增叢集",
+      "heading": "新增 Elasticsearch 叢集"
+    }
+  },
+  "helpers": {
+    "import_export": {
+      "import_backup": {
+        "confirm": "確定嗎？匯入備份將會覆寫您目前的設定和已儲存的叢集！"
+      }
+    }
+  },
+  "home": {
+    "client_information": {
+      "heading": "叢集資訊"
+    },
+    "cluster_health": {
+      "heading": "叢集健康度"
+    }
+  },
+  "indices": {
+    "heading": "索引",
+    "index_aliases": {
+      "text": "別名",
+      "heading": "管理別名",
+      "index": "索引：{index}",
+      "form": {
+        "new_alias": {
+          "label": "新別名"
+        },
+        "add_alias": "新增別名"
+      },
+      "table": {
+        "headers": {
+          "alias": "別名"
+        }
+      },
+      "delete_alias": {
+        "confirm": "確定要刪除索引 '{index}' 的別名 '{alias}'？"
+      }
+    },
+    "index_reindex": {
+      "text": "重建索引",
+      "heading": "重建索引",
+      "index": "索引：{index}",
+      "form": {
+        "source": {
+          "label": "重建索引至..."
+        },
+        "reindex": "重建索引"
+      }
+    },
+    "index_row": {
+      "search": {
+        "title": "搜尋 '{index}'"
+      },
+      "shards": {
+        "title": "{pri} 主分片\n{rep} 複本分片"
+      },
+      "options": {
+        "show_info": "顯示資訊",
+        "show_stats": "顯示統計資料",
+        "forcemerge": {
+          "text": "強制合併所有索引 | 強制合併索引 | 強制合併 {count} 個索引",
+          "growl": "已成功合併索引 '{index}'."
+        },
+        "refresh": {
+          "text": "重新整理所有索引 | 重新整理索引 | 重新整理 {count} 個索引",
+          "growl": "已成功重新整理索引 '{index}'."
+        },
+        "flush": {
+          "text": "Flush 所有索引 | Flush 索引 | Flush {count} 個索引",
+          "growl": "已成功執行索引 '{index}' 的 Flush。"
+        },
+        "clear_cache": {
+          "text": "清除所有索引快取 | 清除索引快取 | 清除 {count} 個索引快取",
+          "growl": "已成功清除索引 '{index}' 的快取。"
+        },
+        "close": {
+          "text": "關閉索引 | 關閉索引 | 關閉 {count} 個索引",
+          "confirm": "確定要關閉索引 '{index}'？",
+          "growl": "已成功關閉索引 '{index}'."
+        },
+        "open": {
+          "text": "開啟索引 | 開啟索引 | 開啟 {count} 個索引",
+          "growl": "已成功開啟索引 '{index}'."
+        },
+        "delete_by_query": {
+          "text": "刪除所有文件",
+          "confirm": "確定要刪除索引 '{index}' 中的所有文件？這將會移除您索引中的所有資料！",
+          "growl": "已成功刪除索引 '{index}' 中的文件。"
+        },
+        "delete": {
+          "text": "刪除索引 | 刪除索引 | 刪除 {count} 個索引",
+          "confirm": "確定要刪除索引 '{index}'？",
+          "growl": "已成功刪除索引 '{index}'."
+        }
+      }
+    },
+    "indices_table": {
+      "show_hidden_indices": {
+        "label": "顯示隱藏的索引"
+      },
+      "sticky_table_header": {
+        "label": "固定表格標頭"
+      },
+      "table": {
+        "headers": {
+          "name": "名稱",
+          "status": "狀態",
+          "health": "健康度",
+          "uuid": "UUID",
+          "aliases": "別名",
+          "shards": "分片",
+          "segments": "區段",
+          "docs": "文件",
+          "storage": "儲存空間",
+          "created": "建立時間"
+        }
+      }
+    },
+    "new_index": {
+      "heading": "新增索引",
+      "form": {
+        "index_name": {
+          "label": "索引名稱"
+        },
+        "shards": {
+          "label": "分片數量"
+        },
+        "replicas": {
+          "label": "複本數量"
+        }
+      },
+      "create_index": {
+        "growl": "已成功建立索引 '{index}'."
+      }
+    }
+  },
+  "index_templates": {
+    "heading": "索引範本",
+    "endpoint": "端點",
+    "index_templates_table": {
+      "show_hidden_templates": {
+        "label": "顯示隱藏的範本"
+      },
+      "sticky_table_header": {
+        "label": "固定表格標頭"
+      },
+      "table": {
+        "headers": {
+          "name": "名稱",
+          "index_patterns": "索引模式"
+        }
+      }
+    }
+  },
+  "mixins": {
+    "test_connection": {
+      "cluster_reachable": "您的叢集可連線且設定正確。"
+    }
+  },
+  "cluster_nodes": {
+    "heading": "節點",
+    "node_icons": {
+      "master": {
+        "title": "主節點"
+      },
+      "master_eligible": {
+        "title": "具備主節點資格"
+      },
+      "data": {
+        "title": "資料節點"
+      },
+      "ingest": {
+        "title": "資料攝取節點"
+      },
+      "coordinating_only": {
+        "title": "僅協調節點"
+      }
+    },
+    "node_properties": {
+      "ip": "IP",
+      "id": "ID",
+      "master": "主節點",
+      "node_role": "節點角色",
+      "shards": "分片",
+      "attr": "屬性",
+      "load": "負載",
+      "cpu": "CPU 使用率",
+      "ram": "系統記憶體",
+      "heap": "JVM 堆積",
+      "disk": "磁碟",
+      "name": "名稱",
+      "status": "狀態",
+      "version": "版本"
+    }
+  },
+  "query": {
+    "heading": "REST",
+    "api_documentation": "API 文件",
+    "rest": {
+      "history": "歷史紀錄",
+      "form": {
+        "method": {
+          "label": "HTTP 方法"
+        },
+        "path": {
+          "label": "路徑"
+        },
+        "send_request": "傳送請求",
+        "save_request": "儲存",
+        "download_as_json": "下載回應內容",
+        "paste_kibana": "貼上 Kibana 主控台查詢"
+      },
+      "get_request_hint": {
+        "cannot_send_body": "您無法透過 {method} 傳送請求內文。<br> 請",
+        "use_post": "使用 POST",
+        "query_parameters": "如果您想傳送請求內文。",
+        "search_post": "您可以使用 POST 搭配 _search 端點進行搜尋。"
+      }
+    },
+    "rest_query_history": {
+      "table": {
+        "headers": {
+          "query": "查詢",
+          "timestamp": "時間戳記"
+        }
+      },
+      "body_preview": {
+        "use": "在目前分頁使用",
+        "open_new_tab": "在新分頁中開啟"
+      }
+    },
+    "rest_query_examples": {
+      "heading": "查詢範例",
+      "table": {
+        "headers": {
+          "query": "查詢",
+          "description": "描述"
+        },
+        "row": {
+          "use": "使用"
+        }
+      }
+    }
+  },
+  "repositories": {
+    "heading": "快照儲存庫",
+    "new_repository": {
+      "heading": "新增儲存庫",
+      "form": {
+        "name": {
+          "label": "儲存庫名稱*"
+        },
+        "type": {
+          "label": "儲存庫類型*"
+        },
+        "bucket": {
+          "label": "S3 儲存貯體*"
+        },
+        "client": {
+          "label": "S3 用戶端"
+        },
+        "protocol": {
+          "label": "協定*"
+        },
+        "region": {
+          "label": "S3 區域"
+        },
+        "path_style_access": {
+          "label": "路徑樣式存取"
+        },
+        "location": {
+          "label": "儲存庫位置*"
+        },
+        "chunk_size": {
+          "label": "區塊大小"
+        },
+        "max_restore_bytes_per_sec": {
+          "label": "每秒最大還原位元組數"
+        },
+        "max_snapshot_bytes_per_sec": {
+          "label": "每秒最大快照位元組數"
+        },
+        "compress": {
+          "label": "壓縮"
+        },
+        "readonly": {
+          "label": "唯讀"
+        }
+      },
+      "create_repository": {
+        "growl": "已成功建立儲存庫 '{repositoryName}'."
+      }
+    },
+    "repositories_table": {
+      "table": {
+        "headers": {
+          "name": "名稱",
+          "type": "類型",
+          "settings": "設定"
+        }
+      },
+      "delete_repository": {
+        "confirm": "確定要刪除儲存庫 '{name}' 及其中的所有快照？",
+        "growl": "已成功刪除儲存庫 '{name}'."
+      }
+    }
+  },
+  "search": {
+    "heading": "搜尋",
+    "form": {
+      "query": {
+        "label": "搜尋"
+      },
+      "search_examples": {
+        "button": "搜尋範例",
+        "hint": "搜尋範例，詳情請參閱 <a tabindex='-1' target='_blank' rel='noopener' href='https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html'>Query string 查詢</a>"
+      },
+      "search": "搜尋",
+      "customize_query": {
+        "button": "自訂搜尋",
+        "reset": "重設查詢"
+      }
+    },
+    "search_result": {
+      "delete": {
+        "text": "# | 刪除文件 | 刪除文件",
+        "confirm": "# | 您確定要刪除此文件嗎？ | 您確定要刪除 {count} 份文件嗎？",
+        "growl": "# | 文件已成功刪除。 | 文件已成功刪除。"
+      }
+    },
+    "results_table": {
+      "settings": {
+        "columns": "欄位"
+      },
+      "download_as_json": "下載為 JSON"
+    },
+    "edit_document": {
+      "update": {
+        "text": "更新文件",
+        "growl": "文件更新成功。"
+      }
+    }
+  },
+  "settings": {
+    "heading": "設定",
+    "hide_indices_regex": {
+      "label": "隱藏索引的正規表示式",
+      "message": "符合此正規表示式的索引將在所有列出索引的地方預設隱藏",
+      "reset": "重設為預設值 {regex}"
+    },
+    "hide_nodes_attributes_regex": {
+      "label": "隱藏節點屬性的正規表示式",
+      "message": "符合此正規表示式的節點屬性將在節點總覽中預設隱藏",
+      "reset": "重設為預設值 {regex}"
+    },
+    "document_field_max_length": {
+      "label": "文件欄位最大長度",
+      "message": "搜尋結果中文件欄位值的最大長度，超過部分將被截斷。",
+      "reset": "重設為預設值 {value}"
+    },
+    "localize_timestamp": {
+      "label": "在搜尋結果中本地化 '{'@'}timestamp' 欄位的值"
+    },
+    "disconnect_and_reset": {
+      "heading": "中斷連線並重設所有設定",
+      "button": "中斷連線並重設",
+      "confirm": "確定嗎？這將會刪除 elasticvue 儲存的所有資料！您將需要重新連線到您的叢集。"
+    },
+    "import_export": {
+      "heading": "匯入/匯出 elasticvue 資料",
+      "message": "您可以將您的 elasticvue 設定匯入和匯出為 JSON。這<strong>不是</strong>您叢集資料的備份，如果您需要備份索引，請使用快照。",
+      "export": {
+        "heading": "匯出",
+        "included": "包含哪些內容？",
+        "download": "下載備份"
+      },
+      "import": {
+        "heading": "匯入",
+        "select_file": "選擇檔案...",
+        "import": "匯入備份"
+      }
+    },
+    "editor_vim_mode": {
+      "label": "在編輯器中使用 Vim 按鍵綁定"
+    }
+  },
+  "setup": {
+    "configure": {
+      "heading": "1. 設定",
+      "introduction": "您必須設定 CORS 才能使用 elasticvue 網頁版。請將以下幾行新增至您的",
+      "allow_cors": "允許來自 {domain} 的 CORS 請求",
+      "authorization": "且如果您的叢集使用授權",
+      "restart": "然後重新啟動您的叢集"
+    },
+    "setup_instance": {
+      "heading": "新增 Elasticsearch 叢集",
+      "configure": "1. 設定",
+      "connect": "2. 連線"
+    },
+    "test_and_connect": {
+      "heading": "2. 連線",
+      "form": {
+        "name": {
+          "label": "叢集名稱"
+        },
+        "username": {
+          "label": "使用者名稱"
+        },
+        "password": {
+          "label": "密碼"
+        },
+        "api_key": {
+          "label": "編碼過的 API 金鑰"
+        },
+        "uri": {
+          "label": "URI"
+        },
+        "access_key_id": {
+          "label": "存取金鑰 ID"
+        },
+        "secret_access_key": {
+          "label": "私密存取金鑰"
+        },
+        "session_token": {
+          "label": "工作階段權杖 (選用)"
+        },
+        "region": {
+          "label": "AWS 區域"
+        },
+        "test_connection": "測試連線",
+        "connect": "連線"
+      },
+      "connected": "成功連線。"
+    }
+  },
+  "shards": {
+    "heading": "分片",
+    "health": "健康度",
+    "shards_table": {
+      "cancel_relocation": "取消重新路由",
+      "reroute": {
+        "confirm": "確定要將分片 '{shard}' 從節點 '{fromNode}' 重新路由至 '{toNode}'？"
+      }
+    }
+  },
+  "shard_recovery": {
+    "heading": "分片復原"
+  },
+  "shard_recovery_table": {
+    "stage": "階段",
+    "columns": {
+      "index": "索引",
+      "stage": "階段",
+      "source": "來源",
+      "target": "目標",
+      "time": "時間",
+      "duration": "持續時間",
+      "files": "檔案",
+      "bytes": "位元組",
+      "translog_ops": "交易日誌操作"
+    }
+  },
+  "shared": {
+    "cluster_connection_errors": {
+      "connection_error": "連線錯誤",
+      "cant_connect": "無法連線至您的叢集。",
+      "please_check": "請確定",
+      "checklist": {
+        "reachable": "您的叢集可透過以下方式連線",
+        "ssl": "您的瀏覽器信任該叢集的 SSL 憑證",
+        "cors": "您已啟用 CORS 並重新啟動您的叢集"
+      }
+    },
+    "index_filter": {
+      "use_index_pattern": "使用索引模式",
+      "use_index_select": "選取索引",
+      "index_pattern": {
+        "input": {
+          "label": "索引模式"
+        },
+        "matched_indices": "符合 {count} 個索引"
+      },
+      "index_select": {
+        "select_indices": {
+          "label": "選取索引"
+        },
+        "indices_selected": "個索引已選取",
+        "select_all": {
+          "text": "全選"
+        },
+        "deselect_all": {
+          "text": "全部取消選取"
+        }
+      }
+    },
+    "table_bottom": {
+      "rows_per_page": {
+        "confirm": "警告：確定嗎？一次顯示 {value} 個項目可能會導致問題或凍結。建議使用搜尋/篩選功能來限制結果。"
+      }
+    },
+    "table_settings": {
+      "reset": "重設",
+      "clear": "清除"
+    },
+    "authorization_header_hint": "請確定 \"http.cors.allow-headers\" 已設定",
+    "code_editor": {
+      "actions": {
+        "beautify": {
+          "title": "美化 (Ctrl+ALT+L)",
+          "text": "美化"
+        },
+        "wrap_lines": {
+          "label": "自動換行",
+          "title": "自動換行"
+        },
+        "collapse_all": {
+          "title": "摺疊"
+        },
+        "expand_all": {
+          "title": "展開"
+        }
+      }
+    },
+    "loader": {
+      "copy_error": "複製錯誤",
+      "network_error": "網路錯誤，無法存取您的叢集。",
+      "cluster_uri": "叢集 URI："
+    },
+    "reload_button": {
+      "reload": "重新載入"
+    },
+    "timer": {
+      "settings": {
+        "title": "自動重新載入"
+      }
+    },
+    "ssl_hint": {
+      "hint": "使用 HTTPS 時，請確定您的瀏覽器信任叢集的 SSL 憑證。",
+      "help": "說明"
+    }
+  },
+  "snapshots": {
+    "heading": "儲存庫 '{name}' 的快照",
+    "new_snapshot": {
+      "heading": "新增快照",
+      "form": {
+        "snapshot_name": {
+          "label": "快照名稱"
+        }
+      },
+      "create_snapshot": {
+        "growl": "已成功建立快照 '{name}'."
+      }
+    },
+    "restore_snapshot": {
+      "heading": "還原 '{name}'",
+      "form": {
+        "ignore_unavailable": {
+          "label": "忽略不可用"
+        },
+        "include_global_state": {
+          "label": "包含全域狀態"
+        },
+        "rename_pattern": {
+          "label": "重新命名模式"
+        },
+        "rename_replacement": {
+          "label": "重新命名取代字串"
+        },
+        "restore": "還原"
+      },
+      "restore_snapshot": {
+        "growl": "已成功還原快照 '{snapshot}'."
+      }
+    },
+    "snapshot": {
+      "indices": "{count} 個索引",
+      "delete": {
+        "confirm": "確定要刪除快照 '{snapshot}'？",
+        "growl": "已成功刪除快照 '{snapshot}'."
+      }
+    },
+    "snapshots_table": {
+      "table": {
+        "headers": {
+          "status": "狀態",
+          "start_time": "開始時間",
+          "end_time": "結束時間",
+          "duration": "持續時間",
+          "indices": "索引",
+          "successful_shards": "成功的分片",
+          "failed_shards": "失敗的分片",
+          "total_shards": "總分片數"
+        }
+      }
+    }
+  },
+  "update_check": {
+    "downloading": "正在下載... {progress}%",
+    "heading": "elasticvue 有新版本可供使用。",
+    "installing": "正在安裝更新，請稍候...",
+    "update_info": "Elasticvue {version} 已可供使用。要立即安裝嗎？",
+    "yes": "是"
+  },
+  "welcome": {
+    "import_backup": {
+      "heading": "匯入 elasticvue 備份"
+    },
+    "welcome_page": {
+      "intro": "最快、最友善的 Elasticsearch 圖形介面",
+      "first_time": "這似乎是您第一次使用 elasticvue。",
+      "add_clusters": "開始使用時，可以新增您的第一個叢集，或匯入現有 elasticvue 設定的備份。"
+    }
+  }
+}
