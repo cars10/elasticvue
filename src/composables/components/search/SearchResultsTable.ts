@@ -119,7 +119,7 @@ export const useSearchResultsTable = (props: SearchResultsTableProps, emit: any)
   })
 
   const sortColumnsByOrder = (columns: any[]) => {
-    return columns.sort((a, b) => {
+    return [...columns].sort((a, b) => {
       const indexA = searchStore.pagination.columnOrder.indexOf(a.name)
       const indexB = searchStore.pagination.columnOrder.indexOf(b.name)
       
@@ -139,7 +139,7 @@ export const useSearchResultsTable = (props: SearchResultsTableProps, emit: any)
   })
 
   const orderedVisibleColumns = computed((): string[] => {
-    return searchStore.visibleColumns.sort((a, b) => {
+    return [...searchStore.visibleColumns].sort((a, b) => {
       const indexA = searchStore.pagination.columnOrder.indexOf(a)
       const indexB = searchStore.pagination.columnOrder.indexOf(b)
       

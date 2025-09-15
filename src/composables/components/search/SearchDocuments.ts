@@ -60,28 +60,13 @@ export const useSearchDocuments = () => {
   watch(() => (searchStore.q), value => {
     mergeQuery({ query: { query_string: { query: value } } })
   })
-
-  watch(
-    () => searchStore.pagination.columnSorts.map((sort:ColumnSort) => ({ ...sort })),
-    (newSorts, oldSorts) => {
-      if (JSON.stringify(newSorts) !== JSON.stringify(oldSorts)) {
-        const query = parseJson(searchStore.searchQuery)
-        Object.assign(query, buildQueryFromTableOptions(searchStore.pagination, searchStore.pagination.columnSorts))
-        searchStore.searchQuery = stringifyJson(query)
-        search()
-      }
-    },
-    { deep: false }
-  )
-  watch(() => searchStore.pagination.columnSorts, (newSorts, oldSorts) => {
-    console.log('Column sorts changed:', newSorts)
-    console.log('Old sorts:', oldSorts)
-    if (JSON.stringify(newSorts) !== JSON.stringify(oldSorts)) {
+  
+  watch(() => searchStore.pagination.columnSorts,
+  () => {
       const query = parseJson(searchStore.searchQuery)
       Object.assign(query, buildQueryFromTableOptions(searchStore.pagination, searchStore.pagination.columnSorts))
       searchStore.searchQuery = stringifyJson(query)
       search()
-    }
   }, { deep: true })
 
   const onRequest = ({ pagination }: any) => {
@@ -154,8 +139,8 @@ export const buildQueryFromTableOptions = (pagination: any, columnSorts: any[] =
 
   if (oldsort && oldorder) {
     const sortOptions = {}
-    // @ts-expect-error any
-    sortOptions[oldsort] = { oldorder }
+     // @ts-expect-error any
+    sortOptions[oldsort] = { order: oldorder }
     sortArray.push(sortOptions)
   }
   
