@@ -419,6 +419,17 @@
       },
       "download_as_json": "Download as json"
     },
+    "context_menu": {
+      "copy_row_json": "Copy row as JSON",
+      "copy_cell_content": "Copy cell content",
+      "copy_row_id": "Copy row ID",
+      "copy_selected_rows_json": "Copy {count} selected rows as JSON",
+      "row_copied": "Row copied to clipboard",
+      "cell_copied": "Cell content copied",
+      "id_copied": "ID copied to clipboard",
+      "selected_rows_copied": "{count} rows copied to clipboard",
+      "edit_row_json": "Edit row as JSON"
+    },
     "edit_document": {
       "update": {
         "text": "Update document",
@@ -585,7 +596,13 @@
     },
     "table_settings": {
       "reset": "reset",
-      "clear": "clear"
+      "clear": "clear",
+      "reset_order": "Reset Order",
+      "clear_sorts": "Clear Sorts",
+      "move_to_top": "Move to top",
+      "move_up": "Move up",
+      "move_down": "Move down",
+      "move_to_bottom": "Move to bottom"
     },
     "authorization_header_hint": "Make sure that \"http.cors.allow-headers\" is configured",
     "code_editor": {

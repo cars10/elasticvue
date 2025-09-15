@@ -10,7 +10,7 @@ export const genColumns = (options: ColumnOptions[]): any[] => {
       label,
       field,
       name: field,
-      sortable: !!field,
+      sortableCol: !!field,
       align: align || 'left',
     }
   })

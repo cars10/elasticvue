@@ -1,6 +1,6 @@
 import { computed, Ref, ref, watch } from 'vue'
 import { useResizeStore } from '../../../store/resize.js'
-import { useSearchStore } from '../../../store/search.ts'
+import { ColumnSort, useSearchStore } from '../../../store/search.ts'
 import { useElasticsearchAdapter } from '../../CallElasticsearch.ts'
 import { useSelectableRows } from '../../SelectableRow.ts'
 import SearchResults from '../../../models/SearchResults.ts'
@@ -75,7 +75,7 @@ export const useSearchResultsTable = (props: SearchResultsTableProps, emit: any)
     tableColumns.value = results.uniqueColumns.map(field => {
       const filterableCol = sortableField(field, allProperties[field])
 
-      return { label: field, field, name: filterableCol || field, sortable: !!filterableCol, align: 'left' }
+      return { label: field, field, name: filterableCol || field, sortableCol: !!filterableCol, align: 'left' }
     })
     tableColumns.value.push({ label: '', name: 'actions' })
 
@@ -85,23 +85,117 @@ export const useSearchResultsTable = (props: SearchResultsTableProps, emit: any)
     const removedColumns = oldColumns.filter(c => !newColumnsList.includes(c))
 
     searchStore.columns = newColumnsList
-    searchStore.visibleColumns = searchStore.visibleColumns.filter(c => !removedColumns.includes(c)).concat(addedColumns)
+    
+    if (searchStore.pagination.columnOrder.length === 0) {
+      searchStore.pagination.columnOrder = newColumnsList
+    } else {
+      const existingOrder = searchStore.pagination.columnOrder.filter((col:any) => newColumnsList.includes(col))
+      const newOrder = addedColumns.filter(col => !existingOrder.includes(col))
+      searchStore.pagination.columnOrder = [...existingOrder, ...newOrder]
+    }
+    
+    const updatedVisibleColumns = searchStore.visibleColumns.filter(c => !removedColumns.includes(c)).concat(addedColumns)
+    searchStore.visibleColumns = updatedVisibleColumns.sort((a, b) => {
+      const indexA = searchStore.pagination.columnOrder.indexOf(a)
+      const indexB = searchStore.pagination.columnOrder.indexOf(b)
+      
+      if (indexA === -1) return 1
+      if (indexB === -1) return -1
+      
+      return indexA - indexB
+    })
 
     hits.value = results.docs
   })
 
   const filteredHits = computed(() => {
-    if (searchStore.filter.trim().length === 0) return hits.value
-
-    return filterItems(hits.value, searchStore.filter, tableColumns.value.map(c => c.field))
+    let result = hits.value
+    
+    if (searchStore.filter.trim().length > 0) {
+      result = filterItems(result, searchStore.filter, tableColumns.value.map(c => c.field))
+    }
+    
+    return result
   })
 
-  const slicedTableColumns = computed((): any[] => (tableColumns.value.slice(0, -1)))
+  const sortColumnsByOrder = (columns: any[]) => {
+    return columns.sort((a, b) => {
+      const indexA = searchStore.pagination.columnOrder.indexOf(a.name)
+      const indexB = searchStore.pagination.columnOrder.indexOf(b.name)
+      
+      if (indexA === -1) return 1
+      if (indexB === -1) return -1
+      
+      return indexA - indexB
+    })
+  }
+
+  const slicedTableColumns = computed((): any[] => {
+    return sortColumnsByOrder([...tableColumns.value.slice(0, -1)])
+  })
+
+  const orderedTableColumns = computed((): any[] => {
+    return sortColumnsByOrder([...tableColumns.value])
+  })
+
+  const orderedVisibleColumns = computed((): string[] => {
+    return searchStore.visibleColumns.sort((a, b) => {
+      const indexA = searchStore.pagination.columnOrder.indexOf(a)
+      const indexB = searchStore.pagination.columnOrder.indexOf(b)
+      
+      if (indexA === -1) return 1
+      if (indexB === -1) return -1
+      
+      return indexA - indexB
+    })
+  })
 
   const onRequest = (pagination: any) => (emit('request', pagination))
-  const clearColumns = () => (searchStore.visibleColumns = ['actions'])
-  const resetColumns = () => (searchStore.visibleColumns = tableColumns.value.map(c => c.name))
+  const clearColumns = () => {
+    searchStore.visibleColumns = ['actions']
+  }
+  
+  const resetColumns = () => {
+    const allColumns = tableColumns.value.map(c => c.name)
+    searchStore.visibleColumns = allColumns.sort((a, b) => {
+      const indexA = searchStore.pagination.columnOrder.indexOf(a)
+      const indexB = searchStore.pagination.columnOrder.indexOf(b)
+      
+      if (indexA === -1) return 1
+      if (indexB === -1) return -1
+      
+      return indexA - indexB
+    })
+  }
   const generateDownloadData = () => (stringifyJson(props.results))
+
+  const updateColumnOrder = (newOrder: string[]) => {
+    searchStore.pagination.columnOrder = newOrder
+  }
+
+  const resetColumnOrder = () => {
+    searchStore.pagination.columnOrder = tableColumns.value.map(c => c.name)
+  }
+
+  const toggleColumnSort = (column: string) => {
+    searchStore.toggleColumnSort(column)
+  }
+
+  const clearAllSorts = () => {
+    searchStore.clearAllSorts()
+  }
+
+  const getColumnSortOrder = (column: string) => {
+    const sort: ColumnSort | undefined = searchStore.pagination.columnSorts.find((s: ColumnSort) => s.column === column)
+    return sort ? sort.order : null
+  }
+
+  const getColumnSortPriority = (column: string) => {
+    const sort = searchStore.pagination.columnSorts.find((s:ColumnSort) => s.column === column)
+    return sort ? sort.priority : null
+  }
+
+  const hasActiveSorts = computed(() => searchStore.pagination.columnSorts.length > 0)
 
   const rowsPerPage = [
     { label: '10', value: 10, enabled: true },
@@ -118,6 +212,8 @@ export const useSearchResultsTable = (props: SearchResultsTableProps, emit: any)
     acceptRowsPerPage,
     filterStateProps,
     tableColumns,
+    orderedTableColumns,
+    orderedVisibleColumns,
     searchStore,
     clearColumns,
     resetColumns,
@@ -133,6 +229,13 @@ export const useSearchResultsTable = (props: SearchResultsTableProps, emit: any)
     setIndeterminate,
     allItemsSelected,
     checkAll,
-    generateDownloadData
+    generateDownloadData,
+    updateColumnOrder,
+    resetColumnOrder,
+    toggleColumnSort,
+    clearAllSorts,
+    getColumnSortOrder,
+    getColumnSortPriority,
+    hasActiveSorts
   }
 }

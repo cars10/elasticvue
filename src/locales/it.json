@@ -419,6 +419,17 @@
       },
       "download_as_json": "Scarica come json"
     },
+    "context_menu": {
+      "copy_row_json": "Copia riga come JSON",
+      "copy_cell_content": "Copia contenuto cella",
+      "copy_row_id": "Copia ID riga",
+      "copy_selected_rows_json": "Copia {count} righe selezionate come JSON",
+      "row_copied": "Riga copiata negli appunti",
+      "cell_copied": "Contenuto cella copiato",
+      "id_copied": "ID copiato negli appunti",
+      "selected_rows_copied": "{count} righe copiate negli appunti",
+      "edit_row_json": "Modifica riga (JSON)"
+    },
     "edit_document": {
       "update": {
         "text": "Aggiorna documento",

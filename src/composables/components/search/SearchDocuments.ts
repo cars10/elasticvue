@@ -1,5 +1,5 @@
 import { useElasticsearchAdapter } from '../../CallElasticsearch'
-import { useSearchStore } from '../../../store/search'
+import { ColumnSort, useSearchStore } from '../../../store/search'
 import { useResizeStore } from '../../../store/resize'
 import { Ref, ref, watch } from 'vue'
 import { parseJson } from '../../../helpers/json/parse'
@@ -49,7 +49,7 @@ export const useSearchDocuments = () => {
   }
 
   watch(() => (searchStore.indices), () => {
-    searchStore.pagination.sortBy = ''
+    searchStore.pagination.columnSorts = []
     try {
       mergeQuery(Object.assign({}, parseJson(searchStore.searchQuery), { sort: [] }))
     } catch (e) {
@@ -61,14 +61,35 @@ export const useSearchDocuments = () => {
     mergeQuery({ query: { query_string: { query: value } } })
   })
 
-  // pagination = {sortBy: '', descending: false, page: 2, rowsPerPage: 10, rowsNumber: 2593}
+  watch(
+    () => searchStore.pagination.columnSorts.map((sort:ColumnSort) => ({ ...sort })),
+    (newSorts, oldSorts) => {
+      if (JSON.stringify(newSorts) !== JSON.stringify(oldSorts)) {
+        const query = parseJson(searchStore.searchQuery)
+        Object.assign(query, buildQueryFromTableOptions(searchStore.pagination, searchStore.pagination.columnSorts))
+        searchStore.searchQuery = stringifyJson(query)
+        search()
+      }
+    },
+    { deep: false }
+  )
+  watch(() => searchStore.pagination.columnSorts, (newSorts, oldSorts) => {
+    console.log('Column sorts changed:', newSorts)
+    console.log('Old sorts:', oldSorts)
+    if (JSON.stringify(newSorts) !== JSON.stringify(oldSorts)) {
+      const query = parseJson(searchStore.searchQuery)
+      Object.assign(query, buildQueryFromTableOptions(searchStore.pagination, searchStore.pagination.columnSorts))
+      searchStore.searchQuery = stringifyJson(query)
+      search()
+    }
+  }, { deep: true })
+
   const onRequest = ({ pagination }: any) => {
     searchStore.pagination.page = pagination.page
-    searchStore.pagination.sortBy = pagination.sortBy
-    searchStore.pagination.descending = pagination.descending
+    searchStore.pagination.rowsPerPage = pagination.rowsPerPage
 
     const query = parseJson(searchStore.searchQuery)
-    Object.assign(query, buildQueryFromTableOptions(pagination))
+    Object.assign(query, buildQueryFromTableOptions(pagination, pagination.columnSorts))
     searchStore.searchQuery = stringifyJson(query)
     search()
   }
@@ -105,22 +126,45 @@ export const useSearchDocuments = () => {
   }
 }
 
-export const buildQueryFromTableOptions = (pagination: any) => {
+export const buildQueryFromTableOptions = (pagination: any, columnSorts: any[] = []) => {
   if (!pagination) return {}
 
   const from = (pagination.page - 1) * pagination.rowsPerPage
   const size = pagination.rowsPerPage
-  const newQueryParts = { size, from, sort: [] }
+  const sort: {}[] = [];
+  const newQueryParts = { size, from,sort }
 
-  const order = pagination.descending ? 'desc' : 'asc'
-  const sort: string = pagination.sortBy
+  const sortArray = []
+  
+  if (columnSorts && columnSorts.length > 0) {
+    const sortedColumnSorts = [...columnSorts].sort((a, b) => a.priority - b.priority)
+    
+    for (const sort of sortedColumnSorts) {
+      if (sort.order && sort.column) {
+        const sortOptions = {}
+        // @ts-expect-error any
+        sortOptions[sort.column] = { order: sort.order }
+        sortArray.push(sortOptions)
+      }
+    }
+  }
+  
+  const oldorder = pagination.descending ? 'desc' : 'asc'
+  const oldsort: string = pagination.sortBy
 
-  if (sort && order) {
+  if (oldsort && oldorder) {
     const sortOptions = {}
     // @ts-expect-error any
-    sortOptions[sort] = { order }
-    // @ts-expect-error never type
-    newQueryParts.sort = [sortOptions]
+    sortOptions[oldsort] = { oldorder }
+    sortArray.push(sortOptions)
+  }
+  
+  console.log(sortArray)
+
+  if (sortArray.length > 0) {
+    newQueryParts.sort = sortArray
+  } else {
+    newQueryParts.sort = []
   }
 
   return newQueryParts

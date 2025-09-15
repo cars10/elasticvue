@@ -69,7 +69,7 @@
     </q-card>
 
     <loader-status v-else :request-state="requestState">
-      <search-results-table :results="searchResults" @request="onRequest" @reload="search" />
+      <search-results-table :results="searchResults" @request="onRequest" @reload="search" @edit-document="handleEditDocument" />
       <template #error>
         <div class="text-center">
           <q-btn :label="t('search.form.customize_query.reset')"
@@ -80,11 +80,20 @@
         </div>
       </template>
     </loader-status>
+
+    <edit-document 
+      v-model="editDocumentVisible" 
+      :_id="editingDocument?._id" 
+      :_index="editingDocument?._index" 
+      :_type="editingDocument?._type" 
+      :_routing="editingDocument?._routing"
+      @reload="search" 
+    />
   </q-card>
 </template>
 
 <script setup lang="ts">
-  import { defineAsyncComponent, onMounted } from 'vue'
+  import { defineAsyncComponent, onMounted, ref } from 'vue'
   import IndexFilter from '../shared/IndexFilter.vue'
   import LoaderStatus from '../shared/LoaderStatus.vue'
   import ResizableContainer from '../shared/ResizableContainer.vue'
@@ -93,6 +102,7 @@
   import { useTranslation } from '../../composables/i18n.ts'
   import SearchExamples from './SearchExamples.vue'
   import CustomInput from '../shared/CustomInput.vue'
+  import EditDocument from './EditDocument.vue'
 
   const CodeEditor = defineAsyncComponent(() => import('../shared/CodeEditor.vue'))
   const resetAndLoad = () => {
@@ -112,6 +122,19 @@
     onRequest
   } = useSearchDocuments()
   onMounted(search)
+
+  const editDocumentVisible = ref(false)
+  const editingDocument = ref<any>(null)
+
+  const handleEditDocument = (rowData: any) => {
+    editingDocument.value = {
+      _id: rowData._id,
+      _index: rowData._index,
+      _type: rowData._type,
+      _routing: rowData._routing
+    }
+    editDocumentVisible.value = true
+  }
 
   const handleKeydownToSearch = (event: KeyboardEvent) => {
     if ((event.metaKey || event.ctrlKey) && event.key === 'Enter') {

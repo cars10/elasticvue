@@ -419,6 +419,17 @@
       },
       "download_as_json": "下载为 JSON 文件"
     },
+    "context_menu": {
+      "copy_row_json": "复制行为 JSON",
+      "copy_cell_content": "复制单元格内容",
+      "copy_row_id": "复制行 ID",
+      "copy_selected_rows_json": "复制 {count} 行为 JSON",
+      "row_copied": "行已复制到剪贴板",
+      "cell_copied": "单元格内容已复制",
+      "id_copied": "ID 已复制到剪贴板",
+      "selected_rows_copied": "{count} 行已复制到剪贴板",
+      "edit_row_json": "编辑行 (JSON)"
+    },
     "edit_document": {
       "update": {
         "text": "更新文档",

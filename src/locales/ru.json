@@ -418,6 +418,18 @@
         "columns": "Колонки"
       },
       "download_as_json": "Скачать как JSON"
+    }
+    ,
+    "context_menu": {
+      "copy_row_json": "Копировать строку как JSON",
+      "copy_cell_content": "Копировать содержимое ячейки",
+      "copy_row_id": "Копировать ID строки",
+      "copy_selected_rows_json": "Копировать {count} выбранных строк как JSON",
+      "row_copied": "Строка скопирована в буфер обмена",
+      "cell_copied": "Содержимое ячейки скопировано",
+      "id_copied": "ID скопирован в буфер обмена",
+      "selected_rows_copied": "{count} строк скопировано в буфер обмена",
+      "edit_row_json": "Редактировать строку (JSON)"
     },
     "edit_document": {
       "update": {

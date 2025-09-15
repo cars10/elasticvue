@@ -20,7 +20,7 @@ export const useRestQueryHistoryList = (emit: any) => {
     { label: t('query.rest_query_history.table.headers.query'), field: 'query', name: 'query', align: 'left' },
     {
       label: t('query.rest_query_history.table.headers.timestamp'), field: 'date', name: 'date', align: 'left',
-      sortOrder: 'da', sortable: true
+      sortOrder: 'da', sortableCol: true
     },
     { label: '' },
   ]

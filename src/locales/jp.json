@@ -419,6 +419,17 @@
       },
       "download_as_json": "JSON としてダウンロード"
     },
+    "context_menu": {
+      "copy_row_json": "行をJSONとしてコピー",
+      "copy_cell_content": "セルの内容をコピー",
+      "copy_row_id": "行IDをコピー",
+      "copy_selected_rows_json": "{count}件の選択した行をJSONとしてコピー",
+      "row_copied": "行がクリップボードにコピーされました",
+      "cell_copied": "セルの内容がコピーされました",
+      "id_copied": "IDがクリップボードにコピーされました",
+      "selected_rows_copied": "{count}件の行がクリップボードにコピーされました",
+      "edit_row_json": "行を編集（JSON）"
+    },
     "edit_document": {
       "update": {
         "text": "ドキュメントを更新",
