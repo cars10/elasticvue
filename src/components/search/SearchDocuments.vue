@@ -69,7 +69,9 @@
     </q-card>
 
     <loader-status v-else :request-state="requestState">
-      <search-results-table :results="searchResults" @request="onRequest" @reload="search" @edit-document="handleEditDocument" />
+      <search-results-table :results="searchResults" @request="onRequest" @reload="search" 
+          @edit-document="handleEditDocument"
+          @add-document="handleAddDocument" />
       <template #error>
         <div class="text-center">
           <q-btn :label="t('search.form.customize_query.reset')"
@@ -127,6 +129,16 @@
   const editingDocument = ref<any>(null)
 
   const handleEditDocument = (rowData: any) => {
+    editingDocument.value = {
+      _id: rowData._id,
+      _index: rowData._index,
+      _type: rowData._type,
+      _routing: rowData._routing
+    }
+    editDocumentVisible.value = true
+  }
+
+  const handleAddDocument = (rowData: any) => {
     editingDocument.value = {
       _id: rowData._id,
       _index: rowData._index,

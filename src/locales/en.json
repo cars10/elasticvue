@@ -176,6 +176,15 @@
           "text": "Delete index | Delete index | Delete {count} indices",
           "confirm": "Delete index '{index}'?",
           "growl": "The index '{index}' cache was successfully deleted."
+        },
+        "dump": {
+          "text": "Dump index | Dump index | Dump {count} indices",
+          "growl": "The index '{index}' was successfully Dumped."
+        },
+        "restore": {
+          "text": "Restore index | Restore index | Restore {count} indices",
+          "confirm": "Restore index '{index}'?",
+          "growl": "The index '{index}' was successfully restored."
         }
       }
     },
@@ -428,7 +437,8 @@
       "cell_copied": "Cell content copied",
       "id_copied": "ID copied to clipboard",
       "selected_rows_copied": "{count} rows copied to clipboard",
-      "edit_row_json": "Edit row as JSON"
+      "edit_row_json": "Edit row as JSON",
+      "add_row_json": "Add row as JSON"
     },
     "edit_document": {
       "update": {

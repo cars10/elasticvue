@@ -146,6 +146,24 @@
                              :confirm="t('indices.index_row.options.delete.confirm', {index: index.index})"
                              icon="delete"
                              @done="() => (afterDelete(props.index.index))" />
+
+            <q-separator />
+
+            <!-- <row-menu-action method="indexDump"
+                             :method-params="{ indices: [props.index.index] }"
+                             :text="t('indices.index_row.options.dump.text')"
+                             :growl="t('indices.index_row.options.dump.growl', {index: index.index})"
+                             icon="export"
+                             @done="() => (afterDump(props.index.index))" />
+
+            <row-menu-action method="indexRestore"
+                             :method-params="{ indices: [props.index.index] }"
+                             :text="t('indices.index_row.options.restore.text')"
+                             :growl="t('indices.index_row.options.restore.growl', {index: index.index})"
+                             :confirm="t('indices.index_row.options.restore.confirm', {index: index.index})"
+                             icon="import"
+                             @done="() => (afterRestore(props.index.index))" /> -->
+
           </q-list>
         </q-btn-dropdown>
       </q-btn-group>
@@ -164,7 +182,7 @@
 
   const t = useTranslation()
   const props = defineProps<IndexRowProps>()
-  const emit = defineEmits(['reload', 'indexDeleted'])
+  const emit = defineEmits(['reload', 'indexDeleted', 'indexDumped', 'indexRestored'])
   const connectionStore = useConnectionStore()
 
   const afterDelete = (index: string) => {
@@ -172,5 +190,14 @@
     emitReloadAndCloseMenu()
   }
 
+  const afterDump = (index: string) => {
+    emit('indexDumped', index)
+    emitReloadAndCloseMenu()
+  }
+
+  const afterRestore = (index: string) => {
+    emit('indexRestored', index)
+    emitReloadAndCloseMenu()
+  }
   const { menu, aliases, openModalWith, loading, emitReloadAndCloseMenu, showDocuments } = useIndexRow(props, emit)
 </script>

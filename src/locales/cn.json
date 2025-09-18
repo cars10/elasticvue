@@ -176,6 +176,15 @@
           "text": "删除",
           "confirm": "删除索引 '{index}'？这将删除索引中的所有数据！",
           "growl": "索引 '{index}' 缓存已成功删除。"
+        },
+        "dump": {
+          "text": "导出索引 | 导出索引 | 导出 {count} 个索引",
+          "growl": "索引 '{index}' 已成功导出。"
+        },
+        "restore": {
+          "text": "还原索引 | 还原索引 | 还原 {count} 个索引",
+          "confirm": "还原索引 '{index}'?",
+          "growl": "索引 '{index}' 已成功还原。"
         }
       }
     },
@@ -428,7 +437,8 @@
       "cell_copied": "单元格内容已复制",
       "id_copied": "ID 已复制到剪贴板",
       "selected_rows_copied": "{count} 行已复制到剪贴板",
-      "edit_row_json": "编辑行 (JSON)"
+      "edit_row_json": "编辑行 (JSON)",
+      "add_row_json": "编辑行 (JSON)"
     },
     "edit_document": {
       "update": {

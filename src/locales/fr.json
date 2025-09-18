@@ -176,6 +176,15 @@
           "text": "Supprimer l'index | Supprimer l'index | Supprimer {count} index",
           "confirm": "Supprimer l'index '{index}' ?",
           "growl": "Le cache de l'index '{index}' a été supprimé avec succès."
+        },
+        "dump": {
+          "text": "Dump index | Dump index | Dump {count} indices",
+          "growl": "L'index '{index}' a correctement été Dumpé."
+        },
+        "restore": {
+          "text": "Restaurer index | Restaurer index | Restaurer {count} indices",
+          "confirm": "Confirmez vous la restauration de l'index '{index}'?",
+          "growl": "L'index '{index}' a correctement été restauré."
         }
       }
     },
@@ -428,7 +437,8 @@
       "cell_copied": "Contenu de la cellule copié",
       "id_copied": "ID copié dans le presse-papier",
       "selected_rows_copied": "{count} lignes copiées dans le presse-papier",
-      "edit_row_json": "Modifier la ligne en JSON"
+      "edit_row_json": "Modifier la ligne en JSON",
+      "add_row_json": "Ajouter un ligne en JSON"
     },
     "edit_document": {
       "update": {

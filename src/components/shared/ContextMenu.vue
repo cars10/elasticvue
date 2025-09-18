@@ -23,6 +23,15 @@
 
       <!-- Mode sélection simple -->
       <template v-else>
+        <q-item clickable v-close-popup @click="addRowJson">
+          <q-item-section avatar>
+            <q-icon name="add" />
+          </q-item-section>
+          <q-item-section>
+            {{ t('search.context_menu.add_row_json') }}
+          </q-item-section>
+        </q-item>
+
          <q-item clickable v-close-popup @click="editRowJson">
           <q-item-section avatar>
             <q-icon name="edit" />
@@ -82,6 +91,7 @@
 
   const emit = defineEmits<{
     'update:modelValue': [value: boolean]
+    'add-document': [rowData: any]
     'edit-document': [rowData: any]
   }>()
 
@@ -127,6 +137,14 @@
     }
   }
   
+  const addRowJson = () => {
+    if (props.rowData) {
+      const cp = Object.assign({}, props.rowData)
+      cp._id = undefined
+      emit('add-document', cp)
+    }
+  }
+
   const editRowJson = () => {
     if (props.rowData) {
       emit('edit-document', props.rowData)

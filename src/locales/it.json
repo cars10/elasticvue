@@ -176,6 +176,15 @@
           "text": "Elimina indice | Elimina indice | Elimina {count} indici",
           "confirm": "Eliminare l'indice '{index}'?",
           "growl": "L'indice '{index}' è stato eliminato con successo."
+        },
+        "dump": {
+          "text": "Scarica indice | Scarica indice | Scarica {count} indici",
+          "growl": "L'indice '{index}' è stato scaricato correttamente."
+        },
+        "restore": {
+          "text": "Ripristina indice | Ripristina indice | Ripristina {count} indici",
+          "confirm": "Ripristinare l'indice '{index}'?",
+          "growl": "L'indice '{index}' è stato ripristinato correttamente."
         }
       }
     },
@@ -428,7 +437,8 @@
       "cell_copied": "Contenuto cella copiato",
       "id_copied": "ID copiato negli appunti",
       "selected_rows_copied": "{count} righe copiate negli appunti",
-      "edit_row_json": "Modifica riga (JSON)"
+      "edit_row_json": "Modifica riga (JSON)",
+      "add_row_json": "Modifica riga (JSON)"
     },
     "edit_document": {
       "update": {

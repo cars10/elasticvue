@@ -190,6 +190,7 @@
     :selected-rows="contextMenuSelectedRows"
     :is-multiple-selection="contextMenuIsMultipleSelection"
     @edit-document="handleEditDocument"
+    @add-document="handleAdDocument"
   />
 
   <div class="flex justify-between">
@@ -229,7 +230,7 @@
   import ContextMenu from '../shared/ContextMenu.vue'
 
   const props = defineProps<SearchResultsTableProps>()
-  const emit = defineEmits(['request', 'reload', 'edit-document'])
+  const emit = defineEmits(['request', 'reload', 'edit-document','add-document'])
 
   const t = useTranslation()
 
@@ -359,6 +360,9 @@
 
   const handleEditDocument = (rowData: any) => {
     emit('edit-document', rowData)
+  }
+  const handleAdDocument = (rowData: any) => {
+    emit('add-document', rowData)
   }
 </script>
 

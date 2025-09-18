@@ -1,7 +1,7 @@
 {
   "name": "elasticvue",
   "private": true,
-  "version": "1.8.0",
+  "version": "1.9.0",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -24,13 +24,13 @@
     "@lezer/common": "^1.2.3",
     "@quasar/extras": "^1.17.0",
     "@replit/codemirror-vim": "^6.3.0",
-    "@tauri-apps/api": "^2.5.0",
-    "@tauri-apps/plugin-clipboard-manager": "^2.2.3",
-    "@tauri-apps/plugin-dialog": "^2.2.2",
-    "@tauri-apps/plugin-fs": "^2.3.0",
-    "@tauri-apps/plugin-opener": "^2.3.0",
-    "@tauri-apps/plugin-process": "^2.2.2",
-    "@tauri-apps/plugin-updater": "^2.8.1",
+    "@tauri-apps/api": "~2.5.0",
+    "@tauri-apps/plugin-clipboard-manager": "~2.2.0",
+    "@tauri-apps/plugin-dialog": "~2.2.0",
+    "@tauri-apps/plugin-fs": "~2.3.0",
+    "@tauri-apps/plugin-opener": "~2.3.0",
+    "@tauri-apps/plugin-process": "~2.2.0",
+    "@tauri-apps/plugin-updater": "2.8",
     "aws4fetch": "^1.0.20",
     "codemirror": "^6.0.2",
     "idb": "^8.0.3",
@@ -65,5 +65,5 @@
     "vitest": "^3.2.4",
     "vue-tsc": "^2.2.10"
   },
-  "packageManager": "yarn@4.7.0"
+  "packageManager": "yarn@4.9.4"
 }

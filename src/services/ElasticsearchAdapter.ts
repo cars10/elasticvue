@@ -116,6 +116,202 @@ export default class ElasticsearchAdapter {
     }
   }
 
+  async indexDump ({ index, onProgress }: { index: string, onProgress?: (progress: { processed: number, total: number, percentage: number }) => void }) {
+    try {
+      // Récupérer le mapping
+      const mapping : any = await this.request(`${index}/_mapping`, 'GET')
+      
+      // Utiliser scroll API pour récupérer tous les documents
+      const scrollSize = 1000
+      const allDocuments: any[] = []
+      
+      // Première requête avec scroll
+      let scrollResponse : any = await this.request(`${cleanIndexName(index)}/_search?scroll=5m`, 'POST', {
+        query: { match_all: {} },
+        size: scrollSize,
+        sort: ['_doc']
+      })
+      
+      const totalHits = scrollResponse.hits.total.value || scrollResponse.hits.total
+      let processed = 0
+      
+      // Traiter la première batch
+      const firstBatch = scrollResponse.hits.hits.map((hit: any) => ({
+        _id: hit._id,
+        _source: hit._source
+      }))
+      allDocuments.push(...firstBatch)
+      processed += firstBatch.length
+      
+      // Callback de progression
+      if (onProgress) {
+        onProgress({
+          processed,
+          total: totalHits,
+          percentage: Math.round((processed / totalHits) * 100)
+        })
+      }
+      
+      // Continuer avec scroll tant qu'il y a des documents
+      while (scrollResponse.hits.hits.length > 0) {
+        scrollResponse = await this.request('_search/scroll', 'POST', {
+          scroll: '5m',
+          scroll_id: scrollResponse._scroll_id
+        })
+        
+        if (scrollResponse.hits.hits.length > 0) {
+          const batch = scrollResponse.hits.hits.map((hit: any) => ({
+            _id: hit._id,
+            _source: hit._source
+          }))
+          allDocuments.push(...batch)
+          processed += batch.length
+          
+          // Callback de progression
+          if (onProgress) {
+            onProgress({
+              processed,
+              total: totalHits,
+              percentage: Math.round((processed / totalHits) * 100)
+            })
+          }
+        }
+      }
+      
+      // Nettoyer le scroll
+      if (scrollResponse._scroll_id) {
+        await this.request('_search/scroll', 'DELETE', {
+          scroll_id: scrollResponse._scroll_id
+        }).catch(() => {}) // Ignorer les erreurs de nettoyage
+      }
+      
+      return {
+        success: true,
+        mapping: mapping[index].mappings,
+        data: allDocuments,
+        total: allDocuments.length
+      }
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Erreur inconnue',
+        mapping: null,
+        data: [],
+        total: 0
+      }
+    }
+  }
+
+  async indexRestore ({ 
+    index, 
+    data, 
+    onProgress 
+  }: { 
+    index: string, 
+    data: { mapping: any, data: any[] }, 
+    onProgress?: (progress: { processed: number, total: number, percentage: number, status: string }) => void 
+  }) {
+    try {
+      // Callback de progression - début
+      if (onProgress) {
+        onProgress({
+          processed: 0,
+          total: data.data.length,
+          percentage: 0,
+          status: 'Création de l\'index...'
+        })
+      }
+      
+      // 1. Créer l'index avec le mapping
+      await this.request(`${cleanIndexName(index)}`, 'PUT', {
+        mappings: data.mapping
+      })
+      
+      if (data.data.length === 0) {
+        if (onProgress) {
+          onProgress({
+            processed: 0,
+            total: 0,
+            percentage: 100,
+            status: 'Index créé (aucune donnée à restaurer)'
+          })
+        }
+        return {
+          success: true,
+          processed: 0,
+          total: 0,
+          errors: []
+        }
+      }
+      
+      // 2. Préparer les documents pour bulk insert
+      const bulkBody: string[] = []
+      data.data.forEach(doc => {
+        bulkBody.push(JSON.stringify({
+          index: {
+            _index: index,
+            _id: doc._id
+          }
+        }))
+        bulkBody.push(JSON.stringify(doc._source))
+      })
+      
+      // 3. Insérer les documents par batch pour éviter les timeouts
+      const batchSize = 1000
+      let processed = 0
+      const errors: any[] = []
+      
+      for (let i = 0; i < bulkBody.length; i += batchSize * 2) { // *2 car chaque doc = 2 lignes
+        const batch = bulkBody.slice(i, i + batchSize * 2)
+        const bulkRequest = batch.join('\n') + '\n'
+        
+        const response : any = await this.request('_bulk?refresh=wait_for', 'POST', bulkRequest)
+        
+        if (response.errors) {
+          const batchErrors = response.items.filter((item: any) => item.index?.error)
+          errors.push(...batchErrors)
+        }
+        
+        processed += Math.min(batchSize, data.data.length - processed)
+        
+        // Callback de progression
+        if (onProgress) {
+          onProgress({
+            processed,
+            total: data.data.length,
+            percentage: Math.round((processed / data.data.length) * 100),
+            status: `Insertion des documents... (${processed}/${data.data.length})`
+          })
+        }
+      }
+      
+      // Callback de progression - fin
+      if (onProgress) {
+        onProgress({
+          processed: data.data.length,
+          total: data.data.length,
+          percentage: 100,
+          status: errors.length > 0 ? `Terminé avec ${errors.length} erreurs` : 'Terminé avec succès'
+        })
+      }
+      
+      return {
+        success: true,
+        processed: data.data.length,
+        total: data.data.length,
+        errors
+      }
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Erreur inconnue',
+        processed: 0,
+        total: data.data?.length || 0,
+        errors: []
+      }
+    }
+  }
+
   indexRefresh ({ indices }: { indices: string[] }) {
     if (indices.length > MAX_INDICES_PER_REQUEST) {
       return this.callInChunks({ method: 'indexRefresh', indices })

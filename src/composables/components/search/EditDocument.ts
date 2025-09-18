@@ -37,6 +37,10 @@ export const useEditDocument = (props: EditDocumentProps, emit: any) => {
   const data: Ref<any> = ref(null)
 
   const load = () => {
+    if (!props._index || !props._type || !props._id) {
+      data.value = null
+      return Promise.resolve()
+    }
     return callElasticsearch('get', {
       index: props._index,
       type: props._type,

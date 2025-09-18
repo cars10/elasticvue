@@ -176,6 +176,15 @@
           "text": "インデックスを削除 | インデックスを削除 | {count} 個のインデックスを削除",
           "confirm": "インデックス '{index}' を削除しますか？",
           "growl": "インデックス '{index}' は正常に削除されました。"
+        },
+        "dump": {
+          "text": "インデックスをダンプ | インデックスをダンプ | {count} 個のインデックスをダンプ",
+          "growl": "インデックス '{index}' を正常にダンプしました。"
+        },
+        "restore": {
+          "text": "インデックスを復元 | インデックスを復元 | {count} 個のインデックスを復元",
+          "confirm": "インデックス '{index}' を復元しますか？",
+          "growl": "インデックス '{index}' を正常に復元しました。"
         }
       }
     },
@@ -428,7 +437,8 @@
       "cell_copied": "セルの内容がコピーされました",
       "id_copied": "IDがクリップボードにコピーされました",
       "selected_rows_copied": "{count}件の行がクリップボードにコピーされました",
-      "edit_row_json": "行を編集（JSON）"
+      "edit_row_json": "行を編集（JSON）",
+      "add_row_json": "行を編集（JSON）"
     },
     "edit_document": {
       "update": {
