@@ -45,26 +45,40 @@ export function useElasticsearchAdapter () {
 
       try {
         const response = await elasticsearchAdapter.call(method, ...args)
-        if (!response) return Promise.resolve()
+        if (response === undefined || response === null) return Promise.resolve()
 
-        const contentType = response.headers.get('content-type')
-        let body
-        if (contentType && contentType.includes('application/json')) {
-          const text = await response.text()
-          body = parseJson(text)
-        } else {
-          body = true
+        // If adapter returned a fetch Response-like object, parse it
+        const isFetchResponse = typeof (response as any)?.headers?.get === 'function'
+        if (isFetchResponse) {
+          const contentType = (response as any).headers.get('content-type')
+          let body
+          if (contentType && contentType.includes('application/json')) {
+            const text = await (response as any).text()
+            body = parseJson(text)
+          } else {
+            body = true
+          }
+
+          requestState.value = {
+            loading: false,
+            networkError: false,
+            apiError: false,
+            apiErrorMessage: '',
+            status: (response as any).status ?? 200
+          }
+
+          return Promise.resolve(body)
         }
 
+        // Otherwise adapter returned a plain value (already parsed JSON or result)
         requestState.value = {
           loading: false,
           networkError: false,
           apiError: false,
           apiErrorMessage: '',
-          status: response.status
+          status: 200
         }
-
-        return Promise.resolve(body)
+        return Promise.resolve(response)
       } catch (errorResponse: any) {
         if (typeof errorResponse === 'object' && errorResponse.json) {
           const errorJson = await errorResponse.json()

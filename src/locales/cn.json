@@ -210,6 +210,9 @@
         }
       }
     },
+    "import_index":{
+      "heading": "导入索引"
+    },
     "new_index": {
       "heading": "新建索引",
       "form": {

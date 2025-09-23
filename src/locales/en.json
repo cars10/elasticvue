@@ -47,11 +47,17 @@
     },
     "cancel": "Cancel",
     "close": "Close",
+    "yes": "Yes",
+    "no": "No",
     "create": "Create",
     "delete": "Delete",
     "success": "Success",
     "bulk": "Bulk Action",
     "copy": "Copy"
+  },
+  "common": {
+    "yes": "Yes",
+    "no": "No"
   },
   "cluster_selection": {
     "cluster_selection": {
@@ -185,6 +191,12 @@
           "text": "Restore index | Restore index | Restore {count} indices",
           "confirm": "Restore index '{index}'?",
           "growl": "The index '{index}' was successfully restored."
+        },
+        "export": {
+          "text": "Export index"
+        },
+        "import": {
+          "text": "Import index"
         }
       }
     },
@@ -209,6 +221,70 @@
           "created": "Created"
         }
       }
+    },
+    "export": {
+      "title": "Export index '{index}'",
+      "subtitle": "Export all documents and mapping from this index",
+      "include_mapping": "Include mapping",
+      "compress_file": "Compress file (ZIP)",
+      "warning": "Large indices may take a long time to export",
+      "start_export": "Start Export",
+      "progress": {
+        "title": "Exporting Index",
+        "exporting": "Exporting '{index}'",
+        "preparing": "Preparing export...",
+        "exporting_documents": "Exporting documents... ({processed}/{total})",
+        "creating_file": "Creating export file...",
+        "downloading": "Downloading file...",
+        "completed": "Export completed successfully!"
+      },
+      "error": {
+        "export_failed": "Export failed",
+        "unknown": "An unknown error occurred during export"
+      }
+    },
+    "import": {
+      "title": "Import Index",
+      "subtitle": "Import documents and mapping from a dump file",
+      "select_file": "Select dump file (.json or .zip)",
+      "mode": {
+        "new_index": "Create new index",
+        "existing_index": "Import to existing index"
+      },
+      "new_index_name": "New index name",
+      "select_existing_index": "Select existing index",
+      "advanced_options": "Advanced options",
+      "overwrite_existing": "Overwrite existing documents",
+      "overwrite_warning": "This will replace all existing documents in the target index",
+      "file_preview": "File Preview",
+      "original_index": "Original index",
+      "documents_count": "Documents count",
+      "has_mapping": "Has mapping",
+      "export_date": "Export date",
+      "start_import": "Start Import",
+      "validation": {
+        "index_name_required": "Index name is required",
+        "index_required": "Please select an index"
+      },
+      "progress": {
+        "title": "Importing Index",
+        "importing": "Importing to '{targetIndex}'",
+        "preparing": "Preparing import...",
+        "creating_index": "Creating index...",
+        "completed": "Import completed successfully!",
+        "completed_with_errors": "Import completed with {errors} errors"
+      },
+      "error": {
+        "no_json_in_zip": "No JSON file found in ZIP archive",
+        "invalid_file_format": "Invalid file format",
+        "parse_failed": "Failed to parse file",
+        "index_exists": "Index '{index}' already exists",
+        "import_failed": "Import failed",
+        "unknown": "An unknown error occurred during import"
+      }
+    },
+    "import_index":{
+      "heading": "import Index"
     },
     "new_index": {
       "heading": "New Index",

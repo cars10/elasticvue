@@ -149,6 +149,8 @@
 
             <q-separator />
 
+            <index-export :index="index.index" @done="emitReloadAndCloseMenu" />
+
             <!-- <row-menu-action method="indexDump"
                              :method-params="{ indices: [props.index.index] }"
                              :text="t('indices.index_row.options.dump.text')"
@@ -177,6 +179,7 @@
   import { useTranslation } from '../../composables/i18n'
   import IndexReindex from './IndexReindex.vue'
   import RowMenuAction from './RowMenuAction.vue'
+  import IndexExport from './IndexExport.vue'  
   import { clusterVersionGt, clusterVersionGte } from '../../helpers/minClusterVersion.ts'
   import {useConnectionStore} from '../../store/connection.ts'
 

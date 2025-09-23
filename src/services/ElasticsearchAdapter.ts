@@ -119,24 +119,26 @@ export default class ElasticsearchAdapter {
   async indexDump ({ index, onProgress }: { index: string, onProgress?: (progress: { processed: number, total: number, percentage: number }) => void }) {
     try {
       // Récupérer le mapping
-      const mapping : any = await this.request(`${index}/_mapping`, 'GET')
-      
+      const mappingResponse = await this.request(`${cleanIndexName(index)}/_mapping`, 'GET') as any
+      const mapping: any = await mappingResponse.json()
+
       // Utiliser scroll API pour récupérer tous les documents
       const scrollSize = 1000
       const allDocuments: any[] = []
-      
+
       // Première requête avec scroll
-      let scrollResponse : any = await this.request(`${cleanIndexName(index)}/_search?scroll=5m`, 'POST', {
+      const firstSearchResponse = await this.request(`${cleanIndexName(index)}/_search?scroll=5m`, 'POST', {
         query: { match_all: {} },
         size: scrollSize,
         sort: ['_doc']
-      })
-      
-      const totalHits = scrollResponse.hits.total.value || scrollResponse.hits.total
+      }) as any
+      let scrollResponse: any = await firstSearchResponse.json()
+
+      const totalHits = (scrollResponse.hits?.total?.value ?? scrollResponse.hits?.total) || 0
       let processed = 0
       
       // Traiter la première batch
-      const firstBatch = scrollResponse.hits.hits.map((hit: any) => ({
+      const firstBatch = (scrollResponse.hits?.hits || []).map((hit: any) => ({
         _id: hit._id,
         _source: hit._source
       }))
@@ -153,13 +155,14 @@ export default class ElasticsearchAdapter {
       }
       
       // Continuer avec scroll tant qu'il y a des documents
-      while (scrollResponse.hits.hits.length > 0) {
-        scrollResponse = await this.request('_search/scroll', 'POST', {
+      while ((scrollResponse.hits?.hits || []).length > 0) {
+        const nextResponse = await this.request('_search/scroll', 'POST', {
           scroll: '5m',
           scroll_id: scrollResponse._scroll_id
-        })
-        
-        if (scrollResponse.hits.hits.length > 0) {
+        }) as any
+        scrollResponse = await nextResponse.json()
+
+        if ((scrollResponse.hits?.hits || []).length > 0) {
           const batch = scrollResponse.hits.hits.map((hit: any) => ({
             _id: hit._id,
             _source: hit._source
@@ -179,15 +182,17 @@ export default class ElasticsearchAdapter {
       }
       
       // Nettoyer le scroll
-      if (scrollResponse._scroll_id) {
-        await this.request('_search/scroll', 'DELETE', {
-          scroll_id: scrollResponse._scroll_id
-        }).catch(() => {}) // Ignorer les erreurs de nettoyage
+      if (scrollResponse?._scroll_id) {
+        try {
+          await this.request('_search/scroll', 'DELETE', {
+            scroll_id: scrollResponse._scroll_id
+          })
+        } catch (_e) {}
       }
       
       return {
         success: true,
-        mapping: mapping[index].mappings,
+        mapping: mapping[index]?.mappings ?? mapping?.mappings ?? mapping,
         data: allDocuments,
         total: allDocuments.length
       }
@@ -222,10 +227,14 @@ export default class ElasticsearchAdapter {
         })
       }
       
-      // 1. Créer l'index avec le mapping
-      await this.request(`${cleanIndexName(index)}`, 'PUT', {
-        mappings: data.mapping
-      })
+      // 1. Créer l'index avec le mapping (seulement s'il n'existe pas)
+      const exists = await this.indexExists({ index }) as unknown as boolean
+      if (!exists) {
+        const cleanMapping = this.fixMappingStructure(data.mapping)
+        await this.request(`${cleanIndexName(index)}`, 'PUT', {
+          mappings: cleanMapping
+        })
+      }
       
       if (data.data.length === 0) {
         if (onProgress) {
@@ -265,10 +274,11 @@ export default class ElasticsearchAdapter {
         const batch = bulkBody.slice(i, i + batchSize * 2)
         const bulkRequest = batch.join('\n') + '\n'
         
-        const response : any = await this.request('_bulk?refresh=wait_for', 'POST', bulkRequest)
+        const response : any = await this.request('_bulk?refresh=wait_for', 'POST', bulkRequest) as any
+        const json = await response.json()
         
-        if (response.errors) {
-          const batchErrors = response.items.filter((item: any) => item.index?.error)
+        if (json.errors) {
+          const batchErrors = json.items.filter((item: any) => item.index?.error)
           errors.push(...batchErrors)
         }
         
@@ -311,6 +321,38 @@ export default class ElasticsearchAdapter {
       }
     }
   }
+
+  // Fonction pour nettoyer et corriger la structure du mapping
+ fixMappingStructure(mapping: any): any {
+  // Si le mapping contient une clé qui encapsule les propriétés
+  // (comme "infra" dans votre cas), on l'extrait
+  
+  if (!mapping) {
+    return { properties: {} }
+  }
+  
+  // Si le mapping a déjà la structure correcte
+  if (mapping.properties) {
+    return mapping
+  }
+  
+  // Chercher la première clé qui contient des propriétés
+  const keys = Object.keys(mapping)
+  for (const key of keys) {
+    const value = mapping[key]
+    if (value && typeof value === 'object' && value.properties) {
+      console.log(`Extraction du mapping depuis la clé: ${key}`)
+      return {
+        properties: value.properties
+      }
+    }
+  }
+  
+  // Si aucune structure valide trouvée, traiter comme des propriétés directes
+  return {
+    properties: mapping
+  }
+}
 
   indexRefresh ({ indices }: { indices: string[] }) {
     if (indices.length > MAX_INDICES_PER_REQUEST) {
@@ -498,6 +540,12 @@ export default class ElasticsearchAdapter {
       method,
       body: body && typeof body !== 'string' ? stringifyJson(body) : body,
       headers: { ...REQUEST_DEFAULT_HEADERS }
+    }
+
+    // Use correct content type for NDJSON bulk requests
+    if (typeof body === 'string') {
+      // @ts-expect-error header definition
+      options.headers['Content-Type'] = 'application/x-ndjson'
     }
 
     if (this.authHeader) {

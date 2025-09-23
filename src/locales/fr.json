@@ -47,11 +47,17 @@
     },
     "cancel": "Annuler",
     "close": "Fermer",
+    "yes": "Oui",
+    "no": "Non",
     "create": "Créer",
     "delete": "Supprimer",
     "success": "Succès",
     "bulk": "Action groupée",
     "copy": "Copier"
+  },
+  "common": {
+    "yes": "Oui",
+    "no": "Non"
   },
   "cluster_selection": {
     "cluster_selection": {
@@ -185,6 +191,12 @@
           "text": "Restaurer index | Restaurer index | Restaurer {count} indices",
           "confirm": "Confirmez vous la restauration de l'index '{index}'?",
           "growl": "L'index '{index}' a correctement été restauré."
+        },
+        "export": {
+          "text": "Exporter l'index"
+        },
+        "import": {
+          "text": "Importer l'index"
         }
       }
     },
@@ -209,6 +221,70 @@
           "created": "Créé"
         }
       }
+    },
+    "export": {
+      "title": "Exporter l'index '{index}'",
+      "subtitle": "Exporter tous les documents et le mapping de cet index",
+      "include_mapping": "Inclure le mapping",
+      "compress_file": "Compresser le fichier (ZIP)",
+      "warning": "Les gros index peuvent prendre beaucoup de temps à exporter",
+      "start_export": "Commencer l'export",
+      "progress": {
+        "title": "Export de l'index",
+        "exporting": "Export de '{index}'",
+        "preparing": "Préparation de l'export...",
+        "exporting_documents": "Export des documents... ({processed}/{total})",
+        "creating_file": "Création du fichier d'export...",
+        "downloading": "Téléchargement du fichier...",
+        "completed": "Export terminé avec succès !"
+      },
+      "error": {
+        "export_failed": "Échec de l'export",
+        "unknown": "Une erreur inconnue s'est produite lors de l'export"
+      }
+    },
+    "import": {
+      "title": "Importer un index",
+      "subtitle": "Importer des documents et un mapping depuis un fichier de dump",
+      "select_file": "Sélectionner le fichier de dump (.json ou .zip)",
+      "mode": {
+        "new_index": "Créer un nouvel index",
+        "existing_index": "Importer dans un index existant"
+      },
+      "new_index_name": "Nom du nouvel index",
+      "select_existing_index": "Sélectionner un index existant",
+      "advanced_options": "Options avancées",
+      "overwrite_existing": "Écraser les documents existants",
+      "overwrite_warning": "Cela remplacera tous les documents existants dans l'index cible",
+      "file_preview": "Aperçu du fichier",
+      "original_index": "Index original",
+      "documents_count": "Nombre de documents",
+      "has_mapping": "Contient un mapping",
+      "export_date": "Date d'export",
+      "start_import": "Commencer l'import",
+      "validation": {
+        "index_name_required": "Le nom de l'index est requis",
+        "index_required": "Veuillez sélectionner un index"
+      },
+      "progress": {
+        "title": "Import de l'index",
+        "importing": "Import vers '{targetIndex}'",
+        "preparing": "Préparation de l'import...",
+        "creating_index": "Création de l'index...",
+        "completed": "Import terminé avec succès !",
+        "completed_with_errors": "Import terminé avec {errors} erreurs"
+      },
+      "error": {
+        "no_json_in_zip": "Aucun fichier JSON trouvé dans l'archive ZIP",
+        "invalid_file_format": "Format de fichier invalide",
+        "parse_failed": "Échec de l'analyse du fichier",
+        "index_exists": "L'index '{index}' existe déjà",
+        "import_failed": "Échec de l'import",
+        "unknown": "Une erreur inconnue s'est produite lors de l'import"
+      }
+    },
+    "import_index":{
+      "heading": "import Index"
     },
     "new_index": {
       "heading": "Nouvel Index",

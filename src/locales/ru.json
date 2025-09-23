@@ -210,6 +210,9 @@
         }
       }
     },
+    "import_index":{
+      "heading": "импорт индекса"
+    },
     "new_index": {
       "heading": "Новый индекс",
       "form": {

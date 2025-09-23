@@ -210,6 +210,9 @@
         }
       }
     },
+    "import_index":{
+      "heading": "インデックスをインポート"
+    },
     "new_index": {
       "heading": "新しいインデックス",
       "form": {
