@@ -4,9 +4,10 @@
       <q-card-section class="flex justify-between">
         <div class="flex">
           <h2 class="text-h6 q-my-none">
-            {{ _index }} / {{ _type }} / {{ _id }}
+            <template v-if="isNew">{{ t('search.edit_document.new_document') }}</template>
+            <template v-else>{{ _index }} / {{ _type }} / {{ _id }}</template>
           </h2>
-          <reload-button :action="loadDocument" />
+          <reload-button v-if="!isNew" :action="loadDocument" />
         </div>
         <q-btn v-close-popup icon="close" flat round dense />
       </q-card-section>
@@ -33,12 +34,12 @@
       </q-card-section>
 
       <q-card-section>
-        <q-btn :label="t('search.edit_document.update.text')"
+        <q-btn :label="t(isNew ? 'search.edit_document.create.text' : 'search.edit_document.update.text')"
                :loading="loading"
                color="positive"
                type="submit"
                class="q-mr-md"
-               @click="updateDocument" />
+               @click="saveDocument" />
         <q-btn id="close" v-close-popup flat :label="t('defaults.close')" />
       </q-card-section>
     </q-card>
@@ -70,6 +71,7 @@
     loadDocument,
     requestState,
     loading,
-    updateDocument
+    saveDocument,
+    isNew
   } = useEditDocument(props, emit)
 </script>

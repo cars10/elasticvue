@@ -13,8 +13,9 @@ export type EditDocumentProps = {
 export type ElasticsearchDocumentInfo = {
   _index: string,
   _type: string,
-  _id: string,
-  _routing?: string
+  _id?: string,
+  _routing?: string,
+  _source?: object
 }
 
 type ElasticsearchDocumentMeta = {
@@ -57,17 +58,27 @@ export const useEditDocument = (props: EditDocumentProps, emit: any) => {
     ownValue.value = value
   })
 
+  const isNew = computed(() => !props._id)
+
   const loadDocument = async () => {
-    await load()
-    document.value = stringifyJson(data.value._source)
-    documentMeta.value = {
-      _index: data.value._index,
-      _type: data.value._type,
-      _id: data.value._id,
-      _version: data.value._version,
-      _primary_term: data.value._primary_term,
-      _seq_no: data.value._seq_no,
-      _routing: data.value._routing
+    if (isNew.value) {
+      document.value = stringifyJson(props._source || {})
+      documentMeta.value = {
+        _index: props._index,
+        _type: props._type
+      }
+    } else {
+      await load()
+      document.value = stringifyJson(data.value._source)
+      documentMeta.value = {
+        _index: data.value._index,
+        _type: data.value._type,
+        _id: data.value._id,
+        _version: data.value._version,
+        _primary_term: data.value._primary_term,
+        _seq_no: data.value._seq_no,
+        _routing: data.value._routing
+      }
     }
   }
 
@@ -76,16 +87,19 @@ export const useEditDocument = (props: EditDocumentProps, emit: any) => {
   })
 
   const { run, loading } = defineElasticsearchRequest({ emit, method: 'index' })
-  const updateDocument = async () => {
+  const saveDocument = async () => {
+    const id = isNew.value ? undefined : props._id
     await run({
       params: {
         index: props._index,
         type: props._type,
-        id: props._id,
+        id,
         routing: props._routing,
-        params: document.value
+        body: document.value
       },
-      snackbarOptions: { body: t('search.edit_document.update.growl') }
+      snackbarOptions: {
+        body: t(isNew.value ? 'search.edit_document.create.growl' : 'search.edit_document.update.growl')
+      }
     })
     ownValue.value = false
   }
@@ -97,6 +111,7 @@ export const useEditDocument = (props: EditDocumentProps, emit: any) => {
     loadDocument,
     requestState,
     loading,
-    updateDocument
+    saveDocument,
+    isNew
   }
 }

@@ -83,13 +83,14 @@
       </template>
     </loader-status>
 
-    <edit-document 
-      v-model="editDocumentVisible" 
-      :_id="editingDocument?._id" 
-      :_index="editingDocument?._index" 
-      :_type="editingDocument?._type" 
+    <edit-document
+      v-model="editDocumentVisible"
+      :_id="editingDocument?._id"
+      :_index="editingDocument?._index"
+      :_source="editingDocument?._source"
+      :_type="editingDocument?._type"
       :_routing="editingDocument?._routing"
-      @reload="search" 
+      @reload="search"
     />
   </q-card>
 </template>
@@ -138,12 +139,22 @@
     editDocumentVisible.value = true
   }
 
-  const handleAddDocument = (rowData: any) => {
-    editingDocument.value = {
-      _id: rowData._id,
-      _index: rowData._index,
-      _type: rowData._type,
-      _routing: rowData._routing
+  const handleAddDocument = (rowData?: any) => {
+    if (rowData) {
+      editingDocument.value = {
+        _id: rowData._id,
+        _index: rowData._index,
+        _type: rowData._type,
+        _routing: rowData._routing,
+        _source: rowData._source
+      }
+    } else {
+      const index = Array.isArray(searchStore.indices) && searchStore.indices.length > 0 ? searchStore.indices[0] : ''
+      editingDocument.value = {
+        _id: undefined,
+        _index: index,
+        _type: '_doc'
+      }
     }
     editDocumentVisible.value = true
   }

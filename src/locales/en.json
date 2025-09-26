@@ -502,7 +502,8 @@
       "settings": {
         "columns": "Columns"
       },
-      "download_as_json": "Download as json"
+      "download_as_json": "Download as json",
+      "add_document": "Add document"
     },
     "context_menu": {
       "copy_row_json": "Copy row as JSON",
@@ -517,6 +518,11 @@
       "add_row_json": "Add row as JSON"
     },
     "edit_document": {
+      "new_document": "New document",
+      "create": {
+        "text": "Create",
+        "growl": "Document created successfully."
+      },
       "update": {
         "text": "Update document",
         "growl": "Document updated successfully."

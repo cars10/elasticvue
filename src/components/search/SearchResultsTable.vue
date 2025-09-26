@@ -1,7 +1,12 @@
 <template>
   <div class="flex justify-between q-pa-md">
-    <filter-state v-model="searchStore.filter" :results-count="filterStateProps.resultsCount"
-                  :filtered-results-count="filterStateProps.filteredResultsCount" />
+    <div class="flex">
+      <filter-state v-model="searchStore.filter" :results-count="filterStateProps.resultsCount"
+                    :filtered-results-count="filterStateProps.filteredResultsCount" />
+
+      <q-btn class="q-ml-md" color="positive" :label="t('search.results_table.add_document')"
+             @click="() => handleAddDocument()" />
+    </div>
 
     <div class="flex q-ml-auto">
       <filter-input v-model="searchStore.filter" label="Filter CURRENT PAGE only" />
@@ -190,7 +195,7 @@
     :selected-rows="contextMenuSelectedRows"
     :is-multiple-selection="contextMenuIsMultipleSelection"
     @edit-document="handleEditDocument"
-    @add-document="handleAdDocument"
+    @add-document="handleAddDocument"
   />
 
   <div class="flex justify-between">
@@ -361,8 +366,12 @@
   const handleEditDocument = (rowData: any) => {
     emit('edit-document', rowData)
   }
-  const handleAdDocument = (rowData: any) => {
-    emit('add-document', rowData)
+  const handleAddDocument = (rowData?: any) => {
+    if (rowData) {
+      emit('add-document', rowData)
+    } else {
+      emit('add-document')
+    }
   }
 </script>
 
