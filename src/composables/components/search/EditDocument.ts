@@ -5,6 +5,7 @@ import {
   useElasticsearchAdapter,
 } from '../../CallElasticsearch.ts'
 import { stringifyJson } from '../../../helpers/json/stringify.ts'
+import { useSearchStore } from '../../../store/search.ts'
 
 export type EditDocumentProps = {
   modelValue: boolean
@@ -33,6 +34,9 @@ export const useEditDocument = (props: EditDocumentProps, emit: any) => {
   const t = useTranslation()
   const document = ref('')
   const documentMeta = ref({} as ElasticsearchDocumentMeta)
+  const searchStore = useSearchStore()
+  const availableIndices = ref<string[]>([])
+  const selectedIndex = ref(props._index)
 
   const { requestState, callElasticsearch } = useElasticsearchAdapter()
   const data: Ref<any> = ref(null)
@@ -53,18 +57,70 @@ export const useEditDocument = (props: EditDocumentProps, emit: any) => {
   }
 
   watch(ownValue, value => (emit('update:modelValue', value)))
-  watch(() => props.modelValue, value => {
-    if (value) loadDocument()
+  watch(() => props.modelValue, async (value) => {
     ownValue.value = value
+    if (value) {
+      if (isNew.value) {
+        if (Array.isArray(searchStore.indices)) {
+          availableIndices.value = searchStore.indices
+        } else if (typeof searchStore.indices === 'string') {
+          try {
+            const indices = await callElasticsearch('catIndices', { index: searchStore.indices, h: 'index', format: 'json' })
+            availableIndices.value = indices.map((i: any) => i.index)
+          } catch (e) {
+            console.error(e)
+            availableIndices.value = []
+          }
+        }
+        selectedIndex.value = props._index || (availableIndices.value.length > 0 ? availableIndices.value[0] : '')
+      }
+      loadDocument()
+    }
+  })
+
+  const buildDocumentFromMapping = (properties: any) => {
+    if (!properties) return {}
+    return Object.keys(properties).reduce((acc, key) => {
+      acc[key] = ''
+      return acc
+    }, {} as Record<string, any>)
+  }
+
+  const loadIndexMapping = async (index: string) => {
+    if (!index) {
+      document.value = stringifyJson({})
+      return
+    }
+
+    try {
+      const mappingData = await callElasticsearch('indicesGetMapping', { index })
+      const properties = mappingData[index]?.mappings?.properties
+      const newDoc = buildDocumentFromMapping(properties)
+      document.value = stringifyJson(newDoc)
+    } catch (e) {
+      console.error(e)
+      document.value = stringifyJson({})
+    }
+  }
+
+  watch(selectedIndex, (newVal) => {
+    documentMeta.value._index = newVal
+    if (isNew.value) {
+      loadIndexMapping(newVal)
+    }
   })
 
   const isNew = computed(() => !props._id)
 
   const loadDocument = async () => {
     if (isNew.value) {
-      document.value = stringifyJson(props._source || {})
+      if (props._source) {
+        document.value = stringifyJson(props._source)
+      } else {
+        await loadIndexMapping(selectedIndex.value)
+      }
       documentMeta.value = {
-        _index: props._index,
+        _index: selectedIndex.value,
         _type: props._type
       }
     } else {
@@ -89,14 +145,15 @@ export const useEditDocument = (props: EditDocumentProps, emit: any) => {
   const { run, loading } = defineElasticsearchRequest({ emit, method: 'index' })
   const saveDocument = async () => {
     const id = isNew.value ? undefined : props._id
+    const index = isNew.value ? selectedIndex.value : props._index
     await run({
       params: {
-        index: props._index,
+        index,
         type: props._type,
         id,
-        routing: props._routing,
-        body: document.value
+        routing: props._routing
       },
+      body: document.value,
       snackbarOptions: {
         body: t(isNew.value ? 'search.edit_document.create.growl' : 'search.edit_document.update.growl')
       }
@@ -112,6 +169,8 @@ export const useEditDocument = (props: EditDocumentProps, emit: any) => {
     requestState,
     loading,
     saveDocument,
-    isNew
+    isNew,
+    availableIndices,
+    selectedIndex
   }
 }

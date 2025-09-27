@@ -16,7 +16,9 @@
 
       <q-card-section>
         <loader-status :request-state="requestState">
-          <q-list v-if="validDocumentMeta" class="flex justify-between q-mb-md">
+          <q-select v-if="isNew" v-model="selectedIndex" :options="availableIndices" label="Index" outlined
+                    class="q-mb-md" />
+          <q-list v-if="!isNew && validDocumentMeta" class="flex justify-between q-mb-md">
             <q-item v-for="(value, key) of validDocumentMeta" :key="`${key}_${value}`" class="q-px-none q-mx-sm">
               <q-item-section>
                 <q-item-label>{{ key }}</q-item-label>
@@ -72,6 +74,8 @@
     requestState,
     loading,
     saveDocument,
-    isNew
+    isNew,
+    availableIndices,
+    selectedIndex
   } = useEditDocument(props, emit)
 </script>
