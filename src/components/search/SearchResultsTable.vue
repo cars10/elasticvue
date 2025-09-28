@@ -99,6 +99,7 @@
     <resizable-container v-model="resizeStore.searchTable" :active="searchStore.stickyTableHeader">
       <q-table v-if="hits.length > 0"
                v-model:pagination="searchStore.pagination"
+               v-draggable-table="{ options: { mode: 'column' }, onDrop: onDropColumn }"
                class="table-mono table-hide-overflow"
                flat
                dense
@@ -109,7 +110,7 @@
                :rows="filteredHits"
                :visible-columns="orderedVisibleColumns"
                selection="multiple"
-               @request="onRequest">
+               @request="onRequest(searchStore.pagination)">
         <template #body="{row, cols}">
           <search-result 
             :columns="cols" 
@@ -267,7 +268,8 @@
     clearAllSorts,
     getColumnSortOrder,
     getColumnSortPriority,
-    hasActiveSorts
+    hasActiveSorts,
+    onDropColumn
   } = useSearchResultsTable(props, emit)
   
   const contextMenuVisible = ref(false)
@@ -374,4 +376,3 @@
     }
   }
 </script>
-

@@ -44,7 +44,7 @@ export const useSearchResultsTable = (props: SearchResultsTableProps, emit: any)
     if (searchStore.pagination.rowsPerPage === rowsPerPage[rowsPerPage.length - 1].value) {
       searchStore.stickyTableHeader = true
     }
-    onRequest({ pagination: searchStore.pagination })
+    onRequest( searchStore.pagination)
   })
 
   watch(() => props.results, async (newValue: EsSearchResult) => {
@@ -197,6 +197,13 @@ export const useSearchResultsTable = (props: SearchResultsTableProps, emit: any)
 
   const hasActiveSorts = computed(() => searchStore.pagination.columnSorts.length > 0)
 
+  const onDropColumn = ( oldIndex: number, newIndex: number ) => {
+    const newOrder = [...searchStore.pagination.columnOrder]
+    const [movedColumn] = newOrder.splice(oldIndex-1, 1)
+    newOrder.splice(newIndex-1, 0, movedColumn)
+    updateColumnOrder(newOrder)
+  }
+
   const rowsPerPage = [
     { label: '10', value: 10, enabled: true },
     { label: '20', value: 20, enabled: true },
@@ -236,6 +243,7 @@ export const useSearchResultsTable = (props: SearchResultsTableProps, emit: any)
     clearAllSorts,
     getColumnSortOrder,
     getColumnSortPriority,
-    hasActiveSorts
+    hasActiveSorts,
+    onDropColumn
   }
 }

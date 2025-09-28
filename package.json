@@ -41,6 +41,7 @@
     "pinia-plugin-persistedstate": "^4.3.0",
     "pretty-bytes": "^7.0.0",
     "quasar": "^2.18.1",
+    "quasar-ui-q-draggable-table": "^1.0.3",
     "ua-parser-js": "^2.0.3",
     "uuid": "^11.1.0",
     "vue": "^3.5.17",

@@ -69,7 +69,7 @@ export const useSearchDocuments = () => {
       search()
   }, { deep: true })
 
-  const onRequest = ({ pagination }: any) => {
+  const onRequest = ( pagination : any) => {
     searchStore.pagination.page = pagination.page
     searchStore.pagination.rowsPerPage = pagination.rowsPerPage
 
