@@ -150,22 +150,6 @@
             <q-separator />
 
             <index-export :index="index.index" @done="emitReloadAndCloseMenu" />
-
-            <!-- <row-menu-action method="indexDump"
-                             :method-params="{ indices: [props.index.index] }"
-                             :text="t('indices.index_row.options.dump.text')"
-                             :growl="t('indices.index_row.options.dump.growl', {index: index.index})"
-                             icon="export"
-                             @done="() => (afterDump(props.index.index))" />
-
-            <row-menu-action method="indexRestore"
-                             :method-params="{ indices: [props.index.index] }"
-                             :text="t('indices.index_row.options.restore.text')"
-                             :growl="t('indices.index_row.options.restore.growl', {index: index.index})"
-                             :confirm="t('indices.index_row.options.restore.confirm', {index: index.index})"
-                             icon="import"
-                             @done="() => (afterRestore(props.index.index))" /> -->
-
           </q-list>
         </q-btn-dropdown>
       </q-btn-group>

@@ -53,6 +53,10 @@
     "bulk": "Массовое действие",
     "copy": "Копировать"
   },
+  "common": {
+    "yes": "Да",
+    "no": "Нет"
+  },
   "cluster_selection": {
     "cluster_selection": {
       "connected_info": {
@@ -176,15 +180,9 @@
           "text": "Удалить индекс | Удалить индекс | Удалить {count} индексов",
           "confirm": "Удалить индекс '{index}'?",
           "growl": "Индекс '{index}' успешно удален."
-        },        
-        "dump": {
-          "text": "Сдампить индекс | Сдампить индекс | Сдампить {count} индексов",
-          "growl": "Индекс '{index}' был успешно сданпирован."
         },
-        "restore": {
-          "text": "Восстановить индекс | Восстановить индекс | Восстановить {count} индексов",
-          "confirm": "Восстановить индекс '{index}'?",
-          "growl": "Индекс '{index}' был успешно восстановлен."
+        "export": {
+          "text": "Экспорт индекса"
         }
       }
     },
@@ -208,6 +206,67 @@
           "storage": "Хранилище",
           "created": "Создан"
         }
+      }
+    },
+    "export": {
+      "title": "Экспорт индекса '{index}'",
+      "subtitle": "Экспорт всех документов и сопоставлений из этого индекса",
+      "include_mapping": "Включить сопоставление",
+      "compress_file": "Сжать файл (ZIP)",
+      "warning": "Экспорт больших индексов может занять много времени",
+      "start_export": "Начать экспорт",
+      "progress": {
+        "title": "Экспорт индекса",
+        "exporting": "Экспорт '{index}'",
+        "preparing": "Подготовка к экспорту...",
+        "exporting_documents": "Экспорт документов... ({processed}/{total})",
+        "creating_file": "Создание файла экспорта...",
+        "downloading": "Загрузка файла...",
+        "completed": "Экспорт успешно завершен!"
+      },
+      "error": {
+        "export_failed": "Ошибка экспорта",
+        "unknown": "Во время экспорта произошла неизвестная ошибка"
+      }
+    },
+    "import": {
+      "title": "Импорт индекса",
+      "subtitle": "Импорт документов и сопоставлений из файла дампа",
+      "select_file": "Выберите файл дампа (.json или .zip)",
+      "mode": {
+        "new_index": "Создать новый индекс",
+        "existing_index": "Импортировать в существующий индекс"
+      },
+      "new_index_name": "Новое имя индекса",
+      "select_existing_index": "Выберите существующий индекс",
+      "advanced_options": "Расширенные опции",
+      "overwrite_existing": "Перезаписать существующие документы",
+      "overwrite_warning": "Это заменит все существующие документы в целевом индексе",
+      "file_preview": "Предварительный просмотр файла",
+      "original_index": "Исходный индекс",
+      "documents_count": "Количество документов",
+      "has_mapping": "Имеет сопоставление",
+      "export_date": "Дата экспорта",
+      "start_import": "Начать импорт",
+      "validation": {
+        "index_name_required": "Требуется имя индекса",
+        "index_required": "Пожалуйста, выберите индекс"
+      },
+      "progress": {
+        "title": "Импорт индекса",
+        "importing": "Импорт в '{targetIndex}'",
+        "preparing": "Подготовка к импорту...",
+        "creating_index": "Создание индекса...",
+        "completed": "Импорт успешно завершен!",
+        "completed_with_errors": "Импорт завершен с {errors} ошибками"
+      },
+      "error": {
+        "no_json_in_zip": "В ZIP-архиве не найден файл JSON",
+        "invalid_file_format": "Неверный формат файла",
+        "parse_failed": "Не удалось разобрать файл",
+        "index_exists": "Индекс '{index}' уже существует",
+        "import_failed": "Ошибка импорта",
+        "unknown": "Во время импорта произошла неизвестная ошибка"
       }
     },
     "import_index":{
@@ -429,9 +488,9 @@
       "settings": {
         "columns": "Колонки"
       },
-      "download_as_json": "Скачать как JSON"
-    }
-    ,
+      "download_as_json": "Скачать как JSON",
+      "add_document": "Добавить документ"
+    },
     "context_menu": {
       "copy_row_json": "Копировать строку как JSON",
       "copy_cell_content": "Копировать содержимое ячейки",
@@ -445,8 +504,13 @@
       "add_row_json": "Редактировать строку (JSON)"
     },
     "edit_document": {
+      "new_document": "Новый документ",
+      "create": {
+        "text": "Создать",
+        "growl": "Документ успешно создан."
+      },
       "update": {
-        "text": "Обновить документ",
+        "text": "Обновить",
         "growl": "Документ успешно обновлен."
       }
     }
@@ -610,7 +674,13 @@
     },
     "table_settings": {
       "reset": "сбросить",
-      "clear": "очистить"
+      "clear": "очистить",
+      "reset_order": "Сбросить порядок",
+      "clear_sorts": "Очистить сортировки",
+      "move_to_top": "Переместить вверх",
+      "move_up": "Переместить выше",
+      "move_down": "Переместить ниже",
+      "move_to_bottom": "Переместить вниз"
     },
     "authorization_header_hint": "Убедитесь, что \"http.cors.allow-headers\" настроен",
     "code_editor": {

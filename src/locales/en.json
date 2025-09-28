@@ -47,8 +47,6 @@
     },
     "cancel": "Cancel",
     "close": "Close",
-    "yes": "Yes",
-    "no": "No",
     "create": "Create",
     "delete": "Delete",
     "success": "Success",
@@ -183,20 +181,8 @@
           "confirm": "Delete index '{index}'?",
           "growl": "The index '{index}' cache was successfully deleted."
         },
-        "dump": {
-          "text": "Dump index | Dump index | Dump {count} indices",
-          "growl": "The index '{index}' was successfully Dumped."
-        },
-        "restore": {
-          "text": "Restore index | Restore index | Restore {count} indices",
-          "confirm": "Restore index '{index}'?",
-          "growl": "The index '{index}' was successfully restored."
-        },
         "export": {
           "text": "Export index"
-        },
-        "import": {
-          "text": "Import index"
         }
       }
     },
@@ -524,7 +510,7 @@
         "growl": "Document created successfully."
       },
       "update": {
-        "text": "Update document",
+        "text": "Update",
         "growl": "Document updated successfully."
       }
     }

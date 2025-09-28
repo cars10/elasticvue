@@ -47,8 +47,6 @@
     },
     "cancel": "Annuler",
     "close": "Fermer",
-    "yes": "Oui",
-    "no": "Non",
     "create": "Créer",
     "delete": "Supprimer",
     "success": "Succès",
@@ -183,21 +181,9 @@
           "confirm": "Supprimer l'index '{index}' ?",
           "growl": "Le cache de l'index '{index}' a été supprimé avec succès."
         },
-        "dump": {
-          "text": "Dump index | Dump index | Dump {count} indices",
-          "growl": "L'index '{index}' a correctement été Dumpé."
-        },
-        "restore": {
-          "text": "Restaurer index | Restaurer index | Restaurer {count} indices",
-          "confirm": "Confirmez vous la restauration de l'index '{index}'?",
-          "growl": "L'index '{index}' a correctement été restauré."
-        },
         "export": {
           "text": "Exporter l'index"
-        },
-        "import": {
-          "text": "Importer l'index"
-        }
+        }        
       }
     },
     "indices_table": {
@@ -502,7 +488,8 @@
       "settings": {
         "columns": "Colomnes"
       },
-      "download_as_json": "Télécharger en JSON"
+      "download_as_json": "Télécharger en JSON",
+      "add_document": "Ajouter un document"
     },
     "context_menu": {
       "copy_row_json": "Copier la ligne en JSON",
@@ -517,8 +504,13 @@
       "add_row_json": "Ajouter un ligne en JSON"
     },
     "edit_document": {
+      "new_document": "Nouveau document",
+      "create": {
+        "text": "Créer",
+        "growl": "Le document a été créé avec succès."
+      },
       "update": {
-        "text": "Modifier le document",
+        "text": "Modifier",
         "growl": "Le document a été modifié avec succès."
       }
     }

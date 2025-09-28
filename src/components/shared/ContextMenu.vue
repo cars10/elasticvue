@@ -22,15 +22,7 @@
       </template>
 
       <!-- Mode sélection simple -->
-      <template v-else>
-        <q-item clickable v-close-popup @click="addRowJson">
-          <q-item-section avatar>
-            <q-icon name="add" />
-          </q-item-section>
-          <q-item-section>
-            {{ t('search.context_menu.add_row_json') }}
-          </q-item-section>
-        </q-item>
+      <template v-else-if="rowData">        
 
          <q-item clickable v-close-popup @click="editRowJson">
           <q-item-section avatar>
@@ -137,14 +129,6 @@
     }
   }
   
-  const addRowJson = () => {
-    if (props.rowData) {
-      const cp = Object.assign({}, props.rowData)
-      cp._id = undefined
-      emit('add-document', cp)
-    }
-  }
-
   const editRowJson = () => {
     if (props.rowData) {
       emit('edit-document', props.rowData)

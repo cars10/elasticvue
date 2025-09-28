@@ -53,6 +53,10 @@
     "bulk": "一括操作",
     "copy": "コピー"
   },
+  "common": {
+    "yes": "はい",
+    "no": "いいえ"
+  },
   "cluster_selection": {
     "cluster_selection": {
       "connected_info": {
@@ -177,14 +181,8 @@
           "confirm": "インデックス '{index}' を削除しますか？",
           "growl": "インデックス '{index}' は正常に削除されました。"
         },
-        "dump": {
-          "text": "インデックスをダンプ | インデックスをダンプ | {count} 個のインデックスをダンプ",
-          "growl": "インデックス '{index}' を正常にダンプしました。"
-        },
-        "restore": {
-          "text": "インデックスを復元 | インデックスを復元 | {count} 個のインデックスを復元",
-          "confirm": "インデックス '{index}' を復元しますか？",
-          "growl": "インデックス '{index}' を正常に復元しました。"
+        "export": {
+          "text": "インデックスをエクスポート"
         }
       }
     },
@@ -208,6 +206,67 @@
           "storage": "ストレージ",
           "created": "作成日"
         }
+      }
+    },
+    "export": {
+      "title": "インデックスのエクスポート '{index}'",
+      "subtitle": "このインデックスからすべてのドキュメントとマッピングをエクスポートします",
+      "include_mapping": "マッピングを含める",
+      "compress_file": "ファイルを圧縮 (ZIP)",
+      "warning": "大きなインデックスのエクスポートには時間がかかる場合があります",
+      "start_export": "エクスポートを開始",
+      "progress": {
+        "title": "インデックスをエクスポートしています",
+        "exporting": "'{index}' をエクスポートしています",
+        "preparing": "エクスポートを準備しています...",
+        "exporting_documents": "ドキュメントをエクスポートしています... ({processed}/{total})",
+        "creating_file": "エクスポートファイルを作成しています...",
+        "downloading": "ファイルをダウンロードしています...",
+        "completed": "エクスポートが正常に完了しました！"
+      },
+      "error": {
+        "export_failed": "エクスポートに失敗しました",
+        "unknown": "エクスポート中に不明なエラーが発生しました"
+      }
+    },
+    "import": {
+      "title": "インデックスのインポート",
+      "subtitle": "ダンプファイルからドキュメントとマッピングをインポートします",
+      "select_file": "ダンプファイルを選択 (.json または .zip)",
+      "mode": {
+        "new_index": "新しいインデックスを作成",
+        "existing_index": "既存のインデックスにインポート"
+      },
+      "new_index_name": "新しいインデックス名",
+      "select_existing_index": "既存のインデックスを選択",
+      "advanced_options": "詳細オプション",
+      "overwrite_existing": "既存のドキュメントを上書き",
+      "overwrite_warning": "これにより、ターゲットインデックス内の既存のすべてのドキュメントが置き換えられます",
+      "file_preview": "ファイルプレビュー",
+      "original_index": "元のインデックス",
+      "documents_count": "ドキュメント数",
+      "has_mapping": "マッピングあり",
+      "export_date": "エクスポート日",
+      "start_import": "インポートを開始",
+      "validation": {
+        "index_name_required": "インデックス名は必須です",
+        "index_required": "インデックスを選択してください"
+      },
+      "progress": {
+        "title": "インデックスをインポートしています",
+        "importing": "'{targetIndex}' にインポートしています",
+        "preparing": "インポートを準備しています...",
+        "creating_index": "インデックスを作成しています...",
+        "completed": "インポートが正常に完了しました！",
+        "completed_with_errors": "{errors} 個のエラーでインポートが完了しました"
+      },
+      "error": {
+        "no_json_in_zip": "ZIPアーカイブにJSONファイルが見つかりません",
+        "invalid_file_format": "無効なファイル形式",
+        "parse_failed": "ファイルの解析に失敗しました",
+        "index_exists": "インデックス '{index}' は既に存在します",
+        "import_failed": "インポートに失敗しました",
+        "unknown": "インポート中に不明なエラーが発生しました"
       }
     },
     "import_index":{
@@ -429,7 +488,8 @@
       "settings": {
         "columns": "列"
       },
-      "download_as_json": "JSON としてダウンロード"
+      "download_as_json": "JSON としてダウンロード",
+      "add_document": "ドキュメントを追加"
     },
     "context_menu": {
       "copy_row_json": "行をJSONとしてコピー",
@@ -444,8 +504,13 @@
       "add_row_json": "行を編集（JSON）"
     },
     "edit_document": {
+      "new_document": "新しいドキュメント",
+      "create": {
+        "text": "作成",
+        "growl": "ドキュメントは正常に作成されました。"
+      },
       "update": {
-        "text": "ドキュメントを更新",
+        "text": "更新",
         "growl": "ドキュメントは正常に更新されました。"
       }
     }
@@ -479,7 +544,7 @@
       "heading": "elasticvue データのインポート/エクスポート",
       "message": "elasticvue の設定を JSON としてインポートおよびエクスポートできます。これはクラスターデータのバックアップ<strong>ではありません</strong>。インデックスのバックアップが必要な場合は、スナップショットを使用してください。",
       "export": {
-        "heading": "エクスポート",
+        "heading": "エクスport",
         "included": "含まれる内容",
         "download": "バックアップをダウンロード"
       },
@@ -609,7 +674,13 @@
     },
     "table_settings": {
       "reset": "リセット",
-      "clear": "クリア"
+      "clear": "クリア",
+      "reset_order": "順序をリセット",
+      "clear_sorts": "ソートをクリア",
+      "move_to_top": "一番上に移動",
+      "move_up": "上に移動",
+      "move_down": "下に移動",
+      "move_to_bottom": "一番下に移動"
     },
     "authorization_header_hint": "\"http.cors.allow-headers\" が設定されていることを確認してください",
     "code_editor": {

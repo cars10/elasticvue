@@ -1,14 +1,5 @@
 <template>
   <q-btn id="import_index" color="primary-dark" :label="t('indices.import_index.heading')" @click="openImportDialog" />
-<!-- 
-  <q-item clickable @click="openImportDialog">
-    <q-item-section side>
-      <q-icon name="file_upload" size="xs" />
-    </q-item-section>
-    <q-item-section>
-      <q-item-label>{{ t('indices.index_row.options.import.text') }}</q-item-label>
-    </q-item-section>
-  </q-item> -->
 
   <!-- Dialog d'import -->
   <q-dialog v-model="importDialogVisible" persistent>

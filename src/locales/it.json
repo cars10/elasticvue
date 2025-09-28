@@ -53,6 +53,10 @@
     "bulk": "Azione di massa",
     "copy": "Copia"
   },
+  "common": {
+    "yes": "Sì",
+    "no": "No"
+  },
   "cluster_selection": {
     "cluster_selection": {
       "connected_info": {
@@ -177,15 +181,9 @@
           "confirm": "Eliminare l'indice '{index}'?",
           "growl": "L'indice '{index}' è stato eliminato con successo."
         },
-        "dump": {
-          "text": "Scarica indice | Scarica indice | Scarica {count} indici",
-          "growl": "L'indice '{index}' è stato scaricato correttamente."
-        },
-        "restore": {
-          "text": "Ripristina indice | Ripristina indice | Ripristina {count} indici",
-          "confirm": "Ripristinare l'indice '{index}'?",
-          "growl": "L'indice '{index}' è stato ripristinato correttamente."
-        }
+        "export": {
+          "text": "Esporta indice"
+        }        
       }
     },
     "indices_table": {
@@ -208,6 +206,67 @@
           "storage": "Archiviazione",
           "created": "Creato"
         }
+      }
+    },
+    "export": {
+      "title": "Esporta indice '{index}'",
+      "subtitle": "Esporta tutti i documenti e la mappatura da questo indice",
+      "include_mapping": "Includi mappatura",
+      "compress_file": "Comprimi file (ZIP)",
+      "warning": "L'esportazione di indici di grandi dimensioni potrebbe richiedere molto tempo",
+      "start_export": "Avvia esportazione",
+      "progress": {
+        "title": "Esportazione dell'indice",
+        "exporting": "Esportazione di '{index}'",
+        "preparing": "Preparazione dell'esportazione...",
+        "exporting_documents": "Esportazione documenti... ({processed}/{total})",
+        "creating_file": "Creazione del file di esportazione...",
+        "downloading": "Download del file...",
+        "completed": "Esportazione completata con successo!"
+      },
+      "error": {
+        "export_failed": "Esportazione fallita",
+        "unknown": "Si è verificato un errore sconosciuto durante l'esportazione"
+      }
+    },
+    "import": {
+      "title": "Importa indice",
+      "subtitle": "Importa documenti e mappatura da un file di dump",
+      "select_file": "Seleziona file di dump (.json o .zip)",
+      "mode": {
+        "new_index": "Crea nuovo indice",
+        "existing_index": "Importa in un indice esistente"
+      },
+      "new_index_name": "Nuovo nome dell'indice",
+      "select_existing_index": "Seleziona indice esistente",
+      "advanced_options": "Opzioni avanzate",
+      "overwrite_existing": "Sovrascrivi documenti esistenti",
+      "overwrite_warning": "Questo sostituirà tutti i documenti esistenti nell'indice di destinazione",
+      "file_preview": "Anteprima file",
+      "original_index": "Indice originale",
+      "documents_count": "Conteggio documenti",
+      "has_mapping": "Ha mappatura",
+      "export_date": "Data di esportazione",
+      "start_import": "Avvia importazione",
+      "validation": {
+        "index_name_required": "Il nome dell'indice è obbligatorio",
+        "index_required": "Seleziona un indice"
+      },
+      "progress": {
+        "title": "Importazione dell'indice",
+        "importing": "Importazione in '{targetIndex}'",
+        "preparing": "Preparazione dell'importazione...",
+        "creating_index": "Creazione dell'indice...",
+        "completed": "Importazione completata con successo!",
+        "completed_with_errors": "Importazione completata con {errors} errori"
+      },
+      "error": {
+        "no_json_in_zip": "Nessun file JSON trovato nell'archivio ZIP",
+        "invalid_file_format": "Formato file non valido",
+        "parse_failed": "Analisi del file non riuscita",
+        "index_exists": "L'indice '{index}' esiste già",
+        "import_failed": "Importazione fallita",
+        "unknown": "Si è verificato un errore sconosciuto durante l'importazione"
       }
     },
     "import_index":{
@@ -429,7 +488,8 @@
       "settings": {
         "columns": "Colonne"
       },
-      "download_as_json": "Scarica come json"
+      "download_as_json": "Scarica come json",
+      "add_document": "Aggiungi documento"
     },
     "context_menu": {
       "copy_row_json": "Copia riga come JSON",
@@ -444,8 +504,13 @@
       "add_row_json": "Modifica riga (JSON)"
     },
     "edit_document": {
+      "new_document": "Nuovo documento",
+      "create": {
+        "text": "Creare",
+        "growl": "Documento creato con successo."
+      },
       "update": {
-        "text": "Aggiorna documento",
+        "text": "Aggiorna",
         "growl": "Documento aggiornato con successo."
       }
     }
@@ -609,7 +674,13 @@
     },
     "table_settings": {
       "reset": "reimposta",
-      "clear": "cancella"
+      "clear": "cancella",
+      "reset_order": "Reimposta ordine",
+      "clear_sorts": "Cancella ordinamenti",
+      "move_to_top": "Sposta in alto",
+      "move_up": "Sposta su",
+      "move_down": "Sposta giù",
+      "move_to_bottom": "Sposta in basso"
     },
     "authorization_header_hint": "Assicurati che \"http.cors.allow-headers\" sia configurato",
     "code_editor": {
