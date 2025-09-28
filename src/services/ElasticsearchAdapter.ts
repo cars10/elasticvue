@@ -409,9 +409,9 @@ export default class ElasticsearchAdapter {
     routing: string,
     params: any
   }) {
-    let path = `${cleanIndexName(index)}/${type}/${encodeURIComponent(id)}?refresh=true`
+    let path = id ? `${cleanIndexName(index)}/${type}/${encodeURIComponent(id)}?refresh=true` : `${cleanIndexName(index)}/${type}?refresh=true` 
     if (routing) path += `&routing=${routing}`
-    return this.request(path, 'PUT', params)
+    return this.request(path, id ? 'PUT' : 'POST', params)
   }
 
   get ({ index, type, id, routing }: { index: string, type: string, id: any, routing?: string }) {
@@ -550,13 +550,7 @@ export default class ElasticsearchAdapter {
       body: body && typeof body !== 'string' ? stringifyJson(body) : body,
       headers: { ...REQUEST_DEFAULT_HEADERS }
     }
-
-    // Use correct content type for NDJSON bulk requests
-    if (typeof body === 'string') {
-      // @ts-expect-error header definition
-      options.headers['Content-Type'] = 'application/x-ndjson'
-    }
-
+    
     if (this.authHeader) {
       // @ts-expect-error header definition
       options.headers['Authorization'] = this.authHeader

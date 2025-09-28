@@ -1,5 +1,5 @@
 import { useElasticsearchAdapter } from '../../CallElasticsearch'
-import { ColumnSort, useSearchStore } from '../../../store/search'
+import { useSearchStore } from '../../../store/search'
 import { useResizeStore } from '../../../store/resize'
 import { Ref, ref, watch } from 'vue'
 import { parseJson } from '../../../helpers/json/parse'
@@ -116,7 +116,7 @@ export const buildQueryFromTableOptions = (pagination: any, columnSorts: any[] =
 
   const from = (pagination.page - 1) * pagination.rowsPerPage
   const size = pagination.rowsPerPage
-  const sort: {}[] = [];
+  const sort: any[] = []
   const newQueryParts = { size, from,sort }
 
   const sortArray = []

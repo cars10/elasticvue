@@ -36,8 +36,9 @@
       </q-card-section>
 
       <q-card-section>
-        <q-btn :label="t(isNew ? 'search.edit_document.create.text' : 'search.edit_document.update.text')"
+        <q-btn :label="isNew ? t( 'search.edit_document.create.text') : t('search.edit_document.update.text')"
                :loading="loading"
+               :disable="loading || !isDirty || (isNew && !selectedIndex)"
                color="positive"
                type="submit"
                class="q-mr-md"
@@ -76,6 +77,7 @@
     saveDocument,
     isNew,
     availableIndices,
-    selectedIndex
+    selectedIndex,
+    isDirty
   } = useEditDocument(props, emit)
 </script>

@@ -6,6 +6,7 @@ import {
 } from '../../CallElasticsearch.ts'
 import { stringifyJson } from '../../../helpers/json/stringify.ts'
 import { useSearchStore } from '../../../store/search.ts'
+import { onBeforeRouteLeave } from 'vue-router'
 
 export type EditDocumentProps = {
   modelValue: boolean
@@ -33,10 +34,13 @@ export const useEditDocument = (props: EditDocumentProps, emit: any) => {
   const ownValue = ref(false)
   const t = useTranslation()
   const document = ref('')
+  const originalDocument = ref('')
   const documentMeta = ref({} as ElasticsearchDocumentMeta)
   const searchStore = useSearchStore()
   const availableIndices = ref<string[]>([])
   const selectedIndex = ref(props._index)
+
+  const isDirty = computed(() => document.value !== originalDocument.value)
 
   const { requestState, callElasticsearch } = useElasticsearchAdapter()
   const data: Ref<any> = ref(null)
@@ -136,6 +140,7 @@ export const useEditDocument = (props: EditDocumentProps, emit: any) => {
         _routing: data.value._routing
       }
     }
+    originalDocument.value = document.value
   }
 
   const validDocumentMeta = computed(() => {
@@ -153,16 +158,30 @@ export const useEditDocument = (props: EditDocumentProps, emit: any) => {
         index,
         type: props._type,
         id,
-        routing: props._routing
+        routing: props._routing,
+        params: document.value
       },
       confirmMsg :confirmMsg,
-      body: document.value,
       snackbarOptions: {
         body: snackbarOptionsBody
       }
     })
-    ownValue.value = result
+    if (result){
+      originalDocument.value = document.value
+      ownValue.value = true
+    }
   }
+
+  onBeforeRouteLeave(() => {
+    if (isDirty.value) {
+      if (window.confirm('You have unsaved changes, are you sure you want to leave?')) {
+        return true
+      } else {
+        return false
+      }
+    }
+    return true
+  })
 
   return {
     document,
@@ -174,6 +193,7 @@ export const useEditDocument = (props: EditDocumentProps, emit: any) => {
     saveDocument,
     isNew,
     availableIndices,
-    selectedIndex
+    selectedIndex,
+    isDirty
   }
 }
