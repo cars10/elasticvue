@@ -94,7 +94,7 @@ export const useEditDocument = (props: EditDocumentProps, emit: any) => {
 
     try {
       const mappingData = await callElasticsearch('indicesGetMapping', { index })
-      const properties = mappingData[index]?.mappings?.properties
+      const properties = mappingData[index]?.mappings?.[index]?.properties
       const newDoc = buildDocumentFromMapping(properties)
       document.value = stringifyJson(newDoc)
     } catch (e) {
@@ -146,19 +146,22 @@ export const useEditDocument = (props: EditDocumentProps, emit: any) => {
   const saveDocument = async () => {
     const id = isNew.value ? undefined : props._id
     const index = isNew.value ? selectedIndex.value : props._index
-    await run({
+    const snackbarOptionsBody = isNew.value ? t('search.edit_document.create.growl') : t('search.edit_document.update.growl')
+    const confirmMsg = isNew.value ? t('search.edit_document.create.confirm') : t('search.edit_document.update.confirm')
+    const result = await run({
       params: {
         index,
         type: props._type,
         id,
         routing: props._routing
       },
+      confirmMsg :confirmMsg,
       body: document.value,
       snackbarOptions: {
-        body: t(isNew.value ? 'search.edit_document.create.growl' : 'search.edit_document.update.growl')
+        body: snackbarOptionsBody
       }
     })
-    ownValue.value = false
+    ownValue.value = result
   }
 
   return {

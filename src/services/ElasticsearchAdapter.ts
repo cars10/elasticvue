@@ -116,6 +116,15 @@ export default class ElasticsearchAdapter {
     }
   }
 
+  async indicesGetMapping({ index}: { index: string}) {
+   
+    // Récupérer le mapping
+      const mappingResponse = await this.request(`${cleanIndexName(index)}/_mapping`, 'GET') as any
+      const mapping: any = await mappingResponse.json()
+
+      return mapping
+  }
+
   async indexDump ({ index, onProgress }: { index: string, onProgress?: (progress: { processed: number, total: number, percentage: number }) => void }) {
     try {
       // Récupérer le mapping
