@@ -198,10 +198,21 @@ export const useSearchResultsTable = (props: SearchResultsTableProps, emit: any)
   const hasActiveSorts = computed(() => searchStore.pagination.columnSorts.length > 0)
 
   const onDropColumn = ( oldIndex: number, newIndex: number ) => {
-    const newOrder = [...searchStore.pagination.columnOrder]
-    const [movedColumn] = newOrder.splice(oldIndex-1, 1)
-    newOrder.splice(newIndex-1, 0, movedColumn)
-    updateColumnOrder(newOrder)
+    if (newIndex > 0 && newIndex < searchStore.pagination.columnOrder.length)
+    {
+      const temp = orderedVisibleColumns.value
+
+      const oldColName = temp[oldIndex-1]
+      const newColName = temp[newIndex-1]
+
+      const realoldIndex = searchStore.pagination.columnOrder.indexOf(oldColName)
+      const realnewIndex = searchStore.pagination.columnOrder.indexOf(newColName)
+
+      const newOrder = [...searchStore.pagination.columnOrder]
+      const [movedColumn] = newOrder.splice(realoldIndex, 1)
+      newOrder.splice(realnewIndex, 0, movedColumn)
+      updateColumnOrder(newOrder)
+    }
   }
 
   const rowsPerPage = [
