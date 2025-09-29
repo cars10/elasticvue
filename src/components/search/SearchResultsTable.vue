@@ -40,61 +40,55 @@
               </q-item-label>
             </q-item>
 
-            <div class="flex items-center">
-              <q-btn icon="arrow_left" @click="scrollColumns(-1)" dense flat round />
-              <div ref="columnsContainer" class="scroll-container" style="overflow-x: auto; white-space: nowrap; max-width: 400px;">
-                <q-item v-for="(col, index) in slicedTableColumns" :key="col.name" style="padding-left: 8px; display: inline-block;" dense>
-                  <q-checkbox v-model="searchStore.visibleColumns" :val="col.name" :label="col.label" size="32px"
-                              style="flex-grow: 1" />
-                  <div class="q-ml-sm">
-                    <q-btn
-                      v-if="index > 0"
-                      icon="keyboard_double_arrow_up"
-                      size="sm"
-                      flat
-                      round
-                      dense
-                      @click="moveColumnToTop(index)"
-                      class="q-mr-xs"
-                      :title="t('shared.table_settings.move_to_top')"
-                    />
-                    <q-btn
-                      v-if="index > 0"
-                      icon="keyboard_arrow_up"
-                      size="sm"
-                      flat
-                      round
-                      dense
-                      @click="moveColumnUp(index)"
-                      class="q-mr-xs"
-                      :title="t('shared.table_settings.move_up')"
-                    />
-                    <q-btn
-                      v-if="index < slicedTableColumns.length - 1"
-                      icon="keyboard_arrow_down"
-                      size="sm"
-                      flat
-                      round
-                      dense
-                      @click="moveColumnDown(index)"
-                      class="q-mr-xs"
-                      :title="t('shared.table_settings.move_down')"
-                    />
-                    <q-btn
-                      v-if="index < slicedTableColumns.length - 1"
-                      icon="keyboard_double_arrow_down"
-                      size="sm"
-                      flat
-                      round
-                      dense
-                      @click="moveColumnToBottom(index)"
-                      :title="t('shared.table_settings.move_to_bottom')"
-                    />
-                  </div>
-                </q-item>
+            <q-item v-for="(col, index) in slicedTableColumns" :key="col.name" style="padding-left: 8px" dense>
+              <q-checkbox v-model="searchStore.visibleColumns" :val="col.name" :label="col.label" size="32px"
+                          style="flex-grow: 1" />
+              <div class="q-ml-sm">
+                <q-btn 
+                  v-if="index > 0"
+                  icon="keyboard_double_arrow_up" 
+                  size="sm" 
+                  flat 
+                  round 
+                  dense
+                  @click="moveColumnToTop(index)"
+                  class="q-mr-xs"
+                  :title="t('shared.table_settings.move_to_top')"
+                />
+                <q-btn 
+                  v-if="index > 0"
+                  icon="keyboard_arrow_up" 
+                  size="sm" 
+                  flat 
+                  round 
+                  dense
+                  @click="moveColumnUp(index)"
+                  class="q-mr-xs"
+                  :title="t('shared.table_settings.move_up')"
+                />
+                <q-btn 
+                  v-if="index < slicedTableColumns.length - 1"
+                  icon="keyboard_arrow_down" 
+                  size="sm" 
+                  flat 
+                  round 
+                  dense
+                  @click="moveColumnDown(index)"
+                  class="q-mr-xs"
+                  :title="t('shared.table_settings.move_down')"
+                />
+                <q-btn 
+                  v-if="index < slicedTableColumns.length - 1"
+                  icon="keyboard_double_arrow_down" 
+                  size="sm" 
+                  flat 
+                  round 
+                  dense
+                  @click="moveColumnToBottom(index)"
+                  :title="t('shared.table_settings.move_to_bottom')"
+                />
               </div>
-              <q-btn icon="arrow_right" @click="scrollColumns(1)" dense flat round />
-            </div>
+            </q-item>
           </q-list>
         </q-menu>
       </q-btn>
@@ -118,9 +112,9 @@
                selection="multiple"
                @request="onRequest">
         <template #body="{row, cols}">
-          <search-result
-            :columns="cols"
-            :doc="row"
+          <search-result 
+            :columns="cols" 
+            :doc="row" 
             :has-multiple-selections="selectedItems.length > 1"
             @reload="reload"
             @row-context-menu="handleRowContextMenu"
@@ -135,7 +129,7 @@
 
         <template #header-selection>
           <q-checkbox v-model="allItemsSelected" size="32px" @update:model-value="checkAll" />
-        </template>
+        </template> 
 
         <template #header="props">
           <q-tr :props="props">
@@ -277,7 +271,7 @@
     hasActiveSorts,
     onDropColumn
   } = useSearchResultsTable(props, emit)
-
+  
   const contextMenuVisible = ref(false)
   const contextMenuTarget = ref<HTMLElement | null>(null)
   const contextMenuRowData = ref<any>(null)
@@ -285,37 +279,14 @@
   const contextMenuSelectedRows = ref<any[]>([])
   const contextMenuIsMultipleSelection = ref(false)
 
-  const columnsContainer = ref<HTMLElement | null>(null)
-  let lastClickTime = 0
-  let lastClickDirection = 0
-
-  const scrollColumns = (direction: number) => {
-    const now = Date.now()
-    if (now - lastClickTime < 300 && direction === lastClickDirection) {
-      if (columnsContainer.value) {
-        if (direction === -1) {
-          columnsContainer.value.scrollTo({ left: 0, behavior: 'smooth' })
-        } else {
-          columnsContainer.value.scrollTo({ left: columnsContainer.value.scrollWidth, behavior: 'smooth' })
-        }
-      }
-    } else {
-      if (columnsContainer.value) {
-        columnsContainer.value.scrollBy({ left: 200 * direction, behavior: 'smooth' })
-      }
-    }
-    lastClickTime = now
-    lastClickDirection = direction
-  }
-
   const moveColumnUp = (index: number) => {
     const newOrder = [...searchStore.pagination.columnOrder]
     const currentColumn = newOrder[index]
     const previousColumn = newOrder[index - 1]
-
+    
     newOrder[index] = previousColumn
     newOrder[index - 1] = currentColumn
-
+    
     updateColumnOrder(newOrder)
 
     onRequest(searchStore.pagination)
@@ -325,10 +296,10 @@
     const newOrder = [...searchStore.pagination.columnOrder]
     const currentColumn = newOrder[index]
     const nextColumn = newOrder[index + 1]
-
+    
     newOrder[index] = nextColumn
     newOrder[index + 1] = currentColumn
-
+    
     updateColumnOrder(newOrder)
 
     onRequest(searchStore.pagination)
@@ -337,10 +308,10 @@
   const moveColumnToTop = (index: number) => {
     const newOrder = [...searchStore.pagination.columnOrder]
     const currentColumn = newOrder[index]
-
+    
     newOrder.splice(index, 1)
     newOrder.unshift(currentColumn)
-
+    
     updateColumnOrder(newOrder)
 
     onRequest(searchStore.pagination)
@@ -352,7 +323,7 @@
 
     newOrder.splice(index, 1)
     newOrder.splice(newOrder.length - 1, 0, currentColumn)
-
+    
     updateColumnOrder(newOrder)
 
     onRequest(searchStore.pagination)
@@ -361,20 +332,20 @@
   const handleRowContextMenu = (event: MouseEvent, rowData: any) => {
     event.preventDefault()
     event.stopPropagation()
-
+    
     const hasMultipleSelections = selectedItems.value.length > 1
-
+    
     if (hasMultipleSelections) {
-      contextMenuSelectedRows.value = hits.value.filter(hit =>
+      contextMenuSelectedRows.value = hits.value.filter(hit => 
         selectedItems.value.includes(genDocStr(hit))
       )
       contextMenuIsMultipleSelection.value = true
-      contextMenuCellContent.value = ''
+      contextMenuCellContent.value = '' 
     } else {
       contextMenuRowData.value = rowData
       contextMenuIsMultipleSelection.value = false
     }
-
+    
     contextMenuTarget.value = event.currentTarget as HTMLElement
     contextMenuVisible.value = true
   }
@@ -382,11 +353,11 @@
   const handleCellContextMenu = (event: MouseEvent, rowData: any, cellContent: string) => {
     event.preventDefault()
     event.stopPropagation()
-
+    
     if (selectedItems.value.length > 1) {
       return
     }
-
+    
     contextMenuRowData.value = rowData
     contextMenuCellContent.value = cellContent
     contextMenuIsMultipleSelection.value = false
