@@ -302,6 +302,17 @@
         "clearing_documents": "Deleting documents... ({processed}/{total})",
         "completed": "Clearing completed successfully!"
       }
+    },
+    "index_bulk": {
+      "export": {
+        "text": "Export selected indices",
+        "confirm": "Are you sure you want to export {count} indices? This will download {count} files.",
+        "growl": "Export finished.",
+        "progress": {
+          "title": "Exporting indices",
+          "exporting": "Exporting index {current} of {total}: {index}"
+        }
+      }
     }
   },
   "index_templates": {
@@ -519,6 +530,9 @@
     },
     "edit_document": {
       "new_document": "New document",
+      "id": {
+        "label": "ID (optional)"
+      },
       "create": {
         "text": "Create",
         "growl": "Document created successfully."

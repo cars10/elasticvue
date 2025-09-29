@@ -171,6 +171,11 @@
           "text": "Apri indice | Apri indice | Apri {count} indici",
           "growl": "L'indice '{index}' è stato aperto con successo."
         },
+        "clear": {
+          "text": "Svuota indice | Svuota indice | Svuota {count} indici",
+          "confirm": "Svuotare l'indice '{index}'? Questo rimuoverà TUTTI i dati nel tuo indice!",
+          "growl": "L'indice '{index}' è stato svuotato con successo."
+        },
         "delete_by_query": {
           "text": "Elimina tutti i documenti",
           "confirm": "Eliminare tutti i documenti nell'indice '{index}'? Questo rimuoverà TUTTI i dati nel tuo indice!",
@@ -183,7 +188,7 @@
         },
         "export": {
           "text": "Esporta indice"
-        }        
+        }
       }
     },
     "indices_table": {
@@ -287,6 +292,26 @@
       },
       "create_index": {
         "growl": "L'indice '{index}' è stato creato con successo."
+      }
+    },
+    "index_clear": {
+      "progress": {
+        "title": "Svuotamento indice",
+        "clearing": "Svuotamento di '{index}'",
+        "preparing": "In preparazione...",
+        "clearing_documents": "Eliminazione documenti... ({processed}/{total})",
+        "completed": "Svuotamento completato con successo!"
+      }
+    },
+    "index_bulk": {
+      "export": {
+        "text": "Esporta indici selezionati",
+        "confirm": "Sei sicuro di voler esportare {count} indici? Verranno scaricati {count} file.",
+        "growl": "Esportazione terminata.",
+        "progress": {
+          "title": "Esportazione indici",
+          "exporting": "Esportazione dell'indice {current} di {total}: {index}"
+        }
       }
     }
   },
@@ -505,6 +530,9 @@
     },
     "edit_document": {
       "new_document": "Nuovo documento",
+      "id": {
+        "label": "ID (opzionale)"
+      },
       "create": {
         "text": "Creare",
         "growl": "Documento creato con successo."

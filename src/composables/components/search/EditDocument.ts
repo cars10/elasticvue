@@ -34,6 +34,7 @@ export const useEditDocument = (props: EditDocumentProps, emit: any) => {
   const ownValue = ref(false)
   const t = useTranslation()
   const document = ref('')
+  const documentId = ref('')
   const originalDocument = ref('')
   const documentMeta = ref({} as ElasticsearchDocumentMeta)
   const searchStore = useSearchStore()
@@ -149,7 +150,7 @@ export const useEditDocument = (props: EditDocumentProps, emit: any) => {
 
   const { run, loading } = defineElasticsearchRequest({ emit, method: 'index' })
   const saveDocument = async () => {
-    const id = isNew.value ? undefined : props._id
+    const id = isNew.value ? (documentId.value || undefined) : props._id
     const index = isNew.value ? selectedIndex.value : props._index
     const snackbarOptionsBody = isNew.value ? t('search.edit_document.create.growl') : t('search.edit_document.update.growl')
     const confirmMsg = isNew.value ? t('search.edit_document.create.confirm') : t('search.edit_document.update.confirm')
@@ -185,6 +186,7 @@ export const useEditDocument = (props: EditDocumentProps, emit: any) => {
 
   return {
     document,
+    documentId,
     validDocumentMeta,
     ownValue,
     loadDocument,

@@ -171,6 +171,11 @@
           "text": "开启索引",
           "growl": "索引 '{index}' 缓存已成功开启。"
         },
+        "clear": {
+          "text": "清除索引 | 清除索引 | 清除 {count} 个索引",
+          "confirm": "要清除索引 '{index}' 吗？这将删除索引中的所有数据！",
+          "growl": "索引 '{index}' 已成功清除。"
+        },
         "delete_by_query": {
           "text": "删除所有文档",
           "confirm": "确认删除索引 '{index}' 中的所有文档? 这意味着移除此索引中的所有数据!",
@@ -287,6 +292,26 @@
       },
       "create_index": {
         "growl": "索引 '{index}' 成功创建。"
+      }
+    },
+    "index_clear": {
+      "progress": {
+        "title": "正在清除索引",
+        "clearing": "正在清除 '{index}'",
+        "preparing": "准备中...",
+        "clearing_documents": "正在删除文档... ({processed}/{total})",
+        "completed": "清除成功！"
+      }
+    },
+    "index_bulk": {
+      "export": {
+        "text": "导出选定的索引",
+        "confirm": "您确定要导出 {count} 个索引吗？将下载 {count} 个文件。",
+        "growl": "导出完成。",
+        "progress": {
+          "title": "正在导出索引",
+          "exporting": "正在导出索引 {current} of {total}: {index}"
+        }
       }
     }
   },
@@ -505,6 +530,9 @@
     },
     "edit_document": {
       "new_document": "新文件",
+      "id": {
+        "label": "ID (可选)"
+      },
       "create": {
         "text": "创建",
         "growl": "文件创建成功."
@@ -776,7 +804,7 @@
     }
   },
   "update_check": {
-    "downloading": "下载中... {progress}%",
+    "downloading": "下载中... {progress}%%",
     "heading": "一个新的 elasticvue 版本可用。",
     "installing": "正在安装更新，请稍候...",
     "update_info": "Elasticvue {version} 可用。您现在想安装吗？",

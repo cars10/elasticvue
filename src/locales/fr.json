@@ -188,7 +188,7 @@
         },
         "export": {
           "text": "Exporter l'index"
-        }        
+        }
       }
     },
     "indices_table": {
@@ -301,6 +301,17 @@
         "preparing": "Préparation...",
         "clearing_documents": "Suppression des documents... ({processed}/{total})",
         "completed": "Vidage terminé avec succès !"
+      }
+    },
+    "index_bulk": {
+      "export": {
+        "text": "Exporter les index sélectionnés",
+        "confirm": "Voulez-vous vraiment exporter {count} index ? Cela téléchargera {count} fichiers.",
+        "growl": "Exportation terminée.",
+        "progress": {
+          "title": "Exportation des index",
+          "exporting": "Exportation de l'index {current} sur {total}: {index}"
+        }
       }
     }
   },
@@ -519,6 +530,9 @@
     },
     "edit_document": {
       "new_document": "Nouveau document",
+      "id": {
+        "label": "ID (optionnel)"
+      },
       "create": {
         "text": "Créer",
         "growl": "Le document a été créé avec succès."
@@ -790,7 +804,7 @@
     }
   },
   "update_check": {
-    "downloading": "Téléchargement... {progress}%",
+    "downloading": "Téléchargement... {progress}%%",
     "heading": "Une nouvelle version d'elasticvue est disponible.",
     "installing": "Installation de la mise à jour, veuillez patienter...",
     "update_info": "Elasticvue {version} est disponible. Voulez-vous l'installer maintenant ?",
