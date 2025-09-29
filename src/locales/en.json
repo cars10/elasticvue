@@ -171,6 +171,11 @@
           "text": "Open index | Open index | Open {count} indices",
           "growl": "The index '{index}' cache was successfully opened."
         },
+        "clear": {
+          "text": "Clear index | Clear index | Clear {count} indices",
+          "confirm": "Clear index '{index}'? This will remove ALL data in your index!",
+          "growl": "The index '{index}' was successfully cleared."
+        },
         "delete_by_query": {
           "text": "Delete all documents",
           "confirm": "Delete all documents in index '{index}'? This will remove ALL data in your index!",
@@ -287,6 +292,15 @@
       },
       "create_index": {
         "growl": "The index '{index}' was successfully created."
+      }
+    },
+    "index_clear": {
+      "progress": {
+        "title": "Clearing index",
+        "clearing": "Clearing '{index}'",
+        "preparing": "Preparing...",
+        "clearing_documents": "Deleting documents... ({processed}/{total})",
+        "completed": "Clearing completed successfully!"
       }
     }
   },

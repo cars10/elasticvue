@@ -94,6 +94,10 @@ export default class ElasticsearchAdapter {
     return this.request(`${cleanIndexName(index)}`, 'PUT', body)
   }
 
+  getTask ({ taskId }: { taskId: string }) {
+    return this.request(`_tasks/${taskId}`, 'GET')
+  }
+
   deleteByQuery ({ index }: { index: string }) {
     const body = { query: { match_all: {} } }
     return this.request(`${cleanIndexName(index)}/_delete_by_query?refresh=true`, 'POST', body)
@@ -385,6 +389,41 @@ export default class ElasticsearchAdapter {
     } else {
       return this.request(`${cleanIndexName(indices.join(','))}/_flush`, 'POST')
     }
+  }
+
+  async indexClear ({ indices, onProgress }: { indices: string[], onProgress?: (progress: { processed: number, total: number, percentage: number, status: string }) => void }) {
+    const body = { query: { match_all: {} } }
+    const response: any = await this.request(`${cleanIndexName(indices.join(','))}/_delete_by_query?refresh=true&wait_for_completion=false`, 'POST', body)
+    const taskId = (await response.json()).task
+
+    if (taskId && onProgress) {
+      onProgress({ processed: 0, total: 1, percentage: 0, status: 'Task started' })
+
+      const poll = async () => {
+        try {
+          const taskResponse: any = await this.getTask({ taskId })
+          const taskJson = await taskResponse.json()
+
+          if (taskJson.completed) {
+            const total = taskJson.task.status.total || 0
+            const processed = taskJson.task.status.deleted || 0
+            onProgress({ processed, total, percentage: 100, status: 'Completed' })
+          } else {
+            const total = taskJson.task.status.total || 0
+            const processed = taskJson.task.status.deleted || 0
+            const percentage = total > 0 ? Math.round((processed / total) * 100) : 0
+            onProgress({ processed, total, percentage, status: 'In progress...' })
+            setTimeout(poll, 1000)
+          }
+        } catch (e) {
+          console.error(e)
+          // Stop polling on error
+        }
+      }
+      setTimeout(poll, 1000)
+    }
+
+    return response
   }
 
   indexExists ({ index }: { index: string }) {

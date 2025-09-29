@@ -110,7 +110,7 @@
                :rows="filteredHits"
                :visible-columns="orderedVisibleColumns"
                selection="multiple"
-               @request="onRequest(searchStore.pagination)">
+               @request="onRequest">
         <template #body="{row, cols}">
           <search-result 
             :columns="cols" 

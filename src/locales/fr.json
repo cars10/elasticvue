@@ -171,6 +171,11 @@
           "text": "Ouvrir l'index | Ouvrir l'index | Ouvrir {count} index",
           "growl": "Le cache de l'index '{index}' à été ouvert avec succès"
         },
+        "clear": {
+          "text": "Vider l'index | Vider l'index | Vider {count} index",
+          "confirm": "Vider l'index '{index}' ? Cette action supprime TOUTES les données de votre index !",
+          "growl": "L'index '{index}' a été vidé avec succès."
+        },
         "delete_by_query": {
           "text": "Supprimer tous les documents",
           "confirm": "Supprimer tous les documents de l'index : '{index}' ? Cette action supprime TOUTES les données de votre index !",
@@ -287,6 +292,15 @@
       },
       "create_index": {
         "growl": "L'index '{index}' a été créé avec succès."
+      }
+    },
+    "index_clear": {
+      "progress": {
+        "title": "Vidage de l'index",
+        "clearing": "Vidage de '{index}'",
+        "preparing": "Préparation...",
+        "clearing_documents": "Suppression des documents... ({processed}/{total})",
+        "completed": "Vidage terminé avec succès !"
       }
     }
   },

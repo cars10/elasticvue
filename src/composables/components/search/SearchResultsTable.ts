@@ -44,7 +44,7 @@ export const useSearchResultsTable = (props: SearchResultsTableProps, emit: any)
     if (searchStore.pagination.rowsPerPage === rowsPerPage[rowsPerPage.length - 1].value) {
       searchStore.stickyTableHeader = true
     }
-    onRequest( searchStore.pagination)
+    onRequest( { pagination: searchStore.pagination })
   })
 
   watch(() => props.results, async (newValue: EsSearchResult) => {

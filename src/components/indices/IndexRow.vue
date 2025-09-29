@@ -169,7 +169,7 @@
 
   const t = useTranslation()
   const props = defineProps<IndexRowProps>()
-  const emit = defineEmits(['reload', 'indexDeleted', 'indexDumped', 'indexRestored'])
+  const emit = defineEmits(['reload', 'indexDeleted'])
   const connectionStore = useConnectionStore()
 
   const afterDelete = (index: string) => {
@@ -177,14 +177,5 @@
     emitReloadAndCloseMenu()
   }
 
-  const afterDump = (index: string) => {
-    emit('indexDumped', index)
-    emitReloadAndCloseMenu()
-  }
-
-  const afterRestore = (index: string) => {
-    emit('indexRestored', index)
-    emitReloadAndCloseMenu()
-  }
   const { menu, aliases, openModalWith, loading, emitReloadAndCloseMenu, showDocuments } = useIndexRow(props, emit)
 </script>
