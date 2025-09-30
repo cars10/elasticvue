@@ -100,7 +100,7 @@ export const useEditDocument = (props: EditDocumentProps, emit: any) => {
 
     try {
       const mappingData = await callElasticsearch('indicesGetMapping', { index })
-      const properties = mappingData[index]?.mappings?.[index]?.properties
+      const properties = mappingData[index]?.mappings?.[index] ? mappingData[index]?.mappings?.[index]?.properties : mappingData[index]?.mappings?.properties
       const newDoc = buildDocumentFromMapping(properties)
       document.value = stringifyJson(newDoc)
     } catch (e) {
