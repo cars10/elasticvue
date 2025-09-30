@@ -7,6 +7,7 @@ import {
 import { stringifyJson } from '../../../helpers/json/stringify.ts'
 import { useSearchStore } from '../../../store/search.ts'
 import { onBeforeRouteLeave } from 'vue-router'
+import { askConfirm } from '../../../helpers/dialogs.ts'
 
 export type EditDocumentProps = {
   modelValue: boolean
@@ -147,6 +148,25 @@ export const useEditDocument = (props: EditDocumentProps, emit: any) => {
   const validDocumentMeta = computed(() => {
     return Object.fromEntries(Object.entries(documentMeta.value).filter((keyval) => keyval[1] != null))
   })
+  
+  const close = async () =>{
+    let result : boolean = false
+
+    if (isDirty.value)
+    {
+      const confirmMsg = t('search.edit_document.loseupdate.confirm')
+      
+      const confirmed: boolean = await askConfirm(confirmMsg)
+      if (confirmed) {
+        document.value = originalDocument.value
+        result = false
+      }
+      else{
+        result = true
+      }
+    }  
+    ownValue.value = result
+  }
 
   const { run, loading } = defineElasticsearchRequest({ emit, method: 'index' })
   const saveDocument = async () => {
@@ -193,6 +213,7 @@ export const useEditDocument = (props: EditDocumentProps, emit: any) => {
     requestState,
     loading,
     saveDocument,
+    close,
     isNew,
     availableIndices,
     selectedIndex,

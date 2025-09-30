@@ -525,8 +525,7 @@
       "cell_copied": "Cell content copied",
       "id_copied": "ID copied to clipboard",
       "selected_rows_copied": "{count} rows copied to clipboard",
-      "edit_row_json": "Edit row as JSON",
-      "add_row_json": "Add row as JSON"
+      "edit_row_json": "Edit row as JSON"
     },
     "edit_document": {
       "new_document": "New document",
@@ -535,11 +534,16 @@
       },
       "create": {
         "text": "Create",
-        "growl": "Document created successfully."
+        "growl": "Document created successfully.",
+        "confirm": "Are you sure you want to create new document?"
       },
       "update": {
         "text": "Update",
-        "growl": "Document updated successfully."
+        "growl": "Document updated successfully.",
+        "confirm": "Are you sure you want to update this document?"
+      },
+      "loseupdate":{
+        "confirm": "You will lose all unsaved changes. Are you sure?" 
       }
     }
   },

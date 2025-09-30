@@ -525,8 +525,7 @@
       "cell_copied": "单元格内容已复制",
       "id_copied": "ID 已复制到剪贴板",
       "selected_rows_copied": "{count} 行已复制到剪贴板",
-      "edit_row_json": "编辑行 (JSON)",
-      "add_row_json": "编辑行 (JSON)"
+      "edit_row_json": "编辑行 (JSON)"
     },
     "edit_document": {
       "new_document": "新文件",
@@ -535,11 +534,16 @@
       },
       "create": {
         "text": "创建",
-        "growl": "文件创建成功."
+        "growl": "文件创建成功.",
+        "confirm": "确认创建新文档?" 
       },
       "update": {
         "text": "更新",
-        "growl": "更新文档成功."
+        "growl": "更新文档成功.",
+        "confirm": "确认更新此文档?"
+      },
+      "loseupdate":{
+        "confirm": "你将丢失所有未保存的更改. 你确定吗?"
       }
     }
   },

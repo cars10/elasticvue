@@ -525,8 +525,7 @@
       "cell_copied": "Contenu de la cellule copié",
       "id_copied": "ID copié dans le presse-papier",
       "selected_rows_copied": "{count} lignes copiées dans le presse-papier",
-      "edit_row_json": "Modifier la ligne en JSON",
-      "add_row_json": "Ajouter un ligne en JSON"
+      "edit_row_json": "Modifier la ligne en JSON"
     },
     "edit_document": {
       "new_document": "Nouveau document",
@@ -535,12 +534,17 @@
       },
       "create": {
         "text": "Créer",
-        "growl": "Le document a été créé avec succès."
+        "growl": "Le document a été créé avec succès.",
+        "confirm": "Confirmez vous la modification du document ?"
       },
       "update": {
         "text": "Modifier",
-        "growl": "Le document a été modifié avec succès."
-      }
+        "growl": "Le document a été modifié avec succès.",
+        "confirm": "Confirmez vous la modification du document ?"
+      },
+      "loseupdate":{
+        "confirm": "Vous perdrez toutes les modifications non enregistrées. Êtes-vous sûr ?"
+      } 
     }
   },
   "settings": {

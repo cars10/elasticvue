@@ -525,8 +525,7 @@
       "cell_copied": "Contenuto cella copiato",
       "id_copied": "ID copiato negli appunti",
       "selected_rows_copied": "{count} righe copiate negli appunti",
-      "edit_row_json": "Modifica riga (JSON)",
-      "add_row_json": "Modifica riga (JSON)"
+      "edit_row_json": "Modifica riga (JSON)"
     },
     "edit_document": {
       "new_document": "Nuovo documento",
@@ -535,11 +534,16 @@
       },
       "create": {
         "text": "Creare",
-        "growl": "Documento creato con successo."
+        "growl": "Documento creato con successo.",
+        "confirm": "Sei sicuro di voler creare un nuovo documento?"
       },
       "update": {
         "text": "Aggiorna",
-        "growl": "Documento aggiornato con successo."
+        "growl": "Documento aggiornato con successo.",
+        "confirm": "Sei sicuro di voler aggiornare questo documento?"
+      },
+      "loseupdate":{
+        "confirm": "Perderai tutte le modifiche non salvate. Sei sicuro?"
       }
     }
   },

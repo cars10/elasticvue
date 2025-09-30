@@ -48,7 +48,7 @@
                type="submit"
                class="q-mr-md"
                @click="saveDocument" />
-        <q-btn id="close" v-close-popup flat :label="t('defaults.close')" />
+        <q-btn id="close" flat :label="t('defaults.close')" @click="close" />
       </q-card-section>
     </q-card>
   </q-dialog>
@@ -81,6 +81,7 @@
     requestState,
     loading,
     saveDocument,
+    close,
     isNew,
     availableIndices,
     selectedIndex,
