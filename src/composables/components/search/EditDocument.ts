@@ -125,6 +125,7 @@ export const useEditDocument = (props: EditDocumentProps, emit: any) => {
       } else {
         await loadIndexMapping(selectedIndex.value)
       }
+      documentId.value = ''
       documentMeta.value = {
         _index: selectedIndex.value,
         _type: props._type
