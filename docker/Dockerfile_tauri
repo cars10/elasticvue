@@ -33,8 +33,6 @@ RUN mkdir -p /etc/apt/keyrings \
 	&& apt-get autoremove -y \
 	&& rm -rf /var/lib/apt/lists/*
 
-RUN corepack enable
-
 # download old versions because of EGL issues, see https://github.com/h3poteto/fedistar/issues/1717
 RUN mkdir -p /tmp/ubuntu-packages \
     && cd /tmp/ubuntu-packages \
@@ -66,5 +64,11 @@ RUN apt-get update \
     && apt-get autoclean \
     && apt-get autoremove -y \
     && rm -rf /var/lib/apt/lists/*
+
+COPY . .
+
+RUN npm install -g npm
+RUN npm install
+RUN chown -R $USERID:$USERID $APP_HOME
 
 USER $USERID

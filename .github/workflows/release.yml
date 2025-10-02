@@ -33,20 +33,17 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '22.5.1'
+          node-version: '22.20.0'
         if: matrix.platform == 'windows-latest'
 
-      - run: corepack enable
-        if: matrix.platform == 'windows-latest'
-
-      - run: yarn
+      - run: npm install
         if: matrix.platform == 'windows-latest'
 
       - run: rustup toolchain install stable
         if: matrix.platform == 'windows-latest'
 
       - name: windows > build
-        run: yarn tauri:build
+        run: npm run tauri:build
         if: matrix.platform == 'windows-latest'
 
       - name: windows > upload artifacts
@@ -80,13 +77,10 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '22.5.1'
+          node-version: '22.20.0'
         if: matrix.platform == 'macos-latest'
 
-      - run: corepack enable
-        if: matrix.platform == 'macos-latest'
-
-      - run: yarn
+      - run: npm install
         if: matrix.platform == 'macos-latest'
 
       - run: rustup toolchain install stable
@@ -101,7 +95,7 @@ jobs:
       #### build mac arm
 
       - name: mac aaarch64 > build
-        run: yarn tauri:build --target aarch64-apple-darwin
+        run: npm run tauri:build --target aarch64-apple-darwin
         if: matrix.platform == 'macos-latest'
 
       - name: mac aaarch64 > rename artifacts
@@ -123,7 +117,7 @@ jobs:
       #### build mac x86_64
 
       - name: mac x86_64 > build
-        run: yarn tauri:build --target x86_64-apple-darwin
+        run: npm run tauri:build --target x86_64-apple-darwin
         if: matrix.platform == 'macos-latest'
 
       - name: mac x86_64 > rename artifacts

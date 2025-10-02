@@ -12,7 +12,7 @@ rm -rf artifacts/*
 function buildExtension () {
   VARIANT=$1
   rm -rf dist/*
-  VITE_APP_BUILD_MODE=browser_extension VITE_APP_VARIANT=$VARIANT yarn build
+  VITE_APP_BUILD_MODE=browser_extension VITE_APP_VARIANT=$VARIANT npm run build
   rm -rf browser_extension/"$VARIANT"/assets browser_extension/"$VARIANT"/images browser_extension/"$VARIANT"/index.html
   cp -r ./src/assets/images/logo/manifest browser_extension/"$VARIANT"/logo
   cp -r dist/* browser_extension/"$VARIANT"/
