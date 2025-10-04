@@ -8,8 +8,8 @@ describe.concurrent('helpers/cleanRestPath.ts', () => {
     })
 
     it('should handle null/undefined input gracefully', () => {
-      expect(cleanRestPath(null as any)).toBe(null)
-      expect(cleanRestPath(undefined as any)).toBe(undefined)
+      expect(cleanRestPath(null as unknown as string)).toBe(null)
+      expect(cleanRestPath(undefined as unknown as string)).toBe(undefined)
     })
 
     it('should handle simple index names without slashes', () => {
