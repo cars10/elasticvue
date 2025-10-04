@@ -3,6 +3,9 @@ TAURI_SIGNING_PRIVATE_KEY ?=
 TAURI_SIGNING_PRIVATE_KEY_PASSWORD ?=
 UID := $(shell id -u)
 
+dev:
+	docker compose -f compose.yml up --build
+
 build_docker_ci:
 	docker build --platform linux/amd64 -f docker/Dockerfile_ci -t elasticvue-ci .
 
@@ -22,7 +25,7 @@ build_docker_tauri:
 
 # Build docker image to run elasticvue served by nginx
 build_docker_nginx:
-	docker build -f docker/Dockerfile -t elasticvue .
+	docker build -f docker/Dockerfile_nginx -t elasticvue .
 
 # Build docker image to run elasticvue served by nginx MULTIARCH
 build_docker_nginx_multiarch:

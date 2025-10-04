@@ -1,0 +1,7 @@
+ARG NODE_VERSION=22.20.0
+FROM node:$NODE_VERSION-alpine
+
+RUN mkdir /app
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm install
