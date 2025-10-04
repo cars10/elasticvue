@@ -53,6 +53,10 @@
     "bulk": "Action groupée",
     "copy": "Copier"
   },
+  "common": {
+    "yes": "Oui",
+    "no": "Non"
+  },
   "cluster_selection": {
     "cluster_selection": {
       "connected_info": {
@@ -167,6 +171,11 @@
           "text": "Ouvrir l'index | Ouvrir l'index | Ouvrir {count} index",
           "growl": "Le cache de l'index '{index}' à été ouvert avec succès"
         },
+        "clear": {
+          "text": "Vider l'index | Vider l'index | Vider {count} index",
+          "confirm": "Vider l'index '{index}' ? Cette action supprime TOUTES les données de votre index !",
+          "growl": "L'index '{index}' a été vidé avec succès."
+        },
         "delete_by_query": {
           "text": "Supprimer tous les documents",
           "confirm": "Supprimer tous les documents de l'index : '{index}' ? Cette action supprime TOUTES les données de votre index !",
@@ -176,6 +185,9 @@
           "text": "Supprimer l'index | Supprimer l'index | Supprimer {count} index",
           "confirm": "Supprimer l'index '{index}' ?",
           "growl": "Le cache de l'index '{index}' a été supprimé avec succès."
+        },
+        "export": {
+          "text": "Exporter l'index"
         }
       }
     },
@@ -201,6 +213,70 @@
         }
       }
     },
+    "export": {
+      "title": "Exporter l'index '{index}'",
+      "subtitle": "Exporter tous les documents et le mapping de cet index",
+      "include_mapping": "Inclure le mapping",
+      "compress_file": "Compresser le fichier (ZIP)",
+      "warning": "Les gros index peuvent prendre beaucoup de temps à exporter",
+      "start_export": "Commencer l'export",
+      "progress": {
+        "title": "Export de l'index",
+        "exporting": "Export de '{index}'",
+        "preparing": "Préparation de l'export...",
+        "exporting_documents": "Export des documents... ({processed}/{total})",
+        "creating_file": "Création du fichier d'export...",
+        "downloading": "Téléchargement du fichier...",
+        "completed": "Export terminé avec succès !"
+      },
+      "error": {
+        "export_failed": "Échec de l'export",
+        "unknown": "Une erreur inconnue s'est produite lors de l'export"
+      }
+    },
+    "import": {
+      "title": "Importer un index",
+      "subtitle": "Importer des documents et un mapping depuis un fichier de dump",
+      "select_file": "Sélectionner le fichier de dump (.json ou .zip)",
+      "mode": {
+        "new_index": "Créer un nouvel index",
+        "existing_index": "Importer dans un index existant"
+      },
+      "new_index_name": "Nom du nouvel index",
+      "select_existing_index": "Sélectionner un index existant",
+      "advanced_options": "Options avancées",
+      "overwrite_existing": "Écraser les documents existants",
+      "overwrite_warning": "Cela remplacera tous les documents existants dans l'index cible",
+      "file_preview": "Aperçu du fichier",
+      "original_index": "Index original",
+      "documents_count": "Nombre de documents",
+      "has_mapping": "Contient un mapping",
+      "export_date": "Date d'export",
+      "start_import": "Commencer l'import",
+      "validation": {
+        "index_name_required": "Le nom de l'index est requis",
+        "index_required": "Veuillez sélectionner un index"
+      },
+      "progress": {
+        "title": "Import de l'index",
+        "importing": "Import vers '{targetIndex}'",
+        "preparing": "Préparation de l'import...",
+        "creating_index": "Création de l'index...",
+        "completed": "Import terminé avec succès !",
+        "completed_with_errors": "Import terminé avec {errors} erreurs"
+      },
+      "error": {
+        "no_json_in_zip": "Aucun fichier JSON trouvé dans l'archive ZIP",
+        "invalid_file_format": "Format de fichier invalide",
+        "parse_failed": "Échec de l'analyse du fichier",
+        "index_exists": "L'index '{index}' existe déjà",
+        "import_failed": "Échec de l'import",
+        "unknown": "Une erreur inconnue s'est produite lors de l'import"
+      }
+    },
+    "import_index":{
+      "heading": "import Index"
+    },
     "new_index": {
       "heading": "Nouvel Index",
       "form": {
@@ -216,6 +292,26 @@
       },
       "create_index": {
         "growl": "L'index '{index}' a été créé avec succès."
+      }
+    },
+    "index_clear": {
+      "progress": {
+        "title": "Vidage de l'index",
+        "clearing": "Vidage de '{index}'",
+        "preparing": "Préparation...",
+        "clearing_documents": "Suppression des documents... ({processed}/{total})",
+        "completed": "Vidage terminé avec succès !"
+      }
+    },
+    "index_bulk": {
+      "export": {
+        "text": "Exporter les index sélectionnés",
+        "confirm": "Voulez-vous vraiment exporter {count} index ? Cela téléchargera {count} fichiers.",
+        "growl": "Exportation terminée.",
+        "progress": {
+          "title": "Exportation des index",
+          "exporting": "Exportation de l'index {current} sur {total}: {index}"
+        }
       }
     }
   },
@@ -417,13 +513,38 @@
       "settings": {
         "columns": "Colomnes"
       },
-      "download_as_json": "Télécharger en JSON"
+      "download_as_json": "Télécharger en JSON",
+      "add_document": "Ajouter un document"
+    },
+    "context_menu": {
+      "copy_row_json": "Copier la ligne en JSON",
+      "copy_cell_content": "Copier le contenu de la cellule",
+      "copy_row_id": "Copier l'ID de la ligne",
+      "copy_selected_rows_json": "Copier {count} lignes sélectionnées en JSON",
+      "row_copied": "Ligne copiée dans le presse-papier",
+      "cell_copied": "Contenu de la cellule copié",
+      "id_copied": "ID copié dans le presse-papier",
+      "selected_rows_copied": "{count} lignes copiées dans le presse-papier",
+      "edit_row_json": "Modifier la ligne en JSON"
     },
     "edit_document": {
+      "new_document": "Nouveau document",
+      "id": {
+        "label": "ID (optionnel)"
+      },
+      "create": {
+        "text": "Créer",
+        "growl": "Le document a été créé avec succès.",
+        "confirm": "Confirmez vous la modification du document ?"
+      },
       "update": {
-        "text": "Modifier le document",
-        "growl": "Le document a été modifié avec succès."
-      }
+        "text": "Modifier",
+        "growl": "Le document a été modifié avec succès.",
+        "confirm": "Confirmez vous la modification du document ?"
+      },
+      "loseupdate":{
+        "confirm": "Vous perdrez toutes les modifications non enregistrées. Êtes-vous sûr ?"
+      } 
     }
   },
   "settings": {
@@ -585,7 +706,13 @@
     },
     "table_settings": {
       "reset": "réinitialiser",
-      "clear": "effacer"
+      "clear": "effacer",
+      "reset_order": "Réinitialiser l'ordre",
+      "clear_sorts": "Effacer les tris",
+      "move_to_top": "Déplacer en haut",
+      "move_up": "Déplacer vers le haut",
+      "move_down": "Déplacer vers le bas",
+      "move_to_bottom": "Déplacer en bas"
     },
     "authorization_header_hint": "Assurez-vous que \"http.cors.allow-headers\" est configuré",
     "code_editor": {
@@ -681,7 +808,7 @@
     }
   },
   "update_check": {
-    "downloading": "Téléchargement... {progress}%",
+    "downloading": "Téléchargement... {progress}%%",
     "heading": "Une nouvelle version d'elasticvue est disponible.",
     "installing": "Installation de la mise à jour, veuillez patienter...",
     "update_info": "Elasticvue {version} est disponible. Voulez-vous l'installer maintenant ?",

@@ -146,6 +146,10 @@
                              :confirm="t('indices.index_row.options.delete.confirm', {index: index.index})"
                              icon="delete"
                              @done="() => (afterDelete(props.index.index))" />
+
+            <q-separator />
+
+            <index-export :index="index.index" @done="emitReloadAndCloseMenu" />
           </q-list>
         </q-btn-dropdown>
       </q-btn-group>
@@ -159,6 +163,7 @@
   import { useTranslation } from '../../composables/i18n'
   import IndexReindex from './IndexReindex.vue'
   import RowMenuAction from './RowMenuAction.vue'
+  import IndexExport from './IndexExport.vue'  
   import { clusterVersionGt, clusterVersionGte } from '../../helpers/minClusterVersion.ts'
   import {useConnectionStore} from '../../store/connection.ts'
 

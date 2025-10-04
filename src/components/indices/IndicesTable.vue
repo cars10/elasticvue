@@ -2,6 +2,7 @@
   <div class="flex justify-between q-pa-md">
     <div class="flex items-center">
       <new-index @reload="emit('reload')" />
+      <index-import @done="emit('reload')" />
       <router-link v-if="clusterVersionGte(5)" to="index_templates" class="q-ml-md">
         {{ t('index_templates.heading') }}
       </router-link>
@@ -84,6 +85,7 @@
   import TableBottom from '../shared/TableBottom.vue'
   import IndexBulk from './IndexBulk.vue'
   import IndexRow from './IndexRow.vue'
+  import IndexImport from './IndexImport.vue'
   import NewIndex from './NewIndex.vue'
   import ResizableContainer from '../shared/ResizableContainer.vue'
   import { useTranslation } from '../../composables/i18n'

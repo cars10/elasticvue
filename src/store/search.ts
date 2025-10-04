@@ -2,6 +2,17 @@ import { defineStore } from 'pinia'
 import { DEFAULT_PAGINATION, DEFAULT_SEARCH_QUERY, DEFAULT_DOCUMENT_FIELD_MAX_LENGTH } from '../consts'
 import { useConnectionStore } from './connection.ts'
 
+
+
+export type SortOrder = 'asc' | 'desc' | null
+
+export type ColumnSort = {
+  column: string
+  order: SortOrder
+  priority?: number
+}
+
+
 type SearchState = {
   localizeTimestamp: boolean
   q: string
@@ -10,6 +21,7 @@ type SearchState = {
   searchQuery: string
   searchQueryCollapsed: boolean
   columns: string[]
+  columnOrder: string[]
   visibleColumns: string[]
   stickyTableHeader: boolean
   pagination: any
@@ -31,6 +43,7 @@ export const useSearchStore = () => {
       searchQueryCollapsed: false,
       columns: [],
       visibleColumns: [],
+      columnOrder: [],
       stickyTableHeader: false,
       pagination: Object.assign({}, DEFAULT_PAGINATION),
       rowsPerPageAccepted: false,
@@ -41,6 +54,32 @@ export const useSearchStore = () => {
         this.q = '*'
         this.searchQuery = DEFAULT_SEARCH_QUERY
         this.pagination = Object.assign({}, DEFAULT_PAGINATION)
+      },
+      toggleColumnSort (column: string) {
+        const existingSort = this.pagination.columnSorts.find((sort:ColumnSort) => sort.column === column)
+        
+        if (!existingSort) {
+          // Nouvelle colonne : ajouter avec ordre 'asc'
+          const newPriority = this.pagination.columnSorts.length + 1
+          this.pagination.columnSorts.push({ column, order: 'asc', priority: newPriority })
+        } else {
+          // Colonne existante : changer l'ordre
+          if (existingSort.order === 'asc') {
+            existingSort.order = 'desc'
+          } else if (existingSort.order === 'desc') {
+            // Supprimer la colonne du tri
+            this.pagination.columnSorts = this.pagination.columnSorts.filter((sort:ColumnSort) => sort.column !== column)
+            this.updateSortPriorities()
+          }
+        }
+      },
+      updateSortPriorities () {
+        this.pagination.columnSorts.forEach((sort:ColumnSort, index:number) => {
+          sort.priority = index + 1
+        })
+      },
+      clearAllSorts () {
+        this.pagination.columnSorts = []
       }
     },
     persist: {
@@ -54,6 +93,7 @@ export const useSearchStore = () => {
         'stickyTableHeader',
         'pagination',
         'columns',
+        'columnOrder',
         'visibleColumns',
         'rowsPerPageAccepted',
         'documentFieldMaxLength'
