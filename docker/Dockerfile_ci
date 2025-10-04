@@ -1,4 +1,4 @@
-FROM node:22.5.1-bookworm
+FROM node:22.20.0-bookworm
 RUN mkdir /app
 WORKDIR /app
 
@@ -9,10 +9,10 @@ RUN apt-get update  \
     && apt-get autoremove -y \
     && rm -rf /var/lib/apt/lists/*
 
-RUN corepack enable
-COPY package.json yarn.lock .yarnrc.yml ./
+COPY package.json ./
 
-RUN yarn install
-RUN yarn playwright install --with-deps
+RUN npm install -g npm
+RUN npm install
+RUN npx playwright install --with-deps
 
 COPY . .

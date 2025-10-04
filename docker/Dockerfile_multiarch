@@ -1,12 +1,11 @@
 # Build elasticvue
-FROM --platform=$BUILDPLATFORM node:22.5.1-bookworm AS builder
+FROM --platform=$BUILDPLATFORM node:22.20.0-bookworm AS builder
 RUN mkdir /app
 WORKDIR /app
-RUN corepack enable
-COPY package.json yarn.lock .yarnrc.yml ./
-RUN yarn install
+COPY package.json package-lock.json ./
+RUN npm install
 COPY . .
-RUN VITE_APP_BUILD_MODE=docker yarn build
+RUN VITE_APP_BUILD_MODE=docker npm run build
 
 
 # Create lightweight nginx image

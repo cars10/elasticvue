@@ -35,9 +35,9 @@
     "createUpdaterArtifacts": "v1Compatible"
   },
   "build": {
-    "beforeBuildCommand": "npx cross-env VITE_APP_BUILD_MODE=tauri yarn build",
+    "beforeBuildCommand": "npx cross-env VITE_APP_BUILD_MODE=tauri npm run build",
     "frontendDist": "../dist",
-    "beforeDevCommand": "npx cross-env VITE_APP_BUILD_MODE=tauri yarn dev --port=5174",
+    "beforeDevCommand": "npx cross-env VITE_APP_BUILD_MODE=tauri npm run dev -- --port=5174",
     "devUrl": "http://localhost:5174"
   },
   "productName": "elasticvue",
@@ -60,8 +60,8 @@
     "windows": [
       {
         "title": "elasticvue",
-        "width": 1920,
-        "height": 1080,
+        "width": 1300,
+        "height": 700,
         "resizable": true,
         "fullscreen": false
       }

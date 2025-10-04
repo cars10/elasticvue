@@ -1,4 +1,4 @@
-FROM node:22.5.1-bookworm
+FROM node:22.20.0-bookworm
 ARG USERID=1000
 ENV APP_HOME=/app
 
@@ -15,13 +15,11 @@ RUN apt-get update -qq \
 
 WORKDIR $APP_HOME
 
-RUN corepack enable
-
 RUN npm install --global web-ext
 
 COPY . .
 
-RUN yarn install
+RUN npm install
 
 RUN chown -R $USERID:$USERID $APP_HOME
 

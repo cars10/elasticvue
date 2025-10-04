@@ -1,0 +1,13 @@
+services:
+  elasticvue:
+    container_name: elasticvue
+    build:
+      context: .
+      dockerfile: docker/Dockerfile_dev
+      args:
+        NODE_VERSION: 22.20.0
+    command: npm run dev -- --host 0.0.0.0
+    ports:
+      - 5173:5173
+    volumes:
+      - ./:/app
