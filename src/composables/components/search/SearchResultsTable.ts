@@ -16,6 +16,7 @@ export type SearchResultsTableProps = {
 }
 
 export const useSearchResultsTable = (props: SearchResultsTableProps, emit: any) => {
+  const COL_ACTION ='xxxx_action'
   const resizeStore = useResizeStore()
   const searchStore = useSearchStore()
 
@@ -77,7 +78,7 @@ export const useSearchResultsTable = (props: SearchResultsTableProps, emit: any)
 
       return { label: field, field, name: filterableCol || field, sortableCol: !!filterableCol, align: 'left' }
     })
-    tableColumns.value.push({ label: '', name: 'actions' })
+    tableColumns.value.push({ label: '', name: COL_ACTION })
 
     const oldColumns = searchStore.columns
     const newColumnsList = tableColumns.value.map(c => c.name)
@@ -87,7 +88,7 @@ export const useSearchResultsTable = (props: SearchResultsTableProps, emit: any)
     searchStore.columns = newColumnsList
     
     if (searchStore.pagination.columnOrder.length === 0) {
-      searchStore.pagination.columnOrder = newColumnsList
+      searchStore.pagination.columnOrder = newColumnsList.sort()
     } else {
       const existingOrder = searchStore.pagination.columnOrder.filter((col:any) => newColumnsList.includes(col))
       const newOrder = addedColumns.filter(col => !existingOrder.includes(col))
@@ -150,9 +151,9 @@ export const useSearchResultsTable = (props: SearchResultsTableProps, emit: any)
     })
   })
 
-  const onRequest = (pagination: any) => (emit('request', pagination))
+  const onRequest = (pagination: any) => (emit('request',{ pagination}))
   const clearColumns = () => {
-    searchStore.visibleColumns = ['actions']
+    searchStore.visibleColumns = [COL_ACTION]
   }
   
   const resetColumns = () => {
@@ -174,7 +175,8 @@ export const useSearchResultsTable = (props: SearchResultsTableProps, emit: any)
   }
 
   const resetColumnOrder = () => {
-    searchStore.pagination.columnOrder = tableColumns.value.map(c => c.name)
+    
+    searchStore.pagination.columnOrder = tableColumns.value.map(c => c.name).sort()    
   }
 
   const toggleColumnSort = (column: string) => {

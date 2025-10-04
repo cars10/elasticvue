@@ -4,6 +4,12 @@
       <h1 class="text-h5 q-my-none">
         {{ t('search.heading') }}
       </h1>
+      <div class="text-center">
+        <q-btn flat @click="searchStore.searchQueryCollapsed = !searchStore.searchQueryCollapsed">
+          <q-icon :name="searchStore.searchQueryCollapsed ? 'expand_less' : 'expand_more'" />
+          <!-- {{ t('search.form.customize_query.button') }} -->
+        </q-btn>
+      </div>
     </q-card-section>
 
     <q-separator />
@@ -35,7 +41,7 @@
       </q-form>
     </q-card-section>
 
-    <q-card-section>
+    <q-card-section v-if="searchStore.searchQueryCollapsed">
       <q-slide-transition>
         <div v-if="searchStore.searchQueryCollapsed">
           <div class="q-mb-xs">Query</div>
@@ -52,12 +58,12 @@
         </div>
       </q-slide-transition>
 
-      <div class="text-center">
+      <!-- <div class="text-center">
         <q-btn flat @click="searchStore.searchQueryCollapsed = !searchStore.searchQueryCollapsed">
           <q-icon :name="searchStore.searchQueryCollapsed ? 'expand_less' : 'expand_more'" />
           {{ t('search.form.customize_query.button') }}
         </q-btn>
-      </div>
+      </div> -->
     </q-card-section>
   </q-card>
 
