@@ -288,6 +288,31 @@ export default class ElasticsearchAdapter {
     return this.request(`_snapshot/${repository}/${snapshot}`, 'GET')
   }
 
+  // Snapshot Lifecycle Management (SLM) APIs - available from ES 7.4.0+
+  slmGetPolicies () {
+    return this.request('_slm/policy', 'GET')
+  }
+
+  slmGetPolicy ({ policy }: { policy: string }) {
+    return this.request(`_slm/policy/${policy}`, 'GET')
+  }
+
+  slmPutPolicy ({ policy, body }: { policy: string, body: object }) {
+    return this.request(`_slm/policy/${policy}`, 'PUT', body)
+  }
+
+  slmDeletePolicy ({ policy }: { policy: string }) {
+    return this.request(`_slm/policy/${policy}`, 'DELETE')
+  }
+
+  slmExecutePolicy ({ policy }: { policy: string }) {
+    return this.request(`_slm/policy/${policy}/_execute`, 'POST')
+  }
+
+  slmGetStatus () {
+    return this.request('_slm/status', 'GET')
+  }
+
   async request (path: string, method: string, params?: any) {
     const url = new URL(this.uri + path)
 

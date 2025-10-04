@@ -11,7 +11,8 @@
         "shards": "Frammenti",
         "search": "Ricerca",
         "rest": "REST",
-        "snapshots": "Snapshots"
+        "snapshots": "Snapshots",
+        "snapshot_policies": "Snapshot Policies"
       }
     },
     "language_switcher": {
@@ -48,6 +49,7 @@
     "cancel": "Annulla",
     "close": "Chiudi",
     "create": "Crea",
+    "update": "Aggiorna",
     "delete": "Elimina",
     "success": "Successo",
     "bulk": "Azione di massa",
@@ -677,6 +679,80 @@
           "failed_shards": "frammenti_falliti",
           "total_shards": "frammenti_totali"
         }
+      }
+    }
+  },
+  "snapshot_policies": {
+    "heading": "Politiche di Snapshot",
+    "unsupported_version": "La gestione del ciclo di vita degli snapshot non è supportata in questa versione di Elasticsearch. SLM è disponibile dalla versione 7.4.0.",
+    "new_policy": {
+      "heading": "Nuova Politica di Snapshot",
+      "create_policy": {
+        "growl": "La politica di snapshot '{name}' è stata creata con successo."
+      },
+      "form": {
+        "name": {
+          "label": "Nome della politica*",
+          "required": "Il nome della politica è richiesto"
+        },
+        "schedule": {
+          "label": "Programmazione*",
+          "hint": "Espressione cron (es: '0 30 1 * * ?' per ogni giorno alle 1:30)",
+          "required": "La programmazione è richiesta"
+        },
+        "repository": {
+          "label": "Repository*",
+          "required": "Il repository è richiesto"
+        },
+        "indices": {
+          "label": "Indici",
+          "hint": "Lista di indici da includere separati da virgole (default: '*')"
+        },
+        "ignore_unavailable": {
+          "label": "Ignora indici non disponibili"
+        },
+        "include_global_state": {
+          "label": "Includi stato globale"
+        },
+        "retention": {
+          "heading": "Impostazioni di Conservazione",
+          "expire_after": {
+            "label": "Scade dopo",
+            "hint": "Periodo di tempo dopo il quale gli snapshot scadono (es: '30d', '1w', '1m')"
+          },
+          "max_count": {
+            "label": "Conteggio massimo",
+            "hint": "Numero massimo di snapshot da mantenere"
+          },
+          "min_count": {
+            "label": "Conteggio minimo",
+            "hint": "Numero minimo di snapshot da mantenere"
+          }
+        }
+      }
+    },
+    "policies_table": {
+      "table": {
+        "headers": {
+          "name": "Nome",
+          "schedule": "Programmazione",
+          "repository": "Repository",
+          "retention": "Conservazione"
+        }
+      },
+      "delete_policy": {
+        "confirm": "Eliminare la politica di snapshot '{name}'?",
+        "growl": "La politica di snapshot '{name}' è stata eliminata con successo."
+      },
+      "execute_policy": {
+        "confirm": "Eseguire la politica di snapshot '{name}' ora?",
+        "growl": "La politica di snapshot '{name}' è stata eseguita con successo."
+      }
+    },
+    "edit_policy": {
+      "heading": "Modifica Politica di Snapshot '{name}'",
+      "update_policy": {
+        "growl": "La politica di snapshot '{name}' è stata aggiornata con successo."
       }
     }
   },

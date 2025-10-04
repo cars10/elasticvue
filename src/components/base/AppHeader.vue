@@ -22,6 +22,8 @@
         <q-route-tab id="rest" :label="t('base.app_header.navigation.rest')" :to="{name: 'rest'}" :ripple="false" />
         <q-route-tab v-if="!connectionStore.serverless" :label="t('base.app_header.navigation.snapshots')" :to="{name: 'snapshot_repositories'}"
                      :ripple="false" />
+        <q-route-tab v-if="!connectionStore.serverless && isSlmSupported" :label="t('base.app_header.navigation.snapshot_policies')" :to="{name: 'snapshot_policies'}"
+                     :ripple="false" />
         <q-route-tab id="settings" icon="settings" :to="{name: 'settings'}" :ripple="false" />
       </q-tabs>
     </q-toolbar>
@@ -32,9 +34,11 @@
   import { useLogo } from '../../composables/Logo'
   import ClusterSelection from '../clusterselection/ClusterSelection.vue'
   import { useTranslation } from '../../composables/i18n.ts'
-  import {useConnectionStore} from '../../store/connection.ts'
+  import { useSlmSupport } from '../../helpers/slmSupport'
+  import { useConnectionStore } from '../../store/connection'
 
   const t = useTranslation()
   const logo = useLogo()
   const connectionStore = useConnectionStore()
+  const { isSlmSupported } = useSlmSupport()
 </script>

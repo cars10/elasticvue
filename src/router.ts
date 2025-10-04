@@ -11,6 +11,7 @@ import { useConnectionStore } from './store/connection'
 import WelcomePage from './components/welcome/WelcomePage.vue'
 import SnapshotRepositories from './components/repositories/SnapshotRepositories.vue'
 import RepositorySnapshots from './components/snapshots/RepositorySnapshots.vue'
+import SnapshotPolicies from './components/snapshotpolicies/SnapshotPolicies.vue'
 import SearchDocuments from './components/search/SearchDocuments.vue'
 import ShardRecovery from './components/shardrecovery/ShardRecovery.vue'
 import { buildConfig } from './buildConfig.ts'
@@ -41,6 +42,7 @@ const routes = [
       { path: 'rest', name: 'rest', component: RestQuery },
       { path: 'snapshot_repositories', name: 'snapshot_repositories', component: SnapshotRepositories },
       { path: 'snapshot_repositories/:repositoryName', name: 'snapshots', component: RepositorySnapshots },
+      { path: 'snapshot_policies', name: 'snapshot_policies', component: SnapshotPolicies },
     ],
     beforeEnter: (to: RouteLocation, _from: RouteLocation, next: any) => {
       const connectionStore = useConnectionStore()

@@ -12,7 +12,6 @@ export default defineConfigWithVueTs(
   {
     rules: {
       'semi': ['error', 'never'],
-      'vue/script-indent': ['error', 2, { 'baseIndent': 1 }],
       'vue/max-attributes-per-line': 'off',
       'vue/first-attribute-linebreak': 'off',
       'vue/html-closing-bracket-newline': 'off',

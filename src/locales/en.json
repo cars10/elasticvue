@@ -11,7 +11,8 @@
         "shards": "Shards",
         "search": "Search",
         "rest": "REST",
-        "snapshots": "Snapshots"
+        "snapshots": "Snapshots",
+        "snapshot_policies": "Snapshot Policies"
       }
     },
     "language_switcher": {
@@ -48,6 +49,7 @@
     "cancel": "Cancel",
     "close": "Close",
     "create": "Create",
+    "update": "Update",
     "delete": "Delete",
     "success": "Success",
     "bulk": "Bulk Action",
@@ -677,6 +679,80 @@
           "failed_shards": "failed_shards",
           "total_shards": "total_shards"
         }
+      }
+    }
+  },
+  "snapshot_policies": {
+    "heading": "Snapshot Policies",
+    "unsupported_version": "Snapshot Lifecycle Management is not supported in this Elasticsearch version. SLM is available from version 7.4.0 onwards.",
+    "new_policy": {
+      "heading": "New Snapshot Policy",
+      "create_policy": {
+        "growl": "The snapshot policy '{name}' was successfully created."
+      },
+      "form": {
+        "name": {
+          "label": "Policy name*",
+          "required": "Policy name is required"
+        },
+        "schedule": {
+          "label": "Schedule*",
+          "hint": "Cron expression (e.g., '0 30 1 * * ?' for daily at 1:30 AM)",
+          "required": "Schedule is required"
+        },
+        "repository": {
+          "label": "Repository*",
+          "required": "Repository is required"
+        },
+        "indices": {
+          "label": "Indices",
+          "hint": "Comma-separated list of indices to include (default: '*')"
+        },
+        "ignore_unavailable": {
+          "label": "Ignore unavailable indices"
+        },
+        "include_global_state": {
+          "label": "Include global state"
+        },
+        "retention": {
+          "heading": "Retention Settings",
+          "expire_after": {
+            "label": "Expire after",
+            "hint": "Time period after which snapshots expire (e.g., '30d', '1w', '1m')"
+          },
+          "max_count": {
+            "label": "Maximum count",
+            "hint": "Maximum number of snapshots to keep"
+          },
+          "min_count": {
+            "label": "Minimum count",
+            "hint": "Minimum number of snapshots to keep"
+          }
+        }
+      }
+    },
+    "policies_table": {
+      "table": {
+        "headers": {
+          "name": "Name",
+          "schedule": "Schedule",
+          "repository": "Repository",
+          "retention": "Retention"
+        }
+      },
+      "delete_policy": {
+        "confirm": "Delete snapshot policy '{name}'?",
+        "growl": "The snapshot policy '{name}' was successfully deleted."
+      },
+      "execute_policy": {
+        "confirm": "Execute snapshot policy '{name}' now?",
+        "growl": "The snapshot policy '{name}' was successfully executed."
+      }
+    },
+    "edit_policy": {
+      "heading": "Edit Snapshot Policy '{name}'",
+      "update_policy": {
+        "growl": "The snapshot policy '{name}' was successfully updated."
       }
     }
   },

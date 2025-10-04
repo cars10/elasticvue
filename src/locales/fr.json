@@ -11,7 +11,8 @@
         "shards": "Partitions",
         "search": "Rechercher",
         "rest": "REST",
-        "snapshots": "Sauvegardes"
+        "snapshots": "Sauvegardes",
+        "snapshot_policies": "Snapshot Policies"
       }
     },
     "language_switcher": {
@@ -48,6 +49,7 @@
     "cancel": "Annuler",
     "close": "Fermer",
     "create": "Créer",
+    "update": "Mettre à jour",
     "delete": "Supprimer",
     "success": "Succès",
     "bulk": "Action groupée",
@@ -677,6 +679,80 @@
           "failed_shards": "Partitions ratées",
           "total_shards": "Total des partitions"
         }
+      }
+    }
+  },
+  "snapshot_policies": {
+    "heading": "Politiques de Snapshots",
+    "unsupported_version": "La gestion du cycle de vie des snapshots n'est pas prise en charge dans cette version d'Elasticsearch. SLM est disponible à partir de la version 7.4.0.",
+    "new_policy": {
+      "heading": "Nouvelle Politique de Snapshot",
+      "create_policy": {
+        "growl": "La politique de snapshot '{name}' a été créée avec succès."
+      },
+      "form": {
+        "name": {
+          "label": "Nom de la politique*",
+          "required": "Le nom de la politique est requis"
+        },
+        "schedule": {
+          "label": "Planification*",
+          "hint": "Expression cron (ex: '0 30 1 * * ?' pour tous les jours à 1h30)",
+          "required": "La planification est requise"
+        },
+        "repository": {
+          "label": "Dépôt*",
+          "required": "Le dépôt est requis"
+        },
+        "indices": {
+          "label": "Indices",
+          "hint": "Liste d'indices à inclure séparés par des virgules (par défaut: '*')"
+        },
+        "ignore_unavailable": {
+          "label": "Ignorer les indices indisponibles"
+        },
+        "include_global_state": {
+          "label": "Inclure l'état global"
+        },
+        "retention": {
+          "heading": "Paramètres de Rétention",
+          "expire_after": {
+            "label": "Expire après",
+            "hint": "Période après laquelle les snapshots expirent (ex: '30d', '1w', '1m')"
+          },
+          "max_count": {
+            "label": "Nombre maximum",
+            "hint": "Nombre maximum de snapshots à conserver"
+          },
+          "min_count": {
+            "label": "Nombre minimum",
+            "hint": "Nombre minimum de snapshots à conserver"
+          }
+        }
+      }
+    },
+    "policies_table": {
+      "table": {
+        "headers": {
+          "name": "Nom",
+          "schedule": "Planification",
+          "repository": "Dépôt",
+          "retention": "Rétention"
+        }
+      },
+      "delete_policy": {
+        "confirm": "Supprimer la politique de snapshot '{name}' ?",
+        "growl": "La politique de snapshot '{name}' a été supprimée avec succès."
+      },
+      "execute_policy": {
+        "confirm": "Exécuter la politique de snapshot '{name}' maintenant ?",
+        "growl": "La politique de snapshot '{name}' a été exécutée avec succès."
+      }
+    },
+    "edit_policy": {
+      "heading": "Modifier la Politique de Snapshot '{name}'",
+      "update_policy": {
+        "growl": "La politique de snapshot '{name}' a été mise à jour avec succès."
       }
     }
   },
