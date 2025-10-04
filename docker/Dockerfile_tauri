@@ -3,6 +3,7 @@ ARG USERID=1000
 
 ENV NODE_VERSION=22
 ENV APP_HOME=/app
+ENV APPIMAGE_EXTRACT_AND_RUN=false
 
 RUN useradd --uid $USERID -m dev
 RUN mkdir -p $APP_HOME
@@ -52,6 +53,10 @@ RUN mkdir -p /tmp/ubuntu-packages \
 RUN apt-get update \
     && apt-get install -y build-essential \
                           file \
+                          patchelf \
+                          zsync \
+                          desktop-file-utils \
+                          libfuse2 \
                           libssl-dev \
                           libgtk-3-dev \
                           libxdo-dev \

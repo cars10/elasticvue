@@ -18,8 +18,7 @@ build_docker_tauri:
 	docker run --platform linux/amd64 --rm -v ./src-tauri/target:/app/src-tauri/target \
 	    	-e TAURI_SIGNING_PRIVATE_KEY="$(TAURI_SIGNING_PRIVATE_KEY)" \
 			-e TAURI_SIGNING_PRIVATE_KEY_PASSWORD="$(TAURI_SIGNING_PRIVATE_KEY_PASSWORD)" \
-			-e NO_STRIP=true \
-			elasticvue-linux-tauri bash -c ". ~/.cargo/env && rm -rf src-tauri/target/* && ARCH=x86_64 NO_STRIP=true npm run tauri:build --verbose"
+			elasticvue-linux-tauri bash -c ". ~/.cargo/env && rm -rf src-tauri/target/* && NO_STRIP=true npm run tauri:build"
 
 # Build docker image to run elasticvue served by nginx
 build_docker_nginx:

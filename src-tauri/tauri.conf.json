@@ -60,8 +60,8 @@
     "windows": [
       {
         "title": "elasticvue",
-        "width": 1920,
-        "height": 1080,
+        "width": 1300,
+        "height": 700,
         "resizable": true,
         "fullscreen": false
       }
