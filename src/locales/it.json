@@ -559,7 +559,8 @@
       "cell_copied": "Contenuto cella copiato",
       "id_copied": "ID copiato negli appunti",
       "selected_rows_copied": "{count} righe copiate negli appunti",
-      "edit_row_json": "Modifica riga (JSON)"
+      "edit_row_json": "Modifica riga (JSON)",
+      "filter_by_field": "Filtra per questo campo"
     },
     "edit_document": {
       "new_document": "Nuovo documento",

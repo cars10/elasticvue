@@ -328,12 +328,13 @@
 
   const suppressSuggestions = ref(false)
 
+  /*
   const handleFocus = () => {
     if (!suppressSuggestions.value) {
       showSuggestions.value = true
     }
     suppressSuggestions.value = false
-  }
+  }*/
 
   const handleBlur = () => {
     setTimeout(() => {

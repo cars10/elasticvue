@@ -31,7 +31,7 @@
   const emit = defineEmits<{ 
     reload: []
     'row-context-menu': [event: MouseEvent, rowData: any]
-    'cell-context-menu': [event: MouseEvent, rowData: any, cellContent: string]
+    'cell-context-menu': [event: MouseEvent, rowData: any, cellContent: string, field:string]
   }>()
 
   const {
@@ -50,6 +50,6 @@
   const handleCellContextMenu = (event: MouseEvent, column: string) => {
     const cellValue = column === '_type' ? props.doc[column] : renderValue(props.doc, column)
     const cellContent = String(cellValue || '')
-    emit('cell-context-menu', event, props.doc, cellContent)
+    emit('cell-context-menu', event, props.doc, cellContent, column)
   }
 </script>

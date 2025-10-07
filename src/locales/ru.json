@@ -559,7 +559,8 @@
       "cell_copied": "Содержимое ячейки скопировано",
       "id_copied": "ID скопирован в буфер обмена",
       "selected_rows_copied": "{count} строк скопировано в буфер обмена",
-      "edit_row_json": "Редактировать строку (JSON)"
+      "edit_row_json": "Редактировать строку (JSON)",
+      "filter_by_field": "Фильтровать по этому полю"
     },
     "edit_document": {
       "new_document": "Новый документ",

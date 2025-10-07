@@ -559,7 +559,8 @@
       "cell_copied": "Cell content copied",
       "id_copied": "ID copied to clipboard",
       "selected_rows_copied": "{count} rows copied to clipboard",
-      "edit_row_json": "Edit row as JSON"
+      "edit_row_json": "Edit row as JSON",
+      "filter_by_field": "Filter on this field"
     },
     "edit_document": {
       "new_document": "New document",

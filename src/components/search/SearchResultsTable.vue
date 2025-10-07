@@ -193,10 +193,12 @@
     :target="contextMenuTarget"
     :row-data="contextMenuRowData"
     :cell-content="contextMenuCellContent"
+    :cell-field="contextMenuCellField"
     :selected-rows="contextMenuSelectedRows"
     :is-multiple-selection="contextMenuIsMultipleSelection"
     @edit-document="handleEditDocument"
     @add-document="handleAddDocument"
+    @filter-by-field="handleFilterByField"
   />
 
   <div class="flex justify-between">
@@ -234,6 +236,7 @@
   import TableBottom from '../shared/TableBottom.vue'
   import FilterState from '../shared/FilterState.vue'
   import ContextMenu from '../shared/ContextMenu.vue'
+  import { stringifyJson } from '../../helpers/json/stringify.ts'
 
   const props = defineProps<SearchResultsTableProps>()
   const emit = defineEmits(['request', 'reload', 'edit-document','add-document'])
@@ -276,6 +279,7 @@
   const contextMenuTarget = ref<HTMLElement | null>(null)
   const contextMenuRowData = ref<any>(null)
   const contextMenuCellContent = ref<string>('')
+  const contextMenuCellField = ref<string>('')
   const contextMenuSelectedRows = ref<any[]>([])
   const contextMenuIsMultipleSelection = ref(false)
 
@@ -344,13 +348,14 @@
     } else {
       contextMenuRowData.value = rowData
       contextMenuIsMultipleSelection.value = false
+      contextMenuCellContent.value = ''
     }
     
     contextMenuTarget.value = event.currentTarget as HTMLElement
     contextMenuVisible.value = true
   }
 
-  const handleCellContextMenu = (event: MouseEvent, rowData: any, cellContent: string) => {
+  const handleCellContextMenu = (event: MouseEvent, rowData: any, cellContent: string, field: string) => {
     event.preventDefault()
     event.stopPropagation()
     
@@ -360,6 +365,7 @@
     
     contextMenuRowData.value = rowData
     contextMenuCellContent.value = cellContent
+    contextMenuCellField.value = field
     contextMenuIsMultipleSelection.value = false
     contextMenuTarget.value = event.currentTarget as HTMLElement
     contextMenuVisible.value = true
@@ -375,4 +381,18 @@
       emit('add-document')
     }
   }
+
+  const handleFilterByField = ({ field, value }: { field: string, value: any }) => {
+    const fieldValue = typeof value === 'object' ? stringifyJson(value) : `"${value.toString().replace(/"/g, '\\"')}"`
+    const filter = `${field}:${fieldValue}`
+
+    if (!searchStore.q || searchStore.q.trim() === '' || searchStore.q.trim() === '*') {
+      searchStore.q = filter
+    } else {
+      searchStore.q = `${searchStore.q} AND ${filter}`
+    }
+
+    contextMenuVisible.value = false
+  }
+
 </script>

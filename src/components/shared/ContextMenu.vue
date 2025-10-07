@@ -42,6 +42,16 @@
           </q-item-section>
         </q-item>
 
+        <q-item clickable v-close-popup @click="filterByField" v-if="cellContent">
+          <q-item-section avatar>
+            <q-icon name="filter_alt" />
+          </q-item-section>
+          <q-item-section>
+            {{ t('search.context_menu.filter_by_field') }}
+          </q-item-section>
+        </q-item>
+
+
         <q-item clickable v-close-popup @click="copyCellContent" v-if="cellContent">
           <q-item-section avatar>
             <q-icon name="content_copy" />
@@ -77,6 +87,7 @@
     target: string | HTMLElement | null
     rowData: any
     cellContent?: string
+    cellField?: string
     selectedRows?: any[]
     isMultipleSelection?: boolean
   }>()
@@ -85,6 +96,7 @@
     'update:modelValue': [value: boolean]
     'add-document': [rowData: any]
     'edit-document': [rowData: any]
+    'filter-by-field': [{ field: string, value: any }]
   }>()
 
   const t = useTranslation()
@@ -151,6 +163,12 @@
     if (props.selectedRows && props.selectedRows.length > 0) {
       const jsonString = stringifyJson(props.selectedRows)
       await copyToClipboard(jsonString, t('search.context_menu.selected_rows_copied', { count: props.selectedRows.length }))
+    }
+  }
+
+  const filterByField = () => {
+    if (props.cellField && props.cellContent) {
+      emit('filter-by-field', { field: props.cellField, value: props.cellContent })
     }
   }
 </script>
