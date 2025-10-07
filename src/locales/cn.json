@@ -98,7 +98,21 @@
   },
   "home": {
     "client_information": {
-      "heading": "节点信息"
+      "heading": "节点信息",
+      "node_name": "节点名称",
+      "cluster_name": "集群名称",
+      "cluster_uuid": "集群UUID",
+      "tagline": "标语",
+      "distribution": "发行版",
+      "number": "版本号",
+      "build_flavor": "构建版本",
+      "build_type": "构建类型",
+      "build_hash": "构建哈希",
+      "build_date": "构建日期",
+      "build_snapshot": "构建快照",
+      "lucene_version": "Lucene版本",
+      "minimum_wire_compatibility_version": "最低网络兼容版本",
+      "minimum_index_compatibility_version": "最低索引兼容版本"
     },
     "cluster_health": {
       "heading": "集群健康"
@@ -501,6 +515,26 @@
         "button": "自定义查询",
         "reset": "重置语句"
       }
+    },
+    "query_editor": {
+      "query": "查询",
+      "invalid_query": "无效的搜索查询"
+    },
+    "autocomplete": {
+      "search_all": "搜索所有",
+      "and_operator": "AND 逻辑运算符",
+      "or_operator": "OR 逻辑运算符",
+      "not_operator": "NOT 逻辑运算符",
+      "field_exists": "检查字段是否存在",
+      "range_search": "范围搜索",
+      "wildcard_search": "通配符搜索",
+      "exact_phrase_search": "精确短语搜索",
+      "relevance_boost": "相关性提升",
+      "fuzzy_search": "模糊搜索",
+      "condition_grouping": "条件分组",
+      "field_description": "字段: {field}",
+      "error_history_loading": "加载历史记录时出错",
+      "error_fields_loading": "加载字段时出错"
     },
     "search_result": {
       "delete": {

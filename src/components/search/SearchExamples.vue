@@ -24,6 +24,10 @@
             </td>
           </tr>
           <tr>
+            <td class="font-mon">NOT _exists_:first_name</td>
+            <td>Get all documents where the first_name not exist</td>
+          </tr>
+          <tr>
             <td class="font-mon">_id:1</td>
             <td>Get all documents where the <strong>_id</strong> field is <strong>1</strong></td>
           </tr>

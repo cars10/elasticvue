@@ -98,7 +98,21 @@
   },
   "home": {
     "client_information": {
-      "heading": "Cluster Information"
+      "heading": "Cluster Information",
+      "node_name": "Node Name",
+      "cluster_name": "Cluster Name",
+      "cluster_uuid": "Cluster uuid",
+      "tagline": "Tagline",
+      "distribution": "Distribution",
+      "number": "Number",
+      "build_flavor": "Build flavor",
+      "build_type": "Build type",
+      "build_hash": "Build hash",
+      "build_date": "Build date",
+      "build_snapshot": "Build snapshot",
+      "lucene_version": "Lucene version",
+      "minimum_wire_compatibility_version": "Minimum wire compatibility version",
+      "minimum_index_compatibility_version": "Minimum index compatibility version"
     },
     "cluster_health": {
       "heading": "Cluster Health"
@@ -501,6 +515,26 @@
         "button": "Custom search",
         "reset": "Reset query"
       }
+    },
+    "query_editor": {
+      "query": "Query",
+      "invalid_query": "invalid search query"
+    },
+    "autocomplete": {
+      "search_all": "Search all",
+      "and_operator": "AND logical operator",
+      "or_operator": "OR logical operator",
+      "not_operator": "NOT logical operator",
+      "field_exists": "Check for field existence",
+      "range_search": "Range search",
+      "wildcard_search": "Wildcard search",
+      "exact_phrase_search": "Exact phrase search",
+      "relevance_boost": "Relevance boost",
+      "fuzzy_search": "Fuzzy search",
+      "condition_grouping": "Condition grouping",
+      "field_description": "Field: {field}",
+      "error_history_loading": "Error loading history",
+      "error_fields_loading": "Error loading fields"
     },
     "search_result": {
       "delete": {

@@ -10,6 +10,7 @@ import { ElasticsearchDocumentInfo } from './EditDocument.ts'
 import { filterItems } from '../../../helpers/filters.ts'
 import { stringifyJson } from '../../../helpers/json/stringify.ts'
 import { setupFilterState } from '../shared/FilterState.ts'
+import { useConnectionStore } from '../../../store/connection.ts'
 
 export type SearchResultsTableProps = {
   results: EsSearchResult
@@ -48,11 +49,10 @@ export const useSearchResultsTable = (props: SearchResultsTableProps, emit: any)
     onRequest( { pagination: searchStore.pagination })
   })
 
+  const connectionStore = useConnectionStore()
+  
   watch(() => props.results, async (newValue: EsSearchResult) => {
-    if (newValue?.hits?.hits?.length === 0) {
-      hits.value = []
-      return
-    }
+    
 
     const results = new SearchResults(newValue?.hits?.hits)
     const indices = await callElasticsearch('indexGet', { index: results.uniqueIndices })
@@ -60,7 +60,11 @@ export const useSearchResultsTable = (props: SearchResultsTableProps, emit: any)
 
     Object.keys(indices).forEach(index => {
       const mappings = indices[index].mappings
-      if (typeof mappings.properties === 'undefined') {
+
+      if (connectionStore.activeCluster?.majorVersion.split('.')[0] !== undefined
+       && +connectionStore.activeCluster?.majorVersion.split('.')[0] < 7)
+       {
+      //if (mappings.properties === undefined) {
         // ES < 7
         const indexProperties = {}
         Object.keys(mappings).forEach(mapping => {
@@ -72,7 +76,7 @@ export const useSearchResultsTable = (props: SearchResultsTableProps, emit: any)
         Object.assign(allProperties, mappings.properties)
       }
     })
-
+    
     tableColumns.value = results.uniqueColumns.map(field => {
       const filterableCol = sortableField(field, allProperties[field])
 
@@ -107,7 +111,7 @@ export const useSearchResultsTable = (props: SearchResultsTableProps, emit: any)
     })
 
     hits.value = results.docs
-  })
+  }, { deep: true, immediate: true, flush: 'post' })
 
   const filteredHits = computed(() => {
     let result = hits.value

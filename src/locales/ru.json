@@ -98,7 +98,21 @@
   },
   "home": {
     "client_information": {
-      "heading": "Информация о кластере"
+      "heading": "Информация о кластере",
+      "node_name": "Имя узла",
+      "cluster_name": "Имя кластера",
+      "cluster_uuid": "UUID кластера",
+      "tagline": "Слоган",
+      "distribution": "Дистрибутив",
+      "number": "Номер",
+      "build_flavor": "Вариант сборки",
+      "build_type": "Тип сборки",
+      "build_hash": "Хеш сборки",
+      "build_date": "Дата сборки",
+      "build_snapshot": "Снимок сборки",
+      "lucene_version": "Версия Lucene",
+      "minimum_wire_compatibility_version": "Минимальная версия сетевой совместимости",
+      "minimum_index_compatibility_version": "Минимальная версия совместимости индекса"
     },
     "cluster_health": {
       "heading": "Состояние кластера"
@@ -501,6 +515,26 @@
         "button": "Настроить поиск",
         "reset": "Сбросить запрос"
       }
+    },
+    "query_editor": {
+      "query": "Запрос",
+      "invalid_query": "неверный поисковый запрос"
+    },
+    "autocomplete": {
+      "search_all": "Искать все",
+      "and_operator": "Логический оператор И",
+      "or_operator": "Логический оператор ИЛИ",
+      "not_operator": "Логический оператор НЕ",
+      "field_exists": "Проверить наличие поля",
+      "range_search": "Поиск по диапазону",
+      "wildcard_search": "Поиск с подстановочными знаками",
+      "exact_phrase_search": "Поиск точной фразы",
+      "relevance_boost": "Повышение релевантности",
+      "fuzzy_search": "Нечёткий поиск",
+      "condition_grouping": "Группировка условий",
+      "field_description": "Поле: {field}",
+      "error_history_loading": "Ошибка при загрузке истории",
+      "error_fields_loading": "Ошибка при загрузке полей"
     },
     "search_result": {
       "delete": {

@@ -98,7 +98,21 @@
   },
   "home": {
     "client_information": {
-      "heading": "Informazioni Cluster"
+      "heading": "Informazioni Cluster",
+      "node_name": "Nome del nodo",
+      "cluster_name": "Nome del cluster",
+      "cluster_uuid": "UUID del cluster",
+      "tagline": "Slogan",
+      "distribution": "Distribuzione",
+      "number": "Numero",
+      "build_flavor": "Variante di build",
+      "build_type": "Tipo di build",
+      "build_hash": "Hash di build",
+      "build_date": "Data di build",
+      "build_snapshot": "Snapshot di build",
+      "lucene_version": "Versione Lucene",
+      "minimum_wire_compatibility_version": "Versione minima di compatibilità di rete",
+      "minimum_index_compatibility_version": "Versione minima di compatibilità dell'indice"
     },
     "cluster_health": {
       "heading": "Salute Cluster"
@@ -501,6 +515,26 @@
         "button": "Ricerca personalizzata",
         "reset": "Reimposta query"
       }
+    },
+   "query_editor": {
+      "query": "Query",
+      "invalid_query": "query di ricerca non valida"
+    },
+    "autocomplete": {
+      "search_all": "Cerca tutto",
+      "and_operator": "Operatore logico AND",
+      "or_operator": "Operatore logico OR",
+      "not_operator": "Operatore logico NOT",
+      "field_exists": "Verifica esistenza campo",
+      "range_search": "Ricerca per intervallo",
+      "wildcard_search": "Ricerca con caratteri jolly",
+      "exact_phrase_search": "Ricerca frase esatta",
+      "relevance_boost": "Aumento di rilevanza",
+      "fuzzy_search": "Ricerca fuzzy",
+      "condition_grouping": "Raggruppamento condizioni",
+      "field_description": "Campo: {field}",
+      "error_history_loading": "Errore durante il caricamento della cronologia",
+      "error_fields_loading": "Errore durante il caricamento dei campi"
     },
     "search_result": {
       "delete": {

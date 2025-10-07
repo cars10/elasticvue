@@ -98,7 +98,21 @@
   },
   "home": {
     "client_information": {
-      "heading": "クラスター情報"
+      "heading": "クラスター情報",
+      "node_name": "ノード名",
+      "cluster_name": "クラスター名",
+      "cluster_uuid": "クラスターUUID",
+      "tagline": "タグライン",
+      "distribution": "ディストリビューション",
+      "number": "番号",
+      "build_flavor": "ビルドフレーバー",
+      "build_type": "ビルドタイプ",
+      "build_hash": "ビルドハッシュ",
+      "build_date": "ビルド日",
+      "build_snapshot": "ビルドスナップショット",
+      "lucene_version": "Luceneバージョン",
+      "minimum_wire_compatibility_version": "最小ネットワーク互換性バージョン",
+      "minimum_index_compatibility_version": "最小インデックス互換性バージョン"
     },
     "cluster_health": {
       "heading": "クラスターの健全性"
@@ -501,6 +515,26 @@
         "button": "カスタム検索",
         "reset": "クエリをリセット"
       }
+    },
+    "query_editor": {
+      "query": "クエリ",
+      "invalid_query": "無効な検索クエリ"
+    },
+    "autocomplete": {
+      "search_all": "すべて検索",
+      "and_operator": "AND 論理演算子",
+      "or_operator": "OR 論理演算子",
+      "not_operator": "NOT 論理演算子",
+      "field_exists": "フィールドの存在を確認",
+      "range_search": "範囲検索",
+      "wildcard_search": "ワイルドカード検索",
+      "exact_phrase_search": "完全一致フレーズ検索",
+      "relevance_boost": "関連性ブースト",
+      "fuzzy_search": "あいまい検索",
+      "condition_grouping": "条件グループ化",
+      "field_description": "フィールド: {field}",
+      "error_history_loading": "履歴の読み込み中にエラーが発生しました",
+      "error_fields_loading": "フィールドの読み込み中にエラーが発生しました"
     },
     "search_result": {
       "delete": {

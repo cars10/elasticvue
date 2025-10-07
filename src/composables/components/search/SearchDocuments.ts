@@ -26,7 +26,7 @@ export const useSearchDocuments = () => {
   const searchStore = useSearchStore()
   const resizeStore = useResizeStore()
 
-  const searchResults: Ref<EsSearchResult> = ref({ took: null, hits: { total: { value: 0 } } })
+  const searchResults: Ref<EsSearchResult> = ref({ took: null, hits: { total: { value: 0 }, hits: [] } })
   const queryParsingError = ref(false)
   const search = async () => {
     let query
@@ -42,14 +42,16 @@ export const useSearchDocuments = () => {
       searchResults.value = await callElasticsearch('search', query, searchStore.indices)
       const total = searchResults.value.hits?.total
       searchStore.pagination.rowsNumber = typeof total === 'number' ? total : total.value
-    } catch (e) {
-      console.error(e)
-      searchResults.value = { took: null, hits: { total: { value: 0 } } }
+    } catch  {
+      searchResults.value =  { took: null, hits: { total: { value: 0 }, hits: [] } }  
     }
   }
 
   watch(() => (searchStore.indices), () => {
     searchStore.pagination.columnSorts = []
+    searchStore.columns = []
+    searchStore.visibleColumns = []
+    searchStore.pagination.columnOrder = []
     try {
       mergeQuery(Object.assign({}, parseJson(searchStore.searchQuery), { sort: [] }))
     } catch (e) {
@@ -70,11 +72,12 @@ export const useSearchDocuments = () => {
   }, { deep: true })
 
   const onRequest = ( { pagination }: any) => {
-    searchStore.pagination.page = pagination.page
-    searchStore.pagination.rowsPerPage = pagination.rowsPerPage
+    const paginationParam = pagination.pagination
+    searchStore.pagination.page = paginationParam.page
+    searchStore.pagination.rowsPerPage = paginationParam.rowsPerPage
 
     const query = parseJson(searchStore.searchQuery)
-    Object.assign(query, buildQueryFromTableOptions(pagination, pagination.columnSorts))
+    Object.assign(query, buildQueryFromTableOptions(searchStore.pagination, searchStore.pagination.columnSorts))
     searchStore.searchQuery = stringifyJson(query)
     search()
   }
@@ -134,18 +137,6 @@ export const buildQueryFromTableOptions = (pagination: any, columnSorts: any[] =
     }
   }
   
-  const oldorder = pagination.descending ? 'desc' : 'asc'
-  const oldsort: string = pagination.sortBy
-
-  if (oldsort && oldorder) {
-    const sortOptions = {}
-     // @ts-expect-error any
-    sortOptions[oldsort] = { order: oldorder }
-    sortArray.push(sortOptions)
-  }
-  
-  console.log(sortArray)
-
   if (sortArray.length > 0) {
     newQueryParts.sort = sortArray
   } else {

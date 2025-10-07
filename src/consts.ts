@@ -28,6 +28,7 @@ export const DEFAULT_SEARCH_QUERY_OBJ = { query: { query_string: { query: '*' } 
 export const DEFAULT_SEARCH_QUERY = JSON.stringify(DEFAULT_SEARCH_QUERY_OBJ)
 export const DEFAULT_SEARCH_RESULT_COLUMNS = ['_index', '_type', '_id', '_score']
 export const DEFAULT_SORTABLE_COLUMNS = ['_index', '_type', '_id', '_score']
+export const DEFAULT_SORTABLE_COLUMNS_NEW = ['_index', '_score']
 export const DEFAULT_PAGINATION = {
   columnOrder: [],
   columnSorts: [],
