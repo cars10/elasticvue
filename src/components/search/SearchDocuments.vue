@@ -19,6 +19,8 @@
               <custom-input 
                 v-model="searchStore.q"
                 outlined
+                type="textarea"
+                :rows="2"
                 autofocus
                 :label="t('search.form.query.label')"
                 @keydown.esc="handleEscape"
@@ -476,8 +478,7 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     max-height: 400px;
     overflow-y: auto;
-    z-index: 1000;
-    color:white !important;
+    z-index: 1000;    
   }
 
   .light .suggestions-list :deep(.q-item) {
