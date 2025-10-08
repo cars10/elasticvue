@@ -5,22 +5,24 @@ import ElasticsearchAdapter from '../../../services/ElasticsearchAdapter.ts'
 import { QSelectOption } from 'quasar'
 
 export type GenericIndexTemplate = {
-  name: string,
-  order?: string,
-  version?: string,
-  priority?: string,
-  template?: string,
-  index_patterns?: string[],
-  indexPatterns?: string,
+  name: string
+  order?: string
+  version?: string
+  priority?: string
+  template?: string
+  index_patterns?: string[]
+  indexPatterns?: string
   index_template?: {
-    index_patterns?: string[],
+    index_patterns?: string[]
   }
 }
 
-type IndexTemplates = {
-  index_templates?: Record<string, { index_patterns: string[] }>,
-  component_templates?: Record<string, { index_patterns: string[] }>
-} | Record<string, { template: string }>
+type IndexTemplates =
+  | {
+      index_templates?: Record<string, { index_patterns: string[] }>
+      component_templates?: Record<string, { index_patterns: string[] }>
+    }
+  | Record<string, { template: string }>
 
 export const useIndexTemplates = () => {
   const connectionStore = useConnectionStore()
@@ -42,11 +44,10 @@ export const useIndexTemplates = () => {
     try {
       const body = await callElasticsearch(method as unknown as keyof ElasticsearchAdapter)
       data.value = enrich(body)
-    } catch (_error) {
-    }
+    } catch (_error) {}
   }
 
-  watch(endpoint, () => (load()))
+  watch(endpoint, () => load())
 
   return {
     data,
@@ -61,11 +62,15 @@ const enrich = (data: IndexTemplates) => {
   const templates = data.index_templates || data.component_templates || data
   const results: GenericIndexTemplate[] = []
   Object.entries(templates).map(([name, template]) => {
-    const indexPatterns = template.index_patterns?.join('') || template.index_template?.index_patterns?.join('') || template.component_template?.index_patterns?.join('') || template.template
+    const indexPatterns =
+      template.index_patterns?.join('') ||
+      template.index_template?.index_patterns?.join('') ||
+      template.component_template?.index_patterns?.join('') ||
+      template.template
     results.push({
       name,
       indexPatterns,
-      ...template,
+      ...template
     })
   })
   return results

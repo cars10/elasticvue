@@ -12,7 +12,7 @@ export enum AppThemes {
 }
 
 export type ThemeState = {
-  preference: ThemePreferences,
+  preference: ThemePreferences
   appTheme: AppThemes
 }
 
@@ -22,7 +22,7 @@ export const useThemeStore = defineStore('theme', {
     appTheme: window.matchMedia('(prefers-color-scheme: light)').matches ? AppThemes.light : AppThemes.dark
   }),
   actions: {
-    setPreference (preference: ThemePreferences) {
+    setPreference(preference: ThemePreferences) {
       this.preference = preference
 
       if (preference === ThemePreferences.auto) {

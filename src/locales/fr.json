@@ -700,8 +700,7 @@
         },
         "schedule": {
           "label": "Planification*",
-          "hint": "Expression cron (ex: '0 30 1 * * ?' pour tous les jours à 1h30)",
-          "required": "La planification est requise"
+          "hint": "Expression cron (ex: '0 30 1 * * ?' pour tous les jours à 1h30)"
         },
         "repository": {
         },
@@ -738,7 +737,6 @@
           "id": "ID",
           "name": "Nom",
           "schedule": "Planification",
-          "repository": "Dépôt",
           "retention": "Rétention"
         }
       },
@@ -753,7 +751,6 @@
     },
     "edit_policy": {
       "update_policy": {
-        "growl": "La politique de snapshot '{name}' a été mise à jour avec succès."
       }
     }
   },

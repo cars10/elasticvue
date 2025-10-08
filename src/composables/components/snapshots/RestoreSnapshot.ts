@@ -19,18 +19,18 @@ export const useRestoreSnapshot = (props: RestoreSnapshotProps, emit: any) => {
     renamePattern: '',
     renameReplacement: ''
   })
-  const formValid = computed(() => (restoreOptions.value.indices.length > 0))
+  const formValid = computed(() => restoreOptions.value.indices.length > 0)
 
   const { callElasticsearch } = useElasticsearchAdapter()
   const data: Ref<any> = ref(null)
 
   const load = () => {
     return callElasticsearch('getSnapshot', { repository: props.repository, snapshot: props.snapshot })
-        .then(body => (data.value = body))
-        .catch(() => (data.value = null))
+      .then((body) => (data.value = body))
+      .catch(() => (data.value = null))
   }
 
-  watch(dialog, newValue => {
+  watch(dialog, (newValue) => {
     if (newValue) load().then(() => (indexNames.value = data.value.snapshots[0].indices.sort()))
   })
 
@@ -60,7 +60,7 @@ export const useRestoreSnapshot = (props: RestoreSnapshotProps, emit: any) => {
         }
       },
       snackbarOptions: {
-        body: t('snapshots.restore_snapshot.restore_snapshot.growl', { snapshot: props.snapshot }),
+        body: t('snapshots.restore_snapshot.restore_snapshot.growl', { snapshot: props.snapshot })
       }
     })
     if (success) dialog.value = false

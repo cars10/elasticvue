@@ -1,35 +1,35 @@
 .text-muted {
-    color: var(--theme-muted-color) !important;
+  color: var(--theme-muted-color) !important;
 }
 
 body {
-    font-size: 16px;
+  font-size: 16px;
 }
 
 .text-underline {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 .decoration-none {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 .font-14 {
-    font-size: 14px !important;
+  font-size: 14px !important;
 }
 
 .font-13 {
-    font-size: 13px !important;
+  font-size: 13px !important;
 }
 
 .font-mono {
-    font-family: 'Hack', monospace;
+  font-family: Hack, monospace;
 }
 
 .clickable:hover {
-    cursor: pointer
+  cursor: pointer;
 }
 
 .word-break-all {
-    word-break: break-all;
+  word-break: break-all;
 }

@@ -19,9 +19,7 @@
         <tbody>
           <tr>
             <td class="font-mon">server error</td>
-            <td>
-              Get all documents that contain the words <strong>server</strong> or <strong>error</strong> in any field
-            </td>
+            <td>Get all documents that contain the words <strong>server</strong> or <strong>error</strong> in any field</td>
           </tr>
           <tr>
             <td class="font-mon">_id:1</td>
@@ -30,8 +28,8 @@
           <tr>
             <td class="font-mon">full_name:"John Smith"</td>
             <td>
-              Get all documents where the <strong>full_name</strong> field is exactly <strong>John
-                Smith</strong>, including whitespace
+              Get all documents where the <strong>full_name</strong> field is exactly <strong>John Smith</strong>, including
+              whitespace
             </td>
           </tr>
           <tr>
@@ -52,9 +50,9 @@
 </template>
 
 <script setup lang="ts">
-  import { ref } from 'vue'
-  import { useTranslation } from '../../composables/i18n.ts'
+import { ref } from 'vue'
+import { useTranslation } from '../../composables/i18n.ts'
 
-  const t = useTranslation()
-  const examplesOpen = ref(false)
+const t = useTranslation()
+const examplesOpen = ref(false)
 </script>

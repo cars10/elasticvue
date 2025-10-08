@@ -21,8 +21,10 @@ export const useEditCluster = (props: EditClusterProps) => {
     }
   }
   const cluster: Ref<ElasticsearchClusterConnection> = ref(getCluster(props.index))
-  watch(() => props.index, (index) => (cluster.value = getCluster(index)))
-
+  watch(
+    () => props.index,
+    (index) => (cluster.value = getCluster(index))
+  )
 
   const dialog = ref(false)
   const saveCluster = () => {

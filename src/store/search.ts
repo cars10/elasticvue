@@ -37,7 +37,7 @@ export const useSearchStore = () => {
       documentFieldMaxLength: DEFAULT_DOCUMENT_FIELD_MAX_LENGTH
     }),
     actions: {
-      resetSearchQuery () {
+      resetSearchQuery() {
         this.q = '*'
         this.searchQuery = DEFAULT_SEARCH_QUERY
         this.pagination = Object.assign({}, DEFAULT_PAGINATION)

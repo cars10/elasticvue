@@ -1,0 +1,11 @@
+artifacts
+browser_extension
+dist
+docker
+node_modules
+playwright-report
+playwright-report-ci
+src-tauri
+test-results
+.github
+*.md

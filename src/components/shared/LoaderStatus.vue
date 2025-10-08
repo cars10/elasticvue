@@ -34,13 +34,13 @@
 </template>
 
 <script setup lang="ts">
-  import { writeToClipboard } from '../../helpers/clipboard'
-  import { useTranslation } from '../../composables/i18n'
-  import { RequestState } from '../../composables/CallElasticsearch.ts'
+import { writeToClipboard } from '../../helpers/clipboard'
+import { useTranslation } from '../../composables/i18n'
+import { RequestState } from '../../composables/CallElasticsearch.ts'
 
-  const props = defineProps<{ requestState: RequestState }>()
-  const t = useTranslation()
-  const copy = () => {
-    writeToClipboard(props.requestState.apiErrorMessage)
-  }
+const props = defineProps<{ requestState: RequestState }>()
+const t = useTranslation()
+const copy = () => {
+  writeToClipboard(props.requestState.apiErrorMessage)
+}
 </script>

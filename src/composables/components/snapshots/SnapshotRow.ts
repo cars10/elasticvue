@@ -6,24 +6,24 @@ export type EsSnapshotList = {
 }
 
 export type EsSnapshot = {
-  snapshot: string,
-  repository: string,
-  state: string,
-  start_time_in_millis: number,
-  start_time: string,
-  end_time: string,
-  end_time_in_millis: number,
-  duration_in_millis: number,
-  indices: string[],
+  snapshot: string
+  repository: string
+  state: string
+  start_time_in_millis: number
+  start_time: string
+  end_time: string
+  end_time_in_millis: number
+  duration_in_millis: number
+  indices: string[]
   shards: {
-    successful: number,
-    failed: number,
+    successful: number
+    failed: number
     total: number
   }
 }
 
 export type SnapshotRowProps = {
-  snapshot: EsSnapshot,
+  snapshot: EsSnapshot
   repository: string
 }
 

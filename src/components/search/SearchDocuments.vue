@@ -12,11 +12,13 @@
       <q-form @submit="search" @keydown="handleKeydownToSearch">
         <div class="row q-col-gutter-lg">
           <div v-if="!searchStore.searchQueryCollapsed" class="col">
-            <custom-input v-model="searchStore.q"
-                          outlined
-                          autofocus
-                          :label="t('search.form.query.label')"
-                          @keydown.esc="searchStore.q = '*'" />
+            <custom-input
+              v-model="searchStore.q"
+              outlined
+              autofocus
+              :label="t('search.form.query.label')"
+              @keydown.esc="searchStore.q = '*'"
+            />
 
             <search-examples />
           </div>
@@ -27,9 +29,7 @@
 
           <div class="col-auto">
             <q-btn :label="t('search.form.search')" color="primary-dark" type="submit" class="q-mt-sm" />
-            <div v-if="searchResults?.took" class="text-muted font-13 text-center">
-              {{ searchResults.took }}ms
-            </div>
+            <div v-if="searchResults?.took" class="text-muted font-13 text-center">{{ searchResults.took }}ms</div>
           </div>
         </div>
       </q-form>
@@ -43,12 +43,14 @@
             <code-editor v-model="searchStore.searchQuery" :commands="editorCommands" />
           </resizable-container>
 
-          <q-btn :label="t('search.form.customize_query.reset')"
-                 flat
-                 size="md"
-                 no-caps
-                 class="btn-link q-py-none q-px-sm"
-                 @click="searchStore.resetSearchQuery" />
+          <q-btn
+            :label="t('search.form.customize_query.reset')"
+            flat
+            size="md"
+            no-caps
+            class="btn-link q-py-none q-px-sm"
+            @click="searchStore.resetSearchQuery"
+          />
         </div>
       </q-slide-transition>
 
@@ -72,11 +74,13 @@
       <search-results-table :results="searchResults" @request="onRequest" @reload="search" />
       <template #error>
         <div class="text-center">
-          <q-btn :label="t('search.form.customize_query.reset')"
-                 size="md"
-                 color="positive"
-                 class="q-ma-md"
-                 @click="resetAndLoad" />
+          <q-btn
+            :label="t('search.form.customize_query.reset')"
+            size="md"
+            color="positive"
+            class="q-ma-md"
+            @click="resetAndLoad"
+          />
         </div>
       </template>
     </loader-status>
@@ -84,38 +88,30 @@
 </template>
 
 <script setup lang="ts">
-  import { defineAsyncComponent, onMounted } from 'vue'
-  import IndexFilter from '../shared/IndexFilter.vue'
-  import LoaderStatus from '../shared/LoaderStatus.vue'
-  import ResizableContainer from '../shared/ResizableContainer.vue'
-  import SearchResultsTable from './SearchResultsTable.vue'
-  import { useSearchDocuments } from '../../composables/components/search/SearchDocuments'
-  import { useTranslation } from '../../composables/i18n.ts'
-  import SearchExamples from './SearchExamples.vue'
-  import CustomInput from '../shared/CustomInput.vue'
+import { defineAsyncComponent, onMounted } from 'vue'
+import IndexFilter from '../shared/IndexFilter.vue'
+import LoaderStatus from '../shared/LoaderStatus.vue'
+import ResizableContainer from '../shared/ResizableContainer.vue'
+import SearchResultsTable from './SearchResultsTable.vue'
+import { useSearchDocuments } from '../../composables/components/search/SearchDocuments'
+import { useTranslation } from '../../composables/i18n.ts'
+import SearchExamples from './SearchExamples.vue'
+import CustomInput from '../shared/CustomInput.vue'
 
-  const CodeEditor = defineAsyncComponent(() => import('../shared/CodeEditor.vue'))
-  const resetAndLoad = () => {
-    searchStore.resetSearchQuery()
+const CodeEditor = defineAsyncComponent(() => import('../shared/CodeEditor.vue'))
+const resetAndLoad = () => {
+  searchStore.resetSearchQuery()
+  search()
+}
+
+const t = useTranslation()
+const { search, searchResults, searchStore, resizeStore, queryParsingError, requestState, editorCommands, onRequest } =
+  useSearchDocuments()
+onMounted(search)
+
+const handleKeydownToSearch = (event: KeyboardEvent) => {
+  if ((event.metaKey || event.ctrlKey) && event.key === 'Enter') {
     search()
   }
-
-  const t = useTranslation()
-  const {
-    search,
-    searchResults,
-    searchStore,
-    resizeStore,
-    queryParsingError,
-    requestState,
-    editorCommands,
-    onRequest
-  } = useSearchDocuments()
-  onMounted(search)
-
-  const handleKeydownToSearch = (event: KeyboardEvent) => {
-    if ((event.metaKey || event.ctrlKey) && event.key === 'Enter') {
-      search()
-    }
-  }
+}
 </script>

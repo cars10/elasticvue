@@ -7,8 +7,17 @@
             {{ tab.label }}
 
             <q-btn icon="edit" flat dense size="sm">
-              <q-popup-edit v-slot="scope" v-model="tab.label" auto-save anchor="top left"
-                            @save="(v) => {updateTab(v, tab)}">
+              <q-popup-edit
+                v-slot="scope"
+                v-model="tab.label"
+                auto-save
+                anchor="top left"
+                @save="
+                  (v) => {
+                    updateTab(v, tab)
+                  }
+                "
+              >
                 <custom-input v-model="scope.value" dense autofocu outlined @keydown.enter="scope.set" />
               </q-popup-edit>
             </q-btn>
@@ -18,28 +27,26 @@
         </q-tab>
         <q-separator vertical />
       </template>
-      <q-btn icon="add" flat style="height:48px;" @click="addTab" />
+      <q-btn icon="add" flat style="height: 48px" @click="addTab" />
     </q-tabs>
 
     <q-separator />
 
     <q-tab-panels v-model="activeTabName">
       <q-tab-panel v-for="tab in tabs" :key="`${tab.name}-panel`" :name="tab.name">
-        <rest-query-form :tab="tab"
-                         @reload-history="emit('reloadHistory')"
-                         @reload-saved-queries="emit('reloadSavedQueries')" />
+        <rest-query-form :tab="tab" @reload-history="emit('reloadHistory')" @reload-saved-queries="emit('reloadSavedQueries')" />
       </q-tab-panel>
     </q-tab-panels>
   </q-card>
 </template>
 
 <script setup lang="ts">
-  import RestQueryForm from './RestQueryForm.vue'
-  import { useRestQueryTabs } from '../../composables/components/rest/RestQueryTabs.ts'
-  import CustomInput from '../shared/CustomInput.vue'
+import RestQueryForm from './RestQueryForm.vue'
+import { useRestQueryTabs } from '../../composables/components/rest/RestQueryTabs.ts'
+import CustomInput from '../shared/CustomInput.vue'
 
-  const emit = defineEmits(['reloadHistory', 'reloadSavedQueries'])
+const emit = defineEmits(['reloadHistory', 'reloadSavedQueries'])
 
-  const { tabs, activeTabName, addTab, updateTab, removeTab, setTabContent } = useRestQueryTabs()
-  defineExpose({ setTabContent, addTab })
+const { tabs, activeTabName, addTab, updateTab, removeTab, setTabContent } = useRestQueryTabs()
+defineExpose({ setTabContent, addTab })
 </script>

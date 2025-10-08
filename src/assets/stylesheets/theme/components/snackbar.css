@@ -1,21 +1,21 @@
 .snackbar {
-    overflow-wrap: anywhere;
-    position: fixed;
-    right: 10px;
-    bottom: 10px;
-    z-index: 999999;
-    border-radius: 2px !important;
-    min-width: 500px;
-    max-width: 600px;
+  overflow-wrap: anywhere;
+  position: fixed;
+  right: 10px;
+  bottom: 10px;
+  z-index: 999999;
+  border-radius: 2px !important;
+  min-width: 500px;
+  max-width: 600px;
 }
 
 .snackbar--progress-bar {
-    width: 8px;
-    height: 100%;
-    background-color: #000;
-    opacity: .5;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    transition: height 0.1s linear;
+  width: 8px;
+  height: 100%;
+  background-color: #000;
+  opacity: 0.5;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  transition: height 0.1s linear;
 }

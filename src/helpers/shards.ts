@@ -4,40 +4,43 @@ type IndexName = string
 type NodeName = string
 
 export type EsShard = {
-  index: IndexName,
-  shard: string,
-  prirep: string,
-  state: string,
+  index: IndexName
+  shard: string
+  prirep: string
+  state: string
   node: NodeName
 }
 
 export type EsShardIndex = {
-  health: string,
-  index: IndexName,
-  pri: string,
-  rep: string,
+  health: string
+  index: IndexName
+  pri: string
+  rep: string
   status: string
 }
 
 export type UnassignedShards = Record<IndexName, EsShard[]>
 
 export type TableShards = {
-  nodes: NodeName[],
-  indexNames: IndexName[],
-  indices: Record<IndexName, EsShardIndex>,
-  unassignedShards: UnassignedShards,
+  nodes: NodeName[]
+  indexNames: IndexName[]
+  indices: Record<IndexName, EsShardIndex>
+  unassignedShards: UnassignedShards
   shards: Record<NodeName, Record<IndexName, EsShard[]>>
 }
 
 export const convertShards = (shards: EsShard[], indexHealth: EsShardIndex[], nodes: Partial<EsNode>[]): TableShards => {
-  const indices = Object.assign({}, ...(indexHealth.map(i => ({
-    [i.index]: {
-      index: i.index,
-      health: i.health,
-      pri: i.pri,
-      rep: i.rep
-    }
-  }))))
+  const indices = Object.assign(
+    {},
+    ...indexHealth.map((i) => ({
+      [i.index]: {
+        index: i.index,
+        health: i.health,
+        pri: i.pri,
+        rep: i.rep
+      }
+    }))
+  )
 
   const result: Record<string, any> = {}
   const unassignedShards: UnassignedShards = {}
@@ -66,7 +69,10 @@ export const convertShards = (shards: EsShard[], indexHealth: EsShardIndex[], no
   }
 
   return {
-    nodes: nodes.map(n => n.name).filter(name => typeof name === 'string').sort(),
+    nodes: nodes
+      .map((n) => n.name)
+      .filter((name) => typeof name === 'string')
+      .sort(),
     indices,
     indexNames: Object.keys(indices),
     shards: result,

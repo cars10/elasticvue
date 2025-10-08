@@ -16,11 +16,13 @@
         {{ t('settings.import_export.export.heading') }}
       </h3>
 
-      <download-button color="primary-dark"
-                       class="q-mb-md"
-                       :download="downloadFileName"
-                       :label="t('settings.import_export.export.download')"
-                       :generate-download-data="backupJsonString" />
+      <download-button
+        color="primary-dark"
+        class="q-mb-md"
+        :download="downloadFileName"
+        :label="t('settings.import_export.export.download')"
+        :generate-download-data="backupJsonString"
+      />
 
       <div>
         <q-btn flat @click="helpCollapsed = !helpCollapsed">
@@ -61,13 +63,13 @@
 </template>
 
 <script setup lang="ts">
-  import { ref } from 'vue'
-  import DownloadButton from '../shared/DownloadButton.vue'
-  import { useImportExport } from '../../composables/ImportExport'
-  import ImportBackupForm from './ImportBackupForm.vue'
-  import { useTranslation } from '../../composables/i18n'
+import { ref } from 'vue'
+import DownloadButton from '../shared/DownloadButton.vue'
+import { useImportExport } from '../../composables/ImportExport'
+import ImportBackupForm from './ImportBackupForm.vue'
+import { useTranslation } from '../../composables/i18n'
 
-  const t = useTranslation()
-  const { downloadFileName, backupJsonString } = useImportExport()
-  const helpCollapsed = ref(false)
+const t = useTranslation()
+const { downloadFileName, backupJsonString } = useImportExport()
+const helpCollapsed = ref(false)
 </script>

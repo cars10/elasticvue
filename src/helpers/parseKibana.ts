@@ -1,8 +1,8 @@
 const kibanaBodyRegex = /^(GET|POST|PUT|PATCH|HEAD|OPTIONS|DELETE)(?:\s(.*)?)?/
 
 type KibanaRequest = {
-  method: string | null,
-  path: string | null,
+  method: string | null
+  path: string | null
   body: string | null
 }
 

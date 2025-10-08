@@ -9,7 +9,7 @@
   </q-item>
 
   <q-dialog v-model="dialog" transition-duration="100">
-    <q-card style="width: 600px; max-width: 80vw;">
+    <q-card style="width: 600px; max-width: 80vw">
       <q-card-section class="flex justify-between">
         <div class="flex">
           <h2 class="text-h6 q-my-none flex">
@@ -26,40 +26,46 @@
 
         <q-form @submit="addAlias">
           <div class="flex">
-            <custom-input id="new_index_alias_name"
-                          v-model="newAlias"
-                          class="col-grow"
-                          :label="t('indices.index_aliases.form.new_alias.label')"
-                          lazy-rules
-                          autocomplete="off"
-                          autofocus
-                          outlined
-                          dense
-                          required />
+            <custom-input
+              id="new_index_alias_name"
+              v-model="newAlias"
+              class="col-grow"
+              :label="t('indices.index_aliases.form.new_alias.label')"
+              lazy-rules
+              autocomplete="off"
+              autofocus
+              outlined
+              dense
+              required
+            />
 
-            <q-btn id="add_index_alias"
-                   :disable="requestState.loading || newAlias.length === 0"
-                   color="positive"
-                   :loading="requestState.loading"
-                   :label="t('indices.index_aliases.form.add_alias')"
-                   type="submit"
-                   class="q-ml-md" />
+            <q-btn
+              id="add_index_alias"
+              :disable="requestState.loading || newAlias.length === 0"
+              color="positive"
+              :loading="requestState.loading"
+              :label="t('indices.index_aliases.form.add_alias')"
+              type="submit"
+              class="q-ml-md"
+            />
           </div>
         </q-form>
       </q-card-section>
 
       <q-separator />
 
-      <q-table v-if="aliases.length > 0"
-               class="table-mono table-hide-overflow"
-               flat
-               dense
-               row-key="alias"
-               :columns="columns"
-               :rows="aliases"
-               :pagination="{sortBy: 'alias'}"
-               :rows-per-page-options="DEFAULT_ROWS_PER_PAGE">
-        <template #body="{row}">
+      <q-table
+        v-if="aliases.length > 0"
+        class="table-mono table-hide-overflow"
+        flat
+        dense
+        row-key="alias"
+        :columns="columns"
+        :rows="aliases"
+        :pagination="{ sortBy: 'alias' }"
+        :rows-per-page-options="DEFAULT_ROWS_PER_PAGE"
+      >
+        <template #body="{ row }">
           <tr>
             <td>{{ row.alias }}</td>
             <td class="text-right">
@@ -77,14 +83,14 @@
 </template>
 
 <script setup lang="ts">
-  import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
-  import { IndexAliasProps, useIndexAliases } from '../../composables/components/indices/IndexAliases'
-  import { useTranslation } from '../../composables/i18n'
-  import CustomInput from '../shared/CustomInput.vue'
+import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
+import { IndexAliasProps, useIndexAliases } from '../../composables/components/indices/IndexAliases'
+import { useTranslation } from '../../composables/i18n'
+import CustomInput from '../shared/CustomInput.vue'
 
-  const t = useTranslation()
-  const props = defineProps<IndexAliasProps>()
-  const emit = defineEmits(['reload'])
+const t = useTranslation()
+const props = defineProps<IndexAliasProps>()
+const emit = defineEmits(['reload'])
 
-  const { dialog, requestState, newAlias, aliases, addAlias, deleteAlias, columns } = useIndexAliases(props, emit)
+const { dialog, requestState, newAlias, aliases, addAlias, deleteAlias, columns } = useIndexAliases(props, emit)
 </script>

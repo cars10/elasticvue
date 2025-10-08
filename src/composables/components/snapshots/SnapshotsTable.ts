@@ -6,7 +6,7 @@ import { filterItems } from '../../../helpers/filters.ts'
 import { setupFilterState } from '../shared/FilterState.ts'
 
 export type SnapshotsTableProps = {
-  repository: string,
+  repository: string
   snapshots: EsSnapshot[]
 }
 

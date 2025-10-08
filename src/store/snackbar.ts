@@ -2,12 +2,12 @@ import { defineStore } from 'pinia'
 import { SnackbarOptions } from '../composables/Snackbar'
 
 interface SnackbarState {
-  visible: boolean,
-  timeout: number,
-  color: string | null,
-  title: string,
-  body: string,
-  copyableText: string,
+  visible: boolean
+  timeout: number
+  color: string | null
+  title: string
+  body: string
+  copyableText: string
   id: number | null
 }
 
@@ -22,7 +22,7 @@ export const useSnackbarStore = defineStore('snackbar', {
     id: null
   }),
   actions: {
-    show (props: SnackbarOptions) {
+    show(props: SnackbarOptions) {
       this.visible = false
       this.timeout = -1
       this.color = null

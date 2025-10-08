@@ -141,32 +141,32 @@
 </template>
 
 <script setup lang="ts">
-  import { onMounted } from 'vue'
-  import LoaderStatus from '../shared/LoaderStatus.vue'
-  import { useElasticsearchRequest } from '../../composables/CallElasticsearch'
-  import { useTranslation } from '../../composables/i18n.ts'
+import { onMounted } from 'vue'
+import LoaderStatus from '../shared/LoaderStatus.vue'
+import { useElasticsearchRequest } from '../../composables/CallElasticsearch'
+import { useTranslation } from '../../composables/i18n.ts'
 
-  const t = useTranslation()
+const t = useTranslation()
 
-  type ClusterInformation = {
-    name: string
-    cluster_name: string
-    cluster_uuid: string
-    version: {
-      distribution?: string
-      number: string
-      build_flavor: string
-      build_type: string
-      build_hash: string
-      build_date: string
-      build_snapshot: string
-      lucene_version: string
-      minimum_wire_compatibility_version: string
-      minimum_index_compatibility_version: string
-    }
-    tagline: string
+type ClusterInformation = {
+  name: string
+  cluster_name: string
+  cluster_uuid: string
+  version: {
+    distribution?: string
+    number: string
+    build_flavor: string
+    build_type: string
+    build_hash: string
+    build_date: string
+    build_snapshot: string
+    lucene_version: string
+    minimum_wire_compatibility_version: string
+    minimum_index_compatibility_version: string
   }
+  tagline: string
+}
 
-  const { requestState, data, load } = useElasticsearchRequest<ClusterInformation>('clusterInfo')
-  onMounted(load)
+const { requestState, data, load } = useElasticsearchRequest<ClusterInformation>('clusterInfo')
+onMounted(load)
 </script>

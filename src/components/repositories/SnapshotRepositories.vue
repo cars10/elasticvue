@@ -14,15 +14,15 @@
 </template>
 
 <script setup lang="ts">
-  import ReloadButton from '../shared/ReloadButton.vue'
-  import LoaderStatus from '../shared/LoaderStatus.vue'
-  import { onMounted } from 'vue'
-  import { useElasticsearchRequest } from '../../composables/CallElasticsearch'
-  import SnapshotRepositoriesTable from './SnapshotRepositoriesTable.vue'
-  import { useTranslation } from '../../composables/i18n.ts'
-  import { EsSnapshotRepository } from '../../composables/components/repositories/SnapshotRepositoriesTable.ts'
+import ReloadButton from '../shared/ReloadButton.vue'
+import LoaderStatus from '../shared/LoaderStatus.vue'
+import { onMounted } from 'vue'
+import { useElasticsearchRequest } from '../../composables/CallElasticsearch'
+import SnapshotRepositoriesTable from './SnapshotRepositoriesTable.vue'
+import { useTranslation } from '../../composables/i18n.ts'
+import { EsSnapshotRepository } from '../../composables/components/repositories/SnapshotRepositoriesTable.ts'
 
-  const t = useTranslation()
-  const { load, requestState, data } = useElasticsearchRequest<Record<string, EsSnapshotRepository>>('catRepositories')
-  onMounted(load)
+const t = useTranslation()
+const { load, requestState, data } = useElasticsearchRequest<Record<string, EsSnapshotRepository>>('catRepositories')
+onMounted(load)
 </script>

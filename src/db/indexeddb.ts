@@ -11,7 +11,7 @@ export class Db {
   connectPromise: MaybePromise<void>
   _idb: IDBPDatabase
 
-  constructor ({ dbName, dbVersion, tables }: { dbName: string, dbVersion: number, tables: TableDefinition[] }) {
+  constructor({ dbName, dbVersion, tables }: { dbName: string; dbVersion: number; tables: TableDefinition[] }) {
     this.dbName = dbName
     this.dbVersion = dbVersion
     this.tables = tables
@@ -19,7 +19,7 @@ export class Db {
     this.connect()
   }
 
-  async connect () {
+  async connect() {
     if (this._idb) return
     if (!this.connectPromise) this.connectPromise = this._openIdb()
 
@@ -27,16 +27,16 @@ export class Db {
     this.connectPromise = null
   }
 
-  async _openIdb () {
+  async _openIdb() {
     if (this._idb) return
 
     this._idb = await openDB(this.dbName, this.dbVersion, {
       upgrade: (db, _oldVersion, _newVersion, tx) => {
-        this.tables.forEach(table => {
+        this.tables.forEach((table) => {
           if (!db.objectStoreNames.contains(table.name)) {
             db.createObjectStore(table.name, {
               keyPath: 'id',
-              autoIncrement: true,
+              autoIncrement: true
             })
           }
 
@@ -47,7 +47,7 @@ export class Db {
             }
           })
         })
-      },
+      }
     })
   }
 }
@@ -56,63 +56,63 @@ export class DbModel<T> {
   tableName: string
   db: Db
 
-  constructor (tableName: string, db: Db) {
+  constructor(tableName: string, db: Db) {
     this.tableName = tableName
     this.db = db
   }
 
-  async count (): Promise<number> {
+  async count(): Promise<number> {
     await this.db.connect()
     return this.db._idb.count(this.tableName)
   }
 
-  async first (): Promise<T | null> {
+  async first(): Promise<T | null> {
     await this.db.connect()
     const cursor = await this.db._idb.transaction(this.tableName).store.openCursor(null, 'next')
     return cursor?.value
   }
 
-  async last (): Promise<T | null> {
+  async last(): Promise<T | null> {
     await this.db.connect()
     const cursor = await this.db._idb.transaction(this.tableName).store.openCursor(null, 'prev')
     return cursor?.value
   }
 
-  async insert (obj: T) {
+  async insert(obj: T) {
     await this.db.connect()
     return this.db._idb.add(this.tableName, obj)
   }
 
-  async get (key: IDBValidKey): Promise<T> {
+  async get(key: IDBValidKey): Promise<T> {
     await this.db.connect()
     return this.db._idb.get(this.tableName, key)
   }
 
-  async update (obj: T) {
+  async update(obj: T) {
     await this.db.connect()
     return this.db._idb.put(this.tableName, obj)
   }
 
-  async remove (id?: number) {
+  async remove(id?: number) {
     if (!id) return
     await this.db.connect()
     await this.db._idb.delete(this.tableName, id)
   }
 
-  async bulkInsert (data: T[]) {
+  async bulkInsert(data: T[]) {
     await this.db.connect()
     const tx = this.db._idb.transaction(this.tableName, 'readwrite')
     if (!tx) return
-    data.forEach(obj => (tx.store.put(obj)))
+    data.forEach((obj) => tx.store.put(obj))
     return tx.done
   }
 
-  async getAll (): Promise<T[]> {
+  async getAll(): Promise<T[]> {
     await this.db.connect()
     return this.db._idb.getAll(this.tableName)
   }
 
-  async clear () {
+  async clear() {
     await this.db.connect()
     return this.db._idb?.clear(this.tableName)
   }

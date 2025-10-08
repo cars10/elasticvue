@@ -26,30 +26,30 @@
 </template>
 
 <script setup lang="ts">
-  import { onMounted, ref, watch } from 'vue'
-  import { useElasticsearchAdapter } from '../../composables/CallElasticsearch'
-  import { EsIndex } from '../../composables/components/indices/IndicesTable.ts'
+import { onMounted, ref, watch } from 'vue'
+import { useElasticsearchAdapter } from '../../composables/CallElasticsearch'
+import { EsIndex } from '../../composables/components/indices/IndicesTable.ts'
 
-  const props = defineProps<{ health: string }>()
-  const { callElasticsearch } = useElasticsearchAdapter()
+const props = defineProps<{ health: string }>()
+const { callElasticsearch } = useElasticsearchAdapter()
 
-  const indices = ref({ yellow: [], red: [] })
+const indices = ref({ yellow: [], red: [] })
 
-  const unhealthyIndices = (health: string) => (callElasticsearch('catIndices', { h: 'index', health }))
-  const loadUnhealthyIndices = async () => {
-    try {
-      const yellow = await unhealthyIndices('yellow')
-      indices.value.yellow = yellow.map((i: EsIndex) => i.index).sort()
+const unhealthyIndices = (health: string) => callElasticsearch('catIndices', { h: 'index', health })
+const loadUnhealthyIndices = async () => {
+  try {
+    const yellow = await unhealthyIndices('yellow')
+    indices.value.yellow = yellow.map((i: EsIndex) => i.index).sort()
 
-      if (props.health === 'red') {
-        const red = await unhealthyIndices('red')
-        indices.value.red = red.map((i: EsIndex) => i.index).sort()
-      }
-    } catch (e) {
-      console.log(e)
+    if (props.health === 'red') {
+      const red = await unhealthyIndices('red')
+      indices.value.red = red.map((i: EsIndex) => i.index).sort()
     }
+  } catch (e) {
+    console.log(e)
   }
+}
 
-  watch(() => props.health, loadUnhealthyIndices)
-  onMounted(loadUnhealthyIndices)
+watch(() => props.health, loadUnhealthyIndices)
+onMounted(loadUnhealthyIndices)
 </script>

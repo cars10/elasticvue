@@ -3,7 +3,7 @@ import { computed, ref } from 'vue'
 import { defineElasticsearchRequest } from '../../CallElasticsearch'
 
 type NewSnapshot = {
-  name: string,
+  name: string
   indices: string | string[]
 }
 
@@ -37,7 +37,7 @@ export const useNewSnapshot = (props: NewSnapshotProps, emit: any) => {
         }
       },
       snackbarOptions: {
-        body: t('snapshots.new_snapshot.create_snapshot.growl', { name: snapshot.value.name }),
+        body: t('snapshots.new_snapshot.create_snapshot.growl', { name: snapshot.value.name })
       }
     })
     if (success) dialog.value = false

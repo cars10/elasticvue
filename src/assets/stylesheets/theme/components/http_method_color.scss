@@ -7,11 +7,14 @@
     color: $red-9;
   }
 
-  .http-HEAD, .http-OPTIONS {
+  .http-HEAD,
+  .http-OPTIONS {
     color: $purple-8;
   }
 
-  .http-POST, .http-PUT, .http-PATCH {
+  .http-POST,
+  .http-PUT,
+  .http-PATCH {
     color: $orange-9;
   }
 }
@@ -25,11 +28,14 @@
     color: $red-5;
   }
 
-  .http-HEAD, .http-OPTIONS {
+  .http-HEAD,
+  .http-OPTIONS {
     color: $purple-4;
   }
 
-  .http-POST, .http-PUT, .http-PATCH {
+  .http-POST,
+  .http-PUT,
+  .http-PATCH {
     color: $orange-5;
   }
 }

@@ -7,7 +7,7 @@ const getDefaultClusters = () => {
   return process.env[ENV_NAME]?.trim()
 }
 
-const parseDefaultClusters = rawDefaultClusters => {
+const parseDefaultClusters = (rawDefaultClusters) => {
   if (rawDefaultClusters.length > 0) {
     try {
       return JSON.parse(rawDefaultClusters)
@@ -17,19 +17,19 @@ const parseDefaultClusters = rawDefaultClusters => {
   }
 }
 
-const validateDefaultClusters = parsedDefaultClusters => {
+const validateDefaultClusters = (parsedDefaultClusters) => {
   if (!Array.isArray(parsedDefaultClusters)) {
     errorExit(`${ENV_NAME} is not an array`, parsedDefaultClusters)
   }
 
   const validKeys = ['name', 'username', 'password', 'uri']
-  parsedDefaultClusters.forEach(cluster => {
+  parsedDefaultClusters.forEach((cluster) => {
     if (!cluster.uri || cluster.uri.trim().length === 0) {
       errorExit('Cluster uri missing', cluster)
     }
 
     const keys = Object.keys(cluster)
-    keys.forEach(key => {
+    keys.forEach((key) => {
       if (!validKeys.includes(key)) {
         errorExit(`'${key}' is not a valid option. Use only these: ${validKeys}`)
       }

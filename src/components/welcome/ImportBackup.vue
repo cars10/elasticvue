@@ -18,10 +18,10 @@
 </template>
 
 <script setup lang="ts">
-  import { ref } from 'vue'
-  import ImportBackupForm from '../settings/ImportBackupForm.vue'
-  import { useTranslation } from '../../composables/i18n.ts'
+import { ref } from 'vue'
+import ImportBackupForm from '../settings/ImportBackupForm.vue'
+import { useTranslation } from '../../composables/i18n.ts'
 
-  const dialog = ref(false)
-  const t = useTranslation()
+const dialog = ref(false)
+const t = useTranslation()
 </script>

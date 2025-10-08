@@ -1,6 +1,6 @@
 type Filterable = Record<string, any>
 
-export function filterItems<T extends Filterable> (items: T[], searchQuery: string, headerNames: string[]): T[] {
+export function filterItems<T extends Filterable>(items: T[], searchQuery: string, headerNames: string[]): T[] {
   const search = searchQuery.toString().slice().toLowerCase().trim()
   if (search.length === 0) return items
 
@@ -13,14 +13,14 @@ export function filterItems<T extends Filterable> (items: T[], searchQuery: stri
     if (query.trim() === '') return items
     if (column.trim() === '') return items
 
-    return items.filter(item => {
+    return items.filter((item) => {
       if (columnFilterable(item, column)) {
         return filterColumn(item, column, query)
       }
     })
   } else {
-    return items.filter(item => {
-      return headerNames.some(headerName => {
+    return items.filter((item) => {
+      return headerNames.some((headerName) => {
         if (columnFilterable(item, headerName)) {
           return filterColumn(item, headerName, search)
         }

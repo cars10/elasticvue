@@ -24,11 +24,7 @@
       </q-card-section>
 
       <q-card-section v-if="!downloading && !installing">
-        <q-btn :label="t('update_check.yes')"
-               color="positive"
-               type="submit"
-               class="q-mr-md"
-               @click="downloadUpdate" />
+        <q-btn :label="t('update_check.yes')" color="positive" type="submit" class="q-mr-md" @click="downloadUpdate" />
         <q-btn v-close-popup flat :label="t('defaults.cancel')" />
       </q-card-section>
     </q-card>
@@ -36,21 +32,13 @@
 </template>
 
 <script setup lang="ts">
-  import { onMounted } from 'vue'
-  import { useTranslation } from '../../composables/i18n.ts'
-  import { useUpdateCheck } from '../../composables/UpdateCheck.ts'
+import { onMounted } from 'vue'
+import { useTranslation } from '../../composables/i18n.ts'
+import { useUpdateCheck } from '../../composables/UpdateCheck.ts'
 
-  const t = useTranslation()
+const t = useTranslation()
 
-  onMounted(() => checkUpdate())
+onMounted(() => checkUpdate())
 
-  const {
-    checkUpdate,
-    downloadUpdate,
-    downloading,
-    downloadProgress,
-    installing,
-    updateInfo,
-    dialog
-  } = useUpdateCheck()
+const { checkUpdate, downloadUpdate, downloading, downloadProgress, installing, updateInfo, dialog } = useUpdateCheck()
 </script>

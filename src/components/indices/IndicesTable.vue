@@ -6,10 +6,12 @@
         {{ t('index_templates.heading') }}
       </router-link>
 
-      <filter-state v-model="indicesStore.filter"
-                    :results-count="filterStateProps.resultsCount"
-                    :filtered-results-count="filterStateProps.filteredResultsCount"
-                    class="q-ml-md" />
+      <filter-state
+        v-model="indicesStore.filter"
+        :results-count="filterStateProps.resultsCount"
+        :filtered-results-count="filterStateProps.filteredResultsCount"
+        class="q-ml-md"
+      />
     </div>
 
     <div class="flex">
@@ -19,13 +21,19 @@
         <q-menu style="white-space: nowrap" anchor="bottom right" self="top end">
           <q-list dense>
             <q-item style="padding-left: 0">
-              <q-checkbox v-model="indicesStore.showHiddenIndices" size="32px"
-                          :label="t('indices.indices_table.show_hidden_indices.label')" />
+              <q-checkbox
+                v-model="indicesStore.showHiddenIndices"
+                size="32px"
+                :label="t('indices.indices_table.show_hidden_indices.label')"
+              />
             </q-item>
 
             <q-item style="padding-left: 0">
-              <q-checkbox v-model="indicesStore.stickyTableHeader" size="32px"
-                          :label="t('indices.indices_table.sticky_table_header.label')" />
+              <q-checkbox
+                v-model="indicesStore.stickyTableHeader"
+                size="32px"
+                :label="t('indices.indices_table.sticky_table_header.label')"
+              />
             </q-item>
           </q-list>
         </q-menu>
@@ -33,21 +41,23 @@
     </div>
   </div>
 
-  <div :class="{'table--sticky-header': indicesStore.stickyTableHeader}">
+  <div :class="{ 'table--sticky-header': indicesStore.stickyTableHeader }">
     <resizable-container v-model="resizeStore.indicesTable" :active="indicesStore.stickyTableHeader">
-      <q-table :key="tableKey"
-               v-model:pagination="indicesStore.pagination"
-               class="table-mono table-hide-overflow"
-               flat
-               dense
-               data-testid="indices-table"
-               row-key="index"
-               :virtual-scroll="indicesStore.stickyTableHeader"
-               :virtual-scroll-item-size="14"
-               :columns="columns"
-               :rows="items"
-               selection="multiple">
-        <template #body="{row}">
+      <q-table
+        :key="tableKey"
+        v-model:pagination="indicesStore.pagination"
+        class="table-mono table-hide-overflow"
+        flat
+        dense
+        data-testid="indices-table"
+        row-key="index"
+        :virtual-scroll="indicesStore.stickyTableHeader"
+        :virtual-scroll-item-size="14"
+        :columns="columns"
+        :rows="items"
+        selection="multiple"
+      >
+        <template #body="{ row }">
           <index-row :index="row" @reload="emit('reload')" @index-deleted="reloadSelectedItems">
             <template #checkbox>
               <q-checkbox v-model="selectedItems" :val="row.index" size="32px" @update:model-value="setIndeterminate" />
@@ -60,56 +70,60 @@
         </template>
 
         <template #bottom="scope">
-          <table-bottom v-model="indicesStore.pagination.rowsPerPage"
-                        :scope="scope"
-                        :total="items.length"
-                        :rows-per-page="rowsPerPage"
-                        @rows-per-page-accepted="acceptRowsPerPage" />
+          <table-bottom
+            v-model="indicesStore.pagination.rowsPerPage"
+            :scope="scope"
+            :total="items.length"
+            :rows-per-page="rowsPerPage"
+            @rows-per-page-accepted="acceptRowsPerPage"
+          />
         </template>
       </q-table>
     </resizable-container>
 
     <div v-if="indices.length > 0" class="q-pa-md">
-      <index-bulk :selected-indices="selectedItems"
-                  :total-items-count="indices.length"
-                  :filtered-items-count="items.length"
-                  @reload="emit('reload')"
-                  @indices-deleted="clearDeletedIndicesAndReload" />
+      <index-bulk
+        :selected-indices="selectedItems"
+        :total-items-count="indices.length"
+        :filtered-items-count="items.length"
+        @reload="emit('reload')"
+        @indices-deleted="clearDeletedIndicesAndReload"
+      />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-  import FilterInput from '../shared/FilterInput.vue'
-  import TableBottom from '../shared/TableBottom.vue'
-  import IndexBulk from './IndexBulk.vue'
-  import IndexRow from './IndexRow.vue'
-  import NewIndex from './NewIndex.vue'
-  import ResizableContainer from '../shared/ResizableContainer.vue'
-  import { useTranslation } from '../../composables/i18n'
-  import { EsTableProps, useIndicesTable } from '../../composables/components/indices/IndicesTable'
-  import FilterState from '../shared/FilterState.vue'
-  import { clusterVersionGte } from '../../helpers/minClusterVersion.ts'
+import FilterInput from '../shared/FilterInput.vue'
+import TableBottom from '../shared/TableBottom.vue'
+import IndexBulk from './IndexBulk.vue'
+import IndexRow from './IndexRow.vue'
+import NewIndex from './NewIndex.vue'
+import ResizableContainer from '../shared/ResizableContainer.vue'
+import { useTranslation } from '../../composables/i18n'
+import { EsTableProps, useIndicesTable } from '../../composables/components/indices/IndicesTable'
+import FilterState from '../shared/FilterState.vue'
+import { clusterVersionGte } from '../../helpers/minClusterVersion.ts'
 
-  const t = useTranslation()
+const t = useTranslation()
 
-  const props = defineProps<EsTableProps>()
-  const emit = defineEmits(['reload'])
+const props = defineProps<EsTableProps>()
+const emit = defineEmits(['reload'])
 
-  const {
-    checkAll,
-    indicesStore,
-    resizeStore,
-    items,
-    filterStateProps,
-    tableKey,
-    rowsPerPage,
-    selectedItems,
-    reloadSelectedItems,
-    allItemsSelected,
-    acceptRowsPerPage,
-    setIndeterminate,
-    clearDeletedIndicesAndReload,
-    columns
-  } = useIndicesTable(props, emit)
+const {
+  checkAll,
+  indicesStore,
+  resizeStore,
+  items,
+  filterStateProps,
+  tableKey,
+  rowsPerPage,
+  selectedItems,
+  reloadSelectedItems,
+  allItemsSelected,
+  acceptRowsPerPage,
+  setIndeterminate,
+  clearDeletedIndicesAndReload,
+  columns
+} = useIndicesTable(props, emit)
 </script>

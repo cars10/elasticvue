@@ -29,7 +29,7 @@ export const buildConfig = {
   },
   hints: {
     ssl: [BuildMode.other, BuildMode.docker, BuildMode.browser_extension].includes(buildMode),
-    cors: [BuildMode.other, BuildMode.docker].includes(buildMode),
+    cors: [BuildMode.other, BuildMode.docker].includes(buildMode)
   },
   checkPredefinedClusters: buildMode === BuildMode.docker
 }

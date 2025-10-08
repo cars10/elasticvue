@@ -13,10 +13,10 @@
 </template>
 
 <script setup lang="ts">
-  import { useConnectionStore } from '../../store/connection'
-  import { useTranslation } from '../../composables/i18n'
+import { useConnectionStore } from '../../store/connection'
+import { useTranslation } from '../../composables/i18n'
 
-  const connectionStore = useConnectionStore()
-  const reload = () => (window.location.reload())
-  const t = useTranslation()
+const connectionStore = useConnectionStore()
+const reload = () => window.location.reload()
+const t = useTranslation()
 </script>

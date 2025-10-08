@@ -1,20 +1,21 @@
 <template>
-  <q-btn icon="translate" round color="dark-grey" :title="t('base.language_switcher.title')"
-         data-testid="change-language-button">
+  <q-btn icon="translate" round color="dark-grey" :title="t('base.language_switcher.title')" data-testid="change-language-button">
     <q-menu>
       <q-list>
-        <q-item v-for="{code, title, icon} in languages"
-                :key="code"
-                v-close-popup
-                clickable
-                dense
-                active-class="bg-grey-8"
-                :active="store.language === code"
-                :title="title"
-                :data-testid="`change-language__${code}`"
-                @click="changeLanguage(code)">
+        <q-item
+          v-for="{ code, title, icon } in languages"
+          :key="code"
+          v-close-popup
+          clickable
+          dense
+          active-class="bg-grey-8"
+          :active="store.language === code"
+          :title="title"
+          :data-testid="`change-language__${code}`"
+          @click="changeLanguage(code)"
+        >
           <q-item-section>
-            <img :src="icon" :alt="title" height="16">
+            <img :src="icon" :alt="title" height="16" />
           </q-item-section>
         </q-item>
       </q-list>
@@ -23,37 +24,37 @@
 </template>
 
 <script setup lang="ts">
-  import en from '../../assets/images/icons/flags/en.svg'
-  import cn from '../../assets/images/icons/flags/cn.svg'
-  import fr from '../../assets/images/icons/flags/fr.svg'
-  import it from '../../assets/images/icons/flags/it.svg'
-  import ru from '../../assets/images/icons/flags/ru.svg'
-  import jp from '../../assets/images/icons/flags/jp.svg'
-  import { useI18nStore } from '../../store/i18n'
-  import { useTranslation } from '../../composables/i18n.ts'
-  import { ValidLocale } from '../../consts.ts'
-  import { useRouter } from 'vue-router'
+import en from '../../assets/images/icons/flags/en.svg'
+import cn from '../../assets/images/icons/flags/cn.svg'
+import fr from '../../assets/images/icons/flags/fr.svg'
+import it from '../../assets/images/icons/flags/it.svg'
+import ru from '../../assets/images/icons/flags/ru.svg'
+import jp from '../../assets/images/icons/flags/jp.svg'
+import { useI18nStore } from '../../store/i18n'
+import { useTranslation } from '../../composables/i18n.ts'
+import { ValidLocale } from '../../consts.ts'
+import { useRouter } from 'vue-router'
 
-  const store = useI18nStore()
-  const t = useTranslation()
-  const router = useRouter()
+const store = useI18nStore()
+const t = useTranslation()
+const router = useRouter()
 
-  const changeLanguage = (lang: ValidLocale) => {
-    store.setLanguage(lang)
-    router.go(0)
-  }
+const changeLanguage = (lang: ValidLocale) => {
+  store.setLanguage(lang)
+  router.go(0)
+}
 
-  type Language = {
-    code: ValidLocale
-    title: string
-    icon: any
-  }
-  const languages: Language[] = [
-    { code: 'en', title: t('base.language_switcher.languages.en.title'), icon: en },
-    { code: 'cn', title: t('base.language_switcher.languages.cn.title'), icon: cn },
-    { code: 'fr', title: t('base.language_switcher.languages.fr.title'), icon: fr },
-    { code: 'it', title: t('base.language_switcher.languages.it.title'), icon: it },
-    { code: 'ru', title: t('base.language_switcher.languages.ru.title'), icon: ru },
-    { code: 'jp', title: t('base.language_switcher.languages.jp.title'), icon: jp }
-  ]
+type Language = {
+  code: ValidLocale
+  title: string
+  icon: any
+}
+const languages: Language[] = [
+  { code: 'en', title: t('base.language_switcher.languages.en.title'), icon: en },
+  { code: 'cn', title: t('base.language_switcher.languages.cn.title'), icon: cn },
+  { code: 'fr', title: t('base.language_switcher.languages.fr.title'), icon: fr },
+  { code: 'it', title: t('base.language_switcher.languages.it.title'), icon: it },
+  { code: 'ru', title: t('base.language_switcher.languages.ru.title'), icon: ru },
+  { code: 'jp', title: t('base.language_switcher.languages.jp.title'), icon: jp }
+]
 </script>

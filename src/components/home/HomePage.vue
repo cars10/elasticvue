@@ -15,8 +15,8 @@
                 <q-card-section>
                   Your cluster is running in
                   <a href="https://www.elastic.co/docs/deploy-manage/deploy/elastic-cloud/serverless" target="_blank">
-                    serverless mode.
-                  </a>, which significantly limits the functionality of Elasticvue due to many unavailable APIs.
+                    serverless mode. </a
+                  >, which significantly limits the functionality of Elasticvue due to many unavailable APIs.
                 </q-card-section>
               </q-card>
             </div>
@@ -38,10 +38,10 @@
 </template>
 
 <script setup lang="ts">
-  import ClusterHealth from './ClusterHealth.vue'
-  import ClusterInformation from './ClusterInformation.vue'
-  import { useConnectionStore } from '../../store/connection.ts'
-  import HomeStatus from './HomeStatus.vue'
+import ClusterHealth from './ClusterHealth.vue'
+import ClusterInformation from './ClusterInformation.vue'
+import { useConnectionStore } from '../../store/connection.ts'
+import HomeStatus from './HomeStatus.vue'
 
-  const connectionStore = useConnectionStore()
+const connectionStore = useConnectionStore()
 </script>

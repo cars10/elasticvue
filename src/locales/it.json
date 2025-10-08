@@ -700,8 +700,7 @@
         },
         "schedule": {
           "label": "Programmazione*",
-          "hint": "Espressione cron (es: '0 30 1 * * ?' per ogni giorno alle 1:30)",
-          "required": "La programmazione è richiesta"
+          "hint": "Espressione cron (es: '0 30 1 * * ?' per ogni giorno alle 1:30)"
         },
         "repository": {
         },
@@ -738,7 +737,6 @@
           "id": "ID",
           "name": "Nome",
           "schedule": "Programmazione",
-          "repository": "Repository",
           "retention": "Conservazione"
         }
       },
@@ -753,7 +751,6 @@
     },
     "edit_policy": {
       "update_policy": {
-        "growl": "La politica di snapshot '{name}' è stata aggiornata con successo."
       }
     }
   },

@@ -1,24 +1,65 @@
 export const queryKeywords = [
-  'size', 'from', 'sort',
-  'analyzer', 'prefix_length', 'fuzziness',
-  'value', 'flags',
-  'fields', 'type',
-  'filter', 'boost',
-  'operator', 'cutoff_frequency', 'bool', 'must', 'should', 'term', 'terms', 'prefix',
-  'query', 'query_string', 'match', 'match_phrase', 'range', 'gte', 'lte',
+  'size',
+  'from',
+  'sort',
+  'analyzer',
+  'prefix_length',
+  'fuzziness',
+  'value',
+  'flags',
+  'fields',
+  'type',
+  'filter',
+  'boost',
+  'operator',
+  'cutoff_frequency',
+  'bool',
+  'must',
+  'should',
+  'term',
+  'terms',
+  'prefix',
+  'query',
+  'query_string',
+  'match',
+  'match_phrase',
+  'range',
+  'gte',
+  'lte',
   '_source'
 ]
 
 export const queryValues = [
-  'AND', 'OR',
-  'phrase', 'phrase_prefix', 'boolean',
-  'ALL', 'ANYSTRING', 'COMPLEMENT', 'EMPTY', 'INTERSECTION', 'INTERVAL', 'NONE',
-  'best_fields', 'most_fields', 'cross_fields', 'phrase', 'phrase_prefix',
-  'none', 'max', 'sum', 'avg', 'score', 'total', 'max', 'none',
+  'AND',
+  'OR',
+  'phrase',
+  'phrase_prefix',
+  'boolean',
+  'ALL',
+  'ANYSTRING',
+  'COMPLEMENT',
+  'EMPTY',
+  'INTERSECTION',
+  'INTERVAL',
+  'NONE',
+  'best_fields',
+  'most_fields',
+  'cross_fields',
+  'phrase',
+  'phrase_prefix',
+  'none',
+  'max',
+  'sum',
+  'avg',
+  'score',
+  'total',
+  'max',
+  'none',
   'AUTO'
 ]
 
-export const querySnippets = '# Query snippet\n\
+export const querySnippets =
+  '# Query snippet\n\
 snippet query\n\
 \t"query": {\n\
 \t\t${1}\n\

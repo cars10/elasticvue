@@ -21,9 +21,13 @@ export const addTrailingSlash = (uri: string): string => {
   return uri.endsWith('/') ? uri : uri + '/'
 }
 
-export const uriWithCredentials = ({ uri, username, password }: {
-  uri: string,
-  username?: string,
+export const uriWithCredentials = ({
+  uri,
+  username,
+  password
+}: {
+  uri: string
+  username?: string
   password?: string
 }): string => {
   const url = new URL(uri)

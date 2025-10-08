@@ -67,9 +67,11 @@ export const useNewSnapshotRepository = (emit: any) => {
   })
 
   const formValid = computed(() => {
-    return repository.value.repository.trim().length > 0 &&
-        ((repository.value.body.type === RepositoryType.fs && repository.value.body.settings.location?.trim()?.length > 0) ||
-            (repository.value.body.type === RepositoryType.s3 && repository.value.body.settings.bucket?.trim()?.length > 0))
+    return (
+      repository.value.repository.trim().length > 0 &&
+      ((repository.value.body.type === RepositoryType.fs && repository.value.body.settings.location?.trim()?.length > 0) ||
+        (repository.value.body.type === RepositoryType.s3 && repository.value.body.settings.bucket?.trim()?.length > 0))
+    )
   })
 
   const resetForm = (type: RepositoryType, name: string) => {
@@ -112,8 +114,11 @@ export const useNewSnapshotRepository = (emit: any) => {
   }
 
   resetForm(RepositoryType.fs, '')
-  const hide = () => (resetForm(RepositoryType.fs, ''))
-  watch(() => repository.value.body.type, newValue => (resetForm(newValue, repository.value.repository)))
+  const hide = () => resetForm(RepositoryType.fs, '')
+  watch(
+    () => repository.value.body.type,
+    (newValue) => resetForm(newValue, repository.value.repository)
+  )
 
   const { run, loading } = defineElasticsearchRequest({ emit, method: 'snapshotCreateRepository' })
   const createRepository = async () => {
@@ -123,7 +128,7 @@ export const useNewSnapshotRepository = (emit: any) => {
     const success = await run({
       params,
       snackbarOptions: {
-        body: t('repositories.new_repository.create_repository.growl', { repositoryName: repository.value.repository }),
+        body: t('repositories.new_repository.create_repository.growl', { repositoryName: repository.value.repository })
       }
     })
     if (success) dialog.value = false

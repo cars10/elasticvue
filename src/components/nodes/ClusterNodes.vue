@@ -57,57 +57,57 @@
 </template>
 
 <script setup lang="ts">
-  import { onMounted, Ref, ref } from 'vue'
-  import ReloadButton from '../shared/ReloadButton.vue'
-  import LoaderStatus from '../shared/LoaderStatus.vue'
-  import NodesTable from './NodesTable.vue'
-  import { useElasticsearchAdapter } from '../../composables/CallElasticsearch'
-  import { useTranslation } from '../../composables/i18n'
-  import { EsNode, NodeAttributes } from '../../types/types.ts'
-  import { flattenObj } from '../../helpers/flatten.ts'
+import { onMounted, Ref, ref } from 'vue'
+import ReloadButton from '../shared/ReloadButton.vue'
+import LoaderStatus from '../shared/LoaderStatus.vue'
+import NodesTable from './NodesTable.vue'
+import { useElasticsearchAdapter } from '../../composables/CallElasticsearch'
+import { useTranslation } from '../../composables/i18n'
+import { EsNode, NodeAttributes } from '../../types/types.ts'
+import { flattenObj } from '../../helpers/flatten.ts'
 
-  const t = useTranslation()
+const t = useTranslation()
 
-  const CAT_METHOD_PARAMS = {
-    h: [
-      'ip',
-      'id',
-      'name',
-      'version',
-      'heap.percent',
-      'heap.current',
-      'heap.max',
-      'ram.percent',
-      'ram.current',
-      'ram.max',
-      'node.role',
-      'master',
-      'cpu',
-      'load_1m',
-      'load_5m',
-      'load_15m',
-      'disk.used_percent',
-      'disk.used',
-      'disk.total',
-      'shards' // es >= 8
-    ],
-    full_id: true
-  }
+const CAT_METHOD_PARAMS = {
+  h: [
+    'ip',
+    'id',
+    'name',
+    'version',
+    'heap.percent',
+    'heap.current',
+    'heap.max',
+    'ram.percent',
+    'ram.current',
+    'ram.max',
+    'node.role',
+    'master',
+    'cpu',
+    'load_1m',
+    'load_5m',
+    'load_15m',
+    'disk.used_percent',
+    'disk.used',
+    'disk.total',
+    'shards' // es >= 8
+  ],
+  full_id: true
+}
 
-  const data: Ref<EsNode[]> = ref([])
-  const { requestState, callElasticsearch } = useElasticsearchAdapter()
-  const load = async () => {
-    data.value = []
-    const catNodes = callElasticsearch('catNodes', CAT_METHOD_PARAMS)
-    const nodesInfo = callElasticsearch('nodes')
+const data: Ref<EsNode[]> = ref([])
+const { requestState, callElasticsearch } = useElasticsearchAdapter()
+const load = async () => {
+  data.value = []
+  const catNodes = callElasticsearch('catNodes', CAT_METHOD_PARAMS)
+  const nodesInfo = callElasticsearch('nodes')
 
-    const [nodes, nodeAttributes]: [EsNode[], NodeAttributes] = await Promise.all([catNodes, nodesInfo])
+  const [nodes, nodeAttributes]: [EsNode[], NodeAttributes] = await Promise.all([catNodes, nodesInfo])
 
-    data.value = nodes.map(node => {
-      const attributes = flattenObj(nodeAttributes.nodes[node.id]?.settings?.node?.attr)
-      return Object.assign({}, node, { attributes })
-    })
-  }
+  data.value = nodes.map((node) => {
+    const attributes = flattenObj(nodeAttributes.nodes[node.id]?.settings?.node?.attr)
+    return Object.assign({}, node, { attributes })
+  })
+}
 
-  onMounted(load)
+onMounted(load)
 </script>

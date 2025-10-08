@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 
 type CodeEditorState = {
-  wrapLines: boolean,
+  wrapLines: boolean
   vimMode: boolean
 }
 

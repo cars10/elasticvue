@@ -16,10 +16,7 @@
       </span>
     </td>
     <td>
-      <q-btn :label="t('snapshots.snapshot.indices', {count: snapshot.indices.length})"
-             dense
-             no-caps
-             color="dark-grey">
+      <q-btn :label="t('snapshots.snapshot.indices', { count: snapshot.indices.length })" dense no-caps color="dark-grey">
         <q-menu>
           <div class="q-pa-sm">
             <div v-for="index in snapshot.indices.sort()" :key="index">
@@ -42,13 +39,13 @@
 </template>
 
 <script setup lang="ts">
-  import { SnapshotRowProps, useSnapshotRow } from '../../composables/components/snapshots/SnapshotRow'
-  import RestoreSnapshot from './RestoreSnapshot.vue'
-  import { useTranslation } from '../../composables/i18n'
+import { SnapshotRowProps, useSnapshotRow } from '../../composables/components/snapshots/SnapshotRow'
+import RestoreSnapshot from './RestoreSnapshot.vue'
+import { useTranslation } from '../../composables/i18n'
 
-  const props = defineProps<SnapshotRowProps>()
-  const emit = defineEmits(['reload'])
-  const t = useTranslation()
+const props = defineProps<SnapshotRowProps>()
+const emit = defineEmits(['reload'])
+const t = useTranslation()
 
-  const { deleteSnapshot } = useSnapshotRow(props, emit)
+const { deleteSnapshot } = useSnapshotRow(props, emit)
 </script>

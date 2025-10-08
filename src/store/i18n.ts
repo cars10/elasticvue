@@ -11,7 +11,7 @@ export const useI18nStore = defineStore('i18n', {
     language: defaultLocale()
   }),
   actions: {
-    setLanguage (language: ValidLocale) {
+    setLanguage(language: ValidLocale) {
       this.language = language
     }
   },

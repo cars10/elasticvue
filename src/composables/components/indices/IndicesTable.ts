@@ -10,15 +10,15 @@ import { genColumns } from '../../../helpers/tableColumns'
 import { setupFilterState } from '../shared/FilterState.ts'
 
 export type EsIndex = {
-  index: string,
-  health: string,
-  status: string,
-  uuid: string,
-  pri: string,
-  rep: string,
-  sc: string,
-  'docs.count': string,
-  'store.size': string,
+  index: string
+  health: string
+  status: string
+  uuid: string
+  pri: string
+  rep: string
+  sc: string
+  'docs.count': string
+  'store.size': string
   cd: string
 }
 
@@ -62,12 +62,18 @@ export const useIndicesTable = (props: EsTableProps, emit: any) => {
   watch(() => indicesStore.filter, debouncedFilterTable)
   watch(() => indicesStore.showHiddenIndices, filterTable)
   watch(() => props.indices, filterTable)
-  watch(() => indicesStore.stickyTableHeader, () => (tableKey.value += 1))
-  watch(() => indicesStore.pagination.rowsPerPage, () => {
-    if (indicesStore.pagination.rowsPerPage === rowsPerPage[rowsPerPage.length - 1].value) {
-      indicesStore.stickyTableHeader = true
+  watch(
+    () => indicesStore.stickyTableHeader,
+    () => (tableKey.value += 1)
+  )
+  watch(
+    () => indicesStore.pagination.rowsPerPage,
+    () => {
+      if (indicesStore.pagination.rowsPerPage === rowsPerPage[rowsPerPage.length - 1].value) {
+        indicesStore.stickyTableHeader = true
+      }
     }
-  })
+  )
 
   const { selectedItems, allItemsSelected, setIndeterminate } = useSelectableRows(items)
 
@@ -81,14 +87,14 @@ export const useIndicesTable = (props: EsTableProps, emit: any) => {
 
   const checkAll = (val: boolean) => {
     if (val) {
-      selectedItems.value = items.value.map(i => i.index)
+      selectedItems.value = items.value.map((i) => i.index)
     } else {
       selectedItems.value = []
     }
   }
 
   const reloadSelectedItems = (index: string) => {
-    selectedItems.value = selectedItems.value.filter(i => i != index)
+    selectedItems.value = selectedItems.value.filter((i) => i != index)
   }
 
   const filterStateProps = setupFilterState(results, items)

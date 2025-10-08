@@ -17,7 +17,7 @@ export const useNodesTable = (props: NodesTableProps) => {
   const results = computed(() => props.nodes)
   const filteredResults = computed(() => {
     const nodes = filterItems<EsNode>(results.value, nodesStore.filter, ['name', 'ip', 'id', 'version'])
-    return nodes.map(r => new ElasticsearchNode(r))
+    return nodes.map((r) => new ElasticsearchNode(r))
   })
 
   const filterStateProps = setupFilterState(results, filteredResults)

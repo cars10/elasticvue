@@ -2,7 +2,7 @@ import { DEFAULT_SORTABLE_COLUMNS } from '../consts'
 
 const SORTABLE_TYPES = ['long', 'integer', 'double', 'float', 'date', 'boolean', 'keyword']
 
-export function sortableField (fieldName: string, property: any) {
+export function sortableField(fieldName: string, property: any) {
   if (DEFAULT_SORTABLE_COLUMNS.includes(fieldName)) return fieldName
 
   if (property) {

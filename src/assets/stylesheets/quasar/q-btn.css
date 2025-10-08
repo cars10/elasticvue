@@ -1,7 +1,7 @@
 .q-btn {
-    font-weight: initial !important;
+  font-weight: initial !important;
 }
 
 .q-btn-group .q-btn:first-child {
-    border-right: 2px solid var(--theme-menu-separator-background);
+  border-right: 2px solid var(--theme-menu-separator-background);
 }

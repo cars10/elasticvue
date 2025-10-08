@@ -6,7 +6,7 @@ import RestQueryFormTabs from '../../../components/rest/RestQueryFormTabs.vue'
 
 export const useRestQuery = (formTabs: Ref<typeof RestQueryFormTabs | null>) => {
   const { activeCluster } = useConnectionStore()
-  const clusterMinor = computed(() => (activeCluster?.version?.split('.')?.slice(0, 2)?.join('.')))
+  const clusterMinor = computed(() => activeCluster?.version?.split('.')?.slice(0, 2)?.join('.'))
 
   const { restQueryTabs, restQueryHistory, restQuerySavedQueries } = useIdbStore()
   const history = ref([] as IdbRestQueryHistory[])

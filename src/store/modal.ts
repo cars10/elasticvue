@@ -2,8 +2,8 @@ import { defineStore } from 'pinia'
 import { ElasticsearchMethod } from '../services/ElasticsearchAdapter.ts'
 
 type ModalState = {
-  show: boolean,
-  method: ElasticsearchMethod,
+  show: boolean
+  method: ElasticsearchMethod
   methodParams: any
 }
 
@@ -14,7 +14,7 @@ export const useModalStore = defineStore('modal', {
     methodParams: null
   }),
   actions: {
-    setShow (show: boolean) {
+    setShow(show: boolean) {
       this.show = show
 
       if (!show) {
@@ -22,10 +22,10 @@ export const useModalStore = defineStore('modal', {
         this.methodParams = {}
       }
     },
-    setMethod (method: ElasticsearchMethod) {
+    setMethod(method: ElasticsearchMethod) {
       this.method = method
     },
-    setMethodParams (methodParams: any = null) {
+    setMethodParams(methodParams: any = null) {
       this.methodParams = methodParams
     }
   }

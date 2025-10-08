@@ -700,8 +700,7 @@
         },
         "schedule": {
           "label": "计划*",
-          "hint": "Cron 表达式（例如，'0 30 1 * * ?' 表示每天凌晨 1:30）",
-          "required": "计划是必需的"
+          "hint": "Cron 表达式（例如，'0 30 1 * * ?' 表示每天凌晨 1:30）"
         },
         "repository": {
         },
@@ -738,7 +737,6 @@
           "id": "ID",
           "name": "名称",
           "schedule": "计划",
-          "repository": "仓库",
           "retention": "保留"
         }
       },
@@ -753,7 +751,6 @@
     },
     "edit_policy": {
       "update_policy": {
-        "growl": "快照策略 '{name}' 更新成功。"
       }
     }
   },

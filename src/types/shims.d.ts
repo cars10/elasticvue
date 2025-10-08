@@ -14,7 +14,6 @@ declare module '*.vue' {
   export default component
 }
 
-
 declare interface RestQueryRequestLike {
   id?: number
   method: string

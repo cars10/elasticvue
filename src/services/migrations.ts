@@ -35,7 +35,7 @@ export const migrate = () => {
 }
 
 export const migrateAuthType = (clusters: OldElasticsearchCluster[]): ElasticsearchCluster[] => {
-  return clusters.map(cluster => {
+  return clusters.map((cluster) => {
     let authType: AuthType
     let authData: unknown
 

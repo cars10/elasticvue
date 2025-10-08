@@ -9,17 +9,17 @@ export default class SearchResults {
   uniqueIndices: string[]
   docs: any[]
 
-  constructor (results: any[]) {
+  constructor(results: any[]) {
     this.columns = DEFAULT_SEARCH_RESULT_COLUMNS.slice()
     this.indices = []
     this.docs = []
 
-    results.forEach(result => this.add(result))
+    results.forEach((result) => this.add(result))
     this.uniqueColumns = Array.from(new Set(this.columns))
     this.uniqueIndices = Array.from(new Set(this.indices))
   }
 
-  add (result: any) {
+  add(result: any) {
     let key = '_source'
     if (!result._source && result.fields) key = 'fields'
     if (result[key]) {

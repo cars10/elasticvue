@@ -37,12 +37,12 @@
 </template>
 
 <script setup lang="ts">
-  import { ref } from 'vue'
-  import AddCluster from '../setup/AddCluster.vue'
-  import { useTranslation } from '../../composables/i18n.ts'
-  import { buildConfig } from '../../buildConfig.ts'
-  import ConfigureHelp from '../setup/ConfigureHelp.vue'
+import { ref } from 'vue'
+import AddCluster from '../setup/AddCluster.vue'
+import { useTranslation } from '../../composables/i18n.ts'
+import { buildConfig } from '../../buildConfig.ts'
+import ConfigureHelp from '../setup/ConfigureHelp.vue'
 
-  const dialog = ref(false)
-  const t = useTranslation()
+const dialog = ref(false)
+const t = useTranslation()
 </script>

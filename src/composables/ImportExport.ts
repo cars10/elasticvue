@@ -8,8 +8,8 @@ import { stringifyJson } from '../helpers/json/stringify.ts'
 import { migrateAuthType } from '../services/migrations.ts'
 
 type Backup = {
-  version: string,
-  store: StoreBackup,
+  version: string
+  store: StoreBackup
   idb: IdbBackup
 }
 
@@ -23,7 +23,7 @@ export const useImportExport = ({ confirmImport } = { confirmImport: false }) =>
     const storesToBackup = ['codeEditor', 'connection', 'i18n', 'indices', 'resize', 'restQuery', 'theme']
     const backup: StoreBackup = {}
 
-    storesToBackup.forEach(store => {
+    storesToBackup.forEach((store) => {
       const rawValue = localStorage.getItem(store)
       if (rawValue) backup[store] = parseJson(rawValue)
     })

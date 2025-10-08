@@ -1,10 +1,10 @@
 import { defineStore } from 'pinia'
 
 type IndexTemplatesState = {
-  filter: string,
-  showHiddenIndices: boolean,
-  stickyTableHeader: boolean,
-  pagination: any,
+  filter: string
+  showHiddenIndices: boolean
+  stickyTableHeader: boolean
+  pagination: any
 }
 
 export const useIndexTemplatesStore = defineStore('indexTemplates', {
@@ -16,7 +16,7 @@ export const useIndexTemplatesStore = defineStore('indexTemplates', {
       sortBy: 'name',
       descending: false,
       rowsPerPage: 10
-    },
+    }
   }),
   persist: {
     pick: [
@@ -25,7 +25,7 @@ export const useIndexTemplatesStore = defineStore('indexTemplates', {
       'stickyTableHeader',
       'pagination.sortBy',
       'pagination.descending',
-      'pagination.rowsPerPage',
+      'pagination.rowsPerPage'
     ]
   }
 })

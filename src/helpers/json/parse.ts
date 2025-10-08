@@ -1,7 +1,7 @@
 import { bigint } from './jsonBigint.ts'
 
 export const removeComments = (str: string): string => {
-  return str.replace(/\\"|"(?:\\"|[^"])*"|(\/\/.*|\/\*[\s\S]*?\*\/)/g, (m, g) => g ? '' : m)
+  return str.replace(/\\"|"(?:\\"|[^"])*"|(\/\/.*|\/\*[\s\S]*?\*\/)/g, (m, g) => (g ? '' : m))
 }
 
 export const parseJson = (jsonString: string): any => {

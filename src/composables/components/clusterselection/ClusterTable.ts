@@ -16,25 +16,28 @@ export const useClusterTable = () => {
     const search = filter.value.toLowerCase().trim()
 
     return [...connectionStore.clusters]
-        .map((cluster, i) => Object.assign({}, cluster, { index: i }))
-        .filter((cluster) => {
-          return cluster.name.toLowerCase().includes(search) ||
-              cluster.uri.toLowerCase().includes(search) ||
-              cluster.clusterName.toLowerCase().includes(search)
-        })
+      .map((cluster, i) => Object.assign({}, cluster, { index: i }))
+      .filter((cluster) => {
+        return (
+          cluster.name.toLowerCase().includes(search) ||
+          cluster.uri.toLowerCase().includes(search) ||
+          cluster.clusterName.toLowerCase().includes(search)
+        )
+      })
   })
 
   const removeInstance = async (index: number) => {
     const cluster = connectionStore.clusters[index]
-    const confirmed = await askConfirm(t('cluster_selection.cluster_table.row.remove_cluster.confirm',
-        { name: cluster.name, uri: cluster.uri }))
+    const confirmed = await askConfirm(
+      t('cluster_selection.cluster_table.row.remove_cluster.confirm', { name: cluster.name, uri: cluster.uri })
+    )
     if (!confirmed) return
 
     connectionStore.removeCluster(index)
     router.go(0)
   }
 
-  const loadCluster = (index: number) => (reloadHomePage(router, index))
+  const loadCluster = (index: number) => reloadHomePage(router, index)
   const columns = genColumns([
     { label: t('cluster_selection.cluster_table.headers.cluster'), field: 'name' },
     { label: t('cluster_selection.cluster_table.headers.uri') },

@@ -1,9 +1,9 @@
 import { defineStore } from 'pinia'
 
 type ShardRecoveryState = {
-  filter: string,
-  stickyTableHeader: boolean,
-  pagination: any,
+  filter: string
+  stickyTableHeader: boolean
+  pagination: any
 }
 
 export const useShardRecoveryStore = defineStore('shardRecovery', {
@@ -14,15 +14,9 @@ export const useShardRecoveryStore = defineStore('shardRecovery', {
       sortBy: 'start_time_in_millis',
       descending: false,
       rowsPerPage: 10
-    },
+    }
   }),
   persist: {
-    pick: [
-      'filter',
-      'stickyTableHeader',
-      'pagination.sortBy',
-      'pagination.descending',
-      'pagination.rowsPerPage',
-    ]
+    pick: ['filter', 'stickyTableHeader', 'pagination.sortBy', 'pagination.descending', 'pagination.rowsPerPage']
   }
 })

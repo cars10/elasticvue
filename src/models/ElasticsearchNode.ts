@@ -27,7 +27,7 @@ export default class ElasticsearchNode {
   attributes: Record<string, string>
   shards?: number | null
 
-  constructor (options: EsNode) {
+  constructor(options: EsNode) {
     this.name = options.name
     this.version = options.version
     this.id = options.id
@@ -58,7 +58,7 @@ export default class ElasticsearchNode {
     this.setRoles(options['node.role'])
   }
 
-  setRoles (roles: string) {
+  setRoles(roles: string) {
     this.masterEligible = roles.includes('m')
     this.dataNode = roles.includes('d')
     this.ingestNode = roles.includes('i')
@@ -66,7 +66,7 @@ export default class ElasticsearchNode {
   }
 }
 
-function parseFloatValue (value: string) {
+function parseFloatValue(value: string) {
   try {
     return parseFloat(value)
   } catch (_e) {

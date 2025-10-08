@@ -45,9 +45,9 @@ export const useRestQueryTabs = () => {
   }
   loadTabs()
 
-  const activeTabIndex = () => (tabs.value.findIndex(t => t.name === activeTabName.value) || 0)
+  const activeTabIndex = () => tabs.value.findIndex((t) => t.name === activeTabName.value) || 0
 
-  const setTabContent = ({ method, path, body }: { method: string, path: string, body: string }) => {
+  const setTabContent = ({ method, path, body }: { method: string; path: string; body: string }) => {
     const idx = activeTabIndex()
     tabs.value[idx].request.method = method
     tabs.value[idx].request.path = path

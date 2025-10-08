@@ -7,11 +7,11 @@ const dbDefinition = {
   tables: [
     { name: 'restQueryHistory', indexes: ['date'] },
     { name: 'restQuerySavedQueries', indexes: [] },
-    { name: 'restQueryTabs', indexes: [] },
+    { name: 'restQueryTabs', indexes: [] }
   ]
 }
 
-const databaseName = (clusterUuid: string) => (`elasticvue-${clusterUuid}`)
+const databaseName = (clusterUuid: string) => `elasticvue-${clusterUuid}`
 
 let db: Db
 export const useIdb = () => {
@@ -35,4 +35,4 @@ export const initDb = (clusterUuid: string) => {
   return db
 }
 
-export const useIdbStore = () => (useIdb()?.models)
+export const useIdbStore = () => useIdb()?.models

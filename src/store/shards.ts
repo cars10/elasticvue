@@ -9,8 +9,6 @@ export const useShardsStore = defineStore('shards', {
     filter: ''
   }),
   persist: {
-    pick: [
-      'filter'
-    ]
+    pick: ['filter']
   }
 })

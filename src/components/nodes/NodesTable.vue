@@ -1,21 +1,25 @@
 <template>
   <div class="flex justify-between q-pa-md">
-    <filter-state v-model="nodesStore.filter"
-                  :results-count="filterStateProps.resultsCount"
-                  :filtered-results-count="filterStateProps.filteredResultsCount" />
+    <filter-state
+      v-model="nodesStore.filter"
+      :results-count="filterStateProps.resultsCount"
+      :filtered-results-count="filterStateProps.filteredResultsCount"
+    />
     <filter-input v-model="nodesStore.filter" class="q-ml-auto" :columns="['name', 'ip', 'id', 'version']" />
   </div>
 
-  <q-table class="table-mono table-hide-overflow"
-           flat
-           dense
-           row-key="name"
-           :columns="columns"
-           :rows="filteredResults"
-           data-testid="nodes-table"
-           :rows-per-page-options="DEFAULT_ROWS_PER_PAGE"
-           :pagination="{sortBy: 'name'}">
-    <template #body="{row}: {row: ElasticsearchNode}">
+  <q-table
+    class="table-mono table-hide-overflow"
+    flat
+    dense
+    row-key="name"
+    :columns="columns"
+    :rows="filteredResults"
+    data-testid="nodes-table"
+    :rows-per-page-options="DEFAULT_ROWS_PER_PAGE"
+    :pagination="{ sortBy: 'name' }"
+  >
+    <template #body="{ row }: { row: ElasticsearchNode }">
       <tr>
         <td>
           <node-icons :elasticsearch-node="row" />
@@ -74,19 +78,19 @@
 </template>
 
 <script setup lang="ts">
-  import ElasticsearchNode from '../../models/ElasticsearchNode.js'
-  import NodeIcons from './NodeIcons.vue'
-  import NodePercentProgress from './NodePercentProgress.vue'
-  import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
-  import { nodeRoleTitle } from '../../helpers/nodes'
-  import FilterInput from '../shared/FilterInput.vue'
-  import NodeAttributes from './NodeAttributes.vue'
-  import FilterState from '../shared/FilterState.vue'
-  import { useNodesStore } from '../../store/nodes.ts'
-  import { NodesTableProps, useNodesTable } from '../../composables/components/nodes/NodesTable.ts'
+import ElasticsearchNode from '../../models/ElasticsearchNode.js'
+import NodeIcons from './NodeIcons.vue'
+import NodePercentProgress from './NodePercentProgress.vue'
+import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
+import { nodeRoleTitle } from '../../helpers/nodes'
+import FilterInput from '../shared/FilterInput.vue'
+import NodeAttributes from './NodeAttributes.vue'
+import FilterState from '../shared/FilterState.vue'
+import { useNodesStore } from '../../store/nodes.ts'
+import { NodesTableProps, useNodesTable } from '../../composables/components/nodes/NodesTable.ts'
 
-  const nodesStore = useNodesStore()
+const nodesStore = useNodesStore()
 
-  const props = defineProps<NodesTableProps>()
-  const { filteredResults, filterStateProps, columns, showNodeShards } = useNodesTable(props)
+const props = defineProps<NodesTableProps>()
+const { filteredResults, filterStateProps, columns, showNodeShards } = useNodesTable(props)
 </script>

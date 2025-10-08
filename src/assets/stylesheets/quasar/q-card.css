@@ -1,9 +1,9 @@
 .q-card {
-    color: var(--theme-color);
-    background: var(--theme-background);
+  color: var(--theme-color);
+  background: var(--theme-background);
 }
 
 .q-table__card {
-    color: var(--theme-color);
-    background: inherit;
+  color: var(--theme-color);
+  background: inherit;
 }

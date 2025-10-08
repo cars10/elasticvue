@@ -16,7 +16,7 @@ export default class ElasticsearchIndex {
   parsedSegmentsCount: number | string
   created: number | string
 
-  constructor (options: EsIndex) {
+  constructor(options: EsIndex) {
     this.index = options.index
     this.health = options.health
     this.status = options.status
@@ -33,7 +33,7 @@ export default class ElasticsearchIndex {
   }
 }
 
-function parseIntValue (value: string) {
+function parseIntValue(value: string) {
   if (!value) return ''
 
   try {

@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="hHh lpR fff" style="outline: none !important;">
+  <q-layout view="hHh lpR fff" style="outline: none !important">
     <app-header v-if="connectionStore.activeCluster" />
 
     <q-page-container>
@@ -24,26 +24,26 @@
 </template>
 
 <script setup lang="ts">
-  import { onMounted } from 'vue'
-  import { useRoute } from 'vue-router'
-  import AppHeader from './components/base/AppHeader.vue'
-  import AppFooter from './components/base/AppFooter.vue'
-  import ModalLoader from './components/shared/ModalLoader.vue'
-  import AlertSnackbar from './components/shared/AlertSnackbar.vue'
-  import NetworkError from './components/shared/NetworkError.vue'
-  import { useThemeStore } from './store/theme.ts'
-  import { useConnectionStore } from './store/connection'
-  import { setAppThemeCss, setupThemeListener } from './helpers/theme.ts'
-  import TauriUpdateCheck from './components/base/TauriUpdateCheck.vue'
-  import { buildConfig } from './buildConfig.ts'
+import { onMounted } from 'vue'
+import { useRoute } from 'vue-router'
+import AppHeader from './components/base/AppHeader.vue'
+import AppFooter from './components/base/AppFooter.vue'
+import ModalLoader from './components/shared/ModalLoader.vue'
+import AlertSnackbar from './components/shared/AlertSnackbar.vue'
+import NetworkError from './components/shared/NetworkError.vue'
+import { useThemeStore } from './store/theme.ts'
+import { useConnectionStore } from './store/connection'
+import { setAppThemeCss, setupThemeListener } from './helpers/theme.ts'
+import TauriUpdateCheck from './components/base/TauriUpdateCheck.vue'
+import { buildConfig } from './buildConfig.ts'
 
-  const themeStore = useThemeStore()
-  const connectionStore = useConnectionStore()
+const themeStore = useThemeStore()
+const connectionStore = useConnectionStore()
 
-  const route = useRoute()
+const route = useRoute()
 
-  onMounted(() => {
-    setAppThemeCss(themeStore.appTheme)
-    setupThemeListener()
-  })
+onMounted(() => {
+  setAppThemeCss(themeStore.appTheme)
+  setupThemeListener()
+})
 </script>

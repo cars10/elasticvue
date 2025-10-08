@@ -10,9 +10,9 @@
 </template>
 
 <script setup lang="ts">
-  import { QInputProps } from 'quasar'
-  import { useSlots } from 'vue'
+import { QInputProps } from 'quasar'
+import { useSlots } from 'vue'
 
-  const slots = useSlots()
-  const props = defineProps<QInputProps>()
+const slots = useSlots()
+const props = defineProps<QInputProps>()
 </script>

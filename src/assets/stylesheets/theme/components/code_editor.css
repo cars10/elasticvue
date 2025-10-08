@@ -1,155 +1,151 @@
 .code-editor {
-    position: relative;
-    height: 100%;
-    width: 100%;
-    font-size: 14px;
+  position: relative;
+  height: 100%;
+  width: 100%;
+  font-size: 14px;
 }
 
 .code-editor__actions {
-    position: absolute;
-    top: 4px;
-    right: 18px;
-    z-index: 2;
+  position: absolute;
+  top: 4px;
+  right: 18px;
+  z-index: 2;
 }
 
 .code-editor__actions > div {
-    opacity: 0.4;
+  opacity: 0.4;
 }
 
 .code-editor__actions > div:hover {
-    opacity: 1;
+  opacity: 1;
 }
 
 .cm-editor {
-    height: 100%;
-    background-color: var(--code-editor-background);
+  height: 100%;
+  background-color: var(--code-editor-background);
 }
 
 .cm-editor .cm-content {
-    font-weight: 500;
+  font-weight: 500;
 }
 
-.cm-editor .cm-cursor, .cm-editor .cm-dropCursor {
-    border-width: 2px;
-    border-left-color: var(--code-editor-base-color);
+.cm-editor .cm-cursor,
+.cm-editor .cm-dropCursor {
+  border-width: 2px;
+  border-left-color: var(--code-editor-base-color);
 }
 
 .cm-editor .cm-activeLine {
-    background-color: var(--code-editor-active-line-background);
+  background-color: var(--code-editor-active-line-background);
 }
 
 .cm-editor .cm-textfield {
-    font-size: 100%;
-    border-radius: 3px;
-    color: #222;
+  font-size: 100%;
+  border-radius: 3px;
+  color: #222;
 }
 
 .cm-editor .cm-button {
-    background-image: none;
-    font-size: 100%;
-    border-radius: 3px;
-    border: none;
-    background-color: var(--code-editor-button-background);
+  background-image: none;
+  font-size: 100%;
+  border-radius: 3px;
+  border: none;
+  background-color: var(--code-editor-button-background);
 }
 
 .cm-editor .cm-button:hover {
-    background-color: var(--code-editor-button-hover-background);
+  background-color: var(--code-editor-button-hover-background);
 }
 
 .cm-editor .cm-gutters {
-    border-right: 1px solid var(--code-editor-gutter-border-color);
-    background-color: var(--code-editor-gutter-background);
-    color: var(--code-editor-gutter-color);
+  border-right: 1px solid var(--code-editor-gutter-border-color);
+  background-color: var(--code-editor-gutter-background);
+  color: var(--code-editor-gutter-color);
 }
 
 .cm-editor .cm-activeLineGutter {
-    background-color: var(--code-editor-active-line-background);
-    color: var(--code-editor-base-color);
+  background-color: var(--code-editor-active-line-background);
+  color: var(--code-editor-base-color);
 }
 
-.cm-editor .cm-button:hover, .cm-editor .cm-panel label:hover, .cm-editor .cm-panel input[type="checkbox"]:hover {
-    cursor: pointer;
+.cm-editor .cm-button:hover,
+.cm-editor .cm-panel label:hover,
+.cm-editor .cm-panel input[type='checkbox']:hover {
+  cursor: pointer;
 }
 
 .cm-editor .cm-panels {
-    background-color: var(--code-editor-active-line-background);
-    color: var(--code-editor-base-color);
+  background-color: var(--code-editor-active-line-background);
+  color: var(--code-editor-base-color);
 }
 
 .cm-editor .cm-panel.cm-search label {
-    font-size: 100%;
+  font-size: 100%;
 }
 
-.cm-editor .cm-panel.cm-search [name=close] {
-    color: var(--code-editor-base-color);
-    padding: 4px 8px;
-    font-size: 150%;
+.cm-editor .cm-panel.cm-search [name='close'] {
+  color: var(--code-editor-base-color);
+  padding: 4px 8px;
+  font-size: 150%;
 }
 
-.cm-editor .cm-panel.cm-search [name=close]:hover {
-    cursor: pointer;
+.cm-editor .cm-panel.cm-search [name='close']:hover {
+  cursor: pointer;
 }
 
 .cm-editor .cm-searchMatch {
-    outline: 1px solid var(--code-editor-search-match-outline-color);
-    background-color: transparent;
+  outline: 1px solid var(--code-editor-search-match-outline-color);
+  background-color: transparent;
 }
 
 .cm-editor .cm-searchMatch.cm-searchMatch-selected {
-    outline: 2px solid var(--code-editor-search-match-outline-color);
+  outline: 2px solid var(--code-editor-search-match-outline-color);
 }
 
 .cm-editor .cm-selectionMatch {
-    outline: 1px solid var(--code-editor-search-selected-background);
-    background: transparent;
+  outline: 1px solid var(--code-editor-search-selected-background);
+  background: transparent;
 }
 
 .cm-editor .cm-selectionBackground {
-    background: var(--code-editor-selection-background) !important;
+  background: var(--code-editor-selection-background) !important;
 }
 
 .cm-editor.cm-focused .cm-matchingBracket {
-    outline: 1px solid var(--code-editor-bracket-outline-color);
-    background: transparent;
+  outline: 1px solid var(--code-editor-bracket-outline-color);
+  background: transparent;
 }
 
 .cm-editor .cm-foldPlaceholder {
-    background-color: transparent;
-    border: none;
-    color: var(--code-editor-base-color);
+  background-color: transparent;
+  border: none;
+  color: var(--code-editor-base-color);
 }
 
 .cm-editor .cm-tooltip {
-    border: none;
-    color: var(--code-editor-tooltip-color);
-    background-color: var(--code-editor-tooltip-background);
+  border: none;
+  color: var(--code-editor-tooltip-color);
+  background-color: var(--code-editor-tooltip-background);
 }
 
 .cm-editor .cm-tooltip-autocomplete > ul > li[aria-selected] {
-    background-color: var(--code-editor-tooltip-selected-background);
+  background-color: var(--code-editor-tooltip-selected-background);
 }
 
 /* vim */
 .cm-vimMode .cm-cursorLayer:not(.cm-vimCursorLayer) {
-    display: none;
+  display: none;
 }
 
 .cm-vim-panel {
-    padding: 0 10px;
-    font-family: monospace;
-    min-height: 1.3em;
+  padding: 0 10px;
+  font-family: monospace;
+  min-height: 1.3em;
 }
 
 .cm-vim-panel input {
-    border: none;
-    outline: none;
-    background-color: inherit;
-    color: inherit;
+  border: none;
+  outline: none;
+  background-color: inherit;
+  color: inherit;
 }
-
-.light .cm-searchMatch {
-}
-
-.dark .cm-searchMatch {
-}
-

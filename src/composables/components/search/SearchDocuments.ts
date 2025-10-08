@@ -12,7 +12,7 @@ export type EsSearchResult = {
 }
 
 type EsSearchResultHits = {
-  total: EsSearchResultsHitsValues | number,
+  total: EsSearchResultsHitsValues | number
   hits?: any
 }
 
@@ -48,18 +48,24 @@ export const useSearchDocuments = () => {
     }
   }
 
-  watch(() => (searchStore.indices), () => {
-    searchStore.pagination.sortBy = ''
-    try {
-      mergeQuery(Object.assign({}, parseJson(searchStore.searchQuery), { sort: [] }))
-    } catch (e) {
-      console.error(e)
+  watch(
+    () => searchStore.indices,
+    () => {
+      searchStore.pagination.sortBy = ''
+      try {
+        mergeQuery(Object.assign({}, parseJson(searchStore.searchQuery), { sort: [] }))
+      } catch (e) {
+        console.error(e)
+      }
     }
-  })
+  )
 
-  watch(() => (searchStore.q), value => {
-    mergeQuery({ query: { query_string: { query: value } } })
-  })
+  watch(
+    () => searchStore.q,
+    (value) => {
+      mergeQuery({ query: { query_string: { query: value } } })
+    }
+  )
 
   // pagination = {sortBy: '', descending: false, page: 2, rowsPerPage: 10, rowsNumber: 2593}
   const onRequest = ({ pagination }: any) => {
@@ -80,13 +86,15 @@ export const useSearchDocuments = () => {
 
   const editorCommands = [
     {
-      key: 'Ctrl-Enter', run: () => {
+      key: 'Ctrl-Enter',
+      run: () => {
         search()
         return true
       }
     },
     {
-      key: 'Cmd-Enter', run: () => {
+      key: 'Cmd-Enter',
+      run: () => {
         search()
         return true
       }

@@ -2,15 +2,27 @@
   <div class="flex justify-between q-pa-md">
     <div class="flex items-center">
       <new-snapshot-repository @reload="emit('reload')" />
-      <filter-state v-model="filter" :results-count="filterStateProps.resultsCount"
-        :filtered-results-count="filterStateProps.filteredResultsCount" class="q-ml-md" />
+      <filter-state
+        v-model="filter"
+        :results-count="filterStateProps.resultsCount"
+        :filtered-results-count="filterStateProps.filteredResultsCount"
+        class="q-ml-md"
+      />
     </div>
 
     <filter-input v-model="filter" :columns="['name']" />
   </div>
 
-  <q-table flat class="table-mono table-hide-overflow" dense row-key="name" :columns="columns" :rows="filteredResults"
-    :rows-per-page-options="DEFAULT_ROWS_PER_PAGE" :pagination="{ sortBy: 'name' }">
+  <q-table
+    flat
+    class="table-mono table-hide-overflow"
+    dense
+    row-key="name"
+    :columns="columns"
+    :rows="filteredResults"
+    :rows-per-page-options="DEFAULT_ROWS_PER_PAGE"
+    :pagination="{ sortBy: 'name' }"
+  >
     <template #body="{ row }">
       <tr class="clickable">
         <td>{{ row.name }}</td>
@@ -18,8 +30,7 @@
         <td :title="JSON.stringify(row.settings, null, '\t')">{{ row.settings }}</td>
         <td>
           <q-btn-group>
-            <q-btn label="Snapshots" icon="settings_backup_restore" color="dark-grey"
-              @click.stop="openSnapshots(row.name)" />
+            <q-btn label="Snapshots" icon="settings_backup_restore" color="dark-grey" @click.stop="openSnapshots(row.name)" />
             <repository-policies :repository="row.name" @reload="emit('reload')" />
             <q-btn icon="delete" color="dark-grey" @click.stop="deleteRepository(row.name)" />
           </q-btn-group>
@@ -42,12 +53,8 @@ import FilterState from '../shared/FilterState.vue'
 
 const props = defineProps<SnapshotRepositoriesTableProps>()
 const emit = defineEmits(['reload'])
-const {
-  filter,
-  filterStateProps,
-  filteredResults,
-  deleteRepository,
-  columns,
-  openSnapshots
-} = useSnapshotRepositoriesTable(props, emit)
+const { filter, filterStateProps, filteredResults, deleteRepository, columns, openSnapshots } = useSnapshotRepositoriesTable(
+  props,
+  emit
+)
 </script>

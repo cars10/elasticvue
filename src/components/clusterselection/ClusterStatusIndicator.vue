@@ -8,14 +8,14 @@
 </template>
 
 <script setup lang="ts">
-  defineProps({
-    status: {
-      type: String,
-      default: 'unknown'
-    },
-    loading: {
-      type: Boolean,
-      default: false
-    }
-  })
+defineProps({
+  status: {
+    type: String,
+    default: 'unknown'
+  },
+  loading: {
+    type: Boolean,
+    default: false
+  }
+})
 </script>

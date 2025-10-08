@@ -70,14 +70,15 @@ export const REST_QUERY_EXAMPLES = [
     description: 'Performs multiple indexing or delete operations in a single API call',
     method: 'POST',
     path: '_bulk',
-    body: '{ "index" : { "_index" : "test", "_id" : "1" } }\n' +
-        '{ "field1" : "value1" }\n' +
-        '{ "delete" : { "_index" : "test", "_id" : "2" } }\n' +
-        '{ "create" : { "_index" : "test", "_id" : "3" } }\n' +
-        '{ "field1" : "value3" }\n' +
-        '{ "update" : {"_id" : "1", "_index" : "test"} }\n' +
-        '{ "doc" : {"field2" : "value2"} }\n' +
-        '',
+    body:
+      '{ "index" : { "_index" : "test", "_id" : "1" } }\n' +
+      '{ "field1" : "value1" }\n' +
+      '{ "delete" : { "_index" : "test", "_id" : "2" } }\n' +
+      '{ "create" : { "_index" : "test", "_id" : "3" } }\n' +
+      '{ "field1" : "value3" }\n' +
+      '{ "update" : {"_id" : "1", "_index" : "test"} }\n' +
+      '{ "doc" : {"field2" : "value2"} }\n' +
+      '',
     doc: 'https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-bulk.html'
   },
   {

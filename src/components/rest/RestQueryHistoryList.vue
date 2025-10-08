@@ -1,13 +1,15 @@
 <template>
-  <rest-query-list v-if="open"
-                   heading="History"
-                   :pagination-options="{sortBy: 'date', descending: true}"
-                   :data="history"
-                   :columns="columns"
-                   :searchable-columns="['method', 'path']"
-                   @use-request="(v: RestQueryRequestLike) => emit('useRequest', v)"
-                   @use-request-new-tab="(v: RestQueryRequestLike) => emit('useRequestNewTab', v)">
-    <template #default="{row}">
+  <rest-query-list
+    v-if="open"
+    heading="History"
+    :pagination-options="{ sortBy: 'date', descending: true }"
+    :data="history"
+    :columns="columns"
+    :searchable-columns="['method', 'path']"
+    @use-request="(v: RestQueryRequestLike) => emit('useRequest', v)"
+    @use-request-new-tab="(v: RestQueryRequestLike) => emit('useRequestNewTab', v)"
+  >
+    <template #default="{ row }">
       <td>
         <div class="q-py-xs">
           <span :class="`http-${row.method}`" class="text-bold">{{ row.method }}</span> {{ row.path }}
@@ -28,17 +30,17 @@
 </template>
 
 <script setup lang="ts">
-  import RestQueryList from './RestQueryList.vue'
-  import { IdbRestQueryHistory } from '../../db/types.ts'
-  import { useRestQueryHistoryList } from '../../composables/components/rest/RestQueryHistoryList.ts'
+import RestQueryList from './RestQueryList.vue'
+import { IdbRestQueryHistory } from '../../db/types.ts'
+import { useRestQueryHistoryList } from '../../composables/components/rest/RestQueryHistoryList.ts'
 
-  defineProps<{ history: IdbRestQueryHistory[], open: boolean }>()
-  const emit = defineEmits<{
-    useRequest: [request: RestQueryRequestLike],
-    useRequestNewTab: [request: RestQueryRequestLike],
-    reloadHistory: [],
-    reloadSavedQueries: []
-  }>()
+defineProps<{ history: IdbRestQueryHistory[]; open: boolean }>()
+const emit = defineEmits<{
+  useRequest: [request: RestQueryRequestLike]
+  useRequestNewTab: [request: RestQueryRequestLike]
+  reloadHistory: []
+  reloadSavedQueries: []
+}>()
 
-  const { saveHistory, removeHistory, columns } = useRestQueryHistoryList(emit)
+const { saveHistory, removeHistory, columns } = useRestQueryHistoryList(emit)
 </script>

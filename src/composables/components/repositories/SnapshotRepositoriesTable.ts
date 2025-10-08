@@ -7,16 +7,16 @@ import { useRouter } from 'vue-router'
 import { setupFilterState } from '../shared/FilterState.ts'
 
 export type EsSnapshotRepository = {
-  type: string,
-  uuid: string,
+  type: string
+  uuid: string
   settings: EsSnapshotRepositorySettings
 }
 
 type EsSnapshotRepositorySettings = {
-  location: string,
-  maxRestoreBytesPerSec: string,
-  chunkSize: string,
-  readonly: string,
+  location: string
+  maxRestoreBytesPerSec: string
+  chunkSize: string
+  readonly: string
   compress: string
 }
 
@@ -46,7 +46,7 @@ export const useSnapshotRepositoriesTable = (props: SnapshotRepositoriesTablePro
   }
 
   const router = useRouter()
-  const openSnapshots = (repositoryName: string) => (router.push({ name: 'snapshots', params: { repositoryName } }))
+  const openSnapshots = (repositoryName: string) => router.push({ name: 'snapshots', params: { repositoryName } })
 
   const filterStateProps = setupFilterState(results, filteredResults)
 
@@ -67,4 +67,3 @@ export const useSnapshotRepositoriesTable = (props: SnapshotRepositoriesTablePro
     columns
   }
 }
-

@@ -1,6 +1,7 @@
 import {
   BuildFlavor,
-  ElasticsearchCluster, ElasticsearchClusterConnection,
+  ElasticsearchCluster,
+  ElasticsearchClusterConnection,
   useConnectionStore
 } from '../../../store/connection.ts'
 import ElasticsearchAdapter from '../../../services/ElasticsearchAdapter.ts'
@@ -19,7 +20,7 @@ export const useClusterHealth = () => {
   }
   setupHealthLoading()
 
-  const checkAllClusters = () => (connectionStore.clusters.forEach(checkHealth))
+  const checkAllClusters = () => connectionStore.clusters.forEach(checkHealth)
 
   return {
     checkAllClusters
@@ -54,7 +55,6 @@ export const checkHealth = async (cluster: ElasticsearchCluster) => {
     cluster.majorVersion = version[0]
     cluster.flavor = flavor
     if (!cluster.uuid || cluster.uuid.length === 0) cluster.uuid = clusterUuid(pingBody)
-
   } catch (_e) {
     cluster.status = 'unknown'
   }

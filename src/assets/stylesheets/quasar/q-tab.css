@@ -1,11 +1,13 @@
 .q-tab-panels {
-    background-color: initial;
+  background-color: initial;
 }
 
-.q-tab, .q-tab__content, .q-tab__label {
-    transition: none !important;
+.q-tab,
+.q-tab__content,
+.q-tab__label {
+  transition: none !important;
 }
 
 .q-tab__indicator {
-    transition: none !important;
+  transition: none !important;
 }

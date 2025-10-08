@@ -9,12 +9,12 @@ const TIMEOUTS = {
 
 interface SnackbarSuccessOptions {
   title?: string
-  body?: string,
+  body?: string
 }
 
 export interface SnackbarOptions extends SnackbarSuccessOptions {
-  timeout?: number,
-  color?: string,
+  timeout?: number
+  color?: string
   copyableText?: string
 }
 
@@ -112,6 +112,5 @@ const responseErrorMessage = (json: string) => {
     if (json && json.length > 0) {
       return JSON.parse(json)
     }
-  } catch (_e) {
-  }
+  } catch (_e) {}
 }

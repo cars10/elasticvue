@@ -1,8 +1,6 @@
 <template>
   <div>
-    <p class="q-mb-sm">
-      {{ t('setup.configure.introduction') }} <strong>elasticsearch.yml</strong>:
-    </p>
+    <p class="q-mb-sm">{{ t('setup.configure.introduction') }} <strong>elasticsearch.yml</strong>:</p>
 
     <pre>
 <code class="code-block whitespace-pre-wrap bg-grey-3 relative-position"><div class="absolute flex" style="right:2px;top:2px;">
@@ -20,11 +18,11 @@ http.cors.allow-headers: X-Requested-With,Content-Type,Content-Length,Authorizat
 </template>
 
 <script setup lang="ts">
-  import { useTranslation } from '../../composables/i18n'
-  import CopyButton from '../shared/CopyButton.vue'
+import { useTranslation } from '../../composables/i18n'
+import CopyButton from '../shared/CopyButton.vue'
 
-  const domain = window.location.origin
-  const copyValue = `http.cors.enabled: true\nhttp.cors.allow-origin: "${domain}"\nhttp.cors.allow-headers: X-Requested-With,Content-Type,Content-Length,Authorization`
+const domain = window.location.origin
+const copyValue = `http.cors.enabled: true\nhttp.cors.allow-origin: "${domain}"\nhttp.cors.allow-headers: X-Requested-With,Content-Type,Content-Length,Authorization`
 
-  const t = useTranslation()
+const t = useTranslation()
 </script>

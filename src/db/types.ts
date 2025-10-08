@@ -41,7 +41,7 @@ export type IdbRestQueryTabResponse = {
 }
 
 export interface DbSchema {
-  restQueryHistory: DbModel<IdbRestQueryHistory>,
+  restQueryHistory: DbModel<IdbRestQueryHistory>
   restQuerySavedQueries: DbModel<IdbRestQuerySavedQuery>
   restQueryTabs: DbModel<IdbRestQueryTab>
 }

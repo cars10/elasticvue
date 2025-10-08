@@ -22,7 +22,7 @@ export default class ElasticsearchAdapter {
   awsClient: AwsClient | null
   authHeader?: string
 
-  constructor ({ uri, auth }: ElasticsearchClusterConnection) {
+  constructor({ uri, auth }: ElasticsearchClusterConnection) {
     this.uri = addTrailingSlash(uri)
 
     if (auth.authType === AuthType.awsIAM) {
@@ -31,19 +31,19 @@ export default class ElasticsearchAdapter {
         secretAccessKey: auth.authData.secretAccessKey,
         sessionToken: auth.authData.sessionToken,
         region: auth.authData.region,
-        service: 'es',
+        service: 'es'
       })
     }
 
     this.authHeader = clusterAuthHeader(auth)
   }
 
-  call (method: ElasticsearchMethod, ...args: any[]): Promise<any> {
+  call(method: ElasticsearchMethod, ...args: any[]): Promise<any> {
     // @ts-expect-error dynamic function call
     return this[method](...args)
   }
 
-  async callInChunks ({ method, indices }: { method: keyof ElasticsearchAdapter, indices: string[] }) {
+  async callInChunks({ method, indices }: { method: keyof ElasticsearchAdapter; indices: string[] }) {
     const chunks = chunk(indices, MAX_INDICES_PER_REQUEST)
     const responses = []
 
@@ -57,58 +57,58 @@ export default class ElasticsearchAdapter {
 
   /** routes always available **/
 
-  ping () {
+  ping() {
     return this.request('', 'GET')
   }
 
-  clusterInfo () {
+  clusterInfo() {
     return this.ping()
   }
 
-  catIndices (params: object, filter?: string) {
+  catIndices(params: object, filter?: string) {
     const query = filter ? `${filter}*` : ''
     return this.request(`_cat/indices/${query}`, 'GET', params)
   }
 
-  template () {
+  template() {
     return this.request('_template', 'GET')
   }
 
-  indexTemplate () {
+  indexTemplate() {
     return this.request('_index_template', 'GET')
   }
 
-  indexGetAlias ({ index }: { index: string }) {
+  indexGetAlias({ index }: { index: string }) {
     return this.request(`${cleanIndexName(index)}/_alias`, 'GET')
   }
 
-  indexAddAlias ({ index, alias }: { index: string, alias: string }) {
+  indexAddAlias({ index, alias }: { index: string; alias: string }) {
     return this.request(`${cleanIndexName(index)}/_alias/${alias}`, 'PUT')
   }
 
-  indexDeleteAlias ({ index, alias }: { index: string, alias: string }) {
+  indexDeleteAlias({ index, alias }: { index: string; alias: string }) {
     return this.request(`${cleanIndexName(index)}/_alias/${alias}`, 'DELETE')
   }
 
-  indexCreate ({ index, body }: { index: string, body?: object }) {
+  indexCreate({ index, body }: { index: string; body?: object }) {
     return this.request(`${cleanIndexName(index)}`, 'PUT', body)
   }
 
-  deleteByQuery ({ index }: { index: string }) {
+  deleteByQuery({ index }: { index: string }) {
     const body = { query: { match_all: {} } }
     return this.request(`${cleanIndexName(index)}/_delete_by_query?refresh=true`, 'POST', body)
   }
 
-  indexGet (params: Record<string, any>) {
+  indexGet(params: Record<string, any>) {
     const index = Array.isArray(params.index) ? params.index.join(',') : params.index
     return this.request(`${cleanIndexName(index)}`, 'GET')
   }
 
-  indexStats ({ index }: { index: string }) {
+  indexStats({ index }: { index: string }) {
     return this.request(`${cleanIndexName(index)}/_stats`, 'GET')
   }
 
-  indexDelete ({ indices }: { indices: string[] }) {
+  indexDelete({ indices }: { indices: string[] }) {
     if (indices.length > MAX_INDICES_PER_REQUEST) {
       return this.callInChunks({ method: 'indexDelete', indices })
     } else {
@@ -116,7 +116,7 @@ export default class ElasticsearchAdapter {
     }
   }
 
-  indexRefresh ({ indices }: { indices: string[] }) {
+  indexRefresh({ indices }: { indices: string[] }) {
     if (indices.length > MAX_INDICES_PER_REQUEST) {
       return this.callInChunks({ method: 'indexRefresh', indices })
     } else {
@@ -124,7 +124,7 @@ export default class ElasticsearchAdapter {
     }
   }
 
-  indexClearCache ({ indices }: { indices: string[] }) {
+  indexClearCache({ indices }: { indices: string[] }) {
     if (indices.length > MAX_INDICES_PER_REQUEST) {
       return this.callInChunks({ method: 'indexClearCache', indices })
     } else {
@@ -132,7 +132,7 @@ export default class ElasticsearchAdapter {
     }
   }
 
-  indexFlush ({ indices }: { indices: string[] }) {
+  indexFlush({ indices }: { indices: string[] }) {
     if (indices.length > MAX_INDICES_PER_REQUEST) {
       return this.callInChunks({ method: 'indexFlush', indices })
     } else {
@@ -140,46 +140,40 @@ export default class ElasticsearchAdapter {
     }
   }
 
-  indexExists ({ index }: { index: string }) {
+  indexExists({ index }: { index: string }) {
     return this.request(`${cleanIndexName(index)}`, 'HEAD')
   }
 
-  indexPutSettings ({ index, body }: { index: string, body: object }) {
+  indexPutSettings({ index, body }: { index: string; body: object }) {
     return this.request(`${cleanIndexName(index)}/_settings`, 'PUT', body)
   }
 
-  reindex ({ source, dest }: { source: string, dest: string }) {
+  reindex({ source, dest }: { source: string; dest: string }) {
     return this.request('_reindex?wait_for_completion=false', 'POST', {
       source: { index: source },
       dest: { index: dest }
     })
   }
 
-  index ({ index, type, id, routing, params }: {
-    index: string,
-    type: string,
-    id: any,
-    routing: string,
-    params: any
-  }) {
+  index({ index, type, id, routing, params }: { index: string; type: string; id: any; routing: string; params: any }) {
     let path = `${cleanIndexName(index)}/${type}/${encodeURIComponent(id)}?refresh=true`
     if (routing) path += `&routing=${routing}`
     return this.request(path, 'PUT', params)
   }
 
-  get ({ index, type, id, routing }: { index: string, type: string, id: any, routing?: string }) {
+  get({ index, type, id, routing }: { index: string; type: string; id: any; routing?: string }) {
     const params: IndexGetArgs = {}
     if (routing) params.routing = routing
     return this.request(`${cleanIndexName(index)}/${type}/${encodeURIComponent(id)}`, 'GET', params)
   }
 
-  delete ({ index, type, id, routing }: { index: string, type: string, id: any, routing?: string }) {
+  delete({ index, type, id, routing }: { index: string; type: string; id: any; routing?: string }) {
     let path = `${cleanIndexName(index)}/${type}/${encodeURIComponent(id)}?refresh=true`
     if (routing) path += `&routing=${routing}`
     return this.request(path, 'DELETE')
   }
 
-  search (params: object, searchIndex?: string | string[]) {
+  search(params: object, searchIndex?: string | string[]) {
     const index = Array.isArray(searchIndex) ? searchIndex.join(',') : searchIndex
 
     if (index && index.length > 0) {
@@ -189,42 +183,45 @@ export default class ElasticsearchAdapter {
     }
   }
 
-  docsBulkDelete (documents: any[]) {
-    const body = documents.map(str => {
-      const matches = str.split(/####(.*)####(.*)/)
-      return JSON.stringify({ delete: { _index: matches[0], _id: matches[2] } })
-    }).join('\r\n') + '\r\n'
+  docsBulkDelete(documents: any[]) {
+    const body =
+      documents
+        .map((str) => {
+          const matches = str.split(/####(.*)####(.*)/)
+          return JSON.stringify({ delete: { _index: matches[0], _id: matches[2] } })
+        })
+        .join('\r\n') + '\r\n'
     return this.request('_bulk?refresh=true', 'POST', body)
   }
 
   /** routes only available in default elasticsearch, but not in serverless **/
 
-  clusterHealth () {
+  clusterHealth() {
     return this.request('_cluster/health', 'GET')
   }
 
-  clusterStats () {
+  clusterStats() {
     return this.request('_cluster/stats', 'GET')
   }
 
-  clusterReroute (commands: object) {
+  clusterReroute(commands: object) {
     return this.request('_cluster/reroute', 'POST', { commands })
   }
 
-  catShards (params: object, filter?: string) {
+  catShards(params: object, filter?: string) {
     const query = filter ? `${filter}*` : ''
     return this.request(`_cat/shards/${query}`, 'GET', params)
   }
 
-  catRecovery () {
+  catRecovery() {
     return this.request('_cat/recovery?s=start_time_millis:desc', 'GET')
   }
 
-  recovery () {
+  recovery() {
     return this.request('_recovery', 'GET')
   }
 
-  indexClose ({ indices }: { indices: string[] }) {
+  indexClose({ indices }: { indices: string[] }) {
     if (indices.length > MAX_INDICES_PER_REQUEST) {
       return this.callInChunks({ method: 'indexClose', indices })
     } else {
@@ -232,7 +229,7 @@ export default class ElasticsearchAdapter {
     }
   }
 
-  indexOpen ({ indices }: { indices: string[] }) {
+  indexOpen({ indices }: { indices: string[] }) {
     if (indices.length > MAX_INDICES_PER_REQUEST) {
       return this.callInChunks({ method: 'indexOpen', indices })
     } else {
@@ -240,7 +237,7 @@ export default class ElasticsearchAdapter {
     }
   }
 
-  indexForcemerge ({ indices }: { indices: string[] }) {
+  indexForcemerge({ indices }: { indices: string[] }) {
     if (indices.length > MAX_INDICES_PER_REQUEST) {
       return this.callInChunks({ method: 'indexForcemerge', indices })
     } else {
@@ -248,75 +245,75 @@ export default class ElasticsearchAdapter {
     }
   }
 
-  catNodes (params: object) {
+  catNodes(params: object) {
     return this.request('_cat/nodes', 'GET', params)
   }
 
-  nodes () {
+  nodes() {
     return this.request('_nodes', 'GET')
   }
 
-  catRepositories (params: object) {
+  catRepositories(params: object) {
     return this.request('_snapshot', 'GET', params)
   }
 
-  catSnapshots ({ repository }: { repository: string }) {
+  catSnapshots({ repository }: { repository: string }) {
     return this.request(`_snapshot/${repository}/_all`, 'GET')
   }
 
-  snapshotCreateRepository ({ repository, body }: { repository: string, body: object }) {
+  snapshotCreateRepository({ repository, body }: { repository: string; body: object }) {
     return this.request(`_snapshot/${repository}`, 'PUT', body)
   }
 
-  snapshotDeleteRepository ({ repository }: { repository: string }) {
+  snapshotDeleteRepository({ repository }: { repository: string }) {
     return this.request(`_snapshot/${repository}`, 'DELETE')
   }
 
-  snapshotCreate ({ repository, snapshot, body }: { repository: string, snapshot: string, body: object }) {
+  snapshotCreate({ repository, snapshot, body }: { repository: string; snapshot: string; body: object }) {
     return this.request(`_snapshot/${repository}/${snapshot}`, 'PUT', body)
   }
 
-  snapshotDelete ({ repository, snapshot }: { repository: string, snapshot: string }) {
+  snapshotDelete({ repository, snapshot }: { repository: string; snapshot: string }) {
     return this.request(`_snapshot/${repository}/${snapshot}`, 'DELETE')
   }
 
-  snapshotRestore ({ repository, snapshot, body }: { repository: string, snapshot: string, body: object }) {
+  snapshotRestore({ repository, snapshot, body }: { repository: string; snapshot: string; body: object }) {
     return this.request(`_snapshot/${repository}/${snapshot}/_restore`, 'POST', body)
   }
 
-  getSnapshot ({ repository, snapshot }: { repository: string, snapshot: string }) {
+  getSnapshot({ repository, snapshot }: { repository: string; snapshot: string }) {
     return this.request(`_snapshot/${repository}/${snapshot}`, 'GET')
   }
 
-  catSlmPolicies () {
+  catSlmPolicies() {
     return this.request('_slm/policy', 'GET')
   }
 
-  slmGetPolicy ({ policy }: { policy: string }) {
+  slmGetPolicy({ policy }: { policy: string }) {
     return this.request(`_slm/policy/${policy}`, 'GET')
   }
 
-  slmPutPolicy ({ policy, body }: { policy: string, body: object }) {
+  slmPutPolicy({ policy, body }: { policy: string; body: object }) {
     return this.request(`_slm/policy/${policy}`, 'PUT', body)
   }
 
-  slmDeletePolicy ({ policy }: { policy: string }) {
+  slmDeletePolicy({ policy }: { policy: string }) {
     return this.request(`_slm/policy/${policy}`, 'DELETE')
   }
 
-  slmExecutePolicy ({ policy }: { policy: string }) {
+  slmExecutePolicy({ policy }: { policy: string }) {
     return this.request(`_slm/policy/${policy}/_execute`, 'POST')
   }
 
-  slmGetStatus () {
+  slmGetStatus() {
     return this.request('_slm/status', 'GET')
   }
 
-  async request (path: string, method: string, params?: any) {
+  async request(path: string, method: string, params?: any) {
     const url = new URL(this.uri + path)
 
     if (method === 'GET' && typeof params === 'object') {
-      Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
+      Object.keys(params).forEach((key) => url.searchParams.append(key, params[key]))
     }
 
     let body = null
@@ -342,21 +339,22 @@ export default class ElasticsearchAdapter {
 
     return new Promise((resolve, reject) => {
       return fetchMethod(url, options)
-          .then(response => {
-            if (options.method === 'HEAD') {
-              return resolve(response.ok)
-            }
+        .then((response) => {
+          if (options.method === 'HEAD') {
+            return resolve(response.ok)
+          }
 
-            if (response.ok) {
-              resolve(response)
-            } else {
-              reject(response)
-            }
-          }).catch(reject)
+          if (response.ok) {
+            resolve(response)
+          } else {
+            reject(response)
+          }
+        })
+        .catch(reject)
     })
   }
 
-  async test () {
+  async test() {
     try {
       const info = await this.ping()
       await this.search({ size: 0 })

@@ -38,70 +38,80 @@ export const useSearchResultsTable = (props: SearchResultsTableProps, emit: any)
     emit('reload')
   }
 
-  const genDocStr = (doc: ElasticsearchDocumentInfo) => ([doc._index, doc._type, doc._id].join('####'))
+  const genDocStr = (doc: ElasticsearchDocumentInfo) => [doc._index, doc._type, doc._id].join('####')
 
-  watch(() => searchStore.pagination.rowsPerPage, () => {
-    if (searchStore.pagination.rowsPerPage === rowsPerPage[rowsPerPage.length - 1].value) {
-      searchStore.stickyTableHeader = true
-    }
-    onRequest({ pagination: searchStore.pagination })
-  })
-
-  watch(() => props.results, async (newValue: EsSearchResult) => {
-    if (newValue?.hits?.hits?.length === 0) {
-      hits.value = []
-      return
-    }
-
-    const results = new SearchResults(newValue?.hits?.hits)
-    const indices = await callElasticsearch('indexGet', { index: results.uniqueIndices })
-    const allProperties: Record<string, any> = {}
-
-    Object.keys(indices).forEach(index => {
-      const mappings = indices[index].mappings
-      if (typeof mappings.properties === 'undefined') {
-        // ES < 7
-        const indexProperties = {}
-        Object.keys(mappings).forEach(mapping => {
-          Object.assign(indexProperties, mappings[mapping].properties)
-        })
-        Object.assign(allProperties, indexProperties)
-      } else {
-        // ES >= 7
-        Object.assign(allProperties, mappings.properties)
+  watch(
+    () => searchStore.pagination.rowsPerPage,
+    () => {
+      if (searchStore.pagination.rowsPerPage === rowsPerPage[rowsPerPage.length - 1].value) {
+        searchStore.stickyTableHeader = true
       }
-    })
+      onRequest({ pagination: searchStore.pagination })
+    }
+  )
 
-    tableColumns.value = results.uniqueColumns.map(field => {
-      const filterableCol = sortableField(field, allProperties[field])
+  watch(
+    () => props.results,
+    async (newValue: EsSearchResult) => {
+      if (newValue?.hits?.hits?.length === 0) {
+        hits.value = []
+        return
+      }
 
-      return { label: field, field, name: filterableCol || field, sortable: !!filterableCol, align: 'left' }
-    })
-    tableColumns.value.push({ label: '', name: 'actions' })
+      const results = new SearchResults(newValue?.hits?.hits)
+      const indices = await callElasticsearch('indexGet', { index: results.uniqueIndices })
+      const allProperties: Record<string, any> = {}
 
-    const oldColumns = searchStore.columns
-    const newColumnsList = tableColumns.value.map(c => c.name)
-    const addedColumns = newColumnsList.filter(c => !oldColumns.includes(c))
-    const removedColumns = oldColumns.filter(c => !newColumnsList.includes(c))
+      Object.keys(indices).forEach((index) => {
+        const mappings = indices[index].mappings
+        if (typeof mappings.properties === 'undefined') {
+          // ES < 7
+          const indexProperties = {}
+          Object.keys(mappings).forEach((mapping) => {
+            Object.assign(indexProperties, mappings[mapping].properties)
+          })
+          Object.assign(allProperties, indexProperties)
+        } else {
+          // ES >= 7
+          Object.assign(allProperties, mappings.properties)
+        }
+      })
 
-    searchStore.columns = newColumnsList
-    searchStore.visibleColumns = searchStore.visibleColumns.filter(c => !removedColumns.includes(c)).concat(addedColumns)
+      tableColumns.value = results.uniqueColumns.map((field) => {
+        const filterableCol = sortableField(field, allProperties[field])
 
-    hits.value = results.docs
-  })
+        return { label: field, field, name: filterableCol || field, sortable: !!filterableCol, align: 'left' }
+      })
+      tableColumns.value.push({ label: '', name: 'actions' })
+
+      const oldColumns = searchStore.columns
+      const newColumnsList = tableColumns.value.map((c) => c.name)
+      const addedColumns = newColumnsList.filter((c) => !oldColumns.includes(c))
+      const removedColumns = oldColumns.filter((c) => !newColumnsList.includes(c))
+
+      searchStore.columns = newColumnsList
+      searchStore.visibleColumns = searchStore.visibleColumns.filter((c) => !removedColumns.includes(c)).concat(addedColumns)
+
+      hits.value = results.docs
+    }
+  )
 
   const filteredHits = computed(() => {
     if (searchStore.filter.trim().length === 0) return hits.value
 
-    return filterItems(hits.value, searchStore.filter, tableColumns.value.map(c => c.field))
+    return filterItems(
+      hits.value,
+      searchStore.filter,
+      tableColumns.value.map((c) => c.field)
+    )
   })
 
-  const slicedTableColumns = computed((): any[] => (tableColumns.value.slice(0, -1)))
+  const slicedTableColumns = computed((): any[] => tableColumns.value.slice(0, -1))
 
-  const onRequest = (pagination: any) => (emit('request', pagination))
+  const onRequest = (pagination: any) => emit('request', pagination)
   const clearColumns = () => (searchStore.visibleColumns = ['actions'])
-  const resetColumns = () => (searchStore.visibleColumns = tableColumns.value.map(c => c.name))
-  const generateDownloadData = () => (stringifyJson(props.results))
+  const resetColumns = () => (searchStore.visibleColumns = tableColumns.value.map((c) => c.name))
+  const generateDownloadData = () => stringifyJson(props.results)
 
   const rowsPerPage = [
     { label: '10', value: 10, enabled: true },

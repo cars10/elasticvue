@@ -1,22 +1,19 @@
-a:not(.q-btn):not(.q-tab),
-a:visited:not(.q-btn):not(.q-tab),
-a:hover:not(.q-btn):not(.q-tab),
-a:focus:not(.q-btn):not(.q-tab) {
-    color: var(--theme-primary) !important;
+a:not(.q-btn, .q-tab),
+a:visited:not(.q-btn, .q-tab),
+a:hover:not(.q-btn, .q-tab),
+a:focus:not(.q-btn, .q-tab) {
+  color: var(--theme-primary) !important;
 }
 
 a:hover:not(.q-tab) {
-    cursor: pointer;
-    text-decoration: underline;
+  cursor: pointer;
+  text-decoration: underline;
 }
 
-a.stretched:before {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 1;
-    pointer-events: auto;
-    content: "";
+a.stretched::before {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: auto;
+  content: '';
 }

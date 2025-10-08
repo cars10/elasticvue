@@ -31,43 +31,40 @@ const completions = (context: any) => {
   if (nodeBefore.name === 'Property') {
     return {
       from: word?.from,
-      options: [
-        ...queryValues.map(w => ({ label: w, type: 'text', apply: `"${w}"` })),
-      ]
+      options: [...queryValues.map((w) => ({ label: w, type: 'text', apply: `"${w}"` }))]
     }
   } else if (nodeBefore.name === 'String') {
     return {
       from: word?.from,
-      options: [
-        ...queryValues.map(w => ({ label: w, type: 'text', apply: w }))
-      ]
+      options: [...queryValues.map((w) => ({ label: w, type: 'text', apply: w }))]
     }
   } else {
     return {
       from: word?.from,
-      options: [
-        ...queryKeywords.map(w => ({ label: w, type: 'keyword', apply: `"${w}"` })),
-      ]
+      options: [...queryKeywords.map((w) => ({ label: w, type: 'keyword', apply: `"${w}"` }))]
     }
   }
 }
 
-export const useCodeEditor = (editorRef: Ref<HTMLElement | null>, {
-  initialValue,
-  emit,
-  commands,
-  onPaste
-}: {
-  initialValue: Ref<string>,
-  emit?: any,
-  commands?: KeyBinding[],
-  onPaste?: (data: string) => void
-}) => {
+export const useCodeEditor = (
+  editorRef: Ref<HTMLElement | null>,
+  {
+    initialValue,
+    emit,
+    commands,
+    onPaste
+  }: {
+    initialValue: Ref<string>
+    emit?: any
+    commands?: KeyBinding[]
+    onPaste?: (data: string) => void
+  }
+) => {
   const codeEditorStore = useCodeEditorStore()
 
   let codeMirrorEditorView: EditorView = <EditorView>{}
-  const wrapLines = new Compartment
-  const theme = new Compartment
+  const wrapLines = new Compartment()
+  const theme = new Compartment()
 
   onMounted(() => {
     initEditor()
@@ -76,7 +73,7 @@ export const useCodeEditor = (editorRef: Ref<HTMLElement | null>, {
   const initEditor = () => {
     if (!editorRef.value) return
 
-    const onChange = EditorView.updateListener.of(update => {
+    const onChange = EditorView.updateListener.of((update) => {
       if (!update.docChanged || !emit) return
       emit('update:modelValue', editorValue())
     })
@@ -84,7 +81,7 @@ export const useCodeEditor = (editorRef: Ref<HTMLElement | null>, {
     const eventHandlers = []
     if (onPaste) {
       const handler = EditorView.domEventHandlers({
-        paste (event) {
+        paste(event) {
           const newValue = event.clipboardData?.getData('text')
           if (newValue) onPaste(newValue)
         }
@@ -109,11 +106,14 @@ export const useCodeEditor = (editorRef: Ref<HTMLElement | null>, {
         theme.of(baseTheme)
       ],
       parent: editorRef.value,
-      doc: beautify(initialValue.value),
+      doc: beautify(initialValue.value)
     })
   }
 
-  watch(() => initialValue.value, newValue => setEditorValue(newValue))
+  watch(
+    () => initialValue.value,
+    (newValue) => setEditorValue(newValue)
+  )
 
   const beautifyEditorValue = () => {
     const value = editorValue()
@@ -123,8 +123,8 @@ export const useCodeEditor = (editorRef: Ref<HTMLElement | null>, {
     return true
   }
 
-  const editorValue = () => (codeMirrorEditorView.state.doc.toString())
-  const copyContent = () => (writeToClipboard(editorValue()))
+  const editorValue = () => codeMirrorEditorView.state.doc.toString()
+  const copyContent = () => writeToClipboard(editorValue())
   const setEditorValue = (value: string) => {
     if (value === editorValue()) return
 
@@ -144,9 +144,9 @@ export const useCodeEditor = (editorRef: Ref<HTMLElement | null>, {
   const foldRecursive = (effect: typeof foldEffect | typeof unfoldEffect) => {
     const state = codeMirrorEditorView.state
 
-    const foldRanges: { from: number, to: number }[] = []
+    const foldRanges: { from: number; to: number }[] = []
     syntaxTree(state).iterate({
-      enter (node) {
+      enter(node) {
         if (node.from === 0) return
         const isFoldable = foldable(state, node.from, node.to)
         if (isFoldable) foldRanges.push({ from: isFoldable.from, to: isFoldable.to })
@@ -154,11 +154,11 @@ export const useCodeEditor = (editorRef: Ref<HTMLElement | null>, {
     })
 
     codeMirrorEditorView.dispatch({
-      effects: foldRanges.map(range => effect.of({ from: range.from, to: range.to }))
+      effects: foldRanges.map((range) => effect.of({ from: range.from, to: range.to }))
     })
   }
-  const collapseAll = () => (foldRecursive(foldEffect))
-  const expandAll = () => (foldRecursive(unfoldEffect))
+  const collapseAll = () => foldRecursive(foldEffect)
+  const expandAll = () => foldRecursive(unfoldEffect)
 
   return {
     copyContent,

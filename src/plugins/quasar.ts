@@ -7,5 +7,5 @@ import quasarIconSet from 'quasar/icon-set/svg-material-icons'
 
 export const quasarOptions = {
   plugins: {}, // import Quasar plugins and add here
-  iconSet: quasarIconSet,
+  iconSet: quasarIconSet
 }

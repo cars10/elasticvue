@@ -700,8 +700,7 @@
         },
         "schedule": {
           "label": "スケジュール*",
-          "hint": "Cron 式（例：'0 30 1 * * ?' は毎日午前 1:30）",
-          "required": "スケジュールは必須です"
+          "hint": "Cron 式（例：'0 30 1 * * ?' は毎日午前 1:30）"
         },
         "repository": {
         },
@@ -738,7 +737,6 @@
           "id": "ID",
           "name": "名前",
           "schedule": "スケジュール",
-          "repository": "リポジトリ",
           "retention": "保持"
         }
       },
@@ -753,7 +751,6 @@
     },
     "edit_policy": {
       "update_policy": {
-        "growl": "スナップショットポリシー '{name}' が正常に更新されました。"
       }
     }
   },

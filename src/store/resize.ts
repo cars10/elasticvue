@@ -1,13 +1,13 @@
 import { defineStore } from 'pinia'
 
 type ResizeState = {
-  indicesTable: number,
-  indexTemplatesTable: number,
-  shardRecoveryTable: number,
-  modalLoaderCodeViewer: number,
-  restForm: number,
-  searchQuery: number,
-  searchTable: number,
+  indicesTable: number
+  indexTemplatesTable: number
+  shardRecoveryTable: number
+  modalLoaderCodeViewer: number
+  restForm: number
+  searchQuery: number
+  searchTable: number
   documentEdit: number
 }
 

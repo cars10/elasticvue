@@ -14,24 +14,28 @@
 
       <q-form @submit="createSnapshot">
         <q-card-section>
-          <custom-input v-model="snapshot.name"
-                        :label="t('snapshots.new_snapshot.form.snapshot_name.label')"
-                        outlined
-                        class="q-mb-sm"
-                        autocomplete="off"
-                        autofocus
-                        required />
+          <custom-input
+            v-model="snapshot.name"
+            :label="t('snapshots.new_snapshot.form.snapshot_name.label')"
+            outlined
+            class="q-mb-sm"
+            autocomplete="off"
+            autofocus
+            required
+          />
 
           <index-filter v-model="snapshot.indices" class="q-mt-lg" />
         </q-card-section>
 
         <q-card-section>
-          <q-btn :disable="loading || !formValid"
-                 :loading="loading"
-                 :label="t('defaults.create')"
-                 color="positive"
-                 type="submit"
-                 class="q-mr-md" />
+          <q-btn
+            :disable="loading || !formValid"
+            :loading="loading"
+            :label="t('defaults.create')"
+            color="positive"
+            type="submit"
+            class="q-mr-md"
+          />
           <q-btn v-close-popup flat :label="t('defaults.close')" />
         </q-card-section>
       </q-form>
@@ -40,13 +44,13 @@
 </template>
 
 <script setup lang="ts">
-  import IndexFilter from '../shared/IndexFilter.vue'
-  import { NewSnapshotProps, useNewSnapshot } from '../../composables/components/snapshots/NewSnapshot'
-  import { useTranslation } from '../../composables/i18n.ts'
-  import CustomInput from '../shared/CustomInput.vue'
+import IndexFilter from '../shared/IndexFilter.vue'
+import { NewSnapshotProps, useNewSnapshot } from '../../composables/components/snapshots/NewSnapshot'
+import { useTranslation } from '../../composables/i18n.ts'
+import CustomInput from '../shared/CustomInput.vue'
 
-  const props = defineProps<NewSnapshotProps>()
-  const emit = defineEmits(['reload'])
-  const t = useTranslation()
-  const { dialog, snapshot, formValid, loading, createSnapshot, resetForm } = useNewSnapshot(props, emit)
+const props = defineProps<NewSnapshotProps>()
+const emit = defineEmits(['reload'])
+const t = useTranslation()
+const { dialog, snapshot, formValid, loading, createSnapshot, resetForm } = useNewSnapshot(props, emit)
 </script>

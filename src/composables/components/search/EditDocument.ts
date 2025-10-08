@@ -1,9 +1,6 @@
 import { ref, watch, Ref, computed } from 'vue'
 import { useTranslation } from '../../i18n.ts'
-import {
-  defineElasticsearchRequest,
-  useElasticsearchAdapter,
-} from '../../CallElasticsearch.ts'
+import { defineElasticsearchRequest, useElasticsearchAdapter } from '../../CallElasticsearch.ts'
 import { stringifyJson } from '../../../helpers/json/stringify.ts'
 
 export type EditDocumentProps = {
@@ -11,19 +8,19 @@ export type EditDocumentProps = {
 } & ElasticsearchDocumentInfo
 
 export type ElasticsearchDocumentInfo = {
-  _index: string,
-  _type: string,
-  _id: string,
+  _index: string
+  _type: string
+  _id: string
   _routing?: string
 }
 
 type ElasticsearchDocumentMeta = {
-  _index?: string,
-  _type?: string,
-  _id?: string,
-  _version?: number,
-  _primary_term?: number,
-  _seq_no?: number,
+  _index?: string
+  _type?: string
+  _id?: string
+  _version?: number
+  _primary_term?: number
+  _seq_no?: number
   _routing?: string
 }
 
@@ -43,15 +40,18 @@ export const useEditDocument = (props: EditDocumentProps, emit: any) => {
       id: props._id,
       routing: props._routing
     })
-        .then(body => (data.value = body))
-        .catch(() => (data.value = null))
+      .then((body) => (data.value = body))
+      .catch(() => (data.value = null))
   }
 
-  watch(ownValue, value => (emit('update:modelValue', value)))
-  watch(() => props.modelValue, value => {
-    if (value) loadDocument()
-    ownValue.value = value
-  })
+  watch(ownValue, (value) => emit('update:modelValue', value))
+  watch(
+    () => props.modelValue,
+    (value) => {
+      if (value) loadDocument()
+      ownValue.value = value
+    }
+  )
 
   const loadDocument = async () => {
     await load()

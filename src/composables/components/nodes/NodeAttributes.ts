@@ -25,11 +25,11 @@ export const useNodeAttributes = (props: NodeAttributesProps) => {
     if (!regex) return props.attributes
 
     return Object.keys(props.attributes)
-        .filter(attribute => !attribute.match(regex))
-        .reduce((obj: Record<string, string>, key: string) => {
-          obj[key] = props.attributes[key]
-          return obj
-        }, {})
+      .filter((attribute) => !attribute.match(regex))
+      .reduce((obj: Record<string, string>, key: string) => {
+        obj[key] = props.attributes[key]
+        return obj
+      }, {})
   })
 
   return {

@@ -4,7 +4,7 @@ import { buildConfig } from '../buildConfig.ts'
 export const reloadHomePage = (router: Router, clusterIndex: number) => {
   try {
     const currentRoute = router.currentRoute.value
-    if (currentRoute.name === 'home' && currentRoute.params.clusterIndex as unknown as number === clusterIndex) {
+    if (currentRoute.name === 'home' && (currentRoute.params.clusterIndex as unknown as number) === clusterIndex) {
       router.go(0)
     } else {
       const route = { name: currentRoute.name || 'home', params: { clusterIndex } }

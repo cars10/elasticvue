@@ -1,7 +1,4 @@
-import {
-  BuildFlavor, ConnectionState,
-  ElasticsearchCluster,
-} from '../../../store/connection.ts'
+import { BuildFlavor, ConnectionState, ElasticsearchCluster } from '../../../store/connection.ts'
 import { buildAuth } from '../../../helpers/predefinedClusters/buildAuth.ts'
 
 export type PredefinedCluster = {
@@ -34,7 +31,7 @@ export const loadPredefinedClusters = async () => {
 
     const predefinedClusters: PredefinedCluster[] = await response.json()
 
-    return predefinedClusters.filter((cluster) => (cluster.uri && cluster.uri.length > 0))
+    return predefinedClusters.filter((cluster) => cluster.uri && cluster.uri.length > 0)
   } catch (_e) {
     return
   }

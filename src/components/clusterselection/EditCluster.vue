@@ -1,7 +1,13 @@
 <template>
-  <q-btn icon="edit" round flat size="sm" data-testid="cluster-edit"
-         :title="t('cluster_selection.edit_cluster.edit.title')"
-         @click.stop="dialog = true" />
+  <q-btn
+    icon="edit"
+    round
+    flat
+    size="sm"
+    data-testid="cluster-edit"
+    :title="t('cluster_selection.edit_cluster.edit.title')"
+    @click.stop="dialog = true"
+  />
 
   <q-dialog v-model="dialog" transition-duration="100">
     <q-card style="min-width: 800px">
@@ -17,27 +23,29 @@
 
       <q-card-section>
         <q-form @submit.prevent ref="form" greedy>
-          <cluster-form-fields v-model="cluster"  />
+          <cluster-form-fields v-model="cluster" />
 
-          <q-btn :label="t('setup.test_and_connect.form.test_connection')"
-                 :loading="testState.loading"
-                 color="primary-dark"
-                 class="q-mr-md"
-                 type="submit"
-                 @click="testConnection" />
+          <q-btn
+            :label="t('setup.test_and_connect.form.test_connection')"
+            :loading="testState.loading"
+            color="primary-dark"
+            class="q-mr-md"
+            type="submit"
+            @click="testConnection"
+          />
 
-          <q-btn :label="'Save'"
-                 color="primary-dark"
-                 type="button"
-                 class="q-mr-md"
-                 data-testid="cluster-edit-save"
-                 @click="saveCluster" />
+          <q-btn
+            :label="'Save'"
+            color="primary-dark"
+            type="button"
+            class="q-mr-md"
+            data-testid="cluster-edit-save"
+            @click="saveCluster"
+          />
 
           <q-btn v-close-popup flat :label="t('defaults.close')" />
 
-          <cluster-connection-errors v-if="testState.error"
-                                     :cluster="cluster"
-                                     :error-message="testState.errorMessage" />
+          <cluster-connection-errors v-if="testState.error" :cluster="cluster" :error-message="testState.errorMessage" />
         </q-form>
       </q-card-section>
     </q-card>
@@ -45,19 +53,13 @@
 </template>
 
 <script setup lang="ts">
-  import ClusterFormFields from '../setup/ClusterFormFields.vue'
-  import ClusterConnectionErrors from '../setup/ClusterConnectionErrors.vue'
-  import { useTranslation } from '../../composables/i18n.ts'
-  import { EditClusterProps, useEditCluster } from '../../composables/components/clusterselection/EditCluster.ts'
+import ClusterFormFields from '../setup/ClusterFormFields.vue'
+import ClusterConnectionErrors from '../setup/ClusterConnectionErrors.vue'
+import { useTranslation } from '../../composables/i18n.ts'
+import { EditClusterProps, useEditCluster } from '../../composables/components/clusterselection/EditCluster.ts'
 
-  const t = useTranslation()
-  const props = defineProps<EditClusterProps>()
+const t = useTranslation()
+const props = defineProps<EditClusterProps>()
 
-  const {
-    dialog,
-    cluster,
-    saveCluster,
-    testConnection,
-    testState
-  } = useEditCluster(props)
+const { dialog, cluster, saveCluster, testConnection, testState } = useEditCluster(props)
 </script>

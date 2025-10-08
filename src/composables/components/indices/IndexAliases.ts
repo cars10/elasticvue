@@ -22,7 +22,7 @@ export const useIndexAliases = (props: IndexAliasProps, emit: any) => {
   const newAlias = ref('')
   const aliases: Ref<Alias[]> = ref([])
 
-  watch(dialog, value => {
+  watch(dialog, (value) => {
     if (value) {
       loadAliases()
     } else {
@@ -32,39 +32,35 @@ export const useIndexAliases = (props: IndexAliasProps, emit: any) => {
 
   const loadAliases = () => {
     callElasticsearch('indexGetAlias', { index: props.index })
-        .then(body => {
-          aliases.value = Object.keys(body[props.index].aliases).map(alias => ({ alias }))
-        })
-        .catch(() => (aliases.value = []))
+      .then((body) => {
+        aliases.value = Object.keys(body[props.index].aliases).map((alias) => ({ alias }))
+      })
+      .catch(() => (aliases.value = []))
   }
 
   const addAlias = () => {
     callElasticsearch('indexAddAlias', { index: props.index, alias: newAlias.value })
-        .then(() => {
-          loadAliases()
-          newAlias.value = ''
-        })
-        .catch(() => {
-          console.log(requestState.value)
-          showSnackbar(requestState.value)
-        })
+      .then(() => {
+        loadAliases()
+        newAlias.value = ''
+      })
+      .catch(() => {
+        console.log(requestState.value)
+        showSnackbar(requestState.value)
+      })
   }
 
   const deleteAlias = (alias: string) => {
-    askConfirm(t('indices.index_aliases.delete_alias.confirm', { alias, index: props.index }))
-        .then(confirmed => {
-          if (confirmed) {
-            callElasticsearch('indexDeleteAlias', { index: props.index, alias })
-                .then(loadAliases)
-                .catch(() => showSnackbar(requestState.value))
-          }
-        })
+    askConfirm(t('indices.index_aliases.delete_alias.confirm', { alias, index: props.index })).then((confirmed) => {
+      if (confirmed) {
+        callElasticsearch('indexDeleteAlias', { index: props.index, alias })
+          .then(loadAliases)
+          .catch(() => showSnackbar(requestState.value))
+      }
+    })
   }
 
-  const columns = genColumns([
-    { label: t('indices.index_aliases.table.headers.alias'), field: 'alias' },
-    { label: '' }
-  ])
+  const columns = genColumns([{ label: t('indices.index_aliases.table.headers.alias'), field: 'alias' }, { label: '' }])
 
   return {
     dialog,

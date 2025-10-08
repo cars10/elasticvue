@@ -1,10 +1,7 @@
 @import 'theme/variables';
-
 @import '../fonts/hack/hack.css';
-
 @import 'theme/components/body';
 @import 'theme/components/colors';
-
 @import 'theme/components/anchor';
 @import 'theme/components/border';
 @import 'theme/components/button';
@@ -19,7 +16,6 @@
 @import 'theme/components/snackbar';
 @import 'theme/components/table';
 @import 'theme/components/text';
-
 @import 'quasar/q-banner';
 @import 'quasar/q-btn';
 @import 'quasar/q-card';
@@ -31,8 +27,6 @@
 @import 'quasar/q-table';
 @import 'quasar/q-tab';
 @import 'quasar/q-tooltip';
-
-// components
 
 .q-item__section--side {
   @extend .text-muted;

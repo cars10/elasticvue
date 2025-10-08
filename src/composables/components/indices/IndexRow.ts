@@ -52,8 +52,11 @@ export const useIndexRow = (props: IndexRowProps, emit: any) => {
     }
   }
 
-  onMounted(() => (loadAliases(props.index.index)))
-  watch(() => props.index, (newValue) => loadAliases(newValue.index))
+  onMounted(() => loadAliases(props.index.index))
+  watch(
+    () => props.index,
+    (newValue) => loadAliases(newValue.index)
+  )
 
   const emitReloadAndCloseMenu = () => {
     emit('reload')

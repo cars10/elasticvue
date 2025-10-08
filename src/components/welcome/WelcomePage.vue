@@ -4,7 +4,7 @@
       <q-card class="q-mt-xl">
         <q-card-section class="text-center">
           <h1 class="text-h2 q-my-md flex justify-center items-center">
-            <img :src="logo" alt="logo" height="48" width="48" class="q-mr-sm">
+            <img :src="logo" alt="logo" height="48" width="48" class="q-mr-sm" />
             elasticvue
           </h1>
           <h2 class="text-h5 q-my-md text-muted text-weight-light">
@@ -41,11 +41,11 @@
 </template>
 
 <script setup lang="ts">
-  import { useLogo } from '../../composables/Logo'
-  import ImportBackup from './ImportBackup.vue'
-  import SetupInstance from '../setup/SetupInstance.vue'
-  import { useTranslation } from '../../composables/i18n.ts'
+import { useLogo } from '../../composables/Logo'
+import ImportBackup from './ImportBackup.vue'
+import SetupInstance from '../setup/SetupInstance.vue'
+import { useTranslation } from '../../composables/i18n.ts'
 
-  const logo = useLogo()
-  const t = useTranslation()
+const logo = useLogo()
+const t = useTranslation()
 </script>

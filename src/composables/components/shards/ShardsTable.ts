@@ -23,12 +23,14 @@ export const useShardsTable = (props: ShardsTableProps, emit: any) => {
     if (Object.keys(shards).length === 0) return shards
 
     if (!indicesStore.showHiddenIndices) {
-      Object.assign(shards, { indexNames: shards.indexNames.filter(item => !item.match(new RegExp(indicesStore.hideIndicesRegex))) })
+      Object.assign(shards, {
+        indexNames: shards.indexNames.filter((item) => !item.match(new RegExp(indicesStore.hideIndicesRegex)))
+      })
     }
 
     if (shardsStore.filter.length !== 0) {
       const query = shardsStore.filter.slice().toLowerCase().trim()
-      Object.assign(shards, { indexNames: shards.indexNames.filter(item => item.includes(query)) })
+      Object.assign(shards, { indexNames: shards.indexNames.filter((item) => item.includes(query)) })
     }
 
     return shards
@@ -39,11 +41,11 @@ export const useShardsTable = (props: ShardsTableProps, emit: any) => {
     let end = start + pagination.value.rowsPerPage
     if (pagination.value.rowsPerPage === 0) end = filteredShards.value?.indexNames.length
     const slice = filteredShards.value?.indexNames?.slice(start, end) || []
-    return slice.map(val => ({ label: val, name: val, field: val }))
+    return slice.map((val) => ({ label: val, name: val, field: val }))
   })
 
   const rowsNumber = ref(0)
-  watch(filteredShards, newValue => {
+  watch(filteredShards, (newValue) => {
     pagination.value.rowsNumber = newValue?.indexNames?.length || 0
   })
 
@@ -66,9 +68,11 @@ export const useShardsTable = (props: ShardsTableProps, emit: any) => {
 
   const currentReroutingShard: Ref<EsShard> = ref({} as EsShard)
   const initReroute = (shard: EsShard) => {
-    if (currentReroutingShard.value.node === shard.node &&
-        currentReroutingShard.value.index === shard.index &&
-        currentReroutingShard.value.shard === shard.shard) {
+    if (
+      currentReroutingShard.value.node === shard.node &&
+      currentReroutingShard.value.index === shard.index &&
+      currentReroutingShard.value.shard === shard.shard
+    ) {
       currentReroutingShard.value = {} as EsShard
     } else {
       currentReroutingShard.value = shard
@@ -79,11 +83,16 @@ export const useShardsTable = (props: ShardsTableProps, emit: any) => {
   const { showSnackbar } = useSnackbar()
   const { requestState, callElasticsearch } = useElasticsearchAdapter()
   const reroute = async (shardToReroute: EsShard, targetNode: string) => {
-    if (!confirm(t('shards.shards_table.reroute.confirm', {
-      shard: shardToReroute.shard,
-      fromNode: shardToReroute.node,
-      toNode: targetNode
-    }))) return
+    if (
+      !confirm(
+        t('shards.shards_table.reroute.confirm', {
+          shard: shardToReroute.shard,
+          fromNode: shardToReroute.node,
+          toNode: targetNode
+        })
+      )
+    )
+      return
 
     const commands = [
       {
@@ -93,7 +102,8 @@ export const useShardsTable = (props: ShardsTableProps, emit: any) => {
           from_node: shardToReroute.node,
           to_node: targetNode
         }
-      }]
+      }
+    ]
 
     try {
       await callElasticsearch('clusterReroute', commands)

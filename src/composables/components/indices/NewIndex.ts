@@ -12,7 +12,7 @@ export const useNewIndex = (emit: any) => {
     replicas: 1
   })
 
-  const formValid = computed(() => (index.value.name.length > 0 && index.value.shards > 0))
+  const formValid = computed(() => index.value.name.length > 0 && index.value.shards > 0)
 
   const resetForm = () => {
     index.value = {

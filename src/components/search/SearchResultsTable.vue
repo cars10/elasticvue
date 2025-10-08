@@ -1,7 +1,10 @@
 <template>
   <div class="flex justify-between q-pa-md">
-    <filter-state v-model="searchStore.filter" :results-count="filterStateProps.resultsCount"
-                  :filtered-results-count="filterStateProps.filteredResultsCount" />
+    <filter-state
+      v-model="searchStore.filter"
+      :results-count="filterStateProps.resultsCount"
+      :filtered-results-count="filterStateProps.filteredResultsCount"
+    />
 
     <div class="flex q-ml-auto">
       <filter-input v-model="searchStore.filter" label="Filter CURRENT PAGE only" />
@@ -12,8 +15,11 @@
         <q-menu style="white-space: nowrap" anchor="bottom right" self="top end">
           <q-list dense class="q-pb-sm">
             <q-item style="padding-left: 6px">
-              <q-checkbox v-model="searchStore.stickyTableHeader" size="32px"
-                          :label="t('indices.indices_table.sticky_table_header.label')" />
+              <q-checkbox
+                v-model="searchStore.stickyTableHeader"
+                size="32px"
+                :label="t('indices.indices_table.sticky_table_header.label')"
+              />
             </q-item>
 
             <q-separator />
@@ -23,17 +29,20 @@
                 <div class="flex justify-between items-center" style="flex-grow: 1">
                   {{ t('search.results_table.settings.columns') }}
 
-                  <q-btn :label="t('shared.table_settings.clear')" flat size="sm" class="q-px-xs"
-                         @click="clearColumns" />
-                  <q-btn :label="t('shared.table_settings.reset')" flat size="sm" class="q-px-xs"
-                         @click="resetColumns" />
+                  <q-btn :label="t('shared.table_settings.clear')" flat size="sm" class="q-px-xs" @click="clearColumns" />
+                  <q-btn :label="t('shared.table_settings.reset')" flat size="sm" class="q-px-xs" @click="resetColumns" />
                 </div>
               </q-item-label>
             </q-item>
 
             <q-item v-for="col in slicedTableColumns" :key="col.name" style="padding-left: 8px" dense>
-              <q-checkbox v-model="searchStore.visibleColumns" :val="col.name" :label="col.label" size="32px"
-                          style="flex-grow: 1" />
+              <q-checkbox
+                v-model="searchStore.visibleColumns"
+                :val="col.name"
+                :label="col.label"
+                size="32px"
+                style="flex-grow: 1"
+              />
             </q-item>
           </q-list>
         </q-menu>
@@ -41,25 +50,26 @@
     </div>
   </div>
 
-  <div :class="{'table--sticky-header': searchStore.stickyTableHeader}">
+  <div :class="{ 'table--sticky-header': searchStore.stickyTableHeader }">
     <resizable-container v-model="resizeStore.searchTable" :active="searchStore.stickyTableHeader">
-      <q-table v-if="hits.length > 0"
-               v-model:pagination="searchStore.pagination"
-               class="table-mono table-hide-overflow"
-               flat
-               dense
-               :virtual-scroll="searchStore.stickyTableHeader"
-               :virtual-scroll-item-size="14"
-               :columns="tableColumns"
-               :rows="filteredHits"
-               :visible-columns="searchStore.visibleColumns"
-               selection="multiple"
-               @request="onRequest">
-        <template #body="{row, cols}">
+      <q-table
+        v-if="hits.length > 0"
+        v-model:pagination="searchStore.pagination"
+        class="table-mono table-hide-overflow"
+        flat
+        dense
+        :virtual-scroll="searchStore.stickyTableHeader"
+        :virtual-scroll-item-size="14"
+        :columns="tableColumns"
+        :rows="filteredHits"
+        :visible-columns="searchStore.visibleColumns"
+        selection="multiple"
+        @request="onRequest"
+      >
+        <template #body="{ row, cols }">
           <search-result :columns="cols" :doc="row" @reload="reload">
             <template #checkbox>
-              <q-checkbox v-model="selectedItems" :val="genDocStr(row)" size="32px"
-                          @update:model-value="setIndeterminate" />
+              <q-checkbox v-model="selectedItems" :val="genDocStr(row)" size="32px" @update:model-value="setIndeterminate" />
             </template>
           </search-result>
         </template>
@@ -69,11 +79,13 @@
         </template>
 
         <template #bottom="scope">
-          <table-bottom v-model="searchStore.pagination.rowsPerPage"
-                        :scope="scope"
-                        :total="hits.length"
-                        :rows-per-page="rowsPerPage"
-                        @rows-per-page-accepted="acceptRowsPerPage" />
+          <table-bottom
+            v-model="searchStore.pagination.rowsPerPage"
+            :scope="scope"
+            :total="hits.length"
+            :rows-per-page="rowsPerPage"
+            @rows-per-page-accepted="acceptRowsPerPage"
+          />
         </template>
       </q-table>
       <div v-else class="q-ma-md text-center">No Documents found</div>
@@ -82,62 +94,63 @@
 
   <div class="flex justify-between">
     <div class="q-pa-md">
-      <search-results-bulk v-if="hits.length > 0"
-                           :selected="selectedItems"
-                           :total-items-count="hits.length"
-                           :filtered-items-count="hits.length"
-                           @reload="reload" />
+      <search-results-bulk
+        v-if="hits.length > 0"
+        :selected="selectedItems"
+        :total-items-count="hits.length"
+        :filtered-items-count="hits.length"
+        @reload="reload"
+      />
     </div>
 
-    <div class="q-pa-md ">
-      <download-button color="dark-grey"
-                       :disable="hits.length === 0"
-                       size="12px"
-                       download="search.json"
-                       :label="t('search.results_table.download_as_json')"
-                       :generate-download-data="generateDownloadData" />
+    <div class="q-pa-md">
+      <download-button
+        color="dark-grey"
+        :disable="hits.length === 0"
+        size="12px"
+        download="search.json"
+        :label="t('search.results_table.download_as_json')"
+        :generate-download-data="generateDownloadData"
+      />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-  import FilterInput from '../shared/FilterInput.vue'
-  import ResizableContainer from '../shared/ResizableContainer.vue'
-  import SearchResult from './SearchResult.vue'
-  import DownloadButton from '../shared/DownloadButton.vue'
-  import { useTranslation } from '../../composables/i18n.ts'
-  import SearchResultsBulk from './SearchResultsBulk.vue'
-  import {
-    SearchResultsTableProps,
-    useSearchResultsTable
-  } from '../../composables/components/search/SearchResultsTable.ts'
-  import TableBottom from '../shared/TableBottom.vue'
-  import FilterState from '../shared/FilterState.vue'
+import FilterInput from '../shared/FilterInput.vue'
+import ResizableContainer from '../shared/ResizableContainer.vue'
+import SearchResult from './SearchResult.vue'
+import DownloadButton from '../shared/DownloadButton.vue'
+import { useTranslation } from '../../composables/i18n.ts'
+import SearchResultsBulk from './SearchResultsBulk.vue'
+import { SearchResultsTableProps, useSearchResultsTable } from '../../composables/components/search/SearchResultsTable.ts'
+import TableBottom from '../shared/TableBottom.vue'
+import FilterState from '../shared/FilterState.vue'
 
-  const props = defineProps<SearchResultsTableProps>()
-  const emit = defineEmits(['request', 'reload'])
+const props = defineProps<SearchResultsTableProps>()
+const emit = defineEmits(['request', 'reload'])
 
-  const t = useTranslation()
+const t = useTranslation()
 
-  const {
-    filterStateProps,
-    acceptRowsPerPage,
-    tableColumns,
-    searchStore,
-    clearColumns,
-    resetColumns,
-    slicedTableColumns,
-    resizeStore,
-    hits,
-    filteredHits,
-    rowsPerPage,
-    onRequest,
-    reload,
-    selectedItems,
-    genDocStr,
-    setIndeterminate,
-    allItemsSelected,
-    checkAll,
-    generateDownloadData
-  } = useSearchResultsTable(props, emit)
+const {
+  filterStateProps,
+  acceptRowsPerPage,
+  tableColumns,
+  searchStore,
+  clearColumns,
+  resetColumns,
+  slicedTableColumns,
+  resizeStore,
+  hits,
+  filteredHits,
+  rowsPerPage,
+  onRequest,
+  reload,
+  selectedItems,
+  genDocStr,
+  setIndeterminate,
+  allItemsSelected,
+  checkAll,
+  generateDownloadData
+} = useSearchResultsTable(props, emit)
 </script>

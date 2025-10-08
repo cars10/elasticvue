@@ -26,33 +26,33 @@
 </template>
 
 <script setup lang="ts">
-  import { useTranslation } from '../../composables/i18n.ts'
-  import { buildConfig } from '../../buildConfig.ts'
-  import { computed, UnwrapRef } from 'vue'
-  import { uriWithCredentials } from '../../helpers/elasticsearchAdapter.ts'
-  import { AuthType, ElasticsearchClusterConnection } from '../../store/connection.ts'
+import { useTranslation } from '../../composables/i18n.ts'
+import { buildConfig } from '../../buildConfig.ts'
+import { computed, UnwrapRef } from 'vue'
+import { uriWithCredentials } from '../../helpers/elasticsearchAdapter.ts'
+import { AuthType, ElasticsearchClusterConnection } from '../../store/connection.ts'
 
-  const props = defineProps<{
-    cluster: ElasticsearchClusterConnection | UnwrapRef<ElasticsearchClusterConnection>,
-    errorMessage?: string
-  }>()
-  const t = useTranslation()
+const props = defineProps<{
+  cluster: ElasticsearchClusterConnection | UnwrapRef<ElasticsearchClusterConnection>
+  errorMessage?: string
+}>()
+const t = useTranslation()
 
-  type AuthData = { username: undefined | string, password: undefined | string }
+type AuthData = { username: undefined | string; password: undefined | string }
 
-  const credentialsUri = computed(() => {
-    const authData: AuthData = {
-      username: undefined,
-      password: undefined
-    }
+const credentialsUri = computed(() => {
+  const authData: AuthData = {
+    username: undefined,
+    password: undefined
+  }
 
-    if (props.cluster.auth.authType === AuthType.basicAuth) {
-      authData.username = props.cluster.auth.authData.username
-      authData.password = props.cluster.auth.authData.password
-    }
+  if (props.cluster.auth.authType === AuthType.basicAuth) {
+    authData.username = props.cluster.auth.authData.username
+    authData.password = props.cluster.auth.authData.password
+  }
 
-    return uriWithCredentials({ uri: props.cluster.uri, ...authData })
-  })
+  return uriWithCredentials({ uri: props.cluster.uri, ...authData })
+})
 
-  const ssl = computed(() => (/^https/.test(props.cluster.uri)))
+const ssl = computed(() => /^https/.test(props.cluster.uri))
 </script>

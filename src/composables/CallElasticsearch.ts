@@ -8,10 +8,10 @@ import { parseJson } from '../helpers/json/parse.ts'
 let elasticsearchAdapter: ElasticsearchAdapter
 
 export interface RequestState {
-  loading: boolean,
-  networkError: boolean,
-  apiError: boolean,
-  apiErrorMessage: string,
+  loading: boolean
+  networkError: boolean
+  apiError: boolean
+  apiErrorMessage: string
   status: number
 }
 
@@ -133,7 +133,7 @@ export function useElasticsearchRequest<T>(method: ElasticsearchMethod, params?:
 
   const load = () => {
     return callElasticsearch(method, params)
-      .then(body => (data.value = body))
+      .then((body) => (data.value = body))
       .catch(() => (data.value = null))
   }
 
@@ -159,16 +159,17 @@ export function useElasticsearchRequest<T>(method: ElasticsearchMethod, params?:
       })
     }
  */
-export const defineElasticsearchRequest = ({ emit, method }: {
-  emit?: (event: string) => void,
-  method: ElasticsearchMethod
-}) => {
+export const defineElasticsearchRequest = ({ emit, method }: { emit?: (event: string) => void; method: ElasticsearchMethod }) => {
   const { requestState, loading, callElasticsearch } = useElasticsearchAdapter()
   const { showSnackbar } = useSnackbar()
 
-  const run = async ({ confirmMsg, snackbarOptions, params = undefined }: {
-    confirmMsg?: string,
-    snackbarOptions?: SnackbarOptions | SnackbarOptionsFunction,
+  const run = async ({
+    confirmMsg,
+    snackbarOptions,
+    params = undefined
+  }: {
+    confirmMsg?: string
+    snackbarOptions?: SnackbarOptions | SnackbarOptionsFunction
     params?: object
   }) => {
     if (confirmMsg) {

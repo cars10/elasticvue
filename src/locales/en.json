@@ -700,8 +700,7 @@
         },
         "schedule": {
           "label": "Schedule*",
-          "hint": "Cron expression (e.g., '0 30 1 * * ?' for daily at 1:30 AM)",
-          "required": "Schedule is required"
+          "hint": "Cron expression (e.g., '0 30 1 * * ?' for daily at 1:30 AM)"
         },
         "repository": {
         },
@@ -738,7 +737,6 @@
           "id": "ID",
           "name": "Name",
           "schedule": "Schedule",
-          "repository": "Repository",
           "retention": "Retention"
         }
       },
@@ -753,7 +751,6 @@
     },
     "edit_policy": {
       "update_policy": {
-        "growl": "The snapshot policy '{name}' was successfully updated."
       }
     }
   },

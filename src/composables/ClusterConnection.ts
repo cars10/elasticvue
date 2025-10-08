@@ -2,11 +2,7 @@ import { Ref, ref, UnwrapRef, useTemplateRef } from 'vue'
 import ElasticsearchAdapter from '../services/ElasticsearchAdapter'
 import { useTranslation } from './i18n'
 import { useSnackbar } from './Snackbar'
-import {
-  BuildFlavor,
-  ElasticsearchClusterConnection,
-  useConnectionStore
-} from '../store/connection'
+import { BuildFlavor, ElasticsearchClusterConnection, useConnectionStore } from '../store/connection'
 import { DISTRIBUTIONS } from '../consts.ts'
 import { QForm } from 'quasar'
 
@@ -26,7 +22,10 @@ const resetState = (state: Ref<TestConnectState>) => {
   }
 }
 
-export const useClusterConnection = (formCluster: Ref<UnwrapRef<ElasticsearchClusterConnection>>, connectCallback?: (idx: number) => void) => {
+export const useClusterConnection = (
+  formCluster: Ref<UnwrapRef<ElasticsearchClusterConnection>>,
+  connectCallback?: (idx: number) => void
+) => {
   const t = useTranslation()
   const connectionStore = useConnectionStore()
   const { showSuccessSnackbar } = useSnackbar()
@@ -42,7 +41,7 @@ export const useClusterConnection = (formCluster: Ref<UnwrapRef<ElasticsearchClu
   }
 
   const testConnection = async () => {
-    if (!await formValid()) return
+    if (!(await formValid())) return
 
     resetState(testState)
     resetState(connectState)
@@ -125,15 +124,14 @@ export const useClusterConnection = (formCluster: Ref<UnwrapRef<ElasticsearchClu
   }
 
   const connectAndRedirect = async () => {
-    if (!await formValid()) return
+    if (!(await formValid())) return
 
     try {
       const idx = await connect()
       if (!idx) return
 
       connectCallback?.(idx)
-    } catch (_e) {
-    }
+    } catch (_e) {}
   }
 
   return {

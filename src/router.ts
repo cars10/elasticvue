@@ -22,7 +22,7 @@ const routes = [
       const connectionStore = useConnectionStore()
       const cluster = connectionStore.checkAndSetActiveCluster()
 
-      if (cluster) return ({ name: 'home', params: { clusterIndex: connectionStore.activeClusterIndex } })
+      if (cluster) return { name: 'home', params: { clusterIndex: connectionStore.activeClusterIndex } }
       return { name: 'welcome' }
     }
   },
@@ -40,7 +40,7 @@ const routes = [
       { path: 'search', name: 'search', component: SearchDocuments },
       { path: 'rest', name: 'rest', component: RestQuery },
       { path: 'snapshot_repositories', name: 'snapshot_repositories', component: SnapshotRepositories },
-      { path: 'snapshot_repositories/:repositoryName', name: 'snapshots', component: RepositorySnapshots },
+      { path: 'snapshot_repositories/:repositoryName', name: 'snapshots', component: RepositorySnapshots }
     ],
     beforeEnter: (to: RouteLocation, _from: RouteLocation, next: any) => {
       const connectionStore = useConnectionStore()
@@ -72,10 +72,13 @@ const routes = [
   }
 ]
 
-const history = buildConfig.router.mode === 'webHashHistory' ? createWebHashHistory(buildConfig.router.base) : createWebHistory(buildConfig.router.base)
+const history =
+  buildConfig.router.mode === 'webHashHistory'
+    ? createWebHashHistory(buildConfig.router.base)
+    : createWebHistory(buildConfig.router.base)
 const router = createRouter({
   history,
-  routes,
+  routes
 })
 
 router.afterEach((to) => {

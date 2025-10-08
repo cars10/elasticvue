@@ -14,39 +14,47 @@
 
       <q-form @submit="createIndex">
         <q-card-section>
-          <custom-input v-model="index.name"
-                        :label="t('indices.new_index.form.index_name.label')"
-                        class="q-mb-md"
-                        lazy-rules
-                        autocomplete="off"
-                        autofocus
-                        outlined
-                        required />
+          <custom-input
+            v-model="index.name"
+            :label="t('indices.new_index.form.index_name.label')"
+            class="q-mb-md"
+            lazy-rules
+            autocomplete="off"
+            autofocus
+            outlined
+            required
+          />
 
-          <custom-input v-model="index.shards"
-                        :label="t('indices.new_index.form.shards.label')"
-                        class="q-mb-md"
-                        lazy-rules
-                        outlined
-                        autocomplete="off"
-                        type="number" />
+          <custom-input
+            v-model="index.shards"
+            :label="t('indices.new_index.form.shards.label')"
+            class="q-mb-md"
+            lazy-rules
+            outlined
+            autocomplete="off"
+            type="number"
+          />
 
-          <custom-input v-model="index.replicas"
-                        :label="t('indices.new_index.form.replicas.label')"
-                        lazy-rules
-                        outlined
-                        autocomplete="off"
-                        type="number" />
+          <custom-input
+            v-model="index.replicas"
+            :label="t('indices.new_index.form.replicas.label')"
+            lazy-rules
+            outlined
+            autocomplete="off"
+            type="number"
+          />
         </q-card-section>
 
         <q-card-section>
-          <q-btn id="create_index"
-                 :disable="loading || !formValid"
-                 :loading="loading"
-                 :label="t('defaults.create')"
-                 color="positive"
-                 type="submit"
-                 class="q-mr-md" />
+          <q-btn
+            id="create_index"
+            :disable="loading || !formValid"
+            :loading="loading"
+            :label="t('defaults.create')"
+            color="positive"
+            type="submit"
+            class="q-mr-md"
+          />
           <q-btn v-close-popup flat :label="t('defaults.close')" />
         </q-card-section>
       </q-form>
@@ -55,12 +63,12 @@
 </template>
 
 <script setup lang="ts">
-  import { useTranslation } from '../../composables/i18n'
-  import { useNewIndex } from '../../composables/components/indices/NewIndex'
-  import CustomInput from '../shared/CustomInput.vue'
+import { useTranslation } from '../../composables/i18n'
+import { useNewIndex } from '../../composables/components/indices/NewIndex'
+import CustomInput from '../shared/CustomInput.vue'
 
-  const t = useTranslation()
-  const emit = defineEmits(['reload'])
+const t = useTranslation()
+const emit = defineEmits(['reload'])
 
-  const { dialog, index, formValid, loading, createIndex, resetForm } = useNewIndex(emit)
+const { dialog, index, formValid, loading, createIndex, resetForm } = useNewIndex(emit)
 </script>

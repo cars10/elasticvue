@@ -6,13 +6,13 @@ import { stringifyJson } from '../../../helpers/json/stringify.ts'
 import { truncateString } from '../../../helpers/truncate.ts'
 import { DEFAULT_DOCUMENT_FIELD_MAX_LENGTH } from '../../../consts.ts'
 
-export type SearchResultProps = { columns: any[], doc: Record<string, any> }
+export type SearchResultProps = { columns: any[]; doc: Record<string, any> }
 
 export const useSearchResult = (props: SearchResultProps, emit: any) => {
   const t = useTranslation()
 
   const searchStore = useSearchStore()
-  const resultColumns = computed(() => (props.columns.slice(0, -1)))
+  const resultColumns = computed(() => props.columns.slice(0, -1))
 
   const edit = ref(false)
   const docInfo = () => ({

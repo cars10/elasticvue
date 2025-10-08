@@ -109,10 +109,10 @@ export const useRestQueryForm = (props: RestQueryFormProps, emit: any) => {
     emit('reloadSavedQueries')
   }
 
-  watch(ownTab.value.request, value => {
+  watch(ownTab.value.request, (value) => {
     if (updateIdb) updateTab({ request: toRaw(value) })
   })
-  watch(ownTab.value.response, value => {
+  watch(ownTab.value.response, (value) => {
     if (updateIdb) updateTab({ response: toRaw(value) })
   })
   const updateTab = debounce((value: object) => {
@@ -120,30 +120,35 @@ export const useRestQueryForm = (props: RestQueryFormProps, emit: any) => {
     restQueryTabs.update(obj)
   }, 100)
 
-  watch(() => props.tab, newValue => {
-    updateIdb = false
-    ownTab.value.request.method = newValue.request.method
-    ownTab.value.request.path = newValue.request.path
-    ownTab.value.request.body = newValue.request.body
-    updateIdb = true
-  })
+  watch(
+    () => props.tab,
+    (newValue) => {
+      updateIdb = false
+      ownTab.value.request.method = newValue.request.method
+      ownTab.value.request.path = newValue.request.path
+      ownTab.value.request.body = newValue.request.body
+      updateIdb = true
+    }
+  )
 
   const editorCommands = [
     {
-      key: 'Ctrl-Enter', run: () => {
+      key: 'Ctrl-Enter',
+      run: () => {
         sendRequest()
         return true
-      },
+      }
     },
     {
-      key: 'Cmd-Enter', run: () => {
+      key: 'Cmd-Enter',
+      run: () => {
         sendRequest()
         return true
-      },
+      }
     }
   ]
 
-  const generateDownloadData = () => (ownTab.value.response.bodyText)
+  const generateDownloadData = () => ownTab.value.response.bodyText
   const downloadFileName = computed(() => {
     return `${ownTab.value.request.method.toLowerCase()}_${ownTab.value.request.path.replace(/[\W_]+/g, '_')}.json`
   })

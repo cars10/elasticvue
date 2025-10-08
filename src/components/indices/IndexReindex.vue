@@ -9,7 +9,7 @@
   </q-item>
 
   <q-dialog v-model="dialog" transition-duration="100">
-    <q-card style="width: 600px; max-width: 80vw;">
+    <q-card style="width: 600px; max-width: 80vw">
       <q-card-section class="flex justify-between">
         <div class="flex">
           <h2 class="text-h6 q-my-none flex">
@@ -25,20 +25,24 @@
         <q-card-section>
           <p>{{ t('indices.index_reindex.index', { index }) }}</p>
 
-          <custom-input v-model="dest"
-                        :label="t('indices.index_reindex.form.source.label')"
-                        autocomplete="off"
-                        autofocus
-                        outlined
-                        required />
+          <custom-input
+            v-model="dest"
+            :label="t('indices.index_reindex.form.source.label')"
+            autocomplete="off"
+            autofocus
+            outlined
+            required
+          />
         </q-card-section>
 
         <q-card-section>
-          <q-btn :disable="requestState.loading || dest.length === 0"
-                 color="positive"
-                 :loading="requestState.loading"
-                 :label="t('indices.index_reindex.form.reindex')"
-                 type="submit" />
+          <q-btn
+            :disable="requestState.loading || dest.length === 0"
+            color="positive"
+            :loading="requestState.loading"
+            :label="t('indices.index_reindex.form.reindex')"
+            type="submit"
+          />
         </q-card-section>
       </q-form>
     </q-card>
@@ -46,14 +50,14 @@
 </template>
 
 <script setup lang="ts">
-  import { useTranslation } from '../../composables/i18n'
-  import { IndexReindexProps, useIndexReindex } from '../../composables/components/indices/IndexReindex'
-  import CustomInput from '../shared/CustomInput.vue'
+import { useTranslation } from '../../composables/i18n'
+import { IndexReindexProps, useIndexReindex } from '../../composables/components/indices/IndexReindex'
+import CustomInput from '../shared/CustomInput.vue'
 
-  const t = useTranslation()
+const t = useTranslation()
 
-  const props = defineProps<IndexReindexProps>()
-  const emit = defineEmits(['reload'])
+const props = defineProps<IndexReindexProps>()
+const emit = defineEmits(['reload'])
 
-  const { dialog, requestState, reindex, dest } = useIndexReindex(props, emit)
+const { dialog, requestState, reindex, dest } = useIndexReindex(props, emit)
 </script>

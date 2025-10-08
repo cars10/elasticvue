@@ -29,60 +29,63 @@ export type ShardRecovery = {
   translog_ops_percent: string
 }
 
-export type IndexRecovery = Record<string, {
-  shards: Array<{
-    id: number
-    type: string
-    stage: string
-    primary: boolean
-    start_time_in_millis: number
-    stop_time_in_millis: number
-    total_time_in_millis: number
-    source: {
-      id: string
-      host: string
-      transport_address: string
-      ip: string
-      name: string
-    }
-    target: {
-      id: string
-      host: string
-      transport_address: string
-      ip: string
-      name: string
-    }
-    index: {
-      size: {
-        total_in_bytes: number
-        reused_in_bytes: number
-        recovered_in_bytes: number
-        recovered_from_snapshot_in_bytes: number
-        percent: string
+export type IndexRecovery = Record<
+  string,
+  {
+    shards: Array<{
+      id: number
+      type: string
+      stage: string
+      primary: boolean
+      start_time_in_millis: number
+      stop_time_in_millis: number
+      total_time_in_millis: number
+      source: {
+        id: string
+        host: string
+        transport_address: string
+        ip: string
+        name: string
       }
-      files: {
-        total: number
-        reused: number
+      target: {
+        id: string
+        host: string
+        transport_address: string
+        ip: string
+        name: string
+      }
+      index: {
+        size: {
+          total_in_bytes: number
+          reused_in_bytes: number
+          recovered_in_bytes: number
+          recovered_from_snapshot_in_bytes: number
+          percent: string
+        }
+        files: {
+          total: number
+          reused: number
+          recovered: number
+          percent: string
+        }
+        total_time_in_millis: number
+        source_throttle_time_in_millis: number
+        target_throttle_time_in_millis: number
+      }
+      translog: {
         recovered: number
+        total: number
         percent: string
+        total_on_start: number
+        total_time_in_millis: number
       }
-      total_time_in_millis: number
-      source_throttle_time_in_millis: number
-      target_throttle_time_in_millis: number
-    }
-    translog: {
-      recovered: number
-      total: number
-      percent: string
-      total_on_start: number
-      total_time_in_millis: number
-    }
-    verify_index: {
-      check_index_time_in_millis: number
-      total_time_in_millis: number
-    }
-  }>
-}>
+      verify_index: {
+        check_index_time_in_millis: number
+        total_time_in_millis: number
+      }
+    }>
+  }
+>
 
 export type ShardRecoveryTableProps = {
   shardRecoveries: IndexRecovery
@@ -99,13 +102,13 @@ export const useShardRecoveryTable = (props: ShardRecoveryTableProps) => {
 
     let items = results.value
     if (stage.value) {
-      items = items.filter(r => r.stage === stage.value)
+      items = items.filter((r) => r.stage === stage.value)
     }
 
     return filterItems(items, shardRecoveryStore.filter, ['index'])
   })
 
-  function transformRecoveryResponse (input: IndexRecovery): ShardRecovery[] {
+  function transformRecoveryResponse(input: IndexRecovery): ShardRecovery[] {
     const results: ShardRecovery[] = []
 
     for (const [index, data] of Object.entries(input)) {
@@ -150,7 +153,7 @@ export const useShardRecoveryTable = (props: ShardRecoveryTableProps) => {
     { label: t('shard_recovery_table.columns.duration'), field: 'time' },
     { label: t('shard_recovery_table.columns.files') },
     { label: t('shard_recovery_table.columns.bytes') },
-    { label: t('shard_recovery_table.columns.translog_ops') },
+    { label: t('shard_recovery_table.columns.translog_ops') }
   ])
 
   return {
