@@ -11,8 +11,7 @@
         "shards": "分片",
         "search": "搜索",
         "rest": "REST",
-        "snapshots": "快照",
-        "snapshot_policies": "Snapshot Policies"
+        "snapshots": "快照"
       }
     },
     "language_switcher": {
@@ -49,7 +48,6 @@
     "cancel": "取消",
     "close": "关闭",
     "create": "创建",
-    "update": "更新",
     "delete": "删除",
     "success": "成功",
     "bulk": "批量操作",
@@ -390,6 +388,12 @@
         "confirm": "删除储存 '{name}' 和里面的所有快照吗？",
         "growl": "存储 '{name}' 已成功删除。"
       }
+    },
+    "repository_policies": {
+      "text": "策略",
+      "heading": "管理快照策略",
+      "repository": "存储库：{repository}",
+      "new_policy": "新策略"
     }
   },
   "search": {
@@ -683,17 +687,16 @@
     }
   },
   "snapshot_policies": {
-    "heading": "快照策略",
-    "unsupported_version": "此 Elasticsearch 版本不支持快照生命周期管理。SLM 从 7.4.0 版本开始可用。",
     "new_policy": {
-      "heading": "新建快照策略",
       "create_policy": {
         "growl": "快照策略 '{name}' 创建成功。"
       },
       "form": {
+        "id": {
+          "label": "策略ID*"
+        },
         "name": {
-          "label": "策略名称*",
-          "required": "策略名称是必需的"
+          "label": "策略名称*"
         },
         "schedule": {
           "label": "计划*",
@@ -701,8 +704,6 @@
           "required": "计划是必需的"
         },
         "repository": {
-          "label": "仓库*",
-          "required": "仓库是必需的"
         },
         "indices": {
           "label": "索引",
@@ -751,7 +752,6 @@
       }
     },
     "edit_policy": {
-      "heading": "编辑快照策略 '{name}'",
       "update_policy": {
         "growl": "快照策略 '{name}' 更新成功。"
       }

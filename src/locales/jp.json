@@ -11,8 +11,7 @@
         "shards": "シャード",
         "search": "検索",
         "rest": "REST",
-        "snapshots": "スナップショット",
-        "snapshot_policies": "Snapshot Policies"
+        "snapshots": "スナップショット"
       }
     },
     "language_switcher": {
@@ -49,7 +48,6 @@
     "cancel": "キャンセル",
     "close": "閉じる",
     "create": "作成",
-    "update": "更新",
     "delete": "削除",
     "success": "成功",
     "bulk": "一括操作",
@@ -390,6 +388,12 @@
         "confirm": "リポジトリ '{name}' とその中のすべてのスナップショットを削除しますか？",
         "growl": "リポジトリ '{name}' は正常に削除されました。"
       }
+    },
+    "repository_policies": {
+      "text": "ポリシー",
+      "heading": "スナップショットポリシーの管理",
+      "repository": "リポジトリ: {repository}",
+      "new_policy": "新しいポリシー"
     }
   },
   "search": {
@@ -683,17 +687,16 @@
     }
   },
   "snapshot_policies": {
-    "heading": "スナップショットポリシー",
-    "unsupported_version": "この Elasticsearch バージョンではスナップショットライフサイクル管理はサポートされていません。SLM はバージョン 7.4.0 以降で利用可能です。",
     "new_policy": {
-      "heading": "新しいスナップショットポリシー",
       "create_policy": {
         "growl": "スナップショットポリシー '{name}' が正常に作成されました。"
       },
       "form": {
+        "id": {
+          "label": "ポリシーID*"
+        },
         "name": {
-          "label": "ポリシー名*",
-          "required": "ポリシー名は必須です"
+          "label": "ポリシー名*"
         },
         "schedule": {
           "label": "スケジュール*",
@@ -701,8 +704,6 @@
           "required": "スケジュールは必須です"
         },
         "repository": {
-          "label": "リポジトリ*",
-          "required": "リポジトリは必須です"
         },
         "indices": {
           "label": "インデックス",
@@ -751,7 +752,6 @@
       }
     },
     "edit_policy": {
-      "heading": "スナップショットポリシー '{name}' を編集",
       "update_policy": {
         "growl": "スナップショットポリシー '{name}' が正常に更新されました。"
       }

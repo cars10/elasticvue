@@ -11,8 +11,7 @@
         "shards": "Frammenti",
         "search": "Ricerca",
         "rest": "REST",
-        "snapshots": "Snapshots",
-        "snapshot_policies": "Snapshot Policies"
+        "snapshots": "Snapshots"
       }
     },
     "language_switcher": {
@@ -49,7 +48,6 @@
     "cancel": "Annulla",
     "close": "Chiudi",
     "create": "Crea",
-    "update": "Aggiorna",
     "delete": "Elimina",
     "success": "Successo",
     "bulk": "Azione di massa",
@@ -390,6 +388,12 @@
         "confirm": "Eliminare il repository '{name}' e tutte le istantanee al suo interno?",
         "growl": "Il repository '{name}' è stato eliminato con successo."
       }
+    },
+    "repository_policies": {
+      "text": "Politiche",
+      "heading": "Gestisci Politiche Snapshot",
+      "repository": "Repository: {repository}",
+      "new_policy": "Nuova Politica"
     }
   },
   "search": {
@@ -683,17 +687,16 @@
     }
   },
   "snapshot_policies": {
-    "heading": "Politiche di Snapshot",
-    "unsupported_version": "La gestione del ciclo di vita degli snapshot non è supportata in questa versione di Elasticsearch. SLM è disponibile dalla versione 7.4.0.",
     "new_policy": {
-      "heading": "Nuova Politica di Snapshot",
       "create_policy": {
         "growl": "La politica di snapshot '{name}' è stata creata con successo."
       },
       "form": {
+        "id": {
+          "label": "ID della politica*"
+        },
         "name": {
-          "label": "Nome della politica*",
-          "required": "Il nome della politica è richiesto"
+          "label": "Nome della politica*"
         },
         "schedule": {
           "label": "Programmazione*",
@@ -701,8 +704,6 @@
           "required": "La programmazione è richiesta"
         },
         "repository": {
-          "label": "Repository*",
-          "required": "Il repository è richiesto"
         },
         "indices": {
           "label": "Indici",
@@ -751,7 +752,6 @@
       }
     },
     "edit_policy": {
-      "heading": "Modifica Politica di Snapshot '{name}'",
       "update_policy": {
         "growl": "La politica di snapshot '{name}' è stata aggiornata con successo."
       }

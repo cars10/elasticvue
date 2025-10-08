@@ -11,8 +11,7 @@
         "shards": "Шарды",
         "search": "Поиск",
         "rest": "REST",
-        "snapshots": "Снимки",
-        "snapshot_policies": "Snapshot Policies"
+        "snapshots": "Снимки"
       }
     },
     "language_switcher": {
@@ -49,7 +48,6 @@
     "cancel": "Отмена",
     "close": "Закрыть",
     "create": "Создать",
-    "update": "Обновить",
     "delete": "Удалить",
     "success": "Успех",
     "bulk": "Массовое действие",
@@ -390,6 +388,12 @@
         "confirm": "Удалить репозиторий '{name}' и все снимки внутри?",
         "growl": "Репозиторий '{name}' успешно удален."
       }
+    },
+    "repository_policies": {
+      "text": "Политики",
+      "heading": "Управление Политиками Снимков",
+      "repository": "Репозиторий: {repository}",
+      "new_policy": "Новая Политика"
     }
   },
   "search": {
@@ -683,17 +687,16 @@
     }
   },
   "snapshot_policies": {
-    "heading": "Политики Снапшотов",
-    "unsupported_version": "Управление жизненным циклом снапшотов не поддерживается в этой версии Elasticsearch. SLM доступен начиная с версии 7.4.0.",
     "new_policy": {
-      "heading": "Новая Политика Снапшота",
       "create_policy": {
         "growl": "Политика снапшота '{name}' успешно создана."
       },
       "form": {
+        "id": {
+          "label": "ID политики*"
+        },
         "name": {
-          "label": "Название политики*",
-          "required": "Название политики обязательно"
+          "label": "Название политики*"
         },
         "schedule": {
           "label": "Расписание*",
@@ -701,8 +704,6 @@
           "required": "Расписание обязательно"
         },
         "repository": {
-          "label": "Репозиторий*",
-          "required": "Репозиторий обязателен"
         },
         "indices": {
           "label": "Индексы",
@@ -751,7 +752,6 @@
       }
     },
     "edit_policy": {
-      "heading": "Редактировать Политику Снапшота '{name}'",
       "update_policy": {
         "growl": "Политика снапшота '{name}' успешно обновлена."
       }

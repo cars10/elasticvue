@@ -11,8 +11,7 @@
         "shards": "Shards",
         "search": "Search",
         "rest": "REST",
-        "snapshots": "Snapshots",
-        "snapshot_policies": "Snapshot Policies"
+        "snapshots": "Snapshots"
       }
     },
     "language_switcher": {
@@ -49,7 +48,6 @@
     "cancel": "Cancel",
     "close": "Close",
     "create": "Create",
-    "update": "Update",
     "delete": "Delete",
     "success": "Success",
     "bulk": "Bulk Action",
@@ -390,6 +388,12 @@
         "confirm": "Delete repository '{name}' and all snapshots inside?",
         "growl": "The repository '{name}' was successfully deleted."
       }
+    },
+    "repository_policies": {
+      "text": "Policies",
+      "heading": "Manage Snapshot Policies",
+      "repository": "Repository: {repository}",
+      "new_policy": "New Policy"
     }
   },
   "search": {
@@ -683,17 +687,16 @@
     }
   },
   "snapshot_policies": {
-    "heading": "Snapshot Policies",
-    "unsupported_version": "Snapshot Lifecycle Management is not supported in this Elasticsearch version. SLM is available from version 7.4.0 onwards.",
     "new_policy": {
-      "heading": "New Snapshot Policy",
       "create_policy": {
         "growl": "The snapshot policy '{name}' was successfully created."
       },
       "form": {
+        "id": {
+          "label": "Policy ID*"
+        },
         "name": {
-          "label": "Policy name*",
-          "required": "Policy name is required"
+          "label": "Policy name*"
         },
         "schedule": {
           "label": "Schedule*",
@@ -701,8 +704,6 @@
           "required": "Schedule is required"
         },
         "repository": {
-          "label": "Repository*",
-          "required": "Repository is required"
         },
         "indices": {
           "label": "Indices",
@@ -751,7 +752,6 @@
       }
     },
     "edit_policy": {
-      "heading": "Edit Snapshot Policy '{name}'",
       "update_policy": {
         "growl": "The snapshot policy '{name}' was successfully updated."
       }

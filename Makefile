@@ -6,6 +6,9 @@ UID := $(shell id -u)
 dev:
 	docker compose -f compose.yml up --build
 
+lint:
+	docker compose -f compose.yml run --rm elasticvue npm run lint -- --fix
+
 build_docker_ci:
 	docker build --platform linux/amd64 -f docker/Dockerfile_ci -t elasticvue-ci .
 
