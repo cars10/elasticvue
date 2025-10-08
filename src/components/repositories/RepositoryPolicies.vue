@@ -15,10 +15,9 @@
       <q-separator />
 
       <q-card-section>
-        <p>{{ t('repositories.repository_policies.repository', { repository }) }}</p>
-
-        <div class="flex justify-between q-mb-md">
+        <div class="flex items-center q-mb-md">
           <new-repository-snapshot-policy :repository="repository" @reload="loadPolicies" />
+          <span class="q-ml-md">{{ t('repositories.repository_policies.repository', { repository }) }}</span>
         </div>
       </q-card-section>
 
@@ -74,8 +73,8 @@ const retentionFormat = (retention: SnapshotPolicyRetention | undefined) => {
   if (!retention) return ''
   return [
     retention?.expire_after,
-    retention?.max_count ? `max ${retention?.max_count}` : '',
-    retention?.min_count ? `min ${retention?.min_count}` : ''
+    retention?.max_count ? `max ${retention?.max_count}` : null,
+    retention?.min_count ? `min ${retention?.min_count}` : null
   ]
     .filter(Boolean)
     .join(', ')
