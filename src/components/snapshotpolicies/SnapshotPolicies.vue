@@ -8,37 +8,23 @@
         <q-separator />
 
         <loader-status :request-state="requestState" hide-progress>
-            <div v-if="!isSlmSupported" class="q-pa-md">
-                <q-banner class="bg-warning text-white">
-                    <template #avatar>
-                        <q-icon name="warning" />
-                    </template>
-                    {{ t('snapshot_policies.unsupported_version') }}
-                </q-banner>
-            </div>
-            <snapshot-policies-table v-else :policies="data || {}" @reload="load" />
+            <snapshot-policies-table :policies="data || {}" @reload="load" />
         </loader-status>
     </q-card>
 </template>
 
 <script setup lang="ts">
-  import ReloadButton from '../shared/ReloadButton.vue'
-  import LoaderStatus from '../shared/LoaderStatus.vue'
-  import { onMounted } from 'vue'
-  import { useElasticsearchRequest } from '../../composables/CallElasticsearch'
-  import SnapshotPoliciesTable from './SnapshotPoliciesTable.vue'
-  import { useTranslation } from '../../composables/i18n.ts'
-  import { useSlmSupport } from '../../helpers/slmSupport'
-  import type { EsSnapshotPolicy } from '../../composables/components/snapshotpolicies/SnapshotPoliciesTable'
+import ReloadButton from '../shared/ReloadButton.vue'
+import LoaderStatus from '../shared/LoaderStatus.vue'
+import { onMounted } from 'vue'
+import { useElasticsearchRequest } from '../../composables/CallElasticsearch'
+import SnapshotPoliciesTable from './SnapshotPoliciesTable.vue'
+import { useTranslation } from '../../composables/i18n.ts'
+import type { EsSnapshotPolicy } from '../../composables/components/snapshotpolicies/SnapshotPoliciesTable'
 
-  const t = useTranslation()
-  const { isSlmSupported } = useSlmSupport()
+const t = useTranslation()
 
-  const { load, requestState, data } = useElasticsearchRequest<Record<string, EsSnapshotPolicy>>('slmGetPolicies')
+const { load, requestState, data } = useElasticsearchRequest<Record<string, EsSnapshotPolicy>>('catSlmPolicies')
 
-  onMounted(() => {
-    if (isSlmSupported.value) {
-      load()
-    }
-  })
+onMounted(load)
 </script>

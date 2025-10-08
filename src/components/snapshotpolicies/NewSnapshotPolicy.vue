@@ -14,11 +14,12 @@
 
             <q-form @submit="createPolicy">
                 <q-card-section>
+                    <custom-input v-model="policy.id" :label="t('snapshot_policies.new_policy.form.id.label')"
+                        class="q-mb-md" lazy-rules autocomplete="off" autofocus outlined required />
+
                     <custom-input v-model="policy.name" :label="t('snapshot_policies.new_policy.form.name.label')"
                         class="q-mb-md" lazy-rules autocomplete="off" autofocus outlined required />
-                    <div v-if="!policy.name" class="text-negative text-caption q-mt-xs">
-                        {{ t('snapshot_policies.new_policy.form.name.required') }}
-                    </div>
+
 
                     <custom-input v-model="policy.schedule"
                         :label="t('snapshot_policies.new_policy.form.schedule.label')"
@@ -101,8 +102,9 @@ const { data: repositoriesData, load } = useElasticsearchRequest<Record<string, 
 onMounted(() => {
     load()
 })
+
 const repositoryOptions = computed(() => {
     if (!repositoriesData.value) return []
-    return Object.keys(repositoriesData.value).map(name => ({ label: name, value: name }))
+    return Object.keys(repositoriesData.value).sort().map(name => name)
 })
 </script>

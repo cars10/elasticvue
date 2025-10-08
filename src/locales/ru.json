@@ -734,6 +734,7 @@
     "policies_table": {
       "table": {
         "headers": {
+          "id": "ID",
           "name": "Название",
           "schedule": "Расписание",
           "repository": "Репозиторий",

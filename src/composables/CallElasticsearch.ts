@@ -15,7 +15,7 @@ export interface RequestState {
   status: number
 }
 
-export function useElasticsearchAdapter () {
+export function useElasticsearchAdapter() {
   const connectionStore = useConnectionStore()
 
   const requestState: Ref<RequestState> = ref({
@@ -127,14 +127,14 @@ const elasticsearchError = (error: any) => {
  *   const { requestState, data, load } = useElasticsearchRequest('clusterInfo')
  *   onMounted(load)
  */
-export function useElasticsearchRequest<T> (method: ElasticsearchMethod, params?: object) {
+export function useElasticsearchRequest<T>(method: ElasticsearchMethod, params?: object) {
   const { requestState, loading, callElasticsearch } = useElasticsearchAdapter()
   const data: Ref<T | null> = ref(null)
 
   const load = () => {
     return callElasticsearch(method, params)
-        .then(body => (data.value = body))
-        .catch(() => (data.value = null))
+      .then(body => (data.value = body))
+      .catch(() => (data.value = null))
   }
 
   return {

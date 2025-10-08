@@ -1,13 +1,14 @@
 import { useTranslation } from '../../i18n'
 import { computed, ref } from 'vue'
 import { defineElasticsearchRequest, useElasticsearchAdapter } from '../../CallElasticsearch'
-import type { SnapshotPolicyForm, SnapshotPolicyRequestBody, EmitFunction, ElasticsearchResponse } from '../../../types/snapshotPolicies'
+import type { SnapshotPolicyForm, SnapshotPolicyRequestBody, ElasticsearchResponse } from '../../../types/snapshotPolicies'
 
-export const useEditSnapshotPolicy = (emit: EmitFunction) => {
+export const useEditSnapshotPolicy = (emit: any) => {
   const t = useTranslation()
 
   const dialog = ref(false)
   const policy = ref<SnapshotPolicyForm>({
+    id: '',
     name: '',
     schedule: '',
     repository: '',
@@ -26,6 +27,7 @@ export const useEditSnapshotPolicy = (emit: EmitFunction) => {
 
   const resetForm = () => {
     policy.value = {
+      id: '',
       name: '',
       schedule: '',
       repository: '',
@@ -49,13 +51,14 @@ export const useEditSnapshotPolicy = (emit: EmitFunction) => {
   })
   const { callElasticsearch } = useElasticsearchAdapter()
 
-  const loadPolicy = async (policyName: string) => {
+  const loadPolicy = async (policyId: string) => {
     try {
-      const data = await callElasticsearch('slmGetPolicy', { policy: policyName })
-      if (data && data[policyName]) {
-        const p = data[policyName].policy
+      const data = await callElasticsearch('slmGetPolicy', { policy: policyId })
+      if (data && data[policyId]) {
+        const p = data[policyId].policy
         policy.value = {
-          name: policyName,
+          id: policyId,
+          name: p.name,
           schedule: p.schedule,
           repository: p.repository,
           indices: p.config?.indices?.join(',') || '*',
@@ -75,6 +78,7 @@ export const useEditSnapshotPolicy = (emit: EmitFunction) => {
     if (!formValid.value) return
 
     const policyBody: SnapshotPolicyRequestBody = {
+      name: policy.value.name,
       schedule: policy.value.schedule,
       repository: policy.value.repository,
       config: {
@@ -84,7 +88,6 @@ export const useEditSnapshotPolicy = (emit: EmitFunction) => {
       }
     }
 
-    // Add retention if specified
     if (policy.value.retentionExpireAfter || policy.value.retentionMaxCount || policy.value.retentionMinCount) {
       policyBody.retention = {}
       if (policy.value.retentionExpireAfter) {

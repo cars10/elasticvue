@@ -1,13 +1,14 @@
 import { useTranslation } from '../../i18n'
 import { computed, ref } from 'vue'
 import { defineElasticsearchRequest } from '../../CallElasticsearch'
-import type { SnapshotPolicyForm, SnapshotPolicyRequestBody, EmitFunction, ElasticsearchResponse } from '../../../types/snapshotPolicies'
+import type { SnapshotPolicyForm, SnapshotPolicyRequestBody, ElasticsearchResponse } from '../../../types/snapshotPolicies'
 
-export const useNewSnapshotPolicy = (emit: EmitFunction) => {
+export const useNewSnapshotPolicy = (emit: any) => {
   const t = useTranslation()
 
   const dialog = ref(false)
   const policy = ref<SnapshotPolicyForm>({
+    id: '',
     name: '',
     schedule: '',
     repository: '',
@@ -20,13 +21,14 @@ export const useNewSnapshotPolicy = (emit: EmitFunction) => {
   })
 
   const formValid = computed(() => (
-    policy.value.name.length > 0 && 
-    policy.value.schedule.length > 0 && 
+    policy.value.name.length > 0 &&
+    policy.value.schedule.length > 0 &&
     policy.value.repository.length > 0
   ))
 
   const resetForm = () => {
     policy.value = {
+      id: '',
       name: '',
       schedule: '',
       repository: '',
@@ -44,15 +46,16 @@ export const useNewSnapshotPolicy = (emit: EmitFunction) => {
     dialog.value = false
   }
 
-  const { run, loading } = defineElasticsearchRequest({ 
-    emit: (event: string) => emit(event as 'reload'), 
-    method: 'slmPutPolicy' 
+  const { run, loading } = defineElasticsearchRequest({
+    emit: (event: string) => emit(event as 'reload'),
+    method: 'slmPutPolicy'
   })
-  
+
   const createPolicy = async () => {
     if (!formValid.value) return
 
     const policyBody: SnapshotPolicyRequestBody = {
+      name: policy.value.name,
       schedule: policy.value.schedule,
       repository: policy.value.repository,
       config: {
@@ -62,7 +65,6 @@ export const useNewSnapshotPolicy = (emit: EmitFunction) => {
       }
     }
 
-    // Add retention if specified
     if (policy.value.retentionExpireAfter || policy.value.retentionMaxCount || policy.value.retentionMinCount) {
       policyBody.retention = {}
       if (policy.value.retentionExpireAfter) {
@@ -78,7 +80,7 @@ export const useNewSnapshotPolicy = (emit: EmitFunction) => {
 
     const success = await run({
       params: {
-        policy: policy.value.name,
+        policy: policy.value.id,
         body: policyBody
       },
       snackbarOptions: (body: ElasticsearchResponse) => {
@@ -88,7 +90,7 @@ export const useNewSnapshotPolicy = (emit: EmitFunction) => {
         }
       }
     })
-    
+
     if (success) closeDialog()
   }
 

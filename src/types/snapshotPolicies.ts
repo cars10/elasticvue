@@ -24,6 +24,7 @@ export interface SnapshotPolicyResponse {
 }
 
 export interface SnapshotPolicyForm {
+  id: string
   name: string
   schedule: string
   repository: string
@@ -36,13 +37,12 @@ export interface SnapshotPolicyForm {
 }
 
 export interface SnapshotPolicyRequestBody {
+  name: string
   schedule: string
   repository: string
   config: SnapshotPolicyConfig
   retention?: SnapshotPolicyRetention
 }
-
-export type EmitFunction = (event: 'reload', ...args: unknown[]) => void
 
 export interface SnapshotRepository {
   type: string

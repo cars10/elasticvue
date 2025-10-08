@@ -4,7 +4,7 @@ import { filterItems } from '../../../helpers/filters'
 import { defineElasticsearchRequest } from '../../CallElasticsearch'
 import { genColumns } from '../../../helpers/tableColumns'
 import { setupFilterState } from '../shared/FilterState.ts'
-import type { SnapshotPolicy, EmitFunction } from '../../../types/snapshotPolicies'
+import type { SnapshotPolicy } from '../../../types/snapshotPolicies'
 
 export type EsSnapshotPolicy = {
   version: number
@@ -17,34 +17,32 @@ export type SnapshotPoliciesTableProps = {
   policies: Record<string, EsSnapshotPolicy>
 }
 
-export const useSnapshotPoliciesTable = (props: SnapshotPoliciesTableProps, emit: EmitFunction) => {
+export const useSnapshotPoliciesTable = (props: SnapshotPoliciesTableProps, emit: any) => {
   const t = useTranslation()
 
   const filter = ref('')
   const editingPolicyName = ref('')
 
-  const results = computed(() => Object.entries(props.policies))
-  const filteredResults = computed(() => {
-    if (results.value.length === 0) return []
-    const policies = results.value.map(([name, policy]) => ({
-      name,
+  const results = computed(() => (
+    Object.entries(props.policies).map(([id, policy]) => ({
+      id,
+      name: policy.policy.name,
       schedule: policy.policy.schedule,
       repository: policy.policy.repository,
-      retention: policy.policy.retention ? 
-        (policy.policy.retention.expire_after || `${policy.policy.retention.max_count || 'N/A'} snapshots`) : 
-        'No retention'
+      retention: policy.policy.retention ?
+        (policy.policy.retention.expire_after || `${policy.policy.retention.max_count || 'N/A'} snapshots`) :
+        'No retention',
+      ...policy
     }))
-    return filterItems(policies, filter.value, ['name'])
+  ))
+
+  const filteredResults = computed(() => {
+    if (results.value.length === 0) return []
+    return filterItems(results.value, filter.value, ['id', 'name', 'repository'])
   })
 
-  const { run: deleteRun } = defineElasticsearchRequest({ 
-    emit: (event: string) => emit(event as 'reload'), 
-    method: 'slmDeletePolicy' 
-  })
-  const { run: executeRun } = defineElasticsearchRequest({ 
-    emit: (event: string) => emit(event as 'reload'), 
-    method: 'slmExecutePolicy' 
-  })
+  const { run: deleteRun } = defineElasticsearchRequest({ emit, method: 'slmDeletePolicy' })
+  const { run: executeRun } = defineElasticsearchRequest({ emit, method: 'slmExecutePolicy' })
 
   const deletePolicy = (name: string) => {
     return deleteRun({
@@ -69,6 +67,7 @@ export const useSnapshotPoliciesTable = (props: SnapshotPoliciesTableProps, emit
   const filterStateProps = setupFilterState(results, filteredResults)
 
   const columns = genColumns([
+    { label: t('snapshot_policies.policies_table.table.headers.id'), field: 'id' },
     { label: t('snapshot_policies.policies_table.table.headers.name'), field: 'name' },
     { label: t('snapshot_policies.policies_table.table.headers.schedule'), field: 'schedule' },
     { label: t('snapshot_policies.policies_table.table.headers.repository'), field: 'repository' },
