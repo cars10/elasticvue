@@ -93,12 +93,6 @@ export const useSearchDocuments = () => {
         search()
         return true
       }
-    },
-    {
-      key: 'Cmd-Enter', run: () => {
-        search()
-        return true
-      }
     }
   ]
 

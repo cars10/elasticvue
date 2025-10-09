@@ -11,6 +11,7 @@ import { filterItems } from '../../../helpers/filters.ts'
 import { stringifyJson } from '../../../helpers/json/stringify.ts'
 import { setupFilterState } from '../shared/FilterState.ts'
 import { useConnectionStore } from '../../../store/connection.ts'
+import { DEFAULT_SEARCH_RESULT_COLUMNS } from '../../../consts.ts'
 
 export type SearchResultsTableProps = {
   results: EsSearchResult
@@ -55,29 +56,31 @@ export const useSearchResultsTable = (props: SearchResultsTableProps, emit: any)
     
 
     const results = new SearchResults(newValue?.hits?.hits)
-    const indices = await callElasticsearch('indexGet', { index: results.uniqueIndices })
+    const indices = await callElasticsearch('indexGet', { index: searchStore.indices })
     const allProperties: Record<string, any> = {}
 
     Object.keys(indices).forEach(index => {
       const mappings = indices[index].mappings
-
-      if (connectionStore.activeCluster?.majorVersion.split('.')[0] !== undefined
-       && +connectionStore.activeCluster?.majorVersion.split('.')[0] < 7)
-       {
-      //if (mappings.properties === undefined) {
-        // ES < 7
-        const indexProperties = {}
-        Object.keys(mappings).forEach(mapping => {
-          Object.assign(indexProperties, mappings[mapping].properties)
-        })
-        Object.assign(allProperties, indexProperties)
-      } else {
-        // ES >= 7
-        Object.assign(allProperties, mappings.properties)
+      if (mappings !==undefined) {
+        if (connectionStore.activeCluster?.majorVersion.split('.')[0] !== undefined
+        && +connectionStore.activeCluster?.majorVersion.split('.')[0] < 7)
+        {
+        //if (mappings.properties === undefined) {
+          // ES < 7
+          const indexProperties = {}
+          Object.keys(mappings).forEach(mapping => {
+            Object.assign(indexProperties, mappings[mapping].properties)
+          })
+          Object.assign(allProperties, indexProperties)
+        } else {
+          // ES >= 7
+          Object.assign(allProperties, mappings.properties)
+        }
       }
     })
-    
-    tableColumns.value = results.uniqueColumns.map(field => {
+    const temp = [...DEFAULT_SEARCH_RESULT_COLUMNS.slice(),...Object.keys(allProperties).map(f=> f)]
+
+    tableColumns.value = temp.map(field => {
       const filterableCol = sortableField(field, allProperties[field])
 
       return { label: field, field, name: filterableCol || field, sortableCol: !!filterableCol, align: 'left' }
