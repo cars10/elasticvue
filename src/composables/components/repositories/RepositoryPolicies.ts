@@ -30,6 +30,8 @@ export const useRepositoryPolicies = (props: RepositoryPoliciesProps, emit: any)
 
   const dialog = ref(false)
   const policies = ref<MappedSnapshotPolicy[]>([])
+  const selectedPolicyId = ref('')
+  const editDialog = ref<any>(null)
 
   watch(dialog, (value) => {
     if (value) {
@@ -76,8 +78,11 @@ export const useRepositoryPolicies = (props: RepositoryPoliciesProps, emit: any)
     }).then(() => loadPolicies())
   }
 
-  const editPolicy = (_name: string) => {
-    // This would open the edit dialog - for now just show a message
+  const editPolicy = (name: string) => {
+    selectedPolicyId.value = name
+    if (editDialog.value) {
+      editDialog.value.openDialog()
+    }
   }
 
   const columns = genColumns([
@@ -95,6 +100,8 @@ export const useRepositoryPolicies = (props: RepositoryPoliciesProps, emit: any)
     executePolicy,
     editPolicy,
     deletePolicy,
-    columns
+    columns,
+    selectedPolicyId,
+    editDialog
   }
 }

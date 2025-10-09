@@ -19,6 +19,13 @@
           <new-repository-snapshot-policy :repository="repository" @reload="loadPolicies" />
           <span class="q-ml-md">{{ t('repositories.repository_policies.repository', { repository }) }}</span>
         </div>
+
+        <edit-repository-snapshot-policy
+          ref="editDialog"
+          :repository="repository"
+          :policy-id="selectedPolicyId"
+          @reload="loadPolicies"
+        />
       </q-card-section>
 
       <q-separator />
@@ -64,6 +71,7 @@ import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
 import { RepositoryPoliciesProps, useRepositoryPolicies } from '../../composables/components/repositories/RepositoryPolicies'
 import { useTranslation } from '../../composables/i18n'
 import NewRepositorySnapshotPolicy from './NewRepositorySnapshotPolicy.vue'
+import EditRepositorySnapshotPolicy from './EditRepositorySnapshotPolicy.vue'
 import { type SnapshotPolicyRetention } from '../../types/snapshotPolicies'
 
 const t = useTranslation()
@@ -80,5 +88,6 @@ const retentionFormat = (retention: SnapshotPolicyRetention | undefined) => {
     .join(', ')
 }
 
-const { dialog, policies, loadPolicies, executePolicy, editPolicy, deletePolicy, columns } = useRepositoryPolicies(props, emit)
+const { dialog, policies, loadPolicies, executePolicy, editPolicy, deletePolicy, columns, selectedPolicyId, editDialog } =
+  useRepositoryPolicies(props, emit)
 </script>

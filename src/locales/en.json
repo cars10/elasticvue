@@ -48,6 +48,7 @@
     "cancel": "Cancel",
     "close": "Close",
     "create": "Create",
+    "update": "Update",
     "delete": "Delete",
     "success": "Success",
     "bulk": "Bulk Action",
@@ -393,7 +394,8 @@
       "text": "Policies",
       "heading": "Manage Snapshot Policies",
       "repository": "Repository: {repository}",
-      "new_policy": "New Policy"
+      "new_policy": "New Policy",
+      "edit_policy": "Edit Policy"
     }
   },
   "search": {
@@ -718,7 +720,7 @@
           "heading": "Retention Settings",
           "expire_after": {
             "label": "Expire after",
-            "hint": "Time period after which snapshots expire (e.g., '30d', '1w', '1m')"
+            "hint": "Time period after which snapshots expire (e.g., '3d', '12h')"
           },
           "max_count": {
             "label": "Maximum count",
@@ -751,6 +753,7 @@
     },
     "edit_policy": {
       "update_policy": {
+        "growl": "The snapshot policy '{name}' was successfully updated."
       }
     }
   },

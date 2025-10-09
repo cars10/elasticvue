@@ -48,6 +48,7 @@
     "cancel": "取消",
     "close": "关闭",
     "create": "创建",
+    "update": "更新",
     "delete": "删除",
     "success": "成功",
     "bulk": "批量操作",
@@ -393,7 +394,8 @@
       "text": "策略",
       "heading": "管理快照策略",
       "repository": "存储库：{repository}",
-      "new_policy": "新策略"
+      "new_policy": "新策略",
+      "edit_policy": "编辑策略"
     }
   },
   "search": {
@@ -718,7 +720,7 @@
           "heading": "保留设置",
           "expire_after": {
             "label": "过期时间",
-            "hint": "快照过期的时间段（例如，'30d'、'1w'、'1m'）"
+            "hint": "快照过期的时间段（例如，'3d'、'12h'）"
           },
           "max_count": {
             "label": "最大数量",
@@ -751,6 +753,7 @@
     },
     "edit_policy": {
       "update_policy": {
+        "growl": "快照策略 '{name}' 已成功更新。"
       }
     }
   },

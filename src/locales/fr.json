@@ -48,6 +48,7 @@
     "cancel": "Annuler",
     "close": "Fermer",
     "create": "Créer",
+    "update": "Mettre à jour",
     "delete": "Supprimer",
     "success": "Succès",
     "bulk": "Action groupée",
@@ -393,7 +394,8 @@
       "text": "Politiques",
       "heading": "Gérer les Politiques de Snapshot",
       "repository": "Dépôt : {repository}",
-      "new_policy": "Nouvelle Politique"
+      "new_policy": "Nouvelle Politique",
+      "edit_policy": "Modifier la Politique"
     }
   },
   "search": {
@@ -718,7 +720,7 @@
           "heading": "Paramètres de Rétention",
           "expire_after": {
             "label": "Expire après",
-            "hint": "Période après laquelle les snapshots expirent (ex: '30d', '1w', '1m')"
+            "hint": "Période après laquelle les snapshots expirent (ex: '3d', '12h')"
           },
           "max_count": {
             "label": "Nombre maximum",
@@ -751,6 +753,7 @@
     },
     "edit_policy": {
       "update_policy": {
+        "growl": "La politique de snapshot '{name}' a été mise à jour avec succès."
       }
     }
   },

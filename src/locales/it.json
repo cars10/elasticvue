@@ -48,6 +48,7 @@
     "cancel": "Annulla",
     "close": "Chiudi",
     "create": "Crea",
+    "update": "Aggiorna",
     "delete": "Elimina",
     "success": "Successo",
     "bulk": "Azione di massa",
@@ -393,7 +394,8 @@
       "text": "Politiche",
       "heading": "Gestisci Politiche Snapshot",
       "repository": "Repository: {repository}",
-      "new_policy": "Nuova Politica"
+      "new_policy": "Nuova Politica",
+      "edit_policy": "Modifica Politica"
     }
   },
   "search": {
@@ -718,7 +720,7 @@
           "heading": "Impostazioni di Conservazione",
           "expire_after": {
             "label": "Scade dopo",
-            "hint": "Periodo di tempo dopo il quale gli snapshot scadono (es: '30d', '1w', '1m')"
+            "hint": "Periodo di tempo dopo il quale gli snapshot scadono (es: '3d', '12h')"
           },
           "max_count": {
             "label": "Conteggio massimo",
@@ -751,6 +753,7 @@
     },
     "edit_policy": {
       "update_policy": {
+        "growl": "La politica snapshot '{name}' è stata aggiornata con successo."
       }
     }
   },

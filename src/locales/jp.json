@@ -48,6 +48,7 @@
     "cancel": "キャンセル",
     "close": "閉じる",
     "create": "作成",
+    "update": "更新",
     "delete": "削除",
     "success": "成功",
     "bulk": "一括操作",
@@ -393,7 +394,8 @@
       "text": "ポリシー",
       "heading": "スナップショットポリシーの管理",
       "repository": "リポジトリ: {repository}",
-      "new_policy": "新しいポリシー"
+      "new_policy": "新しいポリシー",
+      "edit_policy": "ポリシーを編集"
     }
   },
   "search": {
@@ -718,7 +720,7 @@
           "heading": "保持設定",
           "expire_after": {
             "label": "有効期限",
-            "hint": "スナップショットが期限切れになる期間（例：'30d'、'1w'、'1m'）"
+            "hint": "スナップショットが期限切れになる期間（例：'3d'、'12h'）"
           },
           "max_count": {
             "label": "最大数",
@@ -751,6 +753,7 @@
     },
     "edit_policy": {
       "update_policy": {
+        "growl": "スナップショットポリシー '{name}' が正常に更新されました。"
       }
     }
   },

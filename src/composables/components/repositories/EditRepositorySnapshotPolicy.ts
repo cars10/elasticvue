@@ -1,17 +1,19 @@
 import { useTranslation } from '../../i18n'
-import { computed, ref } from 'vue'
+import { computed, ref, watch, type Ref } from 'vue'
 import { defineElasticsearchRequest } from '../../CallElasticsearch'
+import { useElasticsearchAdapter } from '../../CallElasticsearch'
 import type { SnapshotPolicyForm, SnapshotPolicyRequestBody, ElasticsearchResponse } from '../../../types/snapshotPolicies'
 
-export const useNewRepositorySnapshotPolicy = (emit: any, repository: string) => {
+export const useEditRepositorySnapshotPolicy = (emit: any, repository: string, policyId: Ref<string>) => {
   const t = useTranslation()
+  const { callElasticsearch } = useElasticsearchAdapter()
 
   const dialog = ref(false)
   const policy = ref<SnapshotPolicyForm>({
     id: '',
     name: '',
     schedule: '',
-    repository,
+    repository: repository,
     indices: '*',
     ignoreUnavailable: false,
     includeGlobalState: true,
@@ -22,12 +24,54 @@ export const useNewRepositorySnapshotPolicy = (emit: any, repository: string) =>
 
   const formValid = computed(() => policy.value.name.length > 0 && policy.value.schedule.length > 0)
 
+  watch(policyId, async (newPolicyId) => {
+    if (newPolicyId && dialog.value) {
+      await loadPolicy()
+    }
+  })
+
+  const loadPolicy = async () => {
+    try {
+      const response = await callElasticsearch('slmGetPolicy', { policy: policyId.value })
+
+      let policyData = null
+
+      if (response[policyId.value]?.policy) {
+        // Structure: { policyId: { policy: {...} } }
+        policyData = response[policyId.value].policy
+      } else if (response.policy) {
+        // Structure: { policy: {...} }
+        policyData = response.policy
+      } else if (response[policyId.value]) {
+        // Structure: { policyId: {...} }
+        policyData = response[policyId.value]
+      }
+
+      if (policyData) {
+        policy.value = {
+          id: policyId.value,
+          name: policyData.name || '',
+          schedule: policyData.schedule || '',
+          repository: policyData.repository || repository,
+          indices: policyData.config?.indices?.join(', ') || '*',
+          ignoreUnavailable: policyData.config?.ignore_unavailable || false,
+          includeGlobalState: policyData.config?.include_global_state ?? true,
+          retentionExpireAfter: policyData.retention?.expire_after || '',
+          retentionMaxCount: policyData.retention?.max_count || null,
+          retentionMinCount: policyData.retention?.min_count || null
+        }
+      }
+    } catch (error) {
+      console.error('Failed to load policy:', error)
+    }
+  }
+
   const resetForm = () => {
     policy.value = {
       id: '',
       name: '',
       schedule: '',
-      repository,
+      repository: repository,
       indices: '*',
       ignoreUnavailable: false,
       includeGlobalState: true,
@@ -42,12 +86,17 @@ export const useNewRepositorySnapshotPolicy = (emit: any, repository: string) =>
     dialog.value = false
   }
 
+  const openDialog = async () => {
+    dialog.value = true
+    await loadPolicy()
+  }
+
   const { run, loading } = defineElasticsearchRequest({
     emit: (event: string) => emit(event as 'reload'),
     method: 'slmPutPolicy'
   })
 
-  const createPolicy = async () => {
+  const updatePolicy = async () => {
     if (!formValid.value) return
 
     const policyBody: SnapshotPolicyRequestBody = {
@@ -84,7 +133,7 @@ export const useNewRepositorySnapshotPolicy = (emit: any, repository: string) =>
       },
       snackbarOptions: (body: ElasticsearchResponse) => {
         return {
-          title: t('snapshot_policies.new_policy.create_policy.growl', { name: policy.value.name }),
+          title: t('snapshot_policies.edit_policy.update_policy.growl', { name: policy.value.name }),
           body: JSON.stringify(body)
         }
       }
@@ -98,8 +147,9 @@ export const useNewRepositorySnapshotPolicy = (emit: any, repository: string) =>
     policy,
     formValid,
     loading,
-    createPolicy,
+    updatePolicy,
     resetForm,
-    closeDialog
+    closeDialog,
+    openDialog
   }
 }
