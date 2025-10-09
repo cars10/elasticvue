@@ -3,6 +3,7 @@
 ## 1.9.0
 
 - fix REST API requests with document IDs containing slashes, fixes [#309](https://github.com/cars10/elasticvue/issues/309)
+- can manage snapshot repository policies, fixes [#302](https://github.com/cars10/elasticvue/issues/302)
 
 ## 1.8.0
 
