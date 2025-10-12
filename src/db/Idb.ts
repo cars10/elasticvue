@@ -1,13 +1,15 @@
 import { useConnectionStore } from '../store/connection.ts'
 import { Db, DbModel } from './indexeddb.ts'
-import { DbSchema, IdbRestQueryHistory, IdbRestQuerySavedQuery, IdbRestQueryTab } from './types.ts'
+import { DbSchema, IdbRestQueryHistory, IdbRestQuerySavedQuery, IdbRestQueryTab, IdbSearchDocumentSavedQuery, IdbSearchDocumentTab } from './types.ts'
 
 const dbDefinition = {
   dbVersion: 1,
   tables: [
     { name: 'restQueryHistory', indexes: ['date'] },
-    { name: 'restQuerySavedQueries', indexes: [] },
+    { name: 'restQuerySavedQueries', indexes: [] },    
     { name: 'restQueryTabs', indexes: [] },
+
+    { name: 'searchDocumentTabs', indexes: [] },
   ]
 }
 
@@ -31,6 +33,8 @@ export const initDb = (clusterUuid: string) => {
   db.models.restQueryHistory = new DbModel<IdbRestQueryHistory>('restQueryHistory', db)
   db.models.restQuerySavedQueries = new DbModel<IdbRestQuerySavedQuery>('restQuerySavedQueries', db)
   db.models.restQueryTabs = new DbModel<IdbRestQueryTab>('restQueryTabs', db)
+
+  db.models.searchDocumentTabs = new DbModel<IdbSearchDocumentTab>('searchDocumentTabs', db)
 
   return db
 }
