@@ -3,10 +3,10 @@
     <q-card-section>
       <q-form @submit="submitSearch" @keydown="handleKeydownToSearch">
         <div class="row q-col-gutter-lg">
-          <div v-if="!searchStore.searchQueryCollapsed" class="col">
+          <div v-if="!ownTab.searchQueryCollapsed" class="col">
             <div class="autocomplete-wrapper">
               <custom-input 
-                v-model="searchStore.q"
+                v-model="ownTab.q"
                 outlined
                 type="textarea"
                 :rows="2"
@@ -45,11 +45,11 @@
             <search-examples />
           </div>
           <div class="col">
-            <index-filter v-model="searchStore.indices" />
+            <index-filter v-model="ownTab.indices" />
           </div>
           <div class="text-center">
-              <q-btn flat @click="searchStore.searchQueryCollapsed = !searchStore.searchQueryCollapsed">
-                <q-icon :name="searchStore.searchQueryCollapsed ? 'expand_less' : 'expand_more'" />
+              <q-btn flat @click="ownTab.searchQueryCollapsed = !ownTab.searchQueryCollapsed">
+                <q-icon :name="ownTab.searchQueryCollapsed ? 'expand_less' : 'expand_more'" />
               </q-btn>
             </div>
           <div class="col-auto">
@@ -61,19 +61,19 @@
         </div>
       </q-form>
     </q-card-section>    
-    <q-card-section v-if="searchStore.searchQueryCollapsed">
+    <q-card-section v-if="ownTab.searchQueryCollapsed">
       <q-slide-transition>
-        <div v-if="searchStore.searchQueryCollapsed">
+        <div v-if="ownTab.searchQueryCollapsed">
           <div class="q-mb-xs">Query</div>
           <resizable-container v-model="resizeStore.searchQuery">
-            <code-editor v-model="searchStore.searchQuery" :commands="editorCommands" />
+            <code-editor v-model="ownTab.searchQuery" :commands="editorCommands" />
           </resizable-container>
           <q-btn :label="t('search.form.customize_query.reset')"
                  flat
                  size="md"
                  no-caps
                  class="btn-link q-py-none q-px-sm"
-                 @click="searchStore.resetSearchQuery" />
+                 @click="resetSearchQuery" />
         </div>
       </q-slide-transition>
     </q-card-section>
@@ -85,7 +85,7 @@
       </q-banner>
     </q-card>
     <loader-status v-else :request-state="requestState">
-      <search-results-table :results="searchResults" @request="onRequest" @reload="search" 
+      <search-results-table :results="searchResults" :tab="ownTab" @request="onRequest" @reload="search" 
           @edit-document="handleEditDocument"
           @add-document="handleAddDocument" />
       <template #error>
@@ -112,7 +112,7 @@
 </template>
 
 <script setup lang="ts">
-  import { defineAsyncComponent, onMounted, ref, computed, watch } from 'vue'
+  import { defineAsyncComponent, ref, computed, watch } from 'vue'
   import IndexFilter from '../shared/IndexFilter.vue'
   import LoaderStatus from '../shared/LoaderStatus.vue'
   import ResizableContainer from '../shared/ResizableContainer.vue'
@@ -122,30 +122,31 @@
   import SearchExamples from './SearchExamples.vue'
   import CustomInput from '../shared/CustomInput.vue'
   import EditDocument from './EditDocument.vue'
-  import { IdbSearchDocumentTab } from '../../db/types.ts'
+  import { SearchState } from '../../store/search.ts'
   
   const CodeEditor = defineAsyncComponent(() => import('../shared/CodeEditor.vue'))
-  const props = defineProps<{ tab: IdbSearchDocumentTab }>()
-
-  const resetAndLoad = () => {
-    searchStore.resetSearchQuery()
-    search()
-  }
+  const props = defineProps<{ tab: SearchState }>()
 
   const t = useTranslation()
 
   const {
     search,
     searchResults,
-    searchStore,
+    ownTab,
     resizeStore,
     queryParsingError,
     requestState,
     editorCommands,
-    onRequest
+    onRequest,
+    resetSearchQuery,
+    searchHistory,
+    addToHistory
   } = useSearchDocumentsForm(props)
 
-  onMounted(search)
+  const resetAndLoad = () => {
+    resetSearchQuery()
+    search()
+  }
 
   const editDocumentVisible = ref(false)
   const editingDocument = ref<any>({
@@ -176,7 +177,7 @@
         _source: rowData._source
       }
     } else {
-      const index = Array.isArray(searchStore.indices) && searchStore.indices.length > 0 ? searchStore.indices[0] : ''
+      const index = Array.isArray(ownTab.indices) && ownTab.indices.length > 0 ? ownTab.indices[0] : ''
       editingDocument.value = {
         _id: undefined,
         _index: index,
@@ -195,7 +196,7 @@
     }
   }
   
-  watch(() => searchStore.columns, () => {
+  watch(() => ownTab.columns, () => {
     loadFieldsFromCollection()
   })
   
@@ -203,13 +204,13 @@
   const showSuggestions = ref(false)
   const selectedIndex = ref(-1)
   const inputRef = ref(null)
-  const searchHistory = ref<string[]>([])
+  
   
   const availableFields = ref<string[]>([])
   
   const loadFieldsFromCollection = async () => {
     try {      
-      let fields = [...searchStore.columns.filter((f:string) => f != COL_ACTION)]
+      let fields = [...ownTab.columns.filter((f:string) => f != COL_ACTION)]
       fields = 
         [
           ...fields,
@@ -237,23 +238,12 @@
     { text: '(query1 AND query2)', description: t('search.autocomplete.condition_grouping'), type: 'operator' }
   ]
 
-  onMounted(() => {
-    loadFieldsFromCollection()
-    
-    const savedHistory = localStorage.getItem('searchHistory')
-    if (savedHistory) {
-      try {
-        searchHistory.value = JSON.parse(savedHistory)
-      } catch (e) {
-        console.error(t('search.autocomplete.error_history_loading'), e)
-      }
-    }
-  })
+  
 
   const cursorPosition = ref(0)
 
   const getCurrentFieldContext = computed(() => {
-    const query = searchStore.q || ''
+    const query = ownTab.q || ''
     const cursorPos = cursorPosition.value || query.length
      
     const beforeCursor = query.substring(0, cursorPos)
@@ -271,7 +261,7 @@
   })
 
   const filteredSuggestions = computed(() => {
-    const query = searchStore.q?.toLowerCase() || ''
+    const query = ownTab.q?.toLowerCase() || ''
     const fieldContext = getCurrentFieldContext.value
     
     let suggestions: any[] = []
@@ -353,7 +343,7 @@
       showSuggestions.value = false
       selectedIndex.value = -1
     } else {
-      searchStore.q = '*'
+      ownTab.q = '*'
     }
   }
 
@@ -396,7 +386,7 @@
   }
 
   const selectSuggestion = (suggestion: any) => {
-    const currentQuery = searchStore.q || ''
+    const currentQuery = ownTab.q || ''
     const cursorPos = cursorPosition.value || currentQuery.length
     
     const beforeCursor = currentQuery.substring(0, cursorPos)
@@ -420,7 +410,7 @@
       newCursorPos = beforeCursor.length + suggestion.text.length
     }
     
-    searchStore.q = newQuery
+    ownTab.q = newQuery
     
     showSuggestions.value = false
     selectedIndex.value = -1
@@ -439,23 +429,10 @@
     }, 100)
   }
 
-  const addToHistory = (query: string) => {
-    if (!query || query === '*') return
-    
-    const index = searchHistory.value.indexOf(query)
-    if (index > -1) {
-      searchHistory.value.splice(index, 1)
-    }
-    
-    searchHistory.value.unshift(query)
-    
-    searchHistory.value = searchHistory.value.slice(0, 20)
-
-    localStorage.setItem('searchHistory', JSON.stringify(searchHistory.value))
-  }
+  
 
   const submitSearch = async () => {
-    const query = searchStore.q
+    const query = ownTab.q
     if (query && query !== '*') {
       addToHistory(query)
     }

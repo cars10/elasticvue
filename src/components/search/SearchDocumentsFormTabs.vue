@@ -37,6 +37,6 @@
   import CustomInput from '../shared/CustomInput.vue'
 
 
-  const { tabs, activeTabName, addTab, updateTab, removeTab, setTabContent } = usesearchDocumentsFormTabs()
-  defineExpose({ setTabContent, addTab })
+  const { tabs, activeTabName, addTab, updateTab, removeTab } = usesearchDocumentsFormTabs()
+  defineExpose({ addTab })
 </script>

@@ -1,16 +1,13 @@
 import { useElasticsearchAdapter } from '../../CallElasticsearch.ts'
-import { useSearchStore } from '../../../store/search.ts'
 import { useResizeStore } from '../../../store/resize.ts'
-import { nextTick, Ref, ref, toRaw, watch } from 'vue'
+import {  reactive, Ref, ref, watch } from 'vue'
 import { parseJson } from '../../../helpers/json/parse.ts'
-import { DEFAULT_SEARCH_QUERY_OBJ } from '../../../consts.ts'
+import {  DEFAULT_PAGINATION, DEFAULT_SEARCH_QUERY, DEFAULT_SEARCH_QUERY_OBJ } from '../../../consts.ts'
 import { stringifyJson } from '../../../helpers/json/stringify.ts'
-import { IdbSearchDocumentTab } from '../../../db/types.ts'
-import { debounce } from 'quasar'
-import { useIdbStore } from '../../../db/Idb.ts'
+import { SearchState } from '../../../store/search.ts'
 
 type SearchDocumentormProps = {
-  tab: IdbSearchDocumentTab
+  tab: SearchState
 }
 
 export type EsSearchResult = {
@@ -28,116 +25,83 @@ type EsSearchResultsHitsValues = {
 }
 
 export const useSearchDocumentsForm = (props:SearchDocumentormProps) => {
-
-  const { searchDocumentTabs  } = useIdbStore()
-
-  const ownTab = ref(props.tab)
-  let updateIdb = true
-
+  //const searchStore = useSearchStore()
   const { requestState, callElasticsearch } = useElasticsearchAdapter()
 
-  const searchStore = useSearchStore()
+  
   const resizeStore = useResizeStore()
+  
+  const ownTab = reactive(props.tab)
+  
+  const searchHistory = ref(ownTab.searchHistory || [])
+  watch(searchHistory, value => {
+    ownTab.searchHistory = value
+  })
 
-  searchStore.searchQuery = ownTab.value.query
-  searchStore.searchQueryCollapsed = ownTab.value.searchQueryCollapsed
 
-  const searchResults: Ref<EsSearchResult> = ref({ took: null, hits: { total: { value: 0 }, hits: [] } })
+  const searchResults: Ref<EsSearchResult> = ref(ownTab.searchResults || { took: null, hits: { total: { value: 0 }, hits: [] } })
+  watch(searchResults, value => {
+    ownTab.searchResults = value
+  })
   const queryParsingError = ref(false)
   const search = async () => {
     let query
     try {
       queryParsingError.value = false
-      query = parseJson(searchStore.searchQuery)
+      query = parseJson(ownTab.searchQuery)
     } catch (_e) {
       queryParsingError.value = true
       return
     }
 
     try {
-      searchResults.value = await callElasticsearch('search', query, searchStore.indices)
+      searchResults.value = await callElasticsearch('search', query, ownTab.indices)
       const total = searchResults.value.hits?.total
-      searchStore.pagination.rowsNumber = typeof total === 'number' ? total : total.value
+      ownTab.pagination.rowsNumber = typeof total === 'number' ? total : total.value
     } catch  {
-      searchResults.value =  { took: null, hits: { total: { value: 0 }, hits: [] } }  
+      searchResults.value = { took: null, hits: { total: { value: 0 }, hits: [] } } 
     }
   }
 
-  watch(() => (searchStore.indices), () => {
-    searchStore.pagination.columnSorts = []
-    searchStore.columns = []
-    searchStore.visibleColumns = []
-    searchStore.pagination.columnOrder = []
+  watch(() => (ownTab.indices), () => {
+    ownTab.pagination.columnSorts = []
+    ownTab.columns = []
+    ownTab.visibleColumns = []
+    ownTab.pagination.columnOrder = []
     try {
-      mergeQuery(Object.assign({}, parseJson(searchStore.searchQuery), { sort: [] }))
+      mergeQuery(Object.assign({}, parseJson(ownTab.searchQuery), { sort: [] }))
     } catch (e) {
       console.error(e)
     }
   })
 
-  watch(() => (searchStore.q), value => {
+  watch(() => (ownTab.q), value => {
     mergeQuery({ query: { query_string: { query: value } } })
   })
-  
-  watch(() => searchStore.pagination.columnSorts,
-  () => {
-      const query = parseJson(searchStore.searchQuery)
-      Object.assign(query, buildQueryFromTableOptions(searchStore.pagination, searchStore.pagination.columnSorts))
-      searchStore.searchQuery = stringifyJson(query)
+
+  watch(() => ownTab.pagination.columnSorts,
+    () => {
+      const query = parseJson(ownTab.searchQuery)
+      Object.assign(query, buildQueryFromTableOptions(ownTab.pagination, ownTab.pagination.columnSorts))
+      ownTab.searchQuery = stringifyJson(query)
       search()
-  }, { deep: true })
+    }, { deep: true })
 
-  const onRequest = ( { pagination }: any) => {
+  const onRequest = ({ pagination }: any) => {
     const paginationParam = pagination.pagination
-    searchStore.pagination.page = paginationParam.page
-    searchStore.pagination.rowsPerPage = paginationParam.rowsPerPage
+    ownTab.pagination.page = paginationParam.page
+    ownTab.pagination.rowsPerPage = paginationParam.rowsPerPage
 
-    const query = parseJson(searchStore.searchQuery)
-    Object.assign(query, buildQueryFromTableOptions(searchStore.pagination, searchStore.pagination.columnSorts))
-    searchStore.searchQuery = stringifyJson(query)
+    const query = parseJson(ownTab.searchQuery)
+    Object.assign(query, buildQueryFromTableOptions(ownTab.pagination, ownTab.pagination.columnSorts))
+    ownTab.searchQuery = stringifyJson(query)
     search()
   }
 
   const mergeQuery = (params: any) => {
     const json = Object.assign({}, DEFAULT_SEARCH_QUERY_OBJ, params)
-    searchStore.searchQuery = stringifyJson(json, null, '	')
+    ownTab.searchQuery = stringifyJson(json, null, '\t')
   }
-
-  watch(() => searchStore.searchQuery, value => {
-    if (updateIdb) updateTab({ query: value })
-  })
-
-  watch(() => searchStore.searchQueryCollapsed, value => {
-    if (updateIdb) updateTab({ searchQueryCollapsed: value })
-  })
-
-  watch(ownTab.value.request, value => {
-    if (updateIdb) updateTab({ request: toRaw(value) })
-  })
-  watch(ownTab.value.response, value => {
-    if (updateIdb) updateTab({ response: toRaw(value) })
-  })
-  const updateTab = debounce((value: object) => {
-    const obj = Object.assign({}, toRaw(props.tab), value)
-    searchDocumentTabs.update(obj)
-  }, 100)
-
-  watch(() => props.tab, newValue => {
-    updateIdb = false
-    ownTab.value.query = newValue.query
-    ownTab.value.searchQueryCollapsed = newValue.searchQueryCollapsed
-    ownTab.value.request.method = newValue.request.method
-    ownTab.value.request.path = newValue.request.path
-    ownTab.value.request.body = newValue.request.body
-
-    searchStore.searchQuery = newValue.query
-    searchStore.searchQueryCollapsed = newValue.searchQueryCollapsed
-
-    nextTick(() => {
-      updateIdb = true
-    })
-  })
-    
 
   const editorCommands = [
     {
@@ -148,15 +112,37 @@ export const useSearchDocumentsForm = (props:SearchDocumentormProps) => {
     }
   ]
 
+  const resetSearchQuery = () => {
+    ownTab.q = '*'
+    ownTab.searchQuery = DEFAULT_SEARCH_QUERY
+    ownTab.pagination = Object.assign({}, DEFAULT_PAGINATION)
+  }
+
+  const addToHistory = (query: string) => {
+    if (!query || query === '*') return
+    
+    const index = searchHistory.value.indexOf(query)
+    if (index > -1) {
+      searchHistory.value.splice(index, 1)
+    }
+    
+    searchHistory.value.unshift(query)
+    
+    searchHistory.value = searchHistory.value.slice(0, 20)
+  }
+
   return {
     search,
     searchResults,
-    searchStore,
+    ownTab,
     resizeStore,
     queryParsingError,
     requestState,
     editorCommands,
-    onRequest
+    onRequest,
+    resetSearchQuery,
+    searchHistory,
+    addToHistory
   }
 }
 

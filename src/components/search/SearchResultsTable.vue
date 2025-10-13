@@ -1,7 +1,7 @@
 <template>
   <div class="flex justify-between q-pa-md">
     <div class="flex">
-      <filter-state v-model="searchStore.filter" :results-count="filterStateProps.resultsCount"
+      <filter-state v-model="ownTab.filter" :results-count="filterStateProps.resultsCount"
                     :filtered-results-count="filterStateProps.filteredResultsCount" />
 
       <q-btn class="q-ml-md" color="positive" :label="t('search.results_table.add_document')"
@@ -9,15 +9,15 @@
     </div>
 
     <div class="flex q-ml-auto">
-      <filter-input v-model="searchStore.filter" label="Filter CURRENT PAGE only" />
+      <filter-input v-model="ownTab.filter" label="Filter CURRENT PAGE only" />
 
       <q-btn icon="settings" round flat class="q-ml-sm">
-        <q-badge v-if="tableColumns.length !== searchStore.visibleColumns.length" color="positive" rounded floating />
+        <q-badge v-if="tableColumns.length !== ownTab.visibleColumns.length" color="positive" rounded floating />
 
         <q-menu style="white-space: nowrap" anchor="bottom right" self="top end">
           <q-list dense class="q-pb-sm">
             <q-item style="padding-left: 6px">
-              <q-checkbox v-model="searchStore.stickyTableHeader" size="32px"
+              <q-checkbox v-model="ownTab.stickyTableHeader" size="32px"
                           :label="t('indices.indices_table.sticky_table_header.label')" />
             </q-item>
 
@@ -35,13 +35,13 @@
                   <q-btn :label="t('shared.table_settings.reset_order')" flat size="sm" class="q-px-xs"
                          @click="resetColumnOrder" />
                   <q-btn v-if="hasActiveSorts" :label="t('shared.table_settings.clear_sorts')" flat size="sm" class="q-px-xs"
-                         @click="clearAllSorts" />
+                         @click="clearAllSorts(ownTab.name)" />
                 </div>
               </q-item-label>
             </q-item>
 
             <q-item v-for="(col, index) in slicedTableColumns" :key="col.name" style="padding-left: 8px" dense>
-              <q-checkbox v-model="searchStore.visibleColumns" :val="col.name" :label="col.label" size="32px"
+              <q-checkbox v-model="ownTab.visibleColumns" :val="col.name" :label="col.label" size="32px"
                           style="flex-grow: 1" />
               <div class="q-ml-sm">
                 <q-btn 
@@ -95,15 +95,15 @@
     </div>
   </div>
 
-  <div :class="{'table--sticky-header': searchStore.stickyTableHeader}">
-    <resizable-container v-model="resizeStore.searchTable" :active="searchStore.stickyTableHeader">
+  <div :class="{'table--sticky-header': ownTab.stickyTableHeader}">
+    <resizable-container v-model="resizeStore.searchTable" :active="ownTab.stickyTableHeader">
       <q-table v-if="hits.length > 0"
-               v-model:pagination="searchStore.pagination"
+               v-model:pagination="ownTab.pagination"
                v-draggable-table="{ options: { mode: 'column', scroll: true }, onDrop: onDropColumn }"
                class="table-mono table-hide-overflow"
                flat
                dense
-               :virtual-scroll="searchStore.stickyTableHeader"
+               :virtual-scroll="ownTab.stickyTableHeader"
                :virtual-scroll-item-size="14"
                :columns="orderedTableColumns"
                :columns_filter="true"
@@ -141,7 +141,7 @@
               :key="col.name"
               :props="props"
               :class="{ 'cursor-pointer': col.sortableCol }"
-              @click="col.sortableCol ? toggleColumnSort(col.name) : null"
+              @click="col.sortableCol ? toggleColumnSort(ownTab.name, col.name) : null"
             >
               <div style="display: inline-block;">
                 <span class="q-mr-xs">{{ col.label }}</span>
@@ -177,7 +177,7 @@
         </template>
 
         <template #bottom="scope">
-          <table-bottom v-model="searchStore.pagination.rowsPerPage"
+          <table-bottom v-model="ownTab.pagination.rowsPerPage"
                         :scope="scope"
                         :total="hits.length"
                         :rows-per-page="rowsPerPage"
@@ -222,7 +222,7 @@
 </template>
 
 <script setup lang="ts">
-  import { ref } from 'vue'
+  import { onUnmounted, ref } from 'vue'
   import FilterInput from '../shared/FilterInput.vue'
   import ResizableContainer from '../shared/ResizableContainer.vue'
   import SearchResult from './SearchResult.vue'
@@ -244,12 +244,12 @@
   const t = useTranslation()
 
   const {
+    ownTab,
     filterStateProps,
     acceptRowsPerPage,
     tableColumns,
     orderedTableColumns,
     orderedVisibleColumns,
-    searchStore,
     clearColumns,
     resetColumns,
     slicedTableColumns,
@@ -283,8 +283,12 @@
   const contextMenuSelectedRows = ref<any[]>([])
   const contextMenuIsMultipleSelection = ref(false)
 
+  onUnmounted(() => {
+    contextMenuVisible.value = false
+  })
+
   const moveColumnUp = (index: number) => {
-    const newOrder = [...searchStore.pagination.columnOrder]
+    const newOrder = [...ownTab.value.pagination.columnOrder]
     const currentColumn = newOrder[index]
     const previousColumn = newOrder[index - 1]
     
@@ -293,11 +297,11 @@
     
     updateColumnOrder(newOrder)
 
-    onRequest(searchStore.pagination)
+    onRequest({ pagination: ownTab.value.pagination })
   }
 
   const moveColumnDown = (index: number) => {
-    const newOrder = [...searchStore.pagination.columnOrder]
+    const newOrder = [...ownTab.value.pagination.columnOrder]
     const currentColumn = newOrder[index]
     const nextColumn = newOrder[index + 1]
     
@@ -306,11 +310,11 @@
     
     updateColumnOrder(newOrder)
 
-    onRequest(searchStore.pagination)
+    onRequest({ pagination: ownTab.value.pagination })
   }
 
   const moveColumnToTop = (index: number) => {
-    const newOrder = [...searchStore.pagination.columnOrder]
+    const newOrder = [...ownTab.value.pagination.columnOrder]
     const currentColumn = newOrder[index]
     
     newOrder.splice(index, 1)
@@ -318,11 +322,11 @@
     
     updateColumnOrder(newOrder)
 
-    onRequest(searchStore.pagination)
+    onRequest({ pagination: ownTab.value.pagination })
   }
 
   const moveColumnToBottom = (index: number) => {
-    const newOrder = [...searchStore.pagination.columnOrder]
+    const newOrder = [...ownTab.value.pagination.columnOrder]
     const currentColumn = newOrder[index]
 
     newOrder.splice(index, 1)
@@ -330,7 +334,7 @@
     
     updateColumnOrder(newOrder)
 
-    onRequest(searchStore.pagination)
+    onRequest({ pagination: ownTab.value.pagination })
   }
 
   const handleRowContextMenu = (event: MouseEvent, rowData: any) => {
@@ -386,10 +390,10 @@
     const fieldValue = typeof value === 'object' ? stringifyJson(value) : `"${value.toString().replace(/"/g, '\\"')}"`
     const filter = `${field}:${fieldValue}`
 
-    if (!searchStore.q || searchStore.q.trim() === '' || searchStore.q.trim() === '*') {
-      searchStore.q = filter
+    if (!ownTab.value.q || ownTab.value.q.trim() === '' || ownTab.value.q.trim() === '*') {
+      ownTab.value.q = filter
     } else {
-      searchStore.q = `${searchStore.q} AND ${filter}`
+      ownTab.value.q = `${ownTab.value.q} AND ${filter}`
     }
 
     contextMenuVisible.value = false

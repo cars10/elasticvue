@@ -40,30 +40,8 @@ export type IdbRestQueryTabResponse = {
   bodyText: string
 }
 
-export type IdbSearchDocumentTab = {
-  id?: number
-  label: string
-  name: string
-  query: string
-  searchQueryCollapsed: boolean
-  request: IdbSearchDocumentTabRequest
-  response: IdbSearchDocumentTabResponse
-}
-
-export type IdbSearchDocumentTabRequest = {  
-  method: string
-  path: string
-  body: string
-}
-export type IdbSearchDocumentTabResponse = {
-  status: string
-  ok: boolean
-  bodyText: string
-}
 export interface DbSchema {
   restQueryHistory: DbModel<IdbRestQueryHistory>,
   restQuerySavedQueries: DbModel<IdbRestQuerySavedQuery>
   restQueryTabs: DbModel<IdbRestQueryTab>
-
-  searchDocumentTabs: DbModel<IdbSearchDocumentTab>
 }

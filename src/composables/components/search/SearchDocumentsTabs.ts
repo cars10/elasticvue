@@ -1,44 +1,54 @@
-import { Ref, ref, toRaw } from 'vue'
-import { HTTP_METHODS } from '../../../consts.ts'
-import { useIdbStore } from '../../../db/Idb.ts'
-import { IdbSearchDocumentTab } from '../../../db/types.ts'
-
-const buildDefaultRequest = () => ({ query:'*', searchQueryCollapsed: false, method: HTTP_METHODS[1], path: '', body: '' })
-const buildDefaultResponse = () => ({ status: '', ok: false, bodyText: '' })
+import { Ref, ref } from 'vue'
+import { DEFAULT_PAGINATION, DEFAULT_SEARCH_QUERY } from '../../../consts.ts'
+import { SearchState, useSearchStore } from '../../../store/search.ts'
 
 export const usesearchDocumentsFormTabs = () => {
-  const { searchDocumentTabs } = useIdbStore()
-  const tabs = ref([] as IdbSearchDocumentTab[])
+  const tabs = ref([] as SearchState[])
 
   const activeTabName: Ref<string | null> = ref(null)
-
+  
+  const searchStore = useSearchStore()
+  
   const addTab = async () => {
-    const newTab = {
+    const newTab :SearchState = {
       name: `tab-doc-${Date.now()}`,
       label: `Tab ${tabs.value.length + 1}`,
-      request: buildDefaultRequest(),
-      response: buildDefaultResponse()
+      q: '*',
+      filter: '',
+      indices: '*',
+      searchQuery: DEFAULT_SEARCH_QUERY,
+      searchQueryCollapsed: false,
+      columns: [],
+      visibleColumns: [],
+      columnOrder: [],
+      stickyTableHeader: false,
+      pagination: Object.assign({}, DEFAULT_PAGINATION),
+      rowsPerPageAccepted: false,
+      searchHistory: [],
+      searchResults: null      
     }
-    const key = await searchDocumentTabs.insert(newTab)
-    const newIdbTab = await searchDocumentTabs.get(key)
-    tabs.value.push(newIdbTab)
-    activeTabName.value = newIdbTab.name
+    tabs.value.push(newTab)
+    activeTabName.value = newTab.name
   }
 
-  const updateTab = (label: string, tab: IdbSearchDocumentTab) => {
-    searchDocumentTabs.update(Object.assign({}, toRaw(tab), { label }))
+  const updateTab = (name: string, tab: SearchState) => {
+    const existingTab = tabs.value.find(t => t.name === name)
+    if (!existingTab) return
+    Object.assign(existingTab, tab)
   }
 
   const removeTab = async (index: number) => {
+    if (index < 0 || index >= tabs.value.length) return
+
     if (tabs.value[index].name === activeTabName.value && tabs.value[0]) {
       activeTabName.value = tabs.value[0].name
     }
-    await searchDocumentTabs.remove(tabs.value[index].id)
+
     tabs.value.splice(index, 1)
   }
 
   const loadTabs = async () => {
-    tabs.value = await searchDocumentTabs.getAll()
+    tabs.value = searchStore.tabs
 
     if (!activeTabName.value && tabs.value[0]) activeTabName.value = tabs.value[0].name
     if (tabs.value.length === 0) await addTab()
@@ -47,23 +57,10 @@ export const usesearchDocumentsFormTabs = () => {
 
   const activeTabIndex = () => (tabs.value.findIndex(t => t.name === activeTabName.value) || 0)
 
-  const setTabContent = ({ method, path, body }: { method: string, path: string, body: string }) => {
-    const idx = activeTabIndex()
-    tabs.value[idx].request.method = method
-    tabs.value[idx].request.path = path
-    tabs.value[idx].request.body = body
-    tabs.value[idx].response.status = ''
-    tabs.value[idx].response.ok = false
-    tabs.value[idx].response.bodyText = ''
-
-    const obj = toRaw(tabs.value[idx])
-    searchDocumentTabs.update(obj)
-    return obj
-  }
-
+  
   return {
-    setTabContent,
     tabs,
+    activeTabIndex,
     activeTabName,
     addTab,
     updateTab,

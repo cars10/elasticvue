@@ -1,6 +1,6 @@
 import { computed, Ref, ref, watch } from 'vue'
 import { useResizeStore } from '../../../store/resize.js'
-import { ColumnSort, useSearchStore } from '../../../store/search.ts'
+import { ColumnSort, SearchState, useSearchStore } from '../../../store/search.ts'
 import { useElasticsearchAdapter } from '../../CallElasticsearch.ts'
 import { useSelectableRows } from '../../SelectableRow.ts'
 import SearchResults from '../../../models/SearchResults.ts'
@@ -14,6 +14,7 @@ import { useConnectionStore } from '../../../store/connection.ts'
 import { DEFAULT_SEARCH_RESULT_COLUMNS } from '../../../consts.ts'
 
 export type SearchResultsTableProps = {
+  tab:SearchState
   results: EsSearchResult
 }
 
@@ -22,6 +23,8 @@ export const useSearchResultsTable = (props: SearchResultsTableProps, emit: any)
   const resizeStore = useResizeStore()
   const searchStore = useSearchStore()
 
+  const ownTab: Ref<SearchState> = ref(props.tab)
+  
   const hits: Ref<any[]> = ref([])
   const tableColumns: Ref<any[]> = ref([])
 
@@ -43,20 +46,20 @@ export const useSearchResultsTable = (props: SearchResultsTableProps, emit: any)
 
   const genDocStr = (doc: ElasticsearchDocumentInfo) => ([doc._index, doc._type, doc._id].join('####'))
 
-  watch(() => searchStore.pagination.rowsPerPage, () => {
-    if (searchStore.pagination.rowsPerPage === rowsPerPage[rowsPerPage.length - 1].value) {
-      searchStore.stickyTableHeader = true
+  watch(() => props.tab.pagination.rowsPerPage, () => {
+    if (props.tab.pagination.rowsPerPage === rowsPerPage[rowsPerPage.length - 1].value) {
+      props.tab.stickyTableHeader = true
     }
-    onRequest( { pagination: searchStore.pagination })
+    onRequest( { pagination: props.tab.pagination })
   })
 
   const connectionStore = useConnectionStore()
   
   watch(() => props.results, async (newValue: EsSearchResult) => {
-    
+   
 
     const results = new SearchResults(newValue?.hits?.hits)
-    const indices = await callElasticsearch('indexGet', { index: searchStore.indices })
+    const indices = await callElasticsearch('indexGet', { index: props.tab.indices })
     const allProperties: Record<string, any> = {}
 
     Object.keys(indices).forEach(index => {
@@ -87,25 +90,25 @@ export const useSearchResultsTable = (props: SearchResultsTableProps, emit: any)
     })
     tableColumns.value.push({ label: '', name: COL_ACTION })
 
-    const oldColumns = searchStore.columns
+    const oldColumns = props.tab.columns
     const newColumnsList = tableColumns.value.map(c => c.name)
     const addedColumns = newColumnsList.filter(c => !oldColumns.includes(c))
     const removedColumns = oldColumns.filter(c => !newColumnsList.includes(c))
 
-    searchStore.columns = newColumnsList
+    props.tab.columns = newColumnsList
     
-    if (searchStore.pagination.columnOrder.length === 0) {
-      searchStore.pagination.columnOrder = newColumnsList.sort()
+    if (props.tab.pagination.columnOrder.length === 0) {
+      props.tab.pagination.columnOrder = newColumnsList.sort()
     } else {
-      const existingOrder = searchStore.pagination.columnOrder.filter((col:any) => newColumnsList.includes(col))
+      const existingOrder = props.tab.pagination.columnOrder.filter((col:any) => newColumnsList.includes(col))
       const newOrder = addedColumns.filter(col => !existingOrder.includes(col))
-      searchStore.pagination.columnOrder = [...existingOrder, ...newOrder]
+      props.tab.pagination.columnOrder = [...existingOrder, ...newOrder]
     }
     
-    const updatedVisibleColumns = searchStore.visibleColumns.filter(c => !removedColumns.includes(c)).concat(addedColumns)
-    searchStore.visibleColumns = updatedVisibleColumns.sort((a, b) => {
-      const indexA = searchStore.pagination.columnOrder.indexOf(a)
-      const indexB = searchStore.pagination.columnOrder.indexOf(b)
+    const updatedVisibleColumns = props.tab.visibleColumns.filter(c => !removedColumns.includes(c)).concat(addedColumns)
+    props.tab.visibleColumns = updatedVisibleColumns.sort((a, b) => {
+      const indexA = props.tab.pagination.columnOrder.indexOf(a)
+      const indexB = props.tab.pagination.columnOrder.indexOf(b)
       
       if (indexA === -1) return 1
       if (indexB === -1) return -1
@@ -119,8 +122,8 @@ export const useSearchResultsTable = (props: SearchResultsTableProps, emit: any)
   const filteredHits = computed(() => {
     let result = hits.value
     
-    if (searchStore.filter.trim().length > 0) {
-      result = filterItems(result, searchStore.filter, tableColumns.value.map(c => c.field))
+    if (props.tab.filter.trim().length > 0) {
+      result = filterItems(result, props.tab.filter, tableColumns.value.map(c => c.field))
     }
     
     return result
@@ -128,8 +131,8 @@ export const useSearchResultsTable = (props: SearchResultsTableProps, emit: any)
 
   const sortColumnsByOrder = (columns: any[]) => {
     return [...columns].sort((a, b) => {
-      const indexA = searchStore.pagination.columnOrder.indexOf(a.name)
-      const indexB = searchStore.pagination.columnOrder.indexOf(b.name)
+      const indexA = props.tab.pagination.columnOrder.indexOf(a.name)
+      const indexB = props.tab.pagination.columnOrder.indexOf(b.name)
       
       if (indexA === -1) return 1
       if (indexB === -1) return -1
@@ -147,9 +150,9 @@ export const useSearchResultsTable = (props: SearchResultsTableProps, emit: any)
   })
 
   const orderedVisibleColumns = computed((): string[] => {
-    return [...searchStore.visibleColumns].sort((a, b) => {
-      const indexA = searchStore.pagination.columnOrder.indexOf(a)
-      const indexB = searchStore.pagination.columnOrder.indexOf(b)
+    return [...props.tab.visibleColumns].sort((a, b) => {
+      const indexA = props.tab.pagination.columnOrder.indexOf(a)
+      const indexB = props.tab.pagination.columnOrder.indexOf(b)
       
       if (indexA === -1) return 1
       if (indexB === -1) return -1
@@ -160,14 +163,14 @@ export const useSearchResultsTable = (props: SearchResultsTableProps, emit: any)
 
   const onRequest = (pagination: any) => (emit('request',{ pagination}))
   const clearColumns = () => {
-    searchStore.visibleColumns = [COL_ACTION]
+    props.tab.visibleColumns = [COL_ACTION]
   }
   
   const resetColumns = () => {
     const allColumns = tableColumns.value.map(c => c.name)
-    searchStore.visibleColumns = allColumns.sort((a, b) => {
-      const indexA = searchStore.pagination.columnOrder.indexOf(a)
-      const indexB = searchStore.pagination.columnOrder.indexOf(b)
+    props.tab.visibleColumns = allColumns.sort((a, b) => {
+      const indexA = props.tab.pagination.columnOrder.indexOf(a)
+      const indexB = props.tab.pagination.columnOrder.indexOf(b)
       
       if (indexA === -1) return 1
       if (indexB === -1) return -1
@@ -178,46 +181,46 @@ export const useSearchResultsTable = (props: SearchResultsTableProps, emit: any)
   const generateDownloadData = () => (stringifyJson(props.results))
 
   const updateColumnOrder = (newOrder: string[]) => {
-    searchStore.pagination.columnOrder = newOrder
+    props.tab.pagination.columnOrder = newOrder
   }
 
   const resetColumnOrder = () => {
     
-    searchStore.pagination.columnOrder = tableColumns.value.map(c => c.name).sort()    
+    props.tab.pagination.columnOrder = tableColumns.value.map(c => c.name).sort()    
   }
 
-  const toggleColumnSort = (column: string) => {
-    searchStore.toggleColumnSort(column)
+  const toggleColumnSort = (tabName:string, column: string) => {
+    searchStore.toggleColumnSort(tabName,column)
   }
 
-  const clearAllSorts = () => {
-    searchStore.clearAllSorts()
+  const clearAllSorts = (tabName: string) => {
+    searchStore.clearAllSorts(tabName)
   }
 
   const getColumnSortOrder = (column: string) => {
-    const sort: ColumnSort | undefined = searchStore.pagination.columnSorts.find((s: ColumnSort) => s.column === column)
+    const sort: ColumnSort | undefined = props.tab.pagination.columnSorts.find((s: ColumnSort) => s.column === column)
     return sort ? sort.order : null
   }
 
   const getColumnSortPriority = (column: string) => {
-    const sort = searchStore.pagination.columnSorts.find((s:ColumnSort) => s.column === column)
+    const sort = props.tab.pagination.columnSorts.find((s:ColumnSort) => s.column === column)
     return sort ? sort.priority : null
   }
 
-  const hasActiveSorts = computed(() => searchStore.pagination.columnSorts.length > 0)
+  const hasActiveSorts = computed(() => props.tab.pagination.columnSorts.length > 0)
 
   const onDropColumn = ( oldIndex: number, newIndex: number ) => {
-    if (newIndex > 0 && newIndex < searchStore.pagination.columnOrder.length)
+    if (newIndex > 0 && newIndex < props.tab.pagination.columnOrder.length)
     {
       const temp = orderedVisibleColumns.value
 
       const oldColName = temp[oldIndex-1]
       const newColName = temp[newIndex-1]
 
-      const realoldIndex = searchStore.pagination.columnOrder.indexOf(oldColName)
-      const realnewIndex = searchStore.pagination.columnOrder.indexOf(newColName)
+      const realoldIndex = props.tab.pagination.columnOrder.indexOf(oldColName)
+      const realnewIndex = props.tab.pagination.columnOrder.indexOf(newColName)
 
-      const newOrder = [...searchStore.pagination.columnOrder]
+      const newOrder = [...props.tab.pagination.columnOrder]
       const [movedColumn] = newOrder.splice(realoldIndex, 1)
       newOrder.splice(realnewIndex, 0, movedColumn)
       updateColumnOrder(newOrder)
@@ -228,14 +231,15 @@ export const useSearchResultsTable = (props: SearchResultsTableProps, emit: any)
     { label: '10', value: 10, enabled: true },
     { label: '20', value: 20, enabled: true },
     { label: '100', value: 100, enabled: true },
-    { label: '1000', value: 1000, enabled: searchStore.rowsPerPageAccepted, needsConfirm: true }
+    { label: '1000', value: 1000, enabled: props.tab.rowsPerPageAccepted, needsConfirm: true }
   ]
 
   const filterStateProps = setupFilterState(hits, filteredHits)
 
-  const acceptRowsPerPage = (value: boolean) => (searchStore.rowsPerPageAccepted = value)
+  const acceptRowsPerPage = (value: boolean) => (props.tab.rowsPerPageAccepted = value)
 
   return {
+    ownTab,
     acceptRowsPerPage,
     filterStateProps,
     tableColumns,
