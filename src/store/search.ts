@@ -28,7 +28,8 @@ export type SearchState = {
   pagination: any
   rowsPerPageAccepted: boolean,
   searchHistory: string[],
-  searchResults: any
+  searchResults: any,
+  executeOnMount?: boolean
 }
 
 export const useSearchStore = () => {
@@ -36,12 +37,15 @@ export const useSearchStore = () => {
   const clusterUuid = connectionStore.activeCluster?.uuid
 
   return defineStore('search', {
-    state: () => ({
-      localizeTimestamp: true,
-      documentFieldMaxLength: DEFAULT_DOCUMENT_FIELD_MAX_LENGTH,
-      tabs:  [
-          {            
-            name: `tab-doc-${Date.now()}`,
+    state: () => {
+      const firstTabName = `tab-doc-${Date.now()}`
+      return {
+        localizeTimestamp: true,
+        documentFieldMaxLength: DEFAULT_DOCUMENT_FIELD_MAX_LENGTH,
+        activeTab: firstTabName,
+        tabs: [
+          {
+            name: firstTabName,
             label: `Tab ${1}`,
             q: '*',
             filter: '',
@@ -55,10 +59,12 @@ export const useSearchStore = () => {
             pagination: Object.assign({}, DEFAULT_PAGINATION),
             rowsPerPageAccepted: false,
             searchHistory: [],
-            searchResults: null            
+            searchResults: null,
+            executeOnMount: false
           }
-      ] as SearchState[]
-    }),
+        ] as SearchState[]
+      }
+    },
     actions: {
       resetSearchQuery (name: string) {
         const state = this.tabs.find(tab => tab.name === name)

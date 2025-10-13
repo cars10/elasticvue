@@ -4,10 +4,9 @@ import { useElasticsearchAdapter } from '../../CallElasticsearch'
 import { QMenu } from 'quasar'
 import { useRouter } from 'vue-router'
 import { useSearchStore } from '../../../store/search'
-import { DEFAULT_PAGINATION, DEFAULT_SEARCH_QUERY, DEFAULT_SEARCH_QUERY_OBJ } from '../../../consts'
+import { DEFAULT_PAGINATION, DEFAULT_SEARCH_QUERY } from '../../../consts'
 import ElasticsearchIndex from '../../../models/ElasticsearchIndex.ts'
 import { handleError } from '../../../helpers/error.ts'
-import { stringifyJson } from '../../../helpers/json/stringify.ts'
 
 type Aliases = {
   aliases: string[]
@@ -63,16 +62,26 @@ export const useIndexRow = (props: IndexRowProps, emit: any) => {
   const router = useRouter()
   const searchStore = useSearchStore()
   const showDocuments = (index: string) => {
-    searchStore.indices = index
-    searchStore.searchQueryCollapsed = false
-    searchStore.searchQuery = DEFAULT_SEARCH_QUERY
-
-    const rowsPerPage = searchStore.pagination.rowsPerPage
-    searchStore.pagination = Object.assign({}, DEFAULT_PAGINATION)
-    if (rowsPerPage && rowsPerPage > 0 && rowsPerPage <= 10000) {
-      searchStore.searchQuery = stringifyJson(Object.assign({}, DEFAULT_SEARCH_QUERY_OBJ, { size: rowsPerPage }))
-      searchStore.pagination.rowsPerPage = rowsPerPage
-    }
+    const tabName = `tab-doc-${Date.now()}`
+    searchStore.tabs.push({
+      name: tabName,
+      label: index.toUpperCase(),
+      q: '*',
+      filter: '',
+      indices: index,
+      searchQuery: DEFAULT_SEARCH_QUERY,
+      searchQueryCollapsed: false,
+      columns: [],
+      visibleColumns: [],
+      columnOrder: [],
+      stickyTableHeader: false,
+      pagination: Object.assign({}, DEFAULT_PAGINATION),
+      rowsPerPageAccepted: false,
+      searchHistory: [],
+      searchResults: null,
+      executeOnMount: true
+    })
+    searchStore.activeTab = tabName
 
     router.push({ name: 'search' })
   }

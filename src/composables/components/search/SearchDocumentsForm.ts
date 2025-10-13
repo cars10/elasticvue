@@ -137,6 +137,11 @@ export const useSearchDocumentsForm = (props:SearchDocumentormProps) => {
     searchHistory.value = searchHistory.value.slice(0, 20)
   }
 
+  if (ownTab.executeOnMount) {
+    ownTab.executeOnMount = false
+    search()
+  }
+
   return {
     search,
     searchResults,
