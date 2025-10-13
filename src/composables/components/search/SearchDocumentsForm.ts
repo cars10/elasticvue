@@ -63,7 +63,7 @@ export const useSearchDocumentsForm = (props:SearchDocumentormProps) => {
     }
   }
 
-  watch(() => (ownTab.indices), () => {
+  watch(() => (ownTab.indices), newIndices => {
     ownTab.pagination.columnSorts = []
     ownTab.columns = []
     ownTab.visibleColumns = []
@@ -72,6 +72,12 @@ export const useSearchDocumentsForm = (props:SearchDocumentormProps) => {
       mergeQuery(Object.assign({}, parseJson(ownTab.searchQuery), { sort: [] }))
     } catch (e) {
       console.error(e)
+    }
+
+    if (Array.isArray(newIndices) && newIndices.length > 0) {
+      ownTab.label = newIndices.join(', ')
+    } else if (typeof newIndices === 'string' && newIndices) {
+      ownTab.label = newIndices
     }
   })
 
