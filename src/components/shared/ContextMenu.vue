@@ -19,10 +19,39 @@
             {{ t('search.context_menu.copy_selected_rows_json', { count: selectedRows.length }) }}
           </q-item-section>
         </q-item>
+        <q-separator />
+
+        <q-item clickable v-close-popup @click="downloadJson">
+          <q-item-section avatar>
+            <q-icon name="download" />
+          </q-item-section>
+          <q-item-section>
+            {{ t('search.context_menu.download_selected_rows_json', { count: selectedRows.length }) }}
+            Download as JSON
+          </q-item-section>
+        </q-item>
+
+        <q-item clickable v-close-popup @click="deleteRows">
+          <q-item-section avatar>
+            <q-icon name="delete" />
+          </q-item-section>
+          <q-item-section>
+            {{ t('search.context_menu.delete_selected_rows', { count: selectedRows.length }) }}
+          </q-item-section>
+        </q-item>
       </template>
 
       <!-- Mode sélection simple -->
       <template v-else-if="rowData">        
+
+        <q-item clickable v-close-popup @click="filterByField" v-if="cellContent">
+          <q-item-section avatar>
+            <q-icon name="filter_alt" />
+          </q-item-section>
+          <q-item-section>
+            {{ t('search.context_menu.filter_by_field') }}
+          </q-item-section>
+        </q-item>
 
          <q-item clickable v-close-popup @click="editRowJson">
           <q-item-section avatar>
@@ -42,16 +71,6 @@
           </q-item-section>
         </q-item>
 
-        <q-item clickable v-close-popup @click="filterByField" v-if="cellContent">
-          <q-item-section avatar>
-            <q-icon name="filter_alt" />
-          </q-item-section>
-          <q-item-section>
-            {{ t('search.context_menu.filter_by_field') }}
-          </q-item-section>
-        </q-item>
-
-
         <q-item clickable v-close-popup @click="copyCellContent" v-if="cellContent">
           <q-item-section avatar>
             <q-icon name="content_copy" />
@@ -69,6 +88,26 @@
           </q-item-section>
           <q-item-section>
             {{ t('search.context_menu.copy_row_id') }}
+          </q-item-section>
+        </q-item>
+      
+        <q-separator />
+
+        <q-item clickable v-close-popup @click="downloadJson">
+          <q-item-section avatar>
+            <q-icon name="download" />
+          </q-item-section>
+          <q-item-section>
+            {{ t('search.context_menu.download_row_json') }}
+          </q-item-section>
+        </q-item>
+
+        <q-item clickable v-close-popup @click="deleteRows">
+          <q-item-section avatar>
+            <q-icon name="delete" />
+          </q-item-section>
+          <q-item-section>
+            {{ t('search.context_menu.delete_row_json') }}
           </q-item-section>
         </q-item>
       </template>
@@ -96,7 +135,8 @@
     'update:modelValue': [value: boolean]
     'add-document': [rowData: any]
     'edit-document': [rowData: any]
-    'filter-by-field': [{ field: string, value: any }]
+    'filter-by-field': [{ field: string, value: any }],
+    'delete-rows': [rows: any[]]
   }>()
 
   const t = useTranslation()
@@ -170,5 +210,35 @@
     if (props.cellField && props.cellContent) {
       emit('filter-by-field', { field: props.cellField, value: props.cellContent })
     }
+  }
+
+  const getSelected = () :any[] | undefined => {
+    if (props.isMultipleSelection) {
+      return props.selectedRows
+    } else if (props.rowData) {
+      return [props.rowData]
+    }
+    return []
+  }
+
+  const downloadJson = () => {
+    const selection = getSelected()
+    if (selection=== undefined || selection.length === 0) return
+
+    const data = stringifyJson(selection)
+    const blob = new Blob([data], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = 'selection.json'
+    a.click()
+    URL.revokeObjectURL(url)
+  }
+
+  const deleteRows = () => {
+    const selection = getSelected()
+    if (selection=== undefined || selection.length === 0) return
+    
+    emit('delete-rows', selection)
   }
 </script>

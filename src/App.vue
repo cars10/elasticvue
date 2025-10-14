@@ -1,9 +1,9 @@
 <template>
-  <q-layout view="hHh lpR fff" style="outline: none !important;">
+  <q-layout view="hHh lpR fff" class="app-layout">
     <app-header v-if="connectionStore.activeCluster" />
 
-    <q-page-container>
-      <div class="q-ma-md">
+    <q-page-container class="app-content">
+      <div class="app-page">
         <router-view v-if="connectionStore.activeCluster?.status !== 'unknown' || route.name === 'settings'" />
         <div v-else class="q-pa-lg">
           <div class="row">
@@ -47,3 +47,39 @@
     setupThemeListener()
   })
 </script>
+
+<style>
+/* Ensure app takes exactly viewport height */
+.app-layout {
+  height: 100vh !important;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* Prevent page level scroll */
+}
+
+/* Container for scrollable content */
+.app-content {
+  flex: 1;
+  min-height: 0; /* Allow flex item to shrink below content size */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Page content that will scroll */
+.app-page {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;  
+}
+
+/* Ensure Quasar footer stays at bottom */
+.q-footer {
+  flex-shrink: 0;
+}
+
+/* Ensure Quasar header stays at top */
+.q-header {
+  flex-shrink: 0;
+}
+</style>

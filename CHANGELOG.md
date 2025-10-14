@@ -1,6 +1,27 @@
 # Changelog
 
-## 1.9.0
+## 1.10.0
+Ajoute de fonctionnalité d'import export depuis la gestion des index
+
+* adds support for bulk delete of documents in search results:
+  * single document delete with standard delete endpoint
+  * multiple documents delete using `_bulk` endpoint
+  * adds confirmation dialog with document count
+  * updates UI with delete options in context menu
+* improves table scrolling and layout:
+  * sticky header for search results table
+  * isolated scrolling for results area
+  * better height management using flexbox layout
+  * fixes double scrollbar issues
+* adds multilingual support for new features:
+  * adds translations for document deletion in Chinese, English, French, Italian, Japanese and Russian
+  * updates context menu with localized strings for all operations
+* internal improvements:
+  * refactors components to use Vue 3 composition API
+  * better component height inheritance
+  * optimizes layout containment
+
+## 1.8.0
 
 * adds support for connecting to elasticsearch with aws iam credentials, fixes [#304](https://github.com/cars10/elasticvue/pull/304), thanks @ChrisMcKee
 * automatically import predefined clusters when using docker, fixes [#254](https://github.com/cars10/elasticvue/issues/254)

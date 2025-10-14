@@ -560,7 +560,11 @@
       "id_copied": "IDがクリップボードにコピーされました",
       "selected_rows_copied": "{count}件の行がクリップボードにコピーされました",
       "edit_row_json": "行を編集（JSON）",
-      "filter_by_field": "このフィールドでフィルター"
+      "filter_by_field": "このフィールドでフィルター",
+      "download_row_json": "この行を JSON でダウンロード",
+      "delete_row_json": "この行を削除",
+      "download_selected_rows_json": "選択された {count} 行を JSON でダウンロード",
+      "delete_selected_rows": "選択された {count} 行を削除"
     },
     "edit_document": {
       "new_document": "新しいドキュメント",

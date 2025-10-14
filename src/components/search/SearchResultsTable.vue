@@ -95,12 +95,12 @@
     </div>
   </div>
 
-  <div :class="{'table--sticky-header': ownTab.stickyTableHeader}">
-    <resizable-container v-model="resizeStore.searchTable" :active="ownTab.stickyTableHeader">
+  <div class="table-wrapper" :class="{'table--sticky-header': ownTab.stickyTableHeader}">
+    <resizable-container v-model="resizeStore.searchTable" :active="ownTab.stickyTableHeader" class="h-100">
       <q-table v-if="hits.length > 0"
+               class="results-table table-mono table-hide-overflow"
                v-model:pagination="ownTab.pagination"
                v-draggable-table="{ options: { mode: 'column', scroll: true }, onDrop: onDropColumn }"
-               class="table-mono table-hide-overflow"
                flat
                dense
                :virtual-scroll="ownTab.stickyTableHeader"
@@ -189,36 +189,19 @@
   </div>
 
   <context-menu
-    v-model="contextMenuVisible"
-    :target="contextMenuTarget"
-    :row-data="contextMenuRowData"
-    :cell-content="contextMenuCellContent"
-    :cell-field="contextMenuCellField"
-    :selected-rows="contextMenuSelectedRows"
-    :is-multiple-selection="contextMenuIsMultipleSelection"
-    @edit-document="handleEditDocument"
-    @add-document="handleAddDocument"
-    @filter-by-field="handleFilterByField"
-  />
-
-  <div class="flex justify-between">
-    <div class="q-pa-md">
-      <search-results-bulk v-if="hits.length > 0"
-                           :selected="selectedItems"
-                           :total-items-count="hits.length"
-                           :filtered-items-count="hits.length"
-                           @reload="reload" />
-    </div>
-
-    <div class="q-pa-md ">
-      <download-button color="dark-grey"
-                       :disable="hits.length === 0"
-                       size="12px"
-                       download="search.json"
-                       :label="t('search.results_table.download_as_json')"
-                       :generate-download-data="generateDownloadData" />
-    </div>
-  </div>
+        v-model="contextMenuVisible"
+        :target="contextMenuTarget"
+        :row-data="contextMenuRowData"
+        :cell-content="contextMenuCellContent"
+        :cell-field="contextMenuCellField"
+        :selected-rows="contextMenuSelectedRows"
+        :is-multiple-selection="contextMenuIsMultipleSelection"
+        @edit-document="handleEditDocument"
+        @add-document="handleAddDocument"
+        @filter-by-field="handleFilterByField"
+        @delete-rows="handleDeleteRows"
+      />
+ 
 </template>
 
 <script setup lang="ts">
@@ -226,9 +209,7 @@
   import FilterInput from '../shared/FilterInput.vue'
   import ResizableContainer from '../shared/ResizableContainer.vue'
   import SearchResult from './SearchResult.vue'
-  import DownloadButton from '../shared/DownloadButton.vue'
   import { useTranslation } from '../../composables/i18n.ts'
-  import SearchResultsBulk from './SearchResultsBulk.vue'
   import {
     SearchResultsTableProps,
     useSearchResultsTable
@@ -239,10 +220,10 @@
   import { stringifyJson } from '../../helpers/json/stringify.ts'
 
   const props = defineProps<SearchResultsTableProps>()
-  const emit = defineEmits(['request', 'reload', 'edit-document','add-document'])
+  const emit = defineEmits(['request', 'reload', 'edit-document','add-document','delete-document'])
 
   const t = useTranslation()
-
+  
   const {
     ownTab,
     filterStateProps,
@@ -264,7 +245,6 @@
     setIndeterminate,
     allItemsSelected,
     checkAll,
-    generateDownloadData,
     updateColumnOrder,
     resetColumnOrder,
     toggleColumnSort,
@@ -399,4 +379,10 @@
     contextMenuVisible.value = false
   }
 
+  const handleDeleteRows = async (rowDatas: any[]) => {
+
+    if (rowDatas) {
+      emit('delete-document', rowDatas)
+    }
+  }
 </script>

@@ -560,7 +560,11 @@
       "id_copied": "ID copié dans le presse-papier",
       "selected_rows_copied": "{count} lignes copiées dans le presse-papier",
       "edit_row_json": "Modifier la ligne en JSON",
-      "filter_by_field": "Filtrer par ce champ"
+      "filter_by_field": "Filtrer par ce champ",
+      "download_row_json":" Télécharger la ligne en JSON",
+      "delete_row_json": "Supprimer la ligne",
+      "download_selected_rows_json": "Télécharger {count} lignes sélectionnées en JSON",
+      "delete_selected_rows": "Supprimer les  {count} lignes sélectionnées"
     },
     "edit_document": {
       "new_document": "Nouveau document",

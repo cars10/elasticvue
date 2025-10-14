@@ -560,7 +560,11 @@
       "id_copied": "ID 已复制到剪贴板",
       "selected_rows_copied": "{count} 行已复制到剪贴板",
       "edit_row_json": "编辑行 (JSON)",
-      "filter_by_field": "按此字段筛选"
+      "filter_by_field": "按此字段筛选",
+      "download_row_json": "下载该行的 JSON",
+      "delete_row_json": "删除该行",
+      "download_selected_rows_json": "下载所选的 {count} 行 JSON",
+      "delete_selected_rows": "删除所选的 {count} 行"
     },
     "edit_document": {
       "new_document": "新文件",

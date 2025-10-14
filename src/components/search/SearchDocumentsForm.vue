@@ -1,6 +1,7 @@
-<template>  
-  <q-card>
-    <q-card-section>
+<template>
+  <div class="d-flex flex-column h-100">
+    <q-card class="q-mb-md">
+      <q-card-section>
       <q-form @submit="submitSearch" @keydown="handleKeydownToSearch">
         <div class="row q-col-gutter-lg">
           <div v-if="!ownTab.searchQueryCollapsed" class="col">
@@ -77,38 +78,40 @@
         </div>
       </q-slide-transition>
     </q-card-section>
-  </q-card>
-  <q-card>
-    <q-card v-if="queryParsingError">
-      <q-banner class="q-pa-md bg-warning">
-        <p>invalid search query</p>
-      </q-banner>
     </q-card>
-    <loader-status v-else :request-state="requestState">
-      <search-results-table :results="searchResults" :tab="ownTab" @request="onRequest" @reload="search" 
-          @edit-document="handleEditDocument"
-          @add-document="handleAddDocument" />
-      <template #error>
-        <div class="text-center">
-          <q-btn :label="t('search.form.customize_query.reset')"
-                 size="md"
-                 color="positive"
-                 class="q-ma-md"
-                 @click="resetAndLoad" />
-        </div>
-      </template>
-    </loader-status>
+    <q-card>
+      <q-card v-if="queryParsingError">
+        <q-banner class="q-pa-md bg-warning">
+          <p>invalid search query</p>
+        </q-banner>
+      </q-card>
+      <loader-status v-else :request-state="requestState">
+        <search-results-table :results="searchResults" :tab="ownTab" @request="onRequest" @reload="search" 
+            @edit-document="handleEditDocument"
+            @add-document="handleAddDocument"
+            @delete-document="handleDeleteDocument" />
+        <template #error>
+          <div class="text-center">
+            <q-btn :label="t('search.form.customize_query.reset')"
+                  size="md"
+                  color="positive"
+                  class="q-ma-md"
+                  @click="resetAndLoad" />
+          </div>
+        </template>
+      </loader-status>
 
-    <edit-document
-      v-model="editDocumentVisible"
-      :_id="editingDocument?._id"
-      :_index="editingDocument?._index"
-      :_source="editingDocument?._source"
-      :_type="editingDocument?._type"
-      :_routing="editingDocument?._routing"
-      @reload="search"
-    />
-  </q-card>
+      <edit-document
+        v-model="editDocumentVisible"
+        :_id="editingDocument?._id"
+        :_index="editingDocument?._index"
+        :_source="editingDocument?._source"
+        :_type="editingDocument?._type"
+        :_routing="editingDocument?._routing"
+        @reload="search"
+      />
+    </q-card>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -123,6 +126,7 @@
   import CustomInput from '../shared/CustomInput.vue'
   import EditDocument from './EditDocument.vue'
   import { SearchState } from '../../store/search.ts'
+  import { defineElasticsearchRequest } from '../../composables/CallElasticsearch.ts'
   
   const CodeEditor = defineAsyncComponent(() => import('../shared/CodeEditor.vue'))
   const props = defineProps<{ tab: SearchState }>()
@@ -185,6 +189,48 @@
       }
     }
     editDocumentVisible.value = true
+  }
+
+  const docInfo = (doc: any) => ({
+    index: doc._index,
+    type: doc._type,
+    id: doc._id,
+    routing: doc._routing
+  })
+
+  // defineElasticsearchRequest used without a component emit here; we'll call search() after successful deletion
+  const { run } = defineElasticsearchRequest({ method: 'delete' })
+
+  const handleDeleteDocument = async (rowDatas?: any[]) => {
+    if (!rowDatas || rowDatas.length === 0) return
+
+    if (rowDatas.length === 1) {
+      // single document delete
+      const success = await run({
+        params: docInfo(rowDatas[0]),
+        confirmMsg: t('search.search_result.delete.confirm', 1),
+        snackbarOptions: { body: t('search.search_result.delete.growl', 1) }
+      })
+      if (success) {
+        search()
+      }
+    } else {
+      // bulk delete
+      // build the array in the format expected by ElasticsearchAdapter.docsBulkDelete: "index####type####id"
+      const docs = rowDatas.map(r => {
+        const type = r._type || '_doc' // ensure we always have a type, default to '_doc'
+        return `${r._index}####${type}####${r._id}`
+      })
+      const { run: bulkRun } = defineElasticsearchRequest({ method: 'docsBulkDelete' })
+      const success = await bulkRun({
+        params: docs,
+        confirmMsg: t('search.search_result.delete.confirm', rowDatas.length),
+        snackbarOptions: { body: t('search.search_result.delete.growl', rowDatas.length) }
+      })
+      if (success) {
+        search()
+      }
+    }
   }
 
   const handleKeydownToSearch = (event: KeyboardEvent) => {

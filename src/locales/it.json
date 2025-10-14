@@ -560,7 +560,11 @@
       "id_copied": "ID copiato negli appunti",
       "selected_rows_copied": "{count} righe copiate negli appunti",
       "edit_row_json": "Modifica riga (JSON)",
-      "filter_by_field": "Filtra per questo campo"
+      "filter_by_field": "Filtra per questo campo",
+      "download_row_json": "Scarica la riga in JSON",
+      "delete_row_json": "Elimina la riga",
+      "download_selected_rows_json": "Scarica le {count} righe selezionate in JSON",
+      "delete_selected_rows": "Elimina le {count} righe selezionate"
     },
     "edit_document": {
       "new_document": "Nuovo documento",

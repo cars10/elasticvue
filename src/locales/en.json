@@ -560,7 +560,11 @@
       "id_copied": "ID copied to clipboard",
       "selected_rows_copied": "{count} rows copied to clipboard",
       "edit_row_json": "Edit row as JSON",
-      "filter_by_field": "Filter on this field"
+      "filter_by_field": "Filter on this field",
+      "download_row_json": "Download row as JSON",
+      "delete_row_json": "Delete row",
+      "download_selected_rows_json": "Download {count} selected rows as JSON",
+      "delete_selected_rows": "Delete {count} selected rows"
     },
     "edit_document": {
       "new_document": "New document",

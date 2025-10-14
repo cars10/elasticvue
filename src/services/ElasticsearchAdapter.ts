@@ -478,7 +478,7 @@ export default class ElasticsearchAdapter {
   docsBulkDelete (documents: any[]) {
     const body = documents.map(str => {
       const matches = str.split(/####(.*)####(.*)/)
-      return JSON.stringify({ delete: { _index: matches[0], _id: matches[2] } })
+      return JSON.stringify({ delete: { _index: matches[0], _type: matches[1], _id: matches[2] } })
     }).join('\r\n') + '\r\n'
     return this.request('_bulk?refresh=true', 'POST', body)
   }
