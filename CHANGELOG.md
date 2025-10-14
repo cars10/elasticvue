@@ -1,22 +1,23 @@
 # Changelog
 
-## 1.10.0
-Ajoute de fonctionnalité d'import export depuis la gestion des index
-
-* adds support for bulk delete of documents in search results:
+## 1.9.0
+  * Added import/export functionality from index management
+  * Added a context menu to the search results list
+  * Multiline search input area
+  * Ability to add a document
+  * Ability to sort by multiple columns
+  * Ability to reorder columns via drag-and-drop and/or options
+  * Added tab management in the search section, with memory
+  * adds support for bulk delete of documents in search results
   * single document delete with standard delete endpoint
-  * multiple documents delete using `_bulk` endpoint
-  * adds confirmation dialog with document count
-  * updates UI with delete options in context menu
-* improves table scrolling and layout:
+  * improves table scrolling and layout:
   * sticky header for search results table
   * isolated scrolling for results area
   * better height management using flexbox layout
-  * fixes double scrollbar issues
-* adds multilingual support for new features:
+  * adds multilingual support for new features:
   * adds translations for document deletion in Chinese, English, French, Italian, Japanese and Russian
   * updates context menu with localized strings for all operations
-* internal improvements:
+  * internal improvements:
   * refactors components to use Vue 3 composition API
   * better component height inheritance
   * optimizes layout containment
