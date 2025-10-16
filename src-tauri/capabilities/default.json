@@ -1,20 +1,25 @@
 {
-    "identifier": "desktop-capability",
-    "windows": [
-        "main"
-    ],
-    "platforms": [
-        "macOS",
-        "windows",
-        "linux"
-    ],
-    "permissions": [
-        "core:default",
-        "updater:default",
-        "process:default",
-        "dialog:default",
-        "clipboard-manager:default",
-        "fs:default",
-        "opener:default"
-    ]
+  "identifier": "desktop-capability",
+  "windows": [
+    "main"
+  ],
+  "platforms": [
+    "macOS",
+    "windows",
+    "linux"
+  ],
+  "permissions": [
+    "core:default",
+    "updater:default",
+    "process:default",
+    "dialog:default",
+    "clipboard-manager:default",
+    "fs:default",
+    "opener:default",
+    "global-shortcut:allow-is-registered",
+    "global-shortcut:allow-register",
+    "global-shortcut:allow-unregister",
+    "global-shortcut:allow-unregister-all",
+    "window-state:default"
+  ]
 }

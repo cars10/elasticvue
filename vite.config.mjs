@@ -1,9 +1,9 @@
 import { defineConfig } from 'vite'
+import vue from "@vitejs/plugin-vue"
 import { quasar, transformAssetUrls } from '@quasar/vite-plugin'
 import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'
 import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'url'
-import vue from "@vitejs/plugin-vue"
 
 function removeDataTestid (node) {
   if (node.type === 1 /* NodeTypes.ELEMENT */) {
