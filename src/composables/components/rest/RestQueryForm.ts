@@ -1,10 +1,10 @@
+import stripJsonComments from 'strip-json-comments'
 import { computed, ref, toRaw, watch, nextTick } from 'vue'
 import { clusterAuthHeader } from '../../../helpers/elasticsearchAdapter.ts'
 import { REQUEST_DEFAULT_HEADERS } from '../../../consts'
 import { useConnectionStore } from '../../../store/connection'
 import { useSnackbar } from '../../Snackbar'
 import { useIdbStore } from '../../../db/Idb'
-import { removeComments } from '../../../helpers/json/parse'
 import { fetchMethod } from '../../../helpers/fetch'
 import { IdbRestQueryTab, IdbRestQueryTabRequest } from '../../../db/types.ts'
 import { debounce } from '../../../helpers/debounce.ts'
@@ -39,7 +39,7 @@ export const useRestQueryForm = (props: RestQueryFormProps, emit: any) => {
 
     const options: RestFetchOptions = {
       method: props.tab.request.method,
-      body: ['GET', 'HEAD'].includes(props.tab.request.method) ? null : removeComments(props.tab.request.body),
+      body: ['GET', 'HEAD'].includes(props.tab.request.method) ? null : stripJsonComments(props.tab.request.body),
       headers: Object.assign({}, REQUEST_DEFAULT_HEADERS)
     }
 
