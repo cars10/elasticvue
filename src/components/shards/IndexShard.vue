@@ -31,11 +31,11 @@ const props = withDefaults(
   }
 )
 
-const replica = props.shard.prirep === 'r'
+const replica = computed(() => props.shard.prirep === 'r')
 
 const classes = computed(() => {
   const newClasses = []
-  if (replica) newClasses.push('outline--dashed')
+  if (replica.value) newClasses.push('outline--dashed')
 
   if (props.shard.state === 'STARTED') {
     newClasses.push('border-positive')

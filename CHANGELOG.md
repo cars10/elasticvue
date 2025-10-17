@@ -4,7 +4,8 @@
 
 - fix REST API requests with document IDs containing slashes, fixes [#309](https://github.com/cars10/elasticvue/issues/309)
 - can manage snapshot repository policies, fixes [#302](https://github.com/cars10/elasticvue/issues/302)
-- fix issues with json containing windows paths, fixes [324](https://github.com/cars10/elasticvue/pull/324), thanks @vfabioux
+- fix issues with json containing windows paths, fixes [#324](https://github.com/cars10/elasticvue/pull/324), thanks @vfabioux
+- fix issue with shard display showing wrong border, fixes [#312](https://github.com/cars10/elasticvue/issues/312)
 
 ## 1.8.0
 
