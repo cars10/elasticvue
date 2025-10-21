@@ -22,10 +22,10 @@ build_tauri:
 build_docker_tauri:
 	docker build -t elasticvue-linux-tauri -f docker/Dockerfile_tauri --build-arg USERID="$(UID)" .
 	docker run --rm \
-	    	   -e TAURI_SIGNING_PRIVATE_KEY="$(TAURI_SIGNING_PRIVATE_KEY)" \
+			   -e TAURI_SIGNING_PRIVATE_KEY="$(TAURI_SIGNING_PRIVATE_KEY)" \
 			   -e TAURI_SIGNING_PRIVATE_KEY_PASSWORD="$(TAURI_SIGNING_PRIVATE_KEY_PASSWORD)" \
 			   -v .:/app \
-			   elasticvue-linux-tauri bash -c ". ~/.cargo/env && rm -rf src-tauri/target/* && NO_STRIP=true npm run tauri:build"
+			   elasticvue-linux-tauri bash -c "npm install && . ~/.cargo/env && rm -rf src-tauri/target/* && npm run tauri:build"
 
 # Build docker image to run elasticvue served by nginx
 build_docker_nginx:
