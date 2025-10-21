@@ -1,192 +1,186 @@
 <template>
-  <div class="flex justify-between q-pa-md">
-    <div class="flex">
-      <filter-state v-model="ownTab.filter" :results-count="filterStateProps.resultsCount"
-                    :filtered-results-count="filterStateProps.filteredResultsCount" />
+  <q-card class="results-table-layout column fit no-wrap overflow-hidden">  
+    <q-card-section class="results-table-header flex justify-between q-pa-md">
+      <div class="flex">
+        <filter-state v-model="ownTab.filter" :results-count="filterStateProps.resultsCount"
+                      :filtered-results-count="filterStateProps.filteredResultsCount" />
 
-      <q-btn class="q-ml-md" color="positive" :label="t('search.results_table.add_document')"
-             @click="() => handleAddDocument()" />
-    </div>
+        <q-btn class="q-ml-md" color="positive" :label="t('search.results_table.add_document')"
+               @click="() => handleAddDocument()" />
+      </div>
 
-    <div class="flex q-ml-auto">
-      <filter-input v-model="ownTab.filter" label="Filter CURRENT PAGE only" />
+      <div class="flex q-ml-auto">
+        <filter-input v-model="ownTab.filter" label="Filter CURRENT PAGE only" />
 
-      <q-btn icon="settings" round flat class="q-ml-sm">
-        <q-badge v-if="tableColumns.length !== ownTab.visibleColumns.length" color="positive" rounded floating />
+        <q-btn icon="settings" round flat class="q-ml-sm">
+          <q-badge v-if="tableColumns.length !== ownTab.visibleColumns.length" color="positive" rounded floating />
 
-        <q-menu style="white-space: nowrap" anchor="bottom right" self="top end">
-          <q-list dense class="q-pb-sm">
-            <q-item style="padding-left: 6px">
-              <q-checkbox v-model="ownTab.stickyTableHeader" size="32px"
-                          :label="t('indices.indices_table.sticky_table_header.label')" />
-            </q-item>
+          <q-menu style="white-space: nowrap" anchor="bottom right" self="top end">
+            <q-list dense class="q-pb-sm">
+              <q-item class="q-mt-sm">
+                <q-item-label style="flex-grow: 1">
+                  <div class="flex justify-between items-center" style="flex-grow: 1">
+                    {{ t('search.results_table.settings.columns') }}
 
-            <q-separator />
+                    <q-btn :label="t('shared.table_settings.clear')" flat size="sm" class="q-px-xs"
+                          @click="clearColumns" />
+                    <q-btn :label="t('shared.table_settings.reset')" flat size="sm" class="q-px-xs"
+                          @click="resetColumns" />
+                    <q-btn :label="t('shared.table_settings.reset_order')" flat size="sm" class="q-px-xs"
+                          @click="resetColumnOrder" />
+                    <q-btn v-if="hasActiveSorts" :label="t('shared.table_settings.clear_sorts')" flat size="sm" class="q-px-xs"
+                          @click="clearAllSorts(ownTab.name)" />
+                  </div>
+                </q-item-label>
+              </q-item>
 
-            <q-item class="q-mt-sm">
-              <q-item-label style="flex-grow: 1">
-                <div class="flex justify-between items-center" style="flex-grow: 1">
-                  {{ t('search.results_table.settings.columns') }}
-
-                  <q-btn :label="t('shared.table_settings.clear')" flat size="sm" class="q-px-xs"
-                         @click="clearColumns" />
-                  <q-btn :label="t('shared.table_settings.reset')" flat size="sm" class="q-px-xs"
-                         @click="resetColumns" />
-                  <q-btn :label="t('shared.table_settings.reset_order')" flat size="sm" class="q-px-xs"
-                         @click="resetColumnOrder" />
-                  <q-btn v-if="hasActiveSorts" :label="t('shared.table_settings.clear_sorts')" flat size="sm" class="q-px-xs"
-                         @click="clearAllSorts(ownTab.name)" />
+              <q-item v-for="(col, index) in slicedTableColumns" :key="col.name" style="padding-left: 8px" dense>
+                <q-checkbox v-model="ownTab.visibleColumns" :val="col.name" :label="col.label" size="32px"
+                            style="flex-grow: 1" />
+                <div class="q-ml-sm">
+                  <q-btn 
+                    v-if="index > 0"
+                    icon="keyboard_double_arrow_up" 
+                    size="sm" 
+                    flat 
+                    round 
+                    dense
+                    @click="moveColumnToTop(index)"
+                    class="q-mr-xs"
+                    :title="t('shared.table_settings.move_to_top')"
+                  />
+                  <q-btn 
+                    v-if="index > 0"
+                    icon="keyboard_arrow_up" 
+                    size="sm" 
+                    flat 
+                    round 
+                    dense
+                    @click="moveColumnUp(index)"
+                    class="q-mr-xs"
+                    :title="t('shared.table_settings.move_up')"
+                  />
+                  <q-btn 
+                    v-if="index < slicedTableColumns.length - 1"
+                    icon="keyboard_arrow_down" 
+                    size="sm" 
+                    flat 
+                    round 
+                    dense
+                    @click="moveColumnDown(index)"
+                    class="q-mr-xs"
+                    :title="t('shared.table_settings.move_down')"
+                  />
+                  <q-btn 
+                    v-if="index < slicedTableColumns.length - 1"
+                    icon="keyboard_double_arrow_down" 
+                    size="sm" 
+                    flat 
+                    round 
+                    dense
+                    @click="moveColumnToBottom(index)"
+                    :title="t('shared.table_settings.move_to_bottom')"
+                  />
                 </div>
-              </q-item-label>
-            </q-item>
+              </q-item>
+            </q-list>
+          </q-menu>
+        </q-btn>
+      </div>
+    </q-card-section>
 
-            <q-item v-for="(col, index) in slicedTableColumns" :key="col.name" style="padding-left: 8px" dense>
-              <q-checkbox v-model="ownTab.visibleColumns" :val="col.name" :label="col.label" size="32px"
-                          style="flex-grow: 1" />
-              <div class="q-ml-sm">
-                <q-btn 
-                  v-if="index > 0"
-                  icon="keyboard_double_arrow_up" 
-                  size="sm" 
-                  flat 
-                  round 
-                  dense
-                  @click="moveColumnToTop(index)"
-                  class="q-mr-xs"
-                  :title="t('shared.table_settings.move_to_top')"
-                />
-                <q-btn 
-                  v-if="index > 0"
-                  icon="keyboard_arrow_up" 
-                  size="sm" 
-                  flat 
-                  round 
-                  dense
-                  @click="moveColumnUp(index)"
-                  class="q-mr-xs"
-                  :title="t('shared.table_settings.move_up')"
-                />
-                <q-btn 
-                  v-if="index < slicedTableColumns.length - 1"
-                  icon="keyboard_arrow_down" 
-                  size="sm" 
-                  flat 
-                  round 
-                  dense
-                  @click="moveColumnDown(index)"
-                  class="q-mr-xs"
-                  :title="t('shared.table_settings.move_down')"
-                />
-                <q-btn 
-                  v-if="index < slicedTableColumns.length - 1"
-                  icon="keyboard_double_arrow_down" 
-                  size="sm" 
-                  flat 
-                  round 
-                  dense
-                  @click="moveColumnToBottom(index)"
-                  :title="t('shared.table_settings.move_to_bottom')"
-                />
-              </div>
-            </q-item>
-          </q-list>
-        </q-menu>
-      </q-btn>
-    </div>
-  </div>
-
-  <div class="table-wrapper" :class="{'table--sticky-header': ownTab.stickyTableHeader}">
-    <resizable-container v-model="resizeStore.searchTable" :active="ownTab.stickyTableHeader" class="h-100">
-      <q-table v-if="hits.length > 0"
-               class="results-table table-mono table-hide-overflow"
-               v-model:pagination="ownTab.pagination"
-               v-draggable-table="{ options: { mode: 'column', scroll: true }, onDrop: onDropColumn }"
-               flat
-               dense
-               :virtual-scroll="ownTab.stickyTableHeader"
-               :virtual-scroll-item-size="14"
-               :columns="orderedTableColumns"
-               :columns_filter="true"
-               :rows="filteredHits"
-               :visible-columns="orderedVisibleColumns"
-               selection="multiple"
-               @request="onRequest">
-        <template #body="{row, cols}">
-          <search-result 
-            :columns="cols" 
-            :doc="row" 
-            :has-multiple-selections="selectedItems.length > 1"
-            @reload="reload"
-            @row-context-menu="handleRowContextMenu"
-            @cell-context-menu="handleCellContextMenu"
-          >
-            <template #checkbox>
-              <q-checkbox v-model="selectedItems" :val="genDocStr(row)" size="32px"
-                          @update:model-value="setIndeterminate" />
-            </template>
-          </search-result>
-        </template>
-
-        <template #header-selection>
-          <q-checkbox v-model="allItemsSelected" size="32px" @update:model-value="checkAll" />
-        </template> 
-
-        <template #header="props">
-          <q-tr :props="props">
-            <q-th auto-width>
-              <q-checkbox v-model="allItemsSelected" size="32px" @update:model-value="checkAll" />
-            </q-th>
-            <q-th
-              v-for="col in props.cols"
-              :key="col.name"
-              :props="props"
-              :class="{ 'cursor-pointer': col.sortableCol }"
-              @click="col.sortableCol ? toggleColumnSort(ownTab.name, col.name) : null"
+    <q-card-section class="results-table-section">
+        <q-table v-if="hits.length > 0"
+                class="results-table"
+                v-model:pagination="ownTab.pagination"
+                v-draggable-table="{ options: { mode: 'column', scroll: true }, onDrop: onDropColumn }"
+                flat
+                dense
+                :virtual-scroll="true"
+                :virtual-scroll-item-size="14"
+                :columns="orderedTableColumns"
+                :columns_filter="true"
+                :rows="filteredHits"
+                :visible-columns="orderedVisibleColumns"
+                selection="multiple"
+                @request="onRequest">
+          <template #body="{row, cols}">
+            <search-result 
+              :columns="cols" 
+              :doc="row" 
+              :has-multiple-selections="selectedItems.length > 1"
+              @reload="reload"
+              @row-context-menu="handleRowContextMenu"
+              @cell-context-menu="handleCellContextMenu"
             >
-              <div style="display: inline-block;">
-                <span class="q-mr-xs">{{ col.label }}</span>
-                  <q-icon
-                    v-if="getColumnSortOrder(col.name) === 'asc'"
-                    name="keyboard_arrow_up"
-                    size="16px"
-                    class="q-mr-xs"
-                  />
-                  <q-icon
-                    v-else-if="getColumnSortOrder(col.name) === 'desc'"
-                    name="keyboard_arrow_down"
-                    size="16px"
-                    class="q-mr-xs"
-                  />
-                  <q-icon
-                    v-else
-                    name="unfold_more"
-                    size="16px"
-                    class="q-mr-xs text-grey-5"
-                  />
-                  <q-badge
-                    v-if="getColumnSortPriority(col.name)"
-                    :label="getColumnSortPriority(col.name)"
-                    color="primary"
-                    text-color="white"
-                    class="q-ml-xs"
-                    style="min-width: 16px; height: 16px; font-size: 10px;"
-                  />
-              </div>
-            </q-th>
-          </q-tr>
-        </template>
+              <template #checkbox>
+                <q-checkbox v-model="selectedItems" :val="genDocStr(row)" size="32px"
+                            @update:model-value="setIndeterminate" />
+              </template>
+            </search-result>
+          </template>
 
-        <template #bottom="scope">
-          <table-bottom v-model="ownTab.pagination.rowsPerPage"
-                        :scope="scope"
-                        :total="hits.length"
-                        :rows-per-page="rowsPerPage"
-                        @rows-per-page-accepted="acceptRowsPerPage" />
-        </template>
-      </q-table>
-      <div v-else class="q-ma-md text-center">No Documents found</div>
-    </resizable-container>
-  </div>
+          <template #header-selection>
+            <q-checkbox v-model="allItemsSelected" size="32px" @update:model-value="checkAll" />
+          </template> 
+
+          <template #header="props">
+            <q-tr :props="props">
+              <q-th auto-width>
+                <q-checkbox v-model="allItemsSelected" size="32px" @update:model-value="checkAll" />
+              </q-th>
+              <q-th
+                v-for="col in props.cols"
+                :key="col.name"
+                :props="props"
+                :class="{ 'cursor-pointer': col.sortableCol }"
+                @click="col.sortableCol ? toggleColumnSort(ownTab.name, col.name) : null"
+              >
+                <div style="display: inline-block;">
+                  <span class="q-mr-xs">{{ col.label }}</span>
+                    <q-icon
+                      v-if="getColumnSortOrder(col.name) === 'asc'"
+                      name="keyboard_arrow_up"
+                      size="16px"
+                      class="q-mr-xs"
+                    />
+                    <q-icon
+                      v-else-if="getColumnSortOrder(col.name) === 'desc'"
+                      name="keyboard_arrow_down"
+                      size="16px"
+                      class="q-mr-xs"
+                    />
+                    <q-icon
+                      v-else
+                      name="unfold_more"
+                      size="16px"
+                      class="q-mr-xs text-grey-5"
+                    />
+                    <q-badge
+                      v-if="getColumnSortPriority(col.name)"
+                      :label="getColumnSortPriority(col.name)"
+                      color="primary"
+                      text-color="white"
+                      class="q-ml-xs"
+                      style="min-width: 16px; height: 16px; font-size: 10px;"
+                    />
+                </div>
+              </q-th>
+            </q-tr>
+          </template>
+
+          <template #bottom="scope">
+            <table-bottom v-model="ownTab.pagination.rowsPerPage"
+                          :scope="scope"
+                          :total="hits.length"
+                          :rows-per-page="rowsPerPage"
+                          @rows-per-page-accepted="acceptRowsPerPage" />
+          </template>
+        </q-table>
+        <div v-else class="q-ma-md text-center">No Documents found</div>
+    </q-card-section>    
+
+  </q-card>
 
   <context-menu
         v-model="contextMenuVisible"
@@ -201,13 +195,13 @@
         @filter-by-field="handleFilterByField"
         @delete-rows="handleDeleteRows"
       />
- 
+  
 </template>
 
 <script setup lang="ts">
   import { onUnmounted, ref } from 'vue'
   import FilterInput from '../shared/FilterInput.vue'
-  import ResizableContainer from '../shared/ResizableContainer.vue'
+
   import SearchResult from './SearchResult.vue'
   import { useTranslation } from '../../composables/i18n.ts'
   import {
@@ -234,7 +228,7 @@
     clearColumns,
     resetColumns,
     slicedTableColumns,
-    resizeStore,
+
     hits,
     filteredHits,
     rowsPerPage,
@@ -386,3 +380,45 @@
     }
   }
 </script>
+
+<style lang="scss">
+.results-table-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.results-table-header {
+  padding: 8px 16px;
+}
+
+.results-table-section {
+  flex: 1;
+  min-height: 0;
+  padding: 0;
+  position: relative;
+}
+
+.results-table {
+  height: 100%;
+
+  :deep(.q-table__container) {
+    height: 100%;
+  }
+
+  :deep(.q-table__middle) {
+    max-height: none !important;
+  }
+
+  :deep(.q-virtual-scroll__content) {
+    max-height: none !important;
+  }
+
+  :deep(th) {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background-color: var(--q-primary);
+  }
+}
+</style>

@@ -1,8 +1,7 @@
 <template>
-  <div class="d-flex flex-column h-100">
-    <q-card class="q-mb-md">
-      <q-card-section>
-      <q-form @submit="submitSearch" @keydown="handleKeydownToSearch">
+  <q-card class="search-form-card column fit no-wrap overflow-hidden">
+    <q-card-section>
+        <q-form @submit="submitSearch" @keydown="handleKeydownToSearch">
         <div class="row q-col-gutter-lg">
           <div v-if="!ownTab.searchQueryCollapsed" class="col">
             <div class="autocomplete-wrapper">
@@ -62,6 +61,7 @@
         </div>
       </q-form>
     </q-card-section>    
+
     <q-card-section v-if="ownTab.searchQueryCollapsed">
       <q-slide-transition>
         <div v-if="ownTab.searchQueryCollapsed">
@@ -70,48 +70,47 @@
             <code-editor v-model="ownTab.searchQuery" :commands="editorCommands" />
           </resizable-container>
           <q-btn :label="t('search.form.customize_query.reset')"
-                 flat
-                 size="md"
-                 no-caps
-                 class="btn-link q-py-none q-px-sm"
-                 @click="resetSearchQuery" />
+                  flat
+                  size="md"
+                  no-caps
+                  class="btn-link q-py-none q-px-sm"
+                  @click="resetSearchQuery" />
         </div>
       </q-slide-transition>
     </q-card-section>
+  
+    <q-card v-if="queryParsingError">
+      <q-banner class="q-pa-md bg-warning">
+        <p>invalid search query</p>
+      </q-banner>
     </q-card>
-    <q-card>
-      <q-card v-if="queryParsingError">
-        <q-banner class="q-pa-md bg-warning">
-          <p>invalid search query</p>
-        </q-banner>
-      </q-card>
-      <loader-status v-else :request-state="requestState">
-        <search-results-table :results="searchResults" :tab="ownTab" @request="onRequest" @reload="search" 
-            @edit-document="handleEditDocument"
-            @add-document="handleAddDocument"
-            @delete-document="handleDeleteDocument" />
-        <template #error>
-          <div class="text-center">
-            <q-btn :label="t('search.form.customize_query.reset')"
-                  size="md"
-                  color="positive"
-                  class="q-ma-md"
-                  @click="resetAndLoad" />
-          </div>
-        </template>
-      </loader-status>
+    <loader-status v-else :request-state="requestState" class="column fit no-wrap overflow-hidden">
+      <search-results-table :results="searchResults" :tab="ownTab" @request="onRequest" @reload="search" 
+        @edit-document="handleEditDocument"
+        @add-document="handleAddDocument"
+        @delete-document="handleDeleteDocument" />
+      <template #error>
+        <div class="text-center">
+          <q-btn :label="t('search.form.customize_query.reset')"
+                size="md"
+                color="positive"
+                class="q-ma-md"
+                @click="resetAndLoad" />
+        </div>
+      </template>
+    </loader-status>
 
-      <edit-document
-        v-model="editDocumentVisible"
-        :_id="editingDocument?._id"
-        :_index="editingDocument?._index"
-        :_source="editingDocument?._source"
-        :_type="editingDocument?._type"
-        :_routing="editingDocument?._routing"
-        @reload="search"
-      />
-    </q-card>
-  </div>
+    <edit-document
+      v-model="editDocumentVisible"
+      :_id="editingDocument?._id"
+      :_index="editingDocument?._index"
+      :_source="editingDocument?._source"
+      :_type="editingDocument?._type"
+      :_routing="editingDocument?._routing"
+      @reload="search"
+    />
+  </q-card>
+
 </template>
 
 <script setup lang="ts">
@@ -485,6 +484,43 @@
     await search()
   }
 </script>
+
+<style lang="scss">
+.search-form-layout {
+  min-height: 0; // Important pour que flex-grow fonctionne correctement
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.search-form-header {
+  flex-shrink: 0; // Empêcher l'en-tête de se rétrécir
+}
+
+.search-form-card {
+  margin-bottom: 1rem;
+}
+
+.search-results-wrapper {
+  flex: 1 1 auto;
+  min-height: 0; // Important pour permettre le scroll
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.results-table-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; // Empêcher le débordement
+}
+</style>
 
 <style scoped>
 

@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="hHh lpR fff" class="app-layout" >
+  <q-layout view="lHh Lpr lFf" class="app-layout overflow-hidden" >
     <app-header v-if="connectionStore.activeCluster" />
 
     <q-page-container class="app-content">
@@ -19,7 +19,7 @@
     <alert-snackbar />
     <tauri-update-check v-if="buildConfig.tauri" />
 
-    <app-footer />
+    <app-footer v-if="route.name !== 'search'" />
   </q-layout>
 </template>
 
@@ -98,7 +98,8 @@
 <style>
 /* Ensure app takes exactly viewport height */
 .app-layout {
-  height: inherit ;
+  min-height: unset;
+  height: 100% ;
   display: flex;
   flex-direction: column;
 }
@@ -108,7 +109,7 @@
   flex: 1;
   min-height: 0; /* Allow flex item to shrink below content size */
   display: flex;
-  flex-direction: column;
+  flex-direction: column;  
 }
 
 /* Page content that will scroll */
@@ -116,6 +117,8 @@
   flex: 1;
   min-height: 0;
   overflow: auto;  
+  display: flex;
+  flex-direction: column;
 }
 
 /* Ensure Quasar footer stays at bottom */
