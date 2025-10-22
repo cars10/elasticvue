@@ -95,7 +95,7 @@ jobs:
       #### build mac arm
 
       - name: mac aaarch64 > build
-        run: npm run tauri:build --target aarch64-apple-darwin
+        run: npm run tauri:build -- --target aarch64-apple-darwin
         if: matrix.platform == 'macos-latest'
 
       - name: mac aaarch64 > rename artifacts
@@ -117,7 +117,7 @@ jobs:
       #### build mac x86_64
 
       - name: mac x86_64 > build
-        run: npm run tauri:build --target x86_64-apple-darwin
+        run: npm run tauri:build -- --target x86_64-apple-darwin
         if: matrix.platform == 'macos-latest'
 
       - name: mac x86_64 > rename artifacts
@@ -158,6 +158,9 @@ jobs:
   build_docker:
     name: Build docker images
     runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      packages: write
     steps:
       - uses: actions/checkout@v4
 
@@ -166,6 +169,13 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -184,28 +194,10 @@ jobs:
           file: docker/Dockerfile_multiarch
           push: true
           tags: |
+            cars10/elasticvue:latest
+            cars10/elasticvue:${{ steps.package-version.outputs.current-version }}
             ghcr.io/cars10/elasticvue:latest
             ghcr.io/cars10/elasticvue:${{ steps.package-version.outputs.current-version }}
-
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build and push to GitHub Container Registry
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          platforms: linux/amd64,linux/arm64,linux/arm/v7
-          file: docker/Dockerfile_multiarch
-          push: true
-          tags: |
-            ghcr.io/cars10/elasticvue:latest
-            ghcr.io/cars10/elasticvue:${{ steps.package-version.outputs.current-version }}
-          registry: ghcr.io
-
 
   publish:
     name: Publish release
