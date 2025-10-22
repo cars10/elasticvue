@@ -21,7 +21,7 @@
           "title": "Inglese"
         },
         "cn": {
-          "title": "Cinese"
+          "title": "Cinese semplificato"
         },
         "fr": {
           "title": "Francese"
@@ -34,6 +34,9 @@
         },
         "jp": {
           "title": "Giapponese"
+        },
+        "tw": {
+          "title": "Cinese tradizionale"
         }
       }
     },
