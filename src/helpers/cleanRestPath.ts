@@ -35,21 +35,65 @@ export const cleanRestPath = (path: string): string => {
   // API endpoints like _search, _delete_by_query, _bulk should not be modified
   // But document types like _doc should still be processed for document ID encoding
   const apiEndpoints = [
-    '_search', '_msearch', '_bulk', '_delete_by_query', '_update_by_query',
-    '_mget', '_explain', '_validate', '_analyze', '_termvectors', '_field_caps',
-    '_search_shards', '_search/template', '_render/template', '_scripts',
-    '_ingest', '_transform', '_ml', '_watcher', '_security', '_xpack',
-    '_cat', '_cluster', '_nodes', '_tasks', '_snapshot', '_repositories',
-    '_ilm', '_slm', '_enrich', '_data_frame', '_rollup', '_async_search',
-    '_eql', '_graph', '_license', '_monitoring', '_telemetry', '_usage',
-    '_features', '_info', '_health', '_refresh', '_flush', '_forcemerge',
-    '_shrink', '_split', '_clone', '_rollover', '_freeze', '_unfreeze',
-    '_close', '_open', '_reindex'
+    '_search',
+    '_msearch',
+    '_bulk',
+    '_delete_by_query',
+    '_update_by_query',
+    '_mget',
+    '_explain',
+    '_validate',
+    '_analyze',
+    '_termvectors',
+    '_field_caps',
+    '_search_shards',
+    '_search/template',
+    '_render/template',
+    '_scripts',
+    '_ingest',
+    '_transform',
+    '_ml',
+    '_watcher',
+    '_security',
+    '_xpack',
+    '_cat',
+    '_cluster',
+    '_nodes',
+    '_tasks',
+    '_snapshot',
+    '_repositories',
+    '_ilm',
+    '_slm',
+    '_enrich',
+    '_data_frame',
+    '_rollup',
+    '_async_search',
+    '_eql',
+    '_graph',
+    '_license',
+    '_monitoring',
+    '_telemetry',
+    '_usage',
+    '_features',
+    '_info',
+    '_health',
+    '_refresh',
+    '_flush',
+    '_forcemerge',
+    '_shrink',
+    '_split',
+    '_clone',
+    '_rollover',
+    '_freeze',
+    '_unfreeze',
+    '_close',
+    '_open',
+    '_reindex'
   ]
-  
+
   // Check if the path starts with any of these API endpoints
-  const isApiEndpoint = apiEndpoints.some(endpoint => restOfPath.startsWith(endpoint))
-  
+  const isApiEndpoint = apiEndpoints.some((endpoint) => restOfPath.startsWith(endpoint))
+
   if (isApiEndpoint) {
     return `${cleanedIndexName}/${restOfPath}`
   }
