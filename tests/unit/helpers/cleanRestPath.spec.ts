@@ -180,6 +180,109 @@ describe.concurrent('helpers/cleanRestPath.ts', () => {
         expect(cleanRestPath(endpoint)).toBe(endpoint)
       })
     })
+
+    it('should not modify cluster-level API endpoints with query parameters', () => {
+      const testCases = [
+        {
+          input: '/_cluster/settings?include_defaults=true',
+          expected: '/_cluster/settings?include_defaults=true'
+        },
+        {
+          input: '/_cluster/health',
+          expected: '/_cluster/health'
+        },
+        {
+          input: '/_cluster/state',
+          expected: '/_cluster/state'
+        },
+        {
+          input: '/_cluster/stats',
+          expected: '/_cluster/stats'
+        },
+        {
+          input: '/_cluster/pending_tasks',
+          expected: '/_cluster/pending_tasks'
+        },
+        {
+          input: '/_cluster/allocation/explain',
+          expected: '/_cluster/allocation/explain'
+        },
+        {
+          input: '/_nodes/stats',
+          expected: '/_nodes/stats'
+        },
+        {
+          input: '/_nodes/info',
+          expected: '/_nodes/info'
+        },
+        {
+          input: '/_cat/indices',
+          expected: '/_cat/indices'
+        },
+        {
+          input: '/_cat/health',
+          expected: '/_cat/health'
+        }
+      ]
+      testCases.forEach(({ input, expected }) => {
+        expect(cleanRestPath(input)).toBe(expected)
+      })
+    })
+
+    it('should handle the specific GitHub issue case: GET /_cluster/settings?include_defaults=true', () => {
+      // This is the exact case from GitHub issue #327
+      const input = '/_cluster/settings?include_defaults=true'
+      const expected = '/_cluster/settings?include_defaults=true'
+      expect(cleanRestPath(input)).toBe(expected)
+    })
+
+    it('should not modify index-level API endpoints with query parameters', () => {
+      const testCases = [
+        {
+          input: 'my_index/_delete_by_query?refresh=true',
+          expected: 'my_index/_delete_by_query?refresh=true'
+        },
+        {
+          input: 'my_index/_search?q=test',
+          expected: 'my_index/_search?q=test'
+        },
+        {
+          input: 'my_index/_update_by_query?conflicts=proceed',
+          expected: 'my_index/_update_by_query?conflicts=proceed'
+        },
+        {
+          input: 'my_index/_bulk?refresh=true',
+          expected: 'my_index/_bulk?refresh=true'
+        },
+        {
+          input: 'my_index/_msearch?timeout=30s',
+          expected: 'my_index/_msearch?timeout=30s'
+        },
+        {
+          input: 'my_index/_mget?stored_fields=_source',
+          expected: 'my_index/_mget?stored_fields=_source'
+        },
+        {
+          input: 'my_index/_explain?analyze_wildcard=true',
+          expected: 'my_index/_explain?analyze_wildcard=true'
+        },
+        {
+          input: 'my_index/_validate/query?explain=true',
+          expected: 'my_index/_validate/query?explain=true'
+        },
+        {
+          input: 'my_index/_analyze?explain=true',
+          expected: 'my_index/_analyze?explain=true'
+        },
+        {
+          input: 'my_index/_termvectors?offsets=true',
+          expected: 'my_index/_termvectors?offsets=true'
+        }
+      ]
+      testCases.forEach(({ input, expected }) => {
+        expect(cleanRestPath(input)).toBe(expected)
+      })
+    })
   })
 
   describe('complex scenarios', () => {
@@ -207,7 +310,7 @@ describe.concurrent('helpers/cleanRestPath.ts', () => {
       const testCases = [
         {
           input: 'my-index/_search?q=test',
-          expected: 'my-index/_search%3Fq%3Dtest' // Query parameters are part of the document ID and get encoded
+          expected: 'my-index/_search?q=test' // API endpoints should not be modified
         },
         {
           input: 'my-index/type/doc-id?routing=test',
@@ -223,7 +326,7 @@ describe.concurrent('helpers/cleanRestPath.ts', () => {
       const testCases = [
         {
           input: 'my-index/_search#fragment',
-          expected: 'my-index/_search%23fragment' // Fragments are part of the document ID and get encoded
+          expected: 'my-index/_search#fragment' // API endpoints should not be modified
         },
         {
           input: 'my-index/type/doc-id#fragment',

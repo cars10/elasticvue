@@ -10,6 +10,12 @@ import { cleanIndexName } from './cleanIndexName'
 export const cleanRestPath = (path: string): string => {
   if (!path) return path
 
+  // Handle cluster-level API endpoints (starting with /_)
+  if (path.startsWith('/_')) {
+    // These are cluster-level endpoints that should not be modified
+    return path
+  }
+
   // Find the first slash to separate index from the rest
   const firstSlashIndex = path.indexOf('/')
 
@@ -24,6 +30,29 @@ export const cleanRestPath = (path: string): string => {
 
   // Clean the index name
   const cleanedIndexName = cleanIndexName(indexName)
+
+  // Check if this is an API endpoint (starts with _ but not _doc, _source, etc.)
+  // API endpoints like _search, _delete_by_query, _bulk should not be modified
+  // But document types like _doc should still be processed for document ID encoding
+  const apiEndpoints = [
+    '_search', '_msearch', '_bulk', '_delete_by_query', '_update_by_query',
+    '_mget', '_explain', '_validate', '_analyze', '_termvectors', '_field_caps',
+    '_search_shards', '_search/template', '_render/template', '_scripts',
+    '_ingest', '_transform', '_ml', '_watcher', '_security', '_xpack',
+    '_cat', '_cluster', '_nodes', '_tasks', '_snapshot', '_repositories',
+    '_ilm', '_slm', '_enrich', '_data_frame', '_rollup', '_async_search',
+    '_eql', '_graph', '_license', '_monitoring', '_telemetry', '_usage',
+    '_features', '_info', '_health', '_refresh', '_flush', '_forcemerge',
+    '_shrink', '_split', '_clone', '_rollover', '_freeze', '_unfreeze',
+    '_close', '_open', '_reindex'
+  ]
+  
+  // Check if the path starts with any of these API endpoints
+  const isApiEndpoint = apiEndpoints.some(endpoint => restOfPath.startsWith(endpoint))
+  
+  if (isApiEndpoint) {
+    return `${cleanedIndexName}/${restOfPath}`
+  }
 
   // For the rest of the path, we need to handle it more carefully
   // We need to preserve the structure but encode document IDs
