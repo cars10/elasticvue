@@ -1,9 +1,19 @@
-import { DEFAULT_SORTABLE_COLUMNS } from '../consts'
+import { DEFAULT_SORTABLE_COLUMNS, DEFAULT_SORTABLE_COLUMNS_NEW } from '../consts'
+import { useConnectionStore } from '../store/connection'
 
 const SORTABLE_TYPES = ['long', 'integer', 'double', 'float', 'date', 'boolean', 'keyword']
 
-export function sortableField(fieldName: string, property: any) {
-  if (DEFAULT_SORTABLE_COLUMNS.includes(fieldName)) return fieldName
+export function sortableField (fieldName: string, property: any) {
+  let defSortColumn = []
+  const connectionStore = useConnectionStore()
+  
+  if (connectionStore.activeCluster?.majorVersion.split('.')[0] !== undefined
+       && +connectionStore.activeCluster?.majorVersion.split('.')[0] < 7)
+    defSortColumn = DEFAULT_SORTABLE_COLUMNS
+  else
+    defSortColumn = DEFAULT_SORTABLE_COLUMNS_NEW  
+
+  if (defSortColumn.includes(fieldName)) return fieldName
 
   if (property) {
     if (SORTABLE_TYPES.includes(property.type)) {

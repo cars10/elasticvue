@@ -54,6 +54,10 @@
     "bulk": "批量操作",
     "copy": "复制"
   },
+  "common": {
+    "yes": "是",
+    "no": "否"
+  },
   "cluster_selection": {
     "cluster_selection": {
       "connected_info": {
@@ -95,7 +99,21 @@
   },
   "home": {
     "client_information": {
-      "heading": "节点信息"
+      "heading": "节点信息",
+      "node_name": "节点名称",
+      "cluster_name": "集群名称",
+      "cluster_uuid": "集群UUID",
+      "tagline": "标语",
+      "distribution": "发行版",
+      "number": "版本号",
+      "build_flavor": "构建版本",
+      "build_type": "构建类型",
+      "build_hash": "构建哈希",
+      "build_date": "构建日期",
+      "build_snapshot": "构建快照",
+      "lucene_version": "Lucene版本",
+      "minimum_wire_compatibility_version": "最低网络兼容版本",
+      "minimum_index_compatibility_version": "最低索引兼容版本"
     },
     "cluster_health": {
       "heading": "集群健康"
@@ -168,6 +186,11 @@
           "text": "开启索引",
           "growl": "索引 '{index}' 缓存已成功开启。"
         },
+        "clear": {
+          "text": "清除索引 | 清除索引 | 清除 {count} 个索引",
+          "confirm": "要清除索引 '{index}' 吗？这将删除索引中的所有数据！",
+          "growl": "索引 '{index}' 已成功清除。"
+        },
         "delete_by_query": {
           "text": "删除所有文档",
           "confirm": "确认删除索引 '{index}' 中的所有文档? 这意味着移除此索引中的所有数据!",
@@ -177,6 +200,9 @@
           "text": "删除",
           "confirm": "删除索引 '{index}'？这将删除索引中的所有数据！",
           "growl": "索引 '{index}' 缓存已成功删除。"
+        },
+        "export": {
+          "text": "导出索引"
         }
       }
     },
@@ -202,6 +228,70 @@
         }
       }
     },
+    "export": {
+      "title": "导出索引 '{index}'",
+      "subtitle": "导出此索引的所有文档和映射",
+      "include_mapping": "包括映射",
+      "compress_file": "压缩文件 (ZIP)",
+      "warning": "大索引可能需要很长时间才能导出",
+      "start_export": "开始导出",
+      "progress": {
+        "title": "正在导出索引",
+        "exporting": "正在导出 '{index}'",
+        "preparing": "正在准备导出...",
+        "exporting_documents": "正在导出文档... ({processed}/{total})",
+        "creating_file": "正在创建导出文件...",
+        "downloading": "正在下载文件...",
+        "completed": "导出成功完成！"
+      },
+      "error": {
+        "export_failed": "导出失败",
+        "unknown": "导出过程中发生未知错误"
+      }
+    },
+    "import": {
+      "title": "导入索引",
+      "subtitle": "从转储文件导入文档和映射",
+      "select_file": "选择转储文件 (.json or .zip)",
+      "mode": {
+        "new_index": "创建新索引",
+        "existing_index": "导入到现有索引"
+      },
+      "new_index_name": "新索引名称",
+      "select_existing_index": "选择现有索引",
+      "advanced_options": "高级选项",
+      "overwrite_existing": "覆盖现有文档",
+      "overwrite_warning": "这将替换目标索引中的所有现有文档",
+      "file_preview": "文件预览",
+      "original_index": "原始索引",
+      "documents_count": "文档数",
+      "has_mapping": "有映射",
+      "export_date": "导出日期",
+      "start_import": "开始导入",
+      "validation": {
+        "index_name_required": "需要索引名称",
+        "index_required": "请选择一个索引"
+      },
+      "progress": {
+        "title": "正在导入索引",
+        "importing": "正在导入到 '{targetIndex}'",
+        "preparing": "正在准备导入...",
+        "creating_index": "正在创建索引...",
+        "completed": "导入成功完成！",
+        "completed_with_errors": "导入完成但有 {errors} 个错误"
+      },
+      "error": {
+        "no_json_in_zip": "ZIP 存档中找不到 JSON 文件",
+        "invalid_file_format": "无效的文件格式",
+        "parse_failed": "解析文件失败",
+        "index_exists": "索引 '{index}' 已存在",
+        "import_failed": "导入失败",
+        "unknown": "导入过程中发生未知错误"
+      }
+    },
+    "import_index":{
+      "heading": "导入索引"
+    },
     "new_index": {
       "heading": "新建索引",
       "form": {
@@ -217,6 +307,26 @@
       },
       "create_index": {
         "growl": "索引 '{index}' 成功创建。"
+      }
+    },
+    "index_clear": {
+      "progress": {
+        "title": "正在清除索引",
+        "clearing": "正在清除 '{index}'",
+        "preparing": "准备中...",
+        "clearing_documents": "正在删除文档... ({processed}/{total})",
+        "completed": "清除成功！"
+      }
+    },
+    "index_bulk": {
+      "export": {
+        "text": "导出选定的索引",
+        "confirm": "您确定要导出 {count} 个索引吗？将下载 {count} 个文件。",
+        "growl": "导出完成。",
+        "progress": {
+          "title": "正在导出索引",
+          "exporting": "正在导出索引 {current} of {total}: {index}"
+        }
       }
     }
   },
@@ -414,6 +524,26 @@
         "reset": "重置语句"
       }
     },
+    "query_editor": {
+      "query": "查询",
+      "invalid_query": "无效的搜索查询"
+    },
+    "autocomplete": {
+      "search_all": "搜索所有",
+      "and_operator": "AND 逻辑运算符",
+      "or_operator": "OR 逻辑运算符",
+      "not_operator": "NOT 逻辑运算符",
+      "field_exists": "检查字段是否存在",
+      "range_search": "范围搜索",
+      "wildcard_search": "通配符搜索",
+      "exact_phrase_search": "精确短语搜索",
+      "relevance_boost": "相关性提升",
+      "fuzzy_search": "模糊搜索",
+      "condition_grouping": "条件分组",
+      "field_description": "字段: {field}",
+      "error_history_loading": "加载历史记录时出错",
+      "error_fields_loading": "加载字段时出错"
+    },
     "search_result": {
       "delete": {
         "text": "# | 删除文档 | 批量删除文档",
@@ -425,12 +555,42 @@
       "settings": {
         "columns": "列"
       },
-      "download_as_json": "下载为 JSON 文件"
+      "download_as_json": "下载为 JSON 文件",
+      "add_document": "添加文档"
+    },
+    "context_menu": {
+      "copy_row_json": "复制行为 JSON",
+      "copy_cell_content": "复制单元格内容",
+      "copy_row_id": "复制行 ID",
+      "copy_selected_rows_json": "复制 {count} 行为 JSON",
+      "row_copied": "行已复制到剪贴板",
+      "cell_copied": "单元格内容已复制",
+      "id_copied": "ID 已复制到剪贴板",
+      "selected_rows_copied": "{count} 行已复制到剪贴板",
+      "edit_row_json": "编辑行 (JSON)",
+      "filter_by_field": "按此字段筛选",
+      "download_row_json": "下载该行的 JSON",
+      "delete_row_json": "删除该行",
+      "download_selected_rows_json": "下载所选的 {count} 行 JSON",
+      "delete_selected_rows": "删除所选的 {count} 行"
     },
     "edit_document": {
+      "new_document": "新文件",
+      "id": {
+        "label": "ID (可选)"
+      },
+      "create": {
+        "text": "创建",
+        "growl": "文件创建成功.",
+        "confirm": "确认创建新文档?" 
+      },
       "update": {
-        "text": "更新文档",
-        "growl": "更新文档成功."
+        "text": "更新",
+        "growl": "更新文档成功.",
+        "confirm": "确认更新此文档?"
+      },
+      "loseupdate":{
+        "confirm": "你将丢失所有未保存的更改. 你确定吗?"
       }
     }
   },
@@ -593,7 +753,13 @@
     },
     "table_settings": {
       "reset": "重置",
-      "clear": "反选"
+      "clear": "反选",
+      "reset_order": "重置顺序",
+      "clear_sorts": "清除排序",
+      "move_to_top": "移到顶部",
+      "move_up": "上移",
+      "move_down": "下移",
+      "move_to_bottom": "移到底部"
     },
     "authorization_header_hint": "你的集群使用了授权。确保你已经设置了\"http.cors.allow-headers\"，否则将无法连接。",
     "code_editor": {
@@ -758,7 +924,7 @@
     }
   },
   "update_check": {
-    "downloading": "下载中... {progress}%",
+    "downloading": "下载中... {progress}%%",
     "heading": "一个新的 elasticvue 版本可用。",
     "installing": "正在安装更新，请稍候...",
     "update_info": "Elasticvue {version} 可用。您现在想安装吗？",

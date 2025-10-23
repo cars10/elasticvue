@@ -60,33 +60,36 @@
 </template>
 
 <script setup lang="ts">
-import { computed, Ref, ref, toRef } from 'vue'
-import { useCodeEditor } from '../../composables/CodeEditor'
-import { useCodeEditorStore } from '../../store/codeEditor.ts'
-import CopyButton from './CopyButton.vue'
-import { useTranslation } from '../../composables/i18n'
-import { KeyBinding } from '@codemirror/view'
+  import { computed, Ref, ref, toRef } from 'vue'
+  import { useCodeEditor } from '../../composables/CodeEditor'
+  import { useCodeEditorStore } from '../../store/codeEditor.ts'
+  import CopyButton from './CopyButton.vue'
+  import { useTranslation } from '../../composables/i18n'
+  import { KeyBinding } from '@codemirror/view'
+  import { Query } from '../../db/types.ts'
 
-const props = defineProps<{ modelValue: string; commands?: KeyBinding[]; onPaste?: (data: string) => void }>()
-const emit = defineEmits(['update:modelValue'])
-const t = useTranslation()
-const codeEditorStore = useCodeEditorStore()
+  const props = defineProps<{ modelValue: Query | string, commands?: KeyBinding[], onPaste?: (data: string) => void }>()
+  const emit = defineEmits(['update:modelValue'])
+  const t = useTranslation()
+  const codeEditorStore = useCodeEditorStore()
 
-const editor: Ref<HTMLElement | null> = ref(null)
-const { copyContent, beautifyEditorValue, collapseAll, expandAll } = useCodeEditor(editor, {
-  initialValue: toRef(props, 'modelValue'),
-  commands: props.commands,
-  emit,
-  onPaste: props.onPaste
-})
+  const editor: Ref<HTMLElement | null> = ref(null)
+  const { copyContent, beautifyEditorValue, collapseAll, expandAll } = useCodeEditor(editor, {
+    initialValue: toRef({ modelValue: typeof props.modelValue === 'string' ? props.modelValue : JSON.stringify(props.modelValue) }, 'modelValue'),
+    commands: props.commands,
+    emit,
+    onPaste: props.onPaste
+  })
 
-const validJson = computed(() => {
-  if (props.modelValue === '') return true
-  try {
-    JSON.parse(props.modelValue)
-    return true
-  } catch (_e) {
-    return false
-  }
-})
+  const validJson = computed(() => {
+    if (props.modelValue === '') return true
+    try {
+      if (typeof props.modelValue === 'string') {
+        JSON.parse(props.modelValue)
+      }
+      return true
+    } catch (_e) {
+      return false
+    }
+  })
 </script>

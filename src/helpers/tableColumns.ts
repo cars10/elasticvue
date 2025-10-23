@@ -5,15 +5,13 @@ type ColumnOptions = {
 } | null
 
 export const genColumns = (options: ColumnOptions[]): any[] => {
-  return options
-    .filter((c) => !!c)
-    .map(({ label, field, align }) => {
-      return {
-        label,
-        field,
-        name: field,
-        sortable: !!field,
-        align: align || 'left'
-      }
-    })
+  return options.filter(c => !!c).map(({ label, field, align }) => {
+    return {
+      label,
+      field,
+      name: field,
+      sortableCol: !!field,
+      align: align || 'left',
+    }
+  })
 }

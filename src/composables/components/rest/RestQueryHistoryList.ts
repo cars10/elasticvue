@@ -19,12 +19,8 @@ export const useRestQueryHistoryList = (emit: any) => {
   const columns = [
     { label: t('query.rest_query_history.table.headers.query'), field: 'query', name: 'query', align: 'left' },
     {
-      label: t('query.rest_query_history.table.headers.timestamp'),
-      field: 'date',
-      name: 'date',
-      align: 'left',
-      sortOrder: 'da',
-      sortable: true
+      label: t('query.rest_query_history.table.headers.timestamp'), field: 'date', name: 'date', align: 'left',
+      sortOrder: 'da', sortableCol: true
     },
     { label: '' }
   ]

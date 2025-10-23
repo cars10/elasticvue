@@ -54,6 +54,10 @@
     "bulk": "Bulk Action",
     "copy": "Copy"
   },
+  "common": {
+    "yes": "Yes",
+    "no": "No"
+  },
   "cluster_selection": {
     "cluster_selection": {
       "connected_info": {
@@ -95,7 +99,21 @@
   },
   "home": {
     "client_information": {
-      "heading": "Cluster Information"
+      "heading": "Cluster Information",
+      "node_name": "Node Name",
+      "cluster_name": "Cluster Name",
+      "cluster_uuid": "Cluster uuid",
+      "tagline": "Tagline",
+      "distribution": "Distribution",
+      "number": "Number",
+      "build_flavor": "Build flavor",
+      "build_type": "Build type",
+      "build_hash": "Build hash",
+      "build_date": "Build date",
+      "build_snapshot": "Build snapshot",
+      "lucene_version": "Lucene version",
+      "minimum_wire_compatibility_version": "Minimum wire compatibility version",
+      "minimum_index_compatibility_version": "Minimum index compatibility version"
     },
     "cluster_health": {
       "heading": "Cluster Health"
@@ -168,6 +186,11 @@
           "text": "Open index | Open index | Open {count} indices",
           "growl": "The index '{index}' cache was successfully opened."
         },
+        "clear": {
+          "text": "Clear index | Clear index | Clear {count} indices",
+          "confirm": "Clear index '{index}'? This will remove ALL data in your index!",
+          "growl": "The index '{index}' was successfully cleared."
+        },
         "delete_by_query": {
           "text": "Delete all documents",
           "confirm": "Delete all documents in index '{index}'? This will remove ALL data in your index!",
@@ -177,6 +200,9 @@
           "text": "Delete index | Delete index | Delete {count} indices",
           "confirm": "Delete index '{index}'?",
           "growl": "The index '{index}' cache was successfully deleted."
+        },
+        "export": {
+          "text": "Export index"
         }
       }
     },
@@ -202,6 +228,70 @@
         }
       }
     },
+    "export": {
+      "title": "Export index '{index}'",
+      "subtitle": "Export all documents and mapping from this index",
+      "include_mapping": "Include mapping",
+      "compress_file": "Compress file (ZIP)",
+      "warning": "Large indices may take a long time to export",
+      "start_export": "Start Export",
+      "progress": {
+        "title": "Exporting Index",
+        "exporting": "Exporting '{index}'",
+        "preparing": "Preparing export...",
+        "exporting_documents": "Exporting documents... ({processed}/{total})",
+        "creating_file": "Creating export file...",
+        "downloading": "Downloading file...",
+        "completed": "Export completed successfully!"
+      },
+      "error": {
+        "export_failed": "Export failed",
+        "unknown": "An unknown error occurred during export"
+      }
+    },
+    "import": {
+      "title": "Import Index",
+      "subtitle": "Import documents and mapping from a dump file",
+      "select_file": "Select dump file (.json or .zip)",
+      "mode": {
+        "new_index": "Create new index",
+        "existing_index": "Import to existing index"
+      },
+      "new_index_name": "New index name",
+      "select_existing_index": "Select existing index",
+      "advanced_options": "Advanced options",
+      "overwrite_existing": "Overwrite existing documents",
+      "overwrite_warning": "This will replace all existing documents in the target index",
+      "file_preview": "File Preview",
+      "original_index": "Original index",
+      "documents_count": "Documents count",
+      "has_mapping": "Has mapping",
+      "export_date": "Export date",
+      "start_import": "Start Import",
+      "validation": {
+        "index_name_required": "Index name is required",
+        "index_required": "Please select an index"
+      },
+      "progress": {
+        "title": "Importing Index",
+        "importing": "Importing to '{targetIndex}'",
+        "preparing": "Preparing import...",
+        "creating_index": "Creating index...",
+        "completed": "Import completed successfully!",
+        "completed_with_errors": "Import completed with {errors} errors"
+      },
+      "error": {
+        "no_json_in_zip": "No JSON file found in ZIP archive",
+        "invalid_file_format": "Invalid file format",
+        "parse_failed": "Failed to parse file",
+        "index_exists": "Index '{index}' already exists",
+        "import_failed": "Import failed",
+        "unknown": "An unknown error occurred during import"
+      }
+    },
+    "import_index":{
+      "heading": "import Index"
+    },
     "new_index": {
       "heading": "New Index",
       "form": {
@@ -217,6 +307,26 @@
       },
       "create_index": {
         "growl": "The index '{index}' was successfully created."
+      }
+    },
+    "index_clear": {
+      "progress": {
+        "title": "Clearing index",
+        "clearing": "Clearing '{index}'",
+        "preparing": "Preparing...",
+        "clearing_documents": "Deleting documents... ({processed}/{total})",
+        "completed": "Clearing completed successfully!"
+      }
+    },
+    "index_bulk": {
+      "export": {
+        "text": "Export selected indices",
+        "confirm": "Are you sure you want to export {count} indices? This will download {count} files.",
+        "growl": "Export finished.",
+        "progress": {
+          "title": "Exporting indices",
+          "exporting": "Exporting index {current} of {total}: {index}"
+        }
       }
     }
   },
@@ -414,6 +524,26 @@
         "reset": "Reset query"
       }
     },
+    "query_editor": {
+      "query": "Query",
+      "invalid_query": "invalid search query"
+    },
+    "autocomplete": {
+      "search_all": "Search all",
+      "and_operator": "AND logical operator",
+      "or_operator": "OR logical operator",
+      "not_operator": "NOT logical operator",
+      "field_exists": "Check for field existence",
+      "range_search": "Range search",
+      "wildcard_search": "Wildcard search",
+      "exact_phrase_search": "Exact phrase search",
+      "relevance_boost": "Relevance boost",
+      "fuzzy_search": "Fuzzy search",
+      "condition_grouping": "Condition grouping",
+      "field_description": "Field: {field}",
+      "error_history_loading": "Error loading history",
+      "error_fields_loading": "Error loading fields"
+    },
     "search_result": {
       "delete": {
         "text": "# | Delete document | Delete documents",
@@ -425,12 +555,42 @@
       "settings": {
         "columns": "Columns"
       },
-      "download_as_json": "Download as json"
+      "download_as_json": "Download as json",
+      "add_document": "Add document"
+    },
+    "context_menu": {
+      "copy_row_json": "Copy row as JSON",
+      "copy_cell_content": "Copy cell content",
+      "copy_row_id": "Copy row ID",
+      "copy_selected_rows_json": "Copy {count} selected rows as JSON",
+      "row_copied": "Row copied to clipboard",
+      "cell_copied": "Cell content copied",
+      "id_copied": "ID copied to clipboard",
+      "selected_rows_copied": "{count} rows copied to clipboard",
+      "edit_row_json": "Edit row as JSON",
+      "filter_by_field": "Filter on this field",
+      "download_row_json": "Download row as JSON",
+      "delete_row_json": "Delete row",
+      "download_selected_rows_json": "Download {count} selected rows as JSON",
+      "delete_selected_rows": "Delete {count} selected rows"
     },
     "edit_document": {
+      "new_document": "New document",
+      "id": {
+        "label": "ID (optional)"
+      },
+      "create": {
+        "text": "Create",
+        "growl": "Document created successfully.",
+        "confirm": "Are you sure you want to create new document?"
+      },
       "update": {
-        "text": "Update document",
-        "growl": "Document updated successfully."
+        "text": "Update",
+        "growl": "Document updated successfully.",
+        "confirm": "Are you sure you want to update this document?"
+      },
+      "loseupdate":{
+        "confirm": "You will lose all unsaved changes. Are you sure?" 
       }
     }
   },
@@ -593,7 +753,13 @@
     },
     "table_settings": {
       "reset": "reset",
-      "clear": "clear"
+      "clear": "clear",
+      "reset_order": "Reset Order",
+      "clear_sorts": "Clear Sorts",
+      "move_to_top": "Move to top",
+      "move_up": "Move up",
+      "move_down": "Move down",
+      "move_to_bottom": "Move to bottom"
     },
     "authorization_header_hint": "Make sure that \"http.cors.allow-headers\" is configured",
     "code_editor": {

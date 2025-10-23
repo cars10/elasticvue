@@ -21,3 +21,29 @@ th.marked,
 td.marked {
   background: var(--theme-table-hover-background) !important;
 }
+
+.table-wrapper {
+    height: calc(100vh - 465px);
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.results-table {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.results-table .q-table__middle {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.results-table thead tr th {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background-color: var(--theme-background);
+}

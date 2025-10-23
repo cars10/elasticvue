@@ -94,7 +94,11 @@ export default class ElasticsearchAdapter {
     return this.request(`${cleanIndexName(index)}`, 'PUT', body)
   }
 
-  deleteByQuery({ index }: { index: string }) {
+  getTask ({ taskId }: { taskId: string }) {
+    return this.request(`_tasks/${taskId}`, 'GET')
+  }
+
+  deleteByQuery ({ index }: { index: string }) {
     const body = { query: { match_all: {} } }
     return this.request(`${cleanIndexName(index)}/_delete_by_query?refresh=true`, 'POST', body)
   }
@@ -116,7 +120,254 @@ export default class ElasticsearchAdapter {
     }
   }
 
-  indexRefresh({ indices }: { indices: string[] }) {
+  async indicesGetMapping({ index}: { index: string}) {
+   
+    // Récupérer le mapping
+      const mappingResponse = await this.request(`${cleanIndexName(index)}/_mapping`, 'GET') as any
+      const mapping: any = await mappingResponse.json()
+
+      return mapping
+  }
+
+  async indexDump ({ index, onProgress }: { index: string, onProgress?: (progress: { processed: number, total: number, percentage: number }) => void }) {
+    try {
+      // Récupérer le mapping
+      const mappingResponse = await this.request(`${cleanIndexName(index)}/_mapping`, 'GET') as any
+      const mapping: any = await mappingResponse.json()
+
+      // Utiliser scroll API pour récupérer tous les documents
+      const scrollSize = 1000
+      const allDocuments: any[] = []
+
+      // Première requête avec scroll
+      const firstSearchResponse = await this.request(`${cleanIndexName(index)}/_search?scroll=5m`, 'POST', {
+        query: { match_all: {} },
+        size: scrollSize,
+        sort: ['_doc']
+      }) as any
+      let scrollResponse: any = await firstSearchResponse.json()
+
+      const totalHits = (scrollResponse.hits?.total?.value ?? scrollResponse.hits?.total) || 0
+      let processed = 0
+      
+      // Traiter la première batch
+      const firstBatch = (scrollResponse.hits?.hits || []).map((hit: any) => ({
+        _id: hit._id,
+        _source: hit._source
+      }))
+      allDocuments.push(...firstBatch)
+      processed += firstBatch.length
+      
+      // Callback de progression
+      if (onProgress) {
+        onProgress({
+          processed,
+          total: totalHits,
+          percentage: Math.round((processed / totalHits) * 100)
+        })
+      }
+      
+      // Continuer avec scroll tant qu'il y a des documents
+      while ((scrollResponse.hits?.hits || []).length > 0) {
+        const nextResponse = await this.request('_search/scroll', 'POST', {
+          scroll: '5m',
+          scroll_id: scrollResponse._scroll_id
+        }) as any
+        scrollResponse = await nextResponse.json()
+
+        if ((scrollResponse.hits?.hits || []).length > 0) {
+          const batch = scrollResponse.hits.hits.map((hit: any) => ({
+            _id: hit._id,
+            _source: hit._source
+          }))
+          allDocuments.push(...batch)
+          processed += batch.length
+          
+          // Callback de progression
+          if (onProgress) {
+            onProgress({
+              processed,
+              total: totalHits,
+              percentage: Math.round((processed / totalHits) * 100)
+            })
+          }
+        }
+      }
+      
+      // Nettoyer le scroll
+      if (scrollResponse?._scroll_id) {
+        try {
+          await this.request('_search/scroll', 'DELETE', {
+            scroll_id: scrollResponse._scroll_id
+          })
+        } catch (_e) {}
+      }
+      
+      return {
+        success: true,
+        mapping: mapping[index]?.mappings ?? mapping?.mappings ?? mapping,
+        data: allDocuments,
+        total: allDocuments.length
+      }
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Erreur inconnue',
+        mapping: null,
+        data: [],
+        total: 0
+      }
+    }
+  }
+
+  async indexRestore ({ 
+    index, 
+    data, 
+    onProgress 
+  }: { 
+    index: string, 
+    data: { mapping: any, data: any[] }, 
+    onProgress?: (progress: { processed: number, total: number, percentage: number, status: string }) => void 
+  }) {
+    try {
+      // Callback de progression - début
+      if (onProgress) {
+        onProgress({
+          processed: 0,
+          total: data.data.length,
+          percentage: 0,
+          status: 'Création de l\'index...'
+        })
+      }
+      
+      // 1. Créer l'index avec le mapping (seulement s'il n'existe pas)
+      const exists = await this.indexExists({ index }) as unknown as boolean
+      if (!exists) {
+        const cleanMapping = this.fixMappingStructure(data.mapping)
+        await this.request(`${cleanIndexName(index)}`, 'PUT', {
+          mappings: cleanMapping
+        })
+      }
+      
+      if (data.data.length === 0) {
+        if (onProgress) {
+          onProgress({
+            processed: 0,
+            total: 0,
+            percentage: 100,
+            status: 'Index créé (aucune donnée à restaurer)'
+          })
+        }
+        return {
+          success: true,
+          processed: 0,
+          total: 0,
+          errors: []
+        }
+      }
+      
+      // 2. Préparer les documents pour bulk insert
+      const bulkBody: string[] = []
+      data.data.forEach(doc => {
+        bulkBody.push(JSON.stringify({
+          index: {
+            _index: index,
+            _id: doc._id
+          }
+        }))
+        bulkBody.push(JSON.stringify(doc._source))
+      })
+      
+      // 3. Insérer les documents par batch pour éviter les timeouts
+      const batchSize = 1000
+      let processed = 0
+      const errors: any[] = []
+      
+      for (let i = 0; i < bulkBody.length; i += batchSize * 2) { // *2 car chaque doc = 2 lignes
+        const batch = bulkBody.slice(i, i + batchSize * 2)
+        const bulkRequest = batch.join('\n') + '\n'
+        
+        const response : any = await this.request('_bulk?refresh=wait_for', 'POST', bulkRequest) as any
+        const json = await response.json()
+        
+        if (json.errors) {
+          const batchErrors = json.items.filter((item: any) => item.index?.error)
+          errors.push(...batchErrors)
+        }
+        
+        processed += Math.min(batchSize, data.data.length - processed)
+        
+        // Callback de progression
+        if (onProgress) {
+          onProgress({
+            processed,
+            total: data.data.length,
+            percentage: Math.round((processed / data.data.length) * 100),
+            status: `Insertion des documents... (${processed}/${data.data.length})`
+          })
+        }
+      }
+      
+      // Callback de progression - fin
+      if (onProgress) {
+        onProgress({
+          processed: data.data.length,
+          total: data.data.length,
+          percentage: 100,
+          status: errors.length > 0 ? `Terminé avec ${errors.length} erreurs` : 'Terminé avec succès'
+        })
+      }
+      
+      return {
+        success: true,
+        processed: data.data.length,
+        total: data.data.length,
+        errors
+      }
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Erreur inconnue',
+        processed: 0,
+        total: data.data?.length || 0,
+        errors: []
+      }
+    }
+  }
+
+  // Fonction pour nettoyer et corriger la structure du mapping
+ fixMappingStructure(mapping: any): any {
+  // Si le mapping contient une clé qui encapsule les propriétés
+  // (comme "infra" dans votre cas), on l'extrait
+  
+  if (!mapping) {
+    return { properties: {} }
+  }
+  
+  // Si le mapping a déjà la structure correcte
+  if (mapping.properties) {
+    return mapping
+  }
+  
+  // Chercher la première clé qui contient des propriétés
+  const keys = Object.keys(mapping)
+  for (const key of keys) {
+    const value = mapping[key]
+    if (value && typeof value === 'object' && value.properties) {
+      console.log(`Extraction du mapping depuis la clé: ${key}`)
+      return {
+        properties: value.properties
+      }
+    }
+  }
+  
+  // Si aucune structure valide trouvée, traiter comme des propriétés directes
+  return {
+    properties: mapping
+  }
+}
+
+  indexRefresh ({ indices }: { indices: string[] }) {
     if (indices.length > MAX_INDICES_PER_REQUEST) {
       return this.callInChunks({ method: 'indexRefresh', indices })
     } else {
@@ -140,7 +391,42 @@ export default class ElasticsearchAdapter {
     }
   }
 
-  indexExists({ index }: { index: string }) {
+  async indexClear ({ indices, onProgress }: { indices: string[], onProgress?: (progress: { processed: number, total: number, percentage: number, status: string }) => void }) {
+    const body = { query: { match_all: {} } }
+    const response: any = await this.request(`${cleanIndexName(indices.join(','))}/_delete_by_query?refresh=true&wait_for_completion=false`, 'POST', body)
+    const taskId = (await response.json()).task
+
+    if (taskId && onProgress) {
+      onProgress({ processed: 0, total: 1, percentage: 0, status: 'Task started' })
+
+      const poll = async () => {
+        try {
+          const taskResponse: any = await this.getTask({ taskId })
+          const taskJson = await taskResponse.json()
+
+          if (taskJson.completed) {
+            const total = taskJson.task.status.total || 0
+            const processed = taskJson.task.status.deleted || 0
+            onProgress({ processed, total, percentage: 100, status: 'Completed' })
+          } else {
+            const total = taskJson.task.status.total || 0
+            const processed = taskJson.task.status.deleted || 0
+            const percentage = total > 0 ? Math.round((processed / total) * 100) : 0
+            onProgress({ processed, total, percentage, status: 'In progress...' })
+            setTimeout(poll, 1000)
+          }
+        } catch (e) {
+          console.error(e)
+          // Stop polling on error
+        }
+      }
+      setTimeout(poll, 1000)
+    }
+
+    return response
+  }
+
+  indexExists ({ index }: { index: string }) {
     return this.request(`${cleanIndexName(index)}`, 'HEAD')
   }
 
@@ -155,10 +441,16 @@ export default class ElasticsearchAdapter {
     })
   }
 
-  index({ index, type, id, routing, params }: { index: string; type: string; id: any; routing: string; params: any }) {
-    let path = `${cleanIndexName(index)}/${type}/${encodeURIComponent(id)}?refresh=true`
+  index ({ index, type, id, routing, params }: {
+    index: string,
+    type: string,
+    id: any,
+    routing: string,
+    params: any
+  }) {
+    let path = id ? `${cleanIndexName(index)}/${type}/${encodeURIComponent(id)}?refresh=true` : `${cleanIndexName(index)}/${type}?refresh=true` 
     if (routing) path += `&routing=${routing}`
-    return this.request(path, 'PUT', params)
+    return this.request(path, id ? 'PUT' : 'POST', params)
   }
 
   get({ index, type, id, routing }: { index: string; type: string; id: any; routing?: string }) {
@@ -183,14 +475,11 @@ export default class ElasticsearchAdapter {
     }
   }
 
-  docsBulkDelete(documents: any[]) {
-    const body =
-      documents
-        .map((str) => {
-          const matches = str.split(/####(.*)####(.*)/)
-          return JSON.stringify({ delete: { _index: matches[0], _id: matches[2] } })
-        })
-        .join('\r\n') + '\r\n'
+  docsBulkDelete (documents: any[]) {
+    const body = documents.map(str => {
+      const matches = str.split(/####(.*)####(.*)/)
+      return JSON.stringify({ delete: { _index: matches[0], _type: matches[1], _id: matches[2] } })
+    }).join('\r\n') + '\r\n'
     return this.request('_bulk?refresh=true', 'POST', body)
   }
 
@@ -324,7 +613,7 @@ export default class ElasticsearchAdapter {
       body: body && typeof body !== 'string' ? stringifyJson(body) : body,
       headers: { ...REQUEST_DEFAULT_HEADERS }
     }
-
+    
     if (this.authHeader) {
       // @ts-expect-error header definition
       options.headers['Authorization'] = this.authHeader

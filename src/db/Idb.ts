@@ -6,7 +6,7 @@ const dbDefinition = {
   dbVersion: 1,
   tables: [
     { name: 'restQueryHistory', indexes: ['date'] },
-    { name: 'restQuerySavedQueries', indexes: [] },
+    { name: 'restQuerySavedQueries', indexes: [] },    
     { name: 'restQueryTabs', indexes: [] }
   ]
 }
@@ -31,7 +31,6 @@ export const initDb = (clusterUuid: string) => {
   db.models.restQueryHistory = new DbModel<IdbRestQueryHistory>('restQueryHistory', db)
   db.models.restQuerySavedQueries = new DbModel<IdbRestQuerySavedQuery>('restQuerySavedQueries', db)
   db.models.restQueryTabs = new DbModel<IdbRestQueryTab>('restQueryTabs', db)
-
   return db
 }
 

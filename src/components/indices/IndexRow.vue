@@ -147,15 +147,17 @@
               @done="emitReloadAndCloseMenu"
             />
 
-            <row-menu-action
-              method="indexDelete"
-              :method-params="{ indices: [props.index.index] }"
-              :text="t('indices.index_row.options.delete.text')"
-              :growl="t('indices.index_row.options.delete.growl', { index: index.index })"
-              :confirm="t('indices.index_row.options.delete.confirm', { index: index.index })"
-              icon="delete"
-              @done="() => afterDelete(props.index.index)"
-            />
+            <row-menu-action method="indexDelete"
+                             :method-params="{ indices: [props.index.index] }"
+                             :text="t('indices.index_row.options.delete.text')"
+                             :growl="t('indices.index_row.options.delete.growl', {index: index.index})"
+                             :confirm="t('indices.index_row.options.delete.confirm', {index: index.index})"
+                             icon="delete"
+                             @done="() => (afterDelete(props.index.index))" />
+
+            <q-separator />
+
+            <index-export :index="index.index" @done="emitReloadAndCloseMenu" />
           </q-list>
         </q-btn-dropdown>
       </q-btn-group>
@@ -164,13 +166,14 @@
 </template>
 
 <script setup lang="ts">
-import IndexAliases from './IndexAliases.vue'
-import { IndexRowProps, useIndexRow } from '../../composables/components/indices/IndexRow'
-import { useTranslation } from '../../composables/i18n'
-import IndexReindex from './IndexReindex.vue'
-import RowMenuAction from './RowMenuAction.vue'
-import { clusterVersionGt, clusterVersionGte } from '../../helpers/minClusterVersion.ts'
-import { useConnectionStore } from '../../store/connection.ts'
+  import IndexAliases from './IndexAliases.vue'
+  import { IndexRowProps, useIndexRow } from '../../composables/components/indices/IndexRow'
+  import { useTranslation } from '../../composables/i18n'
+  import IndexReindex from './IndexReindex.vue'
+  import RowMenuAction from './RowMenuAction.vue'
+  import IndexExport from './IndexExport.vue'  
+  import { clusterVersionGt, clusterVersionGte } from '../../helpers/minClusterVersion.ts'
+  import {useConnectionStore} from '../../store/connection.ts'
 
 const t = useTranslation()
 const props = defineProps<IndexRowProps>()

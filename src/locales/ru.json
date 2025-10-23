@@ -54,6 +54,10 @@
     "bulk": "Массовое действие",
     "copy": "Копировать"
   },
+  "common": {
+    "yes": "Да",
+    "no": "Нет"
+  },
   "cluster_selection": {
     "cluster_selection": {
       "connected_info": {
@@ -95,7 +99,21 @@
   },
   "home": {
     "client_information": {
-      "heading": "Информация о кластере"
+      "heading": "Информация о кластере",
+      "node_name": "Имя узла",
+      "cluster_name": "Имя кластера",
+      "cluster_uuid": "UUID кластера",
+      "tagline": "Слоган",
+      "distribution": "Дистрибутив",
+      "number": "Номер",
+      "build_flavor": "Вариант сборки",
+      "build_type": "Тип сборки",
+      "build_hash": "Хеш сборки",
+      "build_date": "Дата сборки",
+      "build_snapshot": "Снимок сборки",
+      "lucene_version": "Версия Lucene",
+      "minimum_wire_compatibility_version": "Минимальная версия сетевой совместимости",
+      "minimum_index_compatibility_version": "Минимальная версия совместимости индекса"
     },
     "cluster_health": {
       "heading": "Состояние кластера"
@@ -168,6 +186,11 @@
           "text": "Открыть индекс | Открыть индекс | Открыть {count} индексов",
           "growl": "Индекс '{index}' успешно открыт."
         },
+        "clear": {
+          "text": "Очистить индекс | Очистить индекс | Очистить {count} индексов",
+          "confirm": "Очистить индекс '{index}'? Это удалит ВСЕ данные в вашем индексе!",
+          "growl": "Индекс '{index}' был успешно очищен."
+        },
         "delete_by_query": {
           "text": "Удалить все документы",
           "confirm": "Удалить все документы в индексе '{index}'? Это удалит ВСЕ данные в вашем индексе!",
@@ -177,6 +200,9 @@
           "text": "Удалить индекс | Удалить индекс | Удалить {count} индексов",
           "confirm": "Удалить индекс '{index}'?",
           "growl": "Индекс '{index}' успешно удален."
+        },
+        "export": {
+          "text": "Экспорт индекса"
         }
       }
     },
@@ -202,6 +228,70 @@
         }
       }
     },
+    "export": {
+      "title": "Экспорт индекса '{index}'",
+      "subtitle": "Экспорт всех документов и сопоставлений из этого индекса",
+      "include_mapping": "Включить сопоставление",
+      "compress_file": "Сжать файл (ZIP)",
+      "warning": "Экспорт больших индексов может занять много времени",
+      "start_export": "Начать экспорт",
+      "progress": {
+        "title": "Экспорт индекса",
+        "exporting": "Экспорт '{index}'",
+        "preparing": "Подготовка к экспорту...",
+        "exporting_documents": "Экспорт документов... ({processed}/{total})",
+        "creating_file": "Создание файла экспорта...",
+        "downloading": "Загрузка файла...",
+        "completed": "Экспорт успешно завершен!"
+      },
+      "error": {
+        "export_failed": "Ошибка экспорта",
+        "unknown": "Во время экспорта произошла неизвестная ошибка"
+      }
+    },
+    "import": {
+      "title": "Импорт индекса",
+      "subtitle": "Импорт документов и сопоставлений из файла дампа",
+      "select_file": "Выберите файл дампа (.json или .zip)",
+      "mode": {
+        "new_index": "Создать новый индекс",
+        "existing_index": "Импортировать в существующий индекс"
+      },
+      "new_index_name": "Новое имя индекса",
+      "select_existing_index": "Выберите существующий индекс",
+      "advanced_options": "Расширенные опции",
+      "overwrite_existing": "Перезаписать существующие документы",
+      "overwrite_warning": "Это заменит все существующие документы в целевом индексе",
+      "file_preview": "Предварительный просмотр файла",
+      "original_index": "Исходный индекс",
+      "documents_count": "Количество документов",
+      "has_mapping": "Имеет сопоставление",
+      "export_date": "Дата экспорта",
+      "start_import": "Начать импорт",
+      "validation": {
+        "index_name_required": "Требуется имя индекса",
+        "index_required": "Пожалуйста, выберите индекс"
+      },
+      "progress": {
+        "title": "Импорт индекса",
+        "importing": "Импорт в '{targetIndex}'",
+        "preparing": "Подготовка к импорту...",
+        "creating_index": "Создание индекса...",
+        "completed": "Импорт успешно завершен!",
+        "completed_with_errors": "Импорт завершен с {errors} ошибками"
+      },
+      "error": {
+        "no_json_in_zip": "В ZIP-архиве не найден файл JSON",
+        "invalid_file_format": "Неверный формат файла",
+        "parse_failed": "Не удалось разобрать файл",
+        "index_exists": "Индекс '{index}' уже существует",
+        "import_failed": "Ошибка импорта",
+        "unknown": "Во время импорта произошла неизвестная ошибка"
+      }
+    },
+    "import_index":{
+      "heading": "импорт индекса"
+    },
     "new_index": {
       "heading": "Новый индекс",
       "form": {
@@ -217,6 +307,26 @@
       },
       "create_index": {
         "growl": "Индекс '{index}' успешно создан."
+      }
+    },
+    "index_clear": {
+      "progress": {
+        "title": "Очистка индекса",
+        "clearing": "Очистка '{index}'",
+        "preparing": "Подготовка...",
+        "clearing_documents": "Удаление документов... ({processed}/{total})",
+        "completed": "Очистка успешно завершена!"
+      }
+    },
+    "index_bulk": {
+      "export": {
+        "text": "Экспорт выбранных индексов",
+        "confirm": "Вы уверены, что хотите экспортировать {count} индексов? Будет загружено {count} файлов.",
+        "growl": "Экспорт завершен.",
+        "progress": {
+          "title": "Экспорт индексов",
+          "exporting": "Экспорт индекса {current} из {total}: {index}"
+        }
       }
     }
   },
@@ -414,6 +524,26 @@
         "reset": "Сбросить запрос"
       }
     },
+    "query_editor": {
+      "query": "Запрос",
+      "invalid_query": "неверный поисковый запрос"
+    },
+    "autocomplete": {
+      "search_all": "Искать все",
+      "and_operator": "Логический оператор И",
+      "or_operator": "Логический оператор ИЛИ",
+      "not_operator": "Логический оператор НЕ",
+      "field_exists": "Проверить наличие поля",
+      "range_search": "Поиск по диапазону",
+      "wildcard_search": "Поиск с подстановочными знаками",
+      "exact_phrase_search": "Поиск точной фразы",
+      "relevance_boost": "Повышение релевантности",
+      "fuzzy_search": "Нечёткий поиск",
+      "condition_grouping": "Группировка условий",
+      "field_description": "Поле: {field}",
+      "error_history_loading": "Ошибка при загрузке истории",
+      "error_fields_loading": "Ошибка при загрузке полей"
+    },
     "search_result": {
       "delete": {
         "text": "# | Удалить документ | Удалить документы",
@@ -425,12 +555,42 @@
       "settings": {
         "columns": "Колонки"
       },
-      "download_as_json": "Скачать как JSON"
+      "download_as_json": "Скачать как JSON",
+      "add_document": "Добавить документ"
+    },
+    "context_menu": {
+      "copy_row_json": "Копировать строку как JSON",
+      "copy_cell_content": "Копировать содержимое ячейки",
+      "copy_row_id": "Копировать ID строки",
+      "copy_selected_rows_json": "Копировать {count} выбранных строк как JSON",
+      "row_copied": "Строка скопирована в буфер обмена",
+      "cell_copied": "Содержимое ячейки скопировано",
+      "id_copied": "ID скопирован в буфер обмена",
+      "selected_rows_copied": "{count} строк скопировано в буфер обмена",
+      "edit_row_json": "Редактировать строку (JSON)",
+      "filter_by_field": "Фильтровать по этому полю",
+      "download_row_json": "Скачать строку в формате JSON",
+      "delete_row_json": "Удалить строку",
+      "download_selected_rows_json": "Скачать {count} выбранных строк в формате JSON",
+      "delete_selected_rows": "Удалить {count} выбранных строк"
     },
     "edit_document": {
+      "new_document": "Новый документ",
+      "id": {
+        "label": "ID (необязательно)"
+      },
+      "create": {
+        "text": "Создать",
+        "growl": "Документ успешно создан.",
+        "confirm": "Вы уверены, что хотите создать новый документ?"
+      },
       "update": {
-        "text": "Обновить документ",
-        "growl": "Документ успешно обновлен."
+        "text": "Обновить",
+        "growl": "Документ успешно обновлен.",
+        "confirm": "Вы уверены, что хотите обновить этот документ?"
+      },
+      "loseupdate":{
+        "confirm": "Вы потеряете все несохраненные изменения. Вы уверены?"
       }
     }
   },
@@ -593,7 +753,13 @@
     },
     "table_settings": {
       "reset": "сбросить",
-      "clear": "очистить"
+      "clear": "очистить",
+      "reset_order": "Сбросить порядок",
+      "clear_sorts": "Очистить сортировки",
+      "move_to_top": "Переместить вверх",
+      "move_up": "Переместить выше",
+      "move_down": "Переместить ниже",
+      "move_to_bottom": "Переместить вниз"
     },
     "authorization_header_hint": "Убедитесь, что \"http.cors.allow-headers\" настроен",
     "code_editor": {
