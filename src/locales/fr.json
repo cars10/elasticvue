@@ -188,8 +188,7 @@
         },
         "clear": {
           "text": "Vider l'index | Vider l'index | Vider {count} index",
-          "confirm": "Vider l'index '{index}' ? Cette action supprime TOUTES les données de votre index !",
-          "growl": "L'index '{index}' a été vidé avec succès."
+          "confirm": "Vider l'index '{index}' ? Cette action supprime TOUTES les données de votre index !"
         },
         "delete_by_query": {
           "text": "Supprimer tous les documents",
@@ -520,13 +519,10 @@
       },
       "search": "Recherche",
       "customize_query": {
-        "button": "Recherche avancée",
         "reset": "Réinitialiser la requête"
       }
     },
     "query_editor": {
-      "query": "Requête",
-      "invalid_query": "Requête de recherche invalide"
     },
     "autocomplete": {
       "search_all": "Rechercher tout",
@@ -541,7 +537,6 @@
       "fuzzy_search": "Recherche floue (fuzzy)",
       "condition_grouping": "Groupement de conditions",
       "field_description": "Champ: {field}",
-      "error_history_loading": "Erreur lors du chargement de l'historique",
       "error_fields_loading": "Erreur lors du chargement des champs"
     },
     "search_result": {
@@ -555,7 +550,6 @@
       "settings": {
         "columns": "Colomnes"
       },
-      "download_as_json": "Télécharger en JSON",
       "add_document": "Ajouter un document"
     },
     "context_menu": {

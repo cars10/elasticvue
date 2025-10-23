@@ -188,8 +188,7 @@
         },
         "clear": {
           "text": "Очистить индекс | Очистить индекс | Очистить {count} индексов",
-          "confirm": "Очистить индекс '{index}'? Это удалит ВСЕ данные в вашем индексе!",
-          "growl": "Индекс '{index}' был успешно очищен."
+          "confirm": "Очистить индекс '{index}'? Это удалит ВСЕ данные в вашем индексе!"
         },
         "delete_by_query": {
           "text": "Удалить все документы",
@@ -520,13 +519,10 @@
       },
       "search": "Поиск",
       "customize_query": {
-        "button": "Настроить поиск",
         "reset": "Сбросить запрос"
       }
     },
     "query_editor": {
-      "query": "Запрос",
-      "invalid_query": "неверный поисковый запрос"
     },
     "autocomplete": {
       "search_all": "Искать все",
@@ -541,7 +537,6 @@
       "fuzzy_search": "Нечёткий поиск",
       "condition_grouping": "Группировка условий",
       "field_description": "Поле: {field}",
-      "error_history_loading": "Ошибка при загрузке истории",
       "error_fields_loading": "Ошибка при загрузке полей"
     },
     "search_result": {
@@ -555,7 +550,6 @@
       "settings": {
         "columns": "Колонки"
       },
-      "download_as_json": "Скачать как JSON",
       "add_document": "Добавить документ"
     },
     "context_menu": {

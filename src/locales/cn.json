@@ -188,8 +188,7 @@
         },
         "clear": {
           "text": "清除索引 | 清除索引 | 清除 {count} 个索引",
-          "confirm": "要清除索引 '{index}' 吗？这将删除索引中的所有数据！",
-          "growl": "索引 '{index}' 已成功清除。"
+          "confirm": "要清除索引 '{index}' 吗？这将删除索引中的所有数据！"
         },
         "delete_by_query": {
           "text": "删除所有文档",
@@ -520,13 +519,10 @@
       },
       "search": "搜索",
       "customize_query": {
-        "button": "自定义查询",
         "reset": "重置语句"
       }
     },
     "query_editor": {
-      "query": "查询",
-      "invalid_query": "无效的搜索查询"
     },
     "autocomplete": {
       "search_all": "搜索所有",
@@ -541,7 +537,6 @@
       "fuzzy_search": "模糊搜索",
       "condition_grouping": "条件分组",
       "field_description": "字段: {field}",
-      "error_history_loading": "加载历史记录时出错",
       "error_fields_loading": "加载字段时出错"
     },
     "search_result": {
@@ -555,7 +550,6 @@
       "settings": {
         "columns": "列"
       },
-      "download_as_json": "下载为 JSON 文件",
       "add_document": "添加文档"
     },
     "context_menu": {

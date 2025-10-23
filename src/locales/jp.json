@@ -188,8 +188,7 @@
         },
         "clear": {
           "text": "インデックスをクリア | インデックスをクリア | {count} 個のインデックスをクリア",
-          "confirm": "インデックス '{index}' をクリアしますか？これにより、インデックス内のすべてのデータが削除されます！",
-          "growl": "インデックス '{index}' は正常にクリアされました。"
+          "confirm": "インデックス '{index}' をクリアしますか？これにより、インデックス内のすべてのデータが削除されます！"
         },
         "delete_by_query": {
           "text": "すべてのドキュメントを削除",
@@ -520,13 +519,10 @@
       },
       "search": "検索",
       "customize_query": {
-        "button": "カスタム検索",
         "reset": "クエリをリセット"
       }
     },
     "query_editor": {
-      "query": "クエリ",
-      "invalid_query": "無効な検索クエリ"
     },
     "autocomplete": {
       "search_all": "すべて検索",
@@ -541,7 +537,6 @@
       "fuzzy_search": "あいまい検索",
       "condition_grouping": "条件グループ化",
       "field_description": "フィールド: {field}",
-      "error_history_loading": "履歴の読み込み中にエラーが発生しました",
       "error_fields_loading": "フィールドの読み込み中にエラーが発生しました"
     },
     "search_result": {
@@ -555,7 +550,6 @@
       "settings": {
         "columns": "列"
       },
-      "download_as_json": "JSON としてダウンロード",
       "add_document": "ドキュメントを追加"
     },
     "context_menu": {
