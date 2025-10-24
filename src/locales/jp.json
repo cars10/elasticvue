@@ -54,6 +54,10 @@
     "bulk": "一括操作",
     "copy": "コピー"
   },
+  "common": {
+    "yes": "はい",
+    "no": "いいえ"
+  },
   "cluster_selection": {
     "cluster_selection": {
       "connected_info": {
@@ -95,7 +99,21 @@
   },
   "home": {
     "client_information": {
-      "heading": "クラスター情報"
+      "heading": "クラスター情報",
+      "node_name": "ノード名",
+      "cluster_name": "クラスター名",
+      "cluster_uuid": "クラスターUUID",
+      "tagline": "タグライン",
+      "distribution": "ディストリビューション",
+      "number": "番号",
+      "build_flavor": "ビルドフレーバー",
+      "build_type": "ビルドタイプ",
+      "build_hash": "ビルドハッシュ",
+      "build_date": "ビルド日",
+      "build_snapshot": "ビルドスナップショット",
+      "lucene_version": "Luceneバージョン",
+      "minimum_wire_compatibility_version": "最小ネットワーク互換性バージョン",
+      "minimum_index_compatibility_version": "最小インデックス互換性バージョン"
     },
     "cluster_health": {
       "heading": "クラスターの健全性"
@@ -168,6 +186,11 @@
           "text": "インデックスを開く | インデックスを開く | {count} 個のインデックスを開く",
           "growl": "インデックス '{index}' は正常に開かれました。"
         },
+        "clear": {
+          "text": "インデックスをクリア | インデックスをクリア | {count} 個のインデックスをクリア",
+          "confirm": "インデックス '{index}' をクリアしますか？これにより、インデックス内のすべてのデータが削除されます！",
+          "growl": "インデックス '{index}' は正常にクリアされました。"
+        },
         "delete_by_query": {
           "text": "すべてのドキュメントを削除",
           "confirm": "インデックス '{index}' のすべてのドキュメントを削除しますか？これにより、インデックス内のすべてのデータが削除されます！",
@@ -177,6 +200,9 @@
           "text": "インデックスを削除 | インデックスを削除 | {count} 個のインデックスを削除",
           "confirm": "インデックス '{index}' を削除しますか？",
           "growl": "インデックス '{index}' は正常に削除されました。"
+        },
+        "export": {
+          "text": "インデックスをエクスポート"
         }
       }
     },
@@ -202,6 +228,70 @@
         }
       }
     },
+    "export": {
+      "title": "インデックスのエクスポート '{index}'",
+      "subtitle": "このインデックスからすべてのドキュメントとマッピングをエクスポートします",
+      "include_mapping": "マッピングを含める",
+      "compress_file": "ファイルを圧縮 (ZIP)",
+      "warning": "大きなインデックスのエクスポートには時間がかかる場合があります",
+      "start_export": "エクスポートを開始",
+      "progress": {
+        "title": "インデックスをエクスポートしています",
+        "exporting": "'{index}' をエクスポートしています",
+        "preparing": "エクスポートを準備しています...",
+        "exporting_documents": "ドキュメントをエクスポートしています... ({processed}/{total})",
+        "creating_file": "エクスポートファイルを作成しています...",
+        "downloading": "ファイルをダウンロードしています...",
+        "completed": "エクスポートが正常に完了しました！"
+      },
+      "error": {
+        "export_failed": "エクスポートに失敗しました",
+        "unknown": "エクスポート中に不明なエラーが発生しました"
+      }
+    },
+    "import": {
+      "title": "インデックスのインポート",
+      "subtitle": "ダンプファイルからドキュメントとマッピングをインポートします",
+      "select_file": "ダンプファイルを選択 (.json または .zip)",
+      "mode": {
+        "new_index": "新しいインデックスを作成",
+        "existing_index": "既存のインデックスにインポート"
+      },
+      "new_index_name": "新しいインデックス名",
+      "select_existing_index": "既存のインデックスを選択",
+      "advanced_options": "詳細オプション",
+      "overwrite_existing": "既存のドキュメントを上書き",
+      "overwrite_warning": "これにより、ターゲットインデックス内の既存のすべてのドキュメントが置き換えられます",
+      "file_preview": "ファイルプレビュー",
+      "original_index": "元のインデックス",
+      "documents_count": "ドキュメント数",
+      "has_mapping": "マッピングあり",
+      "export_date": "エクスポート日",
+      "start_import": "インポートを開始",
+      "validation": {
+        "index_name_required": "インデックス名は必須です",
+        "index_required": "インデックスを選択してください"
+      },
+      "progress": {
+        "title": "インデックスをインポートしています",
+        "importing": "'{targetIndex}' にインポートしています",
+        "preparing": "インポートを準備しています...",
+        "creating_index": "インデックスを作成しています...",
+        "completed": "インポートが正常に完了しました！",
+        "completed_with_errors": "{errors} 個のエラーでインポートが完了しました"
+      },
+      "error": {
+        "no_json_in_zip": "ZIPアーカイブにJSONファイルが見つかりません",
+        "invalid_file_format": "無効なファイル形式",
+        "parse_failed": "ファイルの解析に失敗しました",
+        "index_exists": "インデックス '{index}' は既に存在します",
+        "import_failed": "インポートに失敗しました",
+        "unknown": "インポート中に不明なエラーが発生しました"
+      }
+    },
+    "import_index":{
+      "heading": "インデックスをインポート"
+    },
     "new_index": {
       "heading": "新しいインデックス",
       "form": {
@@ -217,6 +307,26 @@
       },
       "create_index": {
         "growl": "インデックス '{index}' は正常に作成されました。"
+      }
+    },
+    "index_clear": {
+      "progress": {
+        "title": "インデックスをクリアしています",
+        "clearing": "'{index}' をクリアしています",
+        "preparing": "準備中...",
+        "clearing_documents": "ドキュメントを削除しています... ({processed}/{total})",
+        "completed": "正常にクリアされました！"
+      }
+    },
+    "index_bulk": {
+      "export": {
+        "text": "選択したインデックスをエクスポート",
+        "confirm": "{count} 個のインデックスをエクスポートしてもよろしいですか？これにより {count} 個のファイルがダウンロードされます。",
+        "growl": "エクスポートが完了しました。",
+        "progress": {
+          "title": "インデックスのエクスポート",
+          "exporting": "インデックス {current} / {total} をエクスポート中: {index}"
+        }
       }
     }
   },
@@ -414,6 +524,26 @@
         "reset": "クエリをリセット"
       }
     },
+    "query_editor": {
+      "query": "クエリ",
+      "invalid_query": "無効な検索クエリ"
+    },
+    "autocomplete": {
+      "search_all": "すべて検索",
+      "and_operator": "AND 論理演算子",
+      "or_operator": "OR 論理演算子",
+      "not_operator": "NOT 論理演算子",
+      "field_exists": "フィールドの存在を確認",
+      "range_search": "範囲検索",
+      "wildcard_search": "ワイルドカード検索",
+      "exact_phrase_search": "完全一致フレーズ検索",
+      "relevance_boost": "関連性ブースト",
+      "fuzzy_search": "あいまい検索",
+      "condition_grouping": "条件グループ化",
+      "field_description": "フィールド: {field}",
+      "error_history_loading": "履歴の読み込み中にエラーが発生しました",
+      "error_fields_loading": "フィールドの読み込み中にエラーが発生しました"
+    },
     "search_result": {
       "delete": {
         "text": "# | ドキュメントを削除 | ドキュメントを削除",
@@ -425,12 +555,42 @@
       "settings": {
         "columns": "列"
       },
-      "download_as_json": "JSON としてダウンロード"
+      "download_as_json": "JSON としてダウンロード",
+      "add_document": "ドキュメントを追加"
+    },
+    "context_menu": {
+      "copy_row_json": "行をJSONとしてコピー",
+      "copy_cell_content": "セルの内容をコピー",
+      "copy_row_id": "行IDをコピー",
+      "copy_selected_rows_json": "{count}件の選択した行をJSONとしてコピー",
+      "row_copied": "行がクリップボードにコピーされました",
+      "cell_copied": "セルの内容がコピーされました",
+      "id_copied": "IDがクリップボードにコピーされました",
+      "selected_rows_copied": "{count}件の行がクリップボードにコピーされました",
+      "edit_row_json": "行を編集（JSON）",
+      "filter_by_field": "このフィールドでフィルター",
+      "download_row_json": "この行を JSON でダウンロード",
+      "delete_row_json": "この行を削除",
+      "download_selected_rows_json": "選択された {count} 行を JSON でダウンロード",
+      "delete_selected_rows": "選択された {count} 行を削除"
     },
     "edit_document": {
+      "new_document": "新しいドキュメント",
+      "id": {
+        "label": "ID (任意)"
+      },
+      "create": {
+        "text": "作成",
+        "growl": "ドキュメントは正常に作成されました。",
+        "confirm": "新しいドキュメントを作成しますか"
+      },
       "update": {
-        "text": "ドキュメントを更新",
-        "growl": "ドキュメントは正常に更新されました。"
+        "text": "更新",
+        "growl": "ドキュメントは正常に更新されました。",
+        "confirm": "このドキュメントを更新しますか？"
+      },
+      "loseupdate":{
+        "confirm": "保存されていない変更はすべて失われます。本当によろしいですか？" 
       }
     }
   },
@@ -463,7 +623,7 @@
       "heading": "elasticvue データのインポート/エクスポート",
       "message": "elasticvue の設定を JSON としてインポートおよびエクスポートできます。これはクラスターデータのバックアップ<strong>ではありません</strong>。インデックスのバックアップが必要な場合は、スナップショットを使用してください。",
       "export": {
-        "heading": "エクスポート",
+        "heading": "エクスport",
         "included": "含まれる内容",
         "download": "バックアップをダウンロード"
       },
@@ -593,7 +753,13 @@
     },
     "table_settings": {
       "reset": "リセット",
-      "clear": "クリア"
+      "clear": "クリア",
+      "reset_order": "順序をリセット",
+      "clear_sorts": "ソートをクリア",
+      "move_to_top": "一番上に移動",
+      "move_up": "上に移動",
+      "move_down": "下に移動",
+      "move_to_bottom": "一番下に移動"
     },
     "authorization_header_hint": "\"http.cors.allow-headers\" が設定されていることを確認してください",
     "code_editor": {

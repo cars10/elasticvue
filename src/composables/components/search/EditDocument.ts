@@ -1,26 +1,33 @@
 import { ref, watch, Ref, computed } from 'vue'
 import { useTranslation } from '../../i18n.ts'
-import { defineElasticsearchRequest, useElasticsearchAdapter } from '../../CallElasticsearch.ts'
+import {
+  defineElasticsearchRequest,
+  useElasticsearchAdapter,
+} from '../../CallElasticsearch.ts'
 import { stringifyJson } from '../../../helpers/json/stringify.ts'
+import { useSearchStore } from '../../../store/search.ts'
+import { onBeforeRouteLeave } from 'vue-router'
+import { askConfirm } from '../../../helpers/dialogs.ts'
 
 export type EditDocumentProps = {
   modelValue: boolean
 } & ElasticsearchDocumentInfo
 
 export type ElasticsearchDocumentInfo = {
-  _index: string
-  _type: string
-  _id: string
-  _routing?: string
+  _index: string,
+  _type: string,
+  _id?: string,
+  _routing?: string,
+  _source?: object
 }
 
 type ElasticsearchDocumentMeta = {
-  _index?: string
-  _type?: string
-  _id?: string
-  _version?: number
-  _primary_term?: number
-  _seq_no?: number
+  _index?: string,
+  _type?: string,
+  _id?: string,
+  _version?: number,
+  _primary_term?: number,
+  _seq_no?: number,
   _routing?: string
 }
 
@@ -28,71 +35,189 @@ export const useEditDocument = (props: EditDocumentProps, emit: any) => {
   const ownValue = ref(false)
   const t = useTranslation()
   const document = ref('')
+  const documentId = ref('')
+  const originalDocument = ref('')
   const documentMeta = ref({} as ElasticsearchDocumentMeta)
+  const searchStore = useSearchStore()
+  const availableIndices = ref<string[]>([])
+  const selectedIndex = ref(props._index)
+
+  const isDirty = computed(() => document.value !== originalDocument.value)
 
   const { requestState, callElasticsearch } = useElasticsearchAdapter()
   const data: Ref<any> = ref(null)
 
   const load = () => {
+    if (!props._index || !props._type || !props._id) {
+      data.value = null
+      return Promise.resolve()
+    }
     return callElasticsearch('get', {
       index: props._index,
       type: props._type,
       id: props._id,
       routing: props._routing
     })
-      .then((body) => (data.value = body))
-      .catch(() => (data.value = null))
+        .then(body => (data.value = body))
+        .catch(() => (data.value = null))
   }
 
-  watch(ownValue, (value) => emit('update:modelValue', value))
-  watch(
-    () => props.modelValue,
-    (value) => {
-      if (value) loadDocument()
-      ownValue.value = value
+  watch(ownValue, value => (emit('update:modelValue', value)))
+  watch(() => props.modelValue, async (value) => {
+    ownValue.value = value
+    if (value) {
+      if (isNew.value) {
+        if (Array.isArray(searchStore.indices)) {
+          availableIndices.value = searchStore.indices
+        } else if (typeof searchStore.indices === 'string') {
+          try {
+            const indices = await callElasticsearch('catIndices', { index: searchStore.indices, h: 'index', format: 'json' })
+            availableIndices.value = indices.map((i: any) => i.index)
+          } catch (e) {
+            console.error(e)
+            availableIndices.value = []
+          }
+        }
+        selectedIndex.value = props._index || (availableIndices.value.length > 0 ? availableIndices.value[0] : '')
+      }
+      loadDocument()
     }
-  )
+  })
+
+  const buildDocumentFromMapping = (properties: any) => {
+    if (!properties) return {}
+    return Object.keys(properties).reduce((acc, key) => {
+      acc[key] = ''
+      return acc
+    }, {} as Record<string, any>)
+  }
+
+  const loadIndexMapping = async (index: string) => {
+    if (!index) {
+      document.value = stringifyJson({})
+      return
+    }
+
+    try {
+      const mappingData = await callElasticsearch('indicesGetMapping', { index })
+      const properties = mappingData[index]?.mappings?.[index] ? mappingData[index]?.mappings?.[index]?.properties : mappingData[index]?.mappings?.properties
+      const newDoc = buildDocumentFromMapping(properties)
+      document.value = stringifyJson(newDoc)
+    } catch (e) {
+      console.error(e)
+      document.value = stringifyJson({})
+    }
+  }
+
+  watch(selectedIndex, (newVal) => {
+    documentMeta.value._index = newVal
+    if (isNew.value) {
+      loadIndexMapping(newVal)
+    }
+  })
+
+  const isNew = computed(() => !props._id)
 
   const loadDocument = async () => {
-    await load()
-    document.value = stringifyJson(data.value._source)
-    documentMeta.value = {
-      _index: data.value._index,
-      _type: data.value._type,
-      _id: data.value._id,
-      _version: data.value._version,
-      _primary_term: data.value._primary_term,
-      _seq_no: data.value._seq_no,
-      _routing: data.value._routing
+    if (isNew.value) {
+      if (props._source) {
+        document.value = stringifyJson(props._source)
+      } else {
+        await loadIndexMapping(selectedIndex.value)
+      }
+      documentId.value = ''
+      documentMeta.value = {
+        _index: selectedIndex.value,
+        _type: props._type
+      }
+    } else {
+      await load()
+      document.value = stringifyJson(data.value._source)
+      documentMeta.value = {
+        _index: data.value._index,
+        _type: data.value._type,
+        _id: data.value._id,
+        _version: data.value._version,
+        _primary_term: data.value._primary_term,
+        _seq_no: data.value._seq_no,
+        _routing: data.value._routing
+      }
     }
+    originalDocument.value = document.value
   }
 
   const validDocumentMeta = computed(() => {
     return Object.fromEntries(Object.entries(documentMeta.value).filter((keyval) => keyval[1] != null))
   })
+  
+  const close = async () =>{
+    let result : boolean = false
+
+    if (isDirty.value)
+    {
+      const confirmMsg = t('search.edit_document.loseupdate.confirm')
+      
+      const confirmed: boolean = await askConfirm(confirmMsg)
+      if (confirmed) {
+        document.value = originalDocument.value
+        result = false
+      }
+      else{
+        result = true
+      }
+    }  
+    ownValue.value = result
+  }
 
   const { run, loading } = defineElasticsearchRequest({ emit, method: 'index' })
-  const updateDocument = async () => {
-    await run({
+  const saveDocument = async () => {
+    const id = isNew.value ? (documentId.value || undefined) : props._id
+    const index = isNew.value ? selectedIndex.value : props._index
+    const snackbarOptionsBody = isNew.value ? t('search.edit_document.create.growl') : t('search.edit_document.update.growl')
+    const confirmMsg = isNew.value ? t('search.edit_document.create.confirm') : t('search.edit_document.update.confirm')
+    const result = await run({
       params: {
-        index: props._index,
+        index,
         type: props._type,
-        id: props._id,
+        id,
         routing: props._routing,
         params: document.value
       },
-      snackbarOptions: { body: t('search.edit_document.update.growl') }
+      confirmMsg :confirmMsg,
+      snackbarOptions: {
+        body: snackbarOptionsBody
+      }
     })
-    ownValue.value = false
+    if (result){
+      originalDocument.value = document.value
+      ownValue.value = true
+    }
   }
+
+  onBeforeRouteLeave(() => {
+    if (isDirty.value) {
+      if (window.confirm('You have unsaved changes, are you sure you want to leave?')) {
+        return true
+      } else {
+        return false
+      }
+    }
+    return true
+  })
 
   return {
     document,
+    documentId,
     validDocumentMeta,
     ownValue,
     loadDocument,
     requestState,
     loading,
-    updateDocument
+    saveDocument,
+    close,
+    isNew,
+    availableIndices,
+    selectedIndex,
+    isDirty
   }
 }

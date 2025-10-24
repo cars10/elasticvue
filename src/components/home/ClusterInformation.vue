@@ -9,7 +9,7 @@
         <q-list v-if="data && data.version" dense>
           <q-item>
             <q-item-section>
-              <q-item-label>Node Name</q-item-label>
+              <q-item-label>{{ t('home.client_information.node_name') }}</q-item-label>
             </q-item-section>
             <q-item-section side>
               <q-item-label>{{ data.name }}</q-item-label>
@@ -18,7 +18,7 @@
 
           <q-item>
             <q-item-section>
-              <q-item-label>Cluster name</q-item-label>
+              <q-item-label>{{ t('home.client_information.cluster_name') }}</q-item-label>
             </q-item-section>
             <q-item-section side>
               <q-item-label>{{ data.cluster_name }}</q-item-label>
@@ -27,7 +27,7 @@
 
           <q-item v-if="data.cluster_uuid">
             <q-item-section>
-              <q-item-label>Cluster uuid</q-item-label>
+              <q-item-label>{{ t('home.client_information.cluster_uuid') }}</q-item-label>
             </q-item-section>
             <q-item-section side>
               <q-item-label>{{ data.cluster_uuid }}</q-item-label>
@@ -36,7 +36,7 @@
 
           <q-item>
             <q-item-section>
-              <q-item-label>Tagline</q-item-label>
+              <q-item-label>{{ t('home.client_information.tagline') }}</q-item-label>
             </q-item-section>
             <q-item-section side>
               <q-item-label>{{ data.tagline }}</q-item-label>
@@ -47,7 +47,7 @@
 
           <q-item v-if="data.version.distribution">
             <q-item-section>
-              <q-item-label>Distribution</q-item-label>
+              <q-item-label>{{ t('home.client_information.distribution') }}</q-item-label>
             </q-item-section>
             <q-item-section side>
               <q-item-label>{{ data.version.distribution }}</q-item-label>
@@ -56,7 +56,7 @@
 
           <q-item>
             <q-item-section>
-              <q-item-label>Number</q-item-label>
+              <q-item-label>{{ t('home.client_information.number') }}</q-item-label>
             </q-item-section>
             <q-item-section side>
               <q-item-label>{{ data.version.number }}</q-item-label>
@@ -65,7 +65,7 @@
 
           <q-item v-if="data.version.build_flavor">
             <q-item-section>
-              <q-item-label>Build flavor</q-item-label>
+              <q-item-label>{{ t('home.client_information.build_flavor') }}</q-item-label>
             </q-item-section>
             <q-item-section side>
               <q-item-label>{{ data.version.build_flavor }}</q-item-label>
@@ -74,7 +74,7 @@
 
           <q-item v-if="data.version.build_type">
             <q-item-section>
-              <q-item-label>Build type</q-item-label>
+              <q-item-label>{{ t('home.client_information.build_type') }}</q-item-label>
             </q-item-section>
             <q-item-section side>
               <q-item-label>{{ data.version.build_type }}</q-item-label>
@@ -83,7 +83,7 @@
 
           <q-item v-if="data.version.build_hash">
             <q-item-section>
-              <q-item-label>Build hash</q-item-label>
+              <q-item-label>{{ t('home.client_information.build_hash') }}</q-item-label>
             </q-item-section>
             <q-item-section side>
               <q-item-label>{{ data.version.build_hash }}</q-item-label>
@@ -92,7 +92,7 @@
 
           <q-item v-if="data.version.build_date">
             <q-item-section>
-              <q-item-label>Build date</q-item-label>
+              <q-item-label>{{ t('home.client_information.build_date') }}</q-item-label>
             </q-item-section>
             <q-item-section side>
               <q-item-label>{{ data.version.build_date }}</q-item-label>
@@ -101,7 +101,7 @@
 
           <q-item v-if="data.version.build_snapshot">
             <q-item-section>
-              <q-item-label>Build snapshot</q-item-label>
+              <q-item-label>{{ t('home.client_information.build_snapshot') }}</q-item-label>
             </q-item-section>
             <q-item-section side>
               <q-item-label>{{ data.version.build_snapshot }}</q-item-label>
@@ -110,7 +110,7 @@
 
           <q-item v-if="data.version.lucene_version">
             <q-item-section>
-              <q-item-label>Lucene version</q-item-label>
+              <q-item-label>{{ t('home.client_information.lucene_version') }}</q-item-label>
             </q-item-section>
             <q-item-section side>
               <q-item-label>{{ data.version.lucene_version }}</q-item-label>
@@ -119,7 +119,7 @@
 
           <q-item v-if="data.version.minimum_wire_compatibility_version">
             <q-item-section>
-              <q-item-label>Minimum wire compatibility version</q-item-label>
+              <q-item-label>{{ t('home.client_information.minimum_wire_compatibility_version') }}</q-item-label>
             </q-item-section>
             <q-item-section side>
               <q-item-label>{{ data.version.minimum_wire_compatibility_version }}</q-item-label>
@@ -128,7 +128,7 @@
 
           <q-item v-if="data.version.minimum_index_compatibility_version">
             <q-item-section>
-              <q-item-label>Minimum index compatibility version</q-item-label>
+              <q-item-label>{{ t('home.client_information.minimum_index_compatibility_version') }}</q-item-label>
             </q-item-section>
             <q-item-section side>
               <q-item-label>{{ data.version.minimum_index_compatibility_version }}</q-item-label>

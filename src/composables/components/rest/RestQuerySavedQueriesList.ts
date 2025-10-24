@@ -20,8 +20,8 @@ export const useRestQuerySavedQueriesList = (emit: any) => {
 
   const columns = [
     { label: t('query.rest_query_history.table.headers.query'), field: 'query', name: 'query', align: 'left' },
-    { label: 'Name', field: 'name', name: 'name', align: 'left', sortable: true },
-    { label: '' }
+    { label: 'Name', field: 'name', name: 'name', align: 'left', sortableCol: true },
+    { label: '' },
   ]
 
   return {

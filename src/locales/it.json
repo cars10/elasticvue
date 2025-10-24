@@ -54,6 +54,10 @@
     "bulk": "Azione di massa",
     "copy": "Copia"
   },
+  "common": {
+    "yes": "Sì",
+    "no": "No"
+  },
   "cluster_selection": {
     "cluster_selection": {
       "connected_info": {
@@ -95,7 +99,21 @@
   },
   "home": {
     "client_information": {
-      "heading": "Informazioni Cluster"
+      "heading": "Informazioni Cluster",
+      "node_name": "Nome del nodo",
+      "cluster_name": "Nome del cluster",
+      "cluster_uuid": "UUID del cluster",
+      "tagline": "Slogan",
+      "distribution": "Distribuzione",
+      "number": "Numero",
+      "build_flavor": "Variante di build",
+      "build_type": "Tipo di build",
+      "build_hash": "Hash di build",
+      "build_date": "Data di build",
+      "build_snapshot": "Snapshot di build",
+      "lucene_version": "Versione Lucene",
+      "minimum_wire_compatibility_version": "Versione minima di compatibilità di rete",
+      "minimum_index_compatibility_version": "Versione minima di compatibilità dell'indice"
     },
     "cluster_health": {
       "heading": "Salute Cluster"
@@ -168,6 +186,11 @@
           "text": "Apri indice | Apri indice | Apri {count} indici",
           "growl": "L'indice '{index}' è stato aperto con successo."
         },
+        "clear": {
+          "text": "Svuota indice | Svuota indice | Svuota {count} indici",
+          "confirm": "Svuotare l'indice '{index}'? Questo rimuoverà TUTTI i dati nel tuo indice!",
+          "growl": "L'indice '{index}' è stato svuotato con successo."
+        },
         "delete_by_query": {
           "text": "Elimina tutti i documenti",
           "confirm": "Eliminare tutti i documenti nell'indice '{index}'? Questo rimuoverà TUTTI i dati nel tuo indice!",
@@ -177,6 +200,9 @@
           "text": "Elimina indice | Elimina indice | Elimina {count} indici",
           "confirm": "Eliminare l'indice '{index}'?",
           "growl": "L'indice '{index}' è stato eliminato con successo."
+        },
+        "export": {
+          "text": "Esporta indice"
         }
       }
     },
@@ -202,6 +228,70 @@
         }
       }
     },
+    "export": {
+      "title": "Esporta indice '{index}'",
+      "subtitle": "Esporta tutti i documenti e la mappatura da questo indice",
+      "include_mapping": "Includi mappatura",
+      "compress_file": "Comprimi file (ZIP)",
+      "warning": "L'esportazione di indici di grandi dimensioni potrebbe richiedere molto tempo",
+      "start_export": "Avvia esportazione",
+      "progress": {
+        "title": "Esportazione dell'indice",
+        "exporting": "Esportazione di '{index}'",
+        "preparing": "Preparazione dell'esportazione...",
+        "exporting_documents": "Esportazione documenti... ({processed}/{total})",
+        "creating_file": "Creazione del file di esportazione...",
+        "downloading": "Download del file...",
+        "completed": "Esportazione completata con successo!"
+      },
+      "error": {
+        "export_failed": "Esportazione fallita",
+        "unknown": "Si è verificato un errore sconosciuto durante l'esportazione"
+      }
+    },
+    "import": {
+      "title": "Importa indice",
+      "subtitle": "Importa documenti e mappatura da un file di dump",
+      "select_file": "Seleziona file di dump (.json o .zip)",
+      "mode": {
+        "new_index": "Crea nuovo indice",
+        "existing_index": "Importa in un indice esistente"
+      },
+      "new_index_name": "Nuovo nome dell'indice",
+      "select_existing_index": "Seleziona indice esistente",
+      "advanced_options": "Opzioni avanzate",
+      "overwrite_existing": "Sovrascrivi documenti esistenti",
+      "overwrite_warning": "Questo sostituirà tutti i documenti esistenti nell'indice di destinazione",
+      "file_preview": "Anteprima file",
+      "original_index": "Indice originale",
+      "documents_count": "Conteggio documenti",
+      "has_mapping": "Ha mappatura",
+      "export_date": "Data di esportazione",
+      "start_import": "Avvia importazione",
+      "validation": {
+        "index_name_required": "Il nome dell'indice è obbligatorio",
+        "index_required": "Seleziona un indice"
+      },
+      "progress": {
+        "title": "Importazione dell'indice",
+        "importing": "Importazione in '{targetIndex}'",
+        "preparing": "Preparazione dell'importazione...",
+        "creating_index": "Creazione dell'indice...",
+        "completed": "Importazione completata con successo!",
+        "completed_with_errors": "Importazione completata con {errors} errori"
+      },
+      "error": {
+        "no_json_in_zip": "Nessun file JSON trovato nell'archivio ZIP",
+        "invalid_file_format": "Formato file non valido",
+        "parse_failed": "Analisi del file non riuscita",
+        "index_exists": "L'indice '{index}' esiste già",
+        "import_failed": "Importazione fallita",
+        "unknown": "Si è verificato un errore sconosciuto durante l'importazione"
+      }
+    },
+    "import_index":{
+      "heading": "importa indice"
+    },
     "new_index": {
       "heading": "Nuovo Indice",
       "form": {
@@ -217,6 +307,26 @@
       },
       "create_index": {
         "growl": "L'indice '{index}' è stato creato con successo."
+      }
+    },
+    "index_clear": {
+      "progress": {
+        "title": "Svuotamento indice",
+        "clearing": "Svuotamento di '{index}'",
+        "preparing": "In preparazione...",
+        "clearing_documents": "Eliminazione documenti... ({processed}/{total})",
+        "completed": "Svuotamento completato con successo!"
+      }
+    },
+    "index_bulk": {
+      "export": {
+        "text": "Esporta indici selezionati",
+        "confirm": "Sei sicuro di voler esportare {count} indici? Verranno scaricati {count} file.",
+        "growl": "Esportazione terminata.",
+        "progress": {
+          "title": "Esportazione indici",
+          "exporting": "Esportazione dell'indice {current} di {total}: {index}"
+        }
       }
     }
   },
@@ -414,6 +524,26 @@
         "reset": "Reimposta query"
       }
     },
+   "query_editor": {
+      "query": "Query",
+      "invalid_query": "query di ricerca non valida"
+    },
+    "autocomplete": {
+      "search_all": "Cerca tutto",
+      "and_operator": "Operatore logico AND",
+      "or_operator": "Operatore logico OR",
+      "not_operator": "Operatore logico NOT",
+      "field_exists": "Verifica esistenza campo",
+      "range_search": "Ricerca per intervallo",
+      "wildcard_search": "Ricerca con caratteri jolly",
+      "exact_phrase_search": "Ricerca frase esatta",
+      "relevance_boost": "Aumento di rilevanza",
+      "fuzzy_search": "Ricerca fuzzy",
+      "condition_grouping": "Raggruppamento condizioni",
+      "field_description": "Campo: {field}",
+      "error_history_loading": "Errore durante il caricamento della cronologia",
+      "error_fields_loading": "Errore durante il caricamento dei campi"
+    },
     "search_result": {
       "delete": {
         "text": "# | Elimina documento | Elimina documenti",
@@ -425,12 +555,42 @@
       "settings": {
         "columns": "Colonne"
       },
-      "download_as_json": "Scarica come json"
+      "download_as_json": "Scarica come json",
+      "add_document": "Aggiungi documento"
+    },
+    "context_menu": {
+      "copy_row_json": "Copia riga come JSON",
+      "copy_cell_content": "Copia contenuto cella",
+      "copy_row_id": "Copia ID riga",
+      "copy_selected_rows_json": "Copia {count} righe selezionate come JSON",
+      "row_copied": "Riga copiata negli appunti",
+      "cell_copied": "Contenuto cella copiato",
+      "id_copied": "ID copiato negli appunti",
+      "selected_rows_copied": "{count} righe copiate negli appunti",
+      "edit_row_json": "Modifica riga (JSON)",
+      "filter_by_field": "Filtra per questo campo",
+      "download_row_json": "Scarica la riga in JSON",
+      "delete_row_json": "Elimina la riga",
+      "download_selected_rows_json": "Scarica le {count} righe selezionate in JSON",
+      "delete_selected_rows": "Elimina le {count} righe selezionate"
     },
     "edit_document": {
+      "new_document": "Nuovo documento",
+      "id": {
+        "label": "ID (opzionale)"
+      },
+      "create": {
+        "text": "Creare",
+        "growl": "Documento creato con successo.",
+        "confirm": "Sei sicuro di voler creare un nuovo documento?"
+      },
       "update": {
-        "text": "Aggiorna documento",
-        "growl": "Documento aggiornato con successo."
+        "text": "Aggiorna",
+        "growl": "Documento aggiornato con successo.",
+        "confirm": "Sei sicuro di voler aggiornare questo documento?"
+      },
+      "loseupdate":{
+        "confirm": "Perderai tutte le modifiche non salvate. Sei sicuro?"
       }
     }
   },
@@ -593,7 +753,13 @@
     },
     "table_settings": {
       "reset": "reimposta",
-      "clear": "cancella"
+      "clear": "cancella",
+      "reset_order": "Reimposta ordine",
+      "clear_sorts": "Cancella ordinamenti",
+      "move_to_top": "Sposta in alto",
+      "move_up": "Sposta su",
+      "move_down": "Sposta giù",
+      "move_to_bottom": "Sposta in basso"
     },
     "authorization_header_hint": "Assicurati che \"http.cors.allow-headers\" sia configurato",
     "code_editor": {
