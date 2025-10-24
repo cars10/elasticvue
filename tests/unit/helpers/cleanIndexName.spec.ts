@@ -36,4 +36,25 @@ describe.concurrent('helpers/cleanIndexName.ts', () => {
     const cleanedName = 'movies/kube+foo/bar'
     expect(cleanIndexName(indexName)).toBe(cleanedName)
   })
+
+  it('should not double-encode already URL-encoded characters', () => {
+    const testCases = [
+      {
+        input: 'my-index/_doc/my%2Fdocument%2Fid',
+        expected: 'my-index/_doc/my%2Fdocument%2Fid'
+      },
+      {
+        input: 'my-index-<{now/d}>/_doc/my%2Fdocument%2Fid',
+        expected: 'my-index-%3C%7Bnow%2Fd%7D%3E/_doc/my%2Fdocument%2Fid'
+      },
+      {
+        input: '_cluster/health',
+        expected: '_cluster/health'
+      }
+    ]
+    
+    testCases.forEach(({ input, expected }) => {
+      expect(cleanIndexName(input)).toBe(expected)
+    })
+  })
 })
