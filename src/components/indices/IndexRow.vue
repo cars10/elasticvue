@@ -29,6 +29,12 @@
         ]
       </template>
     </td>
+    <td :title="roles.join('\n')">
+      <q-circular-progress v-if="loading" indeterminate rounded color="primary" />
+      <template v-else>
+        {{ roles.join(', ') }}
+      </template>
+    </td>
     <td class="text-right">
       <div :title="t('indices.index_row.shards.title', { pri: index.pri, rep: index.rep })">
         {{ index.pri }}p&nbsp;&nbsp;{{ index.rep }}r
@@ -185,5 +191,5 @@ const afterDelete = (index: string) => {
   emitReloadAndCloseMenu()
 }
 
-const { menu, aliases, openModalWith, loading, emitReloadAndCloseMenu, showDocuments } = useIndexRow(props, emit)
+const { menu, roles, aliases, openModalWith, loading, emitReloadAndCloseMenu, showDocuments } = useIndexRow(props, emit)
 </script>

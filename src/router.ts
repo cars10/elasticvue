@@ -6,6 +6,7 @@ import IndexShards from './components/shards/IndexShards.vue'
 import HomePage from './components/home/HomePage.vue'
 import ClusterNodes from './components/nodes/ClusterNodes.vue'
 import RestQuery from './components/rest/RestQuery.vue'
+import SecurityPage from './components/security/SecurityPage.vue'
 import NestedView from './components/base/NestedView.vue'
 import { useConnectionStore } from './store/connection'
 import WelcomePage from './components/welcome/WelcomePage.vue'
@@ -39,6 +40,7 @@ const routes = [
       { path: 'nodes', name: 'nodes', component: ClusterNodes },
       { path: 'search', name: 'search', component: SearchDocuments },
       { path: 'rest', name: 'rest', component: RestQuery },
+      { path: 'security', name: 'security', component: SecurityPage },
       { path: 'snapshot_repositories', name: 'snapshot_repositories', component: SnapshotRepositories },
       { path: 'snapshot_repositories/:repositoryName', name: 'snapshots', component: RepositorySnapshots }
     ],

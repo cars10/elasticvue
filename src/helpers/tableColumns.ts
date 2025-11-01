@@ -1,7 +1,8 @@
 type ColumnOptions = {
-  label: string
-  field?: string
-  align?: string
+  label: string,
+  field?: string,
+  align?: string,
+  format?:any
 } | null
 
 export const genColumns = (options: ColumnOptions[]): any[] => {

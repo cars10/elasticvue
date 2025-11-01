@@ -574,6 +574,34 @@ export default class ElasticsearchAdapter {
     return this.request(`_snapshot/${repository}/${snapshot}`, 'GET')
   }
 
+  getRoles () {
+    return this.request('_security/role', 'GET')
+  }
+
+  deleteRole ({ name }: { name: string }) {
+    return this.request(`_security/role/${name}`, 'DELETE')
+  }
+
+  getApiKeys () {
+    return this.request('_security/api_key', 'GET')
+  }
+
+  deleteApiKey ({ id }: { id: string }) {
+    return this.request(`_security/api_key`, 'DELETE', { id })
+  }
+
+  getUsers () {
+    return this.request('_security/user', 'GET')
+  }
+
+  deleteUser ({ username }: { username: string }) {
+    return this.request(`_security/user/${username}`, 'DELETE')
+  }
+
+  updateUser ({ username, body }: { username: string, body: object }) {
+    return this.request(`_security/user/${username}`, 'PUT', body)
+  }
+
   catSlmPolicies() {
     return this.request('_slm/policy', 'GET')
   }

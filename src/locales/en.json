@@ -11,6 +11,7 @@
         "shards": "Shards",
         "search": "Search",
         "rest": "REST",
+        "security": "Security",
         "snapshots": "Snapshots"
       }
     },
@@ -219,6 +220,7 @@
           "health": "Health",
           "uuid": "UUID",
           "aliases": "Aliases",
+          "roles": "Roles",
           "shards": "Shards",
           "segments": "Segments",
           "docs": "Docs",

@@ -11,6 +11,7 @@
         "shards": "Partitions",
         "search": "Rechercher",
         "rest": "REST",
+        "security": "Sécurité",
         "snapshots": "Sauvegardes"
       }
     },

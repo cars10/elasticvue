@@ -11,6 +11,7 @@
         "shards": "分片",
         "search": "搜索",
         "rest": "REST",
+        "security": "安全",
         "snapshots": "快照"
       }
     },

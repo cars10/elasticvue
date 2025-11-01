@@ -105,6 +105,7 @@ export const useIndicesTable = (props: EsTableProps, emit: any) => {
     { label: t('indices.indices_table.table.headers.status'), field: 'status' },
     { label: t('indices.indices_table.table.headers.uuid'), field: 'uuid' },
     { label: t('indices.indices_table.table.headers.aliases') },
+    { label: t('indices.indices_table.table.headers.roles') },
     { label: t('indices.indices_table.table.headers.shards'), field: 'parsedPri', align: 'right' },
     { label: t('indices.indices_table.table.headers.segments'), field: 'parsedSegmentsCount', align: 'right' },
     { label: t('indices.indices_table.table.headers.docs'), field: 'parsedDocsCount', align: 'right' },

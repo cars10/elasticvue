@@ -32,6 +32,7 @@
         <q-route-tab id="indices" :label="t('base.app_header.navigation.indices')" :to="{ name: 'indices' }" :ripple="false" />
         <q-route-tab id="search" :label="t('base.app_header.navigation.search')" :to="{ name: 'search' }" :ripple="false" />
         <q-route-tab id="rest" :label="t('base.app_header.navigation.rest')" :to="{ name: 'rest' }" :ripple="false" />
+        <q-route-tab id="security" :label="t('base.app_header.navigation.security')" :to="{ name: 'security' }" :ripple="false" />
         <q-route-tab
           v-if="!connectionStore.serverless"
           :label="t('base.app_header.navigation.snapshots')"
