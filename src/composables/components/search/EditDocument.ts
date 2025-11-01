@@ -1,4 +1,4 @@
-import { ref, watch, Ref, computed } from 'vue'
+import { ref, watch, Ref, computed, nextTick } from 'vue'
 import { useTranslation } from '../../i18n.ts'
 import { defineElasticsearchRequest, useElasticsearchAdapter } from '../../CallElasticsearch.ts'
 import { stringifyJson } from '../../../helpers/json/stringify.ts'
@@ -64,18 +64,21 @@ export const useEditDocument = (props: EditDocumentProps, emit: any) => {
     ownValue.value = value
     if (value) {
       if (isNew.value) {
-        if (Array.isArray(searchStore.indices)) {
-          availableIndices.value = searchStore.indices
-        } else if (typeof searchStore.indices === 'string') {
-          try {
-            const indices = await callElasticsearch('catIndices', { index: searchStore.indices, h: 'index', format: 'json' })
-            availableIndices.value = indices.map((i: any) => i.index)
-          } catch (e) {
-            console.error(e)
-            availableIndices.value = []
+        const activeTab = searchStore.tabs.find(tab => tab.name === searchStore.activeTab)
+        if (activeTab !== undefined) {
+          if (Array.isArray(activeTab.indices)) {
+            availableIndices.value = activeTab.indices
+          } else if (typeof activeTab.indices === 'string') {
+            try {
+              const indices = await callElasticsearch('catIndices', { index: activeTab.indices, h: 'index', format: 'json' })
+              availableIndices.value = indices.map((i: any) => i.index)
+            } catch (e) {
+              console.error(e)
+              availableIndices.value = []
+            }
           }
+          selectedIndex.value = props._index || (availableIndices.value.length > 0 ? availableIndices.value[0] : '')
         }
-        selectedIndex.value = props._index || (availableIndices.value.length > 0 ? availableIndices.value[0] : '')
       }
       loadDocument()
     }
@@ -98,11 +101,14 @@ export const useEditDocument = (props: EditDocumentProps, emit: any) => {
     try {
       const mappingData = await callElasticsearch('indicesGetMapping', { index })
       const properties = mappingData[index]?.mappings?.[index] ? mappingData[index]?.mappings?.[index]?.properties : mappingData[index]?.mappings?.properties
-      const newDoc = buildDocumentFromMapping(properties)
-      document.value = stringifyJson(newDoc)
+      document.value = ''
+      await nextTick()
+      document.value = JSON.stringify(buildDocumentFromMapping(properties), null, 2)
     } catch (e) {
       console.error(e)
       document.value = stringifyJson({})
+    } finally {
+      originalDocument.value = document.value
     }
   }
 
@@ -140,7 +146,9 @@ export const useEditDocument = (props: EditDocumentProps, emit: any) => {
         _routing: data.value._routing
       }
     }
-    originalDocument.value = document.value
+    document.value = ''
+    await nextTick()
+    document.value = stringifyJson(data.value._source)
   }
 
   const validDocumentMeta = computed(() => {

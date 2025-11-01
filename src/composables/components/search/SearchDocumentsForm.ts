@@ -25,7 +25,6 @@ type EsSearchResultsHitsValues = {
 }
 
 export const useSearchDocumentsForm = (props:SearchDocumentormProps) => {
-  //const searchStore = useSearchStore()
   const { requestState, callElasticsearch } = useElasticsearchAdapter()
 
   

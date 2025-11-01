@@ -38,10 +38,9 @@
   import { buildConfig } from './buildConfig.ts'
   import { useZoomShortcuts } from './helpers/zoomShortcuts.ts'
 
-const themeStore = useThemeStore()
-const connectionStore = useConnectionStore()
-
-const route = useRoute()
+  const themeStore = useThemeStore()
+  const connectionStore = useConnectionStore()
+  const route = useRoute()
 
   const zoom = ref(parseFloat(localStorage.getItem('zoom') || '1'))
 
@@ -82,7 +81,7 @@ const route = useRoute()
   document.body.style.height = '100%'
   document.body.style.width = '100%'
   document.body.style.overflow = 'auto'
-  document.body.style.zoom = '0.9'
+  document.body.style.zoom = zoom.value.toString()
 
   onMounted(() => {
     setAppThemeCss(themeStore.appTheme)
