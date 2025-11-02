@@ -591,6 +591,10 @@
   },
   "settings": {
     "heading": "设置",
+      "check_for_updates": {
+        "label": "自动检查更新",
+        "message": "定期检查是否有新版本的 Elasticvue 可用"
+      },
     "hide_indices_regex": {
       "label": "正则表达式: 隐藏索引",
       "message": "匹配的索引将默认隐藏 (所有位置)",
@@ -934,5 +938,58 @@
       "first_time": "您似乎是首次使用elasticvue",
       "add_clusters": "请添加第一个集群, 或者导入一个之前的elasticvue配置备份"
     }
+  },
+  "security": {
+    "heading": "安全",
+    "roles": "角色",
+    "users": "用户",
+    "apikeys": "API 密钥",
+    "table": {
+      "roles": "角色",
+      "name": "名称",
+      "cluster": "集群",
+      "indices": "索引",
+      "actions": "操作",
+      "id": "ID",
+      "creation": "创建时间",
+      "username": "用户名"
+    },
+    "apiKeys_result": {
+      "delete": {
+        "confirm": "确认删除 API 密钥“{name}”吗？",
+        "growl": "API 密钥“{name}”已成功删除。"
+      },
+      "error": {
+        "add_failed": "创建 API 密钥 '{name}' 失败。",
+        "delete_failed": "删除 API 密钥 '{name}' 失败。"
+      }
+    },
+    "roles_result": {
+      "delete": {
+        "confirm": "确认删除角色“{name}”吗？",
+        "growl": "角色“{name}”已成功删除。"
+      }
+    },
+    "add_user": "添加用户",
+    "user_form": {
+      "username": "用户名",
+      "role": "角色",
+      "password": "密码",
+      "create": "创建用户"
+    },
+    "users_result": {
+      "delete": {
+        "confirm": "确认删除用户“{name}”吗？",
+        "growl": "用户“{name}”已成功删除。"
+      },
+      "error": {
+        "add_failed": "用户 '{name}' 创建失败。",
+        "delete_failed": "用户 '{name}' 删除失败。"
+      },
+      "created": {
+        "growl": "用户 '{name}' 已创建成功。"
+      }
+    }
+
   }
 }

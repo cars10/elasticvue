@@ -4,7 +4,7 @@
 
     <q-page-container class="app-content">
       <div class="app-page">
-        <router-view v-if="connectionStore.activeCluster?.status !== 'unknown' || route.name === 'settings'" />
+        <router-view v-if="connectionStore.activeCluster?.status !== 'unknown'" />
         <div v-else class="q-pa-lg">
           <div class="row">
             <div class="col-6 offset-3">

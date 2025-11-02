@@ -24,10 +24,10 @@ export const useRolesTable = (emit: any) => {
   const acceptRowsPerPage = (value: boolean) => (rolesStore.rowsPerPageAccepted = value)
 
   const columns = genColumns( [
-    { label: 'Name', field: 'name', align: 'left'},
-    { label: 'Cluster', field: 'cluster', align: 'left'},
-    { label: 'Indices', field: 'indices', align: 'left' },
-    { label: 'Actions', field: 'actions', align: 'right' }
+    { label: t('security.table.name'), field: 'name', align: 'left'},
+    { label: t('security.table.cluster'), field: 'cluster', align: 'left'},
+    { label: t('security.table.indices'), field: 'indices', align: 'left' },
+  //  { label: t('security.table.actions'), field: 'actions', align: 'right' }
   ])
  
 
@@ -69,8 +69,8 @@ export const useRolesTable = (emit: any) => {
       params:  ({
         id: id
         }),
-      confirmMsg: t('roles.roles_result.delete.confirm', 1),
-      snackbarOptions: { body: t('roles.apiKeys_result.delete.growl', 1) }
+      confirmMsg: t('security.roles_result.delete.confirm', 1),
+      snackbarOptions: { body: t('security.apiKeys_result.delete.growl', 1) }
     })
 }
 

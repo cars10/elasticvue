@@ -4,11 +4,12 @@ import { handleError } from '../../../helpers/error'
 import { useTranslation } from '../../i18n'
 import { genColumns } from '../../../helpers/tableColumns'
 import { useUsersStore } from '../../../store/users'
+import { AuthType, useConnectionStore } from '../../../store/connection'
 
 export const useUsersTable = ( emit: any) => {
 
+  const connectionStore = useConnectionStore()
   const usersStore = useUsersStore()
-
   const { callElasticsearch } = useElasticsearchAdapter()
   const users = ref<User[]>([])
   const t = useTranslation()
@@ -23,10 +24,10 @@ export const useUsersTable = ( emit: any) => {
   const acceptRowsPerPage = (value: boolean) => (usersStore.rowsPerPageAccepted = value)
 
   const columns = genColumns([
-    { label: 'Username', field: 'username', align: 'left' },
-    { label: 'Roles', field: 'roles', align: 'left' },
-    // { label: 'Enabled', field: 'enabled', align: 'left' },
-    { label: 'Actions', field: 'actions', align: 'right' }
+    { label: t('security.table.username'), field: 'username', align: 'left' },
+    { label: t('security.table.roles'), field: 'roles', align: 'left' },
+    { label: 'Enabled', field: 'enabled', align: 'left' },
+    { label: t('security.table.actions'), field: 'actions', align: 'right' }
   ])
 
   
@@ -56,54 +57,112 @@ export const useUsersTable = ( emit: any) => {
         return  d
       })
       users.value = data 
-
-      // users.value = Object.keys(response).map(username => ({
-      //   username,
-      //   ...response[username]
-      // }))
     } catch (e) {
       handleError(e)
     }
   }
   
+  const isCurrentUser = (username:string) => {
+    const currentUser = connectionStore.activeCluster?.auth.authType === AuthType.basicAuth ?
+     connectionStore.activeCluster?.auth.authData.username : 
+     null
+    if (currentUser!== null) {
+      return currentUser === username
+    } else {
+      return false
+    }
+  }
   
-  const toggleUserEnabled = async (user: any) => {
+  const toggleUserEnabled = async (user: User) => {
+    const existingUser = users.value.find(u => u.username === user.username)
+
+    if (existingUser!== undefined) {
+      try {      
+        await callElasticsearch(existingUser.enabled ? 'enableUser' : 'disableUser', {
+            username: existingUser.username
+          })
+
+        loadUsers()
+
+      } catch (e) {
+        handleError(e,true) 
+        if (existingUser!== undefined)
+          existingUser.enabled = !existingUser.enabled
+      }
+    }
+  }
+
+  const deleteUser = async (username:string) => {
+
     try {
-      // await callElasticsearch('updateUser', {
-      //   username: user.username,
-      //   body: { enabled: user.enabled, roles: user.roles }
-      // })
-      // showSnackbar({
-      //   body: `User "${user.username}" ${user.enabled ? 'enabled' : 'disabled'} successfully.`
-      // })
-    } catch (e) {
-      handleError(e)
-      // Revert the toggle if the API call fails
-      user.enabled = !user.enabled
-    }
-  }
 
-  const { run } = defineElasticsearchRequest({ emit, method: 'deleteUser' })
-
-  const deleteUser = async (id:string) => {
-
-      return run({
+      const { run } = defineElasticsearchRequest({ emit, method: 'deleteUser' })
+      const result = await run({
       params: {
-        id: id
+        username: username
         },
-      confirmMsg: t('users.users_result.delete.confirm', 1),
-      snackbarOptions: { body: t('users.apiKeys_result.delete.growl', 1) }
-    })
+        confirmMsg: t('security.users_result.delete.confirm', { name: username }),
+        snackbarOptions: { body: t('security.users_result.delete.growl',  { name: username }) }
+        })
+      
+      if (result !== true) {
+        throw new Error(t('security.users_result.error.delete_failed', { name: username }))
+      }
+
+      loadUsers()
+
+      emit('deleted')
+    } catch (e) {
+      handleError(e,true)
+    }
   }
 
   onMounted(loadUsers)
+
+  const createUser = async (username : string, roles: string[], password: string) => {
+
+    try {
+      const existingUser = users.value.find(u => u.username === username)
+      if (existingUser!== undefined) {
+        throw new Error(t('security.users_result.error.add_failed', { name: username }))
+      }
+
+      const { run } = defineElasticsearchRequest({ emit, method: 'createUser' })
+      const result = await run({
+        params: {
+          username : username,
+          body: {
+            username,
+            roles,
+            password
+          }
+        },
+        snackbarOptions: { body: t('security.users_result.created.growl',  { name: username }) }
+        })
+        
+
+      if (result !== true) {
+        throw new Error(t('security.users_result.error.add_failed', { name: username }))
+      }
+      
+      loadUsers()
+
+      emit('created')
+    } catch (e) {
+      handleError(e,true)
+    }
+  }
+
   return {
     users,
     columns,
+    loadUsers,
+    createUser,
     deleteUser,
     toggleUserEnabled,
     rowsPerPage,
     acceptRowsPerPage,
-    usersStore
+    usersStore,
+    isCurrentUser
   }
 }

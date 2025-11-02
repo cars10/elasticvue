@@ -591,6 +591,10 @@
   },
   "settings": {
     "heading": "Réglages",
+      "check_for_updates": {
+        "label": "Vérifier automatiquement les mises à jour",
+        "message": "Vérifie périodiquement si une nouvelle version d'Elasticvue est disponible"
+      },
     "hide_indices_regex": {
       "label": "Masquer les index avec regex",
       "message": "Les index correspondant à cette expression régulière seront masqués par défaut dans tous les endroits où les index sont répertoriés.",
@@ -933,6 +937,58 @@
       "intro": "L'interface la plus rapide et la plus conviviale pour elasticsearch",
       "first_time": "C'est la première fois que vous utilisez Elasticvue ?",
       "add_clusters": "Commencez par ajouter votre premier cluster ou par importer une sauvegarde d'une configuration d'Elasticvue"
+    }
+  },
+  "security": {
+    "heading": "Sécurité",
+    "roles": "Rôles",
+    "users": "Utilisateurs",
+    "apikeys": "Clés API",  
+    "table": {
+      "roles": "Rôles",
+      "name": "Nom",
+      "cluster": "Cluster",
+      "indices": "Indices",
+      "actions": "Actions",
+      "id": "ID",
+      "creation": "Création",
+      "username": "Nom d'utilisateur"
+    },
+    "apiKeys_result": {
+      "delete": {
+        "confirm": "Confirmer la suppression de la clé API '{name}' ?",
+        "growl": "La clé API '{name}' a été supprimée avec succès."
+      },
+      "error": {
+        "add_failed": "Échec de la création de la clé API '{name}'.",
+        "delete_failed": "Échec de la suppression de la clé API '{name}'."
+      }
+    },
+    "roles_result": {
+      "delete": {
+        "confirm": "Confirmer la suppression du rôle '{name}' ?",
+        "growl": "Le rôle '{name}' a été supprimé avec succès."
+      }
+    },
+    "add_user": "Ajouter un utilisateur",
+    "user_form": {
+      "username": "Nom d'utilisateur",
+      "role": "Rôle(s)",
+      "password": "Mot de passe",
+      "create": "Créer l'utilisateur"
+    },
+    "users_result": {
+      "delete": {
+        "confirm": "Confirmer la suppression de l'utilisateur '{name}' ?",
+        "growl": "L'utilisateur '{name}' a été supprimé avec succès."
+      },
+      "error": {
+        "add_failed": "Échec de la création de l'utilisateur '{name}'.",
+        "delete_failed": "Échec de la suppression de l'utilisateur '{name}'."
+      },
+      "created": {
+        "growl": "L'utilisateur '{name}' a été créé avec succès."
+      }
     }
   }
 }

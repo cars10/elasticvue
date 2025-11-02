@@ -4,9 +4,11 @@ import { handleError } from '../../../helpers/error'
 import { useTranslation } from '../../i18n'
 import { genColumns } from '../../../helpers/tableColumns'
 import { useApiKeysStore } from '../../../store/apikeys'
+import { AuthType, useConnectionStore } from '../../../store/connection'
 
 export const useApiKeysTable = (emit: any) => {
 
+  const connectionStore = useConnectionStore()
   const apikeysStore = useApiKeysStore()
 
   const { callElasticsearch } = useElasticsearchAdapter()
@@ -24,10 +26,10 @@ export const useApiKeysTable = (emit: any) => {
   const acceptRowsPerPage = (value: boolean) => (apikeysStore.rowsPerPageAccepted = value)
 
   const columns = genColumns([
-    { label: 'ID', field: 'id', align: 'left'},
-    { label: 'Name', field: 'name', align: 'left' },
-    { label: 'Creation', field: 'creation', align: 'left', format: (val: number) => new Date(val).toLocaleString() },
-    { label: 'Actions', field: 'actions', align: 'right' }
+    { label: t('security.table.id'), field: 'id', align: 'left'},
+    { label: t('security.table.name'), field: 'name', align: 'left' },
+    { label: t('security.table.creation'), field: 'creation', align: 'left', format: (val: number) => new Date(val).toLocaleString() },
+   // { label: t('security.table.actions'), field: 'actions', align: 'right' }
   ])
   
   class ApiKey{
@@ -62,19 +64,42 @@ export const useApiKeysTable = (emit: any) => {
     }
   }
   
-  const { run } = defineElasticsearchRequest({ emit, method: 'deleteApiKey' })
+  const isCurrentApiKey = (apiKey:string) => {
+      const currentApiKey = connectionStore.activeCluster?.auth.authType === AuthType.apiKey ?
+       connectionStore.activeCluster?.auth.authData.apiKey : 
+       null
+      if (currentApiKey!== null) {
+        return currentApiKey === apiKey
+      } else {
+        return false
+      }
+    }
 
-  const deleteApiKey = async (id:string) => {
+const deleteApiKey = async (id:string) => {
 
-     return run({
+    try {
+
+      const { run } = defineElasticsearchRequest({ emit, method: 'deleteApiKey' })
+      const result = await run({
       params: {
-        id: id
-      },
-      confirmMsg: t('apiKeys.apiKeys_result.delete.confirm', 1),
-      snackbarOptions: { body: t('apiKeys.apiKeys_result.delete.growl', 1) }
-    })
-  }
+        id: id + '1'
+        },
+        confirmMsg: t('security.apiKeys_result.delete.confirm', { name: id }),
+        snackbarOptions: { body: t('security.apiKeys_result.delete.growl',  { name: id }) }
+        })
+      
+      if (result !== true) {
+        throw new Error(t('security.apiKeys_result.error.delete_failed', { name: id }))
+      }
 
+      loadApiKeys()
+
+      emit('deleted')
+    } catch (e) {
+      handleError(e,true)
+    }
+  }
+    
   onMounted(loadApiKeys)
 
   return {
@@ -84,6 +109,7 @@ export const useApiKeysTable = (emit: any) => {
     loadApiKeys,
     rowsPerPage,
     acceptRowsPerPage,
-    apikeysStore
+    apikeysStore,
+    isCurrentApiKey
   }
 }

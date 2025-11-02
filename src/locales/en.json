@@ -220,7 +220,6 @@
           "health": "Health",
           "uuid": "UUID",
           "aliases": "Aliases",
-          "roles": "Roles",
           "shards": "Shards",
           "segments": "Segments",
           "docs": "Docs",
@@ -592,6 +591,10 @@
   },
   "settings": {
     "heading": "Settings",
+      "check_for_updates": {
+        "label": "Check for updates automatically", 
+        "message": "Periodically check if a new version of Elasticvue is available"
+      },
     "hide_indices_regex": {
       "label": "Hide indices regex",
       "message": "Indices matching this regex will be hidden by default on all places where indices are listed",
@@ -934,6 +937,58 @@
       "intro": "The fastest and most user-friendly gui for elasticsearch",
       "first_time": "This seems to be your first time using elasticvue.",
       "add_clusters": "Start by adding your first cluster or by importing a backup of your existing elasticvue configuration."
+    }
+  },
+  "security": {
+    "heading": "Security",
+    "roles": "Roles",
+    "users": "Users",
+    "apikeys": "API keys", 
+    "table": {
+      "roles": "Roles",
+      "name": "Name",
+      "cluster": "Cluster",
+      "indices": "Indices",
+      "actions": "Actions",
+      "id": "ID",
+      "creation": "Creation",
+      "username": "Username"
+    },
+    "apiKeys_result": {
+      "delete": {
+        "confirm": "Confirm deletion of API key '{name}'?",
+        "growl": "API key '{name}' has been successfully deleted."
+      },
+      "error": {
+        "add_failed": "Failed to create API key '{name}'.",
+        "delete_failed": "Failed to delete API key '{name}'."
+      }
+    },
+    "roles_result": {
+      "delete": {
+        "confirm": "Confirm deletion of role '{name}'?",
+        "growl": "Role '{name}' has been successfully deleted."
+      }
+    },
+    "add_user": "Add user",
+    "user_form": {
+      "username": "Username",
+      "role": "Role(s)",
+      "password": "Password",
+      "create": "Create user"
+    },
+    "users_result": {
+      "delete": {
+        "confirm": "Confirm deletion of user '{name}'?",
+        "growl": "User '{name}' has been successfully deleted."
+      },
+      "error": {
+        "add_failed": "Failed to create user '{name}'.",
+        "delete_failed": "Failed to delete user '{name}'."
+      },
+      "created": {
+        "growl": "User '{name}' has been successfully created."
+      }
     }
   }
 }

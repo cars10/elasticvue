@@ -591,6 +591,10 @@
   },
   "settings": {
     "heading": "Impostazioni",
+      "check_for_updates": {
+        "label": "Controlla automaticamente gli aggiornamenti",
+        "message": "Controlla periodicamente se è disponibile una nuova versione di Elasticvue"
+      },
     "hide_indices_regex": {
       "label": "Nascondi regex indici",
       "message": "Gli indici che corrispondono a questa regex saranno nascosti di default in tutti i luoghi dove gli indici sono elencati",
@@ -934,5 +938,59 @@
       "first_time": "Sembra essere la prima volta che usi elasticvue.",
       "add_clusters": "Inizia aggiungendo il tuo primo cluster o importando un backup della tua configurazione elasticvue esistente."
     }
+  },
+ "security": {
+    "heading": "Sicurezza",
+    "roles": "Ruoli",
+    "users": "Utenti",
+    "apikeys": "Chiavi API",
+    "table": {
+      "roles": "Ruoli",
+      "name": "Nome",
+      "cluster": "Cluster",
+      "indices": "Indici",
+      "actions": "Azioni",
+      "id": "ID",
+      "creation": "Creazione",
+      "username": "Nome utente"
+    },
+    "apiKeys_result": {
+      "delete": {
+        "confirm": "Confermare l'eliminazione della chiave API '{name}'?",
+        "growl": "La chiave API '{name}' è stata eliminata con successo."
+      },
+      "error": {
+        "add_failed": "Impossibile creare la chiave API '{name}'.",
+        "delete_failed": "Impossibile eliminare la chiave API '{name}'."
+      }
+    },
+    "roles_result": {
+      "delete": {
+        "confirm": "Confermare l'eliminazione del ruolo '{name}'?",
+        "growl": "Il ruolo '{name}' è stato eliminato con successo."
+      }
+    },
+    "add_user": "Aggiungi utente",
+    "user_form": {
+      "username": "Nome utente",
+      "role": "Ruolo",
+      "password": "Password",
+      "create": "Crea utente"
+    },
+    "users_result": {
+      "created": {
+        "growl": "Utente '{name}' creato con successo."
+      },
+      "error": {
+        "add_failed": "Impossibile creare l'utente '{name}'.",
+        "delete_failed": "Impossibile eliminare l'utente '{name}'."
+      },
+      "delete": {
+        "confirm": "Confermare l'eliminazione dell'utente '{name}'?",
+        "growl": "L'utente '{name}' è stato eliminato con successo."
+      }
+    }
+   
+
   }
 }

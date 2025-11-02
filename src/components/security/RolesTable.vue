@@ -1,12 +1,6 @@
 <template>
   <q-card>
     <q-card-section>
-      <h2 class="text-h5 q-my-none">
-        <q-icon name="security" />
-        Roles
-      </h2>
-    </q-card-section>
-    <q-card-section>
       <q-table
         v-model:pagination="rolesStore.pagination"
         :rows="roles"

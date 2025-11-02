@@ -92,23 +92,26 @@ export const useEditDocument = (props: EditDocumentProps, emit: any) => {
     }, {} as Record<string, any>)
   }
 
+  const resetEditor = async (value: string) => {
+    document.value = ''
+    await nextTick()
+    document.value = value
+    originalDocument.value = value
+  }
+
   const loadIndexMapping = async (index: string) => {
     if (!index) {
-      document.value = stringifyJson({})
+      await resetEditor(stringifyJson({}))
       return
     }
 
     try {
       const mappingData = await callElasticsearch('indicesGetMapping', { index })
       const properties = mappingData[index]?.mappings?.[index] ? mappingData[index]?.mappings?.[index]?.properties : mappingData[index]?.mappings?.properties
-      document.value = ''
-      await nextTick()
-      document.value = JSON.stringify(buildDocumentFromMapping(properties), null, 2)
+      await resetEditor(JSON.stringify(buildDocumentFromMapping(properties), null, 2))
     } catch (e) {
       console.error(e)
-      document.value = stringifyJson({})
-    } finally {
-      originalDocument.value = document.value
+      await resetEditor(stringifyJson({}))
     }
   }
 
@@ -123,54 +126,54 @@ export const useEditDocument = (props: EditDocumentProps, emit: any) => {
 
   const loadDocument = async () => {
     if (isNew.value) {
-      if (props._source) {
-        document.value = stringifyJson(props._source)
-      } else {
-        await loadIndexMapping(selectedIndex.value)
-      }
       documentId.value = ''
       documentMeta.value = {
         _index: selectedIndex.value,
         _type: props._type
       }
+      if (props._source) {
+        await resetEditor(stringifyJson(props._source))
+      } else {
+        await loadIndexMapping(selectedIndex.value)
+      }
     } else {
       await load()
-      document.value = stringifyJson(data.value._source)
-      documentMeta.value = {
-        _index: data.value._index,
-        _type: data.value._type,
-        _id: data.value._id,
-        _version: data.value._version,
-        _primary_term: data.value._primary_term,
-        _seq_no: data.value._seq_no,
-        _routing: data.value._routing
+      if (data.value) {
+        await resetEditor(stringifyJson(data.value._source))
+        documentMeta.value = {
+          _index: data.value._index,
+          _type: data.value._type,
+          _id: data.value._id,
+          _version: data.value._version,
+          _primary_term: data.value._primary_term,
+          _seq_no: data.value._seq_no,
+          _routing: data.value._routing
+        }
+      } else {
+        await resetEditor(stringifyJson({}))
+        documentMeta.value = {}
       }
     }
-    document.value = ''
-    await nextTick()
-    document.value = stringifyJson(data.value._source)
   }
 
   const validDocumentMeta = computed(() => {
     return Object.fromEntries(Object.entries(documentMeta.value).filter((keyval) => keyval[1] != null))
   })
-  
-  const close = async () =>{
-    let result : boolean = false
 
-    if (isDirty.value)
-    {
+  const close = async () => {
+    let result = false
+
+    if (isDirty.value) {
       const confirmMsg = t('search.edit_document.loseupdate.confirm')
-      
+
       const confirmed: boolean = await askConfirm(confirmMsg)
       if (confirmed) {
         document.value = originalDocument.value
         result = false
-      }
-      else{
+      } else {
         result = true
       }
-    }  
+    }
     ownValue.value = result
   }
 
@@ -186,16 +189,17 @@ export const useEditDocument = (props: EditDocumentProps, emit: any) => {
         type: props._type,
         id,
         routing: props._routing,
-        params: document.value
+        body: document.value
       },
-      confirmMsg :confirmMsg,
+      confirmMsg,
       snackbarOptions: {
         body: snackbarOptionsBody
       }
     })
-    if (result){
+    if (result) {
       originalDocument.value = document.value
-      ownValue.value = true
+      ownValue.value = false
+      emit('reload')
     }
   }
 

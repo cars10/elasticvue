@@ -15,6 +15,7 @@
               color="negative"
               icon="delete"
               size="sm"
+              :disable="isCurrentApiKey(props.row.id)"
               @click="deleteApiKey(props.row.id)"
             />
           </q-td>
@@ -24,8 +25,14 @@
           <table-bottom v-model="apikeysStore.pagination.rowsPerPage"
                         :scope="scope"
                         :total="apiKeys.length"
-                        :rows-per-page="rowsPerPage"
+                        :rows-per-page="rowsPerPage"                        
                         @rows-per-page-accepted="acceptRowsPerPage" />
+        </template>
+
+        <template #body-cell-creation="props">
+          <q-td :props="props">
+            <div v-html="new Date(props.value).toLocaleString()" />
+          </q-td>
         </template>
       </q-table>
     </q-card-section>
@@ -47,5 +54,6 @@
     deleteApiKey,
     rowsPerPage,
     acceptRowsPerPage,
-    apikeysStore  } = useApiKeysTable(emit)
+    apikeysStore,
+    isCurrentApiKey  } = useApiKeysTable(emit)
 </script>

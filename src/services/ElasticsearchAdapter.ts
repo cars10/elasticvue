@@ -587,7 +587,7 @@ export default class ElasticsearchAdapter {
   }
 
   deleteApiKey ({ id }: { id: string }) {
-    return this.request(`_security/api_key`, 'DELETE', { id })
+    return this.request('_security/api_key', 'DELETE', { ids : [id] })
   }
 
   getUsers () {
@@ -601,6 +601,18 @@ export default class ElasticsearchAdapter {
   updateUser ({ username, body }: { username: string, body: object }) {
     return this.request(`_security/user/${username}`, 'PUT', body)
   }
+
+  createUser ({ username, body }: { username: string; body?: object }) {
+     return this.request(`_security/user/${username}`, 'POST', body)
+  }
+
+  disableUser ({ username }: { username: string }) {
+    return this.request(`_security/user/${username}/_disable`, 'POST')
+  }      
+  
+  enableUser ({ username }: { username: string }) {
+    return this.request(`_security/user/${username}/_enable`, 'POST')
+  }      
 
   catSlmPolicies() {
     return this.request('_slm/policy', 'GET')
@@ -634,7 +646,7 @@ export default class ElasticsearchAdapter {
     }
 
     let body = null
-    if (method === 'PUT' || method === 'POST') body = params
+    if (method === 'PUT' || method === 'POST' || method === 'DELETE') body = params
 
     const options: RequestInit = {
       method,
