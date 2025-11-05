@@ -441,16 +441,16 @@ export default class ElasticsearchAdapter {
     })
   }
 
-  index ({ index, type, id, routing, params }: {
+  index ({ index, type, id, routing, body }: {
     index: string,
     type: string,
     id: any,
     routing: string,
-    params: any
+    body: any
   }) {
     let path = id ? `${cleanIndexName(index)}/${type}/${encodeURIComponent(id)}?refresh=true` : `${cleanIndexName(index)}/${type}?refresh=true` 
     if (routing) path += `&routing=${routing}`
-    return this.request(path, id ? 'PUT' : 'POST', params)
+    return this.request(path, id ? 'PUT' : 'POST', body)
   }
 
   get({ index, type, id, routing }: { index: string; type: string; id: any; routing?: string }) {
@@ -478,7 +478,7 @@ export default class ElasticsearchAdapter {
   docsBulkDelete (documents: any[]) {
     const body = documents.map(str => {
       const matches = str.split(/####(.*)####(.*)/)
-      return JSON.stringify({ delete: { _index: matches[0], _type: matches[1], _id: matches[2] } })
+      return JSON.stringify({ delete: { _index: matches[0], _id: matches[2] } })
     }).join('\r\n') + '\r\n'
     return this.request('_bulk?refresh=true', 'POST', body)
   }
