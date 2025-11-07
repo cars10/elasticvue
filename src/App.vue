@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="lHh Lpr lFf" class="app-layout overflow-hidden" >
+  <q-layout ref="layoutRef" view="lHh Lpr lFf" class="app-layout overflow-hidden" >
     <app-header v-if="connectionStore.activeCluster" />
 
     <q-page-container class="app-content">
@@ -24,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-  import { onBeforeUnmount, onMounted, ref } from 'vue'
+  import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
   import { useRoute } from 'vue-router'
   import AppHeader from './components/base/AppHeader.vue'
   import AppFooter from './components/base/AppFooter.vue'
@@ -41,13 +41,13 @@
   const themeStore = useThemeStore()
   const connectionStore = useConnectionStore()
   const route = useRoute()
+  const layoutRef = ref<any>(null)
 
   const zoom = ref(parseFloat(localStorage.getItem('zoom') || '1'))
 
   function updateZoom (newZoom: number) {
     zoom.value = newZoom
     localStorage.setItem('zoom', zoom.value.toString())
-    document.body.style.zoom = `${zoom.value}`
   }
 
   const zoomIn = () => {
@@ -62,6 +62,15 @@
   }
 
   useZoomShortcuts(resetZoom)
+
+  watch(zoom, (newZoomValue) => {
+    const el = layoutRef.value?.$el
+    if (el) {
+      el.style.transform = `scale(${newZoomValue})`
+      el.style.width = `${100 / newZoomValue}%`
+      el.style.height = `${100 / newZoomValue}%`
+    }
+  }, { immediate: true })
 
   // Gestion de la molette
   function handleWheel(event: WheelEvent) {
@@ -81,9 +90,13 @@
   document.body.style.height = '100%'
   document.body.style.width = '100%'
   document.body.style.overflow = 'auto'
-  document.body.style.zoom = zoom.value.toString()
 
   onMounted(() => {
+    const el = layoutRef.value?.$el
+    if (el) {
+      el.style.transformOrigin = 'top left'
+    }
+
     setAppThemeCss(themeStore.appTheme)
     setupThemeListener()
     window.addEventListener('wheel', handleWheel,{ passive: false })
