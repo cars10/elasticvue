@@ -74,7 +74,8 @@
 
   const editor: Ref<HTMLElement | null> = ref(null)
   const { copyContent, beautifyEditorValue, collapseAll, expandAll } = useCodeEditor(editor, {
-    initialValue: toRef({ modelValue: typeof props.modelValue === 'string' ? props.modelValue : JSON.stringify(props.modelValue) }, 'modelValue'),
+    //initialValue: toRef({ modelValue: typeof props.modelValue === 'string' ? props.modelValue : JSON.stringify(props.modelValue) }, 'modelValue'),
+    initialValue: toRef(props, 'modelValue'),
     commands: props.commands,
     emit,
     onPaste: props.onPaste
