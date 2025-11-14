@@ -11,7 +11,7 @@
           Elasticvue <span id="version">{{ version }}-{{ VERSION_NAME }}</span>
           <update-check v-if="!buildConfig.tauri" class="q-mx-md" />
         </div>
-        <div>&copy;{{ new Date().getFullYear() }} - Carsten K&ouml;nig</div>
+        <div>&copy;{{ new Date().getFullYear() }} - Carsten K&ouml;nig - Version custom A</div>
       </div>
 
       <div class="col-4 text-right">

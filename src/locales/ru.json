@@ -952,7 +952,10 @@
       "actions": "Действия",
       "id": "ID",
       "creation": "Создание",
-      "username": "Имя пользователя"
+      "username": "Имя пользователя",
+      "realm": "Реалм",
+      "invalidated": "Аннулирован",
+      "expiration": "Истечение срока"
     },
     "apiKeys_result": {
       "delete": {

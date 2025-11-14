@@ -2,7 +2,7 @@
 name = "elasticvue"
 version = "0.1.0"
 description = "Elasticsearch frontend"
-authors = ["Carsten König"]
+authors = ["Carsten König - Version custom A"]
 license = "MIT"
 repository = "https://github.com/cars10/elasticvue"
 default-run = "elasticvue"

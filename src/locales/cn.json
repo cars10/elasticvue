@@ -952,7 +952,10 @@
       "actions": "操作",
       "id": "ID",
       "creation": "创建时间",
-      "username": "用户名"
+      "username": "用户名",
+      "realm": "领域",
+      "invalidated": "已失效",
+      "expiration": "过期"
     },
     "apiKeys_result": {
       "delete": {

@@ -952,7 +952,10 @@
       "actions": "アクション",
       "id": "ID",
       "creation": "作成日時",
-      "username": "ユーザー名"
+      "username": "ユーザー名",
+      "realm": "レルム",
+      "invalidated": "無効化済み",
+      "expiration": "有効期限"
     },
     "apiKeys_result": {
       "delete": {

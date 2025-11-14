@@ -11,6 +11,7 @@
       >
         <template #body-cell-actions="props">
           <q-td :props="props">
+           
             <q-btn
               color="negative"
               icon="delete"
@@ -34,6 +35,22 @@
             <div v-html="new Date(props.value).toLocaleString()" />
           </q-td>
         </template>
+
+         <template #body-cell-expiration="props">
+          <q-td :props="props">
+            <div v-html="props.value ? new Date(props.value).toLocaleString() : 'Never'" />
+          </q-td>
+        </template>
+
+        <template #body-cell-invalidated="props">
+          <q-td :props="props">
+            <q-chip 
+              :color="props.value ? 'negative' : 'positive'" 
+              :label="props.value ? 'Invalidated' : 'Active'"
+              size="sm"
+            />
+          </q-td>
+        </template>
       </q-table>
     </q-card-section>
   </q-card>
@@ -46,6 +63,7 @@
 
   const emit = defineEmits<{ 
     reload: []
+    statusChanged: []
   }>()
 
   const { 

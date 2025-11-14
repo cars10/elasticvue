@@ -952,7 +952,10 @@
       "actions": "Azioni",
       "id": "ID",
       "creation": "Creazione",
-      "username": "Nome utente"
+      "username": "Nome utente",
+      "realm": "Dominio",
+      "invalidated": "Invalidato",
+      "expiration": "Scadenza"
     },
     "apiKeys_result": {
       "delete": {
