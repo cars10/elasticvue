@@ -1,16 +1,16 @@
-import { Ref, ref, toRaw } from 'vue'
+import { ref, toRaw } from 'vue'
 import { HTTP_METHODS } from '../../../consts.ts'
 import { useIdbStore } from '../../../db/Idb.ts'
 import { IdbRestQueryTab } from '../../../db/types.ts'
+import { useRestStore } from '../../../store/rest.ts'
 
 const buildDefaultRequest = () => ({ method: HTTP_METHODS[1], path: '', body: '' })
 const buildDefaultResponse = () => ({ status: '', ok: false, bodyText: '' })
 
 export const useRestQueryTabs = () => {
   const { restQueryTabs } = useIdbStore()
+  const restStore = useRestStore()
   const tabs = ref([] as IdbRestQueryTab[])
-
-  const activeTabName: Ref<string | null> = ref(null)
 
   const addTab = async () => {
     const newTab = {
@@ -22,7 +22,7 @@ export const useRestQueryTabs = () => {
     const key = await restQueryTabs.insert(newTab)
     const newIdbTab = await restQueryTabs.get(key)
     tabs.value.push(newIdbTab)
-    activeTabName.value = newIdbTab.name
+    restStore.activeTabIndex = tabs.value.length - 1
   }
 
   const updateTab = (label: string, tab: IdbRestQueryTab) => {
@@ -30,25 +30,39 @@ export const useRestQueryTabs = () => {
   }
 
   const removeTab = async (index: number) => {
-    if (tabs.value[index].name === activeTabName.value && tabs.value[0]) {
-      activeTabName.value = tabs.value[0].name
+    if (index === restStore.activeTabIndex) {
+      if (tabs.value.length > 1) {
+        restStore.activeTabIndex = index === 0 ? 0 : index - 1
+      }
+    } else if (index < restStore.activeTabIndex) {
+      restStore.activeTabIndex = restStore.activeTabIndex - 1
     }
     await restQueryTabs.remove(tabs.value[index].id)
     tabs.value.splice(index, 1)
+    if (tabs.value.length === 0) {
+      restStore.activeTabIndex = 0
+    } else if (restStore.activeTabIndex >= tabs.value.length) {
+      restStore.activeTabIndex = tabs.value.length - 1
+    }
   }
 
   const loadTabs = async () => {
     tabs.value = await restQueryTabs.getAll()
 
-    if (!activeTabName.value && tabs.value[0]) activeTabName.value = tabs.value[0].name
-    if (tabs.value.length === 0) await addTab()
+    if (tabs.value.length === 0) {
+      await addTab()
+    } else {
+      // Ensure activeTabIndex is valid
+      if (restStore.activeTabIndex < 0 || restStore.activeTabIndex >= tabs.value.length) {
+        restStore.activeTabIndex = 0
+      }
+    }
   }
   loadTabs()
 
-  const activeTabIndex = () => tabs.value.findIndex((t) => t.name === activeTabName.value) || 0
-
   const setTabContent = ({ method, path, body }: { method: string; path: string; body: string }) => {
-    const idx = activeTabIndex()
+    const idx = restStore.activeTabIndex
+    if (idx < 0 || idx >= tabs.value.length) return null
     tabs.value[idx].request.method = method
     tabs.value[idx].request.path = path
     tabs.value[idx].request.body = body
@@ -64,7 +78,6 @@ export const useRestQueryTabs = () => {
   return {
     setTabContent,
     tabs,
-    activeTabName,
     addTab,
     updateTab,
     removeTab

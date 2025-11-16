@@ -1,8 +1,8 @@
 <template>
   <q-card>
-    <q-tabs v-model="activeTabName" align="left" outside-arrows>
+    <q-tabs v-model="restStore.activeTabIndex" align="left" outside-arrows>
       <template v-for="(tab, index) in tabs" :key="tab.name">
-        <q-tab :name="tab.name" style="white-space: nowrap; flex-shrink: 0">
+        <q-tab :name="index" style="white-space: nowrap; flex-shrink: 0">
           <div class="flex">
             {{ tab.label }}
 
@@ -32,8 +32,8 @@
 
     <q-separator />
 
-    <q-tab-panels v-model="activeTabName">
-      <q-tab-panel v-for="tab in tabs" :key="`${tab.name}-panel`" :name="tab.name">
+    <q-tab-panels v-model="restStore.activeTabIndex">
+      <q-tab-panel v-for="(tab, index) in tabs" :key="`${tab.name}-panel`" :name="index">
         <rest-query-form :tab="tab" @reload-history="emit('reloadHistory')" @reload-saved-queries="emit('reloadSavedQueries')" />
       </q-tab-panel>
     </q-tab-panels>
@@ -43,10 +43,12 @@
 <script setup lang="ts">
 import RestQueryForm from './RestQueryForm.vue'
 import { useRestQueryTabs } from '../../composables/components/rest/RestQueryTabs.ts'
+import { useRestStore } from '../../store/rest.ts'
 import CustomInput from '../shared/CustomInput.vue'
-
 const emit = defineEmits(['reloadHistory', 'reloadSavedQueries'])
 
-const { tabs, activeTabName, addTab, updateTab, removeTab, setTabContent } = useRestQueryTabs()
+const { tabs, addTab, updateTab, removeTab, setTabContent } = useRestQueryTabs()
+const restStore = useRestStore()
+
 defineExpose({ setTabContent, addTab })
 </script>
