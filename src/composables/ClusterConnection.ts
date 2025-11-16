@@ -128,10 +128,12 @@ export const useClusterConnection = (
 
     try {
       const idx = await connect()
-      if (!idx) return
+      if (typeof idx !== 'number') return
 
       connectCallback?.(idx)
-    } catch (_e) {}
+    } catch (_e) {
+      console.error(_e)
+    }
   }
 
   return {
