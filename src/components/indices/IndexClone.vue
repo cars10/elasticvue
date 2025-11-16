@@ -1,10 +1,10 @@
 <template>
   <q-item clickable @click="dialog = true">
     <q-item-section side>
-      <q-icon name="sync_alt" size="xs" />
+      <q-icon name="content_copy" size="xs" />
     </q-item-section>
     <q-item-section>
-      <q-item-label>{{ t('indices.index_reindex.text') }}</q-item-label>
+      <q-item-label>{{ t('indices.index_clone.text') }}</q-item-label>
     </q-item-section>
   </q-item>
 
@@ -13,7 +13,7 @@
       <q-card-section class="flex justify-between">
         <div class="flex">
           <h2 class="text-h6 q-my-none flex">
-            {{ t('indices.index_reindex.heading') }}
+            {{ t('indices.index_clone.heading') }}
           </h2>
         </div>
         <q-btn v-close-popup icon="close" flat round dense />
@@ -21,17 +21,17 @@
 
       <q-separator />
 
-      <q-form @submit="reindex">
+      <q-form @submit="clone">
         <q-card-section>
-          <p>{{ t('indices.index_reindex.index', { index }) }}</p>
+          <p>{{ t('indices.index_clone.index', { index }) }}</p>
 
           <p class="text-muted">
-            {{ t('indices.index_reindex.help') }}
+            {{ t('indices.index_clone.help') }}
           </p>
 
           <custom-input
             v-model="dest"
-            :label="t('indices.index_reindex.form.source.label')"
+            :label="t('indices.index_clone.form.target.label')"
             autocomplete="off"
             autofocus
             outlined
@@ -44,7 +44,7 @@
             :disable="requestState.loading || dest.length === 0"
             color="positive"
             :loading="requestState.loading"
-            :label="t('indices.index_reindex.form.reindex')"
+            :label="t('indices.index_clone.form.clone')"
             type="submit"
           />
         </q-card-section>
@@ -55,13 +55,13 @@
 
 <script setup lang="ts">
 import { useTranslation } from '../../composables/i18n'
-import { IndexReindexProps, useIndexReindex } from '../../composables/components/indices/IndexReindex'
+import { IndexCloneProps, useIndexClone } from '../../composables/components/indices/IndexClone'
 import CustomInput from '../shared/CustomInput.vue'
 
 const t = useTranslation()
 
-const props = defineProps<IndexReindexProps>()
+const props = defineProps<IndexCloneProps>()
 const emit = defineEmits(['reload'])
 
-const { dialog, requestState, reindex, dest } = useIndexReindex(props, emit)
+const { dialog, requestState, clone, dest } = useIndexClone(props, emit)
 </script>

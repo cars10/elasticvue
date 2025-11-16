@@ -126,11 +126,25 @@
       "text": "重建索引",
       "heading": "重建索引",
       "index": "源索引: {index}",
+      "help": "将索引重新索引到具有不同映射和设置的新索引或现有索引中。触发整个摄取管道。",
       "form": {
         "source": {
           "label": "目标索引:.."
         },
         "reindex": "重建索引(Reindex)"
+      }
+    },
+    "index_clone": {
+      "text": "克隆",
+      "heading": "克隆索引",
+      "index": "索引: {index}",
+      "help": "创建具有相同映射和设置的索引的精确副本。跳过摄取管道。",
+      "confirm": "将索引 '{index}' 克隆到 '{dest}'？源索引在克隆操作期间将暂时设置为只读。",
+      "form": {
+        "target": {
+          "label": "克隆到..."
+        },
+        "clone": "克隆"
       }
     },
     "index_row": {
@@ -158,6 +172,15 @@
         "clear_cache": {
           "text": "清除索引缓存",
           "growl": "索引 '{index}' 缓存已成功清除。"
+        },
+        "set_readonly": {
+          "text": "设置为只读",
+          "confirm": "将索引 '{index}' 设置为只读？",
+          "growl": "索引 '{index}' 已成功设置为只读。"
+        },
+        "set_writable": {
+          "text": "设置为可写",
+          "growl": "索引 '{index}' 已成功设置为可写。"
         },
         "close": {
           "text": "关闭索引",

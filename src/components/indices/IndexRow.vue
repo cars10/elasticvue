@@ -74,6 +74,7 @@
 
             <index-aliases :index="index.index" @reload="emitReloadAndCloseMenu" />
             <index-reindex v-if="clusterVersionGt(1)" :index="index.index" @reload="emitReloadAndCloseMenu" />
+            <index-clone v-if="clusterVersionGte(7)" :index="index.index" @reload="emitReloadAndCloseMenu" />
 
             <q-separator />
 
@@ -111,6 +112,25 @@
               :text="t('indices.index_row.options.clear_cache.text')"
               :growl="t('indices.index_row.options.clear_cache.growl', { index: index.index })"
               icon="clear_all"
+              @done="emitReloadAndCloseMenu"
+            />
+
+            <row-menu-action
+              method="indexPutSettings"
+              :method-params="{ indices: [props.index.index], body: { index: { blocks: { write: true } } } }"
+              :text="t('indices.index_row.options.set_readonly.text')"
+              :growl="t('indices.index_row.options.set_readonly.growl', { index: index.index })"
+              :confirm="t('indices.index_row.options.set_readonly.confirm', { index: index.index })"
+              icon="lock"
+              @done="emitReloadAndCloseMenu"
+            />
+
+            <row-menu-action
+              method="indexPutSettings"
+              :method-params="{ indices: [props.index.index], body: { index: { blocks: { write: false } } } }"
+              :text="t('indices.index_row.options.set_writable.text')"
+              :growl="t('indices.index_row.options.set_writable.growl', { index: index.index })"
+              icon="lock_open"
               @done="emitReloadAndCloseMenu"
             />
 
@@ -168,6 +188,7 @@ import IndexAliases from './IndexAliases.vue'
 import { IndexRowProps, useIndexRow } from '../../composables/components/indices/IndexRow'
 import { useTranslation } from '../../composables/i18n'
 import IndexReindex from './IndexReindex.vue'
+import IndexClone from './IndexClone.vue'
 import RowMenuAction from './RowMenuAction.vue'
 import { clusterVersionGt, clusterVersionGte } from '../../helpers/minClusterVersion.ts'
 import { useConnectionStore } from '../../store/connection.ts'

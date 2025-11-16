@@ -126,11 +126,25 @@
       "text": "Reindex",
       "heading": "Reindex index",
       "index": "Index: {index}",
+      "help": "Reindex the index into a new or existing index with different mappings and settings. Triggers the whole ingestion pipeline.",
       "form": {
         "source": {
           "label": "Reindex into..."
         },
         "reindex": "Reindex"
+      }
+    },
+    "index_clone": {
+      "text": "Clone",
+      "heading": "Clone index",
+      "index": "Index: {index}",
+      "help": "Create an exact copy of the index with the same mappings and settings. Skips the ingestion pipeline.",
+      "confirm": "Clone index '{index}' to '{dest}'? The source index will be temporarily set to read-only during the clone operation.",
+      "form": {
+        "target": {
+          "label": "Clone to..."
+        },
+        "clone": "Clone"
       }
     },
     "index_row": {
@@ -158,6 +172,15 @@
         "clear_cache": {
           "text": "Clear all index caches | Clear index cache | Clear {count} indices cache",
           "growl": "The index '{index}' cache was successfully cleared."
+        },
+        "set_readonly": {
+          "text": "Set to read-only",
+          "confirm": "Set index '{index}' to read-only?",
+          "growl": "The index '{index}' was successfully set to read-only."
+        },
+        "set_writable": {
+          "text": "Set to writable",
+          "growl": "The index '{index}' was successfully set to writable."
         },
         "close": {
           "text": "Close index | Close index | Close {count} indices",

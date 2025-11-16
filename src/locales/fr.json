@@ -126,11 +126,25 @@
       "text": "Ré-indexer",
       "heading": "Ré-indexer l'index",
       "index": "Index: {index}",
+      "help": "Ré-indexer l'index dans un nouvel index ou un index existant avec des mappings et des paramètres différents. Déclenche tout le pipeline d'ingestion.",
       "form": {
         "source": {
           "label": "Ré-indexer into..."
         },
         "reindex": "Ré-indexer"
+      }
+    },
+    "index_clone": {
+      "text": "Cloner",
+      "heading": "Cloner l'index",
+      "index": "Index: {index}",
+      "help": "Créer une copie exacte de l'index avec les mêmes mappings et paramètres. Ignore le pipeline d'ingestion.",
+      "confirm": "Cloner l'index '{index}' vers '{dest}' ? L'index source sera temporairement défini en lecture seule pendant l'opération de clonage.",
+      "form": {
+        "target": {
+          "label": "Cloner vers..."
+        },
+        "clone": "Cloner"
       }
     },
     "index_row": {
@@ -158,6 +172,15 @@
         "clear_cache": {
           "text": "Effacer tous les caches d'index | Effacer le cache de l'index | Effacer le cache de {count} index",
           "growl": "Le cache de l'index '{index}' a été effacé avec succès."
+        },
+        "set_readonly": {
+          "text": "Définir en lecture seule",
+          "confirm": "Définir l'index '{index}' en lecture seule ?",
+          "growl": "L'index '{index}' a été défini en lecture seule avec succès."
+        },
+        "set_writable": {
+          "text": "Définir en écriture",
+          "growl": "L'index '{index}' a été défini en écriture avec succès."
         },
         "close": {
           "text": "Fermer l'index | Fermer l'index | Femer {count} index",

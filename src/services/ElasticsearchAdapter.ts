@@ -43,12 +43,20 @@ export default class ElasticsearchAdapter {
     return this[method](...args)
   }
 
-  async callInChunks({ method, indices }: { method: keyof ElasticsearchAdapter; indices: string[] }) {
+  async callInChunks({
+    method,
+    indices,
+    ...additionalParams
+  }: {
+    method: keyof ElasticsearchAdapter
+    indices: string[]
+    [key: string]: any
+  }) {
     const chunks = chunk(indices, MAX_INDICES_PER_REQUEST)
     const responses = []
 
     for (const c of chunks) {
-      const response = await this.call(method, { indices: c })
+      const response = await this.call(method, { indices: c, ...additionalParams })
       responses.push(response)
     }
 
@@ -144,8 +152,16 @@ export default class ElasticsearchAdapter {
     return this.request(`${cleanIndexName(index)}`, 'HEAD')
   }
 
-  indexPutSettings({ index, body }: { index: string; body: object }) {
-    return this.request(`${cleanIndexName(index)}/_settings`, 'PUT', body)
+  indexGetSettings({ index }: { index: string }) {
+    return this.request(`${cleanIndexName(index)}/_settings`, 'GET')
+  }
+
+  indexPutSettings({ indices, body }: { indices: string[]; body: object }) {
+    if (indices.length > MAX_INDICES_PER_REQUEST) {
+      return this.callInChunks({ method: 'indexPutSettings', indices, body })
+    } else {
+      return this.request(`${cleanIndexName(indices.join(','))}/_settings`, 'PUT', body)
+    }
   }
 
   reindex({ source, dest }: { source: string; dest: string }) {
@@ -153,6 +169,10 @@ export default class ElasticsearchAdapter {
       source: { index: source },
       dest: { index: dest }
     })
+  }
+
+  clone({ source, dest }: { source: string; dest: string }) {
+    return this.request(`${cleanIndexName(source)}/_clone/${cleanIndexName(dest)}`, 'POST')
   }
 
   index({ index, type, id, routing, params }: { index: string; type: string; id: any; routing: string; params: any }) {

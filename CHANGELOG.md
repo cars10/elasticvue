@@ -8,6 +8,7 @@
 * feat: save currently active rest query tab, fixes [#310](https://github.com/cars10/elasticvue/issues/310)
 * feat: save most filters, pagination options etc, fixes [#315](https://github.com/cars10/elasticvue/issues/315)
 * feat: fix searching for documents with missing default fields, fixes [#294](https://github.com/cars10/elasticvue/issues/294)
+* feat: adds ability to clone indices, fixes [#314](https://github.com/cars10/elasticvue/issues/314)
 
 ## 1.10.0
 

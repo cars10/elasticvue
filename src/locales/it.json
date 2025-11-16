@@ -126,11 +126,25 @@
       "text": "Reindicizza",
       "heading": "Reindicizza indice",
       "index": "Indice: {index}",
+      "help": "Reindicizza l'indice in un nuovo indice o in un indice esistente con mapping e impostazioni diversi. Attiva l'intera pipeline di ingestione.",
       "form": {
         "source": {
           "label": "Reindicizza in..."
         },
         "reindex": "Reindicizza"
+      }
+    },
+    "index_clone": {
+      "text": "Clona",
+      "heading": "Clona indice",
+      "index": "Indice: {index}",
+      "help": "Crea una copia esatta dell'indice con gli stessi mapping e impostazioni. Salta la pipeline di ingestione.",
+      "confirm": "Clonare l'indice '{index}' in '{dest}'? L'indice sorgente sarà temporaneamente impostato in sola lettura durante l'operazione di clonazione.",
+      "form": {
+        "target": {
+          "label": "Clona in..."
+        },
+        "clone": "Clona"
       }
     },
     "index_row": {
@@ -158,6 +172,15 @@
         "clear_cache": {
           "text": "Cancella tutte le cache degli indici | Cancella cache dell'indice | Cancella la cache di {count} indici",
           "growl": "La cache dell'indice '{index}' è stata cancellata con successo."
+        },
+        "set_readonly": {
+          "text": "Imposta in sola lettura",
+          "confirm": "Impostare l'indice '{index}' in sola lettura?",
+          "growl": "L'indice '{index}' è stato impostato in sola lettura con successo."
+        },
+        "set_writable": {
+          "text": "Imposta in scrittura",
+          "growl": "L'indice '{index}' è stato impostato in scrittura con successo."
         },
         "close": {
           "text": "Chiudi indice | Chiudi indice | Chiudi {count} indici",
