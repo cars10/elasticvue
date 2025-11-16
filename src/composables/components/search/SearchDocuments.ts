@@ -63,7 +63,7 @@ export const useSearchDocuments = () => {
   watch(
     () => searchStore.q,
     (value) => {
-      mergeQuery({ query: { query_string: { query: value } } })
+      mergeQuery({ query: { query_string: { query: value, fields: ['*', '*.*'] } } })
     }
   )
 

@@ -24,7 +24,12 @@ export const DEFAULT_HIDE_INDICES_REGEX = '^\\..*'
 export const DEFAULT_HIDE_NODE_ATTRIBUTES_REGEX = '^(ml|xpack|transform)\\.'
 export const HTTP_METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS']
 
-export const DEFAULT_SEARCH_QUERY_OBJ = { query: { query_string: { query: '*' } }, size: 10, from: 0, sort: [] }
+export const DEFAULT_SEARCH_QUERY_OBJ = {
+  query: { query_string: { query: '*', fields: ['*', '*.*'] } },
+  size: 10,
+  from: 0,
+  sort: []
+}
 export const DEFAULT_SEARCH_QUERY = JSON.stringify(DEFAULT_SEARCH_QUERY_OBJ)
 export const DEFAULT_SEARCH_RESULT_COLUMNS = ['_index', '_type', '_id', '_score']
 export const DEFAULT_SORTABLE_COLUMNS = ['_index', '_type', '_id', '_score']
