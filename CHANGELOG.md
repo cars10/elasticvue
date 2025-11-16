@@ -4,6 +4,8 @@
 
 * fix another encoding issue, fixes again [#327](https://github.com/cars10/elasticvue/issues/327)
 * fix: redirect after adding first cluster
+* feat: scope most scores to the currently active cluster
+* feat: save currently active rest query tab, fixes [#310](https://github.com/cars10/elasticvue/issues/310)
 
 ## 1.10.0
 

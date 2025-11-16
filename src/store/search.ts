@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { DEFAULT_PAGINATION, DEFAULT_SEARCH_QUERY, DEFAULT_DOCUMENT_FIELD_MAX_LENGTH } from '../consts'
-import { useConnectionStore } from './connection.ts'
+import { useConnectionStore } from './connection'
 
 type SearchState = {
   localizeTimestamp: boolean
@@ -19,9 +19,8 @@ type SearchState = {
 
 export const useSearchStore = () => {
   const connectionStore = useConnectionStore()
-  const clusterUuid = connectionStore.activeCluster?.uuid
-
-  return defineStore('search', {
+  const clusterUuid = connectionStore.activeCluster?.uuid || ''
+  return defineStore(`search-${clusterUuid}`, {
     state: (): SearchState => ({
       localizeTimestamp: true,
       q: '*',

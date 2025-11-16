@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { DEFAULT_HIDE_INDICES_REGEX } from '../consts'
+import { useConnectionStore } from './connection'
 
 type IndicesState = {
   filter: string
@@ -10,29 +11,34 @@ type IndicesState = {
   rowsPerPageAccepted: boolean
 }
 
-export const useIndicesStore = defineStore('indices', {
-  state: (): IndicesState => ({
-    filter: '',
-    showHiddenIndices: false,
-    stickyTableHeader: false,
-    hideIndicesRegex: DEFAULT_HIDE_INDICES_REGEX,
-    pagination: {
-      sortBy: 'index',
-      descending: false,
-      rowsPerPage: 10
-    },
-    rowsPerPageAccepted: false
-  }),
-  persist: {
-    pick: [
-      'filter',
-      'showHiddenIndices',
-      'stickyTableHeader',
-      'hideIndicesRegex',
-      'pagination.sortBy',
-      'pagination.descending',
-      'pagination.rowsPerPage',
-      'rowsPerPageAccepted'
-    ]
-  }
-})
+export const useIndicesStore = () => {
+  const connectionStore = useConnectionStore()
+  const clusterUuid = connectionStore.activeCluster?.uuid || ''
+  return defineStore(`indices-${clusterUuid}`, {
+    state: (): IndicesState => ({
+      filter: '',
+      showHiddenIndices: false,
+      stickyTableHeader: false,
+      hideIndicesRegex: DEFAULT_HIDE_INDICES_REGEX,
+      pagination: {
+        sortBy: 'index',
+        descending: false,
+        rowsPerPage: 10
+      },
+      rowsPerPageAccepted: false
+    }),
+    persist: {
+      pick: [
+        'filter',
+        'showHiddenIndices',
+        'stickyTableHeader',
+        'hideIndicesRegex',
+        'pagination.sortBy',
+        'pagination.descending',
+        'pagination.rowsPerPage',
+        'rowsPerPageAccepted'
+      ],
+      key: `indices-${clusterUuid}`
+    }
+  })()
+}
