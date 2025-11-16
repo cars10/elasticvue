@@ -67,9 +67,9 @@ export const useIndicesTable = (props: EsTableProps, emit: any) => {
     () => (tableKey.value += 1)
   )
   watch(
-    () => indicesStore.pagination.rowsPerPage,
+    () => indicesStore.pagination!.rowsPerPage,
     () => {
-      if (indicesStore.pagination.rowsPerPage === rowsPerPage[rowsPerPage.length - 1].value) {
+      if (indicesStore.pagination!.rowsPerPage === rowsPerPage[rowsPerPage.length - 1].value) {
         indicesStore.stickyTableHeader = true
       }
     }

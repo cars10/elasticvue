@@ -1,11 +1,19 @@
 import { defineStore } from 'pinia'
 import { useConnectionStore } from './connection'
+import {
+  PaginationStorePartial,
+  ReloadIntervalStorePartial,
+  paginationStoreDefaultProps,
+  persistPaginationProps,
+  persistReloadIntervalProps
+} from './shared'
 
 type ShardRecoveryState = {
   filter: string
+  stage: string | null
   stickyTableHeader: boolean
-  pagination: any
-}
+} & PaginationStorePartial &
+  ReloadIntervalStorePartial
 
 export const useShardRecoveryStore = () => {
   const connectionStore = useConnectionStore()
@@ -13,15 +21,13 @@ export const useShardRecoveryStore = () => {
   return defineStore(`shardRecovery-${clusterUuid}`, {
     state: (): ShardRecoveryState => ({
       filter: '',
+      stage: null,
       stickyTableHeader: false,
-      pagination: {
-        sortBy: 'start_time_in_millis',
-        descending: false,
-        rowsPerPage: 10
-      }
+      pagination: paginationStoreDefaultProps('start_time_in_millis'),
+      reloadInterval: null
     }),
     persist: {
-      pick: ['filter', 'stickyTableHeader', 'pagination.sortBy', 'pagination.descending', 'pagination.rowsPerPage'],
+      pick: ['filter', 'stage', 'stickyTableHeader', ...persistPaginationProps(), ...persistReloadIntervalProps()],
       key: `shardRecovery-${clusterUuid}`
     }
   })()

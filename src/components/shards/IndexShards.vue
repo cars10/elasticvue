@@ -4,7 +4,7 @@
       <h1 class="text-h5 q-my-none">
         {{ t('shards.heading') }}
       </h1>
-      <reload-button :action="load" />
+      <reload-button :action="load" v-model="shardsStore.reloadInterval" />
     </q-card-section>
 
     <q-separator />
@@ -12,7 +12,7 @@
     <loader-status :request-state="requestState">
       <shards-table :shards="shards" @reload="load">
         <q-select
-          v-model="health"
+          v-model="shardsStore.health"
           :options="['green', 'yellow', 'red']"
           :label="t('shards.health')"
           clearable
@@ -35,12 +35,11 @@ import { convertShards, EsShardIndex, EsShard, TableShards } from '../../helpers
 import ShardsTable from './ShardsTable.vue'
 import { useTranslation } from '../../composables/i18n'
 import { EsNode } from '../../types/types.ts'
-
+import { useShardsStore } from '../../store/shards.ts'
 const t = useTranslation()
 const shards: Ref<TableShards> = ref({} as TableShards)
-
+const shardsStore = useShardsStore()
 const { requestState, callElasticsearch } = useElasticsearchAdapter()
-const health = ref(null)
 
 type CatIndicesParams = {
   h: string[]
@@ -54,7 +53,7 @@ const load = async () => {
     s: ['health:desc', 'index']
   }
 
-  if (health.value) catIndicesParams['health'] = health.value
+  if (shardsStore.health) catIndicesParams['health'] = shardsStore.health
 
   const catIndices = callElasticsearch('catIndices', catIndicesParams)
   const catShards = callElasticsearch('catShards', CAT_SHARDS_PARAMS)
@@ -68,7 +67,7 @@ const load = async () => {
   shards.value = convertShards(rawShards, indices, nodes)
 }
 
-watch(health, load)
+watch(() => shardsStore.health, load)
 onMounted(load)
 
 const CAT_SHARDS_PARAMS = {

@@ -4,7 +4,7 @@
       <h1 class="text-h5 q-my-none">
         {{ t('shard_recovery.heading') }}
       </h1>
-      <reload-button :action="load" />
+      <reload-button :action="load" v-model="shardRecoveryStore.reloadInterval" />
     </q-card-section>
 
     <q-separator />
@@ -23,9 +23,9 @@ import ReloadButton from '../shared/ReloadButton.vue'
 import LoaderStatus from '../shared/LoaderStatus.vue'
 import ShardRecoveryTable from './ShardRecoveryTable.vue'
 import { IndexRecovery } from '../../composables/components/shardrecovery/ShardRecoveryTable.ts'
-
+import { useShardRecoveryStore } from '../../store/shardRecovery.ts'
 const t = useTranslation()
-
+const shardRecoveryStore = useShardRecoveryStore()
 const { requestState, data, load } = useElasticsearchRequest<IndexRecovery>('recovery')
 onMounted(() => load())
 </script>

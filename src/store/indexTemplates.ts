@@ -1,12 +1,19 @@
 import { defineStore } from 'pinia'
 import { useConnectionStore } from './connection'
+import {
+  PaginationStorePartial,
+  ReloadIntervalStorePartial,
+  paginationStoreDefaultProps,
+  persistPaginationProps,
+  persistReloadIntervalProps
+} from './shared'
 
 type IndexTemplatesState = {
   filter: string
   showHiddenIndices: boolean
   stickyTableHeader: boolean
-  pagination: any
-}
+} & PaginationStorePartial &
+  ReloadIntervalStorePartial
 
 export const useIndexTemplatesStore = () => {
   const connectionStore = useConnectionStore()
@@ -16,21 +23,11 @@ export const useIndexTemplatesStore = () => {
       filter: '',
       showHiddenIndices: false,
       stickyTableHeader: false,
-      pagination: {
-        sortBy: 'name',
-        descending: false,
-        rowsPerPage: 10
-      }
+      reloadInterval: null,
+      pagination: paginationStoreDefaultProps('name')
     }),
     persist: {
-      pick: [
-        'filter',
-        'showHiddenIndices',
-        'stickyTableHeader',
-        'pagination.sortBy',
-        'pagination.descending',
-        'pagination.rowsPerPage'
-      ],
+      pick: ['filter', 'showHiddenIndices', 'stickyTableHeader', ...persistPaginationProps(), ...persistReloadIntervalProps()],
       key: `indexTemplates-${clusterUuid}`
     }
   })()

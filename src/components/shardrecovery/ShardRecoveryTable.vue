@@ -8,7 +8,7 @@
 
     <div class="flex q-ml-auto">
       <q-select
-        v-model="stage"
+        v-model="shardRecoveryStore.stage"
         :options="['INIT', 'INDEX', 'VERIFY_INDEX', 'TRANSLOG', 'FINALIZE', 'DONE']"
         :label="t('shard_recovery_table.stage')"
         clearable
@@ -73,5 +73,5 @@ const props = defineProps<ShardRecoveryTableProps>()
 const shardRecoveryStore = useShardRecoveryStore()
 const resizeStore = useResizeStore()
 
-const { filterStateProps, filteredResults, columns, stage } = useShardRecoveryTable(props)
+const { filterStateProps, filteredResults, columns } = useShardRecoveryTable(props)
 </script>

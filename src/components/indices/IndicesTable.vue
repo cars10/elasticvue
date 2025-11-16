@@ -71,7 +71,7 @@
 
         <template #bottom="scope">
           <table-bottom
-            v-model="indicesStore.pagination.rowsPerPage"
+            v-model="indicesStore.pagination!.rowsPerPage"
             :scope="scope"
             :total="items.length"
             :rows-per-page="rowsPerPage"

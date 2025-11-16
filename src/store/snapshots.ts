@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia'
-import { DEFAULT_HIDE_NODE_ATTRIBUTES_REGEX } from '../consts'
 import { useConnectionStore } from './connection'
 import {
   persistPaginationProps,
@@ -9,25 +8,23 @@ import {
   paginationStoreDefaultProps
 } from './shared'
 
-type NodesState = {
+type SnapshotsState = {
   filter: string
-  hideAttributesRegex: string
 } & PaginationStorePartial &
   ReloadIntervalStorePartial
 
-export const useNodesStore = () => {
+export const useSnapshotsStore = () => {
   const connectionStore = useConnectionStore()
   const clusterUuid = connectionStore.activeCluster?.uuid || ''
-  return defineStore(`nodes-${clusterUuid}`, {
-    state: (): NodesState => ({
+  return defineStore(`snapshots-${clusterUuid}`, {
+    state: (): SnapshotsState => ({
       filter: '',
-      hideAttributesRegex: DEFAULT_HIDE_NODE_ATTRIBUTES_REGEX,
       reloadInterval: null,
-      pagination: paginationStoreDefaultProps('name')
+      pagination: paginationStoreDefaultProps('id')
     }),
     persist: {
-      pick: ['filter', 'hideAttributesRegex', ...persistReloadIntervalProps(), ...persistPaginationProps()],
-      key: `nodes-${clusterUuid}`
+      pick: ['filter', ...persistReloadIntervalProps(), ...persistPaginationProps()],
+      key: `snapshots-${clusterUuid}`
     }
   })()
 }

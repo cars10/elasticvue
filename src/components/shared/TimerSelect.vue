@@ -12,9 +12,10 @@
 import { onBeforeUnmount, Ref, ref, watch } from 'vue'
 import { useTranslation } from '../../composables/i18n'
 
-const props = defineProps<{ action: any }>()
+const props = defineProps<{ action: any; modelValue?: number | null }>()
+const emit = defineEmits<{ 'update:modelValue': [value: number | null] }>()
 const t = useTranslation()
-const timerSettings = [
+const timerSettings: Timer[] = [
   { label: 'None', value: null },
   { label: '1s', value: 1 },
   { label: '5s', value: 5 },
@@ -25,13 +26,13 @@ const timerSettings = [
 
 type Timer = {
   label: string
-  value: number
+  value: number | null
 }
-const timer: Ref<Timer | null> = ref(null)
+const timer: Ref<Timer | null> = ref(timerSettings.find((t) => t.value === props.modelValue) || null)
 let intervalID: number
 
 const createInterval = () => {
-  if (!timer.value) return
+  if (!timer.value?.value) return
   intervalID = window.setInterval(() => {
     props.action.call()
   }, timer.value.value * 1000)
@@ -40,10 +41,26 @@ const destroyInterval = () => {
   clearInterval(intervalID)
 }
 
-watch(timer, (newValue) => {
-  destroyInterval()
-  if (newValue?.value) createInterval()
-})
+watch(
+  timer,
+  (newValue) => {
+    destroyInterval()
+    emit('update:modelValue', newValue?.value ?? null)
+    if (newValue?.value) createInterval()
+  },
+  { immediate: true }
+)
+
+watch(
+  () => props.modelValue,
+  (newValue) => {
+    const found = timerSettings.find((t) => t.value === newValue)
+    if (found && timer.value?.value !== found.value) {
+      timer.value = found
+    }
+  },
+  { immediate: true }
+)
 
 onBeforeUnmount(destroyInterval)
 </script>

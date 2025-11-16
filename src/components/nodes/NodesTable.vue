@@ -17,7 +17,7 @@
     :rows="filteredResults"
     data-testid="nodes-table"
     :rows-per-page-options="DEFAULT_ROWS_PER_PAGE"
-    :pagination="{ sortBy: 'name' }"
+    v-model:pagination="nodesStore.pagination"
   >
     <template #body="{ row }: { row: ElasticsearchNode }">
       <tr>

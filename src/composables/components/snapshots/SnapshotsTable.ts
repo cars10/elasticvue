@@ -1,9 +1,10 @@
 import { useTranslation } from '../../i18n.ts'
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import { genColumns } from '../../../helpers/tableColumns.ts'
 import { EsSnapshot } from './SnapshotRow.ts'
 import { filterItems } from '../../../helpers/filters.ts'
 import { setupFilterState } from '../shared/FilterState.ts'
+import { useSnapshotsStore } from '../../../store/snapshots.ts'
 
 export type SnapshotsTableProps = {
   repository: string
@@ -12,11 +13,11 @@ export type SnapshotsTableProps = {
 
 export const useSnapshotsTable = (props: SnapshotsTableProps) => {
   const t = useTranslation()
-  const filter = ref('')
+  const snapshotsStore = useSnapshotsStore()
 
   const results = computed(() => props.snapshots)
   const filteredResults = computed(() => {
-    return filterItems(results.value, filter.value, ['snapshot'])
+    return filterItems(results.value, snapshotsStore.filter, ['snapshot'])
   })
 
   const filterStateProps = setupFilterState(results, filteredResults)
@@ -35,7 +36,6 @@ export const useSnapshotsTable = (props: SnapshotsTableProps) => {
   ])
 
   return {
-    filter,
     filteredResults,
     filterStateProps,
     columns

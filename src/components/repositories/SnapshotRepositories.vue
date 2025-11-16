@@ -2,7 +2,7 @@
   <q-card>
     <q-card-section class="flex items-center">
       <h1 class="text-h5 q-my-none">{{ t('repositories.heading') }}</h1>
-      <reload-button :action="load" />
+      <reload-button :action="load" v-model="snapshotRepositoriesStore.reloadInterval" />
     </q-card-section>
 
     <q-separator />
@@ -21,8 +21,9 @@ import { useElasticsearchRequest } from '../../composables/CallElasticsearch'
 import SnapshotRepositoriesTable from './SnapshotRepositoriesTable.vue'
 import { useTranslation } from '../../composables/i18n.ts'
 import { EsSnapshotRepository } from '../../composables/components/repositories/SnapshotRepositoriesTable.ts'
-
+import { useSnapshotRepositoriesStore } from '../../store/snapshot_repositories.ts'
 const t = useTranslation()
+const snapshotRepositoriesStore = useSnapshotRepositoriesStore()
 const { load, requestState, data } = useElasticsearchRequest<Record<string, EsSnapshotRepository>>('catRepositories')
 onMounted(load)
 </script>

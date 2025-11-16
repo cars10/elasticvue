@@ -97,13 +97,13 @@ type RowsPerPage = {
 
 const props = defineProps<{
   scope: TableBottomScope
-  rowsPerPage: RowsPerPage[]
+  rowsPerPage: RowsPerPage[] | null
   total: number
   modelValue: any
 }>()
 const t = useTranslation()
 
-const options = ref(props.rowsPerPage as RowsPerPage[])
+const options = ref(props.rowsPerPage || [])
 const perPage = ref(options.value.find((opt) => opt.value === props.modelValue))
 
 const emit = defineEmits(['update:modelValue', 'rowsPerPageAccepted'])

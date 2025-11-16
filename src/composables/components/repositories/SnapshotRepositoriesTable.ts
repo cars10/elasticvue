@@ -1,10 +1,11 @@
 import { useTranslation } from '../../i18n'
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import { filterItems } from '../../../helpers/filters'
 import { defineElasticsearchRequest } from '../../CallElasticsearch'
 import { genColumns } from '../../../helpers/tableColumns'
 import { useRouter } from 'vue-router'
 import { setupFilterState } from '../shared/FilterState.ts'
+import { useSnapshotRepositoriesStore } from '../../../store/snapshot_repositories.ts'
 
 export type EsSnapshotRepository = {
   type: string
@@ -26,14 +27,12 @@ export type SnapshotRepositoriesTableProps = {
 
 export const useSnapshotRepositoriesTable = (props: SnapshotRepositoriesTableProps, emit: any) => {
   const t = useTranslation()
-
-  const filter = ref('')
-
+  const snapshotRepositoriesStore = useSnapshotRepositoriesStore()
   const results = computed(() => Object.entries(props.repositories))
   const filteredResults = computed(() => {
     if (results.value.length === 0) return []
     const repos = results.value.map(([name, repo]) => Object.assign({}, { name }, repo))
-    return filterItems(repos, filter.value, ['name'])
+    return filterItems(repos, snapshotRepositoriesStore.filter, ['name'])
   })
 
   const { run } = defineElasticsearchRequest({ emit, method: 'snapshotDeleteRepository' })
@@ -60,7 +59,6 @@ export const useSnapshotRepositoriesTable = (props: SnapshotRepositoriesTablePro
   return {
     emit,
     openSnapshots,
-    filter,
     filteredResults,
     filterStateProps,
     deleteRepository,

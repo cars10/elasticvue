@@ -1,15 +1,22 @@
 import { defineStore } from 'pinia'
 import { DEFAULT_HIDE_INDICES_REGEX } from '../consts'
 import { useConnectionStore } from './connection'
+import {
+  PaginationStorePartial,
+  ReloadIntervalStorePartial,
+  paginationStoreDefaultProps,
+  persistPaginationProps,
+  persistReloadIntervalProps
+} from './shared'
 
 type IndicesState = {
   filter: string
   showHiddenIndices: boolean
   stickyTableHeader: boolean
   hideIndicesRegex: string
-  pagination: any
   rowsPerPageAccepted: boolean
-}
+} & PaginationStorePartial &
+  ReloadIntervalStorePartial
 
 export const useIndicesStore = () => {
   const connectionStore = useConnectionStore()
@@ -20,12 +27,9 @@ export const useIndicesStore = () => {
       showHiddenIndices: false,
       stickyTableHeader: false,
       hideIndicesRegex: DEFAULT_HIDE_INDICES_REGEX,
-      pagination: {
-        sortBy: 'index',
-        descending: false,
-        rowsPerPage: 10
-      },
-      rowsPerPageAccepted: false
+      pagination: paginationStoreDefaultProps('index'),
+      rowsPerPageAccepted: false,
+      reloadInterval: null
     }),
     persist: {
       pick: [
@@ -33,9 +37,8 @@ export const useIndicesStore = () => {
         'showHiddenIndices',
         'stickyTableHeader',
         'hideIndicesRegex',
-        'pagination.sortBy',
-        'pagination.descending',
-        'pagination.rowsPerPage',
+        ...persistPaginationProps(),
+        ...persistReloadIntervalProps(),
         'rowsPerPageAccepted'
       ],
       key: `indices-${clusterUuid}`

@@ -4,7 +4,7 @@
       <h1 class="text-h5 q-my-none">
         {{ t('index_templates.heading') }}
       </h1>
-      <reload-button :action="load" />
+      <reload-button :action="load" v-model="indexTemplatesStore.reloadInterval" />
     </q-card-section>
 
     <q-separator />
@@ -34,8 +34,11 @@ import IndexTemplatesTable from './IndexTemplatesTable.vue'
 import { useTranslation } from '../../composables/i18n.ts'
 import { useIndexTemplates } from '../../composables/components/indextemplates/IndexTemplates.ts'
 import { clusterVersionGte } from '../../helpers/minClusterVersion.ts'
+import { useIndexTemplatesStore } from '../../store/indexTemplates.ts'
 
 const t = useTranslation()
+
+const indexTemplatesStore = useIndexTemplatesStore()
 
 const { data, requestState, load, endpoint, endpointOptions } = useIndexTemplates()
 

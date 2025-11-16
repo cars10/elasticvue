@@ -4,7 +4,7 @@
       <h1 class="text-h5 q-my-none">
         {{ t('indices.heading') }}
       </h1>
-      <reload-button :action="load" />
+      <reload-button :action="load" v-model="indicesStore.reloadInterval" />
     </q-card-section>
 
     <q-separator />
@@ -24,8 +24,11 @@ import { useElasticsearchRequest } from '../../composables/CallElasticsearch'
 import { useTranslation } from '../../composables/i18n.ts'
 import { EsIndex } from '../../composables/components/indices/IndicesTable.ts'
 import { clusterVersionGte } from '../../helpers/minClusterVersion.ts'
+import { useIndicesStore } from '../../store/indices.ts'
 
 const t = useTranslation()
+
+const indicesStore = useIndicesStore()
 
 type CatIndicesParams = {
   h: string

@@ -5,7 +5,7 @@
         <h1 class="text-h5 q-my-none">
           {{ t('cluster_nodes.heading') }}
         </h1>
-        <reload-button :action="load" />
+        <reload-button :action="load" v-model="nodesStore.reloadInterval" />
       </q-card-section>
 
       <q-separator />
@@ -65,8 +65,10 @@ import { useElasticsearchAdapter } from '../../composables/CallElasticsearch'
 import { useTranslation } from '../../composables/i18n'
 import { EsNode, NodeAttributes } from '../../types/types.ts'
 import { flattenObj } from '../../helpers/flatten.ts'
+import { useNodesStore } from '../../store/nodes.ts'
 
 const t = useTranslation()
+const nodesStore = useNodesStore()
 
 const CAT_METHOD_PARAMS = {
   h: [

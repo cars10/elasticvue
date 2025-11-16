@@ -6,6 +6,7 @@
 * fix: redirect after adding first cluster
 * feat: scope most scores to the currently active cluster
 * feat: save currently active rest query tab, fixes [#310](https://github.com/cars10/elasticvue/issues/310)
+* feat: save most filters, pagination options etc, fixes [#315](https://github.com/cars10/elasticvue/issues/315)
 
 ## 1.10.0
 
