@@ -1,0 +1,777 @@
+{
+  "base": {
+    "app_footer": {
+      "homepage": "홈페이지"
+    },
+    "app_header": {
+      "navigation": {
+        "home": "홈",
+        "nodes": "노드",
+        "indices": "인덱스",
+        "shards": "샤드",
+        "search": "검색",
+        "rest": "REST",
+        "snapshots": "스냅샷"
+      }
+    },
+    "language_switcher": {
+      "title": "언어 변경",
+      "languages": {
+        "en": {
+          "title": "영어"
+        },
+        "cn": {
+          "title": "중국어"
+        },
+        "fr": {
+          "title": "프랑스어"
+        },
+        "it": {
+          "title": "이탈리아어"
+        },
+        "ru": {
+          "title": "러시아어"
+        },
+        "jp": {
+          "title": "일본어"
+        }
+      }
+    },
+    "theme_switcher": {
+      "title": "테마 변경"
+    }
+  },
+  "defaults": {
+    "filter": {
+      "label": "필터..."
+    },
+    "cancel": "취소",
+    "close": "닫기",
+    "create": "생성",
+    "update": "업데이트",
+    "delete": "삭제",
+    "success": "성공",
+    "bulk": "일괄 작업",
+    "copy": "복사"
+  },
+  "cluster_selection": {
+    "cluster_selection": {
+      "connected_info": {
+        "title": "'{activeInstanceName}'에 연결 중 ({activeInstanceUri})"
+      }
+    },
+    "cluster_table": {
+      "headers": {
+        "cluster": "클러스터",
+        "uri": "URI",
+        "version": "버전"
+      },
+      "row": {
+        "title": "'{uri}' 클러스터에 연결",
+        "remove_cluster": {
+          "confirm": "클러스터 '{name}' ({uri})를 삭제하시겠습니까?"
+        },
+        "unsupported": "Elasticsearch {majorVersion}는 지원 종료(EOL) 상태이며, Elasticvue에서 완전히 지원되지 않습니다. 버그나 기능 제한이 발생할 수 있습니다.",
+        "predefined": "이 클러스터는 관리자에 의해 설정되었습니다. 직접 변경할 수 없습니다."
+      }
+    },
+    "edit_cluster": {
+      "edit": {
+        "title": "클러스터 편집"
+      },
+      "heading": "클러스터 편집"
+    },
+    "new_cluster": {
+      "add_cluster": "클러스터 추가",
+      "heading": "Elasticsearch 클러스터 추가"
+    }
+  },
+  "helpers": {
+    "import_export": {
+      "import_backup": {
+        "confirm": "정말 실행하시겠습니까? 백업을 가져오면 현재 설정과 저장된 클러스터가 덮어쓰기 됩니다!"
+      }
+    }
+  },
+  "home": {
+    "client_information": {
+      "heading": "클러스터 정보"
+    },
+    "cluster_health": {
+      "heading": "클러스터 상태"
+    }
+  },
+  "indices": {
+    "heading": "인덱스",
+    "index_aliases": {
+      "text": "에일리어스",
+      "heading": "에일리어스 관리",
+      "index": "인덱스: {index}",
+      "form": {
+        "new_alias": {
+          "label": "새 에일리어스"
+        },
+        "add_alias": "새 에일리어스 추가"
+      },
+      "table": {
+        "headers": {
+          "alias": "에일리어스"
+        }
+      },
+      "delete_alias": {
+        "confirm": "인덱스 '{index}'의 에일리어스 '{alias}'를 삭제하시겠습니까?"
+      }
+    },
+    "index_reindex": {
+      "text": "재인덱스",
+      "heading": "인덱스 재인덱스",
+      "index": "인덱스: {index}",
+      "form": {
+        "source": {
+          "label": "재인덱스 대상..."
+        },
+        "reindex": "재인덱스"
+      }
+    },
+    "index_row": {
+      "search": {
+        "title": "'{index}' 검색"
+      },
+      "shards": {
+        "title": "{pri} 기본\n{rep} 복제"
+      },
+      "options": {
+        "show_info": "정보 표시",
+        "show_stats": "통계 표시",
+        "forcemerge": {
+          "text": "모든 인덱스 강제 병합 | 인덱스 강제 병합 | {count}개 인덱스 강제 병합",
+          "growl": "인덱스 '{index}'가 정상적으로 병합되었습니다."
+        },
+        "refresh": {
+          "text": "모든 인덱스 새로고침 | 인덱스 새로고침 | {count}개 인덱스 새로고침",
+          "growl": "인덱스 '{index}'가 정상적으로 새로고침되었습니다."
+        },
+        "flush": {
+          "text": "모든 인덱스 플러시 | 인덱스 플러시 | {count}개 인덱스 플러시",
+          "growl": "인덱스 '{index}'가 정상적으로 플러시되었습니다."
+        },
+        "clear_cache": {
+          "text": "모든 인덱스 캐시 삭제 | 인덱스 캐시 삭제 | {count}개 인덱스 캐시 삭제",
+          "growl": "인덱스 '{index}'의 캐시가 정상적으로 삭제되었습니다."
+        },
+        "close": {
+          "text": "인덱스 닫기 | 인덱스 닫기 | {count}개 인덱스 닫기",
+          "confirm": "인덱스 '{index}'를 닫으시겠습니까?",
+          "growl": "인덱스 '{index}'가 정상적으로 닫혔습니다."
+        },
+        "open": {
+          "text": "인덱스 열기 | 인덱스 열기 | {count}개 인덱스 열기",
+          "growl": "인덱스 '{index}'가 정상적으로 열렸습니다."
+        },
+        "delete_by_query": {
+          "text": "모든 문서 삭제",
+          "confirm": "인덱스 '{index}'의 모든 문서를 삭제하시겠습니까? 이로 인해 인덱스 내 모든 데이터가 삭제됩니다!",
+          "growl": "인덱스 '{index}'의 문서가 정상적으로 삭제되었습니다."
+        },
+        "delete": {
+          "text": "인덱스 삭제 | 인덱스 삭제 | {count}개 인덱스 삭제",
+          "confirm": "인덱스 '{index}'를 삭제하시겠습니까?",
+          "growl": "인덱스 '{index}'가 정상적으로 삭제되었습니다."
+        }
+      }
+    },
+    "indices_table": {
+      "show_hidden_indices": {
+        "label": "숨겨진 인덱스 표시"
+      },
+      "sticky_table_header": {
+        "label": "테이블 헤더 고정"
+      },
+      "table": {
+        "headers": {
+          "name": "이름",
+          "status": "상태",
+          "health": "상태",
+          "uuid": "UUID",
+          "aliases": "에일리어스",
+          "shards": "샤드",
+          "segments": "세그먼트",
+          "docs": "문서",
+          "storage": "스토리지",
+          "created": "생성일"
+        }
+      }
+    },
+    "new_index": {
+      "heading": "새 인덱스",
+      "form": {
+        "index_name": {
+          "label": "인덱스 이름"
+        },
+        "shards": {
+          "label": "샤드 수"
+        },
+        "replicas": {
+          "label": "복제 수"
+        }
+      },
+      "create_index": {
+        "growl": "인덱스 '{index}'가 정상적으로 생성되었습니다."
+      }
+    }
+  },
+  "index_templates": {
+    "heading": "인덱스 템플릿",
+    "endpoint": "엔드포인트",
+    "index_templates_table": {
+      "show_hidden_templates": {
+        "label": "숨겨진 템플릿 표시"
+      },
+      "sticky_table_header": {
+        "label": "테이블 헤더 고정"
+      },
+      "table": {
+        "headers": {
+          "name": "이름",
+          "index_patterns": "인덱스 패턴"
+        }
+      }
+    }
+  },
+  "mixins": {
+    "test_connection": {
+      "cluster_reachable": "클러스터에 연결 가능하며, 올바르게 설정되었습니다."
+    }
+  },
+  "cluster_nodes": {
+    "heading": "노드",
+    "node_icons": {
+      "master": {
+        "title": "마스터 노드"
+      },
+      "master_eligible": {
+        "title": "마스터 후보"
+      },
+      "data": {
+        "title": "데이터 노드"
+      },
+      "ingest": {
+        "title": "인제스트 노드"
+      },
+      "coordinating_only": {
+        "title": "코디네이터 노드"
+      }
+    },
+    "node_properties": {
+      "ip": "IP",
+      "id": "ID",
+      "master": "마스터",
+      "node_role": "노드 역할",
+      "shards": "샤드",
+      "attr": "속성",
+      "load": "로드",
+      "cpu": "CPU 사용률",
+      "ram": "시스템 RAM",
+      "heap": "JVM 힙",
+      "disk": "디스크",
+      "name": "이름",
+      "status": "상태",
+      "version": "버전"
+    }
+  },
+  "query": {
+    "heading": "REST",
+    "api_documentation": "API 문서",
+    "rest": {
+      "history": "히스토리",
+      "form": {
+        "method": {
+          "label": "HTTP 메서드"
+        },
+        "path": {
+          "label": "경로"
+        },
+        "send_request": "요청 전송",
+        "save_request": "저장",
+        "download_as_json": "응답 바디 다운로드",
+        "paste_kibana": "Kibana 콘솔 쿼리 붙여넣기"
+      },
+      "get_request_hint": {
+        "cannot_send_body": "{method}에서는 요청 바디를 전송할 수 없습니다.<br> 요청 바디를 보내려면,",
+        "use_post": "POST를 사용하세요",
+        "query_parameters": ".",
+        "search_post": "_search 엔드포인트 검색 시 POST 사용 가능"
+      }
+    },
+    "rest_query_history": {
+      "table": {
+        "headers": {
+          "query": "쿼리",
+          "timestamp": "타임스탬프"
+        }
+      },
+      "body_preview": {
+        "use": "현재 탭에서 사용",
+        "open_new_tab": "새 탭에서 열기"
+      }
+    },
+    "rest_query_examples": {
+      "heading": "쿼리 예제",
+      "table": {
+        "headers": {
+          "query": "쿼리",
+          "description": "설명"
+        },
+        "row": {
+          "use": "사용"
+        }
+      }
+    }
+  },
+  "repositories": {
+    "heading": "스냅샷 저장소",
+    "new_repository": {
+      "heading": "새 저장소",
+      "form": {
+        "name": {
+          "label": "저장소 이름*"
+        },
+        "type": {
+          "label": "저장소 유형*"
+        },
+        "bucket": {
+          "label": "S3 버킷*"
+        },
+        "client": {
+          "label": "S3 클라이언트"
+        },
+        "protocol": {
+          "label": "프로토콜*"
+        },
+        "region": {
+          "label": "S3 리전"
+        },
+        "path_style_access": {
+          "label": "패스 스타일 액세스"
+        },
+        "location": {
+          "label": "저장소 위치*"
+        },
+        "chunk_size": {
+          "label": "청크 크기"
+        },
+        "max_restore_bytes_per_sec": {
+          "label": "초당 최대 복원 바이트"
+        },
+        "max_snapshot_bytes_per_sec": {
+          "label": "초당 최대 스냅샷 바이트"
+        },
+        "compress": {
+          "label": "압축"
+        },
+        "readonly": {
+          "label": "읽기 전용"
+        }
+      },
+      "create_repository": {
+        "growl": "저장소 '{repositoryName}'가 정상적으로 생성되었습니다."
+      }
+    },
+    "repositories_table": {
+      "table": {
+        "headers": {
+          "name": "이름",
+          "type": "유형",
+          "settings": "설정"
+        }
+      },
+      "delete_repository": {
+        "confirm": "저장소 '{name}'와 그 안의 모든 스냅샷을 삭제하시겠습니까?",
+        "growl": "저장소 '{name}'가 정상적으로 삭제되었습니다."
+      }
+    },
+    "repository_policies": {
+      "text": "정책",
+      "heading": "스냅샷 정책 관리",
+      "repository": "저장소: {repository}",
+      "new_policy": "새 정책",
+      "edit_policy": "정책 편집"
+    }
+  },
+  "search": {
+    "heading": "검색",
+    "form": {
+      "query": {
+        "label": "검색"
+      },
+      "search_examples": {
+        "button": "검색 예시",
+        "hint": "검색 예시는 <a tabindex='-1' target='_blank' rel='noopener' href='https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html'>쿼리 문자열 쿼리</a>를 참조하세요"
+      },
+      "search": "검색",
+      "customize_query": {
+        "button": "사용자 정의 검색",
+        "reset": "쿼리 초기화"
+      }
+    },
+    "search_result": {
+      "delete": {
+        "text": "# | 문서 삭제 | 문서 삭제",
+        "confirm": "# | 이 문서를 삭제하시겠습니까? | {count}개의 문서를 삭제하시겠습니까?",
+        "growl": "# | 문서가 정상적으로 삭제되었습니다. | 문서가 정상적으로 삭제되었습니다."
+      }
+    },
+    "results_table": {
+      "settings": {
+        "columns": "열"
+      },
+      "download_as_json": "JSON으로 다운로드"
+    },
+    "edit_document": {
+      "update": {
+        "text": "문서 업데이트",
+        "growl": "문서가 정상적으로 업데이트되었습니다."
+      }
+    }
+  },
+  "settings": {
+    "heading": "설정",
+    "hide_indices_regex": {
+      "label": "숨김 인덱스 정규식",
+      "message": "이 정규식에 맞는 인덱스는 모든 인덱스 리스트에서 기본적으로 숨김 처리됩니다",
+      "reset": "기본값으로 재설정 {regex}"
+    },
+    "hide_nodes_attributes_regex": {
+      "label": "노드 속성 정규식",
+      "message": "이 정규식에 맞는 노드 속성은 노드 개요에서 기본적으로 숨김 처리됩니다",
+      "reset": "기본값으로 재설정 {regex}"
+    },
+    "document_field_max_length": {
+      "label": "문서 필드 최대 길이",
+      "message": "검색 결과에서 문서 필드 값의 최대 길이입니다. 이보다 긴 값은 잘립니다.",
+      "reset": "기본값으로 재설정 {value}"
+    },
+    "localize_timestamp": {
+      "label": "검색 결과의 '{'@'}timestamp' 필드 값을 현지 시간으로 표시"
+    },
+    "disconnect_and_reset": {
+      "heading": "연결 해제 및 모든 설정 초기화",
+      "button": "연결 해제 및 초기화",
+      "confirm": "정말 실행하시겠습니까? 이렇게 하면 Elasticvue에 저장된 모든 데이터가 삭제됩니다! 클러스터에 다시 연결해야 합니다."
+    },
+    "import_export": {
+      "heading": "Elasticvue 데이터 가져오기/내보내기",
+      "message": "Elasticvue 설정을 JSON으로 가져오거나 내보낼 수 있습니다. 이는 클러스터 데이터의 백업<strong>이 아닙니다</strong>. 인덱스 백업이 필요하면 스냅샷을 사용하세요.",
+      "export": {
+        "heading": "내보내기",
+        "included": "포함 항목",
+        "download": "백업 다운로드"
+      },
+      "import": {
+        "heading": "가져오기",
+        "select_file": "파일 선택...",
+        "import": "백업 가져오기"
+      }
+    },
+    "editor_vim_mode": {
+      "label": "에디터에서 Vim 키 바인딩 사용"
+    }
+  },
+  "setup": {
+    "configure": {
+      "heading": "1. 설정",
+      "introduction": "Elasticvue를 사용하려면 CORS를 설정해야 합니다. 다음 행을 추가하세요",
+      "allow_cors": "{domain}에서의 CORS 요청 허용",
+      "authorization": "클러스터에서 인증을 사용하는 경우",
+      "restart": "그 후 클러스터를 재시작하세요"
+    },
+    "setup_instance": {
+      "heading": "Elasticsearch 클러스터 추가",
+      "configure": "1. 설정",
+      "connect": "2. 연결"
+    },
+    "test_and_connect": {
+      "heading": "2. 연결",
+      "form": {
+        "name": {
+          "label": "클러스터 이름"
+        },
+        "username": {
+          "label": "사용자 이름"
+        },
+        "password": {
+          "label": "비밀번호"
+        },
+        "api_key": {
+          "label": "인코딩된 API 키"
+        },
+        "uri": {
+          "label": "URI"
+        },
+        "access_key_id": {
+          "label": "액세스 키 ID"
+        },
+        "secret_access_key": {
+          "label": "비밀 액세스 키"
+        },
+        "session_token": {
+          "label": "세션 토큰(선택)"
+        },
+        "region": {
+          "label": "AWS 리전"
+        },
+        "test_connection": "연결 테스트",
+        "connect": "연결"
+      },
+      "connected": "정상적으로 연결되었습니다."
+    }
+  },
+  "shards": {
+    "heading": "샤드",
+    "health": "상태",
+    "shards_table": {
+      "cancel_relocation": "재배치 취소",
+      "reroute": {
+        "confirm": "샤드 '{shard}'를 노드 '{fromNode}'에서 '{toNode}'로 재배치하시겠습니까?"
+      }
+    }
+  },
+  "shard_recovery": {
+    "heading": "샤드 복구"
+  },
+  "shard_recovery_table": {
+    "stage": "단계",
+    "columns": {
+      "index": "인덱스",
+      "stage": "단계",
+      "source": "소스",
+      "target": "대상",
+      "time": "시간",
+      "duration": "기간",
+      "files": "파일",
+      "bytes": "바이트",
+      "translog_ops": "트랜잭션 로그 작업"
+    }
+  },
+  "shared": {
+    "cluster_connection_errors": {
+      "connection_error": "연결 오류",
+      "cant_connect": "클러스터에 연결할 수 없습니다.",
+      "please_check": "다음을 확인하세요",
+      "checklist": {
+        "reachable": "클러스터에 연결 가능",
+        "ssl": "브라우저가 클러스터 SSL 인증서를 신뢰함",
+        "cors": "CORS 활성화 후 클러스터 재시작"
+      }
+    },
+    "index_filter": {
+      "use_index_pattern": "인덱스 패턴 사용",
+      "use_index_select": "인덱스 선택",
+      "index_pattern": {
+        "input": {
+          "label": "인덱스 패턴"
+        },
+        "matched_indices": "{count}개의 인덱스 일치"
+      },
+      "index_select": {
+        "select_indices": {
+          "label": "인덱스 선택"
+        },
+        "indices_selected": "인덱스 선택됨",
+        "select_all": {
+          "text": "전체 선택"
+        },
+        "deselect_all": {
+          "text": "전체 해제"
+        }
+      }
+    },
+    "table_bottom": {
+      "rows_per_page": {
+        "confirm": "경고: 정말 실행하시겠습니까? 한 번에 {value}개 항목을 표시하면 문제나 프리징이 발생할 수 있습니다. 결과 제한을 위해 검색/필터 기능을 사용하세요."
+      }
+    },
+    "table_settings": {
+      "reset": "재설정",
+      "clear": "지우기"
+    },
+    "authorization_header_hint": "\"http.cors.allow-headers\"가 설정되어 있는지 확인하세요",
+    "code_editor": {
+      "actions": {
+        "beautify": {
+          "title": "정렬 (Ctrl+ALT+L)",
+          "text": "정렬"
+        },
+        "wrap_lines": {
+          "label": "줄 바꿈",
+          "title": "긴 줄 자동 줄 바꿈"
+        },
+        "collapse_all": {
+          "title": "모두 접기"
+        },
+        "expand_all": {
+          "title": "모두 펼치기"
+        }
+      }
+    },
+    "loader": {
+      "copy_error": "오류 복사",
+      "network_error": "네트워크 오류, 클러스터에 접근할 수 없음",
+      "cluster_uri": "클러스터 URI:"
+    },
+    "reload_button": {
+      "reload": "다시 불러오기"
+    },
+    "timer": {
+      "settings": {
+        "title": "자동 새로고침"
+      }
+    },
+    "ssl_hint": {
+      "hint": "HTTPS 사용 시 브라우저가 클러스터 SSL 인증서를 신뢰하는지 확인하세요.",
+      "help": "도움말"
+    }
+  },
+  "snapshots": {
+    "heading": "저장소 '{name}'의 스냅샷",
+    "new_snapshot": {
+      "heading": "새 스냅샷",
+      "form": {
+        "snapshot_name": {
+          "label": "스냅샷 이름"
+        }
+      },
+      "create_snapshot": {
+        "growl": "스냅샷 '{name}'가 정상적으로 생성되었습니다."
+      }
+    },
+    "restore_snapshot": {
+      "heading": "'{name}' 복원",
+      "form": {
+        "ignore_unavailable": {
+          "label": "사용 불가 무시"
+        },
+        "include_global_state": {
+          "label": "글로벌 상태 포함"
+        },
+        "rename_pattern": {
+          "label": "이름 변경 패턴"
+        },
+        "rename_replacement": {
+          "label": "이름 변경 대체"
+        },
+        "restore": "복원"
+      },
+      "restore_snapshot": {
+        "growl": "스냅샷 '{snapshot}'가 정상적으로 복원되었습니다."
+      }
+    },
+    "snapshot": {
+      "indices": "{count}개의 인덱스",
+      "delete": {
+        "confirm": "스냅샷 '{snapshot}'를 삭제하시겠습니까?",
+        "growl": "스냅샷 '{snapshot}'가 정상적으로 삭제되었습니다."
+      }
+    },
+    "snapshots_table": {
+      "table": {
+        "headers": {
+          "status": "상태",
+          "start_time": "시작 시간",
+          "end_time": "종료 시간",
+          "duration": "기간",
+          "indices": "인덱스",
+          "successful_shards": "성공한 샤드",
+          "failed_shards": "실패한 샤드",
+          "total_shards": "총 샤드"
+        }
+      }
+    }
+  },
+  "snapshot_policies": {
+    "new_policy": {
+      "create_policy": {
+        "growl": "스냅샷 정책 '{name}'이(가) 정상적으로 생성되었습니다."
+      },
+      "form": {
+        "id": {
+          "label": "정책 ID*"
+        },
+        "name": {
+          "label": "정책 이름*"
+        },
+        "schedule": {
+          "label": "스케줄*",
+          "hint": "Cron 식 (예: '0 30 1 * * ?' 는 매일 오전 1:30)"
+        },
+        "repository": {
+        },
+        "indices": {
+          "label": "인덱스",
+          "hint": "포함할 인덱스의 쉼표 구분 목록 (기본값: '*')"
+        },
+        "ignore_unavailable": {
+          "label": "사용 불가 인덱스 무시"
+        },
+        "include_global_state": {
+          "label": "글로벌 상태 포함"
+        },
+        "retention": {
+          "heading": "보존 설정",
+          "expire_after": {
+            "label": "유효 기간",
+            "hint": "스냅샷이 만료되는 기간 (예: '3d', '12h')"
+          },
+          "max_count": {
+            "label": "최대 개수",
+            "hint": "보존할 스냅샷 최대 개수"
+          },
+          "min_count": {
+            "label": "최소 개수",
+            "hint": "보존할 스냅샷 최소 개수"
+          }
+        }
+      }
+    },
+    "policies_table": {
+      "table": {
+        "headers": {
+          "id": "ID",
+          "name": "이름",
+          "schedule": "스케줄",
+          "retention": "보존"
+        }
+      },
+      "delete_policy": {
+        "confirm": "스냅샷 정책 '{name}'을(를) 삭제하시겠습니까?",
+        "growl": "스냅샷 정책 '{name}'이(가) 정상적으로 삭제되었습니다."
+      },
+      "execute_policy": {
+        "confirm": "스냅샷 정책 '{name}'을(를) 지금 실행하시겠습니까?",
+        "growl": "스냅샷 정책 '{name}'이(가) 정상적으로 실행되었습니다."
+      }
+    },
+    "edit_policy": {
+      "update_policy": {
+        "growl": "스냅샷 정책 '{name}'이(가) 정상적으로 업데이트되었습니다."
+      }
+    }
+  },
+  "update_check": {
+    "downloading": "다운로드 중... {progress}%",
+    "heading": "새로운 버전의 Elasticvue를 사용할 수 있습니다.",
+    "installing": "업데이트 설치 중, 잠시 기다려 주세요...",
+    "update_info": "Elasticvue {version}을(를) 사용할 수 있습니다. 지금 설치하시겠습니까?",
+    "yes": "예"
+  },
+  "welcome": {
+    "import_backup": {
+      "heading": "Elasticvue 백업 가져오기"
+    },
+    "welcome_page": {
+      "intro": "Elasticsearch에서 가장 빠르고 사용자 친화적인 GUI",
+      "first_time": "처음으로 Elasticvue를 사용하시는 것 같습니다.",
+      "add_clusters": "첫 번째 클러스터를 추가하거나 기존 Elasticvue 설정 백업을 가져오세요."
+    }
+  }
+}
