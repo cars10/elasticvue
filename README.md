@@ -63,10 +63,15 @@ You can use elasticvue in several ways:
 Use the [existing image](https://hub.docker.com/r/cars10/elasticvue):
 
 ```bash
+# docker hub:
 docker run -p 8080:8080 --name elasticvue -d cars10/elasticvue
+
+# ghcr.io:
+docker run -p 8080:8080 --name elasticvue -d ghcr.io/cars10/elasticvue
 ```
 
-When using docker you can provide some default cluster configuration for your users. You can either set an environment
+When using docker you can provide some default cluster configuration for your users. Cluster will automatically be imported every time you start elasticvue.
+You can either set an environment
 variable or provide a config file as a volume. In either case the content should be a json array of your
 clusters, looking like this:
 
@@ -85,8 +90,21 @@ clusters, looking like this:
 ]
 ```
 
-The keys `name` and `uri` are required, `username` and `password` are optional. If you want to connect with an api key
-simply use that as the password and omit the username.
+#### Possible keys
+
+| Name | Value | Required | Example |
+|------|-------|----------|---------|
+| name | Name of the cluster | No | `"production"` |
+| uri  | Cluster uri | Yes | `"http://localhost:9200"` |
+| username | Username for basic authentication | No | `"elastic"` |
+| password | Password for basic authentication | No | `"foobar"` |
+| apiKey | API key for authentication | No | `"VuaCfGcBCdbkQm-e5aOx:ui2lp2axTNm5ShWDc11v6g"` |
+| S3accessKeyId | AWS access key ID for IAM authentication | No | `"AKIAIOSFODNN7EXAMPLE"` |
+| S3secretAccessKey | AWS secret access key for IAM authentication | No | `"wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"` |
+| S3sessionToken | AWS session token for temporary credentials | No | `"FQoGZXIvYXdzE...example"` |
+| S3region | AWS region for IAM authentication | No | `"us-east-1"` |
+
+
 
 #### Docker with default clusters in environment variable
 
@@ -105,8 +123,6 @@ echo '[{"name": "prod cluster", "uri": "http://localhost:9200", "username": "ela
 docker run -p 8080:8080 -v /config.json:/usr/share/nginx/html/api/default_clusters.json cars10/elasticvue
 ```
 
-Your users will be prompted to optionally import these clusters.
-
 ### Web version
 
 > **You have to configure your elasticsearch cluster if you want to use elasticvue via docker**
@@ -115,7 +131,7 @@ Visit [https://app.elasticvue.com](https://app.elasticvue.com).
 
 ### Self-hosted
 
-> **You have to configure your elasticsearch cluster if you want to use elasticvue via docker**
+> **You have to configure your elasticsearch cluster if you want to use elasticvue manually**
 
 Please check the [wiki](https://github.com/cars10/elasticvue/wiki/Building-Elasticvue) for more information.
 
