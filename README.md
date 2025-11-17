@@ -42,7 +42,15 @@ the [FAQ](https://github.com/cars10/elasticvue/wiki/FAQ) for more details.
 
 ## Usage
 
-You can use elasticvue in several ways:
+You can use elasticvue in several ways, use whatever works best for you.
+
+| Type | Auto Update | Cluster config | Support for self signed ssl |
+|------|-------------|----------------|-----------------------------|
+| Desktop app | Yes | not needed | yes |
+| Browser extension | Yes | not needed | partially |
+| Web | Yes | required | partially |
+| Self hosted | No | required | partially |
+| Docker | No | required | partially |
 
 ### Desktop App - *recommended*
 
@@ -55,6 +63,18 @@ You can use elasticvue in several ways:
 * [Google chrome](https://chrome.google.com/webstore/detail/elasticvue/hkedbapjpblbodpgbajblpnlpenaebaa)
 * [Firefox](https://addons.mozilla.org/en-US/firefox/addon/elasticvue/)
 * [Microsoft Edge](https://microsoftedge.microsoft.com/addons/detail/geifniocjfnfilcbeloeidajlfmhdlgo)
+
+### Web version
+
+> **You have to configure your elasticsearch cluster if you want to use elasticvue via docker**
+
+Visit [https://app.elasticvue.com](https://app.elasticvue.com).
+
+### Self-hosted
+
+> **You have to configure your elasticsearch cluster if you want to self host elasticvue**
+
+Please check the [wiki](https://github.com/cars10/elasticvue/wiki/Building-Elasticvue) for more information.
 
 ### Docker
 
@@ -122,18 +142,6 @@ Example using config file volume to `/usr/share/nginx/html/api/default_clusters.
 echo '[{"name": "prod cluster", "uri": "http://localhost:9200", "username": "elastic", "password": "elastic"}]' > /config.json
 docker run -p 8080:8080 -v /config.json:/usr/share/nginx/html/api/default_clusters.json cars10/elasticvue
 ```
-
-### Web version
-
-> **You have to configure your elasticsearch cluster if you want to use elasticvue via docker**
-
-Visit [https://app.elasticvue.com](https://app.elasticvue.com).
-
-### Self-hosted
-
-> **You have to configure your elasticsearch cluster if you want to use elasticvue manually**
-
-Please check the [wiki](https://github.com/cars10/elasticvue/wiki/Building-Elasticvue) for more information.
 
 ## Elasticsearch configuration
 
