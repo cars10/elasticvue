@@ -271,3 +271,36 @@ jobs:
             -H "Content-Type: application/json" \
             -H "Authorization: ${{ secrets.AUTODOK_API_KEY }}" \
             -d '{"container": "elasticvue", "image": "cars10/elasticvue:latest"}'
+
+
+  publish_browser_extensions:
+    name: Publish browser extensions
+    needs:
+      - build_browser_extensions
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: martinbeentjes/npm-get-version-action@v1.3.1
+        id: package-version
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: browser_extension_artifacts
+          path: artifacts
+
+      - name: Create Firefox source zip
+        run: |
+          git archive ${{ github.ref_name }} -o artifacts/elasticvue-${{ steps.package-version.outputs.current-version }}-firefox-source.zip
+
+      - name: Publish to browser stores
+        uses: PlasmoHQ/bpp@v3
+        continue-on-error: true
+        with:
+          keys: ${{ secrets.BPP_KEYS }}
+          chrome-file: artifacts/elasticvue-${{ steps.package-version.outputs.current-version }}-chrome.zip
+          firefox-file: artifacts/elasticvue-${{ steps.package-version.outputs.current-version }}-firefox.zip
+          firefox-source-file: artifacts/elasticvue-${{ steps.package-version.outputs.current-version }}-firefox-source.zip
+          edge-file: artifacts/elasticvue-${{ steps.package-version.outputs.current-version }}-edge.zip
+          edge-notes: ${{ secrets.BPP_EDGE_NOTES }}
+          version-file: package.json
