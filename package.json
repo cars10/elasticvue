@@ -47,7 +47,6 @@
     "pretty-bytes": "^7.1.0",
     "quasar": "^2.18.5",
     "strip-json-comments": "^5.0.3",
-    "quasar-ui-q-draggable-table": "^1.0.3",
     "ua-parser-js": "^2.0.6",
     "uuid": "^13.0.0",
     "vue": "^3.5.22",
@@ -75,7 +74,6 @@
     "stylelint-prettier": "^5.0.3",
     "typescript": "^5.9.3",
     "vite": "^7.1.9",
-    "@types/jszip": "^3.4.1",
     "vite-bundle-visualizer": "^1.2.1",
     "vitest": "^3.2.4",
     "vue-tsc": "^3.1.1"

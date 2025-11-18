@@ -33,3 +33,5 @@ browser_extension/*/*
 tmp
 src-tauri/target
 scripts/screenshots/*
+
+.vs/**/*.*
