@@ -93,24 +93,37 @@ export const useUsersTable = ( emit: any) => {
   }
 
   const deleteUser = async (username:string) => {
-
     try {
-
       const { run } = defineElasticsearchRequest({ emit, method: 'deleteUser' })
       const result = await run({
-      params: {
-        username: username
+        params: {
+          username: username
         },
         confirmMsg: t('security.users_result.delete.confirm', { name: username }),
         snackbarOptions: { body: t('security.users_result.delete.growl',  { name: username }) }
-        })
+      })
       
       if (result !== true) {
         throw new Error(t('security.users_result.error.delete_failed', { name: username }))
       }
 
-      loadUsers()
+      // Suppression des API keys associées à l'utilisateur APRÈS la suppression effective de l'utilisateur
+      try {
+        const apiKeysResponse = await callElasticsearch('getApiKeys')
+        const apiKeys = apiKeysResponse.api_keys || []
+        const userApiKeys = apiKeys.filter((key: any) => key.username === username)
+        for (const key of userApiKeys) {
+          try {
+            await callElasticsearch('deleteApiKey', { id: key.id })
+          } catch (e) {
+            handleError(e,true)
+          }
+        }
+      } catch (e) {
+        handleError(e,true)
+      }
 
+      loadUsers()
       emit('deleted')
     } catch (e) {
       handleError(e,true)
