@@ -1,6 +1,7 @@
 import { Ref, ref } from 'vue'
 import { check, Update } from '@tauri-apps/plugin-updater'
 import { relaunch } from '@tauri-apps/plugin-process'
+import { useSettingsStore } from '../store/settings'
 import { uuidHeader } from '../helpers/uuidHeader.ts'
 
 type UpdateInfo = {
@@ -13,9 +14,12 @@ export const useUpdateCheck = () => {
   const downloadProgress = ref(0)
   const installing = ref(false)
   const updateInfo: Ref<UpdateInfo | null> = ref(null)
+  const settingsStore = useSettingsStore()
   let update: Update | null = null
 
   const checkUpdate = async () => {
+    if (!settingsStore.checkForUpdates) return
+
     const headers = uuidHeader()
     update = await check({ headers })
 

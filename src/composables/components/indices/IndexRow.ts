@@ -23,6 +23,24 @@ export const useIndexRow = (props: IndexRowProps, emit: any) => {
   const aliases: Ref<string[]> = ref([])
 
   const { openModalWith } = useModal()
+  const roles: Ref<string[]> = ref([])
+
+  const loadRoles = async (index: string) => {
+    try {
+      const response = await callElasticsearch('getRoles')
+      const allRoles = Object.keys(response).map(name => ({ name, ...response[name] }))
+      roles.value = allRoles.filter(role => {
+        return role.indices.some(i => {
+          // This is a simplified check. A more robust implementation would handle wildcards and other patterns.
+          return i.names.includes(index)
+        })
+      }).map(role => role.name)
+    } catch (e) {
+      handleError(e)
+      roles.value = []
+    }
+  }
+
   const loadAliases = async (index: string) => {
     try {
       await load(index)
@@ -51,10 +69,16 @@ export const useIndexRow = (props: IndexRowProps, emit: any) => {
     }
   }
 
-  onMounted(() => loadAliases(props.index.index))
+  onMounted(() => {
+    loadAliases(props.index.index)
+    loadRoles(props.index.index)
+  })
   watch(
     () => props.index,
-    (newValue) => loadAliases(newValue.index)
+    (newValue) => {
+      loadAliases(newValue.index)
+      loadRoles(newValue.index)
+    }
   )
 
   const emitReloadAndCloseMenu = () => {
@@ -91,6 +115,7 @@ export const useIndexRow = (props: IndexRowProps, emit: any) => {
 
   return {
     menu,
+    roles,
     aliases,
     openModalWith,
     loading,

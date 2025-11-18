@@ -18,6 +18,7 @@
     "ci": "npm run format && npm run lint && npm run lint:style && npm run tsc && npm run build && npm run test:unit && npm run test:e2e:all",
     "tauri:dev": "tauri dev",
     "tauri:build": "tauri build",
+    "tauri:build_debug": "tauri build --debug",
     "bundle:report": "vite-bundle-visualizer"
   },
   "dependencies": {
@@ -26,7 +27,7 @@
     "@lezer/common": "^1.2.3",
     "@quasar/extras": "^1.17.0",
     "@replit/codemirror-vim": "^6.3.0",
-    "@tauri-apps/api": "2.8.0",
+    "@tauri-apps/api": "2.9.0",
     "@tauri-apps/plugin-clipboard-manager": "2.3.0",
     "@tauri-apps/plugin-dialog": "2.4.0",
     "@tauri-apps/plugin-fs": "2.4.2",
@@ -42,6 +43,7 @@
     "jszip": "^3.10.1",
     "pinia": "^3.0.3",
     "pinia-plugin-persistedstate": "^4.5.0",
+    "quasar-ui-q-draggable-table": "^1.0.3",
     "pretty-bytes": "^7.1.0",
     "quasar": "^2.18.5",
     "strip-json-comments": "^5.0.3",
@@ -73,6 +75,7 @@
     "stylelint-prettier": "^5.0.3",
     "typescript": "^5.9.3",
     "vite": "^7.1.9",
+    "@types/jszip": "^3.4.1",
     "vite-bundle-visualizer": "^1.2.1",
     "vitest": "^3.2.4",
     "vue-tsc": "^3.1.1"

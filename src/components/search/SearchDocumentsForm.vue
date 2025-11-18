@@ -126,6 +126,7 @@
   import EditDocument from './EditDocument.vue'
   import { SearchState } from '../../store/search.ts'
   import { defineElasticsearchRequest } from '../../composables/CallElasticsearch.ts'
+  import { clusterVersionGte } from '../../helpers/minClusterVersion.ts'
   
   const CodeEditor = defineAsyncComponent(() => import('../shared/CodeEditor.vue'))
   const props = defineProps<{ tab: SearchState }>()
@@ -170,24 +171,21 @@
     editDocumentVisible.value = true
   }
 
-  const handleAddDocument = (rowData?: any) => {
-    if (rowData) {
-      editingDocument.value = {
-        _id: rowData._id,
-        _index: rowData._index,
-        _type: rowData._type,
-        _routing: rowData._routing,
-        _source: rowData._source
-      }
-    } else {
-      const index = Array.isArray(ownTab.indices) && ownTab.indices.length > 0 ? ownTab.indices[0] : ''
-      editingDocument.value = {
-        _id: undefined,
-        _index: index,
-        _type: '_doc'
-      }
-    }
+  const handleAddDocument = () => {
+    const index = Array.isArray(ownTab.indices) && ownTab.indices.length > 0 ? ownTab.indices[0] : ''
+    editingDocument.value = {
+      _id: undefined,
+      _index: index,
+      _type: getDocType()
+    }  
+    
     editDocumentVisible.value = true
+  }
+
+  const getDocType = (): string => {
+    const index = Array.isArray(ownTab.indices) && ownTab.indices.length > 0 ? ownTab.indices[0] : ''
+   
+    return clusterVersionGte(6) ? '_doc' : index
   }
 
   const docInfo = (doc: any) => ({

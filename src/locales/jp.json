@@ -11,6 +11,7 @@
         "shards": "シャード",
         "search": "検索",
         "rest": "REST",
+        "security": "セキュリティ",
         "snapshots": "スナップショット"
       }
     },
@@ -188,8 +189,7 @@
         },
         "clear": {
           "text": "インデックスをクリア | インデックスをクリア | {count} 個のインデックスをクリア",
-          "confirm": "インデックス '{index}' をクリアしますか？これにより、インデックス内のすべてのデータが削除されます！",
-          "growl": "インデックス '{index}' は正常にクリアされました。"
+          "confirm": "インデックス '{index}' をクリアしますか？これにより、インデックス内のすべてのデータが削除されます！"
         },
         "delete_by_query": {
           "text": "すべてのドキュメントを削除",
@@ -520,13 +520,10 @@
       },
       "search": "検索",
       "customize_query": {
-        "button": "カスタム検索",
         "reset": "クエリをリセット"
       }
     },
     "query_editor": {
-      "query": "クエリ",
-      "invalid_query": "無効な検索クエリ"
     },
     "autocomplete": {
       "search_all": "すべて検索",
@@ -541,7 +538,6 @@
       "fuzzy_search": "あいまい検索",
       "condition_grouping": "条件グループ化",
       "field_description": "フィールド: {field}",
-      "error_history_loading": "履歴の読み込み中にエラーが発生しました",
       "error_fields_loading": "フィールドの読み込み中にエラーが発生しました"
     },
     "search_result": {
@@ -555,7 +551,6 @@
       "settings": {
         "columns": "列"
       },
-      "download_as_json": "JSON としてダウンロード",
       "add_document": "ドキュメントを追加"
     },
     "context_menu": {
@@ -596,6 +591,10 @@
   },
   "settings": {
     "heading": "設定",
+      "check_for_updates": {
+        "label": "自動的に更新を確認する",
+        "message": "定期的に新しいバージョンの Elasticvue が利用可能かどうかを確認します"
+      },
     "hide_indices_regex": {
       "label": "隠しインデックスの正規表現",
       "message": "この正規表現に一致するインデックスは、インデックスがリストされているすべての場所でデフォルトで非表示になります",
@@ -938,6 +937,58 @@
       "intro": "Elasticsearch の最も高速でユーザーフレンドリーな GUI",
       "first_time": "これは elasticvue を初めて使用するようです。",
       "add_clusters": "最初のクラスターを追加するか、既存の elasticvue 設定のバックアップをインポートしてください。"
+    }
+  },
+  "security": {
+    "heading": "セキュリティ",
+    "roles": "ロール",
+    "users": "ユーザー",
+    "apikeys": "APIキー",
+    "table": {
+      "roles": "ロール",
+      "name": "名前",
+      "cluster": "クラスター",
+      "indices": "インデックス",
+      "actions": "アクション",
+      "id": "ID",
+      "creation": "作成日時",
+      "username": "ユーザー名"
+    },
+    "apiKeys_result": {
+      "delete": {
+        "confirm": "APIキー「{name}」を削除してもよろしいですか？",
+        "growl": "APIキー「{name}」が正常に削除されました。"
+      },
+      "error": {
+        "add_failed": "APIキー '{name}' の作成に失敗しました。",
+        "delete_failed": "APIキー '{name}' の削除に失敗しました。"
+      }
+    },
+    "roles_result": {
+      "delete": {
+        "confirm": "ロール「{name}」を削除してもよろしいですか？",
+        "growl": "ロール「{name}」が正常に削除されました。"
+      }
+    },
+    "users_result": {
+      "created": {
+        "growl": "ユーザー「{name}」が正常に作成されました。"
+      },
+      "error": {
+        "add_failed": "ユーザー '{name}' の作成に失敗しました。",
+        "delete_failed": "ユーザー '{name}' の削除に失敗しました。"
+      },
+      "delete": {
+        "confirm": "ユーザー「{name}」を削除してもよろしいですか？",
+        "growl": "ユーザー「{name}」が正常に削除されました。"
+      }
+     },
+    "add_user": "ユーザーを追加",
+    "user_form": {
+      "username": "ユーザー名",
+      "role": "ロール",
+      "password": "パスワード",
+      "create": "ユーザーを作成"
     }
   }
 }

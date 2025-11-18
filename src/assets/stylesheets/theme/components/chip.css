@@ -1,5 +1,6 @@
 .q-chip {
   color: var(--theme-color);
+  background-color: var(--code-editor-gutter-border-color);
 }
 
 .q-chip.outline--dashed {

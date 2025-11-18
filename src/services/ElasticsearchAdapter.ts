@@ -426,6 +426,41 @@ export default class ElasticsearchAdapter {
     return response
   }
 
+  async indexClear ({ indices, onProgress }: { indices: string[], onProgress?: (progress: { processed: number, total: number, percentage: number, status: string }) => void }) {
+    const body = { query: { match_all: {} } }
+    const response: any = await this.request(`${cleanIndexName(indices.join(','))}/_delete_by_query?refresh=true&wait_for_completion=false`, 'POST', body)
+    const taskId = (await response.json()).task
+
+    if (taskId && onProgress) {
+      onProgress({ processed: 0, total: 1, percentage: 0, status: 'Task started' })
+
+      const poll = async () => {
+        try {
+          const taskResponse: any = await this.getTask({ taskId })
+          const taskJson = await taskResponse.json()
+
+          if (taskJson.completed) {
+            const total = taskJson.task.status.total || 0
+            const processed = taskJson.task.status.deleted || 0
+            onProgress({ processed, total, percentage: 100, status: 'Completed' })
+          } else {
+            const total = taskJson.task.status.total || 0
+            const processed = taskJson.task.status.deleted || 0
+            const percentage = total > 0 ? Math.round((processed / total) * 100) : 0
+            onProgress({ processed, total, percentage, status: 'In progress...' })
+            setTimeout(poll, 1000)
+          }
+        } catch (e) {
+          console.error(e)
+          // Stop polling on error
+        }
+      }
+      setTimeout(poll, 1000)
+    }
+
+    return response
+  }
+
   indexExists ({ index }: { index: string }) {
     return this.request(`${cleanIndexName(index)}`, 'HEAD')
   }
@@ -441,16 +476,16 @@ export default class ElasticsearchAdapter {
     })
   }
 
-  index ({ index, type, id, routing, params }: {
+  index ({ index, type, id, routing, body }: {
     index: string,
     type: string,
     id: any,
     routing: string,
-    params: any
+    body: any
   }) {
     let path = id ? `${cleanIndexName(index)}/${type}/${encodeURIComponent(id)}?refresh=true` : `${cleanIndexName(index)}/${type}?refresh=true` 
     if (routing) path += `&routing=${routing}`
-    return this.request(path, id ? 'PUT' : 'POST', params)
+    return this.request(path, id ? 'PUT' : 'POST', body)
   }
 
   get ({ index, type, id, routing }: { index: string, type: string, id: any, routing?: string }) {
@@ -478,7 +513,7 @@ export default class ElasticsearchAdapter {
   docsBulkDelete (documents: any[]) {
     const body = documents.map(str => {
       const matches = str.split(/####(.*)####(.*)/)
-      return JSON.stringify({ delete: { _index: matches[0], _type: matches[1], _id: matches[2] } })
+      return JSON.stringify({ delete: { _index: matches[0], _id: matches[2] } })
     }).join('\r\n') + '\r\n'
     return this.request('_bulk?refresh=true', 'POST', body)
   }
@@ -574,7 +609,71 @@ export default class ElasticsearchAdapter {
     return this.request(`_snapshot/${repository}/${snapshot}`, 'GET')
   }
 
-  async request (path: string, method: string, params?: any) {
+  getRoles () {
+    return this.request('_security/role', 'GET')
+  }
+
+  deleteRole ({ name }: { name: string }) {
+    return this.request(`_security/role/${name}`, 'DELETE')
+  }
+
+  getApiKeys () {
+    return this.request('_security/api_key', 'GET')
+  }
+
+  deleteApiKey ({ id }: { id: string }) {
+    return this.request('_security/api_key', 'DELETE', { ids : [id] })
+  }
+
+  getUsers () {
+    return this.request('_security/user', 'GET')
+  }
+
+  deleteUser ({ username }: { username: string }) {
+    return this.request(`_security/user/${username}`, 'DELETE')
+  }
+
+  updateUser ({ username, body }: { username: string, body: object }) {
+    return this.request(`_security/user/${username}`, 'PUT', body)
+  }
+
+  createUser ({ username, body }: { username: string; body?: object }) {
+     return this.request(`_security/user/${username}`, 'POST', body)
+  }
+
+  disableUser ({ username }: { username: string }) {
+    return this.request(`_security/user/${username}/_disable`, 'POST')
+  }      
+  
+  enableUser ({ username }: { username: string }) {
+    return this.request(`_security/user/${username}/_enable`, 'POST')
+  }      
+
+  catSlmPolicies() {
+    return this.request('_slm/policy', 'GET')
+  }
+
+  slmGetPolicy({ policy }: { policy: string }) {
+    return this.request(`_slm/policy/${policy}`, 'GET')
+  }
+
+  slmPutPolicy({ policy, body }: { policy: string; body: object }) {
+    return this.request(`_slm/policy/${policy}`, 'PUT', body)
+  }
+
+  slmDeletePolicy({ policy }: { policy: string }) {
+    return this.request(`_slm/policy/${policy}`, 'DELETE')
+  }
+
+  slmExecutePolicy({ policy }: { policy: string }) {
+    return this.request(`_slm/policy/${policy}/_execute`, 'POST')
+  }
+
+  slmGetStatus() {
+    return this.request('_slm/status', 'GET')
+  }
+
+  async request(path: string, method: string, params?: any) {
     const url = new URL(this.uri + path)
 
     if (method === 'GET' && typeof params === 'object') {
@@ -582,7 +681,7 @@ export default class ElasticsearchAdapter {
     }
 
     let body = null
-    if (method === 'PUT' || method === 'POST') body = params
+    if (method === 'PUT' || method === 'POST' || method === 'DELETE') body = params
 
     const options: RequestInit = {
       method,
