@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.11.1
+
+* fix cloning indices, fixes [#331](https://github.com/cars10/elasticvue/issues/331)
+
 ## 1.11.0
 
 * fix another encoding issue, fixes again [#327](https://github.com/cars10/elasticvue/issues/327)

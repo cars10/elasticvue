@@ -24,7 +24,7 @@ export const useIndexClone = (props: IndexCloneProps, emit: any) => {
 
   const setIndexReadOnly = async (readOnly: boolean): Promise<void> => {
     await callElasticsearch('indexPutSettings', {
-      index: props.index,
+      indices: [props.index],
       body: {
         index: {
           blocks: {
