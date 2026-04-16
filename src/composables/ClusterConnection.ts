@@ -1,5 +1,6 @@
 import { Ref, ref, UnwrapRef, useTemplateRef } from 'vue'
 import ElasticsearchAdapter from '../services/ElasticsearchAdapter'
+import { resolveConnectionForAdapter } from '../helpers/awsCredentials.ts'
 import { useTranslation } from './i18n'
 import { useSnackbar } from './Snackbar'
 import { BuildFlavor, ElasticsearchClusterConnection, useConnectionStore } from '../store/connection'
@@ -47,8 +48,9 @@ export const useClusterConnection = (
     resetState(connectState)
     testState.value.loading = true
 
-    const adapter = new ElasticsearchAdapter(formCluster.value)
     try {
+      const resolved = await resolveConnectionForAdapter(formCluster.value)
+      const adapter = new ElasticsearchAdapter(resolved)
       await adapter.test()
       testState.value.success = true
       testState.value.loading = false
@@ -59,10 +61,13 @@ export const useClusterConnection = (
       testState.value.success = false
       testState.value.error = true
       testState.value.loading = false
-      if (e.status && e.statusText) {
+      const msg = typeof e === 'string' ? e : e?.message
+      if (e?.status && e?.statusText) {
         testState.value.errorMessage = `${e.status} ${e.statusText}`
-      } else if (e.message) {
-        testState.value.errorMessage = e.message
+      } else if (msg?.includes('desktop app') || msg?.includes('desktop')) {
+        testState.value.errorMessage = t('setup.test_and_connect.form.aws_profile_desktop_only')
+      } else if (msg) {
+        testState.value.errorMessage = msg
       }
     }
   }
@@ -72,8 +77,9 @@ export const useClusterConnection = (
     resetState(connectState)
     connectState.value.loading = true
 
-    const adapter = new ElasticsearchAdapter(formCluster.value)
     try {
+      const resolved = await resolveConnectionForAdapter(formCluster.value)
+      const adapter = new ElasticsearchAdapter(resolved)
       const infoResponse: any = await adapter.test()
       const infoJson = await infoResponse.json()
 
@@ -113,10 +119,13 @@ export const useClusterConnection = (
       connectState.value.success = false
       connectState.value.error = true
       connectState.value.loading = false
-      if (e.status && e.statusText) {
+      const msg = typeof e === 'string' ? e : e?.message
+      if (e?.status && e?.statusText) {
         connectState.value.errorMessage = `${e.status} ${e.statusText}`
-      } else if (e.message) {
-        connectState.value.errorMessage = e.message
+      } else if (msg && (msg.includes('desktop app') || msg.includes('desktop'))) {
+        connectState.value.errorMessage = t('setup.test_and_connect.form.aws_profile_desktop_only')
+      } else if (msg) {
+        connectState.value.errorMessage = msg
       }
 
       return Promise.reject(e)

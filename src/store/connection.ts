@@ -45,8 +45,28 @@ export type ElasticsearchClusterAuth =
     }
   | {
       authType: AuthType.awsIAM
-      authData: { accessKeyId: string; secretAccessKey: string; sessionToken?: string; region: string }
+      authData:
+        | {
+            awsCredentialType: 'basic'
+            accessKeyId: string
+            secretAccessKey: string
+            sessionToken?: string
+            region: string
+          }
+        | {
+            awsCredentialType: 'profile'
+            profileName: string
+            region?: string
+          }
     }
+
+export type AwsCredentialType = 'basic' | 'profile'
+
+export function getAwsCredentialType(auth: ElasticsearchClusterAuth): AwsCredentialType | null {
+  if (auth.authType !== AuthType.awsIAM) return null
+  const data = auth.authData as { awsCredentialType?: AwsCredentialType }
+  return data.awsCredentialType === 'profile' ? 'profile' : 'basic'
+}
 
 export type ConnectionState = {
   clusters: ElasticsearchCluster[]
@@ -140,18 +160,35 @@ const cleanupClusterAuth = (cluster: ElasticsearchCluster): ElasticsearchCluster
           }
         }
       }
-    case AuthType.awsIAM:
+    case AuthType.awsIAM: {
+      const data = cluster.auth.authData as {
+        awsCredentialType?: AwsCredentialType
+        accessKeyId?: string
+        secretAccessKey?: string
+        sessionToken?: string
+        region?: string
+        profileName?: string
+      }
+      const isProfile = data.awsCredentialType === 'profile'
       return {
         ...cluster,
         auth: {
           authType: AuthType.awsIAM,
-          authData: {
-            accessKeyId: cluster.auth.authData.accessKeyId,
-            secretAccessKey: cluster.auth.authData.secretAccessKey,
-            sessionToken: cluster.auth.authData.sessionToken,
-            region: cluster.auth.authData.region
-          }
+          authData: isProfile
+            ? {
+                awsCredentialType: 'profile' as const,
+                profileName: data.profileName ?? '',
+                region: data.region
+              }
+            : {
+                awsCredentialType: 'basic' as const,
+                accessKeyId: data.accessKeyId ?? '',
+                secretAccessKey: data.secretAccessKey ?? '',
+                sessionToken: data.sessionToken,
+                region: data.region ?? ''
+              }
         }
       }
+    }
   }
 }

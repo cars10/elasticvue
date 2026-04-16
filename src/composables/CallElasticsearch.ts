@@ -1,9 +1,10 @@
 import { computed, Ref, ref } from 'vue'
 import ElasticsearchAdapter, { ElasticsearchMethod } from '../services/ElasticsearchAdapter'
-import { useConnectionStore } from '../store/connection'
+import { AuthType, getAwsCredentialType, useConnectionStore } from '../store/connection'
 import { askConfirm } from '../helpers/dialogs'
 import { SnackbarOptions, useSnackbar } from './Snackbar'
 import { parseJson } from '../helpers/json/parse.ts'
+import { resolveConnectionForAdapter } from '../helpers/awsCredentials.ts'
 
 // Helper type to extract all parameters from a method
 type MethodParameters<T> = T extends (...args: infer P) => any ? P : never
@@ -19,6 +20,13 @@ type CallElasticsearchOverload = {
 }
 
 let elasticsearchAdapter: ElasticsearchAdapter
+
+const shouldRefreshAwsProfileCredentials = () => {
+  const connectionStore = useConnectionStore()
+  const cluster = connectionStore.activeCluster
+  if (!cluster || cluster.auth.authType !== AuthType.awsIAM) return false
+  return getAwsCredentialType(cluster.auth) === 'profile'
+}
 
 export interface RequestState {
   loading: boolean
@@ -49,15 +57,22 @@ export function useElasticsearchAdapter() {
     }
 
     try {
-      if (!elasticsearchAdapter) {
-        const cluster = connectionStore.activeCluster
-        if (!cluster) return
-        elasticsearchAdapter = new ElasticsearchAdapter(cluster)
+      const cluster = connectionStore.activeCluster
+      if (!cluster) return
+
+      let adapter = elasticsearchAdapter
+      if (shouldRefreshAwsProfileCredentials()) {
+        const resolved = await resolveConnectionForAdapter(cluster)
+        adapter = new ElasticsearchAdapter(resolved)
+      } else if (!elasticsearchAdapter) {
+        const resolved = await resolveConnectionForAdapter(cluster)
+        elasticsearchAdapter = new ElasticsearchAdapter(resolved)
         await elasticsearchAdapter.ping()
+        adapter = elasticsearchAdapter
       }
 
       try {
-        const response = await elasticsearchAdapter.call(method, ...args)
+        const response = await adapter.call(method, ...args)
         if (!response) return Promise.resolve()
 
         if (Array.isArray(response)) {
@@ -70,9 +85,9 @@ export function useElasticsearchAdapter() {
           }
           let result
           if (response.every((r: Response) => r.ok)) {
-            result = {acknowledged: true}
+            result = { acknowledged: true }
           } else {
-            result = {apiErrorMessage: 'Some requests failed.'}
+            result = { apiErrorMessage: 'Some requests failed.' }
           }
 
           return Promise.resolve(result)
@@ -121,16 +136,16 @@ export function useElasticsearchAdapter() {
           return Promise.reject(new Error('Request error'))
         }
       }
-    } catch (error) {
+    } catch (error: any) {
       requestState.value = {
         loading: false,
         networkError: true,
         apiError: false,
-        apiErrorMessage: '',
+        apiErrorMessage: error?.message ?? '',
         status: -1
       }
       console.error(error)
-      return Promise.reject(new Error('Error'))
+      return Promise.reject(error)
     }
   }
 

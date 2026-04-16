@@ -1,5 +1,6 @@
 use fetch_reqwest::{FetchOptions, FetchResponseResult};
 
+mod aws_profile;
 mod load_file;
 mod menu;
 mod save_file;
@@ -37,7 +38,8 @@ pub fn run() {
         .invoke_handler(tauri::generate_handler![
             fetch_reqwest,
             load_file,
-            save_file
+            save_file,
+            aws_profile::resolve_aws_profile
         ])
         .run(ctx)
         .expect("error while running tauri application");

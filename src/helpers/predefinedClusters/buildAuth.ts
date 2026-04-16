@@ -29,6 +29,7 @@ export const buildAuth = (cluster: PredefinedCluster): ElasticsearchClusterAuth 
     return {
       authType: AuthType.awsIAM,
       authData: {
+        awsCredentialType: 'basic' as const,
         accessKeyId: S3accessKeyId,
         secretAccessKey: S3secretAccessKey,
         sessionToken: S3sessionToken,

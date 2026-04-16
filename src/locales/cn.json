@@ -551,6 +551,18 @@
         "uri": {
           "label": "地址"
         },
+        "aws_credential_type": {
+          "label": "凭证类型",
+          "basic": "基本凭证",
+          "profile": "AWS 配置文件"
+        },
+        "profile_name": {
+          "label": "配置文件名称"
+        },
+        "region_optional": {
+          "label": "区域（可选）"
+        },
+        "aws_profile_desktop_only": "AWS 配置文件仅在桌面应用中可用。",
         "access_key_id": {
           "label": "访问密钥 ID"
         },

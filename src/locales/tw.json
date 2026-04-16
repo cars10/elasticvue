@@ -551,6 +551,18 @@
         "uri": {
           "label": "URI"
         },
+        "aws_credential_type": {
+          "label": "憑證類型",
+          "basic": "基本憑證",
+          "profile": "AWS 設定檔"
+        },
+        "profile_name": {
+          "label": "設定檔名稱"
+        },
+        "region_optional": {
+          "label": "區域（選填）"
+        },
+        "aws_profile_desktop_only": "AWS 設定檔僅在桌面應用程式中可用。",
         "access_key_id": {
           "label": "存取金鑰 ID"
         },

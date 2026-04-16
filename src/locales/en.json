@@ -569,6 +569,18 @@
         "uri": {
           "label": "Uri"
         },
+        "aws_credential_type": {
+          "label": "Credential type",
+          "basic": "Basic Credentials",
+          "profile": "AWS Profile"
+        },
+        "profile_name": {
+          "label": "Profile name"
+        },
+        "region_optional": {
+          "label": "Region (optional)"
+        },
+        "aws_profile_desktop_only": "AWS Profile is only available in the desktop app.",
         "access_key_id": {
           "label": "Access key ID"
         },

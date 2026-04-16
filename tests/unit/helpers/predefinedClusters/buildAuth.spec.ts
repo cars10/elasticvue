@@ -58,6 +58,7 @@ describe('buildAuth', () => {
       authType: AuthType.awsIAM,
       authData: {
         accessKeyId: 'AKIA123',
+        awsCredentialType: 'basic',
         secretAccessKey: 'SECRET',
         region: 'us-west-1',
         sessionToken: 'SESSION'

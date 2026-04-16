@@ -25,12 +25,13 @@ export default class ElasticsearchAdapter {
   constructor({ uri, auth }: ElasticsearchClusterConnection) {
     this.uri = addTrailingSlash(uri)
 
-    if (auth.authType === AuthType.awsIAM) {
+    if (auth.authType === AuthType.awsIAM && 'accessKeyId' in auth.authData) {
+      const data = auth.authData
       this.awsClient = new AwsClient({
-        accessKeyId: auth.authData.accessKeyId,
-        secretAccessKey: auth.authData.secretAccessKey,
-        sessionToken: auth.authData.sessionToken,
-        region: auth.authData.region,
+        accessKeyId: data.accessKeyId,
+        secretAccessKey: data.secretAccessKey,
+        sessionToken: data.sessionToken,
+        region: data.region,
         service: 'es'
       })
     }
