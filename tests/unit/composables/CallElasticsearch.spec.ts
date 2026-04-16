@@ -1,16 +1,24 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
+import type { Mock } from 'vitest'
 import { createPinia, setActivePinia } from 'pinia'
-import { AuthType, BuildFlavor, useConnectionStore, type ElasticsearchCluster } from '../../../src/store/connection'
+import {
+  AuthType,
+  BuildFlavor,
+  useConnectionStore,
+  type ElasticsearchCluster,
+  type ElasticsearchClusterConnection
+} from '../../../src/store/connection'
 import { useElasticsearchAdapter } from '../../../src/composables/CallElasticsearch'
+import type { ElasticsearchMethod } from '../../../src/services/ElasticsearchAdapter'
 
 const { adapterCallMock, adapterPingMock, adapterConstructorMock, resolveConnectionForAdapterMock } = vi.hoisted(() => {
   const adapterCall = vi.fn().mockResolvedValue(undefined)
   const adapterPing = vi.fn().mockResolvedValue(undefined)
-  const adapterConstructor = vi.fn(function (this: any) {
+  const adapterConstructor = vi.fn(function (this: { call: Mock; ping: Mock }) {
     this.call = adapterCall
     this.ping = adapterPing
   })
-  const resolveConnectionForAdapter = vi.fn(async (connection: any) => connection)
+  const resolveConnectionForAdapter = vi.fn(async (connection: ElasticsearchClusterConnection) => connection)
   return {
     adapterCallMock: adapterCall,
     adapterPingMock: adapterPing,
@@ -40,6 +48,8 @@ const createCluster = (auth: ElasticsearchCluster['auth']): ElasticsearchCluster
   auth
 })
 
+const pingMethod: ElasticsearchMethod = 'ping'
+
 describe('CallElasticsearch', () => {
   beforeEach(() => {
     setActivePinia(createPinia())
@@ -63,8 +73,8 @@ describe('CallElasticsearch', () => {
     store.activeClusterIndex = 0
 
     const { callElasticsearch } = useElasticsearchAdapter()
-    await callElasticsearch('ping' as any)
-    await callElasticsearch('ping' as any)
+    await callElasticsearch(pingMethod)
+    await callElasticsearch(pingMethod)
 
     expect(resolveConnectionForAdapterMock).toHaveBeenCalledTimes(2)
     expect(adapterConstructorMock).toHaveBeenCalledTimes(2)
@@ -87,8 +97,8 @@ describe('CallElasticsearch', () => {
     store.activeClusterIndex = 0
 
     const { callElasticsearch } = useElasticsearchAdapter()
-    await callElasticsearch('ping' as any)
-    await callElasticsearch('ping' as any)
+    await callElasticsearch(pingMethod)
+    await callElasticsearch(pingMethod)
 
     expect(resolveConnectionForAdapterMock).toHaveBeenCalledTimes(1)
     expect(adapterConstructorMock).toHaveBeenCalledTimes(1)
