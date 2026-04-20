@@ -5,6 +5,7 @@ import {
   useConnectionStore
 } from '../../../store/connection.ts'
 import ElasticsearchAdapter from '../../../services/ElasticsearchAdapter.ts'
+import { resolveConnectionForAdapter } from '../../../helpers/awsCredentials.ts'
 import { clusterUuid } from '../../ClusterConnection.ts'
 import { DISTRIBUTIONS } from '../../../consts.ts'
 
@@ -29,7 +30,15 @@ export const useClusterHealth = () => {
 
 export const checkHealth = async (cluster: ElasticsearchCluster) => {
   cluster.loading = true
-  const adapter = new ElasticsearchAdapter(cluster)
+  let adapter: ElasticsearchAdapter
+  try {
+    const resolved = await resolveConnectionForAdapter(cluster)
+    adapter = new ElasticsearchAdapter(resolved)
+  } catch (_e) {
+    cluster.status = 'unknown'
+    cluster.loading = false
+    return
+  }
 
   try {
     const pingResponse: any = await adapter.ping()
@@ -62,7 +71,13 @@ export const checkHealth = async (cluster: ElasticsearchCluster) => {
 }
 
 export const checkClusterHealth = async (credentials: ElasticsearchClusterConnection): Promise<string> => {
-  const adapter = new ElasticsearchAdapter(credentials)
+  let adapter: ElasticsearchAdapter
+  try {
+    const resolved = await resolveConnectionForAdapter(credentials)
+    adapter = new ElasticsearchAdapter(resolved)
+  } catch (_e) {
+    return 'unknown'
+  }
 
   try {
     const clusterHealthResponse: any = await adapter.clusterHealth()

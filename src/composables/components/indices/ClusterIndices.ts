@@ -29,10 +29,10 @@ export const useClusterIndices = () => {
 
   const load = async () => {
     try {
-      const [indices, aliasesData] = await Promise.all([
+      const [indices, aliasesData] = (await Promise.all([
         callElasticsearch('catIndices', CAT_INDICES_PARAMS),
         callElasticsearch('indexGetAlias', { index: '*' })
-      ]) as [EsIndex[], IndexGetAliasResponse]
+      ])) as [EsIndex[], IndexGetAliasResponse]
 
       indices.forEach((index: EsIndex) => {
         if (aliasesData[index.index] && aliasesData[index.index].aliases) {

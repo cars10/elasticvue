@@ -551,6 +551,18 @@
         "uri": {
           "label": "URI"
         },
+        "aws_credential_type": {
+          "label": "認証情報の種類",
+          "basic": "基本認証情報",
+          "profile": "AWSプロファイル"
+        },
+        "profile_name": {
+          "label": "プロファイル名"
+        },
+        "region_optional": {
+          "label": "リージョン（任意）"
+        },
+        "aws_profile_desktop_only": "AWSプロファイルはデスクトップアプリでのみ利用できます。",
         "access_key_id": {
           "label": "アクセスキー ID"
         },

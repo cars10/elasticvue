@@ -551,6 +551,18 @@
         "uri": {
           "label": "URI"
         },
+        "aws_credential_type": {
+          "label": "Тип учётных данных",
+          "basic": "Базовые учётные данные",
+          "profile": "Профиль AWS"
+        },
+        "profile_name": {
+          "label": "Имя профиля"
+        },
+        "region_optional": {
+          "label": "Регион (необязательно)"
+        },
+        "aws_profile_desktop_only": "Профиль AWS доступен только в настольном приложении.",
         "access_key_id": {
           "label": "ID ключа доступа"
         },
