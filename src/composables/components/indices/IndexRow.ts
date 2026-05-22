@@ -27,6 +27,7 @@ export const useIndexRow = (_props: IndexRowProps, emit: any) => {
     searchStore.indices = index
     searchStore.searchQueryCollapsed = false
     searchStore.searchQuery = DEFAULT_SEARCH_QUERY
+    searchStore.q = 'q'
 
     const rowsPerPage = searchStore.pagination.rowsPerPage
     searchStore.pagination = Object.assign({}, DEFAULT_PAGINATION)
