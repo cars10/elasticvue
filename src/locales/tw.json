@@ -4,15 +4,19 @@
       "homepage": "首頁"
     },
     "app_header": {
+      "label": "導覽",
+      "collapse": "收合側邊欄",
+      "expand": "展開側邊欄",
       "navigation": {
-        "home": "首頁",
+        "home": "儀表板",
         "nodes": "節點",
         "indices": "索引",
         "shards": "分片",
         "search": "搜尋",
         "rest": "REST",
         "snapshots": "快照",
-        "users": "使用者"
+        "users": "使用者",
+        "settings": "設定"
       }
     },
     "language_switcher": {
@@ -98,14 +102,6 @@
       "import_backup": {
         "confirm": "確定嗎？匯入備份將會覆寫您目前的設定和已儲存的叢集！"
       }
-    }
-  },
-  "home": {
-    "client_information": {
-      "heading": "叢集資訊"
-    },
-    "cluster_health": {
-      "heading": "叢集健康度"
     }
   },
   "indices": {
@@ -267,6 +263,9 @@
         }
       }
     }
+  },
+  "home": {
+    "heading": "儀表板"
   },
   "mixins": {
     "test_connection": {

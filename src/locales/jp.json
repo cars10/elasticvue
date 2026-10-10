@@ -4,15 +4,19 @@
       "homepage": "ホームページ"
     },
     "app_header": {
+      "label": "ナビゲーション",
+      "collapse": "サイドバーを折りたたむ",
+      "expand": "サイドバーを展開",
       "navigation": {
-        "home": "ホーム",
+        "home": "ダッシュボード",
         "nodes": "ノード",
         "indices": "インデックス",
         "shards": "シャード",
         "search": "検索",
         "rest": "REST",
         "snapshots": "スナップショット",
-        "users": "ユーザー"
+        "users": "ユーザー",
+        "settings": "設定"
       }
     },
     "language_switcher": {
@@ -98,14 +102,6 @@
       "import_backup": {
         "confirm": "本当に実行しますか？バックアップをインポートすると、現在の設定と保存されたクラスターが上書きされます！"
       }
-    }
-  },
-  "home": {
-    "client_information": {
-      "heading": "クラスター情報"
-    },
-    "cluster_health": {
-      "heading": "クラスターの健全性"
     }
   },
   "indices": {
@@ -267,6 +263,9 @@
         }
       }
     }
+  },
+  "home": {
+    "heading": "ダッシュボード"
   },
   "mixins": {
     "test_connection": {

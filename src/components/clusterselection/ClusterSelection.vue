@@ -1,19 +1,38 @@
 <template>
-  <q-btn color="dark-grey" no-caps data-testid="cluster-selection">
-    <cluster-status-indicator :status="connectionStore.activeCluster?.status" :loading="connectionStore.activeCluster?.loading" />
+  <q-btn color="grey-9" no-caps dense :ripple="false" data-testid="cluster-selection" class="full-width" :title="btnTitle">
+    <div class="flex no-wrap justify-between full-width font-13">
+      <div class="flex no-wrap col overflow-hidden">
+        <div class="flex items-center justify-center">
+          <cluster-status-indicator
+            :status="connectionStore.activeCluster?.status"
+            :loading="connectionStore.activeCluster?.loading"
+          />
+        </div>
 
-    <unsupported-version
-      v-if="connectionStore.activeCluster && connectionStore.activeCluster.distribution === DISTRIBUTIONS.elasticsearch"
-      :major-version="connectionStore.activeCluster.majorVersion"
-      size="16px"
-      class="q-mr-sm"
-    />
+        <div class="col overflow-hidden">
+          <div class="ellipsis text-left text-weight-bold" :title="btnTitle">{{ connectionStore.activeCluster?.name }}</div>
 
-    <span class="ellipsis" style="max-width: 200px" :title="btnTitle">{{ connectionStore.activeCluster?.name }}</span>
+          <div class="flex no-wrap font-mono align-center">
+            <div class="">
+              {{ connectionStore.activeCluster?.version }}
+            </div>
+            <div class="flex items-center justify-center">
+              <unsupported-version
+                v-if="connectionStore.activeCluster && connectionStore.activeCluster.distribution === DISTRIBUTIONS.elasticsearch"
+                :major-version="connectionStore.activeCluster.majorVersion"
+                size="14px"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
 
-    <q-icon :name="menuOpen ? 'expand_less' : 'expand_more'" />
+      <div class="flex items-center justify-center">
+        <q-icon :name="menuOpen ? 'expand_less' : 'expand_more'" />
+      </div>
+    </div>
 
-    <q-menu v-model="menuOpen">
+    <q-menu v-model="menuOpen" anchor="top right">
       <div style="min-width: 650px">
         <cluster-table />
       </div>

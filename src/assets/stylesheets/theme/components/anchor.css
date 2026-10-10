@@ -1,11 +1,11 @@
-a:not(.q-btn, .q-tab),
-a:visited:not(.q-btn, .q-tab),
-a:hover:not(.q-btn, .q-tab),
-a:focus:not(.q-btn, .q-tab) {
+a:not(.q-btn, .q-tab, .q-item),
+a:visited:not(.q-btn, .q-tab, .q-item),
+a:hover:not(.q-btn, .q-tab, .q-item),
+a:focus:not(.q-btn, .q-tab, .q-item) {
   color: var(--theme-primary) !important;
 }
 
-a:hover:not(.q-tab) {
+a:hover:not(.q-tab, .q-item) {
   cursor: pointer;
   text-decoration: underline;
 }
