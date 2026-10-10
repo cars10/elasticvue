@@ -52,7 +52,6 @@ export const useSearchResult = (props: SearchResultProps, emit: any) => {
   const buttonsVisible = ref(false)
   const onIntersection = (entry: IntersectionObserverEntry) => {
     buttonsVisible.value = entry.isIntersecting
-    return true
   }
 
   return {

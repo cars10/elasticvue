@@ -17,8 +17,7 @@ export const importPredefinedClusters = async () => {
   const clusters = await loadPredefinedClusters()
   if (!clusters || clusters.length === 0) return
 
-  const remainingClusters = loadRemainingClusters()
-  importNewClusters(clusters, remainingClusters)
+  importNewClusters(clusters, loadRemainingClusters())
 }
 
 export const loadPredefinedClusters = async () => {
@@ -38,32 +37,54 @@ export const loadPredefinedClusters = async () => {
 }
 
 export const importNewClusters = (clusters: PredefinedCluster[], remainingClusters: ElasticsearchCluster[]) => {
-  const newClusters: ElasticsearchCluster[] = clusters.map((cluster) => {
-    return {
-      name: cluster.name || 'docker cluster',
-      uri: cluster.uri,
-      clusterName: '',
-      version: '',
-      majorVersion: '',
-      distribution: '',
-      uuid: '',
-      status: '',
-      loading: false,
-      predefined: true,
-      flavor: BuildFlavor.default,
-      auth: buildAuth(cluster)
-    }
-  })
+  const previousState = loadConnectionState()
+  const previousByUri = new Map(
+    (previousState?.clusters.filter((cluster) => cluster.predefined) ?? []).map((cluster) => [cluster.uri, cluster])
+  )
 
-  const allClusters: ElasticsearchCluster[] = [...newClusters, ...remainingClusters]
-  const state: ConnectionState = { clusters: allClusters, activeClusterIndex: 0 }
-  localStorage.setItem('connection', JSON.stringify(state))
+  const newClusters = clusters.map((cluster) => buildPredefinedCluster(cluster, previousByUri.get(cluster.uri)))
+
+  localStorage.setItem(
+    'connection',
+    JSON.stringify({
+      clusters: [...newClusters, ...remainingClusters],
+      activeClusterIndex: previousState?.activeClusterIndex ?? 0
+    } satisfies ConnectionState)
+  )
 }
 
 export const loadRemainingClusters = () => {
-  const rawClusters = localStorage.getItem('connection')
-  if (!rawClusters || rawClusters.length === 0) return []
+  const connection = loadConnectionState()
+  if (!connection) return []
 
-  const connection = JSON.parse(rawClusters) as ConnectionState
   return connection.clusters.filter((cluster) => !cluster.predefined)
+}
+
+const buildPredefinedCluster = (
+  cluster: PredefinedCluster,
+  previous?: ElasticsearchCluster
+): ElasticsearchCluster => ({
+  name: cluster.name || previous?.name || 'docker cluster',
+  uri: cluster.uri,
+  clusterName: previous?.clusterName || '',
+  version: previous?.version || '',
+  majorVersion: previous?.majorVersion || '',
+  distribution: previous?.distribution || '',
+  uuid: previous?.uuid || '',
+  status: previous?.status || '',
+  loading: false,
+  predefined: true,
+  flavor: previous?.flavor || BuildFlavor.default,
+  auth: buildAuth(cluster)
+})
+
+const loadConnectionState = (): ConnectionState | null => {
+  const raw = localStorage.getItem('connection')
+  if (!raw) return null
+
+  try {
+    return JSON.parse(raw) as ConnectionState
+  } catch (_e) {
+    return null
+  }
 }

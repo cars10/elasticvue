@@ -4,8 +4,8 @@
 
     <q-page-container>
       <div class="q-ma-md">
-        <router-view v-if="connectionStore.activeCluster?.status !== 'unknown' || route.name === 'settings'" />
-        <div v-else class="q-pa-lg">
+        <router-view v-if="showClusterView || route.name === 'settings'" />
+        <div v-else-if="connectionStore.activeCluster?.status === 'unknown'" class="q-pa-lg">
           <div class="row">
             <div class="col-6 offset-3">
               <network-error />
@@ -24,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue'
+import { computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import AppHeader from './components/base/AppHeader.vue'
 import AppFooter from './components/base/AppFooter.vue'
@@ -39,8 +39,13 @@ import { buildConfig } from './buildConfig.ts'
 
 const themeStore = useThemeStore()
 const connectionStore = useConnectionStore()
-
 const route = useRoute()
+
+// Wait for uuid so per-cluster IndexedDB is ready (mainly first paint of docker predefined clusters)
+const showClusterView = computed(() => {
+  const cluster = connectionStore.activeCluster
+  return Boolean(cluster?.uuid && cluster.status !== 'unknown')
+})
 
 onMounted(() => {
   setAppThemeCss(themeStore.appTheme)

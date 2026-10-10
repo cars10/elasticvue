@@ -64,6 +64,39 @@ describe('clusterImport helpers', () => {
       expect(saved.clusters[1].name).toBe('existing')
       expect(saved.activeClusterIndex).toBe(0)
     })
+
+    it('preserves uuid and metadata for previously imported predefined clusters', () => {
+      localStorage.setItem(
+        'connection',
+        JSON.stringify({
+          activeClusterIndex: 1,
+          clusters: [
+            {
+              name: 'pre1',
+              uri: 'http://pre1',
+              clusterName: 'prod',
+              version: '8.15.0',
+              majorVersion: '8',
+              distribution: 'elasticsearch',
+              uuid: 'kept-uuid',
+              status: 'green',
+              loading: false,
+              predefined: true,
+              flavor: BuildFlavor.default,
+              auth: { authType: AuthType.none, authData: {} }
+            }
+          ]
+        })
+      )
+
+      importNewClusters([{ name: 'pre1', uri: 'http://pre1', username: 'a', password: 'b' }], [])
+
+      const saved = JSON.parse(localStorage.getItem('connection') as string)
+      expect(saved.clusters[0].uuid).toBe('kept-uuid')
+      expect(saved.clusters[0].status).toBe('green')
+      expect(saved.clusters[0].version).toBe('8.15.0')
+      expect(saved.activeClusterIndex).toBe(1)
+    })
   })
 
   describe('loadPredefinedClusters', () => {

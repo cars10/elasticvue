@@ -13,15 +13,16 @@ const dbDefinition = {
 
 const databaseName = (clusterUuid: string) => `elasticvue-${clusterUuid}`
 
-let db: Db
-export const useIdb = () => {
-  if (!db) {
-    const connectionStore = useConnectionStore()
-    const clusterUuid = connectionStore.activeCluster?.uuid
-    if (!clusterUuid) return { models: {} as DbSchema }
+let db: Db | undefined
 
-    db = initDb(clusterUuid)
+export const useIdb = (): Db | undefined => {
+  const clusterUuid = useConnectionStore().activeCluster?.uuid
+  if (!clusterUuid) return undefined
+
+  if (!db || db.dbName !== databaseName(clusterUuid)) {
+    initDb(clusterUuid)
   }
+
   return db
 }
 
@@ -35,4 +36,8 @@ export const initDb = (clusterUuid: string) => {
   return db
 }
 
-export const useIdbStore = () => useIdb()?.models
+export const useIdbStore = (): DbSchema => {
+  const idb = useIdb()
+  if (!idb) throw new Error('Cluster IndexedDB unavailable: active cluster has no uuid')
+  return idb.models
+}

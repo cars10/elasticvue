@@ -34,18 +34,26 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] }
+      use: { ...devices['Desktop Chrome'] },
+      testIgnore: '**/PredefinedClusters.spec.ts'
+    },
+    {
+      name: 'chromium-docker',
+      use: { ...devices['Desktop Chrome'], baseURL: 'http://localhost:5176' },
+      testMatch: '**/PredefinedClusters.spec.ts'
     },
 
     {
       name: 'firefox',
-      use: { ...devices['Desktop Firefox'] }
+      use: { ...devices['Desktop Firefox'] },
+      testIgnore: '**/PredefinedClusters.spec.ts'
     },
 
     {
       name: 'webkit',
       use: { ...devices['Desktop Safari'] },
-    },
+      testIgnore: '**/PredefinedClusters.spec.ts'
+    }
 
     /* Test against mobile viewports. */
     // {
@@ -59,9 +67,16 @@ export default defineConfig({
   ],
 
   /* Run your local dev server before starting the tests */
-  webServer: {
-    command: 'npm run dev -- --port=5175',
-    url: 'http://localhost:5175',
-    reuseExistingServer: !process.env.CI,
-  },
+  webServer: [
+    {
+      command: 'npm run dev -- --port=5175',
+      url: 'http://localhost:5175',
+      reuseExistingServer: !process.env.CI
+    },
+    {
+      command: 'npx cross-env VITE_APP_BUILD_MODE=docker npm run dev -- --port=5176',
+      url: 'http://localhost:5176',
+      reuseExistingServer: !process.env.CI
+    }
+  ]
 })

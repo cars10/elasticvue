@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.17.0
+
+* fix REST tab when running in docker, fixes [#363](https://github.com/cars10/elasticvue/issues/363)
+
 ## 1.16.0
 
 * add `/redirect_to_cluster?name=` route to deeplink to a cluster by name, fixes [#342](https://github.com/cars10/elasticvue/issues/342)
