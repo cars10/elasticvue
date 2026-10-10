@@ -808,6 +808,7 @@
       "reload": "Ricarica"
     },
     "timer": {
+      "off": "Auto disattivata",
       "settings": {
         "title": "Ricarica automatica"
       }

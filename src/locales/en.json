@@ -808,6 +808,7 @@
       "reload": "Reload"
     },
     "timer": {
+      "off": "Auto reload off",
       "settings": {
         "title": "Auto reload"
       }

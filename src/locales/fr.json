@@ -808,6 +808,7 @@
       "reload": "Recharger"
     },
     "timer": {
+      "off": "Auto désactivé",
       "settings": {
         "title": "Rechargement automatique"
       }
