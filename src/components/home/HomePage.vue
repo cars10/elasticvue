@@ -24,7 +24,7 @@
     </div>
   </div>
 
-  <div v-else class="row q-col-gutter-lg">
+  <div v-else class="row q-col-gutter-xl">
     <HomeStatus ref="homeStatus" :reload-interval="reloadInterval" />
   </div>
 </template>

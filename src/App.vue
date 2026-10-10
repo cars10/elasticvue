@@ -3,7 +3,7 @@
     <app-sidebar v-if="connectionStore.activeCluster" />
 
     <q-page-container>
-      <div class="q-ma-lg">
+      <div class="q-ma-xl">
         <router-view v-if="showClusterView || route.name === 'settings'" />
         <div v-else-if="connectionStore.activeCluster?.status === 'unknown'" class="q-pa-lg">
           <div class="row">
