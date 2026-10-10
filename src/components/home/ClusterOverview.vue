@@ -1,5 +1,5 @@
 <template>
-  <div class="row q-col-gutter-lg">
+  <div class="row q-col-gutter-xl">
     <div class="col-12 col-md-6 flex">
       <q-card class="full-width col">
         <q-card-section>
