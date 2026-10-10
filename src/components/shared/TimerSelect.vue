@@ -1,54 +1,94 @@
 <template>
-  <div class="inline-block timer" :title="t('shared.timer.settings.title')">
-    <q-select v-model="timer" :options="timerSettings" hide-hint borderless dense options-dense>
-      <template #selected>
-        <span v-if="timer?.value">{{ timer?.label }}</span>
-      </template>
-    </q-select>
-  </div>
+  <q-btn
+    flat
+    dense
+    no-caps
+    class="reload-button__interval"
+    :class="{ 'is-live': timer.value !== null }"
+    :title="t('shared.timer.settings.title')"
+  >
+    <span class="reload-button__interval-label">{{ label }}</span>
+    <q-icon name="arrow_drop_down" size="18px" />
+    <q-menu anchor="bottom right" self="top right" :offset="[0, 6]">
+      <q-list dense class="reload-button__menu">
+        <template v-for="option in timerSettings" :key="String(option.value)">
+          <q-item
+            v-close-popup
+            clickable
+            dense
+            active-class="reload-button__option--active"
+            :active="isSelected(option)"
+            @click="timer = option"
+          >
+            <q-item-section>
+              <q-item-label class="reload-button__option">
+                <span>{{ optionLabel(option) }}</span>
+                <q-icon v-if="isSelected(option)" name="check" size="16px" />
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-separator v-if="option.value == null" />
+        </template>
+      </q-list>
+    </q-menu>
+  </q-btn>
 </template>
 
 <script setup lang="ts">
-import { onBeforeUnmount, Ref, ref, watch } from 'vue'
+import { computed, onBeforeUnmount, ref, watch } from 'vue'
 import { useTranslation } from '../../composables/i18n'
 
 const props = defineProps<{ action: any; modelValue?: number | null }>()
-const emit = defineEmits<{ 'update:modelValue': [value: number | null] }>()
+const emit = defineEmits<{ 'update:modelValue': [value: number | null]; cycle: [] }>()
 const t = useTranslation()
-const timerSettings: Timer[] = [
-  { label: 'None', value: null },
-  { label: '1s', value: 1 },
-  { label: '2s', value: 2 },
-  { label: '3s', value: 3 },
-  { label: '5s', value: 5 },
-  { label: '15s', value: 15 },
-  { label: '30s', value: 30 },
-  { label: '60s', value: 60 }
-]
 
 type Timer = {
-  label: string
   value: number | null
 }
-const timer: Ref<Timer | null> = ref(timerSettings.find((t) => t.value === props.modelValue) || null)
-let intervalID: number
+
+const timerSettings: Timer[] = [
+  { value: null },
+  { value: 1 },
+  { value: 2 },
+  { value: 3 },
+  { value: 5 },
+  { value: 15 },
+  { value: 30 },
+  { value: 60 }
+]
+
+const timer = ref<Timer>(timerSettings.find((option) => option.value === props.modelValue) ?? timerSettings[0])
+let intervalID = 0
+
+const optionLabel = (option: Timer) => (option.value == null ? t('shared.timer.off') : `${option.value}s`)
+const label = computed(() => optionLabel(timer.value))
+const isSelected = (option: Timer) => timer.value.value === option.value
+
+const destroyInterval = () => {
+  window.clearInterval(intervalID)
+}
 
 const createInterval = () => {
-  if (!timer.value?.value) return
+  if (!timer.value.value) return
+  const seconds = timer.value.value
   intervalID = window.setInterval(() => {
     props.action.call()
-  }, timer.value.value * 1000)
+    emit('cycle')
+  }, seconds * 1000)
 }
-const destroyInterval = () => {
-  clearInterval(intervalID)
+
+const restart = () => {
+  destroyInterval()
+  createInterval()
+  if (timer.value.value) emit('cycle')
 }
 
 watch(
   timer,
   (newValue) => {
     destroyInterval()
-    emit('update:modelValue', newValue?.value ?? null)
-    if (newValue?.value) createInterval()
+    emit('update:modelValue', newValue.value)
+    createInterval()
   },
   { immediate: true }
 )
@@ -56,13 +96,12 @@ watch(
 watch(
   () => props.modelValue,
   (newValue) => {
-    const found = timerSettings.find((t) => t.value === newValue)
-    if (found && timer.value?.value !== found.value) {
-      timer.value = found
-    }
-  },
-  { immediate: true }
+    if (timer.value.value === newValue) return
+    const found = timerSettings.find((option) => option.value === newValue)
+    if (found) timer.value = found
+  }
 )
 
 onBeforeUnmount(destroyInterval)
+defineExpose({ restart })
 </script>

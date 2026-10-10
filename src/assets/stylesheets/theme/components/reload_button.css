@@ -1,18 +1,133 @@
 .reload-button {
+  display: inline-flex;
+  flex-shrink: 0;
   margin-left: 12px;
 }
 
-.reload-button .q-field--auto-height .q-field__control,
-.reload-button .q-field--auto-height .q-field__native {
-  height: initial !important;
-  min-height: 36px !important;
+.reload-button__group {
+  display: inline-flex;
+  align-items: stretch;
+  height: 32px;
+  overflow: hidden;
+  background: transparent;
+  border: 1px solid var(--theme-table-border-color);
+  border-radius: 6px;
 }
 
-.reload-button .q-field__marginal {
-  height: initial !important;
+.reload-button__group .q-btn {
+  min-height: 0;
+  border-radius: 0;
+  line-height: 1;
 }
 
-.reload-button .q-field__after,
-.reload-button .q-field__append {
-  padding-left: 2px !important;
+.reload-button__refresh.q-btn {
+  width: 32px;
+  min-width: 32px;
+  padding: 0;
+  color: var(--theme-color);
+  border-right: 1px solid var(--theme-table-border-color);
+}
+
+.reload-button__glyph {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+}
+
+.reload-button__ring {
+  position: absolute;
+  inset: 0;
+  width: 22px;
+  height: 22px;
+  transform: rotate(-90deg);
+}
+
+.reload-button__ring circle {
+  fill: none;
+  stroke-width: 1.75;
+}
+
+.reload-button__ring-track {
+  stroke: color-mix(in srgb, var(--theme-color) 18%, transparent);
+}
+
+.reload-button__ring-value {
+  --reload-ring: 50.2655;
+
+  stroke: var(--theme-primary);
+  stroke-linecap: round;
+  stroke-dasharray: var(--reload-ring);
+  stroke-dashoffset: var(--reload-ring);
+  animation: reload-countdown linear forwards;
+}
+
+.reload-button__sync.is-spinning {
+  animation: reload-spin 0.45s ease-in-out;
+}
+
+.reload-button__interval.q-btn {
+  min-width: 72px;
+  padding: 0 2px 0 10px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--theme-muted-color);
+}
+
+.reload-button__interval.is-live {
+  font-weight: 600;
+  color: var(--theme-primary);
+}
+
+.reload-button__interval-label {
+  font-variant-numeric: tabular-nums;
+}
+
+.reload-button__menu {
+  min-width: 128px;
+}
+
+.reload-button__option {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.reload-button__option .q-icon {
+  color: var(--theme-primary);
+}
+
+.reload-button__option--active {
+  color: var(--theme-primary);
+  background: color-mix(in srgb, var(--theme-primary) 12%, transparent);
+}
+
+@keyframes reload-countdown {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes reload-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reload-button__ring-value,
+  .reload-button__sync.is-spinning {
+    animation: none;
+  }
+
+  .reload-button__ring-value {
+    stroke-dashoffset: 0;
+  }
 }
