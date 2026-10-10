@@ -2,8 +2,8 @@
   <q-btn
     :icon="themeIcon"
     round
+    :size="size"
     color="dark-grey"
-    class="q-mr-md"
     :title="t('base.theme_switcher.title')"
     data-testid="change-theme-button"
   >
@@ -37,6 +37,15 @@ import { ThemePreferences, useThemeStore } from '../../store/theme.js'
 import { computed } from 'vue'
 import { useTranslation } from '../../composables/i18n.ts'
 import { setAppThemeCss } from '../../helpers/theme.ts'
+
+withDefaults(
+  defineProps<{
+    size?: string
+  }>(),
+  {
+    size: 'md'
+  }
+)
 
 const themeStore = useThemeStore()
 const t = useTranslation()

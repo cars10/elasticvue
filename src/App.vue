@@ -1,9 +1,9 @@
 <template>
-  <q-layout view="hHh lpR fff" style="outline: none !important">
-    <app-header v-if="connectionStore.activeCluster" />
+  <q-layout view="lHh Lpr lff" style="outline: none !important">
+    <app-sidebar v-if="connectionStore.activeCluster" />
 
     <q-page-container>
-      <div class="q-ma-md">
+      <div class="q-ma-lg">
         <router-view v-if="showClusterView || route.name === 'settings'" />
         <div v-else-if="connectionStore.activeCluster?.status === 'unknown'" class="q-pa-lg">
           <div class="row">
@@ -26,7 +26,7 @@
 <script setup lang="ts">
 import { computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
-import AppHeader from './components/base/AppHeader.vue'
+import AppSidebar from './components/base/AppSidebar.vue'
 import AppFooter from './components/base/AppFooter.vue'
 import ModalLoader from './components/shared/ModalLoader.vue'
 import AlertSnackbar from './components/shared/AlertSnackbar.vue'

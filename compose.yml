@@ -6,7 +6,7 @@ services:
       dockerfile: docker/Dockerfile_dev
       args:
         NODE_VERSION: 24.15.0
-    command: npm run dev -- --host 0.0.0.0
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
     ports:
       - 5173:5173
     volumes:

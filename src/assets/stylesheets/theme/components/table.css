@@ -5,7 +5,7 @@
 .table--sticky-header .q-table__container thead tr th {
   position: sticky;
   z-index: 1;
-  background-color: var(--theme-background);
+  background-color: var(--theme-card-background);
 }
 
 .table--sticky-header .q-table__container thead tr:first-child th {

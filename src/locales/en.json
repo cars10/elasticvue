@@ -4,15 +4,19 @@
       "homepage": "Homepage"
     },
     "app_header": {
+      "label": "Navigation",
+      "collapse": "Collapse sidebar",
+      "expand": "Expand sidebar",
       "navigation": {
-        "home": "Home",
+        "home": "Dashboard",
         "nodes": "Nodes",
         "indices": "Indices",
         "shards": "Shards",
         "search": "Search",
         "rest": "REST",
         "snapshots": "Snapshots",
-        "users": "Users"
+        "users": "Users",
+        "settings": "Settings"
       }
     },
     "language_switcher": {
@@ -98,14 +102,6 @@
       "import_backup": {
         "confirm": "Are you sure? Importing a backup will overwrite your current settings and saved clusters!"
       }
-    }
-  },
-  "home": {
-    "client_information": {
-      "heading": "Cluster Information"
-    },
-    "cluster_health": {
-      "heading": "Cluster Health"
     }
   },
   "indices": {
@@ -267,6 +263,9 @@
         }
       }
     }
+  },
+  "home": {
+    "heading": "Dashboard"
   },
   "mixins": {
     "test_connection": {

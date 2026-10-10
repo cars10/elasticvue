@@ -20,7 +20,7 @@ type IdbClusterBackup = Record<string, any>
 export const useImportExport = ({ confirmImport } = { confirmImport: false }) => {
   const t = useTranslation()
   const storeAsJson = () => {
-    const storesToBackup = ['codeEditor', 'connection', 'i18n', 'indices', 'resize', 'restQuery', 'theme']
+    const storesToBackup = ['codeEditor', 'connection', 'i18n', 'indices', 'resize', 'restQuery', 'sidebar', 'theme']
     const backup: StoreBackup = {}
 
     storesToBackup.forEach((store) => {

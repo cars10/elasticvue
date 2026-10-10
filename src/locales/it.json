@@ -4,15 +4,19 @@
       "homepage": "Homepage"
     },
     "app_header": {
+      "label": "Navigazione",
+      "collapse": "Comprimi la barra laterale",
+      "expand": "Espandi la barra laterale",
       "navigation": {
-        "home": "Home",
+        "home": "Dashboard",
         "nodes": "Nodi",
         "indices": "Indici",
         "shards": "Frammenti",
         "search": "Ricerca",
         "rest": "REST",
         "snapshots": "Snapshots",
-        "users": "Utenti"
+        "users": "Utenti",
+        "settings": "Impostazioni"
       }
     },
     "language_switcher": {
@@ -98,14 +102,6 @@
       "import_backup": {
         "confirm": "Sei sicuro? L'importazione di un backup sovrascriverà le tue impostazioni correnti e i cluster salvati!"
       }
-    }
-  },
-  "home": {
-    "client_information": {
-      "heading": "Informazioni Cluster"
-    },
-    "cluster_health": {
-      "heading": "Salute Cluster"
     }
   },
   "indices": {
@@ -267,6 +263,9 @@
         }
       }
     }
+  },
+  "home": {
+    "heading": "Dashboard"
   },
   "mixins": {
     "test_connection": {

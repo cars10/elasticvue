@@ -18,6 +18,8 @@ const t = useTranslation()
 const timerSettings: Timer[] = [
   { label: 'None', value: null },
   { label: '1s', value: 1 },
+  { label: '2s', value: 2 },
+  { label: '3s', value: 3 },
   { label: '5s', value: 5 },
   { label: '15s', value: 15 },
   { label: '30s', value: 30 },

@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "@codemirror/lang-json": "^6.0.2",
+    "@fontsource/inter": "^5.3.0",
     "@intlify/unplugin-vue-i18n": "^11.2.3",
     "@lezer/common": "^1.5.2",
     "@quasar/extras": "^2.0.0",
@@ -38,6 +39,7 @@
     "@tauri-apps/plugin-updater": "2.10.1",
     "@tauri-apps/plugin-window-state": "2.4.1",
     "aws4fetch": "^1.0.20",
+    "chart.js": "^4.5.1",
     "codemirror": "^6.0.2",
     "idb": "^8.0.3",
     "json-bigint": "^1.0.0",

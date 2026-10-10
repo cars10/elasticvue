@@ -1,114 +1,71 @@
 <template>
-  <div class="col-3">
-    <q-card v-if="data" class="full-height" data-testid="cluster-status">
-      <q-card-section>
-        <h3 class="text-h6 q-my-none ellipsis" :title="data.cluster_name">{{ data.cluster_name }}</h3>
-        <span class="text-muted font-13 word-break-all">{{ connectionStore.activeCluster?.uuid }}</span>
-      </q-card-section>
-      <q-card-section class="items-center justify-between flex">
-        <div :class="`text-h6 inline-block health--${data.status}`">
-          <q-icon :name="data.status === 'green' ? 'check' : 'warning'" size="sm" class="q-mr-sm" />
-          {{ data.status }}
-        </div>
+  <template v-if="stats">
+    <div class="col-12">
+      <cluster-overview :stats="stats" :version-label="versionLabel" />
+    </div>
 
-        <unhealthy-reason v-if="data.status !== 'green'" :health="data.status" />
-      </q-card-section>
-    </q-card>
-  </div>
+    <div class="col-12">
+      <div class="row q-col-gutter-lg" data-testid="cluster-capacity">
+        <home-charts
+          :max-cpu="maxCpu"
+          :max-disk="maxDisk"
+          :max-heap="maxHeap"
+          :disk-watermarks="diskWatermarks"
+          :nodes-monitoring-available="nodesMonitoringAvailable"
+          :health="health"
+          :stats="stats"
+        />
+      </div>
+    </div>
 
-  <div class="col-3">
-    <q-card v-if="data" class="full-height" data-testid="cluster-nodes">
-      <q-card-section style="position: initial">
-        <h3 class="text-h6 q-my-none">
-          <router-link :to="{ name: 'nodes' }" class="decoration-none stretched">
-            <span class="text-h3">{{ data.nodes.count.total }}</span> nodes
-          </router-link>
-        </h3>
-      </q-card-section>
-      <q-card-section class="text-muted">
-        <p v-if="data.nodes.count.master" class="q-mb-sm">{{ data.nodes.count.master }} master</p>
-        <p v-if="data.nodes.count.data" class="q-mb-none">{{ data.nodes.count.data }} data</p>
-      </q-card-section>
-    </q-card>
-  </div>
+    <div class="col-12">
+      <home-attention :checks="attentionChecks" />
+    </div>
 
-  <div class="col-3">
-    <q-card v-if="data" class="full-height" data-testid="cluster-shards">
-      <q-card-section style="position: initial">
-        <h3 class="text-h6 q-my-none">
-          <router-link :to="{ name: 'shards' }" class="decoration-none stretched">
-            <span class="text-h3">{{ data.indices?.shards?.total || 0 }}</span> shards
-          </router-link>
-        </h3>
-      </q-card-section>
-      <q-card-section class="text-muted">
-        <p class="q-mb-sm">{{ data.indices.shards?.primaries || 0 }} primaries</p>
-        <p class="q-mb-none">{{ (data.indices?.shards?.total || 0) - (data.indices.shards?.primaries || 0) }} replicas</p>
-      </q-card-section>
-    </q-card>
-  </div>
+    <div class="col-12">
+      <div class="row q-col-gutter-lg" data-testid="cluster-workload">
+        <home-workload :workload="workload" :reload-interval="reloadInterval" />
+      </div>
+    </div>
 
-  <div class="col-3">
-    <q-card v-if="data" class="full-height" data-testid="cluster-indices">
-      <q-card-section style="position: initial">
-        <h3 class="text-h6 q-my-none">
-          <router-link :to="{ name: 'indices' }" class="decoration-none stretched">
-            <span class="text-h3">{{ data.indices.count }}</span> indices
-          </router-link>
-        </h3>
-      </q-card-section>
-      <q-card-section class="text-muted">
-        <p class="q-mb-sm">{{ data.indices.docs.count }} docs</p>
-        <p class="q-mb-none">{{ formatBytes(data.indices.store.size_in_bytes) }} on disk</p>
-      </q-card-section>
-    </q-card>
-  </div>
+    <div class="col-12 col-lg-6">
+      <home-nodes :nodes="nodes" :total-count="stats.nodes.count.total" :nodes-monitoring-available="nodesMonitoringAvailable" />
+    </div>
+
+    <div class="col-12 col-lg-6">
+      <home-indices :indices="attentionIndices" :total-count="stats.indices.count" />
+    </div>
+  </template>
 </template>
 
 <script setup lang="ts">
-import { useElasticsearchRequest } from '../../composables/CallElasticsearch'
-import { onMounted, onUnmounted } from 'vue'
-import prettyBytes from 'pretty-bytes'
-import UnhealthyReason from './UnhealthyReason.vue'
-import { useConnectionStore } from '../../store/connection.ts'
+import ClusterOverview from './ClusterOverview.vue'
+import HomeAttention from './HomeAttention.vue'
+import HomeCharts from './HomeCharts.vue'
+import HomeIndices from './HomeIndices.vue'
+import HomeNodes from './HomeNodes.vue'
+import HomeWorkload from './HomeWorkload.vue'
+import { useHomeDashboard } from '../../composables/components/home/HomeDashboard.ts'
 
-const connectionStore = useConnectionStore()
+defineProps<{
+  reloadInterval?: number | null
+}>()
 
-const formatBytes = (bytes: number) => {
-  return prettyBytes(bytes)
-}
+const {
+  stats,
+  health,
+  nodes,
+  attentionIndices,
+  nodesMonitoringAvailable,
+  diskWatermarks,
+  workload,
+  versionLabel,
+  maxHeap,
+  maxDisk,
+  maxCpu,
+  attentionChecks,
+  refresh
+} = useHomeDashboard()
 
-type ClusterStats = {
-  cluster_name: string
-  cluster_uuid: string
-  status: string
-  nodes: {
-    count: {
-      total: number
-      master: number
-      data: number
-    }
-  }
-  indices: {
-    count: number
-    shards: {
-      total: number
-      primaries: number
-    }
-    docs: {
-      count: number
-    }
-    store: {
-      size_in_bytes: number
-    }
-  }
-}
-
-const { load, data } = useElasticsearchRequest<ClusterStats>('clusterStats')
-let interval: number
-onMounted(() => {
-  load()
-  interval = window.setInterval(load, 10000)
-})
-onUnmounted(() => clearInterval(interval))
+defineExpose({ refresh })
 </script>
