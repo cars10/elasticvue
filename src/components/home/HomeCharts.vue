@@ -26,7 +26,7 @@
     >
       <div>max node:</div>
       <div>{{ maxDisk.node }}</div>
-      <div class="text-muted">
+      <div class="text-muted font-13">
         watermarks {{ diskWatermarks.low }} / {{ diskWatermarks.high }} /
         {{ diskWatermarks.flood }}
       </div>
@@ -45,7 +45,7 @@
     >
       <div>max node:</div>
       <div>{{ maxHeap.node }}</div>
-      <div v-if="maxHeap.detail" class="text-muted">{{ maxHeap.detail }}</div>
+      <div v-if="maxHeap.detail" class="text-muted font-13">{{ maxHeap.detail }}</div>
     </percent-metric-card>
   </div>
 
