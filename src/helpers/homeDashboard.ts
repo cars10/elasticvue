@@ -106,18 +106,16 @@ export const sumBreakerTrips = (breakers?: Record<string, { tripped?: number }>)
   return Object.values(breakers).reduce((sum, breaker) => sum + (breaker.tripped || 0), 0)
 }
 
-export const isMasterNode = (node: NodeStatsEntry): boolean => {
-  const roles = node.roles || []
-  if (roles.includes('master') || roles.includes('cluster_manager')) return true
-  // ES 1.x / 2.x exposed master eligibility via attributes
-  const attrs = node.attributes || {}
-  return attrs.master === 'true' || attrs['node.master'] === 'true'
-}
+/** Elected master id from `_cluster/state/master_node` (OpenSearch: `cluster_manager_node`). */
+export const parseElectedMasterNodeId = (state: {
+  master_node?: string | null
+  cluster_manager_node?: string | null
+} | null): string | null => state?.master_node || state?.cluster_manager_node || null
 
-export const parseNodesFromStats = (body: NodesStatsBody | null): OverviewNode[] => {
+export const parseNodesFromStats = (body: NodesStatsBody | null, masterNodeId?: string | null): OverviewNode[] => {
   if (!body?.nodes) return []
 
-  return Object.values(body.nodes).map((node) => {
+  return Object.entries(body.nodes).map(([id, node]) => {
     const total = node.fs?.total?.total_in_bytes
     const available = node.fs?.total?.available_in_bytes ?? node.fs?.total?.free_in_bytes
     const open = positiveOrNull(node.process?.open_file_descriptors)
@@ -128,7 +126,7 @@ export const parseNodesFromStats = (body: NodesStatsBody | null): OverviewNode[]
 
     return {
       name: node.name || 'unknown',
-      master: isMasterNode(node),
+      master: Boolean(masterNodeId && id === masterNodeId),
       heapPercent: heapPercentFromMem(node.jvm?.mem),
       heapCurrent: heapUsed != null ? prettyPrintByteString(heapUsed) : null,
       heapMax: heapMax != null ? prettyPrintByteString(heapMax) : null,

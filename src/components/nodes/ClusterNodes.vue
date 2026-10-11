@@ -28,63 +28,6 @@
         </nodes-table>
       </loader-status>
     </q-card>
-
-    <q-card class="inline-block text-body2">
-      <q-card-section class="q-pa-sm">
-        <table class="text-muted">
-          <tbody>
-            <tr>
-              <td>
-                <q-icon name="star" size="xs" />
-              </td>
-              <td>{{ t('cluster_nodes.node_icons.master.title') }}</td>
-            </tr>
-            <tr>
-              <td>
-                <q-icon name="star_outline" size="xs" />
-              </td>
-              <td>{{ t('cluster_nodes.node_icons.master_eligible.title') }}</td>
-            </tr>
-            <tr>
-              <td>
-                <q-icon name="save" size="xs" />
-              </td>
-              <td>{{ t('cluster_nodes.node_icons.data.title') }}</td>
-            </tr>
-            <tr>
-              <td>
-                <q-icon name="drive_file_move" size="xs" />
-              </td>
-              <td>{{ t('cluster_nodes.node_icons.ingest.title') }}</td>
-            </tr>
-            <tr>
-              <td>
-                <q-icon name="route" size="xs" />
-              </td>
-              <td>{{ t('cluster_nodes.node_icons.coordinating_only.title') }}</td>
-            </tr>
-            <tr>
-              <td>
-                <q-icon name="psychology" size="xs" />
-              </td>
-              <td>{{ t('cluster_nodes.node_icons.ml.title') }}</td>
-            </tr>
-            <tr>
-              <td>
-                <q-icon name="folder" size="xs" />
-              </td>
-              <td>{{ t('cluster_nodes.node_icons.content.title') }}</td>
-            </tr>
-            <tr>
-              <td>
-                <q-icon name="transform" size="xs" />
-              </td>
-              <td>{{ t('cluster_nodes.node_icons.transform.title') }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </q-card-section>
-    </q-card>
   </div>
 </template>
 

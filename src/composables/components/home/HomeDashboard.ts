@@ -11,6 +11,7 @@ import {
   NODES_STATS_METRICS,
   parseCatIndices,
   parseDiskWatermarks,
+  parseElectedMasterNodeId,
   parseNodesFromStats,
   topNodesByPressure
 } from '../../../helpers/homeDashboard.ts'
@@ -159,10 +160,16 @@ export const useHomeDashboard = () => {
    */
   const loadNodesAndWorkload = async () => {
     try {
-      const body = (await callElasticsearch('nodesStats', NODES_STATS_METRICS)) as NodesStatsBody
+      const [body, masterState] = await Promise.all([
+        callElasticsearch('nodesStats', NODES_STATS_METRICS) as Promise<NodesStatsBody>,
+        // Elected master id — node roles alone only mean master-eligible
+        callElasticsearch('clusterState', 'master_node')
+          .catch(() => callElasticsearch('clusterState', 'cluster_manager_node'))
+          .catch(() => null)
+      ])
       nodesMonitoringAvailable.value = true
 
-      const parsed = parseNodesFromStats(body)
+      const parsed = parseNodesFromStats(body, parseElectedMasterNodeId(masterState))
       nodes.value = parsed
 
       const now = Date.now()

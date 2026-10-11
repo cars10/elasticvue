@@ -276,9 +276,6 @@
     "heading": "節點",
     "node_role": "節點角色",
     "node_icons": {
-      "master": {
-        "title": "主節點"
-      },
       "master_eligible": {
         "title": "具備主節點資格"
       },
@@ -321,18 +318,15 @@
     },
     "node_properties": {
       "ip": "IP",
-      "id": "ID",
       "master": "主節點",
       "node_role": "節點角色",
       "shards": "分片",
       "attr": "屬性",
-      "load": "負載",
       "cpu": "CPU 使用率",
       "ram": "系統記憶體",
       "heap": "JVM 堆積",
       "disk": "磁碟",
       "name": "名稱",
-      "status": "狀態",
       "version": "版本"
     }
   },
