@@ -14,12 +14,13 @@ import {
   LineController,
   LineElement,
   PointElement,
+  Tooltip,
   type ChartConfiguration
 } from 'chart.js'
 import { resolveCssVar, useChart } from '../../composables/Chart.ts'
 import { useThemeStore } from '../../store/theme.ts'
 
-Chart.register(LineController, LineElement, PointElement, LinearScale, CategoryScale, Filler)
+Chart.register(LineController, LineElement, PointElement, LinearScale, CategoryScale, Filler, Tooltip)
 
 const props = withDefaults(
   defineProps<{
@@ -53,7 +54,7 @@ const chartConfig = (): ChartConfiguration<'line'> => {
           fill: true,
           tension: 0.35,
           pointRadius: 0,
-          pointHoverRadius: 0,
+          pointHoverRadius: 3,
           spanGaps: true
         }
       ]
@@ -62,13 +63,36 @@ const chartConfig = (): ChartConfiguration<'line'> => {
       responsive: false,
       maintainAspectRatio: false,
       animation: false,
-      events: [],
+      onHover(event, elements) {
+        const target = event.native?.target
+        if (!(target instanceof HTMLElement)) return
+        target.style.cursor = elements.length ? 'pointer' : 'default'
+      },
+      hover: {
+        mode: 'index',
+        intersect: false
+      },
+      interaction: {
+        mode: 'index',
+        intersect: false
+      },
       layout: {
         padding: 0
       },
       plugins: {
         legend: { display: false },
-        tooltip: { enabled: false }
+        tooltip: {
+          enabled: true,
+          displayColors: false,
+          position: 'nearest',
+          padding: 4,
+          caretSize: 4,
+          caretPadding: 4,
+          callbacks: {
+            title: () => '',
+            label: (item) => item.formattedValue
+          }
+        }
       },
       scales: {
         x: {

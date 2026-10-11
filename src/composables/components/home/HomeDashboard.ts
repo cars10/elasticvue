@@ -11,7 +11,8 @@ import {
   NODES_STATS_METRICS,
   parseCatIndices,
   parseDiskWatermarks,
-  parseNodesFromStats
+  parseNodesFromStats,
+  topNodesByPressure
 } from '../../../helpers/homeDashboard.ts'
 import {
   buildAttentionChecks,
@@ -51,6 +52,7 @@ export const useHomeDashboard = () => {
   const clusterInfo: Ref<ClusterInfo | null> = ref(null)
   const nodes: Ref<OverviewNode[]> = ref([])
   const attentionIndices: Ref<OverviewIndex[]> = ref([])
+  const attentionIndicesTotal: Ref<number> = ref(0)
   const unhealthyIndices = ref<{ red: string[]; yellow: string[] }>({ red: [], yellow: [] })
   const nodesMonitoringAvailable: Ref<boolean | null> = ref(null)
   const diskWatermarks: Ref<DiskWatermarks> = ref({ ...DEFAULT_DISK_WATERMARKS })
@@ -99,6 +101,9 @@ export const useHomeDashboard = () => {
 
   const maxDisk = computed((): MetricPeak => peakMetric(nodes.value, 'diskPercent'))
   const maxCpu = computed((): MetricPeak => peakMetric(nodes.value, 'cpuPercent'))
+
+  /** Table preview only — full `nodes` still feeds charts, attention, and workload. */
+  const topNodes = computed(() => topNodesByPressure(nodes.value))
 
   const attentionChecks = computed((): AttentionCheck[] =>
     buildAttentionChecks({
@@ -158,7 +163,7 @@ export const useHomeDashboard = () => {
       nodesMonitoringAvailable.value = true
 
       const parsed = parseNodesFromStats(body)
-      nodes.value = parsed.sort((a, b) => a.name.localeCompare(b.name))
+      nodes.value = parsed
 
       const now = Date.now()
       const nextHeap: HeapSample[] = []
@@ -200,9 +205,11 @@ export const useHomeDashboard = () => {
       const rows = (await callElasticsearch('catIndices', HOME_INDEX_PARAMS)) as CatIndexRow[]
       const parsed = parseCatIndices(Array.isArray(rows) ? rows : null)
       attentionIndices.value = parsed.indices
+      attentionIndicesTotal.value = parsed.eligibleCount
       unhealthyIndices.value = parsed.unhealthy
     } catch {
       attentionIndices.value = []
+      attentionIndicesTotal.value = 0
       unhealthyIndices.value = { red: [], yellow: [] }
     }
   }
@@ -269,7 +276,9 @@ export const useHomeDashboard = () => {
     stats,
     health,
     nodes,
+    topNodes,
     attentionIndices,
+    attentionIndicesTotal,
     nodesMonitoringAvailable,
     diskWatermarks,
     workload,

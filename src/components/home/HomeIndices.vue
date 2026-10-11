@@ -7,6 +7,10 @@
       </router-link>
     </q-card-section>
 
+    <q-card-section v-if="indices.length" class="q-pt-none text-muted font-13">
+      {{ tableHint }}
+    </q-card-section>
+
     <q-markup-table v-if="indices.length" flat dense wrap-cells>
       <thead>
         <tr>
@@ -33,14 +37,24 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import prettyBytes from 'pretty-bytes'
 import { useConnectionStore } from '../../store/connection.ts'
 import type { OverviewIndex } from '../../types/homeDashboard.ts'
 
-defineProps<{
+const props = defineProps<{
   indices: OverviewIndex[]
+  /** Eligible non-system indices (before top-N). */
   totalCount: number
 }>()
 
 const connectionStore = useConnectionStore()
+
+const tableHint = computed(() => {
+  const shown = props.indices.length
+  if (shown >= props.totalCount) {
+    return `Showing all ${shown} — unhealthy first, then largest by size.`
+  }
+  return `Showing top ${shown} of ${props.totalCount} — unhealthy first, then largest by size.`
+})
 </script>
