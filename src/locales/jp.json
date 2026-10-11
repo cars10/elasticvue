@@ -282,9 +282,6 @@
     "heading": "ノード",
     "node_role": "ノードロール",
     "node_icons": {
-      "master": {
-        "title": "マスターノード"
-      },
       "master_eligible": {
         "title": "マスター候補"
       },
@@ -327,18 +324,15 @@
     },
     "node_properties": {
       "ip": "IP",
-      "id": "ID",
       "master": "マスター",
       "node_role": "ノードの役割",
       "shards": "シャード",
       "attr": "属性",
-      "load": "負荷",
       "cpu": "CPU使用率",
       "ram": "システムRAM",
       "heap": "JVMヒープ",
       "disk": "ディスク",
       "name": "名前",
-      "status": "ステータス",
       "version": "バージョン"
     }
   },

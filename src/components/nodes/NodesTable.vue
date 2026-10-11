@@ -26,11 +26,13 @@
     <template #body="{ row }: { row: ElasticsearchNode }">
       <tr>
         <td>
-          <node-icons :elasticsearch-node="row" />
+          <div class="row items-center no-wrap">
+            <span class="text-weight-medium">{{ row.name }}</span>
+            <q-chip v-if="row.master" color="primary" dense class="q-ml-md">master</q-chip>
+          </div>
+          <div class="text-muted font-13">{{ row.id }}</div>
         </td>
-        <td>{{ row.name }}</td>
         <td>{{ row.version }}</td>
-        <td>{{ row.id }}</td>
         <td>{{ row.ip }}</td>
         <td>
           <span v-if="row.master">yes</span>
@@ -43,9 +45,6 @@
         <td v-if="showNodeShards" class="text-right">{{ row.shards }}</td>
         <td>
           <node-attributes v-if="row.attributes" :attributes="row.attributes" />
-        </td>
-        <td>
-          <span v-if="row.load_1m">{{ row.load_1m }} / {{ row.load_5m }} / {{ row.load_15m }}</span>
         </td>
         <td>
           <div v-if="!isNaN(row.cpu)">
@@ -83,7 +82,6 @@
 
 <script setup lang="ts">
 import ElasticsearchNode from '../../models/ElasticsearchNode.js'
-import NodeIcons from './NodeIcons.vue'
 import NodePercentProgress from './NodePercentProgress.vue'
 import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
 import { nodeRoleTitle } from '../../helpers/nodes'

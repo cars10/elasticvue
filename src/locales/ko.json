@@ -282,9 +282,6 @@
     "heading": "노드",
     "node_role": "노드 역할",
     "node_icons": {
-      "master": {
-        "title": "마스터 노드"
-      },
       "master_eligible": {
         "title": "마스터 후보"
       },
@@ -327,18 +324,15 @@
     },
     "node_properties": {
       "ip": "IP",
-      "id": "ID",
       "master": "마스터",
       "node_role": "노드 역할",
       "shards": "샤드",
       "attr": "속성",
-      "load": "로드",
       "cpu": "CPU 사용률",
       "ram": "시스템 RAM",
       "heap": "JVM 힙",
       "disk": "디스크",
       "name": "이름",
-      "status": "상태",
       "version": "버전"
     }
   },

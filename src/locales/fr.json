@@ -282,9 +282,6 @@
     "heading": "Noeuds",
     "node_role": "Rôle du nœud",
     "node_icons": {
-      "master": {
-        "title": "Noeud maître"
-      },
       "master_eligible": {
         "title": "Maître éligible"
       },
@@ -327,18 +324,15 @@
     },
     "node_properties": {
       "ip": "Ip",
-      "id": "Id",
       "master": "Maître",
       "node_role": "node.role",
       "shards": "Fragments",
       "attr": "Attributs",
-      "load": "Charge",
       "cpu": "Utilisation CPU",
       "ram": "RAM",
       "heap": "JVM Heap",
       "disk": "Disque",
       "name": "Nom",
-      "status": "Statut",
       "version": "Version"
     }
   },

@@ -282,9 +282,6 @@
     "heading": "节点",
     "node_role": "节点角色",
     "node_icons": {
-      "master": {
-        "title": "主节点"
-      },
       "master_eligible": {
         "title": "主节点候选"
       },
@@ -327,18 +324,15 @@
     },
     "node_properties": {
       "ip": "IP地址",
-      "id": "id",
       "master": "主节点",
       "node_role": "节点角色",
       "shards": "碎片",
       "attr": "属性",
-      "load": "负载",
       "cpu": "CPU使用率",
       "ram": "系统内存",
       "heap": "JVM堆",
       "disk": "磁盘",
       "name": "名称",
-      "status": "状态",
       "version": "版本"
     }
   },

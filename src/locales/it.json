@@ -282,9 +282,6 @@
     "heading": "Nodi",
     "node_role": "Ruolo del nodo",
     "node_icons": {
-      "master": {
-        "title": "Nodo master"
-      },
       "master_eligible": {
         "title": "Eleggibile a master"
       },
@@ -327,18 +324,15 @@
     },
     "node_properties": {
       "ip": "ip",
-      "id": "id",
       "master": "master",
       "node_role": "ruolo.nodo",
       "shards": "frammenti",
       "attr": "attributi",
-      "load": "carico",
       "cpu": "cpu",
       "ram": "ram",
       "heap": "heap",
       "disk": "disco",
       "name": "nome",
-      "status": "stato",
       "version": "versione"
     }
   },

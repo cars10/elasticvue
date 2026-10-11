@@ -24,7 +24,7 @@
         <tr v-for="node in nodes" :key="node.name">
           <td class="text-left">
             <span class="text-weight-medium">{{ node.name }}</span>
-            <span v-if="node.master" class="text-muted font-13"> · master</span>
+            <q-chip v-if="node.master" color="primary" dense class="q-ml-md">master</q-chip>
           </td>
           <td v-for="metric in nodeMetrics(node)" :key="metric.key">
             <div class="row no-wrap items-center q-gutter-x-sm">

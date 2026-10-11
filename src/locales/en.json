@@ -282,9 +282,6 @@
     "heading": "Nodes",
     "node_role": "Node role",
     "node_icons": {
-      "master": {
-        "title": "Master node"
-      },
       "master_eligible": {
         "title": "Master eligible"
       },
@@ -327,18 +324,15 @@
     },
     "node_properties": {
       "ip": "ip",
-      "id": "id",
       "master": "master",
       "node_role": "node.role",
       "shards": "shards",
       "attr": "attributes",
-      "load": "load",
       "cpu": "cpu usage",
       "ram": "system ram",
       "heap": "jvm heap",
       "disk": "disk",
       "name": "name",
-      "status": "status",
       "version": "version"
     }
   },
