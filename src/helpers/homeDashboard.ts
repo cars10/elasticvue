@@ -14,6 +14,8 @@ type JvmMem = NonNullable<NonNullable<NodeStatsEntry['jvm']>['mem']>
 
 export const NODES_STATS_METRICS = 'jvm,fs,os,process,thread_pool,breaker,indices'
 
+export const HOME_TABLE_LIMIT = 5
+
 export const HOME_INDEX_PARAMS = {
   h: ['index', 'health', 'docs.count', 'store.size', 'pri', 'rep'],
   bytes: 'b',
@@ -139,6 +141,15 @@ export const parseNodesFromStats = (body: NodesStatsBody | null): OverviewNode[]
   })
 }
 
+/** Highest of CPU / heap / disk % — used to pick the busiest nodes for the home table. */
+export const nodePressureScore = (node: OverviewNode): number =>
+  Math.max(node.cpuPercent ?? 0, node.heapPercent ?? 0, node.diskPercent ?? 0)
+
+export const topNodesByPressure = (nodes: OverviewNode[], limit = HOME_TABLE_LIMIT): OverviewNode[] =>
+  [...nodes]
+    .sort((a, b) => nodePressureScore(b) - nodePressureScore(a) || a.name.localeCompare(b.name))
+    .slice(0, limit)
+
 export const aggregateCounters = (body: NodesStatsBody | null): CounterSample | null => {
   if (!body?.nodes) return null
 
@@ -217,10 +228,12 @@ export const nextWorkloadRates = (
 
 export const parseCatIndices = (rows: CatIndexRow[] | null): {
   indices: OverviewIndex[]
+  /** Non-system indices considered for the home table (before the top-N slice). */
+  eligibleCount: number
   unhealthy: { red: string[]; yellow: string[] }
 } => {
   if (!rows?.length) {
-    return { indices: [], unhealthy: { red: [], yellow: [] } }
+    return { indices: [], eligibleCount: 0, unhealthy: { red: [], yellow: [] } }
   }
 
   const mapped: OverviewIndex[] = rows
@@ -241,7 +254,8 @@ export const parseCatIndices = (rows: CatIndexRow[] | null): {
   const rest = mapped.filter((i) => i.health !== 'yellow' && i.health !== 'red')
 
   return {
-    indices: [...unhealthyRows, ...rest].slice(0, 8),
+    indices: [...unhealthyRows, ...rest].slice(0, HOME_TABLE_LIMIT),
+    eligibleCount: mapped.length,
     unhealthy: {
       red: unhealthyRows.filter((index) => index.health === 'red').map((index) => index.index),
       yellow: unhealthyRows.filter((index) => index.health === 'yellow').map((index) => index.index)

@@ -29,11 +29,16 @@
     </div>
 
     <div class="col-12 col-lg-6">
-      <home-nodes :nodes="nodes" :total-count="stats.nodes.count.total" :nodes-monitoring-available="nodesMonitoringAvailable" />
+      <home-nodes
+        :nodes="topNodes"
+        :total-count="stats.nodes.count.total"
+        :eligible-count="nodes.length"
+        :nodes-monitoring-available="nodesMonitoringAvailable"
+      />
     </div>
 
     <div class="col-12 col-lg-6">
-      <home-indices :indices="attentionIndices" :total-count="stats.indices.count" />
+      <home-indices :indices="attentionIndices" :total-count="attentionIndicesTotal" />
     </div>
   </template>
 </template>
@@ -55,7 +60,9 @@ const {
   stats,
   health,
   nodes,
+  topNodes,
   attentionIndices,
+  attentionIndicesTotal,
   nodesMonitoringAvailable,
   diskWatermarks,
   workload,

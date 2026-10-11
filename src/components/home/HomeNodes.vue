@@ -7,6 +7,10 @@
       </router-link>
     </q-card-section>
 
+    <q-card-section v-if="nodes.length" class="q-pt-none text-muted font-13">
+      {{ tableHint }}
+    </q-card-section>
+
     <q-markup-table v-if="nodes.length" flat dense wrap-cells>
       <thead>
         <tr>
@@ -48,16 +52,29 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import { useConnectionStore } from '../../store/connection.ts'
 import type { OverviewNode } from '../../types/homeDashboard.ts'
 
-defineProps<{
+const props = defineProps<{
   nodes: OverviewNode[]
+  /** Cluster node inventory (card title). */
   totalCount: number
+  /** Nodes available for ranking (hint “of N”); may be lower when stats are partial. */
+  eligibleCount?: number
   nodesMonitoringAvailable: boolean | null
 }>()
 
 const connectionStore = useConnectionStore()
+
+const tableHint = computed(() => {
+  const shown = props.nodes.length
+  const eligible = props.eligibleCount ?? props.totalCount
+  if (shown >= eligible) {
+    return `Showing all ${shown}, ordered by highest CPU, heap, or disk.`
+  }
+  return `Showing top ${shown} of ${eligible} by highest CPU, heap, or disk.`
+})
 
 const nodeMetrics = (node: OverviewNode) => [
   { key: 'cpu', value: node.cpuPercent, warn: 80, danger: 90 },
