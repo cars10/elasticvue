@@ -28,17 +28,21 @@
           <theme-switcher :size="controlSize" />
           <language-switcher :size="controlSize" />
         </div>
-
-        <q-btn
-          flat
-          round
-          :size="controlSize"
-          :icon="sidebarStore.collapsed ? 'menu' : 'menu_open'"
-          :title="sidebarStore.collapsed ? t('base.app_header.expand') : t('base.app_header.collapse')"
-          :aria-expanded="!sidebarStore.collapsed"
-          @click="sidebarStore.toggleCollapsed"
-        />
       </div>
+    </div>
+
+    <div class="absolute-right column no-pointer-events">
+      <q-btn
+        round
+        unelevated
+        class="sidebar-collapse all-pointer-events shadow-2"
+        style="margin-top: 142px"
+        size="sm"
+        :icon="sidebarStore.collapsed ? 'menu' : 'menu_open'"
+        :title="sidebarStore.collapsed ? t('base.app_header.expand') : t('base.app_header.collapse')"
+        :aria-expanded="!sidebarStore.collapsed"
+        @click="sidebarStore.toggleCollapsed"
+      />
     </div>
   </q-drawer>
 </template>
@@ -167,3 +171,15 @@ const sections = computed(() => {
   ]
 })
 </script>
+
+<style scoped>
+:deep(.q-drawer__content) {
+  overflow: visible;
+}
+
+.sidebar-collapse {
+  background: var(--theme-sidebar-background);
+  border: 1px solid var(--theme-separator-background);
+  transform: translateX(50%);
+}
+</style>
