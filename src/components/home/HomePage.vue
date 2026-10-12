@@ -2,7 +2,7 @@
   <div class="flex justify-between items-center q-mb-md">
     <div class="text-h5">{{ t('home.heading') }}</div>
     <div v-if="!connectionStore.serverless" class="col-auto">
-      <reload-button :action="reload" v-model="reloadInterval" />
+      <reload-button :action="reload" v-model="homeStore.reloadInterval" />
     </div>
   </div>
 
@@ -25,21 +25,22 @@
   </div>
 
   <div v-else class="row q-col-gutter-xl">
-    <HomeStatus ref="homeStatus" :reload-interval="reloadInterval" />
+    <HomeStatus ref="homeStatus" :reload-interval="homeStore.reloadInterval" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useConnectionStore } from '../../store/connection.ts'
+import { useHomeStore } from '../../store/home.ts'
 import { useTranslation } from '../../composables/i18n.ts'
 import HomeStatus from './HomeStatus.vue'
 import ReloadButton from '../shared/ReloadButton.vue'
 
 const t = useTranslation()
 const connectionStore = useConnectionStore()
+const homeStore = useHomeStore()
 const homeStatus = ref<InstanceType<typeof HomeStatus> | null>(null)
-const reloadInterval = ref<number | null>(3)
 
 const reload = () => homeStatus.value?.refresh()
 </script>
