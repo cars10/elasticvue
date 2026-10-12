@@ -6,6 +6,7 @@
   --theme-negative: #b71c1c;
   --theme-color: #000;
   --theme-muted-color: #616161;
+  --theme-sidebar-background: #fff;
   --theme-background: #fff;
   --theme-body-background: #eee;
   --theme-dark-grey-color: #111;
@@ -50,7 +51,7 @@
   --theme-muted-color: #c3c8d5;
   --theme-sidebar-background: #1a1b1e;
   --theme-background: #111B29;
-  --theme-body-background: #060b10;
+  --theme-body-background: /* #060b10; */ #000;
   --theme-dark-grey-color: #fff;
   --theme-dark-grey-background: #383838;
   --theme-menu-background: #2e3038;
