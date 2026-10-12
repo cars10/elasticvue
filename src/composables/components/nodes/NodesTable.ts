@@ -8,7 +8,7 @@ import { useNodesStore } from '../../../store/nodes.ts'
 import { useTranslation } from '../../i18n.ts'
 import { clusterVersionGte } from '../../../helpers/minClusterVersion.ts'
 
-export type NodesTableProps = { nodes: EsNode[] }
+export type NodesTableProps = { nodes: EsNode[]; loading: boolean }
 
 export const useNodesTable = (props: NodesTableProps) => {
   const nodesStore = useNodesStore()

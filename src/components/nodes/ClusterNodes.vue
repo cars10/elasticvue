@@ -1,40 +1,31 @@
 <template>
+  <div class="flex justify-between items-center q-mb-md">
+    <h1 class="text-h4 q-my-none">{{ t('cluster_nodes.heading') }}</h1>
+    <reload-button :action="load" v-model="nodesStore.reloadInterval" />
+  </div>
+
   <div>
-    <q-card class="q-mb-md">
-      <q-card-section class="flex items-center">
-        <h1 class="text-h5 q-my-none">
-          {{ t('cluster_nodes.heading') }}
-        </h1>
-        <reload-button :action="load" v-model="nodesStore.reloadInterval" />
-      </q-card-section>
-
-      <q-separator />
-
-      <loader-status :request-state="requestState">
-        <nodes-table :nodes="data || []">
-          <q-select
-            v-model="nodesStore.nodeRoles"
-            :options="nodeRoleOptions"
-            option-value="value"
-            option-label="label"
-            emit-value
-            map-options
-            :label="t('cluster_nodes.node_role')"
-            multiple
-            dense
-            outlined
-            style="width: 200px"
-          />
-        </nodes-table>
-      </loader-status>
-    </q-card>
+    <nodes-table :nodes="data || []" :loading="requestState.loading">
+      <q-select
+        v-model="nodesStore.nodeRoles"
+        :options="nodeRoleOptions"
+        option-value="value"
+        option-label="label"
+        emit-value
+        map-options
+        :label="t('cluster_nodes.node_role')"
+        multiple
+        dense
+        outlined
+        style="width: 200px"
+      />
+    </nodes-table>
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed, onMounted, Ref, ref } from 'vue'
 import ReloadButton from '../shared/ReloadButton.vue'
-import LoaderStatus from '../shared/LoaderStatus.vue'
 import NodesTable from './NodesTable.vue'
 import { useElasticsearchAdapter } from '../../composables/CallElasticsearch'
 import { useTranslation } from '../../composables/i18n'
@@ -91,7 +82,6 @@ const data: Ref<EsNode[]> = ref([])
 const { requestState, callElasticsearch } = useElasticsearchAdapter()
 const { callElasticsearch: callEnrichment } = useElasticsearchAdapter()
 const load = async () => {
-  data.value = []
   try {
     const nodes = (await callElasticsearch('catNodes', CAT_METHOD_PARAMS)) as EsNode[]
 
@@ -102,10 +92,13 @@ const load = async () => {
       // Attributes are enrichment; listing nodes should still work without them
     }
 
-    data.value = nodes.map((node) => {
+    const next = nodes.map((node) => {
       const attributes = flattenObj(nodeAttributes.nodes[node.id]?.settings?.node?.attr)
       return Object.assign({}, node, { attributes })
     })
+
+    // Keep the current rows when the payload is unchanged so the table does not remount.
+    if (JSON.stringify(data.value) !== JSON.stringify(next)) data.value = next
   } catch (e) {
     console.error(e)
   }
