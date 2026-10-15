@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:prod": "NODE_ENV=production vite build",
     "tsc": "tsc --noEmit && vue-tsc",
     "lint": "eslint src tests --fix",
     "lint:style": "stylelint \"src/**/*.{css,scss}\" --fix",
