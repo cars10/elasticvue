@@ -5,7 +5,7 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm install
 COPY . .
-RUN VITE_APP_BUILD_MODE=docker npm run build
+RUN VITE_APP_BUILD_MODE=docker npm run build:prod
 
 
 # Create lightweight nginx image
