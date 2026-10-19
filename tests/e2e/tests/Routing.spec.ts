@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test'
+import { test, expect, Page } from '@playwright/test'
 import { setupClusterConnection } from '../helpers'
 import { withElastic } from '../mocks'
 
@@ -8,24 +8,30 @@ withElastic(({ mockElastic, elastic }) => {
   test.describe(`elasticsearch ${elastic.version}`, () => {
     test.describe('Routing', () => {
       test.describe('empty state', () => {
+        const expectWelcomePage = async (page: Page) => {
+          expect(page.url()).toContain('/welcome')
+          await expect(page.getByRole('heading', { name: 'elasticvue' })).toBeVisible()
+          await expect(page.locator('#add_cluster')).toBeVisible()
+        }
+
         test('redirects to /welcome', async ({ page }) => {
           await page.goto('http://localhost:5175/')
-          expect(page.url()).toContain('/welcome')
+          await expectWelcomePage(page)
         })
 
         test('wrong url redirects to /welcome', async ({ page }) => {
           await page.goto('http://localhost:5175/foo')
-          expect(page.url()).toContain('/welcome')
+          await expectWelcomePage(page)
         })
 
         test('wrong cluster id redirects to /welcome', async ({ page }) => {
           await page.goto('http://localhost:5175/cluster/42')
-          expect(page.url()).toContain('/welcome')
+          await expectWelcomePage(page)
         })
 
         test('can open /welcome', async ({ page }) => {
           await page.goto('http://localhost:5175/welcome')
-          expect(page.url()).toContain('/welcome')
+          await expectWelcomePage(page)
         })
       })
 

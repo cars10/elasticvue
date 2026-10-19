@@ -41,10 +41,12 @@ const themeStore = useThemeStore()
 const connectionStore = useConnectionStore()
 const route = useRoute()
 
-// Wait for uuid so per-cluster IndexedDB is ready (mainly first paint of docker predefined clusters)
+// No cluster: show the welcome page. With a cluster, wait for uuid so
+// per-cluster IndexedDB is ready (mainly first paint of docker predefined clusters).
 const showClusterView = computed(() => {
   const cluster = connectionStore.activeCluster
-  return Boolean(cluster?.uuid && cluster.status !== 'unknown')
+  if (!cluster) return true
+  return Boolean(cluster.uuid && cluster.status !== 'unknown')
 })
 
 onMounted(() => {
