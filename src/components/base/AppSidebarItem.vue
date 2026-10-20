@@ -1,10 +1,10 @@
 <template>
   <q-item
     v-if="!disabled"
+    style="min-height: 40px"
     :id="id"
     :to="to"
     clickable
-    dense
     :active="active"
     :aria-current="active ? 'page' : undefined"
     :title="collapsed ? label : undefined"

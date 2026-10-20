@@ -161,6 +161,10 @@ export default class ElasticsearchAdapter {
     return this.request(`${cleanIndexName(index)}/_settings`, 'GET')
   }
 
+  indexGetAllSettings(params?: object) {
+    return this.request('_all/_settings', 'GET', params)
+  }
+
   indexPutSettings({ indices, body }: { indices: string[]; body: object }) {
     if (indices.length > MAX_INDICES_PER_REQUEST) {
       return this.callInChunks({ method: 'indexPutSettings', indices, body })
@@ -272,6 +276,15 @@ export default class ElasticsearchAdapter {
     return this.request('_cluster/reroute', 'POST', { commands })
   }
 
+  clusterRetryFailedAllocations() {
+    return this.request('_cluster/reroute?retry_failed=true', 'POST')
+  }
+
+  clusterAllocationExplain({ body, includeDiskInfo }: { body: object; includeDiskInfo?: boolean }) {
+    const query = includeDiskInfo === undefined ? '' : `?include_disk_info=${includeDiskInfo}`
+    return this.request(`_cluster/allocation/explain${query}`, 'POST', body)
+  }
+
   clusterGetSettings(params?: object) {
     return this.request('_cluster/settings', 'GET', params)
   }
@@ -283,6 +296,18 @@ export default class ElasticsearchAdapter {
 
   clusterPutSettings(body: object) {
     return this.request('_cluster/settings', 'PUT', body)
+  }
+
+  clusterGetVotingExclusions() {
+    return this.request('_cluster/state/metadata?filter_path=metadata.cluster_coordination.voting_config_exclusions', 'GET')
+  }
+
+  clusterAddVotingExclusions({ nodeIds }: { nodeIds: string[] }) {
+    return this.request(`_cluster/voting_config_exclusions?node_ids=${encodeURIComponent(nodeIds.join(','))}`, 'POST')
+  }
+
+  clusterClearVotingExclusions() {
+    return this.request('_cluster/voting_config_exclusions?wait_for_removal=true', 'DELETE')
   }
 
   catShards(params: object, filter?: string) {
@@ -328,6 +353,10 @@ export default class ElasticsearchAdapter {
 
   nodes() {
     return this.request('_nodes', 'GET')
+  }
+
+  dataStreams() {
+    return this.request('_data_stream', 'GET')
   }
 
   catRepositories(params: object) {

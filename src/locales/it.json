@@ -14,6 +14,7 @@
         "shards": "Frammenti",
         "search": "Ricerca",
         "rest": "REST",
+        "tools": "Tools",
         "snapshots": "Snapshots",
         "users": "Utenti",
         "settings": "Impostazioni"
@@ -934,6 +935,10 @@
         "growl": "La politica snapshot '{name}' è stata aggiornata con successo."
       }
     }
+  },
+  "tools": {
+    "heading": "Tools",
+    "subtitle": "Common cluster maintenance and recovery operations."
   },
   "update_check": {
     "downloading": "Download in corso... {progress}%",

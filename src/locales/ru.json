@@ -14,6 +14,7 @@
         "shards": "Шарды",
         "search": "Поиск",
         "rest": "REST",
+        "tools": "Tools",
         "snapshots": "Снимки",
         "users": "Пользователи",
         "settings": "Настройки"
@@ -934,6 +935,10 @@
         "growl": "Политика снимков '{name}' успешно обновлена."
       }
     }
+  },
+  "tools": {
+    "heading": "Tools",
+    "subtitle": "Common cluster maintenance and recovery operations."
   },
   "update_check": {
     "downloading": "Загрузка... {progress}%",

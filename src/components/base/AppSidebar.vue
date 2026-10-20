@@ -138,6 +138,14 @@ const sections = computed(() => {
           disabled: false
         },
         {
+          id: 'tools',
+          label: t('base.app_header.navigation.tools'),
+          icon: 'handyman',
+          to: routeTo('tools'),
+          activeNames: ['tools'],
+          disabled: serverless
+        },
+        {
           id: 'snapshots',
           label: t('base.app_header.navigation.snapshots'),
           icon: 'backup',
