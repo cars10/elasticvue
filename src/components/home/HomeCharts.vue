@@ -5,8 +5,8 @@
       icon="computer"
       :value="maxCpu.value"
       :unavailable="nodesMonitoringAvailable === false && maxCpu.value == null"
-      :warn-at="80"
-      :danger-at="90"
+      :warn-at="CPU_THRESHOLDS.warn"
+      :danger-at="CPU_THRESHOLDS.danger"
       test-id="cluster-cpu"
     >
       <div>max node:</div>
@@ -20,8 +20,8 @@
       icon="storage"
       :value="maxDisk.value"
       :unavailable="nodesMonitoringAvailable === false && maxDisk.value == null"
-      :warn-at="diskWatermarks.lowPercent ?? 85"
-      :danger-at="diskWatermarks.highPercent ?? 90"
+      :warn-at="diskThresholds(diskWatermarks).warn"
+      :danger-at="diskThresholds(diskWatermarks).danger"
       test-id="cluster-disk"
     >
       <div>max node:</div>
@@ -39,8 +39,8 @@
       icon="memory"
       :value="maxHeap.value"
       :unavailable="nodesMonitoringAvailable === false && maxHeap.value == null"
-      :warn-at="75"
-      :danger-at="85"
+      :warn-at="HEAP_THRESHOLDS.warn"
+      :danger-at="HEAP_THRESHOLDS.danger"
       test-id="cluster-heap"
     >
       <div>max node:</div>
@@ -68,6 +68,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import PercentMetricCard from './PercentMetricCard.vue'
+import { CPU_THRESHOLDS, diskThresholds, HEAP_THRESHOLDS } from '../../helpers/pressure.ts'
 import type { ClusterHealth, ClusterStats, DiskWatermarks, MetricPeak } from '../../types/homeDashboard.ts'
 
 const props = defineProps<{

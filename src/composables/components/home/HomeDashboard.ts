@@ -4,18 +4,20 @@ import { useConnectionStore } from '../../../store/connection.ts'
 import { DISTRIBUTIONS } from '../../../consts.ts'
 import {
   aggregateCounters,
-  DEFAULT_DISK_WATERMARKS,
   EMPTY_WORKLOAD,
   HOME_INDEX_PARAMS,
   nextWorkloadRates,
-  NODES_STATS_METRICS,
   parseCatIndices,
-  parseDiskWatermarks,
-  parseElectedMasterNodeId,
   parseNodesFromStats,
-  peakMetric,
   topNodesByPressure
 } from '../../../helpers/homeDashboard.ts'
+import {
+  DEFAULT_DISK_WATERMARKS,
+  NODES_STATS_METRICS,
+  parseDiskWatermarks,
+  parseElectedMasterNodeId,
+  peakMetric
+} from '../../../helpers/nodeStats.ts'
 import {
   buildAttentionChecks,
   parseAllocationEnable,

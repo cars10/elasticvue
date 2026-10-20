@@ -15,7 +15,7 @@ import {
   parsePendingTasks,
   PENDING_TASK_AGE_MS
 } from '../../../src/helpers/homeAttention'
-import { DEFAULT_DISK_WATERMARKS } from '../../../src/helpers/homeDashboard'
+import { DEFAULT_DISK_WATERMARKS } from '../../../src/helpers/nodeStats'
 import type { AttentionDetectorInput } from '../../../src/helpers/homeAttention'
 import type { ClusterHealth, ClusterStats, OverviewNode } from '../../../src/types/homeDashboard'
 

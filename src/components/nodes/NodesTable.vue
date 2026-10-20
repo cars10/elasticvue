@@ -17,64 +17,49 @@
       class="table-mono table-hide-overflow"
       flat
       :loading="loading && nodes.length === 0"
-      row-key="name"
+      row-key="id"
       :columns="columns"
       :rows="filteredResults"
       data-testid="nodes-table"
       :rows-per-page-options="DEFAULT_ROWS_PER_PAGE"
       v-model:pagination="nodesStore.pagination"
     >
-      <template #body="{ row }: { row: ElasticsearchNode }">
+      <template #body="{ row }: { row: NodeRow }">
         <tr :key="row.id">
           <td>
-            <div class="row items-center no-wrap">
-              <span class="text-weight-medium">{{ row.name }}</span>
-              <q-chip v-if="row.master" color="primary" dense class="q-ml-md">master</q-chip>
-            </div>
+            <div class="text-weight-medium">{{ row.name }}</div>
+            <div class="text-muted font-13">{{ row.ip }}</div>
             <div class="text-muted font-13">{{ row.id }}</div>
           </td>
+          <td>
+            <node-roles :roles="row.roles" :master="row.master" />
+          </td>
           <td>{{ row.version }}</td>
-          <td>{{ row.ip }}</td>
-          <td>
-            <span v-if="row.master">yes</span>
-            <span v-else-if="row.masterEligible">eligible</span>
-            <span v-else>no</span>
-          </td>
-          <td :title="nodeRoleTitle(row.nodeRole)">
-            {{ row.nodeRole }}
-          </td>
-          <td v-if="showNodeShards" class="text-right">{{ row.shards }}</td>
-          <td>
-            <node-attributes v-if="row.attributes" :attributes="row.attributes" />
+          <td v-if="showNodeShards" class="text-right">{{ row.shards ?? '—' }}</td>
+          <td class="text-right">{{ formatCount(row.docs) }}</td>
+          <td class="text-right">{{ row.storeBytes == null ? '—' : prettyPrintByteString(row.storeBytes) }}</td>
+          <td class="text-right" :class="{ 'health--yellow': row.uptimeMs != null && row.uptimeMs < RECENT_RESTART_MS }">
+            {{ formatUptime(row.uptimeMs) }}
           </td>
           <td>
-            <div v-if="!isNaN(row.cpu)">
-              {{ row.cpu }}%
-              <node-percent-progress :value="row.cpu" class="q-mt-xs" />
-            </div>
+            <node-attributes :attributes="row.attributes" />
           </td>
-          <td>
-            <div class="flex justify-between">
-              <small>{{ row.ramPercent }}%</small>
-              <small>{{ row.ramCurrent }}/{{ row.ramMax }}</small>
-            </div>
-            <node-percent-progress :value="row.ramPercent" class="q-mt-xs" />
+          <td class="metric-cell">
+            <metric-bar :value="row.cpuPercent" :thresholds="CPU_THRESHOLDS" />
           </td>
-          <td>
-            <div class="flex justify-between">
-              <small>{{ row.heapPercent }}%</small>
-              <small>{{ row.heapCurrent }}/{{ row.heapMax }}</small>
-            </div>
-            <node-percent-progress :value="row.heapPercent" class="q-mt-xs" />
+          <td class="metric-cell">
+            <metric-bar
+              :value="row.heapPercent"
+              :thresholds="HEAP_THRESHOLDS"
+              :detail="bytesDetail(row.heapUsedBytes, row.heapMaxBytes)"
+            />
           </td>
-          <td>
-            <template v-if="row.diskPercent">
-              <div class="flex justify-between">
-                <small>{{ row.diskPercent }}%</small>
-                <small>{{ row.diskCurrent }}/{{ row.diskMax }}</small>
-              </div>
-              <node-percent-progress :value="row.diskPercent" class="q-mt-xs" />
-            </template>
+          <td class="metric-cell">
+            <metric-bar
+              :value="row.diskPercent"
+              :thresholds="diskThresholds(diskWatermarks)"
+              :detail="bytesDetail(row.diskUsedBytes, row.diskTotalBytes)"
+            />
           </td>
         </tr>
       </template>
@@ -83,18 +68,33 @@
 </template>
 
 <script setup lang="ts">
-import ElasticsearchNode from '../../models/ElasticsearchNode.js'
-import NodePercentProgress from './NodePercentProgress.vue'
 import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
-import { nodeRoleTitle } from '../../helpers/nodes'
+import { formatCount, formatUptime, RECENT_RESTART_MS } from '../../helpers/nodes'
+import { prettyPrintByteString } from '../../helpers/bytes.ts'
+import { CPU_THRESHOLDS, diskThresholds, HEAP_THRESHOLDS } from '../../helpers/pressure.ts'
 import FilterInput from '../shared/FilterInput.vue'
-import NodeAttributes from './NodeAttributes.vue'
 import FilterState from '../shared/FilterState.vue'
+import MetricBar from '../shared/MetricBar.vue'
+import NodeAttributes from './NodeAttributes.vue'
+import NodeRoles from './NodeRoles.vue'
 import { useNodesStore } from '../../store/nodes.ts'
 import { NodesTableProps, useNodesTable } from '../../composables/components/nodes/NodesTable.ts'
+import type { DiskWatermarks } from '../../types/homeDashboard.ts'
+import type { NodeRow } from '../../types/nodes.ts'
 
 const nodesStore = useNodesStore()
 
-const props = defineProps<NodesTableProps>()
+const props = defineProps<NodesTableProps & { diskWatermarks: DiskWatermarks }>()
 const { filteredResults, filterStateProps, columns, showNodeShards } = useNodesTable(props)
+
+const bytesDetail = (used: number | null, total: number | null) => {
+  if (used == null || total == null) return null
+  return `${prettyPrintByteString(used)} / ${prettyPrintByteString(total)}`
+}
 </script>
+
+<style scoped>
+.metric-cell {
+  min-width: 140px;
+}
+</style>

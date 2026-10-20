@@ -27,19 +27,7 @@
             <q-chip v-if="node.master" color="primary" dense class="q-ml-md">master</q-chip>
           </td>
           <td v-for="metric in nodeMetrics(node)" :key="metric.key">
-            <div class="row no-wrap items-center q-gutter-x-sm">
-              <div class="col-auto font-mono" :class="pressureClass(metric.value, metric.warn, metric.danger)">
-                {{ formatPercent(metric.value) }}
-              </div>
-              <q-linear-progress
-                class="col"
-                :value="barRatio(metric.value)"
-                :color="barColor(metric.value, metric.warn, metric.danger)"
-                size="10px"
-                rounded
-                instant-feedback
-              />
-            </div>
+            <metric-bar :value="metric.value" :thresholds="metric.thresholds" />
           </td>
         </tr>
       </tbody>
@@ -55,6 +43,8 @@
 import { computed } from 'vue'
 import { useConnectionStore } from '../../store/connection.ts'
 import type { OverviewNode } from '../../types/homeDashboard.ts'
+import MetricBar from '../shared/MetricBar.vue'
+import { CPU_THRESHOLDS, DISK_THRESHOLDS, HEAP_THRESHOLDS } from '../../helpers/pressure.ts'
 
 const props = defineProps<{
   nodes: OverviewNode[]
@@ -77,32 +67,8 @@ const tableHint = computed(() => {
 })
 
 const nodeMetrics = (node: OverviewNode) => [
-  { key: 'cpu', value: node.cpuPercent, warn: 80, danger: 90 },
-  { key: 'heap', value: node.heapPercent, warn: 75, danger: 85 },
-  { key: 'disk', value: node.diskPercent, warn: 85, danger: 90 }
+  { key: 'cpu', value: node.cpuPercent, thresholds: CPU_THRESHOLDS },
+  { key: 'heap', value: node.heapPercent, thresholds: HEAP_THRESHOLDS },
+  { key: 'disk', value: node.diskPercent, thresholds: DISK_THRESHOLDS }
 ]
-
-const formatPercent = (value?: number | null) => {
-  if (value == null || Number.isNaN(value)) return '—'
-  return `${Math.round(value)}%`
-}
-
-const barRatio = (value?: number | null) => {
-  if (value == null || Number.isNaN(value)) return 0
-  return Math.min(100, Math.max(0, value)) / 100
-}
-
-const pressureClass = (value?: number | null, warn = 75, danger = 85) => {
-  if (value == null || Number.isNaN(value)) return undefined
-  if (value >= danger) return 'health--red'
-  if (value >= warn) return 'health--yellow'
-  return undefined
-}
-
-const barColor = (value?: number | null, warn = 75, danger = 85) => {
-  if (value == null || Number.isNaN(value)) return 'primary'
-  if (value >= danger) return 'negative'
-  if (value >= warn) return 'warning'
-  return 'primary'
-}
 </script>

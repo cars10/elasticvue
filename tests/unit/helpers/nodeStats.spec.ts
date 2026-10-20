@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { peakMetric } from '../../../src/helpers/homeDashboard'
+import { parseNodeStatsDetails, peakMetric } from '../../../src/helpers/nodeStats'
 import type { OverviewNode } from '../../../src/types/homeDashboard'
 
 const node = (name: string, values: Partial<OverviewNode>): OverviewNode => ({
@@ -30,5 +30,24 @@ describe('peakMetric', () => {
     const nodes = [node('a', { heapPercent: 50, heapCurrent: '1gb', heapMax: '2gb' })]
     const peak = peakMetric(nodes, 'heapPercent', (n) => `${n.heapCurrent} / ${n.heapMax}`)
     expect(peak.detail).toBe('1gb / 2gb')
+  })
+})
+
+describe('parseNodeStatsDetails', () => {
+  it('reads uptime, docs and store size per node id', () => {
+    const body = {
+      nodes: {
+        a: { jvm: { uptime_in_millis: 5000 }, indices: { docs: { count: 12 }, store: { size_in_bytes: 2048 } } },
+        b: {}
+      }
+    }
+    expect(parseNodeStatsDetails(body)).toEqual({
+      a: { uptimeMs: 5000, docs: 12, storeBytes: 2048 },
+      b: { uptimeMs: null, docs: null, storeBytes: null }
+    })
+  })
+
+  it('returns an empty map without a body', () => {
+    expect(parseNodeStatsDetails(null)).toEqual({})
   })
 })

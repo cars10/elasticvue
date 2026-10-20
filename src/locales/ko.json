@@ -324,17 +324,17 @@
       }
     },
     "node_properties": {
-      "ip": "IP",
-      "master": "마스터",
       "node_role": "노드 역할",
       "shards": "샤드",
       "attr": "속성",
       "cpu": "CPU 사용률",
-      "ram": "시스템 RAM",
       "heap": "JVM 힙",
       "disk": "디스크",
       "name": "이름",
-      "version": "버전"
+      "version": "버전",
+      "docs": "문서",
+      "store": "저장소",
+      "uptime": "가동 시간"
     }
   },
   "cluster_roles": {

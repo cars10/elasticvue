@@ -77,7 +77,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import LineChart from '../shared/LineChart.vue'
-import PulseMetricCard from './PulseMetricCard.vue'
+import PulseMetricCard from '../shared/PulseMetricCard.vue'
 import type { WorkloadRates } from '../../types/homeDashboard.ts'
 
 const props = defineProps<{

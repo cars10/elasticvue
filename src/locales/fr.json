@@ -324,17 +324,17 @@
       }
     },
     "node_properties": {
-      "ip": "Ip",
-      "master": "Maître",
       "node_role": "node.role",
       "shards": "Fragments",
       "attr": "Attributs",
       "cpu": "Utilisation CPU",
-      "ram": "RAM",
       "heap": "JVM Heap",
       "disk": "Disque",
       "name": "Nom",
-      "version": "Version"
+      "version": "Version",
+      "docs": "documents",
+      "store": "stockage",
+      "uptime": "uptime"
     }
   },
   "cluster_roles": {

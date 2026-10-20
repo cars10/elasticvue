@@ -148,6 +148,7 @@ export type NodeStatsEntry = {
   roles?: string[]
   attributes?: Record<string, string>
   jvm?: {
+    uptime_in_millis?: number
     mem?: {
       heap_used_percent?: number
       heap_used_in_bytes?: number
@@ -164,6 +165,8 @@ export type NodeStatsEntry = {
     max_file_descriptors?: number
   }
   indices?: {
+    docs?: { count?: number }
+    store?: { size_in_bytes?: number }
     search?: { query_total?: number; query_time_in_millis?: number }
     indexing?: { index_total?: number; index_time_in_millis?: number; delete_total?: number }
   }

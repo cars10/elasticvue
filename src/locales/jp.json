@@ -324,17 +324,17 @@
       }
     },
     "node_properties": {
-      "ip": "IP",
-      "master": "マスター",
       "node_role": "ノードの役割",
       "shards": "シャード",
       "attr": "属性",
       "cpu": "CPU使用率",
-      "ram": "システムRAM",
       "heap": "JVMヒープ",
       "disk": "ディスク",
       "name": "名前",
-      "version": "バージョン"
+      "version": "バージョン",
+      "docs": "ドキュメント",
+      "store": "ストア",
+      "uptime": "稼働時間"
     }
   },
   "cluster_roles": {
