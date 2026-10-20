@@ -60,10 +60,7 @@ export const loadRemainingClusters = () => {
   return connection.clusters.filter((cluster) => !cluster.predefined)
 }
 
-const buildPredefinedCluster = (
-  cluster: PredefinedCluster,
-  previous?: ElasticsearchCluster
-): ElasticsearchCluster => ({
+const buildPredefinedCluster = (cluster: PredefinedCluster, previous?: ElasticsearchCluster): ElasticsearchCluster => ({
   name: cluster.name || previous?.name || 'docker cluster',
   uri: cluster.uri,
   clusterName: previous?.clusterName || '',

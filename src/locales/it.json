@@ -706,13 +706,6 @@
       "cancel_relocation": "Annulla reindirizzamento",
       "reroute": {
         "confirm": "Reindirizzare il frammento '{shard}' dal nodo '{fromNode}' a '{toNode}'?"
-      },
-      "allocation": {
-        "label": "Allocazione frammenti",
-        "enable_confirm": "Abilitare l'allocazione dei frammenti?",
-        "enable_growl": "Allocazione frammenti abilitata",
-        "disable_confirm": "Disabilitare l'allocazione dei frammenti?",
-        "disable_growl": "Allocazione frammenti disabilitata"
       }
     }
   },

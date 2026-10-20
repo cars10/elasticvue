@@ -1,17 +1,10 @@
 import { Chart, type ChartConfiguration, type ChartType } from 'chart.js'
-import {
-  nextTick,
-  onMounted,
-  onUnmounted,
-  toValue,
-  watch,
-  type MaybeRefOrGetter,
-  type Ref,
-  type WatchSource
-} from 'vue'
+import { nextTick, onMounted, onUnmounted, toValue, watch, type MaybeRefOrGetter, type Ref, type WatchSource } from 'vue'
 
 export const resolveCssVar = (el: Element | null | undefined, name: string, fallback: string) => {
-  const resolved = getComputedStyle(el || document.body).getPropertyValue(name).trim()
+  const resolved = getComputedStyle(el || document.body)
+    .getPropertyValue(name)
+    .trim()
   return resolved || fallback
 }
 
