@@ -12,6 +12,8 @@
         "nodes": "Nodes",
         "indices": "Indices",
         "shards": "Shards",
+        "shards_overview": "Overview",
+        "shard_recovery": "Recovery",
         "search": "Search",
         "rest": "REST",
         "tools": "Tools",
@@ -708,16 +710,20 @@
   },
   "shard_recovery_table": {
     "stage": "Stage",
+    "active_only": "Active only",
+    "no_active": "No active recoveries",
+    "show_completed": "Show completed",
     "columns": {
       "index": "Index",
+      "type": "Type",
       "stage": "Stage",
-      "source": "Source",
-      "target": "Target",
+      "source_target": "Source → Target",
       "time": "Time",
       "duration": "Duration",
       "files": "Files",
       "bytes": "Bytes",
-      "translog_ops": "Translog Ops"
+      "translog_ops": "Translog Ops",
+      "throttle": "Throttled"
     }
   },
   "shared": {

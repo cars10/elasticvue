@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { parseNodeStatsDetails, peakMetric } from '../../../src/helpers/nodeStats'
+import { parseDiskWatermarks, parseNodeStatsDetails, peakMetric } from '../../../src/helpers/nodeStats'
 import type { OverviewNode } from '../../../src/types/homeDashboard'
 
 const node = (name: string, values: Partial<OverviewNode>): OverviewNode => ({
@@ -49,5 +49,26 @@ describe('parseNodeStatsDetails', () => {
 
   it('returns an empty map without a body', () => {
     expect(parseNodeStatsDetails(null)).toEqual({})
+  })
+})
+
+describe('parseDiskWatermarks', () => {
+  it('reads nested settings as returned with filter_path', () => {
+    const settings = {
+      persistent: { cluster: { routing: { allocation: { disk: { watermark: { low: '70%' } } } } } },
+      defaults: {
+        cluster: {
+          routing: {
+            allocation: { disk: { watermark: { low: '85%', high: '90%', flood_stage: '95%', 'flood_stage.frozen': '97%' } } }
+          }
+        }
+      }
+    }
+    expect(parseDiskWatermarks(settings)).toMatchObject({ lowPercent: 70, highPercent: 90, floodPercent: 95 })
+  })
+
+  it('still reads flat settings', () => {
+    const settings = { transient: { 'cluster.routing.allocation.disk.watermark.high': '80%' } }
+    expect(parseDiskWatermarks(settings)).toMatchObject({ lowPercent: 85, highPercent: 80 })
   })
 })

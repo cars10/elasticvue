@@ -1,4 +1,5 @@
 import type { MetricPeak } from './homeDashboard.ts'
+import type { NodeSpread } from './shards.ts'
 
 export type NodeStatsDetails = {
   uptimeMs: number | null
@@ -55,13 +56,5 @@ export type NodesSummary = {
     aboveFlood: number
   }
   /** Shard spread across data nodes; null when the cluster does not report shards per node (ES < 8). */
-  shards: {
-    nodes: number
-    min: number
-    max: number
-    avg: number
-    /** max / avg — 1 means perfectly balanced. */
-    skew: number
-    busiest: string
-  } | null
+  shards: NodeSpread | null
 }

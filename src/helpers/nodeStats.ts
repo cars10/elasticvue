@@ -1,14 +1,30 @@
+import { flattenObj } from './flatten.ts'
 import type { DiskWatermarks, MetricPeak, NodeStatsEntry, NodesStatsBody } from '../types/homeDashboard.ts'
 import type { NodeStatsDetails } from '../types/nodes.ts'
-
-/**
- * Parsing for `_nodes/stats`, shared by the home dashboard and the nodes page.
- */
+import type { NodeSpread } from '../types/shards.ts'
 
 type JvmMem = NonNullable<NonNullable<NodeStatsEntry['jvm']>['mem']>
 
-/** `indices/search,indexing,docs,store` limits the index stats to the counters we use; the full set is large. */
-export const NODES_STATS_METRICS = 'jvm,fs,os,process,thread_pool,breaker,indices/search,indexing,docs,store'
+export const CLUSTER_SETTINGS_PARAMS = {
+  include_defaults: true,
+  filter_path: '*.cluster.routing.allocation.disk.watermark,*.cluster.routing.allocation.enable'
+}
+
+type ClusterSettingsBody = {
+  persistent?: Record<string, unknown>
+  transient?: Record<string, unknown>
+  defaults?: Record<string, unknown>
+} | null
+
+type FlatSettings = Record<string, string | number>
+
+export const flatClusterSettings = (
+  settings: ClusterSettingsBody
+): { persistent: FlatSettings; transient: FlatSettings; defaults: FlatSettings } => ({
+  persistent: flattenObj(settings?.persistent || {}),
+  transient: flattenObj(settings?.transient || {}),
+  defaults: flattenObj(settings?.defaults || {})
+})
 
 export const DEFAULT_DISK_WATERMARKS: DiskWatermarks = {
   low: '85%',
@@ -87,18 +103,10 @@ export const parseElectedMasterNodeId = (
   } | null
 ): string | null => state?.master_node || state?.cluster_manager_node || null
 
-export const parseDiskWatermarks = (
-  settings: {
-    persistent?: Record<string, string | number>
-    transient?: Record<string, string | number>
-    defaults?: Record<string, string | number>
-  } | null
-): DiskWatermarks => {
+export const parseDiskWatermarks = (settings: ClusterSettingsBody): DiskWatermarks => {
   if (!settings) return { ...DEFAULT_DISK_WATERMARKS }
 
-  const persistent = settings.persistent || {}
-  const transient = settings.transient || {}
-  const defaults = settings.defaults || {}
+  const { persistent, transient, defaults } = flatClusterSettings(settings)
 
   const low = pickSetting(
     transient['cluster.routing.allocation.disk.watermark.low'],
@@ -162,3 +170,32 @@ export const parseNodeStatsDetails = (body: NodesStatsBody | null): Record<strin
     ])
   )
 }
+
+const SPREAD_SKEW_WARN = 1.5
+const SPREAD_GAP_MIN = 5
+
+export const nodeSpread = (entries: { name: string; count: number }[]): NodeSpread | null => {
+  if (entries.length === 0) return null
+
+  let busiest = entries[0]
+  let min = Infinity
+  let total = 0
+  for (const entry of entries) {
+    total += entry.count
+    min = Math.min(min, entry.count)
+    if (entry.count > busiest.count) busiest = entry
+  }
+
+  const avg = total / entries.length
+  return {
+    nodes: entries.length,
+    min,
+    max: busiest.count,
+    avg,
+    skew: avg > 0 ? busiest.count / avg : 1,
+    busiest: busiest.name
+  }
+}
+
+export const spreadUnbalanced = (spread: NodeSpread | null): boolean =>
+  !!spread && spread.nodes > 1 && spread.skew >= SPREAD_SKEW_WARN && spread.max - spread.min >= SPREAD_GAP_MIN

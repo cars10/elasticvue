@@ -19,6 +19,47 @@ import type {
 
 export const HOME_TABLE_LIMIT = 5
 
+export const CLUSTER_STATS_PARAMS = {
+  filter_path: [
+    'cluster_name',
+    'cluster_uuid',
+    'status',
+    'nodes.count',
+    'nodes.versions',
+    'indices.count',
+    'indices.shards.total',
+    'indices.shards.primaries',
+    'indices.docs.count',
+    'indices.store.size_in_bytes'
+  ].join(',')
+}
+
+export const HOME_NODES_STATS = {
+  metrics: 'jvm,fs,os,process,thread_pool,breaker,indices/search,indexing',
+  params: {
+    filter_path: [
+      'name',
+      'jvm.mem.heap_used_percent',
+      'jvm.mem.heap_used_in_bytes',
+      'jvm.mem.heap_max_in_bytes',
+      'fs.total',
+      'os.cpu.percent',
+      'process.cpu.percent',
+      'process.open_file_descriptors',
+      'process.max_file_descriptors',
+      'indices.search.query_total',
+      'indices.search.query_time_in_millis',
+      'indices.indexing.index_total',
+      'indices.indexing.index_time_in_millis',
+      'indices.indexing.delete_total',
+      'thread_pool.*.rejected',
+      'breakers.*.tripped'
+    ]
+      .map((field) => `nodes.*.${field}`)
+      .join(',')
+  }
+}
+
 export const HOME_INDEX_PARAMS = {
   h: ['index', 'health', 'docs.count', 'store.size', 'pri', 'rep'],
   bytes: 'b',

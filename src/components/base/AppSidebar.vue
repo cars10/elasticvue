@@ -101,7 +101,21 @@ const sections = computed(() => {
           icon: 'view_module',
           to: routeTo('shards'),
           activeNames: ['shards', 'shard_recovery'],
-          disabled: serverless
+          disabled: serverless,
+          children: [
+            {
+              id: 'shards_overview',
+              label: t('base.app_header.navigation.shards_overview'),
+              to: routeTo('shards'),
+              activeNames: ['shards']
+            },
+            {
+              id: 'shard_recovery',
+              label: t('base.app_header.navigation.shard_recovery'),
+              to: routeTo('shard_recovery'),
+              activeNames: ['shard_recovery']
+            }
+          ]
         }
       ]
     },

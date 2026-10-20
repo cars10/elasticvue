@@ -12,6 +12,8 @@
         "nodes": "Nodi",
         "indices": "Indici",
         "shards": "Frammenti",
+        "shards_overview": "Panoramica",
+        "shard_recovery": "Ripristino",
         "search": "Ricerca",
         "rest": "REST",
         "tools": "Tools",
@@ -708,16 +710,20 @@
   },
   "shard_recovery_table": {
     "stage": "Fase",
+    "active_only": "Solo attivi",
+    "no_active": "Nessun ripristino attivo",
+    "show_completed": "Mostra completati",
     "columns": {
       "index": "Indice",
+      "type": "Tipo",
       "stage": "Fase",
-      "source": "Origine",
-      "target": "Destinazione",
+      "source_target": "Origine → Destinazione",
       "time": "Tempo",
       "duration": "Durata",
       "files": "File",
       "bytes": "Byte",
-      "translog_ops": "Operazioni Translog"
+      "translog_ops": "Operazioni Translog",
+      "throttle": "Limitato"
     }
   },
   "shared": {

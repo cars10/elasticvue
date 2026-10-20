@@ -1,3 +1,4 @@
+import { flatClusterSettings } from './nodeStats.ts'
 import type {
   AllocationEnable,
   AttentionCheck,
@@ -605,17 +606,9 @@ export const buildAttentionChecks = (input: AttentionDetectorInput): AttentionCh
   })
 }
 
-export const parseAllocationEnable = (
-  settings: {
-    persistent?: Record<string, string | number>
-    transient?: Record<string, string | number>
-    defaults?: Record<string, string | number>
-  } | null
-): AllocationEnable => {
+export const parseAllocationEnable = (settings: Parameters<typeof flatClusterSettings>[0]): AllocationEnable => {
   if (!settings) return 'all'
-  const persistent = settings.persistent || {}
-  const transient = settings.transient || {}
-  const defaults = settings.defaults || {}
+  const { persistent, transient, defaults } = flatClusterSettings(settings)
   const value =
     transient['cluster.routing.allocation.enable'] ??
     persistent['cluster.routing.allocation.enable'] ??

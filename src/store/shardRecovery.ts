@@ -11,6 +11,7 @@ import {
 type ShardRecoveryState = {
   filter: string
   stage: string | null
+  activeOnly: boolean
   stickyTableHeader: boolean
 } & PaginationStorePartial &
   ReloadIntervalStorePartial
@@ -22,12 +23,13 @@ export const useShardRecoveryStore = () => {
     state: (): ShardRecoveryState => ({
       filter: '',
       stage: null,
+      activeOnly: true,
       stickyTableHeader: false,
-      pagination: paginationStoreDefaultProps('start_time_in_millis'),
+      pagination: paginationStoreDefaultProps(),
       reloadInterval: null
     }),
     persist: {
-      pick: ['filter', 'stage', 'stickyTableHeader', ...persistPaginationProps(), ...persistReloadIntervalProps()],
+      pick: ['filter', 'stage', 'activeOnly', 'stickyTableHeader', ...persistPaginationProps(), ...persistReloadIntervalProps()],
       key: `shardRecovery-${clusterUuid}`
     }
   })()

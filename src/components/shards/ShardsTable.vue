@@ -9,15 +9,10 @@
         @click="cancelRelocation"
       />
 
-      <router-link to="shards/recovery">
-        {{ t('shard_recovery.heading') }}
-      </router-link>
-
       <filter-state
         v-model="shardsStore.filter"
         :results-count="filterStateProps.resultsCount"
         :filtered-results-count="filterStateProps.filteredResultsCount"
-        class="q-ml-md"
       />
     </div>
 
@@ -101,7 +96,12 @@
     </template>
     <template #body="{ row, cols }">
       <tr>
-        <td>{{ row }}</td>
+        <td>
+          <div class="text-weight-medium">{{ row }}</div>
+          <div class="text-muted font-13">
+            {{ nodeShardCounts[row] ?? 0 }} {{ nodeShardCounts[row] === 1 ? 'shard' : 'shards' }}
+          </div>
+        </td>
         <td
           v-for="(col, i) in cols"
           :key="`${col.name}_shards_${i}`"
@@ -165,6 +165,7 @@ const {
   currentReroutingShard,
   cancelRelocation,
   initReroute,
-  reroute
+  reroute,
+  nodeShardCounts
 } = useShardsTable(props, emit)
 </script>

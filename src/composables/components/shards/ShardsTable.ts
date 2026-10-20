@@ -118,6 +118,15 @@ export const useShardsTable = (props: ShardsTableProps, emit: any) => {
     currentReroutingShard.value = {} as EsShard
   }
 
+  const nodeShardCounts = computed(() =>
+    Object.fromEntries(
+      Object.entries(props.shards.shards || {}).map(([node, byIndex]) => [
+        node,
+        Object.values(byIndex).reduce((sum, shards) => sum + shards.length, 0)
+      ])
+    )
+  )
+
   const results = computed(() => props.shards.indexNames || [])
   const filterStateProps = setupFilterState(results, columns)
 
@@ -134,6 +143,7 @@ export const useShardsTable = (props: ShardsTableProps, emit: any) => {
     currentReroutingShard,
     cancelRelocation,
     initReroute,
-    reroute
+    reroute,
+    nodeShardCounts
   }
 }

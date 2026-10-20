@@ -12,6 +12,8 @@
         "nodes": "노드",
         "indices": "인덱스",
         "shards": "샤드",
+        "shards_overview": "개요",
+        "shard_recovery": "복구",
         "search": "검색",
         "rest": "REST",
         "tools": "Tools",
@@ -708,16 +710,20 @@
   },
   "shard_recovery_table": {
     "stage": "단계",
+    "active_only": "활성만",
+    "no_active": "진행 중인 복구가 없습니다",
+    "show_completed": "완료된 항목 표시",
     "columns": {
       "index": "인덱스",
+      "type": "유형",
       "stage": "단계",
-      "source": "소스",
-      "target": "대상",
+      "source_target": "소스 → 대상",
       "time": "시간",
       "duration": "기간",
       "files": "파일",
       "bytes": "바이트",
-      "translog_ops": "트랜잭션 로그 작업"
+      "translog_ops": "트랜잭션 로그 작업",
+      "throttle": "스로틀"
     }
   },
   "shared": {

@@ -32,7 +32,7 @@
             <div class="text-muted font-13">{{ row.id }}</div>
           </td>
           <td>
-            <node-roles :roles="row.roles" :master="row.master" />
+            <node-roles :roles="row.roles" :version="row.version" :master="row.master" />
           </td>
           <td>{{ row.version }}</td>
           <td v-if="showNodeShards" class="text-right">{{ row.shards ?? '—' }}</td>

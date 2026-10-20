@@ -67,19 +67,7 @@
     </div>
 
     <div v-if="summary.shards" :class="colClass">
-      <pulse-metric-card
-        title="Shard balance"
-        icon="view_module"
-        :value="shardRange"
-        :value-class="shardsUnbalanced ? 'health--yellow' : undefined"
-        unit="per data node"
-        test-id="nodes-pulse-shards"
-      >
-        <div class="text-muted font-13 q-mt-xs">avg {{ Math.round(summary.shards.avg) }}</div>
-        <div v-if="summary.shards.nodes > 1" class="font-13 q-mt-xs" :class="shardsUnbalanced ? 'health--yellow' : 'text-muted'">
-          most on {{ summary.shards.busiest }} ({{ summary.shards.skew.toFixed(1) }}× avg)
-        </div>
-      </pulse-metric-card>
+      <shard-balance-card :spread="summary.shards" test-id="nodes-pulse-shards" />
     </div>
   </div>
 </template>
@@ -88,6 +76,7 @@
 import { computed } from 'vue'
 import PulseMetricCard from '../shared/PulseMetricCard.vue'
 import NodesPulsePeak from './NodesPulsePeak.vue'
+import ShardBalanceCard from '../shards/ShardBalanceCard.vue'
 import { prettyPrintByteString } from '../../helpers/bytes.ts'
 import {
   CPU_THRESHOLDS,
@@ -99,11 +88,6 @@ import {
 } from '../../helpers/pressure.ts'
 import type { DiskWatermarks } from '../../types/homeDashboard.ts'
 import type { NodesSummary } from '../../types/nodes.ts'
-
-/** Busiest node holding this many times the average shard count is flagged… */
-const SHARD_SKEW_WARN = 1.5
-/** …but only once the gap is big enough to matter, so 1 vs 2 shards on a small cluster stays quiet. */
-const SHARD_SPREAD_MIN = 5
 
 const props = defineProps<{
   summary: NodesSummary
@@ -135,16 +119,5 @@ const watermarkIssues = computed(() => {
     { count: aboveHigh, label: 'above high', class: 'health--red' },
     { count: aboveLow, label: 'above low', class: 'health--yellow' }
   ].filter((issue) => issue.count > 0)
-})
-
-const shardRange = computed(() => {
-  const shards = props.summary.shards
-  if (!shards) return null
-  return shards.min === shards.max ? String(shards.max) : `${shards.min}–${shards.max}`
-})
-
-const shardsUnbalanced = computed(() => {
-  const shards = props.summary.shards
-  return !!shards && shards.nodes > 1 && shards.skew >= SHARD_SKEW_WARN && shards.max - shards.min >= SHARD_SPREAD_MIN
 })
 </script>
