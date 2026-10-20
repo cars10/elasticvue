@@ -14,6 +14,7 @@
         "shards": "分片",
         "search": "搜索",
         "rest": "REST",
+        "tools": "Tools",
         "snapshots": "快照",
         "users": "用户",
         "settings": "设置"
@@ -928,6 +929,10 @@
         "growl": "快照策略 '{name}' 已成功更新。"
       }
     }
+  },
+  "tools": {
+    "heading": "Tools",
+    "subtitle": "Common cluster maintenance and recovery operations."
   },
   "update_check": {
     "downloading": "下载中... {progress}%",

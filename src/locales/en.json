@@ -14,6 +14,7 @@
         "shards": "Shards",
         "search": "Search",
         "rest": "REST",
+        "tools": "Tools",
         "snapshots": "Snapshots",
         "users": "Users",
         "settings": "Settings"
@@ -928,6 +929,10 @@
         "growl": "The snapshot policy '{name}' was successfully updated."
       }
     }
+  },
+  "tools": {
+    "heading": "Tools",
+    "subtitle": "Common cluster maintenance and recovery operations."
   },
   "update_check": {
     "downloading": "Downloading... {progress}%",

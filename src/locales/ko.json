@@ -14,6 +14,7 @@
         "shards": "샤드",
         "search": "검색",
         "rest": "REST",
+        "tools": "Tools",
         "snapshots": "스냅샷",
         "users": "사용자",
         "settings": "설정"
@@ -928,6 +929,10 @@
         "growl": "스냅샷 정책 '{name}'이(가) 정상적으로 업데이트되었습니다."
       }
     }
+  },
+  "tools": {
+    "heading": "Tools",
+    "subtitle": "Common cluster maintenance and recovery operations."
   },
   "update_check": {
     "downloading": "다운로드 중... {progress}%",

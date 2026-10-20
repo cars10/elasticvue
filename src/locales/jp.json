@@ -14,6 +14,7 @@
         "shards": "シャード",
         "search": "検索",
         "rest": "REST",
+        "tools": "Tools",
         "snapshots": "スナップショット",
         "users": "ユーザー",
         "settings": "設定"
@@ -928,6 +929,10 @@
         "growl": "スナップショットポリシー '{name}' が正常に更新されました。"
       }
     }
+  },
+  "tools": {
+    "heading": "Tools",
+    "subtitle": "Common cluster maintenance and recovery operations."
   },
   "update_check": {
     "downloading": "ダウンロード中... {progress}%",
