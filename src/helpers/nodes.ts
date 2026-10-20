@@ -1,5 +1,5 @@
 import { prettyPrintByteString } from './bytes.ts'
-import { peakMetric, toNumber } from './nodeStats.ts'
+import { nodeSpread, peakMetric, toNumber } from './nodeStats.ts'
 import type { EsNode } from '../types/types.ts'
 import type { DiskWatermarks } from '../types/homeDashboard.ts'
 import type { NodeRow, NodesSummary, NodeStatsDetails } from '../types/nodes.ts'
@@ -45,6 +45,15 @@ export const CAT_NODES_PARAMS = {
 }
 
 /** Nodes whose JVM started more recently than this count as restarted. */
+export const NODE_DETAILS_STATS = {
+  metrics: 'jvm,indices/docs,store',
+  params: {
+    filter_path: 'nodes.*.jvm.uptime_in_millis,nodes.*.indices.docs.count,nodes.*.indices.store.size_in_bytes'
+  }
+}
+
+export const NODE_ATTRIBUTES_PARAMS = { filter_path: 'nodes.*.settings.node.attr' }
+
 export const RECENT_RESTART_MS = 60 * 60 * 1000
 
 /** Display order and short labels for role letters. `r` (remote cluster client) is on almost every node, so it only shows in the tooltip. */
@@ -65,15 +74,27 @@ const ROLE_LABELS: [string, string][] = [
 /** Tier roles are implied by the generic data role `d`. */
 const DATA_TIER_ROLES = ['s', 'h', 'w', 'c', 'f']
 
-export const isDataNode = (roles: string): boolean => /[dshwcf]/.test(roles)
+const usesLegacyRoles = (version?: string | null): boolean => !!version && parseInt(version) < 5
 
-export const nodeRoleLabels = (roles: string): { role: string; label: string }[] => {
-  if (roles === '-') return [{ role: '-', label: 'coordinating' }]
+export const isDataNode = (roles: string, version?: string | null): boolean =>
+  usesLegacyRoles(version) ? roles.includes('d') : /[dshwcf]/.test(roles)
+
+const isCoordinatingNode = (roles: string, version?: string | null): boolean =>
+  roles === '-' || (usesLegacyRoles(version) && roles === 'c')
+
+export const nodeRoleLabels = (roles: string, version?: string | null): { role: string; label: string }[] => {
+  if (isCoordinatingNode(roles, version)) return [{ role: '-', label: 'coordinating' }]
 
   const hasData = roles.includes('d')
   return ROLE_LABELS.filter(([role]) => roles.includes(role) && !(hasData && DATA_TIER_ROLES.includes(role))).map(
     ([role, label]) => ({ role, label })
   )
+}
+
+const normalizedRoles = (node: EsNode): string => {
+  const roles = node['node.role'] || ''
+  const eligible = node.master === '*' || node.master === 'm'
+  return usesLegacyRoles(node.version) && eligible && !roles.includes('m') ? `m${roles}` : roles
 }
 
 export const buildNodeRows = (
@@ -86,7 +107,7 @@ export const buildNodeRows = (
     name: node.name,
     ip: node.ip,
     version: node.version,
-    roles: node['node.role'] || '',
+    roles: normalizedRoles(node),
     master: node.master === '*',
     attributes: attributes[node.id] || {},
     cpuPercent: toNumber(node.cpu),
@@ -130,27 +151,8 @@ const summarizeDisk = (nodes: NodeRow[], watermarks: DiskWatermarks): NodesSumma
   return { usedBytes, totalBytes, percent, aboveLow, aboveHigh, aboveFlood }
 }
 
-const summarizeShards = (nodes: NodeRow[]): NodesSummary['shards'] => {
-  const withShards = nodes.filter((node) => node.shards != null)
-  if (withShards.length === 0) return null
-
-  let busiest = withShards[0]
-  let min = Infinity
-  let total = 0
-  for (const node of withShards) {
-    const shards = node.shards as number
-    total += shards
-    min = Math.min(min, shards)
-    if (shards > (busiest.shards as number)) busiest = node
-  }
-
-  const max = busiest.shards as number
-  const avg = total / withShards.length
-  return { nodes: withShards.length, min, max, avg, skew: avg > 0 ? max / avg : 1, busiest: busiest.name }
-}
-
 export const summarizeNodes = (nodes: NodeRow[], watermarks: DiskWatermarks): NodesSummary => {
-  const dataNodes = nodes.filter((node) => isDataNode(node.roles))
+  const dataNodes = nodes.filter((node) => isDataNode(node.roles, node.version))
 
   return {
     total: nodes.length,
@@ -159,7 +161,7 @@ export const summarizeNodes = (nodes: NodeRow[], watermarks: DiskWatermarks): No
       data: dataNodes.length,
       ingest: nodes.filter((node) => node.roles.includes('i')).length,
       ml: nodes.filter((node) => node.roles.includes('l')).length,
-      coordinating: nodes.filter((node) => node.roles === '-').length
+      coordinating: nodes.filter((node) => isCoordinatingNode(node.roles, node.version)).length
     },
     versions: [...new Set(nodes.map((node) => node.version).filter(Boolean))].sort(),
     recentlyRestarted: nodes
@@ -176,7 +178,9 @@ export const summarizeNodes = (nodes: NodeRow[], watermarks: DiskWatermarks): No
     },
     // Watermarks only apply to data nodes; fall back to all nodes when roles are unknown
     disk: summarizeDisk(dataNodes.length > 0 ? dataNodes : nodes, watermarks),
-    shards: summarizeShards(dataNodes)
+    shards: nodeSpread(
+      dataNodes.filter((node) => node.shards != null).map((node) => ({ name: node.name, count: node.shards as number }))
+    )
   }
 }
 

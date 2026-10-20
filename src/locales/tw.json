@@ -12,6 +12,8 @@
         "nodes": "節點",
         "indices": "索引",
         "shards": "分片",
+        "shards_overview": "概覽",
+        "shard_recovery": "復原",
         "search": "搜尋",
         "rest": "REST",
         "tools": "Tools",
@@ -714,16 +716,20 @@
   },
   "shard_recovery_table": {
     "stage": "階段",
+    "active_only": "僅活動中",
+    "no_active": "沒有進行中的復原",
+    "show_completed": "顯示已完成",
     "columns": {
       "index": "索引",
+      "type": "類型",
       "stage": "階段",
-      "source": "來源",
-      "target": "目標",
+      "source_target": "來源 → 目標",
       "time": "時間",
       "duration": "持續時間",
       "files": "檔案",
       "bytes": "位元組",
-      "translog_ops": "交易日誌操作"
+      "translog_ops": "交易日誌操作",
+      "throttle": "節流"
     }
   },
   "shared": {

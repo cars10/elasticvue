@@ -12,6 +12,8 @@
         "nodes": "节点",
         "indices": "索引",
         "shards": "分片",
+        "shards_overview": "概览",
+        "shard_recovery": "恢复",
         "search": "搜索",
         "rest": "REST",
         "tools": "Tools",
@@ -714,16 +716,20 @@
   },
   "shard_recovery_table": {
     "stage": "阶段",
+    "active_only": "仅活动",
+    "no_active": "没有活动的恢复",
+    "show_completed": "显示已完成",
     "columns": {
       "index": "索引",
+      "type": "类型",
       "stage": "阶段",
-      "source": "源",
-      "target": "目标",
+      "source_target": "源 → 目标",
       "time": "时间",
       "duration": "持续时间",
       "files": "文件",
       "bytes": "字节",
-      "translog_ops": "转录操作"
+      "translog_ops": "转录操作",
+      "throttle": "限流"
     }
   },
   "shared": {

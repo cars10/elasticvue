@@ -12,6 +12,8 @@
         "nodes": "Узлы",
         "indices": "Индексы",
         "shards": "Шарды",
+        "shards_overview": "Обзор",
+        "shard_recovery": "Восстановление",
         "search": "Поиск",
         "rest": "REST",
         "tools": "Tools",
@@ -714,16 +716,20 @@
   },
   "shard_recovery_table": {
     "stage": "Этап",
+    "active_only": "Только активные",
+    "no_active": "Нет активных восстановлений",
+    "show_completed": "Показать завершённые",
     "columns": {
       "index": "Индекс",
+      "type": "Тип",
       "stage": "Этап",
-      "source": "Источник",
-      "target": "Цель",
+      "source_target": "Источник → Цель",
       "time": "Время",
       "duration": "Продолжительность",
       "files": "Файлы",
       "bytes": "Байты",
-      "translog_ops": "Операции Translog"
+      "translog_ops": "Операции Translog",
+      "throttle": "Ограничение"
     }
   },
   "shared": {

@@ -6,10 +6,11 @@
       :filtered-results-count="filterStateProps.filteredResultsCount"
     />
 
-    <div class="flex q-ml-auto">
+    <div class="flex items-center q-ml-auto">
+      <q-toggle v-model="shardRecoveryStore.activeOnly" :label="t('shard_recovery_table.active_only')" class="q-mr-md" />
       <q-select
         v-model="shardRecoveryStore.stage"
-        :options="['INIT', 'INDEX', 'VERIFY_INDEX', 'TRANSLOG', 'FINALIZE', 'DONE']"
+        :options="stageOptions"
         :label="t('shard_recovery_table.stage')"
         clearable
         dense
@@ -17,7 +18,7 @@
         class="q-mr-md"
         style="min-width: 140px"
       />
-      <filter-input v-model="shardRecoveryStore.filter" :columns="['index']" />
+      <filter-input v-model="shardRecoveryStore.filter" :columns="['index', 'sourceNode', 'targetNode']" />
 
       <q-btn icon="settings" round flat class="q-ml-sm">
         <q-menu style="white-space: nowrap" anchor="bottom right" self="top end">
@@ -39,17 +40,33 @@
     <resizable-container v-model="resizeStore.shardRecoveryTable" :active="shardRecoveryStore.stickyTableHeader">
       <q-table
         v-model:pagination="shardRecoveryStore.pagination"
+        class="table-mono"
         flat
         dense
-        row-key="name"
+        row-key="id"
         :columns="columns"
         :virtual-scroll="shardRecoveryStore.stickyTableHeader"
         :virtual-scroll-item-size="14"
         :rows="filteredResults"
         :rows-per-page-options="DEFAULT_ROWS_PER_PAGE"
+        data-testid="shard-recovery-table"
       >
         <template #body="{ row }">
-          <shard-recovery-row :shard-recovery="row" />
+          <shard-recovery-row :recovery="row" />
+        </template>
+
+        <template #no-data>
+          <div v-if="shardRecoveryStore.activeOnly" class="full-width row items-center justify-center q-pa-md">
+            <span class="text-muted q-mr-md">{{ t('shard_recovery_table.no_active') }}</span>
+            <q-btn
+              flat
+              dense
+              no-caps
+              color="primary"
+              :label="t('shard_recovery_table.show_completed')"
+              @click="shardRecoveryStore.activeOnly = false"
+            />
+          </div>
         </template>
       </q-table>
     </resizable-container>
@@ -73,5 +90,5 @@ const props = defineProps<ShardRecoveryTableProps>()
 const shardRecoveryStore = useShardRecoveryStore()
 const resizeStore = useResizeStore()
 
-const { filterStateProps, filteredResults, columns } = useShardRecoveryTable(props)
+const { filterStateProps, filteredResults, stageOptions, columns } = useShardRecoveryTable(props)
 </script>

@@ -12,6 +12,8 @@
         "nodes": "Noeuds",
         "indices": "Index",
         "shards": "Partitions",
+        "shards_overview": "Vue d’ensemble",
+        "shard_recovery": "Récupération",
         "search": "Rechercher",
         "rest": "REST",
         "tools": "Tools",
@@ -714,16 +716,20 @@
   },
   "shard_recovery_table": {
     "stage": "Étape",
+    "active_only": "Actifs uniquement",
+    "no_active": "Aucune récupération active",
+    "show_completed": "Afficher les terminées",
     "columns": {
       "index": "Index",
+      "type": "Type",
       "stage": "Étape",
-      "source": "Source",
-      "target": "Cible",
+      "source_target": "Source → Cible",
       "time": "Temps",
       "duration": "Durée",
       "files": "Fichiers",
       "bytes": "Octets",
-      "translog_ops": "Opérations Translog"
+      "translog_ops": "Opérations Translog",
+      "throttle": "Limité"
     }
   },
   "shared": {

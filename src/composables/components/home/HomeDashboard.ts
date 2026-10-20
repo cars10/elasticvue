@@ -4,7 +4,9 @@ import { useConnectionStore } from '../../../store/connection.ts'
 import { DISTRIBUTIONS } from '../../../consts.ts'
 import {
   aggregateCounters,
+  CLUSTER_STATS_PARAMS,
   EMPTY_WORKLOAD,
+  HOME_NODES_STATS,
   HOME_INDEX_PARAMS,
   nextWorkloadRates,
   parseCatIndices,
@@ -12,8 +14,8 @@ import {
   topNodesByPressure
 } from '../../../helpers/homeDashboard.ts'
 import {
+  CLUSTER_SETTINGS_PARAMS,
   DEFAULT_DISK_WATERMARKS,
-  NODES_STATS_METRICS,
   parseDiskWatermarks,
   parseElectedMasterNodeId,
   peakMetric
@@ -44,12 +46,6 @@ import type {
   WorkloadRates
 } from '../../../types/homeDashboard.ts'
 
-/**
- * Heavier or slowly changing APIs (cluster stats, cat indices, blocks, settings) are refreshed
- * at most this often. Health and node stats are refreshed on every reload tick.
- */
-const SLOW_REFRESH_MS = 30_000
-
 export const useHomeDashboard = () => {
   const connectionStore = useConnectionStore()
   const { callElasticsearch } = useElasticsearchAdapter()
@@ -73,7 +69,6 @@ export const useHomeDashboard = () => {
   const pressureSamples = shallowRef<PressureSample[]>([])
   const heapSamples = shallowRef<HeapSample[]>([])
   let lastCounterSample: CounterSample | null = null
-  let lastSlowRefreshAt = 0
 
   const clusterStatus = computed(() => (health.value?.status || stats.value?.status || '').toLowerCase())
 
@@ -138,7 +133,7 @@ export const useHomeDashboard = () => {
 
   const loadClusterStats = async () => {
     try {
-      stats.value = await callElasticsearch('clusterStats')
+      stats.value = await callElasticsearch('clusterStats', CLUSTER_STATS_PARAMS)
     } catch (e) {
       console.error(e)
     }
@@ -147,7 +142,9 @@ export const useHomeDashboard = () => {
   /** One call covers node resource peaks (heap/disk/cpu/FD) and workload counters. */
   const loadNodeStats = async () => {
     const [body, masterState] = await Promise.all([
-      callElasticsearch('nodesStats', NODES_STATS_METRICS).catch(() => null) as Promise<NodesStatsBody | null>,
+      callElasticsearch('nodesStats', HOME_NODES_STATS.metrics, HOME_NODES_STATS.params).catch(
+        () => null
+      ) as Promise<NodesStatsBody | null>,
       // Elected master id — node roles alone only mean master-eligible
       callElasticsearch('clusterState', 'master_node')
         .catch(() => callElasticsearch('clusterState', 'cluster_manager_node'))
@@ -209,7 +206,7 @@ export const useHomeDashboard = () => {
   /** Disk watermarks + allocation.enable (often forgotten after maintenance). */
   const loadClusterSettings = async () => {
     try {
-      const settings = await callElasticsearch('clusterGetSettings', { include_defaults: true, flat_settings: true })
+      const settings = await callElasticsearch('clusterGetSettings', CLUSTER_SETTINGS_PARAMS)
       diskWatermarks.value = parseDiskWatermarks(settings)
       allocationEnable.value = parseAllocationEnable(settings)
     } catch {
@@ -219,15 +216,14 @@ export const useHomeDashboard = () => {
   }
 
   const refresh = async () => {
-    const requests = [loadHealth(), loadNodeStats()]
-
-    const now = Date.now()
-    if (!stats.value || now - lastSlowRefreshAt >= SLOW_REFRESH_MS) {
-      lastSlowRefreshAt = now
-      requests.push(loadClusterStats(), loadIndices(), loadIndexBlocks(), loadClusterSettings())
-    }
-
-    await Promise.all(requests)
+    await Promise.all([
+      loadHealth(),
+      loadNodeStats(),
+      loadClusterStats(),
+      loadIndices(),
+      loadIndexBlocks(),
+      loadClusterSettings()
+    ])
   }
 
   onMounted(refresh)

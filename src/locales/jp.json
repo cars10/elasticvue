@@ -12,6 +12,8 @@
         "nodes": "ノード",
         "indices": "インデックス",
         "shards": "シャード",
+        "shards_overview": "概要",
+        "shard_recovery": "リカバリ",
         "search": "検索",
         "rest": "REST",
         "tools": "Tools",
@@ -714,16 +716,20 @@
   },
   "shard_recovery_table": {
     "stage": "ステージ",
+    "active_only": "アクティブのみ",
+    "no_active": "アクティブなリカバリはありません",
+    "show_completed": "完了済みを表示",
     "columns": {
       "index": "インデックス",
+      "type": "タイプ",
       "stage": "ステージ",
-      "source": "ソース",
-      "target": "ターゲット",
+      "source_target": "ソース → ターゲット",
       "time": "時間",
       "duration": "期間",
       "files": "ファイル",
       "bytes": "バイト",
-      "translog_ops": "トランザクションログ操作"
+      "translog_ops": "トランザクションログ操作",
+      "throttle": "スロットル"
     }
   },
   "shared": {

@@ -259,17 +259,17 @@ export default class ElasticsearchAdapter {
     return this.request('_cluster/health', 'GET')
   }
 
-  clusterStats() {
-    return this.request('_cluster/stats', 'GET')
+  clusterStats(params?: object) {
+    return this.request('_cluster/stats', 'GET', params)
   }
 
   clusterPendingTasks() {
     return this.request('_cluster/pending_tasks', 'GET')
   }
 
-  nodesStats(metrics?: string) {
+  nodesStats(metrics?: string, params?: object) {
     const path = metrics ? `_nodes/stats/${metrics}` : '_nodes/stats'
-    return this.request(path, 'GET')
+    return this.request(path, 'GET', params)
   }
 
   clusterReroute(commands: object) {
@@ -319,8 +319,8 @@ export default class ElasticsearchAdapter {
     return this.request('_cat/recovery?s=start_time_millis:desc', 'GET')
   }
 
-  recovery() {
-    return this.request('_recovery', 'GET')
+  recovery(params?: object) {
+    return this.request('_recovery', 'GET', params)
   }
 
   indexClose({ indices }: { indices: string[] }) {
@@ -353,6 +353,10 @@ export default class ElasticsearchAdapter {
 
   nodes() {
     return this.request('_nodes', 'GET')
+  }
+
+  nodesInfo(metrics: string, params?: object) {
+    return this.request(`_nodes/_all/${metrics}`, 'GET', params)
   }
 
   dataStreams() {

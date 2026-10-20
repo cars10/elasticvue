@@ -202,3 +202,21 @@ describe('formatters', () => {
     expect(formatCount(null)).toBe('—')
   })
 })
+
+describe('legacy roles (ES < 5)', () => {
+  it('treats c as client, not cold', () => {
+    const summary = summarizeNodes(
+      rowsOf({ version: '2.4.6', 'node.role': 'c' }, { version: '2.4.6', 'node.role': 'd' }),
+      DEFAULT_DISK_WATERMARKS
+    )
+    expect(summary.roles).toMatchObject({ data: 1, coordinating: 1 })
+    expect(nodeRoleLabels('c', '2.4.6').map((r) => r.label)).toEqual(['coordinating'])
+    expect(nodeRoleLabels('c', '8.15.0').map((r) => r.label)).toEqual(['cold'])
+  })
+
+  it('reads master eligibility from the master column', () => {
+    const [row] = rowsOf({ version: '1.7.6', 'node.role': 'd', master: 'm' })
+    expect(row.roles).toBe('md')
+    expect(rowsOf({ version: '8.15.0', 'node.role': 'd', master: 'm' })[0].roles).toBe('d')
+  })
+})
