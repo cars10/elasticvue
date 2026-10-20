@@ -1,7 +1,7 @@
 <template>
   <template v-if="stats">
     <div class="col-12">
-      <cluster-overview :stats="stats" :version-label="versionLabel" />
+      <cluster-overview :stats="stats" :health="health" :status="clusterStatus" :version-label="versionLabel" />
     </div>
 
     <div class="col-12">
@@ -59,6 +59,7 @@ defineProps<{
 const {
   stats,
   health,
+  clusterStatus,
   nodes,
   topNodes,
   attentionIndices,

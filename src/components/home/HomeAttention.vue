@@ -93,7 +93,7 @@ const checkCount = computed(() => props.checks.length)
 
 const allPassedLabel = computed(() => `All ${checkCount.value} checks passed`)
 
-const expanded = ref(false)
+const expanded = ref(issueCount.value > 0)
 
 watch(issueCount, (count, prev) => {
   if (count > 0 && prev === 0) expanded.value = true
