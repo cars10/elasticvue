@@ -59,7 +59,7 @@
         </div>
         <div v-if="watermarkIssues.length" class="font-13 q-mt-xs">
           <span v-for="(issue, i) in watermarkIssues" :key="issue.label" :class="issue.class">
-            {{ issue.count }} {{ issue.label }}<template v-if="i < watermarkIssues.length - 1"> · </template>
+            {{ issue.count }} {{ issue.label }}<template v-if="i < watermarkIssues.length - 1">, </template>
           </span>
         </div>
         <div v-else class="text-muted font-13 q-mt-xs">All nodes below low watermark ({{ diskWatermarks.low }})</div>
@@ -109,7 +109,7 @@ const roleBreakdown = computed(() => {
   ]
     .filter(([count]) => count)
     .map(([count, label]) => `${count} ${label}`)
-    .join(' · ')
+    .join(', ')
 })
 
 const watermarkIssues = computed(() => {

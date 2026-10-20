@@ -2,7 +2,7 @@
   <div class="row q-col-gutter-lg" data-testid="shards-pulse">
     <div :class="colClass">
       <pulse-metric-card title="Shards" icon="view_module" :value="summary.total" test-id="shards-pulse-total">
-        <div class="text-muted font-13 q-mt-xs">{{ summary.primaries }} primary · {{ summary.replicas }} replica</div>
+        <div class="text-muted font-13 q-mt-xs">{{ summary.primaries }} primary, {{ summary.replicas }} replica</div>
         <div class="text-muted font-13 q-mt-xs">{{ summary.indices }} indices</div>
       </pulse-metric-card>
     </div>
@@ -17,7 +17,7 @@
       >
         <template v-if="summary.unassigned">
           <div class="font-13 q-mt-xs" :class="unassignedClass">
-            {{ summary.unassignedPrimaries }} primary · {{ summary.unassigned - summary.unassignedPrimaries }} replica
+            {{ summary.unassignedPrimaries }} primary, {{ summary.unassigned - summary.unassignedPrimaries }} replica
           </div>
           <div
             v-for="{ reason, count } in summary.unassignedReasons.slice(0, 2)"
@@ -39,9 +39,7 @@
         :value-class="moving ? 'health--yellow' : undefined"
         test-id="shards-pulse-moving"
       >
-        <div class="text-muted font-13 q-mt-xs">
-          {{ summary.relocating }} relocating · {{ summary.initializing }} initializing
-        </div>
+        <div class="text-muted font-13 q-mt-xs">{{ summary.relocating }} relocating, {{ summary.initializing }} initializing</div>
         <router-link :to="{ name: 'shard_recovery', params: { clusterIndex } }" class="font-13">View recovery</router-link>
       </pulse-metric-card>
     </div>

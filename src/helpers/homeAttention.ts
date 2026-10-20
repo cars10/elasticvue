@@ -274,7 +274,7 @@ export const detectPendingTasks = (pending: PendingTaskInfo | null): AttentionFi
       id: 'pending-tasks',
       severity: 'warning',
       title: 'Cluster tasks are backing up',
-      summary: `${pending.count} pending · oldest waiting ${formatDuration(pending.oldestAgeMs)}`,
+      summary: `${pending.count} pending, oldest waiting ${formatDuration(pending.oldestAgeMs)}`,
       detail: 'Cluster state updates may be delayed.',
       entity: { type: 'cluster', name: 'cluster' }
     }
@@ -368,14 +368,14 @@ export const detectFileDescriptorPressure = (nodes: OverviewNode[]): AttentionFi
 
     const counts =
       node.fileDescriptorsOpen != null && node.fileDescriptorsMax != null
-        ? ` · ${node.fileDescriptorsOpen} / ${node.fileDescriptorsMax}`
+        ? ` (${node.fileDescriptorsOpen} / ${node.fileDescriptorsMax})`
         : ''
 
     findings.push({
       id: `file-descriptors:${node.name}`,
       severity: 'warning',
       title: 'File descriptor limit approaching',
-      summary: `${node.name} · ${Math.round(pct)}% used${counts}`,
+      summary: `${node.name}: ${Math.round(pct)}% used${counts}`,
       detail: 'Exhausting file descriptors can cause node failures.',
       entity: { type: 'node', name: node.name },
       action: { label: 'View nodes', route: 'nodes' }
@@ -394,7 +394,7 @@ export const detectVersionMismatch = (stats: ClusterStats | null): AttentionFind
       id: 'mixed-versions',
       severity: 'info',
       title: 'Mixed Elasticsearch versions',
-      summary: `Nodes running ${versions.join(' · ')}`,
+      summary: `Nodes running ${versions.join(', ')}`,
       detail: 'Expected during rolling upgrades; finish the upgrade when possible.',
       entity: { type: 'cluster', name: 'cluster' },
       action: { label: 'View nodes', route: 'nodes' }
@@ -586,7 +586,7 @@ export const buildAttentionChecks = (input: AttentionDetectorInput): AttentionCh
     }
 
     const primary = matched[0]
-    const summary = matched.length === 1 ? primary.summary : matched.map((f) => f.summary).join(' · ')
+    const summary = matched.length === 1 ? primary.summary : matched.map((f) => f.summary).join('; ')
     const detail =
       matched.length === 1
         ? primary.detail

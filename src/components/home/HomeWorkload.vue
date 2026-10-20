@@ -67,7 +67,7 @@
             'text-muted': !(workload.rejectedDelta || 0) && !(workload.breakerDelta || 0)
           }"
         >
-          {{ workload.rejectedDelta ?? 0 }} rejected · {{ workload.breakerDelta ?? 0 }} breaker trips
+          {{ workload.rejectedDelta ?? 0 }} rejected, {{ workload.breakerDelta ?? 0 }} breaker trips
         </div>
       </template>
     </pulse-metric-card>

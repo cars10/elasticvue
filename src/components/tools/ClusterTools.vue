@@ -112,11 +112,11 @@
               <template v-if="selectedNode">
                 <div class="q-mt-md text-body2">
                   <div>
-                    <strong>{{ selectedNode.name }}</strong> · {{ dataNodeLabel(selectedNode.roles) }}
+                    <strong>{{ selectedNode.name }}</strong> ({{ dataNodeLabel(selectedNode.roles) }})
                   </div>
                   <div>
-                    {{ selectedNode.shardCount }} shards<span v-if="selectedNode.diskUsedPercent != null">
-                      · {{ selectedNode.diskUsedPercent }}% disk used</span
+                    {{ selectedNode.shardCount }} shards<span v-if="selectedNode.diskUsedPercent != null"
+                      >, {{ selectedNode.diskUsedPercent }}% disk used</span
                     >
                   </div>
                   <div class="text-caption">Node ID: {{ selectedNode.id }}</div>
@@ -192,7 +192,7 @@
                     <q-item v-for="(decision, index) in allocationSummary.decisions" :key="`${decision.decider}-${index}`">
                       <q-item-section>
                         <q-item-label
-                          >{{ decision.decider }}<span v-if="decision.nodeName"> · {{ decision.nodeName }}</span></q-item-label
+                          >{{ decision.decider }}<span v-if="decision.nodeName"> ({{ decision.nodeName }})</span></q-item-label
                         >
                         <q-item-label caption>{{ decision.explanation }}</q-item-label>
                       </q-item-section>
@@ -476,10 +476,10 @@
               <tool-error :state="requests.settings.value" inspect="cluster settings" />
               <div v-if="highestDiskNode" class="q-mb-md">
                 <div class="text-caption">Highest disk usage</div>
-                <strong>{{ highestDiskNode.name }}</strong> · {{ highestDiskNode.diskUsedPercent }}% used
-                <span v-if="highestDiskNode.diskAvailableBytes != null">
-                  · {{ prettyPrintByteString(highestDiskNode.diskAvailableBytes) }} available
-                </span>
+                <strong>{{ highestDiskNode.name }}</strong
+                >: {{ highestDiskNode.diskUsedPercent }}% used<span v-if="highestDiskNode.diskAvailableBytes != null"
+                  >, {{ prettyPrintByteString(highestDiskNode.diskAvailableBytes) }} available</span
+                >
               </div>
               <q-input
                 v-model="watermarkDraft.low"
@@ -1072,7 +1072,7 @@ const selectedShardKey = ref<string | null>(null)
 const selectedShard = computed(() => unassignedShards.value.find((shard) => shardKey(shard) === selectedShardKey.value) || null)
 const unassignedShardOptions = computed(() =>
   unassignedShards.value.map((shard) => ({
-    label: `${shard.index} [${shard.shard}] · ${shard.prirep === 'p' ? 'primary' : 'replica'}`,
+    label: `${shard.index} [${shard.shard}] (${shard.prirep === 'p' ? 'primary' : 'replica'})`,
     value: shardKey(shard)
   }))
 )
@@ -1103,7 +1103,7 @@ const userIndices = computed(() => userManagedIndices(indices.value))
 const blockedUserIndices = computed(() => userIndices.value.filter((index) => index.blocks.length))
 const selectedBlockedIndices = ref<string[]>([])
 const blockedIndexOptions = computed(() =>
-  blockedUserIndices.value.map((index) => ({ label: `${index.name} · ${index.blocks.join(', ')}`, value: index.name }))
+  blockedUserIndices.value.map((index) => ({ label: `${index.name} (${index.blocks.join(', ')})`, value: index.name }))
 )
 const selectedBlockedStates = computed(() =>
   blockedUserIndices.value.filter((index) => selectedBlockedIndices.value.includes(index.name))
@@ -1226,7 +1226,7 @@ const clearFloodBlock = async () => {
 const selectedReplicaIndices = ref<string[]>([])
 const replicaDraft = ref(1)
 const replicaIndexOptions = computed(() =>
-  userIndices.value.map((index) => ({ label: `${index.name} · ${index.replicas ?? 'unknown'} replicas`, value: index.name }))
+  userIndices.value.map((index) => ({ label: `${index.name} (${index.replicas ?? 'unknown'} replicas)`, value: index.name }))
 )
 const selectedReplicaStates = computed(() =>
   userIndices.value.filter((index) => selectedReplicaIndices.value.includes(index.name))
@@ -1269,7 +1269,7 @@ const refreshDraft = ref('default')
 const refreshCustom = ref('')
 const refreshIndexOptions = computed(() =>
   userIndices.value.map((index) => ({
-    label: `${index.name} · ${index.refreshInterval || 'default'}`,
+    label: `${index.name} (${index.refreshInterval || 'default'})`,
     value: index.name
   }))
 )

@@ -11,7 +11,7 @@
 
     <div :class="colClass">
       <pulse-metric-card title="Users" icon="group" :value="summary.total" test-id="users-pulse-total">
-        <div class="text-muted font-13 q-mt-xs">{{ summary.builtIn }} built-in · {{ summary.custom }} custom</div>
+        <div class="text-muted font-13 q-mt-xs">{{ summary.builtIn }} built-in, {{ summary.custom }} custom</div>
         <div v-if="showEnabled" class="text-muted font-13 q-mt-xs">{{ summary.disabled }} disabled</div>
       </pulse-metric-card>
     </div>

@@ -2,7 +2,7 @@
   <tr>
     <td>
       <div class="text-weight-medium">{{ recovery.index }}</div>
-      <div class="text-muted font-13">shard {{ recovery.shard }} · {{ recovery.primary ? 'primary' : 'replica' }}</div>
+      <div class="text-muted font-13">{{ recovery.primary ? 'primary' : 'replica' }} shard {{ recovery.shard }}</div>
     </td>
     <td>
       <q-badge outline color="primary" :label="recovery.type" />
