@@ -700,13 +700,6 @@
       "cancel_relocation": "取消重新路由",
       "reroute": {
         "confirm": "確定要將分片 '{shard}' 從節點 '{fromNode}' 重新路由至 '{toNode}'？"
-      },
-      "allocation": {
-        "label": "分片分配",
-        "enable_confirm": "啟用分片分配？",
-        "enable_growl": "分片分配已啟用",
-        "disable_confirm": "停用分片分配？",
-        "disable_growl": "分片分配已停用"
       }
     }
   },

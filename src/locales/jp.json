@@ -700,13 +700,6 @@
       "cancel_relocation": "再ルーティングをキャンセル",
       "reroute": {
         "confirm": "シャード '{shard}' をノード '{fromNode}' から '{toNode}' に再ルーティングしますか？"
-      },
-      "allocation": {
-        "label": "シャード割り当て",
-        "enable_confirm": "シャード割り当てを有効にしますか？",
-        "enable_growl": "シャード割り当てが有効になりました",
-        "disable_confirm": "シャード割り当てを無効にしますか？",
-        "disable_growl": "シャード割り当てが無効になりました"
       }
     }
   },

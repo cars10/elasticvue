@@ -1,5 +1,11 @@
 body {
   color: var(--theme-color) !important;
   background: var(--theme-body-background) !important;
-  font-family: Inter, -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+  font-family:
+    Inter,
+    -apple-system,
+    'Helvetica Neue',
+    Helvetica,
+    Arial,
+    sans-serif !important;
 }

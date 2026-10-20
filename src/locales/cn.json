@@ -700,13 +700,6 @@
       "cancel_relocation": "取消迁移",
       "reroute": {
         "confirm": "将分片 '{shard}' 从节点 '{fromNode}' 迁移到节点 '{toNode}'？"
-      },
-      "allocation": {
-        "label": "分片分配",
-        "enable_confirm": "启用分片分配？",
-        "enable_growl": "分片分配已启用",
-        "disable_confirm": "禁用分片分配？",
-        "disable_growl": "分片分配已禁用"
       }
     }
   },

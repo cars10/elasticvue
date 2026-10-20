@@ -700,13 +700,6 @@
       "cancel_relocation": "Cancel reroute",
       "reroute": {
         "confirm": "Reroute shard '{shard}' from node '{fromNode}' to '{toNode}'?"
-      },
-      "allocation": {
-        "label": "Shard allocation",
-        "enable_confirm": "Enable shard allocation?",
-        "enable_growl": "Shard allocation enabled",
-        "disable_confirm": "Disable shard allocation?",
-        "disable_growl": "Shard allocation disabled"
       }
     }
   },

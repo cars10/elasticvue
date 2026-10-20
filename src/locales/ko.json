@@ -700,13 +700,6 @@
       "cancel_relocation": "재배치 취소",
       "reroute": {
         "confirm": "샤드 '{shard}'를 노드 '{fromNode}'에서 '{toNode}'로 재배치하시겠습니까?"
-      },
-      "allocation": {
-        "label": "샤드 할당",
-        "enable_confirm": "샤드 할당을 활성화하시겠습니까?",
-        "enable_growl": "샤드 할당이 활성화되었습니다",
-        "disable_confirm": "샤드 할당을 비활성화하시겠습니까?",
-        "disable_growl": "샤드 할당이 비활성화되었습니다"
       }
     }
   },
