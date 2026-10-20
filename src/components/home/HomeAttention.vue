@@ -120,6 +120,6 @@ const summary = computed(() => {
   if (criticalCount.value) parts.push(`${criticalCount.value} critical`)
   if (warningCount.value) parts.push(`${warningCount.value} warnings`)
   if (noticeCount.value) parts.push(`${noticeCount.value} notices`)
-  return parts.join(' · ')
+  return parts.join(', ')
 })
 </script>

@@ -77,5 +77,5 @@ const props = defineProps<{ summary: RecoverySummary; completedLoaded: boolean }
 
 const clusterIndex = useConnectionStore().activeClusterIndex
 
-const typeBreakdown = computed(() => props.summary.activeTypes.map(({ type, count }) => `${count} ${type}`).join(' · '))
+const typeBreakdown = computed(() => props.summary.activeTypes.map(({ type, count }) => `${count} ${type}`).join(', '))
 </script>

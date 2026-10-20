@@ -2,7 +2,7 @@
   <div class="row q-col-gutter-lg" data-testid="roles-pulse">
     <div :class="colClass">
       <pulse-metric-card title="Roles" icon="key" :value="summary.total" test-id="roles-pulse-total">
-        <div class="text-muted font-13 q-mt-xs">{{ summary.builtIn }} built-in · {{ summary.custom }} custom</div>
+        <div class="text-muted font-13 q-mt-xs">{{ summary.builtIn }} built-in, {{ summary.custom }} custom</div>
       </pulse-metric-card>
     </div>
 

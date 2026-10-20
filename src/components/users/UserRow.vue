@@ -2,9 +2,8 @@
   <tr>
     <td>
       <div class="text-weight-medium">{{ user.username }}</div>
-      <div v-if="user.full_name || user.email" class="text-muted font-13">
-        {{ [user.full_name, user.email].filter(Boolean).join(' · ') }}
-      </div>
+      <div v-if="user.full_name" class="text-muted font-13">{{ user.full_name }}</div>
+      <div v-if="user.email" class="text-muted font-13">{{ user.email }}</div>
     </td>
     <td>
       <div class="row q-gutter-xs">

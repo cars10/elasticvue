@@ -12,7 +12,8 @@
   >
     <q-tooltip class="font-13">
       <div class="text-weight-bold">{{ shard.index }}</div>
-      <div>shard {{ shard.shard }} · {{ shard.prirep === 'p' ? 'primary' : 'replica' }} · {{ shard.state }}</div>
+      <div>{{ shard.prirep === 'p' ? 'primary' : 'replica' }} shard {{ shard.shard }}</div>
+      <div>{{ shard.state }}</div>
       <div v-if="relocationTarget(shard)">{{ shardNodeName(shard) }} → {{ relocationTarget(shard) }}</div>
       <div v-if="shard.docs != null">{{ formatCount(toNumber(shard.docs)) }} docs</div>
       <div v-if="storeBytes != null">{{ prettyPrintByteString(storeBytes) }}</div>
