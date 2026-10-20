@@ -26,7 +26,7 @@ const props = defineProps<{
 }>()
 
 const range = computed(() =>
-  props.spread.min === props.spread.max ? String(props.spread.max) : `${props.spread.min}–${props.spread.max}`
+  props.spread.min === props.spread.max ? String(props.spread.max) : `${props.spread.min}-${props.spread.max}`
 )
 
 const unbalanced = computed(() => spreadUnbalanced(props.spread))
