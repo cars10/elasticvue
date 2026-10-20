@@ -3,6 +3,7 @@ import type {
   CatIndexRow,
   CounterSample,
   DiskWatermarks,
+  MetricPeak,
   NodeStatsEntry,
   NodesStatsBody,
   OverviewIndex,
@@ -12,7 +13,8 @@ import type {
 
 type JvmMem = NonNullable<NonNullable<NodeStatsEntry['jvm']>['mem']>
 
-export const NODES_STATS_METRICS = 'jvm,fs,os,process,thread_pool,breaker,indices'
+/** `indices/search,indexing` limits the index stats to the counters we use; the full set is large. */
+export const NODES_STATS_METRICS = 'jvm,fs,os,process,thread_pool,breaker,indices/search,indexing'
 
 export const HOME_TABLE_LIMIT = 5
 
@@ -107,10 +109,12 @@ export const sumBreakerTrips = (breakers?: Record<string, { tripped?: number }>)
 }
 
 /** Elected master id from `_cluster/state/master_node` (OpenSearch: `cluster_manager_node`). */
-export const parseElectedMasterNodeId = (state: {
-  master_node?: string | null
-  cluster_manager_node?: string | null
-} | null): string | null => state?.master_node || state?.cluster_manager_node || null
+export const parseElectedMasterNodeId = (
+  state: {
+    master_node?: string | null
+    cluster_manager_node?: string | null
+  } | null
+): string | null => state?.master_node || state?.cluster_manager_node || null
 
 export const parseNodesFromStats = (body: NodesStatsBody | null, masterNodeId?: string | null): OverviewNode[] => {
   if (!body?.nodes) return []
@@ -139,14 +143,29 @@ export const parseNodesFromStats = (body: NodesStatsBody | null, masterNodeId?: 
   })
 }
 
+type PercentKey = 'cpuPercent' | 'heapPercent' | 'diskPercent'
+
+/** Node with the highest value for `key`, e.g. the node with the fullest disk. */
+export const peakMetric = (
+  nodes: OverviewNode[],
+  key: PercentKey,
+  detail?: (node: OverviewNode) => string | null
+): MetricPeak => {
+  let peak: OverviewNode | null = null
+  for (const node of nodes) {
+    const value = node[key]
+    if (value != null && (peak == null || value > (peak[key] as number))) peak = node
+  }
+  if (!peak) return { value: null, node: null, detail: null }
+  return { value: peak[key], node: peak.name, detail: detail?.(peak) ?? null }
+}
+
 /** Highest of CPU / heap / disk % — used to pick the busiest nodes for the home table. */
 export const nodePressureScore = (node: OverviewNode): number =>
   Math.max(node.cpuPercent ?? 0, node.heapPercent ?? 0, node.diskPercent ?? 0)
 
 export const topNodesByPressure = (nodes: OverviewNode[], limit = HOME_TABLE_LIMIT): OverviewNode[] =>
-  [...nodes]
-    .sort((a, b) => nodePressureScore(b) - nodePressureScore(a) || a.name.localeCompare(b.name))
-    .slice(0, limit)
+  [...nodes].sort((a, b) => nodePressureScore(b) - nodePressureScore(a) || a.name.localeCompare(b.name)).slice(0, limit)
 
 export const aggregateCounters = (body: NodesStatsBody | null): CounterSample | null => {
   if (!body?.nodes) return null
@@ -181,11 +200,7 @@ export const aggregateCounters = (body: NodesStatsBody | null): CounterSample | 
   }
 }
 
-export const nextWorkloadRates = (
-  prev: CounterSample,
-  sample: CounterSample,
-  current: WorkloadRates
-): WorkloadRates | null => {
+export const nextWorkloadRates = (prev: CounterSample, sample: CounterSample, current: WorkloadRates): WorkloadRates | null => {
   if (sample.at <= prev.at) return null
 
   const elapsedSec = (sample.at - prev.at) / 1000
@@ -224,7 +239,9 @@ export const nextWorkloadRates = (
   }
 }
 
-export const parseCatIndices = (rows: CatIndexRow[] | null): {
+export const parseCatIndices = (
+  rows: CatIndexRow[] | null
+): {
   indices: OverviewIndex[]
   /** Non-system indices considered for the home table (before the top-N slice). */
   eligibleCount: number
@@ -261,11 +278,13 @@ export const parseCatIndices = (rows: CatIndexRow[] | null): {
   }
 }
 
-export const parseDiskWatermarks = (settings: {
-  persistent?: Record<string, string | number>
-  transient?: Record<string, string | number>
-  defaults?: Record<string, string | number>
-} | null): DiskWatermarks => {
+export const parseDiskWatermarks = (
+  settings: {
+    persistent?: Record<string, string | number>
+    transient?: Record<string, string | number>
+    defaults?: Record<string, string | number>
+  } | null
+): DiskWatermarks => {
   if (!settings) return { ...DEFAULT_DISK_WATERMARKS }
 
   const persistent = settings.persistent || {}

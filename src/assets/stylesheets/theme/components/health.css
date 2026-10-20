@@ -1,6 +1,6 @@
 .health--green {
-  color: #43a047 !important;
-  fill: #43a047 !important;
+  color: var(--theme-positive) !important;
+  fill: var(--theme-positive) !important;
 }
 
 .health--yellow {
@@ -17,9 +17,4 @@
 .health--unknown {
   color: grey !important;
   fill: grey !important;
-}
-
-.theme--dark .health--green {
-  color: #4caf50 !important;
-  fill: #4caf50 !important;
 }

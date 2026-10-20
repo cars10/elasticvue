@@ -1,4 +1,4 @@
-import { computed, onMounted, ref, Ref } from 'vue'
+import { computed, onMounted, ref, shallowRef } from 'vue'
 import { useElasticsearchAdapter } from '../../CallElasticsearch'
 import { useConnectionStore } from '../../../store/connection.ts'
 import { DISTRIBUTIONS } from '../../../consts.ts'
@@ -13,6 +13,7 @@ import {
   parseDiskWatermarks,
   parseElectedMasterNodeId,
   parseNodesFromStats,
+  peakMetric,
   topNodesByPressure
 } from '../../../helpers/homeDashboard.ts'
 import {
@@ -26,16 +27,13 @@ import {
 } from '../../../helpers/homeAttention.ts'
 import type {
   AllocationEnable,
-  AttentionCheck,
   CatIndexRow,
   ClusterHealth,
-  ClusterInfo,
   ClusterStats,
   CounterSample,
   DiskWatermarks,
   HeapSample,
   IndexBlock,
-  MetricPeak,
   NodesStatsBody,
   OverviewIndex,
   OverviewNode,
@@ -44,69 +42,61 @@ import type {
   WorkloadRates
 } from '../../../types/homeDashboard.ts'
 
+/**
+ * Heavier or slowly changing APIs (cluster stats, cat indices, blocks, settings) are refreshed
+ * at most this often. Health and node stats are refreshed on every reload tick.
+ */
+const SLOW_REFRESH_MS = 30_000
+
 export const useHomeDashboard = () => {
   const connectionStore = useConnectionStore()
   const { callElasticsearch } = useElasticsearchAdapter()
 
-  const stats: Ref<ClusterStats | null> = ref(null)
-  const health: Ref<ClusterHealth | null> = ref(null)
-  const clusterInfo: Ref<ClusterInfo | null> = ref(null)
-  const nodes: Ref<OverviewNode[]> = ref([])
-  const attentionIndices: Ref<OverviewIndex[]> = ref([])
-  const attentionIndicesTotal: Ref<number> = ref(0)
-  const unhealthyIndices = ref<{ red: string[]; yellow: string[] }>({ red: [], yellow: [] })
-  const nodesMonitoringAvailable: Ref<boolean | null> = ref(null)
-  const diskWatermarks: Ref<DiskWatermarks> = ref({ ...DEFAULT_DISK_WATERMARKS })
-  const allocationEnable: Ref<AllocationEnable> = ref('all')
-  const indexBlocks: Ref<IndexBlock[]> = ref([])
-  const pendingTasks: Ref<PendingTaskInfo | null> = ref(null)
-  const workload: Ref<WorkloadRates> = ref({ ...EMPTY_WORKLOAD })
-  const lastSample = ref<CounterSample | null>(null)
-  const pressureSamples: Ref<PressureSample[]> = ref([])
-  const heapSamples: Ref<HeapSample[]> = ref([])
+  // API responses are always replaced as a whole, so shallow refs are enough and avoid deep proxies
+  const stats = shallowRef<ClusterStats | null>(null)
+  const health = shallowRef<ClusterHealth | null>(null)
+  const nodes = shallowRef<OverviewNode[]>([])
+  const nodesMonitoringAvailable = ref<boolean | null>(null)
+  const pendingTasks = shallowRef<PendingTaskInfo | null>(null)
 
-  const peakMetric = (list: OverviewNode[], key: 'diskPercent' | 'cpuPercent'): MetricPeak => {
-    let best: MetricPeak = { value: null, node: null }
-    for (const node of list) {
-      const value = node[key]
-      if (value == null) continue
-      if (best.value == null || value > best.value) best = { value, node: node.name }
-    }
-    return best
-  }
+  const attentionIndices = shallowRef<OverviewIndex[]>([])
+  const attentionIndicesTotal = ref(0)
+  const unhealthyIndices = shallowRef<{ red: string[]; yellow: string[] }>({ red: [], yellow: [] })
+  const indexBlocks = shallowRef<IndexBlock[]>([])
+  const diskWatermarks = shallowRef<DiskWatermarks>({ ...DEFAULT_DISK_WATERMARKS })
+  const allocationEnable = ref<AllocationEnable>('all')
+
+  // Samples collected across reloads, used for rates and sustained-pressure checks
+  const workload = shallowRef<WorkloadRates>({ ...EMPTY_WORKLOAD })
+  const pressureSamples = shallowRef<PressureSample[]>([])
+  const heapSamples = shallowRef<HeapSample[]>([])
+  let lastCounterSample: CounterSample | null = null
+  let lastSlowRefreshAt = 0
+
+  const clusterStatus = computed(() => (health.value?.status || stats.value?.status || '').toLowerCase())
 
   const versionLabel = computed(() => {
-    const version = clusterInfo.value?.version?.number || connectionStore.activeCluster?.version
-    const distribution =
-      clusterInfo.value?.version?.distribution || connectionStore.activeCluster?.distribution || DISTRIBUTIONS.elasticsearch
+    const cluster = connectionStore.activeCluster
+    const versions = stats.value?.nodes.versions
+    const version = versions?.length === 1 ? versions[0] : cluster?.version
     if (!version) return null
-    const product = distribution === DISTRIBUTIONS.opensearch ? 'OpenSearch' : 'Elasticsearch'
+
+    const product = cluster?.distribution === DISTRIBUTIONS.opensearch ? 'OpenSearch' : 'Elasticsearch'
     return `${product} ${version}`
   })
 
-  const maxHeap = computed((): MetricPeak => {
-    let best: MetricPeak = { value: null, node: null, detail: null }
-    for (const node of nodes.value) {
-      const value = node.heapPercent
-      if (value == null) continue
-      if (best.value == null || value > best.value) {
-        best = {
-          value,
-          node: node.name,
-          detail: node.heapCurrent && node.heapMax ? `${node.heapCurrent} / ${node.heapMax}` : null
-        }
-      }
-    }
-    return best
-  })
-
-  const maxDisk = computed((): MetricPeak => peakMetric(nodes.value, 'diskPercent'))
-  const maxCpu = computed((): MetricPeak => peakMetric(nodes.value, 'cpuPercent'))
+  const maxCpu = computed(() => peakMetric(nodes.value, 'cpuPercent'))
+  const maxDisk = computed(() => peakMetric(nodes.value, 'diskPercent'))
+  const maxHeap = computed(() =>
+    peakMetric(nodes.value, 'heapPercent', (node) =>
+      node.heapCurrent && node.heapMax ? `${node.heapCurrent} / ${node.heapMax}` : null
+    )
+  )
 
   /** Table preview only — full `nodes` still feeds charts, attention, and workload. */
   const topNodes = computed(() => topNodesByPressure(nodes.value))
 
-  const attentionChecks = computed((): AttentionCheck[] =>
+  const attentionChecks = computed(() =>
     buildAttentionChecks({
       health: health.value,
       stats: stats.value,
@@ -122,94 +112,79 @@ export const useHomeDashboard = () => {
     })
   )
 
-  /** Cluster inventory + shard health. Both APIs exist since ES 1.x. */
-  const loadClusterOverview = async () => {
+  const loadHealth = async () => {
     try {
-      const [statsBody, healthBody] = await Promise.all([
-        callElasticsearch('clusterStats'),
-        callElasticsearch('clusterHealth')
-      ])
-      stats.value = statsBody
-      health.value = healthBody
+      health.value = await callElasticsearch('clusterHealth')
+    } catch (e) {
+      console.error(e)
+      return
+    }
 
-      // Only fetch pending-task ages when the count is high enough to matter
-      const pendingCount = healthBody?.number_of_pending_tasks ?? 0
-      if (pendingCount >= PENDING_TASKS_FETCH_THRESHOLD) {
-        await loadPendingTasks()
-      } else {
-        pendingTasks.value = pendingCount > 0 ? { count: pendingCount, oldestAgeMs: null } : null
-      }
+    // Only fetch pending-task ages when the count is high enough to matter
+    const pendingCount = health.value?.number_of_pending_tasks ?? 0
+    if (pendingCount < PENDING_TASKS_FETCH_THRESHOLD) {
+      pendingTasks.value = pendingCount > 0 ? { count: pendingCount, oldestAgeMs: null } : null
+      return
+    }
+
+    try {
+      pendingTasks.value = parsePendingTasks(await callElasticsearch('clusterPendingTasks'))
+    } catch {
+      pendingTasks.value = { count: pendingCount, oldestAgeMs: null }
+    }
+  }
+
+  const loadClusterStats = async () => {
+    try {
+      stats.value = await callElasticsearch('clusterStats')
     } catch (e) {
       console.error(e)
     }
   }
 
-  const loadPendingTasks = async () => {
-    try {
-      const body = await callElasticsearch('clusterPendingTasks')
-      pendingTasks.value = parsePendingTasks(body)
-    } catch {
-      const count = health.value?.number_of_pending_tasks ?? 0
-      pendingTasks.value = count > 0 ? { count, oldestAgeMs: null } : null
-    }
-  }
+  /** One call covers node resource peaks (heap/disk/cpu/FD) and workload counters. */
+  const loadNodeStats = async () => {
+    const [body, masterState] = await Promise.all([
+      callElasticsearch('nodesStats', NODES_STATS_METRICS).catch(() => null) as Promise<NodesStatsBody | null>,
+      // Elected master id — node roles alone only mean master-eligible
+      callElasticsearch('clusterState', 'master_node')
+        .catch(() => callElasticsearch('clusterState', 'cluster_manager_node'))
+        .catch(() => null)
+    ])
 
-  /**
-   * Single call covers node resource peaks (heap/disk/cpu/FD) and workload counters.
-   * Also feeds short-term samples used by Attention detectors (not the KPI cards).
-   */
-  const loadNodesAndWorkload = async () => {
-    try {
-      const [body, masterState] = await Promise.all([
-        callElasticsearch('nodesStats', NODES_STATS_METRICS) as Promise<NodesStatsBody>,
-        // Elected master id — node roles alone only mean master-eligible
-        callElasticsearch('clusterState', 'master_node')
-          .catch(() => callElasticsearch('clusterState', 'cluster_manager_node'))
-          .catch(() => null)
-      ])
-      nodesMonitoringAvailable.value = true
-
-      const parsed = parseNodesFromStats(body, parseElectedMasterNodeId(masterState))
-      nodes.value = parsed
-
-      const now = Date.now()
-      const nextHeap: HeapSample[] = []
-      for (const node of parsed) {
-        if (node.heapPercent == null) continue
-        nextHeap.push({ at: now, node: node.name, heapPercent: node.heapPercent })
-      }
-      heapSamples.value = trimHeapSamples([...heapSamples.value, ...nextHeap], now)
-
-      const sample = aggregateCounters(body)
-      if (!sample) return
-
-      const prev = lastSample.value
-      lastSample.value = sample
-      if (!prev) return
-
-      const next = nextWorkloadRates(prev, sample, workload.value)
-      if (!next) return
-
-      workload.value = next
-      pressureSamples.value = trimPressureSamples(
-        [
-          ...pressureSamples.value,
-          {
-            at: now,
-            rejectedDelta: next.rejectedDelta || 0,
-            breakerDelta: next.breakerDelta || 0
-          }
-        ],
-        now
-      )
-    } catch {
+    if (!body) {
       nodesMonitoringAvailable.value = false
+      return
     }
+
+    nodesMonitoringAvailable.value = true
+    nodes.value = parseNodesFromStats(body, parseElectedMasterNodeId(masterState))
+    recordSamples(body)
   }
 
-  const loadAttentionIndices = async () => {
+  const recordSamples = (body: NodesStatsBody) => {
+    const now = Date.now()
+    const newHeapSamples = nodes.value
+      .filter((node) => node.heapPercent != null)
+      .map((node) => ({ at: now, node: node.name, heapPercent: node.heapPercent as number }))
+    heapSamples.value = trimHeapSamples([...heapSamples.value, ...newHeapSamples], now)
+
+    const sample = aggregateCounters(body)
+    const previous = lastCounterSample
+    lastCounterSample = sample
+    if (!sample || !previous) return
+
+    const rates = nextWorkloadRates(previous, sample, workload.value)
+    if (!rates) return
+
+    workload.value = rates
+    const pressure = { at: now, rejectedDelta: rates.rejectedDelta || 0, breakerDelta: rates.breakerDelta || 0 }
+    pressureSamples.value = trimPressureSamples([...pressureSamples.value, pressure], now)
+  }
+
+  const loadIndices = async () => {
     try {
-      const rows = (await callElasticsearch('catIndices', HOME_INDEX_PARAMS)) as CatIndexRow[]
+      const rows: CatIndexRow[] = await callElasticsearch('catIndices', HOME_INDEX_PARAMS)
       const parsed = parseCatIndices(Array.isArray(rows) ? rows : null)
       attentionIndices.value = parsed.indices
       attentionIndicesTotal.value = parsed.eligibleCount
@@ -221,35 +196,18 @@ export const useHomeDashboard = () => {
     }
   }
 
-  /** Version/build metadata — static for the session. */
-  const loadClusterInfo = async () => {
+  const loadIndexBlocks = async () => {
     try {
-      clusterInfo.value = await callElasticsearch('clusterInfo')
+      indexBlocks.value = parseIndexBlocks(await callElasticsearch('clusterState', 'blocks'))
     } catch {
-      const cluster = connectionStore.activeCluster
-      if (!cluster) return
-      clusterInfo.value = {
-        cluster_name: cluster.clusterName,
-        cluster_uuid: cluster.uuid,
-        version: {
-          number: cluster.version,
-          distribution: cluster.distribution,
-          build_flavor: cluster.flavor
-        }
-      }
+      indexBlocks.value = []
     }
   }
 
-  /**
-   * Settings rarely change. Loaded once.
-   * Covers disk watermarks + allocation.enable (forgotten after maintenance).
-   */
+  /** Disk watermarks + allocation.enable (often forgotten after maintenance). */
   const loadClusterSettings = async () => {
     try {
-      const settings = await callElasticsearch('clusterGetSettings', {
-        include_defaults: true,
-        flat_settings: true
-      })
+      const settings = await callElasticsearch('clusterGetSettings', { include_defaults: true, flat_settings: true })
       diskWatermarks.value = parseDiskWatermarks(settings)
       allocationEnable.value = parseAllocationEnable(settings)
     } catch {
@@ -258,30 +216,24 @@ export const useHomeDashboard = () => {
     }
   }
 
-  /** Index blocks — light `_cluster/state/blocks` slice; not polled every second. */
-  const loadIndexBlocks = async () => {
-    try {
-      const body = await callElasticsearch('clusterState', 'blocks')
-      indexBlocks.value = parseIndexBlocks(body)
-    } catch {
-      indexBlocks.value = []
-    }
-  }
-
   const refresh = async () => {
-    await Promise.all([loadClusterOverview(), loadNodesAndWorkload(), loadAttentionIndices()])
+    const requests = [loadHealth(), loadNodeStats()]
+
+    const now = Date.now()
+    if (!stats.value || now - lastSlowRefreshAt >= SLOW_REFRESH_MS) {
+      lastSlowRefreshAt = now
+      requests.push(loadClusterStats(), loadIndices(), loadIndexBlocks(), loadClusterSettings())
+    }
+
+    await Promise.all(requests)
   }
 
-  onMounted(() => {
-    loadClusterInfo()
-    loadClusterSettings()
-    loadIndexBlocks()
-    refresh()
-  })
+  onMounted(refresh)
 
   return {
     stats,
     health,
+    clusterStatus,
     nodes,
     topNodes,
     attentionIndices,
