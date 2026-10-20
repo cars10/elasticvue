@@ -1,7 +1,7 @@
 import { computed, ref } from 'vue'
 import { useTranslation } from '../../i18n'
 import { defineElasticsearchRequest } from '../../CallElasticsearch'
-import { ClusterRole } from './ClusterRoles'
+import type { ClusterRole } from '../../../types/security.ts'
 import { buildRoleBody, emptyRoleForm, isValidIndicesJson, roleFormFromClusterRole } from './RoleForm'
 
 export const useEditRole = (emit: any) => {

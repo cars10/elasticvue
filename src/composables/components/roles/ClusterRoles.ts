@@ -1,41 +1,45 @@
-import { onMounted, Ref, ref } from 'vue'
+import { computed, onMounted, Ref, ref, shallowRef } from 'vue'
 import { RequestState, useElasticsearchAdapter } from '../../CallElasticsearch.ts'
 import { useRolesStore } from '../../../store/roles.ts'
-
-export type ClusterRole = {
-  name: string
-  description: string
-  cluster: string[]
-  reserved: boolean
-  deprecated: boolean
-  deprecated_reason: string
-  raw: Record<string, unknown>
-}
-
-type ElasticsearchRole = {
-  description?: string | null
-  cluster?: string[]
-  metadata?: {
-    _reserved?: boolean
-    _deprecated?: boolean
-    _deprecated_reason?: string
-  }
-  [key: string]: unknown
-}
+import {
+  ASSIGNED_ROLES_PARAMS,
+  mapElasticsearchRoles,
+  mapElasticsearchUsers,
+  roleUsage,
+  summarizeRoles
+} from '../../../helpers/security.ts'
+import type {
+  ClusterRole,
+  ClusterUser,
+  ElasticsearchRole,
+  ElasticsearchRoleMapping,
+  ElasticsearchUser
+} from '../../../types/security.ts'
 
 export const useClusterRoles = () => {
   const rolesStore = useRolesStore()
   const { requestState, callElasticsearch } = useElasticsearchAdapter()
-  const data: Ref<ClusterRole[] | null> = ref(null)
+  const { callElasticsearch: callEnrichment } = useElasticsearchAdapter()
+
+  const roles = shallowRef<ClusterRole[]>([])
+  const users = shallowRef<ClusterUser[]>([])
+  const mappings = shallowRef<Record<string, ElasticsearchRoleMapping> | null>(null)
+  const usageKnown = ref(false)
+
+  const usage = computed(() => roleUsage(users.value, mappings.value))
+  const summary = computed(() => summarizeRoles(roles.value, usage.value, usageKnown.value))
 
   const load = async () => {
-    try {
-      const roles = (await callElasticsearch('securityRoles')) as Record<string, ElasticsearchRole>
-      data.value = mapElasticsearchRoles(roles)
-    } catch (e) {
-      console.error(e)
-      data.value = null
-    }
+    const [rolesResult, usersResult, mappingsResult] = await Promise.allSettled([
+      callElasticsearch('securityRoles') as Promise<Record<string, ElasticsearchRole>>,
+      callEnrichment('securityUsers', ASSIGNED_ROLES_PARAMS) as Promise<Record<string, ElasticsearchUser>>,
+      callEnrichment('securityRoleMappings', ASSIGNED_ROLES_PARAMS) as Promise<Record<string, ElasticsearchRoleMapping>>
+    ])
+
+    roles.value = rolesResult.status === 'fulfilled' ? mapElasticsearchRoles(rolesResult.value) : []
+    users.value = usersResult.status === 'fulfilled' ? mapElasticsearchUsers(usersResult.value) : []
+    mappings.value = mappingsResult.status === 'fulfilled' ? mappingsResult.value : null
+    usageKnown.value = usersResult.status === 'fulfilled' && mappingsResult.status === 'fulfilled'
   }
 
   onMounted(load)
@@ -43,21 +47,10 @@ export const useClusterRoles = () => {
   return {
     rolesStore,
     requestState: requestState as Ref<RequestState>,
-    data,
+    roles,
+    usage,
+    usageKnown,
+    summary,
     load
   }
-}
-
-const mapElasticsearchRoles = (roles: Record<string, ElasticsearchRole>): ClusterRole[] => {
-  return Object.entries(roles)
-    .map(([name, role]) => ({
-      name,
-      description: role.description || '',
-      cluster: Array.isArray(role.cluster) ? [...role.cluster].sort() : [],
-      reserved: !!role.metadata?._reserved,
-      deprecated: !!role.metadata?._deprecated,
-      deprecated_reason: role.metadata?._deprecated_reason || '',
-      raw: { name, ...role }
-    }))
-    .sort((a, b) => a.name.localeCompare(b.name))
 }

@@ -1,7 +1,7 @@
 import { computed, ref } from 'vue'
 import { useTranslation } from '../../i18n'
 import { defineElasticsearchRequest } from '../../CallElasticsearch'
-import { ClusterUser } from './ClusterUsers'
+import type { ClusterUser } from '../../../types/security.ts'
 import { buildUserBody, emptyUserForm, useUserRoles } from './UserForm'
 
 export const useEditUser = (emit: any) => {

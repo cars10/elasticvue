@@ -18,7 +18,7 @@
         "rest": "REST",
         "tools": "Tools",
         "snapshots": "快照",
-        "users": "使用者",
+        "security": "安全性",
         "settings": "設定"
       }
     },
@@ -376,10 +376,9 @@
       "table": {
         "headers": {
           "name": "名稱",
-          "description": "描述",
-          "reserved": "內建",
-          "deprecated": "廢棄",
-          "cluster": "叢集"
+          "cluster": "叢集",
+          "assigned": "指派",
+          "status": "狀態"
         }
       }
     }
@@ -433,13 +432,9 @@
     "users_table": {
       "table": {
         "headers": {
-          "username": "使用者名稱",
+          "user": "使用者",
           "roles": "角色",
-          "full_name": "全名",
-          "email": "電子郵件",
-          "enabled": "啟用",
-          "reserved": "內建",
-          "deprecated": "廢棄"
+          "status": "狀態"
         }
       }
     }

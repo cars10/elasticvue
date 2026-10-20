@@ -30,9 +30,6 @@ export const securityApiBasePath = (clusterVersion?: string | null) => {
 /** `enabled` in PUT user body from Elasticsearch 6.0 */
 export const supportsUserEnabledInBody = () => clusterVersionGte(6)
 
-/** `metadata._deprecated` on users/roles from Elasticsearch 7.6.0 */
-export const supportsSecurityDeprecatedMetadata = () => clusterVersionAtLeast('7.6.0')
-
 /** Role `applications` privileges from Elasticsearch 6.4.0 */
 export const supportsRoleApplications = () => clusterVersionAtLeast('6.4.0')
 

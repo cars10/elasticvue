@@ -18,7 +18,7 @@
         "rest": "REST",
         "tools": "Tools",
         "snapshots": "Snapshots",
-        "users": "Utenti",
+        "security": "Sicurezza",
         "settings": "Impostazioni"
       }
     },
@@ -376,10 +376,9 @@
       "table": {
         "headers": {
           "name": "nome",
-          "description": "descrizione",
-          "reserved": "riservato",
-          "deprecated": "deprecato",
-          "cluster": "cluster"
+          "cluster": "cluster",
+          "assigned": "assegnato",
+          "status": "stato"
         }
       }
     }
@@ -433,13 +432,9 @@
     "users_table": {
       "table": {
         "headers": {
-          "username": "nome utente",
+          "user": "utente",
           "roles": "ruoli",
-          "full_name": "nome completo",
-          "email": "email",
-          "enabled": "abilitato",
-          "reserved": "riservato",
-          "deprecated": "deprecato"
+          "status": "stato"
         }
       }
     }

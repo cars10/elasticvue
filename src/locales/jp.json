@@ -18,7 +18,7 @@
         "rest": "REST",
         "tools": "Tools",
         "snapshots": "スナップショット",
-        "users": "ユーザー",
+        "security": "セキュリティ",
         "settings": "設定"
       }
     },
@@ -376,10 +376,9 @@
       "table": {
         "headers": {
           "name": "名前",
-          "description": "説明",
-          "reserved": "予約済み",
-          "deprecated": "廃止",
-          "cluster": "クラスター"
+          "cluster": "クラスター",
+          "assigned": "割り当て",
+          "status": "ステータス"
         }
       }
     }
@@ -433,13 +432,9 @@
     "users_table": {
       "table": {
         "headers": {
-          "username": "ユーザー名",
+          "user": "ユーザー",
           "roles": "ロール",
-          "full_name": "氏名",
-          "email": "メール",
-          "enabled": "有効",
-          "reserved": "予約済み",
-          "deprecated": "廃止"
+          "status": "ステータス"
         }
       }
     }
