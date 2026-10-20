@@ -318,17 +318,17 @@
       }
     },
     "node_properties": {
-      "ip": "ip",
-      "master": "master",
       "node_role": "node.role",
       "shards": "shards",
       "attr": "attributes",
       "cpu": "cpu usage",
-      "ram": "system ram",
       "heap": "jvm heap",
       "disk": "disk",
       "name": "name",
-      "version": "version"
+      "version": "version",
+      "docs": "docs",
+      "store": "store",
+      "uptime": "uptime"
     }
   },
   "cluster_roles": {

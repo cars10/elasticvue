@@ -4,8 +4,17 @@
     <reload-button :action="load" v-model="nodesStore.reloadInterval" />
   </div>
 
+  <nodes-pulse
+    v-if="nodes.length"
+    class="q-mb-lg"
+    :summary="summary"
+    :disk-watermarks="diskWatermarks"
+    :cpu-history="cpuHistory"
+    :heap-history="heapHistory"
+  />
+
   <div>
-    <nodes-table :nodes="data || []" :loading="requestState.loading">
+    <nodes-table :nodes="nodes" :loading="requestState.loading" :disk-watermarks="diskWatermarks">
       <q-select
         v-model="nodesStore.nodeRoles"
         :options="nodeRoleOptions"
@@ -24,17 +33,18 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, Ref, ref } from 'vue'
+import { computed } from 'vue'
 import ReloadButton from '../shared/ReloadButton.vue'
+import NodesPulse from './NodesPulse.vue'
 import NodesTable from './NodesTable.vue'
-import { useElasticsearchAdapter } from '../../composables/CallElasticsearch'
 import { useTranslation } from '../../composables/i18n'
-import { EsNode, NodeAttributes } from '../../types/types.ts'
-import { flattenObj } from '../../helpers/flatten.ts'
 import { useNodesStore } from '../../store/nodes.ts'
+import { useClusterNodes } from '../../composables/components/nodes/ClusterNodes.ts'
 
 const t = useTranslation()
 const nodesStore = useNodesStore()
+
+const { requestState, nodes, summary, diskWatermarks, cpuHistory, heapHistory, load } = useClusterNodes()
 
 const nodeRoleOptions = computed(() => [
   { value: 'm', label: t('cluster_nodes.node_icons.master_eligible.title') },
@@ -51,58 +61,4 @@ const nodeRoleOptions = computed(() => [
   { value: 'v', label: t('cluster_nodes.node_icons.voting_only.title') },
   { value: 'w', label: t('cluster_nodes.node_icons.warm.title') }
 ])
-
-const CAT_METHOD_PARAMS = {
-  h: [
-    'ip',
-    'id',
-    'name',
-    'version',
-    'heap.percent',
-    'heap.current',
-    'heap.max',
-    'ram.percent',
-    'ram.current',
-    'ram.max',
-    'node.role',
-    'master',
-    'cpu',
-    'load_1m',
-    'load_5m',
-    'load_15m',
-    'disk.used_percent',
-    'disk.used',
-    'disk.total',
-    'shards' // es >= 8
-  ],
-  full_id: true
-}
-
-const data: Ref<EsNode[]> = ref([])
-const { requestState, callElasticsearch } = useElasticsearchAdapter()
-const { callElasticsearch: callEnrichment } = useElasticsearchAdapter()
-const load = async () => {
-  try {
-    const nodes = (await callElasticsearch('catNodes', CAT_METHOD_PARAMS)) as EsNode[]
-
-    let nodeAttributes: NodeAttributes = { nodes: {} }
-    try {
-      nodeAttributes = (await callEnrichment('nodes')) as NodeAttributes
-    } catch {
-      // Attributes are enrichment; listing nodes should still work without them
-    }
-
-    const next = nodes.map((node) => {
-      const attributes = flattenObj(nodeAttributes.nodes[node.id]?.settings?.node?.attr)
-      return Object.assign({}, node, { attributes })
-    })
-
-    // Keep the current rows when the payload is unchanged so the table does not remount.
-    if (JSON.stringify(data.value) !== JSON.stringify(next)) data.value = next
-  } catch (e) {
-    console.error(e)
-  }
-}
-
-onMounted(load)
 </script>

@@ -36,12 +36,12 @@ const FINDING_PRIORITY: Record<string, number> = {
   'unassigned-replicas': 4,
   'disk-watermark': 5,
   'pending-tasks': 6,
-  'rejections': 7,
-  'breakers': 8,
+  rejections: 7,
+  breakers: 8,
   'jvm-pressure': 9,
   'file-descriptors': 10,
   'mixed-versions': 11,
-  'monitoring': 12
+  monitoring: 12
 }
 
 export type AttentionDetectorInput = {
@@ -104,11 +104,7 @@ export const detectShardProblems = (input: AttentionDetectorInput): AttentionFin
   const { name: indexName, count: indexCount } = affectedIndexLabel(unhealthyIndices)
 
   if (primaries > 0) {
-    const indexPart = indexName
-      ? indexCount === 1
-        ? ` on ${indexName}`
-        : ` across ${indexCount} indices`
-      : ''
+    const indexPart = indexName ? (indexCount === 1 ? ` on ${indexName}` : ` across ${indexCount} indices`) : ''
     findings.push({
       id: 'unassigned-primaries',
       severity: 'critical',
@@ -192,10 +188,7 @@ export const detectIndexBlocks = (blocks: IndexBlock[]): AttentionFinding[] => {
   })
 }
 
-export const detectDiskProblems = (
-  nodes: OverviewNode[],
-  watermarks: DiskWatermarks
-): AttentionFinding[] => {
+export const detectDiskProblems = (nodes: OverviewNode[], watermarks: DiskWatermarks): AttentionFinding[] => {
   const floodAt = watermarks.floodPercent
   const highAt = watermarks.highPercent
   const lowAt = watermarks.lowPercent
@@ -448,7 +441,10 @@ const sortFindings = (findings: AttentionFinding[]): AttentionFinding[] => {
  */
 const dedupeFindings = (findings: AttentionFinding[]): AttentionFinding[] => {
   const floodNodes = new Set(
-    findings.filter((f) => f.id.startsWith('disk-flood:')).map((f) => f.entity?.name).filter(Boolean)
+    findings
+      .filter((f) => f.id.startsWith('disk-flood:'))
+      .map((f) => f.entity?.name)
+      .filter(Boolean)
   )
 
   return findings.filter((f) => {
@@ -564,9 +560,7 @@ const findingMatchesCheck = (finding: AttentionFinding, prefixes: string[]): boo
   return prefixes.some((prefix) => key === prefix || finding.id.startsWith(`${prefix}:`))
 }
 
-const worstSeverity = (
-  findings: AttentionFinding[]
-): AttentionFinding['severity'] => {
+const worstSeverity = (findings: AttentionFinding[]): AttentionFinding['severity'] => {
   if (findings.some((f) => f.severity === 'critical')) return 'critical'
   if (findings.some((f) => f.severity === 'warning')) return 'warning'
   return 'info'
@@ -591,8 +585,7 @@ export const buildAttentionChecks = (input: AttentionDetectorInput): AttentionCh
     }
 
     const primary = matched[0]
-    const summary =
-      matched.length === 1 ? primary.summary : matched.map((f) => f.summary).join(' · ')
+    const summary = matched.length === 1 ? primary.summary : matched.map((f) => f.summary).join(' · ')
     const detail =
       matched.length === 1
         ? primary.detail
@@ -612,11 +605,13 @@ export const buildAttentionChecks = (input: AttentionDetectorInput): AttentionCh
   })
 }
 
-export const parseAllocationEnable = (settings: {
-  persistent?: Record<string, string | number>
-  transient?: Record<string, string | number>
-  defaults?: Record<string, string | number>
-} | null): AllocationEnable => {
+export const parseAllocationEnable = (
+  settings: {
+    persistent?: Record<string, string | number>
+    transient?: Record<string, string | number>
+    defaults?: Record<string, string | number>
+  } | null
+): AllocationEnable => {
   if (!settings) return 'all'
   const persistent = settings.persistent || {}
   const transient = settings.transient || {}
@@ -630,11 +625,13 @@ export const parseAllocationEnable = (settings: {
 }
 
 /** Parse `_cluster/state/blocks` into actionable index blocks. */
-export const parseIndexBlocks = (body: {
-  blocks?: {
-    indices?: Record<string, Record<string, { description?: string; levels?: string[] }>>
-  }
-} | null): IndexBlock[] => {
+export const parseIndexBlocks = (
+  body: {
+    blocks?: {
+      indices?: Record<string, Record<string, { description?: string; levels?: string[] }>>
+    }
+  } | null
+): IndexBlock[] => {
   const indices = body?.blocks?.indices
   if (!indices) return []
 

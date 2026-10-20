@@ -318,17 +318,17 @@
       }
     },
     "node_properties": {
-      "ip": "IP",
-      "master": "主節點",
       "node_role": "節點角色",
       "shards": "分片",
       "attr": "屬性",
       "cpu": "CPU 使用率",
-      "ram": "系統記憶體",
       "heap": "JVM 堆積",
       "disk": "磁碟",
       "name": "名稱",
-      "version": "版本"
+      "version": "版本",
+      "docs": "文件",
+      "store": "儲存",
+      "uptime": "運行時間"
     }
   },
   "cluster_roles": {

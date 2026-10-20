@@ -318,17 +318,17 @@
       }
     },
     "node_properties": {
-      "ip": "IP地址",
-      "master": "主节点",
       "node_role": "节点角色",
       "shards": "碎片",
       "attr": "属性",
       "cpu": "CPU使用率",
-      "ram": "系统内存",
       "heap": "JVM堆",
       "disk": "磁盘",
       "name": "名称",
-      "version": "版本"
+      "version": "版本",
+      "docs": "文档",
+      "store": "存储",
+      "uptime": "运行时间"
     }
   },
   "cluster_roles": {
