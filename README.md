@@ -28,7 +28,7 @@ Contents
 
 **Elasticvue** is a free and open-source gui for elasticsearch that you can use to manage the data in your cluster.
 It supports every version of elasticsearch, even those that are EOL. Check
-the [FAQ](https://github.com/cars10/elasticvue/wiki/FAQ) for more details.
+the [FAQ](docs/faq.md) for more details.
 
 ### Features
 
@@ -74,7 +74,7 @@ Visit [https://app.elasticvue.com](https://app.elasticvue.com).
 
 > **You have to configure your elasticsearch cluster if you want to self host elasticvue**
 
-Please check the [wiki](https://github.com/cars10/elasticvue/wiki/Building-Elasticvue) for more information.
+Please check the [docs](docs/building-elasticvue.md) for more information.
 
 ### Docker
 
@@ -222,7 +222,7 @@ an [issue](https://github.com/cars10/elasticvue/issues/new/choose) if your probl
 
 ## Comparing with other frontends
 
-See the Wiki. [Comparing to other frontends](https://github.com/cars10/elasticvue/wiki/Comparing-to-other-frontends)
+See [Comparing to other frontends](docs/comparing-to-other-frontends.md).
 
 ## i18n
 

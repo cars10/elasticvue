@@ -115,7 +115,7 @@
       {{ t('shared.ssl_hint.hint') }}
       <a
         aria-label="SSL Configuration help"
-        href="https://github.com/cars10/elasticvue/wiki/Access-clusters-using-SSL"
+        href="https://github.com/cars10/elasticvue/blob/master/docs/access-clusters-using-ssl.md"
         rel="nofollow"
         target="_blank"
         class="q-ml-sm"
