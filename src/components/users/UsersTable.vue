@@ -2,9 +2,6 @@
   <div class="flex justify-between q-pa-md">
     <div class="flex items-center">
       <new-user @reload="emit('reload')" />
-      <router-link to="roles" class="q-ml-md">
-        {{ t('cluster_roles.heading') }}
-      </router-link>
       <filter-state
         v-model="usersStore.filter"
         :results-count="filterStateProps.resultsCount"
@@ -28,7 +25,7 @@
     v-model:pagination="usersStore.pagination"
   >
     <template #body="{ row }: { row: ClusterUser }">
-      <user-row :user="row" @reload="emit('reload')" @edit="openEditDialog" />
+      <user-row :user="row" @reload="emit('reload')" @edit="openEditDialog" @show-role="showRole" />
     </template>
   </q-table>
 
@@ -37,23 +34,33 @@
 
 <script setup lang="ts">
 import { useTemplateRef } from 'vue'
+import { useRouter } from 'vue-router'
+import { useConnectionStore } from '../../store/connection.ts'
+import { useRolesStore } from '../../store/roles.ts'
 import FilterInput from '../shared/FilterInput.vue'
 import FilterState from '../shared/FilterState.vue'
 import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
-import { ClusterUser } from '../../composables/components/users/ClusterUsers.ts'
+import type { ClusterUser } from '../../types/security.ts'
 import { UsersTableProps, useUsersTable } from '../../composables/components/users/UsersTable.ts'
 import { useUsersStore } from '../../store/users.ts'
-import { useTranslation } from '../../composables/i18n.ts'
 import UserRow from './UserRow.vue'
 import NewUser from './NewUser.vue'
 import EditUser from './EditUser.vue'
 
-const t = useTranslation()
 const usersStore = useUsersStore()
 const props = defineProps<UsersTableProps>()
 const emit = defineEmits(['reload'])
 const { columns, filteredResults, filterStateProps } = useUsersTable(props)
 const filterColumns = ['username', 'full_name', 'email', 'roles']
+
+const router = useRouter()
+const rolesStore = useRolesStore()
+const connectionStore = useConnectionStore()
+
+const showRole = (role: string) => {
+  rolesStore.filter = role
+  router.push({ name: 'roles', params: { clusterIndex: connectionStore.activeClusterIndex } })
+}
 
 const editUser = useTemplateRef<InstanceType<typeof EditUser>>('editUser')
 const openEditDialog = (user: ClusterUser) => {

@@ -202,12 +202,20 @@ export default class ElasticsearchAdapter {
     return this.request(path, 'DELETE')
   }
 
-  securityUsers() {
-    return this.request(this.securityPath('user'), 'GET')
+  securityUsers(params?: object) {
+    return this.request(this.securityPath('user'), 'GET', params)
   }
 
-  securityRoles() {
-    return this.request(this.securityPath('role'), 'GET')
+  securityRoles(params?: object) {
+    return this.request(this.securityPath('role'), 'GET', params)
+  }
+
+  securityRoleMappings(params?: object) {
+    return this.request(this.securityPath('role_mapping'), 'GET', params)
+  }
+
+  securityAuthenticate() {
+    return this.request(this.securityPath('_authenticate'), 'GET')
   }
 
   securityRolePut({ name, body }: { name: string; body: object }) {

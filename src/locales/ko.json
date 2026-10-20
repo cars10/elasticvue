@@ -18,7 +18,7 @@
         "rest": "REST",
         "tools": "Tools",
         "snapshots": "스냅샷",
-        "users": "사용자",
+        "security": "보안",
         "settings": "설정"
       }
     },
@@ -382,10 +382,9 @@
       "table": {
         "headers": {
           "name": "이름",
-          "description": "설명",
-          "reserved": "예약됨",
-          "deprecated": "사용 중단",
-          "cluster": "클러스터"
+          "cluster": "클러스터",
+          "assigned": "할당",
+          "status": "상태"
         }
       }
     }
@@ -439,13 +438,9 @@
     "users_table": {
       "table": {
         "headers": {
-          "username": "사용자 이름",
+          "user": "사용자",
           "roles": "역할",
-          "full_name": "이름",
-          "email": "이메일",
-          "enabled": "활성화",
-          "reserved": "예약됨",
-          "deprecated": "사용 중단"
+          "status": "상태"
         }
       }
     }

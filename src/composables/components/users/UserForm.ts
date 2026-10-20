@@ -1,6 +1,7 @@
 import { computed, ref, watch } from 'vue'
 import { useElasticsearchAdapter } from '../../CallElasticsearch'
 import { supportsUserEnabledInBody } from '../../../helpers/securitySupport.ts'
+import { ROLE_NAMES_PARAMS } from '../../../helpers/security.ts'
 
 export type UserFormData = {
   username: string
@@ -27,7 +28,7 @@ export const useUserRoles = (dialog: { value: boolean }) => {
 
   const loadRoles = async () => {
     try {
-      const roles = await callElasticsearch('securityRoles')
+      const roles = await callElasticsearch('securityRoles', ROLE_NAMES_PARAMS)
       roleOptions.value = Object.keys(roles || {}).sort()
     } catch (_e) {
       roleOptions.value = []

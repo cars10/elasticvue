@@ -1,6 +1,6 @@
 import { useTranslation } from '../../i18n'
 import { defineElasticsearchRequest } from '../../CallElasticsearch'
-import { ClusterRole } from './ClusterRoles'
+import type { ClusterRole } from '../../../types/security.ts'
 
 export type RoleRowProps = {
   role: ClusterRole

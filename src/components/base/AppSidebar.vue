@@ -169,11 +169,25 @@ const sections = computed(() => {
         },
         {
           id: 'users',
-          label: t('base.app_header.navigation.users'),
-          icon: 'group',
+          label: t('base.app_header.navigation.security'),
+          icon: 'security',
           to: routeTo('users'),
           activeNames: ['users', 'roles'],
-          disabled: securityDisabled
+          disabled: securityDisabled,
+          children: [
+            {
+              id: 'users_list',
+              label: t('cluster_users.heading'),
+              to: routeTo('users'),
+              activeNames: ['users']
+            },
+            {
+              id: 'roles',
+              label: t('cluster_roles.heading'),
+              to: routeTo('roles'),
+              activeNames: ['roles']
+            }
+          ]
         }
       ]
     },

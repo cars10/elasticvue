@@ -18,7 +18,7 @@
         "rest": "REST",
         "tools": "Tools",
         "snapshots": "快照",
-        "users": "用户",
+        "security": "安全",
         "settings": "设置"
       }
     },
@@ -382,10 +382,9 @@
       "table": {
         "headers": {
           "name": "名称",
-          "description": "描述",
-          "reserved": "内置",
-          "deprecated": "废弃",
-          "cluster": "集群"
+          "cluster": "集群",
+          "assigned": "分配",
+          "status": "状态"
         }
       }
     }
@@ -439,13 +438,9 @@
     "users_table": {
       "table": {
         "headers": {
-          "username": "用户名",
+          "user": "用户",
           "roles": "角色",
-          "full_name": "全名",
-          "email": "邮箱",
-          "enabled": "启用",
-          "reserved": "内置",
-          "deprecated": "废弃"
+          "status": "状态"
         }
       }
     }

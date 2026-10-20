@@ -18,7 +18,7 @@
         "rest": "REST",
         "tools": "Tools",
         "snapshots": "Снимки",
-        "users": "Пользователи",
+        "security": "Безопасность",
         "settings": "Настройки"
       }
     },
@@ -382,10 +382,9 @@
       "table": {
         "headers": {
           "name": "имя",
-          "description": "описание",
-          "reserved": "зарезервирован",
-          "deprecated": "устарел",
-          "cluster": "кластер"
+          "cluster": "кластер",
+          "assigned": "назначено",
+          "status": "статус"
         }
       }
     }
@@ -439,13 +438,9 @@
     "users_table": {
       "table": {
         "headers": {
-          "username": "имя пользователя",
+          "user": "пользователь",
           "roles": "роли",
-          "full_name": "полное имя",
-          "email": "эл. почта",
-          "enabled": "включён",
-          "reserved": "зарезервирован",
-          "deprecated": "устарел"
+          "status": "статус"
         }
       }
     }

@@ -1,6 +1,6 @@
 import { useTranslation } from '../../i18n'
 import { defineElasticsearchRequest } from '../../CallElasticsearch'
-import { ClusterUser } from './ClusterUsers'
+import type { ClusterUser } from '../../../types/security.ts'
 
 export type UserRowProps = {
   user: ClusterUser
