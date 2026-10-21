@@ -630,7 +630,8 @@
     "disconnect_and_reset": {
       "heading": "切断してすべての設定をリセット",
       "button": "切断してリセット",
-      "confirm": "本当に実行しますか？これにより、elasticvue によって保存されたすべてのデータが削除されます！クラスターに再接続する必要があります。"
+      "confirm": "本当に実行しますか？これにより、elasticvue によって保存されたすべてのデータが削除されます！クラスターに再接続する必要があります。",
+      "message": "Deletes all clusters, settings and query history saved by elasticvue."
     },
     "import_export": {
       "heading": "elasticvue データのインポート/エクスポート",
@@ -648,6 +649,14 @@
     },
     "editor_vim_mode": {
       "label": "エディターで Vim キーバインドを使用する"
+    },
+    "editor": {
+      "heading": "Editor",
+      "wrap_lines": "Wrap long lines in editor"
+    },
+    "cluster": {
+      "heading": "Cluster '{name}'",
+      "message": "These settings only apply to the current cluster."
     }
   },
   "setup": {
