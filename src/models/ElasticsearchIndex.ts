@@ -1,5 +1,6 @@
 import { EsIndex } from '../composables/components/indices/IndicesTable.ts'
 import { prettyPrintByteString } from '../helpers/bytes.ts'
+import type { IndexBlocks } from '../types/indices.ts'
 
 export default class ElasticsearchIndex {
   index: string
@@ -16,6 +17,7 @@ export default class ElasticsearchIndex {
   parsedSegmentsCount: number | string
   created: number | string
   aliases?: string[]
+  blocks: IndexBlocks | null
 
   constructor(options: EsIndex) {
     this.index = options.index
@@ -32,6 +34,7 @@ export default class ElasticsearchIndex {
     this.humanStoreSize = prettyPrintByteString(this.parsedStoreSize)
     this.created = parseIntValue(options.cd)
     this.aliases = options.aliases
+    this.blocks = options.blocks ?? null
   }
 }
 

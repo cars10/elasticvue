@@ -6,7 +6,8 @@ import {
   type PaginationStorePartial,
   type ReloadIntervalStorePartial,
   persistReloadIntervalProps,
-  paginationStoreDefaultProps
+  paginationStoreDefaultProps,
+  DEFAULT_RELOAD_INTERVAL
 } from './shared'
 
 type NodesState = {
@@ -24,7 +25,7 @@ export const useNodesStore = () => {
       filter: '',
       nodeRoles: [],
       hideAttributesRegex: DEFAULT_HIDE_NODE_ATTRIBUTES_REGEX,
-      reloadInterval: null,
+      reloadInterval: DEFAULT_RELOAD_INTERVAL,
       pagination: paginationStoreDefaultProps('name')
     }),
     persist: {

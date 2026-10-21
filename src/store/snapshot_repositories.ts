@@ -5,7 +5,8 @@ import {
   type PaginationStorePartial,
   type ReloadIntervalStorePartial,
   persistReloadIntervalProps,
-  paginationStoreDefaultProps
+  paginationStoreDefaultProps,
+  DEFAULT_RELOAD_INTERVAL
 } from './shared'
 
 type SnapshotRepositoriesState = {
@@ -19,7 +20,7 @@ export const useSnapshotRepositoriesStore = () => {
   return defineStore(`snapshot-repositories-${clusterUuid}`, {
     state: (): SnapshotRepositoriesState => ({
       filter: '',
-      reloadInterval: null,
+      reloadInterval: DEFAULT_RELOAD_INTERVAL,
       pagination: paginationStoreDefaultProps('name')
     }),
     persist: {

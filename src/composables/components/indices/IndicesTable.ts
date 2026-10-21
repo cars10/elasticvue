@@ -8,6 +8,8 @@ import { debounce } from '../../../helpers/debounce'
 import { useSelectableRows } from '../../SelectableRow'
 import { genColumns } from '../../../helpers/tableColumns'
 import { setupFilterState } from '../shared/FilterState.ts'
+import { isHiddenIndex } from '../../../helpers/indices.ts'
+import type { IndexBlocks } from '../../../types/indices.ts'
 
 export type EsIndex = {
   index: string
@@ -21,10 +23,11 @@ export type EsIndex = {
   'store.size': string
   cd: string
   aliases?: string[]
+  blocks?: IndexBlocks | null
 }
 
 export type EsTableProps = {
-  indices: EsIndex[]
+  indices: ElasticsearchIndex[]
 }
 
 export const useIndicesTable = (props: EsTableProps, emit: any) => {
@@ -52,11 +55,10 @@ export const useIndicesTable = (props: EsTableProps, emit: any) => {
       return
     }
     if (!indicesStore.showHiddenIndices) {
-      indices = indices.filter((item: any) => !item.index.match(new RegExp(indicesStore.hideIndicesRegex)))
+      indices = indices.filter((item) => !isHiddenIndex(item.index, indicesStore.hideIndicesRegex))
     }
 
-    indices = filterItems(indices, indicesStore.filter, ['index', 'uuid', 'aliases'])
-    items.value = indices.map((index: any) => new ElasticsearchIndex(index))
+    items.value = filterItems(indices, indicesStore.filter, ['index', 'uuid', 'aliases'])
   }
 
   const debouncedFilterTable = debounce(filterTable, 150)

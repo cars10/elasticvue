@@ -6,7 +6,8 @@ import {
   ReloadIntervalStorePartial,
   paginationStoreDefaultProps,
   persistPaginationProps,
-  persistReloadIntervalProps
+  persistReloadIntervalProps,
+  DEFAULT_RELOAD_INTERVAL
 } from './shared'
 
 type IndicesState = {
@@ -29,7 +30,7 @@ export const useIndicesStore = () => {
       hideIndicesRegex: DEFAULT_HIDE_INDICES_REGEX,
       pagination: paginationStoreDefaultProps('index'),
       rowsPerPageAccepted: false,
-      reloadInterval: null
+      reloadInterval: DEFAULT_RELOAD_INTERVAL
     }),
     persist: {
       pick: [
