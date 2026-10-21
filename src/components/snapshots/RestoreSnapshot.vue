@@ -1,5 +1,5 @@
 <template>
-  <q-btn color="dark-grey" icon="restore" @click="dialog = true" />
+  <q-btn flat round dense icon="restore" title="Restore" :disable="disable" @click="dialog = true" />
 
   <q-dialog v-model="dialog" transition-duration="100" @hide="resetForm">
     <q-card style="width: 500px">
@@ -71,7 +71,7 @@ import { useTranslation } from '../../composables/i18n'
 import { RestoreSnapshotProps, useRestoreSnapshot } from '../../composables/components/snapshots/RestoreSnapshot'
 import CustomInput from '../shared/CustomInput.vue'
 
-const props = defineProps<RestoreSnapshotProps>()
+const props = defineProps<RestoreSnapshotProps & { disable?: boolean }>()
 const emit = defineEmits(['reload'])
 const t = useTranslation()
 

@@ -371,12 +371,12 @@ export default class ElasticsearchAdapter {
     return this.request('_data_stream', 'GET')
   }
 
-  catRepositories(params: object) {
+  catRepositories(params?: object) {
     return this.request('_snapshot', 'GET', params)
   }
 
-  catSnapshots({ repository }: { repository: string }) {
-    return this.request(`_snapshot/${repository}/_all`, 'GET')
+  catSnapshots({ repository }: { repository: string }, params?: object) {
+    return this.request(`_snapshot/${repository}/_all`, 'GET', params)
   }
 
   snapshotCreateRepository({ repository, body }: { repository: string; body: object }) {
@@ -385,6 +385,14 @@ export default class ElasticsearchAdapter {
 
   snapshotDeleteRepository({ repository }: { repository: string }) {
     return this.request(`_snapshot/${repository}`, 'DELETE')
+  }
+
+  snapshotVerifyRepository({ repository }: { repository: string }) {
+    return this.request(`_snapshot/${repository}/_verify`, 'POST')
+  }
+
+  snapshotStatus({ repository }: { repository?: string } = {}, params?: object) {
+    return this.request(repository ? `_snapshot/${repository}/_status` : '_snapshot/_status', 'GET', params)
   }
 
   snapshotCreate({ repository, snapshot, body }: { repository: string; snapshot: string; body: object }) {
@@ -403,8 +411,8 @@ export default class ElasticsearchAdapter {
     return this.request(`_snapshot/${repository}/${snapshot}`, 'GET')
   }
 
-  catSlmPolicies() {
-    return this.request('_slm/policy', 'GET')
+  catSlmPolicies(params?: object) {
+    return this.request('_slm/policy', 'GET', params)
   }
 
   slmGetPolicy({ policy }: { policy: string }) {

@@ -3,26 +3,12 @@ import { useTranslation } from '../../i18n'
 import { useElasticsearchAdapter } from '../../CallElasticsearch'
 import { genColumns } from '../../../helpers/tableColumns'
 import { defineElasticsearchRequest } from '../../CallElasticsearch'
-import { SnapshotPolicy, SnapshotPolicyRetention } from '../../../types/snapshotPolicies'
+import { mapSlmPolicies, SLM_POLICIES_PARAMS } from '../../../helpers/snapshots.ts'
+import type { EsSnapshotPolicy, SlmPolicy } from '../../../types/snapshots.ts'
 import type EditRepositorySnapshotPolicy from '../../../components/repositories/EditRepositorySnapshotPolicy.vue'
 
 export type RepositoryPoliciesProps = {
   repository: string
-}
-
-export type EsSnapshotPolicy = {
-  version: number
-  modified_date: string
-  modified_date_millis: number
-  policy: SnapshotPolicy & { name: string }
-}
-
-export type MappedSnapshotPolicy = {
-  id: string
-  name: string
-  schedule: string
-  repository: string
-  retention: SnapshotPolicyRetention | undefined
 }
 
 export const useRepositoryPolicies = (props: RepositoryPoliciesProps, emit: any) => {
@@ -30,7 +16,7 @@ export const useRepositoryPolicies = (props: RepositoryPoliciesProps, emit: any)
   const { callElasticsearch } = useElasticsearchAdapter()
 
   const dialog = ref(false)
-  const policies = ref<MappedSnapshotPolicy[]>([])
+  const policies = ref<SlmPolicy[]>([])
   const selectedPolicyId = ref('')
   const editDialog = useTemplateRef<typeof EditRepositorySnapshotPolicy>('editDialog')
 
@@ -43,19 +29,9 @@ export const useRepositoryPolicies = (props: RepositoryPoliciesProps, emit: any)
   })
 
   const loadPolicies = () => {
-    callElasticsearch('catSlmPolicies')
+    callElasticsearch('catSlmPolicies', SLM_POLICIES_PARAMS)
       .then((body: Record<string, EsSnapshotPolicy>) => {
-        const repositoryPolicies = Object.entries(body)
-          .filter(([, policy]) => policy.policy.repository === props.repository)
-          .map(([id, policy]) => ({
-            id,
-            name: policy.policy.name,
-            schedule: policy.policy.schedule,
-            repository: policy.policy.repository,
-            retention: policy.policy.retention
-          }))
-
-        policies.value = repositoryPolicies
+        policies.value = mapSlmPolicies(body).filter((policy) => policy.repository === props.repository)
       })
       .catch(() => (policies.value = []))
   }
@@ -91,6 +67,8 @@ export const useRepositoryPolicies = (props: RepositoryPoliciesProps, emit: any)
     { label: t('snapshot_policies.policies_table.table.headers.name'), field: 'name' },
     { label: t('snapshot_policies.policies_table.table.headers.schedule'), field: 'schedule' },
     { label: t('snapshot_policies.policies_table.table.headers.retention'), field: 'retention' },
+    { label: t('snapshot_policies.policies_table.table.headers.last_run'), field: 'lastSuccess' },
+    { label: t('snapshot_policies.policies_table.table.headers.next_run'), field: 'nextRun' },
     { label: '' }
   ])
 

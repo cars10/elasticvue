@@ -10,14 +10,14 @@
       />
     </div>
 
-    <filter-input v-model="snapshotsStore.filter" />
+    <filter-input v-model="snapshotsStore.filter" :columns="['name', 'state']" />
   </div>
 
   <q-table
     flat
     class="table-mono table-hide-overflow"
     dense
-    row-key="snapshot"
+    row-key="name"
     :columns="columns"
     :rows="filteredResults"
     :rows-per-page-options="DEFAULT_ROWS_PER_PAGE"

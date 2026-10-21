@@ -1,14 +1,14 @@
 import { useTranslation } from '../../i18n.ts'
 import { computed } from 'vue'
 import { genColumns } from '../../../helpers/tableColumns.ts'
-import { EsSnapshot } from './SnapshotRow.ts'
 import { filterItems } from '../../../helpers/filters.ts'
 import { setupFilterState } from '../shared/FilterState.ts'
 import { useSnapshotsStore } from '../../../store/snapshots.ts'
+import type { SnapshotRow } from '../../../types/snapshots.ts'
 
 export type SnapshotsTableProps = {
   repository: string
-  snapshots: EsSnapshot[]
+  snapshots: SnapshotRow[]
 }
 
 export const useSnapshotsTable = (props: SnapshotsTableProps) => {
@@ -16,22 +16,17 @@ export const useSnapshotsTable = (props: SnapshotsTableProps) => {
   const snapshotsStore = useSnapshotsStore()
 
   const results = computed(() => props.snapshots)
-  const filteredResults = computed(() => {
-    return filterItems(results.value, snapshotsStore.filter, ['snapshot'])
-  })
+  const filteredResults = computed(() => filterItems(results.value, snapshotsStore.filter, ['name', 'state']))
 
   const filterStateProps = setupFilterState(results, filteredResults)
 
   const columns = genColumns([
-    { label: 'id' },
-    { label: t('snapshots.snapshots_table.table.headers.status'), field: 'state' },
-    { label: t('snapshots.snapshots_table.table.headers.start_time') },
-    { label: t('snapshots.snapshots_table.table.headers.end_time') },
-    { label: t('snapshots.snapshots_table.table.headers.duration') },
-    { label: t('snapshots.snapshots_table.table.headers.indices') },
-    { label: t('snapshots.snapshots_table.table.headers.successful_shards') },
-    { label: t('snapshots.snapshots_table.table.headers.failed_shards') },
-    { label: t('snapshots.snapshots_table.table.headers.total_shards') },
+    { label: t('snapshots.snapshots_table.table.headers.snapshot'), field: 'name' },
+    { label: t('snapshots.snapshots_table.table.headers.state'), field: 'state' },
+    { label: t('snapshots.snapshots_table.table.headers.started'), field: 'startTime' },
+    { label: t('snapshots.snapshots_table.table.headers.end_time'), field: 'endTime' },
+    { label: t('snapshots.snapshots_table.table.headers.duration'), field: 'durationMs', align: 'right' },
+    { label: t('snapshots.snapshots_table.table.headers.shards'), align: 'right' },
     { label: '' }
   ])
 

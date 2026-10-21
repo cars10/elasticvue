@@ -547,13 +547,16 @@
       "table": {
         "headers": {
           "name": "이름",
-          "type": "유형",
-          "settings": "설정"
+          "location": "location",
+          "policies": "policies"
         }
       },
       "delete_repository": {
         "confirm": "저장소 '{name}'와 그 안의 모든 스냅샷을 삭제하시겠습니까?",
         "growl": "저장소 '{name}'가 정상적으로 삭제되었습니다."
+      },
+      "verify_repository": {
+        "growl": "The repository '{name}' was verified on {count} nodes."
       }
     },
     "repository_policies": {
@@ -851,17 +854,16 @@
     "snapshots_table": {
       "table": {
         "headers": {
-          "status": "상태",
-          "start_time": "시작 시간",
+          "snapshot": "snapshot",
+          "state": "상태",
+          "started": "시작 시간",
           "end_time": "종료 시간",
           "duration": "기간",
-          "indices": "인덱스",
-          "successful_shards": "성공한 샤드",
-          "failed_shards": "실패한 샤드",
-          "total_shards": "총 샤드"
+          "shards": "shards"
         }
       }
-    }
+    },
+    "repository": "All repositories"
   },
   "snapshot_policies": {
     "new_policy": {
@@ -912,7 +914,9 @@
           "id": "ID",
           "name": "이름",
           "schedule": "스케줄",
-          "retention": "보존"
+          "retention": "보존",
+          "last_run": "Last run",
+          "next_run": "Next run"
         }
       },
       "delete_policy": {

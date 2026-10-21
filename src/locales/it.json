@@ -547,13 +547,16 @@
       "table": {
         "headers": {
           "name": "nome",
-          "type": "tipo",
-          "settings": "impostazioni"
+          "location": "location",
+          "policies": "policies"
         }
       },
       "delete_repository": {
         "confirm": "Eliminare il repository '{name}' e tutte le istantanee al suo interno?",
         "growl": "Il repository '{name}' è stato eliminato con successo."
+      },
+      "verify_repository": {
+        "growl": "The repository '{name}' was verified on {count} nodes."
       }
     },
     "repository_policies": {
@@ -851,17 +854,16 @@
     "snapshots_table": {
       "table": {
         "headers": {
-          "status": "stato",
-          "start_time": "ora_inizio",
+          "snapshot": "snapshot",
+          "state": "stato",
+          "started": "ora_inizio",
           "end_time": "ora_fine",
           "duration": "durata",
-          "indices": "indici",
-          "successful_shards": "frammenti_riusciti",
-          "failed_shards": "frammenti_falliti",
-          "total_shards": "frammenti_totali"
+          "shards": "shards"
         }
       }
-    }
+    },
+    "repository": "All repositories"
   },
   "snapshot_policies": {
     "new_policy": {
@@ -912,7 +914,9 @@
           "id": "ID",
           "name": "Nome",
           "schedule": "Programmazione",
-          "retention": "Conservazione"
+          "retention": "Conservazione",
+          "last_run": "Last run",
+          "next_run": "Next run"
         }
       },
       "delete_policy": {
