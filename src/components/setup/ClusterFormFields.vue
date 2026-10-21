@@ -68,7 +68,8 @@
 
     <div v-if="cluster.auth.authType === AuthType.basicAuth" class="q-mb-md">
       <q-checkbox
-        v-model="cluster.auth.authData.promptPassword"
+        :model-value="!!cluster.auth.authData.promptPassword"
+        @update:model-value="(value: boolean) => (cluster.auth.authData.promptPassword = value)"
         :label="t('setup.test_and_connect.form.prompt_password.label')"
         data-testid="cluster-prompt-password"
       />
