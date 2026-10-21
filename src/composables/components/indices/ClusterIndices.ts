@@ -1,58 +1,67 @@
-import { onMounted, ref, Ref } from 'vue'
+import { computed, onMounted, ref, Ref, shallowRef } from 'vue'
 import { useElasticsearchAdapter, RequestState } from '../../CallElasticsearch'
 import { EsIndex } from './IndicesTable.ts'
 import { clusterVersionGte } from '../../../helpers/minClusterVersion.ts'
 import { useIndicesStore } from '../../../store/indices.ts'
-
-type CatIndicesParams = {
-  h: string
-  bytes: string
-  expand_wildcards?: string
-}
-
-type AliasData = {
-  aliases: Record<string, object>
-}
-
-type IndexGetAliasResponse = Record<string, AliasData>
+import ElasticsearchIndex from '../../../models/ElasticsearchIndex.ts'
+import {
+  aliasesByIndex,
+  CAT_ALIASES_PARAMS,
+  INDEX_BLOCKS_PARAMS,
+  isHiddenIndex,
+  NO_BLOCKS,
+  parseIndexBlocks,
+  summarizeIndices
+} from '../../../helpers/indices.ts'
+import type { EsIndicesBlocksSettings } from '../../../types/indices.ts'
 
 export const useClusterIndices = () => {
   const indicesStore = useIndicesStore()
   const { requestState, callElasticsearch } = useElasticsearchAdapter()
   // Separate adapter so enrichment 403s do not flip LoaderStatus into the error state
   const { callElasticsearch: callEnrichment } = useElasticsearchAdapter()
-  const data: Ref<EsIndex[] | null> = ref(null)
+  const indices = shallowRef<ElasticsearchIndex[]>([])
+  const blocksKnown = ref(false)
 
-  const CAT_INDICES_PARAMS: CatIndicesParams = {
+  const catIndicesParams = {
     h: 'index,health,status,uuid,pri,rep,docs.count,store.size,sc,cd',
-    bytes: 'b'
+    bytes: 'b',
+    ...(clusterVersionGte(8) && { expand_wildcards: 'all' })
   }
-  if (clusterVersionGte(8)) CAT_INDICES_PARAMS.expand_wildcards = 'all'
+
+  const summary = computed(() =>
+    summarizeIndices(
+      indices.value.filter(
+        (index) => indicesStore.showHiddenIndices || !isHiddenIndex(index.index, indicesStore.hideIndicesRegex)
+      ),
+      blocksKnown.value
+    )
+  )
 
   const load = async () => {
-    try {
-      const indices = (await callElasticsearch('catIndices', CAT_INDICES_PARAMS)) as EsIndex[]
+    const [indicesResult, aliasesResult, blocksResult] = await Promise.allSettled([
+      callElasticsearch('catIndices', catIndicesParams) as Promise<EsIndex[]>,
+      callEnrichment('catAliases', CAT_ALIASES_PARAMS) as Promise<{ alias: string; index: string }[]>,
+      callEnrichment('indexGetAllSettings', INDEX_BLOCKS_PARAMS) as Promise<EsIndicesBlocksSettings>
+    ])
 
-      let aliasesData: IndexGetAliasResponse = {}
-      try {
-        aliasesData = (await callEnrichment('indexGetAlias', { index: '*' })) as IndexGetAliasResponse
-      } catch {
-        aliasesData = {}
-      }
-
-      indices.forEach((index: EsIndex) => {
-        if (aliasesData[index.index] && aliasesData[index.index].aliases) {
-          index.aliases = Object.keys(aliasesData[index.index].aliases).sort()
-        } else {
-          index.aliases = []
-        }
-      })
-
-      data.value = indices
-    } catch (e) {
-      console.error(e)
-      data.value = null
+    if (indicesResult.status === 'rejected') {
+      indices.value = []
+      return
     }
+
+    const aliases = aliasesByIndex(aliasesResult.status === 'fulfilled' ? aliasesResult.value : null)
+    const blocks = blocksResult.status === 'fulfilled' ? parseIndexBlocks(blocksResult.value) : null
+    blocksKnown.value = blocks !== null
+
+    indices.value = indicesResult.value.map(
+      (index) =>
+        new ElasticsearchIndex({
+          ...index,
+          aliases: aliases[index.index] || [],
+          blocks: blocks ? blocks[index.index] || NO_BLOCKS : null
+        })
+    )
   }
 
   onMounted(load)
@@ -60,7 +69,8 @@ export const useClusterIndices = () => {
   return {
     indicesStore,
     requestState: requestState as Ref<RequestState>,
-    data,
+    indices,
+    summary,
     load
   }
 }

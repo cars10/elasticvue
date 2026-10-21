@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { useConnectionStore } from './connection'
-import { ReloadIntervalStorePartial, persistReloadIntervalProps } from './shared'
+import { ReloadIntervalStorePartial, persistReloadIntervalProps, DEFAULT_RELOAD_INTERVAL } from './shared'
 
 type ShardsState = {
   filter: string
@@ -14,7 +14,7 @@ export const useShardsStore = () => {
     state: (): ShardsState => ({
       filter: '',
       health: null,
-      reloadInterval: null
+      reloadInterval: DEFAULT_RELOAD_INTERVAL
     }),
     persist: {
       pick: ['filter', 'health', ...persistReloadIntervalProps()],

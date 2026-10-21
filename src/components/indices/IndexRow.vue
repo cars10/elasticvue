@@ -4,29 +4,44 @@
       <slot name="checkbox" />
     </td>
     <td :title="index.index">
-      <a :title="t('indices.index_row.search.title', { index: index.index })" @click.stop="showDocuments(index.index)">
-        {{ index.index }}
-      </a>
+      <a
+        class="text-weight-medium"
+        :title="t('indices.index_row.search.title', { index: index.index })"
+        @click.stop="showDocuments(index.index)"
+        >{{ index.index }}</a
+      >
     </td>
     <td>
-      <svg height="14" width="14">
-        <circle :class="`health--${index.health}`" cx="7" cy="9" r="5" />
-      </svg>
-      {{ index.health }}
+      <div class="row items-center no-wrap">
+        <svg height="14" width="14" class="q-mr-xs">
+          <circle :class="`health--${index.health}`" cx="7" cy="7" r="5" />
+        </svg>
+        {{ index.health }}
+      </div>
     </td>
-    <td>{{ index.status }}</td>
-    <td>{{ index.uuid }}</td>
-    <td :title="index.aliases ? index.aliases.join('\n') : ''">
-      <template v-if="index.aliases">
-        [
-        <span v-for="(alias, i) in index.aliases" :key="`${index.index}-alias-${alias}`">
-          <a :key="alias" :title="t('indices.index_row.search.title', { index: alias })" @click.stop="showDocuments(alias)"
-            >{{ alias }}
-          </a>
-          <span v-if="i !== index.aliases.length - 1">, </span>
-        </span>
-        ]
-      </template>
+    <td>
+      <div class="row items-center no-wrap">
+        <span class="q-mr-sm" :class="{ 'text-muted': index.status !== 'open' }">{{ index.status }}</span>
+        <q-badge v-if="index.blocks?.readOnlyAllowDelete" color="negative" label="read-only" data-testid="index-read-only">
+          <q-tooltip>Blocked by the flood-stage disk watermark (read_only_allow_delete)</q-tooltip>
+        </q-badge>
+        <q-badge v-else-if="readOnly" outline color="warning" label="read-only" data-testid="index-read-only" />
+      </div>
+    </td>
+    <td class="text-muted">{{ index.uuid }}</td>
+    <td :title="index.aliases?.join('\n')">
+      <div v-if="index.aliases?.length" class="row no-wrap">
+        <q-badge
+          v-for="alias in index.aliases"
+          :key="alias"
+          outline
+          color="primary"
+          class="cursor-pointer q-mr-xs"
+          :label="alias"
+          :title="t('indices.index_row.search.title', { index: alias })"
+          @click.stop="showDocuments(alias)"
+        />
+      </div>
     </td>
     <td class="text-right">
       <div :title="t('indices.index_row.shards.title', { pri: index.pri, rep: index.rep })">
@@ -44,13 +59,14 @@
     </td>
     <td>
       <template v-if="index.created && typeof index.created === 'number'">
-        {{ new Date(index.created).toLocaleString() }}
+        <div>{{ new Date(index.created).toLocaleDateString() }}</div>
+        <div class="text-muted font-13">{{ new Date(index.created).toLocaleTimeString() }}</div>
       </template>
     </td>
-    <td>
-      <q-btn-group>
-        <q-btn icon="search" color="dark-grey" @click="showDocuments(index.index)" />
-        <q-btn-dropdown ref="menu" icon="settings" color="dark-grey">
+    <td class="text-right text-no-wrap">
+      <q-btn flat round dense icon="search" @click="showDocuments(index.index)" />
+      <q-btn flat round dense icon="more_vert" data-testid="index-row-menu">
+        <q-menu ref="menu">
           <q-list padding dense>
             <q-item clickable @click="openModalWith('indexGet', { index: index.index })">
               <q-item-section side>
@@ -115,6 +131,7 @@
             />
 
             <row-menu-action
+              v-if="!readOnly || index.blocks === null"
               method="indexPutSettings"
               :method-params="{ indices: [props.index.index], body: { index: { blocks: { write: true } } } }"
               :text="t('indices.index_row.options.set_readonly.text')"
@@ -125,8 +142,9 @@
             />
 
             <row-menu-action
+              v-if="readOnly || index.blocks === null"
               method="indexPutSettings"
-              :method-params="{ indices: [props.index.index], body: { index: { blocks: { write: false } } } }"
+              :method-params="{ indices: [props.index.index], body: writableSettingsBody(index.blocks) }"
               :text="t('indices.index_row.options.set_writable.text')"
               :growl="t('indices.index_row.options.set_writable.growl', { index: index.index })"
               icon="lock_open"
@@ -176,8 +194,8 @@
               @done="() => afterDelete(props.index.index)"
             />
           </q-list>
-        </q-btn-dropdown>
-      </q-btn-group>
+        </q-menu>
+      </q-btn>
     </td>
   </tr>
 </template>
@@ -191,11 +209,14 @@ import IndexClone from './IndexClone.vue'
 import RowMenuAction from './RowMenuAction.vue'
 import { clusterVersionGt, clusterVersionGte } from '../../helpers/minClusterVersion.ts'
 import { useConnectionStore } from '../../store/connection.ts'
+import { isReadOnly, writableSettingsBody } from '../../helpers/indices.ts'
+import { computed } from 'vue'
 
 const t = useTranslation()
 const props = defineProps<IndexRowProps>()
 const emit = defineEmits(['reload', 'indexDeleted'])
 const connectionStore = useConnectionStore()
+const readOnly = computed(() => isReadOnly(props.index.blocks))
 
 const afterDelete = (index: string) => {
   emit('indexDeleted', index)

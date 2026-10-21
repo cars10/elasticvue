@@ -5,7 +5,8 @@ import {
   ReloadIntervalStorePartial,
   paginationStoreDefaultProps,
   persistPaginationProps,
-  persistReloadIntervalProps
+  persistReloadIntervalProps,
+  DEFAULT_RELOAD_INTERVAL
 } from './shared'
 
 type ShardRecoveryState = {
@@ -26,7 +27,7 @@ export const useShardRecoveryStore = () => {
       activeOnly: true,
       stickyTableHeader: false,
       pagination: paginationStoreDefaultProps(),
-      reloadInterval: null
+      reloadInterval: DEFAULT_RELOAD_INTERVAL
     }),
     persist: {
       pick: ['filter', 'stage', 'activeOnly', 'stickyTableHeader', ...persistPaginationProps(), ...persistReloadIntervalProps()],

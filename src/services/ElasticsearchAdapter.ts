@@ -83,6 +83,10 @@ export default class ElasticsearchAdapter {
     return this.request(`_cat/indices/${query}`, 'GET', params)
   }
 
+  catAliases(params?: object) {
+    return this.request('_cat/aliases', 'GET', params)
+  }
+
   template() {
     return this.request('_template', 'GET')
   }

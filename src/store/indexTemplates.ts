@@ -5,7 +5,8 @@ import {
   ReloadIntervalStorePartial,
   paginationStoreDefaultProps,
   persistPaginationProps,
-  persistReloadIntervalProps
+  persistReloadIntervalProps,
+  DEFAULT_RELOAD_INTERVAL
 } from './shared'
 
 type IndexTemplatesState = {
@@ -23,7 +24,7 @@ export const useIndexTemplatesStore = () => {
       filter: '',
       showHiddenIndices: false,
       stickyTableHeader: false,
-      reloadInterval: null,
+      reloadInterval: DEFAULT_RELOAD_INTERVAL,
       pagination: paginationStoreDefaultProps('name')
     }),
     persist: {

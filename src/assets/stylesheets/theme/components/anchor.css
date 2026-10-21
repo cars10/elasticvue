@@ -1,3 +1,7 @@
+.q-table a {
+  text-decoration: none;
+}
+
 a:not(.q-btn, .q-tab, .q-item),
 a:visited:not(.q-btn, .q-tab, .q-item),
 a:hover:not(.q-btn, .q-tab, .q-item),
