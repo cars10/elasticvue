@@ -663,6 +663,12 @@
       "configure": "1. Configura",
       "connect": "2. Connetti"
     },
+    "cluster_login": {
+      "heading": "Accedi a {name}",
+      "hint": "La password di questo cluster non viene salvata. Viene conservata fino alla chiusura di questa finestra.",
+      "login": "Accedi",
+      "error": "Accesso non riuscito"
+    },
     "test_and_connect": {
       "heading": "2. Connetti",
       "form": {
@@ -692,6 +698,9 @@
         },
         "region": {
           "label": "Regione AWS"
+        },
+        "save_password": {
+          "label": "Salva password"
         },
         "test_connection": "Testa connessione",
         "connect": "Connetti"

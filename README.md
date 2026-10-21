@@ -117,6 +117,7 @@ clusters, looking like this:
 | uri  | Cluster uri | Yes | `"http://localhost:9200"` |
 | username | Username for basic authentication | No | `"elastic"` |
 | password | Password for basic authentication | No | `"foobar"` |
+| promptPassword | Ask for the password once per session instead of saving it. Needs `username`, ignores `password` | No | `true` |
 | apiKey | API key for authentication | No | `"VuaCfGcBCdbkQm-e5aOx:ui2lp2axTNm5ShWDc11v6g"` |
 | S3accessKeyId | AWS access key ID for IAM authentication | No | `"AKIAIOSFODNN7EXAMPLE"` |
 | S3secretAccessKey | AWS secret access key for IAM authentication | No | `"wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"` |

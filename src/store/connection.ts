@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { DISTRIBUTIONS } from '../consts'
+import { deserializeConnection, saveSessionPassword, serializeConnection } from '../services/SessionPasswords.ts'
 
 export enum BuildFlavor {
   serverless = 'serverless',
@@ -38,7 +39,7 @@ export type ElasticsearchClusterAuth =
     }
   | {
       authType: AuthType.basicAuth
-      authData: { username: string; password: string }
+      authData: { username: string; password: string; promptPassword?: boolean }
     }
   | {
       authType: AuthType.apiKey
@@ -85,6 +86,14 @@ export const useConnectionStore = defineStore('connection', {
       const old = this.clusters[index]
       this.clusters[index] = cleanupClusterAuth(Object.assign({}, old, cluster))
     },
+    setSessionCredentials({ index, username, password }: { index: number; username: string; password: string }) {
+      const cluster = this.clusters[index]
+      if (cluster?.auth.authType !== AuthType.basicAuth) return
+
+      saveSessionPassword(cluster.uri, username, password)
+      cluster.auth.authData.username = username
+      cluster.auth.authData.password = password
+    },
     removeCluster(index: number) {
       this.clusters.splice(index, 1)
     },
@@ -126,7 +135,12 @@ export const useConnectionStore = defineStore('connection', {
       return true
     }
   },
-  persist: true
+  persist: {
+    serializer: {
+      serialize: (state) => serializeConnection(state as ConnectionState),
+      deserialize: deserializeConnection
+    }
+  }
 })
 
 const cleanupClusterAuth = (cluster: ElasticsearchCluster): ElasticsearchCluster => {
@@ -146,7 +160,8 @@ const cleanupClusterAuth = (cluster: ElasticsearchCluster): ElasticsearchCluster
           authType: AuthType.basicAuth,
           authData: {
             username: cluster.auth.authData.username,
-            password: cluster.auth.authData.password
+            password: cluster.auth.authData.password,
+            promptPassword: cluster.auth.authData.promptPassword
           }
         }
       }

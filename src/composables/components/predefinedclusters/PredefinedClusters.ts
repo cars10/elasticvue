@@ -5,6 +5,7 @@ export type PredefinedCluster = {
   name?: string
   username?: string
   password?: string
+  promptPassword?: boolean
   apiKey?: string
   uri: string
   S3accessKeyId?: string

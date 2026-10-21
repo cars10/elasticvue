@@ -43,6 +43,18 @@ withElastic(({ mockElastic, elastic }) => {
         await page.waitForURL('**/cluster/1')
         expect(page.url()).toContain('/cluster/1')
       })
+
+      test('save password checkbox starts checked', async ({ page }) => {
+        await mockElastic(page)
+        const table = await setupClusterSelectionTest(page)
+        await table.getByTestId('cluster-edit').first().click()
+
+        const checkbox = page.getByTestId('cluster-save-password')
+        await expect(checkbox).toHaveAttribute('aria-checked', 'true')
+
+        await checkbox.click()
+        await expect(checkbox).toHaveAttribute('aria-checked', 'false')
+      })
     })
   })
 })

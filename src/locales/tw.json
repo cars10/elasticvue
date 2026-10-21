@@ -663,6 +663,12 @@
       "configure": "1. 設定",
       "connect": "2. 連線"
     },
+    "cluster_login": {
+      "heading": "登入 {name}",
+      "hint": "此叢集的密碼不會被儲存，關閉此視窗後即被清除。",
+      "login": "登入",
+      "error": "登入失敗"
+    },
     "test_and_connect": {
       "heading": "2. 連線",
       "form": {
@@ -692,6 +698,9 @@
         },
         "region": {
           "label": "AWS 區域"
+        },
+        "save_password": {
+          "label": "儲存密碼"
         },
         "test_connection": "測試連線",
         "connect": "連線"

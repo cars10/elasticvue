@@ -7,6 +7,7 @@ import {
 import ElasticsearchAdapter from '../../../services/ElasticsearchAdapter.ts'
 import { clusterUuid } from '../../ClusterConnection.ts'
 import { DISTRIBUTIONS } from '../../../consts.ts'
+import { needsPassword } from '../../../services/SessionPasswords.ts'
 
 export const useClusterHealth = () => {
   const connectionStore = useConnectionStore()
@@ -28,6 +29,9 @@ export const useClusterHealth = () => {
 }
 
 export const checkHealth = async (cluster: ElasticsearchCluster) => {
+  // Without its password the request would only fail with 401 and mark the cluster as unreachable.
+  if (needsPassword(cluster)) return
+
   cluster.loading = true
   const adapter = new ElasticsearchAdapter(cluster)
 

@@ -663,6 +663,12 @@
       "configure": "1. Configurer",
       "connect": "2. Connecter"
     },
+    "cluster_login": {
+      "heading": "Connexion à {name}",
+      "hint": "Le mot de passe de ce cluster n'est pas enregistré. Il est conservé jusqu'à la fermeture de cette fenêtre.",
+      "login": "Se connecter",
+      "error": "Échec de la connexion"
+    },
     "test_and_connect": {
       "heading": "2. Connecter",
       "form": {
@@ -692,6 +698,9 @@
         },
         "region": {
           "label": "Région AWS"
+        },
+        "save_password": {
+          "label": "Enregistrer le mot de passe"
         },
         "test_connection": "Tester la connexion",
         "connect": "Connecter"
