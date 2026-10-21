@@ -541,13 +541,16 @@
       "table": {
         "headers": {
           "name": "Имя",
-          "type": "Тип",
-          "settings": "Настройки"
+          "location": "location",
+          "policies": "policies"
         }
       },
       "delete_repository": {
         "confirm": "Удалить репозиторий '{name}' и все снимки внутри?",
         "growl": "Репозиторий '{name}' успешно удален."
+      },
+      "verify_repository": {
+        "growl": "The repository '{name}' was verified on {count} nodes."
       }
     },
     "repository_policies": {
@@ -845,17 +848,16 @@
     "snapshots_table": {
       "table": {
         "headers": {
-          "status": "Статус",
-          "start_time": "Время начала",
+          "snapshot": "snapshot",
+          "state": "Статус",
+          "started": "Время начала",
           "end_time": "Время окончания",
           "duration": "Длительность",
-          "indices": "Индексы",
-          "successful_shards": "Успешные шарды",
-          "failed_shards": "Неудачные шарды",
-          "total_shards": "Всего шардов"
+          "shards": "shards"
         }
       }
-    }
+    },
+    "repository": "All repositories"
   },
   "snapshot_policies": {
     "new_policy": {
@@ -906,7 +908,9 @@
           "id": "ID",
           "name": "Название",
           "schedule": "Расписание",
-          "retention": "Хранение"
+          "retention": "Хранение",
+          "last_run": "Last run",
+          "next_run": "Next run"
         }
       },
       "delete_policy": {

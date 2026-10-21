@@ -2,7 +2,6 @@ import { describe, expect, it } from 'vitest'
 import {
   mapElasticsearchRoles,
   mapElasticsearchUsers,
-  namePreview,
   roleUsage,
   securityErrorKind,
   summarizeRoles,
@@ -71,13 +70,6 @@ describe('summarizeRoles', () => {
 
   it('does not guess unused roles without usage data', () => {
     expect(summarizeRoles(roles, {}, false).unassigned).toEqual([])
-  })
-})
-
-describe('namePreview', () => {
-  it('shortens long lists', () => {
-    expect(namePreview(['a', 'b', 'c', 'd', 'e'])).toBe('a, b, c +2 more')
-    expect(namePreview([])).toBe('—')
   })
 })
 

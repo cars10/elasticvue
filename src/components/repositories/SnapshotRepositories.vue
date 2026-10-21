@@ -1,14 +1,21 @@
 <template>
+  <div class="flex justify-between items-center q-mb-md">
+    <h1 class="text-h4 q-my-none">{{ t('repositories.heading') }}</h1>
+    <reload-button :action="load" v-model="snapshotRepositoriesStore.reloadInterval" />
+  </div>
+
+  <repositories-pulse
+    v-if="repositories.length"
+    class="q-mb-lg"
+    :summary="summary"
+    :running="running"
+    :slm="policies !== null"
+    :slm-hint="slm ? 'Could not load snapshot policies' : 'Requires Elasticsearch 7.4+'"
+  />
+
   <q-card>
-    <q-card-section class="flex items-center">
-      <h1 class="text-h5 q-my-none">{{ t('repositories.heading') }}</h1>
-      <reload-button :action="load" v-model="snapshotRepositoriesStore.reloadInterval" />
-    </q-card-section>
-
-    <q-separator />
-
     <loader-status :request-state="requestState" hide-progress>
-      <snapshot-repositories-table :repositories="data || {}" @reload="load" />
+      <snapshot-repositories-table :repositories="repositories" :slm="slm" @reload="load" />
     </loader-status>
   </q-card>
 </template>
@@ -16,14 +23,11 @@
 <script setup lang="ts">
 import ReloadButton from '../shared/ReloadButton.vue'
 import LoaderStatus from '../shared/LoaderStatus.vue'
-import { onMounted } from 'vue'
-import { useElasticsearchRequest } from '../../composables/CallElasticsearch'
 import SnapshotRepositoriesTable from './SnapshotRepositoriesTable.vue'
+import RepositoriesPulse from './RepositoriesPulse.vue'
 import { useTranslation } from '../../composables/i18n.ts'
-import { EsSnapshotRepository } from '../../composables/components/repositories/SnapshotRepositoriesTable.ts'
-import { useSnapshotRepositoriesStore } from '../../store/snapshot_repositories.ts'
+import { useSnapshotRepositories } from '../../composables/components/repositories/SnapshotRepositories.ts'
+
 const t = useTranslation()
-const snapshotRepositoriesStore = useSnapshotRepositoriesStore()
-const { load, requestState, data } = useElasticsearchRequest<Record<string, EsSnapshotRepository>>('catRepositories')
-onMounted(load)
+const { snapshotRepositoriesStore, requestState, repositories, policies, running, summary, slm, load } = useSnapshotRepositories()
 </script>

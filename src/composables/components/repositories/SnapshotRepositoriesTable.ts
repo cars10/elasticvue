@@ -1,67 +1,37 @@
 import { useTranslation } from '../../i18n'
 import { computed } from 'vue'
 import { filterItems } from '../../../helpers/filters'
-import { defineElasticsearchRequest } from '../../CallElasticsearch'
 import { genColumns } from '../../../helpers/tableColumns'
-import { useRouter } from 'vue-router'
 import { setupFilterState } from '../shared/FilterState.ts'
 import { useSnapshotRepositoriesStore } from '../../../store/snapshot_repositories.ts'
-
-export type EsSnapshotRepository = {
-  type: string
-  uuid: string
-  settings: EsSnapshotRepositorySettings
-}
-
-type EsSnapshotRepositorySettings = {
-  location: string
-  maxRestoreBytesPerSec: string
-  chunkSize: string
-  readonly: string
-  compress: string
-}
+import type { RepositoryRow } from '../../../types/snapshots.ts'
 
 export type SnapshotRepositoriesTableProps = {
-  repositories: Record<string, EsSnapshotRepository>
+  repositories: RepositoryRow[]
+  slm: boolean
 }
 
-export const useSnapshotRepositoriesTable = (props: SnapshotRepositoriesTableProps, emit: any) => {
+export const useSnapshotRepositoriesTable = (props: SnapshotRepositoriesTableProps) => {
   const t = useTranslation()
   const snapshotRepositoriesStore = useSnapshotRepositoriesStore()
-  const results = computed(() => Object.entries(props.repositories))
-  const filteredResults = computed(() => {
-    if (results.value.length === 0) return []
-    const repos = results.value.map(([name, repo]) => Object.assign({}, { name }, repo))
-    return filterItems(repos, snapshotRepositoriesStore.filter, ['name'])
-  })
 
-  const { run } = defineElasticsearchRequest({ emit, method: 'snapshotDeleteRepository' })
-  const deleteRepository = (name: string) => {
-    return run({
-      confirmMsg: t('repositories.repositories_table.delete_repository.confirm', { name }),
-      params: { repository: name },
-      snackbarOptions: { body: t('repositories.repositories_table.delete_repository.growl', { name }) }
-    })
-  }
-
-  const router = useRouter()
-  const openSnapshots = (repositoryName: string) => router.push({ name: 'snapshots', params: { repositoryName } })
+  const results = computed(() => props.repositories)
+  const filteredResults = computed(() =>
+    filterItems(results.value, snapshotRepositoriesStore.filter, ['name', 'type', 'location'])
+  )
 
   const filterStateProps = setupFilterState(results, filteredResults)
 
   const columns = genColumns([
     { label: t('repositories.repositories_table.table.headers.name'), field: 'name' },
-    { label: t('repositories.repositories_table.table.headers.type'), field: 'type' },
-    { label: t('repositories.repositories_table.table.headers.settings') },
+    { label: t('repositories.repositories_table.table.headers.location'), field: 'location' },
+    props.slm ? { label: t('repositories.repositories_table.table.headers.policies') } : null,
     { label: '' }
   ])
 
   return {
-    emit,
-    openSnapshots,
     filteredResults,
     filterStateProps,
-    deleteRepository,
     columns
   }
 }

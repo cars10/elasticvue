@@ -541,13 +541,16 @@
       "table": {
         "headers": {
           "name": "名前",
-          "type": "タイプ",
-          "settings": "設定"
+          "location": "location",
+          "policies": "policies"
         }
       },
       "delete_repository": {
         "confirm": "リポジトリ '{name}' とその中のすべてのスナップショットを削除しますか？",
         "growl": "リポジトリ '{name}' は正常に削除されました。"
+      },
+      "verify_repository": {
+        "growl": "The repository '{name}' was verified on {count} nodes."
       }
     },
     "repository_policies": {
@@ -845,17 +848,16 @@
     "snapshots_table": {
       "table": {
         "headers": {
-          "status": "ステータス",
-          "start_time": "開始時間",
+          "snapshot": "snapshot",
+          "state": "ステータス",
+          "started": "開始時間",
           "end_time": "終了時間",
           "duration": "期間",
-          "indices": "インデックス",
-          "successful_shards": "成功したシャード",
-          "failed_shards": "失敗したシャード",
-          "total_shards": "総シャード数"
+          "shards": "shards"
         }
       }
-    }
+    },
+    "repository": "All repositories"
   },
   "snapshot_policies": {
     "new_policy": {
@@ -906,7 +908,9 @@
           "id": "ID",
           "name": "名前",
           "schedule": "スケジュール",
-          "retention": "保持"
+          "retention": "保持",
+          "last_run": "Last run",
+          "next_run": "Next run"
         }
       },
       "delete_policy": {

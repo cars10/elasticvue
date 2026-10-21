@@ -541,13 +541,16 @@
       "table": {
         "headers": {
           "name": "名称",
-          "type": "类型",
-          "settings": "配置"
+          "location": "location",
+          "policies": "policies"
         }
       },
       "delete_repository": {
         "confirm": "删除储存 '{name}' 和里面的所有快照吗？",
         "growl": "存储 '{name}' 已成功删除。"
+      },
+      "verify_repository": {
+        "growl": "The repository '{name}' was verified on {count} nodes."
       }
     },
     "repository_policies": {
@@ -845,17 +848,16 @@
     "snapshots_table": {
       "table": {
         "headers": {
-          "status": "状态",
-          "start_time": "开始时间",
+          "snapshot": "snapshot",
+          "state": "状态",
+          "started": "开始时间",
           "end_time": "结束时间",
           "duration": "持续时间",
-          "indices": "索引",
-          "successful_shards": "成功分片",
-          "failed_shards": "失败分片",
-          "total_shards": "总分片"
+          "shards": "shards"
         }
       }
-    }
+    },
+    "repository": "All repositories"
   },
   "snapshot_policies": {
     "new_policy": {
@@ -906,7 +908,9 @@
           "id": "ID",
           "name": "名称",
           "schedule": "计划",
-          "retention": "保留"
+          "retention": "保留",
+          "last_run": "Last run",
+          "next_run": "Next run"
         }
       },
       "delete_policy": {

@@ -541,13 +541,16 @@
       "table": {
         "headers": {
           "name": "名稱",
-          "type": "類型",
-          "settings": "設定"
+          "location": "location",
+          "policies": "policies"
         }
       },
       "delete_repository": {
         "confirm": "確定要刪除儲存庫 '{name}' 及其中的所有快照？",
         "growl": "已成功刪除儲存庫 '{name}'."
+      },
+      "verify_repository": {
+        "growl": "The repository '{name}' was verified on {count} nodes."
       }
     },
     "repository_policies": {
@@ -845,17 +848,16 @@
     "snapshots_table": {
       "table": {
         "headers": {
-          "status": "狀態",
-          "start_time": "開始時間",
+          "snapshot": "snapshot",
+          "state": "狀態",
+          "started": "開始時間",
           "end_time": "結束時間",
           "duration": "持續時間",
-          "indices": "索引",
-          "successful_shards": "成功的分片",
-          "failed_shards": "失敗的分片",
-          "total_shards": "總分片數"
+          "shards": "shards"
         }
       }
-    }
+    },
+    "repository": "All repositories"
   },
   "snapshot_policies": {
     "new_policy": {
@@ -906,7 +908,9 @@
           "id": "ID",
           "name": "名稱",
           "schedule": "排程",
-          "retention": "保留"
+          "retention": "保留",
+          "last_run": "Last run",
+          "next_run": "Next run"
         }
       },
       "delete_policy": {

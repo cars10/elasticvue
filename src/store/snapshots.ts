@@ -19,7 +19,7 @@ export const useSnapshotsStore = () => {
     state: (): SnapshotsState => ({
       filter: '',
       reloadInterval: null,
-      pagination: paginationStoreDefaultProps('id')
+      pagination: paginationStoreDefaultProps('startTime', true)
     }),
     persist: {
       pick: ['filter', ...persistReloadIntervalProps()],

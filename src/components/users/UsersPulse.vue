@@ -23,7 +23,6 @@
         :value="summary.superusers.length"
         test-id="users-pulse-superusers"
       >
-        <div class="text-muted font-13 q-mt-xs">{{ namePreview(summary.superusers) }}</div>
       </pulse-metric-card>
     </div>
 
@@ -35,7 +34,6 @@
         :value-class="summary.withoutRoles.length ? 'health--yellow' : undefined"
         test-id="users-pulse-without-roles"
       >
-        <div class="text-muted font-13 q-mt-xs">{{ namePreview(summary.withoutRoles) }}</div>
       </pulse-metric-card>
     </div>
   </div>
@@ -45,7 +43,6 @@
 import { computed } from 'vue'
 import PulseMetricCard from '../shared/PulseMetricCard.vue'
 import { supportsUserEnabledInBody } from '../../helpers/securitySupport.ts'
-import { namePreview } from '../../helpers/security.ts'
 import type { AuthenticatedUser, UsersSummary } from '../../types/security.ts'
 
 const props = defineProps<{

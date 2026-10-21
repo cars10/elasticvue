@@ -96,13 +96,6 @@ export const summarizeRoles = (roles: ClusterRole[], usage: Record<string, RoleU
   }
 }
 
-const PREVIEW_LIMIT = 3
-
-export const namePreview = (names: string[]) =>
-  names.length > PREVIEW_LIMIT
-    ? `${names.slice(0, PREVIEW_LIMIT).join(', ')} +${names.length - PREVIEW_LIMIT} more`
-    : names.join(', ') || '—'
-
 export type SecurityErrorKind = 'forbidden' | 'unavailable'
 
 export const securityErrorKind = (status: number): SecurityErrorKind =>

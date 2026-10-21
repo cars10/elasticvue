@@ -14,7 +14,6 @@
         test-id="roles-pulse-admin"
       >
         <div class="text-muted font-13 q-mt-xs">all, manage or manage_security</div>
-        <div class="text-muted font-13 q-mt-xs">{{ namePreview(summary.clusterAdmin) }}</div>
       </pulse-metric-card>
     </div>
 
@@ -26,7 +25,6 @@
         test-id="roles-pulse-all-indices"
       >
         <div class="text-muted font-13 q-mt-xs">all privileges on *</div>
-        <div class="text-muted font-13 q-mt-xs">{{ namePreview(summary.allIndices) }}</div>
       </pulse-metric-card>
     </div>
 
@@ -39,7 +37,6 @@
         test-id="roles-pulse-unused"
       >
         <div class="text-muted font-13 q-mt-xs">custom roles without users or role mappings</div>
-        <div class="text-muted font-13 q-mt-xs">{{ namePreview(summary.unassigned) }}</div>
       </pulse-metric-card>
     </div>
   </div>
@@ -48,7 +45,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import PulseMetricCard from '../shared/PulseMetricCard.vue'
-import { namePreview } from '../../helpers/security.ts'
 import type { RolesSummary } from '../../types/security.ts'
 
 const props = defineProps<{
