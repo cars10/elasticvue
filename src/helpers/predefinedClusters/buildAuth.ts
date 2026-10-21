@@ -2,7 +2,15 @@ import { AuthType, ElasticsearchClusterAuth } from '../../store/connection.ts'
 import { PredefinedCluster } from '../../composables/components/predefinedclusters/PredefinedClusters.ts'
 
 export const buildAuth = (cluster: PredefinedCluster): ElasticsearchClusterAuth => {
-  const { username, password, apiKey, S3accessKeyId, S3secretAccessKey, S3sessionToken, S3region } = cluster
+  const { username, password, promptPassword, apiKey, S3accessKeyId, S3secretAccessKey, S3sessionToken, S3region } = cluster
+
+  // The password is asked once per session and never stored, so a password in the config file is ignored.
+  if (username?.length && promptPassword) {
+    return {
+      authType: AuthType.basicAuth,
+      authData: { username, password: '', promptPassword: true }
+    }
+  }
 
   if (username?.length && password?.length) {
     return {

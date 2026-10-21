@@ -663,6 +663,12 @@
       "configure": "1. 配置",
       "connect": "2. 连接"
     },
+    "cluster_login": {
+      "heading": "登录到 {name}",
+      "hint": "此集群的密码不会被保存，关闭此窗口后即被清除。",
+      "login": "登录",
+      "error": "登录失败"
+    },
     "test_and_connect": {
       "heading": "2. 连接",
       "form": {
@@ -692,6 +698,9 @@
         },
         "region": {
           "label": "AWS 区域"
+        },
+        "prompt_password": {
+          "label": "不保存密码，每个会话询问一次"
         },
         "test_connection": "测试连接",
         "connect": "连接"

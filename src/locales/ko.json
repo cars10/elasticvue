@@ -663,6 +663,12 @@
       "configure": "1. 설정",
       "connect": "2. 연결"
     },
+    "cluster_login": {
+      "heading": "{name}에 로그인",
+      "hint": "이 클러스터의 비밀번호는 저장되지 않습니다. 이 창을 닫을 때까지 유지됩니다.",
+      "login": "로그인",
+      "error": "로그인 실패"
+    },
     "test_and_connect": {
       "heading": "2. 연결",
       "form": {
@@ -692,6 +698,9 @@
         },
         "region": {
           "label": "AWS 리전"
+        },
+        "prompt_password": {
+          "label": "비밀번호를 저장하지 않고 세션마다 한 번 입력"
         },
         "test_connection": "연결 테스트",
         "connect": "연결"

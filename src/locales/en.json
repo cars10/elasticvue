@@ -663,6 +663,12 @@
       "configure": "1. Configure",
       "connect": "2. Connect"
     },
+    "cluster_login": {
+      "heading": "Log in to {name}",
+      "hint": "The password of this cluster is not saved. It is kept until you close this window.",
+      "login": "Log in",
+      "error": "Login failed"
+    },
     "test_and_connect": {
       "heading": "2. Connect",
       "form": {
@@ -692,6 +698,9 @@
         },
         "region": {
           "label": "AWS region"
+        },
+        "prompt_password": {
+          "label": "Don't save password, ask for it once per session"
         },
         "test_connection": "Test connection",
         "connect": "Connect"

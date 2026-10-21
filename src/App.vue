@@ -4,7 +4,8 @@
 
     <q-page-container>
       <div class="q-ma-md">
-        <router-view v-if="showClusterView || route.name === 'settings'" />
+        <cluster-login v-if="showLogin" />
+        <router-view v-else-if="showClusterView || route.name === 'settings'" />
         <div v-else-if="connectionStore.activeCluster?.status === 'unknown'" class="q-pa-lg">
           <div class="row">
             <div class="col-6 offset-3">
@@ -36,6 +37,8 @@ import { useConnectionStore } from './store/connection'
 import { setAppThemeCss, setupThemeListener } from './helpers/theme.ts'
 import TauriUpdateCheck from './components/base/TauriUpdateCheck.vue'
 import { buildConfig } from './buildConfig.ts'
+import ClusterLogin from './components/setup/ClusterLogin.vue'
+import { needsPassword } from './services/SessionPasswords.ts'
 
 const themeStore = useThemeStore()
 const connectionStore = useConnectionStore()
@@ -47,6 +50,12 @@ const showClusterView = computed(() => {
   const cluster = connectionStore.activeCluster
   if (!cluster) return true
   return Boolean(cluster.uuid && cluster.status !== 'unknown')
+})
+
+// Clusters with "promptPassword" ask for their password once per session before any request is sent.
+const showLogin = computed(() => {
+  const cluster = connectionStore.activeCluster
+  return Boolean(cluster && needsPassword(cluster) && route.name !== 'settings')
 })
 
 onMounted(() => {

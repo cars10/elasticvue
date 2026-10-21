@@ -663,6 +663,12 @@
       "configure": "1. 設定",
       "connect": "2. 接続"
     },
+    "cluster_login": {
+      "heading": "{name} にログイン",
+      "hint": "このクラスターのパスワードは保存されません。このウィンドウを閉じるまで保持されます。",
+      "login": "ログイン",
+      "error": "ログインに失敗しました"
+    },
     "test_and_connect": {
       "heading": "2. 接続",
       "form": {
@@ -692,6 +698,9 @@
         },
         "region": {
           "label": "AWS リージョン"
+        },
+        "prompt_password": {
+          "label": "パスワードを保存せず、セッションごとに一度入力する"
         },
         "test_connection": "接続をテスト",
         "connect": "接続"

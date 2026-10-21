@@ -32,7 +32,7 @@
           v-model="cluster.auth.authData.password"
           autocomplete="off"
           outlined
-          :rules="[required]"
+          :rules="cluster.auth.authData.promptPassword ? [] : [required]"
           :label="t('setup.test_and_connect.form.password.label')"
           :type="passwordVisible ? 'text' : 'password'"
         >
@@ -64,6 +64,14 @@
           </template>
         </custom-input>
       </div>
+    </div>
+
+    <div v-if="cluster.auth.authType === AuthType.basicAuth" class="q-mb-md">
+      <q-checkbox
+        v-model="cluster.auth.authData.promptPassword"
+        :label="t('setup.test_and_connect.form.prompt_password.label')"
+        data-testid="cluster-prompt-password"
+      />
     </div>
 
     <div v-if="cluster.auth.authType === AuthType.awsIAM">

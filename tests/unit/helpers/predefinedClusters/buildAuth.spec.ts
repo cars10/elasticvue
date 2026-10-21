@@ -18,6 +18,21 @@ describe('buildAuth', () => {
     })
   })
 
+  it('returns basicAuth without password when promptPassword is set', () => {
+    const cluster: PredefinedCluster = {
+      uri: 'http://localhost:9200',
+      username: 'admin',
+      password: 'ignored',
+      promptPassword: true
+    }
+
+    const result = buildAuth(cluster)
+    expect(result).toEqual({
+      authType: AuthType.basicAuth,
+      authData: { username: 'admin', password: '', promptPassword: true }
+    })
+  })
+
   it('returns apiKey when only password is present', () => {
     const cluster: PredefinedCluster = {
       uri: 'http://localhost:9200',
