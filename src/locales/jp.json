@@ -699,8 +699,8 @@
         "region": {
           "label": "AWS リージョン"
         },
-        "prompt_password": {
-          "label": "パスワードを保存せず、セッションごとに一度入力する"
+        "save_password": {
+          "label": "パスワードを保存"
         },
         "test_connection": "接続をテスト",
         "connect": "接続"

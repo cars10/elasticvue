@@ -699,8 +699,8 @@
         "region": {
           "label": "Регион AWS"
         },
-        "prompt_password": {
-          "label": "Не сохранять пароль, запрашивать один раз за сеанс"
+        "save_password": {
+          "label": "Сохранить пароль"
         },
         "test_connection": "Проверить подключение",
         "connect": "Подключиться"

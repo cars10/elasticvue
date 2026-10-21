@@ -699,8 +699,8 @@
         "region": {
           "label": "AWS 리전"
         },
-        "prompt_password": {
-          "label": "비밀번호를 저장하지 않고 세션마다 한 번 입력"
+        "save_password": {
+          "label": "비밀번호 저장"
         },
         "test_connection": "연결 테스트",
         "connect": "연결"

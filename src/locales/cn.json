@@ -699,8 +699,8 @@
         "region": {
           "label": "AWS 区域"
         },
-        "prompt_password": {
-          "label": "不保存密码，每个会话询问一次"
+        "save_password": {
+          "label": "保存密码"
         },
         "test_connection": "测试连接",
         "connect": "连接"

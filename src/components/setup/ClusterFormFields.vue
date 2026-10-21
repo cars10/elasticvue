@@ -68,10 +68,10 @@
 
     <div v-if="cluster.auth.authType === AuthType.basicAuth" class="q-mb-md">
       <q-checkbox
-        :model-value="!!cluster.auth.authData.promptPassword"
-        @update:model-value="(value: boolean) => (cluster.auth.authData.promptPassword = value)"
-        :label="t('setup.test_and_connect.form.prompt_password.label')"
-        data-testid="cluster-prompt-password"
+        :model-value="!cluster.auth.authData.promptPassword"
+        @update:model-value="setSavePassword"
+        :label="t('setup.test_and_connect.form.save_password.label')"
+        data-testid="cluster-save-password"
       />
     </div>
 
@@ -171,6 +171,12 @@ const validateUri = (uri: string) => {
 const required = (val: string) => !!val || 'required'
 
 const resetUri = () => (cluster.value.uri = DEFAULT_CLUSTER_URI)
+
+// Shown as "Save password" (checked by default), stored as "promptPassword" so existing clusters keep saving it.
+const setSavePassword = (save: boolean) => {
+  if (cluster.value.auth.authType !== AuthType.basicAuth) return
+  cluster.value.auth.authData.promptPassword = !save
+}
 const ssl = computed(() => /^https/.test(cluster.value.uri))
 
 const emit = defineEmits(['update:modelValue', 'update:formValid'])

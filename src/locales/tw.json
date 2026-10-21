@@ -699,8 +699,8 @@
         "region": {
           "label": "AWS 區域"
         },
-        "prompt_password": {
-          "label": "不儲存密碼，每個工作階段詢問一次"
+        "save_password": {
+          "label": "儲存密碼"
         },
         "test_connection": "測試連線",
         "connect": "連線"

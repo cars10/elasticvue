@@ -699,8 +699,8 @@
         "region": {
           "label": "Région AWS"
         },
-        "prompt_password": {
-          "label": "Ne pas enregistrer le mot de passe, le demander une fois par session"
+        "save_password": {
+          "label": "Enregistrer le mot de passe"
         },
         "test_connection": "Tester la connexion",
         "connect": "Connecter"
