@@ -624,7 +624,8 @@
     "disconnect_and_reset": {
       "heading": "断开连接并重置所有配置",
       "button": "断开连接并重置",
-      "confirm": "你确定吗？这将删除 elasticvue 保存的所有数据！你必须重新连接到集群。"
+      "confirm": "你确定吗？这将删除 elasticvue 保存的所有数据！你必须重新连接到集群。",
+      "message": "Deletes all clusters, settings and query history saved by elasticvue."
     },
     "import_export": {
       "heading": "导入/导出 elasticvue 数据",
@@ -642,6 +643,14 @@
     },
     "editor_vim_mode": {
       "label": "在编辑器中使用 vim 键绑定"
+    },
+    "editor": {
+      "heading": "Editor",
+      "wrap_lines": "Wrap long lines in editor"
+    },
+    "cluster": {
+      "heading": "Cluster '{name}'",
+      "message": "These settings only apply to the current cluster."
     }
   },
   "setup": {

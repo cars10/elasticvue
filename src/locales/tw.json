@@ -624,7 +624,8 @@
     "disconnect_and_reset": {
       "heading": "中斷連線並重設所有設定",
       "button": "中斷連線並重設",
-      "confirm": "確定嗎？這將會刪除 elasticvue 儲存的所有資料！您將需要重新連線到您的叢集。"
+      "confirm": "確定嗎？這將會刪除 elasticvue 儲存的所有資料！您將需要重新連線到您的叢集。",
+      "message": "Deletes all clusters, settings and query history saved by elasticvue."
     },
     "import_export": {
       "heading": "匯入/匯出 elasticvue 資料",
@@ -642,6 +643,14 @@
     },
     "editor_vim_mode": {
       "label": "在編輯器中使用 Vim 按鍵綁定"
+    },
+    "editor": {
+      "heading": "Editor",
+      "wrap_lines": "Wrap long lines in editor"
+    },
+    "cluster": {
+      "heading": "Cluster '{name}'",
+      "message": "These settings only apply to the current cluster."
     }
   },
   "setup": {

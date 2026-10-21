@@ -624,7 +624,8 @@
     "disconnect_and_reset": {
       "heading": "Disconnetti e reimposta tutte le impostazioni",
       "button": "Disconnetti e reimposta",
-      "confirm": "Sei sicuro? Questo eliminerà tutti i dati salvati da elasticvue! Dovrai riconnetterti al tuo cluster."
+      "confirm": "Sei sicuro? Questo eliminerà tutti i dati salvati da elasticvue! Dovrai riconnetterti al tuo cluster.",
+      "message": "Deletes all clusters, settings and query history saved by elasticvue."
     },
     "import_export": {
       "heading": "Importa/Esporta dati elasticvue",
@@ -642,6 +643,14 @@
     },
     "editor_vim_mode": {
       "label": "Usa associazioni di tasti vim nell'editor"
+    },
+    "editor": {
+      "heading": "Editor",
+      "wrap_lines": "Wrap long lines in editor"
+    },
+    "cluster": {
+      "heading": "Cluster '{name}'",
+      "message": "These settings only apply to the current cluster."
     }
   },
   "setup": {
