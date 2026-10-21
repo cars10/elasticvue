@@ -1,18 +1,18 @@
 <template>
-  <div class="flex justify-between q-my-md">
-    <filter-state
-      v-model="nodesStore.filter"
-      :results-count="filterStateProps.resultsCount"
-      :filtered-results-count="filterStateProps.filteredResultsCount"
-    />
-
-    <div class="flex items-center q-ml-auto">
-      <slot />
-      <filter-input v-model="nodesStore.filter" class="q-ml-md" :columns="['name', 'ip', 'id', 'version']" />
-    </div>
-  </div>
-
   <q-card>
+    <div class="flex justify-between q-pa-md">
+      <filter-state
+        v-model="nodesStore.filter"
+        :results-count="filterStateProps.resultsCount"
+        :filtered-results-count="filterStateProps.filteredResultsCount"
+      />
+
+      <div class="flex items-center q-ml-auto">
+        <slot />
+        <filter-input v-model="nodesStore.filter" class="q-ml-md" :columns="['name', 'ip', 'id', 'version']" />
+      </div>
+    </div>
+
     <q-table
       class="table-mono table-hide-overflow"
       flat
