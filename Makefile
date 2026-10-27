@@ -46,3 +46,7 @@ run_docker_nginx:
 
 e2e: build_docker_ci
 	docker run --rm -v ./playwright-report-ci:/app/playwright-report elasticvue-ci npm run test:e2e $(TEST)
+
+beta: build_docker_nginx
+	docker tag elasticvue cars10/elasticvue:beta
+	docker push cars10/elasticvue:beta
