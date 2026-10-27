@@ -108,3 +108,8 @@
   border: 1px solid var(--theme-card-border);
   border-radius: 8px;
 }
+
+.welcome-page {
+  max-width: 520px;
+  padding-top: 10vh;
+}

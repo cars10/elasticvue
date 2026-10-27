@@ -102,8 +102,7 @@
       "heading": "クラスターを編集"
     },
     "new_cluster": {
-      "add_cluster": "クラスターを追加",
-      "heading": "Elasticsearch クラスターを追加"
+      "add_cluster": "クラスターを追加"
     }
   },
   "helpers": {
@@ -928,19 +927,15 @@
   },
   "setup": {
     "configure": {
-      "heading": "1. 設定",
       "introduction": "elasticvue を使用するには、CORS を設定する必要があります。以下の行を追加してください",
       "allow_cors": "{domain} からの CORS リクエストを許可",
       "authorization": "クラスターで認証を使用している場合",
       "restart": "その後、クラスターを再起動してください"
     },
     "setup_instance": {
-      "heading": "Elasticsearch クラスターを追加",
-      "configure": "1. 設定",
-      "connect": "2. 接続"
+      "heading": "Elasticsearch クラスターを追加"
     },
     "test_and_connect": {
-      "heading": "2. 接続",
       "form": {
         "name": {
           "label": "クラスター名"

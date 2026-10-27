@@ -1,19 +1,18 @@
 <template>
-  <div>
+  <div class="font-14">
     <p class="q-mb-sm">{{ t('setup.configure.introduction') }} <strong>elasticsearch.yml</strong>:</p>
 
-    <pre>
-<code class="code-block whitespace-pre-wrap bg-grey-3 relative-position"><div class="absolute flex" style="right:2px;top:2px;">
-<copy-button :value="copyValue" /></div><span
-    class="code-comment"># {{ t('setup.configure.allow_cors', {domain}) }}</span>
+    <div class="relative-position">
+      <pre class="code-snippet q-ma-none"><span class="text-muted"># {{ t('setup.configure.allow_cors', { domain }) }}</span>
 http.cors.enabled: true
 http.cors.allow-origin: "{{ domain }}"
 
-<span class="code-comment"># {{ t('setup.configure.authorization') }}:</span>
-http.cors.allow-headers: X-Requested-With,Content-Type,Content-Length,Authorization
-</code>
-</pre>
-    <p>{{ t('setup.configure.restart') }}.</p>
+<span class="text-muted"># {{ t('setup.configure.authorization') }}:</span>
+http.cors.allow-headers: X-Requested-With,Content-Type,Content-Length,Authorization</pre>
+      <copy-button :value="copyValue" flat round dense size="sm" class="absolute-top-right q-ma-xs text-muted" />
+    </div>
+
+    <p class="text-muted q-mt-sm q-mb-none">{{ t('setup.configure.restart') }}.</p>
   </div>
 </template>
 

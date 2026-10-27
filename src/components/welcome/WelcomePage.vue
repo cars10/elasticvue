@@ -1,46 +1,47 @@
 <template>
-  <div class="row">
-    <div class="col-lg-6 offset-lg-3 col-md-8 offset-md-2 col-sm-12 offset-sm-0">
-      <q-card class="q-mt-xl">
-        <q-card-section class="text-center">
-          <h1 class="text-h2 q-my-md flex justify-center items-center">
-            <img :src="logo" alt="logo" height="48" width="48" class="q-mr-sm" />
-            elasticvue
-          </h1>
-          <h2 class="text-h5 q-my-md text-muted text-weight-light">
-            {{ t('welcome.welcome_page.intro') }}
-          </h2>
-        </q-card-section>
-
-        <q-separator />
-
-        <q-card-section>
-          <p class="q-ma-md flex items-center justify-center text-center">
-            <q-icon name="info_outline" size="sm" class="q-mr-sm" />
-            {{ t('welcome.welcome_page.first_time') }}
-          </p>
-          <p class="text-center q-ma-md">
-            {{ t('welcome.welcome_page.add_clusters') }}
-          </p>
-        </q-card-section>
-
-        <q-card-section horizontal>
-          <q-card-section vertical class="full-width flex justify-center items-center q-pa-lg">
-            <setup-instance />
-          </q-card-section>
-
-          <q-separator vertical />
-
-          <q-card-section vertical class="full-width flex justify-center items-center q-pa-lg">
-            <import-backup />
-          </q-card-section>
-        </q-card-section>
-      </q-card>
+  <div class="welcome-page q-mx-auto">
+    <div class="row items-center no-wrap q-gutter-x-sm">
+      <img :src="logo" alt="" height="40" width="40" draggable="false" />
+      <h1 class="page-title">Elasticvue</h1>
     </div>
+    <p class="text-muted q-mt-sm q-mb-xl">{{ t('welcome.welcome_page.intro') }}</p>
+
+    <p class="font-14 q-mb-md">
+      {{ t('welcome.welcome_page.first_time') }}
+      {{ t('welcome.welcome_page.add_clusters') }}
+    </p>
+
+    <q-card>
+      <q-list separator>
+        <q-item id="add_cluster" clickable class="q-py-md" @click="setupDialog = true">
+          <q-item-section avatar>
+            <q-icon name="add" color="primary" />
+          </q-item-section>
+          <q-item-section>{{ t('setup.setup_instance.heading') }}</q-item-section>
+          <q-item-section side>
+            <q-icon name="chevron_right" />
+          </q-item-section>
+        </q-item>
+
+        <q-item clickable class="q-py-md" @click="importDialog = true">
+          <q-item-section avatar>
+            <q-icon name="upload" class="text-muted" />
+          </q-item-section>
+          <q-item-section>{{ t('welcome.import_backup.heading') }}</q-item-section>
+          <q-item-section side>
+            <q-icon name="chevron_right" />
+          </q-item-section>
+        </q-item>
+      </q-list>
+    </q-card>
   </div>
+
+  <setup-instance v-model="setupDialog" />
+  <import-backup v-model="importDialog" />
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 import { useLogo } from '../../composables/Logo'
 import ImportBackup from './ImportBackup.vue'
 import SetupInstance from '../setup/SetupInstance.vue'
@@ -48,4 +49,7 @@ import { useTranslation } from '../../composables/i18n.ts'
 
 const logo = useLogo()
 const t = useTranslation()
+
+const setupDialog = ref(false)
+const importDialog = ref(false)
 </script>

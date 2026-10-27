@@ -1,38 +1,35 @@
 <template>
-  <q-form @submit.prevent="testConnection" ref="form" greedy>
-    <cluster-form-fields v-model="cluster" />
+  <q-form ref="form" greedy @submit.prevent="testConnection">
+    <q-card-section>
+      <cluster-form-fields v-model="cluster" />
 
-    <q-separator class="q-my-lg" />
+      <cluster-connection-errors
+        v-if="testState.error || connectState.error"
+        :cluster="cluster"
+        :error-message="testState.errorMessage || connectState.errorMessage"
+      />
+    </q-card-section>
 
-    <q-btn
-      :label="t('setup.test_and_connect.form.test_connection')"
-      :disable="!formValid"
-      :loading="testState.loading"
-      color="primary-dark"
-      class="q-mr-md"
-      type="submit"
-    />
+    <q-separator />
 
-    <q-btn
-      id="connect"
-      :label="t('setup.test_and_connect.form.connect')"
-      :disable="!formValid"
-      :loading="connectState.loading"
-      color="primary-dark"
-      type="button"
-      class="q-mr-md"
-      @click="connectAndRedirect"
-    />
-
-    <q-btn v-close-popup flat :label="t('defaults.close')" />
-
-    <slot name="actions" />
-
-    <cluster-connection-errors
-      v-if="testState.error || connectState.error"
-      :cluster="cluster"
-      :error-message="testState.errorMessage || connectState.errorMessage"
-    />
+    <q-card-actions align="right" class="q-pa-md">
+      <q-btn v-close-popup flat :label="t('defaults.close')" />
+      <q-btn
+        :label="t('setup.test_and_connect.form.test_connection')"
+        :loading="testState.loading"
+        outline
+        color="primary"
+        type="submit"
+      />
+      <q-btn
+        id="connect"
+        :label="t('setup.test_and_connect.form.connect')"
+        :loading="connectState.loading"
+        unelevated
+        color="primary-dark"
+        @click="connectAndRedirect"
+      />
+    </q-card-actions>
   </q-form>
 </template>
 
@@ -51,8 +48,5 @@ const t = useTranslation()
 const emit = defineEmits(['update:modelValue'])
 watch(cluster, (value) => emit('update:modelValue', value))
 
-const { testState, connectState, testConnection, connectAndRedirect, formValid } = useClusterConnection(
-  cluster,
-  props.connectCallback
-)
+const { testState, connectState, testConnection, connectAndRedirect } = useClusterConnection(cluster, props.connectCallback)
 </script>

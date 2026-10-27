@@ -102,8 +102,7 @@
       "heading": "Modifier le cluster"
     },
     "new_cluster": {
-      "add_cluster": "Ajouter le cluster",
-      "heading": "Ajouter un cluster elasticsearch"
+      "add_cluster": "Ajouter le cluster"
     }
   },
   "helpers": {
@@ -928,19 +927,15 @@
   },
   "setup": {
     "configure": {
-      "heading": "1. Configurer",
       "introduction": "Vous devez configurer CORS pour utiliser elasticvue web. Ajoutez les lignes suivantes à votre",
       "allow_cors": "autoriser les requêtes CORS depuis {domain}",
       "authorization": "et si votre cluster utilise l'autorisation",
       "restart": "alors, redémarrez votre cluster"
     },
     "setup_instance": {
-      "heading": "Ajouter un cluster Elasticsearch",
-      "configure": "1. Configurer",
-      "connect": "2. Connecter"
+      "heading": "Ajouter un cluster Elasticsearch"
     },
     "test_and_connect": {
-      "heading": "2. Connecter",
       "form": {
         "name": {
           "label": "Nom du cluster"

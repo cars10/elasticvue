@@ -102,8 +102,7 @@
       "heading": "Редактировать кластер"
     },
     "new_cluster": {
-      "add_cluster": "Добавить кластер",
-      "heading": "Добавить кластер Elasticsearch"
+      "add_cluster": "Добавить кластер"
     }
   },
   "helpers": {
@@ -928,19 +927,15 @@
   },
   "setup": {
     "configure": {
-      "heading": "1. Настройка",
       "introduction": "Вам нужно настроить CORS для использования elasticvue web. Добавьте следующие строки в ваш",
       "allow_cors": "разрешить CORS запросы с {domain}",
       "authorization": "и если ваш кластер использует авторизацию",
       "restart": "Затем перезапустите ваш кластер"
     },
     "setup_instance": {
-      "heading": "Добавить кластер Elasticsearch",
-      "configure": "1. Настройка",
-      "connect": "2. Подключение"
+      "heading": "Добавить кластер Elasticsearch"
     },
     "test_and_connect": {
-      "heading": "2. Подключение",
       "form": {
         "name": {
           "label": "Имя кластера"

@@ -102,8 +102,7 @@
       "heading": "重命名Elasticsearch实例"
     },
     "new_cluster": {
-      "add_cluster": "添加集群",
-      "heading": "添加Elasticsearch实例"
+      "add_cluster": "添加集群"
     }
   },
   "helpers": {
@@ -928,19 +927,15 @@
   },
   "setup": {
     "configure": {
-      "heading": "1. 配置",
       "introduction": "你必须设置 CORS 才能使用 elasticvue。将以下行添加到你的",
       "allow_cors": "允许 CORS 请求来自 {domain}",
       "authorization": "如果你的集群使用授权",
       "restart": "然后重启你的集群"
     },
     "setup_instance": {
-      "heading": "添加elasticsearch集群",
-      "configure": "1. 配置",
-      "connect": "2. 连接"
+      "heading": "添加elasticsearch集群"
     },
     "test_and_connect": {
-      "heading": "2. 连接",
       "form": {
         "name": {
           "label": "集群名称"

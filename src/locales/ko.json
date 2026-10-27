@@ -102,8 +102,7 @@
       "heading": "클러스터 편집"
     },
     "new_cluster": {
-      "add_cluster": "클러스터 추가",
-      "heading": "Elasticsearch 클러스터 추가"
+      "add_cluster": "클러스터 추가"
     }
   },
   "helpers": {
@@ -928,19 +927,15 @@
   },
   "setup": {
     "configure": {
-      "heading": "1. 설정",
       "introduction": "Elasticvue를 사용하려면 CORS를 설정해야 합니다. 다음 행을 추가하세요",
       "allow_cors": "{domain}에서의 CORS 요청 허용",
       "authorization": "클러스터에서 인증을 사용하는 경우",
       "restart": "그 후 클러스터를 재시작하세요"
     },
     "setup_instance": {
-      "heading": "Elasticsearch 클러스터 추가",
-      "configure": "1. 설정",
-      "connect": "2. 연결"
+      "heading": "Elasticsearch 클러스터 추가"
     },
     "test_and_connect": {
-      "heading": "2. 연결",
       "form": {
         "name": {
           "label": "클러스터 이름"

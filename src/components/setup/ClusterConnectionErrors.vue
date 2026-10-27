@@ -1,27 +1,23 @@
 <template>
-  <q-banner class="text-white bg-grey-9 border-l-8 border-negative q-mt-xl q-py-md">
+  <q-banner rounded class="tool-banner tool-banner--danger q-mt-md">
     <template #avatar>
-      <q-icon name="error" />
+      <q-icon name="error_outline" color="negative" />
     </template>
 
-    <div>
-      <p v-if="errorMessage" class="text-bold">{{ errorMessage }}</p>
-      <p v-else class="text-bold">{{ t('shared.cluster_connection_errors.connection_error') }}</p>
-
-      <p>
-        {{ t('shared.cluster_connection_errors.cant_connect') }}
-        {{ t('shared.cluster_connection_errors.please_check') }}
-      </p>
-
-      <ul class="q-pl-lg q-my-sm">
-        <li>
-          {{ t('shared.cluster_connection_errors.checklist.reachable') }}
-          <a :href="credentialsUri" target="_blank">{{ cluster.uri }}</a>
-        </li>
-        <li v-if="buildConfig.hints.ssl && ssl">{{ t('shared.cluster_connection_errors.checklist.ssl') }}</li>
-        <li v-if="buildConfig.hints.cors">{{ t('shared.cluster_connection_errors.checklist.cors') }}</li>
-      </ul>
+    <div class="text-weight-medium">{{ errorMessage || t('shared.cluster_connection_errors.connection_error') }}</div>
+    <div class="q-mt-xs">
+      {{ t('shared.cluster_connection_errors.cant_connect') }}
+      {{ t('shared.cluster_connection_errors.please_check') }}
     </div>
+
+    <ul class="q-pl-md q-mt-xs q-mb-none">
+      <li>
+        {{ t('shared.cluster_connection_errors.checklist.reachable') }}
+        <a :href="credentialsUri" target="_blank" class="word-break-all">{{ cluster.uri }}</a>
+      </li>
+      <li v-if="buildConfig.hints.ssl && ssl">{{ t('shared.cluster_connection_errors.checklist.ssl') }}</li>
+      <li v-if="buildConfig.hints.cors">{{ t('shared.cluster_connection_errors.checklist.cors') }}</li>
+    </ul>
   </q-banner>
 </template>
 

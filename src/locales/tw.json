@@ -102,8 +102,7 @@
       "heading": "編輯叢集"
     },
     "new_cluster": {
-      "add_cluster": "新增叢集",
-      "heading": "新增 Elasticsearch 叢集"
+      "add_cluster": "新增叢集"
     }
   },
   "helpers": {
@@ -928,19 +927,15 @@
   },
   "setup": {
     "configure": {
-      "heading": "1. 設定",
       "introduction": "您必須設定 CORS 才能使用 elasticvue 網頁版。請將以下幾行新增至您的",
       "allow_cors": "允許來自 {domain} 的 CORS 請求",
       "authorization": "且如果您的叢集使用授權",
       "restart": "然後重新啟動您的叢集"
     },
     "setup_instance": {
-      "heading": "新增 Elasticsearch 叢集",
-      "configure": "1. 設定",
-      "connect": "2. 連線"
+      "heading": "新增 Elasticsearch 叢集"
     },
     "test_and_connect": {
-      "heading": "2. 連線",
       "form": {
         "name": {
           "label": "叢集名稱"

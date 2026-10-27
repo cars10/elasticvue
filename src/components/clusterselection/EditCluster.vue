@@ -10,44 +10,40 @@
   />
 
   <q-dialog v-model="dialog" transition-duration="100">
-    <q-card style="min-width: 800px">
-      <q-card-section class="flex justify-between">
-        <h2 class="text-h6 q-my-none">
-          {{ t('cluster_selection.edit_cluster.heading') }}
-        </h2>
-
-        <q-btn v-close-popup icon="close" flat round dense />
+    <q-card style="width: 640px; max-width: 90vw">
+      <q-card-section class="row items-center no-wrap">
+        <h2 class="text-h6 q-my-none col">{{ t('cluster_selection.edit_cluster.heading') }}</h2>
+        <q-btn v-close-popup icon="close" flat round dense :aria-label="t('defaults.close')" />
       </q-card-section>
 
       <q-separator />
 
-      <q-card-section>
-        <q-form @submit.prevent ref="form" greedy>
+      <q-form ref="form" greedy @submit.prevent="testConnection">
+        <q-card-section>
           <cluster-form-fields v-model="cluster" />
+          <cluster-connection-errors v-if="testState.error" :cluster="cluster" :error-message="testState.errorMessage" />
+        </q-card-section>
 
+        <q-separator />
+
+        <q-card-actions align="right" class="q-pa-md">
+          <q-btn v-close-popup flat :label="t('defaults.close')" />
           <q-btn
             :label="t('setup.test_and_connect.form.test_connection')"
             :loading="testState.loading"
-            color="primary-dark"
-            class="q-mr-md"
+            outline
+            color="primary"
             type="submit"
-            @click="testConnection"
           />
-
           <q-btn
-            :label="'Save'"
+            :label="t('defaults.update')"
+            unelevated
             color="primary-dark"
-            type="button"
-            class="q-mr-md"
             data-testid="cluster-edit-save"
             @click="saveCluster"
           />
-
-          <q-btn v-close-popup flat :label="t('defaults.close')" />
-
-          <cluster-connection-errors v-if="testState.error" :cluster="cluster" :error-message="testState.errorMessage" />
-        </q-form>
-      </q-card-section>
+        </q-card-actions>
+      </q-form>
     </q-card>
   </q-dialog>
 </template>

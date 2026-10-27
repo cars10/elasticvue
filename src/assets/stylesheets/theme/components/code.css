@@ -7,16 +7,13 @@ code {
   border-radius: 4px;
 }
 
-.code-block {
-  display: inline-block;
-  padding: 5px 6px !important;
-}
-
-.code-block::before,
-.code-block::after {
-  content: initial !important;
-}
-
-.code-comment {
-  color: #666;
+.code-snippet {
+  padding: 12px 40px 12px 14px;
+  overflow-x: auto;
+  font-family: Hack, monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  background: var(--theme-body-background);
+  border: 1px solid var(--theme-card-border);
+  border-radius: 6px;
 }

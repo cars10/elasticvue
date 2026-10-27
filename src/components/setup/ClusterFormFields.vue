@@ -1,104 +1,15 @@
 <template>
-  <div class="q-mb-md">
-    <div class="q-mb-md">
-      <q-option-group v-model="cluster.auth.authType" inline :options="authorizationTypes" color="primary" />
-    </div>
-
-    <div class="q-mb-md">
-      <custom-input
-        v-model="cluster.name"
-        :rules="[required]"
-        :label="t('setup.test_and_connect.form.name.label')"
-        autocomplete="off"
-        outlined
-        data-testid="cluster-edit-name"
-        autofocus
-      />
-    </div>
-
-    <div v-if="cluster.auth.authType === AuthType.basicAuth || cluster.auth.authType === AuthType.apiKey" class="row q-mb-md">
-      <div v-if="cluster.auth.authType === AuthType.basicAuth" class="col q-pr-md">
-        <custom-input
-          v-model="cluster.auth.authData.username"
-          outlined
-          :rules="[required]"
-          :label="t('setup.test_and_connect.form.username.label')"
-          autocomplete="off"
-        />
-      </div>
-
-      <div v-if="cluster.auth.authType === AuthType.basicAuth" class="col">
-        <custom-input
-          v-model="cluster.auth.authData.password"
-          autocomplete="off"
-          outlined
-          :rules="[required]"
-          :label="t('setup.test_and_connect.form.password.label')"
-          :type="passwordVisible ? 'text' : 'password'"
-        >
-          <template #append>
-            <q-icon
-              :name="passwordVisible ? 'visibility' : 'visibility_off'"
-              class="cursor-pointer"
-              @click="passwordVisible = !passwordVisible"
-            />
-          </template>
-        </custom-input>
-      </div>
-
-      <div v-if="cluster.auth.authType === AuthType.apiKey" class="col">
-        <custom-input
-          v-model="cluster.auth.authData.apiKey"
-          autocomplete="off"
-          outlined
-          :rules="[required]"
-          :label="t('setup.test_and_connect.form.api_key.label')"
-          :type="passwordVisible ? 'text' : 'password'"
-        >
-          <template #append>
-            <q-icon
-              :name="passwordVisible ? 'visibility' : 'visibility_off'"
-              class="cursor-pointer"
-              @click="passwordVisible = !passwordVisible"
-            />
-          </template>
-        </custom-input>
-      </div>
-    </div>
-
-    <div v-if="cluster.auth.authType === AuthType.awsIAM">
-      <custom-input
-        v-model="cluster.auth.authData.accessKeyId"
-        autocomplete="off"
-        outlined
-        :rules="[required]"
-        :label="t('setup.test_and_connect.form.access_key_id.label')"
-        class="q-mb-md"
-      />
-      <custom-input
-        v-model="cluster.auth.authData.secretAccessKey"
-        autocomplete="off"
-        outlined
-        :rules="[required]"
-        :label="t('setup.test_and_connect.form.secret_access_key.label')"
-        class="q-mb-md"
-      />
-      <custom-input
-        v-model="cluster.auth.authData.region"
-        autocomplete="off"
-        outlined
-        :rules="[required]"
-        :label="t('setup.test_and_connect.form.region.label')"
-        class="q-mb-md"
-      />
-      <custom-input
-        v-model="cluster.auth.authData.sessionToken"
-        autocomplete="off"
-        outlined
-        :label="t('setup.test_and_connect.form.session_token.label')"
-        class="q-mb-md"
-      />
-    </div>
+  <div class="row q-col-gutter-md">
+    <custom-input
+      v-model="cluster.name"
+      :rules="[required]"
+      :label="t('setup.test_and_connect.form.name.label')"
+      autocomplete="off"
+      outlined
+      data-testid="cluster-edit-name"
+      autofocus
+      class="col-12"
+    />
 
     <custom-input
       v-model="cluster.uri"
@@ -106,23 +17,106 @@
       :rules="[validateUri, required]"
       outlined
       :label="t('setup.test_and_connect.form.uri.label')"
+      class="col-12"
     >
+      <template v-if="buildConfig.hints.ssl && ssl" #hint>
+        {{ t('shared.ssl_hint.hint') }}
+        <a
+          href="https://github.com/cars10/elasticvue/blob/master/docs/access-clusters-using-ssl.md"
+          rel="nofollow"
+          target="_blank"
+          class="q-ml-xs"
+        >
+          {{ t('shared.ssl_hint.help') }}
+        </a>
+      </template>
       <template #append>
         <q-icon name="close" class="cursor-pointer" @click="resetUri" />
       </template>
     </custom-input>
-    <div v-if="buildConfig.hints.ssl" :class="{ 'text-muted': !ssl, 'text-bold': ssl }">
-      {{ t('shared.ssl_hint.hint') }}
-      <a
-        aria-label="SSL Configuration help"
-        href="https://github.com/cars10/elasticvue/blob/master/docs/access-clusters-using-ssl.md"
-        rel="nofollow"
-        target="_blank"
-        class="q-ml-sm"
+
+    <q-option-group v-model="cluster.auth.authType" inline :options="authorizationTypes" color="primary" class="col-12" />
+
+    <template v-if="cluster.auth.authType === AuthType.basicAuth">
+      <custom-input
+        v-model="cluster.auth.authData.username"
+        outlined
+        :rules="[required]"
+        :label="t('setup.test_and_connect.form.username.label')"
+        autocomplete="off"
+        class="col-12 col-sm-6"
+      />
+      <custom-input
+        v-model="cluster.auth.authData.password"
+        autocomplete="off"
+        outlined
+        :rules="[required]"
+        :label="t('setup.test_and_connect.form.password.label')"
+        :type="passwordVisible ? 'text' : 'password'"
+        class="col-12 col-sm-6"
       >
-        {{ t('shared.ssl_hint.help') }}
-      </a>
-    </div>
+        <template #append>
+          <q-icon
+            :name="passwordVisible ? 'visibility' : 'visibility_off'"
+            class="cursor-pointer"
+            @click="passwordVisible = !passwordVisible"
+          />
+        </template>
+      </custom-input>
+    </template>
+
+    <custom-input
+      v-if="cluster.auth.authType === AuthType.apiKey"
+      v-model="cluster.auth.authData.apiKey"
+      autocomplete="off"
+      outlined
+      :rules="[required]"
+      :label="t('setup.test_and_connect.form.api_key.label')"
+      :type="passwordVisible ? 'text' : 'password'"
+      class="col-12"
+    >
+      <template #append>
+        <q-icon
+          :name="passwordVisible ? 'visibility' : 'visibility_off'"
+          class="cursor-pointer"
+          @click="passwordVisible = !passwordVisible"
+        />
+      </template>
+    </custom-input>
+
+    <template v-if="cluster.auth.authType === AuthType.awsIAM">
+      <custom-input
+        v-model="cluster.auth.authData.accessKeyId"
+        autocomplete="off"
+        outlined
+        :rules="[required]"
+        :label="t('setup.test_and_connect.form.access_key_id.label')"
+        class="col-12 col-sm-6"
+      />
+      <custom-input
+        v-model="cluster.auth.authData.secretAccessKey"
+        autocomplete="off"
+        outlined
+        :rules="[required]"
+        :label="t('setup.test_and_connect.form.secret_access_key.label')"
+        class="col-12 col-sm-6"
+      />
+      <custom-input
+        v-model="cluster.auth.authData.region"
+        autocomplete="off"
+        outlined
+        :rules="[required]"
+        :label="t('setup.test_and_connect.form.region.label')"
+        class="col-12 col-sm-6"
+      />
+      <custom-input
+        v-model="cluster.auth.authData.sessionToken"
+        autocomplete="off"
+        outlined
+        :label="t('setup.test_and_connect.form.session_token.label')"
+        class="col-12 col-sm-6"
+      />
+    </template>
   </div>
 </template>
 
