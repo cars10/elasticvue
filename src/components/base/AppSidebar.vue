@@ -6,12 +6,12 @@
           <q-item-section avatar>
             <img :src="logo" alt="Elasticvue" width="36" height="36" draggable="false" />
           </q-item-section>
-          <q-item-section v-show="!sidebarStore.collapsed" class="app-sidebar__brand">Elasticvue</q-item-section>
+          <q-item-section v-show="!sidebarStore.collapsed" class="app-sidebar__brand ellipsis">Elasticvue</q-item-section>
         </q-item>
       </div>
 
       <div class="q-px-sm q-my-md">
-        <cluster-selection :collapsed="sidebarStore.collapsed" class="q-mx-sm" />
+        <cluster-selection :collapsed="sidebarStore.collapsed" :class="{ 'q-mx-sm': !sidebarStore.collapsed }" />
       </div>
 
       <q-scroll-area class="col">

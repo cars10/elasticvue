@@ -6,6 +6,7 @@
     :ripple="false"
     data-testid="cluster-selection"
     class="cluster-selection full-width"
+    :class="{ 'cluster-selection--collapsed': collapsed }"
     :title="btnTitle"
   >
     <div class="flex no-wrap justify-between full-width font-13">
@@ -36,11 +37,17 @@
       </div>
 
       <div class="flex items-center justify-center">
-        <q-icon :name="menuOpen ? 'expand_less' : 'expand_more'" />
+        <q-icon :name="menuOpen ? 'expand_less' : 'expand_more'" :size="collapsed ? '16px' : undefined" />
       </div>
     </div>
 
-    <q-menu v-model="menuOpen" anchor="top right">
+    <q-menu
+      v-model="menuOpen"
+      anchor="top right"
+      transition-show="jump-right"
+      transition-hide="jump-left"
+      :transition-duration="150"
+    >
       <div style="min-width: 650px">
         <cluster-table />
       </div>
@@ -57,6 +64,8 @@ import { useClusterHealth } from '../../composables/components/home/ClusterHealt
 import { useConnectionStore } from '../../store/connection'
 import UnsupportedVersion from './UnsupportedVersion.vue'
 import { DISTRIBUTIONS } from '../../consts.ts'
+
+defineProps<{ collapsed?: boolean }>()
 
 const t = useTranslation()
 const connectionStore = useConnectionStore()

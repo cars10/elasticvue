@@ -16,7 +16,7 @@
         <q-icon :name="icon" size="20px" />
       </q-item-section>
 
-      <q-item-section v-show="!collapsed">{{ label }}</q-item-section>
+      <q-item-section v-show="!collapsed" class="ellipsis">{{ label }}</q-item-section>
 
       <q-menu
         v-if="hasFlyout"
@@ -55,7 +55,7 @@
         <q-item-section avatar style="min-width: 20px">
           <q-icon :name="icon" size="20px" />
         </q-item-section>
-        <q-item-section>{{ label }}</q-item-section>
+        <q-item-section class="ellipsis">{{ label }}</q-item-section>
       </template>
 
       <q-item
@@ -69,7 +69,7 @@
         :active="isActive(child)"
         :aria-current="isActive(child) ? 'page' : undefined"
       >
-        <q-item-section>{{ child.label }}</q-item-section>
+        <q-item-section class="ellipsis">{{ child.label }}</q-item-section>
       </q-item>
     </q-expansion-item>
   </template>

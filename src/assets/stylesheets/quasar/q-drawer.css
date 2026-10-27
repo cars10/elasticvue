@@ -1,4 +1,16 @@
 .q-drawer {
   background: var(--theme-sidebar-background);
   border-right: 1px solid var(--theme-card-border);
+  transition: width 0.2s ease;
+}
+
+.q-page-container {
+  transition: padding-left 0.2s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .q-drawer,
+  .q-page-container {
+    transition: none;
+  }
 }

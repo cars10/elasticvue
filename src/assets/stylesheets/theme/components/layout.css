@@ -109,6 +109,10 @@
   border-radius: 8px;
 }
 
+.cluster-selection--collapsed {
+  padding-inline: 2px;
+}
+
 .welcome-page {
   max-width: 520px;
   padding-top: 10vh;
