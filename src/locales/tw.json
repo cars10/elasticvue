@@ -887,7 +887,8 @@
     "document_field_max_length": {
       "label": "文件欄位最大長度",
       "message": "搜尋結果中文件欄位值的最大長度，超過部分將被截斷。",
-      "reset": "重設為預設值 {value}"
+      "reset": "重設為預設值 {value}",
+      "invalid": "只能是 1 到 1000 之間的整數"
     },
     "localize_timestamp": {
       "label": "在搜尋結果中本地化 '{'@'}timestamp' 欄位的值"
@@ -903,8 +904,9 @@
       "message": "您可以將您的 elasticvue 設定匯入和匯出為 JSON。這<strong>不是</strong>您叢集資料的備份，如果您需要備份索引，請使用快照。",
       "export": {
         "heading": "匯出",
-        "included": "包含哪些內容？",
-        "download": "下載備份"
+        "download": "下載備份",
+        "contents": "包含已儲存的叢集（使用者名稱與密碼{credentials}）、目前的叢集、編輯器與搜尋設定、主題、語言以及 REST 查詢紀錄。",
+        "credentials": "以明文儲存"
       },
       "import": {
         "heading": "匯入",

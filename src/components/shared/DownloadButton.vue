@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-btn :color="color" :disable="disable" :size="size" :loading="loading" @click.prevent="downloadData">
+    <q-btn :color="color" :outline="outline" :disable="disable" :size="size" :loading="loading" @click.prevent="downloadData">
       <q-icon name="file_download" class="q-mr-sm" />
       {{ label }}
     </q-btn>
@@ -24,6 +24,7 @@ const props = withDefaults(
     generateDownloadData?: any
     size?: string
     color?: string
+    outline?: boolean
   }>(),
   {
     disable: false,

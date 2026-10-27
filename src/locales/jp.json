@@ -887,7 +887,8 @@
     "document_field_max_length": {
       "label": "ドキュメントフィールドの最大長",
       "message": "検索結果におけるドキュメントフィールド値の最大長。これより長い値は切り捨てられます。",
-      "reset": "デフォルトにリセット {value}"
+      "reset": "デフォルトにリセット {value}",
+      "invalid": "1 から 1000 までの整数のみ"
     },
     "localize_timestamp": {
       "label": "検索結果の '{'@'}timestamp' フィールドの値をローカライズする"
@@ -903,8 +904,9 @@
       "message": "elasticvue の設定を JSON としてインポートおよびエクスポートできます。これはクラスターデータのバックアップ<strong>ではありません</strong>。インデックスのバックアップが必要な場合は、スナップショットを使用してください。",
       "export": {
         "heading": "エクスポート",
-        "included": "含まれる内容",
-        "download": "バックアップをダウンロード"
+        "download": "バックアップをダウンロード",
+        "contents": "保存済みクラスタ（ユーザー名とパスワードは{credentials}）、アクティブなクラスタ、エディタと検索の設定、テーマ、言語、REST クエリ履歴が含まれます。",
+        "credentials": "平文で保存"
       },
       "import": {
         "heading": "インポート",

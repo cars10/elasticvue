@@ -1,12 +1,13 @@
 <template>
-  <q-form @submit="importBackupAndRedirect">
+  <q-form class="row no-wrap items-center q-gutter-sm" @submit="importBackupAndRedirect">
     <q-file
       v-model="importFile"
       accept="application/json"
       :label="t('settings.import_export.import.select_file')"
       max-files="1"
       outlined
-      class="q-mb-md"
+      dense
+      class="col"
     >
       <template #prepend>
         <q-icon name="attach_file" />
@@ -17,6 +18,7 @@
           v-if="importFile !== null"
           flat
           round
+          dense
           icon="close"
           class="cursor-pointer"
           @click.stop.prevent="importFile = null"
@@ -26,7 +28,9 @@
 
     <q-btn
       :disable="!importFile"
-      color="primary-dark"
+      outline
+      color="primary"
+      class="col-auto"
       icon="upload"
       type="submit"
       :label="t('settings.import_export.import.import')"

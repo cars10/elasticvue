@@ -887,7 +887,8 @@
     "document_field_max_length": {
       "label": "Document field max length",
       "message": "Max length of document field values in search results, longer will be truncated.",
-      "reset": "Reset to default {value}"
+      "reset": "Reset to default {value}",
+      "invalid": "Only whole numbers between 1 and 1000"
     },
     "localize_timestamp": {
       "label": "Localize value of '{'@'}timestamp' fields in search results"
@@ -903,8 +904,9 @@
       "message": "You can import & export your elasticvue config as json. This is <strong>not</strong> a backup of your clusters data, use snapshots if you need to backup your indices.",
       "export": {
         "heading": "Export",
-        "included": "Whats included?",
-        "download": "Download backup"
+        "download": "Download backup",
+        "contents": "Includes saved clusters with usernames and passwords {credentials}, the active cluster, editor and search settings, theme, language and REST query history.",
+        "credentials": "in plain text"
       },
       "import": {
         "heading": "Import",

@@ -887,7 +887,8 @@
     "document_field_max_length": {
       "label": "文档字段最大长度",
       "message": "搜索结果中文档字段值的最大长度，超出部分将被截断。",
-      "reset": "重置为默认值 {value}"
+      "reset": "重置为默认值 {value}",
+      "invalid": "只能是 1 到 1000 之间的整数"
     },
     "localize_timestamp": {
       "label": "在搜索结果中显示字段 '{'@'}timestamp' 的本地化值"
@@ -903,8 +904,9 @@
       "message": "你可以将 elasticvue 数据导入和导出为 json。这<strong>不是</strong>集群数据的备份，如果你需要备份索引，请使用快照。",
       "export": {
         "heading": "导出",
-        "included": "什么内容会包含？",
-        "download": "下载备份"
+        "download": "下载备份",
+        "contents": "包含已保存的集群（用户名和密码{credentials}）、当前集群、编辑器和搜索设置、主题、语言以及 REST 查询历史。",
+        "credentials": "以明文保存"
       },
       "import": {
         "heading": "导入",

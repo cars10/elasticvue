@@ -1,39 +1,40 @@
 <template>
-  <div class="row justify-center">
-    <div class="col-12 col-md-10 col-lg-8">
-      <h1 class="page-title q-mb-lg">{{ t('settings.heading') }}</h1>
+  <div class="row">
+    <div class="col-12 col-lg-10 col-xl-8">
+      <div class="q-mb-lg">
+        <h1 class="page-title">{{ t('settings.heading') }}</h1>
+      </div>
 
-      <settings-section icon="code" :title="t('settings.editor.heading')">
-        <q-card-section class="q-py-sm">
+      <settings-section :title="t('settings.editor.heading')">
+        <settings-row tag="label" :label="t('settings.editor_vim_mode.label')">
           <q-toggle
             v-model="codeEditorStore.vimMode"
-            :label="t('settings.editor_vim_mode.label')"
+            :aria-label="t('settings.editor_vim_mode.label')"
             data-testid="settings-vim-mode"
           />
-        </q-card-section>
-
-        <q-card-section class="q-py-sm">
+        </settings-row>
+        <settings-row tag="label" :label="t('settings.editor.wrap_lines')">
           <q-toggle
             v-model="codeEditorStore.wrapLines"
-            :label="t('settings.editor.wrap_lines')"
+            :aria-label="t('settings.editor.wrap_lines')"
             data-testid="settings-wrap-lines"
           />
-        </q-card-section>
+        </settings-row>
       </settings-section>
 
       <settings-section
-        icon="dns"
         :title="t('settings.cluster.heading', { name: clusterName })"
         :description="t('settings.cluster.message')"
       >
         <settings-row :label="t('settings.hide_indices_regex.label')" :description="t('settings.hide_indices_regex.message')">
-          <custom-input v-model="indicesStore.hideIndicesRegex" outlined dense class="settings-control">
+          <custom-input v-model="indicesStore.hideIndicesRegex" outlined dense class="full-width">
             <template #append>
               <q-btn
                 icon="settings_backup_restore"
                 flat
                 round
                 dense
+                size="sm"
                 :title="t('settings.hide_indices_regex.reset', { regex: DEFAULT_HIDE_INDICES_REGEX })"
                 @click="resetHideIndicesRegex"
               />
@@ -45,13 +46,14 @@
           :label="t('settings.hide_nodes_attributes_regex.label')"
           :description="t('settings.hide_nodes_attributes_regex.message')"
         >
-          <custom-input v-model="nodesStore.hideAttributesRegex" outlined dense class="settings-control">
+          <custom-input v-model="nodesStore.hideAttributesRegex" outlined dense class="full-width">
             <template #append>
               <q-btn
                 icon="settings_backup_restore"
                 flat
                 round
                 dense
+                size="sm"
                 :title="t('settings.hide_nodes_attributes_regex.reset', { regex: DEFAULT_HIDE_NODE_ATTRIBUTES_REGEX })"
                 @click="resetHideNodesAttributesRegex"
               />
@@ -68,8 +70,8 @@
             outlined
             dense
             type="number"
-            class="settings-control"
-            :rules="[(val) => (/^\d+$/.test(val) && val >= 1 && val <= 1000) || 'Only full numbers between 1 and 1000']"
+            class="full-width"
+            :rules="[(val) => (/^\d+$/.test(val) && val >= 1 && val <= 1000) || t('settings.document_field_max_length.invalid')]"
           >
             <template #append>
               <q-btn
@@ -77,6 +79,7 @@
                 flat
                 round
                 dense
+                size="sm"
                 :title="t('settings.document_field_max_length.reset', { value: DEFAULT_DOCUMENT_FIELD_MAX_LENGTH })"
                 @click="resetDocumentFieldMaxLength"
               />
@@ -84,18 +87,18 @@
           </custom-input>
         </settings-row>
 
-        <q-card-section class="q-py-sm">
+        <settings-row tag="label" :label="t('settings.localize_timestamp.label')">
           <q-toggle
             v-model="searchStore.localizeTimestamp"
-            :label="t('settings.localize_timestamp.label')"
+            :aria-label="t('settings.localize_timestamp.label')"
             data-testid="settings-localize-timestamp"
           />
-        </q-card-section>
+        </settings-row>
       </settings-section>
 
       <import-export />
 
-      <settings-section icon="warning" icon-color="negative" :title="t('settings.disconnect_and_reset.heading')">
+      <settings-section :title="t('settings.disconnect_and_reset.heading')">
         <settings-row :label="t('settings.disconnect_and_reset.message')">
           <q-btn outline color="negative" :label="t('settings.disconnect_and_reset.button')" @click="reset" />
         </settings-row>
@@ -145,10 +148,3 @@ const reset = async () => {
   window.location.reload()
 }
 </script>
-
-<style scoped>
-.settings-control {
-  width: 100%;
-  max-width: 320px;
-}
-</style>
