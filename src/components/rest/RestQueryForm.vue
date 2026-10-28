@@ -1,103 +1,141 @@
 <template>
   <q-form @submit.prevent="sendRequest">
-    <div class="q-mb-md">
-      <q-btn
-        :label="t('query.rest.form.paste_kibana')"
-        flat
-        size="md"
-        no-caps
-        class="btn-link q-py-none q-px-sm"
-        @click="pasteClipboard"
-      />
-    </div>
-
-    <div class="flex">
+    <div class="row no-wrap items-center q-gutter-x-sm">
       <q-select
-        v-model="ownTab.request.method"
+        v-model="tab.request.method"
+        data-testid="rest-method"
         :options="HTTP_METHODS"
+        :aria-label="t('query.rest.form.method.label')"
         options-dense
-        style="width: 140px"
+        dense
         outlined
-        class="q-mr-md"
-        :label="t('query.rest.form.method.label')"
+        style="width: 120px"
       >
         <template #option="scope">
           <q-item v-bind="scope.itemProps">
             <q-item-section>
-              <q-item-label :class="`http-${scope.opt}`" class="text-bold">
-                {{ scope.opt }}
-              </q-item-label>
+              <q-item-label :class="`http-${scope.opt}`" class="text-bold font-mono">{{ scope.opt }}</q-item-label>
             </q-item-section>
           </q-item>
         </template>
         <template #selected-item="scope">
-          <span :class="`http-${scope.opt}`" class="text-bold">{{ scope.opt }}</span>
+          <span :class="`http-${scope.opt}`" class="text-bold font-mono">{{ scope.opt }}</span>
         </template>
       </q-select>
-      <custom-input
-        v-model="ownTab.request.path"
-        name="path"
-        :label="t('query.rest.form.path.label')"
-        class="col-grow"
-        outlined
-        autofocus
+
+      <rest-query-path-input
+        v-model="tab.request.path"
+        data-testid="rest-path"
+        class="col"
         @paste="pasteClipboard"
-        @keydown.enter.prevent="sendRequest"
+        @submit="sendRequest"
+        @select="useSuggestion"
       />
-      <q-btn id="send_request" icon="send" flat type="submit" />
+
+      <q-btn
+        id="send_request"
+        unelevated
+        no-caps
+        color="primary-dark"
+        type="submit"
+        icon-right="send"
+        :loading="loading"
+        :label="t('query.rest.form.send_request')"
+      >
+        <q-tooltip>{{ t('query.rest.form.send_hint') }}</q-tooltip>
+      </q-btn>
+
+      <q-btn
+        flat
+        round
+        :icon="isSaved ? 'bookmark' : 'bookmark_border'"
+        :color="isSaved ? 'primary' : undefined"
+        :title="t('query.rest.form.save_request')"
+        data-testid="rest-save"
+      >
+        <rest-query-name-prompt :initial-name="`${tab.request.method} ${tab.request.path}`" @save="saveQuery" />
+      </q-btn>
+
+      <q-btn
+        flat
+        round
+        icon="content_paste"
+        data-testid="rest-paste"
+        :title="t('query.rest.form.paste_kibana')"
+        @click="pasteClipboard"
+      />
     </div>
 
-    <resizable-container v-model="resizeStore.restForm" class="q-mb-md">
-      <div class="row q-my-md full-height">
-        <div class="col-6 q-pr-sm full-height">
-          <q-banner v-show="['GET', 'HEAD'].includes(ownTab.request.method)" class="bg-dark-grey q-pa-md">
-            <template #avatar>
-              <q-icon name="info" />
-            </template>
-            <p>
-              <!-- eslint-disable-next-line vue/no-v-html -->
-              <span v-html="t('query.rest.get_request_hint.cannot_send_body', { method: ownTab.request.method })" />
-              <button class="btn-link q-pa-none" type="button" @click="ownTab.request.method = 'POST'">
-                {{ t('query.rest.get_request_hint.use_post') }}
-              </button>
-              {{ t('query.rest.get_request_hint.query_parameters') }}
-            </p>
-            <p class="q-mb-none">{{ t('query.rest.get_request_hint.search_post') }}</p>
-          </q-banner>
+    <resizable-container v-model="resizeStore.restForm" class="q-mt-md">
+      <div class="row q-col-gutter-md full-height">
+        <div class="col-6 column full-height">
+          <div class="row no-wrap items-center justify-between q-mb-sm" style="height: 32px">
+            <span class="text-weight-medium font-14 text-muted">{{ t('query.rest.form.request') }}</span>
+            <span class="text-muted font-13">{{ t('query.rest.form.send_hint') }}</span>
+          </div>
 
-          <code-editor
-            v-show="!['GET', 'HEAD'].includes(ownTab.request.method)"
-            v-model="ownTab.request.body"
-            :commands="editorCommands"
-            :on-paste="onPaste"
-          />
+          <div
+            v-if="noBody"
+            class="col column flex-center text-center text-muted border-2 rounded-borders q-pa-md"
+            data-testid="rest-no-body-hint"
+          >
+            <q-icon name="info" size="24px" class="q-mb-sm" />
+            <div class="font-13">{{ t('query.rest.get_request_hint.no_body', { method: tab.request.method }) }}</div>
+            <q-btn
+              flat
+              no-caps
+              dense
+              color="primary"
+              class="q-mt-sm"
+              :label="t('query.rest.get_request_hint.use_post')"
+              @click="tab.request.method = 'POST'"
+            />
+          </div>
+
+          <div v-else class="col full-width" data-testid="rest-request-body">
+            <code-editor v-model="tab.request.body" :commands="editorCommands" :on-paste="onPaste" />
+          </div>
         </div>
-        <div class="col-6 q-pl-sm full-height">
-          <code-viewer :value="ownTab.response.bodyText" />
+
+        <div class="col-6 column full-height">
+          <div class="row no-wrap items-center q-mb-sm" style="height: 32px">
+            <span class="col text-weight-medium font-14 text-muted">{{ t('query.rest.form.response') }}</span>
+            <div v-if="tab.response.status" class="row no-wrap items-center font-13 tabular-nums q-mr-sm">
+              <q-icon name="circle" size="8px" :color="statusColor" class="q-mr-xs" />
+              <span :class="`text-${statusColor}`" class="text-weight-medium" data-testid="rest-response-status">
+                {{ tab.response.status }}
+              </span>
+              <span v-if="tab.response.duration !== undefined" data-testid="rest-response-duration" class="text-muted q-ml-md"
+                >{{ tab.response.duration }} ms</span
+              >
+              <span class="text-muted q-ml-md" data-testid="rest-response-size">{{ responseSize }}</span>
+            </div>
+            <download-button
+              data-testid="rest-download"
+              flat
+              color="grey"
+              label=""
+              :title="t('query.rest.form.download_as_json')"
+              :disable="tab.response.bodyText.length === 0"
+              :download="downloadFileName"
+              :generate-download-data="generateDownloadData"
+            />
+          </div>
+
+          <div
+            v-if="!tab.response.status && !tab.response.bodyText"
+            class="col column flex-center text-muted border-2 rounded-borders q-pa-md"
+          >
+            <q-icon name="data_object" size="24px" class="q-mb-sm" />
+            <div class="font-13">{{ t('query.rest.form.no_response') }}</div>
+          </div>
+
+          <div v-else class="col full-width" data-testid="rest-response-body">
+            <code-viewer :value="tab.response.bodyText" />
+          </div>
         </div>
       </div>
     </resizable-container>
-
-    <div class="row">
-      <div class="col-6">
-        <q-btn class="q-mr-sm" :loading="loading" color="primary-dark" type="submit" :label="t('query.rest.form.send_request')" />
-
-        <q-btn :label="t('query.rest.form.save_request')" icon="save" color="dark-grey q-mr-sm" @click="saveQuery" />
-
-        <q-chip v-if="ownTab.response.status" :label="ownTab.response.status" :class="responseStatusClass" />
-      </div>
-      <div class="col-6 text-right">
-        <download-button
-          color="dark-grey"
-          :disable="ownTab.response.bodyText.length === 0"
-          size="12px"
-          class="q-mb-md"
-          :download="downloadFileName"
-          :label="t('query.rest.form.download_as_json')"
-          :generate-download-data="generateDownloadData"
-        />
-      </div>
-    </div>
   </q-form>
 </template>
 
@@ -105,35 +143,39 @@
 import { defineAsyncComponent } from 'vue'
 import ResizableContainer from '../shared/ResizableContainer.vue'
 import DownloadButton from '../shared/DownloadButton.vue'
+import RestQueryPathInput from './RestQueryPathInput.vue'
+import RestQueryNamePrompt from './RestQueryNamePrompt.vue'
 import { useRestQueryForm } from '../../composables/components/rest/RestQueryForm.ts'
 import { HTTP_METHODS } from '../../consts'
 import { useResizeStore } from '../../store/resize'
+import { useRestStore } from '../../store/rest.ts'
 import { useTranslation } from '../../composables/i18n'
-import { IdbRestQueryTab } from '../../db/types.ts'
-import CustomInput from '../shared/CustomInput.vue'
 import { readFromClipboard } from '../../helpers/clipboard.ts'
+import { pickRequest, type RestPathSuggestion } from '../../helpers/rest.ts'
 
 const CodeViewer = defineAsyncComponent(() => import('../shared/CodeViewer.vue'))
 const CodeEditor = defineAsyncComponent(() => import('../shared/CodeEditor.vue'))
 
-const t = useTranslation()
-const props = defineProps<{ tab: IdbRestQueryTab }>()
-const emit = defineEmits(['reloadHistory', 'reloadSavedQueries'])
-const pasteClipboard = async () => {
-  const text = await readFromClipboard()
-  onPaste(text)
-}
+const props = defineProps<{ tabId: number }>()
 
+const t = useTranslation()
 const resizeStore = useResizeStore()
+const tab = useRestStore().tabs.find((tab) => tab.id === props.tabId)!
+
 const {
+  loading,
+  sendRequest,
+  statusColor,
+  responseSize,
+  noBody,
+  isSaved,
   saveQuery,
-  ownTab,
   editorCommands,
   generateDownloadData,
   downloadFileName,
-  loading,
-  sendRequest,
-  responseStatusClass,
   onPaste
-} = useRestQueryForm(props, emit)
+} = useRestQueryForm(tab)
+
+const pasteClipboard = async () => onPaste(await readFromClipboard())
+const useSuggestion = (suggestion: RestPathSuggestion) => Object.assign(tab.request, pickRequest(suggestion))
 </script>

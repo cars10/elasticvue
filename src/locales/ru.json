@@ -729,49 +729,51 @@
     "heading": "REST",
     "api_documentation": "Документация API",
     "rest": {
-      "history": "История",
       "form": {
         "method": {
           "label": "HTTP Метод"
         },
         "path": {
-          "label": "Путь"
+          "label": "Путь",
+          "placeholder": "напр. _cat/indices?v"
         },
         "send_request": "Отправить запрос",
         "save_request": "Сохранить",
         "download_as_json": "Скачать тело ответа",
-        "paste_kibana": "Вставить запрос из Kibana"
+        "paste_kibana": "Вставить запрос из Kibana",
+        "send_hint": "Ctrl+Enter для отправки",
+        "request": "Тело запроса",
+        "response": "Ответ",
+        "no_response": "Отправьте запрос, чтобы увидеть ответ"
       },
       "get_request_hint": {
-        "cannot_send_body": "Вы не можете отправить тело запроса с помощью {method}.<br> Пожалуйста, ",
-        "use_post": "используйте POST",
-        "query_parameters": "если вы хотите отправить тело запроса.",
-        "search_post": "Вы можете использовать POST для поиска через конечную точку _search."
+        "no_body": "Запросы {method} не могут содержать тело.",
+        "use_post": "Переключить на POST"
       }
     },
-    "rest_query_history": {
-      "table": {
-        "headers": {
-          "query": "Запрос",
-          "timestamp": "Время"
-        }
-      },
-      "body_preview": {
-        "use": "Использовать в текущей вкладке",
-        "open_new_tab": "Открыть в новой вкладке"
-      }
+    "library": {
+      "title": "Запросы",
+      "history": "История",
+      "saved": "Сохранённые",
+      "examples": "Примеры",
+      "use": "Загрузить в текущую вкладку",
+      "save": "Сохранить запрос",
+      "rename": "Переименовать",
+      "delete": "Удалить",
+      "docs": "Документация",
+      "open_new_tab": "Открыть в новой вкладке",
+      "name": "Название",
+      "clear_history": "Очистить историю",
+      "clear_history_confirm": "Удалить всю историю?",
+      "no_results": "Ничего не найдено",
+      "empty_history": "Отправленные запросы появятся здесь",
+      "empty_saved": "Сохранённые запросы появятся здесь",
+      "empty_examples": "Нет примеров"
     },
-    "rest_query_examples": {
-      "heading": "Примеры запросов",
-      "table": {
-        "headers": {
-          "query": "Запрос",
-          "description": "Описание"
-        },
-        "row": {
-          "use": "Использовать"
-        }
-      }
+    "tabs": {
+      "rename": "Переименовать вкладку",
+      "close": "Закрыть вкладку",
+      "new": "Новая вкладка"
     }
   },
   "repositories": {

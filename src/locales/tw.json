@@ -729,49 +729,51 @@
     "heading": "REST",
     "api_documentation": "API 文件",
     "rest": {
-      "history": "歷史紀錄",
       "form": {
         "method": {
           "label": "HTTP 方法"
         },
         "path": {
-          "label": "路徑"
+          "label": "路徑",
+          "placeholder": "例如 _cat/indices?v"
         },
         "send_request": "傳送請求",
         "save_request": "儲存",
         "download_as_json": "下載回應內容",
-        "paste_kibana": "貼上 Kibana 主控台查詢"
+        "paste_kibana": "貼上 Kibana 主控台查詢",
+        "send_hint": "Ctrl+Enter 送出",
+        "request": "請求內容",
+        "response": "回應",
+        "no_response": "送出請求後在此查看回應"
       },
       "get_request_hint": {
-        "cannot_send_body": "您無法透過 {method} 傳送請求內文。<br> 請",
-        "use_post": "使用 POST",
-        "query_parameters": "如果您想傳送請求內文。",
-        "search_post": "您可以使用 POST 搭配 _search 端點進行搜尋。"
+        "no_body": "{method} 請求不能包含請求內容。",
+        "use_post": "切換為 POST"
       }
     },
-    "rest_query_history": {
-      "table": {
-        "headers": {
-          "query": "查詢",
-          "timestamp": "時間戳記"
-        }
-      },
-      "body_preview": {
-        "use": "在目前分頁使用",
-        "open_new_tab": "在新分頁中開啟"
-      }
+    "library": {
+      "title": "查詢",
+      "history": "歷史",
+      "saved": "已儲存",
+      "examples": "範例",
+      "use": "載入目前分頁",
+      "save": "儲存查詢",
+      "rename": "重新命名",
+      "delete": "刪除",
+      "docs": "文件",
+      "open_new_tab": "在新分頁開啟",
+      "name": "名稱",
+      "clear_history": "清除歷史",
+      "clear_history_confirm": "刪除所有歷史紀錄？",
+      "no_results": "沒有符合項目",
+      "empty_history": "送出的請求會顯示在這裡",
+      "empty_saved": "儲存的查詢會顯示在這裡",
+      "empty_examples": "沒有範例"
     },
-    "rest_query_examples": {
-      "heading": "查詢範例",
-      "table": {
-        "headers": {
-          "query": "查詢",
-          "description": "描述"
-        },
-        "row": {
-          "use": "使用"
-        }
-      }
+    "tabs": {
+      "rename": "重新命名分頁",
+      "close": "關閉分頁",
+      "new": "新分頁"
     }
   },
   "repositories": {

@@ -1,43 +1,44 @@
-import { useConnectionStore } from '../store/connection.ts'
-import { Db, DbModel } from './indexeddb.ts'
-import { DbSchema, IdbRestQueryHistory, IdbRestQuerySavedQuery, IdbRestQueryTab } from './types.ts'
+import { openDB } from 'idb'
+import { DbTable } from './indexeddb.ts'
+import { DbSchema } from './types.ts'
 
-const dbDefinition = {
-  dbVersion: 1,
-  tables: [
-    { name: 'restQueryHistory', indexes: ['date'] },
-    { name: 'restQuerySavedQueries', indexes: [] },
-    { name: 'restQueryTabs', indexes: [] }
-  ]
-}
+const DB_VERSION = 2
+const TABLES: { name: keyof DbSchema; indexes: string[]; autoIncrement: boolean }[] = [
+  { name: 'restQueryHistory', indexes: ['date'], autoIncrement: true },
+  { name: 'restQuerySavedQueries', indexes: [], autoIncrement: true },
+  { name: 'restQueryTabs', indexes: [], autoIncrement: true },
+  { name: 'restQueryResponses', indexes: [], autoIncrement: false }
+]
 
-const databaseName = (clusterUuid: string) => `elasticvue-${clusterUuid}`
+const databases = new Map<string, DbSchema>()
 
-let db: Db | undefined
+const openClusterDb = (clusterUuid: string): DbSchema => {
+  const connection = openDB(`elasticvue-${clusterUuid}`, DB_VERSION, {
+    upgrade(db, _oldVersion, _newVersion, tx) {
+      TABLES.forEach(({ name, indexes, autoIncrement }) => {
+        if (!db.objectStoreNames.contains(name)) db.createObjectStore(name, { keyPath: 'id', autoIncrement })
 
-export const useIdb = (): Db | undefined => {
-  const clusterUuid = useConnectionStore().activeCluster?.uuid
-  if (!clusterUuid) return undefined
+        const store = tx.objectStore(name)
+        indexes.forEach((index) => {
+          if (!store.indexNames.contains(index)) store.createIndex(index, index)
+        })
+      })
+    },
+    blocking() {
+      databases.delete(clusterUuid)
+      connection.then((db) => db.close())
+    }
+  })
 
-  if (!db || db.dbName !== databaseName(clusterUuid)) {
-    initDb(clusterUuid)
+  return {
+    restQueryHistory: new DbTable(connection, 'restQueryHistory'),
+    restQuerySavedQueries: new DbTable(connection, 'restQuerySavedQueries'),
+    restQueryTabs: new DbTable(connection, 'restQueryTabs'),
+    restQueryResponses: new DbTable(connection, 'restQueryResponses')
   }
-
-  return db
 }
 
-export const initDb = (clusterUuid: string) => {
-  db = new Db({ dbName: databaseName(clusterUuid), ...dbDefinition })
-  db.connect()
-  db.models.restQueryHistory = new DbModel<IdbRestQueryHistory>('restQueryHistory', db)
-  db.models.restQuerySavedQueries = new DbModel<IdbRestQuerySavedQuery>('restQuerySavedQueries', db)
-  db.models.restQueryTabs = new DbModel<IdbRestQueryTab>('restQueryTabs', db)
-
-  return db
-}
-
-export const useIdbStore = (): DbSchema => {
-  const idb = useIdb()
-  if (!idb) throw new Error('Cluster IndexedDB unavailable: active cluster has no uuid')
-  return idb.models
+export const clusterDb = (clusterUuid: string): DbSchema => {
+  if (!databases.has(clusterUuid)) databases.set(clusterUuid, openClusterDb(clusterUuid))
+  return databases.get(clusterUuid)!
 }

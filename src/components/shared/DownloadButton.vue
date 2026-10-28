@@ -1,7 +1,18 @@
 <template>
   <div>
-    <q-btn :color="color" :outline="outline" :disable="disable" :size="size" :loading="loading" @click.prevent="downloadData">
-      <q-icon name="file_download" class="q-mr-sm" />
+    <q-btn
+      :color="color"
+      :outline="outline"
+      :flat="flat"
+      :round="!label"
+      :dense="!label"
+      :title="title"
+      :disable="disable"
+      :size="size"
+      :loading="loading"
+      @click.prevent="downloadData"
+    >
+      <q-icon name="file_download" :class="{ 'q-mr-sm': label }" />
       {{ label }}
     </q-btn>
     <a ref="downloadLink" :download="download" :href="href" class="hidden" />
@@ -25,6 +36,8 @@ const props = withDefaults(
     size?: string
     color?: string
     outline?: boolean
+    flat?: boolean
+    title?: string
   }>(),
   {
     disable: false,

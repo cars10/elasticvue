@@ -729,49 +729,51 @@
     "heading": "REST",
     "api_documentation": "API 문서",
     "rest": {
-      "history": "히스토리",
       "form": {
         "method": {
           "label": "HTTP 메서드"
         },
         "path": {
-          "label": "경로"
+          "label": "경로",
+          "placeholder": "예: _cat/indices?v"
         },
         "send_request": "요청 전송",
         "save_request": "저장",
         "download_as_json": "응답 바디 다운로드",
-        "paste_kibana": "Kibana 콘솔 쿼리 붙여넣기"
+        "paste_kibana": "Kibana 콘솔 쿼리 붙여넣기",
+        "send_hint": "Ctrl+Enter로 보내기",
+        "request": "요청 본문",
+        "response": "응답",
+        "no_response": "요청을 보내면 응답이 표시됩니다"
       },
       "get_request_hint": {
-        "cannot_send_body": "{method}에서는 요청 바디를 전송할 수 없습니다.<br> 요청 바디를 보내려면,",
-        "use_post": "POST를 사용하세요",
-        "query_parameters": ".",
-        "search_post": "_search 엔드포인트 검색 시 POST 사용 가능"
+        "no_body": "{method} 요청에는 본문을 포함할 수 없습니다.",
+        "use_post": "POST로 전환"
       }
     },
-    "rest_query_history": {
-      "table": {
-        "headers": {
-          "query": "쿼리",
-          "timestamp": "타임스탬프"
-        }
-      },
-      "body_preview": {
-        "use": "현재 탭에서 사용",
-        "open_new_tab": "새 탭에서 열기"
-      }
+    "library": {
+      "title": "쿼리",
+      "history": "기록",
+      "saved": "저장됨",
+      "examples": "예제",
+      "use": "현재 탭에 불러오기",
+      "save": "쿼리 저장",
+      "rename": "이름 변경",
+      "delete": "삭제",
+      "docs": "문서",
+      "open_new_tab": "새 탭에서 열기",
+      "name": "이름",
+      "clear_history": "기록 지우기",
+      "clear_history_confirm": "모든 기록을 삭제할까요?",
+      "no_results": "일치하는 항목 없음",
+      "empty_history": "보낸 요청이 여기에 표시됩니다",
+      "empty_saved": "저장한 쿼리가 여기에 표시됩니다",
+      "empty_examples": "예제 없음"
     },
-    "rest_query_examples": {
-      "heading": "쿼리 예제",
-      "table": {
-        "headers": {
-          "query": "쿼리",
-          "description": "설명"
-        },
-        "row": {
-          "use": "사용"
-        }
-      }
+    "tabs": {
+      "rename": "탭 이름 변경",
+      "close": "탭 닫기",
+      "new": "새 탭"
     }
   },
   "repositories": {

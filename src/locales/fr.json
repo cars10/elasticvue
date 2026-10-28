@@ -729,49 +729,51 @@
     "heading": "Rest",
     "api_documentation": "Documentation de l'API",
     "rest": {
-      "history": "Historique",
       "form": {
         "method": {
           "label": "Méthode HTTP"
         },
         "path": {
-          "label": "Chemin"
+          "label": "Chemin",
+          "placeholder": "ex. _cat/indices?v"
         },
         "send_request": "Envoyer la requète",
         "save_request": "Enregistrer",
         "download_as_json": "Télécharger la réponse JSON",
-        "paste_kibana": "Coller la requête de la console kibana"
+        "paste_kibana": "Coller la requête de la console kibana",
+        "send_hint": "Ctrl+Entrée pour envoyer",
+        "request": "Corps de la requête",
+        "response": "Réponse",
+        "no_response": "Envoyez une requête pour voir la réponse"
       },
       "get_request_hint": {
-        "cannot_send_body": "Vous ne pouvez pas envoyer de corps via {method}.<br> Veuillez ",
-        "use_post": "utiliser POST",
-        "query_parameters": "si vous souhaiter envoyer un corps de requète.",
-        "search_post": "Vous pouvez utiliser POST pour rechercher avec l'endpoint _search"
+        "no_body": "Les requêtes {method} ne peuvent pas avoir de corps.",
+        "use_post": "Passer en POST"
       }
     },
-    "rest_query_history": {
-      "table": {
-        "headers": {
-          "query": "Requète",
-          "timestamp": "Date et heure"
-        }
-      },
-      "body_preview": {
-        "use": "Utiliser dans l'onglet courant",
-        "open_new_tab": "Utiliser dans un nouvel onglet"
-      }
+    "library": {
+      "title": "Requêtes",
+      "history": "Historique",
+      "saved": "Enregistrées",
+      "examples": "Exemples",
+      "use": "Charger dans l'onglet actuel",
+      "save": "Enregistrer la requête",
+      "rename": "Renommer",
+      "delete": "Supprimer",
+      "docs": "Documentation",
+      "open_new_tab": "Ouvrir dans un nouvel onglet",
+      "name": "Nom",
+      "clear_history": "Effacer l'historique",
+      "clear_history_confirm": "Supprimer tout l'historique ?",
+      "no_results": "Aucun résultat",
+      "empty_history": "Les requêtes envoyées apparaissent ici",
+      "empty_saved": "Les requêtes enregistrées apparaissent ici",
+      "empty_examples": "Aucun exemple"
     },
-    "rest_query_examples": {
-      "heading": "Exemples de requètes",
-      "table": {
-        "headers": {
-          "query": "Requète",
-          "description": "Description"
-        },
-        "row": {
-          "use": "Utiliser"
-        }
-      }
+    "tabs": {
+      "rename": "Renommer l'onglet",
+      "close": "Fermer l'onglet",
+      "new": "Nouvel onglet"
     }
   },
   "repositories": {

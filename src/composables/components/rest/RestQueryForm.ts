@@ -1,179 +1,100 @@
 import stripJsonComments from 'strip-json-comments'
-import { computed, ref, toRaw, watch, nextTick } from 'vue'
+import { computed, nextTick, ref, watch } from 'vue'
 import { clusterAuthHeader } from '../../../helpers/elasticsearchAdapter.ts'
 import { REQUEST_DEFAULT_HEADERS } from '../../../consts'
 import { useConnectionStore } from '../../../store/connection'
+import { useRestStore } from '../../../store/rest.ts'
 import { useSnackbar } from '../../Snackbar'
-import { useIdbStore } from '../../../db/Idb'
 import { fetchMethod } from '../../../helpers/fetch'
-import { IdbRestQueryTab, IdbRestQueryTabRequest } from '../../../db/types.ts'
-import { debounce } from '../../../helpers/debounce.ts'
 import { parseKibana } from '../../../helpers/parseKibana.ts'
-import { cleanIndexName } from '../../../helpers/cleanIndexName.ts'
+import { prettyPrintByteString } from '../../../helpers/bytes.ts'
+import { emptyResponse, hasNoBody, responseStatusColor, restRequestUrl, sameRequest } from '../../../helpers/rest.ts'
+import type { RestTab } from '../../../helpers/rest.ts'
 
-type RestQueryFormProps = {
-  tab: IdbRestQueryTab
-}
-
-type RestFetchOptions = {
-  method: string
-  body: string | null
-  headers: Record<string, string>
-}
-
-export const useRestQueryForm = (props: RestQueryFormProps, emit: any) => {
+export const useRestQueryForm = (tab: RestTab) => {
   const connectionStore = useConnectionStore()
+  const restStore = useRestStore()
   const { showErrorSnackbar } = useSnackbar()
-  const { restQueryTabs, restQueryHistory, restQuerySavedQueries } = useIdbStore()
-
-  const ownTab = ref(props.tab)
-  let updateIdb = true
-
   const loading = ref(false)
 
-  const sendRequest = async () => {
-    if (!connectionStore.activeCluster) return
-
-    loading.value = true
-    props.tab.response.status = ''
-
-    const options: RestFetchOptions = {
-      method: props.tab.request.method,
-      body: ['GET', 'HEAD'].includes(props.tab.request.method) ? null : stripJsonComments(props.tab.request.body),
-      headers: Object.assign({}, REQUEST_DEFAULT_HEADERS)
-    }
-
-    const authHeader = clusterAuthHeader(connectionStore.activeCluster.auth)
-    if (authHeader) options.headers.Authorization = authHeader
-
-    let url = connectionStore.activeCluster.uri
-    if (!url.endsWith('/') && !props.tab.request.path.startsWith('/')) url += '/'
-    url += cleanIndexName(props.tab.request.path)
-
-    try {
-      const fetchResponse = await fetchMethod(url, options)
-      props.tab.response.status = `${fetchResponse.status} ${fetchResponse.statusText}`
-      props.tab.response.ok = fetchResponse.ok
-      const text = await fetchResponse.text()
-      loading.value = false
-
-      if (text) {
-        props.tab.response.bodyText = text
-      } else {
-        props.tab.response.bodyText = ''
-      }
-
-      if (props.tab.response.ok) saveToHistory(Object.assign({}, props.tab.request))
-    } catch (e) {
-      console.log(e)
-      loading.value = false
-      props.tab.response.bodyText = '// Network Error'
-      showErrorSnackbar({ title: 'Error', body: 'Network Error' })
-    }
-  }
-
-  const saveToHistory = async (request: IdbRestQueryTabRequest) => {
-    const prev = await restQueryHistory.last()
-    if (prev?.method === request.method && prev?.path === request.path && prev?.body === request.body) return
-
-    const count = await restQueryHistory.count()
-    if (count >= 1000) {
-      const first = await restQueryHistory.first()
-      if (first) await restQueryHistory.remove(first.id)
-    }
-
-    restQueryHistory.insert({
-      path: request.path,
-      method: request.method,
-      body: ['GET', 'HEAD'].includes(request.method) ? '' : request.body,
-      date: new Date()
-    })
-    emit('reloadHistory')
-  }
-
-  const responseStatusClass = computed(() => {
-    if (props.tab.response.status.match(/^2/)) {
-      return 'bg-positive text-white'
-    } else if (props.tab.response.status.match(/^3|4/)) {
-      return 'bg-orange text-black'
-    } else if (props.tab.response.status.match(/^5/)) {
-      return 'bg-negative text-white'
-    } else {
-      return 'bg-grey'
-    }
-  })
-
-  const saveQuery = () => {
-    const { method, path, body } = toRaw(ownTab.value.request)
-    restQuerySavedQueries.insert({ method, path, body })
-    emit('reloadSavedQueries')
-  }
-
-  watch(ownTab.value.request, (value) => {
-    if (updateIdb) updateTab({ request: toRaw(value) })
-  })
-  watch(ownTab.value.response, (value) => {
-    if (updateIdb) updateTab({ response: toRaw(value) })
-  })
-  const updateTab = debounce((value: object) => {
-    const obj = Object.assign({}, toRaw(props.tab), value)
-    restQueryTabs.update(obj)
-  }, 100)
-
   watch(
-    () => props.tab,
-    (newValue) => {
-      updateIdb = false
-      ownTab.value.request.method = newValue.request.method
-      ownTab.value.request.path = newValue.request.path
-      ownTab.value.request.body = newValue.request.body
-      updateIdb = true
-    }
+    () => tab.request,
+    () => restStore.saveTab(tab),
+    { deep: true }
   )
 
-  const editorCommands = [
-    {
-      key: 'Ctrl-Enter',
-      run: () => {
-        sendRequest()
-        return true
-      }
-    },
-    {
-      key: 'Cmd-Enter',
-      run: () => {
-        sendRequest()
-        return true
-      }
-    }
-  ]
+  const sendRequest = async () => {
+    const cluster = connectionStore.activeCluster
+    if (!cluster) return
 
-  const generateDownloadData = () => ownTab.value.response.bodyText
-  const downloadFileName = computed(() => {
-    return `${ownTab.value.request.method.toLowerCase()}_${ownTab.value.request.path.replace(/[\W_]+/g, '_')}.json`
-  })
+    const request = { ...tab.request }
+    const headers: Record<string, string> = { ...REQUEST_DEFAULT_HEADERS }
+    const authHeader = clusterAuthHeader(cluster.auth)
+    if (authHeader) headers.Authorization = authHeader
+
+    loading.value = true
+    tab.response.status = ''
+    const start = performance.now()
+
+    try {
+      const response = await fetchMethod(restRequestUrl(cluster.uri, request.path), {
+        method: request.method,
+        headers,
+        body: hasNoBody(request.method) ? null : stripJsonComments(request.body)
+      })
+      tab.response = {
+        status: `${response.status} ${response.statusText}`,
+        ok: response.ok,
+        bodyText: await response.text(),
+        duration: Math.round(performance.now() - start)
+      }
+      if (response.ok) restStore.addHistory(request)
+    } catch (e) {
+      console.error(e)
+      tab.response = { ...emptyResponse(), bodyText: '// Network Error' }
+      showErrorSnackbar({ title: 'Error', body: 'Network Error' })
+    } finally {
+      loading.value = false
+      restStore.saveTab(tab, { withResponse: true })
+    }
+  }
+
+  const statusColor = computed(() => responseStatusColor(tab.response.status))
+  const responseSize = computed(() => prettyPrintByteString(new TextEncoder().encode(tab.response.bodyText).length))
+  const noBody = computed(() => hasNoBody(tab.request.method))
+  const isSaved = computed(() => restStore.savedQueries.some((query) => sameRequest(query, tab.request)))
+
+  const saveQuery = (name: string) => restStore.saveQuery(tab.request, name)
+
+  const editorCommands = ['Ctrl-Enter', 'Cmd-Enter'].map((key) => ({
+    key,
+    run: () => {
+      sendRequest()
+      return true
+    }
+  }))
+
+  const generateDownloadData = () => tab.response.bodyText
+  const downloadFileName = computed(() => `${tab.request.method.toLowerCase()}_${tab.request.path.replace(/[\W_]+/g, '_')}.json`)
 
   const onPaste = (data: string) => {
-    const kibanaRequest = parseKibana(data)
+    const { method, path, body } = parseKibana(data)
+    if (!method) return
 
-    nextTick(() => {
-      if (kibanaRequest.method) {
-        ownTab.value.request.method = kibanaRequest.method
-        ownTab.value.request.path = kibanaRequest.path || ''
-        ownTab.value.request.body = kibanaRequest.body || ''
-      }
-    })
+    nextTick(() => Object.assign(tab.request, { method, path: path || '', body: body || '' }))
   }
 
   return {
+    loading,
+    sendRequest,
+    statusColor,
+    responseSize,
+    noBody,
+    isSaved,
     saveQuery,
-    ownTab,
     editorCommands,
     generateDownloadData,
     downloadFileName,
-    loading,
-    sendRequest,
-    responseStatusClass,
     onPaste
   }
 }

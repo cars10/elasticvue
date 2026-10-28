@@ -729,49 +729,51 @@
     "heading": "REST",
     "api_documentation": "API ドキュメント",
     "rest": {
-      "history": "履歴",
       "form": {
         "method": {
           "label": "HTTP メソッド"
         },
         "path": {
-          "label": "パス"
+          "label": "パス",
+          "placeholder": "例: _cat/indices?v"
         },
         "send_request": "リクエストを送信",
         "save_request": "保存",
         "download_as_json": "レスポンスボディをダウンロード",
-        "paste_kibana": "Kibana コンソールクエリを貼り付け"
+        "paste_kibana": "Kibana コンソールクエリを貼り付け",
+        "send_hint": "Ctrl+Enter で送信",
+        "request": "リクエストボディ",
+        "response": "レスポンス",
+        "no_response": "リクエストを送信するとレスポンスが表示されます"
       },
       "get_request_hint": {
-        "cannot_send_body": "{method} ではリクエストボディを送信できません。<br> リクエストボディを送信する場合は、",
-        "use_post": "POST を使用してください",
-        "query_parameters": "。",
-        "search_post": "_search エンドポイントで検索する場合は POST を使用できます。"
+        "no_body": "{method} リクエストにはボディを含められません。",
+        "use_post": "POST に切り替える"
       }
     },
-    "rest_query_history": {
-      "table": {
-        "headers": {
-          "query": "クエリ",
-          "timestamp": "タイムスタンプ"
-        }
-      },
-      "body_preview": {
-        "use": "現在のタブで使用",
-        "open_new_tab": "新しいタブで開く"
-      }
+    "library": {
+      "title": "クエリ",
+      "history": "履歴",
+      "saved": "保存済み",
+      "examples": "例",
+      "use": "現在のタブに読み込む",
+      "save": "クエリを保存",
+      "rename": "名前を変更",
+      "delete": "削除",
+      "docs": "ドキュメント",
+      "open_new_tab": "新しいタブで開く",
+      "name": "名前",
+      "clear_history": "履歴を消去",
+      "clear_history_confirm": "すべての履歴を削除しますか？",
+      "no_results": "一致する項目はありません",
+      "empty_history": "送信したリクエストがここに表示されます",
+      "empty_saved": "保存したクエリがここに表示されます",
+      "empty_examples": "例はありません"
     },
-    "rest_query_examples": {
-      "heading": "クエリの例",
-      "table": {
-        "headers": {
-          "query": "クエリ",
-          "description": "説明"
-        },
-        "row": {
-          "use": "使用"
-        }
-      }
+    "tabs": {
+      "rename": "タブ名を変更",
+      "close": "タブを閉じる",
+      "new": "新しいタブ"
     }
   },
   "repositories": {

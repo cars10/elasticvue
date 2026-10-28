@@ -1,97 +1,39 @@
 <template>
-  <div>
-    <q-card class="q-mb-md">
-      <q-card-section class="flex items-center">
-        <h1 class="page-title">
-          {{ t('query.heading') }}
-        </h1>
-        <q-btn
-          :href="`https://www.elastic.co/guide/en/elasticsearch/reference/${clusterMinor}/index.html`"
-          flat
-          class="q-ml-md"
-          icon="launch"
-          :label="t('query.api_documentation')"
-          target="_blank"
-        />
-      </q-card-section>
+  <div class="flex justify-between items-center q-mb-lg">
+    <h1 class="page-title">{{ t('query.heading') }}</h1>
 
-      <q-separator />
-
-      <q-card-section>
-        <div class="flex justify-between">
-          <div>
-            <q-btn
-              :label="t('query.rest.history')"
-              icon="history"
-              :icon-right="historyOpen ? 'expand_less' : 'expand_more'"
-              color="dark-grey q-mb-sm q-mr-md"
-              :outline="historyOpen"
-              @click="toggleHistory"
-            />
-
-            <q-btn
-              label="Saved queries"
-              icon="save"
-              :icon-right="savedQueriesOpen ? 'expand_less' : 'expand_more'"
-              color="dark-grey q-mb-sm"
-              :outline="savedQueriesOpen"
-              @click="toggleSavedQueries"
-            />
-          </div>
-
-          <rest-query-examples @use-request="useRequest" />
-        </div>
-
-        <q-slide-transition>
-          <rest-query-history-list
-            :history="history"
-            :open="historyOpen"
-            @reload-saved-queries="reloadSavedQueries"
-            @reload-history="reloadHistory"
-            @use-request="useRequest"
-            @use-request-new-tab="useRequestInNewTab"
-          />
-        </q-slide-transition>
-
-        <q-slide-transition>
-          <rest-query-saved-queries-list
-            :saved-queries="savedQueries"
-            :open="savedQueriesOpen"
-            @reload-saved-queries="reloadSavedQueries"
-            @use-request="useRequest"
-            @use-request-new-tab="useRequestInNewTab"
-          />
-        </q-slide-transition>
-      </q-card-section>
-    </q-card>
-
-    <rest-query-form-tabs ref="tabs" @reload-history="reloadHistory" @reload-saved-queries="reloadSavedQueries" />
+    <div class="flex items-center q-gutter-sm">
+      <q-btn flat no-caps icon="launch" :href="docsUrl" target="_blank" :label="t('query.api_documentation')" />
+      <q-btn
+        color="dark-grey"
+        no-caps
+        icon="manage_history"
+        :label="t('query.library.title')"
+        data-testid="rest-library-open"
+        @click="libraryOpen = true"
+      />
+    </div>
   </div>
+
+  <rest-query-library v-model="libraryOpen" />
+  <rest-query-form-tabs v-if="restStore.loaded" />
 </template>
 
 <script setup lang="ts">
+import { computed, ref } from 'vue'
 import { useTranslation } from '../../composables/i18n'
-import { useRestQuery } from '../../composables/components/rest/RestQuery.ts'
-import RestQueryExamples from './RestQueryExamples.vue'
-import RestQueryHistoryList from './RestQueryHistoryList.vue'
-import RestQuerySavedQueriesList from './RestQuerySavedQueriesList.vue'
+import { useConnectionStore } from '../../store/connection.ts'
+import { useRestStore } from '../../store/rest.ts'
+import { restDocsUrl } from '../../helpers/rest.ts'
+import RestQueryLibrary from './RestQueryLibrary.vue'
 import RestQueryFormTabs from './RestQueryFormTabs.vue'
-import { Ref, ref } from 'vue'
 
 const t = useTranslation()
-const tabs: Ref<typeof RestQueryFormTabs | null> = ref(null)
+const connectionStore = useConnectionStore()
+const restStore = useRestStore()
+const libraryOpen = ref(false)
 
-const {
-  clusterMinor,
-  history,
-  savedQueries,
-  historyOpen,
-  savedQueriesOpen,
-  reloadHistory,
-  reloadSavedQueries,
-  toggleHistory,
-  toggleSavedQueries,
-  useRequest,
-  useRequestInNewTab
-} = useRestQuery(tabs)
+const docsUrl = computed(() => restDocsUrl(connectionStore.elasticsearch, connectionStore.activeCluster?.version))
+
+restStore.load()
 </script>

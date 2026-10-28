@@ -729,49 +729,51 @@
     "heading": "Rest",
     "api_documentation": "api documentation",
     "rest": {
-      "history": "History",
       "form": {
         "method": {
           "label": "HTTP Method"
         },
         "path": {
-          "label": "Path"
+          "label": "Path",
+          "placeholder": "e.g. _cat/indices?v"
         },
         "send_request": "Send request",
         "save_request": "Save",
         "download_as_json": "Download response body",
-        "paste_kibana": "Paste kibana console query"
+        "paste_kibana": "Paste kibana console query",
+        "send_hint": "Ctrl+Enter to send",
+        "request": "Request body",
+        "response": "Response",
+        "no_response": "Send a request to see the response"
       },
       "get_request_hint": {
-        "cannot_send_body": "You cannot send a request body via {method}.<br> Please ",
-        "use_post": "use POST",
-        "query_parameters": "if you want to send a request body.",
-        "search_post": "You can use POST to search with the _search endpoint."
+        "no_body": "{method} requests cannot have a body.",
+        "use_post": "Switch to POST"
       }
     },
-    "rest_query_history": {
-      "table": {
-        "headers": {
-          "query": "Query",
-          "timestamp": "Timestamp"
-        }
-      },
-      "body_preview": {
-        "use": "Use in current tab",
-        "open_new_tab": "Open in new tab"
-      }
+    "library": {
+      "title": "Queries",
+      "history": "History",
+      "saved": "Saved",
+      "examples": "Examples",
+      "use": "Load into current tab",
+      "save": "Save query",
+      "rename": "Rename",
+      "delete": "Delete",
+      "docs": "Documentation",
+      "open_new_tab": "Open in new tab",
+      "name": "Name",
+      "clear_history": "Clear history",
+      "clear_history_confirm": "Delete all history entries?",
+      "no_results": "No matches",
+      "empty_history": "Requests you send show up here",
+      "empty_saved": "Saved queries show up here",
+      "empty_examples": "No examples"
     },
-    "rest_query_examples": {
-      "heading": "Query examples",
-      "table": {
-        "headers": {
-          "query": "Query",
-          "description": "Description"
-        },
-        "row": {
-          "use": "Use"
-        }
-      }
+    "tabs": {
+      "rename": "Rename tab",
+      "close": "Close tab",
+      "new": "New tab"
     }
   },
   "repositories": {

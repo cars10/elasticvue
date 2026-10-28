@@ -729,49 +729,51 @@
     "heading": "Rest",
     "api_documentation": "api 文档",
     "rest": {
-      "history": "查询历史",
       "form": {
         "method": {
           "label": "HTTP 请求方法"
         },
         "path": {
-          "label": "请求路径"
+          "label": "请求路径",
+          "placeholder": "例如 _cat/indices?v"
         },
         "send_request": "发送请求",
         "save_request": "保存",
         "download_as_json": "下载为 JSON 文件",
-        "paste_kibana": "粘贴 kibana 控制台查询"
+        "paste_kibana": "粘贴 kibana 控制台查询",
+        "send_hint": "Ctrl+Enter 发送",
+        "request": "请求体",
+        "response": "响应",
+        "no_response": "发送请求后在此查看响应"
       },
       "get_request_hint": {
-        "cannot_send_body": "你无法通过 {method} 发送请求体，如果要发送请求体，请",
-        "use_post": "使用 POST",
-        "query_parameters": "，也可以将查询参数添加到 url。",
-        "search_post": "你可以使用 POST 通过 _search 端点进行搜索。"
+        "no_body": "{method} 请求不能包含请求体。",
+        "use_post": "切换为 POST"
       }
     },
-    "rest_query_history": {
-      "table": {
-        "headers": {
-          "query": "查询",
-          "timestamp": "日期"
-        }
-      },
-      "body_preview": {
-        "use": "使用",
-        "open_new_tab": "新标签页打开"
-      }
+    "library": {
+      "title": "查询",
+      "history": "历史",
+      "saved": "已保存",
+      "examples": "示例",
+      "use": "载入当前标签页",
+      "save": "保存查询",
+      "rename": "重命名",
+      "delete": "删除",
+      "docs": "文档",
+      "open_new_tab": "在新标签页打开",
+      "name": "名称",
+      "clear_history": "清空历史",
+      "clear_history_confirm": "删除所有历史记录？",
+      "no_results": "没有匹配项",
+      "empty_history": "发送的请求会显示在这里",
+      "empty_saved": "保存的查询会显示在这里",
+      "empty_examples": "没有示例"
     },
-    "rest_query_examples": {
-      "heading": "查询示例",
-      "table": {
-        "headers": {
-          "query": "查询",
-          "description": "描述"
-        },
-        "row": {
-          "use": "使用"
-        }
-      }
+    "tabs": {
+      "rename": "重命名标签页",
+      "close": "关闭标签页",
+      "new": "新标签页"
     }
   },
   "repositories": {

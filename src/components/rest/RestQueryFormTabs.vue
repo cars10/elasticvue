@@ -1,40 +1,58 @@
 <template>
   <q-card>
-    <q-tabs v-model="restStore.activeTabIndex" align="left" outside-arrows>
-      <template v-for="(tab, index) in tabs" :key="tab.name">
-        <q-tab :name="index" style="white-space: nowrap; flex-shrink: 0">
-          <div class="flex">
-            {{ tab.label }}
+    <div class="row no-wrap items-center">
+      <q-tabs v-model="restStore.activeTabIndex" dense no-caps align="left" outside-arrows class="col">
+        <q-tab v-for="(tab, index) in restStore.tabs" :key="tab.id" :name="index" class="q-pr-xs" data-testid="rest-tab">
+          <div class="row no-wrap items-center">
+            <span class="ellipsis">{{ tab.label }}</span>
 
-            <q-btn icon="edit" flat dense size="sm">
-              <q-popup-edit
-                v-slot="scope"
-                v-model="tab.label"
-                auto-save
-                anchor="top left"
-                @save="
-                  (v) => {
-                    updateTab(v, tab)
-                  }
-                "
-              >
-                <custom-input v-model="scope.value" dense autofocu outlined @keydown.enter="scope.set" />
-              </q-popup-edit>
+            <q-btn
+              v-if="index === restStore.activeTabIndex"
+              icon="edit"
+              flat
+              round
+              dense
+              size="xs"
+              class="q-ml-xs"
+              :title="t('query.tabs.rename')"
+              data-testid="rest-tab-rename"
+              @click.stop
+            >
+              <rest-query-name-prompt :initial-name="tab.label" @save="(label: string) => restStore.renameTab(tab, label)" />
             </q-btn>
 
-            <q-btn icon="close" flat dense size="sm" @click.stop="removeTab(index as number)" />
+            <q-btn
+              v-if="restStore.tabs.length > 1"
+              icon="close"
+              flat
+              round
+              dense
+              size="xs"
+              :title="t('query.tabs.close')"
+              data-testid="rest-tab-close"
+              @click.stop="restStore.removeTab(index)"
+            />
           </div>
         </q-tab>
-        <q-separator vertical />
-      </template>
-      <q-btn icon="add" flat style="height: 48px" @click="addTab" />
-    </q-tabs>
+      </q-tabs>
+
+      <q-btn
+        icon="add"
+        flat
+        round
+        dense
+        class="q-mx-sm"
+        data-testid="rest-tab-add"
+        :title="t('query.tabs.new')"
+        @click="restStore.addTab()"
+      />
+    </div>
 
     <q-separator />
 
     <q-tab-panels v-model="restStore.activeTabIndex">
-      <q-tab-panel v-for="(tab, index) in tabs" :key="`${tab.name}-panel`" :name="index">
-        <rest-query-form :tab="tab" @reload-history="emit('reloadHistory')" @reload-saved-queries="emit('reloadSavedQueries')" />
+      <q-tab-panel v-for="(tab, index) in restStore.tabs" :key="tab.id" :name="index">
+        <rest-query-form :tab-id="tab.id!" />
       </q-tab-panel>
     </q-tab-panels>
   </q-card>
@@ -42,13 +60,10 @@
 
 <script setup lang="ts">
 import RestQueryForm from './RestQueryForm.vue'
-import { useRestQueryTabs } from '../../composables/components/rest/RestQueryTabs.ts'
+import RestQueryNamePrompt from './RestQueryNamePrompt.vue'
 import { useRestStore } from '../../store/rest.ts'
-import CustomInput from '../shared/CustomInput.vue'
-const emit = defineEmits(['reloadHistory', 'reloadSavedQueries'])
+import { useTranslation } from '../../composables/i18n.ts'
 
-const { tabs, addTab, updateTab, removeTab, setTabContent } = useRestQueryTabs()
+const t = useTranslation()
 const restStore = useRestStore()
-
-defineExpose({ setTabContent, addTab })
 </script>

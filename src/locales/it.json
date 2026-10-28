@@ -729,49 +729,51 @@
     "heading": "Rest",
     "api_documentation": "documentazione api",
     "rest": {
-      "history": "Cronologia",
       "form": {
         "method": {
           "label": "Metodo HTTP"
         },
         "path": {
-          "label": "Percorso"
+          "label": "Percorso",
+          "placeholder": "es. _cat/indices?v"
         },
         "send_request": "Invia richiesta",
         "save_request": "Salva",
         "download_as_json": "Scarica corpo della risposta",
-        "paste_kibana": "Incolla query della console kibana"
+        "paste_kibana": "Incolla query della console kibana",
+        "send_hint": "Ctrl+Invio per inviare",
+        "request": "Corpo della richiesta",
+        "response": "Risposta",
+        "no_response": "Invia una richiesta per vedere la risposta"
       },
       "get_request_hint": {
-        "cannot_send_body": "Non puoi inviare un corpo della richiesta tramite {method}.<br> Per favore ",
-        "use_post": "usa POST",
-        "query_parameters": "se vuoi inviare un corpo della richiesta.",
-        "search_post": "Puoi usare POST per cercare con l'endpoint _search."
+        "no_body": "Le richieste {method} non possono avere un corpo.",
+        "use_post": "Passa a POST"
       }
     },
-    "rest_query_history": {
-      "table": {
-        "headers": {
-          "query": "Query",
-          "timestamp": "Timestamp"
-        }
-      },
-      "body_preview": {
-        "use": "Usa nella scheda corrente",
-        "open_new_tab": "Apri in una nuova scheda"
-      }
+    "library": {
+      "title": "Query",
+      "history": "Cronologia",
+      "saved": "Salvate",
+      "examples": "Esempi",
+      "use": "Carica nella scheda corrente",
+      "save": "Salva query",
+      "rename": "Rinomina",
+      "delete": "Elimina",
+      "docs": "Documentazione",
+      "open_new_tab": "Apri in una nuova scheda",
+      "name": "Nome",
+      "clear_history": "Cancella cronologia",
+      "clear_history_confirm": "Eliminare tutta la cronologia?",
+      "no_results": "Nessun risultato",
+      "empty_history": "Le richieste inviate appaiono qui",
+      "empty_saved": "Le query salvate appaiono qui",
+      "empty_examples": "Nessun esempio"
     },
-    "rest_query_examples": {
-      "heading": "Esempi di query",
-      "table": {
-        "headers": {
-          "query": "Query",
-          "description": "Descrizione"
-        },
-        "row": {
-          "use": "Usa"
-        }
-      }
+    "tabs": {
+      "rename": "Rinomina scheda",
+      "close": "Chiudi scheda",
+      "new": "Nuova scheda"
     }
   },
   "repositories": {
