@@ -52,7 +52,7 @@ withElastic(({ mockElastic, elastic }) => {
         const table = page.getByTestId('indices-table')
         await expect(table).toContainText('movies')
         await expect(table).toContainText('omdb')
-        await expect(page.locator('.q-banner:not([data-testid="beta-notice"])')).not.toBeVisible()
+        await expect(page.locator('.q-banner')).not.toBeVisible()
       })
     })
   })

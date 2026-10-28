@@ -53,12 +53,6 @@
     },
     "theme_switcher": {
       "title": "切換主題"
-    },
-    "beta_notice": {
-      "text": "Elasticvue 2 測試版現已推出，介面全新設計，並帶來新的儀表板。",
-      "blog": "閱讀部落格文章",
-      "try": "試用測試版",
-      "dismiss": "關閉"
     }
   },
   "defaults": {

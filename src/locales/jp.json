@@ -53,12 +53,6 @@
     },
     "theme_switcher": {
       "title": "テーマを変更"
-    },
-    "beta_notice": {
-      "text": "Elasticvue 2 のベータ版を公開しました。デザインを一新し、新しいダッシュボードを搭載しています。",
-      "blog": "ブログ記事を読む",
-      "try": "ベータ版を試す",
-      "dismiss": "閉じる"
     }
   },
   "defaults": {
