@@ -66,8 +66,8 @@ export type AllocationExplanation = {
 }
 
 export type AllocationSummary = {
-  title: string
-  reason: string
+  primary: boolean
+  reason: string | null
   decisions: AllocationDecision[]
   singleNodeReplica: boolean
 }

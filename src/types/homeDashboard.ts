@@ -1,3 +1,8 @@
+export type AttentionAction = {
+  label: string
+  route: string
+}
+
 export type AttentionFinding = {
   id: string
   severity: 'critical' | 'warning' | 'info'
@@ -8,10 +13,7 @@ export type AttentionFinding = {
     type: 'index' | 'node' | 'shard' | 'cluster'
     name: string
   }
-  action?: {
-    label: string
-    route?: string
-  }
+  action?: AttentionAction
 }
 
 /** Always-rendered expanded checklist row — OK or a folded finding. */
@@ -19,12 +21,9 @@ export type AttentionCheck = {
   id: string
   title: string
   severity: 'critical' | 'warning' | 'info' | 'ok'
-  summary: string
-  detail?: string
-  action?: {
-    label: string
-    route?: string
-  }
+  summary: string[]
+  detail: string[]
+  action?: AttentionAction
 }
 
 export type ClusterStats = {

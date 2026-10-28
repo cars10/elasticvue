@@ -1,9 +1,10 @@
 <template>
   <q-btn
     icon="translate"
+    flat
     round
     :size="size"
-    color="dark-grey"
+    class="text-muted"
     :title="t('base.language_switcher.title')"
     data-testid="change-language-button"
   >

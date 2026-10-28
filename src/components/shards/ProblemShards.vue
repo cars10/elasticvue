@@ -1,21 +1,23 @@
 <template>
   <q-card data-testid="problem-shards">
     <q-card-section class="row items-center justify-between">
-      <div class="text-weight-bold flex items-center">
-        <q-icon name="warning" size="22px" class="q-mr-sm" :class="hasCritical ? 'health--red' : 'health--yellow'" />
-        Needs attention ({{ shards.length }})
+      <div class="text-weight-medium flex items-center">
+        <q-icon name="warning" size="18px" class="q-mr-sm" :class="hasCritical ? 'health--red' : 'health--yellow'" />
+        {{ t('shards.problems.title', { count: shards.length }) }}
       </div>
-      <router-link :to="{ name: 'tools', params: { clusterIndex } }" class="font-13">Explain in Tools</router-link>
+      <router-link :to="{ name: 'tools', params: { clusterIndex }, query: { tool: 'explain' } }" class="font-13">
+        {{ t('shards.problems.explain') }}
+      </router-link>
     </q-card-section>
 
     <q-markup-table flat dense wrap-cells class="table-mono">
       <thead>
         <tr>
-          <th class="text-left">Index</th>
-          <th class="text-left">Shard</th>
-          <th class="text-left">State</th>
-          <th class="text-left">Node</th>
-          <th class="text-left">Reason</th>
+          <th class="text-left">{{ t('shards.problems.index') }}</th>
+          <th class="text-left">{{ t('shards.problems.shard') }}</th>
+          <th class="text-left">{{ t('shards.problems.state') }}</th>
+          <th class="text-left">{{ t('shards.problems.node') }}</th>
+          <th class="text-left">{{ t('shards.problems.reason') }}</th>
         </tr>
       </thead>
       <tbody>
@@ -34,7 +36,7 @@
 
     <q-card-section v-if="shards.length > limit" class="text-center">
       <q-btn flat dense no-caps color="primary" @click="expanded = !expanded">
-        {{ expanded ? 'Show less' : `Show all ${shards.length}` }}
+        {{ expanded ? t('shards.problems.show_less') : t('shards.problems.show_all', { count: shards.length }) }}
       </q-btn>
     </q-card-section>
   </q-card>
@@ -44,9 +46,11 @@
 import { computed, ref } from 'vue'
 import { EsShard, relocationTarget, shardNodeName, shardSeverity } from '../../helpers/shards.ts'
 import { useConnectionStore } from '../../store/connection.ts'
+import { useTranslation } from '../../composables/i18n.ts'
 
 const props = defineProps<{ shards: EsShard[] }>()
 
+const t = useTranslation()
 const limit = 10
 const expanded = ref(false)
 const clusterIndex = useConnectionStore().activeClusterIndex

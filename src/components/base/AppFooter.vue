@@ -1,27 +1,19 @@
 <template>
-  <q-footer class="q-pa-lg bg-transparent">
-    <div class="row items-center">
-      <div class="col">
-        <div v-if="!connectionStore.activeCluster" class="row items-center q-gutter-x-sm">
-          <theme-switcher />
-          <language-switcher />
-        </div>
+  <q-footer class="app-footer bg-transparent">
+    <div class="row items-center q-gutter-x-lg q-gutter-y-sm">
+      <div v-if="!connectionStore.activeCluster" class="row items-center q-gutter-x-sm">
+        <theme-switcher />
+        <language-switcher />
       </div>
-
-      <div class="col-auto text-center">
-        <div>
-          Elasticvue <span id="version">{{ version }}-{{ VERSION_NAME }}</span>
-          <update-check v-if="!buildConfig.tauri" class="q-mx-md" />
-        </div>
-        <div>&copy;{{ new Date().getFullYear() }} - Carsten K&ouml;nig</div>
+      <div>
+        Elasticvue <span id="version">{{ version }}-{{ VERSION_NAME }}</span>
+        <update-check v-if="!buildConfig.tauri" class="q-ml-sm" />
       </div>
-
-      <div class="col text-right">
-        <a href="https://github.com/cars10/elasticvue" rel="nofollow" target="_blank" class="decoration-none">Github</a><br />
-        <a href="https://elasticvue.com" rel="nofollow" target="_blank" class="decoration-none">{{
-          t('base.app_footer.homepage')
-        }}</a>
-      </div>
+      <div>&copy;{{ new Date().getFullYear() }} Carsten K&ouml;nig</div>
+      <a href="https://github.com/cars10/elasticvue" rel="nofollow" target="_blank" class="decoration-none">Github</a>
+      <a href="https://elasticvue.com" rel="nofollow" target="_blank" class="decoration-none">{{
+        t('base.app_footer.homepage')
+      }}</a>
     </div>
   </q-footer>
 </template>

@@ -1,12 +1,12 @@
 <template>
   <div>
     <div class="row no-wrap items-center q-gutter-x-sm">
-      <div class="col-auto font-mono metric-bar__value" :class="pressureTextClass(level)">
+      <div class="col-auto tabular-nums metric-bar__value" :class="pressureTextClass(level)">
         {{ formatPercent(value) }}
       </div>
       <q-linear-progress class="col" :value="ratio" :color="pressureBarColor(level)" size="10px" rounded instant-feedback />
     </div>
-    <div v-if="detail" class="text-muted font-13 font-mono q-mt-xs">{{ detail }}</div>
+    <div v-if="detail" class="text-muted font-13 tabular-nums q-mt-xs">{{ detail }}</div>
   </div>
 </template>
 

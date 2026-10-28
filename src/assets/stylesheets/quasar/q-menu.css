@@ -1,6 +1,7 @@
 .q-menu {
   background: var(--theme-menu-background);
-  border: 1px solid var(--theme-background);
+  border: 1px solid var(--theme-card-border);
+  box-shadow: var(--theme-raised-shadow);
 }
 
 .q-menu .q-separator {
@@ -9,6 +10,7 @@
 
 .q-dialog .q-card {
   background: var(--theme-card-background);
+  box-shadow: var(--theme-raised-shadow);
 }
 
 .q-dialog .q-card .q-separator {

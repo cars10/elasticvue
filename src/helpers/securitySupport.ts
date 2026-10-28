@@ -22,11 +22,6 @@ export const currentSecurityApiBasePath = () => {
   return versionAtLeast(version, '6.6.0') ? '_security' : '_xpack/security'
 }
 
-export const securityApiBasePath = (clusterVersion?: string | null) => {
-  if (!clusterVersion) return '_security'
-  return versionAtLeast(clusterVersion, '6.6.0') ? '_security' : '_xpack/security'
-}
-
 /** `enabled` in PUT user body from Elasticsearch 6.0 */
 export const supportsUserEnabledInBody = () => clusterVersionGte(6)
 

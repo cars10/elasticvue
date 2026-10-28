@@ -274,7 +274,231 @@
     }
   },
   "home": {
-    "heading": "대시보드"
+    "heading": "대시보드",
+    "monitoring_required": "모니터링 권한이 필요합니다",
+    "serverless": {
+      "title": "Serverless",
+      "text": "클러스터가 {link}로 실행 중입니다. 많은 API를 사용할 수 없어 Elasticvue 기능이 제한됩니다.",
+      "link": "serverless 모드"
+    },
+    "status": {
+      "green": "녹색",
+      "yellow": "노란색",
+      "red": "빨간색",
+      "unknown": "알 수 없음"
+    },
+    "overview": {
+      "unassigned": "할당되지 않은 샤드 {count}개",
+      "moving": "이동 중인 샤드 {count}개",
+      "all_assigned": "모든 샤드가 할당됨",
+      "nodes": "노드 {count}개",
+      "data": "데이터 {count}",
+      "master_eligible": "마스터 후보 {count}",
+      "indices": "인덱스 {count}개",
+      "docs": "문서 {count}개",
+      "disk": "디스크 사용량 {size}"
+    },
+    "metrics": {
+      "cpu": "CPU",
+      "disk": "디스크",
+      "heap": "JVM 힙",
+      "shards": "샤드",
+      "highest": "최고 노드",
+      "watermarks": "워터마크 {low} / {high} / {flood}",
+      "primaries": "프라이머리 {count}",
+      "total": "전체 {count}"
+    },
+    "workload": {
+      "search": "검색",
+      "indexing": "인덱싱",
+      "latency": "지연 시간과 부하",
+      "per_second": "req/s",
+      "docs_per_second": "docs/s",
+      "search_latency": "검색",
+      "indexing_latency": "인덱싱 {latency}",
+      "deletes": "삭제 {rate}/s",
+      "pressure": "거부 {rejected}건, 서킷 브레이커 작동 {trips}건",
+      "collecting": "수집 중…",
+      "reload_off": "이 그래프 데이터를 수집하려면 자동 새로고침을 켜세요.",
+      "average": "최근 {seconds}초 평균"
+    },
+    "nodes": {
+      "title": "노드 ({count})",
+      "all": "모든 노드",
+      "name": "이름",
+      "heap": "힙",
+      "master": "마스터",
+      "unavailable": "노드 지표를 사용할 수 없습니다.",
+      "hint_all": "전체 {count}개, 부하가 높은 순.",
+      "hint_top": "{total}개 중 상위 {shown}개, 부하가 높은 순."
+    },
+    "indices": {
+      "title": "인덱스 ({count})",
+      "all": "모든 인덱스",
+      "index": "인덱스",
+      "health": "상태",
+      "docs": "문서",
+      "size": "크기",
+      "empty": "표시할 인덱스가 없습니다.",
+      "hint_all": "전체 {count}개, 비정상 먼저, 그다음 크기순.",
+      "hint_top": "{total}개 중 상위 {shown}개, 비정상 먼저, 그다음 크기순."
+    },
+    "attention": {
+      "issues": "문제",
+      "no_issues": "문제 없음",
+      "all_passed": "{count}개 검사 모두 통과",
+      "counts": {
+        "critical": "심각 {count}",
+        "warning": "경고 {count}",
+        "info": "알림 {count}"
+      },
+      "severity": {
+        "critical": "심각",
+        "warning": "경고",
+        "info": "알림",
+        "ok": "정상"
+      },
+      "actions": {
+        "view_shards": "샤드 보기",
+        "view_nodes": "노드 보기",
+        "view_indices": "인덱스 보기"
+      },
+      "checks": {
+        "shards": {
+          "title": "샤드",
+          "ok": "모든 샤드가 할당됨"
+        },
+        "index_blocks": {
+          "title": "인덱스 블록",
+          "ok": "쓰기 또는 읽기 전용 블록 없음"
+        },
+        "allocation": {
+          "title": "샤드 할당",
+          "ok": "할당 사용 중"
+        },
+        "pending_tasks": {
+          "title": "대기 중인 클러스터 작업",
+          "ok": "멈춘 클러스터 작업 없음"
+        },
+        "disk": {
+          "title": "디스크 워터마크",
+          "ok": "디스크 워터마크 미만"
+        },
+        "rejections": {
+          "title": "스레드 풀 거부",
+          "ok": "새 거부 없음"
+        },
+        "breakers": {
+          "title": "서킷 브레이커",
+          "ok": "새 작동 없음"
+        },
+        "jvm": {
+          "title": "JVM 부하",
+          "ok": "지속적인 힙 부하 없음"
+        },
+        "file_descriptors": {
+          "title": "파일 디스크립터",
+          "ok": "정상 범위"
+        },
+        "versions": {
+          "title": "노드 버전",
+          "ok": "모든 노드가 같은 버전"
+        },
+        "monitoring": {
+          "title": "노드 모니터링",
+          "ok": "사용 가능"
+        }
+      },
+      "findings": {
+        "unassigned_primaries": {
+          "title": "프라이머리 샤드 미할당",
+          "summary": "프라이머리 샤드 {count}개가 할당되지 않음",
+          "summary_index": "{index}의 프라이머리 샤드 {count}개가 할당되지 않음",
+          "summary_indices": "인덱스 {indices}개에서 프라이머리 샤드 {count}개가 할당되지 않음",
+          "summary_unknown": "할당되지 않은 프라이머리 샤드가 있음",
+          "detail": "프라이머리가 할당될 때까지 일부 데이터를 사용할 수 없습니다."
+        },
+        "unassigned_replicas": {
+          "title": "레플리카 샤드 미할당",
+          "summary": "레플리카 샤드 {count}개가 할당되지 않음",
+          "summary_index": "{index}의 레플리카 샤드 {count}개가 할당되지 않음",
+          "summary_indices": "인덱스 {indices}개에서 레플리카 샤드 {count}개가 할당되지 않음",
+          "summary_single_node": "레플리카 샤드 {count}개를 할당할 수 없음",
+          "summary_single_node_index": "{index}의 레플리카 {count}개를 할당할 수 없음",
+          "detail": "데이터는 사용할 수 있지만 중복성이 낮아졌습니다.",
+          "detail_single_node": "이 클러스터에는 데이터 노드가 하나뿐이라 레플리카를 할당할 수 없습니다."
+        },
+        "index_blocks": {
+          "title_read_only": "인덱스가 읽기 전용",
+          "title_write": "인덱스 쓰기 차단",
+          "summary_read_only": "인덱스 {index}는 읽기 전용입니다",
+          "summary_write": "인덱스 {index}가 쓰기를 차단합니다",
+          "summary_many": "인덱스 {count}개가 쓰기를 차단합니다(예: {index})",
+          "detail": "블록이 해제될 때까지 이 인덱스에 대한 인덱싱은 실패합니다.",
+          "detail_allow_delete": "인덱싱은 실패하고 삭제는 가능합니다. 보통 디스크 플러드 단계 때문입니다."
+        },
+        "disk_flood": {
+          "title": "디스크 플러드 단계 초과",
+          "summary": "{node} 사용률 {percent}% (플러드 단계 {threshold})",
+          "detail": "Elasticsearch가 이 노드의 인덱스를 읽기 전용으로 만들 수 있습니다."
+        },
+        "disk_high": {
+          "title": "디스크 높은 워터마크 초과",
+          "summary": "{node} 사용률 {percent}% (높음 {threshold})",
+          "detail": "Elasticsearch가 이 노드에서 샤드를 옮깁니다."
+        },
+        "disk_low": {
+          "title": "디스크 낮은 워터마크 초과",
+          "summary": "{node} 사용률 {percent}% (낮음 {threshold})",
+          "detail": "이 노드에는 새 샤드가 할당되지 않습니다."
+        },
+        "allocation": {
+          "title": "샤드 할당 제한됨",
+          "summary_none": "샤드 할당이 비활성화됨",
+          "summary_primaries": "프라이머리 샤드만 할당됨",
+          "summary_new_primaries": "새 인덱스의 프라이머리만 할당됨",
+          "summary_other": "샤드 할당이 \"{value}\"(으)로 설정됨",
+          "detail": "샤드가 할당되지 않은 채로 남을 수 있습니다. 유지보수 후 되돌리지 않은 경우가 많습니다."
+        },
+        "pending_tasks": {
+          "title": "클러스터 작업이 쌓이고 있음",
+          "summary": "대기 {count}건, 가장 오래된 작업 대기 {age}",
+          "detail": "클러스터 상태 업데이트가 지연될 수 있습니다."
+        },
+        "rejections": {
+          "title": "요청 거부됨",
+          "summary": "최근 5분간 새 거부 {count}건",
+          "detail": "스레드 풀이 가득 차서 검색 또는 인덱싱 요청이 버려지고 있습니다."
+        },
+        "breakers": {
+          "title": "서킷 브레이커 작동",
+          "summary": "최근 5분간 새 작동 {count}건",
+          "detail": "쿼리 또는 집계가 메모리 한도에 도달하고 있습니다."
+        },
+        "jvm": {
+          "title": "높은 JVM 메모리 부하",
+          "summary": "{node}이(가) {duration} 동안 {threshold}% 초과",
+          "detail": "현재 {percent}%. 지속적인 부하는 긴 가비지 컬렉션으로 이어지기 쉽습니다."
+        },
+        "file_descriptors": {
+          "title": "파일 디스크립터 한도 근접",
+          "summary": "{node}: {percent}% 사용",
+          "summary_counts": "{node}: {percent}% 사용 ({open} / {max})",
+          "detail": "파일 디스크립터가 부족하면 노드가 중단될 수 있습니다."
+        },
+        "versions": {
+          "title": "버전 혼재",
+          "summary": "노드 버전: {versions}",
+          "detail": "롤링 업그레이드 중에는 정상입니다. 가능한 한 빨리 업그레이드를 마치세요."
+        },
+        "monitoring": {
+          "title": "노드 모니터링 불완전",
+          "summary": "노드 통계를 불러올 수 없습니다",
+          "summary_partial": "일부 노드의 통계가 없습니다({expected}개 중 {observed}개 응답)",
+          "detail": "사용자에게 monitor 권한이 없거나 nodes stats API를 사용할 수 없습니다."
+        }
+      }
+    }
   },
   "mixins": {
     "test_connection": {
@@ -337,6 +561,27 @@
       "docs": "문서",
       "store": "저장소",
       "uptime": "가동 시간"
+    },
+    "pulse": {
+      "nodes": "노드",
+      "version": "버전 {version}",
+      "mixed_versions": "버전 혼재: {versions}",
+      "restarted": "최근 1시간 내 재시작 {count}개",
+      "avg": "평균",
+      "used": "사용",
+      "disk_of": "{used} / {total}",
+      "peak": "최대 {value} ({node})",
+      "below_low": "모든 노드가 낮은 워터마크({low}) 미만",
+      "above_flood": "플러드 단계 초과 {count}",
+      "above_high": "높은 워터마크 초과 {count}",
+      "above_low": "낮은 워터마크 초과 {count}",
+      "roles": {
+        "master_eligible": "마스터 후보 {count}",
+        "data": "데이터 {count}",
+        "ingest": "ingest {count}",
+        "ml": "ml {count}",
+        "coordinating": "코디네이팅 {count}"
+      }
     }
   },
   "cluster_roles": {
@@ -387,6 +632,15 @@
           "status": "상태"
         }
       }
+    },
+    "pulse": {
+      "roles": "역할",
+      "cluster_admin": "클러스터 관리자",
+      "cluster_admin_hint": "all, manage 또는 manage_security",
+      "all_indices": "모든 인덱스",
+      "all_indices_hint": "*에 대한 모든 권한",
+      "unused": "미사용",
+      "unused_hint": "사용자나 역할 매핑이 없는 사용자 정의 역할"
     }
   },
   "cluster_users": {
@@ -443,6 +697,17 @@
           "status": "상태"
         }
       }
+    },
+    "show_role": "역할 {role} 보기",
+    "no_roles": "역할 없음",
+    "pulse": {
+      "signed_in": "로그인 사용자",
+      "realm": "realm {realm}",
+      "users": "사용자",
+      "split": "기본 제공 {builtIn}, 사용자 정의 {custom}",
+      "disabled": "비활성 {count}",
+      "superusers": "슈퍼유저",
+      "without_roles": "역할 없음"
     }
   },
   "query": {
@@ -716,10 +981,58 @@
       "reroute": {
         "confirm": "샤드 '{shard}'를 노드 '{fromNode}'에서 '{toNode}'로 재배치하시겠습니까?"
       }
+    },
+    "pulse": {
+      "split": "프라이머리 {primaries}, 레플리카 {replicas}",
+      "indices": "인덱스 {count}개",
+      "unassigned": "미할당",
+      "moving": "이동 중",
+      "moving_split": "재배치 {relocating}, 초기화 {initializing}",
+      "view_recovery": "복구 보기",
+      "size": "샤드 크기",
+      "avg_primary": "프라이머리 평균",
+      "largest": "최대 {size}",
+      "oversized": "{size} 초과 {count}",
+      "balance": "샤드 균형",
+      "per_data_node": "데이터 노드당",
+      "avg": "평균 {count}",
+      "busiest": "최다 {node} (평균의 {skew}배)"
+    },
+    "problems": {
+      "title": "확인 필요 ({count})",
+      "explain": "Tools에서 설명 보기",
+      "index": "인덱스",
+      "shard": "샤드",
+      "state": "상태",
+      "node": "노드",
+      "reason": "이유",
+      "show_less": "접기",
+      "show_all": "{count}개 모두 보기"
+    },
+    "shard": {
+      "primary": "프라이머리 샤드 {shard}",
+      "replica": "레플리카 샤드 {shard}",
+      "docs": "문서 {count}개",
+      "reason": "이유: {reason}",
+      "move": "클릭해서 이 샤드 이동"
     }
   },
   "shard_recovery": {
-    "heading": "샤드 복구"
+    "heading": "샤드 복구",
+    "pulse": {
+      "active": "진행 중",
+      "recoveries": "건의 복구",
+      "none_active": "복구 중인 샤드 없음",
+      "completed": "완료 {count}",
+      "progress": "진행률",
+      "copied": "복사됨",
+      "nothing_to_copy": "복사할 항목 없음",
+      "longest": "가장 오래 걸리는 작업",
+      "throttled": "제한됨",
+      "limit_reached": "복구 대역폭 한도에 도달함",
+      "adjust": "Tools에서 조정",
+      "not_throttled": "진행 중인 복구는 제한되지 않음"
+    }
   },
   "shard_recovery_table": {
     "stage": "단계",
@@ -817,6 +1130,13 @@
     "ssl_hint": {
       "hint": "HTTPS 사용 시 브라우저가 클러스터 SSL 인증서를 신뢰하는지 확인하세요.",
       "help": "도움말"
+    },
+    "security_unavailable": {
+      "forbidden_users": "사용자를 읽을 권한이 없습니다",
+      "forbidden_roles": "역할을 읽을 권한이 없습니다",
+      "forbidden_text": "사용자와 역할을 관리하려면 manage_security 클러스터 권한이 필요합니다.",
+      "unavailable": "이 클러스터에서는 보안을 사용할 수 없습니다",
+      "unavailable_text": "기본 사용자와 역할에는 Elasticsearch 보안 기능이 필요하지만, 이 클러스터에는 없거나 비활성화되어 있습니다."
     }
   },
   "snapshots": {
@@ -945,7 +1265,297 @@
   },
   "tools": {
     "heading": "Tools",
-    "subtitle": "Common cluster maintenance and recovery operations."
+    "subtitle": "Common cluster maintenance and recovery operations.",
+    "filter": "도구 필터",
+    "no_match": "\"{filter}\"와(과) 일치하는 도구가 없습니다.",
+    "close": "{title} 닫기",
+    "apis_used": "사용하는 Elasticsearch API",
+    "read_only_tool": "읽기 전용 도구입니다. 클러스터 설정을 변경하지 않습니다.",
+    "apply": "적용",
+    "restore_default": "기본값으로 복원",
+    "recheck": "다시 확인",
+    "advanced": "고급",
+    "current": "현재:",
+    "mixed": "혼합",
+    "indices": "인덱스",
+    "excluded_indices": "시스템, 숨김, 데이터 스트림 백킹 인덱스는 제외됩니다.",
+    "confirm_restore": "\"{setting}\"을(를) Elasticsearch 기본값으로 복원할까요?",
+    "groups": {
+      "attention": "확인 필요",
+      "shards": "샤드와 할당",
+      "indices": "인덱스",
+      "disk": "디스크와 복구",
+      "safety": "안전",
+      "advanced": "고급"
+    },
+    "sources": {
+      "transient": "transient",
+      "persistent": "persistent",
+      "default": "기본값",
+      "unavailable": "사용 불가"
+    },
+    "status": {
+      "default": "기본값",
+      "custom": "사용자 정의",
+      "enabled": "사용",
+      "disabled": "사용 안 함",
+      "unavailable": "사용 불가",
+      "no_user_indices": "사용자 인덱스 없음",
+      "no_unassigned": "할당되지 않은 샤드 없음",
+      "unassigned": "할당되지 않은 샤드 {count}개"
+    },
+    "health": {
+      "green": "클러스터 상태: 녹색",
+      "yellow": "클러스터 상태: 노란색",
+      "red": "클러스터 상태: 빨간색"
+    },
+    "inspect": {
+      "settings": "클러스터 설정",
+      "nodes": "노드",
+      "shards": "샤드",
+      "indices": "인덱스 설정",
+      "explanation": "할당 설명",
+      "voting": "투표 제외"
+    },
+    "errors": {
+      "forbidden": "사용자에게 {what}을(를) 읽을 권한이 없습니다.",
+      "network": "{what}을(를) 불러올 수 없습니다. 클러스터 연결을 확인하세요.",
+      "api": "{what}을(를) 불러올 수 없습니다. {message}"
+    },
+    "allocation": {
+      "title": "샤드 할당",
+      "description": "새 샤드와 할당되지 않은 샤드를 할당할지 여부.",
+      "keywords": "할당 프라이머리 레플리카 유지보수 allocation primary replica",
+      "hint": "이후 할당에만 영향을 주며, 이미 할당된 샤드는 그대로 유지됩니다.",
+      "disable": "할당 비활성화",
+      "blocking": "할당이 제한되어 샤드 {count}개가 할당되지 않은 채로 남을 수 있습니다.",
+      "updated": "샤드 할당을 {value}(으)로 설정했습니다.",
+      "restored": "샤드 할당을 기본값으로 복원했습니다.",
+      "modes": {
+        "all": "모든 샤드",
+        "primaries": "프라이머리만",
+        "new_primaries": "새 프라이머리만",
+        "none": "비활성화"
+      },
+      "option_hints": {
+        "all": "일반 할당",
+        "primaries": "레플리카는 할당하지 않음",
+        "new_primaries": "새 인덱스의 프라이머리만",
+        "none": "새 할당 없음"
+      },
+      "confirm": {
+        "primaries": "프라이머리 샤드만 할당하도록 허용할까요?",
+        "new_primaries": "새 인덱스의 프라이머리만 할당하도록 허용할까요?",
+        "none": "샤드 할당을 비활성화할까요? 다시 활성화할 때까지 새 샤드가 할당되지 않습니다."
+      }
+    },
+    "drain": {
+      "title": "노드 비우기",
+      "description": "노드를 종료하기 전에 샤드를 옮깁니다.",
+      "keywords": "비우기 종료 유지보수 제외 재배치 drain shutdown exclude",
+      "explanation": "노드를 할당에서 제외하면 Elasticsearch가 해당 샤드를 다른 노드로 옮깁니다. 노드는 계속 실행됩니다.",
+      "allocation_disabled": "할당이 비활성화되어 다시 활성화할 때까지 샤드를 옮길 수 없습니다.",
+      "node": "노드",
+      "shards": "샤드 {count}개",
+      "node_summary": "샤드 {shards}개",
+      "disk_used": "디스크 {percent}% 사용",
+      "progress": "{total}개 중 {remaining}개 샤드 남음, {relocating}개 이동 중.",
+      "done": "이 노드에 남은 샤드가 없습니다. 안전하게 종료할 수 있습니다.",
+      "start": "비우기 시작",
+      "stop": "비우기 중지",
+      "existing": "제외된 노드 ID: {ids}. 다른 제외 설정은 유지됩니다.",
+      "status_active": "노드 {count}개 제외됨",
+      "status_none": "진행 중인 비우기 없음",
+      "confirm_start": "{name} ({id})을(를) 비울까요? 샤드가 다른 노드로 옮겨집니다.",
+      "confirm_stop": "{name} ({id}) 비우기를 중지할까요?",
+      "started": "노드 비우기를 시작했습니다.",
+      "stopped": "노드 비우기를 중지했습니다."
+    },
+    "explain": {
+      "title": "미할당 샤드 설명",
+      "description": "샤드를 할당할 수 없는 이유를 Elasticsearch에 묻습니다.",
+      "keywords": "할당 진단 결정자 미할당 explain deciders unassigned",
+      "shard": "할당되지 않은 샤드",
+      "primary": "프라이머리",
+      "replica": "레플리카",
+      "run": "설명 보기",
+      "raw": "원본 응답",
+      "no_explanation": "제공된 설명이 없습니다.",
+      "cannot_allocate_primary": "프라이머리 샤드를 할당할 수 없음",
+      "cannot_allocate_replica": "레플리카 샤드를 할당할 수 없음",
+      "single_node_replica": "레플리카는 프라이머리와 같은 노드에 둘 수 없는데, 이 클러스터에는 데이터 노드가 하나뿐입니다.",
+      "no_eligible_node": "현재 이 샤드를 받을 수 있는 노드가 없습니다."
+    },
+    "retry": {
+      "title": "실패한 할당 재시도",
+      "description": "할당 재시도 한도에 도달한 샤드를 다시 시도합니다.",
+      "keywords": "재시도 한도 실패 reroute retry failed",
+      "explanation": "먼저 근본 원인을 해결한 다음, 실패한 할당을 다시 시도하도록 Elasticsearch에 요청하세요.",
+      "run": "할당 재시도",
+      "confirm": "실패한 할당을 재시도할까요? 할당되지 않은 샤드가 {count}개 있습니다.",
+      "done": "Elasticsearch가 실패한 할당을 재시도하고 있습니다."
+    },
+    "rebalancing": {
+      "title": "샤드 리밸런싱",
+      "description": "클러스터 균형을 위해 노드 간에 샤드를 옮길지 여부.",
+      "keywords": "리밸런싱 이동 토폴로지 균형 rebalance",
+      "explanation": "리밸런싱을 제한하면 클러스터가 불균형한 상태로 남을 수 있습니다.",
+      "confirm": "샤드 리밸런싱을 제한할까요? 클러스터가 불균형한 상태로 남을 수 있습니다.",
+      "updated": "샤드 리밸런싱을 업데이트했습니다.",
+      "modes": {
+        "all": "모든 샤드",
+        "primaries": "프라이머리만",
+        "replicas": "레플리카만",
+        "none": "비활성화"
+      }
+    },
+    "blocks": {
+      "title": "인덱스 쓰기 블록",
+      "description": "읽기 전용 또는 쓰기 블록을 찾아 해제합니다.",
+      "keywords": "읽기 전용 플러드 쓰기 블록 read only flood write block",
+      "indices": "차단된 인덱스",
+      "status": "인덱스 {count}개 차단됨",
+      "status_none": "차단된 사용자 인덱스 없음",
+      "flood": "디스크가 플러드 단계에 도달해 Elasticsearch가 read_only_allow_delete를 설정했습니다.",
+      "flood_full": "디스크 사용률이 아직 너무 높습니다. 먼저 공간을 확보하세요.",
+      "flood_recovered": "디스크 사용률이 회복되었습니다. 보통 Elasticsearch가 이 블록을 직접 해제합니다.",
+      "flood_unknown": "디스크 사용률을 확인할 수 없어 여기서는 블록을 해제할 수 없습니다.",
+      "clear": "쓰기 블록 해제",
+      "clear_flood": "플러드 단계 블록 해제",
+      "confirm_clear": "인덱스 {count}개에서 {blocks}을(를) 해제할까요?",
+      "confirm_clear_flood": "인덱스 {count}개에서 플러드 단계 블록을 해제할까요?",
+      "cleared": "인덱스 {count}개의 쓰기 블록을 해제했습니다."
+    },
+    "replicas": {
+      "title": "레플리카",
+      "description": "선택한 인덱스의 레플리카 수를 변경합니다.",
+      "keywords": "중복성 단일 노드 레플리카 수 replica count",
+      "count": "레플리카 수",
+      "status": "인덱스별로 설정",
+      "status_single_node": "레플리카를 할당할 수 없는 인덱스 {count}개",
+      "single_node": "이 클러스터에는 데이터 노드가 하나뿐이라 인덱스 {count}개의 레플리카를 할당할 수 없습니다.",
+      "set_zero": "레플리카 0으로 설정",
+      "zero_warning": "레플리카가 없으면 노드를 잃었을 때 데이터를 사용할 수 없거나 잃을 수 있습니다.",
+      "confirm": "인덱스 {count}개의 레플리카를 {replicas}(으)로 설정할까요?",
+      "confirm_zero": "인덱스 {count}개의 레플리카를 모두 제거할까요?",
+      "updated": "인덱스 {count}개의 레플리카를 업데이트했습니다."
+    },
+    "refresh": {
+      "title": "새로고침 간격",
+      "description": "새 문서가 검색 가능해지기까지의 시간.",
+      "keywords": "새로고침 간격 검색 가시성 인덱싱 refresh interval bulk",
+      "interval": "새로고침 간격",
+      "custom": "사용자 정의",
+      "custom_hint": "500ms나 2m 같은 시간 값.",
+      "status_mixed": "혼합",
+      "disabled_warning": "인덱스를 수동으로 새로고침하기 전까지 새 문서를 검색할 수 없습니다.",
+      "confirm": "인덱스 {count}개의 새로고침 간격을 {value}(으)로 설정할까요?",
+      "updated": "인덱스 {count}개의 새로고침 간격을 업데이트했습니다."
+    },
+    "watermarks": {
+      "title": "디스크 워터마크",
+      "description": "할당과 플러드 단계를 위한 디스크 사용량 기준.",
+      "keywords": "디스크 여유 사용 플러드 기준 여유 공간 watermark flood headroom",
+      "fullest": "가장 가득 찬 노드:",
+      "used": "{percent}% 사용",
+      "available": "여유 {bytes}",
+      "low": "낮은 워터마크",
+      "high": "높은 워터마크",
+      "flood": "플러드 단계",
+      "low_hint": "이 값을 넘은 노드에는 새 샤드를 할당하지 않습니다.",
+      "high_hint": "이 값을 넘은 노드에서 샤드를 옮깁니다.",
+      "flood_hint": "이 값을 넘은 노드의 인덱스는 읽기 전용이 됩니다.",
+      "mode_percent": "백분율과 비율은 사용 중인 디스크 공간을 나타냅니다.",
+      "mode_bytes": "바이트 값은 필요한 여유 디스크 공간을 나타냅니다.",
+      "threshold_enabled": "할당에 디스크 기준 사용",
+      "threshold_disabled_warning": "디스크 기준이 없으면 Elasticsearch가 노드의 디스크 부족을 더 이상 막지 못합니다.",
+      "low_max_headroom": "낮음 최대 여유 공간",
+      "high_max_headroom": "높음 최대 여유 공간",
+      "flood_max_headroom": "플러드 단계 최대 여유 공간",
+      "headroom_hint": "선택 사항, 예: 100gb.",
+      "lowering_warning": "기준을 높이면 노드가 더 많이 차므로 일시적으로만 사용하세요.",
+      "confirm": "디스크 워터마크를 업데이트할까요?",
+      "updated": "디스크 워터마크를 업데이트했습니다.",
+      "restored": "디스크 워터마크를 기본값으로 복원했습니다.",
+      "errors": {
+        "mixed": "모든 기준을 백분율로 하거나 모두 바이트 값으로 하세요.",
+        "percent_order": "기준은 낮음, 높음, 플러드 단계 순으로 커져야 합니다.",
+        "bytes_order": "여유 공간은 낮음, 높음, 플러드 단계 순으로 작아져야 합니다.",
+        "headroom": "100gb 같은 바이트 값을 사용하세요."
+      }
+    },
+    "recovery": {
+      "title": "복구 대역폭",
+      "description": "노드별 샤드 복구 트래픽 한도.",
+      "keywords": "복구 대역폭 스냅샷 트래픽 초당 바이트 recovery bandwidth",
+      "explanation": "복구 트래픽이 검색과 인덱싱을 느리게 하지 않도록 합니다.",
+      "limit": "노드당 한도",
+      "hint": "40mb나 1gb 같은 전송 속도.",
+      "invalid": "80mb 같은 값을 입력하세요.",
+      "updated": "복구 대역폭을 업데이트했습니다."
+    },
+    "destructive": {
+      "title": "파괴적 작업 보호",
+      "description": "인덱스를 삭제하거나 닫을 때 명시적인 이름을 요구합니다.",
+      "keywords": "와일드카드 삭제 명시적 이름 안전 wildcard delete",
+      "toggle": "명시적인 인덱스 이름 필요",
+      "explanation": "와일드카드나 _all로 인덱스를 삭제하거나 닫는 것을 막습니다.",
+      "confirm_disable": "와일드카드와 _all에 대한 파괴적 작업을 허용할까요? 실수로 삭제하기 쉬워집니다.",
+      "updated": "파괴적 작업 보호를 업데이트했습니다."
+    },
+    "auto_create": {
+      "title": "인덱스 자동 생성",
+      "description": "없는 인덱스에 쓸 때 인덱스를 만들지 여부.",
+      "keywords": "자동 생성 없는 인덱스 패턴 규칙 auto create",
+      "rules": "규칙",
+      "hint": "규칙은 순서대로 평가됩니다.",
+      "confirm_disable": "인덱스 자동 생성을 비활성화할까요? 이에 의존하는 애플리케이션이 실패할 수 있습니다.",
+      "updated": "인덱스 자동 생성을 업데이트했습니다.",
+      "modes": {
+        "allow": "허용",
+        "disable": "비활성화",
+        "custom": "사용자 정의 규칙"
+      }
+    },
+    "cluster_write": {
+      "title": "클러스터 쓰기 모드",
+      "description": "장애 대응이나 유지보수 중 클러스터 전체를 읽기 전용으로 만듭니다.",
+      "keywords": "읽기 전용 긴급 유지보수 클러스터 블록 read only emergency",
+      "restricted": "현재 이 클러스터에 대한 쓰기가 차단되어 있습니다.",
+      "confirm": "클러스터 전체의 쓰기를 차단할까요?",
+      "updated": "클러스터 쓰기 모드를 업데이트했습니다.",
+      "restored": "클러스터 쓰기를 다시 허용했습니다.",
+      "modes": {
+        "normal": "일반",
+        "read_only": "읽기 전용",
+        "allow_delete": "읽기 전용, 삭제 허용"
+      }
+    },
+    "voting": {
+      "title": "투표 제외",
+      "description": "마스터 후보 노드 제거를 준비합니다.",
+      "keywords": "투표 구성 제외 마스터 후보 토폴로지 제거 voting",
+      "explanation": "마스터 후보 노드의 절반 이상을 한 번에 제거할 때만 필요합니다.",
+      "nodes": "마스터 후보 노드",
+      "add": "제외 추가",
+      "clear": "제외 지우기",
+      "status": "활성 {count}",
+      "status_none": "없음",
+      "confirm_add": "노드 {count}개를 투표에서 제외할까요?",
+      "confirm_clear": "모든 투표 제외를 지울까요? Elasticsearch는 제외된 노드가 클러스터를 떠날 때까지 기다립니다.",
+      "added": "투표 제외를 추가했습니다.",
+      "cleared": "투표 제외를 지웠습니다."
+    },
+    "awareness": {
+      "title": "할당 인식",
+      "description": "샤드 복사본을 분산하는 데 쓰는 영역 또는 랙 속성.",
+      "keywords": "영역 랙 속성 장애 도메인 awareness zone rack",
+      "status": "속성 {count}개",
+      "status_none": "설정 안 됨",
+      "values": "노드 값: {values}",
+      "forced": "강제 값: {values}",
+      "hint": "속성은 각 노드에서 설정하므로 여기서 변경할 수 없습니다."
+    }
   },
   "update_check": {
     "downloading": "다운로드 중... {progress}%",

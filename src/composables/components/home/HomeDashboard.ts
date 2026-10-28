@@ -1,6 +1,7 @@
 import { computed, onMounted, ref, shallowRef } from 'vue'
 import { useElasticsearchAdapter } from '../../CallElasticsearch'
 import { useConnectionStore } from '../../../store/connection.ts'
+import { useTranslation } from '../../i18n.ts'
 import { DISTRIBUTIONS } from '../../../consts.ts'
 import {
   aggregateCounters,
@@ -47,6 +48,7 @@ import type {
 } from '../../../types/homeDashboard.ts'
 
 export const useHomeDashboard = () => {
+  const t = useTranslation()
   const connectionStore = useConnectionStore()
   const { callElasticsearch } = useElasticsearchAdapter()
 
@@ -94,7 +96,7 @@ export const useHomeDashboard = () => {
   const topNodes = computed(() => topNodesByPressure(nodes.value))
 
   const attentionChecks = computed(() =>
-    buildAttentionChecks({
+    buildAttentionChecks(t, {
       health: health.value,
       stats: stats.value,
       nodes: nodes.value,
@@ -215,15 +217,22 @@ export const useHomeDashboard = () => {
     }
   }
 
+  let refreshing = false
   const refresh = async () => {
-    await Promise.all([
-      loadHealth(),
-      loadNodeStats(),
-      loadClusterStats(),
-      loadIndices(),
-      loadIndexBlocks(),
-      loadClusterSettings()
-    ])
+    if (refreshing) return
+    refreshing = true
+    try {
+      await Promise.all([
+        loadHealth(),
+        loadNodeStats(),
+        loadClusterStats(),
+        loadIndices(),
+        loadIndexBlocks(),
+        loadClusterSettings()
+      ])
+    } finally {
+      refreshing = false
+    }
   }
 
   onMounted(refresh)

@@ -60,6 +60,14 @@ export type AttentionDetectorInput = {
   now?: number
 }
 
+export type Translate = (key: string, named?: Record<string, unknown>, plural?: number) => string
+
+const actions = (t: Translate) => ({
+  shards: { label: t('home.attention.actions.view_shards'), route: 'shards' },
+  nodes: { label: t('home.attention.actions.view_nodes'), route: 'nodes' },
+  indices: { label: t('home.attention.actions.view_indices'), route: 'indices' }
+})
+
 const formatDuration = (ms: number): string => {
   if (ms < 1000) return `${Math.round(ms)}ms`
   const sec = Math.round(ms / 1000)
@@ -76,164 +84,144 @@ const dataNodeCount = (health: ClusterHealth | null, stats: ClusterStats | null)
   return null
 }
 
-const unassignedPrimaries = (health: ClusterHealth | null): number => {
-  if (!health) return 0
-  if (health.unassigned_primary_shards != null) return health.unassigned_primary_shards
-  // Pre-8.16: red + unassigned usually means primaries (best-effort)
-  const status = (health.status || '').toLowerCase()
-  if (status === 'red' && (health.unassigned_shards || 0) > 0) return health.unassigned_shards
-  return 0
+const primariesSummary = (t: Translate, count: number, names: string[]) => {
+  if (names.length === 1)
+    return t('home.attention.findings.unassigned_primaries.summary_index', { count, index: names[0] }, count)
+  if (names.length > 1) {
+    return t('home.attention.findings.unassigned_primaries.summary_indices', { count, indices: names.length }, count)
+  }
+  return t('home.attention.findings.unassigned_primaries.summary', { count }, count)
 }
 
-const affectedIndexLabel = (unhealthy: { red: string[]; yellow: string[] }): { name: string | null; count: number } => {
-  const names = [...unhealthy.red, ...unhealthy.yellow]
-  if (names.length === 0) return { name: null, count: 0 }
-  if (names.length === 1) return { name: names[0], count: 1 }
-  return { name: names[0], count: names.length }
+const replicasSummary = (t: Translate, count: number, names: string[], singleNode: boolean) => {
+  const index = names[0]
+  if (singleNode) {
+    return names.length === 1
+      ? t('home.attention.findings.unassigned_replicas.summary_single_node_index', { count, index }, count)
+      : t('home.attention.findings.unassigned_replicas.summary_single_node', { count }, count)
+  }
+  if (names.length === 1) return t('home.attention.findings.unassigned_replicas.summary_index', { count, index }, count)
+  if (names.length > 1) {
+    return t('home.attention.findings.unassigned_replicas.summary_indices', { count, indices: names.length }, count)
+  }
+  return t('home.attention.findings.unassigned_replicas.summary', { count }, count)
 }
 
-export const detectShardProblems = (input: AttentionDetectorInput): AttentionFinding[] => {
+export const detectShardProblems = (t: Translate, input: AttentionDetectorInput): AttentionFinding[] => {
   const { health, stats, unhealthyIndices } = input
   if (!health) return []
 
   const unassigned = health.unassigned_shards || 0
   if (unassigned <= 0) return []
 
-  const primaries = unassignedPrimaries(health)
-  const replicas = Math.max(0, unassigned - primaries)
+  const names = [...unhealthyIndices.red, ...unhealthyIndices.yellow]
+  const entity = names.length ? { type: 'index' as const, name: names[0] } : { type: 'cluster' as const, name: 'cluster' }
   const findings: AttentionFinding[] = []
-  const { name: indexName, count: indexCount } = affectedIndexLabel(unhealthyIndices)
-
-  if (primaries > 0) {
-    const indexPart = indexName ? (indexCount === 1 ? ` on ${indexName}` : ` across ${indexCount} indices`) : ''
-    findings.push({
-      id: 'unassigned-primaries',
-      severity: 'critical',
-      title: 'Primary shards unassigned',
-      summary: `${primaries} primary shards are unassigned${indexPart}`,
-      detail: 'Some data may be unavailable until primaries are allocated.',
-      entity: indexName ? { type: 'index', name: indexName } : { type: 'cluster', name: 'cluster' },
-      action: { label: 'View shards', route: 'shards' }
-    })
+  const primary = {
+    id: 'unassigned-primaries',
+    severity: 'critical' as const,
+    title: t('home.attention.findings.unassigned_primaries.title'),
+    detail: t('home.attention.findings.unassigned_primaries.detail'),
+    entity,
+    action: actions(t).shards
   }
+
+  if (health.unassigned_primary_shards == null && (health.status || '').toLowerCase() === 'red') {
+    return [{ ...primary, summary: t('home.attention.findings.unassigned_primaries.summary_unknown') }]
+  }
+
+  const primaries = health.unassigned_primary_shards ?? 0
+  const replicas = Math.max(0, unassigned - primaries)
+
+  if (primaries > 0) findings.push({ ...primary, summary: primariesSummary(t, primaries, names) })
 
   if (replicas > 0) {
     const dataNodes = dataNodeCount(health, stats)
     const singleNode = dataNodes != null && dataNodes <= 1
 
-    let summary: string
-    let detail: string
-
-    if (singleNode) {
-      summary =
-        indexName && indexCount === 1
-          ? `${replicas} replicas on ${indexName} cannot be allocated`
-          : `${replicas} replica shards cannot be allocated`
-      detail = 'Replicas cannot be allocated because this cluster has only one eligible data node.'
-    } else if (indexName && indexCount === 1) {
-      summary = `${replicas} replica shards are unassigned on ${indexName}`
-      detail = 'Data is available, but redundancy is reduced.'
-    } else if (indexCount > 1) {
-      summary = `${replicas} replica shards are unassigned across ${indexCount} indices`
-      detail = 'Data is available, but redundancy is reduced.'
-    } else {
-      summary = `${replicas} replica shards are unassigned`
-      detail = 'Data is available, but redundancy is reduced.'
-    }
-
     findings.push({
       id: 'unassigned-replicas',
       severity: 'warning',
-      title: 'Replica shards unassigned',
-      summary,
-      detail,
-      entity: indexName ? { type: 'index', name: indexName } : { type: 'cluster', name: 'cluster' },
-      action: { label: 'View shards', route: 'shards' }
+      title: t('home.attention.findings.unassigned_replicas.title'),
+      summary: replicasSummary(t, replicas, names, singleNode),
+      detail: singleNode
+        ? t('home.attention.findings.unassigned_replicas.detail_single_node')
+        : t('home.attention.findings.unassigned_replicas.detail'),
+      entity,
+      action: actions(t).shards
     })
   }
 
   return findings
 }
 
-export const detectIndexBlocks = (blocks: IndexBlock[]): AttentionFinding[] => {
-  return blocks.map((block) => {
-    const kinds = block.kinds
-    const readOnly = kinds.some((k) => k.includes('read_only'))
-    const writeBlocked = kinds.some((k) => k === 'write' || k.includes('write') || k.includes('read_only'))
+export const detectIndexBlocks = (t: Translate, blocks: IndexBlock[]): AttentionFinding[] => {
+  if (!blocks.length) return []
 
-    let title = 'Index write blocked'
-    let summary = `Index ${block.index} has write blocks`
-    let detail = 'Indexing into this index is currently blocked.'
-    let severity: AttentionFinding['severity'] = 'warning'
+  const readOnly = blocks.filter((block) => block.kinds.some((kind) => kind.startsWith('read_only')))
+  const allowDelete = blocks.some((block) => block.kinds.includes('read_only_allow_delete'))
+  const index = (readOnly[0] || blocks[0]).index
 
-    if (readOnly) {
-      title = 'Index is read-only'
-      summary = `Index ${block.index} is read-only`
-      detail = kinds.some((k) => k.includes('allow_delete'))
-        ? 'Indexing is blocked (deletes may still be allowed). Often caused by disk flood-stage.'
-        : 'Indexing into this index is currently blocked.'
-      severity = 'critical'
-    } else if (writeBlocked) {
-      severity = 'critical'
-    }
+  let summary = t('home.attention.findings.index_blocks.summary_many', { count: blocks.length, index })
+  if (blocks.length === 1) {
+    summary = readOnly.length
+      ? t('home.attention.findings.index_blocks.summary_read_only', { index })
+      : t('home.attention.findings.index_blocks.summary_write', { index })
+  }
 
-    return {
-      id: `index-blocks:${block.index}`,
-      severity,
-      title,
+  return [
+    {
+      id: 'index-blocks',
+      severity: readOnly.length ? 'critical' : 'warning',
+      title: readOnly.length
+        ? t('home.attention.findings.index_blocks.title_read_only')
+        : t('home.attention.findings.index_blocks.title_write'),
       summary,
-      detail,
-      entity: { type: 'index', name: block.index },
-      action: { label: 'View indices', route: 'indices' }
+      detail: allowDelete
+        ? t('home.attention.findings.index_blocks.detail_allow_delete')
+        : t('home.attention.findings.index_blocks.detail'),
+      entity: { type: 'index', name: index },
+      action: actions(t).indices
     }
-  })
+  ]
 }
 
-export const detectDiskProblems = (nodes: OverviewNode[], watermarks: DiskWatermarks): AttentionFinding[] => {
-  const floodAt = watermarks.floodPercent
-  const highAt = watermarks.highPercent
-  const lowAt = watermarks.lowPercent
+export const detectDiskProblems = (t: Translate, nodes: OverviewNode[], watermarks: DiskWatermarks): AttentionFinding[] => {
   const findings: AttentionFinding[] = []
 
   for (const node of nodes) {
     const used = node.diskPercent
     if (used == null) continue
 
-    if (floodAt != null && used >= floodAt) {
+    const params = { node: node.name, percent: Math.round(used) }
+    const base = { entity: { type: 'node' as const, name: node.name }, action: actions(t).nodes }
+
+    if (watermarks.floodPercent != null && used >= watermarks.floodPercent) {
       findings.push({
+        ...base,
         id: `disk-flood:${node.name}`,
         severity: 'critical',
-        title: 'Disk flood-stage exceeded',
-        summary: `${node.name} at ${Math.round(used)}% used (flood ${watermarks.flood})`,
-        detail: 'Elasticsearch may place affected indices into read-only mode.',
-        entity: { type: 'node', name: node.name },
-        action: { label: 'View nodes', route: 'nodes' }
+        title: t('home.attention.findings.disk_flood.title'),
+        summary: t('home.attention.findings.disk_flood.summary', { ...params, threshold: watermarks.flood }),
+        detail: t('home.attention.findings.disk_flood.detail')
       })
-      continue
-    }
-
-    if (highAt != null && used >= highAt) {
+    } else if (watermarks.highPercent != null && used >= watermarks.highPercent) {
       findings.push({
+        ...base,
         id: `disk-watermark:${node.name}`,
         severity: 'warning',
-        title: 'Disk high watermark exceeded',
-        summary: `${node.name} at ${Math.round(used)}% used (high ${watermarks.high})`,
-        detail: 'Shard allocation may be restricted on this node.',
-        entity: { type: 'node', name: node.name },
-        action: { label: 'View nodes', route: 'nodes' }
+        title: t('home.attention.findings.disk_high.title'),
+        summary: t('home.attention.findings.disk_high.summary', { ...params, threshold: watermarks.high }),
+        detail: t('home.attention.findings.disk_high.detail')
       })
-      continue
-    }
-
-    if (lowAt != null && used >= lowAt) {
+    } else if (watermarks.lowPercent != null && used >= watermarks.lowPercent) {
       findings.push({
+        ...base,
         id: `disk-watermark:${node.name}`,
         severity: 'warning',
-        title: 'Disk low watermark exceeded',
-        summary: `${node.name} at ${Math.round(used)}% used (low ${watermarks.low})`,
-        detail: 'New shards will not be allocated to this node.',
-        entity: { type: 'node', name: node.name },
-        action: { label: 'View nodes', route: 'nodes' }
+        title: t('home.attention.findings.disk_low.title'),
+        summary: t('home.attention.findings.disk_low.summary', { ...params, threshold: watermarks.low }),
+        detail: t('home.attention.findings.disk_low.detail')
       })
     }
   }
@@ -241,30 +229,30 @@ export const detectDiskProblems = (nodes: OverviewNode[], watermarks: DiskWaterm
   return findings
 }
 
-export const detectAllocationSettings = (allocationEnable: AllocationEnable): AttentionFinding[] => {
+export const detectAllocationSettings = (t: Translate, allocationEnable: AllocationEnable): AttentionFinding[] => {
   const value = (allocationEnable || 'all').toLowerCase()
   if (value === 'all') return []
 
-  const labels: Record<string, string> = {
-    none: 'Shard allocation is disabled',
-    primaries: 'Only primary shard allocation is enabled',
-    new_primaries: 'Only new primary shard allocation is enabled'
+  const summaries: Record<string, string> = {
+    none: t('home.attention.findings.allocation.summary_none'),
+    primaries: t('home.attention.findings.allocation.summary_primaries'),
+    new_primaries: t('home.attention.findings.allocation.summary_new_primaries')
   }
 
   return [
     {
       id: 'allocation-disabled',
       severity: 'warning',
-      title: 'Shard allocation restricted',
-      summary: labels[value] || `Shard allocation is set to "${value}"`,
-      detail: 'New and recovering shards may not be allocated. Often left on after maintenance.',
+      title: t('home.attention.findings.allocation.title'),
+      summary: summaries[value] || t('home.attention.findings.allocation.summary_other', { value }),
+      detail: t('home.attention.findings.allocation.detail'),
       entity: { type: 'cluster', name: 'cluster' },
-      action: { label: 'View shards', route: 'shards' }
+      action: actions(t).shards
     }
   ]
 }
 
-export const detectPendingTasks = (pending: PendingTaskInfo | null): AttentionFinding[] => {
+export const detectPendingTasks = (t: Translate, pending: PendingTaskInfo | null): AttentionFinding[] => {
   if (!pending || pending.count <= 0) return []
   if (pending.oldestAgeMs == null) return []
   if (pending.oldestAgeMs < PENDING_TASK_AGE_MS) return []
@@ -273,53 +261,57 @@ export const detectPendingTasks = (pending: PendingTaskInfo | null): AttentionFi
     {
       id: 'pending-tasks',
       severity: 'warning',
-      title: 'Cluster tasks are backing up',
-      summary: `${pending.count} pending, oldest waiting ${formatDuration(pending.oldestAgeMs)}`,
-      detail: 'Cluster state updates may be delayed.',
+      title: t('home.attention.findings.pending_tasks.title'),
+      summary: t('home.attention.findings.pending_tasks.summary', {
+        count: pending.count,
+        age: formatDuration(pending.oldestAgeMs)
+      }),
+      detail: t('home.attention.findings.pending_tasks.detail'),
       entity: { type: 'cluster', name: 'cluster' }
     }
   ]
 }
 
-export const detectRecentRejections = (samples: PressureSample[], now: number): AttentionFinding[] => {
+const recentTotal = (samples: PressureSample[], now: number, field: 'rejectedDelta' | 'breakerDelta') => {
   const windowStart = now - PRESSURE_WINDOW_MS
-  const recent = samples.filter((s) => s.at >= windowStart)
-  const total = recent.reduce((sum, s) => sum + s.rejectedDelta, 0)
-  if (total <= 0) return []
+  return samples.filter((s) => s.at >= windowStart).reduce((sum, s) => sum + s[field], 0)
+}
+
+export const detectRecentRejections = (t: Translate, samples: PressureSample[], now: number): AttentionFinding[] => {
+  const count = recentTotal(samples, now, 'rejectedDelta')
+  if (count <= 0) return []
 
   return [
     {
       id: 'rejections',
       severity: 'warning',
-      title: 'Search/indexing requests rejected',
-      summary: `${total} new rejections in the last 5 minutes`,
-      detail: 'Thread pools are saturated — requests are being dropped.',
+      title: t('home.attention.findings.rejections.title'),
+      summary: t('home.attention.findings.rejections.summary', { count }, count),
+      detail: t('home.attention.findings.rejections.detail'),
       entity: { type: 'cluster', name: 'cluster' },
-      action: { label: 'View nodes', route: 'nodes' }
+      action: actions(t).nodes
     }
   ]
 }
 
-export const detectRecentBreakerTrips = (samples: PressureSample[], now: number): AttentionFinding[] => {
-  const windowStart = now - PRESSURE_WINDOW_MS
-  const recent = samples.filter((s) => s.at >= windowStart)
-  const total = recent.reduce((sum, s) => sum + s.breakerDelta, 0)
-  if (total <= 0) return []
+export const detectRecentBreakerTrips = (t: Translate, samples: PressureSample[], now: number): AttentionFinding[] => {
+  const count = recentTotal(samples, now, 'breakerDelta')
+  if (count <= 0) return []
 
   return [
     {
       id: 'breakers',
       severity: 'warning',
-      title: 'Memory circuit breaker triggered',
-      summary: `${total} new trips in the last 5 minutes`,
-      detail: 'Queries or aggregations are hitting memory limits.',
+      title: t('home.attention.findings.breakers.title'),
+      summary: t('home.attention.findings.breakers.summary', { count }, count),
+      detail: t('home.attention.findings.breakers.detail'),
       entity: { type: 'cluster', name: 'cluster' },
-      action: { label: 'View nodes', route: 'nodes' }
+      action: actions(t).nodes
     }
   ]
 }
 
-export const detectJvmPressure = (samples: HeapSample[], now: number): AttentionFinding[] => {
+export const detectJvmPressure = (t: Translate, samples: HeapSample[], now: number): AttentionFinding[] => {
   if (samples.length < 2) return []
 
   const byNode = new Map<string, HeapSample[]>()
@@ -348,44 +340,52 @@ export const detectJvmPressure = (samples: HeapSample[], now: number): Attention
     findings.push({
       id: `jvm-pressure:${node}`,
       severity: 'warning',
-      title: 'High JVM memory pressure',
-      summary: `${node} remained above ${HEAP_PRESSURE_PERCENT}% for ${formatDuration(duration)}`,
-      detail: `Currently ${Math.round(latest.heapPercent)}% — sustained pressure often precedes GC instability.`,
+      title: t('home.attention.findings.jvm.title'),
+      summary: t('home.attention.findings.jvm.summary', {
+        node,
+        threshold: HEAP_PRESSURE_PERCENT,
+        duration: formatDuration(duration)
+      }),
+      detail: t('home.attention.findings.jvm.detail', { percent: Math.round(latest.heapPercent) }),
       entity: { type: 'node', name: node },
-      action: { label: 'View nodes', route: 'nodes' }
+      action: actions(t).nodes
     })
   }
 
   return findings
 }
 
-export const detectFileDescriptorPressure = (nodes: OverviewNode[]): AttentionFinding[] => {
+export const detectFileDescriptorPressure = (t: Translate, nodes: OverviewNode[]): AttentionFinding[] => {
   const findings: AttentionFinding[] = []
 
   for (const node of nodes) {
-    const pct = node.fileDescriptorPercent
-    if (pct == null || pct < FD_WARN_PERCENT) continue
+    const percent = node.fileDescriptorPercent
+    if (percent == null || percent < FD_WARN_PERCENT) continue
 
-    const counts =
-      node.fileDescriptorsOpen != null && node.fileDescriptorsMax != null
-        ? ` (${node.fileDescriptorsOpen} / ${node.fileDescriptorsMax})`
-        : ''
+    const params = { node: node.name, percent: Math.round(percent) }
 
     findings.push({
       id: `file-descriptors:${node.name}`,
       severity: 'warning',
-      title: 'File descriptor limit approaching',
-      summary: `${node.name}: ${Math.round(pct)}% used${counts}`,
-      detail: 'Exhausting file descriptors can cause node failures.',
+      title: t('home.attention.findings.file_descriptors.title'),
+      summary:
+        node.fileDescriptorsOpen != null && node.fileDescriptorsMax != null
+          ? t('home.attention.findings.file_descriptors.summary_counts', {
+              ...params,
+              open: node.fileDescriptorsOpen,
+              max: node.fileDescriptorsMax
+            })
+          : t('home.attention.findings.file_descriptors.summary', params),
+      detail: t('home.attention.findings.file_descriptors.detail'),
       entity: { type: 'node', name: node.name },
-      action: { label: 'View nodes', route: 'nodes' }
+      action: actions(t).nodes
     })
   }
 
   return findings
 }
 
-export const detectVersionMismatch = (stats: ClusterStats | null): AttentionFinding[] => {
+export const detectVersionMismatch = (t: Translate, stats: ClusterStats | null): AttentionFinding[] => {
   const versions = stats?.nodes.versions || []
   if (versions.length <= 1) return []
 
@@ -393,34 +393,33 @@ export const detectVersionMismatch = (stats: ClusterStats | null): AttentionFind
     {
       id: 'mixed-versions',
       severity: 'info',
-      title: 'Mixed Elasticsearch versions',
-      summary: `Nodes running ${versions.join(', ')}`,
-      detail: 'Expected during rolling upgrades; finish the upgrade when possible.',
+      title: t('home.attention.findings.versions.title'),
+      summary: t('home.attention.findings.versions.summary', { versions: versions.join(', ') }),
+      detail: t('home.attention.findings.versions.detail'),
       entity: { type: 'cluster', name: 'cluster' },
-      action: { label: 'View nodes', route: 'nodes' }
+      action: actions(t).nodes
     }
   ]
 }
 
 export const detectMonitoringProblems = (
+  t: Translate,
   available: boolean | null,
   expectedNodes: number | null,
   observedNodes: number
 ): AttentionFinding[] => {
   if (available !== false) return []
 
-  const summary =
-    expectedNodes != null && expectedNodes > 0
-      ? `Stats unavailable for nodes (${observedNodes} of ${expectedNodes} reporting)`
-      : 'Could not retrieve node statistics'
-
   return [
     {
       id: 'monitoring',
       severity: 'info',
-      title: 'Node monitoring incomplete',
-      summary,
-      detail: 'Insufficient permissions to retrieve node statistics, or the nodes stats API is unavailable.',
+      title: t('home.attention.findings.monitoring.title'),
+      summary:
+        expectedNodes != null && expectedNodes > 0
+          ? t('home.attention.findings.monitoring.summary_partial', { observed: observedNodes, expected: expectedNodes })
+          : t('home.attention.findings.monitoring.summary'),
+      detail: t('home.attention.findings.monitoring.detail'),
       entity: { type: 'cluster', name: 'cluster' }
     }
   ]
@@ -436,130 +435,100 @@ const sortFindings = (findings: AttentionFinding[]): AttentionFinding[] => {
   })
 }
 
-/**
- * Collapse related disk/index-block noise: if flood-stage is already reported for a node,
- * drop low/high watermark findings for that same node (flood supersedes).
- */
-const dedupeFindings = (findings: AttentionFinding[]): AttentionFinding[] => {
-  const floodNodes = new Set(
-    findings
-      .filter((f) => f.id.startsWith('disk-flood:'))
-      .map((f) => f.entity?.name)
-      .filter(Boolean)
-  )
-
-  return findings.filter((f) => {
-    if (!f.id.startsWith('disk-watermark:')) return true
-    return !floodNodes.has(f.entity?.name)
-  })
-}
-
-export const buildAttentionFindings = (input: AttentionDetectorInput): AttentionFinding[] => {
+export const buildAttentionFindings = (t: Translate, input: AttentionDetectorInput): AttentionFinding[] => {
   const now = input.now ?? Date.now()
 
   const findings = [
-    ...detectShardProblems(input),
-    ...detectIndexBlocks(input.indexBlocks),
-    ...detectDiskProblems(input.nodes, input.diskWatermarks),
-    ...detectAllocationSettings(input.allocationEnable),
-    ...detectPendingTasks(input.pendingTasks),
-    ...detectRecentRejections(input.pressureSamples, now),
-    ...detectRecentBreakerTrips(input.pressureSamples, now),
-    ...detectJvmPressure(input.heapSamples, now),
-    ...detectFileDescriptorPressure(input.nodes),
-    ...detectVersionMismatch(input.stats),
+    ...detectShardProblems(t, input),
+    ...detectIndexBlocks(t, input.indexBlocks),
+    ...detectDiskProblems(t, input.nodes, input.diskWatermarks),
+    ...detectAllocationSettings(t, input.allocationEnable),
+    ...detectPendingTasks(t, input.pendingTasks),
+    ...detectRecentRejections(t, input.pressureSamples, now),
+    ...detectRecentBreakerTrips(t, input.pressureSamples, now),
+    ...detectJvmPressure(t, input.heapSamples, now),
+    ...detectFileDescriptorPressure(t, input.nodes),
+    ...detectVersionMismatch(t, input.stats),
     ...detectMonitoringProblems(
+      t,
       input.nodesMonitoringAvailable,
       input.stats?.nodes.count.total ?? input.health?.number_of_nodes ?? null,
       input.nodes.length
     )
   ]
 
-  return sortFindings(dedupeFindings(findings))
-}
-
-type CheckDefinition = {
-  id: string
-  title: string
-  /** Finding id prefixes that fold into this check row */
-  prefixes: string[]
-  okSummary: string
+  return sortFindings(findings)
 }
 
 /** Stable expanded checklist — one row per concern area, OK when no finding. */
-const CHECK_DEFINITIONS: CheckDefinition[] = [
+const checkDefinitions = (t: Translate) => [
   {
     id: 'shards',
-    title: 'Shards',
-    prefixes: ['unassigned-primaries', 'unassigned-replicas'],
-    okSummary: 'All shards assigned'
+    title: t('home.attention.checks.shards.title'),
+    ok: t('home.attention.checks.shards.ok'),
+    prefixes: ['unassigned-primaries', 'unassigned-replicas']
   },
   {
     id: 'index-blocks',
-    title: 'Index blocks',
-    prefixes: ['index-blocks'],
-    okSummary: 'No write or read-only blocks'
+    title: t('home.attention.checks.index_blocks.title'),
+    ok: t('home.attention.checks.index_blocks.ok'),
+    prefixes: ['index-blocks']
   },
   {
     id: 'allocation',
-    title: 'Shard allocation',
-    prefixes: ['allocation-disabled'],
-    okSummary: 'Allocation enabled'
+    title: t('home.attention.checks.allocation.title'),
+    ok: t('home.attention.checks.allocation.ok'),
+    prefixes: ['allocation-disabled']
   },
   {
     id: 'pending-tasks',
-    title: 'Pending cluster tasks',
-    prefixes: ['pending-tasks'],
-    okSummary: 'No stuck cluster tasks'
+    title: t('home.attention.checks.pending_tasks.title'),
+    ok: t('home.attention.checks.pending_tasks.ok'),
+    prefixes: ['pending-tasks']
   },
   {
     id: 'disk',
-    title: 'Disk watermarks',
-    prefixes: ['disk-flood', 'disk-watermark'],
-    okSummary: 'Below disk watermarks'
+    title: t('home.attention.checks.disk.title'),
+    ok: t('home.attention.checks.disk.ok'),
+    prefixes: ['disk-flood', 'disk-watermark']
   },
   {
     id: 'rejections',
-    title: 'Thread-pool rejections',
-    prefixes: ['rejections'],
-    okSummary: 'No new rejections'
+    title: t('home.attention.checks.rejections.title'),
+    ok: t('home.attention.checks.rejections.ok'),
+    prefixes: ['rejections']
   },
   {
     id: 'breakers',
-    title: 'Circuit breakers',
-    prefixes: ['breakers'],
-    okSummary: 'No new breaker trips'
+    title: t('home.attention.checks.breakers.title'),
+    ok: t('home.attention.checks.breakers.ok'),
+    prefixes: ['breakers']
   },
   {
     id: 'jvm',
-    title: 'JVM pressure',
-    prefixes: ['jvm-pressure'],
-    okSummary: 'No sustained heap pressure'
+    title: t('home.attention.checks.jvm.title'),
+    ok: t('home.attention.checks.jvm.ok'),
+    prefixes: ['jvm-pressure']
   },
   {
     id: 'file-descriptors',
-    title: 'File descriptors',
-    prefixes: ['file-descriptors'],
-    okSummary: 'Within normal range'
+    title: t('home.attention.checks.file_descriptors.title'),
+    ok: t('home.attention.checks.file_descriptors.ok'),
+    prefixes: ['file-descriptors']
   },
   {
     id: 'versions',
-    title: 'Node versions',
-    prefixes: ['mixed-versions'],
-    okSummary: 'All nodes on the same version'
+    title: t('home.attention.checks.versions.title'),
+    ok: t('home.attention.checks.versions.ok'),
+    prefixes: ['mixed-versions']
   },
   {
     id: 'monitoring',
-    title: 'Node monitoring',
-    prefixes: ['monitoring'],
-    okSummary: 'Available'
+    title: t('home.attention.checks.monitoring.title'),
+    ok: t('home.attention.checks.monitoring.ok'),
+    prefixes: ['monitoring']
   }
 ]
-
-const findingMatchesCheck = (finding: AttentionFinding, prefixes: string[]): boolean => {
-  const key = finding.id.split(':')[0]
-  return prefixes.some((prefix) => key === prefix || finding.id.startsWith(`${prefix}:`))
-}
 
 const worstSeverity = (findings: AttentionFinding[]): AttentionFinding['severity'] => {
   if (findings.some((f) => f.severity === 'critical')) return 'critical'
@@ -571,37 +540,20 @@ const worstSeverity = (findings: AttentionFinding[]): AttentionFinding['severity
  * Always returns every check row for the expanded Attention card.
  * Findings fold into their check; otherwise the row is OK.
  */
-export const buildAttentionChecks = (input: AttentionDetectorInput): AttentionCheck[] => {
-  const findings = buildAttentionFindings(input)
+export const buildAttentionChecks = (t: Translate, input: AttentionDetectorInput): AttentionCheck[] => {
+  const findings = buildAttentionFindings(t, input)
 
-  return CHECK_DEFINITIONS.map((def) => {
-    const matched = findings.filter((f) => findingMatchesCheck(f, def.prefixes))
-    if (!matched.length) {
-      return {
-        id: def.id,
-        title: def.title,
-        severity: 'ok',
-        summary: def.okSummary
-      }
-    }
-
-    const primary = matched[0]
-    const summary = matched.length === 1 ? primary.summary : matched.map((f) => f.summary).join('; ')
-    const detail =
-      matched.length === 1
-        ? primary.detail
-        : matched
-            .map((f) => f.detail)
-            .filter(Boolean)
-            .join(' ')
+  return checkDefinitions(t).map((def) => {
+    const matched = findings.filter((f) => def.prefixes.includes(f.id.split(':')[0]))
+    if (!matched.length) return { id: def.id, title: def.title, severity: 'ok', summary: [def.ok], detail: [] }
 
     return {
       id: def.id,
-      title: matched.length === 1 ? primary.title : def.title,
+      title: matched.length === 1 ? matched[0].title : def.title,
       severity: worstSeverity(matched),
-      summary,
-      detail: detail || undefined,
-      action: primary.action
+      summary: matched.map((f) => f.summary),
+      detail: [...new Set(matched.map((f) => f.detail).filter((d): d is string => Boolean(d)))],
+      action: matched[0].action
     }
   })
 }
@@ -638,14 +590,14 @@ export const parseIndexBlocks = (
       const description = (block.description || '').toLowerCase()
       const levels = (block.levels || []).map((l) => l.toLowerCase())
 
+      if (description === 'index closed') continue
+
       if (description.includes('read-only') && description.includes('allow delete')) {
         kinds.add('read_only_allow_delete')
       } else if (description.includes('read-only') || description.includes('read only')) {
         kinds.add('read_only')
-      } else if (levels.includes('write') || description.includes('write')) {
+      } else if (levels.includes('write')) {
         kinds.add('write')
-      } else if (levels.length) {
-        levels.forEach((l) => kinds.add(l))
       }
     }
 

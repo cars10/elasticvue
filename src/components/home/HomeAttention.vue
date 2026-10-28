@@ -3,8 +3,10 @@
     <q-card-section
       class="row items-center q-col-gutter-sm cursor-pointer"
       role="button"
+      tabindex="0"
       :aria-expanded="expanded"
       @click="expanded = !expanded"
+      @keydown.enter.space.prevent="expanded = !expanded"
     >
       <div class="col row items-center q-gutter-sm" style="min-width: 0">
         <q-icon :name="headerIcon" :color="headerColor" size="sm" class="col-auto" />
@@ -37,15 +39,15 @@
                 </span>
               </div>
               <template v-if="check.severity !== 'ok'">
-                <div class="font-13 q-mt-xs">{{ check.summary }}</div>
-                <div v-if="check.detail" class="text-muted font-13 q-mt-xs">{{ check.detail }}</div>
+                <div v-for="(line, i) in check.summary" :key="i" class="font-13 q-mt-xs">{{ line }}</div>
+                <div v-if="check.detail.length" class="text-muted font-13 q-mt-xs">{{ check.detail.join(' ') }}</div>
                 <router-link
                   v-if="check.action?.route"
                   :to="{ name: check.action.route, params: { clusterIndex: connectionStore.activeClusterIndex } }"
                   class="font-13 q-mt-xs inline-block"
                   @click.stop
                 >
-                  {{ check.action.label }} →
+                  {{ check.action.label }}
                 </router-link>
               </template>
             </div>
@@ -59,6 +61,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 import { useConnectionStore } from '../../store/connection.ts'
+import { useTranslation } from '../../composables/i18n.ts'
 import type { AttentionCheck } from '../../types/homeDashboard.ts'
 
 const props = defineProps<{
@@ -66,13 +69,14 @@ const props = defineProps<{
 }>()
 
 const connectionStore = useConnectionStore()
+const t = useTranslation()
 
-const appearance = {
-  critical: { textClass: 'health--red', label: 'Critical', icon: 'error', color: 'negative' },
-  warning: { textClass: 'health--yellow', label: 'Warning', icon: 'warning', color: 'warning' },
-  info: { textClass: 'text-muted', label: 'Notice', icon: 'info', color: 'info' },
-  ok: { textClass: 'text-muted', label: 'OK', icon: 'check_circle', color: 'positive' }
-} as const
+const appearance = computed(() => ({
+  critical: { textClass: 'health--red', label: t('home.attention.severity.critical'), icon: 'error', color: 'negative' },
+  warning: { textClass: 'health--yellow', label: t('home.attention.severity.warning'), icon: 'warning', color: 'warning' },
+  info: { textClass: 'text-muted', label: t('home.attention.severity.info'), icon: 'info', color: 'info' },
+  ok: { textClass: 'text-muted', label: t('home.attention.severity.ok'), icon: 'check_circle', color: 'positive' }
+}))
 
 /** Left: cluster/data; right: resources/pressure. */
 const LEFT_IDS = ['shards', 'index-blocks', 'allocation', 'pending-tasks', 'versions']
@@ -91,7 +95,7 @@ const noticeCount = computed(() => issues.value.filter((c) => c.severity === 'in
 const issueCount = computed(() => issues.value.length)
 const checkCount = computed(() => props.checks.length)
 
-const allPassedLabel = computed(() => `All ${checkCount.value} checks passed`)
+const allPassedLabel = computed(() => t('home.attention.all_passed', { count: checkCount.value }))
 
 const expanded = ref(issueCount.value > 0)
 
@@ -113,13 +117,13 @@ const headerIcon = computed(() => {
   return 'check_circle'
 })
 
-const heading = computed(() => (issueCount.value ? 'Issues' : 'No issues'))
+const heading = computed(() => (issueCount.value ? t('home.attention.issues') : t('home.attention.no_issues')))
 
 const summary = computed(() => {
   const parts: string[] = []
-  if (criticalCount.value) parts.push(`${criticalCount.value} critical`)
-  if (warningCount.value) parts.push(`${warningCount.value} warnings`)
-  if (noticeCount.value) parts.push(`${noticeCount.value} notices`)
+  if (criticalCount.value) parts.push(t('home.attention.counts.critical', { count: criticalCount.value }, criticalCount.value))
+  if (warningCount.value) parts.push(t('home.attention.counts.warning', { count: warningCount.value }, warningCount.value))
+  if (noticeCount.value) parts.push(t('home.attention.counts.info', { count: noticeCount.value }, noticeCount.value))
   return parts.join(', ')
 })
 </script>

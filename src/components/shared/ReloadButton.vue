@@ -29,18 +29,14 @@ import TimerSelect from './TimerSelect.vue'
 
 const t = useTranslation()
 
-const props = defineProps<{ action: any; modelValue?: number | null }>()
-const emit = defineEmits<{ 'update:modelValue': [value: number | null] }>()
+const props = defineProps<{ action: any }>()
+const ownValue = defineModel<number | null>({ default: null })
 
 const intervalPicker = ref<{ restart: () => void } | null>(null)
-const ownValue = ref(props.modelValue ?? null)
 const cycle = ref(0)
 const spinning = ref(false)
 
-watch(ownValue, (value) => {
-  emit('update:modelValue', value ?? null)
-  cycle.value += 1
-})
+watch(ownValue, () => (cycle.value += 1))
 let spinTimeout = 0
 
 const spin = () => {

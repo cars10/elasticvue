@@ -19,6 +19,8 @@ import { DEFAULT_DISK_WATERMARKS } from '../../../src/helpers/nodeStats'
 import type { AttentionDetectorInput } from '../../../src/helpers/homeAttention'
 import type { ClusterHealth, ClusterStats, OverviewNode } from '../../../src/types/homeDashboard'
 
+const t = (key: string, named?: Record<string, unknown>) => (named ? `${key} ${JSON.stringify(named)}` : key)
+
 const baseInput = (overrides: Partial<AttentionDetectorInput> = {}): AttentionDetectorInput => ({
   health: null,
   stats: null,
@@ -58,6 +60,7 @@ describe('helpers/homeAttention.ts', () => {
   describe('healthy cluster', () => {
     it('returns no findings', () => {
       const findings = buildAttentionFindings(
+        t,
         baseInput({
           health: {
             status: 'green',
@@ -83,6 +86,7 @@ describe('helpers/homeAttention.ts', () => {
   describe('detectShardProblems', () => {
     it('collapses yellow cluster + yellow index + unassigned replicas into ONE warning', () => {
       const findings = detectShardProblems(
+        t,
         baseInput({
           health: yellowHealth({ unassigned_shards: 2, number_of_data_nodes: 2 }),
           unhealthyIndices: { red: [], yellow: ['ksad'] }
@@ -92,12 +96,15 @@ describe('helpers/homeAttention.ts', () => {
       expect(findings).toHaveLength(1)
       expect(findings[0].id).toBe('unassigned-replicas')
       expect(findings[0].severity).toBe('warning')
-      expect(findings[0].summary).toContain('ksad')
-      expect(findings[0].detail).toContain('redundancy')
+      expect(findings[0].summary).toBe(
+        'home.attention.findings.unassigned_replicas.summary_index {"count":2,"index":"ksad"}'
+      )
+      expect(findings[0].detail).toBe('home.attention.findings.unassigned_replicas.detail')
     })
 
     it('reports unassigned primaries as critical', () => {
       const findings = detectShardProblems(
+        t,
         baseInput({
           health: redHealth({ unassigned_primary_shards: 2, unassigned_shards: 2 }),
           unhealthyIndices: { red: ['broken'], yellow: [] }
@@ -107,8 +114,22 @@ describe('helpers/homeAttention.ts', () => {
       expect(findings.some((f) => f.id === 'unassigned-primaries' && f.severity === 'critical')).toBe(true)
     })
 
+    it('does not count replicas as primaries when the cluster does not report unassigned primaries', () => {
+      const findings = detectShardProblems(
+        t,
+        baseInput({
+          health: redHealth({ unassigned_primary_shards: undefined, unassigned_shards: 101 }),
+          unhealthyIndices: { red: ['broken'], yellow: [] }
+        })
+      )
+
+      expect(findings).toHaveLength(1)
+      expect(findings[0].summary).toBe('home.attention.findings.unassigned_primaries.summary_unknown')
+    })
+
     it('explains single-node cluster replica allocation', () => {
       const findings = detectShardProblems(
+        t,
         baseInput({
           health: yellowHealth({ unassigned_shards: 2, number_of_data_nodes: 1 }),
           unhealthyIndices: { red: [], yellow: ['ksad'] }
@@ -116,17 +137,27 @@ describe('helpers/homeAttention.ts', () => {
       )
 
       expect(findings).toHaveLength(1)
-      expect(findings[0].detail).toContain('only one eligible data node')
+      expect(findings[0].detail).toBe('home.attention.findings.unassigned_replicas.detail_single_node')
     })
   })
 
   describe('detectIndexBlocks', () => {
     it('creates a finding for read-only indices', () => {
-      const findings = detectIndexBlocks([{ index: 'logs-2026.10.05', kinds: ['read_only_allow_delete'] }])
+      const findings = detectIndexBlocks(t, [{ index: 'logs-2026.10.05', kinds: ['read_only_allow_delete'] }])
       expect(findings).toHaveLength(1)
       expect(findings[0].severity).toBe('critical')
-      expect(findings[0].title).toContain('read-only')
+      expect(findings[0].title).toBe('home.attention.findings.index_blocks.title_read_only')
       expect(findings[0].summary).toContain('logs-2026.10.05')
+    })
+
+    it('groups many blocked indices into one finding', () => {
+      const findings = detectIndexBlocks(t, [
+        { index: 'a', kinds: ['write'] },
+        { index: 'b', kinds: ['write'] }
+      ])
+      expect(findings).toHaveLength(1)
+      expect(findings[0].severity).toBe('warning')
+      expect(findings[0].summary).toBe('home.attention.findings.index_blocks.summary_many {"count":2,"index":"a"}')
     })
   })
 
@@ -141,33 +172,34 @@ describe('helpers/homeAttention.ts', () => {
           fileDescriptorPercent: 1
         }
       ]
-      const findings = buildAttentionFindings(baseInput({ nodes }))
+      const findings = buildAttentionFindings(t, baseInput({ nodes }))
       expect(findings.some((f) => f.id.startsWith('disk-watermark:') || f.id.startsWith('disk-flood:'))).toBe(true)
     })
   })
 
   describe('detectAllocationSettings', () => {
     it('creates a finding when allocation is disabled', () => {
-      const findings = detectAllocationSettings('none')
+      const findings = detectAllocationSettings(t, 'none')
       expect(findings).toHaveLength(1)
       expect(findings[0].id).toBe('allocation-disabled')
-      expect(findings[0].summary.toLowerCase()).toContain('disabled')
+      expect(findings[0].summary).toBe('home.attention.findings.allocation.summary_none')
     })
 
     it('creates no finding when allocation is all', () => {
-      expect(detectAllocationSettings('all')).toEqual([])
+      expect(detectAllocationSettings(t, 'all')).toEqual([])
     })
   })
 
   describe('detectRecentRejections / breakers', () => {
     it('does not warn on empty pressure samples (historical counters alone)', () => {
-      expect(detectRecentRejections([], Date.now())).toEqual([])
-      expect(detectRecentBreakerTrips([], Date.now())).toEqual([])
+      expect(detectRecentRejections(t, [], Date.now())).toEqual([])
+      expect(detectRecentBreakerTrips(t, [], Date.now())).toEqual([])
     })
 
     it('warns when new rejection deltas appear in the window', () => {
       const now = Date.now()
       const findings = detectRecentRejections(
+        t,
         [
           { at: now - 60_000, rejectedDelta: 10, breakerDelta: 0 },
           { at: now - 30_000, rejectedDelta: 27, breakerDelta: 0 }
@@ -175,13 +207,13 @@ describe('helpers/homeAttention.ts', () => {
         now
       )
       expect(findings).toHaveLength(1)
-      expect(findings[0].summary).toContain('37')
+      expect(findings[0].summary).toContain('"count":37')
     })
   })
 
   describe('detectVersionMismatch', () => {
     it('reports mixed versions as info', () => {
-      const findings = detectVersionMismatch({
+      const findings = detectVersionMismatch(t, {
         cluster_name: 'test',
         status: 'green',
         nodes: { count: { total: 3 }, versions: ['8.14.3', '8.13.4'] },
@@ -195,7 +227,7 @@ describe('helpers/homeAttention.ts', () => {
 
   describe('detectMonitoringProblems', () => {
     it('reports permission/stats failure without other findings', () => {
-      const findings = detectMonitoringProblems(false, 3, 0)
+      const findings = detectMonitoringProblems(t, false, 3, 0)
       expect(findings).toHaveLength(1)
       expect(findings[0].id).toBe('monitoring')
       expect(findings[0].severity).toBe('info')
@@ -204,13 +236,13 @@ describe('helpers/homeAttention.ts', () => {
 
   describe('detectPendingTasks', () => {
     it('ignores pending tasks without proven age', () => {
-      expect(detectPendingTasks({ count: 14, oldestAgeMs: null })).toEqual([])
+      expect(detectPendingTasks(t, { count: 14, oldestAgeMs: null })).toEqual([])
     })
 
     it('warns when oldest task exceeds age threshold', () => {
-      const findings = detectPendingTasks({ count: 14, oldestAgeMs: PENDING_TASK_AGE_MS + 17_000 })
+      const findings = detectPendingTasks(t, { count: 14, oldestAgeMs: PENDING_TASK_AGE_MS + 17_000 })
       expect(findings).toHaveLength(1)
-      expect(findings[0].summary).toContain('14')
+      expect(findings[0].summary).toContain('"count":14')
     })
   })
 
@@ -244,6 +276,17 @@ describe('helpers/homeAttention.ts', () => {
       expect(blocks).toEqual([{ index: 'logs-2026.10.05', kinds: ['read_only_allow_delete'] }])
     })
 
+    it('parseIndexBlocks ignores closed indices', () => {
+      const blocks = parseIndexBlocks({
+        blocks: {
+          indices: {
+            'closed-index': { '4': { description: 'index closed', levels: ['read', 'write'] } }
+          }
+        }
+      })
+      expect(blocks).toEqual([])
+    })
+
     it('parsePendingTasks reads ages', () => {
       const info = parsePendingTasks({
         tasks: [
@@ -258,6 +301,7 @@ describe('helpers/homeAttention.ts', () => {
   describe('buildAttentionFindings dedupe', () => {
     it('does not emit separate cluster-health or index-health findings for yellow replicas', () => {
       const findings = buildAttentionFindings(
+        t,
         baseInput({
           health: yellowHealth({ unassigned_shards: 2 }),
           unhealthyIndices: { red: [], yellow: ['ksad'] }
@@ -270,6 +314,7 @@ describe('helpers/homeAttention.ts', () => {
   describe('buildAttentionChecks', () => {
     it('always returns every check, with OK when healthy', () => {
       const checks = buildAttentionChecks(
+        t,
         baseInput({
           health: {
             status: 'green',
@@ -288,6 +333,7 @@ describe('helpers/homeAttention.ts', () => {
 
     it('folds shard findings into the shards check and keeps other checks OK', () => {
       const checks = buildAttentionChecks(
+        t,
         baseInput({
           health: yellowHealth({ unassigned_shards: 2 }),
           unhealthyIndices: { red: [], yellow: ['ksad'] }
@@ -295,7 +341,7 @@ describe('helpers/homeAttention.ts', () => {
       )
       const shards = checks.find((c) => c.id === 'shards')
       expect(shards?.severity).toBe('warning')
-      expect(shards?.summary).toContain('ksad')
+      expect(shards?.summary[0]).toContain('ksad')
       expect(checks.filter((c) => c.severity === 'ok').length).toBe(checks.length - 1)
     })
   })

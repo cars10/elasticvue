@@ -1,12 +1,12 @@
 <template>
   <q-card class="full-height" :data-testid="testId">
     <q-card-section>
-      <div class="text-weight-bold q-mb-md flex items-center">
-        <q-icon :name="icon" size="22px" class="q-mr-sm" color="primary" />
+      <div class="card-title">
+        <q-icon :name="icon" size="18px" />
         {{ title }}
       </div>
 
-      <div>
+      <div class="metric-value">
         <slot name="value">
           <span :class="valueClass">{{ value ?? '—' }}</span>
           <span v-if="unit" class="text-muted font-13 text-weight-regular q-ml-xs">{{ unit }}</span>

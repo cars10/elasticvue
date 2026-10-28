@@ -1,10 +1,13 @@
 <template>
   <div v-if="peak.node" class="font-13 q-mt-xs">
-    <span class="text-muted">peak </span>
-    <span :class="pressureTextClass(pressureLevel(peak.value, thresholds)) || 'text-muted'">
-      {{ formatPercent(peak.value) }}
-    </span>
-    <span class="text-muted"> on {{ peak.node }}</span>
+    <i18n-t keypath="cluster_nodes.pulse.peak" tag="span" class="text-muted">
+      <template #value>
+        <span :class="pressureTextClass(pressureLevel(peak.value, thresholds)) || 'text-muted'">
+          {{ formatPercent(peak.value) }}
+        </span>
+      </template>
+      <template #node>{{ peak.node }}</template>
+    </i18n-t>
     <div v-if="peak.detail" class="text-muted font-mono">{{ peak.detail }}</div>
   </div>
 </template>

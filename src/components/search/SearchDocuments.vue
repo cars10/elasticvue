@@ -1,7 +1,7 @@
 <template>
   <q-card class="q-mb-md">
     <q-card-section class="flex items-center">
-      <h1 class="text-h5 q-my-none">
+      <h1 class="page-title">
         {{ t('search.heading') }}
       </h1>
     </q-card-section>

@@ -9,7 +9,7 @@ export const useHomeStore = () => {
   const clusterUuid = connectionStore.activeCluster?.uuid || ''
   return defineStore(`home-${clusterUuid}`, {
     state: (): HomeState => ({
-      reloadInterval: 3
+      reloadInterval: 10
     }),
     persist: {
       pick: [...persistReloadIntervalProps()],

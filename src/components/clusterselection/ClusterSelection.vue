@@ -1,5 +1,13 @@
 <template>
-  <q-btn color="grey-9" no-caps dense :ripple="false" data-testid="cluster-selection" class="full-width" :title="btnTitle">
+  <q-btn
+    flat
+    no-caps
+    dense
+    :ripple="false"
+    data-testid="cluster-selection"
+    class="cluster-selection full-width"
+    :title="btnTitle"
+  >
     <div class="flex no-wrap justify-between full-width font-13">
       <div class="flex no-wrap col overflow-hidden">
         <div class="flex items-center justify-center">

@@ -1,10 +1,10 @@
 <template>
-  <div class="row q-col-gutter-xl">
+  <div class="row q-col-gutter-md">
     <div class="col-12 col-md-6 flex">
       <q-card class="full-width col">
         <q-card-section class="row no-wrap items-start q-col-gutter-md">
           <div class="col" style="min-width: 0">
-            <div class="text-h4 text-weight-bold ellipsis">
+            <div class="cluster-name ellipsis">
               {{ stats.cluster_name }}
             </div>
             <div v-if="versionLabel" class="q-mt-sm">{{ versionLabel }}</div>
@@ -16,7 +16,7 @@
           <div class="col-auto text-right" data-testid="cluster-status">
             <div class="cluster-status" :class="`cluster-status--${status || 'unknown'}`">
               <span class="cluster-status__dot" />
-              <span class="text-capitalize">{{ status || 'unknown' }}</span>
+              <span>{{ healthLabel(status) }}</span>
             </div>
             <div class="text-muted font-13 q-mt-sm">{{ statusSummary }}</div>
           </div>
@@ -27,13 +27,15 @@
     <div class="col-6 col-md-3 flex">
       <q-card class="full-width col" data-testid="cluster-nodes-summary">
         <q-card-section>
-          <div class="text-weight-bold q-mb-md flex items-center">
-            <q-icon name="dns" size="22px" class="q-mr-sm" color="primary" />
-            {{ stats.nodes.count.total }} Nodes
+          <div class="card-title">
+            <q-icon name="dns" size="18px" />
+            {{ t('home.overview.nodes', { count: stats.nodes.count.total }, stats.nodes.count.total) }}
           </div>
           <div class="q-gutter-y-xs">
-            <div v-if="stats.nodes.count.data != null">{{ stats.nodes.count.data }} data</div>
-            <div v-if="stats.nodes.count.master != null">{{ stats.nodes.count.master }} masters</div>
+            <div v-if="stats.nodes.count.data != null">{{ t('home.overview.data', { count: stats.nodes.count.data }) }}</div>
+            <div v-if="stats.nodes.count.master != null">
+              {{ t('home.overview.master_eligible', { count: stats.nodes.count.master }) }}
+            </div>
           </div>
         </q-card-section>
       </q-card>
@@ -42,13 +44,13 @@
     <div class="col-6 col-md-3 flex">
       <q-card class="full-width col" data-testid="cluster-indices-summary">
         <q-card-section>
-          <div class="text-weight-bold q-mb-md flex items-center">
-            <q-icon name="storage" size="22px" class="q-mr-sm" color="primary" />
-            {{ stats.indices.count }} Indices
+          <div class="card-title">
+            <q-icon name="storage" size="18px" />
+            {{ t('home.overview.indices', { count: stats.indices.count }, stats.indices.count) }}
           </div>
           <div class="q-gutter-y-xs">
-            <div>{{ stats.indices.docs.count }} docs</div>
-            <div>{{ diskLabel }} disk</div>
+            <div>{{ t('home.overview.docs', { count: stats.indices.docs.count }, stats.indices.docs.count) }}</div>
+            <div>{{ t('home.overview.disk', { size: diskLabel }) }}</div>
           </div>
         </q-card-section>
       </q-card>
@@ -59,6 +61,8 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { prettyPrintByteString } from '../../helpers/bytes'
+import { useTranslation } from '../../composables/i18n.ts'
+import { useHealthLabel } from '../../composables/HealthLabel.ts'
 import type { ClusterHealth, ClusterStats } from '../../types/homeDashboard.ts'
 
 const props = defineProps<{
@@ -68,18 +72,27 @@ const props = defineProps<{
   versionLabel: string | null
 }>()
 
+const t = useTranslation()
+const healthLabel = useHealthLabel()
+
 const statusSummary = computed(() => {
   const unassigned = props.health?.unassigned_shards ?? 0
-  if (unassigned > 0) return `${unassigned} unassigned shards`
-  const initializing = (props.health?.initializing_shards ?? 0) + (props.health?.relocating_shards ?? 0)
-  if (initializing > 0) return `${initializing} shards moving`
-  return 'All shards assigned'
+  if (unassigned > 0) return t('home.overview.unassigned', { count: unassigned }, unassigned)
+  const moving = (props.health?.initializing_shards ?? 0) + (props.health?.relocating_shards ?? 0)
+  if (moving > 0) return t('home.overview.moving', { count: moving }, moving)
+  return t('home.overview.all_assigned')
 })
 
 const diskLabel = computed(() => prettyPrintByteString(props.stats.indices.store.size_in_bytes))
 </script>
 
 <style scoped>
+.cluster-name {
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
 .cluster-status {
   display: inline-flex;
   align-items: center;

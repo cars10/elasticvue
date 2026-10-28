@@ -274,7 +274,231 @@
     }
   },
   "home": {
-    "heading": "儀表板"
+    "heading": "儀表板",
+    "monitoring_required": "需要監控權限",
+    "serverless": {
+      "title": "Serverless",
+      "text": "你的叢集以{link}執行，許多 API 無法使用，因此 Elasticvue 的功能受限。",
+      "link": "serverless 模式"
+    },
+    "status": {
+      "green": "綠色",
+      "yellow": "黃色",
+      "red": "紅色",
+      "unknown": "未知"
+    },
+    "overview": {
+      "unassigned": "{count} 個未分配分片",
+      "moving": "{count} 個分片正在搬移",
+      "all_assigned": "所有分片皆已分配",
+      "nodes": "{count} 個節點",
+      "data": "{count} 個資料節點",
+      "master_eligible": "{count} 個具備主節點資格",
+      "indices": "{count} 個索引",
+      "docs": "{count} 份文件",
+      "disk": "磁碟占用 {size}"
+    },
+    "metrics": {
+      "cpu": "CPU",
+      "disk": "磁碟",
+      "heap": "JVM 堆積",
+      "shards": "分片",
+      "highest": "最高節點",
+      "watermarks": "水位線 {low} / {high} / {flood}",
+      "primaries": "{count} 個主分片",
+      "total": "共 {count} 個"
+    },
+    "workload": {
+      "search": "搜尋",
+      "indexing": "索引寫入",
+      "latency": "延遲與壓力",
+      "per_second": "請求/秒",
+      "docs_per_second": "文件/秒",
+      "search_latency": "搜尋",
+      "indexing_latency": "索引寫入 {latency}",
+      "deletes": "{rate} 刪除/秒",
+      "pressure": "{rejected} 次拒絕，{trips} 次斷路器觸發",
+      "collecting": "收集中…",
+      "reload_off": "開啟自動重新整理以收集此圖表資料。",
+      "average": "最近 {seconds} 秒的平均值"
+    },
+    "nodes": {
+      "title": "節點（{count}）",
+      "all": "所有節點",
+      "name": "名稱",
+      "heap": "堆積",
+      "master": "主節點",
+      "unavailable": "無法取得節點指標。",
+      "hint_all": "全部 {count} 個，負載最高者在前。",
+      "hint_top": "{total} 個中的前 {shown} 個，負載最高者在前。"
+    },
+    "indices": {
+      "title": "索引（{count}）",
+      "all": "所有索引",
+      "index": "索引",
+      "health": "健康",
+      "docs": "文件",
+      "size": "大小",
+      "empty": "沒有可顯示的索引。",
+      "hint_all": "全部 {count} 個，不健康者在前，其餘依大小排序。",
+      "hint_top": "{total} 個中的前 {shown} 個，不健康者在前，其餘依大小排序。"
+    },
+    "attention": {
+      "issues": "問題",
+      "no_issues": "沒有問題",
+      "all_passed": "全部 {count} 項檢查通過",
+      "counts": {
+        "critical": "{count} 個嚴重",
+        "warning": "{count} 個警告",
+        "info": "{count} 個提示"
+      },
+      "severity": {
+        "critical": "嚴重",
+        "warning": "警告",
+        "info": "提示",
+        "ok": "正常"
+      },
+      "actions": {
+        "view_shards": "查看分片",
+        "view_nodes": "查看節點",
+        "view_indices": "查看索引"
+      },
+      "checks": {
+        "shards": {
+          "title": "分片",
+          "ok": "所有分片皆已分配"
+        },
+        "index_blocks": {
+          "title": "索引封鎖",
+          "ok": "沒有寫入或唯讀封鎖"
+        },
+        "allocation": {
+          "title": "分片分配",
+          "ok": "分配已啟用"
+        },
+        "pending_tasks": {
+          "title": "待處理叢集工作",
+          "ok": "沒有卡住的叢集工作"
+        },
+        "disk": {
+          "title": "磁碟水位線",
+          "ok": "低於磁碟水位線"
+        },
+        "rejections": {
+          "title": "執行緒池拒絕",
+          "ok": "沒有新的拒絕"
+        },
+        "breakers": {
+          "title": "斷路器",
+          "ok": "沒有新的觸發"
+        },
+        "jvm": {
+          "title": "JVM 壓力",
+          "ok": "堆積記憶體沒有持續壓力"
+        },
+        "file_descriptors": {
+          "title": "檔案描述元",
+          "ok": "在正常範圍內"
+        },
+        "versions": {
+          "title": "節點版本",
+          "ok": "所有節點版本一致"
+        },
+        "monitoring": {
+          "title": "節點監控",
+          "ok": "可用"
+        }
+      },
+      "findings": {
+        "unassigned_primaries": {
+          "title": "主分片未分配",
+          "summary": "{count} 個主分片未分配",
+          "summary_index": "{index} 上有 {count} 個主分片未分配",
+          "summary_indices": "{indices} 個索引中共有 {count} 個主分片未分配",
+          "summary_unknown": "有主分片未分配",
+          "detail": "在主分片分配之前，部分資料無法使用。"
+        },
+        "unassigned_replicas": {
+          "title": "副本分片未分配",
+          "summary": "{count} 個副本分片未分配",
+          "summary_index": "{index} 上有 {count} 個副本分片未分配",
+          "summary_indices": "{indices} 個索引中共有 {count} 個副本分片未分配",
+          "summary_single_node": "{count} 個副本分片無法分配",
+          "summary_single_node_index": "{index} 上有 {count} 個副本無法分配",
+          "detail": "資料可用，但備援程度降低。",
+          "detail_single_node": "此叢集只有一個資料節點，因此無法分配副本。"
+        },
+        "index_blocks": {
+          "title_read_only": "索引為唯讀",
+          "title_write": "索引寫入被封鎖",
+          "summary_read_only": "索引 {index} 為唯讀",
+          "summary_write": "索引 {index} 封鎖了寫入",
+          "summary_many": "{count} 個索引封鎖了寫入，例如 {index}",
+          "detail": "在移除封鎖之前，寫入這些索引會失敗。",
+          "detail_allow_delete": "寫入失敗，刪除仍可使用。通常由磁碟洪水水位線造成。"
+        },
+        "disk_flood": {
+          "title": "超過磁碟洪水水位線",
+          "summary": "{node} 已使用 {percent}%（洪水水位線 {threshold}）",
+          "detail": "Elasticsearch 可能會將此節點上的索引設為唯讀。"
+        },
+        "disk_high": {
+          "title": "超過磁碟高水位線",
+          "summary": "{node} 已使用 {percent}%（高水位線 {threshold}）",
+          "detail": "Elasticsearch 會將分片搬離此節點。"
+        },
+        "disk_low": {
+          "title": "超過磁碟低水位線",
+          "summary": "{node} 已使用 {percent}%（低水位線 {threshold}）",
+          "detail": "新分片不會分配到此節點。"
+        },
+        "allocation": {
+          "title": "分片分配受限",
+          "summary_none": "分片分配已停用",
+          "summary_primaries": "只分配主分片",
+          "summary_new_primaries": "只分配新索引的主分片",
+          "summary_other": "分片分配設定為 \"{value}\"",
+          "detail": "分片可能維持未分配。常見於維護後忘記還原。"
+        },
+        "pending_tasks": {
+          "title": "叢集工作正在累積",
+          "summary": "{count} 個待處理，最舊的已等待 {age}",
+          "detail": "叢集狀態更新可能會延遲。"
+        },
+        "rejections": {
+          "title": "請求被拒絕",
+          "summary": "最近 5 分鐘內新增 {count} 次拒絕",
+          "detail": "執行緒池已滿，搜尋或寫入請求被捨棄。"
+        },
+        "breakers": {
+          "title": "斷路器已觸發",
+          "summary": "最近 5 分鐘內新增 {count} 次觸發",
+          "detail": "查詢或彙總觸及記憶體上限。"
+        },
+        "jvm": {
+          "title": "JVM 記憶體壓力高",
+          "summary": "{node} 高於 {threshold}% 已持續 {duration}",
+          "detail": "目前 {percent}%。持續的壓力常導致長時間的垃圾回收。"
+        },
+        "file_descriptors": {
+          "title": "檔案描述元接近上限",
+          "summary": "{node}：已使用 {percent}%",
+          "summary_counts": "{node}：已使用 {percent}%（{open} / {max}）",
+          "detail": "檔案描述元用盡可能導致節點當機。"
+        },
+        "versions": {
+          "title": "版本不一致",
+          "summary": "節點執行的版本：{versions}",
+          "detail": "滾動升級期間屬正常情況。請盡快完成升級。"
+        },
+        "monitoring": {
+          "title": "節點監控不完整",
+          "summary": "無法載入節點統計資料",
+          "summary_partial": "部分節點缺少統計資料（{expected} 個中有 {observed} 個回報）",
+          "detail": "你的使用者可能缺少 monitor 權限，或節點統計 API 無法使用。"
+        }
+      }
+    }
   },
   "mixins": {
     "test_connection": {
@@ -337,6 +561,27 @@
       "docs": "文件",
       "store": "儲存",
       "uptime": "運行時間"
+    },
+    "pulse": {
+      "nodes": "節點",
+      "version": "版本 {version}",
+      "mixed_versions": "版本不一致：{versions}",
+      "restarted": "最近一小時內有 {count} 個重新啟動",
+      "avg": "平均",
+      "used": "已用",
+      "disk_of": "{used} / {total}",
+      "peak": "峰值 {value}，位於 {node}",
+      "below_low": "所有節點皆低於低水位線（{low}）",
+      "above_flood": "{count} 個超過洪水水位線",
+      "above_high": "{count} 個超過高水位線",
+      "above_low": "{count} 個超過低水位線",
+      "roles": {
+        "master_eligible": "{count} 個具備主節點資格",
+        "data": "{count} 個資料",
+        "ingest": "{count} 個 ingest",
+        "ml": "{count} 個 ml",
+        "coordinating": "{count} 個協調"
+      }
     }
   },
   "cluster_roles": {
@@ -387,6 +632,15 @@
           "status": "狀態"
         }
       }
+    },
+    "pulse": {
+      "roles": "角色",
+      "cluster_admin": "叢集管理員",
+      "cluster_admin_hint": "all、manage 或 manage_security",
+      "all_indices": "所有索引",
+      "all_indices_hint": "對 * 擁有所有權限",
+      "unused": "未使用",
+      "unused_hint": "沒有使用者或角色對應的自訂角色"
     }
   },
   "cluster_users": {
@@ -443,6 +697,17 @@
           "status": "狀態"
         }
       }
+    },
+    "show_role": "查看角色 {role}",
+    "no_roles": "無角色",
+    "pulse": {
+      "signed_in": "目前登入",
+      "realm": "realm {realm}",
+      "users": "使用者",
+      "split": "{builtIn} 個內建，{custom} 個自訂",
+      "disabled": "{count} 個已停用",
+      "superusers": "超級使用者",
+      "without_roles": "沒有角色"
     }
   },
   "query": {
@@ -716,10 +981,58 @@
       "reroute": {
         "confirm": "確定要將分片 '{shard}' 從節點 '{fromNode}' 重新路由至 '{toNode}'？"
       }
+    },
+    "pulse": {
+      "split": "{primaries} 個主分片，{replicas} 個副本",
+      "indices": "{count} 個索引",
+      "unassigned": "未分配",
+      "moving": "搬移中",
+      "moving_split": "{relocating} 個搬移中，{initializing} 個初始化中",
+      "view_recovery": "查看復原",
+      "size": "分片大小",
+      "avg_primary": "主分片平均",
+      "largest": "最大 {size}",
+      "oversized": "{count} 個超過 {size}",
+      "balance": "分片平衡",
+      "per_data_node": "每個資料節點",
+      "avg": "平均 {count}",
+      "busiest": "{node} 上最多（平均值的 {skew} 倍）"
+    },
+    "problems": {
+      "title": "需要注意（{count}）",
+      "explain": "在工具中說明",
+      "index": "索引",
+      "shard": "分片",
+      "state": "狀態",
+      "node": "節點",
+      "reason": "原因",
+      "show_less": "收合",
+      "show_all": "顯示全部 {count} 個"
+    },
+    "shard": {
+      "primary": "主分片 {shard}",
+      "replica": "副本分片 {shard}",
+      "docs": "{count} 份文件",
+      "reason": "原因：{reason}",
+      "move": "點擊以搬移此分片"
     }
   },
   "shard_recovery": {
-    "heading": "分片復原"
+    "heading": "分片復原",
+    "pulse": {
+      "active": "進行中",
+      "recoveries": "個復原",
+      "none_active": "沒有正在復原的分片",
+      "completed": "{count} 個已完成",
+      "progress": "進度",
+      "copied": "已複製",
+      "nothing_to_copy": "無需複製",
+      "longest": "耗時最長",
+      "throttled": "限流",
+      "limit_reached": "已達復原頻寬上限",
+      "adjust": "在工具中調整",
+      "not_throttled": "進行中的復原未被限流"
+    }
   },
   "shard_recovery_table": {
     "stage": "階段",
@@ -817,6 +1130,13 @@
     "ssl_hint": {
       "hint": "使用 HTTPS 時，請確定您的瀏覽器信任叢集的 SSL 憑證。",
       "help": "說明"
+    },
+    "security_unavailable": {
+      "forbidden_users": "無權讀取使用者",
+      "forbidden_roles": "無權讀取角色",
+      "forbidden_text": "你的使用者需要 manage_security 叢集權限才能管理使用者和角色。",
+      "unavailable": "此叢集不支援安全性功能",
+      "unavailable_text": "原生使用者與角色需要 Elasticsearch 安全性功能，但此叢集缺少或停用了該功能。"
     }
   },
   "snapshots": {
@@ -945,7 +1265,297 @@
   },
   "tools": {
     "heading": "Tools",
-    "subtitle": "Common cluster maintenance and recovery operations."
+    "subtitle": "Common cluster maintenance and recovery operations.",
+    "filter": "篩選工具",
+    "no_match": "沒有符合 \"{filter}\" 的工具。",
+    "close": "關閉{title}",
+    "apis_used": "使用的 Elasticsearch API",
+    "read_only_tool": "唯讀工具，不會變更叢集設定。",
+    "apply": "套用",
+    "restore_default": "還原預設值",
+    "recheck": "重新檢查",
+    "advanced": "進階",
+    "current": "目前：",
+    "mixed": "不一致",
+    "indices": "索引",
+    "excluded_indices": "系統索引、隱藏索引與資料串流後備索引已排除。",
+    "confirm_restore": "將「{setting}」還原為 Elasticsearch 預設值？",
+    "groups": {
+      "attention": "需要注意",
+      "shards": "分片與分配",
+      "indices": "索引",
+      "disk": "磁碟與復原",
+      "safety": "安全防護",
+      "advanced": "進階"
+    },
+    "sources": {
+      "transient": "暫時",
+      "persistent": "永久",
+      "default": "預設",
+      "unavailable": "無法使用"
+    },
+    "status": {
+      "default": "預設",
+      "custom": "自訂",
+      "enabled": "已啟用",
+      "disabled": "已停用",
+      "unavailable": "無法使用",
+      "no_user_indices": "沒有使用者索引",
+      "no_unassigned": "沒有未分配的分片",
+      "unassigned": "{count} 個未分配分片"
+    },
+    "health": {
+      "green": "叢集健康：綠色",
+      "yellow": "叢集健康：黃色",
+      "red": "叢集健康：紅色"
+    },
+    "inspect": {
+      "settings": "叢集設定",
+      "nodes": "節點",
+      "shards": "分片",
+      "indices": "索引設定",
+      "explanation": "分配說明",
+      "voting": "投票排除項目"
+    },
+    "errors": {
+      "forbidden": "你的使用者無權讀取{what}。",
+      "network": "無法載入{what}。請檢查叢集連線。",
+      "api": "無法載入{what}。{message}"
+    },
+    "allocation": {
+      "title": "分片分配",
+      "description": "是否允許分配新的及未分配的分片。",
+      "keywords": "分配 主分片 副本 維護 allocation primary replica",
+      "hint": "只影響之後的分配，已分配的分片維持不變。",
+      "disable": "停用分配",
+      "blocking": "分配受限，可能讓 {count} 個分片維持未分配。",
+      "updated": "分片分配已設定為 {value}。",
+      "restored": "分片分配已還原為預設值。",
+      "modes": {
+        "all": "所有分片",
+        "primaries": "僅主分片",
+        "new_primaries": "僅新主分片",
+        "none": "已停用"
+      },
+      "option_hints": {
+        "all": "正常分配",
+        "primaries": "不分配副本",
+        "new_primaries": "只分配新索引的主分片",
+        "none": "不進行新的分配"
+      },
+      "confirm": {
+        "primaries": "只允許分配主分片？",
+        "new_primaries": "只允許分配新索引的主分片？",
+        "none": "停用分片分配？在重新啟用前不會分配任何新分片。"
+      }
+    },
+    "drain": {
+      "title": "清空節點",
+      "description": "在關閉節點前將分片搬走。",
+      "keywords": "清空 關閉 維護 排除 搬移 drain shutdown exclude",
+      "explanation": "節點會被排除在分配之外，Elasticsearch 會將它的分片搬到其他節點。節點本身會繼續執行。",
+      "allocation_disabled": "分配已停用，在重新啟用前分片無法搬移。",
+      "node": "節點",
+      "shards": "{count} 個分片",
+      "node_summary": "{shards} 個分片",
+      "disk_used": "磁碟已使用 {percent}%",
+      "progress": "剩餘 {remaining} / {total} 個分片，{relocating} 個搬移中。",
+      "done": "此節點上已沒有分片，可以安全關閉。",
+      "start": "開始清空",
+      "stop": "停止清空",
+      "existing": "已排除的節點 ID：{ids}。其他排除項目會保留。",
+      "status_active": "已排除 {count} 個節點",
+      "status_none": "沒有進行中的清空",
+      "confirm_start": "清空 {name}（{id}）？它的分片會被搬到其他節點。",
+      "confirm_stop": "停止清空 {name}（{id}）？",
+      "started": "已開始清空節點。",
+      "stopped": "已停止清空節點。"
+    },
+    "explain": {
+      "title": "說明未分配分片",
+      "description": "詢問 Elasticsearch 分片為何無法分配。",
+      "keywords": "分配 診斷 決策器 未分配 explain deciders unassigned",
+      "shard": "未分配分片",
+      "primary": "主分片",
+      "replica": "副本",
+      "run": "說明",
+      "raw": "原始回應",
+      "no_explanation": "未提供說明。",
+      "cannot_allocate_primary": "主分片無法分配",
+      "cannot_allocate_replica": "副本分片無法分配",
+      "single_node_replica": "副本不能與其主分片位於同一節點，而此叢集只有一個資料節點。",
+      "no_eligible_node": "目前沒有符合條件的節點接受此分片。"
+    },
+    "retry": {
+      "title": "重試失敗的分配",
+      "description": "重試已達分配重試上限的分片。",
+      "keywords": "重試 上限 失敗 reroute retry failed",
+      "explanation": "請先解決根本問題，再讓 Elasticsearch 重試失敗的分配。",
+      "run": "重試分配",
+      "confirm": "重試失敗的分配？目前有 {count} 個分片未分配。",
+      "done": "Elasticsearch 正在重試失敗的分配。"
+    },
+    "rebalancing": {
+      "title": "分片重新平衡",
+      "description": "是否允許在節點間搬移分片以平衡叢集。",
+      "keywords": "重新平衡 搬移 拓撲 平衡 rebalance",
+      "explanation": "限制重新平衡可能讓叢集分布不均。",
+      "confirm": "限制分片重新平衡？叢集可能維持不平衡。",
+      "updated": "分片重新平衡已更新。",
+      "modes": {
+        "all": "所有分片",
+        "primaries": "僅主分片",
+        "replicas": "僅副本",
+        "none": "已停用"
+      }
+    },
+    "blocks": {
+      "title": "索引寫入封鎖",
+      "description": "找出並解除唯讀或寫入封鎖。",
+      "keywords": "唯讀 洪水 寫入 封鎖 read only flood write block",
+      "indices": "被封鎖的索引",
+      "status": "{count} 個索引被封鎖",
+      "status_none": "沒有被封鎖的使用者索引",
+      "flood": "由於磁碟達到洪水水位線，Elasticsearch 設定了 read_only_allow_delete。",
+      "flood_full": "磁碟使用率仍然過高，請先釋出空間。",
+      "flood_recovered": "磁碟使用率已恢復。Elasticsearch 通常會自行解除此封鎖。",
+      "flood_unknown": "無法檢查磁碟使用率，因此無法在此解除封鎖。",
+      "clear": "解除寫入封鎖",
+      "clear_flood": "解除洪水封鎖",
+      "confirm_clear": "解除 {count} 個索引上的 {blocks}？",
+      "confirm_clear_flood": "解除 {count} 個索引上的洪水封鎖？",
+      "cleared": "已解除 {count} 個索引的寫入封鎖。"
+    },
+    "replicas": {
+      "title": "副本",
+      "description": "變更所選索引的副本數量。",
+      "keywords": "備援 單一節點 副本數 replica count",
+      "count": "副本數",
+      "status": "依索引設定",
+      "status_single_node": "{count} 個索引的副本無法分配",
+      "single_node": "此叢集只有一個資料節點，因此 {count} 個索引的副本無法分配。",
+      "set_zero": "設為 0 個副本",
+      "zero_warning": "沒有副本時，失去一個節點可能導致資料無法使用或遺失。",
+      "confirm": "將 {count} 個索引設為 {replicas} 個副本？",
+      "confirm_zero": "移除 {count} 個索引的所有副本？",
+      "updated": "已更新 {count} 個索引的副本。"
+    },
+    "refresh": {
+      "title": "重新整理間隔",
+      "description": "新文件多快可以被搜尋到。",
+      "keywords": "重新整理 間隔 搜尋 可見性 批次寫入 refresh interval bulk",
+      "interval": "重新整理間隔",
+      "custom": "自訂",
+      "custom_hint": "時間值，例如 500ms 或 2m。",
+      "status_mixed": "不一致",
+      "disabled_warning": "在手動重新整理索引前，新文件將無法被搜尋到。",
+      "confirm": "將 {count} 個索引的重新整理間隔設為 {value}？",
+      "updated": "已更新 {count} 個索引的重新整理間隔。"
+    },
+    "watermarks": {
+      "title": "磁碟水位線",
+      "description": "用於分配與洪水階段的磁碟使用門檻。",
+      "keywords": "磁碟 可用 已用 洪水 門檻 餘裕 watermark flood headroom",
+      "fullest": "最滿的節點：",
+      "used": "已使用 {percent}%",
+      "available": "剩餘 {bytes}",
+      "low": "低水位線",
+      "high": "高水位線",
+      "flood": "洪水水位線",
+      "low_hint": "超過此值的節點不會再分配新分片。",
+      "high_hint": "超過此值的節點上的分片會被搬走。",
+      "flood_hint": "超過此值的節點上的索引會變為唯讀。",
+      "mode_percent": "百分比與比例表示已用磁碟空間。",
+      "mode_bytes": "位元組值表示所需的剩餘磁碟空間。",
+      "threshold_enabled": "分配時使用磁碟門檻",
+      "threshold_disabled_warning": "沒有磁碟門檻時，Elasticsearch 不再保護節點免於磁碟寫滿。",
+      "low_max_headroom": "低水位最大餘裕",
+      "high_max_headroom": "高水位最大餘裕",
+      "flood_max_headroom": "洪水水位最大餘裕",
+      "headroom_hint": "選填，例如 100gb。",
+      "lowering_warning": "提高門檻會讓節點寫得更滿，應僅作為暫時措施。",
+      "confirm": "更新磁碟水位線？",
+      "updated": "磁碟水位線已更新。",
+      "restored": "磁碟水位線已還原為預設值。",
+      "errors": {
+        "mixed": "所有門檻請一律使用百分比，或一律使用位元組值。",
+        "percent_order": "門檻必須由低到高再到洪水依序遞增。",
+        "bytes_order": "剩餘空間必須由低到高再到洪水依序遞減。",
+        "headroom": "請使用位元組值，例如 100gb。"
+      }
+    },
+    "recovery": {
+      "title": "復原頻寬",
+      "description": "每個節點的分片復原流量上限。",
+      "keywords": "復原 頻寬 快照 流量 每秒位元組 recovery bandwidth",
+      "explanation": "避免復原流量拖慢搜尋與寫入。",
+      "limit": "每節點上限",
+      "hint": "速率，例如 40mb 或 1gb。",
+      "invalid": "請輸入類似 80mb 的值。",
+      "updated": "復原頻寬已更新。"
+    },
+    "destructive": {
+      "title": "危險操作保護",
+      "description": "刪除或關閉索引時需使用明確的索引名稱。",
+      "keywords": "萬用字元 刪除 明確名稱 安全 wildcard delete",
+      "toggle": "需要明確的索引名稱",
+      "explanation": "禁止透過萬用字元或 _all 刪除或關閉索引。",
+      "confirm_disable": "允許對萬用字元與 _all 執行危險操作？誤刪會更容易發生。",
+      "updated": "危險操作保護已更新。"
+    },
+    "auto_create": {
+      "title": "自動建立索引",
+      "description": "寫入不存在的索引時是否自動建立。",
+      "keywords": "自動建立 缺少的索引 模式 規則 auto create",
+      "rules": "規則",
+      "hint": "規則依序比對。",
+      "confirm_disable": "停用自動建立索引？依賴此功能的應用程式可能會出錯。",
+      "updated": "自動建立索引已更新。",
+      "modes": {
+        "allow": "允許",
+        "disable": "停用",
+        "custom": "自訂規則"
+      }
+    },
+    "cluster_write": {
+      "title": "叢集寫入模式",
+      "description": "在事件處理或維護期間將整個叢集設為唯讀。",
+      "keywords": "唯讀 緊急 維護 叢集封鎖 read only emergency",
+      "restricted": "此叢集的寫入目前被封鎖。",
+      "confirm": "封鎖整個叢集的寫入？",
+      "updated": "叢集寫入模式已更新。",
+      "restored": "叢集寫入已恢復。",
+      "modes": {
+        "normal": "正常",
+        "read_only": "唯讀",
+        "allow_delete": "唯讀，允許刪除"
+      }
+    },
+    "voting": {
+      "title": "投票排除",
+      "description": "為移除具備主節點資格的節點做準備。",
+      "keywords": "投票 設定 排除 主節點資格 拓撲 移除 voting",
+      "explanation": "僅在一次移除一半以上具備主節點資格的節點時需要。",
+      "nodes": "具備主節點資格的節點",
+      "add": "新增排除",
+      "clear": "清除排除",
+      "status": "{count} 個生效中",
+      "status_none": "無",
+      "confirm_add": "將 {count} 個節點排除在投票之外？",
+      "confirm_clear": "清除所有投票排除？Elasticsearch 會等待被排除的節點離開叢集。",
+      "added": "已新增投票排除。",
+      "cleared": "已清除投票排除。"
+    },
+    "awareness": {
+      "title": "分配感知",
+      "description": "用於分散分片複本的可用區或機櫃屬性。",
+      "keywords": "可用區 機櫃 屬性 故障網域 awareness zone rack",
+      "status": "{count} 個屬性",
+      "status_none": "未設定",
+      "values": "節點值：{values}",
+      "forced": "強制值：{values}",
+      "hint": "屬性在每個節點上設定，無法在此修改。"
+    }
   },
   "update_check": {
     "downloading": "正在下載... {progress}%",

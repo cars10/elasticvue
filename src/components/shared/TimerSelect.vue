@@ -52,6 +52,7 @@ const timerSettings: Timer[] = [
   { value: 2 },
   { value: 3 },
   { value: 5 },
+  { value: 10 },
   { value: 15 },
   { value: 30 },
   { value: 60 }

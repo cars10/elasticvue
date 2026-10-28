@@ -1,7 +1,7 @@
 <template>
   <q-card>
     <q-card-section class="flex items-center">
-      <h1 class="text-h5 q-my-none">
+      <h1 class="page-title">
         {{ t('index_templates.heading') }}
       </h1>
       <reload-button :action="load" v-model="indexTemplatesStore.reloadInterval" />

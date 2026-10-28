@@ -5,7 +5,7 @@
     </div>
 
     <div class="col-12">
-      <div class="row q-col-gutter-xl" data-testid="cluster-capacity">
+      <div class="row q-col-gutter-md" data-testid="cluster-capacity">
         <home-charts
           :max-cpu="maxCpu"
           :max-disk="maxDisk"
@@ -23,7 +23,7 @@
     </div>
 
     <div class="col-12">
-      <div class="row q-col-gutter-xl" data-testid="cluster-workload">
+      <div class="row q-col-gutter-md" data-testid="cluster-workload">
         <home-workload :workload="workload" :reload-interval="reloadInterval" />
       </div>
     </div>

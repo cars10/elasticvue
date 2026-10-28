@@ -6,7 +6,7 @@
           <q-item-section avatar>
             <img :src="logo" alt="Elasticvue" width="36" height="36" draggable="false" />
           </q-item-section>
-          <q-item-section v-show="!sidebarStore.collapsed" class="text-weight-medium text-h5">Elasticvue</q-item-section>
+          <q-item-section v-show="!sidebarStore.collapsed" class="app-sidebar__brand">Elasticvue</q-item-section>
         </q-item>
       </div>
 
@@ -35,7 +35,7 @@
       <q-btn
         round
         unelevated
-        class="sidebar-collapse all-pointer-events shadow-2"
+        class="sidebar-collapse all-pointer-events"
         style="margin-top: 142px"
         size="sm"
         :icon="sidebarStore.collapsed ? 'menu' : 'menu_open'"
@@ -214,8 +214,9 @@ const sections = computed(() => {
 }
 
 .sidebar-collapse {
-  background: var(--theme-sidebar-background);
-  border: 1px solid var(--theme-separator-background);
+  color: var(--theme-muted-color);
+  background: var(--theme-card-background);
+  border: 1px solid var(--theme-card-border);
   transform: translateX(50%);
 }
 </style>

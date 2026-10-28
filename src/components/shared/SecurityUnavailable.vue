@@ -1,7 +1,7 @@
 <template>
   <q-card data-testid="security-unavailable">
     <q-card-section class="row no-wrap items-start q-gutter-x-md">
-      <q-icon :name="kind === 'forbidden' ? 'lock' : 'shield'" size="32px" color="primary" />
+      <q-icon :name="kind === 'forbidden' ? 'lock' : 'shield'" size="28px" class="text-muted" />
       <div>
         <div class="text-h6">{{ title }}</div>
         <div class="q-mt-xs">{{ text }}</div>
@@ -14,22 +14,27 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { securityErrorKind } from '../../helpers/security.ts'
+import { useTranslation } from '../../composables/i18n.ts'
 
 const props = defineProps<{
   status: number
   message: string
-  subject: string
+  subject: 'users' | 'roles'
 }>()
+
+const t = useTranslation()
 
 const kind = computed(() => securityErrorKind(props.status))
 
 const title = computed(() =>
-  kind.value === 'forbidden' ? `Not allowed to read ${props.subject}` : 'Security is not available on this cluster'
+  kind.value !== 'forbidden'
+    ? t('shared.security_unavailable.unavailable')
+    : props.subject === 'users'
+      ? t('shared.security_unavailable.forbidden_users')
+      : t('shared.security_unavailable.forbidden_roles')
 )
 
 const text = computed(() =>
-  kind.value === 'forbidden'
-    ? 'Your user needs the manage_security cluster privilege to manage users and roles.'
-    : 'Native users and roles need the Elasticsearch security features (X-Pack), which are missing or disabled on this cluster.'
+  kind.value === 'forbidden' ? t('shared.security_unavailable.forbidden_text') : t('shared.security_unavailable.unavailable_text')
 )
 </script>

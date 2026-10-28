@@ -124,32 +124,28 @@ test.describe('Tools', () => {
 
     await page.locator('#tools').click()
     await expect(page).toHaveURL(/\/cluster\/0\/tools/)
-    await expect(page.getByTestId('tools-page')).toContainText('Common cluster maintenance and recovery operations.')
-    await expect(page.getByTestId('tool-allocation').locator('.q-badge.bg-positive')).toHaveText('Normal')
+    await expect(page.getByTestId('tools-page')).toContainText('Maintenance and recovery operations for this cluster.')
+    await expect(page.getByTestId('tool-allocation').getByTestId('tool-status')).toHaveText('All shards')
     for (const title of [
       'Shard rebalancing',
-      'Index refresh interval',
+      'Refresh interval',
       'Recovery bandwidth',
       'Destructive operation protection',
       'Automatic index creation',
       'Cluster write mode',
-      'Voting configuration exclusions',
+      'Voting exclusions',
       'Allocation awareness'
     ]) {
       await expect(page.getByText(title, { exact: true })).toBeVisible()
     }
 
-    const drainHeightBefore = (await page.getByTestId('tool-drain').boundingBox())?.height
-    expect(drainHeightBefore).toBeDefined()
     await page.getByText('Shard allocation', { exact: true }).click()
     await expect(page.locator('.q-dialog')).toHaveCount(1)
-    await expect(page.locator('.tool-card__panel')).toBeVisible()
+    await expect(page.locator('.tool-panel')).toBeVisible()
+    await expect(page).toHaveURL(/tool=allocation/)
     await page.getByText('Elasticsearch APIs used', { exact: true }).click()
     await expect(page.getByText('PUT /_cluster/settings', { exact: true })).toBeVisible()
-    const drainHeightAfter = (await page.getByTestId('tool-drain').boundingBox())?.height
-    expect(drainHeightAfter).toBeDefined()
-    expect(drainHeightAfter).toBe(drainHeightBefore)
-    await page.getByLabel('Disabled — no new shard allocations').click()
+    await page.getByLabel('Disabled — no new allocations').click()
     page.once('dialog', (dialog) => dialog.accept())
     await page.getByRole('button', { name: 'Disable allocation' }).click()
     await expect
@@ -168,7 +164,7 @@ test.describe('Tools', () => {
 
     await page.getByLabel('Close Retry failed allocations').click()
     await page.getByText('Drain node', { exact: true }).click()
-    await page.getByLabel('Node to drain').click()
+    await page.locator('.tool-panel').getByLabel('Node', { exact: true }).click()
     await page.getByRole('option', { name: /es-8-node-1/ }).click()
     page.once('dialog', (dialog) => dialog.accept())
     await page.getByRole('button', { name: 'Start drain' }).click()
@@ -198,10 +194,10 @@ test.describe('Tools', () => {
     await page.locator('#tools').click()
 
     await page.getByText('Shard allocation', { exact: true }).click()
-    await expect(page.getByText('Your Elasticsearch user does not have permission to inspect cluster settings.')).toBeVisible()
+    await expect(page.getByText('Your user is not allowed to read cluster settings.')).toBeVisible()
     await page.getByLabel('Close Shard allocation').click()
 
-    await page.getByLabel('Search tools').fill('replica')
+    await page.getByLabel('Filter tools').fill('replica')
     await expect(page.getByText('Replicas', { exact: true })).toBeVisible()
     await expect(page.getByText('Explain unassigned shards', { exact: true })).toBeHidden()
   })
@@ -212,9 +208,9 @@ test.describe('Tools', () => {
     await page.locator('#tools').click()
 
     await expect(page.getByText('Shard allocation', { exact: true })).toBeVisible()
-    await expect(page.getByText('Index refresh interval', { exact: true })).toBeVisible()
+    await expect(page.getByText('Refresh interval', { exact: true })).toBeVisible()
     await expect(page.getByText('Explain unassigned shards', { exact: true })).toBeHidden()
     await expect(page.getByText('Retry failed allocations', { exact: true })).toBeHidden()
-    await expect(page.getByText('Voting configuration exclusions', { exact: true })).toBeHidden()
+    await expect(page.getByText('Voting exclusions', { exact: true })).toBeHidden()
   })
 })

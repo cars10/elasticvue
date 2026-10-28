@@ -7,8 +7,8 @@ import {
   indicesNeedingZeroReplicaHelper,
   nodeDrainProgress,
   parseIndexToolStates,
-  persistentSettingBody,
   removeAllocationExclusion,
+  settingMode,
   summarizeAllocationExplanation,
   userManagedIndices,
   validateWatermarks
@@ -44,10 +44,12 @@ describe('helpers/clusterTools.ts', () => {
       ).toMatchObject({ configuredValue: 'primaries', effectiveValue: 'primaries', source: 'transient' })
     })
 
-    it('builds a null reset instead of hardcoding a default', () => {
-      expect(persistentSettingBody('cluster.routing.allocation.enable', null)).toEqual({
-        persistent: { 'cluster.routing.allocation.enable': null }
-      })
+    it('normalizes upper-case defaults from older Elasticsearch versions', () => {
+      const setting = effectiveSetting(
+        { defaults: { 'cluster.routing.allocation.enable': 'ALL' } },
+        'cluster.routing.allocation.enable'
+      )
+      expect(settingMode(setting)).toBe('all')
     })
   })
 
@@ -59,7 +61,7 @@ describe('helpers/clusterTools.ts', () => {
 
     it('removes only the selected node and resets after the last exclusion', () => {
       expect(removeAllocationExclusion('node-a,node-b', 'node-a')).toBe('node-b')
-      expect(removeAllocationExclusion('node-a', 'node-a')).toBeNull()
+      expect(removeAllocationExclusion('node-a', 'node-a')).toBe('')
     })
 
     it('recognizes a completed drain when no shards remain', () => {
@@ -105,7 +107,7 @@ describe('helpers/clusterTools.ts', () => {
         1
       )
       expect(summary.singleNodeReplica).toBe(true)
-      expect(summary.reason).toContain('primary and its replica')
+      expect(summary.reason).toBeNull()
     })
   })
 
@@ -174,7 +176,8 @@ describe('helpers/clusterTools.ts', () => {
         maxHeadroom: false,
         clusterReadOnlyAllowDelete: false,
         votingExclusions: false,
-        expandWildcardsAll: false
+        expandWildcardsAll: false,
+        settingsReset: false
       })
       expect(clusterToolsCapabilities('5.6.16')).toMatchObject({
         allocationExplain: true,
@@ -182,7 +185,8 @@ describe('helpers/clusterTools.ts', () => {
         floodStage: false,
         dataStreams: false,
         maxHeadroom: false,
-        votingExclusions: false
+        votingExclusions: false,
+        settingsReset: true
       })
       expect(clusterToolsCapabilities('7.7.1')).toMatchObject({
         dataStreams: false,

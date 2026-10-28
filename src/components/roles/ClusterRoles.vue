@@ -1,6 +1,6 @@
 <template>
-  <div class="flex justify-between items-center q-mb-md">
-    <h1 class="text-h4 q-my-none">{{ t('cluster_roles.heading') }}</h1>
+  <div class="flex justify-between items-center q-mb-lg">
+    <h1 class="page-title">{{ t('cluster_roles.heading') }}</h1>
     <reload-button :action="load" v-model="rolesStore.reloadInterval" />
   </div>
 

@@ -274,7 +274,231 @@
     }
   },
   "home": {
-    "heading": "ダッシュボード"
+    "heading": "ダッシュボード",
+    "monitoring_required": "監視権限が必要です",
+    "serverless": {
+      "title": "Serverless",
+      "text": "このクラスタは{link}で動作しています。多くの API が利用できないため、Elasticvue の機能は制限されます。",
+      "link": "serverless モード"
+    },
+    "status": {
+      "green": "グリーン",
+      "yellow": "イエロー",
+      "red": "レッド",
+      "unknown": "不明"
+    },
+    "overview": {
+      "unassigned": "未割り当てシャード {count} 件",
+      "moving": "移動中のシャード {count} 件",
+      "all_assigned": "すべてのシャードが割り当て済み",
+      "nodes": "{count} ノード",
+      "data": "データ {count}",
+      "master_eligible": "マスター候補 {count}",
+      "indices": "{count} インデックス",
+      "docs": "{count} ドキュメント",
+      "disk": "ディスク使用量 {size}"
+    },
+    "metrics": {
+      "cpu": "CPU",
+      "disk": "ディスク",
+      "heap": "JVM ヒープ",
+      "shards": "シャード",
+      "highest": "最大のノード",
+      "watermarks": "ウォーターマーク {low} / {high} / {flood}",
+      "primaries": "プライマリ {count}",
+      "total": "合計 {count}"
+    },
+    "workload": {
+      "search": "検索",
+      "indexing": "インデックス作成",
+      "latency": "レイテンシと負荷",
+      "per_second": "req/s",
+      "docs_per_second": "docs/s",
+      "search_latency": "検索",
+      "indexing_latency": "インデックス作成 {latency}",
+      "deletes": "削除 {rate}/s",
+      "pressure": "拒否 {rejected} 件、サーキットブレーカー作動 {trips} 件",
+      "collecting": "収集中…",
+      "reload_off": "このグラフのデータを集めるには自動更新をオンにしてください。",
+      "average": "直近 {seconds} 秒の平均"
+    },
+    "nodes": {
+      "title": "ノード（{count}）",
+      "all": "すべてのノード",
+      "name": "名前",
+      "heap": "ヒープ",
+      "master": "マスター",
+      "unavailable": "ノードのメトリクスを取得できません。",
+      "hint_all": "全 {count} 件、負荷の高い順。",
+      "hint_top": "{total} 件中の上位 {shown} 件、負荷の高い順。"
+    },
+    "indices": {
+      "title": "インデックス（{count}）",
+      "all": "すべてのインデックス",
+      "index": "インデックス",
+      "health": "ヘルス",
+      "docs": "ドキュメント",
+      "size": "サイズ",
+      "empty": "表示するインデックスがありません。",
+      "hint_all": "全 {count} 件、異常なものを先に、その後サイズ順。",
+      "hint_top": "{total} 件中の上位 {shown} 件、異常なものを先に、その後サイズ順。"
+    },
+    "attention": {
+      "issues": "問題",
+      "no_issues": "問題なし",
+      "all_passed": "{count} 件のチェックすべてに合格",
+      "counts": {
+        "critical": "重大 {count} 件",
+        "warning": "警告 {count} 件",
+        "info": "通知 {count} 件"
+      },
+      "severity": {
+        "critical": "重大",
+        "warning": "警告",
+        "info": "通知",
+        "ok": "OK"
+      },
+      "actions": {
+        "view_shards": "シャードを表示",
+        "view_nodes": "ノードを表示",
+        "view_indices": "インデックスを表示"
+      },
+      "checks": {
+        "shards": {
+          "title": "シャード",
+          "ok": "すべてのシャードが割り当て済み"
+        },
+        "index_blocks": {
+          "title": "インデックスブロック",
+          "ok": "書き込みブロックや読み取り専用ブロックはありません"
+        },
+        "allocation": {
+          "title": "シャード割り当て",
+          "ok": "割り当ては有効です"
+        },
+        "pending_tasks": {
+          "title": "保留中のクラスタタスク",
+          "ok": "滞留しているクラスタタスクはありません"
+        },
+        "disk": {
+          "title": "ディスクウォーターマーク",
+          "ok": "ディスクウォーターマーク未満"
+        },
+        "rejections": {
+          "title": "スレッドプールの拒否",
+          "ok": "新しい拒否はありません"
+        },
+        "breakers": {
+          "title": "サーキットブレーカー",
+          "ok": "新しい作動はありません"
+        },
+        "jvm": {
+          "title": "JVM 負荷",
+          "ok": "ヒープへの継続的な負荷はありません"
+        },
+        "file_descriptors": {
+          "title": "ファイルディスクリプタ",
+          "ok": "正常範囲内"
+        },
+        "versions": {
+          "title": "ノードのバージョン",
+          "ok": "すべてのノードが同じバージョン"
+        },
+        "monitoring": {
+          "title": "ノード監視",
+          "ok": "利用可能"
+        }
+      },
+      "findings": {
+        "unassigned_primaries": {
+          "title": "プライマリシャードが未割り当て",
+          "summary": "プライマリシャード {count} 件が未割り当てです",
+          "summary_index": "{index} のプライマリシャード {count} 件が未割り当てです",
+          "summary_indices": "{indices} 個のインデックスでプライマリシャード {count} 件が未割り当てです",
+          "summary_unknown": "未割り当てのプライマリシャードがあります",
+          "detail": "プライマリが割り当てられるまで、一部のデータは利用できません。"
+        },
+        "unassigned_replicas": {
+          "title": "レプリカシャードが未割り当て",
+          "summary": "レプリカシャード {count} 件が未割り当てです",
+          "summary_index": "{index} のレプリカシャード {count} 件が未割り当てです",
+          "summary_indices": "{indices} 個のインデックスでレプリカシャード {count} 件が未割り当てです",
+          "summary_single_node": "レプリカシャード {count} 件を割り当てられません",
+          "summary_single_node_index": "{index} のレプリカ {count} 件を割り当てられません",
+          "detail": "データは利用できますが、冗長性が低下しています。",
+          "detail_single_node": "このクラスタにはデータノードが 1 つしかないため、レプリカを割り当てられません。"
+        },
+        "index_blocks": {
+          "title_read_only": "インデックスが読み取り専用",
+          "title_write": "書き込みがブロックされています",
+          "summary_read_only": "インデックス {index} は読み取り専用です",
+          "summary_write": "インデックス {index} は書き込みをブロックしています",
+          "summary_many": "{count} 個のインデックスが書き込みをブロックしています（例: {index}）",
+          "detail": "ブロックが解除されるまで、これらのインデックスへの書き込みは失敗します。",
+          "detail_allow_delete": "書き込みは失敗しますが、削除は可能です。通常はディスクのフラッドステージが原因です。"
+        },
+        "disk_flood": {
+          "title": "ディスクのフラッドステージを超過",
+          "summary": "{node} の使用率 {percent}%（フラッドステージ {threshold}）",
+          "detail": "Elasticsearch がこのノード上のインデックスを読み取り専用にする場合があります。"
+        },
+        "disk_high": {
+          "title": "ディスクの高ウォーターマークを超過",
+          "summary": "{node} の使用率 {percent}%（高 {threshold}）",
+          "detail": "Elasticsearch はこのノードからシャードを移動します。"
+        },
+        "disk_low": {
+          "title": "ディスクの低ウォーターマークを超過",
+          "summary": "{node} の使用率 {percent}%（低 {threshold}）",
+          "detail": "このノードには新しいシャードが割り当てられません。"
+        },
+        "allocation": {
+          "title": "シャード割り当てが制限されています",
+          "summary_none": "シャード割り当てが無効です",
+          "summary_primaries": "プライマリシャードのみ割り当てられます",
+          "summary_new_primaries": "新しいインデックスのプライマリのみ割り当てられます",
+          "summary_other": "シャード割り当てが \"{value}\" に設定されています",
+          "detail": "シャードが未割り当てのままになる可能性があります。メンテナンス後に戻し忘れることがよくあります。"
+        },
+        "pending_tasks": {
+          "title": "クラスタタスクが滞留しています",
+          "summary": "保留中 {count} 件、最も古いものは {age} 待機中",
+          "detail": "クラスタ状態の更新が遅れる可能性があります。"
+        },
+        "rejections": {
+          "title": "リクエストが拒否されました",
+          "summary": "直近 5 分間に新しい拒否が {count} 件",
+          "detail": "スレッドプールが満杯で、検索やインデックス作成のリクエストが破棄されています。"
+        },
+        "breakers": {
+          "title": "サーキットブレーカーが作動しました",
+          "summary": "直近 5 分間に新しい作動が {count} 件",
+          "detail": "クエリや集計がメモリ上限に達しています。"
+        },
+        "jvm": {
+          "title": "JVM メモリ負荷が高い",
+          "summary": "{node} が {duration} の間 {threshold}% を超えています",
+          "detail": "現在 {percent}%。継続的な負荷は長いガベージコレクションにつながりやすくなります。"
+        },
+        "file_descriptors": {
+          "title": "ファイルディスクリプタの上限が近い",
+          "summary": "{node}: {percent}% 使用中",
+          "summary_counts": "{node}: {percent}% 使用中（{open} / {max}）",
+          "detail": "ファイルディスクリプタが枯渇するとノードがクラッシュする可能性があります。"
+        },
+        "versions": {
+          "title": "バージョンが混在しています",
+          "summary": "ノードのバージョン: {versions}",
+          "detail": "ローリングアップグレード中は想定どおりです。できるだけ早くアップグレードを完了してください。"
+        },
+        "monitoring": {
+          "title": "ノード監視が不完全です",
+          "summary": "ノードの統計情報を読み込めませんでした",
+          "summary_partial": "一部のノードの統計情報がありません（{expected} 中 {observed} が応答）",
+          "detail": "ユーザーに monitor 権限がないか、nodes stats API が利用できない可能性があります。"
+        }
+      }
+    }
   },
   "mixins": {
     "test_connection": {
@@ -337,6 +561,27 @@
       "docs": "ドキュメント",
       "store": "ストア",
       "uptime": "稼働時間"
+    },
+    "pulse": {
+      "nodes": "ノード",
+      "version": "バージョン {version}",
+      "mixed_versions": "バージョン混在: {versions}",
+      "restarted": "直近 1 時間に {count} 件再起動",
+      "avg": "平均",
+      "used": "使用中",
+      "disk_of": "{used} / {total}",
+      "peak": "最大 {value}（{node}）",
+      "below_low": "すべてのノードが低ウォーターマーク（{low}）未満",
+      "above_flood": "フラッドステージ超過 {count}",
+      "above_high": "高ウォーターマーク超過 {count}",
+      "above_low": "低ウォーターマーク超過 {count}",
+      "roles": {
+        "master_eligible": "マスター候補 {count}",
+        "data": "データ {count}",
+        "ingest": "ingest {count}",
+        "ml": "ml {count}",
+        "coordinating": "コーディネーティング {count}"
+      }
     }
   },
   "cluster_roles": {
@@ -387,6 +632,15 @@
           "status": "ステータス"
         }
       }
+    },
+    "pulse": {
+      "roles": "ロール",
+      "cluster_admin": "クラスタ管理者",
+      "cluster_admin_hint": "all、manage または manage_security",
+      "all_indices": "全インデックス",
+      "all_indices_hint": "* に対するすべての権限",
+      "unused": "未使用",
+      "unused_hint": "ユーザーもロールマッピングもないカスタムロール"
     }
   },
   "cluster_users": {
@@ -443,6 +697,17 @@
           "status": "ステータス"
         }
       }
+    },
+    "show_role": "ロール {role} を表示",
+    "no_roles": "ロールなし",
+    "pulse": {
+      "signed_in": "ログイン中のユーザー",
+      "realm": "realm {realm}",
+      "users": "ユーザー",
+      "split": "組み込み {builtIn}、カスタム {custom}",
+      "disabled": "無効 {count}",
+      "superusers": "スーパーユーザー",
+      "without_roles": "ロールなし"
     }
   },
   "query": {
@@ -716,10 +981,58 @@
       "reroute": {
         "confirm": "シャード '{shard}' をノード '{fromNode}' から '{toNode}' に再ルーティングしますか？"
       }
+    },
+    "pulse": {
+      "split": "プライマリ {primaries}、レプリカ {replicas}",
+      "indices": "{count} インデックス",
+      "unassigned": "未割り当て",
+      "moving": "移動中",
+      "moving_split": "再配置中 {relocating}、初期化中 {initializing}",
+      "view_recovery": "リカバリを表示",
+      "size": "シャードサイズ",
+      "avg_primary": "プライマリ平均",
+      "largest": "最大 {size}",
+      "oversized": "{size} 超過 {count}",
+      "balance": "シャードの偏り",
+      "per_data_node": "データノードあたり",
+      "avg": "平均 {count}",
+      "busiest": "最多は {node}（平均の {skew} 倍）"
+    },
+    "problems": {
+      "title": "要確認（{count}）",
+      "explain": "Tools で説明を見る",
+      "index": "インデックス",
+      "shard": "シャード",
+      "state": "状態",
+      "node": "ノード",
+      "reason": "理由",
+      "show_less": "折りたたむ",
+      "show_all": "{count} 件すべて表示"
+    },
+    "shard": {
+      "primary": "プライマリシャード {shard}",
+      "replica": "レプリカシャード {shard}",
+      "docs": "{count} ドキュメント",
+      "reason": "理由: {reason}",
+      "move": "クリックしてこのシャードを移動"
     }
   },
   "shard_recovery": {
-    "heading": "シャードの復元"
+    "heading": "シャードの復元",
+    "pulse": {
+      "active": "実行中",
+      "recoveries": "件のリカバリ",
+      "none_active": "リカバリ中のシャードはありません",
+      "completed": "完了 {count}",
+      "progress": "進捗",
+      "copied": "コピー済み",
+      "nothing_to_copy": "コピーするものはありません",
+      "longest": "最長の処理",
+      "throttled": "スロットル",
+      "limit_reached": "リカバリ帯域の上限に達しました",
+      "adjust": "Tools で調整",
+      "not_throttled": "実行中のリカバリはスロットルされていません"
+    }
   },
   "shard_recovery_table": {
     "stage": "ステージ",
@@ -817,6 +1130,13 @@
     "ssl_hint": {
       "hint": "HTTPS を使用する場合は、ブラウザがクラスターの SSL 証明書を信頼していることを確認してください。",
       "help": "ヘルプ"
+    },
+    "security_unavailable": {
+      "forbidden_users": "ユーザーを読み取る権限がありません",
+      "forbidden_roles": "ロールを読み取る権限がありません",
+      "forbidden_text": "ユーザーとロールを管理するには、クラスタ権限 manage_security が必要です。",
+      "unavailable": "このクラスタではセキュリティを利用できません",
+      "unavailable_text": "ネイティブのユーザーとロールには Elasticsearch のセキュリティ機能が必要ですが、このクラスタでは存在しないか無効です。"
     }
   },
   "snapshots": {
@@ -945,7 +1265,297 @@
   },
   "tools": {
     "heading": "Tools",
-    "subtitle": "Common cluster maintenance and recovery operations."
+    "subtitle": "Common cluster maintenance and recovery operations.",
+    "filter": "ツールを絞り込む",
+    "no_match": "\"{filter}\" に一致するツールはありません。",
+    "close": "{title} を閉じる",
+    "apis_used": "使用する Elasticsearch API",
+    "read_only_tool": "読み取り専用のツールです。クラスタ設定は変更されません。",
+    "apply": "適用",
+    "restore_default": "デフォルトに戻す",
+    "recheck": "再確認",
+    "advanced": "詳細設定",
+    "current": "現在:",
+    "mixed": "混在",
+    "indices": "インデックス",
+    "excluded_indices": "システム、非表示、データストリームのバッキングインデックスは除外されます。",
+    "confirm_restore": "「{setting}」を Elasticsearch のデフォルトに戻しますか？",
+    "groups": {
+      "attention": "要確認",
+      "shards": "シャードと割り当て",
+      "indices": "インデックス",
+      "disk": "ディスクとリカバリ",
+      "safety": "安全対策",
+      "advanced": "詳細"
+    },
+    "sources": {
+      "transient": "transient",
+      "persistent": "persistent",
+      "default": "デフォルト",
+      "unavailable": "利用不可"
+    },
+    "status": {
+      "default": "デフォルト",
+      "custom": "カスタム",
+      "enabled": "有効",
+      "disabled": "無効",
+      "unavailable": "利用不可",
+      "no_user_indices": "ユーザーインデックスなし",
+      "no_unassigned": "未割り当てシャードなし",
+      "unassigned": "未割り当てシャード {count} 件"
+    },
+    "health": {
+      "green": "クラスタヘルス: グリーン",
+      "yellow": "クラスタヘルス: イエロー",
+      "red": "クラスタヘルス: レッド"
+    },
+    "inspect": {
+      "settings": "クラスタ設定",
+      "nodes": "ノード",
+      "shards": "シャード",
+      "indices": "インデックス設定",
+      "explanation": "割り当ての説明",
+      "voting": "投票除外"
+    },
+    "errors": {
+      "forbidden": "このユーザーには{what}を読み取る権限がありません。",
+      "network": "{what}を読み込めませんでした。クラスタへの接続を確認してください。",
+      "api": "{what}を読み込めませんでした。{message}"
+    },
+    "allocation": {
+      "title": "シャード割り当て",
+      "description": "新規および未割り当てのシャードを割り当てるかどうか。",
+      "keywords": "割り当て プライマリ レプリカ メンテナンス allocation primary replica",
+      "hint": "今後の割り当てにのみ影響し、割り当て済みのシャードはそのままです。",
+      "disable": "割り当てを無効にする",
+      "blocking": "割り当てが制限されており、シャード {count} 件が未割り当てのままになる可能性があります。",
+      "updated": "シャード割り当てを {value} に設定しました。",
+      "restored": "シャード割り当てをデフォルトに戻しました。",
+      "modes": {
+        "all": "すべてのシャード",
+        "primaries": "プライマリのみ",
+        "new_primaries": "新しいプライマリのみ",
+        "none": "無効"
+      },
+      "option_hints": {
+        "all": "通常の割り当て",
+        "primaries": "レプリカは割り当てない",
+        "new_primaries": "新しいインデックスのプライマリのみ",
+        "none": "新しい割り当てを行わない"
+      },
+      "confirm": {
+        "primaries": "プライマリシャードのみ割り当てを許可しますか？",
+        "new_primaries": "新しいインデックスのプライマリのみ割り当てを許可しますか？",
+        "none": "シャード割り当てを無効にしますか？再び有効にするまで新しいシャードは割り当てられません。"
+      }
+    },
+    "drain": {
+      "title": "ノードを空にする",
+      "description": "ノードを停止する前にシャードを移動します。",
+      "keywords": "退避 停止 メンテナンス 除外 再配置 drain shutdown exclude",
+      "explanation": "ノードを割り当てから除外し、Elasticsearch がそのシャードを他のノードへ移動します。ノード自体は稼働したままです。",
+      "allocation_disabled": "割り当てが無効のため、有効に戻すまでシャードは移動できません。",
+      "node": "ノード",
+      "shards": "{count} シャード",
+      "node_summary": "{shards} シャード",
+      "disk_used": "ディスク使用率 {percent}%",
+      "progress": "残り {remaining} / {total} シャード、移動中 {relocating}。",
+      "done": "このノードにシャードは残っていません。安全に停止できます。",
+      "start": "退避を開始",
+      "stop": "退避を停止",
+      "existing": "除外中のノード ID: {ids}。他の除外設定は保持されます。",
+      "status_active": "{count} ノードを除外中",
+      "status_none": "実行中の退避なし",
+      "confirm_start": "{name}（{id}）を空にしますか？シャードは他のノードへ移動されます。",
+      "confirm_stop": "{name}（{id}）の退避を停止しますか？",
+      "started": "ノードの退避を開始しました。",
+      "stopped": "ノードの退避を停止しました。"
+    },
+    "explain": {
+      "title": "未割り当てシャードの説明",
+      "description": "シャードを割り当てられない理由を Elasticsearch に問い合わせます。",
+      "keywords": "割り当て 診断 決定 未割り当て explain deciders unassigned",
+      "shard": "未割り当てシャード",
+      "primary": "プライマリ",
+      "replica": "レプリカ",
+      "run": "説明を見る",
+      "raw": "生のレスポンス",
+      "no_explanation": "説明はありません。",
+      "cannot_allocate_primary": "プライマリシャードを割り当てられません",
+      "cannot_allocate_replica": "レプリカシャードを割り当てられません",
+      "single_node_replica": "レプリカはプライマリと同じノードに配置できず、このクラスタにはデータノードが 1 つしかありません。",
+      "no_eligible_node": "現在このシャードを受け入れられるノードはありません。"
+    },
+    "retry": {
+      "title": "失敗した割り当てを再試行",
+      "description": "割り当ての再試行上限に達したシャードを再試行します。",
+      "keywords": "再試行 上限 失敗 reroute retry failed",
+      "explanation": "まず根本原因を解決してから、失敗した割り当ての再試行を Elasticsearch に依頼してください。",
+      "run": "割り当てを再試行",
+      "confirm": "失敗した割り当てを再試行しますか？未割り当てのシャードは {count} 件です。",
+      "done": "Elasticsearch が失敗した割り当てを再試行しています。"
+    },
+    "rebalancing": {
+      "title": "シャードのリバランス",
+      "description": "クラスタを均等にするためにシャードをノード間で移動するかどうか。",
+      "keywords": "リバランス 移動 トポロジ 均等 rebalance",
+      "explanation": "リバランスを制限すると、クラスタが偏ったままになることがあります。",
+      "confirm": "シャードのリバランスを制限しますか？クラスタが偏ったままになる可能性があります。",
+      "updated": "シャードのリバランスを更新しました。",
+      "modes": {
+        "all": "すべてのシャード",
+        "primaries": "プライマリのみ",
+        "replicas": "レプリカのみ",
+        "none": "無効"
+      }
+    },
+    "blocks": {
+      "title": "インデックスの書き込みブロック",
+      "description": "読み取り専用や書き込みブロックを見つけて解除します。",
+      "keywords": "読み取り専用 フラッド 書き込み ブロック read only flood write block",
+      "indices": "ブロック中のインデックス",
+      "status": "{count} インデックスがブロック中",
+      "status_none": "ブロック中のユーザーインデックスなし",
+      "flood": "ディスクがフラッドステージに達したため、Elasticsearch が read_only_allow_delete を設定しました。",
+      "flood_full": "ディスク使用率がまだ高すぎます。先に空き容量を確保してください。",
+      "flood_recovered": "ディスク使用率は回復しています。通常は Elasticsearch がこのブロックを自動で解除します。",
+      "flood_unknown": "ディスク使用率を確認できないため、ここではブロックを解除できません。",
+      "clear": "書き込みブロックを解除",
+      "clear_flood": "フラッドステージのブロックを解除",
+      "confirm_clear": "{count} 個のインデックスの {blocks} を解除しますか？",
+      "confirm_clear_flood": "{count} 個のインデックスのフラッドステージのブロックを解除しますか？",
+      "cleared": "{count} 個のインデックスの書き込みブロックを解除しました。"
+    },
+    "replicas": {
+      "title": "レプリカ",
+      "description": "選択したインデックスのレプリカ数を変更します。",
+      "keywords": "冗長性 単一ノード レプリカ数 replica count",
+      "count": "レプリカ数",
+      "status": "インデックスごとに設定",
+      "status_single_node": "{count} 個のインデックスでレプリカを割り当てられません",
+      "single_node": "このクラスタにはデータノードが 1 つしかないため、{count} 個のインデックスのレプリカを割り当てられません。",
+      "set_zero": "レプリカを 0 にする",
+      "zero_warning": "レプリカがないと、ノードを失ったときにデータが利用できなくなったり失われたりします。",
+      "confirm": "{count} 個のインデックスのレプリカを {replicas} にしますか？",
+      "confirm_zero": "{count} 個のインデックスのレプリカをすべて削除しますか？",
+      "updated": "{count} 個のインデックスのレプリカを更新しました。"
+    },
+    "refresh": {
+      "title": "リフレッシュ間隔",
+      "description": "新しいドキュメントが検索可能になるまでの時間。",
+      "keywords": "リフレッシュ 間隔 検索 可視性 インデックス作成 refresh interval bulk",
+      "interval": "リフレッシュ間隔",
+      "custom": "カスタム",
+      "custom_hint": "500ms や 2m などの時間値。",
+      "status_mixed": "混在",
+      "disabled_warning": "インデックスを手動でリフレッシュするまで、新しいドキュメントは検索できません。",
+      "confirm": "{count} 個のインデックスのリフレッシュ間隔を {value} にしますか？",
+      "updated": "{count} 個のインデックスのリフレッシュ間隔を更新しました。"
+    },
+    "watermarks": {
+      "title": "ディスクウォーターマーク",
+      "description": "割り当てとフラッドステージのためのディスク使用率のしきい値。",
+      "keywords": "ディスク 空き 使用 フラッド しきい値 ヘッドルーム watermark flood headroom",
+      "fullest": "最も使用率の高いノード:",
+      "used": "{percent}% 使用中",
+      "available": "空き {bytes}",
+      "low": "低ウォーターマーク",
+      "high": "高ウォーターマーク",
+      "flood": "フラッドステージ",
+      "low_hint": "これを超えたノードには新しいシャードを割り当てません。",
+      "high_hint": "これを超えたノードからシャードを移動します。",
+      "flood_hint": "これを超えたノード上のインデックスは読み取り専用になります。",
+      "mode_percent": "パーセントと比率は使用済みのディスク容量を表します。",
+      "mode_bytes": "バイト値は必要な空きディスク容量を表します。",
+      "threshold_enabled": "割り当てにディスクのしきい値を使う",
+      "threshold_disabled_warning": "ディスクのしきい値がないと、Elasticsearch はノードのディスク枯渇を防げなくなります。",
+      "low_max_headroom": "低の最大ヘッドルーム",
+      "high_max_headroom": "高の最大ヘッドルーム",
+      "flood_max_headroom": "フラッドステージの最大ヘッドルーム",
+      "headroom_hint": "任意。例: 100gb。",
+      "lowering_warning": "しきい値を上げるとノードがさらに埋まるため、一時的な措置にとどめてください。",
+      "confirm": "ディスクウォーターマークを更新しますか？",
+      "updated": "ディスクウォーターマークを更新しました。",
+      "restored": "ディスクウォーターマークをデフォルトに戻しました。",
+      "errors": {
+        "mixed": "すべてのしきい値をパーセントにするか、すべてバイト値にしてください。",
+        "percent_order": "しきい値は低、高、フラッドステージの順に大きくする必要があります。",
+        "bytes_order": "空き容量は低、高、フラッドステージの順に小さくする必要があります。",
+        "headroom": "100gb のようなバイト値を使ってください。"
+      }
+    },
+    "recovery": {
+      "title": "リカバリ帯域",
+      "description": "ノードごとのシャードリカバリ通信量の上限。",
+      "keywords": "リカバリ 帯域 スナップショット 通信量 bytes per second recovery bandwidth",
+      "explanation": "リカバリの通信が検索やインデックス作成を遅くしないようにします。",
+      "limit": "ノードあたりの上限",
+      "hint": "40mb や 1gb などの転送速度。",
+      "invalid": "80mb のような値を入力してください。",
+      "updated": "リカバリ帯域を更新しました。"
+    },
+    "destructive": {
+      "title": "破壊的操作の保護",
+      "description": "インデックスの削除やクローズに明示的な名前を必須にします。",
+      "keywords": "ワイルドカード 削除 明示的な名前 安全 wildcard delete",
+      "toggle": "明示的なインデックス名を必須にする",
+      "explanation": "ワイルドカードや _all によるインデックスの削除やクローズを防ぎます。",
+      "confirm_disable": "ワイルドカードや _all での破壊的操作を許可しますか？誤削除が起きやすくなります。",
+      "updated": "破壊的操作の保護を更新しました。"
+    },
+    "auto_create": {
+      "title": "インデックスの自動作成",
+      "description": "存在しないインデックスへの書き込み時に作成するかどうか。",
+      "keywords": "自動作成 存在しないインデックス パターン ルール auto create",
+      "rules": "ルール",
+      "hint": "ルールは順番に評価されます。",
+      "confirm_disable": "インデックスの自動作成を無効にしますか？これに依存するアプリケーションが失敗する可能性があります。",
+      "updated": "インデックスの自動作成を更新しました。",
+      "modes": {
+        "allow": "許可",
+        "disable": "無効",
+        "custom": "カスタムルール"
+      }
+    },
+    "cluster_write": {
+      "title": "クラスタの書き込みモード",
+      "description": "障害対応やメンテナンス中にクラスタ全体を読み取り専用にします。",
+      "keywords": "読み取り専用 緊急 メンテナンス クラスタブロック read only emergency",
+      "restricted": "このクラスタへの書き込みは現在ブロックされています。",
+      "confirm": "クラスタ全体の書き込みをブロックしますか？",
+      "updated": "クラスタの書き込みモードを更新しました。",
+      "restored": "クラスタへの書き込みを再開しました。",
+      "modes": {
+        "normal": "通常",
+        "read_only": "読み取り専用",
+        "allow_delete": "読み取り専用（削除は可）"
+      }
+    },
+    "voting": {
+      "title": "投票除外",
+      "description": "マスター候補ノードの削除に備えます。",
+      "keywords": "投票 構成 除外 マスター候補 トポロジ 削除 voting",
+      "explanation": "マスター候補ノードの半数以上を一度に削除する場合にのみ必要です。",
+      "nodes": "マスター候補ノード",
+      "add": "除外を追加",
+      "clear": "除外をクリア",
+      "status": "有効 {count}",
+      "status_none": "なし",
+      "confirm_add": "{count} ノードを投票から除外しますか？",
+      "confirm_clear": "すべての投票除外をクリアしますか？Elasticsearch は除外したノードがクラスタから離脱するまで待機します。",
+      "added": "投票除外を追加しました。",
+      "cleared": "投票除外をクリアしました。"
+    },
+    "awareness": {
+      "title": "割り当てアウェアネス",
+      "description": "シャードのコピーを分散させるためのゾーンやラックの属性。",
+      "keywords": "ゾーン ラック 属性 障害ドメイン awareness zone rack",
+      "status": "{count} 個の属性",
+      "status_none": "未設定",
+      "values": "ノードの値: {values}",
+      "forced": "強制値: {values}",
+      "hint": "属性は各ノードで設定するため、ここでは変更できません。"
+    }
   },
   "update_check": {
     "downloading": "ダウンロード中... {progress}%",

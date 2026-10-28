@@ -1,9 +1,9 @@
 <template>
   <q-card class="full-height" data-testid="cluster-node-load">
     <q-card-section class="row items-center justify-between">
-      <div>Nodes ({{ totalCount }})</div>
+      <div class="text-weight-medium">{{ t('home.nodes.title', { count: totalCount }) }}</div>
       <router-link :to="{ name: 'nodes', params: { clusterIndex: connectionStore.activeClusterIndex } }" class="font-13">
-        All nodes
+        {{ t('home.nodes.all') }}
       </router-link>
     </q-card-section>
 
@@ -14,17 +14,17 @@
     <q-markup-table v-if="nodes.length" flat dense wrap-cells>
       <thead>
         <tr>
-          <th class="text-left">Name</th>
-          <th class="text-left">CPU</th>
-          <th class="text-left">Heap</th>
-          <th class="text-left">Disk</th>
+          <th class="text-left">{{ t('home.nodes.name') }}</th>
+          <th class="text-left">{{ t('home.metrics.cpu') }}</th>
+          <th class="text-left">{{ t('home.nodes.heap') }}</th>
+          <th class="text-left">{{ t('home.metrics.disk') }}</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="node in nodes" :key="node.name">
           <td class="text-left">
             <span class="text-weight-medium">{{ node.name }}</span>
-            <q-badge v-if="node.master" color="primary-dark" label="master" class="q-ml-md" />
+            <q-badge v-if="node.master" color="primary-dark" :label="t('home.nodes.master')" class="q-ml-sm" />
           </td>
           <td v-for="metric in nodeMetrics(node)" :key="metric.key">
             <metric-bar :value="metric.value" :thresholds="metric.thresholds" />
@@ -34,7 +34,7 @@
     </q-markup-table>
 
     <q-card-section v-else class="text-muted font-13">
-      {{ nodesMonitoringAvailable === false ? 'Monitoring permission required' : 'Node metrics unavailable.' }}
+      {{ nodesMonitoringAvailable === false ? t('home.monitoring_required') : t('home.nodes.unavailable') }}
     </q-card-section>
   </q-card>
 </template>
@@ -44,6 +44,7 @@ import { computed } from 'vue'
 import { useConnectionStore } from '../../store/connection.ts'
 import type { OverviewNode } from '../../types/homeDashboard.ts'
 import MetricBar from '../shared/MetricBar.vue'
+import { useTranslation } from '../../composables/i18n.ts'
 import { CPU_THRESHOLDS, DISK_THRESHOLDS, HEAP_THRESHOLDS } from '../../helpers/pressure.ts'
 
 const props = defineProps<{
@@ -56,14 +57,13 @@ const props = defineProps<{
 }>()
 
 const connectionStore = useConnectionStore()
+const t = useTranslation()
 
 const tableHint = computed(() => {
   const shown = props.nodes.length
   const eligible = props.eligibleCount ?? props.totalCount
-  if (shown >= eligible) {
-    return `Showing all ${shown}, ordered by highest CPU, heap, or disk.`
-  }
-  return `Showing top ${shown} of ${eligible} by highest CPU, heap, or disk.`
+  if (shown >= eligible) return t('home.nodes.hint_all', { count: shown })
+  return t('home.nodes.hint_top', { shown, total: eligible })
 })
 
 const nodeMetrics = (node: OverviewNode) => [

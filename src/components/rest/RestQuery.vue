@@ -2,7 +2,7 @@
   <div>
     <q-card class="q-mb-md">
       <q-card-section class="flex items-center">
-        <h1 class="text-h5 q-my-none">
+        <h1 class="page-title">
           {{ t('query.heading') }}
         </h1>
         <q-btn

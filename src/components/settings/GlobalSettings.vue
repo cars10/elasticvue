@@ -1,7 +1,7 @@
 <template>
   <div class="row justify-center">
     <div class="col-12 col-md-10 col-lg-8">
-      <h1 class="text-h4 q-mt-none q-mb-md">{{ t('settings.heading') }}</h1>
+      <h1 class="page-title q-mb-lg">{{ t('settings.heading') }}</h1>
 
       <settings-section icon="code" :title="t('settings.editor.heading')">
         <q-card-section class="q-py-sm">

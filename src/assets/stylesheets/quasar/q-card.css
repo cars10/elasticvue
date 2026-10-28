@@ -2,7 +2,7 @@
   color: var(--theme-color);
   background: var(--theme-background);
   border: 1px solid var(--theme-card-border);
-  border-radius: 6px;
+  border-radius: 8px;
   box-shadow: var(--theme-card-shadow);
 }
 

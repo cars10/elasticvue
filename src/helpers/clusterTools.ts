@@ -4,7 +4,6 @@ import type {
   EffectiveSetting,
   FlatClusterSettings,
   IndexToolState,
-  ToolShard,
   WatermarkValidation,
   WatermarkValues
 } from '../types/clusterTools.ts'
@@ -40,9 +39,8 @@ export const effectiveSetting = <T = string>(
   return { key, configuredValue: null, defaultValue: null, effectiveValue: null, source: 'unavailable' }
 }
 
-export const persistentSettingBody = (key: string, value: string | number | boolean | null) => ({
-  persistent: { [key]: value }
-})
+export const settingMode = (setting: EffectiveSetting<string>, fallback = 'all') =>
+  String(setting.effectiveValue || fallback).toLowerCase()
 
 export const parseCommaSeparated = (value?: string | number | boolean | null): string[] =>
   String(value ?? '')
@@ -53,18 +51,16 @@ export const parseCommaSeparated = (value?: string | number | boolean | null): s
 export const addAllocationExclusion = (current: string | null | undefined, nodeId: string): string =>
   [...new Set([...parseCommaSeparated(current), nodeId])].join(',')
 
-export const removeAllocationExclusion = (current: string | null | undefined, nodeId: string): string | null => {
-  const remaining = parseCommaSeparated(current).filter((id) => id !== nodeId)
-  return remaining.length ? remaining.join(',') : null
-}
+export const removeAllocationExclusion = (current: string | null | undefined, nodeId: string): string =>
+  parseCommaSeparated(current)
+    .filter((id) => id !== nodeId)
+    .join(',')
 
 export const nodeDrainProgress = (initial: number, remaining: number): number => {
   if (remaining <= 0) return 1
   if (initial <= 0) return 0
   return Math.max(0, Math.min(1, (initial - remaining) / initial))
 }
-
-export const isUnassignedShard = (shard: ToolShard) => shard.state?.toUpperCase() === 'UNASSIGNED' || !shard.node
 
 export const summarizeAllocationExplanation = (
   explanation: AllocationExplanation,
@@ -76,7 +72,7 @@ export const summarizeAllocationExplanation = (
         .filter((decider) => decider.decision?.toUpperCase() === 'NO')
         .map((decider) => ({
           decider: decider.decider || 'unknown',
-          explanation: decider.explanation || 'Elasticsearch did not provide an explanation.',
+          explanation: decider.explanation || '',
           nodeName: node.node_name
         }))
     ) || []
@@ -84,12 +80,8 @@ export const summarizeAllocationExplanation = (
   const singleNodeReplica = explanation.primary === false && eligibleDataNodeCount === 1 && sameShard
 
   return {
-    title: explanation.primary === false ? 'Cannot allocate replica shard' : 'Cannot allocate primary shard',
-    reason: singleNodeReplica
-      ? 'This replica cannot be assigned because Elasticsearch cannot place a primary and its replica on the same node.'
-      : explanation.allocate_explanation ||
-        explanation.unassigned_info?.details ||
-        'No eligible node currently allows this shard.',
+    primary: explanation.primary !== false,
+    reason: singleNodeReplica ? null : explanation.allocate_explanation || explanation.unassigned_info?.details || null,
     decisions,
     singleNodeReplica
   }
@@ -164,20 +156,20 @@ export const validateWatermarks = ({ low, high, flood }: WatermarkValues): Water
     return {
       valid: false,
       mode: null,
-      error: 'Use either percentages/ratios for all thresholds or free-space byte values for all thresholds.'
+      error: 'mixed'
     }
   }
   if (allPercent) {
     const [lowValue, highValue, floodValue] = percents as number[]
     if (!(lowValue <= highValue && highValue <= floodValue)) {
-      return { valid: false, mode: 'percent', error: 'Used-disk thresholds must increase from low to high to flood stage.' }
+      return { valid: false, mode: 'percent', error: 'percent_order' }
     }
     return { valid: true, mode: 'percent', error: '' }
   }
 
   const [lowValue, highValue, floodValue] = bytes as number[]
   if (!(lowValue >= highValue && highValue >= floodValue)) {
-    return { valid: false, mode: 'bytes', error: 'Free-space thresholds must decrease from low to high to flood stage.' }
+    return { valid: false, mode: 'bytes', error: 'bytes_order' }
   }
   return { valid: true, mode: 'bytes', error: '' }
 }
@@ -198,6 +190,7 @@ export const clusterToolsCapabilities = (version?: string | null, modernFork = f
     clusterReadOnlyAllowDelete: atLeast(6),
     votingExclusions: atLeast(7, 8),
     expandWildcardsAll: atLeast(8),
+    settingsReset: atLeast(5),
     tools: {
       allocation: atLeast(1),
       drain: atLeast(1),
@@ -210,8 +203,8 @@ export const clusterToolsCapabilities = (version?: string | null, modernFork = f
       watermarks: atLeast(1),
       recovery: atLeast(1),
       destructive: atLeast(1),
-      autoCreate: atLeast(1),
-      clusterWrite: atLeast(1),
+      auto_create: atLeast(1),
+      cluster_write: atLeast(1),
       voting: atLeast(7, 8),
       awareness: atLeast(1)
     } as Record<string, boolean>

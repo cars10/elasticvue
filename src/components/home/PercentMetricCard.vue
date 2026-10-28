@@ -1,15 +1,14 @@
 <template>
   <q-card class="full-height" :data-testid="testId">
     <q-card-section>
-      <div v-if="unavailable" class="text-muted font-13 q-mt-sm">Monitoring permission required</div>
+      <div class="card-title">
+        <q-icon :name="icon" size="18px" />
+        {{ title }}
+      </div>
+      <div v-if="unavailable" class="text-muted font-13">{{ t('home.monitoring_required') }}</div>
 
-      <div v-else class="row no-wrap q-gutter-x-md q-mt-sm">
-        <div class="col">
-          <div class="text-weight-bold q-mb-md flex items-center">
-            <q-icon :name="icon" size="22px" class="q-mr-sm" color="primary" />
-            {{ title }}
-          </div>
-
+      <div v-else class="row no-wrap q-gutter-x-md">
+        <div class="col" style="min-width: 0">
           <slot />
         </div>
         <percent-pie-chart
@@ -27,6 +26,9 @@
 
 <script setup lang="ts">
 import PercentPieChart from '../shared/PercentPieChart.vue'
+import { useTranslation } from '../../composables/i18n.ts'
+
+const t = useTranslation()
 
 withDefaults(
   defineProps<{
@@ -45,7 +47,7 @@ withDefaults(
     warnAt: 75,
     dangerAt: 85,
     higherIsBetter: false,
-    size: 100,
+    size: 84,
     testId: undefined
   }
 )

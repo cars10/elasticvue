@@ -1,9 +1,10 @@
 <template>
   <q-btn
     :icon="themeIcon"
+    flat
     round
     :size="size"
-    color="dark-grey"
+    class="text-muted"
     :title="t('base.theme_switcher.title')"
     data-testid="change-theme-button"
   >

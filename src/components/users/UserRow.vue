@@ -14,10 +14,10 @@
           :outline="role !== SUPERUSER_ROLE"
           :color="role === SUPERUSER_ROLE ? 'primary-dark' : 'primary'"
           :label="role"
-          :title="`Show role ${role}`"
+          :title="t('cluster_users.show_role', { role })"
           @click="emit('show-role', role)"
         />
-        <span v-if="!user.roles.length" class="health--yellow font-13">no roles</span>
+        <span v-if="!user.roles.length" class="health--yellow font-13">{{ t('cluster_users.no_roles') }}</span>
       </div>
     </td>
     <td>
@@ -38,11 +38,13 @@
 
 <script setup lang="ts">
 import { useUserRow } from '../../composables/components/users/UserRow.ts'
+import { useTranslation } from '../../composables/i18n.ts'
 import { SUPERUSER_ROLE } from '../../helpers/security.ts'
 import type { ClusterUser } from '../../types/security.ts'
 
 const props = defineProps<{ user: ClusterUser }>()
 const emit = defineEmits<{ reload: []; edit: [user: ClusterUser]; 'show-role': [role: string] }>()
 
+const t = useTranslation()
 const { deleteUser } = useUserRow(props, emit)
 </script>

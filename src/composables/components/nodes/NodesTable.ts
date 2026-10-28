@@ -27,13 +27,15 @@ export const useNodesTable = (props: NodesTableProps) => {
 
   const columns = genColumns([
     { label: t('cluster_nodes.node_properties.name'), field: 'name', align: 'left' },
-    { label: t('cluster_nodes.node_properties.node_role'), align: 'left' },
+    {
+      label: `${t('cluster_nodes.node_properties.node_role')} / ${t('cluster_nodes.node_properties.attr')}`,
+      align: 'left'
+    },
     { label: t('cluster_nodes.node_properties.version'), field: 'version', align: 'left' },
     showNodeShards ? { label: t('cluster_nodes.node_properties.shards'), field: 'shards', align: 'right' } : null,
     { label: t('cluster_nodes.node_properties.docs'), field: 'docs', align: 'right' },
     { label: t('cluster_nodes.node_properties.store'), field: 'storeBytes', align: 'right' },
     { label: t('cluster_nodes.node_properties.uptime'), field: 'uptimeMs', align: 'right' },
-    { label: t('cluster_nodes.node_properties.attr'), align: 'left' },
     { label: t('cluster_nodes.node_properties.cpu'), field: 'cpuPercent', align: 'left' },
     { label: t('cluster_nodes.node_properties.heap'), field: 'heapPercent', align: 'left' },
     { label: t('cluster_nodes.node_properties.disk'), field: 'diskPercent', align: 'left' }

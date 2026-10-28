@@ -1,3 +1,4 @@
 .q-drawer {
   background: var(--theme-sidebar-background);
+  border-right: 1px solid var(--theme-card-border);
 }

@@ -274,7 +274,231 @@
     }
   },
   "home": {
-    "heading": "Tableau de bord"
+    "heading": "Tableau de bord",
+    "monitoring_required": "Permission de supervision requise",
+    "serverless": {
+      "title": "Serverless",
+      "text": "Votre cluster fonctionne en {link}, ce qui limite Elasticvue car de nombreuses API ne sont pas disponibles.",
+      "link": "mode serverless"
+    },
+    "status": {
+      "green": "Vert",
+      "yellow": "Jaune",
+      "red": "Rouge",
+      "unknown": "Inconnu"
+    },
+    "overview": {
+      "unassigned": "{count} partition non assignée | {count} partitions non assignées",
+      "moving": "{count} partition en déplacement | {count} partitions en déplacement",
+      "all_assigned": "Toutes les partitions sont assignées",
+      "nodes": "{count} nœud | {count} nœuds",
+      "data": "{count} data",
+      "master_eligible": "{count} éligibles master",
+      "indices": "{count} index | {count} index",
+      "docs": "{count} document | {count} documents",
+      "disk": "{size} sur disque"
+    },
+    "metrics": {
+      "cpu": "CPU",
+      "disk": "Disque",
+      "heap": "Tas JVM",
+      "shards": "Partitions",
+      "highest": "Maximum sur",
+      "watermarks": "Seuils {low} / {high} / {flood}",
+      "primaries": "{count} primaires",
+      "total": "{count} au total"
+    },
+    "workload": {
+      "search": "Recherche",
+      "indexing": "Indexation",
+      "latency": "Latence et pression",
+      "per_second": "req/s",
+      "docs_per_second": "docs/s",
+      "search_latency": "recherche",
+      "indexing_latency": "{latency} indexation",
+      "deletes": "{rate} suppressions/s",
+      "pressure": "{rejected} rejetées, {trips} déclenchements de disjoncteur",
+      "collecting": "Collecte…",
+      "reload_off": "Activez le rechargement automatique pour collecter ce graphique.",
+      "average": "Moyenne sur les dernières {seconds}s"
+    },
+    "nodes": {
+      "title": "Nœuds ({count})",
+      "all": "Tous les nœuds",
+      "name": "Nom",
+      "heap": "Tas",
+      "master": "master",
+      "unavailable": "Métriques des nœuds indisponibles.",
+      "hint_all": "Les {count}, les plus chargés d’abord.",
+      "hint_top": "Top {shown} sur {total}, les plus chargés d’abord."
+    },
+    "indices": {
+      "title": "Index ({count})",
+      "all": "Tous les index",
+      "index": "Index",
+      "health": "Santé",
+      "docs": "Docs",
+      "size": "Taille",
+      "empty": "Aucun index à afficher.",
+      "hint_all": "Les {count}, non sains d’abord, puis par taille.",
+      "hint_top": "Top {shown} sur {total}, non sains d’abord, puis par taille."
+    },
+    "attention": {
+      "issues": "Problèmes",
+      "no_issues": "Aucun problème",
+      "all_passed": "Les {count} vérifications sont réussies",
+      "counts": {
+        "critical": "{count} critique | {count} critiques",
+        "warning": "{count} avertissement | {count} avertissements",
+        "info": "{count} remarque | {count} remarques"
+      },
+      "severity": {
+        "critical": "Critique",
+        "warning": "Avertissement",
+        "info": "Remarque",
+        "ok": "OK"
+      },
+      "actions": {
+        "view_shards": "Voir les partitions",
+        "view_nodes": "Voir les nœuds",
+        "view_indices": "Voir les index"
+      },
+      "checks": {
+        "shards": {
+          "title": "Partitions",
+          "ok": "Toutes les partitions sont assignées"
+        },
+        "index_blocks": {
+          "title": "Blocages d’index",
+          "ok": "Aucun blocage en écriture ou en lecture seule"
+        },
+        "allocation": {
+          "title": "Allocation des partitions",
+          "ok": "Allocation activée"
+        },
+        "pending_tasks": {
+          "title": "Tâches de cluster en attente",
+          "ok": "Aucune tâche de cluster bloquée"
+        },
+        "disk": {
+          "title": "Seuils de disque",
+          "ok": "Sous les seuils de disque"
+        },
+        "rejections": {
+          "title": "Rejets des pools de threads",
+          "ok": "Aucun nouveau rejet"
+        },
+        "breakers": {
+          "title": "Disjoncteurs",
+          "ok": "Aucun nouveau déclenchement"
+        },
+        "jvm": {
+          "title": "Pression JVM",
+          "ok": "Pas de pression durable sur le tas"
+        },
+        "file_descriptors": {
+          "title": "Descripteurs de fichiers",
+          "ok": "Dans la plage normale"
+        },
+        "versions": {
+          "title": "Versions des nœuds",
+          "ok": "Tous les nœuds ont la même version"
+        },
+        "monitoring": {
+          "title": "Supervision des nœuds",
+          "ok": "Disponible"
+        }
+      },
+      "findings": {
+        "unassigned_primaries": {
+          "title": "Partitions primaires non assignées",
+          "summary": "{count} partition primaire n’est pas assignée | {count} partitions primaires ne sont pas assignées",
+          "summary_index": "{count} partition primaire n’est pas assignée sur {index} | {count} partitions primaires ne sont pas assignées sur {index}",
+          "summary_indices": "{count} partition primaire n’est pas assignée sur {indices} index | {count} partitions primaires ne sont pas assignées sur {indices} index",
+          "summary_unknown": "Des partitions primaires ne sont pas assignées",
+          "detail": "Certaines données sont indisponibles tant que les primaires ne sont pas allouées."
+        },
+        "unassigned_replicas": {
+          "title": "Répliques non assignées",
+          "summary": "{count} réplique n’est pas assignée | {count} répliques ne sont pas assignées",
+          "summary_index": "{count} réplique n’est pas assignée sur {index} | {count} répliques ne sont pas assignées sur {index}",
+          "summary_indices": "{count} réplique n’est pas assignée sur {indices} index | {count} répliques ne sont pas assignées sur {indices} index",
+          "summary_single_node": "{count} réplique ne peut pas être allouée | {count} répliques ne peuvent pas être allouées",
+          "summary_single_node_index": "{count} réplique de {index} ne peut pas être allouée | {count} répliques de {index} ne peuvent pas être allouées",
+          "detail": "Les données sont disponibles, mais la redondance est réduite.",
+          "detail_single_node": "Ce cluster n’a qu’un seul nœud de données, les répliques ne peuvent donc pas être allouées."
+        },
+        "index_blocks": {
+          "title_read_only": "Index en lecture seule",
+          "title_write": "Écritures bloquées",
+          "summary_read_only": "L’index {index} est en lecture seule",
+          "summary_write": "L’index {index} bloque les écritures",
+          "summary_many": "{count} index bloquent les écritures, par exemple {index}",
+          "detail": "L’indexation dans ces index échoue tant que le blocage n’est pas levé.",
+          "detail_allow_delete": "L’indexation échoue, les suppressions fonctionnent encore. Souvent causé par le seuil d’inondation du disque."
+        },
+        "disk_flood": {
+          "title": "Seuil d’inondation du disque dépassé",
+          "summary": "{node} à {percent}% utilisé (seuil d’inondation {threshold})",
+          "detail": "Elasticsearch peut passer les index de ce nœud en lecture seule."
+        },
+        "disk_high": {
+          "title": "Seuil haut du disque dépassé",
+          "summary": "{node} à {percent}% utilisé (haut {threshold})",
+          "detail": "Elasticsearch déplace des partitions hors de ce nœud."
+        },
+        "disk_low": {
+          "title": "Seuil bas du disque dépassé",
+          "summary": "{node} à {percent}% utilisé (bas {threshold})",
+          "detail": "Aucune nouvelle partition n’est allouée à ce nœud."
+        },
+        "allocation": {
+          "title": "Allocation des partitions restreinte",
+          "summary_none": "L’allocation des partitions est désactivée",
+          "summary_primaries": "Seules les partitions primaires sont allouées",
+          "summary_new_primaries": "Seules les primaires des nouveaux index sont allouées",
+          "summary_other": "L’allocation des partitions est réglée sur « {value} »",
+          "detail": "Des partitions peuvent rester non assignées. Souvent oublié après une maintenance."
+        },
+        "pending_tasks": {
+          "title": "Les tâches du cluster s’accumulent",
+          "summary": "{count} en attente, la plus ancienne depuis {age}",
+          "detail": "Les mises à jour de l’état du cluster peuvent être retardées."
+        },
+        "rejections": {
+          "title": "Requêtes rejetées",
+          "summary": "{count} nouveau rejet ces 5 dernières minutes | {count} nouveaux rejets ces 5 dernières minutes",
+          "detail": "Les pools de threads sont saturés et des requêtes de recherche ou d’indexation sont abandonnées."
+        },
+        "breakers": {
+          "title": "Disjoncteur déclenché",
+          "summary": "{count} nouveau déclenchement ces 5 dernières minutes | {count} nouveaux déclenchements ces 5 dernières minutes",
+          "detail": "Des requêtes ou agrégations atteignent les limites de mémoire."
+        },
+        "jvm": {
+          "title": "Forte pression mémoire JVM",
+          "summary": "{node} au-dessus de {threshold}% depuis {duration}",
+          "detail": "Actuellement {percent}%. Une pression durable entraîne souvent de longues collectes de mémoire."
+        },
+        "file_descriptors": {
+          "title": "Limite de descripteurs de fichiers proche",
+          "summary": "{node} : {percent}% utilisés",
+          "summary_counts": "{node} : {percent}% utilisés ({open} / {max})",
+          "detail": "Manquer de descripteurs de fichiers peut faire planter le nœud."
+        },
+        "versions": {
+          "title": "Versions mixtes",
+          "summary": "Les nœuds utilisent {versions}",
+          "detail": "Normal pendant une mise à jour progressive. Terminez-la dès que possible."
+        },
+        "monitoring": {
+          "title": "Supervision des nœuds incomplète",
+          "summary": "Impossible de charger les statistiques des nœuds",
+          "summary_partial": "Statistiques manquantes pour certains nœuds ({observed} sur {expected})",
+          "detail": "Votre utilisateur n’a peut-être pas le privilège monitor, ou l’API nodes stats est indisponible."
+        }
+      }
+    }
   },
   "mixins": {
     "test_connection": {
@@ -337,6 +561,27 @@
       "docs": "documents",
       "store": "stockage",
       "uptime": "uptime"
+    },
+    "pulse": {
+      "nodes": "Nœuds",
+      "version": "Version {version}",
+      "mixed_versions": "Versions mixtes : {versions}",
+      "restarted": "{count} redémarré dans la dernière heure | {count} redémarrés dans la dernière heure",
+      "avg": "moy.",
+      "used": "utilisé",
+      "disk_of": "{used} sur {total}",
+      "peak": "pic {value} sur {node}",
+      "below_low": "Tous les nœuds sous le seuil bas ({low})",
+      "above_flood": "{count} au-dessus du seuil d’inondation | {count} au-dessus du seuil d’inondation",
+      "above_high": "{count} au-dessus du seuil haut | {count} au-dessus du seuil haut",
+      "above_low": "{count} au-dessus du seuil bas | {count} au-dessus du seuil bas",
+      "roles": {
+        "master_eligible": "{count} éligibles master",
+        "data": "{count} data",
+        "ingest": "{count} ingest",
+        "ml": "{count} ml",
+        "coordinating": "{count} coordination"
+      }
     }
   },
   "cluster_roles": {
@@ -387,6 +632,15 @@
           "status": "statut"
         }
       }
+    },
+    "pulse": {
+      "roles": "Rôles",
+      "cluster_admin": "Admin du cluster",
+      "cluster_admin_hint": "all, manage ou manage_security",
+      "all_indices": "Tous les index",
+      "all_indices_hint": "tous les privilèges sur *",
+      "unused": "Inutilisés",
+      "unused_hint": "Rôles personnalisés sans utilisateur ni mapping de rôle"
     }
   },
   "cluster_users": {
@@ -443,6 +697,17 @@
           "status": "statut"
         }
       }
+    },
+    "show_role": "Afficher le rôle {role}",
+    "no_roles": "aucun rôle",
+    "pulse": {
+      "signed_in": "Connecté en tant que",
+      "realm": "realm {realm}",
+      "users": "Utilisateurs",
+      "split": "{builtIn} intégrés, {custom} personnalisés",
+      "disabled": "{count} désactivés",
+      "superusers": "Superutilisateurs",
+      "without_roles": "Sans rôle"
     }
   },
   "query": {
@@ -716,10 +981,58 @@
       "reroute": {
         "confirm": "Rerouter la partition '{shard}' du noeud '{fromNode}' vers '{toNode}' ?"
       }
+    },
+    "pulse": {
+      "split": "{primaries} primaires, {replicas} répliques",
+      "indices": "{count} index | {count} index",
+      "unassigned": "Non assignées",
+      "moving": "En déplacement",
+      "moving_split": "{relocating} en relocalisation, {initializing} en initialisation",
+      "view_recovery": "Voir la récupération",
+      "size": "Taille des partitions",
+      "avg_primary": "moy. primaire",
+      "largest": "la plus grande {size}",
+      "oversized": "{count} au-dessus de {size}",
+      "balance": "Équilibre des partitions",
+      "per_data_node": "par nœud de données",
+      "avg": "moy. {count}",
+      "busiest": "le plus sur {node} ({skew}× la moyenne)"
+    },
+    "problems": {
+      "title": "À vérifier ({count})",
+      "explain": "Expliquer dans Tools",
+      "index": "Index",
+      "shard": "Partition",
+      "state": "État",
+      "node": "Nœud",
+      "reason": "Raison",
+      "show_less": "Afficher moins",
+      "show_all": "Afficher les {count}"
+    },
+    "shard": {
+      "primary": "partition primaire {shard}",
+      "replica": "réplique {shard}",
+      "docs": "{count} docs",
+      "reason": "raison : {reason}",
+      "move": "Cliquez pour déplacer cette partition"
     }
   },
   "shard_recovery": {
-    "heading": "Récupération de shard"
+    "heading": "Récupération de shard",
+    "pulse": {
+      "active": "Actives",
+      "recoveries": "récupérations",
+      "none_active": "Aucune partition en récupération",
+      "completed": "{count} terminées",
+      "progress": "Progression",
+      "copied": "copié",
+      "nothing_to_copy": "Rien à copier",
+      "longest": "La plus longue",
+      "throttled": "Limitée",
+      "limit_reached": "Limite de bande passante de récupération atteinte",
+      "adjust": "Ajuster dans Tools",
+      "not_throttled": "Les récupérations actives ne sont pas limitées"
+    }
   },
   "shard_recovery_table": {
     "stage": "Étape",
@@ -817,6 +1130,13 @@
     "ssl_hint": {
       "hint": "Lorsque vous utilisez https, assurez-vous que votre navigateur fait confiance au certificat SSL du cluster.",
       "help": "Aide"
+    },
+    "security_unavailable": {
+      "forbidden_users": "Lecture des utilisateurs non autorisée",
+      "forbidden_roles": "Lecture des rôles non autorisée",
+      "forbidden_text": "Votre utilisateur a besoin du privilège de cluster manage_security pour gérer les utilisateurs et les rôles.",
+      "unavailable": "La sécurité n’est pas disponible sur ce cluster",
+      "unavailable_text": "Les utilisateurs et rôles natifs nécessitent les fonctions de sécurité d’Elasticsearch, absentes ou désactivées sur ce cluster."
     }
   },
   "snapshots": {
@@ -945,7 +1265,297 @@
   },
   "tools": {
     "heading": "Tools",
-    "subtitle": "Common cluster maintenance and recovery operations."
+    "subtitle": "Common cluster maintenance and recovery operations.",
+    "filter": "Filtrer les outils",
+    "no_match": "Aucun outil ne correspond à « {filter} ».",
+    "close": "Fermer {title}",
+    "apis_used": "API Elasticsearch utilisées",
+    "read_only_tool": "Outil en lecture seule. Aucun réglage du cluster n’est modifié.",
+    "apply": "Appliquer",
+    "restore_default": "Rétablir la valeur par défaut",
+    "recheck": "Revérifier",
+    "advanced": "Avancé",
+    "current": "Actuel :",
+    "mixed": "Mixte",
+    "indices": "Index",
+    "excluded_indices": "Les index système, cachés et de flux de données sont exclus.",
+    "confirm_restore": "Rétablir « {setting} » à la valeur par défaut d’Elasticsearch ?",
+    "groups": {
+      "attention": "À vérifier",
+      "shards": "Partitions et allocation",
+      "indices": "Index",
+      "disk": "Disque et récupération",
+      "safety": "Sécurité",
+      "advanced": "Avancé"
+    },
+    "sources": {
+      "transient": "transitoire",
+      "persistent": "persistant",
+      "default": "défaut",
+      "unavailable": "indisponible"
+    },
+    "status": {
+      "default": "Défaut",
+      "custom": "Personnalisé",
+      "enabled": "Activé",
+      "disabled": "Désactivé",
+      "unavailable": "Indisponible",
+      "no_user_indices": "Aucun index utilisateur",
+      "no_unassigned": "Aucune partition non assignée",
+      "unassigned": "{count} partition non assignée | {count} partitions non assignées"
+    },
+    "health": {
+      "green": "Santé du cluster verte",
+      "yellow": "Santé du cluster jaune",
+      "red": "Santé du cluster rouge"
+    },
+    "inspect": {
+      "settings": "les réglages du cluster",
+      "nodes": "les nœuds",
+      "shards": "les partitions",
+      "indices": "les réglages des index",
+      "explanation": "l’explication d’allocation",
+      "voting": "les exclusions de vote"
+    },
+    "errors": {
+      "forbidden": "Votre utilisateur n’a pas le droit de lire {what}.",
+      "network": "Impossible de charger {what}. Vérifiez la connexion au cluster.",
+      "api": "Impossible de charger {what}. {message}"
+    },
+    "allocation": {
+      "title": "Allocation des partitions",
+      "description": "Autoriser ou non l’allocation des partitions nouvelles et non assignées.",
+      "keywords": "allocation primaire réplique maintenance allocate primary replica",
+      "hint": "N’affecte que les allocations futures, les partitions assignées restent en place.",
+      "disable": "Désactiver l’allocation",
+      "blocking": "L’allocation est restreinte et peut laisser {count} partition non assignée. | L’allocation est restreinte et peut laisser {count} partitions non assignées.",
+      "updated": "Allocation des partitions réglée sur {value}.",
+      "restored": "Allocation des partitions rétablie par défaut.",
+      "modes": {
+        "all": "Toutes les partitions",
+        "primaries": "Primaires uniquement",
+        "new_primaries": "Nouvelles primaires uniquement",
+        "none": "Désactivée"
+      },
+      "option_hints": {
+        "all": "allocation normale",
+        "primaries": "les répliques ne sont pas allouées",
+        "new_primaries": "seulement les primaires des nouveaux index",
+        "none": "aucune nouvelle allocation"
+      },
+      "confirm": {
+        "primaries": "N’autoriser que l’allocation des partitions primaires ?",
+        "new_primaries": "N’autoriser que l’allocation des primaires des nouveaux index ?",
+        "none": "Désactiver l’allocation des partitions ? Aucune nouvelle partition ne sera allouée tant qu’elle n’est pas réactivée."
+      }
+    },
+    "drain": {
+      "title": "Vider un nœud",
+      "description": "Déplacer les partitions d’un nœud avant de l’arrêter.",
+      "keywords": "vider arrêt maintenance exclure relocalisation drain shutdown exclude",
+      "explanation": "Le nœud est exclu de l’allocation, Elasticsearch déplace donc ses partitions vers d’autres nœuds. Le nœud continue de tourner.",
+      "allocation_disabled": "L’allocation est désactivée, les partitions ne peuvent pas bouger avant sa réactivation.",
+      "node": "Nœud",
+      "shards": "{count} partition | {count} partitions",
+      "node_summary": "{shards} partition | {shards} partitions",
+      "disk_used": "{percent}% du disque utilisé",
+      "progress": "{remaining} partitions restantes sur {total}, {relocating} en déplacement.",
+      "done": "Plus aucune partition sur ce nœud. Vous pouvez l’arrêter.",
+      "start": "Commencer à vider",
+      "stop": "Arrêter de vider",
+      "existing": "ID de nœuds exclus : {ids}. Les autres exclusions sont conservées.",
+      "status_active": "{count} nœud exclu | {count} nœuds exclus",
+      "status_none": "Aucun vidage en cours",
+      "confirm_start": "Vider {name} ({id}) ? Ses partitions seront déplacées vers d’autres nœuds.",
+      "confirm_stop": "Arrêter de vider {name} ({id}) ?",
+      "started": "Vidage du nœud démarré.",
+      "stopped": "Vidage du nœud arrêté."
+    },
+    "explain": {
+      "title": "Expliquer les partitions non assignées",
+      "description": "Demander à Elasticsearch pourquoi une partition ne peut pas être assignée.",
+      "keywords": "allocation diagnostic décideurs non assignée explain deciders unassigned",
+      "shard": "Partition non assignée",
+      "primary": "primaire",
+      "replica": "réplique",
+      "run": "Expliquer",
+      "raw": "Réponse brute",
+      "no_explanation": "Aucune explication fournie.",
+      "cannot_allocate_primary": "La partition primaire ne peut pas être allouée",
+      "cannot_allocate_replica": "La réplique ne peut pas être allouée",
+      "single_node_replica": "Une réplique ne peut pas être placée sur le même nœud que sa primaire, et ce cluster n’a qu’un nœud de données.",
+      "no_eligible_node": "Aucun nœud éligible n’accepte actuellement cette partition."
+    },
+    "retry": {
+      "title": "Relancer les allocations échouées",
+      "description": "Relancer les partitions qui ont atteint la limite de tentatives d’allocation.",
+      "keywords": "relancer réessayer limite échec reroute retry failed",
+      "explanation": "Corrigez d’abord la cause, puis demandez à Elasticsearch de relancer les allocations échouées.",
+      "run": "Relancer les allocations",
+      "confirm": "Relancer les allocations échouées ? {count} partition n’est pas assignée. | Relancer les allocations échouées ? {count} partitions ne sont pas assignées.",
+      "done": "Elasticsearch relance les allocations échouées."
+    },
+    "rebalancing": {
+      "title": "Rééquilibrage des partitions",
+      "description": "Autoriser ou non le déplacement des partitions pour équilibrer le cluster.",
+      "keywords": "rééquilibrage déplacement topologie équilibre rebalance",
+      "explanation": "Restreindre le rééquilibrage peut laisser le cluster déséquilibré.",
+      "confirm": "Restreindre le rééquilibrage ? Le cluster peut rester déséquilibré.",
+      "updated": "Rééquilibrage des partitions mis à jour.",
+      "modes": {
+        "all": "Toutes les partitions",
+        "primaries": "Primaires uniquement",
+        "replicas": "Répliques uniquement",
+        "none": "Désactivé"
+      }
+    },
+    "blocks": {
+      "title": "Blocages d’écriture des index",
+      "description": "Trouver et lever les blocages en lecture seule ou en écriture.",
+      "keywords": "lecture seule inondation écriture blocage read only flood write block",
+      "indices": "Index bloqués",
+      "status": "{count} index bloqué | {count} index bloqués",
+      "status_none": "Aucun index utilisateur bloqué",
+      "flood": "Elasticsearch a posé read_only_allow_delete car un disque a atteint le seuil d’inondation.",
+      "flood_full": "L’utilisation du disque est encore trop élevée, libérez d’abord de l’espace.",
+      "flood_recovered": "L’utilisation du disque est revenue à la normale. Elasticsearch lève normalement ce blocage lui-même.",
+      "flood_unknown": "L’utilisation du disque n’a pas pu être vérifiée, le blocage ne peut donc pas être levé ici.",
+      "clear": "Lever les blocages d’écriture",
+      "clear_flood": "Lever le blocage d’inondation",
+      "confirm_clear": "Lever {blocks} sur {count} index ? | Lever {blocks} sur {count} index ?",
+      "confirm_clear_flood": "Lever le blocage d’inondation sur {count} index ? | Lever le blocage d’inondation sur {count} index ?",
+      "cleared": "Blocages d’écriture levés sur {count} index. | Blocages d’écriture levés sur {count} index."
+    },
+    "replicas": {
+      "title": "Répliques",
+      "description": "Modifier le nombre de répliques des index sélectionnés.",
+      "keywords": "redondance nœud unique nombre de répliques replica count",
+      "count": "Répliques",
+      "status": "Défini par index",
+      "status_single_node": "{count} index avec des répliques non assignables | {count} index avec des répliques non assignables",
+      "single_node": "Ce cluster n’a qu’un nœud de données, les répliques de {count} index ne peuvent donc pas être assignées. | Ce cluster n’a qu’un nœud de données, les répliques de {count} index ne peuvent donc pas être assignées.",
+      "set_zero": "Passer à 0 réplique",
+      "zero_warning": "Sans répliques, la perte d’un nœud peut rendre des données indisponibles ou les perdre.",
+      "confirm": "Régler {count} index sur {replicas} répliques ? | Régler {count} index sur {replicas} répliques ?",
+      "confirm_zero": "Supprimer toutes les répliques de {count} index ? | Supprimer toutes les répliques de {count} index ?",
+      "updated": "Répliques mises à jour sur {count} index. | Répliques mises à jour sur {count} index."
+    },
+    "refresh": {
+      "title": "Intervalle de rafraîchissement",
+      "description": "Délai avant que les nouveaux documents soient recherchables.",
+      "keywords": "rafraîchissement intervalle recherche visibilité indexation refresh interval bulk",
+      "interval": "Intervalle de rafraîchissement",
+      "custom": "Personnalisé",
+      "custom_hint": "Une durée comme 500ms ou 2m.",
+      "status_mixed": "Mixte",
+      "disabled_warning": "Les nouveaux documents ne seront recherchables qu’après un rafraîchissement manuel de l’index.",
+      "confirm": "Régler l’intervalle de rafraîchissement de {count} index sur {value} ? | Régler l’intervalle de rafraîchissement de {count} index sur {value} ?",
+      "updated": "Intervalle de rafraîchissement mis à jour sur {count} index. | Intervalle de rafraîchissement mis à jour sur {count} index."
+    },
+    "watermarks": {
+      "title": "Seuils de disque",
+      "description": "Seuils d’utilisation du disque pour l’allocation et l’inondation.",
+      "keywords": "disque libre utilisé inondation seuil marge watermark flood headroom",
+      "fullest": "Nœud le plus plein :",
+      "used": "{percent}% utilisés",
+      "available": "{bytes} libres",
+      "low": "Seuil bas",
+      "high": "Seuil haut",
+      "flood": "Seuil d’inondation",
+      "low_hint": "Aucune nouvelle partition n’est allouée aux nœuds au-dessus.",
+      "high_hint": "Les partitions sont déplacées hors des nœuds au-dessus.",
+      "flood_hint": "Les index des nœuds au-dessus passent en lecture seule.",
+      "mode_percent": "Les pourcentages et ratios décrivent l’espace disque utilisé.",
+      "mode_bytes": "Les valeurs en octets décrivent l’espace disque libre requis.",
+      "threshold_enabled": "Utiliser les seuils de disque pour l’allocation",
+      "threshold_disabled_warning": "Sans seuils de disque, Elasticsearch ne protège plus les nœuds contre le manque d’espace.",
+      "low_max_headroom": "Marge max. bas",
+      "high_max_headroom": "Marge max. haut",
+      "flood_max_headroom": "Marge max. inondation",
+      "headroom_hint": "Optionnel, par exemple 100gb.",
+      "lowering_warning": "Relever les seuils laisse les nœuds se remplir davantage et devrait rester temporaire.",
+      "confirm": "Mettre à jour les seuils de disque ?",
+      "updated": "Seuils de disque mis à jour.",
+      "restored": "Seuils de disque rétablis par défaut.",
+      "errors": {
+        "mixed": "Utilisez des pourcentages pour tous les seuils ou des octets pour tous les seuils.",
+        "percent_order": "Les seuils doivent augmenter de bas à haut puis à inondation.",
+        "bytes_order": "L’espace libre doit diminuer de bas à haut puis à inondation.",
+        "headroom": "Utilisez des valeurs en octets comme 100gb."
+      }
+    },
+    "recovery": {
+      "title": "Bande passante de récupération",
+      "description": "Limite par nœud du trafic de récupération des partitions.",
+      "keywords": "récupération bande passante snapshot trafic octets par seconde recovery bandwidth",
+      "explanation": "Évite que le trafic de récupération ralentisse la recherche et l’indexation.",
+      "limit": "Limite par nœud",
+      "hint": "Un débit comme 40mb ou 1gb.",
+      "invalid": "Saisissez une valeur comme 80mb.",
+      "updated": "Bande passante de récupération mise à jour."
+    },
+    "destructive": {
+      "title": "Protection des opérations destructives",
+      "description": "Exiger des noms d’index explicites pour supprimer ou fermer des index.",
+      "keywords": "joker suppression noms explicites sécurité wildcard delete",
+      "toggle": "Exiger des noms d’index explicites",
+      "explanation": "Empêche de supprimer ou fermer des index via des jokers ou _all.",
+      "confirm_disable": "Autoriser les opérations destructives avec jokers et _all ? Les suppressions accidentelles deviennent plus faciles.",
+      "updated": "Protection des opérations destructives mise à jour."
+    },
+    "auto_create": {
+      "title": "Création automatique d’index",
+      "description": "Écrire dans un index inexistant le crée-t-il ?",
+      "keywords": "création automatique index manquant motifs règles auto create",
+      "rules": "Règles",
+      "hint": "Les règles sont évaluées dans l’ordre.",
+      "confirm_disable": "Désactiver la création automatique d’index ? Les applications qui en dépendent peuvent échouer.",
+      "updated": "Création automatique d’index mise à jour.",
+      "modes": {
+        "allow": "Autorisée",
+        "disable": "Désactivée",
+        "custom": "Règles personnalisées"
+      }
+    },
+    "cluster_write": {
+      "title": "Mode d’écriture du cluster",
+      "description": "Passer tout le cluster en lecture seule lors d’incidents ou de maintenances.",
+      "keywords": "lecture seule urgence maintenance blocage cluster read only emergency",
+      "restricted": "Les écritures sur ce cluster sont actuellement bloquées.",
+      "confirm": "Bloquer les écritures sur tout le cluster ?",
+      "updated": "Mode d’écriture du cluster mis à jour.",
+      "restored": "Écritures du cluster réactivées.",
+      "modes": {
+        "normal": "Normal",
+        "read_only": "Lecture seule",
+        "allow_delete": "Lecture seule, suppressions autorisées"
+      }
+    },
+    "voting": {
+      "title": "Exclusions de vote",
+      "description": "Préparer le retrait de nœuds éligibles master.",
+      "keywords": "vote configuration exclusions master éligible topologie retrait voting",
+      "explanation": "Nécessaire uniquement pour retirer la moitié ou plus des nœuds éligibles master en une fois.",
+      "nodes": "Nœuds éligibles master",
+      "add": "Ajouter des exclusions",
+      "clear": "Supprimer les exclusions",
+      "status": "{count} actives",
+      "status_none": "Aucune",
+      "confirm_add": "Exclure {count} nœud du vote ? | Exclure {count} nœuds du vote ?",
+      "confirm_clear": "Supprimer toutes les exclusions de vote ? Elasticsearch attend que les nœuds exclus aient quitté le cluster.",
+      "added": "Exclusion de vote ajoutée. | Exclusions de vote ajoutées.",
+      "cleared": "Exclusions de vote supprimées."
+    },
+    "awareness": {
+      "title": "Allocation awareness",
+      "description": "Attributs de zone ou de baie utilisés pour répartir les copies des partitions.",
+      "keywords": "zone baie attributs domaine de panne awareness rack",
+      "status": "{count} attribut | {count} attributs",
+      "status_none": "Non configuré",
+      "values": "Valeurs des nœuds : {values}",
+      "forced": "Valeurs forcées : {values}",
+      "hint": "Les attributs sont configurés sur chaque nœud et ne peuvent pas être modifiés ici."
+    }
   },
   "update_check": {
     "downloading": "Téléchargement... {progress}%",

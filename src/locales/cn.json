@@ -274,7 +274,231 @@
     }
   },
   "home": {
-    "heading": "仪表盘"
+    "heading": "仪表盘",
+    "monitoring_required": "需要监控权限",
+    "serverless": {
+      "title": "Serverless",
+      "text": "你的集群运行在{link}下，许多 API 不可用，因此 Elasticvue 的功能受限。",
+      "link": "serverless 模式"
+    },
+    "status": {
+      "green": "绿色",
+      "yellow": "黄色",
+      "red": "红色",
+      "unknown": "未知"
+    },
+    "overview": {
+      "unassigned": "{count} 个未分配分片",
+      "moving": "{count} 个分片正在迁移",
+      "all_assigned": "所有分片均已分配",
+      "nodes": "{count} 个节点",
+      "data": "{count} 个数据节点",
+      "master_eligible": "{count} 个可选主节点",
+      "indices": "{count} 个索引",
+      "docs": "{count} 个文档",
+      "disk": "磁盘占用 {size}"
+    },
+    "metrics": {
+      "cpu": "CPU",
+      "disk": "磁盘",
+      "heap": "JVM 堆",
+      "shards": "分片",
+      "highest": "最高节点",
+      "watermarks": "水位线 {low} / {high} / {flood}",
+      "primaries": "{count} 个主分片",
+      "total": "共 {count} 个"
+    },
+    "workload": {
+      "search": "搜索",
+      "indexing": "索引写入",
+      "latency": "延迟与压力",
+      "per_second": "请求/秒",
+      "docs_per_second": "文档/秒",
+      "search_latency": "搜索",
+      "indexing_latency": "索引写入 {latency}",
+      "deletes": "{rate} 删除/秒",
+      "pressure": "{rejected} 次拒绝，{trips} 次熔断",
+      "collecting": "正在收集…",
+      "reload_off": "开启自动刷新以收集此图表数据。",
+      "average": "最近 {seconds} 秒的平均值"
+    },
+    "nodes": {
+      "title": "节点（{count}）",
+      "all": "全部节点",
+      "name": "名称",
+      "heap": "堆",
+      "master": "主节点",
+      "unavailable": "节点指标不可用。",
+      "hint_all": "全部 {count} 个，负载最高的在前。",
+      "hint_top": "{total} 个中的前 {shown} 个，负载最高的在前。"
+    },
+    "indices": {
+      "title": "索引（{count}）",
+      "all": "全部索引",
+      "index": "索引",
+      "health": "健康",
+      "docs": "文档",
+      "size": "大小",
+      "empty": "没有可显示的索引。",
+      "hint_all": "全部 {count} 个，不健康的在前，其余按大小排序。",
+      "hint_top": "{total} 个中的前 {shown} 个，不健康的在前，其余按大小排序。"
+    },
+    "attention": {
+      "issues": "问题",
+      "no_issues": "没有问题",
+      "all_passed": "全部 {count} 项检查通过",
+      "counts": {
+        "critical": "{count} 个严重",
+        "warning": "{count} 个警告",
+        "info": "{count} 个提示"
+      },
+      "severity": {
+        "critical": "严重",
+        "warning": "警告",
+        "info": "提示",
+        "ok": "正常"
+      },
+      "actions": {
+        "view_shards": "查看分片",
+        "view_nodes": "查看节点",
+        "view_indices": "查看索引"
+      },
+      "checks": {
+        "shards": {
+          "title": "分片",
+          "ok": "所有分片均已分配"
+        },
+        "index_blocks": {
+          "title": "索引阻塞",
+          "ok": "没有写入或只读阻塞"
+        },
+        "allocation": {
+          "title": "分片分配",
+          "ok": "分配已启用"
+        },
+        "pending_tasks": {
+          "title": "待处理集群任务",
+          "ok": "没有卡住的集群任务"
+        },
+        "disk": {
+          "title": "磁盘水位线",
+          "ok": "低于磁盘水位线"
+        },
+        "rejections": {
+          "title": "线程池拒绝",
+          "ok": "没有新的拒绝"
+        },
+        "breakers": {
+          "title": "熔断器",
+          "ok": "没有新的熔断"
+        },
+        "jvm": {
+          "title": "JVM 压力",
+          "ok": "堆内存没有持续压力"
+        },
+        "file_descriptors": {
+          "title": "文件描述符",
+          "ok": "在正常范围内"
+        },
+        "versions": {
+          "title": "节点版本",
+          "ok": "所有节点版本一致"
+        },
+        "monitoring": {
+          "title": "节点监控",
+          "ok": "可用"
+        }
+      },
+      "findings": {
+        "unassigned_primaries": {
+          "title": "主分片未分配",
+          "summary": "{count} 个主分片未分配",
+          "summary_index": "{index} 上有 {count} 个主分片未分配",
+          "summary_indices": "{indices} 个索引中共有 {count} 个主分片未分配",
+          "summary_unknown": "有主分片未分配",
+          "detail": "在主分片分配之前，部分数据不可用。"
+        },
+        "unassigned_replicas": {
+          "title": "副本分片未分配",
+          "summary": "{count} 个副本分片未分配",
+          "summary_index": "{index} 上有 {count} 个副本分片未分配",
+          "summary_indices": "{indices} 个索引中共有 {count} 个副本分片未分配",
+          "summary_single_node": "{count} 个副本分片无法分配",
+          "summary_single_node_index": "{index} 上有 {count} 个副本无法分配",
+          "detail": "数据可用，但冗余度降低。",
+          "detail_single_node": "该集群只有一个数据节点，因此无法分配副本。"
+        },
+        "index_blocks": {
+          "title_read_only": "索引为只读",
+          "title_write": "索引写入被阻塞",
+          "summary_read_only": "索引 {index} 为只读",
+          "summary_write": "索引 {index} 阻塞了写入",
+          "summary_many": "{count} 个索引阻塞了写入，例如 {index}",
+          "detail": "在移除阻塞之前，写入这些索引会失败。",
+          "detail_allow_delete": "写入失败，删除仍可用。通常由磁盘洪水水位线导致。"
+        },
+        "disk_flood": {
+          "title": "超过磁盘洪水水位线",
+          "summary": "{node} 已使用 {percent}%（洪水水位线 {threshold}）",
+          "detail": "Elasticsearch 可能会将该节点上的索引设为只读。"
+        },
+        "disk_high": {
+          "title": "超过磁盘高水位线",
+          "summary": "{node} 已使用 {percent}%（高水位线 {threshold}）",
+          "detail": "Elasticsearch 会将分片迁出该节点。"
+        },
+        "disk_low": {
+          "title": "超过磁盘低水位线",
+          "summary": "{node} 已使用 {percent}%（低水位线 {threshold}）",
+          "detail": "新分片不会分配到该节点。"
+        },
+        "allocation": {
+          "title": "分片分配受限",
+          "summary_none": "分片分配已禁用",
+          "summary_primaries": "只分配主分片",
+          "summary_new_primaries": "只分配新索引的主分片",
+          "summary_other": "分片分配设置为 \"{value}\"",
+          "detail": "分片可能保持未分配。常见于维护后忘记恢复。"
+        },
+        "pending_tasks": {
+          "title": "集群任务正在堆积",
+          "summary": "{count} 个待处理，最早的已等待 {age}",
+          "detail": "集群状态更新可能会延迟。"
+        },
+        "rejections": {
+          "title": "请求被拒绝",
+          "summary": "最近 5 分钟内新增 {count} 次拒绝",
+          "detail": "线程池已满，搜索或写入请求被丢弃。"
+        },
+        "breakers": {
+          "title": "熔断器已触发",
+          "summary": "最近 5 分钟内新增 {count} 次熔断",
+          "detail": "查询或聚合触及内存上限。"
+        },
+        "jvm": {
+          "title": "JVM 内存压力高",
+          "summary": "{node} 高于 {threshold}% 已持续 {duration}",
+          "detail": "当前 {percent}%。持续的压力通常会导致长时间的垃圾回收。"
+        },
+        "file_descriptors": {
+          "title": "文件描述符接近上限",
+          "summary": "{node}：已使用 {percent}%",
+          "summary_counts": "{node}：已使用 {percent}%（{open} / {max}）",
+          "detail": "文件描述符耗尽可能导致节点崩溃。"
+        },
+        "versions": {
+          "title": "版本不一致",
+          "summary": "节点运行的版本：{versions}",
+          "detail": "滚动升级期间属于正常情况。请尽快完成升级。"
+        },
+        "monitoring": {
+          "title": "节点监控不完整",
+          "summary": "无法加载节点统计信息",
+          "summary_partial": "部分节点缺少统计信息（{expected} 个中有 {observed} 个上报）",
+          "detail": "你的用户可能缺少 monitor 权限，或节点统计 API 不可用。"
+        }
+      }
+    }
   },
   "mixins": {
     "test_connection": {
@@ -337,6 +561,27 @@
       "docs": "文档",
       "store": "存储",
       "uptime": "运行时间"
+    },
+    "pulse": {
+      "nodes": "节点",
+      "version": "版本 {version}",
+      "mixed_versions": "版本不一致：{versions}",
+      "restarted": "最近一小时内有 {count} 个重启",
+      "avg": "平均",
+      "used": "已用",
+      "disk_of": "{used} / {total}",
+      "peak": "峰值 {value}，位于 {node}",
+      "below_low": "所有节点均低于低水位线（{low}）",
+      "above_flood": "{count} 个超过洪水水位线",
+      "above_high": "{count} 个超过高水位线",
+      "above_low": "{count} 个超过低水位线",
+      "roles": {
+        "master_eligible": "{count} 个可选主节点",
+        "data": "{count} 个数据",
+        "ingest": "{count} 个 ingest",
+        "ml": "{count} 个 ml",
+        "coordinating": "{count} 个协调"
+      }
     }
   },
   "cluster_roles": {
@@ -387,6 +632,15 @@
           "status": "状态"
         }
       }
+    },
+    "pulse": {
+      "roles": "角色",
+      "cluster_admin": "集群管理员",
+      "cluster_admin_hint": "all、manage 或 manage_security",
+      "all_indices": "全部索引",
+      "all_indices_hint": "对 * 拥有全部权限",
+      "unused": "未使用",
+      "unused_hint": "没有用户或角色映射的自定义角色"
     }
   },
   "cluster_users": {
@@ -443,6 +697,17 @@
           "status": "状态"
         }
       }
+    },
+    "show_role": "查看角色 {role}",
+    "no_roles": "无角色",
+    "pulse": {
+      "signed_in": "当前登录",
+      "realm": "realm {realm}",
+      "users": "用户",
+      "split": "{builtIn} 个内置，{custom} 个自定义",
+      "disabled": "{count} 个已禁用",
+      "superusers": "超级用户",
+      "without_roles": "无角色"
     }
   },
   "query": {
@@ -716,10 +981,58 @@
       "reroute": {
         "confirm": "将分片 '{shard}' 从节点 '{fromNode}' 迁移到节点 '{toNode}'？"
       }
+    },
+    "pulse": {
+      "split": "{primaries} 个主分片，{replicas} 个副本",
+      "indices": "{count} 个索引",
+      "unassigned": "未分配",
+      "moving": "迁移中",
+      "moving_split": "{relocating} 个迁移中，{initializing} 个初始化中",
+      "view_recovery": "查看恢复",
+      "size": "分片大小",
+      "avg_primary": "主分片平均",
+      "largest": "最大 {size}",
+      "oversized": "{count} 个超过 {size}",
+      "balance": "分片均衡",
+      "per_data_node": "每个数据节点",
+      "avg": "平均 {count}",
+      "busiest": "{node} 上最多（平均值的 {skew} 倍）"
+    },
+    "problems": {
+      "title": "需要关注（{count}）",
+      "explain": "在工具中解释",
+      "index": "索引",
+      "shard": "分片",
+      "state": "状态",
+      "node": "节点",
+      "reason": "原因",
+      "show_less": "收起",
+      "show_all": "显示全部 {count} 个"
+    },
+    "shard": {
+      "primary": "主分片 {shard}",
+      "replica": "副本分片 {shard}",
+      "docs": "{count} 个文档",
+      "reason": "原因：{reason}",
+      "move": "点击移动此分片"
     }
   },
   "shard_recovery": {
-    "heading": "分片恢复"
+    "heading": "分片恢复",
+    "pulse": {
+      "active": "进行中",
+      "recoveries": "个恢复",
+      "none_active": "没有正在恢复的分片",
+      "completed": "{count} 个已完成",
+      "progress": "进度",
+      "copied": "已复制",
+      "nothing_to_copy": "无需复制",
+      "longest": "耗时最长",
+      "throttled": "限流",
+      "limit_reached": "已达到恢复带宽上限",
+      "adjust": "在工具中调整",
+      "not_throttled": "进行中的恢复未被限流"
+    }
   },
   "shard_recovery_table": {
     "stage": "阶段",
@@ -817,6 +1130,13 @@
     "ssl_hint": {
       "hint": "你的集群使用 ssl。请确保你的浏览器信任你正在使用的证书，否则你将无法连接。",
       "help": "帮助"
+    },
+    "security_unavailable": {
+      "forbidden_users": "无权读取用户",
+      "forbidden_roles": "无权读取角色",
+      "forbidden_text": "你的用户需要 manage_security 集群权限才能管理用户和角色。",
+      "unavailable": "该集群不支持安全功能",
+      "unavailable_text": "原生用户和角色需要 Elasticsearch 安全功能，但该集群缺少或禁用了此功能。"
     }
   },
   "snapshots": {
@@ -945,7 +1265,297 @@
   },
   "tools": {
     "heading": "Tools",
-    "subtitle": "Common cluster maintenance and recovery operations."
+    "subtitle": "Common cluster maintenance and recovery operations.",
+    "filter": "筛选工具",
+    "no_match": "没有匹配 \"{filter}\" 的工具。",
+    "close": "关闭{title}",
+    "apis_used": "使用的 Elasticsearch API",
+    "read_only_tool": "只读工具，不会修改集群设置。",
+    "apply": "应用",
+    "restore_default": "恢复默认",
+    "recheck": "重新检查",
+    "advanced": "高级",
+    "current": "当前：",
+    "mixed": "不一致",
+    "indices": "索引",
+    "excluded_indices": "系统索引、隐藏索引和数据流后备索引已排除。",
+    "confirm_restore": "将「{setting}」恢复为 Elasticsearch 默认值？",
+    "groups": {
+      "attention": "需要关注",
+      "shards": "分片与分配",
+      "indices": "索引",
+      "disk": "磁盘与恢复",
+      "safety": "安全防护",
+      "advanced": "高级"
+    },
+    "sources": {
+      "transient": "临时",
+      "persistent": "持久",
+      "default": "默认",
+      "unavailable": "不可用"
+    },
+    "status": {
+      "default": "默认",
+      "custom": "自定义",
+      "enabled": "已启用",
+      "disabled": "已禁用",
+      "unavailable": "不可用",
+      "no_user_indices": "没有用户索引",
+      "no_unassigned": "没有未分配的分片",
+      "unassigned": "{count} 个未分配分片"
+    },
+    "health": {
+      "green": "集群健康：绿色",
+      "yellow": "集群健康：黄色",
+      "red": "集群健康：红色"
+    },
+    "inspect": {
+      "settings": "集群设置",
+      "nodes": "节点",
+      "shards": "分片",
+      "indices": "索引设置",
+      "explanation": "分配解释",
+      "voting": "投票排除项"
+    },
+    "errors": {
+      "forbidden": "你的用户无权读取{what}。",
+      "network": "无法加载{what}。请检查集群连接。",
+      "api": "无法加载{what}。{message}"
+    },
+    "allocation": {
+      "title": "分片分配",
+      "description": "是否允许分配新的和未分配的分片。",
+      "keywords": "分配 主分片 副本 维护 allocation primary replica",
+      "hint": "只影响之后的分配，已分配的分片保持不变。",
+      "disable": "禁用分配",
+      "blocking": "分配受限，可能导致 {count} 个分片保持未分配。",
+      "updated": "分片分配已设置为 {value}。",
+      "restored": "分片分配已恢复为默认值。",
+      "modes": {
+        "all": "全部分片",
+        "primaries": "仅主分片",
+        "new_primaries": "仅新主分片",
+        "none": "已禁用"
+      },
+      "option_hints": {
+        "all": "正常分配",
+        "primaries": "不分配副本",
+        "new_primaries": "只分配新索引的主分片",
+        "none": "不进行新的分配"
+      },
+      "confirm": {
+        "primaries": "只允许分配主分片？",
+        "new_primaries": "只允许分配新索引的主分片？",
+        "none": "禁用分片分配？在重新启用之前不会分配任何新分片。"
+      }
+    },
+    "drain": {
+      "title": "清空节点",
+      "description": "在关闭节点前把分片迁走。",
+      "keywords": "清空 关闭 维护 排除 迁移 drain shutdown exclude",
+      "explanation": "节点会被排除在分配之外，Elasticsearch 会把它的分片迁移到其他节点。节点本身继续运行。",
+      "allocation_disabled": "分配已禁用，在重新启用之前分片无法迁移。",
+      "node": "节点",
+      "shards": "{count} 个分片",
+      "node_summary": "{shards} 个分片",
+      "disk_used": "磁盘已使用 {percent}%",
+      "progress": "剩余 {remaining} / {total} 个分片，{relocating} 个迁移中。",
+      "done": "该节点上已没有分片，可以安全关闭。",
+      "start": "开始清空",
+      "stop": "停止清空",
+      "existing": "已排除的节点 ID：{ids}。其他排除项会保留。",
+      "status_active": "已排除 {count} 个节点",
+      "status_none": "没有进行中的清空",
+      "confirm_start": "清空 {name}（{id}）？它的分片会被迁移到其他节点。",
+      "confirm_stop": "停止清空 {name}（{id}）？",
+      "started": "已开始清空节点。",
+      "stopped": "已停止清空节点。"
+    },
+    "explain": {
+      "title": "解释未分配分片",
+      "description": "询问 Elasticsearch 分片为何无法分配。",
+      "keywords": "分配 诊断 决策器 未分配 explain deciders unassigned",
+      "shard": "未分配分片",
+      "primary": "主分片",
+      "replica": "副本",
+      "run": "解释",
+      "raw": "原始响应",
+      "no_explanation": "没有提供解释。",
+      "cannot_allocate_primary": "主分片无法分配",
+      "cannot_allocate_replica": "副本分片无法分配",
+      "single_node_replica": "副本不能与其主分片位于同一节点，而该集群只有一个数据节点。",
+      "no_eligible_node": "目前没有符合条件的节点接受此分片。"
+    },
+    "retry": {
+      "title": "重试失败的分配",
+      "description": "重试达到分配重试上限的分片。",
+      "keywords": "重试 上限 失败 reroute retry failed",
+      "explanation": "先解决根本问题，再让 Elasticsearch 重试失败的分配。",
+      "run": "重试分配",
+      "confirm": "重试失败的分配？当前有 {count} 个分片未分配。",
+      "done": "Elasticsearch 正在重试失败的分配。"
+    },
+    "rebalancing": {
+      "title": "分片再平衡",
+      "description": "是否允许在节点间移动分片以平衡集群。",
+      "keywords": "再平衡 移动 拓扑 均衡 rebalance",
+      "explanation": "限制再平衡可能导致集群分布不均。",
+      "confirm": "限制分片再平衡？集群可能保持不均衡。",
+      "updated": "分片再平衡已更新。",
+      "modes": {
+        "all": "全部分片",
+        "primaries": "仅主分片",
+        "replicas": "仅副本",
+        "none": "已禁用"
+      }
+    },
+    "blocks": {
+      "title": "索引写入阻塞",
+      "description": "查找并解除只读或写入阻塞。",
+      "keywords": "只读 洪水 写入 阻塞 read only flood write block",
+      "indices": "被阻塞的索引",
+      "status": "{count} 个索引被阻塞",
+      "status_none": "没有被阻塞的用户索引",
+      "flood": "由于磁盘达到洪水水位线，Elasticsearch 设置了 read_only_allow_delete。",
+      "flood_full": "磁盘使用率仍然过高，请先释放空间。",
+      "flood_recovered": "磁盘使用率已恢复。Elasticsearch 通常会自行解除此阻塞。",
+      "flood_unknown": "无法检查磁盘使用率，因此不能在这里解除阻塞。",
+      "clear": "解除写入阻塞",
+      "clear_flood": "解除洪水阻塞",
+      "confirm_clear": "解除 {count} 个索引上的 {blocks}？",
+      "confirm_clear_flood": "解除 {count} 个索引上的洪水阻塞？",
+      "cleared": "已解除 {count} 个索引的写入阻塞。"
+    },
+    "replicas": {
+      "title": "副本",
+      "description": "修改所选索引的副本数量。",
+      "keywords": "冗余 单节点 副本数 replica count",
+      "count": "副本数",
+      "status": "按索引配置",
+      "status_single_node": "{count} 个索引的副本无法分配",
+      "single_node": "该集群只有一个数据节点，因此 {count} 个索引的副本无法分配。",
+      "set_zero": "设为 0 个副本",
+      "zero_warning": "没有副本时，丢失一个节点可能导致数据不可用或丢失。",
+      "confirm": "将 {count} 个索引设为 {replicas} 个副本？",
+      "confirm_zero": "移除 {count} 个索引的所有副本？",
+      "updated": "已更新 {count} 个索引的副本。"
+    },
+    "refresh": {
+      "title": "刷新间隔",
+      "description": "新文档多快可以被搜索到。",
+      "keywords": "刷新 间隔 搜索 可见性 批量写入 refresh interval bulk",
+      "interval": "刷新间隔",
+      "custom": "自定义",
+      "custom_hint": "时间值，例如 500ms 或 2m。",
+      "status_mixed": "不一致",
+      "disabled_warning": "在手动刷新索引之前，新文档无法被搜索到。",
+      "confirm": "将 {count} 个索引的刷新间隔设为 {value}？",
+      "updated": "已更新 {count} 个索引的刷新间隔。"
+    },
+    "watermarks": {
+      "title": "磁盘水位线",
+      "description": "用于分配和洪水阶段的磁盘使用阈值。",
+      "keywords": "磁盘 可用 已用 洪水 阈值 余量 watermark flood headroom",
+      "fullest": "最满的节点：",
+      "used": "已使用 {percent}%",
+      "available": "剩余 {bytes}",
+      "low": "低水位线",
+      "high": "高水位线",
+      "flood": "洪水水位线",
+      "low_hint": "超过此值的节点不会再分配新分片。",
+      "high_hint": "超过此值的节点上的分片会被迁走。",
+      "flood_hint": "超过此值的节点上的索引会变为只读。",
+      "mode_percent": "百分比和比例表示已用磁盘空间。",
+      "mode_bytes": "字节值表示所需的剩余磁盘空间。",
+      "threshold_enabled": "分配时使用磁盘阈值",
+      "threshold_disabled_warning": "没有磁盘阈值时，Elasticsearch 不再保护节点免于磁盘写满。",
+      "low_max_headroom": "低水位最大余量",
+      "high_max_headroom": "高水位最大余量",
+      "flood_max_headroom": "洪水水位最大余量",
+      "headroom_hint": "可选，例如 100gb。",
+      "lowering_warning": "提高阈值会让节点写得更满，应仅作临时措施。",
+      "confirm": "更新磁盘水位线？",
+      "updated": "磁盘水位线已更新。",
+      "restored": "磁盘水位线已恢复为默认值。",
+      "errors": {
+        "mixed": "所有阈值要么都用百分比，要么都用字节值。",
+        "percent_order": "阈值必须从低到高再到洪水依次递增。",
+        "bytes_order": "剩余空间必须从低到高再到洪水依次递减。",
+        "headroom": "请使用字节值，例如 100gb。"
+      }
+    },
+    "recovery": {
+      "title": "恢复带宽",
+      "description": "每个节点的分片恢复流量上限。",
+      "keywords": "恢复 带宽 快照 流量 每秒字节 recovery bandwidth",
+      "explanation": "避免恢复流量拖慢搜索和写入。",
+      "limit": "每节点上限",
+      "hint": "速率，例如 40mb 或 1gb。",
+      "invalid": "请输入类似 80mb 的值。",
+      "updated": "恢复带宽已更新。"
+    },
+    "destructive": {
+      "title": "危险操作保护",
+      "description": "删除或关闭索引时要求使用明确的索引名。",
+      "keywords": "通配符 删除 明确名称 安全 wildcard delete",
+      "toggle": "要求明确的索引名",
+      "explanation": "禁止通过通配符或 _all 删除或关闭索引。",
+      "confirm_disable": "允许对通配符和 _all 执行危险操作？误删会更容易发生。",
+      "updated": "危险操作保护已更新。"
+    },
+    "auto_create": {
+      "title": "自动创建索引",
+      "description": "写入不存在的索引时是否自动创建。",
+      "keywords": "自动创建 缺失索引 模式 规则 auto create",
+      "rules": "规则",
+      "hint": "规则按顺序匹配。",
+      "confirm_disable": "禁用自动创建索引？依赖此功能的应用可能会出错。",
+      "updated": "自动创建索引已更新。",
+      "modes": {
+        "allow": "允许",
+        "disable": "禁用",
+        "custom": "自定义规则"
+      }
+    },
+    "cluster_write": {
+      "title": "集群写入模式",
+      "description": "在故障处理或维护期间将整个集群设为只读。",
+      "keywords": "只读 紧急 维护 集群阻塞 read only emergency",
+      "restricted": "该集群的写入目前被阻塞。",
+      "confirm": "阻塞整个集群的写入？",
+      "updated": "集群写入模式已更新。",
+      "restored": "集群写入已恢复。",
+      "modes": {
+        "normal": "正常",
+        "read_only": "只读",
+        "allow_delete": "只读，允许删除"
+      }
+    },
+    "voting": {
+      "title": "投票排除",
+      "description": "为移除可选主节点做准备。",
+      "keywords": "投票 配置 排除 可选主节点 拓扑 移除 voting",
+      "explanation": "仅在一次移除一半或更多可选主节点时才需要。",
+      "nodes": "可选主节点",
+      "add": "添加排除",
+      "clear": "清除排除",
+      "status": "{count} 个生效中",
+      "status_none": "无",
+      "confirm_add": "将 {count} 个节点排除在投票之外？",
+      "confirm_clear": "清除所有投票排除？Elasticsearch 会等待被排除的节点离开集群。",
+      "added": "已添加投票排除。",
+      "cleared": "已清除投票排除。"
+    },
+    "awareness": {
+      "title": "分配感知",
+      "description": "用于分散分片副本的可用区或机架属性。",
+      "keywords": "可用区 机架 属性 故障域 awareness zone rack",
+      "status": "{count} 个属性",
+      "status_none": "未配置",
+      "values": "节点取值：{values}",
+      "forced": "强制取值：{values}",
+      "hint": "属性在每个节点上配置，无法在此修改。"
+    }
   },
   "update_check": {
     "downloading": "下载中... {progress}%",

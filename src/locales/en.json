@@ -274,7 +274,231 @@
     }
   },
   "home": {
-    "heading": "Dashboard"
+    "heading": "Dashboard",
+    "monitoring_required": "Monitoring permission required",
+    "serverless": {
+      "title": "Serverless",
+      "text": "Your cluster runs in {link}, which limits Elasticvue because many APIs are not available.",
+      "link": "serverless mode"
+    },
+    "status": {
+      "green": "Green",
+      "yellow": "Yellow",
+      "red": "Red",
+      "unknown": "Unknown"
+    },
+    "overview": {
+      "unassigned": "{count} unassigned shard | {count} unassigned shards",
+      "moving": "{count} shard moving | {count} shards moving",
+      "all_assigned": "All shards assigned",
+      "nodes": "{count} node | {count} nodes",
+      "data": "{count} data",
+      "master_eligible": "{count} master-eligible",
+      "indices": "{count} index | {count} indices",
+      "docs": "{count} document | {count} documents",
+      "disk": "{size} on disk"
+    },
+    "metrics": {
+      "cpu": "CPU",
+      "disk": "Disk",
+      "heap": "JVM heap",
+      "shards": "Shards",
+      "highest": "Highest on",
+      "watermarks": "Watermarks {low} / {high} / {flood}",
+      "primaries": "{count} primary",
+      "total": "{count} total"
+    },
+    "workload": {
+      "search": "Search",
+      "indexing": "Indexing",
+      "latency": "Latency and pressure",
+      "per_second": "req/s",
+      "docs_per_second": "docs/s",
+      "search_latency": "search",
+      "indexing_latency": "{latency} indexing",
+      "deletes": "{rate} deletes/s",
+      "pressure": "{rejected} rejected, {trips} breaker trips",
+      "collecting": "Collecting…",
+      "reload_off": "Turn on auto reload to collect this graph.",
+      "average": "Average over the last {seconds}s"
+    },
+    "nodes": {
+      "title": "Nodes ({count})",
+      "all": "All nodes",
+      "name": "Name",
+      "heap": "Heap",
+      "master": "master",
+      "unavailable": "Node metrics unavailable.",
+      "hint_all": "All {count}, busiest first.",
+      "hint_top": "Top {shown} of {total}, busiest first."
+    },
+    "indices": {
+      "title": "Indices ({count})",
+      "all": "All indices",
+      "index": "Index",
+      "health": "Health",
+      "docs": "Docs",
+      "size": "Size",
+      "empty": "No indices to show.",
+      "hint_all": "All {count}, unhealthy first, then by size.",
+      "hint_top": "Top {shown} of {total}, unhealthy first, then by size."
+    },
+    "attention": {
+      "issues": "Issues",
+      "no_issues": "No issues",
+      "all_passed": "All {count} checks passed",
+      "counts": {
+        "critical": "{count} critical | {count} critical",
+        "warning": "{count} warning | {count} warnings",
+        "info": "{count} notice | {count} notices"
+      },
+      "severity": {
+        "critical": "Critical",
+        "warning": "Warning",
+        "info": "Notice",
+        "ok": "OK"
+      },
+      "actions": {
+        "view_shards": "View shards",
+        "view_nodes": "View nodes",
+        "view_indices": "View indices"
+      },
+      "checks": {
+        "shards": {
+          "title": "Shards",
+          "ok": "All shards assigned"
+        },
+        "index_blocks": {
+          "title": "Index blocks",
+          "ok": "No write or read-only blocks"
+        },
+        "allocation": {
+          "title": "Shard allocation",
+          "ok": "Allocation enabled"
+        },
+        "pending_tasks": {
+          "title": "Pending cluster tasks",
+          "ok": "No stuck cluster tasks"
+        },
+        "disk": {
+          "title": "Disk watermarks",
+          "ok": "Below disk watermarks"
+        },
+        "rejections": {
+          "title": "Thread pool rejections",
+          "ok": "No new rejections"
+        },
+        "breakers": {
+          "title": "Circuit breakers",
+          "ok": "No new breaker trips"
+        },
+        "jvm": {
+          "title": "JVM pressure",
+          "ok": "No sustained heap pressure"
+        },
+        "file_descriptors": {
+          "title": "File descriptors",
+          "ok": "Within normal range"
+        },
+        "versions": {
+          "title": "Node versions",
+          "ok": "All nodes on the same version"
+        },
+        "monitoring": {
+          "title": "Node monitoring",
+          "ok": "Available"
+        }
+      },
+      "findings": {
+        "unassigned_primaries": {
+          "title": "Primary shards unassigned",
+          "summary": "{count} primary shard is unassigned | {count} primary shards are unassigned",
+          "summary_index": "{count} primary shard is unassigned on {index} | {count} primary shards are unassigned on {index}",
+          "summary_indices": "{count} primary shard is unassigned across {indices} indices | {count} primary shards are unassigned across {indices} indices",
+          "summary_unknown": "Primary shards are unassigned",
+          "detail": "Some data is unavailable until the primaries are allocated."
+        },
+        "unassigned_replicas": {
+          "title": "Replica shards unassigned",
+          "summary": "{count} replica shard is unassigned | {count} replica shards are unassigned",
+          "summary_index": "{count} replica shard is unassigned on {index} | {count} replica shards are unassigned on {index}",
+          "summary_indices": "{count} replica shard is unassigned across {indices} indices | {count} replica shards are unassigned across {indices} indices",
+          "summary_single_node": "{count} replica shard cannot be allocated | {count} replica shards cannot be allocated",
+          "summary_single_node_index": "{count} replica on {index} cannot be allocated | {count} replicas on {index} cannot be allocated",
+          "detail": "Data is available, but redundancy is reduced.",
+          "detail_single_node": "This cluster has only one data node, so replicas cannot be allocated."
+        },
+        "index_blocks": {
+          "title_read_only": "Index is read-only",
+          "title_write": "Index writes blocked",
+          "summary_read_only": "Index {index} is read-only",
+          "summary_write": "Index {index} blocks writes",
+          "summary_many": "{count} indices block writes, for example {index}",
+          "detail": "Indexing into these indices fails until the block is removed.",
+          "detail_allow_delete": "Indexing fails, deletes still work. Usually caused by the disk flood stage."
+        },
+        "disk_flood": {
+          "title": "Disk flood stage exceeded",
+          "summary": "{node} at {percent}% used (flood stage {threshold})",
+          "detail": "Elasticsearch may make indices on this node read-only."
+        },
+        "disk_high": {
+          "title": "High disk watermark exceeded",
+          "summary": "{node} at {percent}% used (high {threshold})",
+          "detail": "Elasticsearch moves shards away from this node."
+        },
+        "disk_low": {
+          "title": "Low disk watermark exceeded",
+          "summary": "{node} at {percent}% used (low {threshold})",
+          "detail": "New shards are not allocated to this node."
+        },
+        "allocation": {
+          "title": "Shard allocation restricted",
+          "summary_none": "Shard allocation is disabled",
+          "summary_primaries": "Only primary shards are allocated",
+          "summary_new_primaries": "Only primaries of new indices are allocated",
+          "summary_other": "Shard allocation is set to \"{value}\"",
+          "detail": "Shards may stay unassigned. Often left over after maintenance."
+        },
+        "pending_tasks": {
+          "title": "Cluster tasks are piling up",
+          "summary": "{count} pending, oldest waiting {age}",
+          "detail": "Cluster state updates may be delayed."
+        },
+        "rejections": {
+          "title": "Requests rejected",
+          "summary": "{count} new rejection in the last 5 minutes | {count} new rejections in the last 5 minutes",
+          "detail": "Thread pools are full and search or indexing requests are dropped."
+        },
+        "breakers": {
+          "title": "Circuit breaker tripped",
+          "summary": "{count} new trip in the last 5 minutes | {count} new trips in the last 5 minutes",
+          "detail": "Queries or aggregations are hitting memory limits."
+        },
+        "jvm": {
+          "title": "High JVM memory pressure",
+          "summary": "{node} above {threshold}% for {duration}",
+          "detail": "Currently {percent}%. Sustained pressure often leads to long garbage collections."
+        },
+        "file_descriptors": {
+          "title": "File descriptor limit close",
+          "summary": "{node}: {percent}% used",
+          "summary_counts": "{node}: {percent}% used ({open} / {max})",
+          "detail": "Running out of file descriptors can crash the node."
+        },
+        "versions": {
+          "title": "Mixed versions",
+          "summary": "Nodes run {versions}",
+          "detail": "Expected during rolling upgrades. Finish the upgrade when possible."
+        },
+        "monitoring": {
+          "title": "Node monitoring incomplete",
+          "summary": "Could not load node statistics",
+          "summary_partial": "Statistics missing for some nodes ({observed} of {expected} reporting)",
+          "detail": "Your user may lack the monitor privilege, or the nodes stats API is unavailable."
+        }
+      }
+    }
   },
   "mixins": {
     "test_connection": {
@@ -337,6 +561,27 @@
       "docs": "docs",
       "store": "store",
       "uptime": "uptime"
+    },
+    "pulse": {
+      "nodes": "Nodes",
+      "version": "Version {version}",
+      "mixed_versions": "Mixed versions: {versions}",
+      "restarted": "{count} restarted in the last hour | {count} restarted in the last hour",
+      "avg": "avg",
+      "used": "used",
+      "disk_of": "{used} of {total}",
+      "peak": "peak {value} on {node}",
+      "below_low": "All nodes below the low watermark ({low})",
+      "above_flood": "{count} above flood stage | {count} above flood stage",
+      "above_high": "{count} above high | {count} above high",
+      "above_low": "{count} above low | {count} above low",
+      "roles": {
+        "master_eligible": "{count} master-eligible",
+        "data": "{count} data",
+        "ingest": "{count} ingest",
+        "ml": "{count} ml",
+        "coordinating": "{count} coordinating"
+      }
     }
   },
   "cluster_roles": {
@@ -387,6 +632,15 @@
           "status": "status"
         }
       }
+    },
+    "pulse": {
+      "roles": "Roles",
+      "cluster_admin": "Cluster admin",
+      "cluster_admin_hint": "all, manage or manage_security",
+      "all_indices": "All indices",
+      "all_indices_hint": "all privileges on *",
+      "unused": "Unused",
+      "unused_hint": "Custom roles without users or role mappings"
     }
   },
   "cluster_users": {
@@ -443,6 +697,17 @@
           "status": "status"
         }
       }
+    },
+    "show_role": "Show role {role}",
+    "no_roles": "no roles",
+    "pulse": {
+      "signed_in": "Signed in as",
+      "realm": "realm {realm}",
+      "users": "Users",
+      "split": "{builtIn} built-in, {custom} custom",
+      "disabled": "{count} disabled",
+      "superusers": "Superusers",
+      "without_roles": "Without roles"
     }
   },
   "query": {
@@ -716,10 +981,58 @@
       "reroute": {
         "confirm": "Reroute shard '{shard}' from node '{fromNode}' to '{toNode}'?"
       }
+    },
+    "pulse": {
+      "split": "{primaries} primary, {replicas} replica",
+      "indices": "{count} index | {count} indices",
+      "unassigned": "Unassigned",
+      "moving": "Moving",
+      "moving_split": "{relocating} relocating, {initializing} initializing",
+      "view_recovery": "View recovery",
+      "size": "Shard size",
+      "avg_primary": "avg primary",
+      "largest": "largest {size}",
+      "oversized": "{count} over {size}",
+      "balance": "Shard balance",
+      "per_data_node": "per data node",
+      "avg": "avg {count}",
+      "busiest": "most on {node} ({skew}× avg)"
+    },
+    "problems": {
+      "title": "Needs attention ({count})",
+      "explain": "Explain in Tools",
+      "index": "Index",
+      "shard": "Shard",
+      "state": "State",
+      "node": "Node",
+      "reason": "Reason",
+      "show_less": "Show less",
+      "show_all": "Show all {count}"
+    },
+    "shard": {
+      "primary": "primary shard {shard}",
+      "replica": "replica shard {shard}",
+      "docs": "{count} docs",
+      "reason": "reason: {reason}",
+      "move": "Click to move this shard"
     }
   },
   "shard_recovery": {
-    "heading": "Shard recovery"
+    "heading": "Shard recovery",
+    "pulse": {
+      "active": "Active",
+      "recoveries": "recoveries",
+      "none_active": "No shards are recovering",
+      "completed": "{count} completed",
+      "progress": "Progress",
+      "copied": "copied",
+      "nothing_to_copy": "Nothing to copy",
+      "longest": "Longest running",
+      "throttled": "Throttled",
+      "limit_reached": "Recovery bandwidth limit reached",
+      "adjust": "Adjust in Tools",
+      "not_throttled": "Active recoveries are not throttled"
+    }
   },
   "shard_recovery_table": {
     "stage": "Stage",
@@ -817,6 +1130,13 @@
     "ssl_hint": {
       "hint": "Make sure your browser trusts the cluster's SSL certificate when using HTTPS.",
       "help": "Help"
+    },
+    "security_unavailable": {
+      "forbidden_users": "Not allowed to read users",
+      "forbidden_roles": "Not allowed to read roles",
+      "forbidden_text": "Your user needs the manage_security cluster privilege to manage users and roles.",
+      "unavailable": "Security is not available on this cluster",
+      "unavailable_text": "Native users and roles need the Elasticsearch security features, which are missing or disabled on this cluster."
     }
   },
   "snapshots": {
@@ -945,7 +1265,297 @@
   },
   "tools": {
     "heading": "Tools",
-    "subtitle": "Common cluster maintenance and recovery operations."
+    "subtitle": "Maintenance and recovery operations for this cluster.",
+    "filter": "Filter tools",
+    "no_match": "No tools match \"{filter}\".",
+    "close": "Close {title}",
+    "apis_used": "Elasticsearch APIs used",
+    "read_only_tool": "Read-only tool. No cluster settings are changed.",
+    "apply": "Apply",
+    "restore_default": "Restore default",
+    "recheck": "Recheck",
+    "advanced": "Advanced",
+    "current": "Current:",
+    "mixed": "Mixed",
+    "indices": "Indices",
+    "excluded_indices": "System, hidden and data stream backing indices are excluded.",
+    "confirm_restore": "Restore \"{setting}\" to the Elasticsearch default?",
+    "groups": {
+      "attention": "Needs attention",
+      "shards": "Shards and allocation",
+      "indices": "Indices",
+      "disk": "Disk and recovery",
+      "safety": "Safety",
+      "advanced": "Advanced"
+    },
+    "sources": {
+      "transient": "transient",
+      "persistent": "persistent",
+      "default": "default",
+      "unavailable": "unavailable"
+    },
+    "status": {
+      "default": "Default",
+      "custom": "Custom",
+      "enabled": "Enabled",
+      "disabled": "Disabled",
+      "unavailable": "Unavailable",
+      "no_user_indices": "No user indices",
+      "no_unassigned": "No unassigned shards",
+      "unassigned": "{count} unassigned shard | {count} unassigned shards"
+    },
+    "health": {
+      "green": "Cluster health green",
+      "yellow": "Cluster health yellow",
+      "red": "Cluster health red"
+    },
+    "inspect": {
+      "settings": "cluster settings",
+      "nodes": "nodes",
+      "shards": "shards",
+      "indices": "index settings",
+      "explanation": "the allocation explanation",
+      "voting": "voting configuration exclusions"
+    },
+    "errors": {
+      "forbidden": "Your user is not allowed to read {what}.",
+      "network": "Could not load {what}. Check the cluster connection.",
+      "api": "Could not load {what}. {message}"
+    },
+    "allocation": {
+      "title": "Shard allocation",
+      "description": "Whether new and unassigned shards may be allocated.",
+      "keywords": "allocate primary replica maintenance enable",
+      "hint": "Only affects future allocations, assigned shards stay where they are.",
+      "disable": "Disable allocation",
+      "blocking": "Allocation is restricted and may keep {count} shard unassigned. | Allocation is restricted and may keep {count} shards unassigned.",
+      "updated": "Shard allocation set to {value}.",
+      "restored": "Shard allocation restored to the default.",
+      "modes": {
+        "all": "All shards",
+        "primaries": "Primaries only",
+        "new_primaries": "New primaries only",
+        "none": "Disabled"
+      },
+      "option_hints": {
+        "all": "normal allocation",
+        "primaries": "replicas are not allocated",
+        "new_primaries": "only primaries of new indices",
+        "none": "no new allocations"
+      },
+      "confirm": {
+        "primaries": "Allow only primary shards to be allocated?",
+        "new_primaries": "Allow only primaries of new indices to be allocated?",
+        "none": "Disable shard allocation? No new shards will be allocated until it is enabled again."
+      }
+    },
+    "drain": {
+      "title": "Drain node",
+      "description": "Move shards away from a node before shutting it down.",
+      "keywords": "shutdown remove maintenance exclude relocation",
+      "explanation": "Draining excludes the node from allocation, so Elasticsearch moves its shards to other nodes. The node keeps running.",
+      "allocation_disabled": "Allocation is disabled, so shards cannot move until it is enabled again.",
+      "node": "Node",
+      "shards": "{count} shard | {count} shards",
+      "node_summary": "{shards} shard | {shards} shards",
+      "disk_used": "{percent}% disk used",
+      "progress": "{remaining} of {total} shards left, {relocating} relocating.",
+      "done": "No shards left on this node. It is safe to shut it down.",
+      "start": "Start drain",
+      "stop": "Stop drain",
+      "existing": "Excluded node IDs: {ids}. Other exclusions are kept.",
+      "status_active": "{count} node excluded | {count} nodes excluded",
+      "status_none": "No active drain",
+      "confirm_start": "Start draining {name} ({id})? Its shards will be moved to other nodes.",
+      "confirm_stop": "Stop draining {name} ({id})?",
+      "started": "Node drain started.",
+      "stopped": "Node drain stopped."
+    },
+    "explain": {
+      "title": "Explain unassigned shards",
+      "description": "Ask Elasticsearch why a shard cannot be assigned.",
+      "keywords": "allocation diagnostic deciders unassigned",
+      "shard": "Unassigned shard",
+      "primary": "primary",
+      "replica": "replica",
+      "run": "Explain",
+      "raw": "Raw response",
+      "no_explanation": "No explanation given.",
+      "cannot_allocate_primary": "Primary shard cannot be allocated",
+      "cannot_allocate_replica": "Replica shard cannot be allocated",
+      "single_node_replica": "A replica cannot be placed on the same node as its primary, and this cluster has only one data node.",
+      "no_eligible_node": "No eligible node currently accepts this shard."
+    },
+    "retry": {
+      "title": "Retry failed allocations",
+      "description": "Retry shards that hit the allocation retry limit.",
+      "keywords": "reroute retry limit failed",
+      "explanation": "Fix the underlying problem first, then ask Elasticsearch to retry the failed allocations.",
+      "run": "Retry allocations",
+      "confirm": "Retry failed allocations? {count} shard is unassigned. | Retry failed allocations? {count} shards are unassigned.",
+      "done": "Elasticsearch is retrying failed allocations."
+    },
+    "rebalancing": {
+      "title": "Shard rebalancing",
+      "description": "Whether shards may move between nodes to balance the cluster.",
+      "keywords": "move redistribution topology balance",
+      "explanation": "Restricting rebalancing can leave the cluster unevenly balanced.",
+      "confirm": "Restrict shard rebalancing? The cluster may stay unbalanced.",
+      "updated": "Shard rebalancing updated.",
+      "modes": {
+        "all": "All shards",
+        "primaries": "Primaries only",
+        "replicas": "Replicas only",
+        "none": "Disabled"
+      }
+    },
+    "blocks": {
+      "title": "Index write blocks",
+      "description": "Find and clear read-only or write-blocked indices.",
+      "keywords": "read only flood stage writable",
+      "indices": "Blocked indices",
+      "status": "{count} index blocked | {count} indices blocked",
+      "status_none": "No blocked user indices",
+      "flood": "Elasticsearch set read_only_allow_delete because a disk reached the flood stage.",
+      "flood_full": "Disk usage is still too high, free up space first.",
+      "flood_recovered": "Disk usage has recovered. Elasticsearch normally removes this block itself.",
+      "flood_unknown": "Disk usage could not be checked, so the block cannot be cleared here.",
+      "clear": "Clear write blocks",
+      "clear_flood": "Clear flood-stage block",
+      "confirm_clear": "Clear {blocks} on {count} index? | Clear {blocks} on {count} indices?",
+      "confirm_clear_flood": "Clear the flood-stage block on {count} index? | Clear the flood-stage block on {count} indices?",
+      "cleared": "Write blocks cleared on {count} index. | Write blocks cleared on {count} indices."
+    },
+    "replicas": {
+      "title": "Replicas",
+      "description": "Change the number of replicas of selected indices.",
+      "keywords": "redundancy single node replica count",
+      "count": "Replicas",
+      "status": "Configured per index",
+      "status_single_node": "{count} index with unassignable replicas | {count} indices with unassignable replicas",
+      "single_node": "This cluster has one data node, so replicas of {count} index cannot be assigned. | This cluster has one data node, so replicas of {count} indices cannot be assigned.",
+      "set_zero": "Set to 0 replicas",
+      "zero_warning": "Without replicas, losing a node can make data unavailable or lose it.",
+      "confirm": "Set {count} index to {replicas} replicas? | Set {count} indices to {replicas} replicas?",
+      "confirm_zero": "Remove all replicas from {count} index? | Remove all replicas from {count} indices?",
+      "updated": "Replicas updated on {count} index. | Replicas updated on {count} indices."
+    },
+    "refresh": {
+      "title": "Refresh interval",
+      "description": "How quickly new documents become searchable.",
+      "keywords": "refresh interval search visibility bulk indexing",
+      "interval": "Refresh interval",
+      "custom": "Custom",
+      "custom_hint": "A time value such as 500ms or 2m.",
+      "status_mixed": "Mixed",
+      "disabled_warning": "New documents will not be searchable until the index is refreshed manually.",
+      "confirm": "Set the refresh interval of {count} index to {value}? | Set the refresh interval of {count} indices to {value}?",
+      "updated": "Refresh interval updated on {count} index. | Refresh interval updated on {count} indices."
+    },
+    "watermarks": {
+      "title": "Disk watermarks",
+      "description": "Disk usage thresholds for allocation and the flood stage.",
+      "keywords": "disk free used flood threshold headroom",
+      "fullest": "Fullest node:",
+      "used": "{percent}% used",
+      "available": "{bytes} free",
+      "low": "Low watermark",
+      "high": "High watermark",
+      "flood": "Flood stage",
+      "low_hint": "No new shards are allocated to nodes above this.",
+      "high_hint": "Shards are moved away from nodes above this.",
+      "flood_hint": "Indices on nodes above this become read-only.",
+      "mode_percent": "Percentages and ratios describe used disk space.",
+      "mode_bytes": "Byte values describe required free disk space.",
+      "threshold_enabled": "Use disk thresholds for allocation",
+      "threshold_disabled_warning": "Without disk thresholds, Elasticsearch no longer protects nodes from running out of disk space.",
+      "headroom_hint": "Optional, for example 100gb.",
+      "lowering_warning": "Raising thresholds lets nodes fill further and should be temporary.",
+      "confirm": "Update disk watermarks?",
+      "updated": "Disk watermarks updated.",
+      "restored": "Disk watermarks restored to the defaults.",
+      "errors": {
+        "mixed": "Use either percentages for all thresholds or byte values for all thresholds.",
+        "percent_order": "Thresholds must increase from low to high to flood stage.",
+        "bytes_order": "Free space values must decrease from low to high to flood stage.",
+        "headroom": "Use byte values such as 100gb."
+      },
+      "low_max_headroom": "Low max headroom",
+      "high_max_headroom": "High max headroom",
+      "flood_max_headroom": "Flood stage max headroom"
+    },
+    "recovery": {
+      "title": "Recovery bandwidth",
+      "description": "Per-node limit for shard recovery traffic.",
+      "keywords": "recovery bandwidth snapshot traffic bytes per second",
+      "explanation": "Keeps recovery traffic from slowing down search and indexing.",
+      "limit": "Limit per node",
+      "hint": "A byte rate such as 40mb or 1gb.",
+      "invalid": "Enter a byte value such as 80mb.",
+      "updated": "Recovery bandwidth updated."
+    },
+    "destructive": {
+      "title": "Destructive operation protection",
+      "description": "Require explicit index names to delete or close indices.",
+      "keywords": "wildcard delete explicit names safety",
+      "toggle": "Require explicit index names",
+      "explanation": "Prevents deleting or closing indices via wildcards or _all.",
+      "confirm_disable": "Allow destructive operations on wildcards and _all? This makes accidental deletes easier.",
+      "updated": "Destructive operation protection updated."
+    },
+    "auto_create": {
+      "title": "Automatic index creation",
+      "description": "Whether writing to a missing index creates it.",
+      "keywords": "auto create missing index patterns rules",
+      "rules": "Rules",
+      "hint": "Rules are evaluated in order.",
+      "confirm_disable": "Disable automatic index creation? Applications that rely on it may fail.",
+      "updated": "Automatic index creation updated.",
+      "modes": {
+        "allow": "Allowed",
+        "disable": "Disabled",
+        "custom": "Custom rules"
+      }
+    },
+    "cluster_write": {
+      "title": "Cluster write mode",
+      "description": "Make the whole cluster read-only during incidents or maintenance.",
+      "keywords": "read only emergency maintenance cluster block",
+      "restricted": "Writes to this cluster are currently blocked.",
+      "confirm": "Block writes for the whole cluster?",
+      "updated": "Cluster write mode updated.",
+      "restored": "Cluster writes enabled again.",
+      "modes": {
+        "normal": "Normal",
+        "read_only": "Read-only",
+        "allow_delete": "Read-only, deletes allowed"
+      }
+    },
+    "voting": {
+      "title": "Voting exclusions",
+      "description": "Prepare master-eligible nodes for removal.",
+      "keywords": "voting configuration exclusions master eligible topology removal",
+      "explanation": "Only needed when removing half or more of the master-eligible nodes at once.",
+      "nodes": "Master-eligible nodes",
+      "add": "Add exclusions",
+      "clear": "Clear exclusions",
+      "status": "{count} active",
+      "status_none": "None",
+      "confirm_add": "Exclude {count} node from voting? | Exclude {count} nodes from voting?",
+      "confirm_clear": "Clear all voting exclusions? Elasticsearch waits until excluded nodes have left the cluster.",
+      "added": "Voting exclusion added. | Voting exclusions added.",
+      "cleared": "Voting exclusions cleared."
+    },
+    "awareness": {
+      "title": "Allocation awareness",
+      "description": "Zone or rack attributes used to spread shard copies.",
+      "keywords": "zone rack attributes failure domain awareness",
+      "status": "{count} attribute | {count} attributes",
+      "status_none": "Not configured",
+      "values": "Node values: {values}",
+      "forced": "Forced values: {values}",
+      "hint": "Attributes are configured on each node and cannot be changed here."
+    }
   },
   "update_check": {
     "downloading": "Downloading... {progress}%",

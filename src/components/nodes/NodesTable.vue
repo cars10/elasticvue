@@ -14,7 +14,7 @@
     </div>
 
     <q-table
-      class="table-mono table-hide-overflow"
+      class="table-hide-overflow nodes-table"
       flat
       :loading="loading && nodes.length === 0"
       row-key="id"
@@ -28,11 +28,12 @@
         <tr :key="row.id">
           <td>
             <div class="text-weight-medium">{{ row.name }}</div>
-            <div class="text-muted font-13">{{ row.ip }}</div>
-            <div class="text-muted font-13">{{ row.id }}</div>
+            <div class="text-muted font-13 font-mono">{{ row.ip }}</div>
+            <div class="text-muted font-13 font-mono">{{ row.id }}</div>
           </td>
           <td>
             <node-roles :roles="row.roles" :version="row.version" :master="row.master" />
+            <node-attributes class="text-muted font-13 q-mt-xs" :attributes="row.attributes" />
           </td>
           <td>{{ row.version }}</td>
           <td v-if="showNodeShards" class="text-right">{{ row.shards ?? '—' }}</td>
@@ -40,9 +41,6 @@
           <td class="text-right">{{ row.storeBytes == null ? '—' : prettyPrintByteString(row.storeBytes) }}</td>
           <td class="text-right" :class="{ 'health--yellow': row.uptimeMs != null && row.uptimeMs < RECENT_RESTART_MS }">
             {{ formatUptime(row.uptimeMs) }}
-          </td>
-          <td>
-            <node-attributes :attributes="row.attributes" />
           </td>
           <td class="metric-cell">
             <metric-bar :value="row.cpuPercent" :thresholds="CPU_THRESHOLDS" />
@@ -95,6 +93,10 @@ const bytesDetail = (used: number | null, total: number | null) => {
 
 <style scoped>
 .metric-cell {
-  min-width: 140px;
+  min-width: 110px;
+}
+
+.nodes-table td {
+  font-variant-numeric: tabular-nums;
 }
 </style>

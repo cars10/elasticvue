@@ -1,7 +1,7 @@
 <template>
-  <div class="flex justify-between items-center q-mb-md">
+  <div class="flex justify-between items-center q-mb-lg">
     <div>
-      <h1 class="text-h4 q-my-none">{{ t('snapshots.heading', { name: repository }) }}</h1>
+      <h1 class="page-title">{{ t('snapshots.heading', { name: repository }) }}</h1>
       <router-link :to="{ name: 'snapshot_repositories' }" class="font-13">
         {{ t('snapshots.repository') }}
       </router-link>

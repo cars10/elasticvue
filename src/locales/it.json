@@ -274,7 +274,231 @@
     }
   },
   "home": {
-    "heading": "Dashboard"
+    "heading": "Dashboard",
+    "monitoring_required": "Permesso di monitoraggio richiesto",
+    "serverless": {
+      "title": "Serverless",
+      "text": "Il tuo cluster è in {link}, il che limita Elasticvue perché molte API non sono disponibili.",
+      "link": "modalità serverless"
+    },
+    "status": {
+      "green": "Verde",
+      "yellow": "Giallo",
+      "red": "Rosso",
+      "unknown": "Sconosciuto"
+    },
+    "overview": {
+      "unassigned": "{count} shard non assegnato | {count} shard non assegnati",
+      "moving": "{count} shard in spostamento | {count} shard in spostamento",
+      "all_assigned": "Tutti gli shard sono assegnati",
+      "nodes": "{count} nodo | {count} nodi",
+      "data": "{count} data",
+      "master_eligible": "{count} master-eligible",
+      "indices": "{count} indice | {count} indici",
+      "docs": "{count} documento | {count} documenti",
+      "disk": "{size} su disco"
+    },
+    "metrics": {
+      "cpu": "CPU",
+      "disk": "Disco",
+      "heap": "Heap JVM",
+      "shards": "Shard",
+      "highest": "Massimo su",
+      "watermarks": "Soglie {low} / {high} / {flood}",
+      "primaries": "{count} primari",
+      "total": "{count} totali"
+    },
+    "workload": {
+      "search": "Ricerca",
+      "indexing": "Indicizzazione",
+      "latency": "Latenza e pressione",
+      "per_second": "req/s",
+      "docs_per_second": "doc/s",
+      "search_latency": "ricerca",
+      "indexing_latency": "{latency} indicizzazione",
+      "deletes": "{rate} eliminazioni/s",
+      "pressure": "{rejected} rifiutate, {trips} interventi del circuit breaker",
+      "collecting": "Raccolta…",
+      "reload_off": "Attiva il ricaricamento automatico per raccogliere questo grafico.",
+      "average": "Media degli ultimi {seconds}s"
+    },
+    "nodes": {
+      "title": "Nodi ({count})",
+      "all": "Tutti i nodi",
+      "name": "Nome",
+      "heap": "Heap",
+      "master": "master",
+      "unavailable": "Metriche dei nodi non disponibili.",
+      "hint_all": "Tutti i {count}, i più carichi per primi.",
+      "hint_top": "Primi {shown} di {total}, i più carichi per primi."
+    },
+    "indices": {
+      "title": "Indici ({count})",
+      "all": "Tutti gli indici",
+      "index": "Indice",
+      "health": "Stato",
+      "docs": "Doc",
+      "size": "Dimensione",
+      "empty": "Nessun indice da mostrare.",
+      "hint_all": "Tutti i {count}, prima i non sani, poi per dimensione.",
+      "hint_top": "Primi {shown} di {total}, prima i non sani, poi per dimensione."
+    },
+    "attention": {
+      "issues": "Problemi",
+      "no_issues": "Nessun problema",
+      "all_passed": "Tutti i {count} controlli superati",
+      "counts": {
+        "critical": "{count} critico | {count} critici",
+        "warning": "{count} avviso | {count} avvisi",
+        "info": "{count} nota | {count} note"
+      },
+      "severity": {
+        "critical": "Critico",
+        "warning": "Avviso",
+        "info": "Nota",
+        "ok": "OK"
+      },
+      "actions": {
+        "view_shards": "Vedi shard",
+        "view_nodes": "Vedi nodi",
+        "view_indices": "Vedi indici"
+      },
+      "checks": {
+        "shards": {
+          "title": "Shard",
+          "ok": "Tutti gli shard sono assegnati"
+        },
+        "index_blocks": {
+          "title": "Blocchi degli indici",
+          "ok": "Nessun blocco di scrittura o di sola lettura"
+        },
+        "allocation": {
+          "title": "Allocazione degli shard",
+          "ok": "Allocazione attiva"
+        },
+        "pending_tasks": {
+          "title": "Task del cluster in attesa",
+          "ok": "Nessun task del cluster bloccato"
+        },
+        "disk": {
+          "title": "Soglie del disco",
+          "ok": "Sotto le soglie del disco"
+        },
+        "rejections": {
+          "title": "Rifiuti dei thread pool",
+          "ok": "Nessun nuovo rifiuto"
+        },
+        "breakers": {
+          "title": "Circuit breaker",
+          "ok": "Nessun nuovo intervento"
+        },
+        "jvm": {
+          "title": "Pressione JVM",
+          "ok": "Nessuna pressione prolungata sull’heap"
+        },
+        "file_descriptors": {
+          "title": "Descrittori di file",
+          "ok": "Nella norma"
+        },
+        "versions": {
+          "title": "Versioni dei nodi",
+          "ok": "Tutti i nodi hanno la stessa versione"
+        },
+        "monitoring": {
+          "title": "Monitoraggio dei nodi",
+          "ok": "Disponibile"
+        }
+      },
+      "findings": {
+        "unassigned_primaries": {
+          "title": "Shard primari non assegnati",
+          "summary": "{count} shard primario non è assegnato | {count} shard primari non sono assegnati",
+          "summary_index": "{count} shard primario non è assegnato su {index} | {count} shard primari non sono assegnati su {index}",
+          "summary_indices": "{count} shard primario non è assegnato su {indices} indici | {count} shard primari non sono assegnati su {indices} indici",
+          "summary_unknown": "Alcuni shard primari non sono assegnati",
+          "detail": "Alcuni dati non sono disponibili finché i primari non vengono allocati."
+        },
+        "unassigned_replicas": {
+          "title": "Repliche non assegnate",
+          "summary": "{count} replica non è assegnata | {count} repliche non sono assegnate",
+          "summary_index": "{count} replica non è assegnata su {index} | {count} repliche non sono assegnate su {index}",
+          "summary_indices": "{count} replica non è assegnata su {indices} indici | {count} repliche non sono assegnate su {indices} indici",
+          "summary_single_node": "{count} replica non può essere allocata | {count} repliche non possono essere allocate",
+          "summary_single_node_index": "{count} replica di {index} non può essere allocata | {count} repliche di {index} non possono essere allocate",
+          "detail": "I dati sono disponibili, ma la ridondanza è ridotta.",
+          "detail_single_node": "Questo cluster ha un solo nodo dati, quindi le repliche non possono essere allocate."
+        },
+        "index_blocks": {
+          "title_read_only": "Indice in sola lettura",
+          "title_write": "Scritture bloccate",
+          "summary_read_only": "L’indice {index} è in sola lettura",
+          "summary_write": "L’indice {index} blocca le scritture",
+          "summary_many": "{count} indici bloccano le scritture, ad esempio {index}",
+          "detail": "L’indicizzazione in questi indici fallisce finché il blocco non viene rimosso.",
+          "detail_allow_delete": "L’indicizzazione fallisce, le eliminazioni funzionano ancora. Di solito causato dalla soglia flood del disco."
+        },
+        "disk_flood": {
+          "title": "Soglia flood del disco superata",
+          "summary": "{node} al {percent}% (soglia flood {threshold})",
+          "detail": "Elasticsearch può mettere in sola lettura gli indici su questo nodo."
+        },
+        "disk_high": {
+          "title": "Soglia alta del disco superata",
+          "summary": "{node} al {percent}% (alta {threshold})",
+          "detail": "Elasticsearch sposta gli shard da questo nodo."
+        },
+        "disk_low": {
+          "title": "Soglia bassa del disco superata",
+          "summary": "{node} al {percent}% (bassa {threshold})",
+          "detail": "Nessun nuovo shard viene allocato su questo nodo."
+        },
+        "allocation": {
+          "title": "Allocazione degli shard limitata",
+          "summary_none": "L’allocazione degli shard è disattivata",
+          "summary_primaries": "Vengono allocati solo gli shard primari",
+          "summary_new_primaries": "Vengono allocati solo i primari dei nuovi indici",
+          "summary_other": "L’allocazione degli shard è impostata su \"{value}\"",
+          "detail": "Gli shard possono rimanere non assegnati. Spesso dimenticato dopo una manutenzione."
+        },
+        "pending_tasks": {
+          "title": "I task del cluster si accumulano",
+          "summary": "{count} in attesa, il più vecchio da {age}",
+          "detail": "Gli aggiornamenti dello stato del cluster possono subire ritardi."
+        },
+        "rejections": {
+          "title": "Richieste rifiutate",
+          "summary": "{count} nuovo rifiuto negli ultimi 5 minuti | {count} nuovi rifiuti negli ultimi 5 minuti",
+          "detail": "I thread pool sono pieni e richieste di ricerca o indicizzazione vengono scartate."
+        },
+        "breakers": {
+          "title": "Circuit breaker intervenuto",
+          "summary": "{count} nuovo intervento negli ultimi 5 minuti | {count} nuovi interventi negli ultimi 5 minuti",
+          "detail": "Query o aggregazioni raggiungono i limiti di memoria."
+        },
+        "jvm": {
+          "title": "Alta pressione sulla memoria JVM",
+          "summary": "{node} sopra il {threshold}% da {duration}",
+          "detail": "Attualmente {percent}%. Una pressione prolungata porta spesso a lunghe garbage collection."
+        },
+        "file_descriptors": {
+          "title": "Limite dei descrittori di file vicino",
+          "summary": "{node}: {percent}% usati",
+          "summary_counts": "{node}: {percent}% usati ({open} / {max})",
+          "detail": "Esaurire i descrittori di file può far crashare il nodo."
+        },
+        "versions": {
+          "title": "Versioni miste",
+          "summary": "I nodi eseguono {versions}",
+          "detail": "Normale durante un aggiornamento progressivo. Completalo appena possibile."
+        },
+        "monitoring": {
+          "title": "Monitoraggio dei nodi incompleto",
+          "summary": "Impossibile caricare le statistiche dei nodi",
+          "summary_partial": "Statistiche mancanti per alcuni nodi ({observed} di {expected})",
+          "detail": "Il tuo utente potrebbe non avere il privilegio monitor, oppure l’API nodes stats non è disponibile."
+        }
+      }
+    }
   },
   "mixins": {
     "test_connection": {
@@ -337,6 +561,27 @@
       "docs": "documenti",
       "store": "archivio",
       "uptime": "uptime"
+    },
+    "pulse": {
+      "nodes": "Nodi",
+      "version": "Versione {version}",
+      "mixed_versions": "Versioni miste: {versions}",
+      "restarted": "{count} riavviato nell’ultima ora | {count} riavviati nell’ultima ora",
+      "avg": "media",
+      "used": "usato",
+      "disk_of": "{used} di {total}",
+      "peak": "picco {value} su {node}",
+      "below_low": "Tutti i nodi sotto la soglia bassa ({low})",
+      "above_flood": "{count} sopra la soglia flood | {count} sopra la soglia flood",
+      "above_high": "{count} sopra la soglia alta | {count} sopra la soglia alta",
+      "above_low": "{count} sopra la soglia bassa | {count} sopra la soglia bassa",
+      "roles": {
+        "master_eligible": "{count} master-eligible",
+        "data": "{count} data",
+        "ingest": "{count} ingest",
+        "ml": "{count} ml",
+        "coordinating": "{count} coordinamento"
+      }
     }
   },
   "cluster_roles": {
@@ -387,6 +632,15 @@
           "status": "stato"
         }
       }
+    },
+    "pulse": {
+      "roles": "Ruoli",
+      "cluster_admin": "Admin del cluster",
+      "cluster_admin_hint": "all, manage o manage_security",
+      "all_indices": "Tutti gli indici",
+      "all_indices_hint": "tutti i privilegi su *",
+      "unused": "Inutilizzati",
+      "unused_hint": "Ruoli personalizzati senza utenti né role mapping"
     }
   },
   "cluster_users": {
@@ -443,6 +697,17 @@
           "status": "stato"
         }
       }
+    },
+    "show_role": "Mostra il ruolo {role}",
+    "no_roles": "nessun ruolo",
+    "pulse": {
+      "signed_in": "Accesso come",
+      "realm": "realm {realm}",
+      "users": "Utenti",
+      "split": "{builtIn} predefiniti, {custom} personalizzati",
+      "disabled": "{count} disattivati",
+      "superusers": "Superutenti",
+      "without_roles": "Senza ruoli"
     }
   },
   "query": {
@@ -716,10 +981,58 @@
       "reroute": {
         "confirm": "Reindirizzare il frammento '{shard}' dal nodo '{fromNode}' a '{toNode}'?"
       }
+    },
+    "pulse": {
+      "split": "{primaries} primari, {replicas} repliche",
+      "indices": "{count} indice | {count} indici",
+      "unassigned": "Non assegnati",
+      "moving": "In spostamento",
+      "moving_split": "{relocating} in rilocazione, {initializing} in inizializzazione",
+      "view_recovery": "Vedi recovery",
+      "size": "Dimensione degli shard",
+      "avg_primary": "media primario",
+      "largest": "il più grande {size}",
+      "oversized": "{count} oltre {size}",
+      "balance": "Bilanciamento degli shard",
+      "per_data_node": "per nodo dati",
+      "avg": "media {count}",
+      "busiest": "il massimo su {node} ({skew}× la media)"
+    },
+    "problems": {
+      "title": "Da controllare ({count})",
+      "explain": "Spiega in Tools",
+      "index": "Indice",
+      "shard": "Shard",
+      "state": "Stato",
+      "node": "Nodo",
+      "reason": "Motivo",
+      "show_less": "Mostra meno",
+      "show_all": "Mostra tutti i {count}"
+    },
+    "shard": {
+      "primary": "shard primario {shard}",
+      "replica": "replica {shard}",
+      "docs": "{count} doc",
+      "reason": "motivo: {reason}",
+      "move": "Clicca per spostare questo shard"
     }
   },
   "shard_recovery": {
-    "heading": "Recupero frammenti"
+    "heading": "Recupero frammenti",
+    "pulse": {
+      "active": "Attivi",
+      "recoveries": "recovery",
+      "none_active": "Nessuno shard in recovery",
+      "completed": "{count} completati",
+      "progress": "Avanzamento",
+      "copied": "copiato",
+      "nothing_to_copy": "Niente da copiare",
+      "longest": "Il più lungo",
+      "throttled": "Limitato",
+      "limit_reached": "Limite di banda per il recovery raggiunto",
+      "adjust": "Regola in Tools",
+      "not_throttled": "I recovery attivi non sono limitati"
+    }
   },
   "shard_recovery_table": {
     "stage": "Fase",
@@ -817,6 +1130,13 @@
     "ssl_hint": {
       "hint": "Quando si utilizza https, assicurati che il tuo browser consideri attendibile il certificato ssl del cluster.",
       "help": "Aiuto"
+    },
+    "security_unavailable": {
+      "forbidden_users": "Lettura degli utenti non consentita",
+      "forbidden_roles": "Lettura dei ruoli non consentita",
+      "forbidden_text": "Il tuo utente ha bisogno del privilegio di cluster manage_security per gestire utenti e ruoli.",
+      "unavailable": "La sicurezza non è disponibile su questo cluster",
+      "unavailable_text": "Utenti e ruoli nativi richiedono le funzioni di sicurezza di Elasticsearch, assenti o disattivate su questo cluster."
     }
   },
   "snapshots": {
@@ -945,7 +1265,297 @@
   },
   "tools": {
     "heading": "Tools",
-    "subtitle": "Common cluster maintenance and recovery operations."
+    "subtitle": "Common cluster maintenance and recovery operations.",
+    "filter": "Filtra strumenti",
+    "no_match": "Nessuno strumento corrisponde a \"{filter}\".",
+    "close": "Chiudi {title}",
+    "apis_used": "API Elasticsearch utilizzate",
+    "read_only_tool": "Strumento di sola lettura. Nessuna impostazione del cluster viene modificata.",
+    "apply": "Applica",
+    "restore_default": "Ripristina predefinito",
+    "recheck": "Ricontrolla",
+    "advanced": "Avanzate",
+    "current": "Attuale:",
+    "mixed": "Misto",
+    "indices": "Indici",
+    "excluded_indices": "Gli indici di sistema, nascosti e dei data stream sono esclusi.",
+    "confirm_restore": "Ripristinare \"{setting}\" al valore predefinito di Elasticsearch?",
+    "groups": {
+      "attention": "Da controllare",
+      "shards": "Shard e allocazione",
+      "indices": "Indici",
+      "disk": "Disco e recovery",
+      "safety": "Sicurezza",
+      "advanced": "Avanzate"
+    },
+    "sources": {
+      "transient": "transitorio",
+      "persistent": "persistente",
+      "default": "predefinito",
+      "unavailable": "non disponibile"
+    },
+    "status": {
+      "default": "Predefinito",
+      "custom": "Personalizzato",
+      "enabled": "Attivo",
+      "disabled": "Disattivato",
+      "unavailable": "Non disponibile",
+      "no_user_indices": "Nessun indice utente",
+      "no_unassigned": "Nessuno shard non assegnato",
+      "unassigned": "{count} shard non assegnato | {count} shard non assegnati"
+    },
+    "health": {
+      "green": "Stato del cluster verde",
+      "yellow": "Stato del cluster giallo",
+      "red": "Stato del cluster rosso"
+    },
+    "inspect": {
+      "settings": "le impostazioni del cluster",
+      "nodes": "i nodi",
+      "shards": "gli shard",
+      "indices": "le impostazioni degli indici",
+      "explanation": "la spiegazione dell’allocazione",
+      "voting": "le esclusioni dal voto"
+    },
+    "errors": {
+      "forbidden": "Il tuo utente non può leggere {what}.",
+      "network": "Impossibile caricare {what}. Controlla la connessione al cluster.",
+      "api": "Impossibile caricare {what}. {message}"
+    },
+    "allocation": {
+      "title": "Allocazione degli shard",
+      "description": "Se gli shard nuovi e non assegnati possono essere allocati.",
+      "keywords": "allocazione primario replica manutenzione allocate primary replica",
+      "hint": "Riguarda solo le allocazioni future, gli shard assegnati restano dove sono.",
+      "disable": "Disattiva allocazione",
+      "blocking": "L’allocazione è limitata e può lasciare {count} shard non assegnato. | L’allocazione è limitata e può lasciare {count} shard non assegnati.",
+      "updated": "Allocazione degli shard impostata su {value}.",
+      "restored": "Allocazione degli shard ripristinata al predefinito.",
+      "modes": {
+        "all": "Tutti gli shard",
+        "primaries": "Solo primari",
+        "new_primaries": "Solo nuovi primari",
+        "none": "Disattivata"
+      },
+      "option_hints": {
+        "all": "allocazione normale",
+        "primaries": "le repliche non vengono allocate",
+        "new_primaries": "solo i primari dei nuovi indici",
+        "none": "nessuna nuova allocazione"
+      },
+      "confirm": {
+        "primaries": "Consentire solo l’allocazione degli shard primari?",
+        "new_primaries": "Consentire solo l’allocazione dei primari dei nuovi indici?",
+        "none": "Disattivare l’allocazione degli shard? Nessun nuovo shard verrà allocato finché non la riattivi."
+      }
+    },
+    "drain": {
+      "title": "Svuota nodo",
+      "description": "Sposta gli shard da un nodo prima di spegnerlo.",
+      "keywords": "svuotare spegnimento manutenzione escludere rilocazione drain shutdown exclude",
+      "explanation": "Il nodo viene escluso dall’allocazione, quindi Elasticsearch sposta i suoi shard su altri nodi. Il nodo resta in esecuzione.",
+      "allocation_disabled": "L’allocazione è disattivata, quindi gli shard non possono spostarsi finché non viene riattivata.",
+      "node": "Nodo",
+      "shards": "{count} shard | {count} shard",
+      "node_summary": "{shards} shard | {shards} shard",
+      "disk_used": "{percent}% del disco usato",
+      "progress": "{remaining} di {total} shard rimanenti, {relocating} in spostamento.",
+      "done": "Nessuno shard rimasto su questo nodo. Puoi spegnerlo in sicurezza.",
+      "start": "Avvia svuotamento",
+      "stop": "Interrompi svuotamento",
+      "existing": "ID dei nodi esclusi: {ids}. Le altre esclusioni vengono mantenute.",
+      "status_active": "{count} nodo escluso | {count} nodi esclusi",
+      "status_none": "Nessuno svuotamento attivo",
+      "confirm_start": "Svuotare {name} ({id})? I suoi shard verranno spostati su altri nodi.",
+      "confirm_stop": "Interrompere lo svuotamento di {name} ({id})?",
+      "started": "Svuotamento del nodo avviato.",
+      "stopped": "Svuotamento del nodo interrotto."
+    },
+    "explain": {
+      "title": "Spiega shard non assegnati",
+      "description": "Chiedi a Elasticsearch perché uno shard non può essere assegnato.",
+      "keywords": "allocazione diagnostica decisori non assegnato explain deciders unassigned",
+      "shard": "Shard non assegnato",
+      "primary": "primario",
+      "replica": "replica",
+      "run": "Spiega",
+      "raw": "Risposta grezza",
+      "no_explanation": "Nessuna spiegazione fornita.",
+      "cannot_allocate_primary": "Lo shard primario non può essere allocato",
+      "cannot_allocate_replica": "La replica non può essere allocata",
+      "single_node_replica": "Una replica non può stare sullo stesso nodo del suo primario e questo cluster ha un solo nodo dati.",
+      "no_eligible_node": "Al momento nessun nodo idoneo accetta questo shard."
+    },
+    "retry": {
+      "title": "Riprova allocazioni fallite",
+      "description": "Riprova gli shard che hanno raggiunto il limite di tentativi di allocazione.",
+      "keywords": "riprovare limite fallito reroute retry failed",
+      "explanation": "Risolvi prima la causa, poi chiedi a Elasticsearch di riprovare le allocazioni fallite.",
+      "run": "Riprova allocazioni",
+      "confirm": "Riprovare le allocazioni fallite? {count} shard non è assegnato. | Riprovare le allocazioni fallite? {count} shard non sono assegnati.",
+      "done": "Elasticsearch sta riprovando le allocazioni fallite."
+    },
+    "rebalancing": {
+      "title": "Ribilanciamento degli shard",
+      "description": "Se gli shard possono spostarsi tra i nodi per bilanciare il cluster.",
+      "keywords": "ribilanciamento spostamento topologia bilanciamento rebalance",
+      "explanation": "Limitare il ribilanciamento può lasciare il cluster sbilanciato.",
+      "confirm": "Limitare il ribilanciamento degli shard? Il cluster potrebbe restare sbilanciato.",
+      "updated": "Ribilanciamento degli shard aggiornato.",
+      "modes": {
+        "all": "Tutti gli shard",
+        "primaries": "Solo primari",
+        "replicas": "Solo repliche",
+        "none": "Disattivato"
+      }
+    },
+    "blocks": {
+      "title": "Blocchi di scrittura degli indici",
+      "description": "Trova e rimuovi blocchi di sola lettura o di scrittura.",
+      "keywords": "sola lettura flood scrittura blocco read only write block",
+      "indices": "Indici bloccati",
+      "status": "{count} indice bloccato | {count} indici bloccati",
+      "status_none": "Nessun indice utente bloccato",
+      "flood": "Elasticsearch ha impostato read_only_allow_delete perché un disco ha raggiunto la soglia flood.",
+      "flood_full": "L’uso del disco è ancora troppo alto, libera prima dello spazio.",
+      "flood_recovered": "L’uso del disco è rientrato. Di solito Elasticsearch rimuove questo blocco da solo.",
+      "flood_unknown": "Non è stato possibile verificare l’uso del disco, quindi il blocco non può essere rimosso qui.",
+      "clear": "Rimuovi blocchi di scrittura",
+      "clear_flood": "Rimuovi blocco flood",
+      "confirm_clear": "Rimuovere {blocks} da {count} indice? | Rimuovere {blocks} da {count} indici?",
+      "confirm_clear_flood": "Rimuovere il blocco flood da {count} indice? | Rimuovere il blocco flood da {count} indici?",
+      "cleared": "Blocchi di scrittura rimossi da {count} indice. | Blocchi di scrittura rimossi da {count} indici."
+    },
+    "replicas": {
+      "title": "Repliche",
+      "description": "Modifica il numero di repliche degli indici selezionati.",
+      "keywords": "ridondanza nodo singolo numero repliche replica count",
+      "count": "Repliche",
+      "status": "Impostato per indice",
+      "status_single_node": "{count} indice con repliche non assegnabili | {count} indici con repliche non assegnabili",
+      "single_node": "Questo cluster ha un solo nodo dati, quindi le repliche di {count} indice non possono essere assegnate. | Questo cluster ha un solo nodo dati, quindi le repliche di {count} indici non possono essere assegnate.",
+      "set_zero": "Imposta a 0 repliche",
+      "zero_warning": "Senza repliche, la perdita di un nodo può rendere i dati non disponibili o perderli.",
+      "confirm": "Impostare {count} indice a {replicas} repliche? | Impostare {count} indici a {replicas} repliche?",
+      "confirm_zero": "Rimuovere tutte le repliche da {count} indice? | Rimuovere tutte le repliche da {count} indici?",
+      "updated": "Repliche aggiornate su {count} indice. | Repliche aggiornate su {count} indici."
+    },
+    "refresh": {
+      "title": "Intervallo di refresh",
+      "description": "Quanto presto i nuovi documenti diventano ricercabili.",
+      "keywords": "refresh intervallo ricerca visibilità indicizzazione bulk",
+      "interval": "Intervallo di refresh",
+      "custom": "Personalizzato",
+      "custom_hint": "Un valore di tempo come 500ms o 2m.",
+      "status_mixed": "Misto",
+      "disabled_warning": "I nuovi documenti non saranno ricercabili finché l’indice non viene aggiornato manualmente.",
+      "confirm": "Impostare l’intervallo di refresh di {count} indice a {value}? | Impostare l’intervallo di refresh di {count} indici a {value}?",
+      "updated": "Intervallo di refresh aggiornato su {count} indice. | Intervallo di refresh aggiornato su {count} indici."
+    },
+    "watermarks": {
+      "title": "Soglie del disco",
+      "description": "Soglie di utilizzo del disco per l’allocazione e lo stadio flood.",
+      "keywords": "disco libero usato flood soglia margine watermark headroom",
+      "fullest": "Nodo più pieno:",
+      "used": "{percent}% usato",
+      "available": "{bytes} liberi",
+      "low": "Soglia bassa",
+      "high": "Soglia alta",
+      "flood": "Soglia flood",
+      "low_hint": "Nessun nuovo shard viene allocato ai nodi oltre questa soglia.",
+      "high_hint": "Gli shard vengono spostati dai nodi oltre questa soglia.",
+      "flood_hint": "Gli indici sui nodi oltre questa soglia diventano di sola lettura.",
+      "mode_percent": "Percentuali e rapporti indicano lo spazio su disco usato.",
+      "mode_bytes": "I valori in byte indicano lo spazio libero richiesto.",
+      "threshold_enabled": "Usa le soglie del disco per l’allocazione",
+      "threshold_disabled_warning": "Senza soglie del disco, Elasticsearch non protegge più i nodi dall’esaurimento dello spazio.",
+      "low_max_headroom": "Margine max. bassa",
+      "high_max_headroom": "Margine max. alta",
+      "flood_max_headroom": "Margine max. flood",
+      "headroom_hint": "Opzionale, ad esempio 100gb.",
+      "lowering_warning": "Alzare le soglie fa riempire di più i nodi e dovrebbe essere temporaneo.",
+      "confirm": "Aggiornare le soglie del disco?",
+      "updated": "Soglie del disco aggiornate.",
+      "restored": "Soglie del disco ripristinate ai valori predefiniti.",
+      "errors": {
+        "mixed": "Usa percentuali per tutte le soglie oppure byte per tutte le soglie.",
+        "percent_order": "Le soglie devono crescere da bassa ad alta a flood.",
+        "bytes_order": "Lo spazio libero deve diminuire da bassa ad alta a flood.",
+        "headroom": "Usa valori in byte come 100gb."
+      }
+    },
+    "recovery": {
+      "title": "Banda per il recovery",
+      "description": "Limite per nodo del traffico di recovery degli shard.",
+      "keywords": "recovery banda snapshot traffico byte al secondo bandwidth",
+      "explanation": "Evita che il traffico di recovery rallenti ricerca e indicizzazione.",
+      "limit": "Limite per nodo",
+      "hint": "Una velocità come 40mb o 1gb.",
+      "invalid": "Inserisci un valore come 80mb.",
+      "updated": "Banda per il recovery aggiornata."
+    },
+    "destructive": {
+      "title": "Protezione da operazioni distruttive",
+      "description": "Richiedi nomi espliciti per eliminare o chiudere indici.",
+      "keywords": "wildcard eliminare nomi espliciti sicurezza delete",
+      "toggle": "Richiedi nomi di indice espliciti",
+      "explanation": "Impedisce di eliminare o chiudere indici tramite wildcard o _all.",
+      "confirm_disable": "Consentire operazioni distruttive con wildcard e _all? Le eliminazioni accidentali diventano più facili.",
+      "updated": "Protezione da operazioni distruttive aggiornata."
+    },
+    "auto_create": {
+      "title": "Creazione automatica degli indici",
+      "description": "Se scrivere in un indice inesistente lo crea.",
+      "keywords": "creazione automatica indice mancante pattern regole auto create",
+      "rules": "Regole",
+      "hint": "Le regole vengono valutate in ordine.",
+      "confirm_disable": "Disattivare la creazione automatica degli indici? Le applicazioni che ne dipendono potrebbero fallire.",
+      "updated": "Creazione automatica degli indici aggiornata.",
+      "modes": {
+        "allow": "Consentita",
+        "disable": "Disattivata",
+        "custom": "Regole personalizzate"
+      }
+    },
+    "cluster_write": {
+      "title": "Modalità di scrittura del cluster",
+      "description": "Metti l’intero cluster in sola lettura durante incidenti o manutenzione.",
+      "keywords": "sola lettura emergenza manutenzione blocco cluster read only emergency",
+      "restricted": "Le scritture su questo cluster sono attualmente bloccate.",
+      "confirm": "Bloccare le scritture sull’intero cluster?",
+      "updated": "Modalità di scrittura del cluster aggiornata.",
+      "restored": "Scritture del cluster riattivate.",
+      "modes": {
+        "normal": "Normale",
+        "read_only": "Sola lettura",
+        "allow_delete": "Sola lettura, eliminazioni consentite"
+      }
+    },
+    "voting": {
+      "title": "Esclusioni dal voto",
+      "description": "Prepara i nodi master-eligible alla rimozione.",
+      "keywords": "voto configurazione esclusioni master eligible topologia rimozione voting",
+      "explanation": "Serve solo quando rimuovi metà o più dei nodi master-eligible in una volta.",
+      "nodes": "Nodi master-eligible",
+      "add": "Aggiungi esclusioni",
+      "clear": "Rimuovi esclusioni",
+      "status": "{count} attive",
+      "status_none": "Nessuna",
+      "confirm_add": "Escludere {count} nodo dal voto? | Escludere {count} nodi dal voto?",
+      "confirm_clear": "Rimuovere tutte le esclusioni dal voto? Elasticsearch attende che i nodi esclusi abbiano lasciato il cluster.",
+      "added": "Esclusione dal voto aggiunta. | Esclusioni dal voto aggiunte.",
+      "cleared": "Esclusioni dal voto rimosse."
+    },
+    "awareness": {
+      "title": "Allocation awareness",
+      "description": "Attributi di zona o rack usati per distribuire le copie degli shard.",
+      "keywords": "zona rack attributi dominio di guasto awareness",
+      "status": "{count} attributo | {count} attributi",
+      "status_none": "Non configurato",
+      "values": "Valori dei nodi: {values}",
+      "forced": "Valori forzati: {values}",
+      "hint": "Gli attributi si configurano su ogni nodo e non possono essere modificati qui."
+    }
   },
   "update_check": {
     "downloading": "Download in corso... {progress}%",

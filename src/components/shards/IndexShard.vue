@@ -12,13 +12,19 @@
   >
     <q-tooltip class="font-13">
       <div class="text-weight-bold">{{ shard.index }}</div>
-      <div>{{ shard.prirep === 'p' ? 'primary' : 'replica' }} shard {{ shard.shard }}</div>
+      <div>
+        {{
+          shard.prirep === 'p'
+            ? t('shards.shard.primary', { shard: shard.shard })
+            : t('shards.shard.replica', { shard: shard.shard })
+        }}
+      </div>
       <div>{{ shard.state }}</div>
       <div v-if="relocationTarget(shard)">{{ shardNodeName(shard) }} → {{ relocationTarget(shard) }}</div>
-      <div v-if="shard.docs != null">{{ formatCount(toNumber(shard.docs)) }} docs</div>
+      <div v-if="shard.docs != null">{{ t('shards.shard.docs', { count: formatCount(toNumber(shard.docs)) }) }}</div>
       <div v-if="storeBytes != null">{{ prettyPrintByteString(storeBytes) }}</div>
-      <div v-if="shard['unassigned.reason']">reason: {{ shard['unassigned.reason'] }}</div>
-      <div v-if="reRoutable" class="q-mt-xs text-italic">Click to move this shard</div>
+      <div v-if="shard['unassigned.reason']">{{ t('shards.shard.reason', { reason: shard['unassigned.reason'] }) }}</div>
+      <div v-if="reRoutable" class="q-mt-xs text-italic">{{ t('shards.shard.move') }}</div>
     </q-tooltip>
   </q-chip>
 </template>
@@ -29,6 +35,7 @@ import { EsShard, relocationTarget, shardNodeName, shardSeverity } from '../../h
 import { prettyPrintByteString } from '../../helpers/bytes.ts'
 import { formatCount } from '../../helpers/nodes.ts'
 import { toNumber } from '../../helpers/nodeStats.ts'
+import { useTranslation } from '../../composables/i18n.ts'
 
 const props = withDefaults(
   defineProps<{
@@ -44,6 +51,7 @@ const props = withDefaults(
   }
 )
 
+const t = useTranslation()
 const storeBytes = computed(() => toNumber(props.shard.store))
 
 const classes = computed(() => {

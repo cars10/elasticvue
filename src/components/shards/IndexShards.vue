@@ -1,6 +1,6 @@
 <template>
-  <div class="flex justify-between items-center q-mb-md">
-    <h1 class="text-h4 q-my-none">{{ t('shards.heading') }}</h1>
+  <div class="flex justify-between items-center q-mb-lg">
+    <h1 class="page-title">{{ t('shards.heading') }}</h1>
     <reload-button :action="load" v-model="shardsStore.reloadInterval" />
   </div>
 

@@ -25,6 +25,10 @@
 }
 
 .q-field__control::before {
+  border-color: var(--theme-border-color) !important;
+}
+
+.q-field--outlined:hover .q-field__control::before {
   border-color: var(--theme-muted-color) !important;
 }
 

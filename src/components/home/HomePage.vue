@@ -1,6 +1,6 @@
 <template>
-  <div class="flex justify-between items-center q-mb-md">
-    <div class="text-h5">{{ t('home.heading') }}</div>
+  <div class="flex justify-between items-center q-mb-lg">
+    <h1 class="page-title">{{ t('home.heading') }}</h1>
     <div v-if="!connectionStore.serverless" class="col-auto">
       <reload-button :action="reload" v-model="homeStore.reloadInterval" />
     </div>
@@ -10,21 +10,23 @@
     <div class="col-12 col-md-8 col-lg-6">
       <q-card>
         <q-card-section>
-          <div class="text-subtitle2 text-weight-medium">
-            <q-icon name="info" class="q-mr-sm" />
-            Serverless
+          <div class="card-title">
+            <q-icon name="info" size="18px" />
+            {{ t('home.serverless.title') }}
           </div>
-        </q-card-section>
-        <q-card-section class="q-pt-none">
-          Your cluster is running in
-          <a href="https://www.elastic.co/docs/deploy-manage/deploy/elastic-cloud/serverless" target="_blank"> serverless mode</a
-          >, which significantly limits the functionality of Elasticvue due to many unavailable APIs.
+          <i18n-t keypath="home.serverless.text" tag="div">
+            <template #link>
+              <a href="https://www.elastic.co/docs/deploy-manage/deploy/elastic-cloud/serverless" target="_blank">{{
+                t('home.serverless.link')
+              }}</a>
+            </template>
+          </i18n-t>
         </q-card-section>
       </q-card>
     </div>
   </div>
 
-  <div v-else class="row q-col-gutter-xl">
+  <div v-else class="row q-col-gutter-md">
     <HomeStatus ref="homeStatus" :reload-interval="homeStore.reloadInterval" />
   </div>
 </template>

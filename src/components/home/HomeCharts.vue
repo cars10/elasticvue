@@ -1,7 +1,7 @@
 <template>
-  <div class="col-md-3">
+  <div class="col-12 col-sm-6 col-md-3">
     <percent-metric-card
-      title="CPU"
+      :title="t('home.metrics.cpu')"
       icon="computer"
       :value="maxCpu.value"
       :unavailable="nodesMonitoringAvailable === false && maxCpu.value == null"
@@ -9,14 +9,13 @@
       :danger-at="CPU_THRESHOLDS.danger"
       test-id="cluster-cpu"
     >
-      <div>max node:</div>
-      <div>{{ maxCpu.node }}</div>
+      <metric-node :node="maxCpu.node" />
     </percent-metric-card>
   </div>
 
-  <div class="col-md-3">
+  <div class="col-12 col-sm-6 col-md-3">
     <percent-metric-card
-      title="Disk"
+      :title="t('home.metrics.disk')"
       icon="storage"
       :value="maxDisk.value"
       :unavailable="nodesMonitoringAvailable === false && maxDisk.value == null"
@@ -24,18 +23,16 @@
       :danger-at="diskThresholds(diskWatermarks).danger"
       test-id="cluster-disk"
     >
-      <div>max node:</div>
-      <div>{{ maxDisk.node }}</div>
+      <metric-node :node="maxDisk.node" />
       <div class="text-muted font-13">
-        watermarks {{ diskWatermarks.low }} / {{ diskWatermarks.high }} /
-        {{ diskWatermarks.flood }}
+        {{ t('home.metrics.watermarks', { low: diskWatermarks.low, high: diskWatermarks.high, flood: diskWatermarks.flood }) }}
       </div>
     </percent-metric-card>
   </div>
 
-  <div class="col-md-3">
+  <div class="col-12 col-sm-6 col-md-3">
     <percent-metric-card
-      title="JVM Heap"
+      :title="t('home.metrics.heap')"
       icon="memory"
       :value="maxHeap.value"
       :unavailable="nodesMonitoringAvailable === false && maxHeap.value == null"
@@ -43,15 +40,14 @@
       :danger-at="HEAP_THRESHOLDS.danger"
       test-id="cluster-heap"
     >
-      <div>max node:</div>
-      <div>{{ maxHeap.node }}</div>
+      <metric-node :node="maxHeap.node" />
       <div v-if="maxHeap.detail" class="text-muted font-13">{{ maxHeap.detail }}</div>
     </percent-metric-card>
   </div>
 
-  <div class="col-md-3">
+  <div class="col-12 col-sm-6 col-md-3">
     <percent-metric-card
-      title="Shards"
+      :title="t('home.metrics.shards')"
       icon="view_module"
       :value="shardAllocationPercent"
       :warn-at="100"
@@ -59,8 +55,10 @@
       higher-is-better
       test-id="cluster-shards"
     >
-      <div>{{ health?.active_primary_shards ?? stats.indices?.shards?.primaries ?? 0 }} primary</div>
-      <div>{{ shardTotal }} total</div>
+      <div>
+        {{ t('home.metrics.primaries', { count: health?.active_primary_shards ?? stats.indices?.shards?.primaries ?? 0 }) }}
+      </div>
+      <div>{{ t('home.metrics.total', { count: shardTotal }) }}</div>
     </percent-metric-card>
   </div>
 </template>
@@ -68,6 +66,8 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import PercentMetricCard from './PercentMetricCard.vue'
+import MetricNode from './MetricNode.vue'
+import { useTranslation } from '../../composables/i18n.ts'
 import { CPU_THRESHOLDS, diskThresholds, HEAP_THRESHOLDS } from '../../helpers/pressure.ts'
 import type { ClusterHealth, ClusterStats, DiskWatermarks, MetricPeak } from '../../types/homeDashboard.ts'
 
@@ -80,6 +80,8 @@ const props = defineProps<{
   health: ClusterHealth | null
   stats: ClusterStats
 }>()
+
+const t = useTranslation()
 
 const shardUnassigned = computed(() => props.health?.unassigned_shards || 0)
 const shardUnassignedPrimaries = computed(() => props.health?.unassigned_primary_shards)
