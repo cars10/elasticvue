@@ -4,15 +4,19 @@
       "homepage": "主页"
     },
     "app_header": {
+      "label": "导航",
+      "collapse": "收起侧边栏",
+      "expand": "展开侧边栏",
       "navigation": {
-        "home": "首页",
+        "home": "仪表盘",
         "nodes": "节点",
         "indices": "索引",
         "shards": "分片",
         "search": "搜索",
         "rest": "REST",
         "snapshots": "快照",
-        "users": "用户"
+        "users": "用户",
+        "settings": "设置"
       }
     },
     "language_switcher": {
@@ -104,14 +108,6 @@
       "import_backup": {
         "confirm": "你确定吗？导入备份将覆盖你当前的设置和保存的集群！"
       }
-    }
-  },
-  "home": {
-    "client_information": {
-      "heading": "节点信息"
-    },
-    "cluster_health": {
-      "heading": "集群健康"
     }
   },
   "indices": {
@@ -273,6 +269,9 @@
         }
       }
     }
+  },
+  "home": {
+    "heading": "仪表盘"
   },
   "mixins": {
     "test_connection": {

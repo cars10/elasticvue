@@ -4,15 +4,19 @@
       "homepage": "홈페이지"
     },
     "app_header": {
+      "label": "탐색",
+      "collapse": "사이드바 접기",
+      "expand": "사이드바 펼치기",
       "navigation": {
-        "home": "홈",
+        "home": "대시보드",
         "nodes": "노드",
         "indices": "인덱스",
         "shards": "샤드",
         "search": "검색",
         "rest": "REST",
         "snapshots": "스냅샷",
-        "users": "사용자"
+        "users": "사용자",
+        "settings": "설정"
       }
     },
     "language_switcher": {
@@ -104,14 +108,6 @@
       "import_backup": {
         "confirm": "정말 실행하시겠습니까? 백업을 가져오면 현재 설정과 저장된 클러스터가 덮어쓰기 됩니다!"
       }
-    }
-  },
-  "home": {
-    "client_information": {
-      "heading": "클러스터 정보"
-    },
-    "cluster_health": {
-      "heading": "클러스터 상태"
     }
   },
   "indices": {
@@ -273,6 +269,9 @@
         }
       }
     }
+  },
+  "home": {
+    "heading": "대시보드"
   },
   "mixins": {
     "test_connection": {

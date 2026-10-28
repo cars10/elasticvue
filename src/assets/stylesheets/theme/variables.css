@@ -48,12 +48,12 @@
   --theme-negative: #b71c1c;
   --theme-color: #fff;
   --theme-muted-color: #c3c8d5;
-  --theme-background: #191c24;
-  --theme-body-background: #010101;
+  --theme-background: #111B29;
+  --theme-body-background: #060b10;
   --theme-dark-grey-color: #fff;
   --theme-dark-grey-background: #383838;
   --theme-menu-background: #2e3038;
-  --theme-card-background: #272930;
+  --theme-card-background: #111B29;
   --theme-table-hover-background: rgb(255 255 255 / 4%);
   --theme-table-border-color: hsl(224deg 18% 25% / 100%);
   --theme-separator-background: #34373e;

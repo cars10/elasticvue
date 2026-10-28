@@ -4,15 +4,19 @@
       "homepage": "Главная страница"
     },
     "app_header": {
+      "label": "Навигация",
+      "collapse": "Свернуть боковую панель",
+      "expand": "Развернуть боковую панель",
       "navigation": {
-        "home": "Главная",
+        "home": "Дашборд",
         "nodes": "Узлы",
         "indices": "Индексы",
         "shards": "Шарды",
         "search": "Поиск",
         "rest": "REST",
         "snapshots": "Снимки",
-        "users": "Пользователи"
+        "users": "Пользователи",
+        "settings": "Настройки"
       }
     },
     "language_switcher": {
@@ -104,14 +108,6 @@
       "import_backup": {
         "confirm": "Вы уверены? Импорт резервной копии перезапишет текущие настройки и сохраненные кластеры!"
       }
-    }
-  },
-  "home": {
-    "client_information": {
-      "heading": "Информация о кластере"
-    },
-    "cluster_health": {
-      "heading": "Состояние кластера"
     }
   },
   "indices": {
@@ -273,6 +269,9 @@
         }
       }
     }
+  },
+  "home": {
+    "heading": "Дашборд"
   },
   "mixins": {
     "test_connection": {

@@ -259,12 +259,26 @@ export default class ElasticsearchAdapter {
     return this.request('_cluster/stats', 'GET')
   }
 
+  clusterPendingTasks() {
+    return this.request('_cluster/pending_tasks', 'GET')
+  }
+
+  nodesStats(metrics?: string) {
+    const path = metrics ? `_nodes/stats/${metrics}` : '_nodes/stats'
+    return this.request(path, 'GET')
+  }
+
   clusterReroute(commands: object) {
     return this.request('_cluster/reroute', 'POST', { commands })
   }
 
-  clusterGetSettings() {
-    return this.request('_cluster/settings', 'GET')
+  clusterGetSettings(params?: object) {
+    return this.request('_cluster/settings', 'GET', params)
+  }
+
+  /** Lightweight cluster-state slice, e.g. "blocks" for index write/read-only blocks. */
+  clusterState(metrics: string) {
+    return this.request(`_cluster/state/${metrics}`, 'GET')
   }
 
   clusterPutSettings(body: object) {
