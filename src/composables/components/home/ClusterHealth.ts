@@ -30,6 +30,7 @@ export const useClusterHealth = () => {
 export const checkHealth = async (cluster: ElasticsearchCluster) => {
   cluster.loading = true
   const adapter = new ElasticsearchAdapter(cluster)
+  let health: any = null
 
   try {
     const pingResponse: any = await adapter.ping()
@@ -41,8 +42,8 @@ export const checkHealth = async (cluster: ElasticsearchCluster) => {
       status = 'green'
     } else {
       const clusterHealthResponse: any = await adapter.clusterHealth()
-      const clusterHealthBody = await clusterHealthResponse.json()
-      status = clusterHealthBody.status
+      health = await clusterHealthResponse.json()
+      status = health.status
     }
 
     cluster.status = status
@@ -59,6 +60,7 @@ export const checkHealth = async (cluster: ElasticsearchCluster) => {
     cluster.status = 'unknown'
   }
   cluster.loading = false
+  return health
 }
 
 export const checkClusterHealth = async (credentials: ElasticsearchClusterConnection): Promise<string> => {

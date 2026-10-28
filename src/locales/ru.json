@@ -105,6 +105,12 @@
       "add_cluster": "Добавить кластер"
     }
   },
+  "clusters": {
+    "heading": "Кластеры",
+    "all": "Все кластеры",
+    "unreachable": "Не удалось подключиться",
+    "stats_unavailable": "Статистика кластера недоступна"
+  },
   "helpers": {
     "import_export": {
       "import_backup": {

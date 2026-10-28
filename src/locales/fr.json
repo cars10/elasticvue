@@ -105,6 +105,12 @@
       "add_cluster": "Ajouter le cluster"
     }
   },
+  "clusters": {
+    "heading": "Clusters",
+    "all": "Tous les clusters",
+    "unreachable": "Connexion impossible",
+    "stats_unavailable": "Statistiques du cluster indisponibles"
+  },
   "helpers": {
     "import_export": {
       "import_backup": {

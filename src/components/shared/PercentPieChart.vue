@@ -2,7 +2,11 @@
   <div ref="root" class="row items-center col-auto">
     <div class="relative-position col-auto" :style="{ width: `${size}px`, height: `${size}px` }">
       <canvas ref="canvasEl" class="fit block" aria-hidden="true" />
-      <div class="absolute-full flex flex-center text-weight-bold text-h6" :class="valueClass">
+      <div
+        class="absolute-full flex flex-center text-weight-bold"
+        :class="valueClass"
+        :style="{ fontSize: `${Math.round(size * 0.2)}px` }"
+      >
         {{ label }}
       </div>
     </div>

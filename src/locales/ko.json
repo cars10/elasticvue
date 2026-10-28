@@ -105,6 +105,12 @@
       "add_cluster": "클러스터 추가"
     }
   },
+  "clusters": {
+    "heading": "클러스터",
+    "all": "모든 클러스터",
+    "unreachable": "연결할 수 없음",
+    "stats_unavailable": "클러스터 통계를 사용할 수 없음"
+  },
   "helpers": {
     "import_export": {
       "import_backup": {

@@ -1,6 +1,16 @@
 <template>
   <div class="flex justify-between q-pa-sm q-ma-sm">
-    <new-cluster />
+    <div class="flex q-gutter-x-sm">
+      <new-cluster />
+      <q-btn
+        v-close-popup
+        flat
+        no-caps
+        :label="t('clusters.all')"
+        :to="{ name: 'clusters', params: { clusterIndex: connectionStore.activeClusterIndex } }"
+        data-testid="cluster-overview-link"
+      />
+    </div>
     <filter-input v-model="filter" data-testid="cluster-table-filter" />
   </div>
 

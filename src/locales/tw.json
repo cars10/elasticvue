@@ -105,6 +105,12 @@
       "add_cluster": "新增叢集"
     }
   },
+  "clusters": {
+    "heading": "叢集",
+    "all": "所有叢集",
+    "unreachable": "無法連線",
+    "stats_unavailable": "叢集統計無法使用"
+  },
   "helpers": {
     "import_export": {
       "import_backup": {

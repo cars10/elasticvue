@@ -105,6 +105,12 @@
       "add_cluster": "添加集群"
     }
   },
+  "clusters": {
+    "heading": "集群",
+    "all": "所有集群",
+    "unreachable": "无法连接",
+    "stats_unavailable": "集群统计不可用"
+  },
   "helpers": {
     "import_export": {
       "import_backup": {

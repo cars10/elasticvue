@@ -105,6 +105,12 @@
       "add_cluster": "クラスターを追加"
     }
   },
+  "clusters": {
+    "heading": "クラスター",
+    "all": "すべてのクラスター",
+    "unreachable": "接続できません",
+    "stats_unavailable": "クラスター統計を取得できません"
+  },
   "helpers": {
     "import_export": {
       "import_backup": {

@@ -4,7 +4,8 @@
       <q-card class="full-width col">
         <q-card-section class="row no-wrap items-start q-col-gutter-md">
           <div class="col" style="min-width: 0">
-            <div class="cluster-name ellipsis">
+            <div class="cluster-name ellipsis">{{ connectionStore.activeCluster?.name }}</div>
+            <div v-if="stats.cluster_name !== connectionStore.activeCluster?.name" class="text-muted ellipsis">
               {{ stats.cluster_name }}
             </div>
             <div v-if="versionLabel" class="q-mt-sm">{{ versionLabel }}</div>
@@ -14,10 +15,7 @@
           </div>
 
           <div class="col-auto text-right" data-testid="cluster-status">
-            <div class="cluster-status" :class="`cluster-status--${status || 'unknown'}`">
-              <span class="cluster-status__dot" />
-              <span>{{ healthLabel(status) }}</span>
-            </div>
+            <health-badge :status="status" />
             <div class="text-muted font-13 q-mt-sm">{{ statusSummary }}</div>
           </div>
         </q-card-section>
@@ -62,7 +60,8 @@
 import { computed } from 'vue'
 import { prettyPrintByteString } from '../../helpers/bytes'
 import { useTranslation } from '../../composables/i18n.ts'
-import { useHealthLabel } from '../../composables/HealthLabel.ts'
+import HealthBadge from '../shared/HealthBadge.vue'
+import { useConnectionStore } from '../../store/connection.ts'
 import type { ClusterHealth, ClusterStats } from '../../types/homeDashboard.ts'
 
 const props = defineProps<{
@@ -73,7 +72,7 @@ const props = defineProps<{
 }>()
 
 const t = useTranslation()
-const healthLabel = useHealthLabel()
+const connectionStore = useConnectionStore()
 
 const statusSummary = computed(() => {
   const unassigned = props.health?.unassigned_shards ?? 0
@@ -91,41 +90,5 @@ const diskLabel = computed(() => prettyPrintByteString(props.stats.indices.store
   font-size: 26px;
   font-weight: 600;
   line-height: 1.2;
-}
-
-.cluster-status {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 4px 12px;
-  border-radius: 999px;
-  font-weight: 600;
-  /* Pull text towards the theme's text color so yellow stays readable on light backgrounds */
-  color: color-mix(in srgb, var(--status-color) 70%, var(--theme-color));
-  background: color-mix(in srgb, var(--status-color) 14%, transparent);
-  border: 1px solid color-mix(in srgb, var(--status-color) 35%, transparent);
-}
-
-.cluster-status__dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--status-color);
-}
-
-.cluster-status--green {
-  --status-color: var(--theme-positive);
-}
-
-.cluster-status--yellow {
-  --status-color: var(--theme-warning);
-}
-
-.cluster-status--red {
-  --status-color: var(--theme-negative);
-}
-
-.cluster-status--unknown {
-  --status-color: var(--theme-muted-color);
 }
 </style>

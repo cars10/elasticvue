@@ -17,6 +17,7 @@ import SearchDocuments from './components/search/SearchDocuments.vue'
 import ShardRecovery from './components/shardrecovery/ShardRecovery.vue'
 import { buildConfig } from './buildConfig.ts'
 import ClusterTools from './components/tools/ClusterTools.vue'
+import ClustersPage from './components/clusters/ClustersPage.vue'
 
 const routes = [
   {
@@ -58,6 +59,7 @@ const routes = [
       { path: 'search', name: 'search', component: SearchDocuments },
       { path: 'rest', name: 'rest', component: RestQuery },
       { path: 'tools', name: 'tools', component: ClusterTools },
+      { path: 'clusters', name: 'clusters', component: ClustersPage },
       { path: 'snapshot_repositories', name: 'snapshot_repositories', component: SnapshotRepositories },
       { path: 'snapshot_repositories/:repositoryName', name: 'snapshots', component: RepositorySnapshots },
       { path: 'users', name: 'users', component: ClusterUsers },
