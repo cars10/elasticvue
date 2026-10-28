@@ -46,6 +46,12 @@
     },
     "theme_switcher": {
       "title": "Change theme"
+    },
+    "beta_notice": {
+      "text": "Elasticvue 2 is available as a beta, with a redesigned interface and a new dashboard.",
+      "blog": "Read the blog post",
+      "try": "Try the beta",
+      "dismiss": "Dismiss"
     }
   },
   "defaults": {

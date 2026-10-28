@@ -4,6 +4,7 @@
 
     <q-page-container>
       <div class="q-ma-md">
+        <beta-notice />
         <router-view v-if="showClusterView || route.name === 'settings'" />
         <div v-else-if="connectionStore.activeCluster?.status === 'unknown'" class="q-pa-lg">
           <div class="row">
@@ -28,6 +29,7 @@ import { computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import AppHeader from './components/base/AppHeader.vue'
 import AppFooter from './components/base/AppFooter.vue'
+import BetaNotice from './components/base/BetaNotice.vue'
 import ModalLoader from './components/shared/ModalLoader.vue'
 import AlertSnackbar from './components/shared/AlertSnackbar.vue'
 import NetworkError from './components/shared/NetworkError.vue'

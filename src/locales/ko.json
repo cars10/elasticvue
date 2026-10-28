@@ -46,6 +46,12 @@
     },
     "theme_switcher": {
       "title": "테마 변경"
+    },
+    "beta_notice": {
+      "text": "Elasticvue 2 베타를 사용할 수 있습니다. 새롭게 디자인된 인터페이스와 새 대시보드를 제공합니다.",
+      "blog": "블로그 글 읽기",
+      "try": "베타 사용해 보기",
+      "dismiss": "닫기"
     }
   },
   "defaults": {

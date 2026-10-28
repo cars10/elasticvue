@@ -46,6 +46,12 @@
     },
     "theme_switcher": {
       "title": "更改主题"
+    },
+    "beta_notice": {
+      "text": "Elasticvue 2 测试版现已推出，界面全新设计，并带来新的仪表盘。",
+      "blog": "阅读博客文章",
+      "try": "试用测试版",
+      "dismiss": "关闭"
     }
   },
   "defaults": {

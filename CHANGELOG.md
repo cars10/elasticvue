@@ -4,6 +4,7 @@
 
 * fix REST tab when running in docker, fixes [#363](https://github.com/cars10/elasticvue/issues/363)
 * fix welcome page not shown when no cluster is configured
+* shows elasticvue 2.0 notice
 
 ## 1.16.0
 
