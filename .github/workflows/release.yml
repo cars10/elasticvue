@@ -293,17 +293,68 @@ jobs:
         run: |
           git archive ${{ github.ref_name }} -o artifacts/elasticvue-${{ steps.package-version.outputs.current-version }}-firefox-source.zip
 
+      - name: Leave Chrome to publish_chrome
+        id: bpp-keys
+        env:
+          BPP_KEYS: ${{ secrets.BPP_KEYS }}
+        run: |
+          keys=$(jq -c 'del(.chrome)' <<< "$BPP_KEYS")
+          echo "::add-mask::$keys"
+          echo "keys=$keys" >> "$GITHUB_OUTPUT"
+
       - name: Publish to browser stores
         uses: PlasmoHQ/bpp@v3
         continue-on-error: true
         with:
-          keys: ${{ secrets.BPP_KEYS }}
-          chrome-file: artifacts/elasticvue-${{ steps.package-version.outputs.current-version }}-chrome.zip
+          keys: ${{ steps.bpp-keys.outputs.keys }}
           firefox-file: artifacts/elasticvue-${{ steps.package-version.outputs.current-version }}-firefox.zip
           source-file: artifacts/elasticvue-${{ steps.package-version.outputs.current-version }}-firefox-source.zip
           edge-file: artifacts/elasticvue-${{ steps.package-version.outputs.current-version }}-edge.zip
           edge-notes: ${{ secrets.BPP_EDGE_NOTES }}
           version-file: package.json
+
+  publish_chrome:
+    name: Publish to Chrome Web Store
+    needs:
+      - build_browser_extensions
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    concurrency:
+      group: chrome-web-store
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: martinbeentjes/npm-get-version-action@v1.3.1
+        id: package-version
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: browser_extension_artifacts
+          path: artifacts
+
+      - name: Read the Chrome keys
+        id: chrome-keys
+        env:
+          BPP_KEYS: ${{ secrets.BPP_KEYS }}
+        run: |
+          for field in clientId clientSecret refreshToken; do
+            value=$(jq -er ".chrome.$field" <<< "$BPP_KEYS")
+            echo "::add-mask::$value"
+            echo "$field=$value" >> "$GITHUB_OUTPUT"
+          done
+
+      - name: Publish to Chrome Web Store
+        uses: hamzahamidi/publish-to-chrome-web-store@v1
+        continue-on-error: true
+        with:
+          client-id: ${{ steps.chrome-keys.outputs.clientId }}
+          client-secret: ${{ steps.chrome-keys.outputs.clientSecret }}
+          refresh-token: ${{ steps.chrome-keys.outputs.refreshToken }}
+          publisher-id: ${{ vars.CWS_PUBLISHER_ID }}
+          item-id: hkedbapjpblbodpgbajblpnlpenaebaa
+          zip: artifacts/elasticvue-${{ steps.package-version.outputs.current-version }}-chrome.zip
 
   update-aur:
     needs: publish
