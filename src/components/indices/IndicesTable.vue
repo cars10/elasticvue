@@ -2,7 +2,7 @@
   <div class="flex justify-between q-pa-md">
     <div class="flex items-center">
       <new-index @reload="emit('reload')" />
-      <router-link v-if="clusterVersionGte(5)" to="index_templates" class="q-ml-md">
+      <router-link to="index_templates" class="q-ml-md">
         {{ t('index_templates.heading') }}
       </router-link>
 
@@ -103,7 +103,6 @@ import ResizableContainer from '../shared/ResizableContainer.vue'
 import { useTranslation } from '../../composables/i18n'
 import { EsTableProps, useIndicesTable } from '../../composables/components/indices/IndicesTable'
 import FilterState from '../shared/FilterState.vue'
-import { clusterVersionGte } from '../../helpers/minClusterVersion.ts'
 
 const t = useTranslation()
 

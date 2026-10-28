@@ -1,46 +1,26 @@
 <template>
+  <div class="flex justify-between items-center q-mb-lg">
+    <h1 class="page-title">{{ t('index_templates.heading') }}</h1>
+    <reload-button :action="load" v-model="indexTemplatesStore.reloadInterval" />
+  </div>
+
+  <index-templates-pulse v-if="templates.length" class="q-mb-lg" :summary="summary" :composable-supported="composableSupported" />
+
   <q-card>
-    <q-card-section class="flex items-center">
-      <h1 class="page-title">
-        {{ t('index_templates.heading') }}
-      </h1>
-      <reload-button :action="load" v-model="indexTemplatesStore.reloadInterval" />
-    </q-card-section>
-
-    <q-separator />
-
     <loader-status :request-state="requestState">
-      <index-templates-table :index-templates="data || []">
-        <q-select
-          v-if="clusterVersionGte(7)"
-          v-model="endpoint"
-          :options="endpointOptions"
-          :label="t('index_templates.endpoint')"
-          dense
-          outlined
-          class="q-mr-md"
-          style="min-width: 140px"
-        />
-      </index-templates-table>
+      <index-templates-table :index-templates="templates" />
     </loader-status>
   </q-card>
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue'
 import ReloadButton from '../shared/ReloadButton.vue'
 import LoaderStatus from '../shared/LoaderStatus.vue'
 import IndexTemplatesTable from './IndexTemplatesTable.vue'
+import IndexTemplatesPulse from './IndexTemplatesPulse.vue'
 import { useTranslation } from '../../composables/i18n.ts'
 import { useIndexTemplates } from '../../composables/components/indextemplates/IndexTemplates.ts'
-import { clusterVersionGte } from '../../helpers/minClusterVersion.ts'
-import { useIndexTemplatesStore } from '../../store/indexTemplates.ts'
 
 const t = useTranslation()
-
-const indexTemplatesStore = useIndexTemplatesStore()
-
-const { data, requestState, load, endpoint, endpointOptions } = useIndexTemplates()
-
-onMounted(load)
+const { indexTemplatesStore, requestState, templates, composableSupported, summary, load } = useIndexTemplates()
 </script>

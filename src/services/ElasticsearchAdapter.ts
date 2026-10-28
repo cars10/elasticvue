@@ -14,6 +14,10 @@ interface IndexGetArgs {
 export type ElasticsearchMethod = keyof ElasticsearchAdapter
 const MAX_INDICES_PER_REQUEST = 16
 
+type TemplateParams = { name?: string; filter_path?: string }
+
+const templatePath = (base: string, name?: string) => (name ? `${base}/${cleanIndexName(name)}` : base)
+
 const chunk = (array: any[], size: number) => {
   return Array.from({ length: Math.ceil(array.length / size) }, (_, i) => array.slice(i * size, i * size + size))
 }
@@ -87,12 +91,16 @@ export default class ElasticsearchAdapter {
     return this.request('_cat/aliases', 'GET', params)
   }
 
-  template() {
-    return this.request('_template', 'GET')
+  template({ name, ...params }: TemplateParams = {}) {
+    return this.request(templatePath('_template', name), 'GET', params)
   }
 
-  indexTemplate() {
-    return this.request('_index_template', 'GET')
+  indexTemplate({ name, ...params }: TemplateParams = {}) {
+    return this.request(templatePath('_index_template', name), 'GET', params)
+  }
+
+  componentTemplate({ name, ...params }: TemplateParams = {}) {
+    return this.request(templatePath('_component_template', name), 'GET', params)
   }
 
   indexGetAlias({ index }: { index: string }) {

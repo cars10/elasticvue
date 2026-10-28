@@ -256,7 +256,6 @@
   },
   "index_templates": {
     "heading": "インデックステンプレート",
-    "endpoint": "エンドポイント",
     "index_templates_table": {
       "show_hidden_templates": {
         "label": "隠しテンプレートを表示"
@@ -267,9 +266,26 @@
       "table": {
         "headers": {
           "name": "名前",
-          "index_patterns": "インデックスパターン"
+          "index_patterns": "インデックスパターン",
+          "type": "種類",
+          "priority": "優先度",
+          "components": "コンポーネント"
         }
       }
+    },
+    "index_template_row": {
+      "used_by": "未使用 | 1 個のテンプレートで使用 | {count} 個のテンプレートで使用"
+    },
+    "pulse": {
+      "templates": "インデックステンプレート",
+      "split": "コンポーザブル {composable}、レガシー {legacy}",
+      "components": "コンポーネントテンプレート",
+      "unused_components": "すべて使用中 | 1 個未使用 | {count} 個未使用",
+      "data_streams": "データストリーム",
+      "data_streams_hint": "データストリームを作成するテンプレート",
+      "legacy": "レガシーテンプレート",
+      "legacy_hint": "非推奨、コンポーザブルテンプレートが優先されます",
+      "no_legacy": "使用なし"
     }
   },
   "home": {

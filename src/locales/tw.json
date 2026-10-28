@@ -256,7 +256,6 @@
   },
   "index_templates": {
     "heading": "索引範本",
-    "endpoint": "端點",
     "index_templates_table": {
       "show_hidden_templates": {
         "label": "顯示隱藏的範本"
@@ -267,9 +266,26 @@
       "table": {
         "headers": {
           "name": "名稱",
-          "index_patterns": "索引模式"
+          "index_patterns": "索引模式",
+          "type": "類型",
+          "priority": "優先級",
+          "components": "元件"
         }
       }
+    },
+    "index_template_row": {
+      "used_by": "未使用 | 被 1 個範本使用 | 被 {count} 個範本使用"
+    },
+    "pulse": {
+      "templates": "索引範本",
+      "split": "{composable} 個可組合，{legacy} 個舊版",
+      "components": "元件範本",
+      "unused_components": "全部使用中 | 1 個未使用 | {count} 個未使用",
+      "data_streams": "資料串流",
+      "data_streams_hint": "建立資料串流的範本",
+      "legacy": "舊版範本",
+      "legacy_hint": "已棄用，可組合範本優先",
+      "no_legacy": "未使用"
     }
   },
   "home": {

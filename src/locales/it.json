@@ -256,7 +256,6 @@
   },
   "index_templates": {
     "heading": "Template di indici",
-    "endpoint": "Endpoint",
     "index_templates_table": {
       "show_hidden_templates": {
         "label": "Mostra template nascosti"
@@ -267,9 +266,26 @@
       "table": {
         "headers": {
           "name": "Nome",
-          "index_patterns": "Modelli di indice"
+          "index_patterns": "Modelli di indice",
+          "type": "Tipo",
+          "priority": "Priorità",
+          "components": "Componenti"
         }
       }
+    },
+    "index_template_row": {
+      "used_by": "Non usato | Usato da 1 template | Usato da {count} template"
+    },
+    "pulse": {
+      "templates": "Template di indice",
+      "split": "{composable} componibili, {legacy} legacy",
+      "components": "Template di componenti",
+      "unused_components": "Tutti in uso | 1 non usato | {count} non usati",
+      "data_streams": "Data stream",
+      "data_streams_hint": "Template che creano data stream",
+      "legacy": "Template legacy",
+      "legacy_hint": "Deprecati, i template componibili hanno la precedenza",
+      "no_legacy": "Nessuno in uso"
     }
   },
   "home": {

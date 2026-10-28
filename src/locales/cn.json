@@ -256,7 +256,6 @@
   },
   "index_templates": {
     "heading": "索引模板",
-    "endpoint": "端点",
     "index_templates_table": {
       "show_hidden_templates": {
         "label": "显示隐藏模板"
@@ -267,9 +266,26 @@
       "table": {
         "headers": {
           "name": "名字",
-          "index_patterns": "索引模式"
+          "index_patterns": "索引模式",
+          "type": "类型",
+          "priority": "优先级",
+          "components": "组件"
         }
       }
+    },
+    "index_template_row": {
+      "used_by": "未使用 | 被 1 个模板使用 | 被 {count} 个模板使用"
+    },
+    "pulse": {
+      "templates": "索引模板",
+      "split": "{composable} 个可组合，{legacy} 个旧版",
+      "components": "组件模板",
+      "unused_components": "全部在用 | 1 个未使用 | {count} 个未使用",
+      "data_streams": "数据流",
+      "data_streams_hint": "创建数据流的模板",
+      "legacy": "旧版模板",
+      "legacy_hint": "已弃用，可组合模板优先",
+      "no_legacy": "未使用"
     }
   },
   "home": {

@@ -256,7 +256,6 @@
   },
   "index_templates": {
     "heading": "Index templates",
-    "endpoint": "Endpoint",
     "index_templates_table": {
       "show_hidden_templates": {
         "label": "Show hidden templates"
@@ -267,9 +266,26 @@
       "table": {
         "headers": {
           "name": "Name",
-          "index_patterns": "index_patterns"
+          "index_patterns": "index_patterns",
+          "type": "Type",
+          "priority": "Priority",
+          "components": "Components"
         }
       }
+    },
+    "index_template_row": {
+      "used_by": "Unused | Used by 1 template | Used by {count} templates"
+    },
+    "pulse": {
+      "templates": "Index templates",
+      "split": "{composable} composable, {legacy} legacy",
+      "components": "Component templates",
+      "unused_components": "All in use | 1 unused | {count} unused",
+      "data_streams": "Data streams",
+      "data_streams_hint": "Templates that create data streams",
+      "legacy": "Legacy templates",
+      "legacy_hint": "Deprecated, composable templates take precedence",
+      "no_legacy": "None in use"
     }
   },
   "home": {

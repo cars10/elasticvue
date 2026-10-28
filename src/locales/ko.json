@@ -256,7 +256,6 @@
   },
   "index_templates": {
     "heading": "인덱스 템플릿",
-    "endpoint": "엔드포인트",
     "index_templates_table": {
       "show_hidden_templates": {
         "label": "숨겨진 템플릿 표시"
@@ -267,9 +266,26 @@
       "table": {
         "headers": {
           "name": "이름",
-          "index_patterns": "인덱스 패턴"
+          "index_patterns": "인덱스 패턴",
+          "type": "유형",
+          "priority": "우선순위",
+          "components": "컴포넌트"
         }
       }
+    },
+    "index_template_row": {
+      "used_by": "사용 안 함 | 템플릿 1개에서 사용 | 템플릿 {count}개에서 사용"
+    },
+    "pulse": {
+      "templates": "인덱스 템플릿",
+      "split": "컴포저블 {composable}개, 레거시 {legacy}개",
+      "components": "컴포넌트 템플릿",
+      "unused_components": "모두 사용 중 | 1개 미사용 | {count}개 미사용",
+      "data_streams": "데이터 스트림",
+      "data_streams_hint": "데이터 스트림을 만드는 템플릿",
+      "legacy": "레거시 템플릿",
+      "legacy_hint": "더 이상 사용되지 않음, 컴포저블 템플릿이 우선합니다",
+      "no_legacy": "사용 안 함"
     }
   },
   "home": {
