@@ -50,22 +50,22 @@
 
       <q-card-section class="font-13">
         <div class="row q-gutter-x-lg">
-          <i18n-t keypath="home.overview.nodes" :plural="overview.stats.nodes.count.total" tag="div">
+          <i18n-t scope="global" keypath="home.overview.nodes" :plural="overview.stats.nodes.count.total" tag="div">
             <template #count>
               <b>{{ overview.stats.nodes.count.total }}</b>
             </template>
           </i18n-t>
-          <i18n-t keypath="home.overview.indices" :plural="overview.stats.indices.count" tag="div">
+          <i18n-t scope="global" keypath="home.overview.indices" :plural="overview.stats.indices.count" tag="div">
             <template #count>
               <b>{{ overview.stats.indices.count }}</b>
             </template>
           </i18n-t>
-          <i18n-t keypath="home.overview.docs" :plural="overview.stats.indices.docs.count" tag="div">
+          <i18n-t scope="global" keypath="home.overview.docs" :plural="overview.stats.indices.docs.count" tag="div">
             <template #count>
               <b>{{ overview.stats.indices.docs.count.toLocaleString() }}</b>
             </template>
           </i18n-t>
-          <i18n-t keypath="home.overview.disk" tag="div">
+          <i18n-t scope="global" keypath="home.overview.disk" tag="div">
             <template #size>
               <b>{{ prettyPrintByteString(overview.stats.indices.store.size_in_bytes) }}</b>
             </template>

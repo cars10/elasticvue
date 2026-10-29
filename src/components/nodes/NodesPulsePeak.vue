@@ -1,6 +1,6 @@
 <template>
   <div v-if="peak.node" class="font-13 q-mt-xs">
-    <i18n-t keypath="cluster_nodes.pulse.peak" tag="span" class="text-muted">
+    <i18n-t scope="global" keypath="cluster_nodes.pulse.peak" tag="span" class="text-muted">
       <template #value>
         <span :class="pressureTextClass(pressureLevel(peak.value, thresholds)) || 'text-muted'">
           {{ formatPercent(peak.value) }}

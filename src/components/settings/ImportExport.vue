@@ -7,7 +7,7 @@
 
     <settings-row :label="t('settings.import_export.export.heading')">
       <template #description>
-        <i18n-t keypath="settings.import_export.export.contents" tag="span">
+        <i18n-t scope="global" keypath="settings.import_export.export.contents" tag="span">
           <template #credentials>
             <strong>{{ t('settings.import_export.export.credentials') }}</strong>
           </template>

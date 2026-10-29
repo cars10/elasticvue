@@ -72,13 +72,17 @@ export const querySuggestions = (token: QueryToken, fields: string[], values: st
   if (!token.value) return []
 
   const operators = /^[a-z]+$/i.test(token.value)
-    ? OPERATORS.filter((op) => op.startsWith(token.value.toUpperCase())).map(
-        (op): QuerySuggestion => ({ kind: 'operator', label: op, insert: `${op} ` })
-      )
+    ? OPERATORS.filter((op) => op.startsWith(token.value.toUpperCase())).map((op): QuerySuggestion => ({
+        kind: 'operator',
+        label: op,
+        insert: `${op} `
+      }))
     : []
-  const matching = rank(fields, token.value, limit).map(
-    (name): QuerySuggestion => ({ kind: 'field', label: name, insert: `${token.prefix}${escapeQueryField(name)}:` })
-  )
+  const matching = rank(fields, token.value, limit).map((name): QuerySuggestion => ({
+    kind: 'field',
+    label: name,
+    insert: `${token.prefix}${escapeQueryField(name)}:`
+  }))
   return [...matching, ...operators].slice(0, limit)
 }
 

@@ -14,7 +14,7 @@
             <q-icon name="info" size="18px" />
             {{ t('home.serverless.title') }}
           </div>
-          <i18n-t keypath="home.serverless.text" tag="div">
+          <i18n-t scope="global" keypath="home.serverless.text" tag="div">
             <template #link>
               <a href="https://www.elastic.co/docs/deploy-manage/deploy/elastic-cloud/serverless" target="_blank">{{
                 t('home.serverless.link')
