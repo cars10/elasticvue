@@ -53,6 +53,11 @@
     },
     "theme_switcher": {
       "title": "Changer de thème"
+    },
+    "beta_banner": {
+      "text": "Ceci est une version bêta d'elasticvue 2. Les choses changent souvent et peuvent ne pas fonctionner.",
+      "blog": "Lire l'article de blog",
+      "discussion": "Discuter sur GitHub"
     }
   },
   "defaults": {
@@ -872,7 +877,9 @@
         "query": "Requête",
         "dsl": "DSL",
         "dsl_hint": "Modifiez le corps de la requête ci-dessous, Ctrl+Entrée pour rechercher.",
-        "discard_dsl": "Abandonner vos modifications DSL et revenir à la barre de requête ?"
+        "discard_dsl": "Abandonner vos modifications DSL et revenir à la barre de requête ?",
+        "sql": "SQL",
+        "esql": "ES{'|'}QL"
       },
       "open_in_rest": "Ouvrir dans REST",
       "copy_curl": "Copier en cURL",
@@ -884,7 +891,7 @@
         "confirm": "# | Voulez-vous vraiment supprimer ce document ? | Voulez-vous vraiment supprimer {count} documents?",
         "growl": "# | Le document a été supprimé avec succès. | Les documents ont été supprimés avec succès."
       },
-      "edit_hint": "Double-cliquez pour modifier"
+      "edit_hint": "Cliquez pour les détails, double-cliquez pour modifier"
     },
     "results_table": {
       "tabs": {
@@ -909,7 +916,9 @@
           "unmapped": "Non mappé"
         },
         "catalog_skipped": "Plus de {limit} index correspondent, seuls les champs de la page actuelle sont listés."
-      }
+      },
+      "source_only_visible": "Charger uniquement les champs des colonnes visibles",
+      "download": "Télécharger"
     },
     "edit_document": {
       "update": {
@@ -937,6 +946,54 @@
     "histogram": {
       "title": "Histogramme",
       "interval": "par {interval}"
+    },
+    "filters": {
+      "add": "Ajouter un filtre",
+      "field": "Champ",
+      "value": "Valeur",
+      "from": "De",
+      "to": "À",
+      "negate": "Exclure les documents correspondants",
+      "save": "Enregistrer",
+      "edit": "Modifier",
+      "enable": "Activer",
+      "disable": "Désactiver",
+      "include": "Inclure les résultats",
+      "exclude": "Exclure les résultats",
+      "ops": {
+        "is": "est",
+        "exists": "existe",
+        "between": "entre"
+      }
+    },
+    "document_panel": {
+      "edit": "Modifier le document",
+      "delete": "Supprimer le document",
+      "fields": "Champs",
+      "surrounding": "Documents voisins",
+      "filter_for": "Filtrer sur cette valeur",
+      "filter_out": "Exclure cette valeur",
+      "filter_exists": "Filtrer sur la présence du champ"
+    },
+    "sql": {
+      "sql_label": "Requête SQL",
+      "esql_label": "Requête ES{'|'}QL",
+      "hint": "Ctrl+Entrée pour exécuter",
+      "rows": "Aucune ligne | {count} ligne | {count} lignes",
+      "load_more": "Charger plus"
+    },
+    "library": {
+      "title": "Recherches",
+      "history": "Historique",
+      "saved": "Enregistrées",
+      "save": "Enregistrer la recherche",
+      "save_current": "Enregistrer la recherche actuelle",
+      "rename": "Renommer",
+      "remove": "Supprimer",
+      "clear_history": "Effacer l'historique",
+      "clear_confirm": "Effacer tout l'historique des recherches ?",
+      "empty": "Rien pour le moment",
+      "filters": "1 filtre | {count} filtres"
     }
   },
   "settings": {
@@ -1530,9 +1587,6 @@
       "mode_bytes": "Les valeurs en octets décrivent l’espace disque libre requis.",
       "threshold_enabled": "Utiliser les seuils de disque pour l’allocation",
       "threshold_disabled_warning": "Sans seuils de disque, Elasticsearch ne protège plus les nœuds contre le manque d’espace.",
-      "low_max_headroom": "Marge max. bas",
-      "high_max_headroom": "Marge max. haut",
-      "flood_max_headroom": "Marge max. inondation",
       "headroom_hint": "Optionnel, par exemple 100gb.",
       "lowering_warning": "Relever les seuils laisse les nœuds se remplir davantage et devrait rester temporaire.",
       "confirm": "Mettre à jour les seuils de disque ?",
@@ -1543,7 +1597,10 @@
         "percent_order": "Les seuils doivent augmenter de bas à haut puis à inondation.",
         "bytes_order": "L’espace libre doit diminuer de bas à haut puis à inondation.",
         "headroom": "Utilisez des valeurs en octets comme 100gb."
-      }
+      },
+      "low_max_headroom": "Marge max. bas",
+      "high_max_headroom": "Marge max. haut",
+      "flood_max_headroom": "Marge max. inondation"
     },
     "recovery": {
       "title": "Bande passante de récupération",

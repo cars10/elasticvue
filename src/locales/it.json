@@ -53,6 +53,11 @@
     },
     "theme_switcher": {
       "title": "Cambia tema"
+    },
+    "beta_banner": {
+      "text": "Questa è una versione beta di elasticvue 2. Le cose cambiano spesso e potrebbero non funzionare.",
+      "blog": "Leggi l'articolo del blog",
+      "discussion": "Discuti su GitHub"
     }
   },
   "defaults": {
@@ -872,7 +877,9 @@
         "query": "Query",
         "dsl": "DSL",
         "dsl_hint": "Modifica il corpo della richiesta qui sotto, Ctrl+Invio per cercare.",
-        "discard_dsl": "Scartare le modifiche DSL e tornare alla barra di ricerca?"
+        "discard_dsl": "Scartare le modifiche DSL e tornare alla barra di ricerca?",
+        "sql": "SQL",
+        "esql": "ES{'|'}QL"
       },
       "open_in_rest": "Apri in REST",
       "copy_curl": "Copia come cURL",
@@ -884,7 +891,7 @@
         "confirm": "# | Sei sicuro di voler eliminare questo documento? | Sei sicuro di voler eliminare {count} documenti?",
         "growl": "# | Documento eliminato con successo. | Documenti eliminati con successo."
       },
-      "edit_hint": "Doppio clic per modificare"
+      "edit_hint": "Clicca per i dettagli, doppio clic per modificare"
     },
     "results_table": {
       "tabs": {
@@ -909,7 +916,9 @@
           "unmapped": "Non mappato"
         },
         "catalog_skipped": "Più di {limit} indici corrispondono, quindi sono elencati solo i campi della pagina corrente."
-      }
+      },
+      "source_only_visible": "Carica solo i campi delle colonne visibili",
+      "download": "Scarica"
     },
     "edit_document": {
       "update": {
@@ -937,6 +946,54 @@
     "histogram": {
       "title": "Istogramma",
       "interval": "ogni {interval}"
+    },
+    "filters": {
+      "add": "Aggiungi filtro",
+      "field": "Campo",
+      "value": "Valore",
+      "from": "Da",
+      "to": "A",
+      "negate": "Escludi i documenti corrispondenti",
+      "save": "Salva",
+      "edit": "Modifica",
+      "enable": "Abilita",
+      "disable": "Disabilita",
+      "include": "Includi risultati",
+      "exclude": "Escludi risultati",
+      "ops": {
+        "is": "è",
+        "exists": "esiste",
+        "between": "tra"
+      }
+    },
+    "document_panel": {
+      "edit": "Modifica documento",
+      "delete": "Elimina documento",
+      "fields": "Campi",
+      "surrounding": "Documenti vicini",
+      "filter_for": "Filtra per questo valore",
+      "filter_out": "Escludi questo valore",
+      "filter_exists": "Filtra per presenza del campo"
+    },
+    "sql": {
+      "sql_label": "Query SQL",
+      "esql_label": "Query ES{'|'}QL",
+      "hint": "Ctrl+Invio per eseguire",
+      "rows": "Nessuna riga | {count} riga | {count} righe",
+      "load_more": "Carica altro"
+    },
+    "library": {
+      "title": "Ricerche",
+      "history": "Cronologia",
+      "saved": "Salvate",
+      "save": "Salva ricerca",
+      "save_current": "Salva ricerca corrente",
+      "rename": "Rinomina",
+      "remove": "Rimuovi",
+      "clear_history": "Cancella cronologia",
+      "clear_confirm": "Cancellare tutta la cronologia delle ricerche?",
+      "empty": "Ancora niente qui",
+      "filters": "1 filtro | {count} filtri"
     }
   },
   "settings": {
@@ -1530,9 +1587,6 @@
       "mode_bytes": "I valori in byte indicano lo spazio libero richiesto.",
       "threshold_enabled": "Usa le soglie del disco per l’allocazione",
       "threshold_disabled_warning": "Senza soglie del disco, Elasticsearch non protegge più i nodi dall’esaurimento dello spazio.",
-      "low_max_headroom": "Margine max. bassa",
-      "high_max_headroom": "Margine max. alta",
-      "flood_max_headroom": "Margine max. flood",
       "headroom_hint": "Opzionale, ad esempio 100gb.",
       "lowering_warning": "Alzare le soglie fa riempire di più i nodi e dovrebbe essere temporaneo.",
       "confirm": "Aggiornare le soglie del disco?",
@@ -1543,7 +1597,10 @@
         "percent_order": "Le soglie devono crescere da bassa ad alta a flood.",
         "bytes_order": "Lo spazio libero deve diminuire da bassa ad alta a flood.",
         "headroom": "Usa valori in byte come 100gb."
-      }
+      },
+      "low_max_headroom": "Margine max. bassa",
+      "high_max_headroom": "Margine max. alta",
+      "flood_max_headroom": "Margine max. flood"
     },
     "recovery": {
       "title": "Banda per il recovery",

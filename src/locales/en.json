@@ -53,6 +53,11 @@
     },
     "theme_switcher": {
       "title": "Change theme"
+    },
+    "beta_banner": {
+      "text": "This is a beta version of elasticvue 2. Things change frequently and might break.",
+      "blog": "Read the blog post",
+      "discussion": "Discuss on GitHub"
     }
   },
   "defaults": {

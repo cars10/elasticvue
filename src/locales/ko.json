@@ -53,6 +53,11 @@
     },
     "theme_switcher": {
       "title": "테마 변경"
+    },
+    "beta_banner": {
+      "text": "elasticvue 2 베타 버전입니다. 자주 변경되며 문제가 생길 수 있습니다.",
+      "blog": "블로그 글 읽기",
+      "discussion": "GitHub에서 토론하기"
     }
   },
   "defaults": {
@@ -872,7 +877,9 @@
         "query": "쿼리",
         "dsl": "DSL",
         "dsl_hint": "아래에서 요청 본문을 편집하고 Ctrl+Enter로 검색하세요.",
-        "discard_dsl": "DSL 변경 사항을 버리고 쿼리 입력으로 돌아갈까요?"
+        "discard_dsl": "DSL 변경 사항을 버리고 쿼리 입력으로 돌아갈까요?",
+        "sql": "SQL",
+        "esql": "ES{'|'}QL"
       },
       "open_in_rest": "REST에서 열기",
       "copy_curl": "cURL로 복사",
@@ -884,7 +891,7 @@
         "confirm": "# | 이 문서를 삭제하시겠습니까? | {count}개의 문서를 삭제하시겠습니까?",
         "growl": "# | 문서가 정상적으로 삭제되었습니다. | 문서가 정상적으로 삭제되었습니다."
       },
-      "edit_hint": "더블 클릭하여 편집"
+      "edit_hint": "클릭하여 상세 보기, 더블 클릭하여 편집"
     },
     "results_table": {
       "tabs": {
@@ -909,7 +916,9 @@
           "unmapped": "매핑되지 않음"
         },
         "catalog_skipped": "{limit}개가 넘는 인덱스가 일치하여 현재 페이지의 필드만 표시합니다."
-      }
+      },
+      "source_only_visible": "표시된 열의 필드만 불러오기",
+      "download": "다운로드"
     },
     "edit_document": {
       "update": {
@@ -937,6 +946,54 @@
     "histogram": {
       "title": "히스토그램",
       "interval": "{interval} 단위"
+    },
+    "filters": {
+      "add": "필터 추가",
+      "field": "필드",
+      "value": "값",
+      "from": "시작",
+      "to": "끝",
+      "negate": "일치하는 문서 제외",
+      "save": "저장",
+      "edit": "편집",
+      "enable": "사용",
+      "disable": "사용 안 함",
+      "include": "결과 포함",
+      "exclude": "결과 제외",
+      "ops": {
+        "is": "같음",
+        "exists": "존재",
+        "between": "범위"
+      }
+    },
+    "document_panel": {
+      "edit": "문서 편집",
+      "delete": "문서 삭제",
+      "fields": "필드",
+      "surrounding": "주변 문서",
+      "filter_for": "이 값으로 필터",
+      "filter_out": "이 값 제외",
+      "filter_exists": "필드 존재 여부로 필터"
+    },
+    "sql": {
+      "sql_label": "SQL 쿼리",
+      "esql_label": "ES{'|'}QL 쿼리",
+      "hint": "Ctrl+Enter로 실행",
+      "rows": "행 없음 | {count}행 | {count}행",
+      "load_more": "더 불러오기"
+    },
+    "library": {
+      "title": "검색",
+      "history": "기록",
+      "saved": "저장됨",
+      "save": "검색 저장",
+      "save_current": "현재 검색 저장",
+      "rename": "이름 변경",
+      "remove": "삭제",
+      "clear_history": "기록 지우기",
+      "clear_confirm": "검색 기록을 모두 지우시겠습니까?",
+      "empty": "아직 항목이 없습니다",
+      "filters": "필터 1개 | 필터 {count}개"
     }
   },
   "settings": {
@@ -1530,9 +1587,6 @@
       "mode_bytes": "바이트 값은 필요한 여유 디스크 공간을 나타냅니다.",
       "threshold_enabled": "할당에 디스크 기준 사용",
       "threshold_disabled_warning": "디스크 기준이 없으면 Elasticsearch가 노드의 디스크 부족을 더 이상 막지 못합니다.",
-      "low_max_headroom": "낮음 최대 여유 공간",
-      "high_max_headroom": "높음 최대 여유 공간",
-      "flood_max_headroom": "플러드 단계 최대 여유 공간",
       "headroom_hint": "선택 사항, 예: 100gb.",
       "lowering_warning": "기준을 높이면 노드가 더 많이 차므로 일시적으로만 사용하세요.",
       "confirm": "디스크 워터마크를 업데이트할까요?",
@@ -1543,7 +1597,10 @@
         "percent_order": "기준은 낮음, 높음, 플러드 단계 순으로 커져야 합니다.",
         "bytes_order": "여유 공간은 낮음, 높음, 플러드 단계 순으로 작아져야 합니다.",
         "headroom": "100gb 같은 바이트 값을 사용하세요."
-      }
+      },
+      "low_max_headroom": "낮음 최대 여유 공간",
+      "high_max_headroom": "높음 최대 여유 공간",
+      "flood_max_headroom": "플러드 단계 최대 여유 공간"
     },
     "recovery": {
       "title": "복구 대역폭",

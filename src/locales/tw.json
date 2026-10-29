@@ -53,6 +53,11 @@
     },
     "theme_switcher": {
       "title": "切換主題"
+    },
+    "beta_banner": {
+      "text": "這是 elasticvue 2 的測試版。功能經常變動，可能會出現問題。",
+      "blog": "閱讀部落格文章",
+      "discussion": "在 GitHub 上討論"
     }
   },
   "defaults": {
@@ -872,7 +877,9 @@
         "query": "查詢",
         "dsl": "DSL",
         "dsl_hint": "在下方編輯請求內容，按 Ctrl+Enter 搜尋。",
-        "discard_dsl": "放棄 DSL 修改並切換回查詢列？"
+        "discard_dsl": "放棄 DSL 修改並切換回查詢列？",
+        "sql": "SQL",
+        "esql": "ES{'|'}QL"
       },
       "open_in_rest": "在 REST 中開啟",
       "copy_curl": "複製為 cURL",
@@ -884,7 +891,7 @@
         "confirm": "# | 您確定要刪除此文件嗎？ | 您確定要刪除 {count} 份文件嗎？",
         "growl": "# | 文件已成功刪除。 | 文件已成功刪除。"
       },
-      "edit_hint": "按兩下以編輯"
+      "edit_hint": "按一下查看詳細資料，按兩下編輯"
     },
     "results_table": {
       "tabs": {
@@ -909,7 +916,9 @@
           "unmapped": "未對應"
         },
         "catalog_skipped": "符合的索引超過 {limit} 個，因此只列出目前頁面的欄位。"
-      }
+      },
+      "source_only_visible": "僅載入可見欄的欄位",
+      "download": "下載"
     },
     "edit_document": {
       "update": {
@@ -937,6 +946,54 @@
     "histogram": {
       "title": "直方圖",
       "interval": "每 {interval}"
+    },
+    "filters": {
+      "add": "新增篩選",
+      "field": "欄位",
+      "value": "值",
+      "from": "從",
+      "to": "到",
+      "negate": "排除符合的文件",
+      "save": "儲存",
+      "edit": "編輯",
+      "enable": "啟用",
+      "disable": "停用",
+      "include": "包含結果",
+      "exclude": "排除結果",
+      "ops": {
+        "is": "是",
+        "exists": "存在",
+        "between": "介於"
+      }
+    },
+    "document_panel": {
+      "edit": "編輯文件",
+      "delete": "刪除文件",
+      "fields": "欄位",
+      "surrounding": "相鄰文件",
+      "filter_for": "篩選此值",
+      "filter_out": "排除此值",
+      "filter_exists": "篩選存在此欄位"
+    },
+    "sql": {
+      "sql_label": "SQL 查詢",
+      "esql_label": "ES{'|'}QL 查詢",
+      "hint": "Ctrl+Enter 執行",
+      "rows": "沒有資料列 | {count} 列 | {count} 列",
+      "load_more": "載入更多"
+    },
+    "library": {
+      "title": "搜尋",
+      "history": "歷史",
+      "saved": "已儲存",
+      "save": "儲存搜尋",
+      "save_current": "儲存目前搜尋",
+      "rename": "重新命名",
+      "remove": "移除",
+      "clear_history": "清除歷史",
+      "clear_confirm": "清除全部搜尋歷史？",
+      "empty": "目前沒有內容",
+      "filters": "1 個篩選 | {count} 個篩選"
     }
   },
   "settings": {
@@ -1530,9 +1587,6 @@
       "mode_bytes": "位元組值表示所需的剩餘磁碟空間。",
       "threshold_enabled": "分配時使用磁碟門檻",
       "threshold_disabled_warning": "沒有磁碟門檻時，Elasticsearch 不再保護節點免於磁碟寫滿。",
-      "low_max_headroom": "低水位最大餘裕",
-      "high_max_headroom": "高水位最大餘裕",
-      "flood_max_headroom": "洪水水位最大餘裕",
       "headroom_hint": "選填，例如 100gb。",
       "lowering_warning": "提高門檻會讓節點寫得更滿，應僅作為暫時措施。",
       "confirm": "更新磁碟水位線？",
@@ -1543,7 +1597,10 @@
         "percent_order": "門檻必須由低到高再到洪水依序遞增。",
         "bytes_order": "剩餘空間必須由低到高再到洪水依序遞減。",
         "headroom": "請使用位元組值，例如 100gb。"
-      }
+      },
+      "low_max_headroom": "低水位最大餘裕",
+      "high_max_headroom": "高水位最大餘裕",
+      "flood_max_headroom": "洪水水位最大餘裕"
     },
     "recovery": {
       "title": "復原頻寬",

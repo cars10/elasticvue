@@ -1,5 +1,6 @@
 <template>
-  <q-layout view="lHh Lpr lff" style="outline: none !important">
+  <q-layout view="hHh Lpr lff" style="outline: none !important">
+    <beta-banner />
     <app-sidebar v-if="connectionStore.activeCluster" />
 
     <q-page-container>
@@ -28,6 +29,7 @@ import { computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import AppSidebar from './components/base/AppSidebar.vue'
 import AppFooter from './components/base/AppFooter.vue'
+import BetaBanner from './components/base/BetaBanner.vue'
 import ModalLoader from './components/shared/ModalLoader.vue'
 import AlertSnackbar from './components/shared/AlertSnackbar.vue'
 import NetworkError from './components/shared/NetworkError.vue'

@@ -53,6 +53,11 @@
     },
     "theme_switcher": {
       "title": "テーマを変更"
+    },
+    "beta_banner": {
+      "text": "これは elasticvue 2 のベータ版です。頻繁に変更され、動作しない場合があります。",
+      "blog": "ブログ記事を読む",
+      "discussion": "GitHub で議論する"
     }
   },
   "defaults": {
@@ -872,7 +877,9 @@
         "query": "クエリ",
         "dsl": "DSL",
         "dsl_hint": "下でリクエストボディを編集し、Ctrl+Enter で検索します。",
-        "discard_dsl": "DSL の変更を破棄してクエリバーに戻りますか？"
+        "discard_dsl": "DSL の変更を破棄してクエリバーに戻りますか？",
+        "sql": "SQL",
+        "esql": "ES{'|'}QL"
       },
       "open_in_rest": "REST で開く",
       "copy_curl": "cURL としてコピー",
@@ -884,7 +891,7 @@
         "confirm": "# | このドキュメントを削除しますか？ | {count} 個のドキュメントを削除しますか？",
         "growl": "# | ドキュメントは正常に削除されました。 | ドキュメントは正常に削除されました。"
       },
-      "edit_hint": "ダブルクリックで編集"
+      "edit_hint": "クリックで詳細、ダブルクリックで編集"
     },
     "results_table": {
       "tabs": {
@@ -909,7 +916,9 @@
           "unmapped": "マッピングなし"
         },
         "catalog_skipped": "{limit} 個を超えるインデックスが一致するため、現在のページのフィールドのみを表示します。"
-      }
+      },
+      "source_only_visible": "表示中の列のフィールドのみ読み込む",
+      "download": "ダウンロード"
     },
     "edit_document": {
       "update": {
@@ -937,6 +946,54 @@
     "histogram": {
       "title": "ヒストグラム",
       "interval": "{interval} ごと"
+    },
+    "filters": {
+      "add": "フィルターを追加",
+      "field": "フィールド",
+      "value": "値",
+      "from": "開始",
+      "to": "終了",
+      "negate": "一致するドキュメントを除外",
+      "save": "保存",
+      "edit": "編集",
+      "enable": "有効にする",
+      "disable": "無効にする",
+      "include": "結果に含める",
+      "exclude": "結果から除外",
+      "ops": {
+        "is": "一致",
+        "exists": "存在する",
+        "between": "範囲"
+      }
+    },
+    "document_panel": {
+      "edit": "ドキュメントを編集",
+      "delete": "ドキュメントを削除",
+      "fields": "フィールド",
+      "surrounding": "前後のドキュメント",
+      "filter_for": "この値で絞り込む",
+      "filter_out": "この値を除外",
+      "filter_exists": "フィールドの存在で絞り込む"
+    },
+    "sql": {
+      "sql_label": "SQL クエリ",
+      "esql_label": "ES{'|'}QL クエリ",
+      "hint": "Ctrl+Enter で実行",
+      "rows": "行なし | {count} 行 | {count} 行",
+      "load_more": "さらに読み込む"
+    },
+    "library": {
+      "title": "検索",
+      "history": "履歴",
+      "saved": "保存済み",
+      "save": "検索を保存",
+      "save_current": "現在の検索を保存",
+      "rename": "名前を変更",
+      "remove": "削除",
+      "clear_history": "履歴を消去",
+      "clear_confirm": "検索履歴をすべて消去しますか？",
+      "empty": "まだ何もありません",
+      "filters": "フィルター 1 件 | フィルター {count} 件"
     }
   },
   "settings": {
@@ -1530,9 +1587,6 @@
       "mode_bytes": "バイト値は必要な空きディスク容量を表します。",
       "threshold_enabled": "割り当てにディスクのしきい値を使う",
       "threshold_disabled_warning": "ディスクのしきい値がないと、Elasticsearch はノードのディスク枯渇を防げなくなります。",
-      "low_max_headroom": "低の最大ヘッドルーム",
-      "high_max_headroom": "高の最大ヘッドルーム",
-      "flood_max_headroom": "フラッドステージの最大ヘッドルーム",
       "headroom_hint": "任意。例: 100gb。",
       "lowering_warning": "しきい値を上げるとノードがさらに埋まるため、一時的な措置にとどめてください。",
       "confirm": "ディスクウォーターマークを更新しますか？",
@@ -1543,7 +1597,10 @@
         "percent_order": "しきい値は低、高、フラッドステージの順に大きくする必要があります。",
         "bytes_order": "空き容量は低、高、フラッドステージの順に小さくする必要があります。",
         "headroom": "100gb のようなバイト値を使ってください。"
-      }
+      },
+      "low_max_headroom": "低の最大ヘッドルーム",
+      "high_max_headroom": "高の最大ヘッドルーム",
+      "flood_max_headroom": "フラッドステージの最大ヘッドルーム"
     },
     "recovery": {
       "title": "リカバリ帯域",
