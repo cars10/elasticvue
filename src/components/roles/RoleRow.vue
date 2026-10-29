@@ -45,7 +45,7 @@
     <td colspan="100%">
       <div class="q-pa-md">
         <resizable-container>
-          <code-viewer :value="JSON.stringify(role.raw)" />
+          <code-viewer :value="stringifyJson(role.raw)" />
         </resizable-container>
       </div>
     </td>
@@ -59,6 +59,7 @@ import { useRoleRow } from '../../composables/components/roles/RoleRow.ts'
 import { supportsRoleDescription } from '../../helpers/securitySupport.ts'
 import { isClusterAdminPrivilege } from '../../helpers/security.ts'
 import type { ClusterRole, RoleUsage } from '../../types/security.ts'
+import { stringifyJson } from '../../helpers/json/stringify.ts'
 
 const CodeViewer = defineAsyncComponent(() => import('../shared/CodeViewer.vue'))
 

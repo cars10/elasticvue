@@ -9,7 +9,7 @@
         <q-badge v-if="repository.readonly" outline color="grey" label="read-only" />
       </div>
     </td>
-    <td :title="JSON.stringify(repository.settings, null, 2)">
+    <td :title="stringifyJson(repository.settings, null, 2)">
       <span v-if="repository.location" class="text-muted font-13">{{ repository.location }}</span>
       <span v-else class="text-muted">-</span>
     </td>
@@ -55,6 +55,7 @@ import RepositoryPolicies from './RepositoryPolicies.vue'
 import { RepositoryRowProps, useRepositoryRow } from '../../composables/components/repositories/RepositoryRow.ts'
 import { supportsRepositoryVerify } from '../../helpers/snapshotSupport.ts'
 import { formatTimeAgo, formatTimeIn } from '../../helpers/time.ts'
+import { stringifyJson } from '../../helpers/json/stringify.ts'
 
 const props = defineProps<RepositoryRowProps & { slm: boolean }>()
 const emit = defineEmits<{ reload: [] }>()

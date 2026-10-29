@@ -4,6 +4,7 @@ import { useConnectionStore } from './connection'
 import { toRaw } from 'vue'
 import { rememberColumns, targetKey } from '../helpers/search/columns.ts'
 import { sameSearch, SEARCH_HISTORY_LIMIT } from '../helpers/search/searchLibrary.ts'
+import { hasOwn } from '../helpers/search/documentValues.ts'
 import { clusterDb } from '../db/Idb.ts'
 import type { IdbSearchEntry } from '../db/types.ts'
 import type { SearchFilter, SearchMode, SearchTimeBounds } from '../types/search.ts'
@@ -35,6 +36,9 @@ type SearchState = {
   documentFieldMaxLength: number
 } & ReloadIntervalStorePartial
 
+// Index names like constructor must not resolve to Object.prototype members
+const ownValue = <T>(map: Record<string, T>, key: string) => (hasOwn(map, key) ? map[key] : undefined)
+
 export const useSearchStore = () => {
   const clusterUuid = useConnectionStore().activeCluster?.uuid || ''
 
@@ -64,8 +68,8 @@ export const useSearchStore = () => {
       documentFieldMaxLength: DEFAULT_DOCUMENT_FIELD_MAX_LENGTH
     }),
     getters: {
-      savedColumns: (state): string[] | undefined => state.columnsByTarget[targetKey(state.targets)],
-      savedTimeField: (state): string | undefined => state.timeFieldByTarget[targetKey(state.targets)]
+      savedColumns: (state): string[] | undefined => ownValue(state.columnsByTarget, targetKey(state.targets)),
+      savedTimeField: (state): string | undefined => ownValue(state.timeFieldByTarget, targetKey(state.targets))
     },
     actions: {
       setColumns(columns: string[]) {

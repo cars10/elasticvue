@@ -1,5 +1,8 @@
 import type { EsFieldCapsResponse, EsMappingProperty, FieldCatalog, FieldInfo } from '../../types/search.ts'
 
+// Null prototype, so fields named like constructor or __proto__ do not hit Object.prototype
+export const emptyCatalog = (): FieldCatalog => Object.create(null)
+
 const PARENT_TYPES = ['object', 'nested']
 const UNMAPPED = 'unmapped'
 
@@ -29,7 +32,7 @@ const withSortFields = (catalog: FieldCatalog): FieldCatalog => {
 }
 
 export const catalogFromFieldCaps = (response: EsFieldCapsResponse): FieldCatalog => {
-  const catalog: FieldCatalog = {}
+  const catalog = emptyCatalog()
 
   Object.entries(response.fields || {}).forEach(([name, byType]) => {
     if (name.startsWith('_')) return
@@ -82,7 +85,7 @@ const mappingProperties = (mappings: Record<string, any>): Record<string, EsMapp
 }
 
 export const catalogFromMappings = (response: Record<string, { mappings?: Record<string, any> }>): FieldCatalog => {
-  const seen: Record<string, { types: Set<string>; indices: Set<string>; aggregatable: boolean }> = {}
+  const seen: Record<string, { types: Set<string>; indices: Set<string>; aggregatable: boolean }> = Object.create(null)
   const indexNames = Object.keys(response || {})
 
   indexNames.forEach((index) => {
@@ -96,7 +99,7 @@ export const catalogFromMappings = (response: Record<string, { mappings?: Record
     )
   })
 
-  const catalog: FieldCatalog = {}
+  const catalog = emptyCatalog()
   Object.entries(seen).forEach(([name, entry]) => {
     const partial = entry.indices.size < indexNames.length
     catalog[name] = {

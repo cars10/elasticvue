@@ -36,7 +36,7 @@
       <div class="q-pa-md">
         <loader-status :request-state="requestState">
           <resizable-container v-if="body">
-            <code-viewer :value="JSON.stringify(body)" />
+            <code-viewer :value="stringifyJson(body)" />
           </resizable-container>
         </loader-status>
       </div>
@@ -52,6 +52,7 @@ import { useTranslation } from '../../composables/i18n.ts'
 import { useElasticsearchAdapter } from '../../composables/CallElasticsearch.ts'
 import { extractTemplateBody, TEMPLATE_METHODS } from '../../helpers/indexTemplates.ts'
 import type { IndexTemplate, IndexTemplateType } from '../../types/indexTemplates.ts'
+import { stringifyJson } from '../../helpers/json/stringify.ts'
 
 const CodeViewer = defineAsyncComponent(() => import('../shared/CodeViewer.vue'))
 

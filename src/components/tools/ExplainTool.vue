@@ -32,7 +32,7 @@
         </q-item>
       </q-list>
       <q-expansion-item :label="t('tools.explain.raw')" dense class="q-mt-sm">
-        <pre class="tool-json">{{ JSON.stringify(explanation, null, 2) }}</pre>
+        <pre class="tool-json">{{ stringifyJson(explanation, null, 2) }}</pre>
       </q-expansion-item>
     </div>
   </template>
@@ -46,6 +46,7 @@ import { useToolLabels } from '../../composables/components/tools/ToolLabels.ts'
 import { summarizeAllocationExplanation } from '../../helpers/clusterTools.ts'
 import type { ToolShard } from '../../types/clusterTools.ts'
 import ToolError from './ToolError.vue'
+import { stringifyJson } from '../../helpers/json/stringify.ts'
 
 const t = useTranslation()
 const labels = useToolLabels()

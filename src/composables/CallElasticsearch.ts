@@ -4,6 +4,7 @@ import { useConnectionStore } from '../store/connection'
 import { askConfirm } from '../helpers/dialogs'
 import { SnackbarOptions, useSnackbar } from './Snackbar'
 import { parseJson } from '../helpers/json/parse.ts'
+import { stringifyJson } from '../helpers/json/stringify.ts'
 
 // Helper type to extract all parameters from a method
 type MethodParameters<T> = T extends (...args: infer P) => any ? P : never
@@ -146,7 +147,7 @@ const elasticsearchError = (error: any) => {
     case 'index_not_found_exception':
       return 'Index not found'
     default:
-      return JSON.stringify(error)
+      return stringifyJson(error)
   }
 }
 

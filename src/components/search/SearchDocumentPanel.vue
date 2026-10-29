@@ -158,7 +158,7 @@ const fields = computed(() => Object.entries(flattenDocument(source.value)).sort
 const filteredFields = computed(() => fields.value.filter(([field]) => matchesAllTerms(field, filter.value)))
 const json = computed(() => stringifyJson(document.value, null, 2))
 
-const isFilterable = (value: unknown) => ['string', 'number', 'boolean'].includes(typeof value)
+const isFilterable = (value: unknown) => ['string', 'number', 'bigint', 'boolean'].includes(typeof value)
 
 const surroundingTime = computed(() => {
   if (!props.timeField) return null

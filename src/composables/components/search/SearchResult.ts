@@ -4,7 +4,7 @@ import { useSearchStore } from '../../../store/search.ts'
 import { defineElasticsearchRequest } from '../../CallElasticsearch.ts'
 import { truncateString } from '../../../helpers/truncate.ts'
 import { DEFAULT_DOCUMENT_FIELD_MAX_LENGTH } from '../../../consts.ts'
-import { formatFieldValue, getFieldValue, summarizeDocument } from '../../../helpers/search/documentValues.ts'
+import { formatFieldValue, getFieldValue, hasOwn, summarizeDocument } from '../../../helpers/search/documentValues.ts'
 import { SOURCE_COLUMN } from '../../../helpers/search/columns.ts'
 import { hitSource } from './SearchResultsTable.ts'
 import type { FieldCatalog } from '../../../types/search.ts'
@@ -29,7 +29,7 @@ export const useSearchResult = (props: SearchResultProps, emit: any) => {
     const hit = props.hit
     if (column === SOURCE_COLUMN) return summarizeDocument(hitSource(hit), maxLength())
     if (column === '_type') return hit._type || '_doc'
-    if (column.startsWith('_') && column in hit) return formatFieldValue(hit[column as keyof EsSearchHit])
+    if (column.startsWith('_') && hasOwn(hit, column)) return formatFieldValue(hit[column as keyof EsSearchHit])
 
     const value = getFieldValue(hitSource(hit), column)
     const isDate = searchStore.localizeTimestamp && props.catalog[column]?.types.includes('date')

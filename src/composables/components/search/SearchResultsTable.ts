@@ -4,7 +4,7 @@ import { useSearchStore } from '../../../store/search.ts'
 import { useSelectableRows } from '../../SelectableRow.ts'
 import { useTranslation } from '../../i18n.ts'
 import { stringifyJson } from '../../../helpers/json/stringify.ts'
-import { flattenDocument, formatFieldValue, getFieldValue, toCsv } from '../../../helpers/search/documentValues.ts'
+import { flattenDocument, formatFieldValue, getFieldValue, hasOwn, toCsv } from '../../../helpers/search/documentValues.ts'
 import { columnOptions, defaultColumns, SOURCE_COLUMN } from '../../../helpers/search/columns.ts'
 import type { FieldCatalog } from '../../../types/search.ts'
 import type { EsSearchHit, EsSearchResult } from './SearchDocuments.ts'
@@ -21,7 +21,7 @@ export const hitSource = (hit: EsSearchHit) => hit._source ?? hit.fields ?? {}
 export const rawCellValue = (hit: EsSearchHit, column: string) => {
   if (column === SOURCE_COLUMN) return formatFieldValue(hitSource(hit))
   if (column === '_type') return hit._type || '_doc'
-  if (column.startsWith('_') && column in hit) return formatFieldValue(hit[column as keyof EsSearchHit])
+  if (column.startsWith('_') && hasOwn(hit, column)) return formatFieldValue(hit[column as keyof EsSearchHit])
   return formatFieldValue(getFieldValue(hitSource(hit), column))
 }
 

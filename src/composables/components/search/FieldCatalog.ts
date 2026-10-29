@@ -2,7 +2,7 @@ import { ref, shallowRef } from 'vue'
 import { useElasticsearchAdapter } from '../../CallElasticsearch.ts'
 import { useConnectionStore } from '../../../store/connection.ts'
 import { elasticsearchCompatibleVersion, versionAtLeast } from '../../../helpers/minClusterVersion.ts'
-import { catalogFromFieldCaps, catalogFromMappings } from '../../../helpers/search/fieldCatalog.ts'
+import { catalogFromFieldCaps, catalogFromMappings, emptyCatalog } from '../../../helpers/search/fieldCatalog.ts'
 import { targetKey } from '../../../helpers/search/columns.ts'
 import type { FieldCatalog } from '../../../types/search.ts'
 
@@ -13,7 +13,7 @@ const catalogs = new Map<string, Promise<FieldCatalog>>()
 export const useFieldCatalog = () => {
   const connectionStore = useConnectionStore()
   const { callElasticsearch } = useElasticsearchAdapter()
-  const catalog = shallowRef<FieldCatalog>({})
+  const catalog = shallowRef<FieldCatalog>(emptyCatalog())
   const skipped = ref(false)
   let latest = 0
 
@@ -31,7 +31,7 @@ export const useFieldCatalog = () => {
     const request = ++latest
     skipped.value = matchedIndices > FIELD_CATALOG_INDEX_LIMIT
     if (skipped.value) {
-      catalog.value = {}
+      catalog.value = emptyCatalog()
       return
     }
 
@@ -44,7 +44,7 @@ export const useFieldCatalog = () => {
         key,
         fetchCatalog(index).catch(() => {
           catalogs.delete(key)
-          return {}
+          return emptyCatalog()
         })
       )
     }

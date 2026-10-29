@@ -1,6 +1,7 @@
 import { useElasticsearchAdapter } from '../CallElasticsearch.ts'
 import { useSnackbar } from '../Snackbar.ts'
 import { askConfirm } from '../../helpers/dialogs.ts'
+import { stringifyJson } from '../../helpers/json/stringify.ts'
 import { ElasticsearchMethod } from '../../services/ElasticsearchAdapter.ts'
 
 export const useRowMenuAction = ({
@@ -23,7 +24,7 @@ export const useRowMenuAction = ({
     callElasticsearch(method, methodParams)
       .then((body) => {
         emit('done')
-        showSnackbar(requestState.value, { title: growl, body: JSON.stringify(body) })
+        showSnackbar(requestState.value, { title: growl, body: stringifyJson(body) })
       })
       .catch(() => showSnackbar(requestState.value))
   }

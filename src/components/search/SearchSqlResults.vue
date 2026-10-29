@@ -38,7 +38,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { useTranslation } from '../../composables/i18n.ts'
-import { formatFieldValue } from '../../helpers/search/documentValues.ts'
+import { compareValues, formatFieldValue } from '../../helpers/search/documentValues.ts'
 
 const props = defineProps<{ columns: string[]; rows: unknown[][]; cursor: string | null }>()
 const emit = defineEmits<{ loadMore: [] }>()
@@ -51,6 +51,7 @@ const tableColumns = computed(() =>
     name: `${index}`,
     field: (row: unknown[]) => row[index],
     format: formatFieldValue,
+    sort: compareValues,
     label: name,
     align: 'left' as const,
     sortable: true

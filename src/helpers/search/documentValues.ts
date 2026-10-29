@@ -1,7 +1,12 @@
+import { stringifyJson } from '../json/stringify.ts'
+
+export const hasOwn = (object: object, key: string) => Object.prototype.hasOwnProperty.call(object, key)
+
 const isPlainObject = (value: unknown): value is Record<string, unknown> =>
   typeof value === 'object' && value !== null && !Array.isArray(value)
 
-export const flattenDocument = (source: unknown, prefix = '', result: Record<string, unknown> = {}) => {
+// Null prototype, so fields named like __proto__ are stored as plain keys
+export const flattenDocument = (source: unknown, prefix = '', result: Record<string, unknown> = Object.create(null)) => {
   if (!isPlainObject(source)) return result
 
   Object.entries(source).forEach(([key, value]) => {
@@ -19,12 +24,12 @@ export const getFieldValue = (source: unknown, path: string): unknown => {
     return values.length > 0 ? values : undefined
   }
   if (!isPlainObject(source)) return undefined
-  if (path in source) return source[path]
+  if (hasOwn(source, path)) return source[path]
 
   const parts = path.split('.')
   for (let i = parts.length - 1; i > 0; i--) {
     const key = parts.slice(0, i).join('.')
-    if (key in source) return getFieldValue(source[key], parts.slice(i).join('.'))
+    if (hasOwn(source, key)) return getFieldValue(source[key], parts.slice(i).join('.'))
   }
 
   return undefined
@@ -33,8 +38,15 @@ export const getFieldValue = (source: unknown, path: string): unknown => {
 export const formatFieldValue = (value: unknown): string => {
   if (value === undefined) return ''
   if (value === null) return 'null'
-  if (typeof value === 'object') return JSON.stringify(value)
+  if (typeof value === 'object') return stringifyJson(value)
   return String(value)
+}
+
+const isNumeric = (value: unknown): value is number | bigint => typeof value === 'number' || typeof value === 'bigint'
+
+export const compareValues = (a: unknown, b: unknown): number => {
+  if (isNumeric(a) && isNumeric(b)) return a < b ? -1 : a > b ? 1 : 0
+  return formatFieldValue(a).localeCompare(formatFieldValue(b), undefined, { numeric: true })
 }
 
 export const summarizeDocument = (source: unknown, maxLength: number) => {
