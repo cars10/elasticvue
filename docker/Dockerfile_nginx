@@ -5,6 +5,7 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm install
 COPY . .
+ARG KEEP_TEST_IDS
 RUN VITE_APP_BUILD_MODE=docker npm run build:prod
 
 

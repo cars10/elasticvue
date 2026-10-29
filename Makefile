@@ -50,3 +50,7 @@ e2e: build_docker_ci
 beta: build_docker_nginx
 	docker tag elasticvue cars10/elasticvue:beta
 	docker push cars10/elasticvue:beta
+
+# Seed elasticsearch clusters and create website screenshots, extension screenshots and feature videos in scripts/showcase/output
+showcase:
+	scripts/showcase/run.sh $(TARGETS)

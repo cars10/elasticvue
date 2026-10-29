@@ -1,0 +1,99 @@
+name: elasticvue-showcase
+
+x-elasticsearch: &elasticsearch
+  image: docker.elastic.co/elasticsearch/elasticsearch:${ES_VERSION:-9.5.3}
+  healthcheck:
+    test: curl -fs "localhost:9200/_cluster/health?wait_for_status=green&timeout=1s"
+    interval: 5s
+    timeout: 5s
+    retries: 60
+
+x-elasticsearch-env: &elasticsearch-env
+  ES_JAVA_OPTS: -Xms512m -Xmx512m
+  xpack.security.enabled: "false"
+  xpack.ml.enabled: "false"
+  node.store.allow_mmap: "false"
+  ingest.geoip.downloader.enabled: "false"
+  cluster.routing.allocation.disk.threshold_enabled: "false"
+  http.cors.enabled: "true"
+  http.cors.allow-origin: /.*/
+  http.cors.allow-headers: X-Requested-With,Content-Type,Content-Length,Authorization
+
+x-production-env: &production-env
+  <<: *elasticsearch-env
+  cluster.name: production
+  discovery.seed_hosts: es-production,es-production-2,es-production-3
+  cluster.initial_master_nodes: production-1,production-2,production-3
+
+services:
+  es-production:
+    <<: *elasticsearch
+    environment:
+      <<: *production-env
+      node.name: production-1
+
+  es-production-2:
+    <<: *elasticsearch
+    environment:
+      <<: *production-env
+      node.name: production-2
+
+  es-production-3:
+    <<: *elasticsearch
+    environment:
+      <<: *production-env
+      node.name: production-3
+
+  es-staging:
+    <<: *elasticsearch
+    environment:
+      <<: *elasticsearch-env
+      cluster.name: staging
+      node.name: staging-1
+      discovery.type: single-node
+
+  es-logging:
+    <<: *elasticsearch
+    environment:
+      <<: *elasticsearch-env
+      cluster.name: logging
+      node.name: logging-1
+      discovery.type: single-node
+
+  elasticvue:
+    build:
+      context: ../..
+      dockerfile: docker/Dockerfile_nginx
+      args:
+        KEEP_TEST_IDS: "true"
+    environment:
+      ELASTICVUE_CLUSTERS: >-
+        [{"name": "production", "uri": "http://es-production:9200"},
+         {"name": "staging", "uri": "http://es-staging:9200"},
+         {"name": "logging", "uri": "http://es-logging:9200"}]
+
+  recorder:
+    build: .
+    shm_size: 1gb
+    init: true
+    user: "${HOST_UID:-1000}:${HOST_GID:-1000}"
+    environment:
+      HOME: /tmp
+      DASHBOARD_WARMUP: ${DASHBOARD_WARMUP:-60}
+    volumes:
+      - ./src:/app/src:ro
+      - ./output:/app/output
+      - ../../src/locales/en.json:/app/en.json:ro
+    depends_on:
+      es-production:
+        condition: service_healthy
+      es-production-2:
+        condition: service_healthy
+      es-production-3:
+        condition: service_healthy
+      es-staging:
+        condition: service_healthy
+      es-logging:
+        condition: service_healthy
+      elasticvue:
+        condition: service_started

@@ -1,5 +1,52 @@
 # Changelog
 
+## 2.0.0
+
+Elasticvue 2 is a complete redesign of the interface, with a new dashboard, a new tools page and a reworked search and REST page.
+
+**New**
+
+* completely redesigned interface: new sidebar navigation, layered dark theme, reworked colors and font sizes
+* new dashboard: cluster status, shard/node/index/disk overview, cpu, disk, heap and shard metrics, search and indexing rate and latency graphs, busiest nodes and largest/unhealthy indices
+* dashboard health checks: unassigned shards, index blocks, disabled allocation, pending tasks, disk watermarks, thread pool rejections, circuit breaker trips, jvm pressure, file descriptors, mixed node versions
+* new all clusters page: health, cpu, heap, disk and shards of every configured cluster at a glance
+* new tools page for maintenance and recovery operations:
+  * shard allocation, shard rebalancing, allocation awareness
+  * drain node before shutdown, voting exclusions
+  * explain unassigned shards, retry failed allocations
+  * index write blocks, replicas, refresh interval, automatic index creation
+  * disk watermarks, recovery bandwidth, cluster write mode, destructive operation protection
+* overview headers on most pages (nodes, shards, shard recovery, index templates, users, roles) that summarize the most important metrics
+
+**Search**
+
+* new query bar with autocomplete for fields, values and recent queries
+* switch between query bar, DSL, SQL and ES|QL
+* search across indices, aliases and data streams, with a count of matched indices
+* time range picker with presets and absolute ranges, plus a histogram of matching documents
+* filters: is / exists / between, include or exclude, enable or disable
+* column picker that groups fields by meta fields, fields in all indices, fields in only some indices and unmapped fields
+* document panel with all fields, filter for/out value and surrounding documents
+* save searches and browse the search history
+* open the current search in the REST page or copy it as cURL
+* exact hit count on demand, download results as csv or json, option to only load visible fields
+
+**REST**
+
+* path autocomplete from history and saved queries
+* new query library with history, saved queries and examples
+
+**Improvements**
+
+* redesigned nodes, shards, shard recovery, indices, index templates, snapshots, repositories, users, roles, settings and welcome pages
+* shard recovery: show only active recoveries, throttling status
+* shards: list of shards that need attention with a link to explain them in tools
+* index templates: show composable, legacy and component templates and where component templates are used
+* users and roles: clear message when security is disabled or the user lacks permissions
+* settings: restructured, new option to wrap long lines in the editor, per-cluster settings
+* replace json-bigint with lossless-json for handling large numbers
+* dependency updates
+
 ## 1.17.0
 
 * fix REST tab when running in docker, fixes [#363](https://github.com/cars10/elasticvue/issues/363)
