@@ -853,40 +853,142 @@
     "heading": "Search",
     "form": {
       "query": {
-        "label": "Search"
+        "label": "Query (Lucene syntax)"
       },
       "search_examples": {
         "button": "Search examples",
         "hint": "Search examples, see <a tabindex='-1' target='_blank' rel='noopener' href='https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html'>query string query</a> for details"
       },
       "search": "Search",
-      "customize_query": {
-        "button": "Custom search",
-        "reset": "Reset query"
-      }
+      "indices": {
+        "label": "Indices",
+        "matched": "No indices match | Matches 1 index | Matches {count} indices",
+        "kinds": {
+          "alias": "alias",
+          "data_stream": "data stream"
+        }
+      },
+      "mode": {
+        "query": "Query",
+        "dsl": "DSL",
+        "dsl_hint": "Edit the request body below, Ctrl+Enter to search.",
+        "discard_dsl": "Discard your DSL changes and switch back to the query bar?",
+        "sql": "SQL",
+        "esql": "ES{'|'}QL"
+      },
+      "open_in_rest": "Open in REST",
+      "copy_curl": "Copy as cURL",
+      "invalid_json": "The request body is not valid JSON."
     },
     "search_result": {
       "delete": {
         "text": "# | Delete document | Delete documents",
         "confirm": "# | Are you sure you want to delete this document? | Are you sure you want to delete {count} documents?",
         "growl": "# | Document successfully deleted. | Documents successfully deleted."
-      }
+      },
+      "edit_hint": "Click for details, double click to edit"
     },
     "results_table": {
-      "settings": {
-        "columns": "Columns"
-      },
-      "download_as_json": "Download as json",
       "tabs": {
         "hits": "Hits",
         "aggregations": "Aggregations"
-      }
+      },
+      "total": "No hits | {count} hit | {count} hits",
+      "count_exactly": "count exactly",
+      "no_results": "No documents found",
+      "document": "Document",
+      "columns": {
+        "button": "Columns ({count})",
+        "all": "All",
+        "none": "None",
+        "reset": "Reset",
+        "refine": "Refine the filter to see more fields",
+        "in_indices": "in 1 index | in {count} indices",
+        "groups": {
+          "meta": "Meta fields",
+          "all": "In all indices",
+          "some": "Only in some indices",
+          "unmapped": "Not mapped"
+        },
+        "catalog_skipped": "More than {limit} indices match, so only fields of the current page are listed."
+      },
+      "source_only_visible": "Only load fields of visible columns",
+      "download": "Download"
     },
     "edit_document": {
       "update": {
         "text": "Update document",
         "growl": "Document updated successfully."
       }
+    },
+    "time": {
+      "absolute": "Absolute range",
+      "from": "From",
+      "to": "To",
+      "apply": "Apply",
+      "field": "Time field",
+      "invalid": "Use YYYY-MM-DD HH:mm:ss",
+      "presets": {
+        "last_15m": "Last 15 minutes",
+        "last_1h": "Last hour",
+        "last_4h": "Last 4 hours",
+        "last_24h": "Last 24 hours",
+        "last_7d": "Last 7 days",
+        "last_30d": "Last 30 days",
+        "all": "All time"
+      }
+    },
+    "histogram": {
+      "title": "Histogram",
+      "interval": "per {interval}"
+    },
+    "filters": {
+      "add": "Add filter",
+      "field": "Field",
+      "value": "Value",
+      "from": "From",
+      "to": "To",
+      "negate": "Exclude matching documents",
+      "save": "Save",
+      "edit": "Edit",
+      "enable": "Enable",
+      "disable": "Disable",
+      "include": "Include results",
+      "exclude": "Exclude results",
+      "ops": {
+        "is": "is",
+        "exists": "exists",
+        "between": "between"
+      }
+    },
+    "document_panel": {
+      "edit": "Edit document",
+      "delete": "Delete document",
+      "fields": "Fields",
+      "surrounding": "Surrounding documents",
+      "filter_for": "Filter for value",
+      "filter_out": "Filter out value",
+      "filter_exists": "Filter for field present"
+    },
+    "sql": {
+      "sql_label": "SQL query",
+      "esql_label": "ES{'|'}QL query",
+      "hint": "Ctrl+Enter to run",
+      "rows": "No rows | {count} row | {count} rows",
+      "load_more": "Load more"
+    },
+    "library": {
+      "title": "Searches",
+      "history": "History",
+      "saved": "Saved",
+      "save": "Save search",
+      "save_current": "Save current",
+      "rename": "Rename",
+      "remove": "Remove",
+      "clear_history": "Clear history",
+      "clear_confirm": "Clear the whole search history?",
+      "empty": "Nothing here yet",
+      "filters": "1 filter | {count} filters"
     }
   },
   "settings": {
@@ -908,7 +1010,7 @@
       "invalid": "Only whole numbers between 1 and 1000"
     },
     "localize_timestamp": {
-      "label": "Localize value of '{'@'}timestamp' fields in search results"
+      "label": "Format date fields in search results"
     },
     "disconnect_and_reset": {
       "heading": "Disconnect and reset all settings",
@@ -1104,10 +1206,6 @@
       "rows_per_page": {
         "confirm": "WARNING: Are you sure? Showing {value} entries at once might cause issues or freezes. It is recommended to use the search/filter functionality to limit the results."
       }
-    },
-    "table_settings": {
-      "reset": "reset",
-      "clear": "clear"
     },
     "authorization_header_hint": "Make sure that \"http.cors.allow-headers\" is configured",
     "code_editor": {

@@ -30,8 +30,10 @@ export const HTTP_METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'O
 
 export const DEFAULT_SEARCH_QUERY_OBJ = { query: { query_string: { query: '*' } }, size: 10, from: 0, sort: [] }
 export const DEFAULT_SEARCH_QUERY = JSON.stringify(DEFAULT_SEARCH_QUERY_OBJ)
-export const DEFAULT_SEARCH_RESULT_COLUMNS = ['_index', '_type', '_id', '_score']
-export const DEFAULT_SORTABLE_COLUMNS = ['_index', '_type', '_id', '_score']
+export const SEARCH_ROWS_PER_PAGE = [10, 20, 100, 1000]
+export const allowedRowsPerPage = (value: unknown) =>
+  SEARCH_ROWS_PER_PAGE.includes(value as number) ? (value as number) : DEFAULT_PAGINATION.rowsPerPage
+
 export const DEFAULT_PAGINATION = {
   sortBy: '',
   descending: false,

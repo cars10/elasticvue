@@ -31,6 +31,11 @@ export const versionAtLeast = (current: string | undefined | null, required: str
   return true
 }
 
+const OPENSEARCH_ELASTICSEARCH_VERSION = '7.10.2'
+
+export const elasticsearchCompatibleVersion = (version: string | undefined, isElasticsearch: boolean) =>
+  isElasticsearch ? version || '' : OPENSEARCH_ELASTICSEARCH_VERSION
+
 export const clusterVersionGte = (version: number): boolean => {
   const majorVersion = getClusterMajorVersion()
   return majorVersion !== null && majorVersion >= version

@@ -44,3 +44,12 @@ const filterColumn = (item: any, headerName: string, search: string) => {
 const filterSpecificColumn = (searchSplit: string[], headerNames: string[]): boolean => {
   return searchSplit.length > 1 && headerNames.includes(searchSplit[0])
 }
+
+export const matchesAllTerms = (text: string, query: string) => {
+  const haystack = text.toLowerCase()
+  return query
+    .toLowerCase()
+    .split(/\s+/)
+    .filter(Boolean)
+    .every((term) => haystack.includes(term))
+}

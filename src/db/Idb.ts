@@ -2,12 +2,14 @@ import { openDB } from 'idb'
 import { DbTable } from './indexeddb.ts'
 import { DbSchema } from './types.ts'
 
-const DB_VERSION = 2
+const DB_VERSION = 3
 const TABLES: { name: keyof DbSchema; indexes: string[]; autoIncrement: boolean }[] = [
   { name: 'restQueryHistory', indexes: ['date'], autoIncrement: true },
   { name: 'restQuerySavedQueries', indexes: [], autoIncrement: true },
   { name: 'restQueryTabs', indexes: [], autoIncrement: true },
-  { name: 'restQueryResponses', indexes: [], autoIncrement: false }
+  { name: 'restQueryResponses', indexes: [], autoIncrement: false },
+  { name: 'searchHistory', indexes: ['date'], autoIncrement: true },
+  { name: 'savedSearches', indexes: [], autoIncrement: true }
 ]
 
 const databases = new Map<string, DbSchema>()
@@ -34,7 +36,9 @@ const openClusterDb = (clusterUuid: string): DbSchema => {
     restQueryHistory: new DbTable(connection, 'restQueryHistory'),
     restQuerySavedQueries: new DbTable(connection, 'restQuerySavedQueries'),
     restQueryTabs: new DbTable(connection, 'restQueryTabs'),
-    restQueryResponses: new DbTable(connection, 'restQueryResponses')
+    restQueryResponses: new DbTable(connection, 'restQueryResponses'),
+    searchHistory: new DbTable(connection, 'searchHistory'),
+    savedSearches: new DbTable(connection, 'savedSearches')
   }
 }
 

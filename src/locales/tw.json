@@ -853,33 +853,62 @@
     "heading": "搜尋",
     "form": {
       "query": {
-        "label": "搜尋"
+        "label": "查詢（Lucene 語法）"
       },
       "search_examples": {
         "button": "搜尋範例",
         "hint": "搜尋範例，詳情請參閱 <a tabindex='-1' target='_blank' rel='noopener' href='https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html'>Query string 查詢</a>"
       },
       "search": "搜尋",
-      "customize_query": {
-        "button": "自訂搜尋",
-        "reset": "重設查詢"
-      }
+      "indices": {
+        "label": "索引",
+        "matched": "沒有符合的索引 | 符合 1 個索引 | 符合 {count} 個索引",
+        "kinds": {
+          "alias": "別名",
+          "data_stream": "資料串流"
+        }
+      },
+      "mode": {
+        "query": "查詢",
+        "dsl": "DSL",
+        "dsl_hint": "在下方編輯請求內容，按 Ctrl+Enter 搜尋。",
+        "discard_dsl": "放棄 DSL 修改並切換回查詢列？"
+      },
+      "open_in_rest": "在 REST 中開啟",
+      "copy_curl": "複製為 cURL",
+      "invalid_json": "請求內容不是有效的 JSON。"
     },
     "search_result": {
       "delete": {
         "text": "# | 刪除文件 | 刪除文件",
         "confirm": "# | 您確定要刪除此文件嗎？ | 您確定要刪除 {count} 份文件嗎？",
         "growl": "# | 文件已成功刪除。 | 文件已成功刪除。"
-      }
+      },
+      "edit_hint": "按兩下以編輯"
     },
     "results_table": {
-      "settings": {
-        "columns": "欄位"
-      },
-      "download_as_json": "下載為 JSON",
       "tabs": {
         "hits": "命中",
         "aggregations": "聚合"
+      },
+      "total": "沒有結果 | {count} 筆結果 | {count} 筆結果",
+      "count_exactly": "精確計數",
+      "no_results": "找不到文件",
+      "document": "文件",
+      "columns": {
+        "button": "欄位（{count}）",
+        "all": "全部",
+        "none": "無",
+        "reset": "重設",
+        "refine": "縮小篩選範圍以查看更多欄位",
+        "in_indices": "在 1 個索引中 | 在 {count} 個索引中",
+        "groups": {
+          "meta": "中繼欄位",
+          "all": "所有索引中",
+          "some": "僅部分索引中",
+          "unmapped": "未對應"
+        },
+        "catalog_skipped": "符合的索引超過 {limit} 個，因此只列出目前頁面的欄位。"
       }
     },
     "edit_document": {
@@ -887,6 +916,27 @@
         "text": "更新文件",
         "growl": "文件更新成功。"
       }
+    },
+    "time": {
+      "absolute": "絕對時間範圍",
+      "from": "開始",
+      "to": "結束",
+      "apply": "套用",
+      "field": "時間欄位",
+      "invalid": "格式為 YYYY-MM-DD HH:mm:ss",
+      "presets": {
+        "last_15m": "最近 15 分鐘",
+        "last_1h": "最近 1 小時",
+        "last_4h": "最近 4 小時",
+        "last_24h": "最近 24 小時",
+        "last_7d": "最近 7 天",
+        "last_30d": "最近 30 天",
+        "all": "全部時間"
+      }
+    },
+    "histogram": {
+      "title": "直方圖",
+      "interval": "每 {interval}"
     }
   },
   "settings": {
@@ -908,7 +958,7 @@
       "invalid": "只能是 1 到 1000 之間的整數"
     },
     "localize_timestamp": {
-      "label": "在搜尋結果中本地化 '{'@'}timestamp' 欄位的值"
+      "label": "在搜尋結果中格式化日期欄位"
     },
     "disconnect_and_reset": {
       "heading": "中斷連線並重設所有設定",
@@ -1104,10 +1154,6 @@
       "rows_per_page": {
         "confirm": "警告：確定嗎？一次顯示 {value} 個項目可能會導致問題或凍結。建議使用搜尋/篩選功能來限制結果。"
       }
-    },
-    "table_settings": {
-      "reset": "重設",
-      "clear": "清除"
     },
     "authorization_header_hint": "請確定 \"http.cors.allow-headers\" 已設定",
     "code_editor": {

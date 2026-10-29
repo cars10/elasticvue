@@ -853,33 +853,62 @@
     "heading": "검색",
     "form": {
       "query": {
-        "label": "검색"
+        "label": "쿼리 (Lucene 구문)"
       },
       "search_examples": {
         "button": "검색 예시",
         "hint": "검색 예시는 <a tabindex='-1' target='_blank' rel='noopener' href='https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html'>쿼리 문자열 쿼리</a>를 참조하세요"
       },
       "search": "검색",
-      "customize_query": {
-        "button": "사용자 정의 검색",
-        "reset": "쿼리 초기화"
-      }
+      "indices": {
+        "label": "인덱스",
+        "matched": "일치하는 인덱스 없음 | 인덱스 1개 일치 | 인덱스 {count}개 일치",
+        "kinds": {
+          "alias": "별칭",
+          "data_stream": "데이터 스트림"
+        }
+      },
+      "mode": {
+        "query": "쿼리",
+        "dsl": "DSL",
+        "dsl_hint": "아래에서 요청 본문을 편집하고 Ctrl+Enter로 검색하세요.",
+        "discard_dsl": "DSL 변경 사항을 버리고 쿼리 입력으로 돌아갈까요?"
+      },
+      "open_in_rest": "REST에서 열기",
+      "copy_curl": "cURL로 복사",
+      "invalid_json": "요청 본문이 유효한 JSON이 아닙니다."
     },
     "search_result": {
       "delete": {
         "text": "# | 문서 삭제 | 문서 삭제",
         "confirm": "# | 이 문서를 삭제하시겠습니까? | {count}개의 문서를 삭제하시겠습니까?",
         "growl": "# | 문서가 정상적으로 삭제되었습니다. | 문서가 정상적으로 삭제되었습니다."
-      }
+      },
+      "edit_hint": "더블 클릭하여 편집"
     },
     "results_table": {
-      "settings": {
-        "columns": "열"
-      },
-      "download_as_json": "JSON으로 다운로드",
       "tabs": {
         "hits": "히트",
         "aggregations": "집계"
+      },
+      "total": "결과 없음 | {count}개 결과 | {count}개 결과",
+      "count_exactly": "정확히 세기",
+      "no_results": "문서를 찾을 수 없습니다",
+      "document": "문서",
+      "columns": {
+        "button": "열 ({count})",
+        "all": "모두",
+        "none": "없음",
+        "reset": "초기화",
+        "refine": "더 많은 필드를 보려면 필터를 좁히세요",
+        "in_indices": "인덱스 1개 | 인덱스 {count}개",
+        "groups": {
+          "meta": "메타 필드",
+          "all": "모든 인덱스",
+          "some": "일부 인덱스만",
+          "unmapped": "매핑되지 않음"
+        },
+        "catalog_skipped": "{limit}개가 넘는 인덱스가 일치하여 현재 페이지의 필드만 표시합니다."
       }
     },
     "edit_document": {
@@ -887,6 +916,27 @@
         "text": "문서 업데이트",
         "growl": "문서가 정상적으로 업데이트되었습니다."
       }
+    },
+    "time": {
+      "absolute": "절대 범위",
+      "from": "시작",
+      "to": "종료",
+      "apply": "적용",
+      "field": "시간 필드",
+      "invalid": "YYYY-MM-DD HH:mm:ss 형식",
+      "presets": {
+        "last_15m": "최근 15분",
+        "last_1h": "최근 1시간",
+        "last_4h": "최근 4시간",
+        "last_24h": "최근 24시간",
+        "last_7d": "최근 7일",
+        "last_30d": "최근 30일",
+        "all": "전체 기간"
+      }
+    },
+    "histogram": {
+      "title": "히스토그램",
+      "interval": "{interval} 단위"
     }
   },
   "settings": {
@@ -908,7 +958,7 @@
       "invalid": "1에서 1000 사이의 정수만 가능"
     },
     "localize_timestamp": {
-      "label": "검색 결과의 '{'@'}timestamp' 필드 값을 현지 시간으로 표시"
+      "label": "검색 결과의 날짜 필드 서식 지정"
     },
     "disconnect_and_reset": {
       "heading": "연결 해제 및 모든 설정 초기화",
@@ -1104,10 +1154,6 @@
       "rows_per_page": {
         "confirm": "경고: 정말 실행하시겠습니까? 한 번에 {value}개 항목을 표시하면 문제나 프리징이 발생할 수 있습니다. 결과 제한을 위해 검색/필터 기능을 사용하세요."
       }
-    },
-    "table_settings": {
-      "reset": "재설정",
-      "clear": "지우기"
     },
     "authorization_header_hint": "\"http.cors.allow-headers\"가 설정되어 있는지 확인하세요",
     "code_editor": {

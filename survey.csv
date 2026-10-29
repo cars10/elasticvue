@@ -1,0 +1,612 @@
+Timestamp,"Overall, how do you like elasticvue?",What is your preferred way of using elasticvue?,For how long have you been using elasticvue?,Which of the following features do you use regularly?,Where do you think elasticvue could be improved?,Do you also use another elasticsearch frontend?,What features are you missing?
+27/02/2024 00:28:23,3,Browser extension,Less then a year,"Document viewing, Rest interface for manual queries",,,Rest API doesn't work for me in some cases
+27/02/2024 01:33:13,4,"Browser extension, Desktop app",More then a year,"Searching, Document viewing, Snapshots & Repository management",Features,Kibana,adding (indexing) new document
+27/02/2024 01:51:31,3,Browser extension,Less then a year,Searching,,,
+27/02/2024 02:07:22,4,Desktop app,Less then a year,"Node overview, Shards overview, Index management, Searching, Rest interface for manual queries",,"Kibana, Grafana",
+27/02/2024 02:40:27,5,Browser extension,More then a year,"Node overview, Shards overview, Index management, Searching, Document viewing, Rest interface for manual queries",Features,"Kibana, elasticsearch-head",
+27/02/2024 03:33:53,5,"Browser extension, Desktop app",Less then a month,Node overview,Design,Kibana,
+27/02/2024 04:01:03,4,"Browser extension, Desktop app",Less then a year,"Node overview, Index management, Index creation, Searching, Document viewing","Design, Performance",Kibana,
+27/02/2024 05:00:32,4,"Browser extension, Desktop app, Docker",More then a year,"Document viewing, Rest interface for manual queries","Design, Deployment",,"Query hints, examples or autocomplete"
+27/02/2024 06:03:43,4,Browser extension,More then a year,Searching,Features,,Page size logic is not perfect yet. Also sometimes it causes an error while searching.
+27/02/2024 06:24:19,5,Browser extension,More then a year,"Searching, Document viewing","Design, Features",Kibana,
+27/02/2024 06:55:23,4,Browser extension,Less then a year,"Searching, Document viewing",Design,elasticsearch-head,
+27/02/2024 07:03:04,5,Browser extension,Less then a year,"Node overview, Shards overview, Index management, Index alias management, Searching, Document viewing, Rest interface for manual queries, Snapshots & Repository management","Design, Performance, Features",Kibana,
+27/02/2024 07:08:27,5,Browser extension,Less then a year,"Node overview, Index management, Searching, Document viewing, Rest interface for manual queries",,"Kibana, cerebro",
+27/02/2024 07:16:42,5,"Browser extension, Self-hosted",More then a year,"Node overview, Shards overview, Index management, Rest interface for manual queries",Features,"elasticsearch-head, cerebro",
+27/02/2024 07:17:08,5,Browser extension,Less then a year,Node overview,,"Kibana, cerebro",
+27/02/2024 07:18:48,4,Browser extension,More then a year,"Shards overview, Index management, Document viewing","Design, Performance",Kibana,
+27/02/2024 07:40:32,4,Browser extension,More then a year,"Index alias management, Document viewing, Rest interface for manual queries","Design, Performance","Kibana, cerebro",
+27/02/2024 07:43:58,4,Browser extension,More then a year,"Index management, Searching, Document viewing, Rest interface for manual queries",having default search size as 10 sometimes feels limiting,,
+27/02/2024 07:55:15,5,Browser extension,Less then a year,"Index management, Searching, Rest interface for manual queries",Features,,
+27/02/2024 08:27:51,5,Browser extension,More then a year,"Node overview, Index management, Searching, Document viewing",,"Kibana, elasticsearch-head",
+27/02/2024 08:32:53,5,Browser extension,More then a year,"Node overview, Shards overview, Searching, Document viewing, Rest interface for manual queries",,,
+27/02/2024 08:39:23,4,Browser extension,More then a year,"Index management, Searching, Document viewing, Rest interface for manual queries",Design,"elasticsearch-head, cerebro, Grafana","API autocomplete or shortcut button for querying(e.g. a button for listing template, pipeline...etc.)"
+27/02/2024 08:49:53,5,"Browser extension, Desktop app",More then a year,"Node overview, Shards overview, Index management, Rest interface for manual queries, Snapshots & Repository management",Stability in port forwarding ... but it's probabely not in OpenLens hands...,,in shard view possibility to switch shards from columns (like it is today) to rows to limit horizontal scroll ...
+27/02/2024 08:53:47,5,Browser extension,More then a year,"Node overview, Shards overview, Index management, Index creation, Index alias management, Rest interface for manual queries, Snapshots & Repository management",Features,,
+27/02/2024 09:08:08,4,Browser extension,More then a year,"Index management, Index creation, Searching, Rest interface for manual queries",,Kibana,
+27/02/2024 09:10:30,4,Browser extension,Less then a year,"Index management, Document viewing, Rest interface for manual queries",,Kibana,
+27/02/2024 09:15:57,5,Browser extension,More then a year,"Node overview, Shards overview, Index management, Rest interface for manual queries",REST request history could be available even when the target server is not available right now,,
+27/02/2024 09:16:36,5,Browser extension,More then a year,"Node overview, Index management, Searching, Document viewing",Features,,
+27/02/2024 09:16:47,4,Browser extension,More then a year,"Index management, Searching, Document viewing, Rest interface for manual queries","Performance, Features",Kibana,Query whisper
+27/02/2024 09:17:22,5,Browser extension,Less then a year,"Searching, Document viewing",Performance,elasticsearch-head,
+27/02/2024 09:25:48,5,Hosted web app,Less then a month,"Index management, Searching, Document viewing",,dejavu,This is so better than dejavu. Many thanks for this awesome tool. Its simple and just works.
+27/02/2024 09:36:36,4,"Browser extension, Desktop app",More then a year,"Index management, Index creation, Index alias management, Searching, Document viewing, Rest interface for manual queries, Snapshots & Repository management",Security,Kibana,"query autocomplete, ability to fix order of fields (rows), search progress (spinner or somewhat)"
+27/02/2024 09:40:56,4,Browser extension,More then a year,"Index management, Index creation, Searching, Document viewing","Design, Performance",Kibana,
+27/02/2024 09:44:07,5,Browser extension,More then a year,"Node overview, Index management, Index creation, Searching, Document viewing, Rest interface for manual queries","Design, Features, Community",Kibana,
+27/02/2024 09:45:57,5,Browser extension,More then a year,"Node overview, Shards overview, Index management, Index alias management, Document viewing","Design, Features",Kibana,
+27/02/2024 09:50:58,4,Browser extension,More then a year,"Node overview, Shards overview, Index management, Index creation, Searching, Document viewing, Rest interface for manual queries",,Kibana,"When searching and viewing documents there used to be an ""uncheck all""-button for the filter options for columns. please bring that back. 
+It may sound like a small low priority thing, but our documents have more than 50 columns, its just unmanageable to uncheck 40-47 of them each time. "
+27/02/2024 09:53:36,4,Browser extension,More then a year,"Index management, Index alias management, Searching, Document viewing, Rest interface for manual queries","Performance, Features",elasticsearch-head,
+27/02/2024 09:56:36,5,Browser extension,More then a year,"Index management, Searching, Rest interface for manual queries","Design, Deployment",,
+27/02/2024 10:10:09,5,Browser extension,More then a year,"Node overview, Shards overview, Index management, Index alias management, Searching, Document viewing, Rest interface for manual queries, Snapshots & Repository management",search result viewing could be improved,,
+27/02/2024 10:40:07,4,Browser extension,More then a year,"Searching, Document viewing",Design,,
+27/02/2024 10:52:57,5,Browser extension,More then a year,Searching,"Security, Searching index","Kibana, elasticsearch-head",I don't use elasticsearch extensively but I would like if some feature related to re-indexing is available.
+27/02/2024 11:01:36,4,Browser extension,Less then a year,"Index management, Index creation, Searching, Document viewing, Rest interface for manual queries",,Kibana,
+27/02/2024 11:02:31,4,Browser extension,Less then a year,"Index management, Searching, Document viewing, Rest interface for manual queries",Features,,Adjust index properties like mappings (for newly created indices)
+27/02/2024 11:06:53,5,Browser extension,More then a year,"Index management, Searching",,,
+27/02/2024 11:07:25,4,Browser extension,More then a year,"Node overview, Index management, Index alias management, Searching, Document viewing, Rest interface for manual queries",,Kibana,
+27/02/2024 11:08:28,5,Browser extension,More then a year,"Index management, Index alias management, Searching, Document viewing, Rest interface for manual queries",Features,,"Nothing in particular right now..
+The app is great and doing everything I need / want
+Any new features are fun and welcomed :)
+
+Thanks for the great work!"
+27/02/2024 11:19:35,5,Browser extension,More then a year,"Searching, Rest interface for manual queries",Design,,
+27/02/2024 11:27:27,4,Browser extension,More then a year,"Searching, Document viewing",Design,Postman,"Last used query, unchecking all columns"
+27/02/2024 11:42:59,4,Browser extension,More then a year,"Index management, Searching, Document viewing",Performance,Kibana,
+27/02/2024 11:47:06,4,Browser extension,Less then a year,"Index management, Index creation, Searching, Document viewing, Rest interface for manual queries",Features,,A switch that toggles track_total_hits when searching documents. 
+27/02/2024 11:58:17,4,Browser extension,More then a year,"Searching, Document viewing, Rest interface for manual queries",Design,Kibana,
+27/02/2024 12:22:27,4,Browser extension,Less then a year,"Index management, Index creation, Searching, Rest interface for manual queries",Design,,
+27/02/2024 12:39:33,4,Browser extension,More then a year,"Node overview, Index management, Rest interface for manual queries",,Kibana,
+27/02/2024 12:49:23,5,Browser extension,More then a year,"Index management, Index creation, Index alias management, Searching, Document viewing, Rest interface for manual queries","Security, Features, Community",Kibana,
+27/02/2024 13:00:01,4,Desktop app,More then a year,"Searching, Document viewing","Design, Features",,
+27/02/2024 13:06:35,4,Browser extension,More then a year,"Node overview, Shards overview, Rest interface for manual queries",,,Node modifications not only overview
+27/02/2024 13:11:41,4,Browser extension,More then a year,"Node overview, Shards overview, Index management, Searching, Document viewing, Rest interface for manual queries","Design, Features","Kibana, Postman","1) It would be nice to be able to see the properties of a node from the Nodes management UI, just like it is possible to see the properties of an index from the Indices management UI. Without it I have to use the REST API for that. 2) Other things I frequently use the REST API for are analyzers (to debug how a document is analyzed) and term vectors (to see how a document is stored in the inverted index) - it would be neat to have the possibility to do this via the index management or search UIs (though I am not sure if it is possible to achieve w/o overloading the UI). 3) On the REST API screen there are tabs (awesome) and a way to save the requests (also awesome): what I miss is the feature to move tabs and the feature to give short names to saved requests. Otherwise this product is awesome, thank you very much for it!"
+27/02/2024 13:13:34,5,Browser extension,More then a year,"Searching, Document viewing, Rest interface for manual queries",Community,,
+27/02/2024 13:19:35,4,Browser extension,Less then a year,"Index management, Searching, Document viewing",Features,,"easier filtering, maybe some commands like return item with id = 5 could be made easier. Also query history"
+27/02/2024 13:21:03,4,"Browser extension, Desktop app",More then a year,"Node overview, Shards overview, Index management, Searching",Official support for OpenSearch and having a backend service which will be used to proxy requests to rarget cluster (like grafana does),Kibana,Structed query like in es-head and settings management like in cerebro (for both indexes and cluster settings)
+27/02/2024 13:27:05,4,"Browser extension, Docker",More then a year,"Index management, Index alias management, Searching, Document viewing","Design, Performance, Features",Kibana,
+27/02/2024 13:29:24,4,"Browser extension, Desktop app",More then a year,"Searching, Document viewing",Features,,
+27/02/2024 13:29:34,4,Browser extension,Less then a month,"Node overview, Searching, Document viewing",Design,Kibana,
+27/02/2024 13:58:25,5,Browser extension,Less then a year,"Node overview, Shards overview, Index management, Index creation, Index alias management","Design, Features",Kibana,
+27/02/2024 14:07:17,4,"Browser extension, Desktop app",Less then a year,"Node overview, Shards overview, Index management, Index creation, Index alias management, Searching, Document viewing, Rest interface for manual queries, Snapshots & Repository management","Performance, there are some issues in the new design, for example  one time I set the size to 10000 and it stayed like that for all indexes and this reduce the performance",Kaizen,drop document
+27/02/2024 14:11:38,4,Browser extension,More then a year,"Index management, Searching, Document viewing",filtering of large result sets does not display items until records per page is changed,Kibana,
+27/02/2024 14:19:20,4,Browser extension,More then a year,"Index management, Searching","Performance, Deployment",,
+27/02/2024 14:39:39,4,"Browser extension, Desktop app",More then a year,"Node overview, Shards overview, Index management, Index creation, Index alias management, Searching, Document viewing, Rest interface for manual queries","Design, Features",,Edit the elasticsearch document 
+27/02/2024 14:52:28,4,Browser extension,More then a year,"Node overview, Shards overview, Index management, Searching, Document viewing",Features,elasticsearch-head,Inserting documents from UI
+27/02/2024 14:56:57,4,Browser extension,More then a year,Document viewing,"Design, Features",,"better UI, everything look good though :)"
+27/02/2024 14:59:04,5,Browser extension,Less then a year,"Index alias management, Searching, Document viewing","Security, Features",elasticsearch-head,
+27/02/2024 15:01:22,4,Browser extension,More then a year,"Index management, Searching, Document viewing","Design, Performance",,
+27/02/2024 15:08:38,4,Browser extension,Less then a year,"Index management, Searching, Rest interface for manual queries",,,
+27/02/2024 15:17:05,4,Browser extension,More then a year,"Node overview, Shards overview",Features,Kibana,Overview of elasticsearch settings
+27/02/2024 15:45:34,5,Browser extension,Less then a year,"Index management, Searching, Document viewing, Rest interface for manual queries",,,none
+27/02/2024 15:47:35,4,Browser extension,Less then a year,"Node overview, Shards overview, Index management, Rest interface for manual queries",Design,,
+27/02/2024 15:51:38,5,"Browser extension, Desktop app",More then a year,"Index management, Searching, Document viewing, Rest interface for manual queries","Features, Community",,Stronger search experience/query builder
+27/02/2024 15:56:05,5,"Browser extension, Docker, Self-hosted",More then a year,"Index management, Index creation, Index alias management, Searching, Document viewing",All is great!❤️,ElasticHQ,
+27/02/2024 15:58:15,4,Browser extension,Less then a year,"Node overview, Index management, Searching, Document viewing, Rest interface for manual queries","Design, Features",Kibana,SSH Tunnel configuration when connecting to an ES cluster. Currently a local port forwarding is required before I can connect. Example for SQL: TablePlus
+27/02/2024 16:13:53,4,Browser extension,More then a year,Searching,help with query construction,"elasticsearch-head, elasticsearch tools",
+27/02/2024 16:29:10,4,Browser extension,More then a year,"Node overview, Shards overview, Index management, Index creation, Searching, Document viewing, Rest interface for manual queries","Design, Performance",Elasticsearch Tool,Options for creating user friendly queryes like in Elastcisearch Tool. 
+27/02/2024 16:33:33,5,"Browser extension, Desktop app",More then a year,"Node overview, Shards overview, Index management, Index creation, Index alias management, Searching, Document viewing, Rest interface for manual queries","Design, Performance, Features",Kibana,
+27/02/2024 16:39:58,5,Browser extension,More then a year,"Searching, Document viewing",,,
+27/02/2024 16:49:13,5,Browser extension,More then a year,"Node overview, Searching, Document viewing",Features,Kaizen,The possibility to insert a new document. I use Kaizen only for this purpose
+27/02/2024 16:54:20,5,Browser extension,More then a year,"Node overview, Shards overview, Index management, Index alias management",,Kibana,None with Kibana for devtools!
+27/02/2024 17:12:37,5,"Browser extension, Desktop app, Self-hosted",More then a year,"Node overview, Shards overview, Index alias management, Searching, Snapshots & Repository management",Features,Kibana,
+27/02/2024 17:29:56,4,Browser extension,More then a year,"Node overview, Shards overview, Index management, Snapshots & Repository management",Features,Kibana,"elasticvue is great but i also use elasticHQ who as some very great features like :
+a ""diagnostic"" tab  allowing comparison between nodes. Highliting anormal metrics
+a ""node view"" tab showing all metrics from node would be great.
+a ""metrics"" tab showing performance metrics (store size /heap used/ doc count /dic deleted/ etc ...)
+ have a try with elasticHQ (on docker for example) to check those cool features. That's nearly all that is missing to elasticvue afaic :-) 
+cheers."
+27/02/2024 17:37:38,5,Desktop app,Less then a year,Index alias management,Features,,
+27/02/2024 17:43:44,5,Browser extension,More then a year,"Node overview, Shards overview, Index creation, Index alias management, Searching, Document viewing, Rest interface for manual queries",,,
+27/02/2024 18:11:37,5,"Browser extension, Desktop app",Less then a month,"Node overview, Shards overview, Index management, Searching, Document viewing, Rest interface for manual queries",,Kibana,support sql
+27/02/2024 19:06:54,5,Browser extension,More then a year,"Node overview, Shards overview, Index management, Searching, Document viewing, Rest interface for manual queries, Snapshots & Repository management",,Kibana,allow or keep a version compatible with older ES nodes (e.g. 5.5). Some of us have to work with old stacks :(
+27/02/2024 19:19:14,3,Browser extension,More then a year,"Shards overview, Index management, Index creation, Searching, Document viewing","Features, There should be an option in saved queries to delete a saved query",Kibana,There should be an option in saved queries to delete a saved query
+27/02/2024 19:52:59,5,Browser extension,Less then a year,"Index management, Document viewing, Rest interface for manual queries",,,"It's good enough, I can't think of improvements here. But if speed can be improved on lanrge pagination, that would be nice."
+27/02/2024 19:54:02,4,Browser extension,More then a year,"Node overview, Shards overview, Index management, Index creation, Index alias management, Searching, Document viewing, Rest interface for manual queries, Snapshots & Repository management","Performance, Features",,
+27/02/2024 20:38:56,4,Browser extension,Less then a year,Searching,Performance,no,"default query, example exact phrase or  something 
+"
+27/02/2024 20:39:42,5,"Browser extension, Desktop app, Hosted web app",Less then a year,"Index management, Index creation",Features,,
+27/02/2024 20:58:37,4,Browser extension,More then a year,"Node overview, Shards overview, Index alias management","Security, Features",elasticsearch-head,
+27/02/2024 21:41:14,5,Browser extension,Less then a year,"Index management, Searching, Document viewing, Rest interface for manual queries",Features,Kibana,"The elasticVue interface is nice, but I still find myself going to the kibana dev console to test queries. "
+27/02/2024 23:04:57,4,Browser extension,More then a year,"Node overview, Shards overview, Index management, Index creation, Index alias management, Searching, Document viewing, Rest interface for manual queries, ",,Kibana,Possibility of returning results of aggregations
+27/02/2024 23:22:09,5,Desktop app,Less then a year,"Index management, Index creation, Searching, Document viewing","Design, Features",Custom application,
+28/02/2024 02:02:51,5,Browser extension,More then a year,"Node overview, Searching, Document viewing, Rest interface for manual queries",Features,cerebro,Generate curl command for existing query
+28/02/2024 02:43:42,4,Browser extension,More then a year,"Index management, Index creation, Index alias management, Searching, Document viewing, Rest interface for manual queries",Features,Kibana,
+28/02/2024 02:46:09,5,Browser extension,More then a year,"Index management, Index alias management, Searching, Document viewing",Features,"Kibana, elasticsearch-head, dejavu",
+28/02/2024 03:06:05,5,"Browser extension, Desktop app",More then a year,"Node overview, Shards overview, Index management, Index creation, Index alias management, Searching, Document viewing, Rest interface for manual queries",Features,"Kibana, elasticsearch-head, dejavu",
+28/02/2024 03:59:50,3,Browser extension,More then a year,"Index management, Searching, Document viewing, Rest interface for manual queries","Performance, Features","Kibana, elasticsearch-head",hitting elastic apis can be more user friendly
+28/02/2024 04:08:24,4,Browser extension,More then a year,"Node overview, Shards overview, Index management, Searching, Document viewing, Rest interface for manual queries",Features,Kibana,"import file certificate, key to authentication ssl with elasticsearch"
+28/02/2024 07:31:16,4,"Browser extension, Docker",Less then a year,"Index management, Searching, Document viewing, Rest interface for manual queries","Design, Features",elasticsearch-head,
+28/02/2024 07:52:43,4,Hosted web app,More then a year,"Index management, Searching, Document viewing, Rest interface for manual queries",,Kibana,"I would like a simple query editor, but I know it can be quite challenging to create :)
+
+And thanks!"
+28/02/2024 08:07:49,5,Browser extension,More then a year,"Node overview, Index management, Searching, Document viewing",,,
+28/02/2024 08:22:31,4,"Browser extension, Desktop app",Less then a year,"Node overview, Index management, Index creation, Index alias management, Searching, Document viewing, Rest interface for manual queries",Features,Kibana,
+28/02/2024 08:30:39,2,Browser extension,More then a year,"Node overview, Index management, Index creation, Index alias management, Searching, Document viewing, Rest interface for manual queries, Snapshots & Repository management",Performance,,Noticing slowdown post new release
+28/02/2024 09:10:32,4,Browser extension,More then a year,"Node overview, Shards overview, Index management, Searching, Document viewing, Rest interface for manual queries","Security, Features",Kibana,"1. that we can save the ""records per page entry"" so that we haven't change this every reload.
+2. that we can expand the menu with ""home; nodes; Shards; ..."" with own ones and put behind this own REST API calls against monitoring endpoints of elasticsearch how to example the geo ip endpoint.
+3. That we can export the request history for audit topics.
+"
+28/02/2024 09:10:38,5,Browser extension,Less then a year,"Searching, Document viewing, Rest interface for manual queries",,,
+28/02/2024 09:12:58,4,Self-hosted,More then a year,"Index management, Searching",Deployment,,
+28/02/2024 09:14:42,5,"Browser extension, Desktop app",More then a year,"Searching, Document viewing, Rest interface for manual queries",,,
+28/02/2024 09:24:59,5,Browser extension,More then a year,"Searching, Document viewing, Rest interface for manual queries",filtering documents,,
+28/02/2024 09:25:46,5,Browser extension,More then a year,"Node overview, Index management, Index creation, Searching, Document viewing, Rest interface for manual queries",Features,elasticsearch-head,"nodes should be able to be sorted by load. Although the search keyword appears automatically when the search section is opened, it is not included in the search. A simple attribute can be added in the Search section. If the query string provides this feature, ignore it, such as title:data or title:""data"". Also, timestampt, in other words when the rest result came, can be printed on the screen. The system behaves differently if the URL ends with a slash and differently if it does not. It can be induced or made default."
+28/02/2024 09:26:38,5,"Desktop app, Started with the browser extension, but the desktop app is easier to use than finding the right browser tab. I have the app open all the time!",More then a year,"Node overview, Index management, Index alias management, Searching, Document viewing, Rest interface for manual queries, Document editing","I am happy so far :-) Since the document editing feature is live, it is even more perfect!",elasticsearch-head,"Autocompletion in JSON/REST editor and a better API endpoint selection would be helpful, maybe in-context help, links to ES docs. Maybe AI based completion as in Github Copilot ;-)"
+28/02/2024 09:35:36,4,Desktop app,More then a year,"Searching, Document viewing, Rest interface for manual queries","Design, Features",elasticsearch-head,"UI for simple article querying, currently it's really difficult to perform simple task like searching by one or more fields"
+28/02/2024 09:50:48,4,Browser extension,Less then a year,"Index management, Searching",Features,Kibana,
+28/02/2024 10:02:42,3,Browser extension,Less then a year,"Index management, Index creation, Index alias management, Searching, Document viewing",Performance,,
+28/02/2024 10:04:30,4,Browser extension,More then a year,"Node overview, Index management","Design, Features",cerebro,Shard view is not optimized for large numbers of shards and nodes
+28/02/2024 10:16:45,5,Browser extension,More then a year,"Node overview, Shards overview, Rest interface for manual queries",,Kibana,"I would want auto update home page
+"
+28/02/2024 10:22:14,5,Browser extension,Less then a year,"Node overview, Index management",,Kibana,
+28/02/2024 10:22:16,4,Browser extension,More then a year,"Node overview, Index management, Searching, Document viewing, Rest interface for manual queries",Features,sql-cli,
+28/02/2024 10:54:50,4,Browser extension,More then a year,"Node overview, Shards overview, Index management, Index creation, Index alias management, Searching, Document viewing, Rest interface for manual queries, Snapshots & Repository management",Performance,Opensearch-Dash,Opensearch-Support
+28/02/2024 11:09:06,5,Browser extension,More then a year,"Shards overview, Index management, Index alias management, Searching, Document viewing, Rest interface for manual queries",,Kibana,
+28/02/2024 11:31:12,4,"Browser extension, Desktop app, Docker, Self-hosted",Less then a year,"Node overview, Shards overview, Index management, Searching, Document viewing, Rest interface for manual queries",Design,Kibana,
+28/02/2024 11:49:36,3,Desktop app,More then a year,"Node overview, Index management, Index alias management, Searching, Document viewing",,,I’m affected by this issue: https://github.com/cars10/elasticvue/issues/105#issuecomment-1746648690 but otherwise I'm happy :)
+28/02/2024 11:52:32,4,Browser extension,More then a year,"Node overview, Shards overview, Index management",,Kibana,
+28/02/2024 12:28:27,4,Browser extension,Less then a month,"Index management, Searching, Document viewing","Design, Performance, Features",,id moved on the title of the document instead of part of content json
+28/02/2024 12:29:19,2,Browser extension,More then a year,"Index creation, Searching, Document viewing","Design, Features",Postman,The new design is really bad. You have to rollback to previous version i guess.
+28/02/2024 13:12:36,4,Browser extension,More then a year,"Node overview, Shards overview","OpenSearch support, at least no EOL version warnings, ",,
+28/02/2024 13:21:16,5,Browser extension,More then a year,"Shards overview, Searching, Document viewing, Rest interface for manual queries",does it support https connection to nodes now?,Kibana,
+28/02/2024 13:25:48,4,"Desktop app, Self-hosted",Less then a month,"Node overview, Shards overview, Index management, Index creation, Index alias management, Searching, Document viewing, Rest interface for manual queries, Snapshots & Repository management",,elasticsearch-head,
+28/02/2024 13:46:54,5,Browser extension,Less then a year,"Index management, Searching",Deployment,Kibana,
+28/02/2024 14:11:51,5,Browser extension,Less then a year,"Node overview, Shards overview, Searching, Document viewing, Rest interface for manual queries",,,
+28/02/2024 14:57:57,4,Browser extension,More then a year,"Searching, Document viewing, Rest interface for manual queries",latest design update was actually pretty nice,,
+28/02/2024 15:10:03,4,Browser extension,More then a year,"Index management, Index creation, Searching, Document viewing",,Kibana,
+28/02/2024 15:22:57,4,Browser extension,More then a year,"Node overview, Shards overview, Index management, Index alias management, Searching, Document viewing",Features,Kibana,Moving multiple aliases through ui at once
+28/02/2024 15:41:48,4,Browser extension,More then a year,Searching,query auto suggestion,Kibana,
+28/02/2024 15:42:06,4,Browser extension,Less then a year,"Index management, Searching, Rest interface for manual queries",Performance,,
+28/02/2024 15:48:14,5,"Browser extension, Desktop app",More then a year,"Node overview, Shards overview, Index management, Document viewing",Features,elasticsearch-head,"maybe some simple query builder (like ""search"" tab in phpMyAdmin)"
+28/02/2024 15:52:44,5,"Browser extension, Docker",More then a year,"Node overview, Shards overview, Index management, Index alias management, Searching, Document viewing, Rest interface for manual queries",Features,,"* have a choice for the export to rely on the displayed fields.
+* CSV export
+"
+28/02/2024 15:54:20,5,Browser extension,Less then a year,"Node overview, Shards overview, Index management, Index creation, Searching, Document viewing, Rest interface for manual queries",,Kibana,
+28/02/2024 15:57:03,5,Browser extension,Less then a month,"Node overview, Shards overview, Index management, Index creation, Index alias management, Searching, Document viewing, Rest interface for manual queries, Snapshots & Repository management",,dejavu,
+28/02/2024 16:08:09,4,Browser extension,Less then a year,"Searching, Document viewing","Design, Features",Kibana,
+28/02/2024 16:08:34,4,Browser extension,Less then a year,Searching,Design,,
+28/02/2024 16:20:49,4,Browser extension,More then a year,"Index alias management, Searching, Document viewing, Rest interface for manual queries",Performance,,"Main issue is sometimes when typing in custom queries in the search bar (ie id:12345), they don't work the first time. Have to swap back to * then paste custom query back in for it to work again"
+28/02/2024 16:29:05,5,Browser extension,More then a year,"Searching, Document viewing, Cluster Health",,,
+28/02/2024 17:06:03,5,Browser extension,More then a year,"Node overview, Shards overview, Index management, Index creation, Index alias management, Searching, Document viewing, Rest interface for manual queries, Snapshots & Repository management","Design, Performance, Security, Features",,
+28/02/2024 17:12:31,5,Browser extension,Less then a year,"Shards overview, Index management, Index alias management, Searching, Document viewing, Snapshots & Repository management","Security, Features",Kibana,
+28/02/2024 17:20:13,4,Browser extension,Less then a month,"Index management, Index alias management, Searching, Document viewing",,,
+28/02/2024 18:33:43,4,Browser extension,More then a year,"Node overview, Index management, Searching","Design, Features",Kibana,
+28/02/2024 21:01:17,5,Browser extension,More then a year,"Node overview, Index management, Index alias management, Searching, Document viewing","Design, Features, Search was better before few months.",,option to view/celete unassinged shards.
+28/02/2024 23:25:28,5,Browser extension,More then a year,"Node overview, Shards overview, Index management",Features,Kibana,
+29/02/2024 02:01:46,5,Browser extension,Less then a year,"Index management, Searching, Document viewing",,Kibana,
+29/02/2024 02:49:19,5,Browser extension,Less then a year,Searching,"Design, Features",Kibana,It`s good
+29/02/2024 03:03:29,5,Self-hosted,Less then a year,"Node overview, Index creation, Searching, Document viewing","Security, Deployment",Kibana,
+29/02/2024 03:20:21,4,Browser extension,More then a year,"Index management, Searching, Document viewing, Rest interface for manual queries",Design,,
+29/02/2024 07:30:32,4,Browser extension,More then a year,"Searching, Document viewing, Rest interface for manual queries",Features,,
+29/02/2024 07:55:46,4,Browser extension,More then a year,"Shards overview, Index management, Searching, Document viewing","Design, Features","Kibana, elasticsearch-head",Elasticsearch Profiler
+29/02/2024 08:41:02,4,Browser extension,Less then a year,"Node overview, Shards overview, Rest interface for manual queries",Features,Kibana,Better Management of saved REST Querys across Clusters. Maybe with a folder structure
+29/02/2024 08:54:17,5,Browser extension,More then a year,Node overview,,Kibana,
+29/02/2024 09:25:33,4,Browser extension,More then a year,"Searching, Document viewing","Design, Features",,
+29/02/2024 09:27:59,5,Browser extension,More then a year,"Node overview, Shards overview, Index management, Index creation, Index alias management, Searching, Document viewing, Rest interface for manual queries","Design, Community, Deployment",,
+29/02/2024 09:30:46,5,Browser extension,Less then a year,Document viewing,Features,,
+29/02/2024 09:40:00,4,Browser extension,Less then a year,"Index management, Searching, Document viewing, Rest interface for manual queries",Features,Kibana,i dont think elasticvue has the option to delete a document from an index? that would be really useful in some testing/debugging scenarios.
+29/02/2024 09:42:22,4,Browser extension,Less then a year,"Node overview, Searching, Document viewing, Rest interface for manual queries",,,
+29/02/2024 09:54:54,4,Browser extension,Less then a year,"Node overview, Shards overview, Rest interface for manual queries",,Kibana,
+29/02/2024 10:04:29,4,Hosted web app,Less then a year,"Searching, Rest interface for manual queries",,,
+29/02/2024 10:24:00,5,Browser extension,Less then a year,"Node overview, Shards overview, Searching, Document viewing, Rest interface for manual queries",,,
+29/02/2024 11:06:58,4,"Browser extension, Desktop app",More then a year,"Node overview, Index management, Index creation, Index alias management, Searching, Document viewing, Rest interface for manual queries","Design, Features",,
+29/02/2024 11:08:25,4,Browser extension,Less then a year,"Index management, Index alias management, Searching, Document viewing, Rest interface for manual queries",Features,Kibana,
+29/02/2024 11:15:31,4,Browser extension,Less then a year,"Searching, Document viewing, Rest interface for manual queries",,,
+29/02/2024 11:45:38,4,"Desktop app, Docker",More then a year,"Index management, Searching, Document viewing","Design, Features",Kibana,
+29/02/2024 11:46:38,5,Browser extension,More then a year,"Index management, Index creation, Index alias management, Searching, Document viewing, Rest interface for manual queries","Features, Add dump creation of the database",Kibana,
+29/02/2024 11:55:11,5,Browser extension,More then a year,"Index management, Index alias management, Searching, Rest interface for manual queries",,,
+29/02/2024 12:31:36,5,Browser extension,More then a year,"Index management, Searching, Document viewing, Rest interface for manual queries",The find feature (ctrl + f) inside the documents does not show the number of hits.,,
+29/02/2024 12:31:58,5,Browser extension,More then a year,"Node overview, Shards overview, Searching, Document viewing, Rest interface for manual queries",,,
+29/02/2024 12:42:44,4,"Desktop app, Self-hosted",More then a year,"Node overview, Searching, Document viewing",Features,Kibana,
+29/02/2024 13:11:00,4,Browser extension,Less then a year,Searching,"Design, Features",,
+29/02/2024 13:22:59,5,Browser extension,More then a year,"Searching, Document viewing",Performance,Kibana,"Search Query text editor area shall be improved like if query has some syntax(its json) error then unless you click search button you do not know get to know about error. Even error says invalid query so one needs to figure out what goes wrong is it some extra comma or....
+
+Thank You for the extension."
+29/02/2024 13:55:19,5,Browser extension,Less then a year,"Node overview, Index management, Index alias management, Searching, Snapshots & Repository management",it's perfect for my usage,,
+29/02/2024 14:42:00,4,"Browser extension, Self-hosted",Less then a year,"Node overview, Shards overview, Index management, Searching, Document viewing, Rest interface for manual queries, Snapshots & Repository management",Features,elasticsearch-head,
+29/02/2024 16:00:56,5,Browser extension,Less then a year,"Node overview, Shards overview, Index management, Index creation, Index alias management, Searching, Document viewing, Rest interface for manual queries, Snapshots & Repository management","Security, Features",Kibana,index fields / structure browse
+29/02/2024 16:07:25,5,Browser extension,More then a year,"Index management, Index alias management, Searching, Document viewing, Rest interface for manual queries",,Kibana,
+29/02/2024 16:23:37,4,Browser extension,More then a year,"Node overview, Index management, Rest interface for manual queries","Design, Features",Kibana,
+29/02/2024 17:20:54,5,Browser extension,More then a year,Node overview,Design,elasticsearch-head,display before this update
+29/02/2024 17:44:51,5,Browser extension,More then a year,"Node overview, Shards overview, Index management, Rest interface for manual queries, Snapshots & Repository management",Design,Kibana,Monitorizar.
+29/02/2024 17:55:31,5,Browser extension,More then a year,"Node overview, Shards overview, Index management, Index creation, Index alias management, Searching, Document viewing, Rest interface for manual queries",,,
+29/02/2024 18:00:25,4,Browser extension,Less then a year,"Node overview, Shards overview, Index management, Index creation, Index alias management, Rest interface for manual queries, Snapshots & Repository management",,,
+29/02/2024 18:12:42,5,Browser extension,Less then a year,"Index management, Index creation, Searching, Document viewing","Design, Performance, Community",Kibana,
+29/02/2024 18:13:20,5,Desktop app,More then a year,"Searching, Document viewing, Rest interface for manual queries","Features, auto complete rest queries (maybe using ai)",Kibana, could be add a section like a postman to store used rest queries (actualy I have muy list in open tabs).
+29/02/2024 18:42:38,4,Browser extension,Less then a month,Rest interface for manual queries,,Kibana,
+29/02/2024 23:26:28,4,"Browser extension, Desktop app, Docker",Less then a year,"Searching, Document viewing","Design, Features, Deployment",,
+01/03/2024 02:49:38,3,Browser extension,More then a year,"Node overview, Index management, Rest interface for manual queries","Design, Performance, Features",Kibana,auto refresh on home page
+01/03/2024 03:20:00,5,Browser extension,More then a year,"Node overview, Shards overview, Searching, Document viewing, Rest interface for manual queries","Design, Performance, Security, Features, Community","Kibana, elasticsearch-head",SQL query support
+01/03/2024 03:56:54,5,Browser extension,Less then a year,"Index management, Index alias management, Searching, Document viewing, Rest interface for manual queries","Features, Community","Kibana, elasticsearch-head",
+01/03/2024 04:06:55,3,Browser extension,Less then a month,"Shards overview, Index management",Features,Kibana,kibana 控制台语句的智能提示
+01/03/2024 04:58:33,3,Browser extension,More then a year,"Node overview, Shards overview, Index management, Index creation, Index alias management, Searching, Document viewing, Rest interface for manual queries",Design,Kibana,
+01/03/2024 05:11:53,4,Browser extension,More then a year,Searching,"Performance, Security",Kibana,
+01/03/2024 06:55:44,5,Browser extension,More then a year,"Node overview, Shards overview, Index management, Index creation, Index alias management, Searching, Document viewing, Rest interface for manual queries",nothing,no.,
+01/03/2024 07:06:59,5,Browser extension,More then a year,"Node overview, Shards overview, Index management, Index alias management, Searching, Document viewing",export data as csv/xlsx/jsonl.,Kibana,export data as csv/xlsx/jsonl.
+01/03/2024 08:06:33,5,Browser extension,More then a year,Searching,,,Access more than 10K rows in an index
+01/03/2024 08:34:01,4,Browser extension,More then a year,"Searching, Document viewing, Rest interface for manual queries","Design, Features",Kibana,
+01/03/2024 08:35:45,4,Browser extension,Less then a year,"Searching, Rest interface for manual queries",easier to persist previous queries,,
+01/03/2024 08:43:57,4,Browser extension,Less then a month,"Node overview, Searching, Document viewing",Features,,
+01/03/2024 08:46:28,5,Browser extension,More then a year,"Searching, Document viewing, Rest interface for manual queries",,,
+01/03/2024 09:18:24,4,"Browser extension, Docker",Less then a year,"Index management, Index creation, Index alias management, Searching, Document viewing, Rest interface for manual queries","Design, Community, Deployment",,
+01/03/2024 09:34:51,4,Browser extension,More then a year,"Index management, Searching, Rest interface for manual queries",Features,Kibana,
+01/03/2024 10:41:41,5,Browser extension,More then a year,"Node overview, Searching","Design, Features",,All good buddy. Keep up the good work. Happy with what is given!
+01/03/2024 11:21:41,4,Browser extension,Less then a year,"Node overview, Shards overview, Index management, Rest interface for manual queries, Snapshots & Repository management","Design, Features","Kibana, elasticsearch-head",used to retry failed operations in the cluster by triggering a reroute process.
+01/03/2024 11:31:37,4,Browser extension,Less then a year,"Searching, Rest interface for manual queries",Features,,
+01/03/2024 11:33:22,4,Browser extension,More then a year,"Index management, Searching, Document viewing, Rest interface for manual queries","Design, Features",,
+01/03/2024 12:46:02,5,Browser extension,More then a year,"Node overview, Shards overview, Index management, Searching, Document viewing, Rest interface for manual queries",Features,Kibana,I love it
+01/03/2024 12:48:34,5,Browser extension,Less then a year,Index management,,elasticsearch-head,
+01/03/2024 12:56:43,4,Browser extension,More then a year,Index management,"Design, Features",,
+01/03/2024 13:34:43,4,Browser extension,More then a year,"Node overview, Index management, Searching, Document viewing, Rest interface for manual queries",Features,,
+01/03/2024 14:23:31,5,Browser extension,Less then a year,"Node overview, Searching, Document viewing",Performance,elasticsearch-head,"ILM management, graphical query composition (to help with filters & aggregations)"
+01/03/2024 14:32:03,4,Browser extension,More then a year,"Node overview, Shards overview, Index management, Index alias management, Snapshots & Repository management",,"Kibana, elasticsearch-head, cerebro",
+01/03/2024 14:43:13,4,Browser extension,Less then a year,"Shards overview, Searching, Document viewing",,Kibana,
+01/03/2024 15:22:27,4,Browser extension,Less then a year,"Node overview, Shards overview",Features,"Kibana, custom tool","please, make new tab with rotated table of shards, i mean where column it's node, and row it's index. Offen i need check who ""live"" on specific node, and then move shard. Aso it should check settings.index.routing.allocation.include._name configuration option prior allowing index relocation to specific node "
+01/03/2024 15:37:34,5,Browser extension,More then a year,"Node overview, Shards overview, Index management, Index creation, Index alias management, Searching, Document viewing, Rest interface for manual queries, Snapshots & Repository management","Design, Security, Features",Kibana,
+01/03/2024 15:55:34,5,Browser extension,More then a year,"Index management, Searching, Document viewing, Rest interface for manual queries",,Kibana,"two ES features i use so regularly I've made CLIs for myself
+1) SQL tab
+2) Maybe farfetched or dangerous, but backup/restore indices using reindex. I've made a CLI for myself where i pass the index as an argument, the program searches for <index>*, and let me do backup (for an index that doesnt match <index>_backup_<yyyyMMdd>), restore (from an index matching <index>_backup_<yyyyMMdd>), or delete (only for indices matching <index>_backup_<yyyyMMdd>)."
+01/03/2024 17:19:33,5,Browser extension,Less then a year,Document viewing,Features,elasticsearch-head,Structured Query (same elasticsearch-head ). I hope to have it soon
+01/03/2024 18:19:22,5,"Browser extension, Hosted web app",Less then a year,"Searching, Document viewing, Rest interface for manual queries","Design, Features",,
+01/03/2024 18:47:16,4,Browser extension,More then a year,"Index alias management, Searching, Document viewing, Rest interface for manual queries","Features, ",,autocompletion
+01/03/2024 19:53:56,5,Browser extension,More then a year,"Node overview, Shards overview",Design,Graylog,
+01/03/2024 19:56:23,5,Browser extension,Less then a year,"Index management, Index creation, Index alias management, Searching, Document viewing","Security, Features, Deployment","Kibana, elasticsearch-head, dejavu, cerebro",
+01/03/2024 20:23:51,4,Browser extension,More then a year,"Node overview, Shards overview, Index management, Rest interface for manual queries","Design, Features",Kibana,
+02/03/2024 01:18:30,5,Browser extension,More then a year,"Node overview, Shards overview, Rest interface for manual queries",Features,,
+02/03/2024 03:05:51,5,Browser extension,More then a year,"Searching, Rest interface for manual queries",Features,,
+02/03/2024 06:45:54,5,Browser extension,More then a year,"Node overview, Shards overview, Index management, Searching, Document viewing, Rest interface for manual queries",,,
+02/03/2024 08:49:57,3,Desktop app,Less then a year,"Node overview, Shards overview, Index management, Index creation, Index alias management, Document viewing","Design, Performance, Features",elasticsearch-head,
+02/03/2024 09:54:27,5,Browser extension,Less then a month,"Node overview, Shards overview, Index management, Document viewing",Deployment,,优化下搜索
+02/03/2024 15:05:08,5,Desktop app,Less then a month,"Node overview, Index management, Index creation, Index alias management, Searching","Design, Performance, Features",,
+02/03/2024 16:38:01,5,Browser extension,Less then a year,"Searching, Document viewing, Manual test utility for Elasticsearch-based application development","Will examine other options for browsing and management access on instance on the web, without exposing Elasticsearch API itself, e.g. the self-hosted web app mentioned in a previous question.",In-house developed application,"Excellent tooling, significantly simplified my work. Wish every database had such tooling."
+02/03/2024 20:23:51,5,Desktop app,Less then a month,"Node overview, Shards overview, Index management, Index creation, Index alias management, Searching, Document viewing, Rest interface for manual queries",Features,opensearch,
+03/03/2024 01:40:35,4,Desktop app,Less then a year,"Node overview, Shards overview, Searching, Document viewing, Rest interface for manual queries","Design, Features, Community",Kibana,
+03/03/2024 05:02:25,4,Browser extension,Less then a year,"Index alias management, Document viewing, Rest interface for manual queries",,,Looks good so far as my usage is for basic purposes
+03/03/2024 10:52:25,5,Browser extension,More then a year,"Node overview, Shards overview, Index management, Index creation, Index alias management, Rest interface for manual queries, Snapshots & Repository management",Features,Kibana,
+03/03/2024 13:24:46,5,Browser extension,More then a year,"Searching, Document viewing, Rest interface for manual queries",,Kibana,
+03/03/2024 15:47:40,4,"Browser extension, Desktop app",More then a year,"Index management, Searching, Document viewing, Rest interface for manual queries",Features,Kibana,
+04/03/2024 02:13:53,5,Browser extension,Less then a month,"Node overview, Index management, Index creation, Index alias management, Searching",Performance,Kibana,i have no idea.
+04/03/2024 03:24:08,5,Browser extension,More then a year,"Node overview, Shards overview, Index management, Index alias management, Searching, Document viewing, Rest interface for manual queries, Snapshots & Repository management","Features, Community",Kibana,
+04/03/2024 04:58:25,5,Browser extension,More then a year,"Node overview, Shards overview, Index creation, Index alias management, Searching, Document viewing, Rest interface for manual queries","Design, Performance",Kibana,
+04/03/2024 06:18:46,5,Browser extension,Less then a year,"Node overview, Shards overview, Searching, Document viewing","Design, Features, Community",elasticsearch-head,not able to view counts when we search keywords in the output
+04/03/2024 07:09:08,4,Desktop app,Less then a year,Rest interface for manual queries,Features,cerebro,"1. Rest dsl input suggestion is not strong
+2. Rest Tabs need grouped"
+04/03/2024 08:00:16,5,Browser extension,More then a year,"Shards overview, Index management, Searching, Document viewing, Rest interface for manual queries, Snapshots & Repository management",,,
+04/03/2024 08:13:24,4,Browser extension,Less then a year,"Node overview, Index management, Index alias management, Searching, Document viewing, Snapshots & Repository management","Design, Performance",Kibana,Filters on Ui to filter data
+04/03/2024 08:14:24,5,Browser extension,Less then a year,"Node overview, Shards overview, Index management, Searching, Document viewing","Design, Performance, Features",elasticsearch-head,
+04/03/2024 08:26:37,4,Browser extension,More then a year,"Node overview, Shards overview, Index management, Searching, Rest interface for manual queries, Snapshots & Repository management",Features,Kibana,
+04/03/2024 08:38:30,4,Browser extension,Less then a year,,,"Kibana, elasticsearch-head",
+04/03/2024 08:43:37,4,Browser extension,More then a year,"Node overview, Index management, Searching, Document viewing, Rest interface for manual queries",,Postman,
+04/03/2024 09:17:32,4,Browser extension,More then a year,"Index management, Searching, Document viewing, Rest interface for manual queries",Performance,Kibana,"More query examples in the REST interface. Was trying to use msearch for the first time for example and the format is a bit different from the usual (need to add an extra empty """" line between each query). A quick example would have saved me some time."
+04/03/2024 09:22:44,4,Browser extension,More then a year,"Index management, Searching",Design,,
+04/03/2024 09:27:33,5,Browser extension,Less then a year,"Index management, Searching, Document viewing",,Kibana,
+04/03/2024 10:14:41,4,Browser extension,More then a year,"Node overview, Shards overview, Searching, Document viewing, Rest interface for manual queries, Snapshots & Repository management",Design,,"Maybe a cross cluster search, for exemple i have 3 environment stage-preprod-prod and some time i want to check if a data are in the 3 environments"
+04/03/2024 10:43:00,2,Browser extension,Less then a month,"Node overview, Searching, Document viewing","Design, Features",,"Did not use it a lot, but in the MySQL world, TablePlus is the reference for me, so there may be some ideas to get from it :)"
+04/03/2024 10:48:30,4,Browser extension,More then a year,"Index management, Searching, Document viewing",Features,,Refresh all Indexed by single click.
+04/03/2024 10:54:24,4,Browser extension,More then a year,"Index management, Searching, Document viewing, Rest interface for manual queries","Design, Features",Kibana,"For instance, I would like so way to extract items from aggs queries results int the REST page. I guess something could be improved when using different request bodies in the the REST API page. Anyway, elasticvue is really great and useful. Thanks!"
+04/03/2024 11:14:20,4,"Browser extension, Desktop app",More then a year,"Node overview, Shards overview, Index management, Index alias management, Rest interface for manual queries, Snapshots & Repository management",Features,elasticsearch-head,Search functionality like with elasticsearch-head
+04/03/2024 11:31:00,4,Browser extension,More then a year,"Searching, Document viewing, Rest interface for manual queries","Design, Features","Kibana, Grafana","Better data discovery functionality, managing documents with a lot of fields and searching documents in a kibana like fashion with a visual timeline"
+04/03/2024 11:35:09,5,Browser extension,Less then a year,"Shards overview, Index management, Searching, Document viewing",Design,,
+04/03/2024 11:54:39,5,"Browser extension, Desktop app, Docker",More then a year,"Node overview, Searching, Document viewing",,,"Great extension, thank's alot!"
+04/03/2024 12:36:25,4,Browser extension,Less then a year,"Index management, Searching, Document viewing",,no,
+04/03/2024 13:52:35,5,Browser extension,More then a year,"Searching, Document viewing, Rest interface for manual queries",,,
+04/03/2024 14:55:04,4,Browser extension,More then a year,"Index management, Index alias management, Searching, Document viewing, Rest interface for manual queries","Design, Performance, Security",,"Improved dashboard design, number of docs per index on indices page, ML features for semantic searches such as models on the cluster or active plugins"
+04/03/2024 15:03:26,4,Browser extension,More then a year,"Shards overview, Searching, Document viewing",Features,,to be easier to search so we don't need to know elasticsearch language
+04/03/2024 15:05:58,5,"Browser extension, Desktop app",More then a year,"Node overview, Index management, Searching, Document viewing, Rest interface for manual queries, Snapshots & Repository management","Design, Features",Kibana,More administrative features. I admin 10+ ES clusters. Dashboard Overview of all clusters
+04/03/2024 15:08:37,5,Browser extension,More then a year,"Index alias management, Searching, Document viewing, Rest interface for manual queries","Setting page size to 10k almost kills my browser, and it's hard to get out of it (to lower the page size it has first to be rendered before it's responsive)","Elasticvue rocks, for my purposes there's no need for any other frontend","I'd love elasticvue to remember my latest and/or most-used queries or docs. I'm very noob, that's why some query help/faq in the client would also be awesome (although not sure how exactly that should look - links to the elastic docs are already there, thanks)."
+04/03/2024 15:24:25,5,Browser extension,More then a year,"Shards overview, Searching, Document viewing, Rest interface for manual queries",,Kibana,
+04/03/2024 16:17:16,5,Desktop app,More then a year,"Index management, Searching, Document viewing, Rest interface for manual queries",App currently provides all the necessary features + it's really easy to use :) ,Kibana,
+04/03/2024 16:37:08,5,Browser extension,More then a year,"Index management, Index creation, Searching, Document viewing, Rest interface for manual queries",,Kibana,
+04/03/2024 17:54:46,4,Desktop app,More then a year,,,,
+04/03/2024 19:53:16,4,"Browser extension, Desktop app, Self-hosted",More then a year,"Node overview, Shards overview, Index alias management, Searching, Document viewing, Rest interface for manual queries","Performance, Features",Kibana,
+04/03/2024 20:56:36,5,Browser extension,Less then a month,"Index management, Index alias management, Searching, Document viewing, Rest interface for manual queries",Features,"Kibana, elasticsearch-head",QueryBuilder with content assist (code completion) like in Kibana DevConsole
+04/03/2024 23:06:57,5,Desktop app,Less then a year,"Index management, Searching, Document viewing",Design,,
+05/03/2024 03:22:42,5,Browser extension,More then a year,"Shards overview, Index management, Searching, Document viewing, Rest interface for manual queries",,Kibana,
+05/03/2024 06:55:22,4,Browser extension,More then a year,"Index alias management, Searching, Document viewing, Rest interface for manual queries",,,
+05/03/2024 07:07:50,5,Browser extension,More then a year,"Node overview, Shards overview",Features,Kibana,
+05/03/2024 07:49:30,5,Browser extension,Less then a year,"Node overview, Index management, Searching, Document viewing, Rest interface for manual queries",,Kibana,
+05/03/2024 09:08:11,4,Browser extension,Less then a year,"Index management, Searching, Document viewing, Rest interface for manual queries",,,Nothing special. I mainly use it for querying OpenSearch. But maybe adding SSH tunnelling to connect would be nice.
+05/03/2024 09:11:14,5,Browser extension,More then a year,"Node overview, Shards overview, Index management, Index creation, Index alias management, Searching, Document viewing, Rest interface for manual queries, Snapshots & Repository management",,Kibana,"All good, thank you :)"
+05/03/2024 10:20:12,4,Browser extension,More then a year,"Index management, Index creation, Snapshots & Repository management","Features, Community","Kibana, cerebro",I should be able to create a snapshot on the S3 bucket using aws access keys
+05/03/2024 10:51:59,5,Browser extension,More then a year,"Node overview, Shards overview, Index management, Searching, Document viewing, Rest interface for manual queries","Design, Community",Kibana,
+05/03/2024 13:02:19,4,Browser extension,Less then a year,"Searching, Document viewing","Performance, Features",,"please, add ability to create predefined search queries"
+05/03/2024 13:35:11,5,Browser extension,Less then a year,"Node overview, Shards overview, Rest interface for manual queries, Snapshots & Repository management","Features, Community",Kibana,
+05/03/2024 13:35:26,4,Browser extension,More then a year,Searching,"Design, Performance",Kibana,
+05/03/2024 15:00:39,4,Browser extension,More then a year,"Searching, Document viewing, Rest interface for manual queries",Features,cerebro,text Analyzer ui like cerebro has
+05/03/2024 15:08:07,4,Browser extension,More then a year,"Node overview, Index management, Searching, Rest interface for manual queries",Features,elasticsearch-head,
+05/03/2024 16:17:37,4,Browser extension,Less then a year,"Node overview, Shards overview, Index management, Index alias management",,,Not sure if there are some useful summary stats shat could be show instead of the entire index definition?
+05/03/2024 19:47:11,5,Browser extension,More then a year,"Index management, Searching, Document viewing, Snapshots & Repository management","Features, Community",,
+05/03/2024 21:43:18,4,Browser extension,More then a year,"Node overview, Shards overview, Index management, Searching, Rest interface for manual queries, Snapshots & Repository management",Features,,"Aside from the OpenSearch support I already opened an issue on, you've already improved the annoyances, so I have nothing really!"
+06/03/2024 02:03:47,5,Browser extension,More then a year,"Node overview, Shards overview, Index management, Index alias management",,,none for me
+06/03/2024 05:37:08,5,Browser extension,Less then a year,"Node overview, Searching, Document viewing",,,
+06/03/2024 07:53:01,4,Browser extension,More then a year,"Searching, Document viewing",Design,Kibana,
+06/03/2024 07:54:54,5,Browser extension,More then a year,"Node overview, Index management, Searching, Document viewing, Rest interface for manual queries, Snapshots & Repository management, Home page","Design, Features","Kibana, elasticsearch-head, AutoOps, Elasticsearch monitoring, elasticsearch-exporter with Grafana","1. Indexing/Search rate
+2. Indexing/Search latency
+3. Show and sort by Index Creation Date String in Index View (GET _cat/indices?v&h=index,cds&s=cds:desc)
+4. Node view - data tier filter on the view
+5. Node view - selectable column (because elastic cloud cluster a lot of attributes and can't possible to see anything on screen)
+6. Optional History Saver - If possible I want to see the history of some data for example heap usage per node. 
+"
+06/03/2024 08:01:02,5,"Browser extension, Self-hosted",More then a year,"Index management, Searching, Document viewing",Features,Kibana,
+06/03/2024 08:08:22,4,Browser extension,Less then a year,"Index management, Searching, Document viewing",Design,,
+06/03/2024 08:32:30,4,Desktop app,Less then a year,"Node overview, Index management, Searching, Document viewing, Rest interface for manual queries","Performance, Security, Features, Deployment",,
+06/03/2024 08:47:51,5,Desktop app,Less then a year,"Index management, Searching, Document viewing",Features,Kibana,
+06/03/2024 08:52:33,4,Browser extension,Less then a year,"Node overview, Index management, Index alias management, Document viewing",Design,Kibana,"Remembering ""Records per page"" option in the INDICES tab. Everytime I reload the page or go into another tab and back, it always resets to default 10."
+06/03/2024 09:05:03,5,Browser extension,More then a year,"Shards overview, Index management, Searching, Document viewing",Features,,"Maybe query history / saved queries. I regularly come back to re-type the same query. Very happy with elasticvue, thanks a lot! "
+06/03/2024 09:25:00,3,Browser extension,Less then a year,"Index creation, Searching, Document viewing","Design, Performance, Deployment","Kibana, elasticsearch-head",
+06/03/2024 09:37:49,5,Desktop app,More then a year,"Node overview, Shards overview, Index management, Rest interface for manual queries","Design, Community",Kibana,
+06/03/2024 09:59:32,5,Browser extension,Less then a year,"Node overview, Shards overview, Searching, Document viewing",,elasticsearch-head,
+06/03/2024 10:18:00,5,Browser extension,Less then a year,"Index management, Searching, Document viewing, Rest interface for manual queries",Features,,"Adding an aliase only view or something similar to that, where i can see all aliases that are defined with their indices"
+06/03/2024 11:40:47,4,Browser extension,Less then a year,"Node overview, Shards overview",Features,Kibana,
+06/03/2024 11:56:04,4,Browser extension,More then a year,"Node overview, Index alias management, Searching, Document viewing, Rest interface for manual queries, Snapshots & Repository management",Design,,"Roles and Users managment, statistics or graphic dashboard"
+06/03/2024 11:59:02,5,Browser extension,More then a year,"Index management, Index creation, Searching, Document viewing, Rest interface for manual queries",,,
+06/03/2024 13:22:01,5,Browser extension,Less then a year,"Node overview, Index management, Index alias management, Searching, Document viewing, Rest interface for manual queries",Features,Kibana,
+06/03/2024 13:55:16,4,Browser extension,More then a year,"Shards overview, Index management, Searching",Features,,
+06/03/2024 14:06:58,3,Browser extension,Less then a year,"Index management, Index alias management, Searching",Performance,,I think enought now
+06/03/2024 14:23:09,4,Browser extension,Less then a year,"Node overview, Shards overview, Index management, Searching, Document viewing",Design,,Search field doesn't enlarge for multiline text
+06/03/2024 14:44:00,5,Browser extension,Less then a year,Index management,,,
+06/03/2024 16:34:15,4,Browser extension,More then a year,"Index management, Index alias management, Searching, Document viewing, Rest interface for manual queries","Design, Features",Kibana,"Search does not support fields, only returns full source document"
+06/03/2024 16:44:14,5,Browser extension,More then a year,"Index management, Index creation, Index alias management, Searching, Document viewing, Rest interface for manual queries",Features,,
+06/03/2024 17:24:03,5,Browser extension,More then a year,"Shards overview, Index management, Searching, Rest interface for manual queries",,,
+06/03/2024 18:07:24,4,Browser extension,More then a year,"Node overview, Index management, Searching, Document viewing, Rest interface for manual queries",Community,"Kibana, elasticsearch-head",
+07/03/2024 04:41:54,5,"Desktop app, Docker",More then a year,"Node overview, Shards overview, Index management, Index creation, Index alias management, Document viewing",Design,Kibana,
+07/03/2024 05:17:31,4,Browser extension,More then a year,"Index management, Searching, Document viewing, Rest interface for manual queries",,Kibana,
+07/03/2024 07:24:29,4,"Browser extension, Desktop app, Hosted web app, Docker, Self-hosted",More then a year,"Node overview, Shards overview, Index management, Index creation, Index alias management, Searching, Document viewing, Rest interface for manual queries","Performance, Security, Features, Community",Kibana,
+07/03/2024 08:07:32,4,Browser extension,More then a year,"Node overview, Shards overview, Searching","Design, Performance, Features",,the pagination and records per page* feature on Indices page. You ruined it. Now i have to select records per page to 20 every refresh on page. it was saving my selection in before versions
+07/03/2024 08:11:36,3,Browser extension,More then a year,"Index management, Searching, Document viewing",Features,elasticsearch-head,structured search à la elasticsearch-head
+07/03/2024 08:47:09,5,Browser extension,Less then a year,,,,
+07/03/2024 09:21:13,5,"Browser extension, Desktop app",Less then a year,"Node overview, Shards overview, Index management, Searching, Document viewing","Design, Features",Kibana,
+07/03/2024 10:26:10,4,Browser extension,Less then a year,"Node overview, Shards overview, Index management, Index alias management, Searching, Document viewing, Rest interface for manual queries",,elasticsearch-head,"In search, it would be great to have a dropdown of all the fields within a given index and if any field is selected, the query phrase would only be searched within the selected field (same like the functionlity that elasticsearch-head extension has)."
+07/03/2024 10:38:15,5,Browser extension,More then a year,"Node overview, Index management, Searching",Features,,
+07/03/2024 13:29:21,5,Browser extension,More then a year,"Node overview, Shards overview, Rest interface for manual queries",Features,Graylog,show mectrics and diagnostics like in ElasticHQ
+07/03/2024 13:58:25,5,Browser extension,More then a year,"Index management, Index alias management, Searching, Document viewing, Rest interface for manual queries",Features,,
+07/03/2024 14:41:29,4,Browser extension,More then a year,"Index alias management, Searching, Document viewing",Design,,
+07/03/2024 14:54:47,4,Desktop app,Less then a year,"Index management, Index creation, Index alias management, Searching, Document viewing, Rest interface for manual queries",Bugfixing,"Kaizen, curl, postman",
+07/03/2024 15:45:13,5,Browser extension,More then a year,"Node overview, Shards overview, Index management, Index creation, Index alias management, Searching, Document viewing, Rest interface for manual queries","There is a bug I keep running into occasionally, where the results list doesn't show the correct number of elements selected in the drop-down, and I have to refresh the page and switch the value in the drop-down back and forth to get back to normal.","Kibana, elasticsearch-head",
+07/03/2024 16:17:05,4,Browser extension,Less then a year,"Index management, Index creation, Searching",,,
+07/03/2024 21:18:05,5,Browser extension,Less then a year,"Node overview, Searching, Document viewing, Rest interface for manual queries",,,
+07/03/2024 22:22:25,5,Desktop app,Less then a month,"Node overview, Shards overview, Searching, Document viewing, Rest interface for manual queries",Features,,
+08/03/2024 02:33:42,4,Browser extension,More then a year,"Searching, Document viewing, Rest interface for manual queries",Community,,elasticdump
+08/03/2024 09:44:51,4,Browser extension,More then a year,"Node overview, Shards overview, Searching, Document viewing",Features,,users and roles management
+08/03/2024 10:21:40,5,Browser extension,Less then a month,"Index management, Searching, Document viewing","Design, Performance, Features","Kibana, cerebro",
+08/03/2024 12:10:16,4,Browser extension,More then a year,"Index management, Searching, Document viewing","Filter documents, not just by title",,
+08/03/2024 13:04:23,3,Browser extension,Less then a year,"Node overview, Shards overview",Features,"Kibana, elasticsearch-head",autocomplete of search queries
+08/03/2024 15:25:05,4,Desktop app,Less then a year,"Searching, Document viewing, Rest interface for manual queries","Design, Features",,
+08/03/2024 15:40:20,4,Browser extension,More then a year,"Node overview, Shards overview, Index management, Searching, Document viewing, Rest interface for manual queries","Design, Features",,
+08/03/2024 16:01:24,4,Browser extension,Less then a month,"Shards overview, Searching, Document viewing",,,
+08/03/2024 16:57:44,4,Browser extension,Less then a year,"Node overview, Shards overview, Index management, Searching, Document viewing, Rest interface for manual queries, Snapshots & Repository management",Browser functionality causes some of the saved searches to disappear until you backup (and then reappear),Kibana,
+08/03/2024 23:27:27,5,Browser extension,Less then a year,"Node overview, Shards overview, Index management, Rest interface for manual queries",Features,Kibana,
+09/03/2024 02:20:32,5,Desktop app,More then a year,"Index management, Index alias management, Searching, Document viewing, Rest interface for manual queries",Features,,
+09/03/2024 11:59:51,5,"Browser extension, Desktop app, Self-hosted",More then a year,"Node overview, Shards overview, Index management, Index creation, Searching, Document viewing","Features, Community, Deployment","Kibana, Kaizen",
+09/03/2024 19:20:27,4,Desktop app,More then a year,Index management,Design,,
+09/03/2024 21:06:02,4,Hosted web app,More then a year,Index management,,,
+10/03/2024 17:34:09,5,Browser extension,More then a year,"Searching, Document viewing, Rest interface for manual queries",,,
+11/03/2024 02:50:31,4,Desktop app,Less then a month,Searching,,,
+11/03/2024 09:50:13,5,"Browser extension, Docker",More then a year,"Searching, Document viewing","Security, Features","Kibana, elasticsearch-head, dejavu",
+11/03/2024 11:02:28,5,Browser extension,More then a year,"Index management, Document viewing",Features,,
+11/03/2024 11:25:09,4,"Browser extension, Desktop app",More then a year,"Index management, Searching, Document viewing, Rest interface for manual queries",Please add query execution time to the Rest interface.,Kibana,
+11/03/2024 11:51:23,5,Browser extension,Less then a year,"Searching, Document viewing, Rest interface for manual queries",Design,,
+11/03/2024 11:55:18,5,Browser extension,Less then a year,"Index management, Searching",Features,,"search history.
+Thank you :)"
+11/03/2024 12:34:06,4,Browser extension,Less then a year,"Searching, Rest interface for manual queries",Community,,
+11/03/2024 14:13:43,5,Browser extension,Less then a year,"Node overview, Searching","Design, Performance",,
+11/03/2024 15:01:52,4,Browser extension,More then a year,"Index management, Searching, Document viewing, Rest interface for manual queries","Design, Features",,
+11/03/2024 15:28:41,4,Browser extension,Less then a year,"Searching, Document viewing, Rest interface for manual queries","Manual queries autocompletion, not as good as Kibana's",Kibana,
+11/03/2024 15:31:24,4,Browser extension,Less then a year,"Searching, Document viewing, Rest interface for manual queries","REST interface autocompletion, not as good as Kibana's","Kibana, Postman (for queries)",
+11/03/2024 15:48:06,5,Browser extension,More then a year,Node overview,It's really good as it is,Kibana,
+11/03/2024 17:01:02,4,Self-hosted,Less then a year,"Searching, Document viewing","Design, Performance, Features",,
+11/03/2024 19:54:06,4,Browser extension,More then a year,"Node overview, Shards overview, Index management, Index alias management, Rest interface for manual queries",,Kibana,
+11/03/2024 21:43:55,4,Browser extension,Less then a year,"Node overview, Shards overview, Index management, Index alias management",Features,Kibana,
+11/03/2024 21:56:14,4,Browser extension,More then a year,"Node overview, Shards overview, Index management, Searching, Document viewing, Rest interface for manual queries","Design, Features, Deployment","Kibana, superset",read-only mode
+12/03/2024 00:58:04,5,Browser extension,More then a year,"Node overview, Shards overview, Index management, Index creation, Index alias management, Searching, Document viewing, Rest interface for manual queries",Features,Kibana,Docker depoly need CROS config. Request is also send by browser. If request is proxy by elasticvue backend will be better?
+12/03/2024 07:55:19,5,"Browser extension, Desktop app",More then a year,"Index management, Index creation, Index alias management, Searching","Performance, Security, Features",Kibana,
+12/03/2024 08:00:47,5,Browser extension,More then a year,"Node overview, Shards overview, Index management, Rest interface for manual queries, Snapshots & Repository management","Security, Features, Deployment","Kibana, elasticsearch-head, Kaizen",reindex
+12/03/2024 08:12:14,4,Browser extension,Less then a year,"Shards overview, Index management, Searching, Document viewing, Rest interface for manual queries",Features,,
+12/03/2024 10:45:18,5,Browser extension,More then a year,"Index alias management, Searching, Document viewing, Rest interface for manual queries","Performance, Great stuff, 10k paging brings my browser down, some more dummy FAQs and query help would be awesome but may be out of scope",,
+12/03/2024 12:05:37,5,Browser extension,Less then a year,"Node overview, Index management",Security,Kibana,
+12/03/2024 12:16:47,2,Desktop app,More then a year,"Node overview, Index management, Searching",Design,,
+12/03/2024 15:56:41,4,"Browser extension, Desktop app",More then a year,"Index management, Searching, Document viewing","Design, Features",,
+12/03/2024 18:11:40,4,Browser extension,Less then a year,Document viewing,Community,Kaizen,
+12/03/2024 18:29:09,4,Browser extension,More then a year,"Index management, Index creation, Searching, Document viewing, Rest interface for manual queries","Design, Features",Kibana,small bugs related to filtering. more detailed querying.
+12/03/2024 19:07:49,5,"Browser extension, Desktop app",More then a year,"Node overview, Index management, Document viewing",,,
+13/03/2024 06:52:32,4,Browser extension,More then a year,"Node overview, Shards overview, Index management, Index creation, Index alias management, Searching, Document viewing, Rest interface for manual queries, Snapshots & Repository management",Design,Kibana,
+13/03/2024 07:00:39,5,Browser extension,More then a year,"Index alias management, Searching",Features,"Kibana, elasticsearch-head",
+13/03/2024 07:37:23,4,Browser extension,More then a year,"Node overview, Index management, Searching, Document viewing, Rest interface for manual queries",Deployment,elasticsearch-head,
+13/03/2024 07:40:04,5,"Browser extension, Desktop app",Less then a year,"Node overview, Shards overview, Index management, Searching, Document viewing, Rest interface for manual queries","Performance, Security, Features, Deployment",Kibana,
+13/03/2024 08:44:18,5,Browser extension,Less then a year,"Searching, Document viewing, Rest interface for manual queries",,elasticsearch-head,
+13/03/2024 09:39:12,4,Browser extension,Less then a year,"Index management, Searching, Document viewing","Security, Features, support aws opensearch",Kibana,support aws opensearch
+13/03/2024 10:32:28,4,Desktop app,Less then a year,"Index management, Searching, Document viewing","Design, Features",Kibana,
+13/03/2024 10:39:59,4,Browser extension,More then a year,"Node overview, Shards overview, Index management, Index creation, Searching, Document viewing",Features,Kaizen,a feature for the old version. checkbox to remove all columns from the search view then I select what I need to present.
+13/03/2024 11:20:34,4,Hosted web app,More then a year,"Index alias management, Searching, Document viewing, Rest interface for manual queries, Snapshots & Repository management",Features,,script fields preview after query
+13/03/2024 13:11:33,5,Browser extension,More then a year,"Node overview, Searching, Document viewing",Community,,
+13/03/2024 14:08:17,5,Browser extension,More then a year,"Index management, Document viewing",Deployment,OpensearchDashboard,
+13/03/2024 14:25:48,5,Browser extension,More then a year,"Node overview, Shards overview, Index management, Index alias management, Searching, Document viewing","Design, Performance, Features",Kibana,
+13/03/2024 16:00:16,2,Desktop app,More then a year,"Index management, Searching",Work more often than not,Kaizen,
+13/03/2024 17:32:53,5,Browser extension,More then a year,"Searching, Rest interface for manual queries",Features,Kibana,
+13/03/2024 18:47:22,4,Desktop app,Less then a year,"Node overview, Searching, Document viewing, Rest interface for manual queries",Security,,
+13/03/2024 19:55:14,4,Browser extension,More then a year,"Searching, Document viewing",Design,elasticsearch-head,"Node and shard overview looks really clear in elasticsearch-head (that's the only thing I use elasticsearch-head for), if Elasticvue could be improved to be similar, it would be great."
+13/03/2024 20:43:42,4,Browser extension,More then a year,"Node overview, Index management, Index alias management, Rest interface for manual queries",,Kibana,
+14/03/2024 02:49:55,4,"Browser extension, Desktop app",More then a year,"Node overview, Shards overview, Index management, Index creation, Index alias management, Searching, Document viewing, Rest interface for manual queries, Snapshots & Repository management","Design, Features",Kibana,
+14/03/2024 03:20:04,5,Browser extension,Less then a month,Node overview,Design,"Kibana, elasticsearch-head",
+14/03/2024 03:40:48,3,Browser extension,Less then a year,"Index management, Snapshots & Repository management",Features,elasticsearch-head,
+14/03/2024 07:56:09,5,Browser extension,More then a year,"Shards overview, Index management, Index creation, Searching",,Kibana,
+14/03/2024 09:53:09,4,Browser extension,Less then a year,"Node overview, Shards overview, Index management, Searching, Document viewing",Features,Kibana,
+14/03/2024 09:59:10,3,Browser extension,More then a year,"Node overview, Index management, Index creation, Index alias management, Searching, Document viewing","Features, Community",,
+14/03/2024 10:19:37,4,Browser extension,Less then a year,Index creation,Security,elasticsearch-head,
+14/03/2024 11:09:38,5,Browser extension,Less then a month,"Index management, Index creation, Searching, Document viewing",,Kibana,
+14/03/2024 16:09:15,4,Browser extension,More then a year,"Index management, Searching, Document viewing",Design,,
+14/03/2024 17:40:14,5,"Browser extension, Desktop app",More then a year,"Node overview, Shards overview, Index management, Index creation, Rest interface for manual queries, Snapshots & Repository management","It's really good as is. I wouldn't want to see major changes unless new functionality is added. I manage ES but don't consume ES it much, so current iteration is pretty perfect for me.",,Maybe some internal log viewing? Better break/fix options for yellow/red clusters within the GUI?
+14/03/2024 17:45:26,4,Browser extension,More then a year,"Searching, Document viewing",Design,Kibana,
+14/03/2024 17:46:21,5,"Browser extension, Docker, Self-hosted",Less then a year,"Node overview, Shards overview, Index management, Searching, Rest interface for manual queries, Snapshots & Repository management",Features,Kibana,
+15/03/2024 04:27:21,4,"Browser extension, Desktop app",Less then a month,"Index management, Document viewing",,,
+15/03/2024 05:21:56,4,"Desktop app, Self-hosted",Less then a month,"Node overview, Shards overview, Index management, Document viewing","Features, Never change it",Kibana,
+15/03/2024 07:19:37,4,Browser extension,More then a year,"Shards overview, Searching, Document viewing, Rest interface for manual queries",Features,"Kibana, elasticsearch-head",
+15/03/2024 09:33:32,5,Browser extension,More then a year,"Node overview, Shards overview",,Kibana,
+15/03/2024 09:35:56,3,Browser extension,More then a year,"Searching, Rest interface for manual queries",Performance,"Kibana, elasticsearch-head","unable to sort on few fields , size is getting set to 10000 which showing [object object] for few indices"
+15/03/2024 10:38:37,4,Browser extension,Less then a year,"Node overview, Shards overview, Document viewing","Design, Features",Kibana,SSL not easy to use
+15/03/2024 10:53:31,5,Desktop app,Less then a year,"Index management, Index creation, Searching, Document viewing","Design, Features",,
+15/03/2024 12:15:02,4,Browser extension,More then a year,"Node overview, Shards overview, Index management, Index creation, Index alias management, Searching, Document viewing, Rest interface for manual queries, Snapshots & Repository management",Features,,
+15/03/2024 17:02:01,5,Browser extension,More then a year,"Searching, Document viewing, Rest interface for manual queries",Deployment,,"None, really. Thank you so much for all the work you put into this!
+
+If I were to make a feature request, it would be nice if there was an option to use some sort of proxy when deploying to avoid having to change the CORS configuration on every cluster. This would make it super easy to include this as part of our local dev environment."
+15/03/2024 20:30:20,4,Browser extension,More then a year,"Searching, Document viewing",,,"1. ""read only"" mode, like mongo gui
+2. i use this for open search as well, and get version warnings
+3. toggling column visibility doesn't work very well, maybe it should be based off of mappings not document sampling
+4. cacheing bugs with searches hanging around, or page size on searches getting out of sync"
+16/03/2024 06:30:53,4,Browser extension,Less then a year,"Searching, Rest interface for manual queries","Design, Features",,more customizable formatting of results
+16/03/2024 07:16:00,5,Browser extension,More then a year,"Shards overview, Index management, Document viewing, Rest interface for manual queries","Design, Features",Kibana,
+16/03/2024 09:42:53,4,Browser extension,Less then a year,"Searching, Document viewing, Rest interface for manual queries",,Kibana,"I must say that I only knew browser extension. I did not know that there was a desktop app, and I guess that such app must exist because of the first question in the survey. When I use the tabs of the rest interface & manual queries panel, I miss some keyboard shortcuts integration. It forces me to use the mouse for switching tabs or launching a query. I would love not to have to put my hands away from the keyboard. Nonetheless, it might be because of the web extension, and this is done in the desktop app.
+Finally, before leaving, congrats for for elasticvue, it such a great software!!!"
+16/03/2024 16:02:54,4,Browser extension,More then a year,"Node overview, Shards overview, Searching, Rest interface for manual queries","Design, Features",,saving queries with custom title and importing and exporting saved queries to another system
+18/03/2024 07:29:17,5,Browser extension,More then a year,"Node overview, Shards overview, Index management, Index creation, Index alias management, Searching, Document viewing, Rest interface for manual queries, Snapshots & Repository management",Performance,Kibana,
+18/03/2024 08:28:00,5,Browser extension,Less then a year,"Index management, Document viewing",,Kibana,
+18/03/2024 14:35:40,5,Browser extension,Less then a year,"Node overview, Rest interface for manual queries",,,
+18/03/2024 14:58:33,5,Browser extension,More then a year,"Node overview, Searching, Document viewing, Rest interface for manual queries",Features,"Kibana, elasticsearch-head",Syntax aware completion on manual search queries
+18/03/2024 16:30:05,4,Browser extension,Less then a year,"Node overview, Shards overview, Index management, Document viewing, Rest interface for manual queries",,,
+18/03/2024 16:31:12,5,"Browser extension, Desktop app",More then a year,"Index management, Index alias management, Searching, Document viewing, Rest interface for manual queries",Features,Kibana,
+18/03/2024 17:09:43,5,Browser extension,More then a year,"Node overview, Shards overview, Index management, Searching",Features,Kibana,
+19/03/2024 07:17:48,5,Browser extension,Less then a month,"Node overview, Shards overview, Index management, Index creation, Index alias management, Searching, Document viewing, Rest interface for manual queries, Snapshots & Repository management, ","Design, Performance, Security, Features, Community, Deployment, ","Kibana, elasticsearch-head, dejavu, cerebro, Kaizen, ",NA
+19/03/2024 10:10:32,4,Browser extension,Less then a year,"Index management, Index alias management, Searching, Document viewing, Rest interface for manual queries",Features,,
+19/03/2024 10:29:03,4,Browser extension,Less then a year,"Searching, Document viewing",Features,,keyboard shortcuts mainly
+19/03/2024 12:46:04,4,Desktop app,Less then a month,"Searching, Document viewing, Rest interface for manual queries",,,
+19/03/2024 12:46:47,5,Desktop app,More then a year,"Document viewing, Rest interface for manual queries, Snapshots & Repository management",Design,,
+19/03/2024 12:54:45,4,Browser extension,More then a year,"Node overview, Index management, Searching, Document viewing, Rest interface for manual queries",Features,Kibana,
+19/03/2024 12:56:40,4,"Browser extension, Desktop app",More then a year,"Index management, Searching, Document viewing, Rest interface for manual queries",Features,,code suggestions
+19/03/2024 15:24:40,5,Browser extension,Less then a month,"Index management, Index creation, Searching",,,
+19/03/2024 15:31:46,4,Desktop app,Less then a year,"Searching, Document viewing, Rest interface for manual queries",Features,,
+19/03/2024 16:58:35,5,Browser extension,More then a year,"Index management, Searching, Document viewing",,,None for my purposes. This is one of those quiet utilities I don't use every day but I am delighted at how well it works when I do need it. Thanks for creating and maintaining it. 
+20/03/2024 03:31:06,5,Browser extension,Less then a month,Searching,"Performance, Deployment",,
+20/03/2024 08:19:32,4,Browser extension,More then a year,"Node overview, Shards overview, Index management, Index alias management, Document viewing, Rest interface for manual queries",Features,Kibana,
+20/03/2024 09:09:57,4,Browser extension,Less then a year,"Node overview, Shards overview, Searching, Document viewing, Rest interface for manual queries","Performance, Features",Kibana,
+20/03/2024 12:37:37,4,Browser extension,Less then a year,"Index management, Searching",Community,no,your mom
+20/03/2024 12:53:46,4,Docker,More then a year,"Index management, Index creation, Searching, Document viewing",,,
+20/03/2024 13:26:19,4,"Browser extension, Desktop app",Less then a year,"Index management, Searching, Document viewing",searching,,
+20/03/2024 17:01:42,4,Desktop app,Less then a year,"Shards overview, Index management, Index creation, Searching, Document viewing","Survey link didn't open in my browser, had to copy it manuall (Linux AppImage)",,None. I'm an Elasticsearch noob and your program is very helpful for me to figure out what the hell is going on when it comes to Elasticsearch. :)
+20/03/2024 20:17:44,4,"Browser extension, Desktop app",More then a year,"Node overview, Shards overview, Searching, Document viewing",,elasticsearch-head,
+21/03/2024 08:37:03,4,Browser extension,More then a year,"Node overview, Shards overview, Index management, Index creation, Index alias management, Searching","Design, Deployment",Kibana,
+21/03/2024 10:16:22,4,Browser extension,More then a year,"Node overview, Shards overview, Index management, Searching, Document viewing, Rest interface for manual queries",,"Kibana, cerebro",
+21/03/2024 11:05:47,5,Browser extension,Less then a month,Node overview,Design,Kibana,
+21/03/2024 11:47:42,5,"Browser extension, Desktop app",Less then a year,"Index management, Index creation, Searching, Document viewing, Rest interface for manual queries",Features,Kibana,Table pagination setting in /settings section
+21/03/2024 12:03:02,5,Browser extension,More then a year,"Node overview, Shards overview, Index management, Index creation, Index alias management, Searching, Document viewing",,,
+21/03/2024 13:04:34,4,Browser extension,Less then a year,"Node overview, Index management, Snapshots & Repository management",,,
+21/03/2024 13:50:42,5,Browser extension,More then a year,"Searching, Document viewing, Rest interface for manual queries",,elasticsearch-head,
+21/03/2024 17:21:57,5,Browser extension,More then a year,"Node overview, Index management, Searching, Document viewing, Rest interface for manual queries","Design, Features","Kibana, cerebro",
+22/03/2024 23:05:43,4,Browser extension,More then a year,"Shards overview, Index management, Document viewing",opensearch compatibility,opensearch dashboards,
+23/03/2024 10:35:31,5,Browser extension,More then a year,"Node overview, Shards overview, Document viewing, Rest interface for manual queries",,,
+23/03/2024 14:14:28,4,"Browser extension, Docker",Less then a year,"Node overview, Shards overview, Index management, Searching, Document viewing, Rest interface for manual queries, Snapshots & Repository management","Performance, Features","Kibana, cerebro","1) Enter a Connection List for Multiple-Servers, use the first one that is reachable
+2) Simple Service Discovery/Centralized Config: Fetch a list from a Server, that contains all ES-Clusters "
+25/03/2024 04:10:37,4,Browser extension,Less then a year,"Index management, Searching, Rest interface for manual queries","Features, Visual  search tools and hint like Elasticsearch-head",elasticsearch-head,
+25/03/2024 05:21:02,5,Browser extension,More then a year,"Index management, Index creation, Index alias management, Searching, Snapshots & Repository management",,,
+25/03/2024 06:30:50,5,Browser extension,Less then a year,"Shards overview, Index management, Rest interface for manual queries",Design,"Kibana, elasticsearch-head",
+25/03/2024 15:14:12,4,Browser extension,Less then a year,"Node overview, Shards overview, Index management, Searching",Features,elasticsearch-head,
+25/03/2024 15:57:32,4,Hosted web app,Less then a year,Document viewing,"Design, Features","Kibana, elasticsearch-head",
+25/03/2024 18:01:48,4,Desktop app,Less then a month,"Node overview, Index management, Searching, Document viewing","Design, Performance",,
+26/03/2024 03:56:55,4,Browser extension,More then a year,"Shards overview, Index management, Index alias management, Searching, Document viewing, Rest interface for manual queries",Community,Kibana,
+26/03/2024 10:29:11,5,Browser extension,More then a year,"Node overview, Shards overview, Index management, Index alias management, Document viewing, Snapshots & Repository management",Features,,Add quick option to lookup document by id
+26/03/2024 11:04:43,5,Browser extension,More then a year,"Node overview, Shards overview, Index management, Index creation, Index alias management, Searching, Document viewing, Rest interface for manual queries, Snapshots & Repository management","Design, Performance, Security, Features, Community, Deployment","Kibana, elasticsearch-head",
+26/03/2024 13:42:41,4,Browser extension,More then a year,"Node overview, Shards overview, Searching",Design,Kibana,
+26/03/2024 13:56:32,4,Browser extension,Less then a year,"Searching, Document viewing, Rest interface for manual queries","Design, Better UI for selecting which fields to show in the table view",elasticsearch-head,
+26/03/2024 14:46:09,4,Browser extension,More then a year,"Index management, Index creation, Index alias management, Searching, Document viewing",It's perfect,,
+26/03/2024 14:59:26,5,Hosted web app,More then a year,"Searching, Document viewing",,,
+27/03/2024 03:39:21,5,Browser extension,Less then a month,Node overview,Design,Kibana,add
+27/03/2024 08:33:56,5,"Browser extension, Didn't know that there were other ways..",More then a year,"Searching, Document viewing, Rest interface for manual queries",,Kibana,"Query syntax correction, query autocomplete, query beautification although its not the correct syntax"
+27/03/2024 09:23:29,5,Browser extension,More then a year,"Node overview, Shards overview, Searching, Rest interface for manual queries",,elasticsearch-head,"1. Rest History should be choose to public for all cluster or private;
+2. more query samples"
+27/03/2024 11:31:33,4,Browser extension,More then a year,"Searching, Document viewing, Rest interface for manual queries",Features,Kibana,
+27/03/2024 12:50:45,5,Self-hosted,Less then a month,Document viewing,Performance,Kibana,
+28/03/2024 10:30:46,4,Desktop app,Less then a year,"Node overview, Index management, Searching, Document viewing, Rest interface for manual queries",Performance,"Kibana, Kaizen",
+28/03/2024 11:26:43,2,"Browser extension, Desktop app",Less then a month,"Node overview, Shards overview",Features,,
+28/03/2024 14:27:27,5,Browser extension,More then a year,"Node overview, Index management, Searching, Document viewing","Design, Performance, Security",Kibana,
+28/03/2024 14:41:29,4,Browser extension,More then a year,"Node overview, Shards overview, Index management, Searching, Document viewing, Rest interface for manual queries","Design, Features","Kibana, elasticsearch-head",
+28/03/2024 17:30:50,4,Browser extension,More then a year,"Shards overview, Index management, Document viewing",,Kibana,
+29/03/2024 05:14:43,5,Desktop app,Less then a year,"Index management, Index creation, Searching, Document viewing",Performance,"Kibana, Kaizen",A wizard for generating queries against Elasticsearch
+30/03/2024 07:06:52,4,Browser extension,More then a year,"Node overview, Shards overview, Searching, Snapshots & Repository management",Features,Kibana,
+30/03/2024 10:27:49,5,"Browser extension, Desktop app, Self-hosted",Less then a month,"Node overview, Shards overview, Index management, Index creation, Index alias management, Searching, Document viewing, Rest interface for manual queries, Snapshots & Repository management",Community,Kibana,Still unable to get it installed on my MacOS Sonoma 14.4
+31/03/2024 17:05:31,4,Desktop app,Less then a year,"Node overview, Shards overview, Index management, Index creation, Index alias management, Searching, Document viewing","Design, Performance, Security, Features","Kibana, elasticsearch-head",
+01/04/2024 09:37:59,5,Browser extension,Less then a year,"Node overview, Index management, Searching, Document viewing, Rest interface for manual queries",Features,,create index with mappings and properties
+01/04/2024 16:26:40,4,Browser extension,Less then a year,"Index management, Index alias management, Searching, Document viewing",Features,elasticsearch-head,
+01/04/2024 17:07:18,4,"Browser extension, Hosted web app",Less then a year,Searching,"Performance, Features, Deployment",Kibana,
+02/04/2024 06:30:01,4,"Browser extension, Self-hosted",More then a year,"Searching, Document viewing",Features,,easy creation/altering of documents
+02/04/2024 10:54:49,4,Browser extension,More then a year,"Shards overview, Index alias management, Searching, Rest interface for manual queries",Features,elasticsearch-head,Changing index settings most importantly replica count. A mapping editor/viewer would be also great. Also GUI for the less frequently used commands like reindex would be great.
+02/04/2024 13:30:14,5,"Browser extension, Desktop app",More then a year,"Index creation, Index alias management, Searching, Document viewing, Rest interface for manual queries",Features,,
+02/04/2024 14:27:44,4,Browser extension,More then a year,"Node overview, Shards overview, Index management, Rest interface for manual queries",Features,cerebro,
+02/04/2024 21:13:45,5,Browser extension,More then a year,"Node overview, Shards overview, Index management, Searching, Document viewing, Rest interface for manual queries",,Kibana,
+03/04/2024 09:16:45,5,Desktop app,Less then a month,"Node overview, Shards overview, Index management",I don't know at this moment,"Kibana, Kaizen",No features for now may be later ... thanks ;-)
+03/04/2024 09:47:41,5,Browser extension,More then a year,"Searching, Document viewing, Rest interface for manual queries","Design, Features",,Saving queries for search
+03/04/2024 09:57:19,4,"Browser extension, Desktop app",More then a year,"Node overview, Index management, Index alias management, Searching",,,
+03/04/2024 11:17:20,5,Browser extension,More then a year,"Index management, Searching, Document viewing, Rest interface for manual queries",,Kibana,
+03/04/2024 14:46:17,4,Browser extension,More then a year,"Index management, Searching, Document viewing",,,
+03/04/2024 15:16:01,3,Browser extension,Less then a year,"Node overview, Index management, Index creation, Searching",Performance,,
+03/04/2024 18:09:39,5,"Browser extension, didnt know there are other options then extension :) ",Less then a year,"Index management, Searching, Document viewing","Design, Performance, Features",elasticsearch-head,
+03/04/2024 20:15:54,5,Browser extension,Less then a year,Node overview,,Kibana,non
+04/04/2024 08:50:10,5,Browser extension,Less then a year,"Node overview, Shards overview, Index management, Rest interface for manual queries",,Kibana,"I don't see anything missing from ElasticVue, as i it provides great information for nodes and shards which wont get from Kibana. 
+It would be nice to have the REST improved so it can auto-complete like Kibana, but this is just a minor thing.
+Support for AWS Cognito authentication or AWS IAM Roles would be very nice, as I use this tool with OpenSearch/ES clusters managed by AWS. 
+
+But these are minor things, overall this is great tool and has provided me with valuable insights to nodes and shards among the nodes. "
+04/04/2024 11:07:26,4,Browser extension,Less then a year,"Node overview, Shards overview, Index management, Searching, Document viewing",Features,,Curl maker.  Ability to get curl request body
+04/04/2024 11:37:03,3,Browser extension,Less then a month,Searching,Features,Kibana,Ability to copy search queries as Curl or some other format
+04/04/2024 11:51:48,4,Browser extension,More then a year,"Index management, Searching, Rest interface for manual queries",Design,,
+04/04/2024 18:30:34,5,Browser extension,More then a year,"Node overview, Shards overview, Searching, Document viewing, Rest interface for manual queries",,Kibana,
+05/04/2024 02:21:52,5,Browser extension,More then a year,"Node overview, Shards overview, Index management, Searching, Document viewing",,,
+05/04/2024 09:28:27,4,Browser extension,More then a year,"Searching, Document viewing",I need to reinstall the browser extension every day for it to work.,,
+05/04/2024 10:56:14,5,"Browser extension, Desktop app",More then a year,"Searching, Document viewing",,,
+05/04/2024 14:25:33,5,Browser extension,More then a year,"Index management, Index creation, Index alias management, Searching, Document viewing, Rest interface for manual queries","Performance, Features",Kibana,Reindex process: change mapping & reindex all documents
+05/04/2024 16:28:51,5,"Browser extension, Desktop app",Less then a month,"Node overview, Searching, Document viewing, Rest interface for manual queries",Community,"Kibana, elasticsearch-head",
+07/04/2024 00:22:53,5,Browser extension,Less then a month,"Node overview, Index management, Document viewing, Rest interface for manual queries",Documentation. Some words about how to launch this plugin for the first time.,Kibana,
+07/04/2024 01:40:40,5,Desktop app,Less then a month,"Shards overview, Index management, Index creation, Searching, Document viewing",Performance,,
+08/04/2024 10:20:38,5,Browser extension,More then a year,"Searching, Document viewing","Design, Performance, Features","Kibana, elasticsearch-head",
+08/04/2024 14:56:07,5,Browser extension,More then a year,"Node overview, Shards overview, Index management","Design, Community, Deployment","Kibana, elasticsearch-head, dejavu",
+08/04/2024 16:49:19,4,Browser extension,Less then a year,"Searching, Document viewing, Rest interface for manual queries",,,
+09/04/2024 08:36:17,4,Browser extension,Less then a month,"Node overview, Shards overview, Index management, Searching, Rest interface for manual queries",Performance,,
+09/04/2024 10:44:21,3,Desktop app,Less then a year,"Node overview, Index management, Searching, Document viewing, Rest interface for manual queries","Design, Features",,Export and import. Inserting data through interface
+09/04/2024 13:52:49,4,"Browser extension, Desktop app, Hosted web app, Docker",Less then a year,"Index management, Searching, Document viewing, Rest interface for manual queries",Bug fixes: e.g. search results are cached incorrectly sometimes which can only be solved by refreshing the page,,
+09/04/2024 15:59:02,4,Browser extension,More then a year,"Index management, Searching, Document viewing, Rest interface for manual queries",Design,,
+09/04/2024 16:32:27,5,Browser extension,More then a year,"Node overview, Shards overview, Index management, Index creation, Searching, Rest interface for manual queries",,"Kibana, elasticsearch-head",
+09/04/2024 16:43:48,4,Browser extension,More then a year,"Index management, Searching, Document viewing, Rest interface for manual queries",Features,Kibana,
+09/04/2024 19:10:30,4,Desktop app,More then a year,"Node overview, Shards overview, Snapshots & Repository management",Features,"Kibana, elasticsearch-head, cerebro",
+09/04/2024 21:44:58,4,"Browser extension, Desktop app",More then a year,"Node overview, Index management, Index creation, Index alias management, Searching, Document viewing","Design, Features, Support Opensearch",Opensearch Dashboard,Support for Opensearch
+10/04/2024 00:19:53,4,"Browser extension, Self-hosted",More then a year,"Node overview, Shards overview, Searching, Document viewing","Deployment, we would like to be able to host it in our cloud behind google auth so we do need to por forward to elasticsearch",,not sure
+10/04/2024 08:18:44,5,"Browser extension, Desktop app",More then a year,"Node overview, Document viewing","Design, Performance",Kibana,
+10/04/2024 11:36:15,5,Browser extension,More then a year,"Node overview, Index management, Searching, Document viewing, Rest interface for manual queries, Document editing","Features, For manual rest queries I always have to ask chat gpt for rest query. If there are any suggestions or ""intellisense"" for queries, that would be very helpful.",Kibana,"Improvements in rest query builder, regarding suggestions, and maybe easier query saving and organization, to look more like postman"
+10/04/2024 14:56:29,5,Desktop app,Less then a year,"Node overview, Index management, Searching, Document viewing",,Kibana,
+10/04/2024 17:19:43,4,"Browser extension, Desktop app",Less then a year,"Index management, Index alias management, Searching, Document viewing, Rest interface for manual queries",,"Kibana, elasticsearch-head",Design and usability are WAY better than elasticsearch-head. Thanks for the great work! :) 
+11/04/2024 09:18:58,5,Browser extension,More then a year,"Node overview, Shards overview, Index management, Index creation, Index alias management, Searching, Document viewing, Rest interface for manual queries","Design, Performance, Features",Kibana,
+11/04/2024 09:54:16,5,Browser extension,More then a year,"Searching, Document viewing",Features,,display aggregations
+11/04/2024 11:04:48,5,Browser extension,Less then a year,"Node overview, Shards overview","Features, Community",Kibana,
+11/04/2024 13:33:52,4,"Browser extension, Desktop app, Docker",More then a year,"Searching, Document viewing","Security, Features",,
+11/04/2024 15:38:22,4,Browser extension,More then a year,"Node overview, Index management, Searching, Document viewing, Rest interface for manual queries",,,
+12/04/2024 09:26:48,4,"Browser extension, Desktop app",Less then a month,"Node overview, Shards overview, Index management, Index creation, Index alias management, Searching, Document viewing, Rest interface for manual queries","Design, Performance","Kibana, elasticsearch-head",
+12/04/2024 11:46:05,4,Desktop app,Less then a year,"Index management, Searching, Document viewing",,Kibana,
+15/04/2024 09:38:24,4,Browser extension,Less then a year,"Index management, Searching, Document viewing, Rest interface for manual queries",UX,Kibana,
+15/04/2024 10:01:55,3,Browser extension,More then a year,"Node overview, Shards overview, Index management, Index creation, Index alias management, Searching, Document viewing, Rest interface for manual queries, Snapshots & Repository management","Design, Features",Kibana,Nodes and shards sections have stopped loading properly since the new version update
+15/04/2024 10:29:23,5,Browser extension,More then a year,"Node overview, Shards overview, Searching, Rest interface for manual queries, Snapshots & Repository management",Performance,,
+16/04/2024 02:22:27,5,"Browser extension, Desktop app",More then a year,"Node overview, Index management, Searching, Snapshots & Repository management",it's all good.,"Kibana, elasticsearch-head","I don't see anything missing. I love it, please don't get rid of it."
+16/04/2024 10:43:48,4,Browser extension,Less then a year,"Node overview, Index management, Index alias management, Searching, Document viewing",,,"I would like elasticvue to remember ""Records per page"" setting in indices overview. It resets to 10 everytime."
+16/04/2024 13:33:18,4,"Browser extension, Desktop app, Self-hosted",More then a year,"Node overview, Shards overview, Index management, Rest interface for manual queries, Snapshots & Repository management",Features,"Kibana, dejavu",opensearch version support. (EOL warning)
+16/04/2024 13:40:40,4,"Browser extension, Desktop app",More then a year,"Index management, Searching, Document viewing","Performance, Features",,
+16/04/2024 21:00:02,4,Browser extension,More then a year,"Node overview, Shards overview, Snapshots & Repository management",cluster search windows disapears when i start typing,Kibana,working cluster search field
+16/04/2024 22:52:57,4,"Docker, Self-hosted",Less then a year,"Node overview, Shards overview, Index management, Index alias management","Design, Security","Kibana, cerebro",
+16/04/2024 23:39:55,4,Browser extension,Less then a year,"Node overview, Shards overview, Index management, Searching, Document viewing, Rest interface for manual queries",,Kibana,
+17/04/2024 09:33:19,4,Browser extension,Less then a year,Node overview,Design,Kibana,
+17/04/2024 11:35:18,4,Hosted web app,More then a year,"Searching, Document viewing, Rest interface for manual queries, Snapshots & Repository management",,,
+17/04/2024 13:05:55,4,"Browser extension, Desktop app",More then a year,"Index creation, Searching, Document viewing",Design,,
+17/04/2024 16:41:25,4,"Browser extension, Docker, Self-hosted",Less then a year,"Node overview, Shards overview, Searching, Rest interface for manual queries",Features,"Kibana, cerebro",
+17/04/2024 17:16:58,5,Browser extension,Less then a year,"Index management, Searching, Rest interface for manual queries",,elasticsearch-head,
+18/04/2024 00:52:14,4,Browser extension,Less then a year,"Searching, Document viewing, Rest interface for manual queries","Design, Features",Kibana,
+18/04/2024 07:50:59,2,"Browser extension, Desktop app, Hosted web app, Docker, Self-hosted",Less then a year,"Node overview, Shards overview, Index management, Index creation, Index alias management, Searching, Document viewing, Rest interface for manual queries, Snapshots & Repository management","Design, Performance, Security, Features, Community, Deployment","Kibana, elasticsearch-head, dejavu, cerebro, Kaizen",
+18/04/2024 10:39:30,5,Browser extension,More then a year,"Searching, Document viewing, Rest interface for manual queries",,,
+18/04/2024 12:02:57,5,Browser extension,Less then a year,"Index management, Searching, Document viewing, Rest interface for manual queries",when we hit query with size 10000 it will crash and when its reopen then we click on same inde it will again crash,elasticsearch-head,
+18/04/2024 18:32:54,5,Browser extension,Less then a year,"Searching, Document viewing",Pleeeeease keep it simple!,Kibana,Data loading from file would be handy - I think Kibana has this somewhere but I can never  find it!
+19/04/2024 08:38:08,4,Browser extension,Less then a month,"Node overview, Shards overview, Index management, Index creation, Index alias management, Searching, Rest interface for manual queries","Performance, Security, Features, Community, Deployment",elasticsearch-head,
+19/04/2024 08:55:42,5,Browser extension,Less then a year,"Node overview, Shards overview, Index management, Searching, Snapshots & Repository management",,Kibana,
+19/04/2024 10:10:45,4,Desktop app,More then a year,"Index creation, Searching, Document viewing",Design,,
+19/04/2024 13:09:16,5,Browser extension,More then a year,"Node overview, Shards overview, Index management, Index alias management",,,
+19/04/2024 19:25:17,4,"Browser extension, Desktop app",More then a year,"Node overview, Shards overview, Rest interface for manual queries","Design, Features",Kibana,REST: _cat APIs in human readable form
+19/04/2024 22:42:24,4,Browser extension,More then a year,"Searching, Document viewing, Rest interface for manual queries","Design, Security",elasticsearch-head,I am very glad with Elasticvue
+20/04/2024 11:22:17,4,Browser extension,Less then a month,Searching,Performance,Kibana,
+21/04/2024 01:28:13,4,"Browser extension, Desktop app",More then a year,"Node overview, Index management, Index alias management, Searching","Design, Features",Kibana,
+22/04/2024 08:11:28,5,Browser extension,More then a year,"Node overview, Shards overview, Index management, Index creation, Index alias management, Searching, Rest interface for manual queries, Snapshots & Repository management",,,
+22/04/2024 16:55:15,5,Browser extension,Less then a month,"Index management, Searching, Document viewing",Performance,,
+22/04/2024 22:59:59,4,Browser extension,More then a year,"Searching, Document viewing, Rest interface for manual queries",,,

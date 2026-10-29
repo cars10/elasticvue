@@ -1,4 +1,5 @@
 import { AuthType, BuildFlavor, ElasticsearchCluster, ElasticsearchClusterAuth } from '../store/connection.ts'
+import { allowedRowsPerPage, DEFAULT_SEARCH_QUERY } from '../consts.ts'
 
 export type OldElasticsearchCluster = {
   name: string
@@ -16,6 +17,11 @@ export type OldElasticsearchCluster = {
 }
 
 export const migrate = () => {
+  migrateConnection()
+  migrateSearchStores()
+}
+
+const migrateConnection = () => {
   const connectionData = localStorage.getItem('connection')
   if (!connectionData || connectionData.length === 0) return
   let connection
@@ -60,4 +66,45 @@ export const migrateAuthType = (clusters: OldElasticsearchCluster[]): Elasticsea
       } as ElasticsearchClusterAuth
     }
   })
+}
+
+type OldSearchState = Record<string, unknown> & {
+  indices?: string | string[]
+  searchQuery?: string
+  searchQueryCollapsed?: boolean
+}
+
+const LEGACY_SEARCH_KEYS = ['indices', 'searchQuery', 'searchQueryCollapsed', 'filter', 'columns', 'visibleColumns']
+
+export const migrateSearchState = (state: OldSearchState): Record<string, unknown> | null => {
+  if (!('indices' in state) || 'targets' in state) return null
+
+  const indices = state.indices
+  const targets = (Array.isArray(indices) ? indices : String(indices ?? '').split(','))
+    .map((index) => index.trim())
+    .filter(Boolean)
+  const customQuery = !!state.searchQueryCollapsed && !!state.searchQuery && state.searchQuery !== DEFAULT_SEARCH_QUERY
+
+  const migrated = Object.fromEntries(Object.entries(state).filter(([key]) => !LEGACY_SEARCH_KEYS.includes(key)))
+  const pagination = state.pagination as Record<string, unknown> | undefined
+  return {
+    ...migrated,
+    ...(pagination && { pagination: { ...pagination, rowsPerPage: allowedRowsPerPage(pagination.rowsPerPage) } }),
+    targets: targets.length > 0 ? targets : ['*'],
+    mode: customQuery ? 'dsl' : 'query',
+    dslBody: customQuery ? state.searchQuery : ''
+  }
+}
+
+const migrateSearchStores = () => {
+  Object.keys(localStorage)
+    .filter((key) => key.startsWith('search-'))
+    .forEach((key) => {
+      try {
+        const migrated = migrateSearchState(JSON.parse(localStorage.getItem(key) || '{}'))
+        if (migrated) localStorage.setItem(key, JSON.stringify(migrated))
+      } catch (_e) {
+        localStorage.removeItem(key)
+      }
+    })
 }

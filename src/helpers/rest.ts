@@ -8,6 +8,7 @@ import type {
 } from '../db/types.ts'
 import { formatTimeAgo } from './time.ts'
 import { cleanIndexName } from './cleanIndexName.ts'
+import { matchesAllTerms } from './filters.ts'
 
 export const HISTORY_LIMIT = 1000
 export const HISTORY_MAX_BODY_LENGTH = 100_000
@@ -114,11 +115,10 @@ export const indexSuggestions = (history: IdbRestQueryHistory[], saved: IdbRestQ
 }
 
 export const filterSuggestions = (index: RestSuggestionIndex, query: string, limit = 8): RestPathSuggestion[] => {
-  const terms = query.toLowerCase().split(/\s+/).filter(Boolean)
   const results: RestPathSuggestion[] = []
 
   for (const { suggestion, text, date } of index) {
-    if (!terms.every((term) => text.includes(term))) continue
+    if (!matchesAllTerms(text, query)) continue
 
     results.push(date ? { ...suggestion, caption: formatTimeAgo(date.getTime()) } : suggestion)
     if (results.length >= limit) break

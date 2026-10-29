@@ -212,6 +212,7 @@ test.describe('REST', () => {
     await send(page, 'GET', 'rest_e2e/_count')
 
     await page.getByTestId('rest-tab-add').click()
+    await expect(tabs(page).nth(1)).toHaveClass(/q-tab--active/)
     await pathInput(page).pressSequentially('"size"')
     const suggestions = page.locator('.q-menu .q-item')
     await expect(suggestions).toHaveCount(1)
@@ -345,7 +346,7 @@ test.describe('REST', () => {
         `elasticvue-${CLUSTER_UUID}`
       )
 
-    await expect.poll(async () => (await stored()).version).toBe(2)
+    await expect.poll(async () => (await stored()).version).toBe(3)
     await expect.poll(async () => (await stored()).tab).not.toHaveProperty('response')
     await expect.poll(async () => (await stored()).response).toMatchObject({ id: 1, bodyText: '{"legacy": true}' })
   })

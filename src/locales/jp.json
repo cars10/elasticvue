@@ -853,33 +853,62 @@
     "heading": "検索",
     "form": {
       "query": {
-        "label": "検索"
+        "label": "クエリ（Lucene 構文）"
       },
       "search_examples": {
         "button": "検索例",
         "hint": "検索例については、<a tabindex='-1' target='_blank' rel='noopener' href='https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html'>クエリ文字列クエリ</a>を参照してください"
       },
       "search": "検索",
-      "customize_query": {
-        "button": "カスタム検索",
-        "reset": "クエリをリセット"
-      }
+      "indices": {
+        "label": "インデックス",
+        "matched": "一致するインデックスなし | 1 個のインデックスに一致 | {count} 個のインデックスに一致",
+        "kinds": {
+          "alias": "エイリアス",
+          "data_stream": "データストリーム"
+        }
+      },
+      "mode": {
+        "query": "クエリ",
+        "dsl": "DSL",
+        "dsl_hint": "下でリクエストボディを編集し、Ctrl+Enter で検索します。",
+        "discard_dsl": "DSL の変更を破棄してクエリバーに戻りますか？"
+      },
+      "open_in_rest": "REST で開く",
+      "copy_curl": "cURL としてコピー",
+      "invalid_json": "リクエストボディが有効な JSON ではありません。"
     },
     "search_result": {
       "delete": {
         "text": "# | ドキュメントを削除 | ドキュメントを削除",
         "confirm": "# | このドキュメントを削除しますか？ | {count} 個のドキュメントを削除しますか？",
         "growl": "# | ドキュメントは正常に削除されました。 | ドキュメントは正常に削除されました。"
-      }
+      },
+      "edit_hint": "ダブルクリックで編集"
     },
     "results_table": {
-      "settings": {
-        "columns": "列"
-      },
-      "download_as_json": "JSON としてダウンロード",
       "tabs": {
         "hits": "ヒット",
         "aggregations": "集約"
+      },
+      "total": "結果なし | {count} 件 | {count} 件",
+      "count_exactly": "正確に数える",
+      "no_results": "ドキュメントが見つかりません",
+      "document": "ドキュメント",
+      "columns": {
+        "button": "列（{count}）",
+        "all": "すべて",
+        "none": "なし",
+        "reset": "リセット",
+        "refine": "フィールドをさらに表示するには絞り込んでください",
+        "in_indices": "1 個のインデックス | {count} 個のインデックス",
+        "groups": {
+          "meta": "メタフィールド",
+          "all": "すべてのインデックス",
+          "some": "一部のインデックスのみ",
+          "unmapped": "マッピングなし"
+        },
+        "catalog_skipped": "{limit} 個を超えるインデックスが一致するため、現在のページのフィールドのみを表示します。"
       }
     },
     "edit_document": {
@@ -887,6 +916,27 @@
         "text": "ドキュメントを更新",
         "growl": "ドキュメントは正常に更新されました。"
       }
+    },
+    "time": {
+      "absolute": "絶対範囲",
+      "from": "開始",
+      "to": "終了",
+      "apply": "適用",
+      "field": "時刻フィールド",
+      "invalid": "YYYY-MM-DD HH:mm:ss 形式で入力",
+      "presets": {
+        "last_15m": "過去 15 分",
+        "last_1h": "過去 1 時間",
+        "last_4h": "過去 4 時間",
+        "last_24h": "過去 24 時間",
+        "last_7d": "過去 7 日",
+        "last_30d": "過去 30 日",
+        "all": "全期間"
+      }
+    },
+    "histogram": {
+      "title": "ヒストグラム",
+      "interval": "{interval} ごと"
     }
   },
   "settings": {
@@ -908,7 +958,7 @@
       "invalid": "1 から 1000 までの整数のみ"
     },
     "localize_timestamp": {
-      "label": "検索結果の '{'@'}timestamp' フィールドの値をローカライズする"
+      "label": "検索結果の日付フィールドを書式設定"
     },
     "disconnect_and_reset": {
       "heading": "切断してすべての設定をリセット",
@@ -1104,10 +1154,6 @@
       "rows_per_page": {
         "confirm": "警告: 本当に実行しますか？一度に {value} エントリを表示すると、問題やフリーズが発生する可能性があります。結果を制限するには、検索/フィルター機能を使用することをお勧めします。"
       }
-    },
-    "table_settings": {
-      "reset": "リセット",
-      "clear": "クリア"
     },
     "authorization_header_hint": "\"http.cors.allow-headers\" が設定されていることを確認してください",
     "code_editor": {

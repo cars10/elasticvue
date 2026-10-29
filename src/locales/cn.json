@@ -853,33 +853,62 @@
     "heading": "搜索",
     "form": {
       "query": {
-        "label": "搜索"
+        "label": "查询（Lucene 语法）"
       },
       "search_examples": {
         "button": "搜索示例",
         "hint": "搜索 <a tabindex='-1' target='_blank' rel='noopener' href='https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html'>查询 DSL</a> 获取支持"
       },
       "search": "搜索",
-      "customize_query": {
-        "button": "自定义查询",
-        "reset": "重置语句"
-      }
+      "indices": {
+        "label": "索引",
+        "matched": "没有匹配的索引 | 匹配 1 个索引 | 匹配 {count} 个索引",
+        "kinds": {
+          "alias": "别名",
+          "data_stream": "数据流"
+        }
+      },
+      "mode": {
+        "query": "查询",
+        "dsl": "DSL",
+        "dsl_hint": "在下方编辑请求体，按 Ctrl+Enter 搜索。",
+        "discard_dsl": "放弃 DSL 修改并切换回查询栏？"
+      },
+      "open_in_rest": "在 REST 中打开",
+      "copy_curl": "复制为 cURL",
+      "invalid_json": "请求体不是有效的 JSON。"
     },
     "search_result": {
       "delete": {
         "text": "# | 删除文档 | 批量删除文档",
         "confirm": "# | 是否删除这个文档? | 是否批量删除 {count} 个文档?",
         "growl": "# | 删除文档成功. | 批量删除文档成功."
-      }
+      },
+      "edit_hint": "双击编辑"
     },
     "results_table": {
-      "settings": {
-        "columns": "列"
-      },
-      "download_as_json": "下载为 JSON 文件",
       "tabs": {
         "hits": "命中",
         "aggregations": "聚合"
+      },
+      "total": "没有结果 | {count} 条结果 | {count} 条结果",
+      "count_exactly": "精确计数",
+      "no_results": "未找到文档",
+      "document": "文档",
+      "columns": {
+        "button": "列（{count}）",
+        "all": "全部",
+        "none": "无",
+        "reset": "重置",
+        "refine": "缩小筛选范围以查看更多字段",
+        "in_indices": "在 1 个索引中 | 在 {count} 个索引中",
+        "groups": {
+          "meta": "元字段",
+          "all": "所有索引中",
+          "some": "仅部分索引中",
+          "unmapped": "未映射"
+        },
+        "catalog_skipped": "匹配的索引超过 {limit} 个，因此只列出当前页的字段。"
       }
     },
     "edit_document": {
@@ -887,6 +916,27 @@
         "text": "更新文档",
         "growl": "更新文档成功."
       }
+    },
+    "time": {
+      "absolute": "绝对时间范围",
+      "from": "开始",
+      "to": "结束",
+      "apply": "应用",
+      "field": "时间字段",
+      "invalid": "格式为 YYYY-MM-DD HH:mm:ss",
+      "presets": {
+        "last_15m": "最近 15 分钟",
+        "last_1h": "最近 1 小时",
+        "last_4h": "最近 4 小时",
+        "last_24h": "最近 24 小时",
+        "last_7d": "最近 7 天",
+        "last_30d": "最近 30 天",
+        "all": "全部时间"
+      }
+    },
+    "histogram": {
+      "title": "直方图",
+      "interval": "每 {interval}"
     }
   },
   "settings": {
@@ -908,7 +958,7 @@
       "invalid": "只能是 1 到 1000 之间的整数"
     },
     "localize_timestamp": {
-      "label": "在搜索结果中显示字段 '{'@'}timestamp' 的本地化值"
+      "label": "在搜索结果中格式化日期字段"
     },
     "disconnect_and_reset": {
       "heading": "断开连接并重置所有配置",
@@ -1104,10 +1154,6 @@
       "rows_per_page": {
         "confirm": "警告：您确定吗？一次性显示 {value} 条目可能会导致问题或冻结。建议使用搜索/过滤功能来限制结果。"
       }
-    },
-    "table_settings": {
-      "reset": "重置",
-      "clear": "反选"
     },
     "authorization_header_hint": "你的集群使用了授权。确保你已经设置了\"http.cors.allow-headers\"，否则将无法连接。",
     "code_editor": {
