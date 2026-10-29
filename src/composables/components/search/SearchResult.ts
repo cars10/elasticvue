@@ -1,52 +1,59 @@
+import { ref } from 'vue'
 import { useTranslation } from '../../i18n.ts'
 import { useSearchStore } from '../../../store/search.ts'
-import { computed, ref } from 'vue'
 import { defineElasticsearchRequest } from '../../CallElasticsearch.ts'
-import { stringifyJson } from '../../../helpers/json/stringify.ts'
 import { truncateString } from '../../../helpers/truncate.ts'
 import { DEFAULT_DOCUMENT_FIELD_MAX_LENGTH } from '../../../consts.ts'
+import { formatFieldValue, getFieldValue, summarizeDocument } from '../../../helpers/search/documentValues.ts'
+import { SOURCE_COLUMN } from '../../../helpers/search/columns.ts'
+import { hitSource } from './SearchResultsTable.ts'
+import type { FieldCatalog } from '../../../types/search.ts'
+import type { EsSearchHit } from './SearchDocuments.ts'
 
-export type SearchResultProps = { columns: any[]; doc: Record<string, any> }
+export type SearchResultProps = { hit: EsSearchHit; columns: string[]; catalog: FieldCatalog }
+
+const formatDate = (value: unknown) => {
+  if (typeof value !== 'string' && typeof value !== 'number') return null
+  const date = new Date(value)
+  return isNaN(date.getTime()) ? null : date.toLocaleString()
+}
 
 export const useSearchResult = (props: SearchResultProps, emit: any) => {
   const t = useTranslation()
-
   const searchStore = useSearchStore()
-  const resultColumns = computed(() => props.columns.slice(0, -1))
-
   const edit = ref(false)
-  const docInfo = () => ({
-    index: props.doc._index,
-    type: props.doc._type,
-    id: props.doc._id,
-    routing: props.doc._routing
-  })
+
+  const maxLength = () => searchStore.documentFieldMaxLength || DEFAULT_DOCUMENT_FIELD_MAX_LENGTH
+
+  const cellValue = (column: string): string => {
+    const hit = props.hit
+    if (column === SOURCE_COLUMN) return summarizeDocument(hitSource(hit), maxLength())
+    if (column === '_type') return hit._type || '_doc'
+    if (column.startsWith('_') && column in hit) return formatFieldValue(hit[column as keyof EsSearchHit])
+
+    const value = getFieldValue(hitSource(hit), column)
+    const isDate = searchStore.localizeTimestamp && props.catalog[column]?.types.includes('date')
+    const formatted = (isDate && formatDate(value)) || formatFieldValue(value)
+    return truncateString(formatted, maxLength())
+  }
 
   const { run } = defineElasticsearchRequest({ emit, method: 'delete' })
-  const deleteDocument = async () => {
-    return run({
-      params: docInfo(),
+  const deleteDocument = () =>
+    run({
+      params: { index: props.hit._index, type: props.hit._type || '_doc', id: props.hit._id, routing: props.hit._routing },
       confirmMsg: t('search.search_result.delete.confirm', 1),
       snackbarOptions: { body: t('search.search_result.delete.growl', 1) }
     })
+
+  let clickTimer = 0
+  const onClick = (event: MouseEvent) => {
+    if ((event.target as HTMLElement).closest('button, a, .q-checkbox') || window.getSelection()?.toString()) return
+    window.clearTimeout(clickTimer)
+    clickTimer = window.setTimeout(() => emit('open'), 250)
   }
-
-  const renderValue = (doc: any, column: string) => {
-    if (!doc.hasOwnProperty(column)) return
-    const value = doc[column]
-
-    if (searchStore.localizeTimestamp && column === '@timestamp') {
-      const d = Date.parse(value)
-      return new Date(d).toLocaleString()
-    }
-
-    if (typeof value === 'object') {
-      return truncateString(stringifyJson(value), searchStore.documentFieldMaxLength || DEFAULT_DOCUMENT_FIELD_MAX_LENGTH)
-    } else if (typeof value === 'string') {
-      return truncateString(value, searchStore.documentFieldMaxLength || DEFAULT_DOCUMENT_FIELD_MAX_LENGTH)
-    } else {
-      return value
-    }
+  const onDblclick = () => {
+    window.clearTimeout(clickTimer)
+    edit.value = true
   }
 
   const buttonsVisible = ref(false)
@@ -54,12 +61,5 @@ export const useSearchResult = (props: SearchResultProps, emit: any) => {
     buttonsVisible.value = entry.isIntersecting
   }
 
-  return {
-    resultColumns,
-    edit,
-    deleteDocument,
-    renderValue,
-    buttonsVisible,
-    onIntersection
-  }
+  return { edit, cellValue, deleteDocument, buttonsVisible, onIntersection, onClick, onDblclick }
 }

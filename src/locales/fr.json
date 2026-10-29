@@ -853,33 +853,62 @@
     "heading": "Rechercher",
     "form": {
       "query": {
-        "label": "Rechercher"
+        "label": "Requête (syntaxe Lucene)"
       },
       "search_examples": {
         "button": "Exemples de recherche",
         "hint": "Exemples, voir <a tabindex='-1' target='_blank' rel='noopener' href='https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html'>query string query</a> pour plus de détails"
       },
       "search": "Recherche",
-      "customize_query": {
-        "button": "Recherche avancée",
-        "reset": "Réinitialiser la requête"
-      }
+      "indices": {
+        "label": "Index",
+        "matched": "Aucun index ne correspond | 1 index correspond | {count} index correspondent",
+        "kinds": {
+          "alias": "alias",
+          "data_stream": "data stream"
+        }
+      },
+      "mode": {
+        "query": "Requête",
+        "dsl": "DSL",
+        "dsl_hint": "Modifiez le corps de la requête ci-dessous, Ctrl+Entrée pour rechercher.",
+        "discard_dsl": "Abandonner vos modifications DSL et revenir à la barre de requête ?"
+      },
+      "open_in_rest": "Ouvrir dans REST",
+      "copy_curl": "Copier en cURL",
+      "invalid_json": "Le corps de la requête n'est pas un JSON valide."
     },
     "search_result": {
       "delete": {
         "text": "# | Supprimer le document | Supprimer les documents",
         "confirm": "# | Voulez-vous vraiment supprimer ce document ? | Voulez-vous vraiment supprimer {count} documents?",
         "growl": "# | Le document a été supprimé avec succès. | Les documents ont été supprimés avec succès."
-      }
+      },
+      "edit_hint": "Double-cliquez pour modifier"
     },
     "results_table": {
-      "settings": {
-        "columns": "Colomnes"
-      },
-      "download_as_json": "Télécharger en JSON",
       "tabs": {
         "hits": "Résultats",
         "aggregations": "Agrégations"
+      },
+      "total": "Aucun résultat | {count} résultat | {count} résultats",
+      "count_exactly": "compter exactement",
+      "no_results": "Aucun document trouvé",
+      "document": "Document",
+      "columns": {
+        "button": "Colonnes ({count})",
+        "all": "Toutes",
+        "none": "Aucune",
+        "reset": "Réinitialiser",
+        "refine": "Affinez le filtre pour voir plus de champs",
+        "in_indices": "dans 1 index | dans {count} index",
+        "groups": {
+          "meta": "Champs méta",
+          "all": "Dans tous les index",
+          "some": "Dans certains index seulement",
+          "unmapped": "Non mappé"
+        },
+        "catalog_skipped": "Plus de {limit} index correspondent, seuls les champs de la page actuelle sont listés."
       }
     },
     "edit_document": {
@@ -887,6 +916,27 @@
         "text": "Modifier le document",
         "growl": "Le document a été modifié avec succès."
       }
+    },
+    "time": {
+      "absolute": "Plage absolue",
+      "from": "Du",
+      "to": "Au",
+      "apply": "Appliquer",
+      "field": "Champ de date",
+      "invalid": "Format AAAA-MM-JJ HH:mm:ss",
+      "presets": {
+        "last_15m": "15 dernières minutes",
+        "last_1h": "Dernière heure",
+        "last_4h": "4 dernières heures",
+        "last_24h": "24 dernières heures",
+        "last_7d": "7 derniers jours",
+        "last_30d": "30 derniers jours",
+        "all": "Toute la période"
+      }
+    },
+    "histogram": {
+      "title": "Histogramme",
+      "interval": "par {interval}"
     }
   },
   "settings": {
@@ -908,7 +958,7 @@
       "invalid": "Uniquement des nombres entiers entre 1 et 1000"
     },
     "localize_timestamp": {
-      "label": "Localiser la valeur des champs '{'@'}timestamp' dans les résultats de recherche"
+      "label": "Formater les champs de date dans les résultats de recherche"
     },
     "disconnect_and_reset": {
       "heading": "Se déconnecter et réinitialiser tous les paramètres",
@@ -1104,10 +1154,6 @@
       "rows_per_page": {
         "confirm": "AVERTISSEMENT : Êtes-vous sûr ? Afficher {value} entrées à la fois peut causer des problèmes ou des blocages. Il est recommandé d'utiliser la fonctionnalité de recherche/filtrage pour limiter les résultats."
       }
-    },
-    "table_settings": {
-      "reset": "réinitialiser",
-      "clear": "effacer"
     },
     "authorization_header_hint": "Assurez-vous que \"http.cors.allow-headers\" est configuré",
     "code_editor": {

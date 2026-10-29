@@ -1,166 +1,111 @@
-import { computed, Ref, ref, watch } from 'vue'
-import { useResizeStore } from '../../../store/resize.js'
+import { computed, ref, watch } from 'vue'
+import { useResizeStore } from '../../../store/resize.ts'
 import { useSearchStore } from '../../../store/search.ts'
-import { useElasticsearchAdapter } from '../../CallElasticsearch.ts'
 import { useSelectableRows } from '../../SelectableRow.ts'
-import SearchResults from '../../../models/SearchResults.ts'
-import { sortableField } from '../../../helpers/search.ts'
-import { EsSearchResult } from './SearchDocuments.ts'
-import { ElasticsearchDocumentInfo } from './EditDocument.ts'
-import { filterItems } from '../../../helpers/filters.ts'
+import { useTranslation } from '../../i18n.ts'
 import { stringifyJson } from '../../../helpers/json/stringify.ts'
-import { setupFilterState } from '../shared/FilterState.ts'
+import { flattenDocument, formatFieldValue, getFieldValue, toCsv } from '../../../helpers/search/documentValues.ts'
+import { columnOptions, defaultColumns, SOURCE_COLUMN } from '../../../helpers/search/columns.ts'
+import type { FieldCatalog } from '../../../types/search.ts'
+import type { EsSearchHit, EsSearchResult } from './SearchDocuments.ts'
 
 export type SearchResultsTableProps = {
   results: EsSearchResult
+  catalog: FieldCatalog
+  catalogSkipped: boolean
+  majorVersion: number
+  loading: boolean
 }
 
-export const useSearchResultsTable = (props: SearchResultsTableProps, emit: any) => {
-  const resizeStore = useResizeStore()
-  const searchStore = useSearchStore()
+export const hitSource = (hit: EsSearchHit) => hit._source ?? hit.fields ?? {}
+export const rawCellValue = (hit: EsSearchHit, column: string) => {
+  if (column === SOURCE_COLUMN) return formatFieldValue(hitSource(hit))
+  if (column === '_type') return hit._type || '_doc'
+  if (column.startsWith('_') && column in hit) return formatFieldValue(hit[column as keyof EsSearchHit])
+  return formatFieldValue(getFieldValue(hitSource(hit), column))
+}
 
-  const hits: Ref<any[]> = ref([])
-  const tableColumns: Ref<any[]> = ref([])
+export const hitKey = (hit: EsSearchHit) => [hit._index, hit._type || '_doc', hit._id].join('####')
+
+export const useSearchResultsTable = (props: SearchResultsTableProps, emit: any) => {
+  const t = useTranslation()
+  const searchStore = useSearchStore()
+  const resizeStore = useResizeStore()
   const activeTab = ref('hits')
 
-  const { callElasticsearch } = useElasticsearchAdapter()
+  const hits = computed(() => props.results.hits?.hits || [])
+  const { selectedItems, allItemsSelected, setIndeterminate } = useSelectableRows(computed(() => hits.value.map(hitKey)))
 
-  const { selectedItems, allItemsSelected, setIndeterminate } = useSelectableRows(hits)
-  const checkAll = (val: boolean) => {
-    if (val) {
-      selectedItems.value = hits.value.map(genDocStr)
-    } else {
-      selectedItems.value = []
-    }
-  }
+  const checkAll = (value: boolean) => (selectedItems.value = value ? hits.value.map(hitKey) : [])
   const reload = () => {
     checkAll(false)
     setIndeterminate()
     emit('reload')
   }
 
-  const genDocStr = (doc: ElasticsearchDocumentInfo) => [doc._index, doc._type, doc._id].join('####')
+  const seenFields = computed(() => [...new Set(hits.value.flatMap((hit) => Object.keys(flattenDocument(hitSource(hit)))))])
+  const options = computed(() => columnOptions(props.catalog, seenFields.value, props.majorVersion))
+  const columns = computed(() => searchStore.savedColumns ?? defaultColumns(seenFields.value))
 
-  const onRowsPerPageSelect = (value: number) => {
-    searchStore.pagination.rowsPerPage = value
-    if (value === rowsPerPage[rowsPerPage.length - 1].value) {
-      searchStore.stickyTableHeader = true
-    }
-    onRequest({ pagination: searchStore.pagination })
+  const isSortable = (name: string) => {
+    if (name === SOURCE_COLUMN) return false
+    if (name === '_id') return props.majorVersion > 0 && props.majorVersion < 8
+    if (name.startsWith('_')) return true
+    return !!props.catalog[name]?.sortField
   }
 
-  watch(
-    () => props.results,
-    async (newValue: EsSearchResult) => {
-      if (!newValue?.hits?.hits || newValue.hits.hits.length === 0) {
-        hits.value = []
-        return
-      }
+  const tableColumns = computed(() => [
+    ...columns.value.map((name) => ({
+      name,
+      field: name,
+      label: name === SOURCE_COLUMN ? t('search.results_table.document') : name,
+      align: 'left' as const,
+      sortable: isSortable(name)
+    })),
+    { name: 'actions', field: 'actions', label: '', align: 'right' as const }
+  ])
 
-      const results = new SearchResults(newValue.hits.hits)
-      const indices = await callElasticsearch('indexGet', { index: results.uniqueIndices })
-      const allProperties: Record<string, any> = {}
-
-      Object.keys(indices).forEach((index) => {
-        const mappings = indices[index].mappings
-        if (typeof mappings.properties === 'undefined') {
-          // ES < 7
-          const indexProperties = {}
-          Object.keys(mappings).forEach((mapping) => {
-            Object.assign(indexProperties, mappings[mapping].properties)
-          })
-          Object.assign(allProperties, indexProperties)
-        } else {
-          // ES >= 7
-          Object.assign(allProperties, mappings.properties)
-        }
-      })
-
-      tableColumns.value = results.uniqueColumns.map((field) => {
-        const filterableCol = sortableField(field, allProperties[field])
-
-        return { label: field, field, name: filterableCol || field, sortable: !!filterableCol, align: 'left' }
-      })
-      tableColumns.value.push({ label: '', name: 'actions' })
-
-      const oldColumns = searchStore.columns
-      const newColumnsList = tableColumns.value.map((c) => c.name)
-      const addedColumns = newColumnsList.filter((c) => !oldColumns.includes(c))
-      const removedColumns = oldColumns.filter((c) => !newColumnsList.includes(c))
-
-      searchStore.columns = newColumnsList
-      searchStore.visibleColumns = searchStore.visibleColumns.filter((c) => !removedColumns.includes(c)).concat(addedColumns)
-
-      hits.value = results.docs
-    }
-  )
-
-  const filteredHits = computed(() => {
-    if (searchStore.filter.trim().length === 0) return hits.value
-
-    return filterItems(
-      hits.value,
-      searchStore.filter,
-      tableColumns.value.map((c) => c.field)
-    )
-  })
-
-  const slicedTableColumns = computed((): any[] => tableColumns.value.slice(0, -1))
-
-  const onRequest = (pagination: any) => emit('request', pagination)
-  const clearColumns = () => (searchStore.visibleColumns = ['actions'])
-  const resetColumns = () => (searchStore.visibleColumns = tableColumns.value.map((c) => c.name))
-  const generateDownloadData = () => stringifyJson(props.results)
-
-  const rowsPerPage = [
+  const rowsPerPage = computed(() => [
     { label: '10', value: 10, enabled: true },
     { label: '20', value: 20, enabled: true },
     { label: '100', value: 100, enabled: true },
     { label: '1000', value: 1000, enabled: searchStore.rowsPerPageAccepted, needsConfirm: true }
-  ]
+  ])
 
-  const filterStateProps = setupFilterState(hits, filteredHits)
-
+  const onRowsPerPageSelect = (value: number) => {
+    if (value === 1000) searchStore.stickyTableHeader = true
+    emit('request', { pagination: { ...searchStore.pagination, page: 1, rowsPerPage: value } })
+  }
   const acceptRowsPerPage = (value: boolean) => (searchStore.rowsPerPageAccepted = value)
 
-  const hasAggregations = computed(() => {
-    return props.results?.aggregations && Object.keys(props.results.aggregations).length > 0
+  const hasAggregations = computed(() => Object.keys(props.results.aggregations || {}).length > 0)
+  const aggregationsJson = computed(() => (hasAggregations.value ? stringifyJson(props.results.aggregations ?? {}, null, 2) : ''))
+  watch(hasAggregations, (has) => {
+    if (!has) activeTab.value = 'hits'
   })
 
-  const aggregationsJson = computed(() => {
-    if (!hasAggregations.value || !props.results.aggregations) return ''
-    return stringifyJson(props.results.aggregations, null, 2)
-  })
-
-  watch(hasAggregations, (hasAggs) => {
-    if (!hasAggs && activeTab.value === 'aggregations') {
-      activeTab.value = 'hits'
-    }
-  })
+  const generateDownloadData = () => stringifyJson(props.results)
+  const generateCsv = () => toCsv([columns.value, ...hits.value.map((hit) => columns.value.map((c) => rawCellValue(hit, c)))])
 
   return {
-    acceptRowsPerPage,
-    filterStateProps,
-    tableColumns,
     searchStore,
-    clearColumns,
-    resetColumns,
-    slicedTableColumns,
     resizeStore,
+    activeTab,
     hits,
-    filteredHits,
-    rowsPerPage,
-    onRequest,
-    onRowsPerPageSelect,
-    reload,
+    options,
+    columns,
+    tableColumns,
     selectedItems,
-    genDocStr,
-    setIndeterminate,
     allItemsSelected,
+    setIndeterminate,
     checkAll,
-    generateDownloadData,
+    reload,
+    rowsPerPage,
+    onRowsPerPageSelect,
+    acceptRowsPerPage,
     hasAggregations,
     aggregationsJson,
-    activeTab
+    generateDownloadData,
+    generateCsv
   }
 }

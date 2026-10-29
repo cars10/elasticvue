@@ -853,33 +853,62 @@
     "heading": "Ricerca",
     "form": {
       "query": {
-        "label": "Cerca"
+        "label": "Query (sintassi Lucene)"
       },
       "search_examples": {
         "button": "Esempi di ricerca",
         "hint": "Esempi di ricerca, vedi <a tabindex='-1' target='_blank' rel='noopener' href='https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html'>query string query</a> per dettagli"
       },
       "search": "Cerca",
-      "customize_query": {
-        "button": "Ricerca personalizzata",
-        "reset": "Reimposta query"
-      }
+      "indices": {
+        "label": "Indici",
+        "matched": "Nessun indice corrisponde | Corrisponde 1 indice | Corrispondono {count} indici",
+        "kinds": {
+          "alias": "alias",
+          "data_stream": "data stream"
+        }
+      },
+      "mode": {
+        "query": "Query",
+        "dsl": "DSL",
+        "dsl_hint": "Modifica il corpo della richiesta qui sotto, Ctrl+Invio per cercare.",
+        "discard_dsl": "Scartare le modifiche DSL e tornare alla barra di ricerca?"
+      },
+      "open_in_rest": "Apri in REST",
+      "copy_curl": "Copia come cURL",
+      "invalid_json": "Il corpo della richiesta non è un JSON valido."
     },
     "search_result": {
       "delete": {
         "text": "# | Elimina documento | Elimina documenti",
         "confirm": "# | Sei sicuro di voler eliminare questo documento? | Sei sicuro di voler eliminare {count} documenti?",
         "growl": "# | Documento eliminato con successo. | Documenti eliminati con successo."
-      }
+      },
+      "edit_hint": "Doppio clic per modificare"
     },
     "results_table": {
-      "settings": {
-        "columns": "Colonne"
-      },
-      "download_as_json": "Scarica come json",
       "tabs": {
         "hits": "Risultati",
         "aggregations": "Aggregazioni"
+      },
+      "total": "Nessun risultato | {count} risultato | {count} risultati",
+      "count_exactly": "conta esattamente",
+      "no_results": "Nessun documento trovato",
+      "document": "Documento",
+      "columns": {
+        "button": "Colonne ({count})",
+        "all": "Tutte",
+        "none": "Nessuna",
+        "reset": "Ripristina",
+        "refine": "Affina il filtro per vedere altri campi",
+        "in_indices": "in 1 indice | in {count} indici",
+        "groups": {
+          "meta": "Campi meta",
+          "all": "In tutti gli indici",
+          "some": "Solo in alcuni indici",
+          "unmapped": "Non mappato"
+        },
+        "catalog_skipped": "Più di {limit} indici corrispondono, quindi sono elencati solo i campi della pagina corrente."
       }
     },
     "edit_document": {
@@ -887,6 +916,27 @@
         "text": "Aggiorna documento",
         "growl": "Documento aggiornato con successo."
       }
+    },
+    "time": {
+      "absolute": "Intervallo assoluto",
+      "from": "Da",
+      "to": "A",
+      "apply": "Applica",
+      "field": "Campo data",
+      "invalid": "Formato AAAA-MM-GG HH:mm:ss",
+      "presets": {
+        "last_15m": "Ultimi 15 minuti",
+        "last_1h": "Ultima ora",
+        "last_4h": "Ultime 4 ore",
+        "last_24h": "Ultime 24 ore",
+        "last_7d": "Ultimi 7 giorni",
+        "last_30d": "Ultimi 30 giorni",
+        "all": "Sempre"
+      }
+    },
+    "histogram": {
+      "title": "Istogramma",
+      "interval": "ogni {interval}"
     }
   },
   "settings": {
@@ -908,7 +958,7 @@
       "invalid": "Solo numeri interi tra 1 e 1000"
     },
     "localize_timestamp": {
-      "label": "Localizza il valore dei campi '{'@'}timestamp' nei risultati di ricerca"
+      "label": "Formatta i campi data nei risultati di ricerca"
     },
     "disconnect_and_reset": {
       "heading": "Disconnetti e reimposta tutte le impostazioni",
@@ -1104,10 +1154,6 @@
       "rows_per_page": {
         "confirm": "ATTENZIONE: Sei sicuro? Mostrare {value} voci alla volta potrebbe causare problemi o blocchi. Si consiglia di utilizzare la funzionalità di ricerca/filtro per limitare i risultati."
       }
-    },
-    "table_settings": {
-      "reset": "reimposta",
-      "clear": "cancella"
     },
     "authorization_header_hint": "Assicurati che \"http.cors.allow-headers\" sia configurato",
     "code_editor": {

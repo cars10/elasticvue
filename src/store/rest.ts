@@ -100,7 +100,8 @@ export const useRestStore = () => {
         tabSavers.get(raw)!()
       },
 
-      openRequest(request: IdbRestQueryTabRequest, { newTab = false } = {}) {
+      async openRequest(request: IdbRestQueryTabRequest, { newTab = false } = {}) {
+        await this.load()
         if (newTab || !this.activeTab) return this.addTab(request)
 
         Object.assign(this.activeTab.request, pickRequest(request))

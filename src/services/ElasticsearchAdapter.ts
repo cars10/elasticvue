@@ -129,6 +129,22 @@ export default class ElasticsearchAdapter {
     return this.request(`${cleanIndexName(index)}`, 'GET')
   }
 
+  catIndicesFor({ index, params }: { index: string; params?: Record<string, string> }) {
+    return this.request(`_cat/indices/${cleanIndexName(index)}`, 'GET', params)
+  }
+
+  fieldCaps({ index, params }: { index: string; params?: Record<string, string> }) {
+    return this.request(`${cleanIndexName(index)}/_field_caps`, 'GET', { fields: '*', ...params })
+  }
+
+  indexMappings({ index }: { index: string }) {
+    return this.request(`${cleanIndexName(index)}/_mapping`, 'GET')
+  }
+
+  resolveIndex({ name, params }: { name: string; params?: Record<string, string> }) {
+    return this.request(`_resolve/index/${cleanIndexName(name)}`, 'GET', params)
+  }
+
   indexStats({ index }: { index: string }) {
     return this.request(`${cleanIndexName(index)}/_stats`, 'GET')
   }
@@ -260,6 +276,10 @@ export default class ElasticsearchAdapter {
     }
 
     return this.request(path, 'POST', params)
+  }
+
+  sqlQuery({ path, format, body }: { path: string; format: string; body: object }) {
+    return this.request(`${path}?format=${format}`, 'POST', body)
   }
 
   docsBulkDelete(documents: any[]) {
