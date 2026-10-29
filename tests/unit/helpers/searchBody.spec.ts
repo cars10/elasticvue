@@ -96,10 +96,10 @@ describe('buildSearchBody', () => {
 
 describe('sortClause', () => {
   it('handles meta fields and old versions', () => {
-    expect(sortClause({ field: '_id', descending: false, unmappedType: 'keyword' }, 8)).toEqual({ _id: { order: 'asc' } })
-    expect(sortClause({ field: 'age', descending: false, unmappedType: 'long' }, 1)).toEqual({
-      age: { order: 'asc', ignore_unmapped: true }
+    expect(sortClause({ field: '_id', descending: false, unmappedType: 'keyword' })).toEqual({ _id: { order: 'asc' } })
+    expect(sortClause({ field: 'age', descending: false, unmappedType: 'long' })).toEqual({
+      age: { order: 'asc', unmapped_type: 'long' }
     })
-    expect(sortClause({ field: 'age', descending: false }, 8)).toEqual({ age: { order: 'asc' } })
+    expect(sortClause({ field: 'age', descending: false })).toEqual({ age: { order: 'asc' } })
   })
 })

@@ -25,6 +25,7 @@ import { buildQueryFromTableOptions, getTableOptionsToApply } from '../../../hel
 import { paginationFromQuery } from '../../../helpers/search/paginationFromQuery'
 import { useTranslation } from '../../i18n.ts'
 import { elasticsearchCompatibleVersion, versionAtLeast } from '../../../helpers/minClusterVersion.ts'
+import { allowedRowsPerPage } from '../../../consts.ts'
 import { dateFields, timeFieldFor } from '../../../helpers/search/timeRange.ts'
 import type { SearchFilter, SearchMode, SearchSort, SearchTimeBounds } from '../../../types/search.ts'
 
@@ -59,6 +60,7 @@ export const useSearchDocuments = () => {
   const { callElasticsearch: callTargets } = useElasticsearchAdapter()
   const matchedIndices = ref<number | null>(null)
   let latestTargets = 0
+  let latestSearch = 0
 
   const histogram = useSearchHistogram()
   const sql = useSqlSearch()
@@ -94,7 +96,9 @@ export const useSearchDocuments = () => {
     return {
       field,
       descending: searchStore.pagination.descending,
-      unmappedType: unmappedTypeFor(catalog.value[field], majorVersion.value)
+      unmappedType: versionAtLeast(compatibleVersion.value, '1.4')
+        ? unmappedTypeFor(catalog.value[field], majorVersion.value)
+        : undefined
     }
   }
 
@@ -135,6 +139,11 @@ export const useSearchDocuments = () => {
     ...(searchStore.filters.length > 0 && { filters: JSON.stringify(searchStore.filters) })
   })
 
+  const syncUrl = () => {
+    if (searchStore.mode === 'query') router.replace({ query: urlQuery() })
+    else if (Object.keys(route.query).length > 0) router.replace({ query: {} })
+  }
+
   const loadHistogram = () => {
     if (!showHistogram.value || searchStore.histogramCollapsed) return histogram.clear()
     histogram.load({
@@ -147,7 +156,9 @@ export const useSearchDocuments = () => {
   }
 
   const search = async () => {
+    const request = ++latestSearch
     const mode = searchStore.mode
+    syncUrl()
     if (isSqlMode(mode)) {
       const api = sqlApiFor(mode)
       if (api) sql.run(api, mode, sqlText(mode))
@@ -166,16 +177,12 @@ export const useSearchDocuments = () => {
     if (searchStore.mode === 'dsl') {
       const { page, rowsPerPage } = paginationFromQuery(body, searchStore.pagination.rowsPerPage)
       Object.assign(searchStore.pagination, { page, rowsPerPage })
-    } else {
-      router.replace({ query: urlQuery() })
     }
 
-    try {
-      results.value = await callElasticsearch('search', body, targetKey(searchStore.targets))
-      searchStore.pagination.rowsNumber = totalHits.value.value
-    } catch (_e) {
-      results.value = emptyResult()
-    }
+    const result = await callElasticsearch('search', body, targetKey(searchStore.targets)).catch(emptyResult)
+    if (request !== latestSearch) return
+    results.value = result
+    searchStore.pagination.rowsNumber = totalHits.value.value
   }
 
   const submit = () => {
@@ -272,12 +279,14 @@ export const useSearchDocuments = () => {
       searchStore.dslBody = dslSeed
     }
     if (isSqlMode(mode) && !sqlText(mode).trim()) {
-      searchStore[queryKeyFor(mode)] = defaultSqlQuery(mode, searchStore.targets)
+      searchStore[queryKeyFor(mode)] = defaultSqlQuery(mode, searchStore.targets, connectionStore.elasticsearch)
     }
+    if (previous === 'dsl') searchStore.pagination.rowsPerPage = allowedRowsPerPage(searchStore.pagination.rowsPerPage)
     if (mode === 'query' && previous === 'dsl') searchStore.pagination.sortBy = ''
 
     searchStore.mode = mode
-    if (mode !== 'dsl') submit()
+    if (mode === 'dsl') syncUrl()
+    else submit()
   }
 
   const applyEntry = async (entry: IdbSearchEntry) => {
@@ -332,11 +341,11 @@ export const useSearchDocuments = () => {
     const targets = searchStore.targets
     const count = await callTargets('catIndicesFor', { index: targetKey(targets), params: { h: 'index' } })
       .then((rows: unknown[]) => rows.length)
-      .catch(() => 0)
+      .catch(() => null)
     if (request !== latestTargets) return
 
     matchedIndices.value = count
-    await loadCatalog(targets, { force, matchedIndices: count })
+    await loadCatalog(targets, { force, matchedIndices: count ?? 0 })
   }
 
   const searchTargets = async () => {

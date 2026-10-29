@@ -18,6 +18,11 @@ const DATE_FORMAT = 'strict_date_optional_time||epoch_millis'
 const timeButton = (page: Page) => page.getByTestId('search-time-range')
 const histogram = (page: Page) => page.getByTestId('search-histogram')
 
+const openHistogram = async (page: Page) => {
+  await page.getByTestId('search-histogram-toggle').click()
+  await expect(histogram(page)).toBeVisible()
+}
+
 const pickPreset = async (page: Page, label: string) => {
   await timeButton(page).click()
   await page.getByTestId('search-time-preset').filter({ hasText: label }).click()
@@ -130,7 +135,7 @@ test.describe('Search histogram', () => {
     const requests = await setupSearch(page)
     await openSearch(page)
 
-    await expect(histogram(page)).toBeVisible()
+    await openHistogram(page)
     await expect(page.getByText('per 12h')).toBeVisible()
     expect(boundsSearches(requests).at(-1)!.body.aggs).toEqual({
       min: { min: { field: '@timestamp' } },
@@ -168,6 +173,7 @@ test.describe('Search histogram', () => {
   test('uses relative bounds without a min/max request', async ({ page }) => {
     const requests = await setupSearch(page)
     await openSearch(page)
+    await openHistogram(page)
     await expect(page.getByText('per 12h')).toBeVisible()
     const bounds = boundsSearches(requests).length
 
@@ -183,36 +189,41 @@ test.describe('Search histogram', () => {
     const requests = await setupSearch(page, { version: 6 })
     await openSearch(page)
 
+    await openHistogram(page)
     await expect(page.getByText('per 12h')).toBeVisible()
     const aggregation = histogramSearches(requests).at(-1)!.body.aggs!.histogram!.date_histogram
     expect(aggregation.interval).toBe('12h')
     expect(aggregation).not.toHaveProperty('fixed_interval')
   })
 
-  test('collapses and stops loading', async ({ page }) => {
+  test('starts collapsed and only queries while open', async ({ page }) => {
     const requests = await setupSearch(page)
     await openSearch(page)
-    await expect(histogram(page)).toBeVisible()
-
-    await page.getByTestId('search-histogram-toggle').click()
+    await expect(page.getByTestId('search-histogram-toggle')).toBeVisible()
     await expect(histogram(page)).toHaveCount(0)
-    const loaded = histogramSearches(requests).length
 
     await pickPreset(page, 'Last hour')
     await expect.poll(() => timeFilter(lastSearch(requests).body)?.['@timestamp'].gte).toBe('now-1h')
-    expect(histogramSearches(requests)).toHaveLength(loaded)
+    expect(histogramSearches(requests)).toHaveLength(0)
+    expect(boundsSearches(requests)).toHaveLength(0)
 
-    const stored = await page.evaluate((uuid) => localStorage.getItem(`search-${uuid}`), CLUSTER_UUID)
-    expect(JSON.parse(stored!).histogramCollapsed).toBe(true)
+    await openHistogram(page)
+    await expect.poll(() => histogramSearches(requests).length).toBe(1)
+    const stored = () => page.evaluate((uuid) => localStorage.getItem(`search-${uuid}`), CLUSTER_UUID)
+    expect(JSON.parse((await stored())!).histogramCollapsed).toBe(false)
 
     await page.getByTestId('search-histogram-toggle').click()
-    await expect(histogram(page)).toBeVisible()
+    await expect(histogram(page)).toHaveCount(0)
+    await pickPreset(page, 'Last 4 hours')
+    await expect.poll(() => timeFilter(lastSearch(requests).body)?.['@timestamp'].gte).toBe('now-4h')
+    expect(histogramSearches(requests)).toHaveLength(1)
+    expect(JSON.parse((await stored())!).histogramCollapsed).toBe(true)
   })
 
   test('is hidden in DSL mode', async ({ page }) => {
     await setupSearch(page)
     await openSearch(page)
-    await expect(histogram(page)).toBeVisible()
+    await openHistogram(page)
 
     await page.getByTestId('search-mode').getByText('DSL').click()
     await expect(histogram(page)).toHaveCount(0)
@@ -224,6 +235,7 @@ test.describe('Search auto refresh', () => {
   test('repeats the search until turned off', async ({ page }) => {
     const requests = await setupSearch(page)
     await openSearch(page)
+    await openHistogram(page)
     const before = searches(requests).length
 
     await page.locator('.reload-button__interval').click()

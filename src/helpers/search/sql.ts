@@ -19,8 +19,9 @@ export const SQL_FETCH_SIZE = 100
 export const sqlApi = (mode: SqlMode, version: string, isElasticsearch: boolean): SqlApi | null => {
   if (mode === 'esql') return isElasticsearch && versionAtLeast(version, '8.11') ? { path: '_query', format: 'json' } : null
   if (!isElasticsearch) return { path: '_plugins/_sql', format: 'jdbc' }
-  if (versionAtLeast(version, '7')) return { path: '_sql', format: 'json', params: { field_multi_value_leniency: true } }
-  if (versionAtLeast(version, '6.3')) return { path: '_xpack/sql', format: 'json' }
+  const lenient = versionAtLeast(version, '6.8') ? { params: { field_multi_value_leniency: true } } : {}
+  if (versionAtLeast(version, '7')) return { path: '_sql', format: 'json', ...lenient }
+  if (versionAtLeast(version, '6.3')) return { path: '_xpack/sql', format: 'json', ...lenient }
   return null
 }
 
@@ -38,5 +39,7 @@ export const sqlPage = (response: SqlResponse): SqlPage => {
   }
 }
 
-export const defaultSqlQuery = (mode: SqlMode, targets: string[]) =>
-  mode === 'esql' ? `FROM ${targets.join(',')}\n| LIMIT 100` : `SELECT *\nFROM "${targets.join(',')}"\nLIMIT 100`
+export const defaultSqlQuery = (mode: SqlMode, targets: string[], isElasticsearch = true) => {
+  const from = mode === 'esql' || !isElasticsearch ? targets.join(',') : `"${targets.join(',')}"`
+  return mode === 'esql' ? `FROM ${from}\n| LIMIT 100` : `SELECT *\nFROM ${from}\nLIMIT 100`
+}

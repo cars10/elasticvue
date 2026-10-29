@@ -11,10 +11,10 @@ const filterClause = ({ field, op, value, to }: SearchFilter, majorVersion: numb
   }
 }
 
-export const sortClause = ({ field, descending, unmappedType }: SearchSort, majorVersion: number) => {
+export const sortClause = ({ field, descending, unmappedType }: SearchSort) => {
   const order = descending ? 'desc' : 'asc'
   if (!unmappedType || field.startsWith('_')) return { [field]: { order } }
-  return { [field]: majorVersion >= 2 ? { order, unmapped_type: unmappedType } : { order, ignore_unmapped: true } }
+  return { [field]: { order, unmapped_type: unmappedType } }
 }
 
 export const buildSearchBody = ({
@@ -49,7 +49,7 @@ export const buildSearchBody = ({
     query: hasClauses ? { bool } : { match_all: {} },
     from: (page - 1) * size,
     size,
-    sort: sort ? [sortClause(sort, majorVersion)] : [],
+    sort: sort ? [sortClause(sort)] : [],
     ...(source != null && { _source: source }),
     ...(exactTotal && majorVersion >= 7 && { track_total_hits: true })
   }

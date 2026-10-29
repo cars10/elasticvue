@@ -248,4 +248,34 @@ test.describe('Search edge cases', () => {
     await page.getByText('Sticky table header').click()
     await expect(page.locator('.table--sticky-header')).toBeVisible()
   })
+
+  test('ignores a slow response that arrives after a newer search', async ({ page }) => {
+    await setupSearch(page)
+    await openSearch(page)
+
+    await setTargets(page, ['slow'])
+    await setTargets(page, ['recipes'])
+    await expect(rows(page)).toHaveCount(2)
+    await page.waitForTimeout(2000)
+    await expect(rows(page)).toHaveCount(2)
+  })
+
+  test('does not carry a large DSL size over to the query mode', async ({ page }) => {
+    const requests = await setupSearch(page)
+    await openSearch(page)
+    await page.getByTestId('search-mode').getByText('DSL').click()
+    expect(new URL(page.url()).search).toBe('')
+
+    const editor = page.getByTestId('search-dsl').locator('.cm-content')
+    await editor.click()
+    await page.keyboard.press('ControlOrMeta+a')
+    await page.keyboard.insertText('{"query": {"match_all": {}}, "size": 5000}')
+    await page.getByTestId('search-submit').click()
+    await expect.poll(() => lastSearch(requests).body.size).toBe(5000)
+    expect(new URL(page.url()).search).toBe('')
+
+    page.once('dialog', (dialog) => dialog.accept())
+    await page.getByTestId('search-mode').getByText('Query').click()
+    await expect.poll(() => lastSearch(requests).body.size).toBe(10)
+  })
 })

@@ -10,7 +10,12 @@ import {
 describe('sqlApi', () => {
   it('picks the sql endpoint per version and distribution', () => {
     expect(sqlApi('sql', '6.2.4', true)).toBeNull()
-    expect(sqlApi('sql', '6.8.0', true)).toEqual({ path: '_xpack/sql', format: 'json' })
+    expect(sqlApi('sql', '6.5.0', true)).toEqual({ path: '_xpack/sql', format: 'json' })
+    expect(sqlApi('sql', '6.8.0', true)).toEqual({
+      path: '_xpack/sql',
+      format: 'json',
+      params: { field_multi_value_leniency: true }
+    })
     expect(sqlApi('sql', '7.17.0', true)).toEqual({ path: '_sql', format: 'json', params: { field_multi_value_leniency: true } })
     expect(sqlApi('sql', '2.11.0', false)).toEqual({ path: '_plugins/_sql', format: 'jdbc' })
   })
@@ -25,7 +30,7 @@ describe('sqlApi', () => {
 
 describe('sqlBody', () => {
   it('pages sql with fetch_size and cursors', () => {
-    const xpack = { path: '_xpack/sql', format: 'json' }
+    const xpack = sqlApi('sql', '6.5.0', true)!
     const sql = sqlApi('sql', '8.15.0', true)!
     expect(sqlBody(xpack, 'sql', 'SELECT 1')).toEqual({ query: 'SELECT 1', fetch_size: 100 })
     expect(sqlBody(sql, 'sql', 'SELECT 1')).toEqual({ query: 'SELECT 1', fetch_size: 100, field_multi_value_leniency: true })
@@ -53,6 +58,7 @@ describe('sqlPage', () => {
   it('builds default queries from the selected targets', () => {
     expect(defaultSqlQuery('sql', ['logs-*', 'movies'])).toBe('SELECT *\nFROM "logs-*,movies"\nLIMIT 100')
     expect(defaultSqlQuery('esql', ['logs-*', 'movies'])).toBe('FROM logs-*,movies\n| LIMIT 100')
+    expect(defaultSqlQuery('sql', ['a', 'b'], false)).toBe('SELECT *\nFROM a,b\nLIMIT 100')
   })
 })
 

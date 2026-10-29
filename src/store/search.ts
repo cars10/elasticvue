@@ -54,7 +54,7 @@ export const useSearchStore = () => {
       columnsByTarget: {},
       timeRange: null,
       timeFieldByTarget: {},
-      histogramCollapsed: false,
+      histogramCollapsed: true,
       sourceOnlyVisible: false,
       reloadInterval: null,
       pagination: { ...DEFAULT_PAGINATION },

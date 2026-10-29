@@ -127,6 +127,12 @@ describe('migrateSearchState', () => {
     })
   })
 
+  it('resets page sizes the new table does not offer', () => {
+    const pagination = { sortBy: 'year', descending: true, page: 4, rowsPerPage: 10000 }
+    expect(migrateSearchState({ indices: '*', pagination })?.pagination).toEqual({ ...pagination, rowsPerPage: 10 })
+    expect(migrateSearchState({ indices: '*', pagination: { rowsPerPage: 100 } })?.pagination).toEqual({ rowsPerPage: 100 })
+  })
+
   it('ignores the default query and already migrated state', () => {
     expect(migrateSearchState({ indices: '*', searchQuery: DEFAULT_SEARCH_QUERY, searchQueryCollapsed: true })).toMatchObject({
       mode: 'query',

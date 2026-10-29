@@ -49,7 +49,7 @@ export const useSearchResultsTable = (props: SearchResultsTableProps, emit: any)
 
   const isSortable = (name: string) => {
     if (name === SOURCE_COLUMN) return false
-    if (name === '_id') return props.majorVersion > 0 && props.majorVersion < 8
+    if (name === '_id') return props.majorVersion > 0 && props.majorVersion < 8 && props.majorVersion !== 5
     if (name.startsWith('_')) return true
     return !!props.catalog[name]?.sortField
   }

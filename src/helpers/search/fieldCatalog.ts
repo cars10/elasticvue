@@ -5,21 +5,25 @@ const UNMAPPED = 'unmapped'
 
 const isSortable = (field?: FieldInfo) => !!field && field.aggregatable && field.types.length === 1
 
-const sortableFor = (catalog: FieldCatalog, name: string): string | null => {
-  if (isSortable(catalog[name])) return name
-  if (isSortable(catalog[`${name}.keyword`])) return `${name}.keyword`
-
-  const prefix = `${name}.`
-  const subField = Object.values(catalog).find(
-    (field) => field.name.startsWith(prefix) && !field.name.slice(prefix.length).includes('.') && isSortable(field)
-  )
-  return subField?.name ?? null
-}
+const parentOf = (name: string) => name.slice(0, name.lastIndexOf('.'))
 
 const withSortFields = (catalog: FieldCatalog): FieldCatalog => {
+  const children = new Map<string, FieldInfo[]>()
   Object.values(catalog).forEach((field) => {
-    field.sortField = sortableFor(catalog, field.name)
-    field.subField = field.name.includes('.') && !!catalog[field.name.slice(0, field.name.lastIndexOf('.'))]
+    if (!field.name.includes('.')) return
+    const parent = parentOf(field.name)
+    children.set(parent, [...(children.get(parent) ?? []), field])
+  })
+
+  const sortableFor = (name: string): string | null => {
+    if (isSortable(catalog[name])) return name
+    if (isSortable(catalog[`${name}.keyword`])) return `${name}.keyword`
+    return children.get(name)?.find(isSortable)?.name ?? null
+  }
+
+  Object.values(catalog).forEach((field) => {
+    field.sortField = sortableFor(field.name)
+    field.subField = field.name.includes('.') && !!catalog[parentOf(field.name)]
   })
   return catalog
 }

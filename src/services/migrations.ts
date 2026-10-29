@@ -1,5 +1,5 @@
 import { AuthType, BuildFlavor, ElasticsearchCluster, ElasticsearchClusterAuth } from '../store/connection.ts'
-import { DEFAULT_SEARCH_QUERY } from '../consts.ts'
+import { allowedRowsPerPage, DEFAULT_SEARCH_QUERY } from '../consts.ts'
 
 export type OldElasticsearchCluster = {
   name: string
@@ -86,8 +86,10 @@ export const migrateSearchState = (state: OldSearchState): Record<string, unknow
   const customQuery = !!state.searchQueryCollapsed && !!state.searchQuery && state.searchQuery !== DEFAULT_SEARCH_QUERY
 
   const migrated = Object.fromEntries(Object.entries(state).filter(([key]) => !LEGACY_SEARCH_KEYS.includes(key)))
+  const pagination = state.pagination as Record<string, unknown> | undefined
   return {
     ...migrated,
+    ...(pagination && { pagination: { ...pagination, rowsPerPage: allowedRowsPerPage(pagination.rowsPerPage) } }),
     targets: targets.length > 0 ? targets : ['*'],
     mode: customQuery ? 'dsl' : 'query',
     dslBody: customQuery ? state.searchQuery : ''
