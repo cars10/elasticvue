@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { parseDiskWatermarks, parseNodeStatsDetails, peakMetric } from '../../../src/helpers/nodeStats'
+import { parseDiskWatermarks, parseNodeStatsDetails, peakMetric, toNumber } from '../../../src/helpers/nodeStats'
+import { parseJson } from '../../../src/helpers/json/parse'
 import type { OverviewNode } from '../../../src/types/homeDashboard'
 
 const node = (name: string, values: Partial<OverviewNode>): OverviewNode => ({
@@ -9,6 +10,13 @@ const node = (name: string, values: Partial<OverviewNode>): OverviewNode => ({
   cpuPercent: null,
   fileDescriptorPercent: null,
   ...values
+})
+
+describe('toNumber', () => {
+  it('reads high precision numbers parsed as big numbers', () => {
+    const { percent } = parseJson('{"percent": 83.33333333333334}')
+    expect(toNumber(percent)).toBeCloseTo(83.333)
+  })
 })
 
 describe('peakMetric', () => {

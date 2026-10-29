@@ -114,10 +114,10 @@ export const useRestStore = () => {
         if (sameRequest(this.history[this.history.length - 1], entry)) return
 
         const { restQueryHistory } = db()
-        while (this.history.length >= HISTORY_LIMIT) await restQueryHistory.remove(this.history.shift()?.id)
+        const item = this.history[this.history.push(entry) - 1]
+        while (this.history.length > HISTORY_LIMIT) await restQueryHistory.remove(this.history.shift()?.id)
 
-        entry.id = await restQueryHistory.insert(entry)
-        this.history.push(entry)
+        item.id = await restQueryHistory.insert(entry)
       },
 
       async removeHistory(id?: number) {

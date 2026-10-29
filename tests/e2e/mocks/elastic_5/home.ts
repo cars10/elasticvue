@@ -41,7 +41,7 @@ export const mockElasticHome = async (page: Page, { health }: { health?: string 
       },
     },
     clusterStats: {
-      url: 'http://localhost:9200/_cluster/stats',
+      url: /localhost:9200\/_cluster\/stats\?/,
       json: {
         'cluster_name': 'es-5',
         'status': status,
@@ -65,9 +65,9 @@ export const mockElasticHome = async (page: Page, { health }: { health?: string 
         }
       }
     },
-    catIndicesYellow: {
-      url: 'http://localhost:9200/_cat/indices/?h=index&health=yellow',
-      json: [{ 'index': 'unhealthy-index' }]
+    catIndicesHome: {
+      url: /localhost:9200\/_cat\/indices\/\?h=index%2Chealth%2Cdocs\.count/,
+      json: [{ 'index': 'unhealthy-index', 'health': status, 'docs.count': '1', 'store.size': '100', 'pri': '1', 'rep': '1' }]
     }
   }
 

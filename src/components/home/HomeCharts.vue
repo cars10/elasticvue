@@ -69,6 +69,7 @@ import PercentMetricCard from './PercentMetricCard.vue'
 import MetricNode from './MetricNode.vue'
 import { useTranslation } from '../../composables/i18n.ts'
 import { CPU_THRESHOLDS, diskThresholds, HEAP_THRESHOLDS } from '../../helpers/pressure.ts'
+import { toNumber } from '../../helpers/nodeStats.ts'
 import type { ClusterHealth, ClusterStats, DiskWatermarks, MetricPeak } from '../../types/homeDashboard.ts'
 
 const props = defineProps<{
@@ -95,9 +96,8 @@ const shardTotal = computed(() => {
 })
 
 const shardAllocationPercent = computed(() => {
-  if (props.health?.active_shards_percent_as_number != null) {
-    return props.health.active_shards_percent_as_number
-  }
+  const percent = toNumber(props.health?.active_shards_percent_as_number)
+  if (percent != null) return percent
   const total = shardTotal.value
   const active = props.health?.active_shards
   if (active == null || total <= 0) return null

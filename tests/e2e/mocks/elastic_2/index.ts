@@ -2,6 +2,7 @@ import { Page } from '@playwright/test'
 import { mockElasticHome } from './home'
 import { mockElasticNodes } from './nodes'
 import { catIndices, catAliases } from '../default/indices'
+import { clusterDefaults } from '../default/cluster'
 import { buildSecurityUsers, buildSecurityRoles } from '../default/users'
 
 const VERSION = '2.4.6'
@@ -11,6 +12,7 @@ export const mockElastic2 = async (page: Page, { health }: { health: string } = 
   await mockElasticNodes(page)
 
   const defaultMocks = {
+    ...clusterDefaults,
     catIndices,
     catAliases,
     securityUsers: buildSecurityUsers(VERSION),

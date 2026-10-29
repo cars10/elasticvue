@@ -37,7 +37,7 @@ export const DEFAULT_DISK_WATERMARKS: DiskWatermarks = {
 
 export const toNumber = (value?: string | number | null): number | null => {
   if (value === undefined || value === null || value === '') return null
-  const num = typeof value === 'string' ? parseFloat(value) : value
+  const num = typeof value === 'string' ? parseFloat(value) : Number(value)
   return Number.isFinite(num) ? num : null
 }
 
