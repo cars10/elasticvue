@@ -21,7 +21,6 @@ const formatDate = (value: unknown) => {
 export const useSearchResult = (props: SearchResultProps, emit: any) => {
   const t = useTranslation()
   const searchStore = useSearchStore()
-  const edit = ref(false)
 
   const maxLength = () => searchStore.documentFieldMaxLength || DEFAULT_DOCUMENT_FIELD_MAX_LENGTH
 
@@ -45,15 +44,9 @@ export const useSearchResult = (props: SearchResultProps, emit: any) => {
       snackbarOptions: { body: t('search.search_result.delete.growl', 1) }
     })
 
-  let clickTimer = 0
   const onClick = (event: MouseEvent) => {
     if ((event.target as HTMLElement).closest('button, a, .q-checkbox') || window.getSelection()?.toString()) return
-    window.clearTimeout(clickTimer)
-    clickTimer = window.setTimeout(() => emit('open'), 250)
-  }
-  const onDblclick = () => {
-    window.clearTimeout(clickTimer)
-    edit.value = true
+    emit('open')
   }
 
   const buttonsVisible = ref(false)
@@ -61,5 +54,5 @@ export const useSearchResult = (props: SearchResultProps, emit: any) => {
     buttonsVisible.value = entry.isIntersecting
   }
 
-  return { edit, cellValue, deleteDocument, buttonsVisible, onIntersection, onClick, onDblclick }
+  return { cellValue, deleteDocument, buttonsVisible, onIntersection, onClick }
 }

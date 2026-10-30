@@ -1,7 +1,15 @@
 <template>
   <q-card>
     <div class="row no-wrap items-center">
-      <q-tabs v-model="restStore.activeTabIndex" dense no-caps align="left" outside-arrows class="col">
+      <q-tabs
+        v-model="restStore.activeTabIndex"
+        dense
+        no-caps
+        align="left"
+        outside-arrows
+        class="col-shrink"
+        style="min-width: 0"
+      >
         <q-tab v-for="(tab, index) in restStore.tabs" :key="tab.id" :name="index" class="q-pr-xs" data-testid="rest-tab">
           <div class="row no-wrap items-center">
             <span class="ellipsis">{{ tab.label }}</span>

@@ -57,13 +57,14 @@ export const useIndicesTable = (props: EsTableProps, emit: any) => {
     if (!indicesStore.showHiddenIndices) {
       indices = indices.filter((item) => !isHiddenIndex(item.index, indicesStore.hideIndicesRegex))
     }
+    if (indicesStore.health) indices = indices.filter((item) => item.health === indicesStore.health)
 
     items.value = filterItems(indices, indicesStore.filter, ['index', 'uuid', 'aliases'])
   }
 
   const debouncedFilterTable = debounce(filterTable, 150)
   watch(() => indicesStore.filter, debouncedFilterTable)
-  watch(() => indicesStore.showHiddenIndices, filterTable)
+  watch(() => [indicesStore.showHiddenIndices, indicesStore.health], filterTable)
   watch(() => props.indices, filterTable)
   watch(
     () => indicesStore.stickyTableHeader,

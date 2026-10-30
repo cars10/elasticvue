@@ -75,6 +75,27 @@ test.describe('Search edge cases', () => {
     expect(await cell(page, 'f1', '_id')).toBe('f1')
   })
 
+  test('keeps mapped object fields and nested arrays as a single column', async ({ page }) => {
+    await setupSearch(page)
+    await openSearch(page)
+    await setTargets(page, ['weird'])
+    await expect(rows(page)).toHaveCount(3)
+
+    await page.getByTestId('search-columns').click()
+    const options = page.getByTestId('search-column-option')
+    for (const name of ['loc', 'attrs', 'items']) {
+      await expect(options.filter({ has: page.getByText(name, { exact: true }) })).toHaveCount(1)
+    }
+    for (const name of ['loc.lat', 'loc.lon', 'attrs.color', 'attrs.size']) {
+      await expect(options.filter({ has: page.getByText(name, { exact: true }) })).toHaveCount(0)
+    }
+    await page.keyboard.press('Escape')
+
+    await toggleColumn(page, 'attrs')
+    expect(await cell(page, 'a/b', 'attrs')).toBe('{"size":"L"}')
+    expect(await cell(page, 'a/b', 'items')).toBe('{"k":3}')
+  })
+
   test('selects and sorts fields with spaces, dots and unicode in their names', async ({ page }) => {
     const requests = await setupSearch(page)
     await openSearch(page)
@@ -102,12 +123,13 @@ test.describe('Search edge cases', () => {
     await setTargets(page, ['weird'])
 
     const row = rows(page).filter({ hasText: 'a/b' })
-    await row.dblclick()
-    await expect(page.locator('.q-dialog').getByText('weird / _doc / a/b')).toBeVisible()
+    await row.locator('td').nth(2).click()
+    await page.getByTestId('search-document-panel').getByTestId('search-panel-tab-json').click()
+    await page.getByTestId('search-document-panel').getByTestId('search-panel-update').click()
     await expect
-      .poll(() => requests.find((r) => r.method === 'GET' && r.rawPath.startsWith('/weird/_doc/'))?.rawPath)
-      .toBe('/weird/_doc/a%2Fb?routing=rk')
-    await page.locator('.q-dialog').getByRole('button').filter({ hasText: 'close' }).first().click()
+      .poll(() => requests.find((r) => r.method === 'PUT' && r.rawPath.startsWith('/weird/_doc/'))?.rawPath)
+      .toBe('/weird/_doc/a%2Fb?refresh=true&routing=rk')
+    await page.keyboard.press('Escape')
     await expect(page.locator('.q-dialog')).toHaveCount(0)
 
     page.once('dialog', (dialog) => dialog.accept())

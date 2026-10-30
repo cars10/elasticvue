@@ -17,7 +17,9 @@
       </div>
 
       <div class="col-auto row items-center q-gutter-sm no-wrap">
-        <q-badge v-if="issueCount" :color="headerColor" rounded>{{ issueCount }}</q-badge>
+        <q-badge v-if="issueCount" :color="headerColor" :text-color="headerColor === 'warning' ? 'black' : 'white'" rounded>{{
+          issueCount
+        }}</q-badge>
         <span v-if="!issueCount && checkCount" class="text-caption text-muted" data-testid="attention-all-passed">
           {{ allPassedLabel }}
         </span>

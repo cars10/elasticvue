@@ -73,7 +73,13 @@
         outlined
         options-dense
         :options="[]"
-      />
+      >
+        <template #selected-item="{ opt, index, removeAtIndex, tabindex }">
+          <q-chip dense removable color="primary-dark" text-color="white" :tabindex="tabindex" @remove="removeAtIndex(index)">
+            {{ opt }}
+          </q-chip>
+        </template>
+      </q-select>
     </q-card-section>
 
     <q-card-section>

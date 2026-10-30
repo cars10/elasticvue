@@ -65,6 +65,7 @@
     </td>
     <td class="text-right text-no-wrap">
       <q-btn flat round dense icon="search" @click="showDocuments(index.index)" />
+      <index-add-document :index="index.index" @reload="emit('reload')" />
       <q-btn flat round dense icon="more_vert" data-testid="index-row-menu">
         <q-menu ref="menu">
           <q-list padding dense>
@@ -202,6 +203,7 @@
 
 <script setup lang="ts">
 import IndexAliases from './IndexAliases.vue'
+import IndexAddDocument from './IndexAddDocument.vue'
 import { IndexRowProps, useIndexRow } from '../../composables/components/indices/IndexRow'
 import { useTranslation } from '../../composables/i18n'
 import IndexReindex from './IndexReindex.vue'

@@ -15,12 +15,11 @@ import { parseJson } from '../../../helpers/json/parse'
 import { stringifyJson } from '../../../helpers/json/stringify.ts'
 import { askConfirm } from '../../../helpers/dialogs.ts'
 import { writeToClipboard } from '../../../helpers/clipboard.ts'
+import { curlCommand } from '../../../helpers/rest.ts'
 import { buildSearchBody } from '../../../helpers/search/buildSearchBody.ts'
 import { unmappedTypeFor } from '../../../helpers/search/fieldCatalog.ts'
 import { SOURCE_COLUMN, targetKey } from '../../../helpers/search/columns.ts'
-import { getFieldValue } from '../../../helpers/search/documentValues.ts'
 import { parseFilters } from '../../../helpers/search/filters.ts'
-import { hitSource } from './SearchResultsTable.ts'
 import { buildQueryFromTableOptions, getTableOptionsToApply } from '../../../helpers/search/searchQueryTableOptions'
 import { paginationFromQuery } from '../../../helpers/search/paginationFromQuery'
 import { useTranslation } from '../../i18n.ts'
@@ -228,16 +227,20 @@ export const useSearchDocuments = () => {
     searchStore.filters = [...searchStore.filters, filter]
   }
 
-  const showSurrounding = (hit: EsSearchHit) => {
-    const field = timeField.value
-    const value = field ? getFieldValue(hitSource(hit), field) : undefined
-    const time = new Date(typeof value === 'number' ? value : String(value)).getTime()
-    if (!field || Number.isNaN(time)) return
-
-    openHit.value = null
+  const resetSearch = async () => {
+    const targetsChanged = targetKey(searchStore.targets) !== '*'
+    suspendWatchers = true
+    searchStore.targets = ['*']
     searchStore.q = '*'
-    Object.assign(searchStore.pagination, { sortBy: field, descending: true })
-    setTimeRange({ from: new Date(time - 300_000).toISOString(), to: new Date(time + 300_000).toISOString() })
+    searchStore.filters = []
+    searchStore.timeRange = null
+    searchStore.pagination.sortBy = ''
+    await nextTick()
+    suspendWatchers = false
+
+    if (!targetsChanged) return submit()
+    searchStore.resetPage()
+    searchTargets()
   }
 
   const toggleHistogram = () => {
@@ -332,8 +335,7 @@ export const useSearchDocuments = () => {
   const copyAsCurl = () => {
     const uri = (connectionStore.activeCluster?.uri || '').replace(/\/$/, '')
     const { path, body } = restRequest()
-    const json = stringifyJson(body).replace(/'/g, String.raw`'\''`)
-    writeToClipboard(`curl -X POST '${uri}/${path}' -H 'Content-Type: application/json' -d '${json}'`)
+    writeToClipboard(curlCommand('POST', `${uri}/${path}`, stringifyJson(body)))
   }
 
   const loadTargets = async ({ force = false } = {}) => {
@@ -429,7 +431,7 @@ export const useSearchDocuments = () => {
     setTimeField,
     toggleHistogram,
     addFilter,
-    showSurrounding,
+    resetSearch,
     onRequest,
     setMode,
     countExactly,

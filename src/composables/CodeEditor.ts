@@ -4,6 +4,7 @@ import { KeyBinding, keymap } from '@codemirror/view'
 import { Compartment, Prec } from '@codemirror/state'
 import { indentWithTab } from '@codemirror/commands'
 import { json } from '@codemirror/lang-json'
+import { sql } from '@codemirror/lang-sql'
 import { baseTheme } from './CodeEditor/theme.ts'
 import { quasarSearchPanelEscapeExtension } from './CodeEditor/quasarSearchPanelEscapeExtension.ts'
 import { beautify } from '../helpers/beautify.ts'
@@ -53,15 +54,18 @@ export const useCodeEditor = (
     initialValue,
     emit,
     commands,
-    onPaste
+    onPaste,
+    language = 'json'
   }: {
     initialValue: Ref<string>
     emit?: any
     commands?: KeyBinding[]
     onPaste?: (data: string) => void
+    language?: 'json' | 'sql'
   }
 ) => {
   const codeEditorStore = useCodeEditorStore()
+  const format = language === 'json' ? beautify : (value: string) => value
 
   let codeMirrorEditorView: EditorView = <EditorView>{}
   const wrapLines = new Compartment()
@@ -97,8 +101,7 @@ export const useCodeEditor = (
         codeEditorStore.vimMode ? vimExtension : [],
         basicSetup,
         quasarSearchPanelEscapeExtension,
-        json(),
-        autocompletion({ override: [completions] }),
+        language === 'json' ? [json(), autocompletion({ override: [completions] })] : sql(),
         onChange,
         eventHandlers,
         keymap.of([indentWithTab]),
@@ -108,7 +111,7 @@ export const useCodeEditor = (
         theme.of(baseTheme)
       ],
       parent: editorRef.value,
-      doc: beautify(initialValue.value)
+      doc: format(initialValue.value)
     })
   }
 
@@ -120,7 +123,7 @@ export const useCodeEditor = (
   const beautifyEditorValue = () => {
     const value = editorValue()
     if (!value) return false
-    const newValue = beautify(value)
+    const newValue = format(value)
     setEditorValue(newValue)
     return true
   }
@@ -134,7 +137,7 @@ export const useCodeEditor = (
       changes: {
         from: 0,
         to: codeMirrorEditorView.state.doc.length,
-        insert: beautify(value)
+        insert: format(value)
       }
     })
   }

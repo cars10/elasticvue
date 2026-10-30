@@ -6,7 +6,8 @@ import type { RecordedRequest } from '../../mocks/search'
 test.describe.configure({ mode: 'parallel' })
 
 const modeButtons = (page: Page) => page.getByTestId('search-mode').getByRole('button')
-const sqlInput = (page: Page) => page.getByTestId('search-sql-query')
+const sqlInput = (page: Page) => page.getByTestId('search-sql-query').locator('.cm-content')
+const expectSql = (page: Page, value: string) => expect.poll(() => sqlInput(page).innerText()).toBe(value)
 const sqlTable = (page: Page) => page.getByTestId('search-sql-results')
 const sqlRequests = (requests: RecordedRequest[]) =>
   requests.filter((r) => /^\/(_sql|_xpack\/sql|_plugins\/_sql|_query)/.test(r.path))
@@ -41,7 +42,7 @@ test.describe('Search SQL and ES|QL modes', () => {
     await openSearch(page)
 
     await setMode(page, 'SQL')
-    await expect(sqlInput(page)).toHaveValue('SELECT *\nFROM "*"\nLIMIT 100')
+    await expectSql(page, 'SELECT *\nFROM "*"\nLIMIT 100')
     await expect(page.getByTestId('search-targets')).toHaveCount(0)
     await expect(sqlTable(page).locator('thead th')).toHaveText(['title', 'year'])
     await expect(sqlTable(page).locator('tbody tr')).toHaveCount(2)
@@ -87,7 +88,7 @@ test.describe('Search SQL and ES|QL modes', () => {
     await openSearch(page)
 
     await setMode(page, 'ES|QL')
-    await expect(sqlInput(page)).toHaveValue('FROM *\n| LIMIT 100')
+    await expectSql(page, 'FROM *\n| LIMIT 100')
     await expect(sqlTable(page).locator('tbody tr')).toHaveCount(2)
     await expect(page.getByTestId('search-sql-load-more')).toHaveCount(0)
     expect(sqlRequests(requests).at(-1)).toMatchObject({ path: '/_query?format=json', body: { query: 'FROM *\n| LIMIT 100' } })
@@ -220,7 +221,7 @@ test.describe('Search history and saved searches', () => {
 
     await openLibrary(page, 'history')
     await libraryItems(page).filter({ hasText: 'SELECT title FROM movies' }).click()
-    await expect(sqlInput(page)).toHaveValue('SELECT title FROM movies')
+    await expectSql(page, 'SELECT title FROM movies')
   })
 })
 

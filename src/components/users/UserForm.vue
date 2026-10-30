@@ -52,7 +52,13 @@
         options-dense
         input-debounce="0"
         @filter="filterRoles"
-      />
+      >
+        <template #selected-item="{ opt, index, removeAtIndex, tabindex }">
+          <q-chip dense removable color="primary-dark" text-color="white" :tabindex="tabindex" @remove="removeAtIndex(index)">
+            {{ opt }}
+          </q-chip>
+        </template>
+      </q-select>
 
       <custom-input
         v-model="user.full_name"

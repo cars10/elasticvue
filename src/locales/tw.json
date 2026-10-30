@@ -119,6 +119,19 @@
   },
   "indices": {
     "heading": "索引",
+    "index_add_document": {
+      "text": "新增文件",
+      "heading": "新增文件至 {index}",
+      "id": "ID（選填）",
+      "type": "類型",
+      "submit": "新增文件",
+      "growl": "文件新增成功。",
+      "modes": {
+        "fields": "欄位"
+      },
+      "no_fields": "此索引尚無已對應的欄位，請改用 JSON。",
+      "json_placeholder": "JSON 值"
+    },
     "index_aliases": {
       "text": "別名",
       "heading": "管理別名",
@@ -865,6 +878,7 @@
         "hint": "搜尋範例，詳情請參閱 <a tabindex='-1' target='_blank' rel='noopener' href='https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html'>Query string 查詢</a>"
       },
       "search": "搜尋",
+      "reset": "重設",
       "indices": {
         "label": "索引",
         "matched": "沒有符合的索引 | 符合 1 個索引 | 符合 {count} 個索引",
@@ -890,8 +904,7 @@
         "text": "# | 刪除文件 | 刪除文件",
         "confirm": "# | 您確定要刪除此文件嗎？ | 您確定要刪除 {count} 份文件嗎？",
         "growl": "# | 文件已成功刪除。 | 文件已成功刪除。"
-      },
-      "edit_hint": "按一下查看詳細資料，按兩下編輯"
+      }
     },
     "results_table": {
       "tabs": {
@@ -967,10 +980,8 @@
       }
     },
     "document_panel": {
-      "edit": "編輯文件",
       "delete": "刪除文件",
       "fields": "欄位",
-      "surrounding": "相鄰文件",
       "filter_for": "篩選此值",
       "filter_out": "排除此值",
       "filter_exists": "篩選存在此欄位"

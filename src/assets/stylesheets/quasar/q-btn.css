@@ -5,3 +5,7 @@
 .q-btn-group .q-btn:not(:last-child) {
   border-right: 2px solid var(--theme-menu-separator-background);
 }
+
+.theme--dark .q-btn.bg-positive {
+  background: #2e7d32 !important;
+}

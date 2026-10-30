@@ -70,6 +70,11 @@ export const restRequestUrl = (uri: string, path: string) => {
   return `${uri}${separator}${cleanIndexName(path)}`
 }
 
+export const curlCommand = (method: string, url: string, body = '') => {
+  const data = body.trim() ? ` -H 'Content-Type: application/json' -d '${body.replace(/'/g, String.raw`'\''`)}'` : ''
+  return `curl -X ${method} '${url}'${data}`
+}
+
 export const restDocsUrl = (distributionIsElasticsearch: boolean, version?: string) => {
   if (!distributionIsElasticsearch) return 'https://docs.opensearch.org/latest/api-reference/'
   if (parseInt(version || '0') >= 9) return 'https://www.elastic.co/docs/api/doc/elasticsearch'

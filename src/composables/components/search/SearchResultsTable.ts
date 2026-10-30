@@ -4,7 +4,7 @@ import { useSearchStore } from '../../../store/search.ts'
 import { useSelectableRows } from '../../SelectableRow.ts'
 import { useTranslation } from '../../i18n.ts'
 import { stringifyJson } from '../../../helpers/json/stringify.ts'
-import { flattenDocument, formatFieldValue, getFieldValue, hasOwn, toCsv } from '../../../helpers/search/documentValues.ts'
+import { documentFields, formatFieldValue, getFieldValue, hasOwn, toCsv } from '../../../helpers/search/documentValues.ts'
 import { columnOptions, defaultColumns, SOURCE_COLUMN } from '../../../helpers/search/columns.ts'
 import type { FieldCatalog } from '../../../types/search.ts'
 import type { EsSearchHit, EsSearchResult } from './SearchDocuments.ts'
@@ -43,7 +43,7 @@ export const useSearchResultsTable = (props: SearchResultsTableProps, emit: any)
     emit('reload')
   }
 
-  const seenFields = computed(() => [...new Set(hits.value.flatMap((hit) => Object.keys(flattenDocument(hitSource(hit)))))])
+  const seenFields = computed(() => documentFields(hits.value.map(hitSource), (path) => !!props.catalog[path]))
   const options = computed(() => columnOptions(props.catalog, seenFields.value, props.majorVersion))
   const columns = computed(() => searchStore.savedColumns ?? defaultColumns(seenFields.value))
 

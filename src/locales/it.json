@@ -119,6 +119,19 @@
   },
   "indices": {
     "heading": "Indici",
+    "index_add_document": {
+      "text": "Aggiungi documento",
+      "heading": "Aggiungi documento a {index}",
+      "id": "ID (facoltativo)",
+      "type": "Tipo",
+      "submit": "Aggiungi documento",
+      "growl": "Documento aggiunto con successo.",
+      "modes": {
+        "fields": "Campi"
+      },
+      "no_fields": "Questo indice non ha ancora campi mappati, usa JSON.",
+      "json_placeholder": "Valore JSON"
+    },
     "index_aliases": {
       "text": "Alias",
       "heading": "Gestisci alias",
@@ -865,6 +878,7 @@
         "hint": "Esempi di ricerca, vedi <a tabindex='-1' target='_blank' rel='noopener' href='https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html'>query string query</a> per dettagli"
       },
       "search": "Cerca",
+      "reset": "Reimposta",
       "indices": {
         "label": "Indici",
         "matched": "Nessun indice corrisponde | Corrisponde 1 indice | Corrispondono {count} indici",
@@ -890,8 +904,7 @@
         "text": "# | Elimina documento | Elimina documenti",
         "confirm": "# | Sei sicuro di voler eliminare questo documento? | Sei sicuro di voler eliminare {count} documenti?",
         "growl": "# | Documento eliminato con successo. | Documenti eliminati con successo."
-      },
-      "edit_hint": "Clicca per i dettagli, doppio clic per modificare"
+      }
     },
     "results_table": {
       "tabs": {
@@ -967,10 +980,8 @@
       }
     },
     "document_panel": {
-      "edit": "Modifica documento",
       "delete": "Elimina documento",
       "fields": "Campi",
-      "surrounding": "Documenti vicini",
       "filter_for": "Filtra per questo valore",
       "filter_out": "Escludi questo valore",
       "filter_exists": "Filtra per presenza del campo"

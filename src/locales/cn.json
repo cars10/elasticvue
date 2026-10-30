@@ -119,6 +119,19 @@
   },
   "indices": {
     "heading": "索引",
+    "index_add_document": {
+      "text": "添加文档",
+      "heading": "向 {index} 添加文档",
+      "id": "ID（可选）",
+      "type": "类型",
+      "submit": "添加文档",
+      "growl": "文档添加成功。",
+      "modes": {
+        "fields": "字段"
+      },
+      "no_fields": "该索引还没有映射字段，请改用 JSON。",
+      "json_placeholder": "JSON 值"
+    },
     "index_aliases": {
       "text": "别名",
       "heading": "管理别名",
@@ -865,6 +878,7 @@
         "hint": "搜索 <a tabindex='-1' target='_blank' rel='noopener' href='https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html'>查询 DSL</a> 获取支持"
       },
       "search": "搜索",
+      "reset": "重置",
       "indices": {
         "label": "索引",
         "matched": "没有匹配的索引 | 匹配 1 个索引 | 匹配 {count} 个索引",
@@ -890,8 +904,7 @@
         "text": "# | 删除文档 | 批量删除文档",
         "confirm": "# | 是否删除这个文档? | 是否批量删除 {count} 个文档?",
         "growl": "# | 删除文档成功. | 批量删除文档成功."
-      },
-      "edit_hint": "单击查看详情，双击编辑"
+      }
     },
     "results_table": {
       "tabs": {
@@ -967,10 +980,8 @@
       }
     },
     "document_panel": {
-      "edit": "编辑文档",
       "delete": "删除文档",
       "fields": "字段",
-      "surrounding": "相邻文档",
       "filter_for": "筛选此值",
       "filter_out": "排除此值",
       "filter_exists": "筛选存在此字段"

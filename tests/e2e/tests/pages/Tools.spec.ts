@@ -188,6 +188,48 @@ test.describe('Tools', () => {
     await expect(page.getByTestId('tools-page')).toContainText('Index write blocks')
   })
 
+  test('shows the raw allocation explanation in a code viewer', async ({ page }) => {
+    await mockTools(page)
+    await page.route('**/_cluster/allocation/explain**', (route) =>
+      route.fulfill({
+        json: {
+          index: 'logs',
+          shard: 0,
+          primary: false,
+          current_state: 'unassigned',
+          can_allocate: 'no',
+          allocate_explanation: 'cannot allocate',
+          node_allocation_decisions: []
+        }
+      })
+    )
+    await setupClusterConnection(page)
+    await page.locator('#tools').click()
+    await page.getByTestId('tool-explain').click()
+
+    const panel = page.getByTestId('tool-panel-explain')
+    await panel.locator('.q-select').click()
+    await page.getByRole('option').first().click()
+    await panel.getByRole('button', { name: 'Explain', exact: true }).click()
+    await panel.getByText('Raw response').click()
+    await expect(panel.locator('.tool-json .cm-content')).toContainText('"allocate_explanation": "cannot allocate"')
+  })
+
+  test('selects and removes indices as chips', async ({ page }) => {
+    await mockTools(page)
+    await setupClusterConnection(page)
+    await page.locator('#tools').click()
+    await page.getByTestId('tool-replicas').click()
+
+    const panel = page.getByTestId('tool-panel-replicas')
+    await panel.locator('.q-select').click()
+    await page.getByRole('option').first().click()
+    await page.keyboard.press('Escape')
+    await expect(panel.locator('.q-chip')).toHaveCount(1)
+    await panel.locator('.q-chip__icon--remove').click()
+    await expect(panel.locator('.q-chip')).toHaveCount(0)
+  })
+
   test('keeps other tools available when cluster settings are forbidden', async ({ page }) => {
     await mockTools(page, { settingsForbidden: true })
     await setupClusterConnection(page)

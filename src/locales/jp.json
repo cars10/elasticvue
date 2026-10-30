@@ -119,6 +119,19 @@
   },
   "indices": {
     "heading": "インデックス",
+    "index_add_document": {
+      "text": "ドキュメントを追加",
+      "heading": "{index} にドキュメントを追加",
+      "id": "ID（任意）",
+      "type": "タイプ",
+      "submit": "ドキュメントを追加",
+      "growl": "ドキュメントを追加しました。",
+      "modes": {
+        "fields": "フィールド"
+      },
+      "no_fields": "このインデックスにはまだマッピングされたフィールドがありません。JSON を使用してください。",
+      "json_placeholder": "JSON 値"
+    },
     "index_aliases": {
       "text": "エイリアス",
       "heading": "エイリアスを管理",
@@ -865,6 +878,7 @@
         "hint": "検索例については、<a tabindex='-1' target='_blank' rel='noopener' href='https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html'>クエリ文字列クエリ</a>を参照してください"
       },
       "search": "検索",
+      "reset": "リセット",
       "indices": {
         "label": "インデックス",
         "matched": "一致するインデックスなし | 1 個のインデックスに一致 | {count} 個のインデックスに一致",
@@ -890,8 +904,7 @@
         "text": "# | ドキュメントを削除 | ドキュメントを削除",
         "confirm": "# | このドキュメントを削除しますか？ | {count} 個のドキュメントを削除しますか？",
         "growl": "# | ドキュメントは正常に削除されました。 | ドキュメントは正常に削除されました。"
-      },
-      "edit_hint": "クリックで詳細、ダブルクリックで編集"
+      }
     },
     "results_table": {
       "tabs": {
@@ -967,10 +980,8 @@
       }
     },
     "document_panel": {
-      "edit": "ドキュメントを編集",
       "delete": "ドキュメントを削除",
       "fields": "フィールド",
-      "surrounding": "前後のドキュメント",
       "filter_for": "この値で絞り込む",
       "filter_out": "この値を除外",
       "filter_exists": "フィールドの存在で絞り込む"

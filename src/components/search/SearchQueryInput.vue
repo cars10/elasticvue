@@ -8,6 +8,8 @@
     outlined
     autofocus
     spellcheck="false"
+    autocorrect="off"
+    autocapitalize="off"
     hide-bottom-space
     autocomplete="off"
     :label="t('search.form.query.label')"

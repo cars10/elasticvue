@@ -15,7 +15,13 @@
     map-options
     :label="t('tools.voting.nodes')"
     :options="nodeOptions"
-  />
+  >
+    <template #selected-item="{ opt, index, removeAtIndex, tabindex }">
+      <q-chip dense removable color="primary-dark" text-color="white" :tabindex="tabindex" @remove="removeAtIndex(index)">
+        {{ opt.label }}
+      </q-chip>
+    </template>
+  </q-select>
   <div class="row q-gutter-sm q-mt-md">
     <q-btn color="primary" :label="t('tools.voting.add')" :disable="!selected.length" @click="add" />
     <q-btn v-if="votingExclusions.length" outline color="primary" :label="t('tools.voting.clear')" @click="clear" />

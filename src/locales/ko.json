@@ -119,6 +119,19 @@
   },
   "indices": {
     "heading": "인덱스",
+    "index_add_document": {
+      "text": "문서 추가",
+      "heading": "{index}에 문서 추가",
+      "id": "ID (선택)",
+      "type": "타입",
+      "submit": "문서 추가",
+      "growl": "문서가 추가되었습니다.",
+      "modes": {
+        "fields": "필드"
+      },
+      "no_fields": "이 인덱스에는 아직 매핑된 필드가 없습니다. JSON을 사용하세요.",
+      "json_placeholder": "JSON 값"
+    },
     "index_aliases": {
       "text": "에일리어스",
       "heading": "에일리어스 관리",
@@ -865,6 +878,7 @@
         "hint": "검색 예시는 <a tabindex='-1' target='_blank' rel='noopener' href='https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html'>쿼리 문자열 쿼리</a>를 참조하세요"
       },
       "search": "검색",
+      "reset": "초기화",
       "indices": {
         "label": "인덱스",
         "matched": "일치하는 인덱스 없음 | 인덱스 1개 일치 | 인덱스 {count}개 일치",
@@ -890,8 +904,7 @@
         "text": "# | 문서 삭제 | 문서 삭제",
         "confirm": "# | 이 문서를 삭제하시겠습니까? | {count}개의 문서를 삭제하시겠습니까?",
         "growl": "# | 문서가 정상적으로 삭제되었습니다. | 문서가 정상적으로 삭제되었습니다."
-      },
-      "edit_hint": "클릭하여 상세 보기, 더블 클릭하여 편집"
+      }
     },
     "results_table": {
       "tabs": {
@@ -967,10 +980,8 @@
       }
     },
     "document_panel": {
-      "edit": "문서 편집",
       "delete": "문서 삭제",
       "fields": "필드",
-      "surrounding": "주변 문서",
       "filter_for": "이 값으로 필터",
       "filter_out": "이 값 제외",
       "filter_exists": "필드 존재 여부로 필터"

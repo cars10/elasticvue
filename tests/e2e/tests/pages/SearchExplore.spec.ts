@@ -142,6 +142,34 @@ test.describe('Search filters in the url', () => {
   })
 })
 
+test.describe('Search reset', () => {
+  test('resets indices, query and filters at once', async ({ page }) => {
+    const requests = await setupSearch(page)
+    await openSearch(page)
+    await setTargets(page, ['movies'])
+    await queryInput(page).fill('title:Alien')
+    await queryInput(page).press('Enter')
+    await addFilter(page, 'title', 'exists')
+    await expect.poll(() => lastSearch(requests).path).toBe('/movies/_search')
+
+    await page.getByTestId('search-reset').click()
+    await expect(queryInput(page)).toHaveValue('*')
+    await expect(chips(page)).toHaveCount(0)
+    await expect.poll(() => lastSearch(requests).path).toBe('/*/_search')
+    expect(lastSearch(requests).body.query).toEqual({ match_all: {} })
+  })
+
+  test('disables autocorrect and autocapitalize on the query and index inputs', async ({ page }) => {
+    await setupSearch(page)
+    await openSearch(page)
+    for (const input of [queryInput(page), page.getByTestId('search-targets')]) {
+      await expect(input).toHaveAttribute('autocorrect', 'off')
+      await expect(input).toHaveAttribute('autocapitalize', 'off')
+      await expect(input).toHaveAttribute('spellcheck', 'false')
+    }
+  })
+})
+
 test.describe('Search query autocomplete', () => {
   test('completes fields, values and operators with the keyboard', async ({ page }) => {
     const requests = await setupSearch(page)
@@ -220,16 +248,7 @@ test.describe('Search document panel', () => {
       })
 
     await panel(page).getByTestId('search-panel-tab-json').click()
-    await expect(panel(page)).toContainText('"_index": "movies"')
-  })
-
-  test('keeps double click for editing', async ({ page }) => {
-    await setupSearch(page)
-    await openSearch(page)
-
-    await rows(page).first().locator('td').nth(3).dblclick()
-    await expect(page.locator('.q-dialog').getByText('movies / _doc / m1')).toBeVisible()
-    await expect(panel(page)).toHaveCount(0)
+    await expect(panel(page)).toContainText('"title": "Alien"')
   })
 
   test('deletes the document and edits documents with slashes and routing', async ({ page }) => {
@@ -238,10 +257,11 @@ test.describe('Search document panel', () => {
     await setTargets(page, ['weird'])
 
     await rows(page).filter({ hasText: 'a/b' }).locator('td').nth(2).click()
-    await panel(page).getByTestId('search-panel-edit').click()
-    await expect(page.locator('.q-dialog').getByText('weird / _doc / a/b')).toBeVisible()
-    await expect.poll(() => requests.some((r) => r.method === 'GET' && r.rawPath.includes('a%2Fb?routing=rk'))).toBe(true)
-    await page.keyboard.press('Escape')
+    await panel(page).getByTestId('search-panel-tab-json').click()
+    await panel(page).getByTestId('search-panel-update').click()
+    await expect
+      .poll(() => requests.some((r) => r.method === 'PUT' && r.rawPath.includes('a%2Fb?refresh=true&routing=rk')))
+      .toBe(true)
 
     page.once('dialog', (dialog) => dialog.accept())
     await panel(page).getByTestId('search-panel-delete').click()
@@ -249,33 +269,6 @@ test.describe('Search document panel', () => {
     await expect(panel(page)).toHaveCount(0)
   })
 
-  test('shows surrounding documents of a time series document', async ({ page }) => {
-    const requests = await setupSearch(page)
-    await openSearch(page)
-    await queryInput(page).fill('title:Alien')
-    await queryInput(page).press('Enter')
-
-    await rows(page).filter({ hasText: 'Alien' }).locator('td').nth(3).click()
-    await panel(page).getByTestId('search-panel-surrounding').click()
-
-    await expect(panel(page)).toHaveCount(0)
-    await expect(queryInput(page)).toHaveValue('*')
-    await expect
-      .poll(() => (boolQuery(lastSearch(requests).body)?.filter as object[])?.[0])
-      .toEqual({
-        range: {
-          '@timestamp': {
-            gte: '2024-01-01T09:55:00.000Z',
-            lte: '2024-01-01T10:05:00.000Z',
-            format: 'strict_date_optional_time||epoch_millis'
-          }
-        }
-      })
-    expect(lastSearch(requests).body.sort).toEqual([{ '@timestamp': { order: 'desc', unmapped_type: 'date' } }])
-  })
-})
-
-test.describe('Search columns and export', () => {
   test('only loads visible fields when enabled and fetches the full document for the panel', async ({ page }) => {
     const requests = await setupSearch(page)
     await openSearch(page)

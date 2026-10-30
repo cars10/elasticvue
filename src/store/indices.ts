@@ -6,12 +6,12 @@ import {
   ReloadIntervalStorePartial,
   paginationStoreDefaultProps,
   persistPaginationProps,
-  persistReloadIntervalProps,
-  DEFAULT_RELOAD_INTERVAL
+  persistReloadIntervalProps
 } from './shared'
 
 type IndicesState = {
   filter: string
+  health: string | null
   showHiddenIndices: boolean
   stickyTableHeader: boolean
   hideIndicesRegex: string
@@ -25,16 +25,18 @@ export const useIndicesStore = () => {
   return defineStore(`indices-${clusterUuid}`, {
     state: (): IndicesState => ({
       filter: '',
+      health: null,
       showHiddenIndices: false,
       stickyTableHeader: false,
       hideIndicesRegex: DEFAULT_HIDE_INDICES_REGEX,
       pagination: paginationStoreDefaultProps('index'),
       rowsPerPageAccepted: false,
-      reloadInterval: DEFAULT_RELOAD_INTERVAL
+      reloadInterval: 30
     }),
     persist: {
       pick: [
         'filter',
+        'health',
         'showHiddenIndices',
         'stickyTableHeader',
         'hideIndicesRegex',

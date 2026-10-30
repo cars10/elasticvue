@@ -218,6 +218,11 @@ export default class ElasticsearchAdapter {
     return this.request(path, 'PUT', params)
   }
 
+  indexDocument({ index, type, id, params }: { index: string; type: string; id?: string; params: any }) {
+    const path = `${cleanIndexName(index)}/${type}${id ? `/${encodeURIComponent(id)}` : ''}?refresh=true`
+    return this.request(path, 'POST', params)
+  }
+
   get({ index, type, id, routing }: { index: string; type: string; id: any; routing?: string }) {
     const params: IndexGetArgs = {}
     if (routing) params.routing = routing

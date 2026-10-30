@@ -6,16 +6,29 @@ const isPlainObject = (value: unknown): value is Record<string, unknown> =>
   typeof value === 'object' && value !== null && !Array.isArray(value)
 
 // Null prototype, so fields named like __proto__ are stored as plain keys
-export const flattenDocument = (source: unknown, prefix = '', result: Record<string, unknown> = Object.create(null)) => {
+export const flattenDocument = (
+  source: unknown,
+  isLeaf: (path: string) => boolean = () => false,
+  prefix = '',
+  result: Record<string, unknown> = Object.create(null)
+) => {
   if (!isPlainObject(source)) return result
 
   Object.entries(source).forEach(([key, value]) => {
     const path = prefix + key
-    if (isPlainObject(value) && Object.keys(value).length > 0) flattenDocument(value, `${path}.`, result)
+    if (isPlainObject(value) && Object.keys(value).length > 0 && !isLeaf(path)) flattenDocument(value, isLeaf, `${path}.`, result)
     else result[path] = value
   })
 
   return result
+}
+
+export const documentFields = (sources: unknown[], isMapped: (path: string) => boolean) => {
+  const flattened = sources.map((source) => flattenDocument(source, isMapped))
+  const arrays = new Set(flattened.flatMap((fields) => Object.keys(fields).filter((path) => Array.isArray(fields[path]))))
+  const isLeaf = (path: string) => isMapped(path) || arrays.has(path)
+  const all = arrays.size ? sources.map((source) => flattenDocument(source, isLeaf)) : flattened
+  return [...new Set(all.flatMap((fields) => Object.keys(fields)))]
 }
 
 export const getFieldValue = (source: unknown, path: string): unknown => {

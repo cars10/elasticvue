@@ -14,7 +14,13 @@
         map-options
         :label="t('tools.blocks.indices')"
         :options="options"
-      />
+      >
+        <template #selected-item="{ opt, index, removeAtIndex, tabindex }">
+          <q-chip dense removable color="primary-dark" text-color="white" :tabindex="tabindex" @remove="removeAtIndex(index)">
+            {{ opt.label }}
+          </q-chip>
+        </template>
+      </q-select>
       <q-banner v-if="hasFloodBlock" rounded class="tool-banner tool-banner--warning q-mt-md">
         {{ t('tools.blocks.flood') }}
         {{ labels.floodState(floodState) }}

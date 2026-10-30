@@ -7,16 +7,13 @@
     </template>
   </q-banner>
 
-  <q-select
-    v-model="selected"
-    outlined
-    multiple
-    use-chips
-    emit-value
-    map-options
-    :label="t('tools.indices')"
-    :options="options"
-  />
+  <q-select v-model="selected" outlined multiple use-chips emit-value map-options :label="t('tools.indices')" :options="options">
+    <template #selected-item="{ opt, index, removeAtIndex, tabindex }">
+      <q-chip dense removable color="primary-dark" text-color="white" :tabindex="tabindex" @remove="removeAtIndex(index)">
+        {{ opt.label }}
+      </q-chip>
+    </template>
+  </q-select>
   <div class="font-13 text-muted q-mt-xs">{{ t('tools.current') }} {{ current }}</div>
   <q-input v-model.number="draft" outlined type="number" min="0" step="1" :label="t('tools.replicas.count')" class="q-mt-md" />
   <q-banner v-if="draft === 0" rounded class="tool-banner tool-banner--warning q-mt-md">{{

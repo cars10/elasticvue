@@ -10,6 +10,9 @@
     multiple
     use-chips
     use-input
+    spellcheck="false"
+    autocorrect="off"
+    autocapitalize="off"
     hide-dropdown-icon
     new-value-mode="add-unique"
     input-debounce="0"

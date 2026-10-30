@@ -1,5 +1,11 @@
 import { describe, expect, it } from 'vitest'
-import { flattenDocument, formatFieldValue, getFieldValue, summarizeDocument } from '../../../src/helpers/search/documentValues'
+import {
+  documentFields,
+  flattenDocument,
+  formatFieldValue,
+  getFieldValue,
+  summarizeDocument
+} from '../../../src/helpers/search/documentValues'
 import { columnOptions, defaultColumns, rememberColumns, targetKey } from '../../../src/helpers/search/columns'
 import { migrateSearchState } from '../../../src/services/migrations'
 import { DEFAULT_SEARCH_QUERY } from '../../../src/consts'
@@ -24,6 +30,15 @@ describe('documentValues', () => {
       empty: {},
       nothing: null
     })
+  })
+
+  it('keeps mapped object fields and nested arrays as one column', () => {
+    const docs = [
+      { loc: { lat: 1, lon: 2 }, attrs: { color: 'red' }, comments: [{ author: 'a' }], user: { name: 'n' } },
+      { loc: { lat: 3, lon: 4 }, attrs: { size: 'L' }, comments: { author: 'b' }, user: { age: 3 } }
+    ]
+    const mapped = new Set(['loc', 'attrs', 'comments.author', 'user.name', 'user.age'])
+    expect(documentFields(docs, (path) => mapped.has(path))).toEqual(['loc', 'attrs', 'comments', 'user.name', 'user.age'])
   })
 
   it('looks up dotted paths in nested objects, arrays and flat keys', () => {

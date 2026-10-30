@@ -286,6 +286,26 @@ test.describe('REST', () => {
     await expect(requestBody(page)).toContainText('"size": 5')
   })
 
+  test('copies the request as curl', async ({ page, context, browserName }) => {
+    test.skip(browserName !== 'chromium', 'clipboard permissions are chromium only')
+    await context.grantPermissions(['clipboard-read', 'clipboard-write'])
+
+    await setup(page)
+    await openRest(page)
+    await selectMethod(page, 'POST')
+    await pathInput(page).fill('rest_e2e/_search')
+    await typeBody(page, `{"query": "it's"}`)
+    await page.getByTestId('rest-copy-curl').click()
+    expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
+      `curl -X POST '${ES}/rest_e2e/_search' -H 'Content-Type: application/json' -d '{"query": "it'\\''s"}'`
+    )
+
+    await selectMethod(page, 'GET')
+    await pathInput(page).fill('rest_e2e/_count')
+    await page.getByTestId('rest-copy-curl').click()
+    expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(`curl -X GET '${ES}/rest_e2e/_count'`)
+  })
+
   test('migrates data stored by older versions', async ({ page }) => {
     await setup(page)
 

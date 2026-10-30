@@ -64,6 +64,8 @@
         :title="t('query.rest.form.paste_kibana')"
         @click="pasteClipboard"
       />
+
+      <copy-button flat round :custom-handler="copyAsCurl" :title="t('search.form.copy_curl')" data-testid="rest-copy-curl" />
     </div>
 
     <resizable-container v-model="resizeStore.restForm" class="q-mt-md">
@@ -143,6 +145,7 @@
 import { defineAsyncComponent } from 'vue'
 import ResizableContainer from '../shared/ResizableContainer.vue'
 import DownloadButton from '../shared/DownloadButton.vue'
+import CopyButton from '../shared/CopyButton.vue'
 import RestQueryPathInput from './RestQueryPathInput.vue'
 import RestQueryNamePrompt from './RestQueryNamePrompt.vue'
 import { useRestQueryForm } from '../../composables/components/rest/RestQueryForm.ts'
@@ -150,8 +153,9 @@ import { HTTP_METHODS } from '../../consts'
 import { useResizeStore } from '../../store/resize'
 import { useRestStore } from '../../store/rest.ts'
 import { useTranslation } from '../../composables/i18n'
-import { readFromClipboard } from '../../helpers/clipboard.ts'
-import { pickRequest, type RestPathSuggestion } from '../../helpers/rest.ts'
+import { readFromClipboard, writeToClipboard } from '../../helpers/clipboard.ts'
+import { curlCommand, pickRequest, restRequestUrl, type RestPathSuggestion } from '../../helpers/rest.ts'
+import { useConnectionStore } from '../../store/connection.ts'
 
 const CodeViewer = defineAsyncComponent(() => import('../shared/CodeViewer.vue'))
 const CodeEditor = defineAsyncComponent(() => import('../shared/CodeEditor.vue'))
@@ -177,5 +181,10 @@ const {
 } = useRestQueryForm(tab)
 
 const pasteClipboard = async () => onPaste(await readFromClipboard())
+const copyAsCurl = () => {
+  const { method, path, body } = tab.request
+  const url = restRequestUrl(useConnectionStore().activeCluster?.uri || '', path)
+  writeToClipboard(curlCommand(method, url, noBody.value ? '' : body))
+}
 const useSuggestion = (suggestion: RestPathSuggestion) => Object.assign(tab.request, pickRequest(suggestion))
 </script>

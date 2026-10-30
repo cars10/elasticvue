@@ -1,15 +1,12 @@
 <template>
   <tool-error :state="requests.indices.value" inspect="indices" />
-  <q-select
-    v-model="selected"
-    outlined
-    multiple
-    use-chips
-    emit-value
-    map-options
-    :label="t('tools.indices')"
-    :options="options"
-  />
+  <q-select v-model="selected" outlined multiple use-chips emit-value map-options :label="t('tools.indices')" :options="options">
+    <template #selected-item="{ opt, index, removeAtIndex, tabindex }">
+      <q-chip dense removable color="primary-dark" text-color="white" :tabindex="tabindex" @remove="removeAtIndex(index)">
+        {{ opt.label }}
+      </q-chip>
+    </template>
+  </q-select>
   <div class="font-13 text-muted q-mt-xs">{{ t('tools.current') }} {{ current }}</div>
   <q-select
     v-model="draft"

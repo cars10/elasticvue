@@ -4,6 +4,9 @@
       v-model="filter.field"
       :options="fieldOptions"
       use-input
+      spellcheck="false"
+      autocorrect="off"
+      autocapitalize="off"
       fill-input
       hide-selected
       input-debounce="0"
@@ -33,6 +36,9 @@
       :model-value="filter.value"
       :options="valueOptions"
       use-input
+      spellcheck="false"
+      autocorrect="off"
+      autocapitalize="off"
       fill-input
       hide-selected
       input-debounce="0"
@@ -48,10 +54,28 @@
 
     <div v-if="filter.op === 'between'" class="row q-col-gutter-sm">
       <div class="col">
-        <q-input v-model="filter.value" dense outlined :label="t('search.filters.from')" data-testid="search-filter-from" />
+        <q-input
+          v-model="filter.value"
+          dense
+          outlined
+          spellcheck="false"
+          autocorrect="off"
+          autocapitalize="off"
+          :label="t('search.filters.from')"
+          data-testid="search-filter-from"
+        />
       </div>
       <div class="col">
-        <q-input v-model="filter.to" dense outlined :label="t('search.filters.to')" data-testid="search-filter-to" />
+        <q-input
+          v-model="filter.to"
+          dense
+          outlined
+          spellcheck="false"
+          autocorrect="off"
+          autocapitalize="off"
+          :label="t('search.filters.to')"
+          data-testid="search-filter-to"
+        />
       </div>
     </div>
 

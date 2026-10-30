@@ -59,10 +59,16 @@ export const weird: Doc[] = [
       zero: 0,
       long: 'x'.repeat(500),
       tags: ['a, b', 'c'],
-      ts: 1705312800000
+      ts: 1705312800000,
+      attrs: { color: 'red' }
     }
   },
-  { _index: 'weird', _id: 'a/b', _routing: 'rk', _source: { 'with space': 'other', flag: true } },
+  {
+    _index: 'weird',
+    _id: 'a/b',
+    _routing: 'rk',
+    _source: { 'with space': 'other', flag: true, loc: { lat: 1, lon: 2 }, attrs: { size: 'L' }, items: { k: 3 } }
+  },
   { _index: 'weird', _id: 'f1', fields: { 'with space': ['from fields'] } }
 ]
 
@@ -129,6 +135,8 @@ const fieldCaps = (indices: string[], includeUnmapped: boolean) => {
     tags: { keyword: ['weird'] },
     ts: { date: ['weird'] },
     nothing: { keyword: ['weird'] },
+    loc: { geo_point: ['weird'] },
+    attrs: { flattened: ['weird'] },
     'name.keyword': { keyword: ['recipes', 'odd%index'] }
   }
 

@@ -308,9 +308,9 @@ test.describe('Search', () => {
     const requests = await setup(page)
     await openSearch(page)
 
-    await rows(page).first().dblclick()
-    await expect(page.locator('.q-dialog').getByText('movies / _doc / m1')).toBeVisible()
-    await expect(page.locator('.q-dialog .cm-content')).toContainText('Ridley Scott')
+    await rows(page).first().locator('td').nth(2).click()
+    await page.getByTestId('search-document-panel').getByTestId('search-panel-tab-json').click()
+    await expect(page.getByTestId('search-document-panel').locator('.cm-content')).toContainText('Ridley Scott')
     await page.keyboard.press('Escape')
 
     page.once('dialog', (dialog) => dialog.accept())

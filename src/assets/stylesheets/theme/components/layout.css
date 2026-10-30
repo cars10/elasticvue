@@ -44,9 +44,13 @@
   font-variant-numeric: tabular-nums;
 }
 
-.tool-panel {
-  width: 38rem;
+.q-dialog__inner > .tool-panel {
+  width: 42rem;
   max-width: 100vw;
+}
+
+.q-dialog__inner > .document-panel {
+  width: 55rem;
 }
 
 .tool-current__source {
@@ -58,12 +62,7 @@
 }
 
 .tool-json {
-  max-height: 24rem;
-  overflow: auto;
-  padding: 1rem;
-  white-space: pre-wrap;
-  border-radius: 4px;
-  background: var(--theme-body-background);
+  height: 24rem;
 }
 
 .tool-banner {

@@ -1,5 +1,5 @@
 <template>
-  <div data-testid="tools-page">
+  <div class="tools-page" data-testid="tools-page">
     <div class="row items-start justify-between q-mb-lg q-col-gutter-md">
       <div class="col-12 col-md">
         <h1 class="page-title">{{ t('tools.heading') }}</h1>
@@ -109,6 +109,10 @@ onMounted(tools.refresh)
 </script>
 
 <style scoped>
+.tools-page {
+  max-width: 1100px;
+}
+
 .tools-filter {
   width: 260px;
 }

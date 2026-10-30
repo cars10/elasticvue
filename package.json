@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "@codemirror/lang-json": "^6.0.2",
+    "@codemirror/lang-sql": "^6.10.0",
     "@fontsource/inter": "^5.3.0",
     "@intlify/unplugin-vue-i18n": "^11.2.8",
     "@lezer/highlight": "^1.2.5",

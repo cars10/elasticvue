@@ -165,12 +165,12 @@ test.describe('Big numbers', () => {
   test('edits documents with big integers without losing precision', async ({ page }) => {
     const requests = await setup(page)
 
-    await rows(page).filter({ hasText: 'b1' }).locator('td').nth(3).dblclick()
-    const dialog = page.locator('.q-dialog')
-    await expect(dialog.locator('.cm-content')).toContainText(`"id": ${BIG}`)
-    await expect(dialog.locator('.cm-content')).toContainText(ULONG_MAX)
+    await rows(page).filter({ hasText: 'b1' }).locator('td').nth(3).click()
+    await panel(page).getByTestId('search-panel-tab-json').click()
+    await expect(panel(page).locator('.cm-content')).toContainText(`"id": ${BIG}`)
+    await expect(panel(page).locator('.cm-content')).toContainText(ULONG_MAX)
 
-    await dialog.getByRole('button', { name: 'Update' }).click()
+    await panel(page).getByTestId('search-panel-update').click()
     await expect
       .poll(() => requests.find((r) => r.method !== 'GET' && r.path.startsWith('/bignums/_doc/'))?.raw)
       .toContain(`"id":${BIG}`)

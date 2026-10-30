@@ -32,14 +32,16 @@
         </q-item>
       </q-list>
       <q-expansion-item :label="t('tools.explain.raw')" dense class="q-mt-sm">
-        <pre class="tool-json">{{ stringifyJson(explanation, null, 2) }}</pre>
+        <div class="tool-json">
+          <code-viewer :value="stringifyJson(explanation, null, 2)" />
+        </div>
       </q-expansion-item>
     </div>
   </template>
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { computed, defineAsyncComponent, ref, watch } from 'vue'
 import { useTranslation } from '../../composables/i18n.ts'
 import { useInjectedClusterTools } from '../../composables/components/tools/ClusterTools.ts'
 import { useToolLabels } from '../../composables/components/tools/ToolLabels.ts'
@@ -47,6 +49,8 @@ import { summarizeAllocationExplanation } from '../../helpers/clusterTools.ts'
 import type { ToolShard } from '../../types/clusterTools.ts'
 import ToolError from './ToolError.vue'
 import { stringifyJson } from '../../helpers/json/stringify.ts'
+
+const CodeViewer = defineAsyncComponent(() => import('../shared/CodeViewer.vue'))
 
 const t = useTranslation()
 const labels = useToolLabels()

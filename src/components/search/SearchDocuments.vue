@@ -9,23 +9,21 @@
         :options="modeOptions"
         no-caps
         unelevated
-        dense
         toggle-color="primary-dark"
         color="dark-grey"
-        class="q-px-xs"
         data-testid="search-mode"
         @update:model-value="setMode"
       />
       <q-btn
-        flat
+        color="dark-grey"
         no-caps
-        icon="history"
+        icon="manage_history"
         :label="t('search.library.title')"
         data-testid="search-library-open"
         @click="libraryOpen = true"
       />
       <q-btn
-        flat
+        color="dark-grey"
         no-caps
         icon="terminal"
         :label="t('search.form.open_in_rest')"
@@ -54,21 +52,17 @@
               @reset="searchStore.q = '*'"
             />
             <search-examples v-if="searchStore.mode === 'query'" />
-            <q-input
-              v-else-if="isSql"
-              v-model="sqlModel"
-              type="textarea"
-              autogrow
-              outlined
-              dense
-              spellcheck="false"
-              input-class="font-mono"
-              :label="searchStore.mode === 'sql' ? t('search.sql.sql_label') : t('search.sql.esql_label')"
-              :hint="t('search.sql.hint')"
-              data-testid="search-sql-query"
-              @keydown.ctrl.enter.prevent="submitSearch"
-              @keydown.meta.enter.prevent="submitSearch"
-            />
+            <template v-else-if="isSql">
+              <div class="text-muted font-13 q-mb-xs">
+                {{ searchStore.mode === 'sql' ? t('search.sql.sql_label') : t('search.sql.esql_label') }}
+              </div>
+              <resizable-container v-model="resizeStore.sqlQuery" :min-height="80">
+                <div class="full-height" data-testid="search-sql-query">
+                  <code-editor :key="searchStore.mode" v-model="sqlModel" language="sql" :commands="editorCommands" />
+                </div>
+              </resizable-container>
+              <div class="text-muted font-13">{{ t('search.sql.hint') }}</div>
+            </template>
             <div v-else class="text-muted font-13 q-pt-sm">{{ t('search.form.mode.dsl_hint') }}</div>
           </div>
 
@@ -82,7 +76,16 @@
             />
           </div>
 
-          <div class="col-auto">
+          <div class="col-auto row no-wrap q-gutter-x-sm">
+            <q-btn
+              v-if="!isSql"
+              flat
+              round
+              icon="restart_alt"
+              :title="t('search.form.reset')"
+              data-testid="search-reset"
+              @click="resetSearch"
+            />
             <q-btn
               type="submit"
               unelevated
@@ -112,16 +115,17 @@
   </q-card>
 
   <q-card v-if="showHistogram" class="q-mb-md">
-    <div class="row items-center q-px-sm q-py-xs">
-      <q-btn
-        flat
-        dense
-        no-caps
-        :icon="searchStore.histogramCollapsed ? 'chevron_right' : 'expand_more'"
-        :label="t('search.histogram.title')"
-        data-testid="search-histogram-toggle"
-        @click="toggleHistogram"
-      />
+    <div
+      class="row items-center q-px-sm q-py-xs cursor-pointer"
+      role="button"
+      tabindex="0"
+      :aria-expanded="!searchStore.histogramCollapsed"
+      data-testid="search-histogram-toggle"
+      @click="toggleHistogram"
+      @keydown.enter.space.prevent="toggleHistogram"
+    >
+      <q-icon :name="searchStore.histogramCollapsed ? 'chevron_right' : 'expand_more'" size="24px" class="q-mx-xs" />
+      <span class="text-weight-medium">{{ t('search.histogram.title') }}</span>
       <span v-if="!searchStore.histogramCollapsed && histogram.interval.value" class="text-muted font-13 q-ml-sm">
         {{ t('search.histogram.interval', { interval: histogram.interval.value }) }}
       </span>
@@ -168,12 +172,10 @@
     v-if="openHit"
     :key="hitKey(openHit)"
     :hit="openHit"
-    :time-field="searchStore.mode === 'query' ? timeField : null"
     :fetch-source="searchStore.sourceOnlyVisible"
     @close="openHit = null"
     @reload="search"
     @filter="addFilter"
-    @surrounding="showSurrounding(openHit)"
   />
 
   <search-library v-model="libraryOpen" :current-entry="currentEntry" @apply="applyEntry" />
@@ -242,7 +244,7 @@ const {
   setTimeField,
   toggleHistogram,
   addFilter,
-  showSurrounding,
+  resetSearch,
   onRequest,
   setMode,
   countExactly,

@@ -15,6 +15,17 @@
     </div>
 
     <div class="flex">
+      <q-select
+        v-model="indicesStore.health"
+        :options="['green', 'yellow', 'red']"
+        :label="t('shards.health')"
+        clearable
+        dense
+        outlined
+        class="q-mr-md"
+        style="min-width: 140px"
+        data-testid="indices-health-filter"
+      />
       <filter-input v-model="indicesStore.filter" :columns="['index', 'uuid', 'aliases']" />
 
       <q-btn icon="settings" round flat class="q-ml-sm">
