@@ -1223,7 +1223,6 @@
         "confirm": "ATTENZIONE: Sei sicuro? Mostrare {value} voci alla volta potrebbe causare problemi o blocchi. Si consiglia di utilizzare la funzionalità di ricerca/filtro per limitare i risultati."
       }
     },
-    "authorization_header_hint": "Assicurati che \"http.cors.allow-headers\" sia configurato",
     "code_editor": {
       "actions": {
         "beautify": {

@@ -112,12 +112,7 @@
         </div>
 
         <div class="row items-center justify-between q-pa-md">
-          <search-results-bulk
-            :selected="selectedItems"
-            :total-items-count="hits.length"
-            :filtered-items-count="hits.length"
-            @reload="reload"
-          />
+          <search-results-bulk :selected="selectedItems" @reload="reload" />
 
           <q-btn-dropdown
             color="dark-grey"

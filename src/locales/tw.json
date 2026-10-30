@@ -1223,7 +1223,6 @@
         "confirm": "警告：確定嗎？一次顯示 {value} 個項目可能會導致問題或凍結。建議使用搜尋/篩選功能來限制結果。"
       }
     },
-    "authorization_header_hint": "請確定 \"http.cors.allow-headers\" 已設定",
     "code_editor": {
       "actions": {
         "beautify": {

@@ -1223,7 +1223,6 @@
         "confirm": "警告：您确定吗？一次性显示 {value} 条目可能会导致问题或冻结。建议使用搜索/过滤功能来限制结果。"
       }
     },
-    "authorization_header_hint": "你的集群使用了授权。确保你已经设置了\"http.cors.allow-headers\"，否则将无法连接。",
     "code_editor": {
       "actions": {
         "beautify": {

@@ -1,9 +1,4 @@
-import {
-  BuildFlavor,
-  ElasticsearchCluster,
-  ElasticsearchClusterConnection,
-  useConnectionStore
-} from '../../../store/connection.ts'
+import { BuildFlavor, ElasticsearchCluster, useConnectionStore } from '../../../store/connection.ts'
 import ElasticsearchAdapter from '../../../services/ElasticsearchAdapter.ts'
 import { clusterUuid } from '../../ClusterConnection.ts'
 import { DISTRIBUTIONS } from '../../../consts.ts'
@@ -61,16 +56,4 @@ export const checkHealth = async (cluster: ElasticsearchCluster) => {
   }
   cluster.loading = false
   return health
-}
-
-export const checkClusterHealth = async (credentials: ElasticsearchClusterConnection): Promise<string> => {
-  const adapter = new ElasticsearchAdapter(credentials)
-
-  try {
-    const clusterHealthResponse: any = await adapter.clusterHealth()
-    const clusterHealthBody = await clusterHealthResponse.json()
-    return clusterHealthBody.status
-  } catch (_e) {
-    return 'unknown'
-  }
 }

@@ -1223,7 +1223,6 @@
         "confirm": "警告: 本当に実行しますか？一度に {value} エントリを表示すると、問題やフリーズが発生する可能性があります。結果を制限するには、検索/フィルター機能を使用することをお勧めします。"
       }
     },
-    "authorization_header_hint": "\"http.cors.allow-headers\" が設定されていることを確認してください",
     "code_editor": {
       "actions": {
         "beautify": {

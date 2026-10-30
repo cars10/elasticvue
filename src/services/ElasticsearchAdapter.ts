@@ -78,10 +78,6 @@ export default class ElasticsearchAdapter {
     return this.request('', 'GET')
   }
 
-  clusterInfo() {
-    return this.ping()
-  }
-
   catIndices(params: object, filter?: string) {
     const query = filter ? `${filter}*` : ''
     return this.request(`_cat/indices/${query}`, 'GET', params)
@@ -179,10 +175,6 @@ export default class ElasticsearchAdapter {
     } else {
       return this.request(`${cleanIndexName(indices.join(','))}/_flush`, 'POST')
     }
-  }
-
-  indexExists({ index }: { index: string }) {
-    return this.request(`${cleanIndexName(index)}`, 'HEAD')
   }
 
   indexGetSettings({ index }: { index: string }) {
@@ -360,10 +352,6 @@ export default class ElasticsearchAdapter {
     return this.request(`_cat/shards/${query}`, 'GET', params)
   }
 
-  catRecovery() {
-    return this.request('_cat/recovery?s=start_time_millis:desc', 'GET')
-  }
-
   recovery(params?: object) {
     return this.request('_recovery', 'GET', params)
   }
@@ -466,10 +454,6 @@ export default class ElasticsearchAdapter {
 
   slmExecutePolicy({ policy }: { policy: string }) {
     return this.request(`_slm/policy/${policy}/_execute`, 'POST')
-  }
-
-  slmGetStatus() {
-    return this.request('_slm/status', 'GET')
   }
 
   async request(path: string, method: string, params?: any) {

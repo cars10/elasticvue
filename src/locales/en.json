@@ -1223,7 +1223,6 @@
         "confirm": "WARNING: Are you sure? Showing {value} entries at once might cause issues or freezes. It is recommended to use the search/filter functionality to limit the results."
       }
     },
-    "authorization_header_hint": "Make sure that \"http.cors.allow-headers\" is configured",
     "code_editor": {
       "actions": {
         "beautify": {

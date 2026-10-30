@@ -152,38 +152,6 @@ const elasticsearchError = (error: any) => {
 }
 
 /*
- * Use this when you need to make a "static" call to elasticsearch with fixed parameters and options, e.g. loading all
- * indices or the cluster stats.
- *
- * @example
- *   const { requestState, data, load } = useElasticsearchRequest('clusterInfo')
- *   onMounted(load)
- */
-export function useElasticsearchRequest<T>(method: ElasticsearchMethod, params?: object) {
-  const { requestState, loading, callElasticsearch } = useElasticsearchAdapter()
-  const data: Ref<T | null> = ref(null)
-
-  const load = () => {
-    if (params !== undefined) {
-      return callElasticsearch(method, params as any)
-        .then((body) => (data.value = body))
-        .catch(() => (data.value = null))
-    } else {
-      return callElasticsearch(method as any)
-        .then((body) => (data.value = body))
-        .catch(() => (data.value = null))
-    }
-  }
-
-  return {
-    requestState,
-    loading,
-    data,
-    load
-  }
-}
-
-/*
   Use this when you need to make a call to elasticsearch with changing parameters, e.g. for deleting specific indices
   or snapshot repositories.
 

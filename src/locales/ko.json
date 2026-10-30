@@ -1223,7 +1223,6 @@
         "confirm": "경고: 정말 실행하시겠습니까? 한 번에 {value}개 항목을 표시하면 문제나 프리징이 발생할 수 있습니다. 결과 제한을 위해 검색/필터 기능을 사용하세요."
       }
     },
-    "authorization_header_hint": "\"http.cors.allow-headers\"가 설정되어 있는지 확인하세요",
     "code_editor": {
       "actions": {
         "beautify": {

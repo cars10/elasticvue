@@ -1223,7 +1223,6 @@
         "confirm": "AVERTISSEMENT : Êtes-vous sûr ? Afficher {value} entrées à la fois peut causer des problèmes ou des blocages. Il est recommandé d'utiliser la fonctionnalité de recherche/filtrage pour limiter les résultats."
       }
     },
-    "authorization_header_hint": "Assurez-vous que \"http.cors.allow-headers\" est configuré",
     "code_editor": {
       "actions": {
         "beautify": {

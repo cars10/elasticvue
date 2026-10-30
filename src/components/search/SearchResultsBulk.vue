@@ -33,7 +33,7 @@ import RowMenuAction from '../indices/RowMenuAction.vue'
 
 const t = useTranslation()
 
-defineProps<{ selected: string[]; totalItemsCount: number; filteredItemsCount: number }>()
+defineProps<{ selected: string[] }>()
 const emit = defineEmits(['reload'])
 
 const menu: Ref<QMenu | null> = ref(null)

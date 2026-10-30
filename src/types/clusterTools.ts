@@ -1,5 +1,3 @@
-import type { RequestState } from '../composables/CallElasticsearch.ts'
-
 export type SettingSource = 'transient' | 'persistent' | 'default' | 'unavailable'
 
 export type EffectiveSetting<T = string> = {
@@ -79,12 +77,6 @@ export type IndexToolState = {
   blocks: string[]
   hidden: boolean
   dataStreamBacking: boolean
-}
-
-export type ToolRequest = {
-  requestState: RequestState
-  permissionDenied: boolean
-  unsupported: boolean
 }
 
 export type WatermarkMode = 'percent' | 'bytes'
