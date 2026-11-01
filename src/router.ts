@@ -26,7 +26,7 @@ const routes = [
       const connectionStore = useConnectionStore()
       const cluster = connectionStore.checkAndSetActiveCluster()
 
-      if (cluster) return { name: 'home', params: { clusterIndex: connectionStore.activeClusterIndex } }
+      if (cluster) return { name: 'home', params: { clusterId: connectionStore.activeClusterId } }
       return { name: 'welcome' }
     }
   },
@@ -37,16 +37,16 @@ const routes = [
       const clusterName = typeof to.query.name === 'string' ? to.query.name.trim() : ''
 
       if (clusterName && connectionStore.setActiveClusterByName(clusterName)) {
-        return { name: 'home', params: { clusterIndex: connectionStore.activeClusterIndex }, query: {} }
+        return { name: 'home', params: { clusterId: connectionStore.activeClusterId }, query: {} }
       }
 
       const cluster = connectionStore.checkAndSetActiveCluster()
-      if (cluster) return { name: 'home', params: { clusterIndex: connectionStore.activeClusterIndex }, query: {} }
+      if (cluster) return { name: 'home', params: { clusterId: connectionStore.activeClusterId }, query: {} }
       return { name: 'welcome' }
     }
   },
   {
-    path: '/cluster/:clusterIndex',
+    path: '/cluster/:clusterId',
     component: NestedView,
     children: [
       { path: '', name: 'home', component: HomePage },
@@ -67,14 +67,17 @@ const routes = [
     ],
     beforeEnter: (to: RouteLocation) => {
       const connectionStore = useConnectionStore()
-      const numInstances = connectionStore.clusters.length
-      if (numInstances === 0) return { name: 'welcome' }
+      if (connectionStore.clusters.length === 0) return { name: 'welcome' }
 
-      const clusterIndexParam = Array.isArray(to.params.clusterIndex) ? to.params.clusterIndex[0] : to.params.clusterIndex
-      const indexValid = connectionStore.validateAndSetClusterIndex(clusterIndexParam)
+      const param = Array.isArray(to.params.clusterId) ? to.params.clusterId[0] : to.params.clusterId
+      if (connectionStore.setActiveCluster(param)) return
 
-      if (indexValid) return
-      return { name: 'home', params: { clusterIndex: 0 } }
+      const legacyCluster = /^\d{1,3}$/.test(param) ? connectionStore.clusters[Number(param)] : undefined
+      if (legacyCluster) {
+        return { name: to.name ?? 'home', params: { ...to.params, clusterId: legacyCluster.id }, query: to.query, hash: to.hash }
+      }
+
+      return { name: 'home', params: { clusterId: connectionStore.clusters[0].id } }
     }
   },
   {
@@ -85,12 +88,12 @@ const routes = [
       const connectionStore = useConnectionStore()
       const cluster = connectionStore.checkAndSetActiveCluster()
 
-      if (cluster) return { name: 'home', params: { clusterIndex: connectionStore.activeClusterIndex } }
+      if (cluster) return { name: 'home', params: { clusterId: connectionStore.activeClusterId } }
     }
   },
   {
     path: '/:pathMatch(.*)*',
-    redirect: '/cluster/0'
+    redirect: '/'
   }
 ]
 

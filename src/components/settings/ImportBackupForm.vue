@@ -42,7 +42,6 @@
 import { useImportExport } from '../../composables/ImportExport'
 import { useTranslation } from '../../composables/i18n'
 import { handleError } from '../../helpers/error.ts'
-import { reloadHomePage } from '../../helpers/router.ts'
 import { useRouter } from 'vue-router'
 
 const t = useTranslation()
@@ -54,7 +53,7 @@ const { importFile, importBackup } = useImportExport({ confirmImport: props.conf
 const importBackupAndRedirect = async () => {
   try {
     const imported = await importBackup()
-    if (imported) reloadHomePage(router, 0)
+    if (imported) router.push('/').then(() => router.go(0))
   } catch (e) {
     handleError(e, true)
   }

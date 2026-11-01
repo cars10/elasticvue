@@ -26,18 +26,19 @@ export const useClusterTable = () => {
       })
   })
 
-  const removeInstance = async (index: number) => {
-    const cluster = connectionStore.clusters[index]
+  const removeInstance = async (id: string) => {
+    const cluster = connectionStore.clusters.find((c) => c.id === id)
+    if (!cluster) return
     const confirmed = await askConfirm(
       t('cluster_selection.cluster_table.row.remove_cluster.confirm', { name: cluster.name, uri: cluster.uri })
     )
     if (!confirmed) return
 
-    connectionStore.removeCluster(index)
+    connectionStore.removeCluster(id)
     router.go(0)
   }
 
-  const loadCluster = (index: number) => reloadHomePage(router, index)
+  const loadCluster = (id: string) => reloadHomePage(router, id)
   const columns = genColumns([
     { label: t('cluster_selection.cluster_table.headers.cluster'), field: 'name' },
     { label: t('cluster_selection.cluster_table.headers.uri') },

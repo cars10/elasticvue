@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { v4 as uuidv4 } from 'uuid'
 import { DISTRIBUTIONS } from '../consts'
 
 export enum BuildFlavor {
@@ -14,6 +15,7 @@ export enum AuthType {
 }
 
 export type ElasticsearchCluster = {
+  id: string
   clusterName: string
   version: string
   majorVersion: string
@@ -51,78 +53,63 @@ export type ElasticsearchClusterAuth =
 
 export type ConnectionState = {
   clusters: ElasticsearchCluster[]
-  activeClusterIndex: number | null
+  activeClusterId: string | null
 }
 
 export const useConnectionStore = defineStore('connection', {
   state: (): ConnectionState => {
     return {
       clusters: [],
-      activeClusterIndex: null
+      activeClusterId: null
     }
   },
   getters: {
     activeCluster(): ElasticsearchCluster | null {
-      if (typeof this.activeClusterIndex !== 'number') return null
-      return this.clusters[this.activeClusterIndex]
+      return this.clusters.find((cluster) => cluster.id === this.activeClusterId) ?? null
     },
     serverless(): boolean {
-      if (typeof this.activeClusterIndex !== 'number') return false
-      return this.clusters[this.activeClusterIndex].flavor === BuildFlavor.serverless
+      return this.activeCluster?.flavor === BuildFlavor.serverless
     },
     elasticsearch(): boolean {
-      if (typeof this.activeClusterIndex !== 'number') return false
-      return this.clusters[this.activeClusterIndex].distribution !== DISTRIBUTIONS.opensearch
+      if (!this.activeCluster) return false
+      return this.activeCluster.distribution !== DISTRIBUTIONS.opensearch
     }
   },
   actions: {
-    addCluster(cluster: ElasticsearchCluster) {
-      const len = this.clusters.push(Object.assign({}, cluster))
-      this.activeClusterIndex = len - 1
-      return this.activeClusterIndex
+    addCluster(cluster: Omit<ElasticsearchCluster, 'id'>) {
+      const id = uuidv4()
+      this.clusters.push({ ...cluster, id })
+      this.activeClusterId = id
+      return id
     },
-    updateCluster({ cluster, index }: { cluster: ElasticsearchClusterConnection; index: number }) {
-      const old = this.clusters[index]
-      this.clusters[index] = cleanupClusterAuth(Object.assign({}, old, cluster))
+    updateCluster({ cluster, id }: { cluster: ElasticsearchClusterConnection; id: string }) {
+      const index = this.clusters.findIndex((c) => c.id === id)
+      if (index < 0) return
+      this.clusters[index] = cleanupClusterAuth(Object.assign({}, this.clusters[index], cluster))
     },
-    removeCluster(index: number) {
-      this.clusters.splice(index, 1)
+    removeCluster(id: string) {
+      this.clusters = this.clusters.filter((cluster) => cluster.id !== id)
     },
     checkAndSetActiveCluster() {
-      if (this.activeClusterIndex === null || this.clusters.length === 0) return
-      if (!this.clusters[this.activeClusterIndex]) this.activeClusterIndex = 0
+      if (this.clusters.length === 0) return
+      if (!this.activeCluster) this.activeClusterId = this.clusters[0].id
 
-      return this.clusters[this.activeClusterIndex]
+      return this.activeCluster
     },
-    validateAndSetClusterIndex(index: string) {
-      if (index === null || this.clusters.length === 0) return
+    setActiveCluster(id: string) {
+      if (!this.clusters.some((cluster) => cluster.id === id)) return false
 
-      let clusterIndex: number = 0
-      try {
-        clusterIndex = parseInt(index)
-      } catch (_e) {}
-
-      if (isNaN(clusterIndex) || clusterIndex + 1 > this.clusters.length || clusterIndex < 0) {
-        this.activeClusterIndex = 0
-        return false
-      } else {
-        this.activeClusterIndex = clusterIndex
-        return true
-      }
-    },
-    findClusterIndexByName(name: string) {
-      if (!name || this.clusters.length === 0) return -1
-
-      const normalizedName = name.trim().toLowerCase()
-      if (!normalizedName) return -1
-
-      return this.clusters.findIndex((cluster) => cluster.name.trim().toLowerCase() === normalizedName)
+      this.activeClusterId = id
+      return true
     },
     setActiveClusterByName(name: string) {
-      const clusterIndex = this.findClusterIndexByName(name)
-      if (clusterIndex < 0) return false
+      const normalizedName = name?.trim().toLowerCase()
+      if (!normalizedName) return false
 
-      this.activeClusterIndex = clusterIndex
+      const cluster = this.clusters.find((c) => c.name.trim().toLowerCase() === normalizedName)
+      if (!cluster) return false
+
+      this.activeClusterId = cluster.id
       return true
     }
   },

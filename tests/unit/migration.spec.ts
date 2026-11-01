@@ -1,5 +1,5 @@
 import { describe, it } from 'vitest'
-import { migrateAuthType, OldElasticsearchCluster } from '../../src/services/migrations'
+import { migrateAuthType, migrateClusterIds, OldElasticsearchCluster } from '../../src/services/migrations'
 import { AuthType, BuildFlavor } from '../../src/store/connection'
 
 
@@ -51,5 +51,29 @@ describe.concurrent('migrate', () => {
     expect(result[0].auth.authType).toEqual(AuthType.none)
     expect(result[1].auth.authType).toEqual(AuthType.basicAuth)
     expect(result[2].auth.authType).toEqual(AuthType.apiKey)
+  })
+})
+
+describe.concurrent('migrateClusterIds', () => {
+  const clusters = migrateAuthType(oldData)
+
+  it('adds ids and maps the active index to its id', ({ expect }) => {
+    const result = migrateClusterIds({ clusters, activeClusterIndex: 1 })
+
+    expect(result.clusters.every((cluster) => cluster.id.length > 0)).toBe(true)
+    expect(new Set(result.clusters.map((cluster) => cluster.id)).size).toBe(clusters.length)
+    expect(result.activeClusterId).toBe(result.clusters[1].id)
+    expect('activeClusterIndex' in result).toBe(false)
+  })
+
+  it('keeps existing ids and active id', ({ expect }) => {
+    const first = migrateClusterIds({ clusters, activeClusterIndex: 0 })
+    const second = migrateClusterIds(first)
+
+    expect(second).toEqual(first)
+  })
+
+  it('falls back to null for an out of range index', ({ expect }) => {
+    expect(migrateClusterIds({ clusters, activeClusterIndex: 1337 }).activeClusterId).toBeNull()
   })
 })

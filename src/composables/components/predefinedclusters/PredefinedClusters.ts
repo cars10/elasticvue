@@ -1,4 +1,5 @@
 import { BuildFlavor, ConnectionState, ElasticsearchCluster } from '../../../store/connection.ts'
+import { v4 as uuidv4 } from 'uuid'
 import { buildAuth } from '../../../helpers/predefinedClusters/buildAuth.ts'
 
 export type PredefinedCluster = {
@@ -48,7 +49,7 @@ export const importNewClusters = (clusters: PredefinedCluster[], remainingCluste
     'connection',
     JSON.stringify({
       clusters: [...newClusters, ...remainingClusters],
-      activeClusterIndex: previousState?.activeClusterIndex ?? 0
+      activeClusterId: previousState?.activeClusterId ?? null
     } satisfies ConnectionState)
   )
 }
@@ -61,6 +62,7 @@ export const loadRemainingClusters = () => {
 }
 
 const buildPredefinedCluster = (cluster: PredefinedCluster, previous?: ElasticsearchCluster): ElasticsearchCluster => ({
+  id: previous?.id || uuidv4(),
   name: cluster.name || previous?.name || 'docker cluster',
   uri: cluster.uri,
   clusterName: previous?.clusterName || '',

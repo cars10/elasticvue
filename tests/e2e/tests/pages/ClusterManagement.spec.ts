@@ -36,7 +36,7 @@ test.describe('ClusterManagement', () => {
     await setupClusterSelectionTest(page)
     await page.getByTestId('cluster-table-row-1').click()
 
-    await page.waitForURL('**/cluster/1')
-    expect(page.url()).toContain('/cluster/1')
+    await page.waitForURL('**/cluster/dev-cluster')
+    expect(page.url()).toContain('/cluster/dev-cluster')
   })
 })

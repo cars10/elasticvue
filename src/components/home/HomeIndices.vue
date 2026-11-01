@@ -2,7 +2,7 @@
   <q-card class="full-height" data-testid="cluster-indices">
     <q-card-section class="row items-center justify-between">
       <div class="text-weight-medium">{{ t('home.indices.title', { count: totalCount }) }}</div>
-      <router-link :to="{ name: 'indices', params: { clusterIndex: connectionStore.activeClusterIndex } }" class="font-13">
+      <router-link :to="{ name: 'indices', params: { clusterId: connectionStore.activeClusterId } }" class="font-13">
         {{ t('home.indices.all') }}
       </router-link>
     </q-card-section>

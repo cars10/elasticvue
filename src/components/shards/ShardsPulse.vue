@@ -49,7 +49,7 @@
         <div class="text-muted font-13 q-mt-xs">
           {{ t('shards.pulse.moving_split', { relocating: summary.relocating, initializing: summary.initializing }) }}
         </div>
-        <router-link :to="{ name: 'shard_recovery', params: { clusterIndex } }" class="font-13">
+        <router-link :to="{ name: 'shard_recovery', params: { clusterId } }" class="font-13">
           {{ t('shards.pulse.view_recovery') }}
         </router-link>
       </pulse-metric-card>
@@ -92,7 +92,7 @@ import type { ShardsSummary } from '../../types/shards.ts'
 const props = defineProps<{ summary: ShardsSummary }>()
 
 const t = useTranslation()
-const clusterIndex = useConnectionStore().activeClusterIndex
+const clusterId = useConnectionStore().activeClusterId
 
 const colClass = computed(() => (props.summary.spread ? 'col-12 col-sm-6 col-lg' : 'col-12 col-sm-6 col-lg-3'))
 

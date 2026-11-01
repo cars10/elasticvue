@@ -41,7 +41,7 @@ import ClusterConnectionErrors from './ClusterConnectionErrors.vue'
 import { useTranslation } from '../../composables/i18n.ts'
 import { ElasticsearchClusterConnection } from '../../store/connection.ts'
 
-const props = defineProps<{ modelValue: ElasticsearchClusterConnection; connectCallback: (idx: number) => void }>()
+const props = defineProps<{ modelValue: ElasticsearchClusterConnection; connectCallback: (id: string) => void }>()
 const cluster = ref(props.modelValue)
 const t = useTranslation()
 

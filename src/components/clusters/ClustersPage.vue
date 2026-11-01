@@ -5,13 +5,13 @@
   </div>
 
   <div class="row q-col-gutter-md">
-    <div v-for="(cluster, index) in connectionStore.clusters" :key="index" class="col-12 col-md-6 col-xl-4">
+    <div v-for="(cluster, index) in connectionStore.clusters" :key="cluster.id" class="col-12 col-md-6 col-xl-4">
       <cluster-card
         :cluster="cluster"
         :overview="overviews[index]"
-        :active="index === connectionStore.activeClusterIndex"
-        @click="open(index)"
-        @keyup.enter="open(index)"
+        :active="cluster.id === connectionStore.activeClusterId"
+        @click="open(cluster.id)"
+        @keyup.enter="open(cluster.id)"
       />
     </div>
   </div>
@@ -33,8 +33,8 @@ const connectionStore = useConnectionStore()
 const clustersStore = useClustersStore()
 const { overviews, refresh } = useClustersOverview()
 
-const open = (index: number) =>
-  index === connectionStore.activeClusterIndex
-    ? router.push({ name: 'home', params: { clusterIndex: index } })
-    : reloadHomePage(router, index, 'home')
+const open = (id: string) =>
+  id === connectionStore.activeClusterId
+    ? router.push({ name: 'home', params: { clusterId: id } })
+    : reloadHomePage(router, id, 'home')
 </script>

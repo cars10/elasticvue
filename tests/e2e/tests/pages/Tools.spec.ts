@@ -123,7 +123,7 @@ test.describe('Tools', () => {
     await setupClusterConnection(page)
 
     await page.locator('#tools').click()
-    await expect(page).toHaveURL(/\/cluster\/0\/tools/)
+    await expect(page).toHaveURL(/\/cluster\/default-cluster\/tools/)
     await expect(page.getByTestId('tools-page')).toContainText('Maintenance and recovery operations for this cluster.')
     await expect(page.getByTestId('tool-allocation').getByTestId('tool-status')).toHaveText('All shards')
     for (const title of [

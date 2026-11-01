@@ -4,7 +4,7 @@ import { ref, Ref, watch } from 'vue'
 import { useClusterConnection } from '../../ClusterConnection.js'
 
 export type EditClusterProps = {
-  index: number
+  id: string
 }
 
 export const useEditCluster = (props: EditClusterProps) => {
@@ -12,23 +12,23 @@ export const useEditCluster = (props: EditClusterProps) => {
 
   const connectionStore = useConnectionStore()
 
-  const getCluster = (index: number): ElasticsearchClusterConnection => {
-    const savedCluster: ElasticsearchCluster = connectionStore.clusters[index]
+  const getCluster = (id: string): ElasticsearchClusterConnection => {
+    const savedCluster = connectionStore.clusters.find((c) => c.id === id) as ElasticsearchCluster
     return {
       name: savedCluster.name,
       uri: savedCluster.uri,
       auth: Object.assign({}, savedCluster.auth)
     }
   }
-  const cluster: Ref<ElasticsearchClusterConnection> = ref(getCluster(props.index))
+  const cluster: Ref<ElasticsearchClusterConnection> = ref(getCluster(props.id))
   watch(
-    () => props.index,
-    (index) => (cluster.value = getCluster(index))
+    () => props.id,
+    (id) => (cluster.value = getCluster(id))
   )
 
   const dialog = ref(false)
   const saveCluster = () => {
-    connectionStore.updateCluster({ cluster: cluster.value, index: props.index })
+    connectionStore.updateCluster({ cluster: cluster.value, id: props.id })
     showSuccessSnackbar({ title: 'Cluster saved' })
     window.location.reload()
   }

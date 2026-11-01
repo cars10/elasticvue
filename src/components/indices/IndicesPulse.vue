@@ -52,7 +52,7 @@
         </template>
         <template v-else-if="summary.diskBlocked.length">
           <div class="font-13 q-mt-xs health--red">{{ summary.diskBlocked.length }} blocked by disk watermark</div>
-          <router-link :to="{ name: 'nodes', params: { clusterIndex } }" class="font-13">Check node disks</router-link>
+          <router-link :to="{ name: 'nodes', params: { clusterId } }" class="font-13">Check node disks</router-link>
         </template>
         <div v-else-if="summary.readOnly" class="text-muted font-13 q-mt-xs">Indices with a write block</div>
         <div v-else class="text-muted font-13 q-mt-xs">All indices writable</div>
@@ -71,7 +71,7 @@ import type { IndicesSummary } from '../../types/indices.ts'
 
 const props = defineProps<{ summary: IndicesSummary }>()
 
-const clusterIndex = useConnectionStore().activeClusterIndex
+const clusterId = useConnectionStore().activeClusterId
 
 const worstHealth = computed(() => {
   if (props.summary.health.red) return 'red'

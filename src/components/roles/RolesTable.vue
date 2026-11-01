@@ -66,7 +66,7 @@ const connectionStore = useConnectionStore()
 
 const showUsers = (role: string) => {
   usersStore.filter = `roles:${role}`
-  router.push({ name: 'users', params: { clusterIndex: connectionStore.activeClusterIndex } })
+  router.push({ name: 'users', params: { clusterId: connectionStore.activeClusterId } })
 }
 
 const editRole = useTemplateRef<InstanceType<typeof EditRole>>('editRole')

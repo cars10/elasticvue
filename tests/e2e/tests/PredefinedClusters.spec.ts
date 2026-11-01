@@ -53,6 +53,7 @@ const readConnection = async (page: Page) => {
 }
 
 const baseCluster = (overrides: Record<string, unknown>) => ({
+  id: `id-${overrides.name}`,
   clusterName: '',
   version: '',
   majorVersion: '',
@@ -130,7 +131,7 @@ test.describe('predefined clusters', () => {
 
     await page.getByTestId('cluster-selection').click()
     await page.getByTestId('cluster-table-row-1').click()
-    await page.waitForURL('**/cluster/1/**')
+    await page.waitForURL('**/cluster/id-pre-b/**')
 
     await expect(page.locator('#send_request')).toBeVisible()
     await expect(page.getByRole('heading', { name: 'REST' })).toBeVisible()

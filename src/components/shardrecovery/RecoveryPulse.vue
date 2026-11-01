@@ -63,7 +63,7 @@
       >
         <template v-if="summary.throttleMs">
           <div class="font-13 q-mt-xs health--yellow">{{ t('shard_recovery.pulse.limit_reached') }}</div>
-          <router-link :to="{ name: 'tools', params: { clusterIndex }, query: { tool: 'recovery' } }" class="font-13">
+          <router-link :to="{ name: 'tools', params: { clusterId }, query: { tool: 'recovery' } }" class="font-13">
             {{ t('shard_recovery.pulse.adjust') }}
           </router-link>
         </template>
@@ -86,7 +86,7 @@ import type { RecoverySummary } from '../../types/shardRecovery.ts'
 const props = defineProps<{ summary: RecoverySummary; completedLoaded: boolean }>()
 
 const t = useTranslation()
-const clusterIndex = useConnectionStore().activeClusterIndex
+const clusterId = useConnectionStore().activeClusterId
 
 const typeBreakdown = computed(() => props.summary.activeTypes.map(({ type, count }) => `${count} ${type}`).join(', '))
 </script>

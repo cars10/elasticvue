@@ -1,5 +1,5 @@
 import { test, expect, Page } from '@playwright/test'
-import { setupClusterConnection } from '../helpers'
+import { clusterIdAt, setupClusterConnection } from '../helpers'
 import { mockElastic8 as mockElastic } from '../mocks/elastic_8'
 
 test.describe.configure({ mode: 'parallel' })
@@ -52,7 +52,7 @@ test.describe('Routing', () => {
     test('welcome redirects to current cluster if cluster is correct', async ({ page }) => {
       await setupClusterConnection(page)
       await page.goto('http://localhost:5175/welcome')
-      expect(page.url()).toContain('/cluster/0')
+      await page.waitForURL('**/cluster/default-cluster')
     })
 
     test('root redirects to current cluster if cluster is correct', async ({ page }) => {
@@ -82,7 +82,8 @@ test.describe('Routing', () => {
       })
 
       await page.goto('http://localhost:5175')
-      expect(page.url()).toContain('/cluster/1')
+      await page.waitForURL('**/cluster/*')
+      expect(page.url()).toContain(`/cluster/${await clusterIdAt(page, 1)}`)
     })
 
     test('root redirects to first cluster if cluster is wrong', async ({ page }) => {
@@ -112,7 +113,8 @@ test.describe('Routing', () => {
       })
 
       await page.goto('http://localhost:5175')
-      expect(page.url()).toContain('/cluster/0')
+      await page.waitForURL('**/cluster/*')
+      expect(page.url()).toContain(`/cluster/${await clusterIdAt(page, 0)}`)
     })
 
     test('root redirects to welcome if no cluster exists', async ({ page }) => {
@@ -133,35 +135,39 @@ test.describe('Routing', () => {
     test('can access existing clusters', async ({ page }) => {
       await setupClusterConnection(page)
 
-      await page.goto('http://localhost:5175/cluster/0')
-      expect(page.url()).toContain('/cluster/0')
+      await page.goto('http://localhost:5175/cluster/dev-cluster/indices')
+      await page.waitForURL('**/cluster/dev-cluster/indices')
+    })
 
-      await page.goto('http://localhost:5175/cluster/1')
-      expect(page.url()).toContain('/cluster/1')
+    test('old index urls redirect to the cluster id', async ({ page }) => {
+      await setupClusterConnection(page)
+
+      await page.goto('http://localhost:5175/cluster/0')
+      await page.waitForURL('**/cluster/default-cluster')
+
+      await page.goto('http://localhost:5175/cluster/1/indices')
+      await page.waitForURL('**/cluster/dev-cluster/indices')
     })
 
     test('redirect_to_cluster selects cluster by name', async ({ page }) => {
       await setupClusterConnection(page)
 
       await page.goto('http://localhost:5175/redirect_to_cluster?name=dev%20cluster')
-      await page.waitForURL('**/cluster/1')
-      expect(page.url()).toContain('/cluster/1')
+      await page.waitForURL('**/cluster/dev-cluster')
     })
 
     test('redirect_to_cluster is case-insensitive', async ({ page }) => {
       await setupClusterConnection(page)
 
       await page.goto('http://localhost:5175/redirect_to_cluster?name=DEFAULT%20CLUSTER')
-      await page.waitForURL('**/cluster/0')
-      expect(page.url()).toContain('/cluster/0')
+      await page.waitForURL('**/cluster/default-cluster')
     })
 
     test('redirect_to_cluster falls back when no cluster matches', async ({ page }) => {
       await setupClusterConnection(page)
 
       await page.goto('http://localhost:5175/redirect_to_cluster?name=unknown-cluster')
-      await page.waitForURL('**/cluster/0')
-      expect(page.url()).toContain('/cluster/0')
+      await page.waitForURL('**/cluster/default-cluster')
     })
 
     test('redirects for non-existing clusters', async ({ page }) => {
@@ -171,8 +177,7 @@ test.describe('Routing', () => {
 
       for (const value of invalids) {
         await page.goto(`http://localhost:5175/cluster/${value}`)
-        await page.waitForURL('**/cluster/0')
-        expect(page.url()).toContain('/cluster/0')
+        await page.waitForURL('**/cluster/default-cluster')
       }
     })
   })

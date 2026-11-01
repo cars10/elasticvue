@@ -45,7 +45,7 @@
                 <div v-if="check.detail.length" class="text-muted font-13 q-mt-xs">{{ check.detail.join(' ') }}</div>
                 <router-link
                   v-if="check.action?.route"
-                  :to="{ name: check.action.route, params: { clusterIndex: connectionStore.activeClusterIndex } }"
+                  :to="{ name: check.action.route, params: { clusterId: connectionStore.activeClusterId } }"
                   class="font-13 q-mt-xs inline-block"
                   @click.stop
                 >

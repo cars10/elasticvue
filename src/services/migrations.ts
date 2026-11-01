@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid'
 import { AuthType, BuildFlavor, ElasticsearchCluster, ElasticsearchClusterAuth } from '../store/connection.ts'
 import { allowedRowsPerPage, DEFAULT_SEARCH_QUERY } from '../consts.ts'
 
@@ -32,15 +33,31 @@ const migrateConnection = () => {
     return
   }
 
-  if (connection.clusters.length === 0) return
-  if (connection.clusters[0].auth) return
+  if (!Array.isArray(connection.clusters)) return
+  if (connection.clusters.length > 0 && !connection.clusters[0].auth) {
+    connection.clusters = migrateAuthType(connection.clusters as unknown as OldElasticsearchCluster[])
+  }
 
-  connection.clusters = migrateAuthType(connection.clusters as unknown as OldElasticsearchCluster[])
-
-  localStorage.setItem('connection', JSON.stringify(connection))
+  localStorage.setItem('connection', JSON.stringify(migrateClusterIds(connection)))
 }
 
-export const migrateAuthType = (clusters: OldElasticsearchCluster[]): ElasticsearchCluster[] => {
+export const migrateClusterIds = ({
+  clusters,
+  activeClusterIndex,
+  activeClusterId,
+  ...rest
+}: {
+  clusters: (Omit<ElasticsearchCluster, 'id'> & { id?: string })[]
+  activeClusterIndex?: number | null
+  activeClusterId?: string | null
+}) => {
+  const withIds = clusters.map((cluster) => ({ ...cluster, id: cluster.id || uuidv4() }))
+  const legacyActive = typeof activeClusterIndex === 'number' ? withIds[activeClusterIndex]?.id : undefined
+
+  return { ...rest, clusters: withIds, activeClusterId: activeClusterId ?? legacyActive ?? null }
+}
+
+export const migrateAuthType = (clusters: OldElasticsearchCluster[]): Omit<ElasticsearchCluster, 'id'>[] => {
   return clusters.map((cluster) => {
     let authType: AuthType
     let authData: unknown

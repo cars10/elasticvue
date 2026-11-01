@@ -38,6 +38,7 @@ describe('clusterImport helpers', () => {
 
       const existing: ElasticsearchCluster[] = [
         {
+          id: 'existing-id',
           name: 'existing',
           uri: 'http://existing',
           clusterName: '',
@@ -62,16 +63,19 @@ describe('clusterImport helpers', () => {
       expect(saved.clusters.length).toBe(2)
       expect(saved.clusters[0].name).toBe('pre1')
       expect(saved.clusters[1].name).toBe('existing')
-      expect(saved.activeClusterIndex).toBe(0)
+      expect(saved.clusters[0].id).toBeTruthy()
+      expect(saved.clusters[1].id).toBe('existing-id')
+      expect(saved.activeClusterId).toBeNull()
     })
 
     it('preserves uuid and metadata for previously imported predefined clusters', () => {
       localStorage.setItem(
         'connection',
         JSON.stringify({
-          activeClusterIndex: 1,
+          activeClusterId: 'kept-id',
           clusters: [
             {
+              id: 'kept-id',
               name: 'pre1',
               uri: 'http://pre1',
               clusterName: 'prod',
@@ -95,7 +99,8 @@ describe('clusterImport helpers', () => {
       expect(saved.clusters[0].uuid).toBe('kept-uuid')
       expect(saved.clusters[0].status).toBe('green')
       expect(saved.clusters[0].version).toBe('8.15.0')
-      expect(saved.activeClusterIndex).toBe(1)
+      expect(saved.clusters[0].id).toBe('kept-id')
+      expect(saved.activeClusterId).toBe('kept-id')
     })
   })
 

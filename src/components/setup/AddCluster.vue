@@ -24,8 +24,8 @@ const newCluster = ref({
   }
 } as ElasticsearchClusterConnection)
 const router = useRouter()
-const connectCallback = (idx: number) => {
+const connectCallback = (id: string) => {
   showSuccessSnackbar({ title: t('setup.test_and_connect.connected') })
-  reloadHomePage(router, idx)
+  reloadHomePage(router, id)
 }
 </script>

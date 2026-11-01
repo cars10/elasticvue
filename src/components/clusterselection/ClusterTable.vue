@@ -7,7 +7,7 @@
         flat
         no-caps
         :label="t('clusters.all')"
-        :to="{ name: 'clusters', params: { clusterIndex: connectionStore.activeClusterIndex } }"
+        :to="{ name: 'clusters', params: { clusterId: connectionStore.activeClusterId } }"
         data-testid="cluster-overview-link"
       />
     </div>
@@ -17,7 +17,7 @@
   <q-table
     flat
     dense
-    row-key="index"
+    row-key="id"
     data-testid="cluster-table"
     :columns="columns"
     :rows="clusters"
@@ -25,7 +25,7 @@
     :rows-per-page-options="DEFAULT_ROWS_PER_PAGE"
   >
     <template #body="{ row }: { row: ElasticsearchCluster & { index: number } }">
-      <tr class="clickable" :data-testid="`cluster-table-row-${row.index}`" @click="loadCluster(row.index)">
+      <tr class="clickable" :data-testid="`cluster-table-row-${row.index}`" @click="loadCluster(row.id)">
         <td :title="t('cluster_selection.cluster_table.row.title', { uri: row.uri })">
           <div style="flex-shrink: 0" class="flex items-center">
             <cluster-status-indicator :status="row.status" />
@@ -40,13 +40,7 @@
               </div>
             </div>
 
-            <q-chip
-              v-if="row.index === connectionStore.activeClusterIndex"
-              class="q-mx-sm"
-              color="positive"
-              text-color="white"
-              dense
-            >
+            <q-chip v-if="row.id === connectionStore.activeClusterId" class="q-mx-sm" color="positive" text-color="white" dense>
               active
             </q-chip>
           </div>
@@ -81,7 +75,7 @@
             </q-tooltip>
           </div>
           <div v-else>
-            <edit-cluster :index="row.index" />
+            <edit-cluster :id="row.id" />
             <q-btn
               icon="delete"
               round
@@ -89,7 +83,7 @@
               size="sm"
               data-testid="cluster-delete"
               :title="t('defaults.delete')"
-              @click.stop="removeInstance(row.index)"
+              @click.stop="removeInstance(row.id)"
             />
           </div>
         </td>

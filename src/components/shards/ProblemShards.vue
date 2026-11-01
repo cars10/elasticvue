@@ -5,7 +5,7 @@
         <q-icon name="warning" size="18px" class="q-mr-sm" :class="hasCritical ? 'health--red' : 'health--yellow'" />
         {{ t('shards.problems.title', { count: shards.length }) }}
       </div>
-      <router-link :to="{ name: 'tools', params: { clusterIndex }, query: { tool: 'explain' } }" class="font-13">
+      <router-link :to="{ name: 'tools', params: { clusterId }, query: { tool: 'explain' } }" class="font-13">
         {{ t('shards.problems.explain') }}
       </router-link>
     </q-card-section>
@@ -53,7 +53,7 @@ const props = defineProps<{ shards: EsShard[] }>()
 const t = useTranslation()
 const limit = 10
 const expanded = ref(false)
-const clusterIndex = useConnectionStore().activeClusterIndex
+const clusterId = useConnectionStore().activeClusterId
 
 const visible = computed(() => (expanded.value ? props.shards : props.shards.slice(0, limit)))
 const hasCritical = computed(() => props.shards.some((shard) => shardSeverity(shard) === 'critical'))

@@ -68,7 +68,7 @@ const controlSize = computed(() => (sidebarStore.collapsed ? 'sm' : 'md'))
 
 const routeTo = (name: string) => ({
   name,
-  params: { clusterIndex: connectionStore.activeClusterIndex }
+  params: { clusterId: connectionStore.activeClusterId }
 })
 
 const sections = computed(() => {

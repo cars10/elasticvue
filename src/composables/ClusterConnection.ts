@@ -24,7 +24,7 @@ const resetState = (state: Ref<TestConnectState>) => {
 
 export const useClusterConnection = (
   formCluster: Ref<UnwrapRef<ElasticsearchClusterConnection>>,
-  connectCallback?: (idx: number) => void
+  connectCallback?: (id: string) => void
 ) => {
   const t = useTranslation()
   const connectionStore = useConnectionStore()
@@ -90,7 +90,7 @@ export const useClusterConnection = (
 
       let uri = formCluster.value.uri.trim()
       if (uri.endsWith('/')) uri = uri.slice(0, -1)
-      const newIdx = connectionStore.addCluster({
+      const id = connectionStore.addCluster({
         name: formCluster.value.name.trim(),
         clusterName: infoJson.cluster_name,
         version: infoJson.version.number,
@@ -107,7 +107,7 @@ export const useClusterConnection = (
       connectState.value.success = true
       connectState.value.loading = false
 
-      return newIdx
+      return id
     } catch (e: any) {
       console.error(e)
       connectState.value.success = false
@@ -127,10 +127,10 @@ export const useClusterConnection = (
     if (!(await formValid())) return
 
     try {
-      const idx = await connect()
-      if (typeof idx !== 'number') return
+      const id = await connect()
+      if (!id) return
 
-      connectCallback?.(idx)
+      connectCallback?.(id)
     } catch (_e) {
       console.error(_e)
     }
