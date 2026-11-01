@@ -15,7 +15,7 @@ export const useEditCluster = (props: EditClusterProps) => {
   const session = useClusterSession()
 
   const getCluster = (id: string): ElasticsearchClusterConnection => {
-    const savedCluster = connectionStore.clusters.find((c) => c.id === id) as ElasticsearchCluster
+    const savedCluster = connectionStore.clusterById(id) as ElasticsearchCluster
     return {
       name: savedCluster.name,
       uri: savedCluster.uri,

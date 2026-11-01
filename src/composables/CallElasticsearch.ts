@@ -16,6 +16,7 @@ export interface RequestState {
 
 export function useElasticsearchAdapter() {
   const session = useClusterSession()
+  const pinnedAdapter = session.adapter as ElasticsearchAdapter | null
 
   const requestState: Ref<RequestState> = ref({
     loading: false,
@@ -28,7 +29,7 @@ export function useElasticsearchAdapter() {
   const callElasticsearch = async <T>(request: ElasticsearchRequest<T>): Promise<T> => {
     requestState.value = { loading: true, networkError: false, apiError: false, apiErrorMessage: '', status: -1 }
 
-    const adapter = session.adapter as ElasticsearchAdapter | null
+    const adapter = pinnedAdapter ?? (session.adapter as ElasticsearchAdapter | null)
     if (!adapter) {
       requestState.value = { ...requestState.value, loading: false }
       throw new Error('No cluster connected')

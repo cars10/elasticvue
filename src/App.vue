@@ -6,6 +6,9 @@
     <q-page-container>
       <div class="app-content">
         <router-view v-if="showClusterView" />
+        <div v-else-if="session.connectState === 'connecting'" class="flex flex-center q-pa-xl">
+          <q-spinner size="lg" data-testid="cluster-connecting" />
+        </div>
         <div v-else-if="session.connectState === 'error'" class="q-pa-lg">
           <div class="row">
             <div class="col-6 offset-3">
@@ -45,9 +48,16 @@ const connectionStore = useConnectionStore()
 const session = useClusterSession()
 const route = useRoute()
 
-const showClusterView = computed(
-  () => typeof route.params.clusterId === 'undefined' || route.name === 'settings' || session.connectState === 'ready'
-)
+const knownCluster = computed(() => {
+  const cluster = connectionStore.activeCluster
+  return Boolean(cluster?.uuid && cluster.status !== 'unknown')
+})
+
+const showClusterView = computed(() => {
+  if (typeof route.params.clusterId === 'undefined' || route.name === 'settings') return true
+  if (session.connectState === 'connecting') return knownCluster.value
+  return session.connectState === 'ready'
+})
 
 onMounted(() => {
   setAppThemeCss(themeStore.appTheme)

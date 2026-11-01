@@ -1,5 +1,5 @@
 import { useElasticsearchAdapter } from '../../CallElasticsearch.ts'
-import { useConnectionStore } from '../../../store/connection.ts'
+import { useClusterSession } from '../../../store/clusterSession.ts'
 import type { FieldCatalog } from '../../../types/search.ts'
 
 const CACHE_TTL = 60_000
@@ -14,7 +14,7 @@ export const valuesFieldFor = (catalog: FieldCatalog, field: string) => {
 }
 
 export const useFieldValues = () => {
-  const connectionStore = useConnectionStore()
+  const session = useClusterSession()
   const { callElasticsearch } = useElasticsearchAdapter()
 
   const fetchValues = async (index: string, field: string): Promise<string[]> => {
@@ -28,7 +28,7 @@ export const useFieldValues = () => {
     const valuesField = valuesFieldFor(catalog, field)
     if (!valuesField) return Promise.resolve([])
 
-    const key = `${connectionStore.activeCluster?.uuid}|${index}|${valuesField}`
+    const key = `${session.connectionId}|${index}|${valuesField}`
     const cached = cache.get(key)
     if (!cached || Date.now() - cached.at > CACHE_TTL) {
       const values = fetchValues(index, valuesField).catch(() => {

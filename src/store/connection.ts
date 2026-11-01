@@ -63,8 +63,11 @@ export const useConnectionStore = defineStore('connection', {
     }
   },
   getters: {
+    clusterById(): (id: string | null) => ElasticsearchCluster | undefined {
+      return (id) => this.clusters.find((cluster) => cluster.id === id)
+    },
     activeCluster(): ElasticsearchCluster | null {
-      return this.clusters.find((cluster) => cluster.id === this.activeClusterId) ?? null
+      return this.clusterById(this.activeClusterId) ?? null
     }
   },
   actions: {
@@ -89,7 +92,7 @@ export const useConnectionStore = defineStore('connection', {
       return this.activeCluster
     },
     setActiveCluster(id: string) {
-      if (!this.clusters.some((cluster) => cluster.id === id)) return false
+      if (!this.clusterById(id)) return false
 
       this.activeClusterId = id
       return true

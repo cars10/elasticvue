@@ -450,8 +450,7 @@ export default class ElasticsearchAdapter {
     const text = await response.text()
     if (!response.ok) throw new EsApiError(response.status, response.statusText, parseErrorBody(text))
 
-    const contentType = response.headers.get('content-type')
-    return (contentType?.includes('application/json') ? parseJson(text) : true) as T
+    return parseBody(text) as T
   }
 
   async test() {
@@ -466,5 +465,14 @@ const parseErrorBody = (text: string) => {
     return parseJson(text)
   } catch (_e) {
     return text
+  }
+}
+
+const parseBody = (text: string) => {
+  if (!text) return true
+  try {
+    return parseJson(text)
+  } catch (_e) {
+    return true
   }
 }

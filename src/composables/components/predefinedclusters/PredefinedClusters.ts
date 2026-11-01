@@ -39,11 +39,15 @@ export const loadPredefinedClusters = async () => {
 
 export const importNewClusters = (clusters: PredefinedCluster[], remainingClusters: ElasticsearchCluster[]) => {
   const previousState = loadConnectionState()
-  const previousByUri = new Map(
-    (previousState?.clusters.filter((cluster) => cluster.predefined) ?? []).map((cluster) => [cluster.uri, cluster])
-  )
+  const unmatched = previousState?.clusters.filter((cluster) => cluster.predefined) ?? []
+  const takePrevious = (cluster: PredefinedCluster) => {
+    let index = unmatched.findIndex((previous) => previous.uri === cluster.uri && previous.name === cluster.name)
+    if (index < 0) index = unmatched.findIndex((previous) => previous.uri === cluster.uri)
+    if (index < 0) return undefined
+    return unmatched.splice(index, 1)[0]
+  }
 
-  const newClusters = clusters.map((cluster) => buildPredefinedCluster(cluster, previousByUri.get(cluster.uri)))
+  const newClusters = clusters.map((cluster) => buildPredefinedCluster(cluster, takePrevious(cluster)))
 
   localStorage.setItem(
     'connection',

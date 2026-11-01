@@ -27,7 +27,7 @@ export const useClusterTable = () => {
   })
 
   const removeInstance = async (id: string) => {
-    const cluster = connectionStore.clusters.find((c) => c.id === id)
+    const cluster = connectionStore.clusterById(id)
     if (!cluster) return
     const confirmed = await askConfirm(
       t('cluster_selection.cluster_table.row.remove_cluster.confirm', { name: cluster.name, uri: cluster.uri })

@@ -38,7 +38,7 @@ export const useFieldCatalog = () => {
     }
 
     const index = targetKey(targets)
-    const key = `${connectionStore.activeCluster?.uuid}|${index}`
+    const key = `${session.connectionId}|${index}`
     if (force) catalogs.delete(key)
 
     if (!catalogs.has(key)) {

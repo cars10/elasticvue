@@ -1,9 +1,9 @@
 <template>
-  <router-view :key="String(route.params.clusterId)" />
+  <router-view :key="session.connectionId" />
 </template>
 
 <script setup lang="ts">
-import { useRoute } from 'vue-router'
+import { useClusterSession } from '../../store/clusterSession.ts'
 
-const route = useRoute()
+const session = useClusterSession()
 </script>

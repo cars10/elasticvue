@@ -38,6 +38,12 @@ describe('ElasticsearchAdapter.request', () => {
     expect(await adapter().indexRefresh({ indices: ['a'] })).toBe(true)
   })
 
+  it('parses json bodies sent with another content type', async () => {
+    fetchMethod.mockResolvedValue(respond(200, '{"status":"green"}', 'text/plain'))
+
+    expect(await adapter().clusterHealth()).toEqual({ status: 'green' })
+  })
+
   it('throws EsApiError with the parsed body on non 2xx', async () => {
     fetchMethod.mockResolvedValue(respond(400, '{"error":{"type":"index_not_found_exception"}}'))
 

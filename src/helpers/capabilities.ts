@@ -20,7 +20,6 @@ export const buildCapabilities = (cluster: CapabilityInput) => {
     serverless: cluster?.flavor === BuildFlavor.serverless,
     security: {
       available: elasticsearch && (!version || majorAtLeast(5)),
-      basePath: securityBasePath(version),
       userEnabledInBody: majorAtLeast(6),
       roleApplications: atLeast('6.4.0'),
       allowRestrictedIndices: atLeast('6.7.0'),

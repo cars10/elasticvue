@@ -70,7 +70,7 @@ export const useSearchIndexSelect = () => {
   }
 
   const loadOptions = async () => {
-    const key = connectionStore.activeCluster?.uuid || ''
+    const key = String(session.connectionId)
     const cached = cache.get(key)
     if (!cached || Date.now() - cached.at > CACHE_TTL) cache.set(key, { at: Date.now(), options: fetchOptions() })
     options.value = await cache.get(key)!.options

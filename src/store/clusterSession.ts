@@ -6,9 +6,11 @@ import { checkHealth } from '../composables/components/home/ClusterHealth.ts'
 import { buildCapabilities, ClusterCapabilities } from '../helpers/capabilities.ts'
 
 const HEALTH_INTERVAL = 30000
+let connections = 0
 
 type ClusterSessionState = {
   clusterId: string | null
+  connectionId: number
   adapter: ElasticsearchAdapter | null
   connectState: 'idle' | 'connecting' | 'ready' | 'error'
   healthTimer: number | undefined
@@ -17,6 +19,7 @@ type ClusterSessionState = {
 export const useClusterSession = defineStore('clusterSession', {
   state: (): ClusterSessionState => ({
     clusterId: null,
+    connectionId: 0,
     adapter: null,
     connectState: 'idle',
     healthTimer: undefined
@@ -30,23 +33,24 @@ export const useClusterSession = defineStore('clusterSession', {
     async connect(clusterId: string) {
       if (this.clusterId === clusterId && this.connectState !== 'error') return
 
-      const cluster = useConnectionStore().clusters.find((c) => c.id === clusterId)
+      const cluster = useConnectionStore().clusterById(clusterId)
       this.disconnect()
       if (!cluster) return
 
       const adapter = markRaw(new ElasticsearchAdapter(cluster))
       this.clusterId = clusterId
+      this.connectionId = ++connections
       this.adapter = adapter
       this.connectState = 'connecting'
 
-      await this.checkHealth(cluster)
+      await this.checkHealth(cluster, adapter)
       if (this.adapter !== adapter) return
 
-      this.healthTimer = window.setInterval(() => this.checkHealth(cluster), HEALTH_INTERVAL)
+      this.healthTimer = window.setInterval(() => this.checkHealth(cluster, adapter), HEALTH_INTERVAL)
     },
-    async checkHealth(cluster: ElasticsearchCluster) {
+    async checkHealth(cluster: ElasticsearchCluster, adapter: ElasticsearchAdapter) {
       await checkHealth(cluster)
-      if (this.clusterId !== cluster.id) return
+      if (this.adapter !== adapter) return
 
       this.connectState = cluster.status === 'unknown' ? 'error' : 'ready'
     },

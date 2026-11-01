@@ -1,7 +1,8 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import {
-  importNewClusters, loadPredefinedClusters,
-  PredefinedCluster,
+  importNewClusters,
+  loadPredefinedClusters,
+  PredefinedCluster
 } from '../../../src/composables/components/predefinedclusters/PredefinedClusters'
 
 import { AuthType, BuildFlavor, ElasticsearchCluster } from '../../../src/store/connection'
@@ -102,15 +103,26 @@ describe('clusterImport helpers', () => {
       expect(saved.clusters[0].id).toBe('kept-id')
       expect(saved.activeClusterId).toBe('kept-id')
     })
+
+    it('keeps distinct ids for predefined clusters sharing a uri', () => {
+      const config: PredefinedCluster[] = [
+        { name: 'admin', uri: 'http://shared', username: 'elastic', password: 'a' },
+        { name: 'readonly', uri: 'http://shared', username: 'reader', password: 'b' }
+      ]
+
+      importNewClusters(config, [])
+      const first = JSON.parse(localStorage.getItem('connection') as string)
+      importNewClusters(config, [])
+      const second = JSON.parse(localStorage.getItem('connection') as string)
+
+      expect(first.clusters[0].id).not.toBe(first.clusters[1].id)
+      expect(second.clusters.map((c: { id: string }) => c.id)).toEqual(first.clusters.map((c: { id: string }) => c.id))
+    })
   })
 
   describe('loadPredefinedClusters', () => {
     it('fetches valid clusters with uri', async () => {
-      const fakeClusters: PredefinedCluster[] = [
-        { uri: 'http://one' },
-        { uri: '' },
-        { uri: 'http://two', apiKey: 'x' }
-      ]
+      const fakeClusters: PredefinedCluster[] = [{ uri: 'http://one' }, { uri: '' }, { uri: 'http://two', apiKey: 'x' }]
 
       global.fetch = vi.fn().mockResolvedValue({
         status: 200,
@@ -121,10 +133,7 @@ describe('clusterImport helpers', () => {
       })
 
       const result = await loadPredefinedClusters()
-      expect(result).toEqual([
-        { uri: 'http://one' },
-        { uri: 'http://two', apiKey: 'x' }
-      ])
+      expect(result).toEqual([{ uri: 'http://one' }, { uri: 'http://two', apiKey: 'x' }])
     })
 
     it('returns undefined on fetch failure', async () => {
