@@ -1,5 +1,5 @@
 import { useTemplateRef } from 'vue'
-import { useModal } from '../../Modal'
+import { useModalStore } from '../../../store/modal.ts'
 import { QMenu } from 'quasar'
 import { useRouter } from 'vue-router'
 import ElasticsearchIndex from '../../../models/ElasticsearchIndex.ts'
@@ -11,7 +11,8 @@ export type IndexRowProps = {
 export const useIndexRow = (_props: IndexRowProps, emit: any) => {
   const menu = useTemplateRef<QMenu>('menu')
 
-  const { openModalWith } = useModal()
+  const modalStore = useModalStore()
+  const openModalWith = modalStore.open
 
   const emitReloadAndCloseMenu = () => {
     emit('reload')

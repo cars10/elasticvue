@@ -51,15 +51,18 @@ export const useIndexShards = () => {
   const problems = computed(() => problemShards(visibleShards.value))
 
   const fetchIndices = () =>
-    callEnrichment('catIndices', {
-      h: ['index', 'health', 'status', 'pri', 'rep'],
-      ...(useClusterSession().capabilities.indices.expandWildcardsAll && { expand_wildcards: 'all' })
-    }) as Promise<(EsShardIndex & { status: string })[]>
-  const fetchNodes = () => callEnrichment('catNodes', { h: ['name', 'node.role', 'version'] }) as Promise<Partial<EsNode>[]>
+    callEnrichment((es) =>
+      es.catIndices({
+        h: ['index', 'health', 'status', 'pri', 'rep'],
+        ...(useClusterSession().capabilities.indices.expandWildcardsAll && { expand_wildcards: 'all' })
+      })
+    ) as Promise<(EsShardIndex & { status: string })[]>
+  const fetchNodes = () =>
+    callEnrichment((es) => es.catNodes({ h: ['name', 'node.role', 'version'] })) as Promise<Partial<EsNode>[]>
 
   const load = async () => {
     const [shardsResult, indicesResult, nodesResult] = await Promise.allSettled([
-      callElasticsearch('catShards', CAT_SHARDS_PARAMS) as Promise<EsShard[]>,
+      callElasticsearch((es) => es.catShards(CAT_SHARDS_PARAMS)) as Promise<EsShard[]>,
       fetchIndices(),
       fetchNodes()
     ])

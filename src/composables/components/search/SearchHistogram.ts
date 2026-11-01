@@ -28,7 +28,7 @@ export const useSearchHistogram = () => {
     }
 
     const aggs = { min: { min: { field } }, max: { max: { field } } }
-    const result = await callElasticsearch('search', { size: 0, query, aggs }, index)
+    const result = await callElasticsearch((es) => es.search({ size: 0, query, aggs }, index))
     const min = Number(result?.aggregations?.min?.value ?? NaN)
     const max = Number(result?.aggregations?.max?.value ?? NaN)
     return Number.isFinite(min) && Number.isFinite(max) ? { min, max } : null
@@ -48,7 +48,7 @@ export const useSearchHistogram = () => {
 
       const histogram = histogramAggregation(request.field, bounds, { fixedInterval: request.fixedInterval })
       const body = { size: 0, query: request.query, aggs: { histogram: histogram.aggregation } }
-      const result = await callElasticsearch('search', body, request.index)
+      const result = await callElasticsearch((es) => es.search(body, request.index))
       if (current !== latest) return
 
       interval.value = histogram.interval

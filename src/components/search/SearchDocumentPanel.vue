@@ -125,9 +125,9 @@ const { requestState, callElasticsearch } = useElasticsearchAdapter()
 onMounted(async () => {
   if (!props.fetchSource) return
   const { _index, _type, _id, _routing } = props.hit
-  const loaded = await callElasticsearch('get', { index: _index, type: _type || '_doc', id: _id, routing: _routing }).catch(
-    () => null
-  )
+  const loaded = await callElasticsearch((es) =>
+    es.get({ index: _index, type: _type || '_doc', id: _id, routing: _routing })
+  ).catch(() => null)
   if (loaded?._source) document.value = { ...props.hit, _source: loaded._source }
 })
 
@@ -139,21 +139,21 @@ watch(source, (value) => (draft.value = stringifyJson(value)), { immediate: true
 
 const isFilterable = (value: unknown) => ['string', 'number', 'bigint', 'boolean'].includes(typeof value)
 
-const { run: runUpdate, loading: updating } = defineElasticsearchRequest({ method: 'index' })
+const { run: runUpdate, loading: updating } = defineElasticsearchRequest()
 const updateDocument = async () => {
   const { _index, _type, _id, _routing } = props.hit
   const updated = await runUpdate({
-    params: { index: _index, type: _type || '_doc', id: _id, routing: _routing, params: draft.value },
+    request: (es) => es.index({ index: _index, type: _type || '_doc', id: _id, routing: _routing, params: draft.value }),
     snackbarOptions: { body: t('search.edit_document.update.growl') }
   })
   if (updated) emit('reload')
 }
 
-const { run } = defineElasticsearchRequest({ method: 'delete' })
+const { run } = defineElasticsearchRequest()
 const deleteDocument = async () => {
   const { _index, _type, _id, _routing } = props.hit
   const deleted = await run({
-    params: { index: _index, type: _type || '_doc', id: _id, routing: _routing },
+    request: (es) => es.delete({ index: _index, type: _type || '_doc', id: _id, routing: _routing }),
     confirmMsg: t('search.search_result.delete.confirm', 1),
     snackbarOptions: { body: t('search.search_result.delete.growl', 1) }
   })

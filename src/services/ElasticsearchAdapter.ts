@@ -1,17 +1,20 @@
 import { addTrailingSlash, clusterAuthHeader } from '../helpers/elasticsearchAdapter.ts'
 import { REQUEST_DEFAULT_HEADERS } from '../consts'
-import { fetchMethod } from '../helpers/fetch'
+import { fetchMethod, FetchResponse } from '../helpers/fetch'
 import { stringifyJson } from '../helpers/json/stringify.ts'
 import { cleanIndexName } from '../helpers/cleanIndexName.ts'
 import { AuthType, ElasticsearchClusterConnection } from '../store/connection.ts'
 import { AwsClient } from 'aws4fetch'
 import { securityBasePath } from '../helpers/capabilities.ts'
+import { parseJson } from '../helpers/json/parse.ts'
+import { EsApiError, EsNetworkError } from './errors.ts'
 
 interface IndexGetArgs {
   routing?: string
 }
 
-export type ElasticsearchMethod = keyof ElasticsearchAdapter
+export type ElasticsearchRequest<T = any> = (es: ElasticsearchAdapter) => Promise<T>
+
 const MAX_INDICES_PER_REQUEST = 16
 
 type TemplateParams = { name?: string; filter_path?: string }
@@ -50,29 +53,11 @@ export default class ElasticsearchAdapter {
     return `${securityBasePath(this.cluster.version)}/${path}`
   }
 
-  call(method: ElasticsearchMethod, ...args: any[]): Promise<any> {
-    // @ts-expect-error dynamic function call
-    return this[method](...args)
-  }
+  private async inChunks(indices: string[], request: (indices: string) => Promise<unknown>) {
+    if (indices.length <= MAX_INDICES_PER_REQUEST) return request(cleanIndexName(indices.join(',')))
 
-  async callInChunks({
-    method,
-    indices,
-    ...additionalParams
-  }: {
-    method: keyof ElasticsearchAdapter
-    indices: string[]
-    [key: string]: any
-  }) {
-    const chunks = chunk(indices, MAX_INDICES_PER_REQUEST)
-    const responses = []
-
-    for (const c of chunks) {
-      const response = await this.call(method, { indices: c, ...additionalParams })
-      responses.push(response)
-    }
-
-    return responses
+    for (const c of chunk(indices, MAX_INDICES_PER_REQUEST)) await request(cleanIndexName(c.join(',')))
+    return { acknowledged: true }
   }
 
   /** routes always available **/
@@ -149,35 +134,19 @@ export default class ElasticsearchAdapter {
   }
 
   indexDelete({ indices }: { indices: string[] }) {
-    if (indices.length > MAX_INDICES_PER_REQUEST) {
-      return this.callInChunks({ method: 'indexDelete', indices })
-    } else {
-      return this.request(cleanIndexName(indices.join(',')), 'DELETE')
-    }
+    return this.inChunks(indices, (names) => this.request(names, 'DELETE'))
   }
 
   indexRefresh({ indices }: { indices: string[] }) {
-    if (indices.length > MAX_INDICES_PER_REQUEST) {
-      return this.callInChunks({ method: 'indexRefresh', indices })
-    } else {
-      return this.request(`${cleanIndexName(indices.join(','))}/_refresh`, 'POST')
-    }
+    return this.inChunks(indices, (names) => this.request(`${names}/_refresh`, 'POST'))
   }
 
   indexClearCache({ indices }: { indices: string[] }) {
-    if (indices.length > MAX_INDICES_PER_REQUEST) {
-      return this.callInChunks({ method: 'indexClearCache', indices })
-    } else {
-      return this.request(`${cleanIndexName(indices.join(','))}/_cache/clear`, 'POST')
-    }
+    return this.inChunks(indices, (names) => this.request(`${names}/_cache/clear`, 'POST'))
   }
 
   indexFlush({ indices }: { indices: string[] }) {
-    if (indices.length > MAX_INDICES_PER_REQUEST) {
-      return this.callInChunks({ method: 'indexFlush', indices })
-    } else {
-      return this.request(`${cleanIndexName(indices.join(','))}/_flush`, 'POST')
-    }
+    return this.inChunks(indices, (names) => this.request(`${names}/_flush`, 'POST'))
   }
 
   indexGetSettings({ index }: { index: string }) {
@@ -189,11 +158,7 @@ export default class ElasticsearchAdapter {
   }
 
   indexPutSettings({ indices, body }: { indices: string[]; body: object }) {
-    if (indices.length > MAX_INDICES_PER_REQUEST) {
-      return this.callInChunks({ method: 'indexPutSettings', indices, body })
-    } else {
-      return this.request(`${cleanIndexName(indices.join(','))}/_settings`, 'PUT', body)
-    }
+    return this.inChunks(indices, (names) => this.request(`${names}/_settings`, 'PUT', body))
   }
 
   reindex({ source, dest }: { source: string; dest: string }) {
@@ -207,7 +172,7 @@ export default class ElasticsearchAdapter {
     return this.request(`${cleanIndexName(source)}/_clone/${cleanIndexName(dest)}`, 'POST')
   }
 
-  index({ index, type, id, routing, params }: { index: string; type: string; id: any; routing: string; params: any }) {
+  index({ index, type, id, routing, params }: { index: string; type: string; id: any; routing?: string; params: any }) {
     let path = `${cleanIndexName(index)}/${type}/${encodeURIComponent(id)}?refresh=true`
     if (routing) path += `&routing=${routing}`
     return this.request(path, 'PUT', params)
@@ -360,27 +325,15 @@ export default class ElasticsearchAdapter {
   }
 
   indexClose({ indices }: { indices: string[] }) {
-    if (indices.length > MAX_INDICES_PER_REQUEST) {
-      return this.callInChunks({ method: 'indexClose', indices })
-    } else {
-      return this.request(`${cleanIndexName(indices.join(','))}/_close`, 'POST')
-    }
+    return this.inChunks(indices, (names) => this.request(`${names}/_close`, 'POST'))
   }
 
   indexOpen({ indices }: { indices: string[] }) {
-    if (indices.length > MAX_INDICES_PER_REQUEST) {
-      return this.callInChunks({ method: 'indexOpen', indices })
-    } else {
-      return this.request(`${cleanIndexName(indices.join(','))}/_open`, 'POST')
-    }
+    return this.inChunks(indices, (names) => this.request(`${names}/_open`, 'POST'))
   }
 
   indexForcemerge({ indices }: { indices: string[] }) {
-    if (indices.length > MAX_INDICES_PER_REQUEST) {
-      return this.callInChunks({ method: 'indexForcemerge', indices })
-    } else {
-      return this.request(`${cleanIndexName(indices.join(','))}/_forcemerge`, 'POST')
-    }
+    return this.inChunks(indices, (names) => this.request(`${names}/_forcemerge`, 'POST'))
   }
 
   catNodes(params: object) {
@@ -459,7 +412,7 @@ export default class ElasticsearchAdapter {
     return this.request(`_slm/policy/${policy}/_execute`, 'POST')
   }
 
-  async request(path: string, method: string, params?: any) {
+  async request<T = any>(path: string, method: string, params?: any): Promise<T> {
     const url = new URL(this.uri + path)
 
     if (method === 'GET' && typeof params === 'object') {
@@ -487,30 +440,31 @@ export default class ElasticsearchAdapter {
       })
     }
 
-    return new Promise((resolve, reject) => {
-      return fetchMethod(url, options)
-        .then((response) => {
-          if (options.method === 'HEAD') {
-            return resolve(response.ok)
-          }
+    let response: FetchResponse
+    try {
+      response = await fetchMethod(url, options)
+    } catch (e) {
+      throw new EsNetworkError(e)
+    }
 
-          if (response.ok) {
-            resolve(response)
-          } else {
-            reject(response)
-          }
-        })
-        .catch(reject)
-    })
+    const text = await response.text()
+    if (!response.ok) throw new EsApiError(response.status, response.statusText, parseErrorBody(text))
+
+    const contentType = response.headers.get('content-type')
+    return (contentType?.includes('application/json') ? parseJson(text) : true) as T
   }
 
   async test() {
-    try {
-      const info = await this.ping()
-      await this.search({}, 'no_indices_match_this_pattern*', { allow_no_indices: 'true', ignore_unavailable: 'true', size: '0' })
-      return Promise.resolve(info)
-    } catch (e) {
-      return Promise.reject(e)
-    }
+    const info = await this.ping()
+    await this.search({}, 'no_indices_match_this_pattern*', { allow_no_indices: 'true', ignore_unavailable: 'true', size: '0' })
+    return info
+  }
+}
+
+const parseErrorBody = (text: string) => {
+  try {
+    return parseJson(text)
+  } catch (_e) {
+    return text
   }
 }

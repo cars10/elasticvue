@@ -32,7 +32,7 @@ export const useEditRepositorySnapshotPolicy = (emit: any, repository: string, p
 
   const loadPolicy = async () => {
     try {
-      const response = await callElasticsearch('slmGetPolicy', { policy: policyId.value })
+      const response = await callElasticsearch((es) => es.slmGetPolicy({ policy: policyId.value }))
 
       let policyData = null
 
@@ -91,10 +91,7 @@ export const useEditRepositorySnapshotPolicy = (emit: any, repository: string, p
     await loadPolicy()
   }
 
-  const { run, loading } = defineElasticsearchRequest({
-    emit: (event: string) => emit(event as 'reload'),
-    method: 'slmPutPolicy'
-  })
+  const { run, loading } = defineElasticsearchRequest({ emit: (event: string) => emit(event as 'reload') })
 
   const updatePolicy = async () => {
     if (!formValid.value) return
@@ -127,10 +124,11 @@ export const useEditRepositorySnapshotPolicy = (emit: any, repository: string, p
     }
 
     const success = await run({
-      params: {
-        policy: policy.value.id,
-        body: policyBody
-      },
+      request: (es) =>
+        es.slmPutPolicy({
+          policy: policy.value.id,
+          body: policyBody
+        }),
       snackbarOptions: (body: ElasticsearchResponse) => {
         return {
           title: t('snapshot_policies.edit_policy.update_policy.growl', { name: policy.value.name }),

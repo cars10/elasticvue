@@ -69,7 +69,10 @@
       <q-btn flat round dense icon="more_vert" data-testid="index-row-menu">
         <q-menu ref="menu">
           <q-list padding dense>
-            <q-item clickable @click="openModalWith('indexGet', { index: index.index })">
+            <q-item
+              clickable
+              @click="openModalWith('indexGet', (es) => es.indexGet({ index: index.index }), { index: index.index })"
+            >
               <q-item-section side>
                 <q-icon name="info" size="xs" />
               </q-item-section>
@@ -77,7 +80,10 @@
                 <q-item-label>{{ t('indices.index_row.options.show_info') }}</q-item-label>
               </q-item-section>
             </q-item>
-            <q-item clickable @click="openModalWith('indexStats', { index: index.index })">
+            <q-item
+              clickable
+              @click="openModalWith('indexStats', (es) => es.indexStats({ index: index.index }), { index: index.index })"
+            >
               <q-item-section side>
                 <q-icon name="show_chart" size="xs" />
               </q-item-section>
@@ -96,8 +102,7 @@
 
             <row-menu-action
               v-if="capabilities.indices.forcemerge && !capabilities.serverless"
-              method="indexForcemerge"
-              :method-params="{ indices: [props.index.index] }"
+              :request="(es) => es.indexForcemerge({ indices: [props.index.index] })"
               :text="t('indices.index_row.options.forcemerge.text')"
               :growl="t('indices.index_row.options.forcemerge.growl', { index: index.index })"
               icon="call_merge"
@@ -105,8 +110,7 @@
             />
 
             <row-menu-action
-              method="indexRefresh"
-              :method-params="{ indices: [props.index.index] }"
+              :request="(es) => es.indexRefresh({ indices: [props.index.index] })"
               :text="t('indices.index_row.options.refresh.text')"
               :growl="t('indices.index_row.options.refresh.growl', { index: index.index })"
               icon="refresh"
@@ -114,8 +118,7 @@
             />
 
             <row-menu-action
-              method="indexFlush"
-              :method-params="{ indices: [props.index.index] }"
+              :request="(es) => es.indexFlush({ indices: [props.index.index] })"
               :text="t('indices.index_row.options.flush.text')"
               :growl="t('indices.index_row.options.flush.growl', { index: index.index })"
               icon="archive"
@@ -123,8 +126,7 @@
             />
 
             <row-menu-action
-              method="indexClearCache"
-              :method-params="{ indices: [props.index.index] }"
+              :request="(es) => es.indexClearCache({ indices: [props.index.index] })"
               :text="t('indices.index_row.options.clear_cache.text')"
               :growl="t('indices.index_row.options.clear_cache.growl', { index: index.index })"
               icon="clear_all"
@@ -133,8 +135,9 @@
 
             <row-menu-action
               v-if="!readOnly || index.blocks === null"
-              method="indexPutSettings"
-              :method-params="{ indices: [props.index.index], body: { index: { blocks: { write: true } } } }"
+              :request="
+                (es) => es.indexPutSettings({ indices: [props.index.index], body: { index: { blocks: { write: true } } } })
+              "
               :text="t('indices.index_row.options.set_readonly.text')"
               :growl="t('indices.index_row.options.set_readonly.growl', { index: index.index })"
               :confirm="t('indices.index_row.options.set_readonly.confirm', { index: index.index })"
@@ -144,8 +147,7 @@
 
             <row-menu-action
               v-if="readOnly || index.blocks === null"
-              method="indexPutSettings"
-              :method-params="{ indices: [props.index.index], body: writableSettingsBody(index.blocks) }"
+              :request="(es) => es.indexPutSettings({ indices: [props.index.index], body: writableSettingsBody(index.blocks) })"
               :text="t('indices.index_row.options.set_writable.text')"
               :growl="t('indices.index_row.options.set_writable.growl', { index: index.index })"
               icon="lock_open"
@@ -154,8 +156,7 @@
 
             <row-menu-action
               v-if="index.status === 'open' && !capabilities.serverless"
-              method="indexClose"
-              :method-params="{ indices: [props.index.index] }"
+              :request="(es) => es.indexClose({ indices: [props.index.index] })"
               :confirm="t('indices.index_row.options.close.confirm', { index: index.index })"
               :text="t('indices.index_row.options.close.text')"
               :growl="t('indices.index_row.options.close.growl', { index: index.index })"
@@ -164,8 +165,7 @@
             />
             <row-menu-action
               v-else-if="!capabilities.serverless"
-              method="indexOpen"
-              :method-params="{ indices: [props.index.index] }"
+              :request="(es) => es.indexOpen({ indices: [props.index.index] })"
               :text="t('indices.index_row.options.open.text')"
               :growl="t('indices.index_row.options.open.growl', { index: index.index })"
               icon="lock_open"
@@ -176,8 +176,7 @@
 
             <row-menu-action
               v-if="capabilities.indices.deleteByQuery"
-              method="deleteByQuery"
-              :method-params="{ index: props.index.index }"
+              :request="(es) => es.deleteByQuery({ index: props.index.index })"
               :text="t('indices.index_row.options.delete_by_query.text')"
               :growl="t('indices.index_row.options.delete_by_query.growl', { index: index.index })"
               :confirm="t('indices.index_row.options.delete_by_query.confirm', { index: index.index })"
@@ -186,8 +185,7 @@
             />
 
             <row-menu-action
-              method="indexDelete"
-              :method-params="{ indices: [props.index.index] }"
+              :request="(es) => es.indexDelete({ indices: [props.index.index] })"
               :text="t('indices.index_row.options.delete.text')"
               :growl="t('indices.index_row.options.delete.growl', { index: index.index })"
               :confirm="t('indices.index_row.options.delete.confirm', { index: index.index })"

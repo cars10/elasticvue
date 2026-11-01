@@ -11,12 +11,11 @@
 </template>
 
 <script setup lang="ts">
-import { ElasticsearchMethod } from '../../services/ElasticsearchAdapter'
+import { ElasticsearchRequest } from '../../services/ElasticsearchAdapter.ts'
 import { useRowMenuAction } from '../../composables/components/RowMenuAction.ts'
 
 const props = defineProps<{
-  method: ElasticsearchMethod
-  methodParams: unknown
+  request: ElasticsearchRequest
   icon: string
   text: string
   growl?: string
@@ -25,11 +24,5 @@ const props = defineProps<{
 }>()
 const emit = defineEmits(['done'])
 
-const { run, requestState } = useRowMenuAction({
-  method: props.method,
-  methodParams: props.methodParams,
-  growl: props.growl,
-  confirm: props.confirm,
-  emit
-})
+const { run, requestState } = useRowMenuAction(props, emit)
 </script>

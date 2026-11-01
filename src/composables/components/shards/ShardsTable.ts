@@ -105,7 +105,7 @@ export const useShardsTable = (props: ShardsTableProps, emit: any) => {
     ]
 
     try {
-      await callElasticsearch('clusterReroute', commands)
+      await callElasticsearch((es) => es.clusterReroute(commands))
       currentReroutingShard.value = {} as EsShard
       emit('reload')
     } catch (_e) {

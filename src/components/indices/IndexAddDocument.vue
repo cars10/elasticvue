@@ -163,15 +163,16 @@ const setMode = (value: 'fields' | 'json') => {
   mode.value = value
 }
 
-const { run, loading } = defineElasticsearchRequest({ method: 'indexDocument' })
+const { run, loading } = defineElasticsearchRequest()
 const addDocument = async () => {
   const added = await run({
-    params: {
-      index: props.index,
-      type: type.value,
-      id: id.value,
-      params: mode.value === 'fields' ? fieldsDocument() : document.value
-    },
+    request: (es) =>
+      es.indexDocument({
+        index: props.index,
+        type: type.value,
+        id: id.value,
+        params: mode.value === 'fields' ? fieldsDocument() : document.value
+      }),
     snackbarOptions: { body: t('indices.index_add_document.growl') }
   })
   if (!added) return

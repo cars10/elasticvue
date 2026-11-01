@@ -6,7 +6,17 @@ export const fetchReqwest = async (resource: any, init: any) => {
   const r: Response = await invoke('fetch_reqwest', { resource, init })
   return new FetchReqwestResponse(r)
 }
-export const fetchMethod = buildConfig.tauri ? fetchReqwest : window.fetch
+export type FetchResponse = {
+  ok: boolean
+  status: number
+  statusText: string
+  headers: { get(name: string): string | null }
+  text(): Promise<string>
+}
+
+export const fetchMethod: (input: URL | string, init?: RequestInit) => Promise<FetchResponse> = buildConfig.tauri
+  ? fetchReqwest
+  : window.fetch
 
 class FetchReqwestResponseHeaders {
   headers: Record<string, string>
@@ -16,7 +26,9 @@ class FetchReqwestResponseHeaders {
   }
 
   get(header: string) {
-    return this.headers[header].length === 1 ? this.headers[header][0] : this.headers[header]
+    const value = this.headers[header]
+    if (!value) return null
+    return value.length === 1 ? value[0] : value
   }
 }
 

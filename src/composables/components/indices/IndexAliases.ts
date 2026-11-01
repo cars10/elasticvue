@@ -31,7 +31,7 @@ export const useIndexAliases = (props: IndexAliasProps, emit: any) => {
   })
 
   const loadAliases = () => {
-    callElasticsearch('indexGetAlias', { index: props.index })
+    callElasticsearch((es) => es.indexGetAlias({ index: props.index }))
       .then((body) => {
         aliases.value = Object.keys(body[props.index].aliases).map((alias) => ({ alias }))
       })
@@ -39,7 +39,7 @@ export const useIndexAliases = (props: IndexAliasProps, emit: any) => {
   }
 
   const addAlias = () => {
-    callElasticsearch('indexAddAlias', { index: props.index, alias: newAlias.value })
+    callElasticsearch((es) => es.indexAddAlias({ index: props.index, alias: newAlias.value }))
       .then(() => {
         loadAliases()
         newAlias.value = ''
@@ -53,7 +53,7 @@ export const useIndexAliases = (props: IndexAliasProps, emit: any) => {
   const deleteAlias = (alias: string) => {
     askConfirm(t('indices.index_aliases.delete_alias.confirm', { alias, index: props.index })).then((confirmed) => {
       if (confirmed) {
-        callElasticsearch('indexDeleteAlias', { index: props.index, alias })
+        callElasticsearch((es) => es.indexDeleteAlias({ index: props.index, alias }))
           .then(loadAliases)
           .catch(() => showSnackbar(requestState.value))
       }

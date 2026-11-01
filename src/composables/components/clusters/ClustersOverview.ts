@@ -33,7 +33,7 @@ export type ClusterSummary = {
   nodesAvailable: boolean
 }
 
-const json = (request: Promise<unknown>) => request.then((response: any) => response.json()).catch(() => null)
+const orNull = <T>(request: Promise<T>) => request.catch(() => null)
 
 const shardsPercent = (health: ClusterHealth | null) => {
   if (!health) return null
@@ -50,8 +50,8 @@ export const useClustersOverview = () => {
     const adapter = new ElasticsearchAdapter(cluster)
     const [health, stats, nodesBody] = await Promise.all([
       checkHealth(cluster),
-      json(adapter.clusterStats(CLUSTER_STATS_PARAMS)),
-      json(adapter.nodesStats(NODES_STATS.metrics, NODES_STATS.params))
+      orNull(adapter.clusterStats(CLUSTER_STATS_PARAMS)),
+      orNull(adapter.nodesStats(NODES_STATS.metrics, NODES_STATS.params))
     ])
 
     const nodes = parseNodesFromStats(nodesBody)

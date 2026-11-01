@@ -50,7 +50,7 @@ import ResizableContainer from '../shared/ResizableContainer.vue'
 import LoaderStatus from '../shared/LoaderStatus.vue'
 import { useTranslation } from '../../composables/i18n.ts'
 import { useElasticsearchAdapter } from '../../composables/CallElasticsearch.ts'
-import { extractTemplateBody, TEMPLATE_METHODS } from '../../helpers/indexTemplates.ts'
+import { extractTemplateBody, TEMPLATE_REQUESTS } from '../../helpers/indexTemplates.ts'
 import type { IndexTemplate, IndexTemplateType } from '../../types/indexTemplates.ts'
 import { stringifyJson } from '../../helpers/json/stringify.ts'
 
@@ -70,7 +70,7 @@ const toggle = async () => {
 
   const { type, name } = props.row
   try {
-    body.value = extractTemplateBody(type, name, await callElasticsearch(TEMPLATE_METHODS[type], { name }))
+    body.value = extractTemplateBody(type, name, await callElasticsearch(TEMPLATE_REQUESTS[type](name)))
   } catch (_e) {}
 }
 

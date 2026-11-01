@@ -36,10 +36,11 @@ export const useSearchResult = (props: SearchResultProps, emit: any) => {
     return truncateString(formatted, maxLength())
   }
 
-  const { run } = defineElasticsearchRequest({ emit, method: 'delete' })
+  const { run } = defineElasticsearchRequest({ emit })
   const deleteDocument = () =>
     run({
-      params: { index: props.hit._index, type: props.hit._type || '_doc', id: props.hit._id, routing: props.hit._routing },
+      request: (es) =>
+        es.delete({ index: props.hit._index, type: props.hit._type || '_doc', id: props.hit._id, routing: props.hit._routing }),
       confirmMsg: t('search.search_result.delete.confirm', 1),
       snackbarOptions: { body: t('search.search_result.delete.growl', 1) }
     })

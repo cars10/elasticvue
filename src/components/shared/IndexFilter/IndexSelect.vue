@@ -39,7 +39,6 @@
 import { onMounted, ref, watch } from 'vue'
 import { useTranslation } from '../../../composables/i18n'
 import { useElasticsearchAdapter } from '../../../composables/CallElasticsearch'
-import { ElasticsearchMethod } from '../../../services/ElasticsearchAdapter'
 import { EsIndex } from '../../../composables/components/indices/IndicesTable.ts'
 
 const t = useTranslation()
@@ -50,15 +49,11 @@ const props = withDefaults(
     modelValue: string[]
     indexNames?: string[]
     behavior: Behavior
-    method?: ElasticsearchMethod
-    methodParams?: any
   }>(),
   {
     modelValue: () => [],
     indexNames: () => [],
-    behavior: 'use',
-    method: 'catIndices',
-    methodParams: null
+    behavior: 'use'
   }
 )
 const emit = defineEmits(['update:modelValue'])
@@ -72,7 +67,7 @@ const indices = ref([])
 const { requestState, callElasticsearch } = useElasticsearchAdapter()
 if (props.behavior === 'load') {
   const load = () => {
-    return callElasticsearch(props.method, props.methodParams)
+    return callElasticsearch((es) => es.catIndices({ index: '*', h: 'index' }))
       .then((body) => (indices.value = body.map((i: EsIndex) => i.index || i).sort()))
       .catch(() => (indices.value = []))
   }

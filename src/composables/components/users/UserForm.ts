@@ -28,7 +28,7 @@ export const useUserRoles = (dialog: { value: boolean }) => {
 
   const loadRoles = async () => {
     try {
-      const roles = await callElasticsearch('securityRoles', ROLE_NAMES_PARAMS)
+      const roles = await callElasticsearch((es) => es.securityRoles(ROLE_NAMES_PARAMS))
       roleOptions.value = Object.keys(roles || {}).sort()
     } catch (_e) {
       roleOptions.value = []

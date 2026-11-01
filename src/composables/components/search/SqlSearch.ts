@@ -11,7 +11,7 @@ export const useSqlSearch = () => {
   let latest = 0
 
   const fetchPage = ({ path, format }: SqlApi, body: object) =>
-    callElasticsearch('sqlQuery', { path, format, body }).then(sqlPage)
+    callElasticsearch((es) => es.sqlQuery({ path, format, body })).then(sqlPage)
 
   const run = async (api: SqlApi, mode: SqlMode, query: string) => {
     const request = ++latest

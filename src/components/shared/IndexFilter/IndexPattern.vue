@@ -40,7 +40,7 @@ const localValue = ref(props.modelValue)
 
 const { requestState, callElasticsearch } = useElasticsearchAdapter()
 const load = () => {
-  return callElasticsearch('catIndices', { index: localValue.value, h: 'index' })
+  return callElasticsearch((es) => es.catIndices({ index: localValue.value, h: 'index' }))
     .then((body) => (indices.value = body))
     .catch(() => (indices.value = []))
 }

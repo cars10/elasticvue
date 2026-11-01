@@ -33,9 +33,9 @@ export const useSnapshotRepositories = () => {
 
   const load = async () => {
     const [repositoriesResult, statusResult, policiesResult] = await Promise.allSettled([
-      callElasticsearch('catRepositories', REPOSITORIES_PARAMS) as Promise<Record<string, EsSnapshotRepository>>,
-      callEnrichment('snapshotStatus', {}, SNAPSHOT_STATUS_PARAMS) as Promise<EsSnapshotStatusList>,
-      slm ? (callEnrichment('catSlmPolicies', SLM_POLICIES_PARAMS) as Promise<Record<string, EsSnapshotPolicy>>) : null
+      callElasticsearch((es) => es.catRepositories(REPOSITORIES_PARAMS)) as Promise<Record<string, EsSnapshotRepository>>,
+      callEnrichment((es) => es.snapshotStatus({}, SNAPSHOT_STATUS_PARAMS)) as Promise<EsSnapshotStatusList>,
+      slm ? (callEnrichment((es) => es.catSlmPolicies(SLM_POLICIES_PARAMS)) as Promise<Record<string, EsSnapshotPolicy>>) : null
     ])
 
     policies.value = policiesResult.status === 'fulfilled' && policiesResult.value ? mapSlmPolicies(policiesResult.value) : null

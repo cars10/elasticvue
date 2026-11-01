@@ -27,13 +27,14 @@ export const useNewIndex = (emit: any) => {
     dialog.value = false
   }
 
-  const { run, loading } = defineElasticsearchRequest({ emit, method: 'indexCreate' })
+  const { run, loading } = defineElasticsearchRequest({ emit })
   const createIndex = async () => {
     const success = await run({
-      params: {
-        index: index.value.name,
-        body: { settings: { number_of_shards: index.value.shards || 1, number_of_replicas: index.value.replicas || 1 } }
-      },
+      request: (es) =>
+        es.indexCreate({
+          index: index.value.name,
+          body: { settings: { number_of_shards: index.value.shards || 1, number_of_replicas: index.value.replicas || 1 } }
+        }),
       snackbarOptions: (body: any) => {
         return {
           title: t('indices.new_index.create_index.growl', { index: index.value.name }),

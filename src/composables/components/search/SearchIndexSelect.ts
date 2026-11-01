@@ -54,13 +54,15 @@ export const useSearchIndexSelect = () => {
     const version = elasticsearchCompatibleVersion(connectionStore.activeCluster?.version, session.capabilities.elasticsearch)
     if (versionAtLeast(version, '7.9')) {
       try {
-        return resolveOptions(await callElasticsearch('resolveIndex', { name: '*', params: { expand_wildcards: 'all' } }))
+        return resolveOptions(
+          await callElasticsearch((es) => es.resolveIndex({ name: '*', params: { expand_wildcards: 'all' } }))
+        )
       } catch (_e) {}
     }
 
     const [indices, aliases] = await Promise.allSettled([
-      callElasticsearch('catIndices', { h: 'index' }) as Promise<{ index: string }[]>,
-      callElasticsearch('catAliases', { h: 'alias' }) as Promise<{ alias: string }[]>
+      callElasticsearch((es) => es.catIndices({ h: 'index' })) as Promise<{ index: string }[]>,
+      callElasticsearch((es) => es.catAliases({ h: 'alias' })) as Promise<{ alias: string }[]>
     ])
     const aliasNames = aliases.status === 'fulfilled' ? [...new Set(aliases.value.map((a) => a.alias))] : []
     const indexNames = indices.status === 'fulfilled' ? indices.value.map((i) => i.index).sort() : []

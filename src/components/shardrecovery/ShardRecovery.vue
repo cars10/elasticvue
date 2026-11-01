@@ -35,10 +35,12 @@ const summary = computed(() => summarizeRecoveries(recoveries.value))
 
 const load = async () => {
   try {
-    data.value = await callElasticsearch('recovery', {
-      filter_path: RECOVERY_FILTER_PATH,
-      ...(shardRecoveryStore.activeOnly && { active_only: true })
-    })
+    data.value = await callElasticsearch((es) =>
+      es.recovery({
+        filter_path: RECOVERY_FILTER_PATH,
+        ...(shardRecoveryStore.activeOnly && { active_only: true })
+      })
+    )
   } catch {
     data.value = null
   }

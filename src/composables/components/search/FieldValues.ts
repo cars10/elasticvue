@@ -19,7 +19,7 @@ export const useFieldValues = () => {
 
   const fetchValues = async (index: string, field: string): Promise<string[]> => {
     const body = { size: 0, aggs: { values: { terms: { field, size: 10 } } } }
-    const result = await callElasticsearch('search', body, index)
+    const result = await callElasticsearch((es) => es.search(body, index))
     const buckets: { key: unknown; key_as_string?: string }[] = result?.aggregations?.values?.buckets ?? []
     return buckets.map((bucket) => String(bucket.key_as_string ?? bucket.key))
   }

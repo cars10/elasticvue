@@ -17,22 +17,24 @@ export const useIndexClone = (props: IndexCloneProps, emit: any) => {
   const dest = ref('')
 
   const checkIndexReadOnly = async (): Promise<boolean> => {
-    const settingsResponse = await callElasticsearch('indexGetSettings', { index: props.index })
+    const settingsResponse = await callElasticsearch((es) => es.indexGetSettings({ index: props.index }))
     const indexSettings = settingsResponse[props.index]?.settings?.index
     return indexSettings?.blocks?.write === 'true' || indexSettings?.blocks?.write === true
   }
 
   const setIndexReadOnly = async (readOnly: boolean): Promise<void> => {
-    await callElasticsearch('indexPutSettings', {
-      indices: [props.index],
-      body: {
-        index: {
-          blocks: {
-            write: readOnly
+    await callElasticsearch((es) =>
+      es.indexPutSettings({
+        indices: [props.index],
+        body: {
+          index: {
+            blocks: {
+              write: readOnly
+            }
           }
         }
-      }
-    })
+      })
+    )
   }
 
   const clone = async () => {
@@ -53,7 +55,7 @@ export const useIndexClone = (props: IndexCloneProps, emit: any) => {
         readOnlySet = true
       }
 
-      await callElasticsearch('clone', { source: props.index, dest: dest.value })
+      await callElasticsearch((es) => es.clone({ source: props.index, dest: dest.value }))
 
       if (readOnlySet) await setIndexReadOnly(false)
 

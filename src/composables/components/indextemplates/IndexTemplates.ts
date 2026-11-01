@@ -43,9 +43,9 @@ export const useIndexTemplates = () => {
 
   const load = async () => {
     const [legacyResult, composableResult, componentResult] = await Promise.allSettled([
-      legacy.callElasticsearch('template', TEMPLATE_LIST_PARAMS.legacy) as Promise<EsLegacyTemplates>,
-      composable.callElasticsearch('indexTemplate', TEMPLATE_LIST_PARAMS.composable) as Promise<EsComposableTemplates>,
-      component.callElasticsearch('componentTemplate', TEMPLATE_LIST_PARAMS.component) as Promise<EsComponentTemplates>
+      legacy.callElasticsearch((es) => es.template(TEMPLATE_LIST_PARAMS.legacy)) as Promise<EsLegacyTemplates>,
+      composable.callElasticsearch((es) => es.indexTemplate(TEMPLATE_LIST_PARAMS.composable)) as Promise<EsComposableTemplates>,
+      component.callElasticsearch((es) => es.componentTemplate(TEMPLATE_LIST_PARAMS.component)) as Promise<EsComponentTemplates>
     ])
 
     const value = <T>(result: PromiseSettledResult<T>) => (result.status === 'fulfilled' ? result.value : null)

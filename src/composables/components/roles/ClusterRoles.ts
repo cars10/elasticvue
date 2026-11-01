@@ -31,9 +31,9 @@ export const useClusterRoles = () => {
 
   const load = async () => {
     const [rolesResult, usersResult, mappingsResult] = await Promise.allSettled([
-      callElasticsearch('securityRoles') as Promise<Record<string, ElasticsearchRole>>,
-      callEnrichment('securityUsers', ASSIGNED_ROLES_PARAMS) as Promise<Record<string, ElasticsearchUser>>,
-      callEnrichment('securityRoleMappings', ASSIGNED_ROLES_PARAMS) as Promise<Record<string, ElasticsearchRoleMapping>>
+      callElasticsearch((es) => es.securityRoles()) as Promise<Record<string, ElasticsearchRole>>,
+      callEnrichment((es) => es.securityUsers(ASSIGNED_ROLES_PARAMS)) as Promise<Record<string, ElasticsearchUser>>,
+      callEnrichment((es) => es.securityRoleMappings(ASSIGNED_ROLES_PARAMS)) as Promise<Record<string, ElasticsearchRoleMapping>>
     ])
 
     roles.value = rolesResult.status === 'fulfilled' ? mapElasticsearchRoles(rolesResult.value) : []

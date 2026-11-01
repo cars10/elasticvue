@@ -9,16 +9,14 @@ export const checkHealth = async (cluster: ElasticsearchCluster) => {
   let health: any = null
 
   try {
-    const pingResponse: any = await adapter.ping()
-    const pingBody = await pingResponse.json()
+    const pingBody = await adapter.ping()
     const flavor = pingBody.version.build_flavor || BuildFlavor.default
 
     let status
     if (flavor === BuildFlavor.serverless) {
       status = 'green'
     } else {
-      const clusterHealthResponse: any = await adapter.clusterHealth()
-      health = await clusterHealthResponse.json()
+      health = await adapter.clusterHealth()
       status = health.status
     }
 

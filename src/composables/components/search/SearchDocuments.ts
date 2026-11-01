@@ -181,7 +181,7 @@ export const useSearchDocuments = () => {
       Object.assign(searchStore.pagination, { page, rowsPerPage })
     }
 
-    const result = await callElasticsearch('search', body, targetKey(searchStore.targets)).catch(emptyResult)
+    const result = await callElasticsearch((es) => es.search(body, targetKey(searchStore.targets))).catch(emptyResult)
     if (request !== latestSearch) return
     results.value = result
     searchStore.pagination.rowsNumber = totalHits.value.value
@@ -344,7 +344,7 @@ export const useSearchDocuments = () => {
   const loadTargets = async ({ force = false } = {}) => {
     const request = ++latestTargets
     const targets = searchStore.targets
-    const count = await callTargets('catIndicesFor', { index: targetKey(targets), params: { h: 'index' } })
+    const count = await callTargets((es) => es.catIndicesFor({ index: targetKey(targets), params: { h: 'index' } }))
       .then((rows: unknown[]) => rows.length)
       .catch(() => null)
     if (request !== latestTargets) return

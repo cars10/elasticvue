@@ -15,8 +15,8 @@ export const useClusterUsers = () => {
 
   const load = async () => {
     const [usersResult, authResult] = await Promise.allSettled([
-      callElasticsearch('securityUsers') as Promise<Record<string, ElasticsearchUser>>,
-      callEnrichment('securityAuthenticate') as Promise<AuthenticatedUser>
+      callElasticsearch((es) => es.securityUsers()) as Promise<Record<string, ElasticsearchUser>>,
+      callEnrichment((es) => es.securityAuthenticate()) as Promise<AuthenticatedUser>
     ])
 
     users.value = usersResult.status === 'fulfilled' ? mapElasticsearchUsers(usersResult.value) : []

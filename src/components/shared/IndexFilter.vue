@@ -10,7 +10,7 @@
           @click="toggle"
         />
       </div>
-      <index-select v-model="localIndices" behavior="load" method="catIndices" :method-params="{ index: '*', h: 'index' }" />
+      <index-select v-model="localIndices" behavior="load" />
     </div>
 
     <div v-else class="relative-position">

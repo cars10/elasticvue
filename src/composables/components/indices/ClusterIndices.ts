@@ -40,9 +40,9 @@ export const useClusterIndices = () => {
 
   const load = async () => {
     const [indicesResult, aliasesResult, blocksResult] = await Promise.allSettled([
-      callElasticsearch('catIndices', catIndicesParams) as Promise<EsIndex[]>,
-      callEnrichment('catAliases', CAT_ALIASES_PARAMS) as Promise<{ alias: string; index: string }[]>,
-      callEnrichment('indexGetAllSettings', INDEX_BLOCKS_PARAMS) as Promise<EsIndicesBlocksSettings>
+      callElasticsearch((es) => es.catIndices(catIndicesParams)) as Promise<EsIndex[]>,
+      callEnrichment((es) => es.catAliases(CAT_ALIASES_PARAMS)) as Promise<{ alias: string; index: string }[]>,
+      callEnrichment((es) => es.indexGetAllSettings(INDEX_BLOCKS_PARAMS)) as Promise<EsIndicesBlocksSettings>
     ])
 
     if (indicesResult.status === 'rejected') {

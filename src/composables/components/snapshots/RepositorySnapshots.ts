@@ -21,8 +21,8 @@ export const useRepositorySnapshots = (repository: string) => {
 
   const load = async () => {
     const [snapshotsResult, statusResult] = await Promise.allSettled([
-      callElasticsearch('catSnapshots', { repository }, SNAPSHOTS_PARAMS) as Promise<EsSnapshotList>,
-      callEnrichment('snapshotStatus', { repository }, SNAPSHOT_STATUS_PARAMS) as Promise<EsSnapshotStatusList>
+      callElasticsearch((es) => es.catSnapshots({ repository }, SNAPSHOTS_PARAMS)) as Promise<EsSnapshotList>,
+      callEnrichment((es) => es.snapshotStatus({ repository }, SNAPSHOT_STATUS_PARAMS)) as Promise<EsSnapshotStatusList>
     ])
 
     snapshots.value = snapshotsResult.status === 'fulfilled' ? mapSnapshots(snapshotsResult.value) : []

@@ -113,7 +113,7 @@ export const useHomeDashboard = () => {
 
   const loadHealth = async () => {
     try {
-      health.value = await callElasticsearch('clusterHealth')
+      health.value = await callElasticsearch((es) => es.clusterHealth())
     } catch (e) {
       console.error(e)
       return
@@ -127,7 +127,7 @@ export const useHomeDashboard = () => {
     }
 
     try {
-      pendingTasks.value = parsePendingTasks(await callElasticsearch('clusterPendingTasks'))
+      pendingTasks.value = parsePendingTasks(await callElasticsearch((es) => es.clusterPendingTasks()))
     } catch {
       pendingTasks.value = { count: pendingCount, oldestAgeMs: null }
     }
@@ -135,7 +135,7 @@ export const useHomeDashboard = () => {
 
   const loadClusterStats = async () => {
     try {
-      stats.value = await callElasticsearch('clusterStats', CLUSTER_STATS_PARAMS)
+      stats.value = await callElasticsearch((es) => es.clusterStats(CLUSTER_STATS_PARAMS))
     } catch (e) {
       console.error(e)
     }
@@ -144,12 +144,12 @@ export const useHomeDashboard = () => {
   /** One call covers node resource peaks (heap/disk/cpu/FD) and workload counters. */
   const loadNodeStats = async () => {
     const [body, masterState] = await Promise.all([
-      callElasticsearch('nodesStats', HOME_NODES_STATS.metrics, HOME_NODES_STATS.params).catch(
+      callElasticsearch((es) => es.nodesStats(HOME_NODES_STATS.metrics, HOME_NODES_STATS.params)).catch(
         () => null
       ) as Promise<NodesStatsBody | null>,
       // Elected master id — node roles alone only mean master-eligible
-      callElasticsearch('clusterState', 'master_node')
-        .catch(() => callElasticsearch('clusterState', 'cluster_manager_node'))
+      callElasticsearch((es) => es.clusterState('master_node'))
+        .catch(() => callElasticsearch((es) => es.clusterState('cluster_manager_node')))
         .catch(() => null)
     ])
 
@@ -185,7 +185,7 @@ export const useHomeDashboard = () => {
 
   const loadIndices = async () => {
     try {
-      const rows: CatIndexRow[] = await callElasticsearch('catIndices', HOME_INDEX_PARAMS)
+      const rows: CatIndexRow[] = await callElasticsearch((es) => es.catIndices(HOME_INDEX_PARAMS))
       const parsed = parseCatIndices(Array.isArray(rows) ? rows : null)
       attentionIndices.value = parsed.indices
       attentionIndicesTotal.value = parsed.eligibleCount
@@ -199,7 +199,7 @@ export const useHomeDashboard = () => {
 
   const loadIndexBlocks = async () => {
     try {
-      indexBlocks.value = parseIndexBlocks(await callElasticsearch('clusterState', 'blocks'))
+      indexBlocks.value = parseIndexBlocks(await callElasticsearch((es) => es.clusterState('blocks')))
     } catch {
       indexBlocks.value = []
     }
@@ -208,7 +208,7 @@ export const useHomeDashboard = () => {
   /** Disk watermarks + allocation.enable (often forgotten after maintenance). */
   const loadClusterSettings = async () => {
     try {
-      const settings = await callElasticsearch('clusterGetSettings', CLUSTER_SETTINGS_PARAMS)
+      const settings = await callElasticsearch((es) => es.clusterGetSettings(CLUSTER_SETTINGS_PARAMS))
       diskWatermarks.value = parseDiskWatermarks(settings)
       allocationEnable.value = parseAllocationEnable(settings)
     } catch {

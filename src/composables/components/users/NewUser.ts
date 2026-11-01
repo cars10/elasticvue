@@ -19,14 +19,15 @@ export const useNewUser = (emit: any) => {
     resetRoleOptions()
   }
 
-  const { run, loading } = defineElasticsearchRequest({ emit, method: 'securityUserPut' })
+  const { run, loading } = defineElasticsearchRequest({ emit })
   const createUser = async () => {
     const username = user.value.username.trim()
     const success = await run({
-      params: {
-        username,
-        body: buildUserBody(user.value, { includePassword: true })
-      },
+      request: (es) =>
+        es.securityUserPut({
+          username,
+          body: buildUserBody(user.value, { includePassword: true })
+        }),
       snackbarOptions: {
         body: t('cluster_users.new_user.create_user.growl', { username })
       }

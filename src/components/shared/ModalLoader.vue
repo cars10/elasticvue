@@ -4,7 +4,7 @@
       <q-card-section class="flex justify-between">
         <div class="flex">
           <h2 class="text-h6 q-my-none">
-            {{ store.method }}
+            {{ store.title }}
           </h2>
           <reload-button :action="load" />
         </div>
@@ -16,7 +16,7 @@
 
       <q-card-section>
         <p>
-          {{ store.methodParams }}
+          {{ store.details }}
         </p>
 
         <loader-status :request-state="requestState">
@@ -53,7 +53,8 @@ const store = useModalStore()
 
 const data = ref('')
 const load = () => {
-  callElasticsearch(store.method, store.methodParams)
+  if (!store.request) return
+  callElasticsearch(store.request)
     .then((body) => (data.value = stringifyJson(body)))
     .catch(() => (data.value = ''))
 }

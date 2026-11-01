@@ -111,7 +111,7 @@ export const useClusterTools = () => {
 
   const loadSettings = async () => {
     try {
-      settings.value = await settingsApi.callElasticsearch('clusterGetSettings', SETTINGS_PARAMS)
+      settings.value = await settingsApi.callElasticsearch((es) => es.clusterGetSettings(SETTINGS_PARAMS))
     } catch (_error) {
       settings.value = null
     }
@@ -119,7 +119,7 @@ export const useClusterTools = () => {
 
   const loadShards = async () => {
     try {
-      shards.value = (await shardsApi.callElasticsearch('catShards', SHARD_PARAMS)) || []
+      shards.value = (await shardsApi.callElasticsearch((es) => es.catShards(SHARD_PARAMS))) || []
     } catch (_error) {
       shards.value = []
     }
@@ -127,7 +127,7 @@ export const useClusterTools = () => {
 
   const loadHealth = async () => {
     try {
-      health.value = await healthApi.callElasticsearch('clusterHealth')
+      health.value = await healthApi.callElasticsearch((es) => es.clusterHealth())
     } catch (_error) {
       health.value = null
     }
@@ -136,8 +136,8 @@ export const useClusterTools = () => {
   const loadNodes = async () => {
     try {
       const [nodeBody, statsBody] = await Promise.all([
-        nodesApi.callElasticsearch('nodes'),
-        nodesApi.callElasticsearch('nodesStats', 'fs')
+        nodesApi.callElasticsearch((es) => es.nodes()),
+        nodesApi.callElasticsearch((es) => es.nodesStats('fs'))
       ])
       const stats = (statsBody || {}) as NodesStatsBody
       const shardsByNode = new Map<string, ToolShard[]>()
@@ -175,7 +175,7 @@ export const useClusterTools = () => {
     let backingIndices = new Set<string>()
     if (capabilities.dataStreams) {
       try {
-        const dataStreams = await indicesApi.callElasticsearch('dataStreams')
+        const dataStreams = await indicesApi.callElasticsearch((es) => es.dataStreams())
         backingIndices = new Set(
           (dataStreams?.data_streams || []).flatMap((stream: { indices?: Array<{ index_name?: string }> }) =>
             (stream.indices || []).map((index) => index.index_name).filter((name): name is string => Boolean(name))
@@ -189,7 +189,7 @@ export const useClusterTools = () => {
     try {
       const params: Record<string, string> = { flat_settings: 'true' }
       if (capabilities.expandWildcardsAll) params.expand_wildcards = 'all'
-      const body = await indicesApi.callElasticsearch('indexGetAllSettings', params)
+      const body = await indicesApi.callElasticsearch((es) => es.indexGetAllSettings(params))
       indices.value = parseIndexToolStates(body, backingIndices)
     } catch (_error) {
       indices.value = []
@@ -199,7 +199,7 @@ export const useClusterTools = () => {
   const loadVotingExclusions = async () => {
     if (!capabilities.votingExclusions) return
     try {
-      const body = await votingApi.callElasticsearch('clusterGetVotingExclusions')
+      const body = await votingApi.callElasticsearch((es) => es.clusterGetVotingExclusions())
       votingExclusions.value = body?.metadata?.cluster_coordination?.voting_config_exclusions || []
     } catch (_error) {
       votingExclusions.value = []
@@ -223,10 +223,12 @@ export const useClusterTools = () => {
   }
 
   const putClusterSettings = (values: Record<string, SettingValue>) =>
-    mutationApi.callElasticsearch('clusterPutSettings', {
-      persistent: values,
-      transient: Object.fromEntries(Object.keys(values).map((key) => [key, null]))
-    })
+    mutationApi.callElasticsearch((es) =>
+      es.clusterPutSettings({
+        persistent: values,
+        transient: Object.fromEntries(Object.keys(values).map((key) => [key, null]))
+      })
+    )
 
   const setClusterSettings = async (values: Record<string, SettingValue>, success: string) => {
     const changed = await mutate(() => putClusterSettings(values), success)
@@ -247,11 +249,11 @@ export const useClusterTools = () => {
     explanation.value = null
     const body = { index: shard.index, shard: Number(shard.shard), primary: shard.prirep === 'p' }
     try {
-      explanation.value = await explainApi.callElasticsearch('clusterAllocationExplain', { body, includeDiskInfo: true })
+      explanation.value = await explainApi.callElasticsearch((es) => es.clusterAllocationExplain({ body, includeDiskInfo: true }))
     } catch (_error) {
       if (explainApi.requestState.value.status !== 400) return
       try {
-        explanation.value = await explainApi.callElasticsearch('clusterAllocationExplain', { body })
+        explanation.value = await explainApi.callElasticsearch((es) => es.clusterAllocationExplain({ body }))
       } catch (_secondError) {
         // The error state is rendered by the explain tool
       }
@@ -259,7 +261,10 @@ export const useClusterTools = () => {
   }
 
   const retryFailed = async () => {
-    const changed = await mutate(() => mutationApi.callElasticsearch('clusterRetryFailedAllocations'), t('tools.retry.done'))
+    const changed = await mutate(
+      () => mutationApi.callElasticsearch((es) => es.clusterRetryFailedAllocations()),
+      t('tools.retry.done')
+    )
     if (changed) await Promise.allSettled([loadShards(), loadHealth()])
     return changed
   }
@@ -284,7 +289,10 @@ export const useClusterTools = () => {
   }
 
   const updateIndexSettings = async (selected: string[], body: object, success: string) => {
-    const changed = await mutate(() => mutationApi.callElasticsearch('indexPutSettings', { indices: selected, body }), success)
+    const changed = await mutate(
+      () => mutationApi.callElasticsearch((es) => es.indexPutSettings({ indices: selected, body })),
+      success
+    )
     if (changed) await Promise.allSettled([loadIndices(), loadShards(), loadHealth()])
     return changed
   }
@@ -312,7 +320,7 @@ export const useClusterTools = () => {
 
   const addVotingExclusions = async (nodeIds: string[]) => {
     const changed = await mutate(
-      () => mutationApi.callElasticsearch('clusterAddVotingExclusions', { nodeIds }),
+      () => mutationApi.callElasticsearch((es) => es.clusterAddVotingExclusions({ nodeIds })),
       t('tools.voting.added', { count: nodeIds.length }, nodeIds.length)
     )
     if (changed) await loadVotingExclusions()
@@ -320,7 +328,10 @@ export const useClusterTools = () => {
   }
 
   const clearVotingExclusions = async () => {
-    const changed = await mutate(() => mutationApi.callElasticsearch('clusterClearVotingExclusions'), t('tools.voting.cleared'))
+    const changed = await mutate(
+      () => mutationApi.callElasticsearch((es) => es.clusterClearVotingExclusions()),
+      t('tools.voting.cleared')
+    )
     if (changed) await loadVotingExclusions()
     return changed
   }

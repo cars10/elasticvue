@@ -120,13 +120,13 @@ export const useNewSnapshotRepository = (emit: any) => {
     (newValue) => resetForm(newValue, repository.value.repository)
   )
 
-  const { run, loading } = defineElasticsearchRequest({ emit, method: 'snapshotCreateRepository' })
+  const { run, loading } = defineElasticsearchRequest({ emit })
   const createRepository = async () => {
     const params = Object.assign({}, repository.value)
     if (params.body.settings.chunkSize?.length === 0) delete params.body.settings.chunkSize
 
     const success = await run({
-      params,
+      request: (es) => es.snapshotCreateRepository(params),
       snackbarOptions: {
         body: t('repositories.new_repository.create_repository.growl', { repositoryName: repository.value.repository })
       }

@@ -26,16 +26,17 @@ export const useNewSnapshot = (props: NewSnapshotProps, emit: any) => {
   }
   resetForm()
 
-  const { run, loading } = defineElasticsearchRequest({ emit, method: 'snapshotCreate' })
+  const { run, loading } = defineElasticsearchRequest({ emit })
   const createSnapshot = async () => {
     const success = await run({
-      params: {
-        repository: props.repository,
-        snapshot: snapshot.value.name,
-        body: {
-          indices: snapshot.value.indices
-        }
-      },
+      request: (es) =>
+        es.snapshotCreate({
+          repository: props.repository,
+          snapshot: snapshot.value.name,
+          body: {
+            indices: snapshot.value.indices
+          }
+        }),
       snackbarOptions: {
         body: t('snapshots.new_snapshot.create_snapshot.growl', { name: snapshot.value.name })
       }

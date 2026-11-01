@@ -22,11 +22,11 @@ export const useFieldCatalog = () => {
   const fetchCatalog = async (index: string): Promise<FieldCatalog> => {
     const version = elasticsearchCompatibleVersion(connectionStore.activeCluster?.version, session.capabilities.elasticsearch)
     if (!versionAtLeast(version, '5')) {
-      return catalogFromMappings(await callElasticsearch('indexMappings', { index }))
+      return catalogFromMappings(await callElasticsearch((es) => es.indexMappings({ index })))
     }
 
     const params = versionAtLeast(version, '7.2') ? { include_unmapped: 'true' } : undefined
-    return catalogFromFieldCaps(await callElasticsearch('fieldCaps', { index, params }))
+    return catalogFromFieldCaps(await callElasticsearch((es) => es.fieldCaps({ index, params })))
   }
 
   const load = async (targets: string[], { force = false, matchedIndices = 0 } = {}) => {

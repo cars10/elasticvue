@@ -37,7 +37,7 @@ export const useClusterNodes = () => {
 
   const loadCatNodes = async () => {
     try {
-      catNodes.value = (await callElasticsearch('catNodes', CAT_NODES_PARAMS)) as EsNode[]
+      catNodes.value = (await callElasticsearch((es) => es.catNodes(CAT_NODES_PARAMS))) as EsNode[]
     } catch (e) {
       console.error(e)
     }
@@ -46,7 +46,7 @@ export const useClusterNodes = () => {
   const loadNodeStats = async () => {
     let body: NodesStatsBody | null
     try {
-      body = await callEnrichment('nodesStats', NODE_DETAILS_STATS.metrics, NODE_DETAILS_STATS.params)
+      body = await callEnrichment((es) => es.nodesStats(NODE_DETAILS_STATS.metrics, NODE_DETAILS_STATS.params))
     } catch {
       nodesStatsAvailable.value = false
       return
@@ -58,7 +58,7 @@ export const useClusterNodes = () => {
 
   const loadAttributes = async () => {
     try {
-      const body = (await callEnrichment('nodesInfo', 'settings', NODE_ATTRIBUTES_PARAMS)) as NodeAttributes
+      const body = (await callEnrichment((es) => es.nodesInfo('settings', NODE_ATTRIBUTES_PARAMS))) as NodeAttributes
       attributes.value = Object.fromEntries(
         Object.entries(body.nodes || {}).map(([id, node]) => [id, flattenObj(node?.settings?.node?.attr)])
       )
@@ -69,7 +69,7 @@ export const useClusterNodes = () => {
 
   const loadDiskWatermarks = async () => {
     try {
-      const settings = await callEnrichment('clusterGetSettings', CLUSTER_SETTINGS_PARAMS)
+      const settings = await callEnrichment((es) => es.clusterGetSettings(CLUSTER_SETTINGS_PARAMS))
       diskWatermarks.value = parseDiskWatermarks(settings)
     } catch {
       diskWatermarks.value = { ...DEFAULT_DISK_WATERMARKS }

@@ -1,3 +1,4 @@
+import type { ElasticsearchRequest } from '../services/ElasticsearchAdapter.ts'
 import type {
   EsComponentTemplates,
   EsComposableTemplates,
@@ -7,11 +8,11 @@ import type {
   IndexTemplateType
 } from '../types/indexTemplates.ts'
 
-export const TEMPLATE_METHODS = {
-  legacy: 'template',
-  composable: 'indexTemplate',
-  component: 'componentTemplate'
-} as const
+export const TEMPLATE_REQUESTS: Record<IndexTemplateType, (name: string) => ElasticsearchRequest> = {
+  legacy: (name) => (es) => es.template({ name }),
+  composable: (name) => (es) => es.indexTemplate({ name }),
+  component: (name) => (es) => es.componentTemplate({ name })
+}
 
 export const TEMPLATE_LIST_PARAMS: Record<IndexTemplateType, { filter_path: string }> = {
   legacy: { filter_path: '*.order,*.version,*.index_patterns,*.template' },

@@ -74,8 +74,7 @@ export const useClusterConnection = (
 
     const adapter = new ElasticsearchAdapter(formCluster.value)
     try {
-      const infoResponse: any = await adapter.test()
-      const infoJson = await infoResponse.json()
+      const infoJson = await adapter.test()
 
       const flavor = infoJson.version.build_flavor || BuildFlavor.default
 
@@ -83,8 +82,7 @@ export const useClusterConnection = (
       if (flavor === BuildFlavor.serverless) {
         status = 'green'
       } else {
-        const clusterHealthResponse: any = await adapter.clusterHealth()
-        const clusterHealthBody = await clusterHealthResponse.json()
+        const clusterHealthBody = await adapter.clusterHealth()
         status = clusterHealthBody.status
       }
 

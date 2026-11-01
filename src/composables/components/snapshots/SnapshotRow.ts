@@ -10,11 +10,11 @@ export type SnapshotRowProps = {
 export const useSnapshotRow = (props: SnapshotRowProps, emit: any) => {
   const t = useTranslation()
 
-  const { run } = defineElasticsearchRequest({ emit, method: 'snapshotDelete' })
+  const { run } = defineElasticsearchRequest({ emit })
   const deleteSnapshot = () => {
     return run({
       confirmMsg: t('snapshots.snapshot.delete.confirm', { snapshot: props.snapshot.name }),
-      params: { repository: props.repository, snapshot: props.snapshot.name },
+      request: (es) => es.snapshotDelete({ repository: props.repository, snapshot: props.snapshot.name }),
       snackbarOptions: { body: t('snapshots.snapshot.delete.growl', { snapshot: props.snapshot.name }) }
     })
   }

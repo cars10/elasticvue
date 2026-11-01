@@ -29,20 +29,20 @@ export const useRepositoryPolicies = (props: RepositoryPoliciesProps, emit: any)
   })
 
   const loadPolicies = () => {
-    callElasticsearch('catSlmPolicies', SLM_POLICIES_PARAMS)
+    callElasticsearch((es) => es.catSlmPolicies(SLM_POLICIES_PARAMS))
       .then((body: Record<string, EsSnapshotPolicy>) => {
         policies.value = mapSlmPolicies(body).filter((policy) => policy.repository === props.repository)
       })
       .catch(() => (policies.value = []))
   }
 
-  const { run: executeRun } = defineElasticsearchRequest({ emit, method: 'slmExecutePolicy' })
-  const { run: deleteRun } = defineElasticsearchRequest({ emit, method: 'slmDeletePolicy' })
+  const { run: executeRun } = defineElasticsearchRequest({ emit })
+  const { run: deleteRun } = defineElasticsearchRequest({ emit })
 
   const executePolicy = (name: string) => {
     return executeRun({
       confirmMsg: t('snapshot_policies.policies_table.execute_policy.confirm', { name }),
-      params: { policy: name },
+      request: (es) => es.slmExecutePolicy({ policy: name }),
       snackbarOptions: { body: t('snapshot_policies.policies_table.execute_policy.growl', { name }) }
     }).then(() => loadPolicies())
   }
@@ -50,7 +50,7 @@ export const useRepositoryPolicies = (props: RepositoryPoliciesProps, emit: any)
   const deletePolicy = (name: string) => {
     return deleteRun({
       confirmMsg: t('snapshot_policies.policies_table.delete_policy.confirm', { name }),
-      params: { policy: name },
+      request: (es) => es.slmDeletePolicy({ policy: name }),
       snackbarOptions: { body: t('snapshot_policies.policies_table.delete_policy.growl', { name }) }
     }).then(() => loadPolicies())
   }
