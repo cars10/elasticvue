@@ -16,11 +16,13 @@ Contents
 
 1. [About](#about)
 2. [Usage](#usage)
-3. [Browser support](#browser-support)
-4. [Troubleshooting](#troubleshooting)
-5. [Comparing with other frontends](#comparing-with-other-frontends)
-7. [i18n](#i18n)
-8. [Contributing](#contributing)
+3. [Elasticsearch configuration](#elasticsearch-configuration)
+4. [Tips & Tricks](#tips--tricks)
+5. [Browser support](#browser-support)
+6. [Troubleshooting](#troubleshooting)
+7. [Documentation](#documentation)
+8. [i18n](#i18n)
+9. [Contributing](#contributing)
 
 ## About
 
@@ -32,12 +34,15 @@ the [FAQ](docs/faq.md) for more details.
 
 ### Features
 
-* Cluster overview
-* Index & alias management
-* Shard management
-* Searching and editing documents
-* Rest queries
-* Snapshot & repository management
+* Dashboard with cluster health and an overview of all your clusters
+* Node overview and details
+* Index, alias & index template management
+* Shard overview, rerouting and recovery
+* Searching, filtering and editing documents
+* REST queries with a saved query library
+* Snapshot, repository & snapshot policy management
+* User & role management
+* Cluster tools, e.g. allocation, draining nodes, index blocks and disk watermarks
 * ... and much more
 
 ## Usage
@@ -55,7 +60,7 @@ You can use elasticvue in several ways, use whatever works best for you.
 ### Desktop App - *recommended*
 
 * [Windows .msi](https://update.elasticvue.com/download/windows/x86_64)
-* [Homebrew](https://formulae.brew.sh/cask/elasticvue) / [Mac x68 .dmg](https://update.elasticvue.com/download/darwin/x86_64) / [Mac aarch64 .dmg](https://update.elasticvue.com/download/darwin/aarch64)
+* [Homebrew](https://formulae.brew.sh/cask/elasticvue) / [Mac x86 .dmg](https://update.elasticvue.com/download/darwin/x86_64) / [Mac aarch64 .dmg](https://update.elasticvue.com/download/darwin/aarch64)
 * [Linux .AppImage](https://update.elasticvue.com/download/linux/x86_64) / [Arch AUR](https://aur.archlinux.org/packages/elasticvue-bin)
 
 ### Browser extension
@@ -66,7 +71,7 @@ You can use elasticvue in several ways, use whatever works best for you.
 
 ### Web version
 
-> **You have to configure your elasticsearch cluster if you want to use elasticvue via docker**
+> **You have to configure your elasticsearch cluster if you want to use the web version**
 
 Visit [https://app.elasticvue.com](https://app.elasticvue.com).
 
@@ -153,7 +158,7 @@ Find your elasticsearch configuration (for example `/etc/elasticsearch/elasticse
 # enable CORS
 http.cors.enabled: true
 
-# Then set the allowed origins based on how you run elasticvue. Chose only one:
+# Then set the allowed origins based on how you run elasticvue. Choose only one:
 # for docker / running locally
 http.cors.allow-origin: "http://localhost:8080"
 # online version
@@ -220,20 +225,22 @@ Before opening an issue please try to reset elasticvue to its default settings:
 This will reset all your saved filters, and you have to reconnect to your cluster. Please open
 an [issue](https://github.com/cars10/elasticvue/issues/new/choose) if your problem persists.
 
-## Comparing with other frontends
+## Documentation
 
-See [Comparing to other frontends](docs/comparing-to-other-frontends.md).
+See the [docs](docs/README.md), e.g. for [debugging connection issues](docs/debugging-connection-issues.md) or [accessing clusters using SSL](docs/access-clusters-using-ssl.md).
 
 ## i18n
 
 Elasticvue is available in the following languages:
 
-* english
-* chinese
-* french
-* russian
-* japanese
-* italian
+* English
+* Chinese (simplified)
+* Chinese (traditional)
+* French
+* Italian
+* Japanese
+* Korean
+* Russian
 
 ## Contributing
 
