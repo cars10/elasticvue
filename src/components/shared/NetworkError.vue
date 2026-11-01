@@ -14,9 +14,11 @@
 
 <script setup lang="ts">
 import { useConnectionStore } from '../../store/connection'
+import { useClusterSession } from '../../store/clusterSession.ts'
 import { useTranslation } from '../../composables/i18n'
 
 const connectionStore = useConnectionStore()
-const reload = () => window.location.reload()
+const session = useClusterSession()
+const reload = () => session.reconnect()
 const t = useTranslation()
 </script>

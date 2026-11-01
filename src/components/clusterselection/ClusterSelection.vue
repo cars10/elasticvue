@@ -60,7 +60,7 @@ import { computed, ref, watch } from 'vue'
 import ClusterTable from './ClusterTable.vue'
 import ClusterStatusIndicator from './ClusterStatusIndicator.vue'
 import { useTranslation } from '../../composables/i18n'
-import { useClusterHealth } from '../../composables/components/home/ClusterHealth.ts'
+import { checkHealth } from '../../composables/components/home/ClusterHealth.ts'
 import { useConnectionStore } from '../../store/connection'
 import UnsupportedVersion from './UnsupportedVersion.vue'
 import { DISTRIBUTIONS } from '../../consts.ts'
@@ -78,9 +78,7 @@ const btnTitle = computed(() => {
   })
 })
 
-const { checkAllClusters } = useClusterHealth()
-
 watch(menuOpen, (value) => {
-  if (value) checkAllClusters()
+  if (value) connectionStore.clusters.forEach(checkHealth)
 })
 </script>

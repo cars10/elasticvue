@@ -1,12 +1,12 @@
 <template>
   <q-layout view="hHh Lpr lff" style="outline: none !important">
     <beta-banner />
-    <app-sidebar v-if="connectionStore.activeCluster" />
+    <app-sidebar v-if="connectionStore.activeCluster" :key="connectionStore.activeClusterId ?? ''" />
 
     <q-page-container>
       <div class="app-content">
-        <router-view v-if="showClusterView || route.name === 'settings'" />
-        <div v-else-if="connectionStore.activeCluster?.status === 'unknown'" class="q-pa-lg">
+        <router-view v-if="showClusterView" />
+        <div v-else-if="session.connectState === 'error'" class="q-pa-lg">
           <div class="row">
             <div class="col-6 offset-3">
               <network-error />
@@ -35,21 +35,19 @@ import AlertSnackbar from './components/shared/AlertSnackbar.vue'
 import NetworkError from './components/shared/NetworkError.vue'
 import { useThemeStore } from './store/theme.ts'
 import { useConnectionStore } from './store/connection'
+import { useClusterSession } from './store/clusterSession.ts'
 import { setAppThemeCss, setupThemeListener } from './helpers/theme.ts'
 import TauriUpdateCheck from './components/base/TauriUpdateCheck.vue'
 import { buildConfig } from './buildConfig.ts'
 
 const themeStore = useThemeStore()
 const connectionStore = useConnectionStore()
+const session = useClusterSession()
 const route = useRoute()
 
-// No cluster: show the welcome page. With a cluster, wait for uuid so
-// per-cluster IndexedDB is ready (mainly first paint of docker predefined clusters).
-const showClusterView = computed(() => {
-  const cluster = connectionStore.activeCluster
-  if (!cluster) return true
-  return Boolean(cluster.uuid && cluster.status !== 'unknown')
-})
+const showClusterView = computed(
+  () => typeof route.params.clusterId === 'undefined' || route.name === 'settings' || session.connectState === 'ready'
+)
 
 onMounted(() => {
   setAppThemeCss(themeStore.appTheme)

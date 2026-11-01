@@ -8,6 +8,7 @@ import ClusterNodes from './components/nodes/ClusterNodes.vue'
 import RestQuery from './components/rest/RestQuery.vue'
 import NestedView from './components/base/NestedView.vue'
 import { useConnectionStore } from './store/connection'
+import { useClusterSession } from './store/clusterSession.ts'
 import WelcomePage from './components/welcome/WelcomePage.vue'
 import SnapshotRepositories from './components/repositories/SnapshotRepositories.vue'
 import RepositorySnapshots from './components/snapshots/RepositorySnapshots.vue'
@@ -64,21 +65,7 @@ const routes = [
       { path: 'snapshot_repositories/:repositoryName', name: 'snapshots', component: RepositorySnapshots },
       { path: 'users', name: 'users', component: ClusterUsers },
       { path: 'roles', name: 'roles', component: ClusterRoles }
-    ],
-    beforeEnter: (to: RouteLocation) => {
-      const connectionStore = useConnectionStore()
-      if (connectionStore.clusters.length === 0) return { name: 'welcome' }
-
-      const param = Array.isArray(to.params.clusterId) ? to.params.clusterId[0] : to.params.clusterId
-      if (connectionStore.setActiveCluster(param)) return
-
-      const legacyCluster = /^\d{1,3}$/.test(param) ? connectionStore.clusters[Number(param)] : undefined
-      if (legacyCluster) {
-        return { name: to.name ?? 'home', params: { ...to.params, clusterId: legacyCluster.id }, query: to.query, hash: to.hash }
-      }
-
-      return { name: 'home', params: { clusterId: connectionStore.clusters[0].id } }
-    }
+    ]
   },
   {
     path: '/welcome',
@@ -104,6 +91,30 @@ const history =
 const router = createRouter({
   history,
   routes
+})
+
+router.beforeEach((to: RouteLocation) => {
+  const session = useClusterSession()
+  if (typeof to.params.clusterId === 'undefined') {
+    session.disconnect()
+    return
+  }
+
+  const connectionStore = useConnectionStore()
+  if (connectionStore.clusters.length === 0) return { name: 'welcome' }
+
+  const param = Array.isArray(to.params.clusterId) ? to.params.clusterId[0] : to.params.clusterId
+  if (connectionStore.setActiveCluster(param)) {
+    session.connect(param)
+    return
+  }
+
+  const legacyCluster = /^\d{1,3}$/.test(param) ? connectionStore.clusters[Number(param)] : undefined
+  if (legacyCluster) {
+    return { name: to.name ?? 'home', params: { ...to.params, clusterId: legacyCluster.id }, query: to.query, hash: to.hash }
+  }
+
+  return { name: 'home', params: { clusterId: connectionStore.clusters[0].id } }
 })
 
 router.afterEach((to) => {

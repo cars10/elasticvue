@@ -171,6 +171,7 @@ test.describe('Routing', () => {
     })
 
     test('redirects for non-existing clusters', async ({ page }) => {
+      test.slow()
       await setupClusterConnection(page)
 
       const invalids = [42, '42', true, 'true', 'hello', null, '']

@@ -32,11 +32,13 @@ test.describe('ClusterManagement', () => {
     await expect(table).not.toContainText('dev cluster')
   })
 
-  test('can change cluster', async ({ page }) => {
+  test('can change cluster without reloading the page', async ({ page }) => {
     await setupClusterSelectionTest(page)
+    await page.evaluate(() => ((window as unknown as { noReload: boolean }).noReload = true))
     await page.getByTestId('cluster-table-row-1').click()
 
     await page.waitForURL('**/cluster/dev-cluster')
-    expect(page.url()).toContain('/cluster/dev-cluster')
+    await expect(page.getByTestId('cluster-selection')).toContainText('dev cluster')
+    expect(await page.evaluate(() => (window as unknown as { noReload?: boolean }).noReload)).toBe(true)
   })
 })

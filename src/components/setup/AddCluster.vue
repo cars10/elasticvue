@@ -7,7 +7,7 @@ import { ref } from 'vue'
 import ClusterForm from './ClusterForm.vue'
 import { useSnackbar } from '../../composables/Snackbar'
 import { useTranslation } from '../../composables/i18n'
-import { reloadHomePage } from '../../helpers/router.ts'
+import { openCluster } from '../../helpers/router.ts'
 import { useRouter } from 'vue-router'
 import { DEFAULT_CLUSTER_NAME, DEFAULT_CLUSTER_URI } from '../../consts.ts'
 import { AuthType, ElasticsearchClusterConnection } from '../../store/connection.ts'
@@ -26,6 +26,6 @@ const newCluster = ref({
 const router = useRouter()
 const connectCallback = (id: string) => {
   showSuccessSnackbar({ title: t('setup.test_and_connect.connected') })
-  reloadHomePage(router, id)
+  openCluster(router, id, 'home')
 }
 </script>

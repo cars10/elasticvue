@@ -2,6 +2,7 @@ import { useSnackbar } from '../../Snackbar.ts'
 import { ElasticsearchCluster, ElasticsearchClusterConnection, useConnectionStore } from '../../../store/connection.ts'
 import { ref, Ref, watch } from 'vue'
 import { useClusterConnection } from '../../ClusterConnection.js'
+import { useClusterSession } from '../../../store/clusterSession.ts'
 
 export type EditClusterProps = {
   id: string
@@ -11,6 +12,7 @@ export const useEditCluster = (props: EditClusterProps) => {
   const { showSuccessSnackbar } = useSnackbar()
 
   const connectionStore = useConnectionStore()
+  const session = useClusterSession()
 
   const getCluster = (id: string): ElasticsearchClusterConnection => {
     const savedCluster = connectionStore.clusters.find((c) => c.id === id) as ElasticsearchCluster
@@ -30,7 +32,7 @@ export const useEditCluster = (props: EditClusterProps) => {
   const saveCluster = () => {
     connectionStore.updateCluster({ cluster: cluster.value, id: props.id })
     showSuccessSnackbar({ title: 'Cluster saved' })
-    window.location.reload()
+    if (props.id === session.clusterId) session.reconnect()
   }
 
   watch([() => cluster.value], () => {

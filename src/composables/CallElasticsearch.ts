@@ -1,6 +1,6 @@
 import { computed, Ref, ref } from 'vue'
 import ElasticsearchAdapter, { ElasticsearchMethod } from '../services/ElasticsearchAdapter'
-import { useConnectionStore } from '../store/connection'
+import { useClusterSession } from '../store/clusterSession.ts'
 import { askConfirm } from '../helpers/dialogs'
 import { SnackbarOptions, useSnackbar } from './Snackbar'
 import { parseJson } from '../helpers/json/parse.ts'
@@ -19,8 +19,6 @@ type CallElasticsearchOverload = {
   <M extends ElasticsearchMethod>(method: M, ...args: ElasticsearchMethodParams[M]): Promise<any>
 }
 
-let elasticsearchAdapter: ElasticsearchAdapter
-
 export interface RequestState {
   loading: boolean
   networkError: boolean
@@ -30,7 +28,7 @@ export interface RequestState {
 }
 
 export function useElasticsearchAdapter() {
-  const connectionStore = useConnectionStore()
+  const session = useClusterSession()
 
   const requestState: Ref<RequestState> = ref({
     loading: false,
@@ -50,15 +48,11 @@ export function useElasticsearchAdapter() {
     }
 
     try {
-      if (!elasticsearchAdapter) {
-        const cluster = connectionStore.activeCluster
-        if (!cluster) return
-        elasticsearchAdapter = new ElasticsearchAdapter(cluster)
-        await elasticsearchAdapter.ping()
-      }
+      const adapter = session.adapter
+      if (!adapter) return
 
       try {
-        const response = await elasticsearchAdapter.call(method, ...args)
+        const response = await adapter.call(method, ...args)
         if (!response) return Promise.resolve()
 
         if (Array.isArray(response)) {

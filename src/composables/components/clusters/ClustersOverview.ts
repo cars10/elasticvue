@@ -44,9 +44,9 @@ const shardsPercent = (health: ClusterHealth | null) => {
 
 export const useClustersOverview = () => {
   const connectionStore = useConnectionStore()
-  const overviews = ref<(ClusterSummary | undefined)[]>([])
+  const overviews = ref<Record<string, ClusterSummary>>({})
 
-  const load = async (cluster: ElasticsearchCluster, index: number) => {
+  const load = async (cluster: ElasticsearchCluster) => {
     const adapter = new ElasticsearchAdapter(cluster)
     const [health, stats, nodesBody] = await Promise.all([
       checkHealth(cluster),
@@ -55,7 +55,7 @@ export const useClustersOverview = () => {
     ])
 
     const nodes = parseNodesFromStats(nodesBody)
-    overviews.value[index] = {
+    overviews.value[cluster.id] = {
       stats,
       cpu: peakMetric(nodes, 'cpuPercent').value,
       heap: peakMetric(nodes, 'heapPercent').value,

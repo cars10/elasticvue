@@ -1,26 +1,7 @@
-import { BuildFlavor, ElasticsearchCluster, useConnectionStore } from '../../../store/connection.ts'
+import { BuildFlavor, ElasticsearchCluster } from '../../../store/connection.ts'
 import ElasticsearchAdapter from '../../../services/ElasticsearchAdapter.ts'
 import { clusterUuid } from '../../ClusterConnection.ts'
 import { DISTRIBUTIONS } from '../../../consts.ts'
-
-export const useClusterHealth = () => {
-  const connectionStore = useConnectionStore()
-
-  const setupHealthLoading = () => {
-    if (!connectionStore.activeCluster) return
-    checkHealth(connectionStore.activeCluster)
-    window.setInterval(() => {
-      if (connectionStore.activeCluster) checkHealth(connectionStore.activeCluster)
-    }, 30000)
-  }
-  setupHealthLoading()
-
-  const checkAllClusters = () => connectionStore.clusters.forEach(checkHealth)
-
-  return {
-    checkAllClusters
-  }
-}
 
 export const checkHealth = async (cluster: ElasticsearchCluster) => {
   cluster.loading = true
