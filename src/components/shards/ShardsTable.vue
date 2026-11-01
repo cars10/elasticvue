@@ -17,6 +17,15 @@
     </div>
 
     <div class="flex">
+      <q-toggle
+        v-model="shardsStore.rows"
+        true-value="nodes"
+        false-value="indices"
+        :label="t('shards.shards_table.rows.nodes')"
+        class="q-mr-md"
+        data-testid="shards-rows"
+      />
+
       <slot />
 
       <filter-input v-model="shardsStore.filter" :columns="['index']" />
@@ -40,100 +49,73 @@
   <q-table
     v-model:pagination="pagination"
     class="table-mono table-hide-overflow"
+    data-testid="shards-table"
     flat
     dense
     :columns="columns"
     binary-state-sort
-    :rows="shards?.nodes || []"
+    :rows="rows"
     :rows-per-page-options="DEFAULT_ROWS_PER_PAGE"
     separator="cell"
     @request="updateTable"
   >
     <template #header="{ cols }">
       <tr>
-        <q-th class="small-wrap text-left">Node</q-th>
+        <q-th class="small-wrap text-left">
+          {{ indicesAsRows ? t('shards.shards_table.index') : t('shards.shards_table.node') }}
+        </q-th>
+        <q-th v-if="indicesAsRows" class="small-wrap text-left">
+          <i>{{ t('shards.shards_table.unassigned') }}</i>
+        </q-th>
         <q-th
           v-for="(col, i) in cols"
-          :key="`${col.name}_header_${i}`"
+          :key="`${col.name}_header`"
           class="text-left"
           :class="{ marked: markedColumnIndex === i }"
           @mouseover="markColumn(i as number)"
           @mouseleave="unmarkColumn"
         >
-          <div>
-            <svg height="14" width="14" class="q-mr-xs">
-              <circle :class="`health--${shards.indices[col.name].health}`" cx="7" cy="9" r="5" />
-            </svg>
-            <span :class="{ 'text-underline': currentReroutingShard.index === col.name }">{{ col.label }}</span>
-          </div>
-          <small class="text-weight-regular" :title="`${shards.indices[col.name].pri} pri / ${shards.indices[col.name].rep} rep`">
-            {{ shards.indices[col.name].pri }}/{{ shards.indices[col.name].rep }} shards
-          </small>
+          <shards-label v-bind="labelFor(col.name, !indicesAsRows)" />
         </q-th>
       </tr>
     </template>
     <template #top-row="{ cols }">
-      <tr v-if="shards?.nodes?.length > 0">
+      <tr v-if="!indicesAsRows && rows.length > 0">
         <td class="small-wrap">
-          <i>unassigned</i>
+          <i>{{ t('shards.shards_table.unassigned') }}</i>
         </td>
         <td
           v-for="(col, i) in cols"
-          :key="`${col.name}_unassigned_${i}`"
+          :key="`${col.name}_unassigned`"
           :class="{ marked: markedColumnIndex === i }"
           @mouseover="markColumn(i as number)"
           @mouseleave="unmarkColumn"
         >
-          <div class="flex">
-            <index-shard
-              v-for="(shard, j) in shards.unassignedShards[col.name]"
-              :key="`${col.name}_unassigned_${i}_${j}_shards`"
-              :shard="shard"
-            />
-          </div>
+          <shards-cell :index="col.name" :shards="shards.unassignedShards[col.name]" :rerouting-shard="currentReroutingShard" />
         </td>
       </tr>
     </template>
     <template #body="{ row, cols }">
       <tr>
         <td>
-          <div class="text-weight-medium">{{ row }}</div>
-          <div class="text-muted font-13">
-            {{ nodeShardCounts[row] ?? 0 }} {{ nodeShardCounts[row] === 1 ? 'shard' : 'shards' }}
-          </div>
+          <shards-label v-bind="labelFor(row, indicesAsRows)" />
+        </td>
+        <td v-if="indicesAsRows">
+          <shards-cell :index="row" :shards="shards.unassignedShards[row]" :rerouting-shard="currentReroutingShard" />
         </td>
         <td
           v-for="(col, i) in cols"
-          :key="`${col.name}_shards_${i}`"
+          :key="`${col.name}_shards`"
           :class="{ marked: markedColumnIndex === i }"
           @mouseover="markColumn(i as number)"
           @mouseleave="unmarkColumn"
         >
-          <div class="flex items-center">
-            <q-btn
-              v-if="currentReroutingShard.index === col.name && currentReroutingShard.node !== row"
-              class="q-mx-xs q-my-xs"
-              color="primary-dark"
-              icon="check"
-              no-caps
-              @click="reroute(currentReroutingShard, row)"
-            />
-
-            <index-shard
-              v-for="(shard, j) in shards.shards?.[row]?.[col.name]"
-              :key="`${col.name}_actual_shard_${i}_${j}`"
-              :shard="shard"
-              :action="initReroute"
-              re-routable
-              :outlined="
-                !(
-                  currentReroutingShard.index === col.name &&
-                  currentReroutingShard.node === row &&
-                  currentReroutingShard.shard === shard.shard
-                )
-              "
-            />
-          </div>
+          <shards-cell
+            v-bind="cellFor(row, col.name)"
+            :rerouting-shard="currentReroutingShard"
+            @select="initReroute"
+            @reroute="reroute"
+          />
         </td>
       </tr>
     </template>
@@ -142,7 +124,8 @@
 
 <script setup lang="ts">
 import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
-import IndexShard from './IndexShard.vue'
+import ShardsCell from './ShardsCell.vue'
+import ShardsLabel from './ShardsLabel.vue'
 import FilterInput from '../shared/FilterInput.vue'
 import { useTranslation } from '../../composables/i18n'
 import { ShardsTableProps, useShardsTable } from '../../composables/components/shards/ShardsTable.ts'
@@ -157,6 +140,8 @@ const {
   filterStateProps,
   indicesStore,
   pagination,
+  indicesAsRows,
+  rows,
   columns,
   updateTable,
   markedColumnIndex,
@@ -166,6 +151,7 @@ const {
   cancelRelocation,
   initReroute,
   reroute,
-  nodeShardCounts
+  labelFor,
+  cellFor
 } = useShardsTable(props, emit)
 </script>

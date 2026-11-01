@@ -1111,6 +1111,15 @@
     "health": "Health",
     "shards_table": {
       "cancel_relocation": "Cancel reroute",
+      "rows": {
+        "nodes": "Nodes as rows"
+      },
+      "unassigned": "unassigned",
+      "index": "Index",
+      "node": "Node",
+      "index_shards": "{pri}/{rep} shards",
+      "pri_rep": "{pri} primary / {rep} replica",
+      "node_shards": "{count} shard | {count} shards",
       "reroute": {
         "confirm": "Reroute shard '{shard}' from node '{fromNode}' to '{toNode}'?"
       }

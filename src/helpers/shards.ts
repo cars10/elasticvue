@@ -77,6 +77,24 @@ const sortShards = (a: EsShard, b: EsShard): number => {
   return 0
 }
 
+export const withoutClosedIndices = (
+  shards: EsShard[],
+  catIndices: (EsShardIndex & { status?: string })[]
+): { shards: EsShard[]; indices: EsShardIndex[] } => {
+  const closed = new Set(catIndices.filter((i) => i.status === 'close').map((i) => i.index))
+  const known = new Set(catIndices.map((i) => i.index))
+  const openShards = shards.filter((shard) => !closed.has(shard.index))
+  const unknown = [...new Set(openShards.map((shard) => shard.index))].filter((index) => !known.has(index))
+
+  return {
+    shards: openShards,
+    indices: [
+      ...catIndices.filter((i) => !closed.has(i.index)).map(({ index, health, pri, rep }) => ({ index, health, pri, rep })),
+      ...unknown.map((index) => ({ index, health: '', pri: '', rep: '' }))
+    ]
+  }
+}
+
 export const CAT_SHARDS_PARAMS = {
   h: ['index', 'shard', 'prirep', 'state', 'node', 'docs', 'store', 'unassigned.reason'],
   bytes: 'b'

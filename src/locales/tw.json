@@ -1111,6 +1111,15 @@
     "health": "健康度",
     "shards_table": {
       "cancel_relocation": "取消重新路由",
+      "rows": {
+        "nodes": "節點作為列"
+      },
+      "unassigned": "未分配",
+      "index": "索引",
+      "node": "節點",
+      "index_shards": "{pri}/{rep} 個分片",
+      "pri_rep": "{pri} 個主分片 / {rep} 個副本",
+      "node_shards": "{count} 個分片",
       "reroute": {
         "confirm": "確定要將分片 '{shard}' 從節點 '{fromNode}' 重新路由至 '{toNode}'？"
       }

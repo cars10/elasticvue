@@ -18,35 +18,14 @@ export const useShardsTable = (props: ShardsTableProps, emit: any) => {
   const shardsStore = useShardsStore()
   const { markedColumnIndex, markColumn, unmarkColumn } = useTableColumnHover()
 
-  const filteredShards = computed(() => {
-    const shards = Object.assign({}, props.shards)
-    if (Object.keys(shards).length === 0) return shards
-
+  const filteredIndexNames = computed(() => {
+    let names = props.shards.indexNames || []
     if (!indicesStore.showHiddenIndices) {
-      Object.assign(shards, {
-        indexNames: shards.indexNames.filter((item) => !item.match(new RegExp(indicesStore.hideIndicesRegex)))
-      })
+      const hidden = new RegExp(indicesStore.hideIndicesRegex)
+      names = names.filter((name) => !hidden.test(name))
     }
-
-    if (shardsStore.filter.length !== 0) {
-      const query = shardsStore.filter.slice().toLowerCase().trim()
-      Object.assign(shards, { indexNames: shards.indexNames.filter((item) => item.includes(query)) })
-    }
-
-    return shards
-  })
-
-  const columns = computed(() => {
-    const start = (pagination.value.page - 1) * pagination.value.rowsPerPage
-    let end = start + pagination.value.rowsPerPage
-    if (pagination.value.rowsPerPage === 0) end = filteredShards.value?.indexNames.length
-    const slice = filteredShards.value?.indexNames?.slice(start, end) || []
-    return slice.map((val) => ({ label: val, name: val, field: val }))
-  })
-
-  const rowsNumber = ref(0)
-  watch(filteredShards, (newValue) => {
-    pagination.value.rowsNumber = newValue?.indexNames?.length || 0
+    const query = shardsStore.filter.toLowerCase().trim()
+    return query ? names.filter((name) => name.includes(query)) : names
   })
 
   const pagination = ref({
@@ -54,8 +33,28 @@ export const useShardsTable = (props: ShardsTableProps, emit: any) => {
     descending: false,
     page: 1,
     rowsPerPage: 10,
-    rowsNumber: rowsNumber.value
+    rowsNumber: 0
   })
+
+  watch(filteredIndexNames, (names) => (pagination.value.rowsNumber = names.length))
+
+  const pageIndices = computed(() => {
+    const { page, rowsPerPage } = pagination.value
+    if (rowsPerPage === 0) return filteredIndexNames.value
+    return filteredIndexNames.value.slice((page - 1) * rowsPerPage, page * rowsPerPage)
+  })
+
+  const indicesAsRows = computed(() => shardsStore.rows === 'indices')
+  const nodes = computed(() => props.shards?.nodes || [])
+  const rows = computed(() => (indicesAsRows.value ? pageIndices.value : nodes.value))
+  const columns = computed(() =>
+    (indicesAsRows.value ? nodes.value : pageIndices.value).map((name) => ({ label: name, name, field: name }))
+  )
+
+  const cellFor = (row: string, col: string) => {
+    const [node, index] = indicesAsRows.value ? [col, row] : [row, col]
+    return { node, index, shards: props.shards.shards?.[node]?.[index] }
+  }
 
   const updateTable = (requestProps: any) => {
     const { page, rowsPerPage, sortBy, descending } = requestProps.pagination
@@ -127,14 +126,21 @@ export const useShardsTable = (props: ShardsTableProps, emit: any) => {
     )
   )
 
+  const labelFor = (name: string, isIndex: boolean) =>
+    isIndex
+      ? { name, index: props.shards.indices[name], active: currentReroutingShard.value.index === name }
+      : { name, count: nodeShardCounts.value[name] ?? 0, active: currentReroutingShard.value.node === name }
+
   const results = computed(() => props.shards.indexNames || [])
-  const filterStateProps = setupFilterState(results, columns)
+  const filterStateProps = setupFilterState(results, pageIndices)
 
   return {
     shardsStore,
     filterStateProps,
     indicesStore,
     pagination,
+    indicesAsRows,
+    rows,
     columns,
     updateTable,
     markedColumnIndex,
@@ -144,6 +150,7 @@ export const useShardsTable = (props: ShardsTableProps, emit: any) => {
     cancelRelocation,
     initReroute,
     reroute,
-    nodeShardCounts
+    labelFor,
+    cellFor
   }
 }

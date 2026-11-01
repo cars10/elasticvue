@@ -1111,6 +1111,15 @@
     "health": "Salute",
     "shards_table": {
       "cancel_relocation": "Annulla reindirizzamento",
+      "rows": {
+        "nodes": "Nodi come righe"
+      },
+      "unassigned": "non assegnati",
+      "index": "Indice",
+      "node": "Nodo",
+      "index_shards": "{pri}/{rep} shard",
+      "pri_rep": "{pri} primari / {rep} repliche",
+      "node_shards": "{count} shard | {count} shard",
       "reroute": {
         "confirm": "Reindirizzare il frammento '{shard}' dal nodo '{fromNode}' a '{toNode}'?"
       }

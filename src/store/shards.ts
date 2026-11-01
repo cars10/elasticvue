@@ -5,6 +5,7 @@ import { ReloadIntervalStorePartial, persistReloadIntervalProps } from './shared
 type ShardsState = {
   filter: string
   health: string | null
+  rows: 'indices' | 'nodes'
 } & ReloadIntervalStorePartial
 
 export const useShardsStore = () => {
@@ -14,10 +15,11 @@ export const useShardsStore = () => {
     state: (): ShardsState => ({
       filter: '',
       health: null,
+      rows: 'indices',
       reloadInterval: 30
     }),
     persist: {
-      pick: ['filter', 'health', ...persistReloadIntervalProps()],
+      pick: ['filter', 'health', 'rows', ...persistReloadIntervalProps()],
       key: `shards-${clusterUuid}`
     }
   })()

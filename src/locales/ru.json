@@ -1111,6 +1111,15 @@
     "health": "Состояние",
     "shards_table": {
       "cancel_relocation": "Отменить перемещение",
+      "rows": {
+        "nodes": "Узлы в строках"
+      },
+      "unassigned": "не назначены",
+      "index": "Индекс",
+      "node": "Узел",
+      "index_shards": "Шардов: {pri}/{rep}",
+      "pri_rep": "Первичных: {pri} / реплик: {rep}",
+      "node_shards": "Шардов: {count}",
       "reroute": {
         "confirm": "Перенаправить шард '{shard}' с узла '{fromNode}' на '{toNode}'?"
       }

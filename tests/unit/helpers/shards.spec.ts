@@ -6,7 +6,8 @@ import {
   relocationTarget,
   shardNodeName,
   shardSeverity,
-  summarizeShards
+  summarizeShards,
+  withoutClosedIndices
 } from '../../../src/helpers/shards'
 
 const shard = (values: Partial<EsShard>): EsShard => ({
@@ -112,5 +113,30 @@ describe('summarizeShards', () => {
 
   it('handles clusters without shards', () => {
     expect(summarizeShards([], [])).toMatchObject({ total: 0, spread: null, largest: null, avgPrimaryBytes: null })
+  })
+})
+
+describe('withoutClosedIndices', () => {
+  const index = (name: string, status: string) => ({ index: name, health: 'green', status, pri: '1', rep: '0' })
+
+  it('drops closed indices and their shards', () => {
+    const result = withoutClosedIndices(
+      [shard({ index: 'open' }), shard({ index: 'closed' })],
+      [index('open', 'open'), index('closed', 'close')]
+    )
+    expect(result.shards.map((s) => s.index)).toEqual(['open'])
+    expect(result.indices).toEqual([{ index: 'open', health: 'green', pri: '1', rep: '0' }])
+  })
+
+  it('adds indices that only appear in shards', () => {
+    const result = withoutClosedIndices([shard({ index: 'open' }), shard({ index: '.hidden' })], [index('open', 'open')])
+    expect(result.indices.map((i) => i.index)).toEqual(['open', '.hidden'])
+    expect(result.indices[1].health).toBe('')
+  })
+
+  it('keeps all shards without index info', () => {
+    const result = withoutClosedIndices([shard({ index: 'a' }), shard({ index: 'a', shard: '1' })], [])
+    expect(result.shards).toHaveLength(2)
+    expect(result.indices.map((i) => i.index)).toEqual(['a'])
   })
 })

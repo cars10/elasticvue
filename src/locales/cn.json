@@ -1111,6 +1111,15 @@
     "health": "健康状态",
     "shards_table": {
       "cancel_relocation": "取消迁移",
+      "rows": {
+        "nodes": "节点作为行"
+      },
+      "unassigned": "未分配",
+      "index": "索引",
+      "node": "节点",
+      "index_shards": "{pri}/{rep} 个分片",
+      "pri_rep": "{pri} 个主分片 / {rep} 个副本",
+      "node_shards": "{count} 个分片",
       "reroute": {
         "confirm": "将分片 '{shard}' 从节点 '{fromNode}' 迁移到节点 '{toNode}'？"
       }

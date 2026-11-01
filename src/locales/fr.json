@@ -1111,6 +1111,15 @@
     "health": "État",
     "shards_table": {
       "cancel_relocation": "Annuler le reroutage",
+      "rows": {
+        "nodes": "Nœuds en lignes"
+      },
+      "unassigned": "non assignées",
+      "index": "Index",
+      "node": "Nœud",
+      "index_shards": "{pri}/{rep} partitions",
+      "pri_rep": "{pri} primaire / {rep} réplique",
+      "node_shards": "{count} partition | {count} partitions",
       "reroute": {
         "confirm": "Rerouter la partition '{shard}' du noeud '{fromNode}' vers '{toNode}' ?"
       }

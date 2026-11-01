@@ -7,8 +7,10 @@ import {
   EsShardIndex,
   problemShards,
   shardNodeName,
-  summarizeShards
+  summarizeShards,
+  withoutClosedIndices
 } from '../../../helpers/shards.ts'
+import { clusterVersionGte } from '../../../helpers/minClusterVersion.ts'
 import { isDataNode } from '../../../helpers/nodes.ts'
 import { useShardsStore } from '../../../store/shards.ts'
 import { useIndicesStore } from '../../../store/indices.ts'
@@ -48,7 +50,11 @@ export const useIndexShards = () => {
   const summary = computed(() => summarizeShards(visibleShards.value, dataNodeNames.value))
   const problems = computed(() => problemShards(visibleShards.value))
 
-  const fetchIndices = () => callEnrichment('catIndices', { h: ['index', 'health', 'pri', 'rep'] }) as Promise<EsShardIndex[]>
+  const fetchIndices = () =>
+    callEnrichment('catIndices', {
+      h: ['index', 'health', 'status', 'pri', 'rep'],
+      ...(clusterVersionGte(8) && { expand_wildcards: 'all' })
+    }) as Promise<(EsShardIndex & { status: string })[]>
   const fetchNodes = () => callEnrichment('catNodes', { h: ['name', 'node.role', 'version'] }) as Promise<Partial<EsNode>[]>
 
   const load = async () => {
@@ -62,19 +68,12 @@ export const useIndexShards = () => {
       console.error(shardsResult.reason)
       return
     }
-    const shards = shardsResult.value
-
-    if (indicesResult.status === 'fulfilled') {
-      indices.value = indicesResult.value
-    } else {
-      // Index health is enrichment; still show shards without it
-      indices.value = [...new Set(shards.map((shard) => shard.index))].map((index) => ({
-        index,
-        health: '',
-        pri: '',
-        rep: ''
-      }))
-    }
+    // Index health is enrichment; still show shards without it
+    const { shards, indices: shardIndices } = withoutClosedIndices(
+      shardsResult.value,
+      indicesResult.status === 'fulfilled' ? indicesResult.value : []
+    )
+    indices.value = shardIndices
 
     if (nodesResult.status === 'fulfilled') {
       nodes.value = nodesResult.value

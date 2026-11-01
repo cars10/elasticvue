@@ -1111,6 +1111,15 @@
     "health": "健全性",
     "shards_table": {
       "cancel_relocation": "再ルーティングをキャンセル",
+      "rows": {
+        "nodes": "ノードを行に表示"
+      },
+      "unassigned": "未割り当て",
+      "index": "インデックス",
+      "node": "ノード",
+      "index_shards": "{pri}/{rep} シャード",
+      "pri_rep": "プライマリ {pri} / レプリカ {rep}",
+      "node_shards": "{count} シャード",
       "reroute": {
         "confirm": "シャード '{shard}' をノード '{fromNode}' から '{toNode}' に再ルーティングしますか？"
       }
