@@ -76,7 +76,10 @@ const diskSafe = computed<boolean | null>(() => {
   if (requiredFree == null || nodes.value.some((node) => node.diskAvailableBytes == null)) return null
   return nodes.value.every((node) => (node.diskAvailableBytes || 0) > requiredFree)
 })
-const floodState = computed(() => (diskSafe.value === null ? 'unknown' : diskSafe.value ? 'recovered' : 'full'))
+const floodState = computed(() => {
+  if (diskSafe.value === null) return 'unknown'
+  return diskSafe.value ? 'recovered' : 'full'
+})
 
 const clearUserBlocks = async () => {
   const names = selectedStates.value

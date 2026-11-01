@@ -58,7 +58,7 @@ export const formatFieldValue = (value: unknown): string => {
 const isNumeric = (value: unknown): value is number | bigint => typeof value === 'number' || typeof value === 'bigint'
 
 export const compareValues = (a: unknown, b: unknown): number => {
-  if (isNumeric(a) && isNumeric(b)) return a < b ? -1 : a > b ? 1 : 0
+  if (isNumeric(a) && isNumeric(b)) return Number(a > b) - Number(a < b)
   return formatFieldValue(a).localeCompare(formatFieldValue(b), undefined, { numeric: true })
 }
 

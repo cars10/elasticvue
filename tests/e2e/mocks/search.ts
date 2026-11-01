@@ -238,9 +238,14 @@ const searchDocs = (indices: string[], body: SearchBody) => {
     const [field, options] = Object.entries(sort)[0]
     const key = field.replace(/\.(keyword|raw)$/, '')
     const direction = options.order === 'desc' ? -1 : 1
+    const sortValue = (doc: (typeof docs)[number]) => {
+      if (field === '_id') return doc._id
+      if (field === '_index') return doc._index
+      return valueAt(doc._source ?? doc.fields, key)
+    }
     docs = [...docs].sort((a, b) => {
-      const va = field === '_id' ? a._id : field === '_index' ? a._index : valueAt(a._source ?? a.fields, key)
-      const vb = field === '_id' ? b._id : field === '_index' ? b._index : valueAt(b._source ?? b.fields, key)
+      const va = sortValue(a)
+      const vb = sortValue(b)
       if (va === vb) return 0
       if (va === undefined) return 1
       if (vb === undefined) return -1
@@ -329,14 +334,10 @@ export const mockSearchCluster = async (page: Page, { version = 8 }: { version?:
     const size = body.size ?? 10
     const isLogs = indices.includes('.ds-logs-app-000001')
 
-    const total =
-      version >= 7
-        ? isLogs
-          ? body.track_total_hits
-            ? { value: 12345, relation: 'eq' }
-            : { value: 10000, relation: 'gte' }
-          : { value: docs.length, relation: 'eq' }
-        : docs.length
+    let total: number | { value: number; relation: string } = docs.length
+    if (version >= 7) total = { value: docs.length, relation: 'eq' }
+    if (version >= 7 && isLogs) total = { value: 10000, relation: 'gte' }
+    if (version >= 7 && isLogs && body.track_total_hits) total = { value: 12345, relation: 'eq' }
 
     const json = {
       took: 3,

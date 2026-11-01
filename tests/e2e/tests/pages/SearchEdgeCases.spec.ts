@@ -129,7 +129,8 @@ test.describe('Search edge cases', () => {
     await expect
       .poll(() => requests.find((r) => r.method === 'PUT' && r.rawPath.startsWith('/weird/_doc/'))?.rawPath)
       .toBe('/weird/_doc/a%2Fb?refresh=true&routing=rk')
-    await page.keyboard.press('Escape')
+    await expect(page.getByText('Document updated successfully.')).toBeVisible()
+    await page.getByTestId('search-document-panel').getByRole('button', { name: 'Close' }).click()
     await expect(page.locator('.q-dialog')).toHaveCount(0)
 
     page.once('dialog', (dialog) => dialog.accept())

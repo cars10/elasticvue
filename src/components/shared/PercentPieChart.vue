@@ -66,12 +66,9 @@ const valueClass = computed(() => {
 })
 
 const colors = () => {
-  const fill =
-    tone.value === 'danger'
-      ? resolveCssVar(root.value, '--theme-negative', '#dc2626')
-      : tone.value === 'warn'
-        ? resolveCssVar(root.value, '--theme-warning', '#ca8a04')
-        : resolveCssVar(root.value, '--theme-primary', '#2563eb')
+  let fill = resolveCssVar(root.value, '--theme-primary', '#2563eb')
+  if (tone.value === 'danger') fill = resolveCssVar(root.value, '--theme-negative', '#dc2626')
+  if (tone.value === 'warn') fill = resolveCssVar(root.value, '--theme-warning', '#ca8a04')
   const track = resolveCssVar(root.value, '--theme-separator-background', '#e5e7eb')
   return { fill, track }
 }

@@ -45,8 +45,11 @@ const { requests, userIndices, setRefreshInterval } = useInjectedClusterTools()
 const selected = ref<string[]>([])
 const draft = ref('default')
 const custom = ref('')
-const intervalLabel = (value: string | null) =>
-  !value || value === 'default' ? t('tools.status.default') : value === '-1' ? t('tools.status.disabled') : value
+const intervalLabel = (value: string | null) => {
+  if (!value || value === 'default') return t('tools.status.default')
+  if (value === '-1') return t('tools.status.disabled')
+  return value
+}
 const intervalOptions = ['default', '1s', '5s', '30s', '-1', 'custom'].map((value) => ({
   label: value === 'custom' ? t('tools.refresh.custom') : intervalLabel(value),
   value
@@ -64,7 +67,9 @@ const current = computed(() => {
 const valid = computed(() => draft.value !== 'custom' || /^\d+(?:\.\d+)?(?:ms|s|m|h)$/.test(custom.value))
 
 const apply = async () => {
-  const value = draft.value === 'default' ? null : draft.value === 'custom' ? custom.value : draft.value
+  let value: string | null = draft.value
+  if (value === 'default') value = null
+  if (value === 'custom') value = custom.value
   const count = selected.value.length
   const warning = value === '-1' ? `\n\n${t('tools.refresh.disabled_warning')}` : ''
   if (await askConfirm(t('tools.refresh.confirm', { count, value: intervalLabel(value) }, count) + warning)) {

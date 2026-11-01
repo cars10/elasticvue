@@ -12,6 +12,7 @@ export default defineConfigWithVueTs(
   {
     rules: {
       'semi': ['error', 'never'],
+      'no-nested-ternary': 'error',
       'vue/max-attributes-per-line': 'off',
       'vue/first-attribute-linebreak': 'off',
       'vue/html-closing-bracket-newline': 'off',

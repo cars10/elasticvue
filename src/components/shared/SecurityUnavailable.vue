@@ -26,13 +26,11 @@ const t = useTranslation()
 
 const kind = computed(() => securityErrorKind(props.status))
 
-const title = computed(() =>
-  kind.value !== 'forbidden'
-    ? t('shared.security_unavailable.unavailable')
-    : props.subject === 'users'
-      ? t('shared.security_unavailable.forbidden_users')
-      : t('shared.security_unavailable.forbidden_roles')
-)
+const title = computed(() => {
+  if (kind.value !== 'forbidden') return t('shared.security_unavailable.unavailable')
+  if (props.subject === 'users') return t('shared.security_unavailable.forbidden_users')
+  return t('shared.security_unavailable.forbidden_roles')
+})
 
 const text = computed(() =>
   kind.value === 'forbidden' ? t('shared.security_unavailable.forbidden_text') : t('shared.security_unavailable.unavailable_text')

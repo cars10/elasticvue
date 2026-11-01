@@ -33,7 +33,10 @@ export const mapElasticsearchUsers = (users: Record<string, ElasticsearchUser> |
     }))
     .sort((a, b) => a.username.localeCompare(b.username))
 
-const toArray = (value?: string[] | string) => (Array.isArray(value) ? value : value ? [value] : [])
+const toArray = (value?: string[] | string) => {
+  if (Array.isArray(value)) return value
+  return value ? [value] : []
+}
 
 export const mapElasticsearchRoles = (roles: Record<string, ElasticsearchRole> | null): ClusterRole[] =>
   Object.entries(roles || {})

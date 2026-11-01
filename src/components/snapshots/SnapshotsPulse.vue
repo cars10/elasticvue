@@ -29,7 +29,7 @@
         title="Failed / partial"
         icon="report"
         :value="problems"
-        :value-class="summary.failed.length ? 'health--red' : summary.partial.length ? 'health--yellow' : undefined"
+        :value-class="problemsClass"
         test-id="snapshots-pulse-problems"
       >
         <template v-if="problems">
@@ -76,6 +76,12 @@ const props = defineProps<{
 }>()
 
 const problems = computed(() => props.summary.failed.length + props.summary.partial.length)
+
+const problemsClass = computed(() => {
+  if (props.summary.failed.length) return 'health--red'
+  if (props.summary.partial.length) return 'health--yellow'
+  return undefined
+})
 
 const stateBreakdown = computed(() =>
   props.summary.states.map(({ name, count }) => `${count} ${name.toLowerCase().replace('_', ' ')}`).join(', ')
