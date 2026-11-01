@@ -89,13 +89,13 @@
             <q-separator />
 
             <index-aliases :index="index.index" @reload="emitReloadAndCloseMenu" />
-            <index-reindex v-if="clusterVersionGt(1)" :index="index.index" @reload="emitReloadAndCloseMenu" />
-            <index-clone v-if="clusterVersionGte(7)" :index="index.index" @reload="emitReloadAndCloseMenu" />
+            <index-reindex v-if="capabilities.indices.reindex" :index="index.index" @reload="emitReloadAndCloseMenu" />
+            <index-clone v-if="capabilities.indices.clone" :index="index.index" @reload="emitReloadAndCloseMenu" />
 
             <q-separator />
 
             <row-menu-action
-              v-if="clusterVersionGt(1) && !connectionStore.serverless"
+              v-if="capabilities.indices.forcemerge && !capabilities.serverless"
               method="indexForcemerge"
               :method-params="{ indices: [props.index.index] }"
               :text="t('indices.index_row.options.forcemerge.text')"
@@ -153,7 +153,7 @@
             />
 
             <row-menu-action
-              v-if="index.status === 'open' && !connectionStore.serverless"
+              v-if="index.status === 'open' && !capabilities.serverless"
               method="indexClose"
               :method-params="{ indices: [props.index.index] }"
               :confirm="t('indices.index_row.options.close.confirm', { index: index.index })"
@@ -163,7 +163,7 @@
               @done="emitReloadAndCloseMenu"
             />
             <row-menu-action
-              v-else-if="!connectionStore.serverless"
+              v-else-if="!capabilities.serverless"
               method="indexOpen"
               :method-params="{ indices: [props.index.index] }"
               :text="t('indices.index_row.options.open.text')"
@@ -175,7 +175,7 @@
             <q-separator />
 
             <row-menu-action
-              v-if="clusterVersionGte(5)"
+              v-if="capabilities.indices.deleteByQuery"
               method="deleteByQuery"
               :method-params="{ index: props.index.index }"
               :text="t('indices.index_row.options.delete_by_query.text')"
@@ -209,15 +209,14 @@ import { useTranslation } from '../../composables/i18n'
 import IndexReindex from './IndexReindex.vue'
 import IndexClone from './IndexClone.vue'
 import RowMenuAction from './RowMenuAction.vue'
-import { clusterVersionGt, clusterVersionGte } from '../../helpers/minClusterVersion.ts'
-import { useConnectionStore } from '../../store/connection.ts'
+import { useClusterSession } from '../../store/clusterSession.ts'
 import { isReadOnly, writableSettingsBody } from '../../helpers/indices.ts'
 import { computed } from 'vue'
 
 const t = useTranslation()
 const props = defineProps<IndexRowProps>()
 const emit = defineEmits(['reload', 'indexDeleted'])
-const connectionStore = useConnectionStore()
+const capabilities = useClusterSession().capabilities
 const readOnly = computed(() => isReadOnly(props.index.blocks))
 
 const afterDelete = (index: string) => {

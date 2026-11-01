@@ -15,7 +15,7 @@
       />
 
       <custom-input
-        v-if="supportsRoleDescription()"
+        v-if="session.capabilities.security.roleDescription"
         v-model="role.description"
         :label="t('cluster_roles.new_role.form.description.label')"
         class="q-mb-md"
@@ -103,16 +103,13 @@ import { useTranslation } from '../../composables/i18n'
 import CustomInput from '../shared/CustomInput.vue'
 import ResizableContainer from '../shared/ResizableContainer.vue'
 import { useResizeStore } from '../../store/resize'
-import {
-  CLUSTER_PRIVILEGE_OPTIONS,
-  INDICES_JSON_EXAMPLE,
-  RoleFormData,
-  supportsRoleDescription
-} from '../../composables/components/roles/RoleForm.ts'
+import { CLUSTER_PRIVILEGE_OPTIONS, INDICES_JSON_EXAMPLE, RoleFormData } from '../../composables/components/roles/RoleForm.ts'
+import { useClusterSession } from '../../store/clusterSession.ts'
 
 const CodeEditor = defineAsyncComponent(() => import('../shared/CodeEditor.vue'))
 
 const t = useTranslation()
+const session = useClusterSession()
 const resizeStore = useResizeStore()
 const clusterOptions = ref([...CLUSTER_PRIVILEGE_OPTIONS])
 

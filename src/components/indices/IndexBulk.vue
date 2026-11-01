@@ -2,7 +2,7 @@
   <q-btn-dropdown ref="menu" :label="t('defaults.bulk')" color="positive" menu-anchor="top left" menu-self="bottom left">
     <q-list padding dense>
       <row-menu-action
-        v-if="clusterVersionGt(1)"
+        v-if="session.capabilities.indices.forcemerge"
         method="indexForcemerge"
         :method-params="{ indices: selectedIndices }"
         :text="t('indices.index_row.options.forcemerge.text', selectedIndices.length)"
@@ -91,9 +91,10 @@ import { Ref, ref } from 'vue'
 import { QMenu } from 'quasar'
 import { useTranslation } from '../../composables/i18n'
 import RowMenuAction from './RowMenuAction.vue'
-import { clusterVersionGt } from '../../helpers/minClusterVersion.ts'
+import { useClusterSession } from '../../store/clusterSession.ts'
 
 const t = useTranslation()
+const session = useClusterSession()
 
 defineProps<{ selectedIndices: string[]; totalItemsCount: number; filteredItemsCount: number }>()
 const emit = defineEmits(['reload', 'indicesDeleted'])

@@ -1,4 +1,5 @@
 import { computed, nextTick, onMounted, ref, shallowRef, watch } from 'vue'
+import { useClusterSession } from '../../../store/clusterSession.ts'
 import { useRoute, useRouter } from 'vue-router'
 import { useElasticsearchAdapter } from '../../CallElasticsearch'
 import { useSearchStore } from '../../../store/search'
@@ -54,6 +55,7 @@ export const useSearchDocuments = () => {
   const router = useRouter()
   const searchStore = useSearchStore()
   const connectionStore = useConnectionStore()
+  const session = useClusterSession()
   const { requestState, callElasticsearch } = useElasticsearchAdapter()
   const { catalog, skipped: catalogSkipped, load: loadCatalog } = useFieldCatalog()
   const { callElasticsearch: callTargets } = useElasticsearchAdapter()
@@ -65,11 +67,12 @@ export const useSearchDocuments = () => {
   const sql = useSqlSearch()
   let suspendWatchers = false
   const compatibleVersion = computed(() =>
-    elasticsearchCompatibleVersion(connectionStore.activeCluster?.version, connectionStore.elasticsearch)
+    elasticsearchCompatibleVersion(connectionStore.activeCluster?.version, session.capabilities.elasticsearch)
   )
   const majorVersion = computed(() => parseInt(compatibleVersion.value) || 0)
   const isSqlMode = (mode: SearchMode): mode is SqlMode => mode === 'sql' || mode === 'esql'
-  const sqlApiFor = (mode: SqlMode) => sqlApi(mode, connectionStore.activeCluster?.version || '', connectionStore.elasticsearch)
+  const sqlApiFor = (mode: SqlMode) =>
+    sqlApi(mode, connectionStore.activeCluster?.version || '', session.capabilities.elasticsearch)
   const modes = computed(() =>
     (['query', 'dsl', 'sql', 'esql'] as SearchMode[]).filter((mode) => !isSqlMode(mode) || !!sqlApiFor(mode))
   )
@@ -282,7 +285,7 @@ export const useSearchDocuments = () => {
       searchStore.dslBody = dslSeed
     }
     if (isSqlMode(mode) && !sqlText(mode).trim()) {
-      searchStore[queryKeyFor(mode)] = defaultSqlQuery(mode, searchStore.targets, connectionStore.elasticsearch)
+      searchStore[queryKeyFor(mode)] = defaultSqlQuery(mode, searchStore.targets, session.capabilities.elasticsearch)
     }
     if (previous === 'dsl') searchStore.pagination.rowsPerPage = allowedRowsPerPage(searchStore.pagination.rowsPerPage)
     if (mode === 'query' && previous === 'dsl') searchStore.pagination.sortBy = ''

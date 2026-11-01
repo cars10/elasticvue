@@ -23,6 +23,7 @@
 import { computed, ref } from 'vue'
 import { useTranslation } from '../../composables/i18n'
 import { useConnectionStore } from '../../store/connection.ts'
+import { useClusterSession } from '../../store/clusterSession.ts'
 import { useRestStore } from '../../store/rest.ts'
 import { restDocsUrl } from '../../helpers/rest.ts'
 import RestQueryLibrary from './RestQueryLibrary.vue'
@@ -30,10 +31,11 @@ import RestQueryFormTabs from './RestQueryFormTabs.vue'
 
 const t = useTranslation()
 const connectionStore = useConnectionStore()
+const session = useClusterSession()
 const restStore = useRestStore()
 const libraryOpen = ref(false)
 
-const docsUrl = computed(() => restDocsUrl(connectionStore.elasticsearch, connectionStore.activeCluster?.version))
+const docsUrl = computed(() => restDocsUrl(session.capabilities.elasticsearch, connectionStore.activeCluster?.version))
 
 restStore.load()
 </script>

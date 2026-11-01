@@ -1,6 +1,6 @@
 import { computed, ref, watch } from 'vue'
 import { useElasticsearchAdapter } from '../../CallElasticsearch'
-import { supportsUserEnabledInBody } from '../../../helpers/securitySupport.ts'
+import { useClusterSession } from '../../../store/clusterSession.ts'
 import { ROLE_NAMES_PARAMS } from '../../../helpers/security.ts'
 
 export type UserFormData = {
@@ -74,7 +74,7 @@ export const buildUserBody = (user: UserFormData, { includePassword }: { include
     email: user.email.trim()
   }
 
-  if (supportsUserEnabledInBody()) body.enabled = user.enabled
+  if (useClusterSession().capabilities.security.userEnabledInBody) body.enabled = user.enabled
   if (includePassword) body.password = user.password
 
   return body

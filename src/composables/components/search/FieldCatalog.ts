@@ -1,4 +1,5 @@
 import { ref, shallowRef } from 'vue'
+import { useClusterSession } from '../../../store/clusterSession.ts'
 import { useElasticsearchAdapter } from '../../CallElasticsearch.ts'
 import { useConnectionStore } from '../../../store/connection.ts'
 import { elasticsearchCompatibleVersion, versionAtLeast } from '../../../helpers/minClusterVersion.ts'
@@ -12,13 +13,14 @@ const catalogs = new Map<string, Promise<FieldCatalog>>()
 
 export const useFieldCatalog = () => {
   const connectionStore = useConnectionStore()
+  const session = useClusterSession()
   const { callElasticsearch } = useElasticsearchAdapter()
   const catalog = shallowRef<FieldCatalog>(emptyCatalog())
   const skipped = ref(false)
   let latest = 0
 
   const fetchCatalog = async (index: string): Promise<FieldCatalog> => {
-    const version = elasticsearchCompatibleVersion(connectionStore.activeCluster?.version, connectionStore.elasticsearch)
+    const version = elasticsearchCompatibleVersion(connectionStore.activeCluster?.version, session.capabilities.elasticsearch)
     if (!versionAtLeast(version, '5')) {
       return catalogFromMappings(await callElasticsearch('indexMappings', { index }))
     }

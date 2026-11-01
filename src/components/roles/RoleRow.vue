@@ -56,7 +56,7 @@
 import { ref, defineAsyncComponent } from 'vue'
 import ResizableContainer from '../shared/ResizableContainer.vue'
 import { useRoleRow } from '../../composables/components/roles/RoleRow.ts'
-import { supportsRoleDescription } from '../../helpers/securitySupport.ts'
+import { useClusterSession } from '../../store/clusterSession.ts'
 import { isClusterAdminPrivilege } from '../../helpers/security.ts'
 import type { ClusterRole, RoleUsage } from '../../types/security.ts'
 import { stringifyJson } from '../../helpers/json/stringify.ts'
@@ -67,6 +67,6 @@ const props = defineProps<{ role: ClusterRole; usage?: RoleUsage; usageKnown: bo
 const emit = defineEmits<{ reload: []; edit: [role: ClusterRole]; 'show-users': [role: string] }>()
 const expand = ref(false)
 
-const showDescription = supportsRoleDescription()
+const showDescription = useClusterSession().capabilities.security.roleDescription
 const { deleteRole } = useRoleRow(props, emit)
 </script>

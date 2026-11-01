@@ -4,7 +4,7 @@ import { setupFilterState } from '../shared/FilterState.ts'
 import { genColumns } from '../../../helpers/tableColumns.ts'
 import { useNodesStore } from '../../../store/nodes.ts'
 import { useTranslation } from '../../i18n.ts'
-import { clusterVersionGte } from '../../../helpers/minClusterVersion.ts'
+import { useClusterSession } from '../../../store/clusterSession.ts'
 import type { NodeRow } from '../../../types/nodes.ts'
 
 export type NodesTableProps = { nodes: NodeRow[]; loading: boolean }
@@ -23,7 +23,7 @@ export const useNodesTable = (props: NodesTableProps) => {
 
   const filterStateProps = setupFilterState(results, filteredResults)
 
-  const showNodeShards = clusterVersionGte(8)
+  const showNodeShards = useClusterSession().capabilities.nodes.shards
 
   const columns = genColumns([
     { label: t('cluster_nodes.node_properties.name'), field: 'name', align: 'left' },

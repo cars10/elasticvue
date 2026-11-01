@@ -5,7 +5,7 @@ import { stringifyJson } from '../helpers/json/stringify.ts'
 import { cleanIndexName } from '../helpers/cleanIndexName.ts'
 import { AuthType, ElasticsearchClusterConnection } from '../store/connection.ts'
 import { AwsClient } from 'aws4fetch'
-import { currentSecurityApiBasePath } from '../helpers/securitySupport.ts'
+import { securityBasePath } from '../helpers/capabilities.ts'
 
 interface IndexGetArgs {
   routing?: string
@@ -26,8 +26,11 @@ export default class ElasticsearchAdapter {
   uri: string
   awsClient: AwsClient | null
   authHeader?: string
+  cluster: ElasticsearchClusterConnection & { version?: string }
 
-  constructor({ uri, auth }: ElasticsearchClusterConnection) {
+  constructor(cluster: ElasticsearchClusterConnection & { version?: string }) {
+    const { uri, auth } = cluster
+    this.cluster = cluster
     this.uri = addTrailingSlash(uri)
 
     if (auth.authType === AuthType.awsIAM) {
@@ -44,7 +47,7 @@ export default class ElasticsearchAdapter {
   }
 
   private securityPath(path: string) {
-    return `${currentSecurityApiBasePath()}/${path}`
+    return `${securityBasePath(this.cluster.version)}/${path}`
   }
 
   call(method: ElasticsearchMethod, ...args: any[]): Promise<any> {

@@ -53,13 +53,13 @@
 <script setup lang="ts">
 import RepositoryPolicies from './RepositoryPolicies.vue'
 import { RepositoryRowProps, useRepositoryRow } from '../../composables/components/repositories/RepositoryRow.ts'
-import { supportsRepositoryVerify } from '../../helpers/snapshotSupport.ts'
+import { useClusterSession } from '../../store/clusterSession.ts'
 import { formatTimeAgo, formatTimeIn } from '../../helpers/time.ts'
 import { stringifyJson } from '../../helpers/json/stringify.ts'
 
 const props = defineProps<RepositoryRowProps & { slm: boolean }>()
 const emit = defineEmits<{ reload: [] }>()
 
-const canVerify = supportsRepositoryVerify()
+const canVerify = useClusterSession().capabilities.snapshots.repositoryVerify
 const { deleteRepository, verifyRepository, openSnapshots } = useRepositoryRow(props, emit)
 </script>

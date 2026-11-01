@@ -5,7 +5,7 @@ import { filterItems } from '../../../helpers/filters.ts'
 import { setupFilterState } from '../shared/FilterState.ts'
 import { useRolesStore } from '../../../store/roles.ts'
 import type { ClusterRole, RoleUsage } from '../../../types/security.ts'
-import { supportsRoleDescription } from '../../../helpers/securitySupport.ts'
+import { useClusterSession } from '../../../store/clusterSession.ts'
 
 export type RolesTableProps = {
   roles: ClusterRole[]
@@ -18,7 +18,7 @@ export const useRolesTable = (props: RolesTableProps) => {
   const rolesStore = useRolesStore()
 
   const results = computed(() => props.roles)
-  const showDescription = supportsRoleDescription()
+  const showDescription = useClusterSession().capabilities.security.roleDescription
 
   const filteredResults = computed(() => {
     const columns = showDescription ? ['name', 'description', 'cluster'] : ['name', 'cluster']

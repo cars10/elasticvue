@@ -1,10 +1,6 @@
 import { stringifyJson } from '../../../helpers/json/stringify.ts'
 import { parseJson } from '../../../helpers/json/parse.ts'
-import {
-  supportsAllowRestrictedIndices,
-  supportsRoleApplications,
-  supportsRoleDescription
-} from '../../../helpers/securitySupport.ts'
+import { useClusterSession } from '../../../store/clusterSession.ts'
 
 export type RoleFormData = {
   name: string
@@ -48,8 +44,6 @@ export const CLUSTER_PRIVILEGE_OPTIONS = [
   'monitor_snapshot'
 ]
 
-export { supportsRoleDescription } from '../../../helpers/securitySupport.ts'
-
 export const emptyRoleForm = (): RoleFormData => ({
   name: '',
   description: '',
@@ -79,7 +73,7 @@ export const isValidIndicesJson = (indicesJson: string): boolean => {
 
 const sanitizeIndices = (indices: unknown): unknown => {
   if (!Array.isArray(indices)) return indices
-  if (supportsAllowRestrictedIndices()) return indices
+  if (useClusterSession().capabilities.security.allowRestrictedIndices) return indices
 
   return indices.map((entry) => {
     if (!entry || typeof entry !== 'object') return entry
@@ -108,13 +102,14 @@ export const buildRoleBody = (form: RoleFormData, existingRaw?: Record<string, u
   body.indices = sanitizeIndices(parseJson(form.indicesJson))
   body.run_as = form.run_as
 
-  if (supportsRoleDescription()) {
+  const { security } = useClusterSession().capabilities
+  if (security.roleDescription) {
     body.description = form.description.trim()
   } else {
     delete body.description
   }
 
-  if (!supportsRoleApplications()) {
+  if (!security.roleApplications) {
     delete body.applications
   }
 

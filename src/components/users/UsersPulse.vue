@@ -52,7 +52,7 @@
 import { computed } from 'vue'
 import PulseMetricCard from '../shared/PulseMetricCard.vue'
 import { useTranslation } from '../../composables/i18n.ts'
-import { supportsUserEnabledInBody } from '../../helpers/securitySupport.ts'
+import { useClusterSession } from '../../store/clusterSession.ts'
 import type { AuthenticatedUser, UsersSummary } from '../../types/security.ts'
 
 const props = defineProps<{
@@ -61,7 +61,7 @@ const props = defineProps<{
 }>()
 
 const t = useTranslation()
-const showEnabled = supportsUserEnabledInBody()
+const showEnabled = useClusterSession().capabilities.security.userEnabledInBody
 
 const colClass = computed(() => (props.currentUser?.username ? 'col-12 col-sm-6 col-lg-3' : 'col-12 col-sm-4'))
 </script>

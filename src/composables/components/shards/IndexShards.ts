@@ -10,7 +10,7 @@ import {
   summarizeShards,
   withoutClosedIndices
 } from '../../../helpers/shards.ts'
-import { clusterVersionGte } from '../../../helpers/minClusterVersion.ts'
+import { useClusterSession } from '../../../store/clusterSession.ts'
 import { isDataNode } from '../../../helpers/nodes.ts'
 import { useShardsStore } from '../../../store/shards.ts'
 import { useIndicesStore } from '../../../store/indices.ts'
@@ -53,7 +53,7 @@ export const useIndexShards = () => {
   const fetchIndices = () =>
     callEnrichment('catIndices', {
       h: ['index', 'health', 'status', 'pri', 'rep'],
-      ...(clusterVersionGte(8) && { expand_wildcards: 'all' })
+      ...(useClusterSession().capabilities.indices.expandWildcardsAll && { expand_wildcards: 'all' })
     }) as Promise<(EsShardIndex & { status: string })[]>
   const fetchNodes = () => callEnrichment('catNodes', { h: ['name', 'node.role', 'version'] }) as Promise<Partial<EsNode>[]>
 

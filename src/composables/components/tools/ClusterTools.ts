@@ -4,7 +4,6 @@ import { useSnackbar } from '../../Snackbar.ts'
 import { useTranslation } from '../../i18n.ts'
 import {
   addAllocationExclusion,
-  clusterToolsCapabilities,
   effectiveSetting,
   indicesNeedingZeroReplicaHelper,
   parseCommaSeparated,
@@ -22,7 +21,7 @@ import type {
   WatermarkValues
 } from '../../../types/clusterTools.ts'
 import type { ClusterHealth, NodesStatsBody } from '../../../types/homeDashboard.ts'
-import { useConnectionStore } from '../../../store/connection.ts'
+import { useClusterSession } from '../../../store/clusterSession.ts'
 
 const SETTINGS_PARAMS = { include_defaults: 'true', flat_settings: 'true' }
 const SHARD_PARAMS = {
@@ -39,8 +38,7 @@ const shardNodeName = (shard: ToolShard) => shard.node?.split(/\s|->/)[0]
 
 export const useClusterTools = () => {
   const t = useTranslation()
-  const connectionStore = useConnectionStore()
-  const capabilities = clusterToolsCapabilities(connectionStore.activeCluster?.version, !connectionStore.elasticsearch)
+  const { tools: capabilities, destructiveRequiresNameDefault } = useClusterSession().capabilities
   const settingsApi = useElasticsearchAdapter()
   const shardsApi = useElasticsearchAdapter()
   const nodesApi = useElasticsearchAdapter()
@@ -70,9 +68,7 @@ export const useClusterTools = () => {
   const autoCreateSetting = setting<string | boolean>('action.auto_create_index')
   const awarenessSetting = setting('cluster.routing.allocation.awareness.attributes', '')
   const destructiveSetting = computed(() => {
-    const fallback =
-      !connectionStore.elasticsearch || Number.parseInt(connectionStore.activeCluster?.majorVersion || '0', 10) >= 8
-    return effectiveSetting<string | boolean>(settings.value, 'action.destructive_requires_name', fallback)
+    return effectiveSetting<string | boolean>(settings.value, 'action.destructive_requires_name', destructiveRequiresNameDefault)
   })
   const destructiveEnabled = computed(() => isTrue(destructiveSetting.value.effectiveValue))
 

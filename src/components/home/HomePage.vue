@@ -1,12 +1,12 @@
 <template>
   <div class="flex justify-between items-center q-mb-lg">
     <h1 class="page-title">{{ t('home.heading') }}</h1>
-    <div v-if="!connectionStore.serverless" class="col-auto">
+    <div v-if="!session.capabilities.serverless" class="col-auto">
       <reload-button :action="reload" v-model="homeStore.reloadInterval" />
     </div>
   </div>
 
-  <div v-if="connectionStore.serverless" class="row">
+  <div v-if="session.capabilities.serverless" class="row">
     <div class="col-12 col-md-8 col-lg-6">
       <q-card>
         <q-card-section>
@@ -33,14 +33,14 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useConnectionStore } from '../../store/connection.ts'
+import { useClusterSession } from '../../store/clusterSession.ts'
 import { useHomeStore } from '../../store/home.ts'
 import { useTranslation } from '../../composables/i18n.ts'
 import HomeStatus from './HomeStatus.vue'
 import ReloadButton from '../shared/ReloadButton.vue'
 
 const t = useTranslation()
-const connectionStore = useConnectionStore()
+const session = useClusterSession()
 const homeStore = useHomeStore()
 const homeStatus = ref<InstanceType<typeof HomeStatus> | null>(null)
 

@@ -1,4 +1,5 @@
 import { computed, onMounted, shallowRef } from 'vue'
+import { useClusterSession } from '../../../store/clusterSession.ts'
 import { useElasticsearchAdapter } from '../../CallElasticsearch.ts'
 import { useConnectionStore } from '../../../store/connection.ts'
 import { elasticsearchCompatibleVersion, versionAtLeast } from '../../../helpers/minClusterVersion.ts'
@@ -42,6 +43,7 @@ export const filterOptions = (options: IndexTargetOption[], query: string, limit
 
 export const useSearchIndexSelect = () => {
   const connectionStore = useConnectionStore()
+  const session = useClusterSession()
   const { callElasticsearch } = useElasticsearchAdapter()
 
   const options = shallowRef<IndexTargetOption[]>([])
@@ -49,7 +51,7 @@ export const useSearchIndexSelect = () => {
   const kinds = computed(() => new Map(options.value.map((option) => [option.name, option.kind])))
 
   const fetchOptions = async (): Promise<IndexTargetOption[]> => {
-    const version = elasticsearchCompatibleVersion(connectionStore.activeCluster?.version, connectionStore.elasticsearch)
+    const version = elasticsearchCompatibleVersion(connectionStore.activeCluster?.version, session.capabilities.elasticsearch)
     if (versionAtLeast(version, '7.9')) {
       try {
         return resolveOptions(await callElasticsearch('resolveIndex', { name: '*', params: { expand_wildcards: 'all' } }))

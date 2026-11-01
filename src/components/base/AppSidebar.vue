@@ -53,7 +53,7 @@ import { useLogo } from '../../composables/Logo'
 import { useTranslation } from '../../composables/i18n.ts'
 import { useConnectionStore } from '../../store/connection'
 import { useSidebarStore } from '../../store/sidebar'
-import { supportsNativeSecurityApi } from '../../helpers/securitySupport.ts'
+import { useClusterSession } from '../../store/clusterSession.ts'
 import ClusterSelection from '../clusterselection/ClusterSelection.vue'
 import AppSidebarItem from './AppSidebarItem.vue'
 import LanguageSwitcher from './LanguageSwitcher.vue'
@@ -63,6 +63,7 @@ const t = useTranslation()
 const logo = useLogo()
 const connectionStore = useConnectionStore()
 const sidebarStore = useSidebarStore()
+const session = useClusterSession()
 
 const controlSize = computed(() => (sidebarStore.collapsed ? 'sm' : 'md'))
 
@@ -72,8 +73,8 @@ const routeTo = (name: string) => ({
 })
 
 const sections = computed(() => {
-  const serverless = connectionStore.serverless
-  const securityDisabled = !supportsNativeSecurityApi()
+  const { serverless, security } = session.capabilities
+  const securityDisabled = !security.available
 
   return [
     {

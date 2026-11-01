@@ -80,7 +80,7 @@
       />
 
       <q-checkbox
-        v-if="supportsUserEnabledInBody()"
+        v-if="session.capabilities.security.userEnabledInBody"
         v-model="user.enabled"
         size="32px"
         :label="t('cluster_users.new_user.form.enabled.label')"
@@ -108,9 +108,10 @@ import { computed, ref } from 'vue'
 import { useTranslation } from '../../composables/i18n'
 import CustomInput from '../shared/CustomInput.vue'
 import { UserFormData } from '../../composables/components/users/UserForm.ts'
-import { supportsUserEnabledInBody } from '../../helpers/securitySupport.ts'
+import { useClusterSession } from '../../store/clusterSession.ts'
 
 const t = useTranslation()
+const session = useClusterSession()
 const passwordVisible = ref(false)
 
 const props = withDefaults(

@@ -10,7 +10,7 @@ import {
   SNAPSHOT_STATUS_PARAMS,
   summarizeRepositories
 } from '../../../helpers/snapshots.ts'
-import { supportsSlm } from '../../../helpers/snapshotSupport.ts'
+import { useClusterSession } from '../../../store/clusterSession.ts'
 import type {
   EsSnapshotPolicy,
   EsSnapshotRepository,
@@ -25,7 +25,7 @@ export const useSnapshotRepositories = () => {
   const { requestState, callElasticsearch } = useElasticsearchAdapter()
   const { callElasticsearch: callEnrichment } = useElasticsearchAdapter()
 
-  const slm = supportsSlm()
+  const slm = useClusterSession().capabilities.snapshots.slm
   const repositories = shallowRef<RepositoryRow[]>([])
   const policies = shallowRef<SlmPolicy[] | null>(null)
   const running = shallowRef<RunningSnapshot[] | null>(null)

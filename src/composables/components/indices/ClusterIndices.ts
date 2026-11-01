@@ -1,7 +1,7 @@
 import { computed, onMounted, ref, Ref, shallowRef } from 'vue'
 import { useElasticsearchAdapter, RequestState } from '../../CallElasticsearch'
 import { EsIndex } from './IndicesTable.ts'
-import { clusterVersionGte } from '../../../helpers/minClusterVersion.ts'
+import { useClusterSession } from '../../../store/clusterSession.ts'
 import { useIndicesStore } from '../../../store/indices.ts'
 import ElasticsearchIndex from '../../../models/ElasticsearchIndex.ts'
 import {
@@ -26,7 +26,7 @@ export const useClusterIndices = () => {
   const catIndicesParams = {
     h: 'index,health,status,uuid,pri,rep,docs.count,store.size,sc,cd',
     bytes: 'b',
-    ...(clusterVersionGte(8) && { expand_wildcards: 'all' })
+    ...(useClusterSession().capabilities.indices.expandWildcardsAll && { expand_wildcards: 'all' })
   }
 
   const summary = computed(() =>

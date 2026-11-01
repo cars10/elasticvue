@@ -3,6 +3,7 @@ import { markRaw } from 'vue'
 import ElasticsearchAdapter from '../services/ElasticsearchAdapter.ts'
 import { ElasticsearchCluster, useConnectionStore } from './connection.ts'
 import { checkHealth } from '../composables/components/home/ClusterHealth.ts'
+import { buildCapabilities, ClusterCapabilities } from '../helpers/capabilities.ts'
 
 const HEALTH_INTERVAL = 30000
 
@@ -20,6 +21,11 @@ export const useClusterSession = defineStore('clusterSession', {
     connectState: 'idle',
     healthTimer: undefined
   }),
+  getters: {
+    capabilities(): ClusterCapabilities {
+      return buildCapabilities(useConnectionStore().activeCluster)
+    }
+  },
   actions: {
     async connect(clusterId: string) {
       if (this.clusterId === clusterId && this.connectState !== 'error') return

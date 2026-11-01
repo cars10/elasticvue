@@ -29,7 +29,7 @@
             data-testid="index-add-document-id"
           />
           <custom-input
-            v-if="!clusterVersionGte(7)"
+            v-if="session.capabilities.indices.mappingTypes"
             v-model="type"
             class="col"
             :label="t('indices.index_add_document.type')"
@@ -118,7 +118,7 @@ import ResizableContainer from '../shared/ResizableContainer.vue'
 import { useTranslation } from '../../composables/i18n'
 import { useResizeStore } from '../../store/resize.ts'
 import { defineElasticsearchRequest } from '../../composables/CallElasticsearch.ts'
-import { clusterVersionGte } from '../../helpers/minClusterVersion.ts'
+import { useClusterSession } from '../../store/clusterSession.ts'
 import { useFieldCatalog } from '../../composables/components/search/FieldCatalog.ts'
 import { buildDocument, documentInputs } from '../../helpers/newDocument.ts'
 import { stringifyJson } from '../../helpers/json/stringify.ts'
@@ -128,6 +128,7 @@ const CodeEditor = defineAsyncComponent(() => import('../shared/CodeEditor.vue')
 const props = defineProps<{ index: string }>()
 const emit = defineEmits(['reload'])
 const t = useTranslation()
+const session = useClusterSession()
 const resizeStore = useResizeStore()
 
 const INPUT_TYPES = { text: 'text', number: 'number', boolean: 'text', date: 'datetime-local', json: 'text' } as const
