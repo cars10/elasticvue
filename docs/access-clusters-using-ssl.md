@@ -42,6 +42,16 @@ Set up a local proxy server, such as [simprox](https://github.com/cars10/simprox
 
 1. Start the proxy server:
    ```bash
-   simprox -h 127.0.0.1:7000 -t https://your.cluster.com --skip-ssl-verify
+   simprox -t https://your.cluster.com:9200 --skip-ssl-verify --skip-cors
    ```
+   * `-t`/`--target-host` is your cluster's URL (required).
+   * `--skip-ssl-verify` accepts your cluster's untrusted certificate.
+   * `--skip-cors` makes simprox answer CORS preflight requests itself, so your cluster needs no CORS configuration.
+   * simprox listens on `127.0.0.1:7000` by default. Use `-l`/`--listen` to change it, e.g. `-l 0.0.0.0:7000`.
 2. Connect to `http://localhost:7000` (use **http**, not **https**) in elasticvue. If your cluster uses authentication, enter your username/password in elasticvue.
+
+simprox is also available as a docker image. If your cluster runs on your host, use host networking:
+```bash
+docker run --rm --net host -e LISTEN=0.0.0.0:7000 -e TARGET_HOST=https://localhost:9200 -e SKIP_SSL_VERIFY=true -e SKIP_CORS=true cars10/simprox
+```
+See the [simprox README](https://github.com/cars10/simprox#usage) for all options.
