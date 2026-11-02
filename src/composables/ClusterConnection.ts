@@ -77,7 +77,13 @@ export const useClusterConnection = (
       const infoResponse: any = await adapter.test()
       const infoJson = await infoResponse.json()
 
-      const flavor = infoJson.version.build_flavor || BuildFlavor.default
+      // Normalize version: ES standard returns an object { number, build_flavor, distribution },
+      // some ES-compatible products (e.g. Transwarp SCOPE) return a plain string.
+      const versionInfo = typeof infoJson.version === 'string'
+        ? { number: infoJson.version, build_flavor: null, distribution: null }
+        : infoJson.version
+
+      const flavor = versionInfo.build_flavor || BuildFlavor.default
 
       let status
       if (flavor === BuildFlavor.serverless) {
@@ -92,10 +98,10 @@ export const useClusterConnection = (
       if (uri.endsWith('/')) uri = uri.slice(0, -1)
       const newIdx = connectionStore.addCluster({
         name: formCluster.value.name.trim(),
-        clusterName: infoJson.cluster_name,
-        version: infoJson.version.number,
-        majorVersion: infoJson.version.number[0],
-        distribution: infoJson.version.distribution || DISTRIBUTIONS.elasticsearch,
+        clusterName: infoJson.cluster_name || infoJson.name,
+        version: versionInfo.number,
+        majorVersion: versionInfo.number[0],
+        distribution: versionInfo.distribution || DISTRIBUTIONS.elasticsearch,
         uuid: clusterUuid(infoJson),
         status,
         loading: false,
@@ -150,5 +156,5 @@ export const clusterUuid = (infoJson: any) => {
   if (infoJson.cluster_uuid) return infoJson.cluster_uuid
 
   // fallback for elasticsearch < 5
-  return `${infoJson.cluster_name}-${infoJson.name}`.replaceAll(/\s/g, '')
+  return `${infoJson.cluster_name || infoJson.name}-${infoJson.name}`.replaceAll(/\s/g, '')
 }

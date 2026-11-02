@@ -34,7 +34,12 @@ export const checkHealth = async (cluster: ElasticsearchCluster) => {
   try {
     const pingResponse: any = await adapter.ping()
     const pingBody = await pingResponse.json()
-    const flavor = pingBody.version.build_flavor || BuildFlavor.default
+
+    const versionInfo = typeof pingBody.version === 'string'
+      ? { number: pingBody.version, build_flavor: null, distribution: null }
+      : pingBody.version
+
+    const flavor = versionInfo.build_flavor || BuildFlavor.default
 
     let status
     if (flavor === BuildFlavor.serverless) {
@@ -47,10 +52,10 @@ export const checkHealth = async (cluster: ElasticsearchCluster) => {
 
     cluster.status = status
 
-    const version = pingBody.version.number
+    const version = versionInfo.number
 
-    cluster.clusterName = pingBody.cluster_name
-    cluster.distribution = pingBody.version.distribution || DISTRIBUTIONS.elasticsearch
+    cluster.clusterName = pingBody.cluster_name || pingBody.name
+    cluster.distribution = versionInfo.distribution || DISTRIBUTIONS.elasticsearch
     cluster.version = version
     cluster.majorVersion = version[0]
     cluster.flavor = flavor
