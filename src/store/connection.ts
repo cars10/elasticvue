@@ -1,5 +1,7 @@
 import { defineStore } from 'pinia'
 import { v4 as uuidv4 } from 'uuid'
+import { normalizeAuth, pickSecrets, sessionSecrets, withoutSecrets } from '../helpers/auth.ts'
+import { useSessionCredentials } from './sessionCredentials.ts'
 
 export enum BuildFlavor {
   serverless = 'serverless',
@@ -13,13 +15,17 @@ export enum AuthType {
   awsIAM = 'awsIAM'
 }
 
+export enum SecretStorage {
+  local = 'local',
+  session = 'session'
+}
+
 export type ElasticsearchCluster = {
   id: string
   clusterName: string
   version: string
   majorVersion: string
   distribution: string
-  uuid: string
   status: string
   loading?: boolean
   predefined?: boolean
@@ -32,7 +38,7 @@ export type ElasticsearchClusterConnection = {
   auth: ElasticsearchClusterAuth
 }
 
-export type ElasticsearchClusterAuth =
+export type ElasticsearchClusterAuth = { secretStorage?: SecretStorage } & (
   | {
       authType: AuthType.none
       authData: object
@@ -49,6 +55,7 @@ export type ElasticsearchClusterAuth =
       authType: AuthType.awsIAM
       authData: { accessKeyId: string; secretAccessKey: string; sessionToken?: string; region: string }
     }
+)
 
 export type ConnectionState = {
   clusters: ElasticsearchCluster[]
@@ -73,17 +80,20 @@ export const useConnectionStore = defineStore('connection', {
   actions: {
     addCluster(cluster: Omit<ElasticsearchCluster, 'id'>) {
       const id = uuidv4()
-      this.clusters.push({ ...cluster, id })
+      this.clusters.push({ ...cluster, id, auth: storeAuth(id, normalizeAuth(cluster.auth)) })
       this.activeClusterId = id
       return id
     },
     updateCluster({ cluster, id }: { cluster: ElasticsearchClusterConnection; id: string }) {
       const index = this.clusters.findIndex((c) => c.id === id)
       if (index < 0) return
-      this.clusters[index] = cleanupClusterAuth(Object.assign({}, this.clusters[index], cluster))
+
+      const { name, uri } = cluster
+      this.clusters[index] = { ...this.clusters[index], name, uri, auth: storeAuth(id, normalizeAuth(cluster.auth)) }
     },
     removeCluster(id: string) {
       this.clusters = this.clusters.filter((cluster) => cluster.id !== id)
+      useSessionCredentials().remove(id)
     },
     checkAndSetActiveCluster() {
       if (this.clusters.length === 0) return
@@ -108,52 +118,30 @@ export const useConnectionStore = defineStore('connection', {
       return true
     }
   },
-  persist: true
+  persist: {
+    serializer: {
+      serialize: (state) => JSON.stringify(withoutSessionSecrets(state as ConnectionState)),
+      deserialize: JSON.parse
+    }
+  }
 })
 
-const cleanupClusterAuth = (cluster: ElasticsearchCluster): ElasticsearchCluster => {
-  switch (cluster.auth.authType) {
-    case AuthType.none:
-      return {
-        ...cluster,
-        auth: {
-          authType: AuthType.none,
-          authData: {}
-        }
-      }
-    case AuthType.basicAuth:
-      return {
-        ...cluster,
-        auth: {
-          authType: AuthType.basicAuth,
-          authData: {
-            username: cluster.auth.authData.username,
-            password: cluster.auth.authData.password
-          }
-        }
-      }
-    case AuthType.apiKey:
-      return {
-        ...cluster,
-        auth: {
-          authType: AuthType.apiKey,
-          authData: {
-            apiKey: cluster.auth.authData.apiKey
-          }
-        }
-      }
-    case AuthType.awsIAM:
-      return {
-        ...cluster,
-        auth: {
-          authType: AuthType.awsIAM,
-          authData: {
-            accessKeyId: cluster.auth.authData.accessKeyId,
-            secretAccessKey: cluster.auth.authData.secretAccessKey,
-            sessionToken: cluster.auth.authData.sessionToken,
-            region: cluster.auth.authData.region
-          }
-        }
-      }
+const storeAuth = (id: string, auth: ElasticsearchClusterAuth) => {
+  const credentials = useSessionCredentials()
+  if (!sessionSecrets(auth)) {
+    credentials.remove(id)
+    return auth
   }
+
+  const secrets = pickSecrets(auth)
+  if (Object.keys(secrets).length > 0) credentials.set(id, secrets)
+  else credentials.remove(id)
+  return withoutSecrets(auth)
 }
+
+const withoutSessionSecrets = (state: ConnectionState): ConnectionState => ({
+  ...state,
+  clusters: state.clusters.map((cluster) =>
+    sessionSecrets(cluster.auth) ? { ...cluster, auth: withoutSecrets(cluster.auth) } : cluster
+  )
+})

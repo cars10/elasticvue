@@ -108,7 +108,8 @@
     "heading": "集群",
     "all": "所有集群",
     "unreachable": "无法连接",
-    "stats_unavailable": "集群统计不可用"
+    "stats_unavailable": "集群统计不可用",
+    "credentials_required": "需要登录"
   },
   "helpers": {
     "import_export": {
@@ -1101,9 +1102,20 @@
           "label": "AWS 区域"
         },
         "test_connection": "测试连接",
-        "connect": "连接"
+        "connect": "连接",
+        "save_secrets": {
+          "label": "在此设备上保存凭据",
+          "saved": "密钥保存在此浏览器中。",
+          "session": "不保存密钥。每个会话将询问一次。"
+        }
       },
       "connected": "连接成功！"
+    },
+    "cluster_credentials": {
+      "heading": "登录到 {name}",
+      "hint": "此集群的凭据不会被保存，关闭此标签页或窗口后即被清除。",
+      "login": "登录",
+      "error": "登录失败"
     }
   },
   "shards": {
@@ -1203,7 +1215,8 @@
         "reachable": "你的集群可以连接",
         "ssl": "你的浏览器信任集群的ssl凭证",
         "cors": "你已开启跨域(CORS)并重启了你的集群"
-      }
+      },
+      "cors_blocked": "集群可以访问，但不允许来自 elasticvue 的请求。"
     },
     "index_filter": {
       "use_index_pattern": "使用索引模式",
@@ -1252,8 +1265,7 @@
     },
     "loader": {
       "copy_error": "复制错误",
-      "network_error": "网络错误, 无法访问你的集群",
-      "cluster_uri": "集群uri:"
+      "network_error": "网络错误, 无法访问你的集群"
     },
     "reload_button": {
       "reload": "重新加载"
@@ -1274,6 +1286,18 @@
       "forbidden_text": "你的用户需要 manage_security 集群权限才能管理用户和角色。",
       "unavailable": "该集群不支持安全功能",
       "unavailable_text": "原生用户和角色需要 Elasticsearch 安全功能，但该集群缺少或禁用了此功能。"
+    },
+    "cluster_unreachable": {
+      "heading_network": "无法连接到 {name}",
+      "heading_auth": "{name} 拒绝了凭据",
+      "heading_api": "{name} 返回了错误",
+      "auth_hint": "请检查此集群的用户名、密码或 API 密钥。",
+      "api_hint": "集群已响应，但健康检查失败。",
+      "auto_retry": "elasticvue 每 30 秒自动重试一次。",
+      "retry": "重试",
+      "help": "连接问题排查",
+      "heading_cors": "{name} 阻止了来自 elasticvue 的请求",
+      "cors_hint": "集群可以访问，但其 CORS 设置不允许来自此页面的请求。"
     }
   },
   "snapshots": {

@@ -127,7 +127,23 @@ clusters, looking like this:
 | S3secretAccessKey | AWS secret access key for IAM authentication | No | `"wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"` |
 | S3sessionToken | AWS session token for temporary credentials | No | `"FQoGZXIvYXdzE...example"` |
 | S3region | AWS region for IAM authentication | No | `"us-east-1"` |
+| secretStorage | `"session"` to never store secrets in the browser. Users are asked for them once per browser session | No | `"session"` |
 
+#### Clusters without stored secrets
+
+`default_clusters.json` is readable by everyone who can open elasticvue, so you might not want to put passwords or keys into it. Leave the secret out and elasticvue asks every user for it once per browser session instead. Secrets entered this way are kept in the session storage of the tab and are never written to local storage.
+
+* `username` without `password`: asks for the password (the username can be changed on login)
+* `S3accessKeyId` and `S3region` without `S3secretAccessKey`: asks for the secret access key and an optional session token
+* `"secretStorage": "session"`: never imports secrets from the config. Without `username` or `S3accessKeyId` elasticvue asks for an API key
+
+```json
+[
+  { "name": "prod (admin)", "uri": "https://prod:9200", "username": "admin" },
+  { "name": "prod (api key)", "uri": "https://prod:9200", "secretStorage": "session" },
+  { "name": "aws", "uri": "https://search-domain.eu-west-1.es.amazonaws.com", "S3accessKeyId": "AKIAIOSFODNN7EXAMPLE", "S3region": "eu-west-1" }
+]
+```
 
 
 #### Docker with default clusters in environment variable

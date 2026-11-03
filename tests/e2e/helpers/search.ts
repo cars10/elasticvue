@@ -8,6 +8,7 @@ import { mockOpensearch2 } from '../mocks/opensearch_2'
 import { mockSearchCluster, RecordedRequest } from '../mocks/search'
 
 export const CLUSTER_UUID = 'ecdKaffmR9WkFbKDW4PUWw'
+export const CLUSTER_ID = 'default-cluster'
 
 const CLUSTER_MOCKS = { 2: mockElastic2, 6: mockElastic6, 7: mockElastic7, 8: mockElastic8, opensearch: mockOpensearch2 }
 

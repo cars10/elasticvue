@@ -14,8 +14,8 @@ const TABLES: { name: keyof DbSchema; indexes: string[]; autoIncrement: boolean 
 
 const databases = new Map<string, DbSchema>()
 
-const openClusterDb = (clusterUuid: string): DbSchema => {
-  const connection = openDB(`elasticvue-${clusterUuid}`, DB_VERSION, {
+const openClusterDb = (clusterId: string): DbSchema => {
+  const connection = openDB(`elasticvue-${clusterId}`, DB_VERSION, {
     upgrade(db, _oldVersion, _newVersion, tx) {
       TABLES.forEach(({ name, indexes, autoIncrement }) => {
         if (!db.objectStoreNames.contains(name)) db.createObjectStore(name, { keyPath: 'id', autoIncrement })
@@ -27,7 +27,7 @@ const openClusterDb = (clusterUuid: string): DbSchema => {
       })
     },
     blocking() {
-      databases.delete(clusterUuid)
+      databases.delete(clusterId)
       connection.then((db) => db.close())
     }
   })
@@ -42,7 +42,7 @@ const openClusterDb = (clusterUuid: string): DbSchema => {
   }
 }
 
-export const clusterDb = (clusterUuid: string): DbSchema => {
-  if (!databases.has(clusterUuid)) databases.set(clusterUuid, openClusterDb(clusterUuid))
-  return databases.get(clusterUuid)!
+export const clusterDb = (clusterId: string): DbSchema => {
+  if (!databases.has(clusterId)) databases.set(clusterId, openClusterDb(clusterId))
+  return databases.get(clusterId)!
 }

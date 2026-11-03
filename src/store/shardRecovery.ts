@@ -19,8 +19,8 @@ type ShardRecoveryState = {
 
 export const useShardRecoveryStore = () => {
   const connectionStore = useConnectionStore()
-  const clusterUuid = connectionStore.activeCluster?.uuid || ''
-  return defineStore(`shardRecovery-${clusterUuid}`, {
+  const clusterId = connectionStore.activeClusterId || ''
+  return defineStore(`shardRecovery-${clusterId}`, {
     state: (): ShardRecoveryState => ({
       filter: '',
       stage: null,
@@ -31,7 +31,7 @@ export const useShardRecoveryStore = () => {
     }),
     persist: {
       pick: ['filter', 'stage', 'activeOnly', 'stickyTableHeader', ...persistPaginationProps(), ...persistReloadIntervalProps()],
-      key: `shardRecovery-${clusterUuid}`
+      key: `shardRecovery-${clusterId}`
     }
   })()
 }

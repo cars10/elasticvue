@@ -7,6 +7,7 @@
         v-if="testState.error || connectState.error"
         :cluster="cluster"
         :error-message="testState.errorMessage || connectState.errorMessage"
+        :cors="testState.error ? testState.cors : connectState.cors"
       />
     </q-card-section>
 

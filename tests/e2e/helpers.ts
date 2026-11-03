@@ -5,51 +5,50 @@ export const setupClusterConnection = async (page: Page) => {
     window.localStorage.clear()
 
     const connection = {
-      'clusters': [
+      clusters: [
         {
-          'id': 'default-cluster',
-          'name': 'default cluster',
-          'uri': 'http://localhost:9200/',
-          'status': 'green',
-          'clusterName': '',
-          'version': '',
-          'majorVersion': '',
-          'distribution': 'elasticsearch',
-          'uuid': '',
-          'predefined': false,
-          'flavor': 'default',
-          'auth': {
-            'authType': 'basicAuth',
-            'authData': {
-              'username': '',
-              'password': ''
+          id: 'default-cluster',
+          name: 'default cluster',
+          uri: 'http://localhost:9200/',
+          status: 'green',
+          clusterName: '',
+          version: '',
+          majorVersion: '',
+          distribution: 'elasticsearch',
+          uuid: 'ecdKaffmR9WkFbKDW4PUWw',
+          predefined: false,
+          flavor: 'default',
+          auth: {
+            authType: 'basicAuth',
+            authData: {
+              username: '',
+              password: ''
             }
           }
         },
         {
-          'id': 'dev-cluster',
-          'name': 'dev cluster',
-          'username': '',
-          'password': '',
-          'uri': 'http://localhost:9200/',
-          'status': 'green',
-          'clusterName': '',
-          'version': '',
-          'majorVersion': '',
-          'distribution': 'elasticsearch',
-          'uuid': '',
-          'predefined': false,
-          'flavor': 'default',
-          'auth': {
-            'authType': 'basicAuth',
-            'authData': {
-              'username': '',
-              'password': ''
+          id: 'dev-cluster',
+          name: 'dev cluster',
+          username: '',
+          password: '',
+          uri: 'http://localhost:9200/',
+          status: 'green',
+          clusterName: '',
+          version: '',
+          majorVersion: '',
+          distribution: 'elasticsearch',
+          predefined: false,
+          flavor: 'default',
+          auth: {
+            authType: 'basicAuth',
+            authData: {
+              username: '',
+              password: ''
             }
           }
         }
       ],
-      'activeClusterId': 'default-cluster'
+      activeClusterId: 'default-cluster'
     }
     window.localStorage.setItem('connection', JSON.stringify(connection))
   })

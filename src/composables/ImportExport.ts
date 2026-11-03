@@ -5,7 +5,6 @@ import { useConnectionStore } from '../store/connection'
 import { clusterDb } from '../db/Idb.ts'
 import { parseJson } from '../helpers/json/parse.ts'
 import { stringifyJson } from '../helpers/json/stringify.ts'
-import { migrateAuthType } from '../services/migrations.ts'
 
 type Backup = {
   version: string
@@ -36,10 +35,10 @@ export const useImportExport = ({ confirmImport } = { confirmImport: false }) =>
     const backup: IdbBackup = {}
 
     for await (const cluster of connectionStore.clusters) {
-      backup[cluster.uuid] = {}
+      backup[cluster.id] = {}
 
-      for (const [tableName, table] of Object.entries(clusterDb(cluster.uuid))) {
-        backup[cluster.uuid][tableName] = await table.getAll()
+      for (const [tableName, table] of Object.entries(clusterDb(cluster.id))) {
+        backup[cluster.id][tableName] = await table.getAll()
       }
     }
 
@@ -76,13 +75,6 @@ export const useImportExport = ({ confirmImport } = { confirmImport: false }) =>
       const backup = parseJson(rawData)
       if (!backup.store) return Promise.reject('Invalid backup')
 
-      if (backup.store.connection) {
-        const connectionData = backup.store.connection
-        if (connectionData.clusters?.length > 0 && !connectionData.clusters[0].auth) {
-          backup.store.connection.clusters = migrateAuthType(connectionData.clusters)
-        }
-      }
-
       // pinia store
       localStorage.clear()
       Object.entries(backup.store).forEach(([name, value]: [string, any]) => {
@@ -90,10 +82,10 @@ export const useImportExport = ({ confirmImport } = { confirmImport: false }) =>
       })
 
       // idb
-      for (const uuid of Object.keys(backup.idb)) {
-        for (const [tableName, table] of Object.entries(clusterDb(uuid))) {
+      for (const clusterId of Object.keys(backup.idb)) {
+        for (const [tableName, table] of Object.entries(clusterDb(clusterId))) {
           await table.clear()
-          await table.bulkInsert(backup.idb[uuid][tableName] || [])
+          await table.bulkInsert(backup.idb[clusterId][tableName] || [])
         }
       }
 

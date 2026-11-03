@@ -17,6 +17,7 @@ Elasticvue 2 is a complete redesign of the interface, with a new dashboard, a ne
   * index write blocks, replicas, refresh interval, automatic index creation
   * disk watermarks, recovery bandwidth, cluster write mode, destructive operation protection
 * overview headers on most pages (nodes, shards, shard recovery, index templates, users, roles) that summarize the most important metrics
+* optionally save cluster passwords only for the current session
 
 **Search**
 

@@ -108,7 +108,8 @@
     "heading": "Cluster",
     "all": "Tutti i cluster",
     "unreachable": "Connessione non riuscita",
-    "stats_unavailable": "Statistiche del cluster non disponibili"
+    "stats_unavailable": "Statistiche del cluster non disponibili",
+    "credentials_required": "Accesso richiesto"
   },
   "helpers": {
     "import_export": {
@@ -1101,9 +1102,20 @@
           "label": "Regione AWS"
         },
         "test_connection": "Testa connessione",
-        "connect": "Connetti"
+        "connect": "Connetti",
+        "save_secrets": {
+          "label": "Salva le credenziali su questo dispositivo",
+          "saved": "I segreti vengono salvati in questo browser.",
+          "session": "I segreti non vengono salvati. Ti verranno richiesti una volta per sessione."
+        }
       },
       "connected": "Connesso con successo."
+    },
+    "cluster_credentials": {
+      "heading": "Accedi a {name}",
+      "hint": "Le credenziali di questo cluster non vengono salvate. Restano disponibili finché non chiudi questa scheda o finestra.",
+      "login": "Accedi",
+      "error": "Accesso non riuscito"
     }
   },
   "shards": {
@@ -1203,7 +1215,8 @@
         "reachable": "Il tuo cluster sia raggiungibile tramite",
         "ssl": "Il tuo browser consideri attendibile il certificato ssl del cluster",
         "cors": "Tu abbia abilitato CORS e riavviato il tuo cluster"
-      }
+      },
+      "cors_blocked": "Il cluster è raggiungibile, ma non consente richieste da elasticvue."
     },
     "index_filter": {
       "use_index_pattern": "usa modello di indice",
@@ -1252,8 +1265,7 @@
     },
     "loader": {
       "copy_error": "Copia errore",
-      "network_error": "Errore di rete, impossibile accedere al tuo cluster.",
-      "cluster_uri": "Uri del cluster:"
+      "network_error": "Errore di rete, impossibile accedere al tuo cluster."
     },
     "reload_button": {
       "reload": "Ricarica"
@@ -1274,6 +1286,18 @@
       "forbidden_text": "Il tuo utente ha bisogno del privilegio di cluster manage_security per gestire utenti e ruoli.",
       "unavailable": "La sicurezza non è disponibile su questo cluster",
       "unavailable_text": "Utenti e ruoli nativi richiedono le funzioni di sicurezza di Elasticsearch, assenti o disattivate su questo cluster."
+    },
+    "cluster_unreachable": {
+      "heading_network": "Impossibile raggiungere {name}",
+      "heading_auth": "{name} ha rifiutato le credenziali",
+      "heading_api": "{name} ha restituito un errore",
+      "auth_hint": "Controlla nome utente, password o chiave API di questo cluster.",
+      "api_hint": "Il cluster ha risposto, ma il controllo di stato non è riuscito.",
+      "auto_retry": "elasticvue riprova automaticamente ogni 30 secondi.",
+      "retry": "Riprova",
+      "help": "Risoluzione dei problemi di connessione",
+      "heading_cors": "{name} blocca le richieste di elasticvue",
+      "cors_hint": "Il cluster è raggiungibile, ma le impostazioni CORS non consentono richieste da questa pagina."
     }
   },
   "snapshots": {

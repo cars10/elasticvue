@@ -108,7 +108,8 @@
     "heading": "클러스터",
     "all": "모든 클러스터",
     "unreachable": "연결할 수 없음",
-    "stats_unavailable": "클러스터 통계를 사용할 수 없음"
+    "stats_unavailable": "클러스터 통계를 사용할 수 없음",
+    "credentials_required": "로그인 필요"
   },
   "helpers": {
     "import_export": {
@@ -1101,9 +1102,20 @@
           "label": "AWS 리전"
         },
         "test_connection": "연결 테스트",
-        "connect": "연결"
+        "connect": "연결",
+        "save_secrets": {
+          "label": "이 기기에 자격 증명 저장",
+          "saved": "비밀 정보가 이 브라우저에 저장됩니다.",
+          "session": "비밀 정보는 저장되지 않습니다. 세션마다 한 번 입력을 요청합니다."
+        }
       },
       "connected": "정상적으로 연결되었습니다."
+    },
+    "cluster_credentials": {
+      "heading": "{name}에 로그인",
+      "hint": "이 클러스터의 자격 증명은 저장되지 않습니다. 이 탭이나 창을 닫을 때까지 유지됩니다.",
+      "login": "로그인",
+      "error": "로그인 실패"
     }
   },
   "shards": {
@@ -1203,7 +1215,8 @@
         "reachable": "클러스터에 연결 가능",
         "ssl": "브라우저가 클러스터 SSL 인증서를 신뢰함",
         "cors": "CORS 활성화 후 클러스터 재시작"
-      }
+      },
+      "cors_blocked": "클러스터에 연결할 수 있지만 elasticvue의 요청을 허용하지 않습니다."
     },
     "index_filter": {
       "use_index_pattern": "인덱스 패턴 사용",
@@ -1252,8 +1265,7 @@
     },
     "loader": {
       "copy_error": "오류 복사",
-      "network_error": "네트워크 오류, 클러스터에 접근할 수 없음",
-      "cluster_uri": "클러스터 URI:"
+      "network_error": "네트워크 오류, 클러스터에 접근할 수 없음"
     },
     "reload_button": {
       "reload": "다시 불러오기"
@@ -1274,6 +1286,18 @@
       "forbidden_text": "사용자와 역할을 관리하려면 manage_security 클러스터 권한이 필요합니다.",
       "unavailable": "이 클러스터에서는 보안을 사용할 수 없습니다",
       "unavailable_text": "기본 사용자와 역할에는 Elasticsearch 보안 기능이 필요하지만, 이 클러스터에는 없거나 비활성화되어 있습니다."
+    },
+    "cluster_unreachable": {
+      "heading_network": "{name}에 연결할 수 없습니다",
+      "heading_auth": "{name}이(가) 자격 증명을 거부했습니다",
+      "heading_api": "{name}이(가) 오류를 반환했습니다",
+      "auth_hint": "이 클러스터의 사용자 이름, 비밀번호 또는 API 키를 확인하세요.",
+      "api_hint": "클러스터가 응답했지만 상태 확인에 실패했습니다.",
+      "auto_retry": "elasticvue는 30초마다 자동으로 다시 시도합니다.",
+      "retry": "다시 시도",
+      "help": "연결 문제 해결",
+      "heading_cors": "{name}이(가) elasticvue의 요청을 차단합니다",
+      "cors_hint": "클러스터에 연결할 수 있지만 CORS 설정이 이 페이지의 요청을 허용하지 않습니다."
     }
   },
   "snapshots": {

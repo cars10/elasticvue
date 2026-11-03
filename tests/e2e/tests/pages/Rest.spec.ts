@@ -6,6 +6,7 @@ test.describe.configure({ mode: 'parallel' })
 
 const ES = 'http://localhost:9200'
 const CLUSTER_UUID = 'ecdKaffmR9WkFbKDW4PUWw'
+const CLUSTER_ID = 'default-cluster'
 
 const mockRestEndpoints = async (page: Page) => {
   await page.route(`${ES}/rest_e2e/_count`, (route) => route.fulfill({ json: { count: 42 } }))
@@ -338,6 +339,7 @@ test.describe('REST', () => {
         }),
       `elasticvue-${CLUSTER_UUID}`
     )
+    await page.reload()
 
     await openRest(page)
     await expect(tabs(page)).toContainText('Legacy tab')
@@ -363,7 +365,7 @@ test.describe('REST', () => {
               }
             }
           }),
-        `elasticvue-${CLUSTER_UUID}`
+        `elasticvue-${CLUSTER_ID}`
       )
 
     await expect.poll(async () => (await stored()).version).toBe(3)

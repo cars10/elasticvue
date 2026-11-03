@@ -1,6 +1,11 @@
 import { v4 as uuidv4 } from 'uuid'
+import { deleteDB, openDB } from 'idb'
+import { clusterDb } from '../db/Idb.ts'
+import { DbTable } from '../db/indexeddb.ts'
+import type { DbSchema } from '../db/types.ts'
 import { AuthType, BuildFlavor, ElasticsearchCluster, ElasticsearchClusterAuth } from '../store/connection.ts'
 import { allowedRowsPerPage, DEFAULT_SEARCH_QUERY } from '../consts.ts'
+import { normalizeAuth, sessionSecrets, withoutSecrets } from '../helpers/auth.ts'
 
 export type OldElasticsearchCluster = {
   name: string
@@ -17,9 +22,77 @@ export type OldElasticsearchCluster = {
   uri: string
 }
 
-export const migrate = () => {
+export const migrate = async () => {
   migrateConnection()
   migrateSearchStores()
+  await migrateClusterStorage()
+}
+
+const CLUSTER_STORE_PREFIXES = [
+  'rest',
+  'search',
+  'indices',
+  'nodes',
+  'shards',
+  'shardRecovery',
+  'snapshots',
+  'snapshot-repositories',
+  'users',
+  'roles',
+  'indexTemplates',
+  'home'
+]
+const CLUSTER_STORAGE_MIGRATED = 'clusterStorageMigrated'
+
+type ClusterKeys = { id: string; uuid?: string }
+
+export const clusterStorageKeyMoves = (clusters: ClusterKeys[], keys: string[]) =>
+  clusters
+    .filter((cluster) => cluster.uuid)
+    .flatMap((cluster) => CLUSTER_STORE_PREFIXES.map((prefix) => [`${prefix}-${cluster.uuid}`, `${prefix}-${cluster.id}`]))
+    .filter(([from, to]) => keys.includes(from) && !keys.includes(to))
+
+const migrateClusterStorage = async () => {
+  if (localStorage.getItem(CLUSTER_STORAGE_MIGRATED)) return
+
+  let clusters: ClusterKeys[]
+  try {
+    clusters = JSON.parse(localStorage.getItem('connection') || '{}').clusters ?? []
+  } catch (_e) {
+    return
+  }
+
+  const moves = clusterStorageKeyMoves(clusters, Object.keys(localStorage))
+  moves.forEach(([from, to]) => localStorage.setItem(to, localStorage.getItem(from) as string))
+  new Set(moves.map(([from]) => from)).forEach((key) => localStorage.removeItem(key))
+
+  try {
+    const uuids = new Set(clusters.map((cluster) => cluster.uuid).filter((uuid): uuid is string => !!uuid))
+    for (const uuid of uuids) {
+      const ids = clusters.filter((cluster) => cluster.uuid === uuid).map((cluster) => cluster.id)
+      await moveClusterDb(uuid, ids)
+    }
+    localStorage.setItem(CLUSTER_STORAGE_MIGRATED, 'true')
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+const moveClusterDb = async (uuid: string, ids: string[]) => {
+  const name = `elasticvue-${uuid}`
+  const legacy = await openDB(name)
+  const tables = [...legacy.objectStoreNames] as (keyof DbSchema)[]
+  const rows = await Promise.all(tables.map((table) => legacy.getAll(table)))
+  legacy.close()
+
+  for (const id of ids) {
+    const db = clusterDb(id)
+    for (const [i, table] of tables.entries()) {
+      if (db[table]) await (db[table] as DbTable<any>).bulkInsert(rows[i])
+    }
+  }
+
+  await deleteDB(name)
 }
 
 const migrateConnection = () => {
@@ -33,12 +106,22 @@ const migrateConnection = () => {
     return
   }
 
-  if (!Array.isArray(connection.clusters)) return
-  if (connection.clusters.length > 0 && !connection.clusters[0].auth) {
-    connection.clusters = migrateAuthType(connection.clusters as unknown as OldElasticsearchCluster[])
-  }
+  const migrated = migrateConnectionState(connection)
+  if (migrated) localStorage.setItem('connection', JSON.stringify(migrated))
+}
 
-  localStorage.setItem('connection', JSON.stringify(migrateClusterIds(connection)))
+export const migrateConnectionState = (connection: any) => {
+  if (!Array.isArray(connection?.clusters)) return null
+
+  const clusters = connection.clusters
+    .filter((cluster: unknown) => cluster && typeof cluster === 'object')
+    .map((cluster: any) => {
+      const withAuth = cluster.auth ? cluster : migrateAuthType([cluster])[0]
+      const auth = normalizeAuth(withAuth.auth)
+      return { ...withAuth, auth: sessionSecrets(auth) ? withoutSecrets(auth) : auth }
+    })
+
+  return migrateClusterIds({ ...connection, clusters })
 }
 
 export const migrateClusterIds = ({

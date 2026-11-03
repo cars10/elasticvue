@@ -3,7 +3,9 @@ import { markRaw } from 'vue'
 import ElasticsearchAdapter from '../services/ElasticsearchAdapter.ts'
 import { ElasticsearchCluster, useConnectionStore } from './connection.ts'
 import { checkHealth } from '../composables/components/home/ClusterHealth.ts'
+import { ClusterFailure } from '../helpers/clusterFailure.ts'
 import { buildCapabilities, ClusterCapabilities } from '../helpers/capabilities.ts'
+import { needsCredentials, withSessionCredentials } from './sessionCredentials.ts'
 
 const HEALTH_INTERVAL = 30000
 let connections = 0
@@ -12,7 +14,8 @@ type ClusterSessionState = {
   clusterId: string | null
   connectionId: number
   adapter: ElasticsearchAdapter | null
-  connectState: 'idle' | 'connecting' | 'ready' | 'error'
+  connectState: 'idle' | 'connecting' | 'credentials' | 'ready' | 'error'
+  error: ClusterFailure | null
   healthTimer: number | undefined
 }
 
@@ -22,6 +25,7 @@ export const useClusterSession = defineStore('clusterSession', {
     connectionId: 0,
     adapter: null,
     connectState: 'idle',
+    error: null,
     healthTimer: undefined
   }),
   getters: {
@@ -37,9 +41,14 @@ export const useClusterSession = defineStore('clusterSession', {
       this.disconnect()
       if (!cluster) return
 
-      const adapter = markRaw(new ElasticsearchAdapter(cluster))
       this.clusterId = clusterId
       this.connectionId = ++connections
+      if (needsCredentials(cluster)) {
+        this.connectState = 'credentials'
+        return
+      }
+
+      const adapter = markRaw(new ElasticsearchAdapter(withSessionCredentials(cluster)))
       this.adapter = adapter
       this.connectState = 'connecting'
 
@@ -49,10 +58,18 @@ export const useClusterSession = defineStore('clusterSession', {
       this.healthTimer = window.setInterval(() => this.checkHealth(cluster, adapter), HEALTH_INTERVAL)
     },
     async checkHealth(cluster: ElasticsearchCluster, adapter: ElasticsearchAdapter) {
-      await checkHealth(cluster)
+      const { error } = await checkHealth(cluster)
       if (this.adapter !== adapter) return
 
-      this.connectState = cluster.status === 'unknown' ? 'error' : 'ready'
+      this.error = error
+
+      if (needsCredentials(cluster)) {
+        this.disconnect()
+        this.clusterId = cluster.id
+        this.connectState = 'credentials'
+      } else {
+        this.connectState = cluster.status === 'unknown' ? 'error' : 'ready'
+      }
     },
     reconnect() {
       const clusterId = this.clusterId

@@ -46,7 +46,6 @@ describe('clusterImport helpers', () => {
           version: '',
           majorVersion: '',
           distribution: '',
-          uuid: '',
           status: '',
           loading: false,
           predefined: false,
@@ -69,7 +68,7 @@ describe('clusterImport helpers', () => {
       expect(saved.activeClusterId).toBeNull()
     })
 
-    it('preserves uuid and metadata for previously imported predefined clusters', () => {
+    it('preserves id and metadata for previously imported predefined clusters', () => {
       localStorage.setItem(
         'connection',
         JSON.stringify({
@@ -83,7 +82,6 @@ describe('clusterImport helpers', () => {
               version: '8.15.0',
               majorVersion: '8',
               distribution: 'elasticsearch',
-              uuid: 'kept-uuid',
               status: 'green',
               loading: false,
               predefined: true,
@@ -97,7 +95,6 @@ describe('clusterImport helpers', () => {
       importNewClusters([{ name: 'pre1', uri: 'http://pre1', username: 'a', password: 'b' }], [])
 
       const saved = JSON.parse(localStorage.getItem('connection') as string)
-      expect(saved.clusters[0].uuid).toBe('kept-uuid')
       expect(saved.clusters[0].status).toBe('green')
       expect(saved.clusters[0].version).toBe('8.15.0')
       expect(saved.clusters[0].id).toBe('kept-id')

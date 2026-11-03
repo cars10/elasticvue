@@ -21,8 +21,8 @@ type IndicesState = {
 
 export const useIndicesStore = () => {
   const connectionStore = useConnectionStore()
-  const clusterUuid = connectionStore.activeCluster?.uuid || ''
-  return defineStore(`indices-${clusterUuid}`, {
+  const clusterId = connectionStore.activeClusterId || ''
+  return defineStore(`indices-${clusterId}`, {
     state: (): IndicesState => ({
       filter: '',
       health: null,
@@ -44,7 +44,7 @@ export const useIndicesStore = () => {
         ...persistReloadIntervalProps(),
         'rowsPerPageAccepted'
       ],
-      key: `indices-${clusterUuid}`
+      key: `indices-${clusterId}`
     }
   })()
 }

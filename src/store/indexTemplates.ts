@@ -17,8 +17,8 @@ type IndexTemplatesState = {
 
 export const useIndexTemplatesStore = () => {
   const connectionStore = useConnectionStore()
-  const clusterUuid = connectionStore.activeCluster?.uuid || ''
-  return defineStore(`indexTemplates-${clusterUuid}`, {
+  const clusterId = connectionStore.activeClusterId || ''
+  return defineStore(`indexTemplates-${clusterId}`, {
     state: (): IndexTemplatesState => ({
       filter: '',
       showHiddenIndices: false,
@@ -28,7 +28,7 @@ export const useIndexTemplatesStore = () => {
     }),
     persist: {
       pick: ['filter', 'showHiddenIndices', 'stickyTableHeader', ...persistPaginationProps(), ...persistReloadIntervalProps()],
-      key: `indexTemplates-${clusterUuid}`
+      key: `indexTemplates-${clusterId}`
     }
   })()
 }

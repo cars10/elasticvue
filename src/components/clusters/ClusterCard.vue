@@ -12,13 +12,17 @@
       </div>
       <div class="col-auto q-pl-md">
         <q-spinner v-if="cluster.loading && !cluster.status" size="16px" />
-        <health-badge v-else :status="cluster.status" />
+        <health-badge v-else-if="!needsCredentials(cluster)" :status="cluster.status" />
       </div>
     </q-card-section>
 
     <q-separator />
 
-    <q-card-section v-if="!overview">
+    <q-card-section v-if="needsCredentials(cluster)" class="text-muted" data-testid="cluster-card-credentials">
+      {{ t('clusters.credentials_required') }}
+    </q-card-section>
+
+    <q-card-section v-else-if="!overview">
       <q-skeleton type="text" />
       <q-skeleton type="text" />
     </q-card-section>
@@ -85,6 +89,7 @@ import { useTranslation } from '../../composables/i18n.ts'
 import type { ClusterSummary } from '../../composables/components/clusters/ClustersOverview.ts'
 import { prettyPrintByteString } from '../../helpers/bytes.ts'
 import { DISTRIBUTIONS } from '../../consts.ts'
+import { needsCredentials } from '../../store/sessionCredentials.ts'
 import { CPU_THRESHOLDS, DISK_THRESHOLDS, HEAP_THRESHOLDS } from '../../helpers/pressure.ts'
 
 const props = defineProps<{

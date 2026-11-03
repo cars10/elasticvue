@@ -15,8 +15,8 @@ type SnapshotsState = {
 
 export const useSnapshotsStore = () => {
   const connectionStore = useConnectionStore()
-  const clusterUuid = connectionStore.activeCluster?.uuid || ''
-  return defineStore(`snapshots-${clusterUuid}`, {
+  const clusterId = connectionStore.activeClusterId || ''
+  return defineStore(`snapshots-${clusterId}`, {
     state: (): SnapshotsState => ({
       filter: '',
       reloadInterval: DEFAULT_RELOAD_INTERVAL,
@@ -24,7 +24,7 @@ export const useSnapshotsStore = () => {
     }),
     persist: {
       pick: ['filter', ...persistReloadIntervalProps()],
-      key: `snapshots-${clusterUuid}`
+      key: `snapshots-${clusterId}`
     }
   })()
 }

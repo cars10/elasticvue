@@ -108,7 +108,8 @@
     "heading": "クラスター",
     "all": "すべてのクラスター",
     "unreachable": "接続できません",
-    "stats_unavailable": "クラスター統計を取得できません"
+    "stats_unavailable": "クラスター統計を取得できません",
+    "credentials_required": "ログインが必要です"
   },
   "helpers": {
     "import_export": {
@@ -1101,9 +1102,20 @@
           "label": "AWS リージョン"
         },
         "test_connection": "接続をテスト",
-        "connect": "接続"
+        "connect": "接続",
+        "save_secrets": {
+          "label": "このデバイスに認証情報を保存する",
+          "saved": "シークレットはこのブラウザに保存されます。",
+          "session": "シークレットは保存されません。セッションごとに一度入力を求められます。"
+        }
       },
       "connected": "正常に接続されました。"
+    },
+    "cluster_credentials": {
+      "heading": "{name} にログイン",
+      "hint": "このクラスタの認証情報は保存されません。このタブまたはウィンドウを閉じるまで保持されます。",
+      "login": "ログイン",
+      "error": "ログインに失敗しました"
     }
   },
   "shards": {
@@ -1203,7 +1215,8 @@
         "reachable": "クラスターに接続可能",
         "ssl": "ブラウザがクラスターの SSL 証明書を信頼している",
         "cors": "CORS を有効にしてクラスターを再起動した"
-      }
+      },
+      "cors_blocked": "クラスタには到達できますが、elasticvue からのリクエストが許可されていません。"
     },
     "index_filter": {
       "use_index_pattern": "インデックスパターンを使用",
@@ -1252,8 +1265,7 @@
     },
     "loader": {
       "copy_error": "エラーをコピー",
-      "network_error": "ネットワークエラー、クラスターにアクセスできません。",
-      "cluster_uri": "クラスター URI:"
+      "network_error": "ネットワークエラー、クラスターにアクセスできません。"
     },
     "reload_button": {
       "reload": "再読み込み"
@@ -1274,6 +1286,18 @@
       "forbidden_text": "ユーザーとロールを管理するには、クラスタ権限 manage_security が必要です。",
       "unavailable": "このクラスタではセキュリティを利用できません",
       "unavailable_text": "ネイティブのユーザーとロールには Elasticsearch のセキュリティ機能が必要ですが、このクラスタでは存在しないか無効です。"
+    },
+    "cluster_unreachable": {
+      "heading_network": "{name} に接続できません",
+      "heading_auth": "{name} が認証情報を拒否しました",
+      "heading_api": "{name} がエラーを返しました",
+      "auth_hint": "このクラスタのユーザー名、パスワード、または API キーを確認してください。",
+      "api_hint": "クラスタは応答しましたが、ヘルスチェックに失敗しました。",
+      "auto_retry": "elasticvue は 30 秒ごとに自動で再試行します。",
+      "retry": "再試行",
+      "help": "接続の問題のトラブルシューティング",
+      "heading_cors": "{name} が elasticvue からのリクエストをブロックしています",
+      "cors_hint": "クラスタには到達できますが、CORS 設定でこのページからのリクエストが許可されていません。"
     }
   },
   "snapshots": {

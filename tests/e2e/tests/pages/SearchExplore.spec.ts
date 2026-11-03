@@ -1,7 +1,7 @@
 import { readFile } from 'node:fs/promises'
 import { test, expect, Page } from '@playwright/test'
 import {
-  CLUSTER_UUID,
+  CLUSTER_ID,
   lastSearch,
   openSearch,
   queryInput,
@@ -115,7 +115,7 @@ test.describe('Search filters', () => {
     await expect(chips(page)).toHaveText([/title exists/])
     await expect.poll(() => boolQuery(lastSearch(requests).body)).toEqual({ filter: [{ exists: { field: 'title' } }] })
 
-    const stored = await page.evaluate((uuid) => localStorage.getItem(`search-${uuid}`), CLUSTER_UUID)
+    const stored = await page.evaluate((id) => localStorage.getItem(`search-${id}`), CLUSTER_ID)
     expect(JSON.parse(stored!).filters).toEqual([{ field: 'title', op: 'exists' }])
 
     await page.getByTestId('search-mode').getByText('DSL').click()

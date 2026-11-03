@@ -50,7 +50,7 @@
         v-model="cluster.auth.authData.password"
         autocomplete="off"
         outlined
-        :rules="[required]"
+        :rules="[requiredSecret]"
         :label="t('setup.test_and_connect.form.password.label')"
         :type="passwordVisible ? 'text' : 'password'"
         class="col-12 col-sm-6"
@@ -70,7 +70,7 @@
       v-model="cluster.auth.authData.apiKey"
       autocomplete="off"
       outlined
-      :rules="[required]"
+      :rules="[requiredSecret]"
       :label="t('setup.test_and_connect.form.api_key.label')"
       :type="passwordVisible ? 'text' : 'password'"
       class="col-12"
@@ -97,10 +97,19 @@
         v-model="cluster.auth.authData.secretAccessKey"
         autocomplete="off"
         outlined
-        :rules="[required]"
+        :rules="[requiredSecret]"
         :label="t('setup.test_and_connect.form.secret_access_key.label')"
+        :type="passwordVisible ? 'text' : 'password'"
         class="col-12 col-sm-6"
-      />
+      >
+        <template #append>
+          <q-icon
+            :name="passwordVisible ? 'visibility' : 'visibility_off'"
+            class="cursor-pointer"
+            @click="passwordVisible = !passwordVisible"
+          />
+        </template>
+      </custom-input>
       <custom-input
         v-model="cluster.auth.authData.region"
         autocomplete="off"
@@ -114,9 +123,33 @@
         autocomplete="off"
         outlined
         :label="t('setup.test_and_connect.form.session_token.label')"
+        :type="passwordVisible ? 'text' : 'password'"
         class="col-12 col-sm-6"
-      />
+      >
+        <template #append>
+          <q-icon
+            :name="passwordVisible ? 'visibility' : 'visibility_off'"
+            class="cursor-pointer"
+            @click="passwordVisible = !passwordVisible"
+          />
+        </template>
+      </custom-input>
     </template>
+
+    <div v-if="cluster.auth.authType !== AuthType.none" class="col-12">
+      <q-checkbox
+        v-model="saveSecrets"
+        :label="t('setup.test_and_connect.form.save_secrets.label')"
+        data-testid="cluster-save-secrets"
+      />
+      <div class="text-muted font-13 q-ml-sm">
+        {{
+          saveSecrets
+            ? t('setup.test_and_connect.form.save_secrets.saved')
+            : t('setup.test_and_connect.form.save_secrets.session')
+        }}
+      </div>
+    </div>
   </div>
 </template>
 
@@ -124,7 +157,7 @@
 import { computed, ref, watch } from 'vue'
 import { useTranslation } from '../../composables/i18n.ts'
 import { DEFAULT_CLUSTER_URI } from '../../consts.ts'
-import { AuthType, ElasticsearchClusterConnection } from '../../store/connection.ts'
+import { AuthType, ElasticsearchClusterConnection, SecretStorage } from '../../store/connection.ts'
 import { buildConfig } from '../../buildConfig.ts'
 import CustomInput from '../shared/CustomInput.vue'
 
@@ -154,6 +187,12 @@ const validateUri = (uri: string) => {
 }
 
 const required = (val: string) => !!val || 'required'
+const requiredSecret = (val: string) => !saveSecrets.value || !!val || 'required'
+
+const saveSecrets = computed({
+  get: () => cluster.value.auth.secretStorage !== SecretStorage.session,
+  set: (save: boolean) => (cluster.value.auth.secretStorage = save ? SecretStorage.local : SecretStorage.session)
+})
 
 const resetUri = () => (cluster.value.uri = DEFAULT_CLUSTER_URI)
 const ssl = computed(() => /^https/.test(cluster.value.uri))

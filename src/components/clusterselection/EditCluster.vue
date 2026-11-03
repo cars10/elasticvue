@@ -1,5 +1,7 @@
 <template>
+  <q-btn v-if="label" icon="edit" flat :label="label" data-testid="cluster-edit" @click.stop="dialog = true" />
   <q-btn
+    v-else
     icon="edit"
     round
     flat
@@ -21,7 +23,12 @@
       <q-form ref="form" greedy @submit.prevent="testConnection">
         <q-card-section>
           <cluster-form-fields v-model="cluster" />
-          <cluster-connection-errors v-if="testState.error" :cluster="cluster" :error-message="testState.errorMessage" />
+          <cluster-connection-errors
+            v-if="testState.error"
+            :cluster="cluster"
+            :error-message="testState.errorMessage"
+            :cors="testState.cors"
+          />
         </q-card-section>
 
         <q-separator />

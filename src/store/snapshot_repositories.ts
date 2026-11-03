@@ -16,8 +16,8 @@ type SnapshotRepositoriesState = {
 
 export const useSnapshotRepositoriesStore = () => {
   const connectionStore = useConnectionStore()
-  const clusterUuid = connectionStore.activeCluster?.uuid || ''
-  return defineStore(`snapshot-repositories-${clusterUuid}`, {
+  const clusterId = connectionStore.activeClusterId || ''
+  return defineStore(`snapshot-repositories-${clusterId}`, {
     state: (): SnapshotRepositoriesState => ({
       filter: '',
       reloadInterval: DEFAULT_RELOAD_INTERVAL,
@@ -25,7 +25,7 @@ export const useSnapshotRepositoriesStore = () => {
     }),
     persist: {
       pick: ['filter', ...persistReloadIntervalProps(), ...persistPaginationProps()],
-      key: `snapshot-repositories-${clusterUuid}`
+      key: `snapshot-repositories-${clusterId}`
     }
   })()
 }

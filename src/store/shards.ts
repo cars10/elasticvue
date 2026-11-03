@@ -10,8 +10,8 @@ type ShardsState = {
 
 export const useShardsStore = () => {
   const connectionStore = useConnectionStore()
-  const clusterUuid = connectionStore.activeCluster?.uuid || ''
-  return defineStore(`shards-${clusterUuid}`, {
+  const clusterId = connectionStore.activeClusterId || ''
+  return defineStore(`shards-${clusterId}`, {
     state: (): ShardsState => ({
       filter: '',
       health: null,
@@ -20,7 +20,7 @@ export const useShardsStore = () => {
     }),
     persist: {
       pick: ['filter', 'health', 'rows', ...persistReloadIntervalProps()],
-      key: `shards-${clusterUuid}`
+      key: `shards-${clusterId}`
     }
   })()
 }

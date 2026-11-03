@@ -40,9 +40,9 @@ type SearchState = {
 const ownValue = <T>(map: Record<string, T>, key: string) => (hasOwn(map, key) ? map[key] : undefined)
 
 export const useSearchStore = () => {
-  const clusterUuid = useConnectionStore().activeCluster?.uuid || ''
+  const clusterId = useConnectionStore().activeClusterId || ''
 
-  return defineStore(`search-${clusterUuid}`, {
+  return defineStore(`search-${clusterId}`, {
     state: (): SearchState => ({
       targets: ['*'],
       mode: 'query',
@@ -88,7 +88,7 @@ export const useSearchStore = () => {
       },
       async loadLibrary() {
         if (this.libraryLoaded) return
-        const { searchHistory, savedSearches } = clusterDb(clusterUuid)
+        const { searchHistory, savedSearches } = clusterDb(clusterId)
         const [history, saved] = await Promise.all([searchHistory.getAll(), savedSearches.getAll()])
         this.history = history
         this.savedSearches = saved
@@ -100,33 +100,33 @@ export const useSearchStore = () => {
 
         this.history.push(entry)
         const removed = this.history.splice(0, Math.max(0, this.history.length - SEARCH_HISTORY_LIMIT))
-        const { searchHistory } = clusterDb(clusterUuid)
+        const { searchHistory } = clusterDb(clusterId)
         await Promise.all(removed.map((old) => searchHistory.remove(old.id)))
         entry.id = await searchHistory.insert(entry)
       },
       async removeHistory(id?: number) {
         this.history = this.history.filter((entry) => entry.id !== id)
-        await clusterDb(clusterUuid).searchHistory.remove(id)
+        await clusterDb(clusterId).searchHistory.remove(id)
       },
       async clearHistory() {
         this.history = []
-        await clusterDb(clusterUuid).searchHistory.clear()
+        await clusterDb(clusterId).searchHistory.clear()
       },
       async saveSearch(entry: IdbSearchEntry, name: string) {
         const { id: _id, ...rest } = toRaw(entry)
         const saved: IdbSearchEntry = { ...structuredClone(rest), name }
-        saved.id = await clusterDb(clusterUuid).savedSearches.insert(saved)
+        saved.id = await clusterDb(clusterId).savedSearches.insert(saved)
         this.savedSearches.push(saved)
       },
       async renameSearch(id: number | undefined, name: string) {
         const saved = this.savedSearches.find((entry) => entry.id === id)
         if (!saved) return
         saved.name = name
-        await clusterDb(clusterUuid).savedSearches.update(structuredClone(toRaw(saved)))
+        await clusterDb(clusterId).savedSearches.update(structuredClone(toRaw(saved)))
       },
       async removeSaved(id?: number) {
         this.savedSearches = this.savedSearches.filter((entry) => entry.id !== id)
-        await clusterDb(clusterUuid).savedSearches.remove(id)
+        await clusterDb(clusterId).savedSearches.remove(id)
       },
       showIndex(index: string, q = '*') {
         this.targets = index.split(',').map((target) => target.trim())
@@ -159,7 +159,7 @@ export const useSearchStore = () => {
         'rowsPerPageAccepted',
         'documentFieldMaxLength'
       ],
-      key: `search-${clusterUuid}`
+      key: `search-${clusterId}`
     }
   })()
 }

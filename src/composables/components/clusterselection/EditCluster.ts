@@ -1,11 +1,13 @@
 import { useSnackbar } from '../../Snackbar.ts'
 import { ElasticsearchCluster, ElasticsearchClusterConnection, useConnectionStore } from '../../../store/connection.ts'
-import { ref, Ref, watch } from 'vue'
+import { ref, Ref, toRaw, watch } from 'vue'
 import { useClusterConnection } from '../../ClusterConnection.js'
 import { useClusterSession } from '../../../store/clusterSession.ts'
+import { withSessionCredentials } from '../../../store/sessionCredentials.ts'
 
 export type EditClusterProps = {
   id: string
+  label?: string
 }
 
 export const useEditCluster = (props: EditClusterProps) => {
@@ -15,12 +17,12 @@ export const useEditCluster = (props: EditClusterProps) => {
   const session = useClusterSession()
 
   const getCluster = (id: string): ElasticsearchClusterConnection => {
-    const savedCluster = connectionStore.clusterById(id) as ElasticsearchCluster
-    return {
+    const savedCluster = withSessionCredentials(connectionStore.clusterById(id) as ElasticsearchCluster)
+    return structuredClone({
       name: savedCluster.name,
       uri: savedCluster.uri,
-      auth: Object.assign({}, savedCluster.auth)
-    }
+      auth: toRaw(savedCluster.auth)
+    })
   }
   const cluster: Ref<ElasticsearchClusterConnection> = ref(getCluster(props.id))
   watch(
@@ -29,7 +31,9 @@ export const useEditCluster = (props: EditClusterProps) => {
   )
 
   const dialog = ref(false)
-  const saveCluster = () => {
+  const saveCluster = async () => {
+    if (!(await formValid())) return
+
     connectionStore.updateCluster({ cluster: cluster.value, id: props.id })
     showSuccessSnackbar({ title: 'Cluster saved' })
     if (props.id === session.clusterId) session.reconnect()
@@ -38,7 +42,7 @@ export const useEditCluster = (props: EditClusterProps) => {
   watch([() => cluster.value], () => {
     testState.value = { success: false, error: false, loading: false, errorMessage: '' }
   })
-  const { testState, testConnection } = useClusterConnection(cluster)
+  const { testState, testConnection, formValid } = useClusterConnection(cluster)
 
   return {
     dialog,

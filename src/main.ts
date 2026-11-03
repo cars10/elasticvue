@@ -15,7 +15,7 @@ import { installTauriNavigatorClipboardShim } from './helpers/clipboard.ts'
 
 const setup = async () => {
   installTauriNavigatorClipboardShim()
-  migrate()
+  await migrate()
   setUuid()
 
   if (buildConfig.checkPredefinedClusters) await importPredefinedClusters()

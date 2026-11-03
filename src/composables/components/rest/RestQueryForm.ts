@@ -1,18 +1,15 @@
 import stripJsonComments from 'strip-json-comments'
 import { computed, nextTick, ref, watch } from 'vue'
-import { clusterAuthHeader } from '../../../helpers/elasticsearchAdapter.ts'
-import { REQUEST_DEFAULT_HEADERS } from '../../../consts'
-import { useConnectionStore } from '../../../store/connection'
+import { useClusterSession } from '../../../store/clusterSession.ts'
 import { useRestStore } from '../../../store/rest.ts'
 import { useSnackbar } from '../../Snackbar'
-import { fetchMethod } from '../../../helpers/fetch'
 import { parseKibana } from '../../../helpers/parseKibana.ts'
 import { prettyPrintByteString } from '../../../helpers/bytes.ts'
 import { emptyResponse, hasNoBody, responseStatusColor, restRequestUrl, sameRequest } from '../../../helpers/rest.ts'
 import type { RestTab } from '../../../helpers/rest.ts'
 
 export const useRestQueryForm = (tab: RestTab) => {
-  const connectionStore = useConnectionStore()
+  const session = useClusterSession()
   const restStore = useRestStore()
   const { showErrorSnackbar } = useSnackbar()
   const loading = ref(false)
@@ -24,24 +21,21 @@ export const useRestQueryForm = (tab: RestTab) => {
   )
 
   const sendRequest = async () => {
-    const cluster = connectionStore.activeCluster
-    if (!cluster) return
+    const adapter = session.adapter
+    if (!adapter) return
 
     const request = { ...tab.request }
-    const headers: Record<string, string> = { ...REQUEST_DEFAULT_HEADERS }
-    const authHeader = clusterAuthHeader(cluster.auth)
-    if (authHeader) headers.Authorization = authHeader
 
     loading.value = true
     tab.response.status = ''
     const start = performance.now()
 
     try {
-      const response = await fetchMethod(restRequestUrl(cluster.uri, request.path), {
-        method: request.method,
-        headers,
-        body: hasNoBody(request.method) ? null : stripJsonComments(request.body)
-      })
+      const response = await adapter.send(
+        new URL(restRequestUrl(adapter.cluster.uri, request.path)),
+        request.method,
+        hasNoBody(request.method) ? null : stripJsonComments(request.body)
+      )
       tab.response = {
         status: `${response.status} ${response.statusText}`,
         ok: response.ok,

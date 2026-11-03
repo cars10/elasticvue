@@ -108,7 +108,8 @@
     "heading": "Clusters",
     "all": "Tous les clusters",
     "unreachable": "Connexion impossible",
-    "stats_unavailable": "Statistiques du cluster indisponibles"
+    "stats_unavailable": "Statistiques du cluster indisponibles",
+    "credentials_required": "Connexion requise"
   },
   "helpers": {
     "import_export": {
@@ -1101,9 +1102,20 @@
           "label": "Région AWS"
         },
         "test_connection": "Tester la connexion",
-        "connect": "Connecter"
+        "connect": "Connecter",
+        "save_secrets": {
+          "label": "Enregistrer les identifiants sur cet appareil",
+          "saved": "Les secrets sont enregistrés dans ce navigateur.",
+          "session": "Les secrets ne sont pas enregistrés. Ils vous seront demandés une fois par session."
+        }
       },
       "connected": "Connexion réussie."
+    },
+    "cluster_credentials": {
+      "heading": "Connexion à {name}",
+      "hint": "Les identifiants de ce cluster ne sont pas enregistrés. Ils sont conservés jusqu'à la fermeture de cet onglet ou de cette fenêtre.",
+      "login": "Se connecter",
+      "error": "Échec de la connexion"
     }
   },
   "shards": {
@@ -1203,7 +1215,8 @@
         "reachable": "Votre cluster est accessible via",
         "ssl": "Votre navigateur fait confiance au certificat SSL du cluster",
         "cors": "Vous avez activé CORS et redémarré votre cluster."
-      }
+      },
+      "cors_blocked": "Votre cluster est joignable, mais il n'autorise pas les requêtes d'elasticvue."
     },
     "index_filter": {
       "use_index_pattern": "utiliser le patterne d'index",
@@ -1252,8 +1265,7 @@
     },
     "loader": {
       "copy_error": "Copier l'erreur",
-      "network_error": "Erreur réseau, accès a votre cluster impossible.",
-      "cluster_uri": "Uri du cluster :"
+      "network_error": "Erreur réseau, accès a votre cluster impossible."
     },
     "reload_button": {
       "reload": "Recharger"
@@ -1274,6 +1286,18 @@
       "forbidden_text": "Votre utilisateur a besoin du privilège de cluster manage_security pour gérer les utilisateurs et les rôles.",
       "unavailable": "La sécurité n’est pas disponible sur ce cluster",
       "unavailable_text": "Les utilisateurs et rôles natifs nécessitent les fonctions de sécurité d’Elasticsearch, absentes ou désactivées sur ce cluster."
+    },
+    "cluster_unreachable": {
+      "heading_network": "Impossible de joindre {name}",
+      "heading_auth": "{name} a refusé les identifiants",
+      "heading_api": "{name} a renvoyé une erreur",
+      "auth_hint": "Vérifiez le nom d'utilisateur, le mot de passe ou la clé API de ce cluster.",
+      "api_hint": "Le cluster a répondu, mais la vérification de l'état a échoué.",
+      "auto_retry": "elasticvue réessaie automatiquement toutes les 30 secondes.",
+      "retry": "Réessayer",
+      "help": "Résoudre les problèmes de connexion",
+      "heading_cors": "{name} bloque les requêtes d'elasticvue",
+      "cors_hint": "Le cluster est joignable, mais ses paramètres CORS n'autorisent pas les requêtes de cette page."
     }
   },
   "snapshots": {

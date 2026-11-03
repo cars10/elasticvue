@@ -29,10 +29,10 @@ type RestState = {
 const tabSavers = new WeakMap<RestTab, () => void>()
 
 export const useRestStore = () => {
-  const clusterUuid = useConnectionStore().activeCluster?.uuid || ''
-  const db = () => clusterDb(clusterUuid)
+  const clusterId = useConnectionStore().activeClusterId || ''
+  const db = () => clusterDb(clusterId)
 
-  return defineStore(`rest-${clusterUuid}`, {
+  return defineStore(`rest-${clusterId}`, {
     state: (): RestState => ({
       activeTabIndex: 0,
       libraryTab: 'history',
@@ -151,7 +151,7 @@ export const useRestStore = () => {
     },
     persist: {
       pick: ['activeTabIndex', 'libraryTab'],
-      key: `rest-${clusterUuid}`
+      key: `rest-${clusterId}`
     }
   })()
 }

@@ -1,6 +1,6 @@
 import { test, expect, Page } from '@playwright/test'
 import {
-  CLUSTER_UUID,
+  CLUSTER_ID,
   boundsSearches,
   histogramSearches,
   lastSearch,
@@ -209,7 +209,7 @@ test.describe('Search histogram', () => {
 
     await openHistogram(page)
     await expect.poll(() => histogramSearches(requests).length).toBe(1)
-    const stored = () => page.evaluate((uuid) => localStorage.getItem(`search-${uuid}`), CLUSTER_UUID)
+    const stored = () => page.evaluate((id) => localStorage.getItem(`search-${id}`), CLUSTER_ID)
     expect(JSON.parse((await stored())!).histogramCollapsed).toBe(false)
 
     await page.getByTestId('search-histogram-toggle').click()

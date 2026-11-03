@@ -16,8 +16,8 @@ type UsersState = {
 
 export const useUsersStore = () => {
   const connectionStore = useConnectionStore()
-  const clusterUuid = connectionStore.activeCluster?.uuid || ''
-  return defineStore(`users-${clusterUuid}`, {
+  const clusterId = connectionStore.activeClusterId || ''
+  return defineStore(`users-${clusterId}`, {
     state: (): UsersState => ({
       filter: '',
       reloadInterval: DEFAULT_RELOAD_INTERVAL,
@@ -25,7 +25,7 @@ export const useUsersStore = () => {
     }),
     persist: {
       pick: ['filter', ...persistReloadIntervalProps(), ...persistPaginationProps()],
-      key: `users-${clusterUuid}`
+      key: `users-${clusterId}`
     }
   })()
 }

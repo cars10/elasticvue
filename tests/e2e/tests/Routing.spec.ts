@@ -46,7 +46,7 @@ test.describe('Routing', () => {
     test('cannot open /welcome', async ({ page }) => {
       await setupClusterConnection(page)
       await page.goto('http://localhost:5175/welcome')
-      expect(page.url()).not.toContain('/welcome')
+      await expect(page).not.toHaveURL(/\/welcome/)
     })
 
     test('welcome redirects to current cluster if cluster is correct', async ({ page }) => {

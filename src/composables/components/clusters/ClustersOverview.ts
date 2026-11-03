@@ -1,4 +1,5 @@
 import { onMounted, ref } from 'vue'
+import { needsCredentials, withSessionCredentials } from '../../../store/sessionCredentials.ts'
 import ElasticsearchAdapter from '../../../services/ElasticsearchAdapter.ts'
 import { ElasticsearchCluster, useConnectionStore } from '../../../store/connection.ts'
 import { checkHealth } from '../home/ClusterHealth.ts'
@@ -47,8 +48,10 @@ export const useClustersOverview = () => {
   const overviews = ref<Record<string, ClusterSummary>>({})
 
   const load = async (cluster: ElasticsearchCluster) => {
-    const adapter = new ElasticsearchAdapter(cluster)
-    const [health, stats, nodesBody] = await Promise.all([
+    if (needsCredentials(cluster)) return
+
+    const adapter = new ElasticsearchAdapter(withSessionCredentials(cluster))
+    const [{ health }, stats, nodesBody] = await Promise.all([
       checkHealth(cluster),
       orNull(adapter.clusterStats(CLUSTER_STATS_PARAMS)),
       orNull(adapter.nodesStats(NODES_STATS.metrics, NODES_STATS.params))

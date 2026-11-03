@@ -6,14 +6,14 @@ type HomeState = ReloadIntervalStorePartial
 
 export const useHomeStore = () => {
   const connectionStore = useConnectionStore()
-  const clusterUuid = connectionStore.activeCluster?.uuid || ''
-  return defineStore(`home-${clusterUuid}`, {
+  const clusterId = connectionStore.activeClusterId || ''
+  return defineStore(`home-${clusterId}`, {
     state: (): HomeState => ({
       reloadInterval: 10
     }),
     persist: {
       pick: [...persistReloadIntervalProps()],
-      key: `home-${clusterUuid}`
+      key: `home-${clusterId}`
     }
   })()
 }

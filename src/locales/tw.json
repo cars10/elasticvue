@@ -108,7 +108,8 @@
     "heading": "叢集",
     "all": "所有叢集",
     "unreachable": "無法連線",
-    "stats_unavailable": "叢集統計無法使用"
+    "stats_unavailable": "叢集統計無法使用",
+    "credentials_required": "需要登入"
   },
   "helpers": {
     "import_export": {
@@ -1101,9 +1102,20 @@
           "label": "AWS 區域"
         },
         "test_connection": "測試連線",
-        "connect": "連線"
+        "connect": "連線",
+        "save_secrets": {
+          "label": "在此裝置上儲存憑證",
+          "saved": "金鑰儲存在此瀏覽器中。",
+          "session": "不儲存金鑰。每個工作階段將詢問一次。"
+        }
       },
       "connected": "成功連線。"
+    },
+    "cluster_credentials": {
+      "heading": "登入 {name}",
+      "hint": "此叢集的憑證不會被儲存，關閉此分頁或視窗後即被清除。",
+      "login": "登入",
+      "error": "登入失敗"
     }
   },
   "shards": {
@@ -1203,7 +1215,8 @@
         "reachable": "您的叢集可透過以下方式連線",
         "ssl": "您的瀏覽器信任該叢集的 SSL 憑證",
         "cors": "您已啟用 CORS 並重新啟動您的叢集"
-      }
+      },
+      "cors_blocked": "叢集可以連線，但不允許來自 elasticvue 的請求。"
     },
     "index_filter": {
       "use_index_pattern": "使用索引模式",
@@ -1252,8 +1265,7 @@
     },
     "loader": {
       "copy_error": "複製錯誤",
-      "network_error": "網路錯誤，無法存取您的叢集。",
-      "cluster_uri": "叢集 URI："
+      "network_error": "網路錯誤，無法存取您的叢集。"
     },
     "reload_button": {
       "reload": "重新載入"
@@ -1274,6 +1286,18 @@
       "forbidden_text": "你的使用者需要 manage_security 叢集權限才能管理使用者和角色。",
       "unavailable": "此叢集不支援安全性功能",
       "unavailable_text": "原生使用者與角色需要 Elasticsearch 安全性功能，但此叢集缺少或停用了該功能。"
+    },
+    "cluster_unreachable": {
+      "heading_network": "無法連線到 {name}",
+      "heading_auth": "{name} 拒絕了憑證",
+      "heading_api": "{name} 傳回了錯誤",
+      "auth_hint": "請檢查此叢集的使用者名稱、密碼或 API 金鑰。",
+      "api_hint": "叢集已回應，但健康檢查失敗。",
+      "auto_retry": "elasticvue 每 30 秒自動重試一次。",
+      "retry": "重試",
+      "help": "連線問題排解",
+      "heading_cors": "{name} 封鎖了來自 elasticvue 的請求",
+      "cors_hint": "叢集可以連線，但其 CORS 設定不允許來自此頁面的請求。"
     }
   },
   "snapshots": {

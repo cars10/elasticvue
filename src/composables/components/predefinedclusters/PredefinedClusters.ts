@@ -1,4 +1,4 @@
-import { BuildFlavor, ConnectionState, ElasticsearchCluster } from '../../../store/connection.ts'
+import { BuildFlavor, ConnectionState, ElasticsearchCluster, SecretStorage } from '../../../store/connection.ts'
 import { v4 as uuidv4 } from 'uuid'
 import { buildAuth } from '../../../helpers/predefinedClusters/buildAuth.ts'
 
@@ -12,6 +12,7 @@ export type PredefinedCluster = {
   S3secretAccessKey?: string
   S3sessionToken?: string
   S3region?: string
+  secretStorage?: SecretStorage
 }
 
 export const importPredefinedClusters = async () => {
@@ -73,7 +74,6 @@ const buildPredefinedCluster = (cluster: PredefinedCluster, previous?: Elasticse
   version: previous?.version || '',
   majorVersion: previous?.majorVersion || '',
   distribution: previous?.distribution || '',
-  uuid: previous?.uuid || '',
   status: previous?.status || '',
   loading: false,
   predefined: true,

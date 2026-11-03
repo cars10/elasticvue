@@ -422,35 +422,27 @@ export default class ElasticsearchAdapter {
     let body = null
     if (method === 'PUT' || method === 'POST') body = params
 
-    const options: RequestInit = {
-      method,
-      body: body && typeof body !== 'string' ? stringifyJson(body) : body,
-      headers: { ...REQUEST_DEFAULT_HEADERS }
-    }
-
-    if (this.authHeader) {
-      // @ts-expect-error header definition
-      options.headers['Authorization'] = this.authHeader
-    } else if (this.awsClient) {
-      const signed = await this.awsClient.sign(url.toString(), options)
-      options.headers = {} as HeadersInit
-      signed.headers.forEach((value, key) => {
-        // @ts-expect-error header definition
-        options.headers[key] = value
-      })
-    }
-
-    let response: FetchResponse
-    try {
-      response = await fetchMethod(url, options)
-    } catch (e) {
-      throw new EsNetworkError(e)
-    }
-
+    const response = await this.send(url, method, body && typeof body !== 'string' ? stringifyJson(body) : body)
     const text = await response.text()
     if (!response.ok) throw new EsApiError(response.status, response.statusText, parseErrorBody(text))
 
     return parseBody(text) as T
+  }
+
+  async send(url: URL, method: string, body: string | null): Promise<FetchResponse> {
+    let headers: Record<string, string> = { ...REQUEST_DEFAULT_HEADERS }
+    if (this.authHeader) {
+      headers.Authorization = this.authHeader
+    } else if (this.awsClient) {
+      const signed = await this.awsClient.sign(url.toString(), { method, body, headers })
+      headers = Object.fromEntries(signed.headers.entries())
+    }
+
+    try {
+      return await fetchMethod(url, { method, body, headers })
+    } catch (e) {
+      throw new EsNetworkError(e)
+    }
   }
 
   async test() {

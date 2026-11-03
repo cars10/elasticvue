@@ -19,8 +19,8 @@ type NodesState = {
 
 export const useNodesStore = () => {
   const connectionStore = useConnectionStore()
-  const clusterUuid = connectionStore.activeCluster?.uuid || ''
-  return defineStore(`nodes-${clusterUuid}`, {
+  const clusterId = connectionStore.activeClusterId || ''
+  return defineStore(`nodes-${clusterId}`, {
     state: (): NodesState => ({
       filter: '',
       nodeRoles: [],
@@ -30,7 +30,7 @@ export const useNodesStore = () => {
     }),
     persist: {
       pick: ['filter', 'nodeRoles', 'hideAttributesRegex', ...persistReloadIntervalProps(), ...persistPaginationProps()],
-      key: `nodes-${clusterUuid}`
+      key: `nodes-${clusterId}`
     }
   })()
 }
