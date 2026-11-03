@@ -57,7 +57,20 @@ describe('buildCapabilities', () => {
     const capabilities = buildCapabilities(es('8.11.0', BuildFlavor.serverless))
     expect(capabilities.serverless).toBe(true)
     expect(capabilities.elasticsearch).toBe(true)
+    expect(capabilities.security.available).toBe(true)
+    expect(capabilities.security.users).toBe(false)
+    expect(capabilities.indices).toMatchObject({
+      reindex: true,
+      forcemerge: false,
+      clone: false,
+      openClose: false,
+      stats: false,
+      flush: false,
+      clearCache: false
+    })
     expect(buildCapabilities(es('8.11.0')).serverless).toBe(false)
+    expect(buildCapabilities(es('8.11.0')).security.users).toBe(true)
+    expect(buildCapabilities(es('8.11.0')).indices).toMatchObject({ clone: true, openClose: true, stats: true })
   })
 
   it('treats unknown versions as modern for security but disables version gated features', () => {

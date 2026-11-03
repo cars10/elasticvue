@@ -1,5 +1,6 @@
 import { computed, onMounted, Ref, ref, shallowRef } from 'vue'
 import { RequestState, useElasticsearchAdapter } from '../../CallElasticsearch.ts'
+import { useClusterSession } from '../../../store/clusterSession.ts'
 import { useRolesStore } from '../../../store/roles.ts'
 import {
   ASSIGNED_ROLES_PARAMS,
@@ -20,6 +21,8 @@ export const useClusterRoles = () => {
   const rolesStore = useRolesStore()
   const { requestState, callElasticsearch } = useElasticsearchAdapter()
   const { callElasticsearch: callEnrichment } = useElasticsearchAdapter()
+  const usersSupported = useClusterSession().capabilities.security.users
+  const unsupported = () => Promise.reject(new Error('unsupported'))
 
   const roles = shallowRef<ClusterRole[]>([])
   const users = shallowRef<ClusterUser[]>([])
@@ -32,8 +35,14 @@ export const useClusterRoles = () => {
   const load = async () => {
     const [rolesResult, usersResult, mappingsResult] = await Promise.allSettled([
       callElasticsearch((es) => es.securityRoles()) as Promise<Record<string, ElasticsearchRole>>,
-      callEnrichment((es) => es.securityUsers(ASSIGNED_ROLES_PARAMS)) as Promise<Record<string, ElasticsearchUser>>,
-      callEnrichment((es) => es.securityRoleMappings(ASSIGNED_ROLES_PARAMS)) as Promise<Record<string, ElasticsearchRoleMapping>>
+      usersSupported
+        ? (callEnrichment((es) => es.securityUsers(ASSIGNED_ROLES_PARAMS)) as Promise<Record<string, ElasticsearchUser>>)
+        : unsupported(),
+      usersSupported
+        ? (callEnrichment((es) => es.securityRoleMappings(ASSIGNED_ROLES_PARAMS)) as Promise<
+            Record<string, ElasticsearchRoleMapping>
+          >)
+        : unsupported()
     ])
 
     roles.value = rolesResult.status === 'fulfilled' ? mapElasticsearchRoles(rolesResult.value) : []

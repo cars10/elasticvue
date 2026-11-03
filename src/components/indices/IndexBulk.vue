@@ -15,12 +15,14 @@
         @done="emitAndCloseMenu('reload')"
       />
       <row-menu-action
+        v-if="session.capabilities.indices.flush"
         :request="(es) => es.indexFlush({ indices: selectedIndices })"
         :text="t('indices.index_row.options.flush.text', selectedIndices.length)"
         icon="archive"
         @done="emitAndCloseMenu('reload')"
       />
       <row-menu-action
+        v-if="session.capabilities.indices.clearCache"
         :request="(es) => es.indexClearCache({ indices: selectedIndices })"
         :text="t('indices.index_row.options.clear_cache.text', selectedIndices.length)"
         icon="clear_all"
@@ -47,6 +49,7 @@
       <q-separator />
 
       <row-menu-action
+        v-if="session.capabilities.indices.openClose"
         :request="(es) => es.indexClose({ indices: selectedIndices })"
         :disabled="selectedIndices.length === 0"
         :text="t('indices.index_row.options.close.text', selectedIndices.length)"
@@ -54,6 +57,7 @@
         @done="emitAndCloseMenu('reload')"
       />
       <row-menu-action
+        v-if="session.capabilities.indices.openClose"
         :request="(es) => es.indexOpen({ indices: selectedIndices })"
         :disabled="selectedIndices.length === 0"
         :text="t('indices.index_row.options.open.text', selectedIndices.length)"

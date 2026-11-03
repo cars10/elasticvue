@@ -14,12 +14,14 @@ export const buildCapabilities = (cluster: CapabilityInput) => {
   const majorAtLeast = (required: number) => major >= required
   const atLeast = (required: string) => versionAtLeast(version, required)
   const elasticsearch = !!cluster && cluster.distribution !== DISTRIBUTIONS.opensearch
+  const serverless = cluster?.flavor === BuildFlavor.serverless
 
   return {
     elasticsearch,
-    serverless: cluster?.flavor === BuildFlavor.serverless,
+    serverless,
     security: {
       available: elasticsearch && (!version || majorAtLeast(5)),
+      users: !serverless,
       userEnabledInBody: majorAtLeast(6),
       roleApplications: atLeast('6.4.0'),
       allowRestrictedIndices: atLeast('6.7.0'),
@@ -32,9 +34,13 @@ export const buildCapabilities = (cluster: CapabilityInput) => {
     indices: {
       expandWildcardsAll: majorAtLeast(8),
       mappingTypes: !majorAtLeast(7),
-      forcemerge: majorAtLeast(2),
+      forcemerge: majorAtLeast(2) && !serverless,
       reindex: majorAtLeast(2),
-      clone: majorAtLeast(7),
+      clone: majorAtLeast(7) && !serverless,
+      openClose: !serverless,
+      stats: !serverless,
+      flush: !serverless,
+      clearCache: !serverless,
       deleteByQuery: majorAtLeast(5)
     },
     nodes: {

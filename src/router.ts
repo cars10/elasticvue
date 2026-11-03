@@ -19,6 +19,15 @@ import ShardRecovery from './components/shardrecovery/ShardRecovery.vue'
 import { buildConfig } from './buildConfig.ts'
 import ClusterTools from './components/tools/ClusterTools.vue'
 import ClustersPage from './components/clusters/ClustersPage.vue'
+import { ClusterCapabilities } from './helpers/capabilities.ts'
+
+declare module 'vue-router' {
+  interface RouteMeta {
+    available?: (capabilities: ClusterCapabilities) => boolean
+  }
+}
+
+const notServerless = { available: (c: ClusterCapabilities) => !c.serverless }
 
 const routes = [
   {
@@ -54,17 +63,32 @@ const routes = [
       { path: 'indices', name: 'indices', component: ClusterIndices },
       { path: 'index_templates', name: 'index_templates', component: IndexTemplates },
       { path: 'settings', name: 'settings', component: GlobalSettings },
-      { path: 'shards', name: 'shards', component: IndexShards },
-      { path: 'shards/recovery', name: 'shard_recovery', component: ShardRecovery },
-      { path: 'nodes', name: 'nodes', component: ClusterNodes },
+      { path: 'shards', name: 'shards', component: IndexShards, meta: notServerless },
+      { path: 'shards/recovery', name: 'shard_recovery', component: ShardRecovery, meta: notServerless },
+      { path: 'nodes', name: 'nodes', component: ClusterNodes, meta: notServerless },
       { path: 'search', name: 'search', component: SearchDocuments },
       { path: 'rest', name: 'rest', component: RestQuery },
-      { path: 'tools', name: 'tools', component: ClusterTools },
+      { path: 'tools', name: 'tools', component: ClusterTools, meta: notServerless },
       { path: 'clusters', name: 'clusters', component: ClustersPage },
-      { path: 'snapshot_repositories', name: 'snapshot_repositories', component: SnapshotRepositories },
-      { path: 'snapshot_repositories/:repositoryName', name: 'snapshots', component: RepositorySnapshots },
-      { path: 'users', name: 'users', component: ClusterUsers },
-      { path: 'roles', name: 'roles', component: ClusterRoles }
+      { path: 'snapshot_repositories', name: 'snapshot_repositories', component: SnapshotRepositories, meta: notServerless },
+      {
+        path: 'snapshot_repositories/:repositoryName',
+        name: 'snapshots',
+        component: RepositorySnapshots,
+        meta: notServerless
+      },
+      {
+        path: 'users',
+        name: 'users',
+        component: ClusterUsers,
+        meta: { available: (c: ClusterCapabilities) => c.security.available && c.security.users }
+      },
+      {
+        path: 'roles',
+        name: 'roles',
+        component: ClusterRoles,
+        meta: { available: (c: ClusterCapabilities) => c.security.available }
+      }
     ]
   },
   {
@@ -106,6 +130,7 @@ router.beforeEach((to: RouteLocation) => {
   const param = Array.isArray(to.params.clusterId) ? to.params.clusterId[0] : to.params.clusterId
   if (connectionStore.setActiveCluster(param)) {
     session.connect(param)
+    if (to.meta.available && !to.meta.available(session.capabilities)) return { name: 'home', params: { clusterId: param } }
     return
   }
 

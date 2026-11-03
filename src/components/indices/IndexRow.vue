@@ -81,6 +81,7 @@
               </q-item-section>
             </q-item>
             <q-item
+              v-if="capabilities.indices.stats"
               clickable
               @click="openModalWith('indexStats', (es) => es.indexStats({ index: index.index }), { index: index.index })"
             >
@@ -101,7 +102,7 @@
             <q-separator />
 
             <row-menu-action
-              v-if="capabilities.indices.forcemerge && !capabilities.serverless"
+              v-if="capabilities.indices.forcemerge"
               :request="(es) => es.indexForcemerge({ indices: [props.index.index] })"
               :text="t('indices.index_row.options.forcemerge.text')"
               :growl="t('indices.index_row.options.forcemerge.growl', { index: index.index })"
@@ -118,6 +119,7 @@
             />
 
             <row-menu-action
+              v-if="capabilities.indices.flush"
               :request="(es) => es.indexFlush({ indices: [props.index.index] })"
               :text="t('indices.index_row.options.flush.text')"
               :growl="t('indices.index_row.options.flush.growl', { index: index.index })"
@@ -126,6 +128,7 @@
             />
 
             <row-menu-action
+              v-if="capabilities.indices.clearCache"
               :request="(es) => es.indexClearCache({ indices: [props.index.index] })"
               :text="t('indices.index_row.options.clear_cache.text')"
               :growl="t('indices.index_row.options.clear_cache.growl', { index: index.index })"
@@ -155,7 +158,7 @@
             />
 
             <row-menu-action
-              v-if="index.status === 'open' && !capabilities.serverless"
+              v-if="index.status === 'open' && capabilities.indices.openClose"
               :request="(es) => es.indexClose({ indices: [props.index.index] })"
               :confirm="t('indices.index_row.options.close.confirm', { index: index.index })"
               :text="t('indices.index_row.options.close.text')"
@@ -164,7 +167,7 @@
               @done="emitReloadAndCloseMenu"
             />
             <row-menu-action
-              v-else-if="!capabilities.serverless"
+              v-else-if="capabilities.indices.openClose"
               :request="(es) => es.indexOpen({ indices: [props.index.index] })"
               :text="t('indices.index_row.options.open.text')"
               :growl="t('indices.index_row.options.open.growl', { index: index.index })"
