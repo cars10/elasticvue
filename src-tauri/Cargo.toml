@@ -1,13 +1,13 @@
 [package]
 name = "elasticvue"
-version = "0.1.0"
+version = "2.0.0"
 description = "Elasticsearch frontend"
 authors = ["Carsten König"]
 license = "MIT"
 repository = "https://github.com/cars10/elasticvue"
 default-run = "elasticvue"
-edition = "2021"
-rust-version = "1.81"
+edition = "2024"
+rust-version = "1.85"
 
 [lib]
 name = "app_lib"
@@ -24,19 +24,10 @@ tauri = { version = "2", features = [] }
 fetch_reqwest = { git = "https://github.com/cars10/fetch_reqwest" }
 path-clean = "1"
 env_logger = "0.11.11"
-tauri-plugin-fs = "2"
 tauri-plugin-dialog = "2"
 tauri-plugin-clipboard-manager = "2"
 tauri-plugin-process = "2"
 tauri-plugin-opener = "2"
-
-[features]
-# by default Tauri runs in production mode
-# when `tauri dev` runs it is executed with `cargo run --no-default-features` if `devPath` is an URL
-default = ["custom-protocol"]
-# this feature is used used for production builds where `devPath` points to the filesystem
-# DO NOT remove this
-custom-protocol = ["tauri/custom-protocol"]
 
 [profile.release]
 panic = "abort" # Strip expensive panic clean-up logic
