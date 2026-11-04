@@ -8,10 +8,6 @@
 
       <q-separator />
 
-      <q-card-section v-if="buildConfig.hints.cors" class="q-pb-none">
-        <configure-help />
-      </q-card-section>
-
       <add-cluster />
     </q-card>
   </q-dialog>
@@ -19,9 +15,7 @@
 
 <script setup lang="ts">
 import AddCluster from './AddCluster.vue'
-import ConfigureHelp from './ConfigureHelp.vue'
 import { useTranslation } from '../../composables/i18n.ts'
-import { buildConfig } from '../../buildConfig.ts'
 
 const dialog = defineModel<boolean>({ required: true })
 const t = useTranslation()

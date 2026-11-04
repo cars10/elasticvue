@@ -52,6 +52,32 @@ http.cors.allow-origin: /.*/ # or restrict it to where elasticvue runs, e.g. "ht
 http.cors.allow-headers: X-Requested-With,Content-Type,Content-Length,Authorization
 ```
 
+Running elasticsearch in docker? Pass the same settings as environment variables:
+
+```bash
+docker run -p 9200:9200 \
+           -e "discovery.type=single-node" \
+           -e "http.cors.enabled=true" \
+           -e "http.cors.allow-origin=/.*/" \
+           -e "http.cors.allow-headers=X-Requested-With,Content-Type,Content-Length,Authorization" \
+           docker.elastic.co/elasticsearch/elasticsearch:9.0.0
+```
+
+or in your `compose.yml`:
+
+```yaml
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:9.0.0
+    environment:
+      discovery.type: single-node
+      http.cors.enabled: "true"
+      http.cors.allow-origin: "/.*/"
+      http.cors.allow-headers: "X-Requested-With,Content-Type,Content-Length,Authorization"
+```
+
+Restart the cluster afterwards.
+
 ## 3. Check if you can connect to your cluster in the browser
 
 Try to open the url of your cluster in the browser. Open it as a regular web page, e.g. [https://localhost:9200](https://localhost:9200).

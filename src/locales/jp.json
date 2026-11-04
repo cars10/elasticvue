@@ -1064,10 +1064,10 @@
   },
   "setup": {
     "configure": {
-      "introduction": "elasticvue を使用するには、CORS を設定する必要があります。以下の行を追加してください",
-      "allow_cors": "{domain} からの CORS リクエストを許可",
-      "authorization": "クラスターで認証を使用している場合",
-      "restart": "その後、クラスターを再起動してください"
+      "introduction": "elasticvue web を使用するには、クラスターで CORS を有効にする必要があります。",
+      "show_help": "方法を表示",
+      "hide_help": "非表示",
+      "restart": "その後、クラスターを再起動してください。"
     },
     "setup_instance": {
       "heading": "Elasticsearch クラスターを追加"

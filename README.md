@@ -204,10 +204,10 @@ services:
     ports:
       - "9200:9200"
     environment:
-      - http.cors.enabled=true
-      - http.cors.allow-origin="/.*/"
-      - http.cors.allow-headers=X-Requested-With,Content-Type,Content-Length,Authorization
-      - discovery.type=single-node
+      discovery.type: single-node
+      http.cors.enabled: "true"
+      http.cors.allow-origin: "/.*/"
+      http.cors.allow-headers: "X-Requested-With,Content-Type,Content-Length,Authorization"
 ```
 
 After configuration restart your cluster and you should be able to connect.

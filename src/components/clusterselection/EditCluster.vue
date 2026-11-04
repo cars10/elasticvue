@@ -12,7 +12,7 @@
   />
 
   <q-dialog v-model="dialog" transition-duration="100">
-    <q-card style="width: 640px; max-width: 90vw">
+    <q-card style="width: 800px; max-width: 90vw">
       <q-card-section class="row items-center no-wrap">
         <h2 class="text-h6 q-my-none col">{{ t('cluster_selection.edit_cluster.heading') }}</h2>
         <q-btn v-close-popup icon="close" flat round dense :aria-label="t('defaults.close')" />

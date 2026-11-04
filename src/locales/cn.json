@@ -1064,10 +1064,10 @@
   },
   "setup": {
     "configure": {
-      "introduction": "你必须设置 CORS 才能使用 elasticvue。将以下行添加到你的",
-      "allow_cors": "允许 CORS 请求来自 {domain}",
-      "authorization": "如果你的集群使用授权",
-      "restart": "然后重启你的集群"
+      "introduction": "elasticvue 网页版需要在你的集群上启用 CORS。",
+      "show_help": "查看方法",
+      "hide_help": "隐藏",
+      "restart": "然后重启你的集群。"
     },
     "setup_instance": {
       "heading": "添加elasticsearch集群"

@@ -1064,10 +1064,10 @@
   },
   "setup": {
     "configure": {
-      "introduction": "Elasticvue를 사용하려면 CORS를 설정해야 합니다. 다음 행을 추가하세요",
-      "allow_cors": "{domain}에서의 CORS 요청 허용",
-      "authorization": "클러스터에서 인증을 사용하는 경우",
-      "restart": "그 후 클러스터를 재시작하세요"
+      "introduction": "Elasticvue 웹을 사용하려면 클러스터에서 CORS를 활성화해야 합니다.",
+      "show_help": "방법 보기",
+      "hide_help": "숨기기",
+      "restart": "그 후 클러스터를 재시작하세요."
     },
     "setup_instance": {
       "heading": "Elasticsearch 클러스터 추가"

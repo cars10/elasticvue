@@ -1064,10 +1064,10 @@
   },
   "setup": {
     "configure": {
-      "introduction": "Devi impostare CORS per utilizzare elasticvue web. Aggiungi le seguenti righe al tuo",
-      "allow_cors": "consenti richieste CORS da {domain}",
-      "authorization": "e se il tuo cluster utilizza l'autorizzazione",
-      "restart": "Quindi riavvia il tuo cluster"
+      "introduction": "elasticvue web richiede che CORS sia abilitato sul tuo cluster.",
+      "show_help": "Mostra come",
+      "hide_help": "Nascondi",
+      "restart": "Quindi riavvia il tuo cluster."
     },
     "setup_instance": {
       "heading": "Aggiungi cluster elasticsearch"

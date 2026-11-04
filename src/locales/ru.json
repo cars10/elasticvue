@@ -1064,10 +1064,10 @@
   },
   "setup": {
     "configure": {
-      "introduction": "Вам нужно настроить CORS для использования elasticvue web. Добавьте следующие строки в ваш",
-      "allow_cors": "разрешить CORS запросы с {domain}",
-      "authorization": "и если ваш кластер использует авторизацию",
-      "restart": "Затем перезапустите ваш кластер"
+      "introduction": "Для elasticvue web на вашем кластере должен быть включён CORS.",
+      "show_help": "Показать как",
+      "hide_help": "Скрыть",
+      "restart": "Затем перезапустите ваш кластер."
     },
     "setup_instance": {
       "heading": "Добавить кластер Elasticsearch"

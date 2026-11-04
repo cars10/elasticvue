@@ -26,6 +26,7 @@
           rel="nofollow"
           target="_blank"
           class="q-ml-xs"
+          @click.stop
         >
           {{ t('shared.ssl_hint.help') }}
         </a>
