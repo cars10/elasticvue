@@ -19,7 +19,8 @@
         "tools": "Tools",
         "snapshots": "Snapshots",
         "security": "Sicurezza",
-        "settings": "Impostazioni"
+        "settings": "Impostazioni",
+        "tasks": "Task"
       }
     },
     "language_switcher": {
@@ -356,7 +357,12 @@
       "pressure": "{rejected} rifiutate, {trips} interventi del circuit breaker",
       "collecting": "Raccolta…",
       "reload_off": "Attiva il ricaricamento automatico per raccogliere questo grafico.",
-      "average": "Media degli ultimi {seconds}s"
+      "average": "Media degli ultimi {seconds}s",
+      "tasks": "Task",
+      "tasks_running": "in esecuzione",
+      "tasks_unavailable": "Non supportato da questa versione del cluster",
+      "tasks_longest": "Il più lungo è in esecuzione da {time}",
+      "tasks_link": "Mostra task"
     },
     "nodes": {
       "title": "Nodi ({count})",
@@ -1423,6 +1429,61 @@
     "edit_policy": {
       "update_policy": {
         "growl": "La politica snapshot '{name}' è stata aggiornata con successo."
+      }
+    }
+  },
+  "tasks": {
+    "heading": "Task",
+    "categories": {
+      "reindex": "Reindex",
+      "update_by_query": "Update by query",
+      "delete_by_query": "Delete by query",
+      "forcemerge": "Forcemerge",
+      "snapshot": "Snapshot",
+      "search": "Ricerca",
+      "write": "Scrittura",
+      "indices": "Gestione indici",
+      "monitor": "Monitoraggio",
+      "cluster": "Cluster",
+      "other": "Altro"
+    },
+    "pulse": {
+      "running": "In esecuzione",
+      "tasks": "task | task",
+      "none_running": "Nessun task in esecuzione",
+      "longest": "Il più lungo",
+      "long_running": "{count} task in esecuzione da più di un minuto | {count} task in esecuzione da più di un minuto",
+      "background": "Lavori in background",
+      "jobs": "lavoro | lavori",
+      "background_hint": "Reindex, by query, forcemerge e snapshot",
+      "searches": "Ricerche",
+      "running_unit": "in esecuzione",
+      "slowest": "La più lenta è in esecuzione da {time}",
+      "no_searches": "Nessuna ricerca in esecuzione",
+      "hidden_by_filters": "{count} task nascosto dai filtri | {count} task nascosti dai filtri"
+    },
+    "table": {
+      "types": "Tipi",
+      "categories": "Categorie",
+      "all": "Tutte",
+      "selected": "{selected} di {total}",
+      "no_tasks": "Nessun task in esecuzione",
+      "columns": {
+        "action": "Azione",
+        "description": "Descrizione",
+        "node": "Nodo",
+        "progress": "Avanzamento",
+        "running_time": "Tempo di esecuzione",
+        "started": "Avviato"
+      }
+    },
+    "task": {
+      "cancelled": "annullato",
+      "subtasks": "{count} sotto-task | {count} sotto-task",
+      "cancel": {
+        "label": "Annulla task",
+        "confirm": "Annullare il task {id} ({action})?",
+        "growl": "Annullamento del task {id} richiesto"
       }
     }
   },

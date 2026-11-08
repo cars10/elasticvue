@@ -19,7 +19,8 @@
         "tools": "Tools",
         "snapshots": "スナップショット",
         "security": "セキュリティ",
-        "settings": "設定"
+        "settings": "設定",
+        "tasks": "タスク"
       }
     },
     "language_switcher": {
@@ -356,7 +357,12 @@
       "pressure": "拒否 {rejected} 件、サーキットブレーカー作動 {trips} 件",
       "collecting": "収集中…",
       "reload_off": "このグラフのデータを集めるには自動更新をオンにしてください。",
-      "average": "直近 {seconds} 秒の平均"
+      "average": "直近 {seconds} 秒の平均",
+      "tasks": "タスク",
+      "tasks_running": "実行中",
+      "tasks_unavailable": "このクラスタのバージョンではサポートされていません",
+      "tasks_longest": "最長 {time} 実行中",
+      "tasks_link": "タスクを表示"
     },
     "nodes": {
       "title": "ノード（{count}）",
@@ -1423,6 +1429,61 @@
     "edit_policy": {
       "update_policy": {
         "growl": "スナップショットポリシー '{name}' が正常に更新されました。"
+      }
+    }
+  },
+  "tasks": {
+    "heading": "タスク",
+    "categories": {
+      "reindex": "再インデックス",
+      "update_by_query": "クエリによる更新",
+      "delete_by_query": "クエリによる削除",
+      "forcemerge": "強制マージ",
+      "snapshot": "スナップショット",
+      "search": "検索",
+      "write": "書き込み",
+      "indices": "インデックス管理",
+      "monitor": "モニタリング",
+      "cluster": "クラスタ",
+      "other": "その他"
+    },
+    "pulse": {
+      "running": "実行中",
+      "tasks": "件のタスク",
+      "none_running": "実行中のタスクはありません",
+      "longest": "最長の処理",
+      "long_running": "1 分以上実行中のタスク {count} 件",
+      "background": "バックグラウンドジョブ",
+      "jobs": "件のジョブ",
+      "background_hint": "再インデックス、クエリによる操作、強制マージ、スナップショット",
+      "searches": "検索",
+      "running_unit": "実行中",
+      "slowest": "最も遅い検索は {time} 実行中",
+      "no_searches": "実行中の検索はありません",
+      "hidden_by_filters": "フィルターで非表示のタスク {count} 件"
+    },
+    "table": {
+      "types": "タイプ",
+      "categories": "カテゴリ",
+      "all": "すべて",
+      "selected": "{selected} / {total}",
+      "no_tasks": "実行中のタスクはありません",
+      "columns": {
+        "action": "アクション",
+        "description": "説明",
+        "node": "ノード",
+        "progress": "進捗",
+        "running_time": "実行時間",
+        "started": "開始"
+      }
+    },
+    "task": {
+      "cancelled": "キャンセル済み",
+      "subtasks": "サブタスク {count} 件",
+      "cancel": {
+        "label": "タスクをキャンセル",
+        "confirm": "タスク {id}（{action}）をキャンセルしますか？",
+        "growl": "タスク {id} のキャンセルを要求しました"
       }
     }
   },

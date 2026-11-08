@@ -19,7 +19,8 @@
         "tools": "Tools",
         "snapshots": "快照",
         "security": "安全",
-        "settings": "设置"
+        "settings": "设置",
+        "tasks": "任务"
       }
     },
     "language_switcher": {
@@ -356,7 +357,12 @@
       "pressure": "{rejected} 次拒绝，{trips} 次熔断",
       "collecting": "正在收集…",
       "reload_off": "开启自动刷新以收集此图表数据。",
-      "average": "最近 {seconds} 秒的平均值"
+      "average": "最近 {seconds} 秒的平均值",
+      "tasks": "任务",
+      "tasks_running": "运行中",
+      "tasks_unavailable": "当前集群版本不支持",
+      "tasks_longest": "最长已运行 {time}",
+      "tasks_link": "查看任务"
     },
     "nodes": {
       "title": "节点（{count}）",
@@ -1423,6 +1429,61 @@
     "edit_policy": {
       "update_policy": {
         "growl": "快照策略 '{name}' 已成功更新。"
+      }
+    }
+  },
+  "tasks": {
+    "heading": "任务",
+    "categories": {
+      "reindex": "重建索引",
+      "update_by_query": "按查询更新",
+      "delete_by_query": "按查询删除",
+      "forcemerge": "强制合并",
+      "snapshot": "快照",
+      "search": "搜索",
+      "write": "写入",
+      "indices": "索引管理",
+      "monitor": "监控",
+      "cluster": "集群",
+      "other": "其他"
+    },
+    "pulse": {
+      "running": "运行中",
+      "tasks": "个任务",
+      "none_running": "没有正在运行的任务",
+      "longest": "运行最久",
+      "long_running": "{count} 个任务已运行超过一分钟",
+      "background": "后台作业",
+      "jobs": "个作业",
+      "background_hint": "重建索引、按查询操作、强制合并和快照任务",
+      "searches": "搜索",
+      "running_unit": "运行中",
+      "slowest": "最慢的已运行 {time}",
+      "no_searches": "没有正在运行的搜索",
+      "hidden_by_filters": "筛选隐藏了 {count} 个任务"
+    },
+    "table": {
+      "types": "类型",
+      "categories": "类别",
+      "all": "全部",
+      "selected": "{selected} / {total}",
+      "no_tasks": "没有正在运行的任务",
+      "columns": {
+        "action": "操作",
+        "description": "描述",
+        "node": "节点",
+        "progress": "进度",
+        "running_time": "运行时间",
+        "started": "开始时间"
+      }
+    },
+    "task": {
+      "cancelled": "已取消",
+      "subtasks": "{count} 个子任务",
+      "cancel": {
+        "label": "取消任务",
+        "confirm": "取消任务 {id}（{action}）？",
+        "growl": "已请求取消任务 {id}"
       }
     }
   },

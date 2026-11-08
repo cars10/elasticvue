@@ -19,7 +19,8 @@
         "tools": "Tools",
         "snapshots": "Снимки",
         "security": "Безопасность",
-        "settings": "Настройки"
+        "settings": "Настройки",
+        "tasks": "Задачи"
       }
     },
     "language_switcher": {
@@ -356,7 +357,12 @@
       "pressure": "отклонено: {rejected}, срабатываний предохранителей: {trips}",
       "collecting": "Сбор данных…",
       "reload_off": "Включите автообновление, чтобы собирать данные для графика.",
-      "average": "Среднее за последние {seconds}с"
+      "average": "Среднее за последние {seconds}с",
+      "tasks": "Задачи",
+      "tasks_running": "выполняется",
+      "tasks_unavailable": "Не поддерживается этой версией кластера",
+      "tasks_longest": "Самая долгая выполняется {time}",
+      "tasks_link": "Открыть задачи"
     },
     "nodes": {
       "title": "Узлы ({count})",
@@ -1423,6 +1429,61 @@
     "edit_policy": {
       "update_policy": {
         "growl": "Политика снимков '{name}' успешно обновлена."
+      }
+    }
+  },
+  "tasks": {
+    "heading": "Задачи",
+    "categories": {
+      "reindex": "Переиндексация",
+      "update_by_query": "Update by query",
+      "delete_by_query": "Delete by query",
+      "forcemerge": "Forcemerge",
+      "snapshot": "Снапшот",
+      "search": "Поиск",
+      "write": "Запись",
+      "indices": "Управление индексами",
+      "monitor": "Мониторинг",
+      "cluster": "Кластер",
+      "other": "Другое"
+    },
+    "pulse": {
+      "running": "Выполняются",
+      "tasks": "в работе",
+      "none_running": "Нет выполняющихся задач",
+      "longest": "Самая долгая",
+      "long_running": "{count} задача выполняется дольше минуты | Задач, выполняющихся дольше минуты: {count}",
+      "background": "Фоновые задачи",
+      "jobs": "в работе",
+      "background_hint": "Переиндексация, by query, forcemerge и снапшоты",
+      "searches": "Поисковые запросы",
+      "running_unit": "выполняется",
+      "slowest": "Самый медленный выполняется {time}",
+      "no_searches": "Нет выполняющихся поисковых запросов",
+      "hidden_by_filters": "{count} задача скрыта фильтрами | Скрыто фильтрами: {count}"
+    },
+    "table": {
+      "types": "Типы",
+      "categories": "Категории",
+      "all": "Все",
+      "selected": "{selected} из {total}",
+      "no_tasks": "Нет выполняющихся задач",
+      "columns": {
+        "action": "Действие",
+        "description": "Описание",
+        "node": "Узел",
+        "progress": "Прогресс",
+        "running_time": "Время выполнения",
+        "started": "Запущена"
+      }
+    },
+    "task": {
+      "cancelled": "отменена",
+      "subtasks": "{count} подзадача | Подзадач: {count}",
+      "cancel": {
+        "label": "Отменить задачу",
+        "confirm": "Отменить задачу {id} ({action})?",
+        "growl": "Запрошена отмена задачи {id}"
       }
     }
   },

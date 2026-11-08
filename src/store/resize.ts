@@ -4,6 +4,7 @@ type ResizeState = {
   indicesTable: number
   indexTemplatesTable: number
   shardRecoveryTable: number
+  tasksTable: number
   modalLoaderCodeViewer: number
   restForm: number
   searchQuery: number
@@ -18,6 +19,7 @@ export const useResizeStore = defineStore('resize', {
     indicesTable: 500,
     indexTemplatesTable: 500,
     shardRecoveryTable: 500,
+    tasksTable: 500,
     modalLoaderCodeViewer: 600,
     restForm: 400,
     searchQuery: 400,

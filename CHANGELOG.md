@@ -16,6 +16,7 @@ Elasticvue 2 is a complete redesign of the interface, with a new dashboard, a ne
   * explain unassigned shards, retry failed allocations
   * index write blocks, replicas, refresh interval, automatic index creation
   * disk watermarks, recovery bandwidth, cluster write mode, destructive operation protection
+* new tasks page: running tasks with progress for reindex, update/delete by query, subtasks, filter by type and category, cancel tasks, and a running tasks card on the dashboard, related to [#338](https://github.com/cars10/elasticvue/issues/338)
 * overview headers on most pages (nodes, shards, shard recovery, index templates, users, roles) that summarize the most important metrics
 * optionally save cluster passwords only for the current session, part of [#316](https://github.com/cars10/elasticvue/issues/316)
 * switch between clusters without reloading the page

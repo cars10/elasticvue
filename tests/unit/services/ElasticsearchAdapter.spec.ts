@@ -73,6 +73,18 @@ describe('ElasticsearchAdapter.request', () => {
     await expect(adapter().clusterHealth()).rejects.toThrow(EsNetworkError)
   })
 
+  it('lists tasks with detailed params and cancels a task by id', async () => {
+    fetchMethod.mockResolvedValue(respond(200, '{"nodes":{}}'))
+
+    await adapter().tasks({ detailed: true })
+    await adapter().taskCancel({ taskId: 'oTUltX4IQMOUUVeiohTt8A:12345' })
+
+    expect(String(fetchMethod.mock.calls[0][0])).toBe('http://localhost:9200/_tasks?detailed=true')
+    expect(fetchMethod.mock.calls[0][1].method).toBe('GET')
+    expect(String(fetchMethod.mock.calls[1][0])).toBe('http://localhost:9200/_tasks/oTUltX4IQMOUUVeiohTt8A%3A12345/_cancel')
+    expect(fetchMethod.mock.calls[1][1].method).toBe('POST')
+  })
+
   it('splits large index lists into chunks', async () => {
     fetchMethod.mockResolvedValue(respond(200, '{"acknowledged":true}'))
     const indices = Array.from({ length: 20 }, (_, i) => `index-${i}`)

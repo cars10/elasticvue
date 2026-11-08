@@ -19,7 +19,8 @@
         "tools": "Tools",
         "snapshots": "Snapshots",
         "security": "Security",
-        "settings": "Settings"
+        "settings": "Settings",
+        "tasks": "Tasks"
       }
     },
     "language_switcher": {
@@ -356,7 +357,12 @@
       "pressure": "{rejected} rejected, {trips} breaker trips",
       "collecting": "Collecting…",
       "reload_off": "Turn on auto reload to collect this graph.",
-      "average": "Average over the last {seconds}s"
+      "average": "Average over the last {seconds}s",
+      "tasks": "Tasks",
+      "tasks_running": "running",
+      "tasks_unavailable": "Not supported by this cluster version",
+      "tasks_longest": "Longest running for {time}",
+      "tasks_link": "View tasks"
     },
     "nodes": {
       "title": "Nodes ({count})",
@@ -1423,6 +1429,61 @@
     "edit_policy": {
       "update_policy": {
         "growl": "The snapshot policy '{name}' was successfully updated."
+      }
+    }
+  },
+  "tasks": {
+    "heading": "Tasks",
+    "categories": {
+      "reindex": "Reindex",
+      "update_by_query": "Update by query",
+      "delete_by_query": "Delete by query",
+      "forcemerge": "Forcemerge",
+      "snapshot": "Snapshot",
+      "search": "Search",
+      "write": "Write",
+      "indices": "Index admin",
+      "monitor": "Monitoring",
+      "cluster": "Cluster",
+      "other": "Other"
+    },
+    "pulse": {
+      "running": "Running",
+      "tasks": "task | tasks",
+      "none_running": "No tasks are running",
+      "longest": "Longest running",
+      "long_running": "{count} task running for more than a minute | {count} tasks running for more than a minute",
+      "background": "Background jobs",
+      "jobs": "job | jobs",
+      "background_hint": "Reindex, by query, forcemerge and snapshot tasks",
+      "searches": "Searches",
+      "running_unit": "running",
+      "slowest": "Slowest running for {time}",
+      "no_searches": "No searches are running",
+      "hidden_by_filters": "{count} task hidden by filters | {count} tasks hidden by filters"
+    },
+    "table": {
+      "types": "Types",
+      "categories": "Categories",
+      "all": "All",
+      "selected": "{selected} of {total}",
+      "no_tasks": "No running tasks",
+      "columns": {
+        "action": "Action",
+        "description": "Description",
+        "node": "Node",
+        "progress": "Progress",
+        "running_time": "Running time",
+        "started": "Started"
+      }
+    },
+    "task": {
+      "cancelled": "cancelled",
+      "subtasks": "{count} subtask | {count} subtasks",
+      "cancel": {
+        "label": "Cancel task",
+        "confirm": "Cancel task {id} ({action})?",
+        "growl": "Requested cancellation of task {id}"
       }
     }
   },

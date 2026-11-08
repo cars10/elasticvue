@@ -19,7 +19,8 @@
         "tools": "Tools",
         "snapshots": "快照",
         "security": "安全性",
-        "settings": "設定"
+        "settings": "設定",
+        "tasks": "任務"
       }
     },
     "language_switcher": {
@@ -356,7 +357,12 @@
       "pressure": "{rejected} 次拒絕，{trips} 次斷路器觸發",
       "collecting": "收集中…",
       "reload_off": "開啟自動重新整理以收集此圖表資料。",
-      "average": "最近 {seconds} 秒的平均值"
+      "average": "最近 {seconds} 秒的平均值",
+      "tasks": "任務",
+      "tasks_running": "執行中",
+      "tasks_unavailable": "目前叢集版本不支援",
+      "tasks_longest": "最長已執行 {time}",
+      "tasks_link": "查看任務"
     },
     "nodes": {
       "title": "節點（{count}）",
@@ -1423,6 +1429,61 @@
     "edit_policy": {
       "update_policy": {
         "growl": "已成功更新快照原則 '{name}'。"
+      }
+    }
+  },
+  "tasks": {
+    "heading": "任務",
+    "categories": {
+      "reindex": "重建索引",
+      "update_by_query": "依查詢更新",
+      "delete_by_query": "依查詢刪除",
+      "forcemerge": "強制合併",
+      "snapshot": "快照",
+      "search": "搜尋",
+      "write": "寫入",
+      "indices": "索引管理",
+      "monitor": "監控",
+      "cluster": "叢集",
+      "other": "其他"
+    },
+    "pulse": {
+      "running": "執行中",
+      "tasks": "個任務",
+      "none_running": "沒有正在執行的任務",
+      "longest": "執行最久",
+      "long_running": "{count} 個任務已執行超過一分鐘",
+      "background": "背景作業",
+      "jobs": "個作業",
+      "background_hint": "重建索引、依查詢操作、強制合併和快照任務",
+      "searches": "搜尋",
+      "running_unit": "執行中",
+      "slowest": "最慢的已執行 {time}",
+      "no_searches": "沒有正在執行的搜尋",
+      "hidden_by_filters": "篩選隱藏了 {count} 個任務"
+    },
+    "table": {
+      "types": "類型",
+      "categories": "類別",
+      "all": "全部",
+      "selected": "{selected} / {total}",
+      "no_tasks": "沒有正在執行的任務",
+      "columns": {
+        "action": "動作",
+        "description": "描述",
+        "node": "節點",
+        "progress": "進度",
+        "running_time": "執行時間",
+        "started": "開始時間"
+      }
+    },
+    "task": {
+      "cancelled": "已取消",
+      "subtasks": "{count} 個子任務",
+      "cancel": {
+        "label": "取消任務",
+        "confirm": "取消任務 {id}（{action}）？",
+        "growl": "已要求取消任務 {id}"
       }
     }
   },

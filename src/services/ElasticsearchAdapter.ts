@@ -327,6 +327,14 @@ export default class ElasticsearchAdapter {
     return this.request('_recovery', 'GET', params)
   }
 
+  tasks(params?: object) {
+    return this.request('_tasks', 'GET', params)
+  }
+
+  taskCancel({ taskId }: { taskId: string }) {
+    return this.request(`_tasks/${encodeURIComponent(taskId)}/_cancel`, 'POST')
+  }
+
   indexClose({ indices }: { indices: string[] }) {
     return this.inChunks(indices, (names) => this.request(`${names}/_close`, 'POST'))
   }

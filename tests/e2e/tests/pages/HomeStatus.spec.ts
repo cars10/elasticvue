@@ -34,6 +34,14 @@ test.describe('HomeStatus', () => {
       await expect(indices).toContainText('8 indices')
       await expect(indices).toContainText('174 documents')
       await expect(indices).toContainText('86.1 MB on disk')
+
+      const tasks = page.getByTestId('cluster-tasks')
+      if (elastic.node.startsWith('es-1-')) {
+        await expect(tasks).toContainText('Not supported by this cluster version')
+      } else {
+        await expect(tasks).toContainText('1 running')
+        await expect(tasks).toContainText('1 task running for more than a minute')
+      }
     })
   })
 })

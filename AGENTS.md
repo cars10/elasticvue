@@ -16,6 +16,7 @@ Elasticvue is a Vue 3 + TypeScript + Quasar gui for elasticsearch. It runs fully
 ## Project structure
 
 - `src/services/ElasticsearchAdapter.ts`: the only place that builds elasticsearch requests. Add a method here for every new API call, do not call `fetch` from components
+- No overfetching: every request only asks for the data the feature actually renders or uses. Use `filter_path`, `h` for `_cat` apis and specific metrics (`_nodes/stats/jvm,fs`), and only send flags like `detailed` or `include_defaults` when the fields they add are used. Give different views their own params instead of reusing a broader request (e.g. `TASKS_PARAMS` vs `DASHBOARD_TASKS_PARAMS` in `src/helpers/tasks.ts`). Check that every parameter exists in all supported versions
 - `src/composables/CallElasticsearch.ts`: `useElasticsearchAdapter().callElasticsearch(es => es.someMethod())` is how components call the cluster, it handles loading and error state
 - `src/store/clusterSession.ts`: active connection, adapter and `capabilities` of the current cluster
 - `src/store/connection.ts`: saved clusters, persisted

@@ -1,12 +1,22 @@
 import { computed, onMounted, ref, shallowRef } from 'vue'
 import { useElasticsearchAdapter } from '../../CallElasticsearch'
 import { useConnectionStore } from '../../../store/connection.ts'
+import { useClusterSession } from '../../../store/clusterSession.ts'
+import {
+  DASHBOARD_TASKS_PARAMS,
+  DEFAULT_TASK_VISIBILITY,
+  parseTasks,
+  summarizeTasks,
+  visibleTasks
+} from '../../../helpers/tasks.ts'
+import type { TasksSummary } from '../../../types/tasks.ts'
 import { useTranslation } from '../../i18n.ts'
 import { productName } from '../../../helpers/clusterInfo.ts'
 import {
   aggregateCounters,
   CLUSTER_STATS_PARAMS,
   EMPTY_WORKLOAD,
+  RATE_HISTORY_LIMIT,
   HOME_NODES_STATS,
   HOME_INDEX_PARAMS,
   nextWorkloadRates,
@@ -50,6 +60,7 @@ import type {
 export const useHomeDashboard = () => {
   const t = useTranslation()
   const connectionStore = useConnectionStore()
+  const session = useClusterSession()
   const { callElasticsearch } = useElasticsearchAdapter()
 
   // API responses are always replaced as a whole, so shallow refs are enough and avoid deep proxies
@@ -71,6 +82,9 @@ export const useHomeDashboard = () => {
   const pressureSamples = shallowRef<PressureSample[]>([])
   const heapSamples = shallowRef<HeapSample[]>([])
   let lastCounterSample: CounterSample | null = null
+
+  const tasksSummary = shallowRef<TasksSummary | null>(null)
+  const tasksHistory = shallowRef<number[]>([])
 
   const clusterStatus = computed(() => (health.value?.status || stats.value?.status || '').toLowerCase())
 
@@ -216,6 +230,19 @@ export const useHomeDashboard = () => {
     }
   }
 
+  const loadTasks = async () => {
+    if (!session.capabilities.tasks) return
+
+    try {
+      const body = await callElasticsearch((es) => es.tasks(DASHBOARD_TASKS_PARAMS))
+      const summary = summarizeTasks(visibleTasks(parseTasks(body), DEFAULT_TASK_VISIBILITY))
+      tasksSummary.value = summary
+      tasksHistory.value = [...tasksHistory.value, summary.running].slice(-RATE_HISTORY_LIMIT)
+    } catch {
+      tasksSummary.value = null
+    }
+  }
+
   let refreshing = false
   const refresh = async () => {
     if (refreshing) return
@@ -227,7 +254,8 @@ export const useHomeDashboard = () => {
         loadClusterStats(),
         loadIndices(),
         loadIndexBlocks(),
-        loadClusterSettings()
+        loadClusterSettings(),
+        loadTasks()
       ])
     } finally {
       refreshing = false
@@ -252,6 +280,8 @@ export const useHomeDashboard = () => {
     maxDisk,
     maxCpu,
     attentionChecks,
+    tasksSummary,
+    tasksHistory,
     refresh
   }
 }

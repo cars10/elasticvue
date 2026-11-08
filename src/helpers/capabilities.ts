@@ -48,6 +48,7 @@ export const buildCapabilities = (cluster: CapabilityInput) => {
     nodes: {
       shards: majorAtLeast(8)
     },
+    tasks: atLeast('2.3.0') && !serverless,
     destructiveRequiresNameDefault: majorAtLeast(8),
     tools: clusterToolsCapabilities(version)
   }

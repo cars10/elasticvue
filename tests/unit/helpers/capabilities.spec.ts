@@ -71,6 +71,15 @@ describe('buildCapabilities', () => {
     expect(buildCapabilities(es('8.11.0')).indices).toMatchObject({ clone: true, openClose: true, stats: true })
   })
 
+  it('gates the task management api', () => {
+    expect(buildCapabilities(es('1.7.6')).tasks).toBe(false)
+    expect(buildCapabilities(es('2.2.2')).tasks).toBe(false)
+    expect(buildCapabilities(es('2.3.0')).tasks).toBe(true)
+    expect(buildCapabilities(es('9.1.0')).tasks).toBe(true)
+    expect(buildCapabilities(opensearch('1.3.20')).tasks).toBe(true)
+    expect(buildCapabilities(es('8.11.0', BuildFlavor.serverless)).tasks).toBe(false)
+  })
+
   it('treats unknown versions as modern for security but disables version gated features', () => {
     const capabilities = buildCapabilities(es(''))
     expect(capabilities.security.available).toBe(true)

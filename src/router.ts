@@ -18,6 +18,7 @@ import SearchDocuments from './components/search/SearchDocuments.vue'
 import ShardRecovery from './components/shardrecovery/ShardRecovery.vue'
 import { buildConfig } from './buildConfig.ts'
 import ClusterTools from './components/tools/ClusterTools.vue'
+import ClusterTasks from './components/tasks/ClusterTasks.vue'
 import ClustersPage from './components/clusters/ClustersPage.vue'
 import { ClusterCapabilities } from './helpers/capabilities.ts'
 
@@ -66,6 +67,12 @@ const routes = [
       { path: 'shards', name: 'shards', component: IndexShards, meta: notServerless },
       { path: 'shards/recovery', name: 'shard_recovery', component: ShardRecovery, meta: notServerless },
       { path: 'nodes', name: 'nodes', component: ClusterNodes, meta: notServerless },
+      {
+        path: 'tasks',
+        name: 'tasks',
+        component: ClusterTasks,
+        meta: { available: (c: ClusterCapabilities) => c.tasks }
+      },
       { path: 'search', name: 'search', component: SearchDocuments },
       { path: 'rest', name: 'rest', component: RestQuery },
       { path: 'tools', name: 'tools', component: ClusterTools, meta: notServerless },

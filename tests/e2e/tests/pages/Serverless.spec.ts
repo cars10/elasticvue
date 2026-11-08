@@ -45,13 +45,13 @@ test.describe('Serverless', () => {
 
     await expect(page.locator('#indices')).toBeVisible()
     await expect(page.locator('#search')).toBeVisible()
-    for (const id of ['nodes', 'shards', 'tools', 'snapshots']) {
+    for (const id of ['nodes', 'shards', 'tasks', 'tools', 'snapshots']) {
       await expect(page.locator(`#${id}`)).toHaveCount(0)
     }
     expect(unavailablePaths).not.toContain('/_cluster/health')
   })
 
-  for (const path of ['nodes', 'shards', 'shards/recovery', 'tools', 'snapshot_repositories', 'users']) {
+  for (const path of ['nodes', 'shards', 'shards/recovery', 'tasks', 'tools', 'snapshot_repositories', 'users']) {
     test(`redirects /${path} to home`, async ({ page }) => {
       await connect(page)
       await page.evaluate((target) => {

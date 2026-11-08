@@ -73,7 +73,7 @@ const routeTo = (name: string) => ({
 })
 
 const sections = computed(() => {
-  const { serverless, security } = session.capabilities
+  const { serverless, security, tasks } = session.capabilities
   const securityDisabled = !security.available
 
   return [
@@ -117,6 +117,14 @@ const sections = computed(() => {
               activeNames: ['shard_recovery']
             }
           ]
+        },
+        {
+          id: 'tasks',
+          label: t('base.app_header.navigation.tasks'),
+          icon: 'pending_actions',
+          to: routeTo('tasks'),
+          activeNames: ['tasks'],
+          disabled: !tasks
         }
       ]
     },

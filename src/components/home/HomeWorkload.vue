@@ -1,5 +1,5 @@
 <template>
-  <div class="col-12 col-md-6">
+  <div class="col-12 col-sm-6 col-md-3">
     <pulse-metric-card :title="t('home.workload.search')" icon="search" test-id="cluster-search">
       <template #value>
         <span v-if="reloadDisabled" class="text-muted font-13 text-weight-regular">{{ reloadDisabledMessage }}</span>
@@ -74,6 +74,34 @@
       </template>
     </pulse-metric-card>
   </div>
+
+  <div class="col-12 col-sm-6 col-md-3">
+    <pulse-metric-card :title="t('home.workload.tasks')" icon="pending_actions" test-id="cluster-tasks">
+      <template #value>
+        <span v-if="!tasksAvailable" class="text-muted font-13 text-weight-regular">{{
+          t('home.workload.tasks_unavailable')
+        }}</span>
+        <template v-else-if="tasksSummary">
+          {{ tasksSummary.running }}
+          <span class="text-muted font-13 text-weight-regular">{{ t('home.workload.tasks_running') }}</span>
+        </template>
+        <span v-else class="text-muted font-13 text-weight-regular">-</span>
+      </template>
+
+      <template v-if="tasksAvailable">
+        <line-chart v-if="tasksHistory.length > 1" class="q-mt-sm" :values="tasksHistory" :height="48" />
+        <div v-if="tasksSummary?.longRunning" class="font-13 q-mt-xs health--yellow">
+          {{ t('tasks.pulse.long_running', tasksSummary.longRunning) }}
+        </div>
+        <div v-else-if="tasksSummary?.longest?.runningMs != null" class="text-muted font-13 q-mt-xs">
+          {{ t('home.workload.tasks_longest', { time: formatTime(tasksSummary.longest.runningMs) }) }}
+        </div>
+        <router-link :to="{ name: 'tasks', params: { clusterId } }" class="font-13">{{
+          t('home.workload.tasks_link')
+        }}</router-link>
+      </template>
+    </pulse-metric-card>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -81,12 +109,22 @@ import { computed } from 'vue'
 import LineChart from '../shared/LineChart.vue'
 import { useTranslation } from '../../composables/i18n.ts'
 import PulseMetricCard from '../shared/PulseMetricCard.vue'
+import { useClusterSession } from '../../store/clusterSession.ts'
+import { useConnectionStore } from '../../store/connection.ts'
+import { formatTime } from '../../helpers/time.ts'
 import type { WorkloadRates } from '../../types/homeDashboard.ts'
+import type { TasksSummary } from '../../types/tasks.ts'
 
 const props = defineProps<{
   workload: WorkloadRates
   reloadInterval?: number | null
+  tasksSummary: TasksSummary | null
+  tasksHistory: number[]
 }>()
+
+const session = useClusterSession()
+const tasksAvailable = computed(() => session.capabilities.tasks)
+const clusterId = useConnectionStore().activeClusterId
 
 const reloadDisabled = computed(() => props.reloadInterval == null)
 const t = useTranslation()

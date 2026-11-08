@@ -15,6 +15,6 @@ export const paginationStoreDefaultProps = (sortBy: string = '', descending: boo
 })
 
 export const persistPaginationProps = () => ['pagination.sortBy', 'pagination.descending', 'pagination.rowsPerPage']
-export const DEFAULT_RELOAD_INTERVAL = 5
+export const DEFAULT_RELOAD_INTERVAL = 30
 
 export const persistReloadIntervalProps = () => ['reloadInterval']

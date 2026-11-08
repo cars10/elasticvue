@@ -24,7 +24,12 @@
 
     <div class="col-12">
       <div class="row q-col-gutter-md" data-testid="cluster-workload">
-        <home-workload :workload="workload" :reload-interval="reloadInterval" />
+        <home-workload
+          :workload="workload"
+          :reload-interval="reloadInterval"
+          :tasks-summary="tasksSummary"
+          :tasks-history="tasksHistory"
+        />
       </div>
     </div>
 
@@ -72,6 +77,8 @@ const {
   maxDisk,
   maxCpu,
   attentionChecks,
+  tasksSummary,
+  tasksHistory,
   refresh
 } = useHomeDashboard()
 

@@ -19,7 +19,8 @@
         "tools": "Tools",
         "snapshots": "Sauvegardes",
         "security": "Sécurité",
-        "settings": "Paramètres"
+        "settings": "Paramètres",
+        "tasks": "Tâches"
       }
     },
     "language_switcher": {
@@ -356,7 +357,12 @@
       "pressure": "{rejected} rejetées, {trips} déclenchements de disjoncteur",
       "collecting": "Collecte…",
       "reload_off": "Activez le rechargement automatique pour collecter ce graphique.",
-      "average": "Moyenne sur les dernières {seconds}s"
+      "average": "Moyenne sur les dernières {seconds}s",
+      "tasks": "Tâches",
+      "tasks_running": "en cours",
+      "tasks_unavailable": "Non pris en charge par cette version du cluster",
+      "tasks_longest": "La plus longue tourne depuis {time}",
+      "tasks_link": "Voir les tâches"
     },
     "nodes": {
       "title": "Nœuds ({count})",
@@ -1423,6 +1429,61 @@
     "edit_policy": {
       "update_policy": {
         "growl": "La politique de snapshot '{name}' a été mise à jour avec succès."
+      }
+    }
+  },
+  "tasks": {
+    "heading": "Tâches",
+    "categories": {
+      "reindex": "Réindexation",
+      "update_by_query": "Update by query",
+      "delete_by_query": "Delete by query",
+      "forcemerge": "Forcemerge",
+      "snapshot": "Snapshot",
+      "search": "Recherche",
+      "write": "Écriture",
+      "indices": "Administration des index",
+      "monitor": "Surveillance",
+      "cluster": "Cluster",
+      "other": "Autre"
+    },
+    "pulse": {
+      "running": "En cours",
+      "tasks": "tâche | tâches",
+      "none_running": "Aucune tâche en cours",
+      "longest": "La plus longue",
+      "long_running": "{count} tâche en cours depuis plus d'une minute | {count} tâches en cours depuis plus d'une minute",
+      "background": "Tâches de fond",
+      "jobs": "tâche | tâches",
+      "background_hint": "Réindexation, by query, forcemerge et snapshots",
+      "searches": "Recherches",
+      "running_unit": "en cours",
+      "slowest": "La plus lente tourne depuis {time}",
+      "no_searches": "Aucune recherche en cours",
+      "hidden_by_filters": "{count} tâche masquée par les filtres | {count} tâches masquées par les filtres"
+    },
+    "table": {
+      "types": "Types",
+      "categories": "Catégories",
+      "all": "Toutes",
+      "selected": "{selected} sur {total}",
+      "no_tasks": "Aucune tâche en cours",
+      "columns": {
+        "action": "Action",
+        "description": "Description",
+        "node": "Nœud",
+        "progress": "Progression",
+        "running_time": "Durée d'exécution",
+        "started": "Démarrée"
+      }
+    },
+    "task": {
+      "cancelled": "annulée",
+      "subtasks": "{count} sous-tâche | {count} sous-tâches",
+      "cancel": {
+        "label": "Annuler la tâche",
+        "confirm": "Annuler la tâche {id} ({action}) ?",
+        "growl": "Annulation de la tâche {id} demandée"
       }
     }
   },
