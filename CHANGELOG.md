@@ -17,12 +17,14 @@ Elasticvue 2 is a complete redesign of the interface, with a new dashboard, a ne
   * index write blocks, replicas, refresh interval, automatic index creation
   * disk watermarks, recovery bandwidth, cluster write mode, destructive operation protection
 * overview headers on most pages (nodes, shards, shard recovery, index templates, users, roles) that summarize the most important metrics
-* optionally save cluster passwords only for the current session
+* optionally save cluster passwords only for the current session, part of [#316](https://github.com/cars10/elasticvue/issues/316)
+* switch between clusters without reloading the page
+* linux desktop app is now also available as .rpm
 
 **Search**
 
 * new query bar with autocomplete for fields, values and recent queries
-* switch between query bar, DSL, SQL and ES|QL
+* switch between query bar, DSL, SQL and ES|QL, requested in [#364](https://github.com/cars10/elasticvue/issues/364)
 * search across indices, aliases and data streams, with a count of matched indices
 * time range picker with presets and absolute ranges, plus a histogram of matching documents
 * filters: is / exists / between, include or exclude, enable or disable
@@ -34,7 +36,8 @@ Elasticvue 2 is a complete redesign of the interface, with a new dashboard, a ne
 
 **REST**
 
-* path autocomplete from history and saved queries
+* path autocomplete from history and saved queries, requested in [#364](https://github.com/cars10/elasticvue/issues/364)
+* copy requests as cURL, requested in [#364](https://github.com/cars10/elasticvue/issues/364)
 * new query library with history, saved queries and examples
 
 **Improvements**
@@ -42,11 +45,22 @@ Elasticvue 2 is a complete redesign of the interface, with a new dashboard, a ne
 * redesigned nodes, shards, shard recovery, indices, index templates, snapshots, repositories, users, roles, settings and welcome pages
 * shard recovery: show only active recoveries, throttling status
 * shards: list of shards that need attention with a link to explain them in tools
+* shards: can rotate the shards table to show nodes as rows
 * index templates: show composable, legacy and component templates and where component templates are used
 * users and roles: clear message when security is disabled or the user lacks permissions
 * settings: restructured, new option to wrap long lines in the editor, per-cluster settings
+* table filters match multiple terms in any order, e.g. `my 2` matches `my-cluster-2`
+* clearer connection errors that distinguish network, authentication, CORS and API errors
+* features that are not available on the connected cluster (elasticsearch, opensearch or serverless) are hidden instead of failing
+* fixes for serverless elasticsearch
 * replace json-bigint with lossless-json for handling large numbers
 * dependency updates
+
+**Changed**
+
+* enabling and disabling shard allocation moved from the shards page to the tools page
+* the dashboard replaces the old home page
+* clusters, settings, REST history, saved queries and other stored data from 1.x are migrated automatically
 
 ## 1.17.0
 

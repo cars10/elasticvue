@@ -70,6 +70,7 @@ jobs:
           if-no-files-found: error
           path: |
             src-tauri/target/release/bundle/deb/elasticvue_*_amd64.deb
+            src-tauri/target/release/bundle/rpm/elasticvue-*.x86_64.rpm
             src-tauri/target/release/bundle/appimage/elasticvue_*_amd64.*
             src-tauri/target/release/elasticvue
 
@@ -240,6 +241,7 @@ jobs:
           artifacts: |
             github-artifacts/linux_artifacts/bundle/appimage/elasticvue_*_amd64.*
             github-artifacts/linux_artifacts/bundle/deb/elasticvue_*_amd64.deb
+            github-artifacts/linux_artifacts/bundle/rpm/elasticvue-*.x86_64.rpm
             github-artifacts/linux_artifacts/elasticvue
             github-artifacts/mac_aaarch64_artifacts/dmg/elasticvue_*_aarch64.dmg
             github-artifacts/mac_aaarch64_artifacts/macos/elasticvue_aarch64*
@@ -255,7 +257,7 @@ jobs:
             ### Desktop app
             * [Windows .msi](https://github.com/cars10/elasticvue/releases/download/${{ github.ref_name }}/elasticvue_${{ steps.package-version.outputs.current-version }}_x64_en-US.msi)
             * [Mac x68 .dmg](https://github.com/cars10/elasticvue/releases/download/${{ github.ref_name }}/elasticvue_${{ steps.package-version.outputs.current-version }}_x64.dmg) / [Mac aarch64 .dmg](https://github.com/cars10/elasticvue/releases/download/${{ github.ref_name }}/elasticvue_${{ steps.package-version.outputs.current-version }}_aarch64.dmg)
-            * [Linux .AppImage](https://github.com/cars10/elasticvue/releases/download/${{ github.ref_name }}/elasticvue_${{ steps.package-version.outputs.current-version }}_amd64.AppImage) / [Linux .deb](https://github.com/cars10/elasticvue/releases/download/${{ github.ref_name }}/elasticvue_${{ steps.package-version.outputs.current-version }}_amd64.deb)
+            * [Linux .AppImage](https://github.com/cars10/elasticvue/releases/download/${{ github.ref_name }}/elasticvue_${{ steps.package-version.outputs.current-version }}_amd64.AppImage) / [Linux .deb](https://github.com/cars10/elasticvue/releases/download/${{ github.ref_name }}/elasticvue_${{ steps.package-version.outputs.current-version }}_amd64.deb) / [Linux .rpm](https://github.com/cars10/elasticvue/releases/download/${{ github.ref_name }}/elasticvue-${{ steps.package-version.outputs.current-version }}-1.x86_64.rpm)
 
             ### Browser extension
             * [Google Chrome](https://chrome.google.com/webstore/detail/elasticvue/hkedbapjpblbodpgbajblpnlpenaebaa)
