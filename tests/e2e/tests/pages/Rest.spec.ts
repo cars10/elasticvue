@@ -295,7 +295,7 @@ test.describe('REST', () => {
     await openRest(page)
     await selectMethod(page, 'POST')
     await pathInput(page).fill('rest_e2e/_search')
-    await typeBody(page, `{"query": "it's"}`)
+    await typeBody(page, '{"query": "it\'s"}')
     await page.getByTestId('rest-copy-curl').click()
     expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
       `curl -X POST '${ES}/rest_e2e/_search' -H 'Content-Type: application/json' -d '{"query": "it'\\''s"}'`

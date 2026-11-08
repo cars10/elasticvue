@@ -8,7 +8,13 @@
 import { computed } from 'vue'
 import { SUPPORTED_MAJOR_VERSIONS, SUPPORTED_OPENSEARCH_MAJOR_VERSIONS } from '../../consts'
 import { useTranslation } from '../../composables/i18n'
-import { isOpensearch, isSupportedDistribution, isSupportedVersion, parseMajorVersion, productName } from '../../helpers/clusterInfo.ts'
+import {
+  isOpensearch,
+  isSupportedDistribution,
+  isSupportedVersion,
+  parseMajorVersion,
+  productName
+} from '../../helpers/clusterInfo.ts'
 
 const t = useTranslation()
 

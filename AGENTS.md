@@ -8,11 +8,10 @@ Elasticvue is a Vue 3 + TypeScript + Quasar gui for elasticsearch. It runs fully
 
 - Development is done in docker, do not rely on a local node installation
 - `make dev` starts the dev container (vite on port 5173)
-- `make format` runs prettier, eslint and stylelint with autofix
-- `make ci` runs the full pipeline: format, lint, stylelint, `tsc` + `vue-tsc`, build, unit tests and e2e tests in all browsers
-- `make e2e TEST=<file>` runs e2e tests, optionally a single spec
-- Read the rest of the `Makefile` for build tasks (docker, browser extensions, tauri)
-- Before finishing a task run `make format` and make sure `make ci` passes
+- `make lint` runs prettier, eslint and stylelint with autofix, then `tsc` + `vue-tsc` (`npm run check`)
+- `make test` runs unit tests and e2e tests in chromium. Arguments in `TEST` go to playwright, e.g. `make test TEST="tests/e2e/tests/pages/Search.spec.ts --workers=4"`
+- `make ci` runs `npm run check`, build, unit tests and e2e tests in all browsers. This is what github actions runs
+- Before finishing a task run `make lint` and `make test`
 
 ## Project structure
 
@@ -29,7 +28,7 @@ Elasticvue is a Vue 3 + TypeScript + Quasar gui for elasticsearch. It runs fully
 ## Codestyle
 
 - Always use typescript, never plain javascript
-- Code needs to match `eslint.config.mjs`, `.prettierrc`, `.stylelintrc`: no semicolons, single quotes, print width 130, no trailing commas, no nested ternaries
+- Code needs to match `eslint.config.mjs`, `.prettierrc`, `.stylelintrc.js`: no semicolons, single quotes, print width 130, no trailing commas, no nested ternaries
 - Prefer composition api with `<script setup lang="ts">`
 - Use quasar components and the existing shared components in `src/components/shared/` before building new ones
 - Use the css variables from `src/assets/stylesheets/theme/variables.css` for colors, never hardcode colors. Everything must look right in light and dark theme
@@ -88,6 +87,7 @@ Everything else that might be partly API compatible with elasticsearch is *NOT* 
 
 - Always add unit tests (vitest, `tests/unit/`) for helpers and services
 - Add e2e tests (playwright, `tests/e2e/`) for full features
+- E2E tests check behaviour and data only. No assertions on widths, positions, bounding boxes, colors or style classes. UI-only changes (sizes, colors, spacing) need no e2e test
 - E2E tests do not need a real cluster. They mock responses per version in `tests/e2e/mocks/` (`elastic_1` to `elastic_8`, `opensearch`) using `page.route`
 - When a feature depends on a capability, test it against the oldest and newest version that is affected, and that it is hidden where it is not supported
 - Build mode specific behaviour needs a dev server started with that `VITE_APP_BUILD_MODE`. Playwright starts a second dev server with `VITE_APP_BUILD_MODE=docker` on port 5176, and the `chromium-docker` project in `playwright.config.ts` runs only `PredefinedClusters.spec.ts` against it

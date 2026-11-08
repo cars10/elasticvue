@@ -113,5 +113,4 @@ const metrics = computed(
       { key: 'shards', label: t('home.metrics.shards'), warnAt: 100, dangerAt: props.cluster.status === 'red' ? 101 : 0 }
     ] as const
 )
-
 </script>

@@ -6,8 +6,8 @@ UID := $(shell id -u)
 dev:
 	docker compose -f compose.yml up --build
 
-format:
-	docker compose -f compose.yml run --rm elasticvue npm run format && npm run lint && npm run lint:style
+lint:
+	docker compose -f compose.yml run --rm elasticvue npm run check
 
 build_docker_ci:
 	docker build --platform linux/amd64 -f docker/Dockerfile_ci -t elasticvue-ci .
@@ -44,8 +44,8 @@ build_browser_extensions:
 run_docker_nginx:
 	docker run -p 8080:8080 elasticvue
 
-e2e: build_docker_ci
-	docker run --rm -v ./playwright-report-ci:/app/playwright-report elasticvue-ci npm run test:e2e $(TEST)
+test: build_docker_ci
+	docker run --rm -v ./playwright-report-ci:/app/playwright-report elasticvue-ci sh -c "npm run test:unit && npm run test:e2e -- $(TEST)"
 
 beta: build_docker_nginx
 	docker tag elasticvue cars10/elasticvue:beta

@@ -69,8 +69,7 @@ export const useSearchDocuments = () => {
   const compatibleVersion = computed(() => session.capabilities.version)
   const majorVersion = computed(() => parseInt(compatibleVersion.value) || 0)
   const isSqlMode = (mode: SearchMode): mode is SqlMode => mode === 'sql' || mode === 'esql'
-  const sqlApiFor = (mode: SqlMode) =>
-    sqlApi(mode, compatibleVersion.value, session.capabilities.elasticsearch)
+  const sqlApiFor = (mode: SqlMode) => sqlApi(mode, compatibleVersion.value, session.capabilities.elasticsearch)
   const modes = computed(() =>
     (['query', 'dsl', 'sql', 'esql'] as SearchMode[]).filter((mode) => !isSqlMode(mode) || !!sqlApiFor(mode))
   )

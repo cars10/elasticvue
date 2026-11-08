@@ -38,7 +38,9 @@ export const useIndexShards = () => {
 
   const dataNodeNames = computed(() =>
     nodes.value
-      .filter((node) => node.name && isDataNode(node['node.role'] || '', node.version, useConnectionStore().activeCluster?.distribution))
+      .filter(
+        (node) => node.name && isDataNode(node['node.role'] || '', node.version, useConnectionStore().activeCluster?.distribution)
+      )
       .map((node) => node.name as string)
   )
 

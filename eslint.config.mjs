@@ -39,9 +39,9 @@ export default defineConfigWithVueTs(
         'extensions': ['.js', '.vue', '.ts'],
         'enableFix': true
       }],
-      quotes: ['error', 'single'],
+      quotes: ['error', 'single', { avoidEscape: true }],
     },
-    files: ['src/**/*.{js,vue,ts,json}', 'tests/**/*.ts}'],
+    files: ['src/**/*.{js,vue,ts,json}', 'tests/**/*.ts'],
     settings: {
       'vue-i18n': {
         localeDir: {

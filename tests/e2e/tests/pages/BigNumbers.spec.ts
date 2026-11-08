@@ -122,7 +122,7 @@ test.describe('Big numbers', () => {
 
     await panel(page).getByTestId('search-panel-tab-json').click()
     await expect(panel(page)).toContainText(`"id": ${BIG}`)
-    await expect(panel(page)).toContainText(`"ratio": 83.33333333333334`)
+    await expect(panel(page)).toContainText('"ratio": 83.33333333333334')
     await expect(panel(page)).toContainText(ULONG_MAX)
   })
 
