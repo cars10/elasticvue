@@ -90,7 +90,9 @@
         "remove_cluster": {
           "confirm": "Удалить кластер '{name}' ({uri})?"
         },
-        "unsupported": "Elasticsearch {majorVersion} больше не поддерживается, и elasticvue не полностью совместим с этой версией. Возможны ошибки и ограниченная функциональность.",
+        "unsupported": "{product} {majorVersion} не поддерживается elasticvue. Поддерживаемые версии: {supportedVersions}. Возможны ошибки и ограниченная функциональность.",
+        "unsupported_distribution": "{product} не поддерживается elasticvue. elasticvue использует последнюю версию api elasticsearch, некоторые функции могут не работать.",
+        "unknown_product": "Этот продукт",
         "predefined": "Этот кластер был настроен вашим администратором. Вы не можете изменить его напрямую."
       }
     },

@@ -90,7 +90,9 @@
         "remove_cluster": {
           "confirm": "Remove cluster '{name}' ({uri})?"
         },
-        "unsupported": "Elasticsearch {majorVersion} is EOL and not fully supported by elasticvue. You may encounter bugs and limited functionality.",
+        "unsupported": "{product} {majorVersion} is not supported by elasticvue. Supported versions: {supportedVersions}. You may encounter bugs and limited functionality.",
+        "unsupported_distribution": "{product} is not supported by elasticvue. elasticvue uses the latest elasticsearch api, some features may not work.",
+        "unknown_product": "This product",
         "predefined": "This cluster was setup by your administrator. You cannot change it directly."
       }
     },

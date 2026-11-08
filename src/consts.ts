@@ -1,5 +1,8 @@
 export const VERSION_NAME = 'beta'
 export const SUPPORTED_MAJOR_VERSIONS = ['7', '8', '9']
+export const SUPPORTED_OPENSEARCH_MAJOR_VERSIONS = ['1', '2', '3']
+export const LATEST_ELASTICSEARCH_VERSION = '9.0.0'
+export const OPENSEARCH_ELASTICSEARCH_VERSION = '7.10.2'
 export const REQUEST_DEFAULT_HEADERS = {
   Accept: 'application/json',
   'Content-Type': 'application/json'

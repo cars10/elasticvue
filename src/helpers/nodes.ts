@@ -3,6 +3,7 @@ import { nodeSpread, peakMetric, toNumber } from './nodeStats.ts'
 import type { EsNode } from '../types/types.ts'
 import type { DiskWatermarks } from '../types/homeDashboard.ts'
 import type { NodeRow, NodesSummary, NodeStatsDetails } from '../types/nodes.ts'
+import { isOpensearch } from './clusterInfo.ts'
 
 export const nodeRoleTitle = (role: string): string => {
   let title = ''
@@ -74,16 +75,34 @@ const ROLE_LABELS: [string, string][] = [
 /** Tier roles are implied by the generic data role `d`. */
 const DATA_TIER_ROLES = ['s', 'h', 'w', 'c', 'f']
 
-const usesLegacyRoles = (version?: string | null): boolean => !!version && parseInt(version) < 5
+const OPENSEARCH_ROLE_LABELS: [string, string][] = [
+  ['m', 'master'],
+  ['d', 'data'],
+  ['w', 'warm'],
+  ['s', 'search'],
+  ['i', 'ingest']
+]
 
-export const isDataNode = (roles: string, version?: string | null): boolean =>
-  usesLegacyRoles(version) ? roles.includes('d') : /[dshwcf]/.test(roles)
+const usesLegacyRoles = (version?: string | null, distribution?: string): boolean =>
+  !isOpensearch(distribution) && !!version && parseInt(version) < 5
 
-const isCoordinatingNode = (roles: string, version?: string | null): boolean =>
-  roles === '-' || (usesLegacyRoles(version) && roles === 'c')
+export const isDataNode = (roles: string, version?: string | null, distribution?: string): boolean => {
+  if (isOpensearch(distribution)) return /[dw]/.test(roles)
+  return usesLegacyRoles(version) ? roles.includes('d') : /[dshwcf]/.test(roles)
+}
 
-export const nodeRoleLabels = (roles: string, version?: string | null): { role: string; label: string }[] => {
-  if (isCoordinatingNode(roles, version)) return [{ role: '-', label: 'coordinating' }]
+const isCoordinatingNode = (roles: string, version?: string | null, distribution?: string): boolean =>
+  roles === '-' || (usesLegacyRoles(version, distribution) && roles === 'c')
+
+export const nodeRoleLabels = (
+  roles: string,
+  version?: string | null,
+  distribution?: string
+): { role: string; label: string }[] => {
+  if (isCoordinatingNode(roles, version, distribution)) return [{ role: '-', label: 'coordinating' }]
+  if (isOpensearch(distribution)) {
+    return OPENSEARCH_ROLE_LABELS.filter(([role]) => roles.includes(role)).map(([role, label]) => ({ role, label }))
+  }
 
   const hasData = roles.includes('d')
   return ROLE_LABELS.filter(([role]) => roles.includes(role) && !(hasData && DATA_TIER_ROLES.includes(role))).map(
@@ -91,23 +110,24 @@ export const nodeRoleLabels = (roles: string, version?: string | null): { role: 
   )
 }
 
-const normalizedRoles = (node: EsNode): string => {
+const normalizedRoles = (node: EsNode, distribution?: string): string => {
   const roles = node['node.role'] || ''
   const eligible = node.master === '*' || node.master === 'm'
-  return usesLegacyRoles(node.version) && eligible && !roles.includes('m') ? `m${roles}` : roles
+  return usesLegacyRoles(node.version, distribution) && eligible && !roles.includes('m') ? `m${roles}` : roles
 }
 
 export const buildNodeRows = (
   catNodes: EsNode[],
   details: Record<string, NodeStatsDetails>,
-  attributes: Record<string, Record<string, string>>
+  attributes: Record<string, Record<string, string>>,
+  distribution?: string
 ): NodeRow[] =>
   catNodes.map((node) => ({
     id: node.id,
     name: node.name,
     ip: node.ip,
     version: node.version,
-    roles: normalizedRoles(node),
+    roles: normalizedRoles(node, distribution),
     master: node.master === '*',
     attributes: attributes[node.id] || {},
     cpuPercent: toNumber(node.cpu),
@@ -151,8 +171,8 @@ const summarizeDisk = (nodes: NodeRow[], watermarks: DiskWatermarks): NodesSumma
   return { usedBytes, totalBytes, percent, aboveLow, aboveHigh, aboveFlood }
 }
 
-export const summarizeNodes = (nodes: NodeRow[], watermarks: DiskWatermarks): NodesSummary => {
-  const dataNodes = nodes.filter((node) => isDataNode(node.roles, node.version))
+export const summarizeNodes = (nodes: NodeRow[], watermarks: DiskWatermarks, distribution?: string): NodesSummary => {
+  const dataNodes = nodes.filter((node) => isDataNode(node.roles, node.version, distribution))
 
   return {
     total: nodes.length,
@@ -161,7 +181,7 @@ export const summarizeNodes = (nodes: NodeRow[], watermarks: DiskWatermarks): No
       data: dataNodes.length,
       ingest: nodes.filter((node) => node.roles.includes('i')).length,
       ml: nodes.filter((node) => node.roles.includes('l')).length,
-      coordinating: nodes.filter((node) => isCoordinatingNode(node.roles, node.version)).length
+      coordinating: nodes.filter((node) => isCoordinatingNode(node.roles, node.version, distribution)).length
     },
     versions: [...new Set(nodes.map((node) => node.version).filter(Boolean))].sort(),
     recentlyRestarted: nodes

@@ -7,7 +7,10 @@
           <q-chip v-if="active" color="positive" text-color="white" class="text-weight-regular" dense>active</q-chip>
         </div>
         <div v-if="cluster.clusterName !== cluster.name" class="text-muted ellipsis">{{ cluster.clusterName }}</div>
-        <div v-if="cluster.version" class="q-mt-xs">{{ productName }} {{ cluster.version }}</div>
+        <div v-if="cluster.version" class="q-mt-xs flex items-center no-wrap">
+          {{ productName(cluster.distribution) }} {{ cluster.version }}
+          <unsupported-version :distribution="cluster.distribution" :version="cluster.version" />
+        </div>
         <div class="text-muted font-13 font-mono ellipsis q-mt-xs">{{ cluster.uri }}</div>
       </div>
       <div class="col-auto q-pl-md">
@@ -88,7 +91,8 @@ import { ElasticsearchCluster } from '../../store/connection.ts'
 import { useTranslation } from '../../composables/i18n.ts'
 import type { ClusterSummary } from '../../composables/components/clusters/ClustersOverview.ts'
 import { prettyPrintByteString } from '../../helpers/bytes.ts'
-import { DISTRIBUTIONS } from '../../consts.ts'
+import { productName } from '../../helpers/clusterInfo.ts'
+import UnsupportedVersion from '../clusterselection/UnsupportedVersion.vue'
 import { needsCredentials } from '../../store/sessionCredentials.ts'
 import { CPU_THRESHOLDS, DISK_THRESHOLDS, HEAP_THRESHOLDS } from '../../helpers/pressure.ts'
 
@@ -110,5 +114,4 @@ const metrics = computed(
     ] as const
 )
 
-const productName = computed(() => (props.cluster.distribution === DISTRIBUTIONS.opensearch ? 'OpenSearch' : 'Elasticsearch'))
 </script>

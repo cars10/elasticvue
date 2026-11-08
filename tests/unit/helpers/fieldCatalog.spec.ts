@@ -1,6 +1,5 @@
 import { describe, expect, it } from 'vitest'
 import { catalogFromFieldCaps, catalogFromMappings, unmappedTypeFor } from '../../../src/helpers/search/fieldCatalog'
-import { elasticsearchCompatibleVersion } from '../../../src/helpers/minClusterVersion'
 
 describe('catalogFromFieldCaps', () => {
   const catalog = catalogFromFieldCaps({
@@ -82,13 +81,5 @@ describe('unmappedTypeFor', () => {
       unmappedTypeFor({ name: 'a', types: ['long'], indices: null, partial: false, aggregatable: true, sortField: 'a' }, 8)
     ).toBe('long')
     expect(unmappedTypeFor(undefined, 8)).toBeUndefined()
-  })
-})
-
-describe('elasticsearchCompatibleVersion', () => {
-  it('maps opensearch to the elasticsearch version it forked from', () => {
-    expect(elasticsearchCompatibleVersion('2.12.0', false)).toBe('7.10.2')
-    expect(elasticsearchCompatibleVersion('8.15.0', true)).toBe('8.15.0')
-    expect(elasticsearchCompatibleVersion(undefined, true)).toBe('')
   })
 })

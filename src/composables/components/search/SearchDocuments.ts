@@ -24,7 +24,7 @@ import { parseFilters } from '../../../helpers/search/filters.ts'
 import { buildQueryFromTableOptions, getTableOptionsToApply } from '../../../helpers/search/searchQueryTableOptions'
 import { paginationFromQuery } from '../../../helpers/search/paginationFromQuery'
 import { useTranslation } from '../../i18n.ts'
-import { elasticsearchCompatibleVersion, versionAtLeast } from '../../../helpers/minClusterVersion.ts'
+import { versionAtLeast } from '../../../helpers/minClusterVersion.ts'
 import { allowedRowsPerPage } from '../../../consts.ts'
 import { dateFields, timeFieldFor } from '../../../helpers/search/timeRange.ts'
 import type { SearchFilter, SearchMode, SearchSort, SearchTimeBounds } from '../../../types/search.ts'
@@ -66,13 +66,11 @@ export const useSearchDocuments = () => {
   const histogram = useSearchHistogram()
   const sql = useSqlSearch()
   let suspendWatchers = false
-  const compatibleVersion = computed(() =>
-    elasticsearchCompatibleVersion(connectionStore.activeCluster?.version, session.capabilities.elasticsearch)
-  )
+  const compatibleVersion = computed(() => session.capabilities.version)
   const majorVersion = computed(() => parseInt(compatibleVersion.value) || 0)
   const isSqlMode = (mode: SearchMode): mode is SqlMode => mode === 'sql' || mode === 'esql'
   const sqlApiFor = (mode: SqlMode) =>
-    sqlApi(mode, connectionStore.activeCluster?.version || '', session.capabilities.elasticsearch)
+    sqlApi(mode, compatibleVersion.value, session.capabilities.elasticsearch)
   const modes = computed(() =>
     (['query', 'dsl', 'sql', 'esql'] as SearchMode[]).filter((mode) => !isSqlMode(mode) || !!sqlApiFor(mode))
   )

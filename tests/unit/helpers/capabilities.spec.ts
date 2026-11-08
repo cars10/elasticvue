@@ -16,11 +16,9 @@ describe('buildCapabilities', () => {
     ['7.4.0', es('7.4.0'), { security: true, slm: true, verify: true, forcemerge: true, clone: true, types: false }],
     ['8.15.0', es('8.15.0'), { security: true, slm: true, verify: true, forcemerge: true, clone: true, types: false }],
     ['9.1.0', es('9.1.0'), { security: true, slm: true, verify: true, forcemerge: true, clone: true, types: false }],
-    [
-      'opensearch 2',
-      opensearch('2.12.0'),
-      { security: false, slm: false, verify: true, forcemerge: true, clone: false, types: true }
-    ]
+    ['opensearch 1', opensearch('1.3.20'), { security: false, slm: false, verify: true, forcemerge: true, clone: true, types: false }],
+    ['opensearch 2', opensearch('2.19.7'), { security: false, slm: false, verify: true, forcemerge: true, clone: true, types: false }],
+    ['opensearch 3', opensearch('3.9.0'), { security: false, slm: false, verify: true, forcemerge: true, clone: true, types: false }]
   ])('%s', (_name, cluster, expected) => {
     const capabilities = buildCapabilities(cluster)
 
@@ -50,7 +48,7 @@ describe('buildCapabilities', () => {
     expect(buildCapabilities(es('8.0.0')).nodes.shards).toBe(true)
     expect(buildCapabilities(es('7.17.10')).destructiveRequiresNameDefault).toBe(false)
     expect(buildCapabilities(es('8.0.0')).destructiveRequiresNameDefault).toBe(true)
-    expect(buildCapabilities(opensearch('2.12.0')).destructiveRequiresNameDefault).toBe(true)
+    expect(buildCapabilities(opensearch('3.9.0')).destructiveRequiresNameDefault).toBe(false)
   })
 
   it('detects serverless', () => {
@@ -78,6 +76,23 @@ describe('buildCapabilities', () => {
     expect(capabilities.security.available).toBe(true)
     expect(capabilities.indices.clone).toBe(false)
     expect(capabilities.snapshots.slm).toBe(false)
+  })
+
+  it('maps opensearch to the elasticsearch 7.10 api', () => {
+    const capabilities = buildCapabilities(opensearch('1.3.20'))
+    expect(capabilities.version).toBe('7.10.2')
+    expect(capabilities.elasticsearch).toBe(false)
+    expect(capabilities.supported).toBe(true)
+    expect(capabilities.indices).toMatchObject({ reindex: true, deleteByQuery: true, expandWildcardsAll: false })
+    expect(capabilities.tools).toMatchObject({ maxHeadroom: false, votingExclusions: true, dataStreams: true })
+  })
+
+  it('uses the latest elasticsearch api for unsupported distributions', () => {
+    const capabilities = buildCapabilities({ version: '3.1', distribution: 'unknown', flavor: BuildFlavor.default })
+    expect(capabilities.version).toBe('9.0.0')
+    expect(capabilities.elasticsearch).toBe(true)
+    expect(capabilities.supported).toBe(false)
+    expect(capabilities.indices).toMatchObject({ clone: true, mappingTypes: false })
   })
 
   it('disables everything without a cluster', () => {

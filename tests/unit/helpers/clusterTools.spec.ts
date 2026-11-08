@@ -211,11 +211,12 @@ describe('helpers/clusterTools.ts', () => {
         retryFailed: true,
         votingExclusions: true
       })
-      expect(clusterToolsCapabilities('2.12.0', true)).toMatchObject({
+      expect(clusterToolsCapabilities('7.10.2')).toMatchObject({
         allocationExplain: true,
         retryFailed: true,
         dataStreams: true,
-        votingExclusions: true
+        votingExclusions: true,
+        maxHeadroom: false
       })
     })
 

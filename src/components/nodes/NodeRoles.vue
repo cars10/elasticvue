@@ -1,7 +1,7 @@
 <template>
   <div class="row q-gutter-xs no-wrap" :title="nodeRoleTitle(roles)">
     <q-badge
-      v-for="{ role, label } in nodeRoleLabels(roles, version)"
+      v-for="{ role, label } in nodeRoleLabels(roles, version, connectionStore.activeCluster?.distribution)"
       :key="role"
       :outline="!isElectedMaster(role)"
       :color="isElectedMaster(role) ? 'primary-dark' : 'primary'"
@@ -12,6 +12,7 @@
 
 <script setup lang="ts">
 import { nodeRoleLabels, nodeRoleTitle } from '../../helpers/nodes.ts'
+import { useConnectionStore } from '../../store/connection.ts'
 
 const props = defineProps<{
   roles: string
@@ -19,6 +20,8 @@ const props = defineProps<{
   /** Elected master; its master badge is filled, master-eligible nodes stay outlined. */
   master: boolean
 }>()
+
+const connectionStore = useConnectionStore()
 
 const isElectedMaster = (role: string) => props.master && role === 'm'
 </script>

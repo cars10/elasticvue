@@ -57,10 +57,7 @@
             <q-chip v-if="row.flavor === BuildFlavor.serverless" class="q-mx-sm" color="purple-7" text-color="white" dense>
               serverless
             </q-chip>
-            <unsupported-version
-              v-if="row.majorVersion && row.distribution === DISTRIBUTIONS.elasticsearch"
-              :major-version="row.majorVersion"
-            />
+            <unsupported-version :distribution="row.distribution" :version="row.version" />
           </div>
         </td>
         <td class="small-wrap">
@@ -97,7 +94,7 @@ import CopyButton from '../shared/CopyButton.vue'
 import EditCluster from './EditCluster.vue'
 import FilterInput from '../shared/FilterInput.vue'
 import NewCluster from './NewCluster.vue'
-import { DEFAULT_ROWS_PER_PAGE, DISTRIBUTIONS } from '../../consts'
+import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
 import { useClusterTable } from '../../composables/components/clusterselection/ClusterTable'
 import { BuildFlavor, ElasticsearchCluster, useConnectionStore } from '../../store/connection'
 import { useTranslation } from '../../composables/i18n.ts'

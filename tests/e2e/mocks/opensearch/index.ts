@@ -4,9 +4,9 @@ import { mockElasticNodes } from './nodes'
 import { catIndices, catAliases } from '../default/indices'
 import { clusterDefaults } from '../default/cluster'
 
-export const mockOpensearch2 = async (page: Page, { health }: { health: string } = { health: 'green' }) => {
-  await mockElasticHome(page, { health })
-  await mockElasticNodes(page)
+export const mockOpensearch = (version: string) => async (page: Page, { health }: { health: string } = { health: 'green' }) => {
+  await mockElasticHome(page, version, { health })
+  await mockElasticNodes(page, version)
 
   const defaultMocks = {
     ...clusterDefaults,

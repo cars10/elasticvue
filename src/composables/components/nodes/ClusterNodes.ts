@@ -1,3 +1,4 @@
+import { useConnectionStore } from '../../../store/connection.ts'
 import { computed, onMounted, ref, shallowRef } from 'vue'
 import { useElasticsearchAdapter } from '../../CallElasticsearch'
 import { flattenObj } from '../../../helpers/flatten.ts'
@@ -32,8 +33,9 @@ export const useClusterNodes = () => {
   const cpuHistory = shallowRef<number[]>([])
   const heapHistory = shallowRef<number[]>([])
 
-  const nodes = computed(() => buildNodeRows(catNodes.value, details.value, attributes.value))
-  const summary = computed(() => summarizeNodes(nodes.value, diskWatermarks.value))
+  const distribution = computed(() => useConnectionStore().activeCluster?.distribution)
+  const nodes = computed(() => buildNodeRows(catNodes.value, details.value, attributes.value, distribution.value))
+  const summary = computed(() => summarizeNodes(nodes.value, diskWatermarks.value, distribution.value))
 
   const loadCatNodes = async () => {
     try {

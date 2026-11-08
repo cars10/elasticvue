@@ -90,7 +90,9 @@
         "remove_cluster": {
           "confirm": "確定要移除叢集 '{name}' ({uri})？"
         },
-        "unsupported": "Elasticsearch {majorVersion} 已終止支援 (EOL)，elasticvue 未完整支援。您可能會遇到程式錯誤和功能受限的問題。",
+        "unsupported": "elasticvue 不支援 {product} {majorVersion}。支援的版本：{supportedVersions}。您可能會遇到程式錯誤和功能受限的問題。",
+        "unsupported_distribution": "elasticvue 不支援 {product}。elasticvue 使用最新的 elasticsearch api，部分功能可能無法使用。",
+        "unknown_product": "此產品",
         "predefined": "此叢集由您的管理員設定，您無法直接變更。"
       }
     },

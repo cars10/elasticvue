@@ -42,7 +42,7 @@ export const parseLegacyTemplates = (body: EsLegacyTemplates | null): IndexTempl
   }))
 
 export const parseComposableTemplates = (body: EsComposableTemplates | null): IndexTemplate[] =>
-  (body?.index_templates || []).map(({ name, index_template: template }) => ({
+  (body?.index_templates || []).map(({ name, index_template: template = {} }) => ({
     name,
     type: 'composable',
     indexPatterns: toArray(template.index_patterns),
@@ -55,7 +55,7 @@ export const parseComposableTemplates = (body: EsComposableTemplates | null): In
   }))
 
 export const parseComponentTemplates = (body: EsComponentTemplates | null, composable: IndexTemplate[]): IndexTemplate[] =>
-  (body?.component_templates || []).map(({ name, component_template: template }) => ({
+  (body?.component_templates || []).map(({ name, component_template: template = {} }) => ({
     name,
     type: 'component',
     indexPatterns: [],

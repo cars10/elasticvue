@@ -8,7 +8,14 @@
             <div v-if="stats.cluster_name !== connectionStore.activeCluster?.name" class="text-muted ellipsis">
               {{ stats.cluster_name }}
             </div>
-            <div v-if="versionLabel" class="q-mt-sm">{{ versionLabel }}</div>
+            <div v-if="versionLabel" class="q-mt-sm flex items-center no-wrap">
+              {{ versionLabel }}
+              <unsupported-version
+                v-if="connectionStore.activeCluster"
+                :distribution="connectionStore.activeCluster.distribution"
+                :version="connectionStore.activeCluster.version"
+              />
+            </div>
             <div v-if="stats.cluster_uuid" class="text-muted font-13 font-mono q-mt-xs ellipsis">
               {{ stats.cluster_uuid }}
             </div>
@@ -61,6 +68,7 @@ import { computed } from 'vue'
 import { prettyPrintByteString } from '../../helpers/bytes'
 import { useTranslation } from '../../composables/i18n.ts'
 import HealthBadge from '../shared/HealthBadge.vue'
+import UnsupportedVersion from '../clusterselection/UnsupportedVersion.vue'
 import { useConnectionStore } from '../../store/connection.ts'
 import type { ClusterHealth, ClusterStats } from '../../types/homeDashboard.ts'
 

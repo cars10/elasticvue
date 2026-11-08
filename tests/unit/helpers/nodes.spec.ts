@@ -214,6 +214,22 @@ describe('legacy roles (ES < 5)', () => {
     expect(nodeRoleLabels('c', '8.15.0').map((r) => r.label)).toEqual(['cold'])
   })
 
+  it('does not use legacy roles for opensearch 1 and 2', () => {
+    const rows = buildNodeRows([catNode({ version: '1.3.20', 'node.role': 'dimr', master: '*' })], {}, {}, 'opensearch')
+    expect(rows[0].roles).toBe('dimr')
+    expect(nodeRoleLabels('dimr', '1.3.20', 'opensearch').map((r) => r.label)).toEqual(['master', 'data', 'ingest'])
+  })
+
+  it('labels opensearch search and warm roles', () => {
+    expect(nodeRoleLabels('s', '3.9.0', 'opensearch').map((r) => r.label)).toEqual(['search'])
+    const summary = summarizeNodes(
+      buildNodeRows([catNode({ version: '3.9.0', 'node.role': 's' }), catNode({ version: '3.9.0', 'node.role': 'w' })], {}, {}, 'opensearch'),
+      DEFAULT_DISK_WATERMARKS,
+      'opensearch'
+    )
+    expect(summary.roles.data).toBe(1)
+  })
+
   it('reads master eligibility from the master column', () => {
     const [row] = rowsOf({ version: '1.7.6', 'node.role': 'd', master: 'm' })
     expect(row.roles).toBe('md')

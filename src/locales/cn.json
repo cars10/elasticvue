@@ -90,7 +90,9 @@
         "remove_cluster": {
           "confirm": "移除集群 '{name}' ({uri})?"
         },
-        "unsupported": "Elasticsearch {majorVersion} 版本已经终止生命周期, elasticvue不保证完全支持. 您在使用过程中可能会遭遇bug或者功能受限.",
+        "unsupported": "elasticvue 不支持 {product} {majorVersion}。支持的版本：{supportedVersions}。您可能会遇到 bug 或功能受限。",
+        "unsupported_distribution": "elasticvue 不支持 {product}。elasticvue 使用最新的 elasticsearch api，部分功能可能无法使用。",
+        "unknown_product": "该产品",
         "predefined": "此集群由您的管理员设置。您无法直接更改它。"
       }
     },

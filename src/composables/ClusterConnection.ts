@@ -2,8 +2,9 @@ import { Ref, ref, UnwrapRef, useTemplateRef } from 'vue'
 import ElasticsearchAdapter from '../services/ElasticsearchAdapter'
 import { useTranslation } from './i18n'
 import { useSnackbar } from './Snackbar'
-import { BuildFlavor, ElasticsearchClusterConnection, useConnectionStore } from '../store/connection'
-import { DISTRIBUTIONS } from '../consts.ts'
+import { ElasticsearchClusterConnection, useConnectionStore } from '../store/connection'
+import { fetchClusterStatus } from './components/home/ClusterHealth.ts'
+import { parseClusterInfo } from '../helpers/clusterInfo.ts'
 import { QForm } from 'quasar'
 import { describeFailure } from '../helpers/clusterFailure.ts'
 
@@ -76,28 +77,18 @@ export const useClusterConnection = (
     try {
       const infoJson = await adapter.test()
 
-      const flavor = infoJson.version.build_flavor || BuildFlavor.default
+      const info = parseClusterInfo(infoJson)
 
-      let status
-      if (flavor === BuildFlavor.serverless) {
-        status = 'green'
-      } else {
-        const clusterHealthBody = await adapter.clusterHealth()
-        status = clusterHealthBody.status
-      }
+      const { status } = await fetchClusterStatus(adapter, info)
 
       let uri = formCluster.value.uri.trim()
       if (uri.endsWith('/')) uri = uri.slice(0, -1)
       const id = connectionStore.addCluster({
         name: formCluster.value.name.trim(),
-        clusterName: infoJson.cluster_name,
-        version: infoJson.version.number,
-        majorVersion: infoJson.version.number[0],
-        distribution: infoJson.version.distribution || DISTRIBUTIONS.elasticsearch,
+        ...info,
         status,
         loading: false,
         uri,
-        flavor,
         auth: formCluster.value.auth
       })
 

@@ -90,7 +90,9 @@
         "remove_cluster": {
           "confirm": "Supprimer le cluster '{name}' ({uri}) ?"
         },
-        "unsupported": "Elasticsearch {majorVersion} est en fin de vie et n'est pas entièrement pris en charge par Elasticvue. Vous pouvez rencontrer des bugs et des fonctionnalités limitées.",
+        "unsupported": "{product} {majorVersion} n'est pas pris en charge par elasticvue. Versions prises en charge : {supportedVersions}. Vous pouvez rencontrer des bugs et des fonctionnalités limitées.",
+        "unsupported_distribution": "{product} n'est pas pris en charge par elasticvue. elasticvue utilise la dernière api elasticsearch, certaines fonctionnalités peuvent ne pas marcher.",
+        "unknown_product": "Ce produit",
         "predefined": "Ce cluster a été configuré par votre administrateur. Vous ne pouvez pas le modifier directement."
       }
     },

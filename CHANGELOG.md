@@ -20,6 +20,8 @@ Elasticvue 2 is a complete redesign of the interface, with a new dashboard, a ne
 * optionally save cluster passwords only for the current session, part of [#316](https://github.com/cars10/elasticvue/issues/316)
 * switch between clusters without reloading the page
 * linux desktop app is now also available as .rpm
+* official support for OpenSearch 1, 2 and 3 for all existing features, requested in [#364](https://github.com/cars10/elasticvue/issues/364)
+* connect to other elasticsearch compatible products, e.g. when they report the version as string or have no cluster name, they are marked as unsupported and use the latest elasticsearch api, based on [#362](https://github.com/cars10/elasticvue/pull/362), thanks @ronallee
 
 **Search**
 
@@ -53,6 +55,10 @@ Elasticvue 2 is a complete redesign of the interface, with a new dashboard, a ne
 * clearer connection errors that distinguish network, authentication, CORS and API errors
 * features that are not available on the connected cluster (elasticsearch, opensearch or serverless) are hidden instead of failing
 * fixes for serverless elasticsearch
+* opensearch: use the correct elasticsearch api level for all features, e.g. clone, reindex and delete by query are now available and mapping types are no longer used
+* opensearch: hide disk watermark headroom settings that opensearch does not support, show search and warm node roles
+* fix parsing of two digit major versions
+* fix index templates page when a component or index template only contains a template
 * replace json-bigint with lossless-json for handling large numbers
 * dependency updates
 

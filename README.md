@@ -32,6 +32,15 @@ Contents
 It supports every version of elasticsearch, even those that are EOL. Check
 the [FAQ](docs/faq.md) for more details.
 
+### Supported versions
+
+* **Elasticsearch** 7, 8 and 9 are fully supported. Older versions (1 to 6) work, but are EOL and only receive limited support.
+* **OpenSearch** 1, 2 and 3 are supported for all features that elasticvue also offers for elasticsearch. There are no
+  OpenSearch specific features, and features that only exist in elasticsearch or work too differently in OpenSearch
+  (e.g. users, roles and snapshot policies) are disabled.
+* **Other elasticsearch compatible products** are not supported. Elasticvue will try to connect and use the latest
+  elasticsearch api, but some features may not work.
+
 ### Features
 
 * Dashboard with cluster health and an overview of all your clusters

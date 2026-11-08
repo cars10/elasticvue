@@ -174,12 +174,12 @@ export const validateWatermarks = ({ low, high, flood }: WatermarkValues): Water
   return { valid: true, mode: 'bytes', error: '' }
 }
 
-export const clusterToolsCapabilities = (version?: string | null, modernFork = false) => {
+export const clusterToolsCapabilities = (version?: string | null) => {
   const major = Number.parseInt(version || '', 10)
   const minor = Number.parseInt((version || '').split('.')[1] || '', 10)
   const unknown = Number.isNaN(major)
   const atLeast = (requiredMajor: number, requiredMinor = 0) =>
-    modernFork || unknown || major > requiredMajor || (major === requiredMajor && minor >= requiredMinor)
+    unknown || major > requiredMajor || (major === requiredMajor && minor >= requiredMinor)
 
   return {
     allocationExplain: atLeast(5),

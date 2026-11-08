@@ -90,7 +90,9 @@
         "remove_cluster": {
           "confirm": "クラスター '{name}' ({uri}) を削除しますか？"
         },
-        "unsupported": "Elasticsearch {majorVersion} はサポート終了（EOL）であり、elasticvue で完全にはサポートされていません。バグや機能制限が発生する可能性があります。",
+        "unsupported": "{product} {majorVersion} は elasticvue でサポートされていません。サポート対象バージョン: {supportedVersions}。バグや機能制限が発生する可能性があります。",
+        "unsupported_distribution": "{product} は elasticvue でサポートされていません。elasticvue は最新の elasticsearch api を使用するため、一部の機能が動作しない可能性があります。",
+        "unknown_product": "この製品",
         "predefined": "このクラスターは管理者によって設定されました。直接変更することはできません。"
       }
     },

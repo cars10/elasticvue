@@ -27,8 +27,9 @@
             </div>
             <div class="flex items-center justify-center">
               <unsupported-version
-                v-if="connectionStore.activeCluster && connectionStore.activeCluster.distribution === DISTRIBUTIONS.elasticsearch"
-                :major-version="connectionStore.activeCluster.majorVersion"
+                v-if="connectionStore.activeCluster"
+                :distribution="connectionStore.activeCluster.distribution"
+                :version="connectionStore.activeCluster.version"
                 size="14px"
               />
             </div>
@@ -63,7 +64,6 @@ import { useTranslation } from '../../composables/i18n'
 import { checkHealth } from '../../composables/components/home/ClusterHealth.ts'
 import { useConnectionStore } from '../../store/connection'
 import UnsupportedVersion from './UnsupportedVersion.vue'
-import { DISTRIBUTIONS } from '../../consts.ts'
 
 defineProps<{ collapsed?: boolean }>()
 

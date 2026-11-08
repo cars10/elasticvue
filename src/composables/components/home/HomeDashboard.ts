@@ -2,7 +2,7 @@ import { computed, onMounted, ref, shallowRef } from 'vue'
 import { useElasticsearchAdapter } from '../../CallElasticsearch'
 import { useConnectionStore } from '../../../store/connection.ts'
 import { useTranslation } from '../../i18n.ts'
-import { DISTRIBUTIONS } from '../../../consts.ts'
+import { productName } from '../../../helpers/clusterInfo.ts'
 import {
   aggregateCounters,
   CLUSTER_STATS_PARAMS,
@@ -80,8 +80,7 @@ export const useHomeDashboard = () => {
     const version = versions?.length === 1 ? versions[0] : cluster?.version
     if (!version) return null
 
-    const product = cluster?.distribution === DISTRIBUTIONS.opensearch ? 'OpenSearch' : 'Elasticsearch'
-    return `${product} ${version}`
+    return `${productName(cluster?.distribution)} ${version}`.trim()
   })
 
   const maxCpu = computed(() => peakMetric(nodes.value, 'cpuPercent'))

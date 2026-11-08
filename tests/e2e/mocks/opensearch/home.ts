@@ -1,18 +1,19 @@
 import { Page } from '@playwright/test'
 
-export const mockElasticHome = async (page: Page, { health }: { health?: string }) => {
+export const mockElasticHome = async (page: Page, version: string, { health }: { health?: string }) => {
+  const major = version.split('.')[0]
   const status = health
 
   const mocks = {
     ping: {
       url: 'http://localhost:9200/',
       json: {
-        'name': 'os-2-node-1',
-        'cluster_name': 'os-2',
+        'name': `os-${major}-node-1`,
+        'cluster_name': `os-${major}`,
         'cluster_uuid': 'UvzUYrtkR92Hy4N-eq_u-A',
         'version': {
           'distribution': 'opensearch',
-          'number': '2.12.0',
+          'number': version,
           'build_type': 'tar',
           'build_hash': '2c355ce1a427e4a528778d4054436b5c4b756221',
           'build_date': '2024-02-20T02:18:49.874618333Z',
@@ -27,7 +28,7 @@ export const mockElasticHome = async (page: Page, { health }: { health?: string 
     clusterHealth: {
       url: 'http://localhost:9200/_cluster/health',
       json: {
-        'cluster_name': 'os-2',
+        'cluster_name': `os-${major}`,
         'status': status,
         'timed_out': false,
         'number_of_nodes': 2,
@@ -50,7 +51,7 @@ export const mockElasticHome = async (page: Page, { health }: { health?: string 
     clusterStats: {
       url: /localhost:9200\/_cluster\/stats\?/,
       json: {
-        'cluster_name': 'os-2',
+        'cluster_name': `os-${major}`,
         'cluster_uuid': 'UvzUYrtkR92Hy4N-eq_u-A',
         'status': status,
         'indices': {

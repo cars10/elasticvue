@@ -6,6 +6,7 @@ import { cleanIndexName } from '../helpers/cleanIndexName.ts'
 import { AuthType, ElasticsearchClusterConnection } from '../store/connection.ts'
 import { AwsClient } from 'aws4fetch'
 import { securityBasePath } from '../helpers/capabilities.ts'
+import { elasticsearchCompatibleVersion, isSupportedDistribution, parseClusterInfo } from '../helpers/clusterInfo.ts'
 import { parseJson } from '../helpers/json/parse.ts'
 import { EsApiError, EsNetworkError } from './errors.ts'
 
@@ -16,6 +17,8 @@ interface IndexGetArgs {
 export type ElasticsearchRequest<T = any> = (es: ElasticsearchAdapter) => Promise<T>
 
 const MAX_INDICES_PER_REQUEST = 16
+
+type AdapterCluster = ElasticsearchClusterConnection & { version?: string; distribution?: string }
 
 type TemplateParams = { name?: string; filter_path?: string }
 
@@ -29,9 +32,9 @@ export default class ElasticsearchAdapter {
   uri: string
   awsClient: AwsClient | null
   authHeader?: string
-  cluster: ElasticsearchClusterConnection & { version?: string }
+  cluster: AdapterCluster
 
-  constructor(cluster: ElasticsearchClusterConnection & { version?: string }) {
+  constructor(cluster: AdapterCluster) {
     const { uri, auth } = cluster
     this.cluster = cluster
     this.uri = addTrailingSlash(uri)
@@ -50,7 +53,7 @@ export default class ElasticsearchAdapter {
   }
 
   private securityPath(path: string) {
-    return `${securityBasePath(this.cluster.version)}/${path}`
+    return `${securityBasePath(elasticsearchCompatibleVersion(this.cluster))}/${path}`
   }
 
   private async inChunks(indices: string[], request: (indices: string) => Promise<unknown>) {
@@ -447,7 +450,12 @@ export default class ElasticsearchAdapter {
 
   async test() {
     const info = await this.ping()
-    await this.search({}, 'no_indices_match_this_pattern*', { allow_no_indices: 'true', ignore_unavailable: 'true', size: '0' })
+    try {
+      await this.search({}, 'no_indices_match_this_pattern*', { allow_no_indices: 'true', ignore_unavailable: 'true', size: '0' })
+    } catch (e) {
+      const apiError = e instanceof EsApiError && ![401, 403].includes(e.status)
+      if (!apiError || isSupportedDistribution(parseClusterInfo(info).distribution)) throw e
+    }
     return info
   }
 }

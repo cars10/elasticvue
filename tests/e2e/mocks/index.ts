@@ -4,7 +4,7 @@ import { mockElastic5 } from './elastic_5'
 import { mockElastic6 } from './elastic_6'
 import { mockElastic7 } from './elastic_7'
 import { mockElastic8 } from './elastic_8'
-import { mockOpensearch2 } from './opensearch_2'
+import { mockOpensearch } from './opensearch'
 
 const mocks = {
   1: {
@@ -55,12 +55,28 @@ const mocks = {
       node: 'es-8-node-1'
     }
   },
-  'opensearch-2': {
-    mockElastic: mockOpensearch2,
+  'opensearch-1': {
+    mockElastic: mockOpensearch('1.3.20'),
     elastic: {
-      version: '2.12.0',
+      version: '1.3.20',
+      uuid: 'UvzUYrtkR92Hy4N-eq_u-A',
+      node: 'os-1-node-1'
+    }
+  },
+  'opensearch-2': {
+    mockElastic: mockOpensearch('2.19.7'),
+    elastic: {
+      version: '2.19.7',
       uuid: 'UvzUYrtkR92Hy4N-eq_u-A',
       node: 'os-2-node-1'
+    }
+  },
+  'opensearch-3': {
+    mockElastic: mockOpensearch('3.9.0'),
+    elastic: {
+      version: '3.9.0',
+      uuid: 'UvzUYrtkR92Hy4N-eq_u-A',
+      node: 'os-3-node-1'
     }
   }
 }

@@ -1,6 +1,7 @@
 import { Page } from '@playwright/test'
 
-export const mockElasticNodes = async (page: Page) => {
+export const mockElasticNodes = async (page: Page, version: string) => {
+  const major = version.split('.')[0]
   const mocks = {
     catNodes: {
       url: /localhost:9200\/_cat\/nodes\?/,
@@ -8,7 +9,8 @@ export const mockElasticNodes = async (page: Page) => {
         {
           'ip': '172.29.0.3',
           'id': 'Bz4ySsbHRlC_EDCto_6lLw',
-          'name': 'os-2-node-2',
+          'name': `os-${major}-node-2`,
+          'version': version,
           'heap.percent': '51',
           'heap.current': '265.8mb',
           'heap.max': '512mb',
@@ -28,7 +30,8 @@ export const mockElasticNodes = async (page: Page) => {
         {
           'ip': '172.29.0.2',
           'id': 'Ou81YfO-TjSRtx2V6akoiA',
-          'name': 'os-2-node-1',
+          'name': `os-${major}-node-1`,
+          'version': version,
           'heap.percent': '24',
           'heap.current': '125.2mb',
           'heap.max': '512mb',

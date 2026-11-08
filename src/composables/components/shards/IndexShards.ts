@@ -1,3 +1,4 @@
+import { useConnectionStore } from '../../../store/connection.ts'
 import { computed, onMounted, shallowRef } from 'vue'
 import { useElasticsearchAdapter } from '../../CallElasticsearch'
 import {
@@ -37,7 +38,7 @@ export const useIndexShards = () => {
 
   const dataNodeNames = computed(() =>
     nodes.value
-      .filter((node) => node.name && isDataNode(node['node.role'] || '', node.version))
+      .filter((node) => node.name && isDataNode(node['node.role'] || '', node.version, useConnectionStore().activeCluster?.distribution))
       .map((node) => node.name as string)
   )
 

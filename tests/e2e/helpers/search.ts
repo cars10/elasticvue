@@ -4,13 +4,13 @@ import { mockElastic2 } from '../mocks/elastic_2'
 import { mockElastic6 } from '../mocks/elastic_6'
 import { mockElastic7 } from '../mocks/elastic_7'
 import { mockElastic8 } from '../mocks/elastic_8'
-import { mockOpensearch2 } from '../mocks/opensearch_2'
+import { mockOpensearch } from '../mocks/opensearch'
 import { mockSearchCluster, RecordedRequest } from '../mocks/search'
 
 export const CLUSTER_UUID = 'ecdKaffmR9WkFbKDW4PUWw'
 export const CLUSTER_ID = 'default-cluster'
 
-const CLUSTER_MOCKS = { 2: mockElastic2, 6: mockElastic6, 7: mockElastic7, 8: mockElastic8, opensearch: mockOpensearch2 }
+const CLUSTER_MOCKS = { 2: mockElastic2, 6: mockElastic6, 7: mockElastic7, 8: mockElastic8, opensearch: mockOpensearch('2.19.7') }
 
 export const setupSearch = async (page: Page, { version = 8 }: { version?: keyof typeof CLUSTER_MOCKS } = {}) => {
   await CLUSTER_MOCKS[version](page)
