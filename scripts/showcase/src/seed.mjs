@@ -96,6 +96,20 @@ const seedCluster = async (cluster, { shards, replicas, movies, orders, products
   console.log(`  seeded ${cluster} with ${count} documents`)
 }
 
+const YEAR = 365 * 24 * 60 * 60 * 1000
+
+const seedProblems = async () => {
+  const uri = CLUSTERS.production.nodes[0]
+  const rand = random(2024)
+  console.log('  adding over-replicated and write-blocked indices to production')
+  await createIndex(uri, 'archive-2024', MAPPINGS.orders, 2, 3)
+  await bulk(uri, () => 'archive-2024', orderDocs(rand, 2500, Date.now() - YEAR))
+  await createIndex(uri, 'orders-2025', MAPPINGS.orders, 1, 1)
+  await bulk(uri, () => 'orders-2025', orderDocs(rand, 3500, Date.now() - YEAR / 2))
+  await es(uri, 'archive-2024,orders-2025/_refresh', { method: 'POST' })
+  await es(uri, 'orders-2025/_settings', { method: 'PUT', body: { 'index.blocks.write': true } })
+}
+
 export const seed = async () => {
   console.log('> seeding data')
   await Promise.all([
@@ -106,6 +120,5 @@ export const seed = async () => {
   console.log('> waiting for production shards to be assigned')
   await waitForGreen('production')
 
-  const { cluster_uuid } = await es(CLUSTERS.production.nodes[0], '')
-  return { productionUuid: cluster_uuid }
+  await seedProblems()
 }

@@ -2,6 +2,7 @@ import { recordVideo } from './browser.mjs'
 import { startLoad } from './load.mjs'
 import { takeScreenshots, SCREENSHOTS } from './screenshots.mjs'
 import { seed } from './seed.mjs'
+import { ensureTasks } from './tasks.mjs'
 import { VIDEOS } from './videos.mjs'
 
 const args = process.argv.slice(2)
@@ -17,20 +18,22 @@ const screenshotSets = Object.keys(SCREENSHOTS).filter(wanted).flatMap((name) =>
 const videos = Object.keys(VIDEOS).filter((name) => wanted('videos') || args.includes(name))
 
 console.log(`> targets: ${[...Object.keys(SCREENSHOTS).filter(wanted), ...videos].join(', ')}`)
-const { productionUuid } = await seed()
+await seed()
+console.log('> starting background tasks')
+await ensureTasks()
 console.log('> starting background searches and indexing')
 const stopLoad = startLoad()
 const failures = []
 
 if (screenshotSets.length) {
   console.log('> screenshots')
-  await takeScreenshots(screenshotSets, productionUuid).catch((error) => failures.push(['screenshots', error]))
+  await takeScreenshots(screenshotSets).catch((error) => failures.push(['screenshots', error]))
 }
 
 for (const name of videos) {
   console.log(`> video ${name}`)
   const started = Date.now()
-  await recordVideo(name, { uuid: productionUuid, ...VIDEOS[name] })
+  await recordVideo(name, VIDEOS[name])
     .then(() => console.log(`  videos/${name}.mp4 done in ${Math.round((Date.now() - started) / 1000)}s`))
     .catch((error) => failures.push([name, error]))
 }

@@ -147,6 +147,29 @@ describe('parseTasks', () => {
     expect(orphan?.parentId).toBe('node1:404')
   })
 
+  it('sums the progress of running slices when the parent has no progress yet', () => {
+    const slice = (total: number, created: number) => ({
+      action: 'indices:data/write/reindex',
+      parent_task_id: 'node1:1',
+      status: { total, created }
+    })
+    const [reindex] = parseTasks({
+      nodes: {
+        node1: {
+          tasks: {
+            'node1:1': { action: 'indices:data/write/reindex', status: { total: 0, created: 0 } },
+            'node1:2': slice(2000, 500),
+            'node1:3': slice(2000, 300),
+            'node1:4': { action: 'indices:data/write/bulk', parent_task_id: 'node1:1', status: { total: 9000, created: 9000 } }
+          }
+        }
+      }
+    })
+
+    expect(reindex).toMatchObject({ id: 'node1:1', progress: 20, progressDone: 800, progressTotal: 4000 })
+    expect(reindex.children).toHaveLength(3)
+  })
+
   it('handles missing and empty responses', () => {
     expect(parseTasks(null)).toEqual([])
     expect(parseTasks({})).toEqual([])

@@ -132,3 +132,17 @@ export const orderDocs = (rand, count, now = Date.now()) => {
     created_at: new Date(now - rand() * 90 * DAY).toISOString()
   }))
 }
+
+export const sessionDocs = (rand, count, now = Date.now()) => {
+  const { pick, int } = helpers(rand)
+  return Array.from({ length: count }, () => {
+    const created = now - int(2, 30) * DAY - rand() * DAY
+    return {
+      user_id: `user-${int(1000, 9999)}`,
+      device: pick(['desktop', 'mobile', 'tablet']),
+      country: pick(['DE', 'FR', 'NL', 'SE', 'US', 'GB', 'PL']),
+      created_at: new Date(created).toISOString(),
+      expires_at: new Date(created + DAY).toISOString()
+    }
+  })
+}

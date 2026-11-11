@@ -1,4 +1,5 @@
 import { exact, open, settle, t, waitWithProgress } from './browser.mjs'
+import { ensureTasks } from './tasks.mjs'
 
 export const indexRow = (page, name) => page.getByTestId('indices-table').getByRole('row').filter({ has: exact(page, name) })
 export const elasticsearchResponse = (page) => page.waitForResponse((response) => response.url().startsWith('http://es-'))
@@ -12,14 +13,163 @@ const dashboard = {
   },
   act: async (page, user) => {
     await user.pause(1500)
-    await user.hover([page.getByTestId('cluster-capacity'), page.getByTestId('cluster-workload')], 1500)
+    await user.hover([page.getByTestId('cluster-status'), page.getByTestId('cluster-capacity')], 1200)
     const charts = page.getByTestId('cluster-workload').locator('canvas, svg')
-    for (let i = 0; i < Math.min(await charts.count(), 3); i++) await user.hover([charts.nth(i)], 1500)
-    await user.move(page.getByTestId('cluster-attention'))
-    await user.scroll(700)
+    for (let i = 0; i < Math.min(await charts.count(), 3); i++) await user.hover([charts.nth(i)], 1200)
+    await user.hover([page.getByTestId('cluster-tasks')], 1500)
+
+    const attention = page.getByTestId('cluster-attention')
+    const toggle = attention.getByRole('button').first()
+    if ((await toggle.getAttribute('aria-expanded')) !== 'true') await user.click(toggle)
+    await user.pause(1200)
+    await user.scroll(350)
+    await user.hover([attention.locator('.q-card__section').nth(1)], 2500)
+    await user.scroll(500)
     await user.hover([page.getByTestId('cluster-node-load'), page.getByTestId('cluster-indices')], 1500)
-    await user.scroll(-700)
+    await user.scroll(-850)
+    await user.pause(2000)
+  }
+}
+
+const clusters = {
+  prepare: async (page) => {
+    await open(page, 'clusters')
+    await page.getByTestId('cluster-card').nth(2).waitFor()
+    await settle(page, 1500)
+  },
+  act: async (page, user) => {
+    const cards = page.getByTestId('cluster-card')
+    await user.pause(1500)
+    for (let i = 0; i < 3; i++) await user.hover([cards.nth(i)], 1300)
+    await user.click(cards.filter({ hasText: 'logging' }))
+    await page.getByTestId('cluster-workload').waitFor()
+    await settle(page, 2500)
+    await user.hover([page.getByTestId('cluster-capacity')], 1500)
+    await user.click(page.getByTestId('cluster-selection'))
+    const table = page.getByTestId('cluster-table')
+    await table.waitFor()
+    await user.pause(1500)
+    await user.click(table.locator('tr.clickable').filter({ hasText: 'production' }))
+    await page.getByTestId('cluster-workload').waitFor()
+    await settle(page, 3000)
+  }
+}
+
+const taskRow = (page, action) => page.getByTestId('task-row').filter({ hasText: action })
+
+const tasks = {
+  prepare: async (page) => {
+    await ensureTasks()
+    await open(page, 'tasks')
+    await taskRow(page, 'indices:data/write/reindex').waitFor()
+    await settle(page)
+  },
+  act: async (page, user) => {
+    await user.pause(1500)
+    for (const id of ['running', 'longest', 'background', 'searches']) await user.hover([page.getByTestId(`tasks-pulse-${id}`)], 1000)
+
+    await user.click(page.getByTestId('tasks-categories'))
+    await user.pause(600)
+    for (const category of ['search', 'write']) {
+      await user.click(page.getByRole('option', { name: t(`tasks.categories.${category}`), exact: true }))
+      await user.pause(400)
+    }
+    await page.keyboard.press('Escape')
+    await settle(page, 1200)
+
+    const reindex = taskRow(page, 'indices:data/write/reindex')
+    await user.hover([reindex.locator('.progress-cell'), taskRow(page, 'update/byquery').locator('.progress-cell')], 1500)
+    await user.click(reindex.locator('td').nth(1))
     await user.pause(3000)
+    await user.click(reindex.locator('td').nth(1))
+    await user.pause(800)
+
+    const deleteByQuery = taskRow(page, 'delete/byquery')
+    await user.hover([deleteByQuery], 1000)
+    await user.click(deleteByQuery.getByTestId('cancel-task'))
+    await deleteByQuery
+      .getByText(t('tasks.task.cancelled'), { exact: true })
+      .waitFor({ timeout: 5000 })
+      .catch(() => {})
+    await user.pause(3000)
+  }
+}
+
+const shards = {
+  prepare: async (page) => {
+    await open(page, 'shards')
+    await page.getByTestId('problem-shards').waitFor()
+    await settle(page)
+  },
+  act: async (page, user) => {
+    await user.pause(1500)
+    await user.hover([page.getByTestId('shards-pulse-unassigned'), page.getByTestId('shards-pulse-balance')], 1200)
+    await user.hover([page.getByTestId('problem-shards').locator('tbody tr').first()], 1500)
+    await user.move(page.getByTestId('shards-table'))
+    await user.pause(1500)
+    await user.click(page.getByTestId('shards-rows'))
+    await settle(page, 2500)
+    await user.click(page.getByTestId('shards-rows'))
+    await settle(page, 1200)
+
+    await user.click(page.getByRole('link', { name: t('shards.problems.explain') }))
+    const panel = page.getByTestId('tool-panel-explain')
+    await panel.waitFor()
+    await user.pause(1200)
+    await user.click(panel.getByRole('button', { name: t('tools.explain.run'), exact: true }))
+    await panel.getByText(t('tools.explain.raw')).waitFor()
+    await user.pause(1500)
+    await user.hover([panel.locator('.q-list .q-item').first(), panel.locator('.q-list .q-item').nth(1)], 1500)
+    await user.pause(1500)
+  }
+}
+
+const pickOption = async (page, user, field, name) => {
+  await user.click(field)
+  await user.pause(500)
+  await user.click(page.getByRole('option').filter({ hasText: name }).first())
+}
+
+const tools = {
+  prepare: async (page) => {
+    await open(page, 'tools')
+    await page.getByTestId('tool-explain').waitFor()
+    await settle(page)
+  },
+  act: async (page, user) => {
+    await user.pause(1500)
+    await user.hover([page.getByTestId('tool-explain'), page.getByTestId('tool-blocks'), page.getByTestId('tool-drain')], 900)
+
+    await user.click(page.getByTestId('tool-replicas'))
+    const replicas = page.getByTestId('tool-panel-replicas')
+    await replicas.waitFor()
+    await user.pause(800)
+    await pickOption(page, user, replicas.getByLabel(t('tools.indices'), { exact: true }), 'archive-2024')
+    await user.click(replicas.locator('.text-h6'))
+    const count = replicas.getByLabel(t('tools.replicas.count'), { exact: true })
+    await user.click(count)
+    await page.keyboard.press('ControlOrMeta+a')
+    await count.pressSequentially('1', { delay: 120 })
+    await user.pause(600)
+    await user.click(replicas.getByRole('button', { name: t('tools.apply'), exact: true }))
+    await settle(page, 2000)
+    await page.keyboard.press('Escape')
+    await settle(page, 2500)
+
+    await user.click(page.getByTestId('tool-drain'))
+    const drain = page.getByTestId('tool-panel-drain')
+    await drain.waitFor()
+    await user.pause(800)
+    await pickOption(page, user, drain.getByLabel(t('tools.drain.node'), { exact: true }), 'production-3')
+    await user.pause(1000)
+    await user.click(drain.getByRole('button', { name: t('tools.drain.start'), exact: true }))
+    await user.move(drain.locator('.q-linear-progress'))
+    await drain.getByText(t('tools.drain.done')).waitFor({ timeout: 40000 }).catch(() => {})
+    await user.pause(2500)
+    await user.click(drain.getByRole('button', { name: t('tools.drain.stop'), exact: true }))
+    await settle(page, 1500)
+    await page.keyboard.press('Escape')
+    await user.pause(2000)
   }
 }
 
@@ -196,4 +346,4 @@ const rest = {
   }
 }
 
-export const VIDEOS = { dashboard, indices, search, rest }
+export const VIDEOS = { dashboard, clusters, tasks, shards, search, rest, indices, tools }

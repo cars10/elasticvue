@@ -1,7 +1,7 @@
 import { spawn } from 'node:child_process'
 import { mkdirSync, readFileSync, rmSync } from 'node:fs'
 import { chromium } from 'playwright'
-import { sleep } from './elasticsearch.mjs'
+import { CLUSTERS, sleep } from './elasticsearch.mjs'
 
 export const APP_URL = 'http://elasticvue:8080'
 export const OUTPUT = '/app/output'
@@ -18,7 +18,7 @@ export const t = (key) => {
 
 export const exact = (page, text) => page.getByText(text, { exact: true })
 
-export const open = (page, route, cluster = 0) => page.goto(`${APP_URL}/cluster/${cluster}/${route}`)
+export const open = (page, route, cluster = 'production') => page.goto(`${APP_URL}/cluster/${cluster}/${route}`)
 
 export const settle = async (page, ms = 800) => {
   await page
@@ -44,12 +44,40 @@ const hideBetaBanner = () => {
   else add()
 }
 
-export const setupContext = async (context, uuid) => {
+const ES_VERSION = process.env.ES_VERSION || '9.5.3'
+
+const CONNECTION = {
+  clusters: Object.entries(CLUSTERS).map(([name, { nodes }]) => ({
+    id: name,
+    name,
+    uri: nodes[0],
+    clusterName: name,
+    version: ES_VERSION,
+    majorVersion: ES_VERSION.split('.')[0],
+    distribution: 'elasticsearch',
+    status: '',
+    loading: false,
+    predefined: true,
+    flavor: 'default',
+    auth: { authType: 'none', authData: {} }
+  })),
+  activeClusterId: 'production'
+}
+
+const STORES = {
+  clusters: { reloadInterval: 5 },
+  ...Object.fromEntries(Object.keys(CLUSTERS).flatMap((id) => [[`home-${id}`, { reloadInterval: 5 }], [`tasks-${id}`, { reloadInterval: 5 }]]))
+}
+
+const presetStorage = ({ connection, stores }) => {
+  if (localStorage.getItem('connection')) return
+  localStorage.setItem('connection', JSON.stringify(connection))
+  for (const [key, value] of Object.entries(stores)) localStorage.setItem(key, JSON.stringify(value))
+}
+
+export const setupContext = async (context) => {
   await context.addInitScript(hideBetaBanner)
-  await context.addInitScript((keys) => keys.forEach((key) => localStorage.setItem(key, JSON.stringify({ reloadInterval: 5 }))), [
-    'home-',
-    `home-${uuid}`
-  ])
+  await context.addInitScript(presetStorage, { connection: CONNECTION, stores: STORES })
 }
 
 const fakeCursor = () => {
@@ -149,7 +177,7 @@ const startRecording = async (file) => {
   }
 }
 
-export const recordVideo = async (name, { uuid, prepare, act }) => {
+export const recordVideo = async (name, { prepare, act }) => {
   mkdirSync(`${OUTPUT}/videos`, { recursive: true })
   rmSync(`${OUTPUT}/videos/${name}-error.png`, { force: true })
   const browser = await chromium.launch({
@@ -159,8 +187,9 @@ export const recordVideo = async (name, { uuid, prepare, act }) => {
   })
   const context = await browser.newContext({ viewport: null, colorScheme: 'dark' })
   await context.addInitScript(fakeCursor)
-  await setupContext(context, uuid)
+  await setupContext(context)
   const page = await context.newPage()
+  page.on('dialog', (dialog) => dialog.accept())
 
   try {
     const cdp = await context.newCDPSession(page)

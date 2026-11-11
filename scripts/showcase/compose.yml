@@ -80,6 +80,7 @@ services:
     environment:
       HOME: /tmp
       DASHBOARD_WARMUP: ${DASHBOARD_WARMUP:-60}
+      ES_VERSION: ${ES_VERSION:-9.5.3}
     volumes:
       - ./src:/app/src:ro
       - ./output:/app/output

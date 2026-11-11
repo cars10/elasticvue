@@ -31,8 +31,8 @@ const PAGES = {
   },
   document: async (page) => {
     await PAGES.search(page)
-    await page.getByTestId('search-result').first().locator('td').nth(3).dblclick()
-    await page.getByRole('dialog').waitFor()
+    await page.getByTestId('search-result').first().locator('td').nth(3).click()
+    await page.getByTestId('search-document-panel').waitFor()
   },
   rest: async (page) => {
     await open(page, 'rest')
@@ -73,10 +73,10 @@ export const SCREENSHOTS = {
   ]
 }
 
-const takeSet = async (browser, uuid, { dir, viewport, shots }) => {
+const takeSet = async (browser, { dir, viewport, shots }) => {
   mkdirSync(`${OUTPUT}/${dir}`, { recursive: true })
   const context = await browser.newContext({ viewport, deviceScaleFactor: 1 })
-  await setupContext(context, uuid)
+  await setupContext(context)
   const page = await context.newPage()
   for (const { name, theme, file } of shots) {
     await page.emulateMedia({ colorScheme: theme })
@@ -90,10 +90,10 @@ const takeSet = async (browser, uuid, { dir, viewport, shots }) => {
   await context.close()
 }
 
-export const takeScreenshots = async (sets, uuid) => {
+export const takeScreenshots = async (sets) => {
   const browser = await chromium.launch()
   try {
-    await Promise.all(sets.map((set) => takeSet(browser, uuid, set)))
+    await Promise.all(sets.map((set) => takeSet(browser, set)))
   } finally {
     await browser.close()
   }

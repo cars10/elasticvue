@@ -97,6 +97,17 @@ const taskProgress = (task: RawTask) => {
   return { progress: Math.min(100, (done / total) * 100), progressDone: Math.min(done, total), progressTotal: total }
 }
 
+const withSliceProgress = (task: ClusterTask): ClusterTask => {
+  if (task.progressTotal != null) return task
+
+  const slices = task.children.filter((child) => child.category === task.category && child.progressTotal)
+  const total = slices.reduce((sum, child) => sum + (child.progressTotal || 0), 0)
+  if (!total) return task
+
+  const done = slices.reduce((sum, child) => sum + (child.progressDone || 0), 0)
+  return { ...task, progress: Math.min(100, (done / total) * 100), progressDone: Math.min(done, total), progressTotal: total }
+}
+
 const sortByRunningTime = (a: ClusterTask, b: ClusterTask) => (b.runningMs || 0) - (a.runningMs || 0)
 
 export const parseTasks = (body: TasksBody): ClusterTask[] => {
@@ -137,7 +148,7 @@ export const parseTasks = (body: TasksBody): ClusterTask[] => {
   }
 
   all.forEach((task) => task.children.sort(sortByRunningTime))
-  return topLevel.sort(sortByRunningTime)
+  return topLevel.map(withSliceProgress).sort(sortByRunningTime)
 }
 
 export const visibleTasks = (tasks: ClusterTask[], { hiddenTypes, hiddenCategories }: TaskVisibility) =>
