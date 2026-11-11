@@ -3,7 +3,7 @@ import type { SearchFilter } from '../../types/search.ts'
 export const filterLabel = ({ field, op, value, to, negate }: SearchFilter) => {
   const not = negate ? 'NOT ' : ''
   if (op === 'exists') return `${not}${field} exists`
-  if (op === 'between') return `${not}${field}: ${value || '…'} – ${to || '…'}`
+  if (op === 'between') return `${not}${field}: ${value || '…'} - ${to || '…'}`
   return `${not}${field}: ${value ?? ''}`
 }
 

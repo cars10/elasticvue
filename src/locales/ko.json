@@ -398,7 +398,8 @@
         "critical": "심각",
         "warning": "경고",
         "info": "알림",
-        "ok": "정상"
+        "ok": "정상",
+        "unknown": "데이터 수집 중"
       },
       "actions": {
         "view_shards": "샤드 보기",
@@ -539,7 +540,8 @@
           "summary_partial": "일부 노드의 통계가 없습니다({expected}개 중 {observed}개 응답)",
           "detail": "사용자에게 monitor 권한이 없거나 nodes stats API를 사용할 수 없습니다."
         }
-      }
+      },
+      "checks_pending": "{passed}개 검사 통과, {pending}개 데이터 수집 중"
     }
   },
   "mixins": {
@@ -1251,7 +1253,9 @@
     "table_bottom": {
       "rows_per_page": {
         "confirm": "경고: 정말 실행하시겠습니까? 한 번에 {value}개 항목을 표시하면 문제나 프리징이 발생할 수 있습니다. 결과 제한을 위해 검색/필터 기능을 사용하세요."
-      }
+      },
+      "records_per_page": "페이지당 항목 수",
+      "range": "{total}개 중 {from}-{to}"
     },
     "code_editor": {
       "actions": {
@@ -1273,7 +1277,8 @@
     },
     "loader": {
       "copy_error": "오류 복사",
-      "network_error": "네트워크 오류, 클러스터에 접근할 수 없음"
+      "network_error": "네트워크 오류, 클러스터에 접근할 수 없음",
+      "error": "오류: {message}"
     },
     "reload_button": {
       "reload": "다시 불러오기"
@@ -1306,6 +1311,10 @@
       "help": "연결 문제 해결",
       "heading_cors": "{name}이(가) elasticvue의 요청을 차단합니다",
       "cors_hint": "클러스터에 연결할 수 있지만 CORS 설정이 이 페이지의 요청을 허용하지 않습니다."
+    },
+    "filter_state": {
+      "filter": "필터: '{filter}'",
+      "matches": "{total}개 중 {filtered}개 일치"
     }
   },
   "snapshots": {

@@ -1,3 +1,4 @@
+import type { SearchCapabilities } from '../helpers/capabilities.ts'
 export type SearchMode = 'query' | 'dsl' | 'sql' | 'esql'
 
 export type SearchFilterOp = 'is' | 'exists' | 'between'
@@ -35,7 +36,7 @@ export type SearchBodyOptions = {
   page: number
   size: number
   exactTotal?: boolean
-  majorVersion: number
+  capabilities: Pick<SearchCapabilities, 'boolFilter' | 'trackTotalHits'>
 }
 
 export type FieldInfo = {

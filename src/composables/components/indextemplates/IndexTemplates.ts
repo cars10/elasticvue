@@ -1,6 +1,7 @@
 import { computed, onMounted, ref, shallowRef } from 'vue'
 import { RequestState, useElasticsearchAdapter } from '../../CallElasticsearch.ts'
 import { useIndexTemplatesStore } from '../../../store/indexTemplates.ts'
+import { useClusterSession } from '../../../store/clusterSession.ts'
 import { isHiddenIndex } from '../../../helpers/indices.ts'
 import { DEFAULT_HIDE_INDICES_REGEX } from '../../../consts.ts'
 import {
@@ -21,6 +22,7 @@ const failed = (state: RequestState) => state.apiError || state.networkError
 
 export const useIndexTemplates = () => {
   const indexTemplatesStore = useIndexTemplatesStore()
+  const composableSupportedByVersion = useClusterSession().capabilities.indices.composableTemplates
   const legacy = useElasticsearchAdapter()
   const composable = useElasticsearchAdapter()
   const component = useElasticsearchAdapter()
@@ -44,8 +46,16 @@ export const useIndexTemplates = () => {
   const load = async () => {
     const [legacyResult, composableResult, componentResult] = await Promise.allSettled([
       legacy.callElasticsearch((es) => es.template(TEMPLATE_LIST_PARAMS.legacy)) as Promise<EsLegacyTemplates>,
-      composable.callElasticsearch((es) => es.indexTemplate(TEMPLATE_LIST_PARAMS.composable)) as Promise<EsComposableTemplates>,
-      component.callElasticsearch((es) => es.componentTemplate(TEMPLATE_LIST_PARAMS.component)) as Promise<EsComponentTemplates>
+      composableSupportedByVersion
+        ? (composable.callElasticsearch((es) =>
+            es.indexTemplate(TEMPLATE_LIST_PARAMS.composable)
+          ) as Promise<EsComposableTemplates>)
+        : Promise.reject(new Error('unsupported')),
+      composableSupportedByVersion
+        ? (component.callElasticsearch((es) =>
+            es.componentTemplate(TEMPLATE_LIST_PARAMS.component)
+          ) as Promise<EsComponentTemplates>)
+        : Promise.reject(new Error('unsupported'))
     ])
 
     const value = <T>(result: PromiseSettledResult<T>) => (result.status === 'fulfilled' ? result.value : null)

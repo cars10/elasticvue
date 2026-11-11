@@ -58,7 +58,7 @@ describe('documentValues', () => {
   })
 
   it('summarizes documents and truncates', () => {
-    expect(summarizeDocument({ a: 1, b: { c: 'x' } }, 100)).toBe('a: 1 · b.c: x')
+    expect(summarizeDocument({ a: 1, b: { c: 'x' } }, 100)).toBe('a: 1, b.c: x')
     expect(summarizeDocument({ a: 'x'.repeat(50) }, 10)).toBe('a: xxxxxxx…')
   })
 })
@@ -97,7 +97,7 @@ describe('columns', () => {
         sortField: 'title.keyword'
       }
     }
-    const options = columnOptions(catalog, ['title', 'runtime_field', '_ignored'], 6)
+    const options = columnOptions(catalog, ['title', 'runtime_field', '_ignored'], true)
 
     expect(options.map((o) => [o.name, o.group])).toEqual([
       ['_index', 'meta'],

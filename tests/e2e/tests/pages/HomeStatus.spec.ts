@@ -15,6 +15,31 @@ test.describe('HomeStatus', () => {
     await expect(page.getByTestId('cluster-indices')).toContainText('unhealthy-index')
   })
 
+  test('shows the error when cluster stats cannot be loaded', async ({ page }) => {
+    await mockElastic8(page)
+    await page.route('**/_cluster/stats**', (route) =>
+      route.fulfill({ status: 403, json: { error: { type: 'security_exception', reason: 'missing monitor privilege' } } })
+    )
+    await setupClusterConnection(page)
+
+    await expect(page.getByText('missing monitor privilege')).toBeVisible()
+    await expect(page.getByTestId('cluster-status')).toBeHidden()
+  })
+
+  test('marks sample based checks as collecting data and loads largest indices client side', async ({ page }) => {
+    await mockElastic8(page)
+    const indexRequests: string[] = []
+    page.on('request', (request) => {
+      if (request.url().includes('/_cat/indices')) indexRequests.push(request.url())
+    })
+    await setupClusterConnection(page)
+
+    const attention = page.getByTestId('cluster-attention')
+    await attention.click()
+    await expect(attention).toContainText('Collecting data')
+    expect(indexRequests.some((url) => new URL(url).searchParams.has('s'))).toBe(false)
+  })
+
   withElastic(({ mockElastic, elastic }) => {
     test(`shows the cluster overview on ${elastic.version}`, async ({ page }) => {
       await mockElastic(page)

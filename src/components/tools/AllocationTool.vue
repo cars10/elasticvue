@@ -2,8 +2,8 @@
   <tool-error :state="requests.settings.value" inspect="settings" />
   <template v-if="!requests.settings.value.apiError">
     <tool-current :value="labels.allocationMode(allocationMode)" :source="allocationSetting.source" />
-    <q-banner v-if="allocationMode !== 'all' && unassignedShards.length" rounded class="tool-banner tool-banner--warning q-mb-md">
-      {{ t('tools.allocation.blocking', { count: unassignedShards.length }, unassignedShards.length) }}
+    <q-banner v-if="allocationMode !== 'all' && unassignedCount" rounded class="tool-banner tool-banner--warning q-mb-md">
+      {{ t('tools.allocation.blocking', { count: unassignedCount }, unassignedCount) }}
     </q-banner>
     <q-option-group v-model="draft" :options="options" type="radio" color="primary" />
     <tool-setting-hint :settings="['cluster.routing.allocation.enable']" :text="t('tools.allocation.hint')" />
@@ -32,10 +32,10 @@ import ToolSettingHint from './ToolSettingHint.vue'
 
 const t = useTranslation()
 const labels = useToolLabels()
-const { requests, allocationMode, allocationSetting, unassignedShards, setAllocation, capabilities } = useInjectedClusterTools()
+const { requests, allocationMode, allocationSetting, unassignedCount, setAllocation, capabilities } = useInjectedClusterTools()
 
 const options = ['all', 'primaries', 'new_primaries', 'none'].map((value) => ({
-  label: `${labels.allocationMode(value)} — ${labels.allocationHint(value)}`,
+  label: `${labels.allocationMode(value)} - ${labels.allocationHint(value)}`,
   value
 }))
 const draft = ref('all')

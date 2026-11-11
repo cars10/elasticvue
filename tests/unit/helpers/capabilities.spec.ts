@@ -118,4 +118,83 @@ describe('securityBasePath', () => {
     expect(securityBasePath('6.6.0')).toBe('_security')
     expect(securityBasePath(undefined)).toBe('_security')
   })
+  it('gates cluster tools by version', () => {
+    expect(buildCapabilities(es('1.7.6')).tools).toEqual({
+      allocationExplain: false,
+      retryFailed: false,
+      settingsReset: false,
+      floodStage: false,
+      clusterReadOnlyAllowDelete: false,
+      votingExclusions: false,
+      dataStreams: false,
+      maxHeadroom: false
+    })
+    expect(buildCapabilities(es('5.6.16')).tools).toMatchObject({
+      allocationExplain: true,
+      retryFailed: true,
+      settingsReset: true,
+      floodStage: false,
+      votingExclusions: false
+    })
+    expect(buildCapabilities(es('6.8.2')).tools).toMatchObject({ floodStage: true, clusterReadOnlyAllowDelete: true })
+    expect(buildCapabilities(es('7.7.1')).tools).toMatchObject({ dataStreams: false, votingExclusions: false })
+    expect(buildCapabilities(es('7.8.0')).tools).toMatchObject({ dataStreams: false, votingExclusions: true })
+    expect(buildCapabilities(es('7.9.0')).tools).toMatchObject({ dataStreams: true, votingExclusions: true })
+    expect(buildCapabilities(es('8.4.3')).tools.maxHeadroom).toBe(false)
+    expect(buildCapabilities(es('8.5.0')).tools.maxHeadroom).toBe(true)
+  })
+
+  it('offers every cluster tool while the version is still unknown', () => {
+    expect(Object.values(buildCapabilities(es('')).tools).every(Boolean)).toBe(true)
+    expect(Object.values(buildCapabilities(null).tools).every(Boolean)).toBe(true)
+  })
+
+  it('gates search request features by version', () => {
+    expect(buildCapabilities(es('1.3.0')).search).toMatchObject({
+      boolFilter: false,
+      terminateAfter: false,
+      stringFieldType: true,
+      typeColumn: true,
+      sortableId: true,
+      trackTotalHits: false,
+      unmappedType: false,
+      fieldCaps: false
+    })
+    expect(buildCapabilities(es('1.7.6')).search.unmappedType).toBe(true)
+    expect(buildCapabilities(es('2.4.6')).search).toMatchObject({ boolFilter: true, terminateAfter: true, stringFieldType: true })
+    expect(buildCapabilities(es('5.6.16')).search).toMatchObject({ fieldCaps: true, stringFieldType: false, sortableId: false })
+    expect(buildCapabilities(es('6.8.2')).search).toMatchObject({ typeColumn: true, sortableId: true, trackTotalHits: false })
+    expect(buildCapabilities(es('7.1.1')).search).toMatchObject({ typeColumn: false, trackTotalHits: true, fixedInterval: false })
+    expect(buildCapabilities(es('7.2.0')).search).toMatchObject({ fixedInterval: true, fieldCapsUnmapped: true, resolveIndex: false })
+    expect(buildCapabilities(es('7.9.0')).search.resolveIndex).toBe(true)
+    expect(buildCapabilities(es('8.15.0')).search.sortableId).toBe(false)
+  })
+
+  it('picks the sql endpoint per version and distribution', () => {
+    expect(buildCapabilities(es('6.2.4')).search.sql).toBeNull()
+    expect(buildCapabilities(es('6.5.0')).search.sql).toEqual({ path: '_xpack/sql', format: 'json' })
+    expect(buildCapabilities(es('6.8.0')).search.sql).toEqual({
+      path: '_xpack/sql',
+      format: 'json',
+      params: { field_multi_value_leniency: true }
+    })
+    expect(buildCapabilities(es('7.17.0')).search.sql).toEqual({
+      path: '_sql',
+      format: 'json',
+      params: { field_multi_value_leniency: true }
+    })
+    expect(buildCapabilities(opensearch('2.11.0')).search.sql).toEqual({ path: '_plugins/_sql', format: 'jdbc' })
+  })
+
+  it('only offers ES|QL on elasticsearch 8.11+', () => {
+    expect(buildCapabilities(es('8.10.4')).search.esql).toBeNull()
+    expect(buildCapabilities(es('8.11.0')).search.esql).toEqual({ path: '_query', format: 'json' })
+    expect(buildCapabilities(es('9.0.0')).search.esql).toEqual({ path: '_query', format: 'json' })
+    expect(buildCapabilities(opensearch('2.11.0')).search.esql).toBeNull()
+  })
+  it('only requests composable and component templates from 7.8', () => {
+    expect(buildCapabilities(es('7.7.1')).indices.composableTemplates).toBe(false)
+    expect(buildCapabilities(es('7.8.0')).indices.composableTemplates).toBe(true)
+    expect(buildCapabilities(opensearch('1.3.20')).indices.composableTemplates).toBe(true)
+  })
 })

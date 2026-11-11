@@ -4,7 +4,7 @@ const fetchMethod = vi.fn()
 vi.mock('../../../src/helpers/fetch', () => ({ fetchMethod: (...args: unknown[]) => fetchMethod(...args) }))
 
 import ElasticsearchAdapter from '../../../src/services/ElasticsearchAdapter'
-import { EsApiError, EsNetworkError } from '../../../src/services/errors'
+import { EsAbortError, EsApiError, EsNetworkError } from '../../../src/services/errors'
 import { AuthType } from '../../../src/store/connection'
 
 const respond = (status: number, body: string, contentType = 'application/json') => ({
@@ -103,5 +103,24 @@ describe('ElasticsearchAdapter.request', () => {
 
     await expect(adapter().indexDelete({ indices })).rejects.toBeInstanceOf(EsApiError)
     expect(fetchMethod).toHaveBeenCalledTimes(1)
+  })
+
+  it('passes the abort signal to fetch only when one is given', async () => {
+    fetchMethod.mockResolvedValue(respond(200, '{}'))
+    const { signal } = new AbortController()
+
+    await adapter().clusterHealth({ signal })
+    await adapter().clusterHealth()
+
+    expect(fetchMethod.mock.calls[0][1].signal).toBe(signal)
+    expect('signal' in fetchMethod.mock.calls[1][1]).toBe(false)
+  })
+
+  it('throws EsAbortError for aborted requests and EsNetworkError for timeouts', async () => {
+    fetchMethod.mockRejectedValueOnce(Object.assign(new Error('aborted'), { name: 'AbortError' }))
+    expect(await adapter().ping().catch((e) => e)).toBeInstanceOf(EsAbortError)
+
+    fetchMethod.mockRejectedValueOnce(Object.assign(new Error('signal timed out'), { name: 'TimeoutError' }))
+    expect(await adapter().ping().catch((e) => e)).toBeInstanceOf(EsNetworkError)
   })
 })

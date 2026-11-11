@@ -132,11 +132,12 @@ export const useShardsTable = (props: ShardsTableProps, emit: any) => {
       : { name, count: nodeShardCounts.value[name] ?? 0, active: currentReroutingShard.value.node === name }
 
   const results = computed(() => props.shards.indexNames || [])
-  const filterStateProps = setupFilterState(results, pageIndices)
+  const { resultsCount, filteredResultsCount } = setupFilterState(results, pageIndices)
 
   return {
     shardsStore,
-    filterStateProps,
+    resultsCount,
+    filteredResultsCount,
     indicesStore,
     pagination,
     indicesAsRows,

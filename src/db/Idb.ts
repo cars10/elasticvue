@@ -1,6 +1,7 @@
 import { openDB } from 'idb'
 import { DbTable } from './indexeddb.ts'
 import { DbSchema } from './types.ts'
+import { clusterDbName } from '../helpers/clusterStorage.ts'
 
 const DB_VERSION = 3
 const TABLES: { name: keyof DbSchema; indexes: string[]; autoIncrement: boolean }[] = [
@@ -15,7 +16,7 @@ const TABLES: { name: keyof DbSchema; indexes: string[]; autoIncrement: boolean 
 const databases = new Map<string, DbSchema>()
 
 const openClusterDb = (clusterId: string): DbSchema => {
-  const connection = openDB(`elasticvue-${clusterId}`, DB_VERSION, {
+  const connection = openDB(clusterDbName(clusterId), DB_VERSION, {
     upgrade(db, _oldVersion, _newVersion, tx) {
       TABLES.forEach(({ name, indexes, autoIncrement }) => {
         if (!db.objectStoreNames.contains(name)) db.createObjectStore(name, { keyPath: 'id', autoIncrement })

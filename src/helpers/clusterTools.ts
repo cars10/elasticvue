@@ -1,12 +1,79 @@
+import { flattenObj } from './flatten.ts'
+import { hasOwn } from './search/documentValues.ts'
+import { toNumber } from './nodeStats.ts'
 import type {
   AllocationExplanation,
   AllocationSummary,
   EffectiveSetting,
   FlatClusterSettings,
   IndexToolState,
+  NodeAllocation,
+  ToolNode,
+  ToolNodeInfo,
   WatermarkValidation,
   WatermarkValues
 } from '../types/clusterTools.ts'
+
+export const TOOL_SETTINGS_PARAMS = {
+  include_defaults: 'true',
+  filter_path: [
+    'cluster.routing.allocation.enable',
+    'cluster.routing.allocation.exclude',
+    'cluster.routing.allocation.awareness',
+    'cluster.routing.allocation.disk',
+    'cluster.routing.rebalance.enable',
+    'cluster.blocks',
+    'indices.recovery.max_bytes_per_sec',
+    'action.auto_create_index',
+    'action.destructive_requires_name'
+  ]
+    .map((setting) => `*.${setting}`)
+    .join(',')
+}
+
+export const TOOL_INDEX_SETTINGS_PARAMS = {
+  filter_path: ['blocks', 'number_of_replicas', 'refresh_interval', 'hidden'].map((s) => `*.settings.index.${s}`).join(',')
+}
+
+export const TOOL_NODES_PARAMS = { filter_path: 'nodes.*.name,nodes.*.roles,nodes.*.attributes' }
+
+export const ALLOCATION_PARAMS = { format: 'json', bytes: 'b', h: ['node', 'shards', 'disk.avail', 'disk.percent'] }
+
+type NodesInfoBody = { nodes?: Record<string, { name?: string; roles?: string[]; attributes?: Record<string, string> }> } | null
+
+export const parseToolNodeInfos = (body: NodesInfoBody): ToolNodeInfo[] =>
+  Object.entries(body?.nodes || {}).map(([id, node]) => ({
+    id,
+    name: node?.name || id,
+    roles: node?.roles || [],
+    attributes: node?.attributes || {}
+  }))
+
+type CatAllocationRow = {
+  node?: string
+  shards?: string | number
+  'disk.avail'?: string | number
+  'disk.percent'?: string | number
+}
+
+export const parseNodeAllocations = (rows: CatAllocationRow[] | null): Record<string, NodeAllocation> =>
+  Object.fromEntries(
+    (Array.isArray(rows) ? rows : [])
+      .filter((row) => row.node && row.node !== 'UNASSIGNED')
+      .map((row) => [
+        row.node,
+        {
+          shardCount: toNumber(row.shards) ?? 0,
+          diskUsedPercent: toNumber(row['disk.percent']),
+          diskAvailableBytes: toNumber(row['disk.avail'])
+        }
+      ])
+  )
+
+const NO_ALLOCATION: NodeAllocation = { shardCount: 0, diskUsedPercent: null, diskAvailableBytes: null }
+
+export const mergeNodeAllocations = (nodes: ToolNodeInfo[], allocations: Record<string, NodeAllocation>): ToolNode[] =>
+  nodes.map((node) => ({ ...node, ...(hasOwn(allocations, node.name) ? allocations[node.name] : NO_ALLOCATION) }))
 
 const TRUE_VALUES = new Set([true, 'true'])
 const BYTE_UNITS: Record<string, number> = {
@@ -37,6 +104,20 @@ export const effectiveSetting = <T = string>(
     return { key, configuredValue: null, defaultValue, effectiveValue: defaultValue, source: 'default' }
   }
   return { key, configuredValue: null, defaultValue: null, effectiveValue: null, source: 'unavailable' }
+}
+
+type SettingValue = string | number | boolean | null
+
+export const clusterSettingsUpdate = (
+  values: Record<string, SettingValue>,
+  current: FlatClusterSettings | null,
+  canReset: boolean
+) => {
+  const keys = Object.keys(values)
+  if (canReset) return { persistent: values, transient: Object.fromEntries(keys.map((key) => [key, null])) }
+
+  const overridden = keys.filter((key) => values[key] !== null && current?.transient?.[key] != null)
+  return { persistent: values, transient: Object.fromEntries(overridden.map((key) => [key, values[key]])) }
 }
 
 export const settingMode = (setting: EffectiveSetting<string>, fallback = 'all') =>
@@ -99,7 +180,7 @@ export const parseIndexToolStates = (
   dataStreamBackingIndices: Set<string> = new Set()
 ): IndexToolState[] =>
   Object.entries(response || {}).map(([name, body]) => {
-    const settings = body.settings || {}
+    const settings: Record<string, unknown> = flattenObj(body.settings || {})
     const blocks = ['read_only', 'write', 'read_only_allow_delete', 'metadata', 'read'].filter((block) =>
       TRUE_VALUES.has(
         settingValue(settings, `index.blocks.${block}`, `index.blocks.${block.replaceAll('_', '.')}`) as string | boolean
@@ -172,45 +253,4 @@ export const validateWatermarks = ({ low, high, flood }: WatermarkValues): Water
     return { valid: false, mode: 'bytes', error: 'bytes_order' }
   }
   return { valid: true, mode: 'bytes', error: '' }
-}
-
-export const clusterToolsCapabilities = (version?: string | null) => {
-  const major = Number.parseInt(version || '', 10)
-  const minor = Number.parseInt((version || '').split('.')[1] || '', 10)
-  const unknown = Number.isNaN(major)
-  const atLeast = (requiredMajor: number, requiredMinor = 0) =>
-    unknown || major > requiredMajor || (major === requiredMajor && minor >= requiredMinor)
-
-  return {
-    allocationExplain: atLeast(5),
-    retryFailed: atLeast(5),
-    floodStage: atLeast(6),
-    dataStreams: atLeast(7, 9),
-    maxHeadroom: atLeast(8, 5),
-    clusterReadOnlyAllowDelete: atLeast(6),
-    votingExclusions: atLeast(7, 8),
-    expandWildcardsAll: atLeast(8),
-    settingsReset: atLeast(5),
-    tools: {
-      allocation: atLeast(1),
-      drain: atLeast(1),
-      explain: atLeast(5),
-      retry: atLeast(5),
-      rebalancing: atLeast(1),
-      blocks: atLeast(1),
-      replicas: atLeast(1),
-      refresh: atLeast(1),
-      watermarks: atLeast(1),
-      recovery: atLeast(1),
-      destructive: atLeast(1),
-      auto_create: atLeast(1),
-      cluster_write: atLeast(1),
-      voting: atLeast(7, 8),
-      awareness: atLeast(1)
-    } as Record<string, boolean>
-  }
-}
-
-export const clusterToolIsSupported = (toolId: string, capabilities: ReturnType<typeof clusterToolsCapabilities>): boolean => {
-  return capabilities.tools[toolId] === true
 }

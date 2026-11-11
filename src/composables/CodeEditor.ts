@@ -16,15 +16,6 @@ import { autocompletion } from '@codemirror/autocomplete'
 import { queryKeywords, queryValues } from '../autocomplete.ts'
 import { vim } from '@replit/codemirror-vim'
 
-/*
- JsonText
- {
- [
- Object
- PropertyName
- Property
- String
- */
 const completions = (context: any) => {
   const word = context.matchBefore(/\w*/)
   if (!context.explicit) return null
@@ -97,7 +88,6 @@ export const useCodeEditor = (
     const vimExtension = vim()
     codeMirrorEditorView = new EditorView({
       extensions: [
-        // make sure vim is included before other keymaps
         codeEditorStore.vimMode ? vimExtension : [],
         basicSetup,
         quasarSearchPanelEscapeExtension,

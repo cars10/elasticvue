@@ -110,7 +110,6 @@ const chartConfig = (): ChartConfiguration<'line'> => {
 }
 
 const { render, recreate, resize } = useChart(canvasEl, chartConfig, {
-  // Parent replaces the array on each sample; shallow watch keeps updates cheap.
   watch: [() => props.values, () => themeStore.appTheme]
 })
 

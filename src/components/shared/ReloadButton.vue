@@ -29,7 +29,7 @@ import TimerSelect from './TimerSelect.vue'
 
 const t = useTranslation()
 
-const props = defineProps<{ action: any }>()
+const props = defineProps<{ action: () => void; manualAction?: () => void }>()
 const ownValue = defineModel<number | null>({ default: null })
 
 const intervalPicker = ref<{ restart: () => void } | null>(null)
@@ -51,7 +51,7 @@ const spin = () => {
 }
 
 const refresh = () => {
-  props.action()
+  ;(props.manualAction ?? props.action)()
   intervalPicker.value?.restart()
   spin()
 }

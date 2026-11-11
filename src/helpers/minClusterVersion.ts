@@ -4,7 +4,6 @@ export const parseVersionParts = (version: string): number[] =>
     .map((part) => parseInt(part, 10))
     .map((part) => (Number.isFinite(part) ? part : 0))
 
-/** Pure semver compare without reading the connection store */
 export const versionAtLeast = (current: string | undefined | null, required: string): boolean => {
   if (!current) return false
 

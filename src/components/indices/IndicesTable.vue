@@ -8,8 +8,8 @@
 
       <filter-state
         v-model="indicesStore.filter"
-        :results-count="filterStateProps.resultsCount"
-        :filtered-results-count="filterStateProps.filteredResultsCount"
+        :results-count="resultsCount"
+        :filtered-results-count="filteredResultsCount"
         class="q-ml-md"
       />
     </div>
@@ -125,7 +125,8 @@ const {
   indicesStore,
   resizeStore,
   items,
-  filterStateProps,
+  resultsCount,
+  filteredResultsCount,
   tableKey,
   rowsPerPage,
   selectedItems,

@@ -1,6 +1,5 @@
 import { Component, computed } from 'vue'
 import { useTranslation } from '../../composables/i18n.ts'
-import { clusterToolIsSupported } from '../../helpers/clusterTools.ts'
 import type { ClusterTools } from '../../composables/components/tools/ClusterTools.ts'
 import { useToolLabels } from '../../composables/components/tools/ToolLabels.ts'
 import AllocationTool from './AllocationTool.vue'
@@ -31,7 +30,8 @@ export type ToolDefinition = {
   endpoints: string[]
   status: string
   attention: boolean
-  onOpen?: () => void
+  available?: boolean
+  onOpen?: () => unknown
 }
 
 const CLUSTER_SETTINGS = ['PUT /_cluster/settings']
@@ -42,7 +42,7 @@ export const useToolDefinitions = (tools: ClusterTools) => {
   const labels = useToolLabels()
 
   const unassignedStatus = () => {
-    const count = tools.unassignedShards.value.length
+    const count = tools.unassignedCount.value
     return count ? t('tools.status.unassigned', { count }, count) : t('tools.status.no_unassigned')
   }
 
@@ -98,7 +98,9 @@ export const useToolDefinitions = (tools: ClusterTools) => {
         component: ExplainTool,
         endpoints: [],
         status: unassignedStatus(),
-        attention: tools.unassignedShards.value.length > 0
+        attention: tools.unassignedCount.value > 0,
+        available: tools.capabilities.allocationExplain,
+        onOpen: tools.loadShards
       },
       {
         id: 'retry',
@@ -109,7 +111,8 @@ export const useToolDefinitions = (tools: ClusterTools) => {
         component: RetryTool,
         endpoints: ['POST /_cluster/reroute?retry_failed=true'],
         status: unassignedStatus(),
-        attention: false
+        attention: false,
+        available: tools.capabilities.retryFailed
       },
       {
         id: 'rebalancing',
@@ -134,7 +137,7 @@ export const useToolDefinitions = (tools: ClusterTools) => {
           ? t('tools.blocks.status', { count: tools.blockedUserIndices.value.length }, tools.blockedUserIndices.value.length)
           : t('tools.blocks.status_none'),
         attention: tools.blockedUserIndices.value.length > 0,
-        onOpen: tools.loadIndices
+        onOpen: () => Promise.all([tools.loadIndices(), tools.loadNodes()])
       },
       {
         id: 'replicas',
@@ -234,7 +237,8 @@ export const useToolDefinitions = (tools: ClusterTools) => {
           ? t('tools.voting.status', { count: tools.votingExclusions.value.length })
           : t('tools.voting.status_none'),
         attention: tools.votingExclusions.value.length > 0,
-        onOpen: tools.loadVotingExclusions
+        available: tools.capabilities.votingExclusions,
+        onOpen: () => Promise.all([tools.loadVotingExclusions(), tools.loadNodes()])
       },
       {
         id: 'awareness',
@@ -252,6 +256,6 @@ export const useToolDefinitions = (tools: ClusterTools) => {
       }
     ]
 
-    return definitions.filter((definition) => clusterToolIsSupported(definition.id, tools.capabilities))
+    return definitions.filter((definition) => definition.available !== false)
   })
 }

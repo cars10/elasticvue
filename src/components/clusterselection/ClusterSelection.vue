@@ -79,6 +79,6 @@ const btnTitle = computed(() => {
 })
 
 watch(menuOpen, (value) => {
-  if (value) connectionStore.clusters.forEach(checkHealth)
+  if (value) connectionStore.clusters.forEach((cluster) => checkHealth(cluster))
 })
 </script>

@@ -1,10 +1,6 @@
 <template>
   <div class="flex justify-between q-pa-md">
-    <filter-state
-      v-model="tasksStore.filter"
-      :results-count="filterStateProps.resultsCount"
-      :filtered-results-count="filterStateProps.filteredResultsCount"
-    />
+    <filter-state v-model="tasksStore.filter" :results-count="resultsCount" :filtered-results-count="filteredResultsCount" />
 
     <div class="flex items-center q-ml-auto">
       <q-select
@@ -97,7 +93,8 @@ const tasksStore = useTasksStore()
 const resizeStore = useResizeStore()
 
 const {
-  filterStateProps,
+  resultsCount,
+  filteredResultsCount,
   filteredResults,
   visibleTypes,
   typesLabel,

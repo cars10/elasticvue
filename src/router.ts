@@ -1,26 +1,27 @@
 import { createRouter, createWebHashHistory, createWebHistory, RouteLocation } from 'vue-router'
-import ClusterIndices from './components/indices/ClusterIndices.vue'
-import IndexTemplates from './components/indextemplates/IndexTemplates.vue'
-import GlobalSettings from './components/settings/GlobalSettings.vue'
-import IndexShards from './components/shards/IndexShards.vue'
 import HomePage from './components/home/HomePage.vue'
-import ClusterNodes from './components/nodes/ClusterNodes.vue'
-import RestQuery from './components/rest/RestQuery.vue'
 import NestedView from './components/base/NestedView.vue'
 import { useConnectionStore } from './store/connection'
 import { useClusterSession } from './store/clusterSession.ts'
 import WelcomePage from './components/welcome/WelcomePage.vue'
-import SnapshotRepositories from './components/repositories/SnapshotRepositories.vue'
-import RepositorySnapshots from './components/snapshots/RepositorySnapshots.vue'
-import ClusterUsers from './components/users/ClusterUsers.vue'
-import ClusterRoles from './components/roles/ClusterRoles.vue'
-import SearchDocuments from './components/search/SearchDocuments.vue'
-import ShardRecovery from './components/shardrecovery/ShardRecovery.vue'
 import { buildConfig } from './buildConfig.ts'
-import ClusterTools from './components/tools/ClusterTools.vue'
-import ClusterTasks from './components/tasks/ClusterTasks.vue'
-import ClustersPage from './components/clusters/ClustersPage.vue'
 import { ClusterCapabilities } from './helpers/capabilities.ts'
+
+const ClusterIndices = () => import('./components/indices/ClusterIndices.vue')
+const IndexTemplates = () => import('./components/indextemplates/IndexTemplates.vue')
+const GlobalSettings = () => import('./components/settings/GlobalSettings.vue')
+const IndexShards = () => import('./components/shards/IndexShards.vue')
+const ClusterNodes = () => import('./components/nodes/ClusterNodes.vue')
+const RestQuery = () => import('./components/rest/RestQuery.vue')
+const SnapshotRepositories = () => import('./components/repositories/SnapshotRepositories.vue')
+const RepositorySnapshots = () => import('./components/snapshots/RepositorySnapshots.vue')
+const ClusterUsers = () => import('./components/users/ClusterUsers.vue')
+const ClusterRoles = () => import('./components/roles/ClusterRoles.vue')
+const SearchDocuments = () => import('./components/search/SearchDocuments.vue')
+const ShardRecovery = () => import('./components/shardrecovery/ShardRecovery.vue')
+const ClusterTools = () => import('./components/tools/ClusterTools.vue')
+const ClusterTasks = () => import('./components/tasks/ClusterTasks.vue')
+const ClustersPage = () => import('./components/clusters/ClustersPage.vue')
 
 declare module 'vue-router' {
   interface RouteMeta {
@@ -147,6 +148,12 @@ router.beforeEach((to: RouteLocation) => {
   }
 
   return { name: 'home', params: { clusterId: connectionStore.clusters[0].id } }
+})
+
+const CHUNK_LOAD_ERROR = /dynamically imported module|importing a module script failed/i
+
+router.onError((error, to) => {
+  if (CHUNK_LOAD_ERROR.test(String(error?.message))) window.location.assign(router.resolve(to).href)
 })
 
 router.afterEach((to) => {

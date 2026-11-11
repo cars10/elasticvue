@@ -18,7 +18,6 @@ import type { EsIndicesBlocksSettings } from '../../../types/indices.ts'
 export const useClusterIndices = () => {
   const indicesStore = useIndicesStore()
   const { requestState, callElasticsearch } = useElasticsearchAdapter()
-  // Separate adapter so enrichment 403s do not flip LoaderStatus into the error state
   const { callElasticsearch: callEnrichment } = useElasticsearchAdapter()
   const indices = shallowRef<ElasticsearchIndex[]>([])
   const blocksKnown = ref(false)

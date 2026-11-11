@@ -49,9 +49,7 @@ import { CPU_THRESHOLDS, DISK_THRESHOLDS, HEAP_THRESHOLDS } from '../../helpers/
 
 const props = defineProps<{
   nodes: OverviewNode[]
-  /** Cluster node inventory (card title). */
   totalCount: number
-  /** Nodes available for ranking (hint “of N”); may be lower when stats are partial. */
   eligibleCount?: number
   nodesMonitoringAvailable: boolean | null
 }>()

@@ -57,16 +57,20 @@ import type {
   WorkloadRates
 } from '../../../types/homeDashboard.ts'
 
+const SLOW_CHANGING_INTERVAL_MS = 60_000
+
 export const useHomeDashboard = () => {
   const t = useTranslation()
   const connectionStore = useConnectionStore()
   const session = useClusterSession()
   const { callElasticsearch } = useElasticsearchAdapter()
+  const { requestState: statsRequestState, callElasticsearch: callStats } = useElasticsearchAdapter()
 
-  // API responses are always replaced as a whole, so shallow refs are enough and avoid deep proxies
   const stats = shallowRef<ClusterStats | null>(null)
   const health = shallowRef<ClusterHealth | null>(null)
-  const nodes = shallowRef<OverviewNode[]>([])
+  const nodesBody = shallowRef<NodesStatsBody | null>(null)
+  const masterNodeId = ref<string | null>(null)
+  const nodes = computed<OverviewNode[]>(() => parseNodesFromStats(nodesBody.value, masterNodeId.value))
   const nodesMonitoringAvailable = ref<boolean | null>(null)
   const pendingTasks = shallowRef<PendingTaskInfo | null>(null)
 
@@ -77,7 +81,6 @@ export const useHomeDashboard = () => {
   const diskWatermarks = shallowRef<DiskWatermarks>({ ...DEFAULT_DISK_WATERMARKS })
   const allocationEnable = ref<AllocationEnable>('all')
 
-  // Samples collected across reloads, used for rates and sustained-pressure checks
   const workload = shallowRef<WorkloadRates>({ ...EMPTY_WORKLOAD })
   const pressureSamples = shallowRef<PressureSample[]>([])
   const heapSamples = shallowRef<HeapSample[]>([])
@@ -105,7 +108,6 @@ export const useHomeDashboard = () => {
     )
   )
 
-  /** Table preview only — full `nodes` still feeds charts, attention, and workload. */
   const topNodes = computed(() => topNodesByPressure(nodes.value))
 
   const attentionChecks = computed(() =>
@@ -132,7 +134,6 @@ export const useHomeDashboard = () => {
       return
     }
 
-    // Only fetch pending-task ages when the count is high enough to matter
     const pendingCount = health.value?.number_of_pending_tasks ?? 0
     if (pendingCount < PENDING_TASKS_FETCH_THRESHOLD) {
       pendingTasks.value = pendingCount > 0 ? { count: pendingCount, oldestAgeMs: null } : null
@@ -148,23 +149,16 @@ export const useHomeDashboard = () => {
 
   const loadClusterStats = async () => {
     try {
-      stats.value = await callElasticsearch((es) => es.clusterStats(CLUSTER_STATS_PARAMS))
+      stats.value = await callStats((es) => es.clusterStats(CLUSTER_STATS_PARAMS))
     } catch (e) {
       console.error(e)
     }
   }
 
-  /** One call covers node resource peaks (heap/disk/cpu/FD) and workload counters. */
   const loadNodeStats = async () => {
-    const [body, masterState] = await Promise.all([
-      callElasticsearch((es) => es.nodesStats(HOME_NODES_STATS.metrics, HOME_NODES_STATS.params)).catch(
-        () => null
-      ) as Promise<NodesStatsBody | null>,
-      // Elected master id — node roles alone only mean master-eligible
-      callElasticsearch((es) => es.clusterState('master_node'))
-        .catch(() => callElasticsearch((es) => es.clusterState('cluster_manager_node')))
-        .catch(() => null)
-    ])
+    const body = (await callElasticsearch((es) => es.nodesStats(HOME_NODES_STATS.metrics, HOME_NODES_STATS.params)).catch(
+      () => null
+    )) as NodesStatsBody | null
 
     if (!body) {
       nodesMonitoringAvailable.value = false
@@ -172,8 +166,15 @@ export const useHomeDashboard = () => {
     }
 
     nodesMonitoringAvailable.value = true
-    nodes.value = parseNodesFromStats(body, parseElectedMasterNodeId(masterState))
+    nodesBody.value = body
     recordSamples(body)
+  }
+
+  const loadMasterNode = async () => {
+    const state = await callElasticsearch((es) => es.clusterState('master_node'))
+      .catch(() => callElasticsearch((es) => es.clusterState('cluster_manager_node')))
+      .catch(() => null)
+    masterNodeId.value = parseElectedMasterNodeId(state) ?? null
   }
 
   const recordSamples = (body: NodesStatsBody) => {
@@ -218,7 +219,6 @@ export const useHomeDashboard = () => {
     }
   }
 
-  /** Disk watermarks + allocation.enable (often forgotten after maintenance). */
   const loadClusterSettings = async () => {
     try {
       const settings = await callElasticsearch((es) => es.clusterGetSettings(CLUSTER_SETTINGS_PARAMS))
@@ -243,29 +243,31 @@ export const useHomeDashboard = () => {
     }
   }
 
+  const loadSlowChanging = () =>
+    Promise.all([loadClusterStats(), loadIndices(), loadIndexBlocks(), loadClusterSettings(), loadMasterNode()])
+
   let refreshing = false
-  const refresh = async () => {
-    if (refreshing) return
+  let slowChangingLoadedAt = 0
+  const refresh = async ({ full = false } = {}) => {
+    if (refreshing || session.capabilities.serverless) return
     refreshing = true
     try {
-      await Promise.all([
-        loadHealth(),
-        loadNodeStats(),
-        loadClusterStats(),
-        loadIndices(),
-        loadIndexBlocks(),
-        loadClusterSettings(),
-        loadTasks()
-      ])
+      const requests: Promise<unknown>[] = [loadHealth(), loadNodeStats(), loadTasks()]
+      if (full || Date.now() - slowChangingLoadedAt >= SLOW_CHANGING_INTERVAL_MS) {
+        slowChangingLoadedAt = Date.now()
+        requests.push(loadSlowChanging())
+      }
+      await Promise.all(requests)
     } finally {
       refreshing = false
     }
   }
 
-  onMounted(refresh)
+  onMounted(() => refresh({ full: true }))
 
   return {
     stats,
+    statsRequestState,
     health,
     clusterStatus,
     nodes,

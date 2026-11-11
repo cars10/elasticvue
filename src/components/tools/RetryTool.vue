@@ -13,10 +13,10 @@ import ToolCurrent from './ToolCurrent.vue'
 
 const t = useTranslation()
 const labels = useToolLabels()
-const { requests, health, unassignedShards, retryFailed } = useInjectedClusterTools()
+const { requests, health, unassignedCount, retryFailed } = useInjectedClusterTools()
 
 const retry = async () => {
-  const count = unassignedShards.value.length
+  const count = unassignedCount.value
   if (await askConfirm(t('tools.retry.confirm', { count }, count))) await retryFailed()
 }
 </script>

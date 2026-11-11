@@ -18,7 +18,7 @@ export const useSnapshotsTable = (props: SnapshotsTableProps) => {
   const results = computed(() => props.snapshots)
   const filteredResults = computed(() => filterItems(results.value, snapshotsStore.filter, ['name', 'state']))
 
-  const filterStateProps = setupFilterState(results, filteredResults)
+  const { resultsCount, filteredResultsCount } = setupFilterState(results, filteredResults)
 
   const columns = genColumns([
     { label: t('snapshots.snapshots_table.table.headers.snapshot'), field: 'name' },
@@ -32,7 +32,8 @@ export const useSnapshotsTable = (props: SnapshotsTableProps) => {
 
   return {
     filteredResults,
-    filterStateProps,
+    resultsCount,
+    filteredResultsCount,
     columns
   }
 }

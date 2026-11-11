@@ -1,12 +1,14 @@
 import { describe, expect, it } from 'vitest'
 import {
   addAllocationExclusion,
-  clusterToolIsSupported,
-  clusterToolsCapabilities,
+  clusterSettingsUpdate,
   effectiveSetting,
   indicesNeedingZeroReplicaHelper,
+  mergeNodeAllocations,
   nodeDrainProgress,
   parseIndexToolStates,
+  parseNodeAllocations,
+  parseToolNodeInfos,
   removeAllocationExclusion,
   settingMode,
   summarizeAllocationExplanation,
@@ -166,76 +168,72 @@ describe('helpers/clusterTools.ts', () => {
     })
   })
 
-  describe('capabilities', () => {
-    it('gates version-specific options centrally', () => {
-      expect(clusterToolsCapabilities('1.7.6')).toMatchObject({
-        allocationExplain: false,
-        retryFailed: false,
-        floodStage: false,
-        dataStreams: false,
-        maxHeadroom: false,
-        clusterReadOnlyAllowDelete: false,
-        votingExclusions: false,
-        expandWildcardsAll: false,
-        settingsReset: false
+  describe('nodes and allocations', () => {
+    it('parses node infos and tolerates missing fields', () => {
+      expect(parseToolNodeInfos({ nodes: { a: { name: 'node-a', roles: ['data'], attributes: { zone: 'x' } }, b: {} } })).toEqual([
+        { id: 'a', name: 'node-a', roles: ['data'], attributes: { zone: 'x' } },
+        { id: 'b', name: 'b', roles: [], attributes: {} }
+      ])
+      expect(parseToolNodeInfos(null)).toEqual([])
+    })
+
+    it('parses cat allocation rows and skips the unassigned row', () => {
+      expect(
+        parseNodeAllocations([
+          { node: 'node-a', shards: '12', 'disk.avail': '4000', 'disk.percent': '60' },
+          { node: 'node-b', shards: 3 },
+          { node: 'UNASSIGNED', shards: '2' }
+        ])
+      ).toEqual({
+        'node-a': { shardCount: 12, diskUsedPercent: 60, diskAvailableBytes: 4000 },
+        'node-b': { shardCount: 3, diskUsedPercent: null, diskAvailableBytes: null }
       })
-      expect(clusterToolsCapabilities('5.6.16')).toMatchObject({
-        allocationExplain: true,
-        retryFailed: true,
-        floodStage: false,
-        dataStreams: false,
-        maxHeadroom: false,
-        votingExclusions: false,
-        settingsReset: true
+      expect(parseNodeAllocations(null)).toEqual({})
+    })
+
+    it('merges allocations by node name and defaults to no shards', () => {
+      const infos = [
+        { id: 'a', name: 'node-a', roles: [], attributes: {} },
+        { id: 'c', name: 'constructor', roles: [], attributes: {} }
+      ]
+      const merged = mergeNodeAllocations(infos, { 'node-a': { shardCount: 5, diskUsedPercent: 10, diskAvailableBytes: 1 } })
+
+      expect(merged[0]).toMatchObject({ id: 'a', shardCount: 5, diskUsedPercent: 10 })
+      expect(merged[1]).toMatchObject({ id: 'c', shardCount: 0, diskUsedPercent: null, diskAvailableBytes: null })
+    })
+  })
+
+  describe('index tool states from nested settings', () => {
+    it('reads blocks, replicas and refresh interval from a filtered nested response', () => {
+      const [state] = parseIndexToolStates({
+        logs: { settings: { index: { number_of_replicas: '2', refresh_interval: '30s', blocks: { write: 'true' }, hidden: 'true' } } }
       })
-      expect(clusterToolsCapabilities('7.7.1')).toMatchObject({
-        dataStreams: false,
-        votingExclusions: false
-      })
-      expect(clusterToolsCapabilities('7.9.0')).toMatchObject({
-        dataStreams: true,
-        votingExclusions: true
-      })
-      expect(clusterToolsCapabilities('8.4.3').maxHeadroom).toBe(false)
-      expect(clusterToolsCapabilities('8.5.0').maxHeadroom).toBe(true)
-      expect(clusterToolsCapabilities('8.15.0')).toMatchObject({
-        allocationExplain: true,
-        retryFailed: true,
-        floodStage: true,
-        dataStreams: true,
-        maxHeadroom: true,
-        votingExclusions: true
-      })
-      expect(clusterToolsCapabilities('9.0.0')).toMatchObject({
-        allocationExplain: true,
-        retryFailed: true,
-        votingExclusions: true
-      })
-      expect(clusterToolsCapabilities('7.10.2')).toMatchObject({
-        allocationExplain: true,
-        retryFailed: true,
-        dataStreams: true,
-        votingExclusions: true,
-        maxHeadroom: false
+
+      expect(state).toMatchObject({ name: 'logs', replicas: 2, refreshInterval: '30s', blocks: ['write'], hidden: true })
+    })
+  })
+  describe('clusterSettingsUpdate', () => {
+    const key = 'cluster.routing.allocation.enable'
+
+    it('writes persistent and resets transient when null resets are supported', () => {
+      expect(clusterSettingsUpdate({ [key]: 'none' }, null, true)).toEqual({
+        persistent: { [key]: 'none' },
+        transient: { [key]: null }
       })
     })
 
-    it('hides tools whose APIs do not exist in the connected version', () => {
-      const es1 = clusterToolsCapabilities('1.7.6')
-      expect(clusterToolIsSupported('allocation', es1)).toBe(true)
-      expect(clusterToolIsSupported('explain', es1)).toBe(false)
-      expect(clusterToolIsSupported('retry', es1)).toBe(false)
-      expect(clusterToolIsSupported('voting', es1)).toBe(false)
+    it('sends no null resets to versions that reject them', () => {
+      expect(clusterSettingsUpdate({ [key]: 'none' }, { transient: {}, persistent: {} }, false)).toEqual({
+        persistent: { [key]: 'none' },
+        transient: {}
+      })
+    })
 
-      const es5 = clusterToolsCapabilities('5.6.16')
-      expect(clusterToolIsSupported('explain', es5)).toBe(true)
-      expect(clusterToolIsSupported('retry', es5)).toBe(true)
-      expect(clusterToolIsSupported('voting', es5)).toBe(false)
-
-      const es9 = clusterToolsCapabilities('9.0.0')
-      expect(clusterToolIsSupported('explain', es9)).toBe(true)
-      expect(clusterToolIsSupported('retry', es9)).toBe(true)
-      expect(clusterToolIsSupported('voting', es9)).toBe(true)
+    it('also overwrites an existing transient value when it cannot be reset', () => {
+      expect(clusterSettingsUpdate({ [key]: 'none' }, { transient: { [key]: 'primaries' } }, false)).toEqual({
+        persistent: { [key]: 'none' },
+        transient: { [key]: 'none' }
+      })
     })
   })
 })

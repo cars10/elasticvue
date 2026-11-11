@@ -398,7 +398,8 @@
         "critical": "Critical",
         "warning": "Warning",
         "info": "Notice",
-        "ok": "OK"
+        "ok": "OK",
+        "unknown": "Collecting data"
       },
       "actions": {
         "view_shards": "View shards",
@@ -539,12 +540,13 @@
           "summary_partial": "Statistics missing for some nodes ({observed} of {expected} reporting)",
           "detail": "Your user may lack the monitor privilege, or the nodes stats API is unavailable."
         }
-      }
+      },
+      "checks_pending": "{passed} checks passed, {pending} collecting data"
     }
   },
   "mixins": {
     "test_connection": {
-      "cluster_reachable": "You cluster is reachable and configured correctly."
+      "cluster_reachable": "Your cluster is reachable and configured correctly."
     }
   },
   "cluster_nodes": {
@@ -1251,7 +1253,9 @@
     "table_bottom": {
       "rows_per_page": {
         "confirm": "WARNING: Are you sure? Showing {value} entries at once might cause issues or freezes. It is recommended to use the search/filter functionality to limit the results."
-      }
+      },
+      "records_per_page": "Records per page",
+      "range": "{from}-{to} of {total}"
     },
     "code_editor": {
       "actions": {
@@ -1273,7 +1277,8 @@
     },
     "loader": {
       "copy_error": "Copy error",
-      "network_error": "Network error, cannot access your cluster."
+      "network_error": "Network error, cannot access your cluster.",
+      "error": "Error: {message}"
     },
     "reload_button": {
       "reload": "Reload"
@@ -1306,6 +1311,10 @@
       "help": "Troubleshooting connection issues",
       "heading_cors": "{name} blocks requests from elasticvue",
       "cors_hint": "The cluster is reachable, but its CORS settings do not allow requests from this page."
+    },
+    "filter_state": {
+      "filter": "Filter: '{filter}'",
+      "matches": "Matches {filtered} / {total} results"
     }
   },
   "snapshots": {

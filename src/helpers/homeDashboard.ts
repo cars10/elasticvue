@@ -62,8 +62,7 @@ export const HOME_NODES_STATS = {
 
 export const HOME_INDEX_PARAMS = {
   h: ['index', 'health', 'docs.count', 'store.size', 'pri', 'rep'],
-  bytes: 'b',
-  s: 'store.size:desc'
+  bytes: 'b'
 }
 
 export const RATE_HISTORY_LIMIT = 24
@@ -108,7 +107,6 @@ export const parseNodesFromStats = (body: NodesStatsBody | null, masterNodeId?: 
   })
 }
 
-/** Highest of CPU / heap / disk % — used to pick the busiest nodes for the home table. */
 export const nodePressureScore = (node: OverviewNode): number =>
   Math.max(node.cpuPercent ?? 0, node.heapPercent ?? 0, node.diskPercent ?? 0)
 
@@ -191,7 +189,6 @@ export const parseCatIndices = (
   rows: CatIndexRow[] | null
 ): {
   indices: OverviewIndex[]
-  /** Non-system indices considered for the home table (before the top-N slice). */
   eligibleCount: number
   unhealthy: { red: string[]; yellow: string[] }
 } => {
@@ -212,6 +209,7 @@ export const parseCatIndices = (
         shards: pri * (1 + rep)
       }
     })
+    .sort((a, b) => b.sizeBytes - a.sizeBytes || a.index.localeCompare(b.index))
 
   const unhealthyRows = mapped.filter((i) => i.health === 'yellow' || i.health === 'red')
   const rest = mapped.filter((i) => i.health !== 'yellow' && i.health !== 'red')

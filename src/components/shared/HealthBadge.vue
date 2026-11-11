@@ -21,7 +21,6 @@ const healthLabel = useHealthLabel()
   padding: 4px 12px;
   border-radius: 999px;
   font-weight: 600;
-  /* Pull text towards the theme's text color so yellow stays readable on light backgrounds */
   color: color-mix(in srgb, var(--status-color) 70%, var(--theme-color));
   background: color-mix(in srgb, var(--status-color) 14%, transparent);
   border: 1px solid color-mix(in srgb, var(--status-color) 35%, transparent);

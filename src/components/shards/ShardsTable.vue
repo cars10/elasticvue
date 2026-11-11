@@ -9,11 +9,7 @@
         @click="cancelRelocation"
       />
 
-      <filter-state
-        v-model="shardsStore.filter"
-        :results-count="filterStateProps.resultsCount"
-        :filtered-results-count="filterStateProps.filteredResultsCount"
-      />
+      <filter-state v-model="shardsStore.filter" :results-count="resultsCount" :filtered-results-count="filteredResultsCount" />
     </div>
 
     <div class="flex">
@@ -26,7 +22,16 @@
         data-testid="shards-rows"
       />
 
-      <slot />
+      <q-select
+        v-model="shardsStore.health"
+        :options="['green', 'yellow', 'red']"
+        :label="t('shards.health')"
+        clearable
+        dense
+        outlined
+        class="q-mr-md"
+        style="min-width: 140px"
+      />
 
       <filter-input v-model="shardsStore.filter" :columns="['index']" />
 
@@ -137,7 +142,8 @@ const emit = defineEmits(['reload'])
 
 const {
   shardsStore,
-  filterStateProps,
+  resultsCount,
+  filteredResultsCount,
   indicesStore,
   pagination,
   indicesAsRows,

@@ -1,14 +1,22 @@
 <template>
-  <q-card>
+  <div>
     <div class="flex justify-between q-pa-md">
-      <filter-state
-        v-model="nodesStore.filter"
-        :results-count="filterStateProps.resultsCount"
-        :filtered-results-count="filterStateProps.filteredResultsCount"
-      />
+      <filter-state v-model="nodesStore.filter" :results-count="resultsCount" :filtered-results-count="filteredResultsCount" />
 
       <div class="flex items-center q-ml-auto">
-        <slot />
+        <q-select
+          v-model="nodesStore.nodeRoles"
+          :options="nodeRoleOptions"
+          option-value="value"
+          option-label="label"
+          emit-value
+          map-options
+          :label="t('cluster_nodes.node_role')"
+          multiple
+          dense
+          outlined
+          style="width: 200px"
+        />
         <filter-input v-model="nodesStore.filter" class="q-ml-md" :columns="['name', 'ip', 'id', 'version']" />
       </div>
     </div>
@@ -36,9 +44,9 @@
             <node-attributes class="text-muted font-13 q-mt-xs" :attributes="row.attributes" />
           </td>
           <td>{{ row.version }}</td>
-          <td v-if="showNodeShards" class="text-right">{{ row.shards ?? '—' }}</td>
+          <td v-if="showNodeShards" class="text-right">{{ row.shards ?? '-' }}</td>
           <td class="text-right">{{ formatCount(row.docs) }}</td>
-          <td class="text-right">{{ row.storeBytes == null ? '—' : prettyPrintByteString(row.storeBytes) }}</td>
+          <td class="text-right">{{ row.storeBytes == null ? '-' : prettyPrintByteString(row.storeBytes) }}</td>
           <td class="text-right" :class="{ 'health--yellow': row.uptimeMs != null && row.uptimeMs < RECENT_RESTART_MS }">
             {{ formatUptime(row.uptimeMs) }}
           </td>
@@ -62,7 +70,7 @@
         </tr>
       </template>
     </q-table>
-  </q-card>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -70,6 +78,7 @@ import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
 import { formatCount, formatUptime, RECENT_RESTART_MS } from '../../helpers/nodes'
 import { prettyPrintByteString } from '../../helpers/bytes.ts'
 import { CPU_THRESHOLDS, diskThresholds, HEAP_THRESHOLDS } from '../../helpers/pressure.ts'
+import { useTranslation } from '../../composables/i18n'
 import FilterInput from '../shared/FilterInput.vue'
 import FilterState from '../shared/FilterState.vue'
 import MetricBar from '../shared/MetricBar.vue'
@@ -83,7 +92,8 @@ import type { NodeRow } from '../../types/nodes.ts'
 const nodesStore = useNodesStore()
 
 const props = defineProps<NodesTableProps & { diskWatermarks: DiskWatermarks }>()
-const { filteredResults, filterStateProps, columns, showNodeShards } = useNodesTable(props)
+const t = useTranslation()
+const { filteredResults, resultsCount, filteredResultsCount, columns, showNodeShards, nodeRoleOptions } = useNodesTable(props)
 
 const bytesDetail = (used: number | null, total: number | null) => {
   if (used == null || total == null) return null

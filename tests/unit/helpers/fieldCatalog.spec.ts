@@ -75,11 +75,11 @@ describe('catalogFromMappings', () => {
 describe('unmappedTypeFor', () => {
   it('uses string for keyword/text on elasticsearch < 5', () => {
     expect(
-      unmappedTypeFor({ name: 'a', types: ['keyword'], indices: null, partial: false, aggregatable: true, sortField: 'a' }, 2)
+      unmappedTypeFor({ name: 'a', types: ['keyword'], indices: null, partial: false, aggregatable: true, sortField: 'a' }, true)
     ).toBe('string')
     expect(
-      unmappedTypeFor({ name: 'a', types: ['long'], indices: null, partial: false, aggregatable: true, sortField: 'a' }, 8)
+      unmappedTypeFor({ name: 'a', types: ['long'], indices: null, partial: false, aggregatable: true, sortField: 'a' }, false)
     ).toBe('long')
-    expect(unmappedTypeFor(undefined, 8)).toBeUndefined()
+    expect(unmappedTypeFor(undefined, false)).toBeUndefined()
   })
 })

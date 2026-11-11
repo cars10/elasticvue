@@ -101,7 +101,7 @@ export const useIndicesTable = (props: EsTableProps, emit: any) => {
     selectedItems.value = selectedItems.value.filter((i) => i != index)
   }
 
-  const filterStateProps = setupFilterState(results, items)
+  const { resultsCount, filteredResultsCount } = setupFilterState(results, items)
 
   const columns = genColumns([
     { label: t('indices.indices_table.table.headers.name'), field: 'index' },
@@ -119,7 +119,8 @@ export const useIndicesTable = (props: EsTableProps, emit: any) => {
 
   return {
     indicesStore,
-    filterStateProps,
+    resultsCount,
+    filteredResultsCount,
     resizeStore,
     items,
     tableKey,

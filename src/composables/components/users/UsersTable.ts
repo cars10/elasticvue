@@ -19,7 +19,7 @@ export const useUsersTable = (props: UsersTableProps) => {
     return filterItems(results.value, usersStore.filter, ['username', 'full_name', 'email', 'roles'])
   })
 
-  const filterStateProps = setupFilterState(results, filteredResults)
+  const { resultsCount, filteredResultsCount } = setupFilterState(results, filteredResults)
 
   const columns = genColumns([
     { label: t('cluster_users.users_table.table.headers.user'), field: 'username', align: 'left' },
@@ -30,7 +30,8 @@ export const useUsersTable = (props: UsersTableProps) => {
 
   return {
     filteredResults,
-    filterStateProps,
+    resultsCount,
+    filteredResultsCount,
     columns
   }
 }

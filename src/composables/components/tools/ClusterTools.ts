@@ -4,26 +4,36 @@ import { useSnackbar } from '../../Snackbar.ts'
 import { useTranslation } from '../../i18n.ts'
 import {
   addAllocationExclusion,
+  ALLOCATION_PARAMS,
+  clusterSettingsUpdate,
   effectiveSetting,
   indicesNeedingZeroReplicaHelper,
+  mergeNodeAllocations,
   parseCommaSeparated,
   parseIndexToolStates,
+  parseNodeAllocations,
+  parseToolNodeInfos,
   removeAllocationExclusion,
   settingMode,
+  TOOL_INDEX_SETTINGS_PARAMS,
+  TOOL_NODES_PARAMS,
+  TOOL_SETTINGS_PARAMS,
   userManagedIndices
 } from '../../../helpers/clusterTools.ts'
+import { flatClusterSettings } from '../../../helpers/nodeStats.ts'
 import type {
   AllocationExplanation,
   FlatClusterSettings,
   IndexToolState,
+  NodeAllocation,
   ToolNode,
+  ToolNodeInfo,
   ToolShard,
   WatermarkValues
 } from '../../../types/clusterTools.ts'
-import type { ClusterHealth, NodesStatsBody } from '../../../types/homeDashboard.ts'
+import type { ClusterHealth } from '../../../types/homeDashboard.ts'
 import { useClusterSession } from '../../../store/clusterSession.ts'
 
-const SETTINGS_PARAMS = { include_defaults: 'true', flat_settings: 'true' }
 const SHARD_PARAMS = {
   format: 'json',
   bytes: 'b',
@@ -34,14 +44,13 @@ type SettingValue = string | number | boolean | null
 
 const isTrue = (value: unknown) => value === true || value === 'true'
 
-const shardNodeName = (shard: ToolShard) => shard.node?.split(/\s|->/)[0]
-
 export const useClusterTools = () => {
   const t = useTranslation()
-  const { tools: capabilities, destructiveRequiresNameDefault } = useClusterSession().capabilities
+  const { tools: capabilities, indices: indexCapabilities, destructiveRequiresNameDefault } = useClusterSession().capabilities
   const settingsApi = useElasticsearchAdapter()
   const shardsApi = useElasticsearchAdapter()
   const nodesApi = useElasticsearchAdapter()
+  const allocationApi = useElasticsearchAdapter()
   const indicesApi = useElasticsearchAdapter()
   const healthApi = useElasticsearchAdapter()
   const explainApi = useElasticsearchAdapter()
@@ -51,7 +60,11 @@ export const useClusterTools = () => {
 
   const settings = ref<FlatClusterSettings | null>(null)
   const shards = ref<ToolShard[]>([])
-  const nodes = ref<ToolNode[]>([])
+  const nodeInfos = ref<ToolNodeInfo[]>([])
+  const allocations = ref<Record<string, NodeAllocation>>({})
+  const nodes = computed<ToolNode[]>(() => mergeNodeAllocations(nodeInfos.value, allocations.value))
+  let shardsRequested = false
+  let nodesRequested = false
   const indices = ref<IndexToolState[]>([])
   const health = ref<ClusterHealth | null>(null)
   const explanation = ref<AllocationExplanation | null>(null)
@@ -96,11 +109,9 @@ export const useClusterTools = () => {
   const unassignedShards = computed(() =>
     shards.value.filter((shard) => shard.state?.toUpperCase() === 'UNASSIGNED' || !shard.node)
   )
-  const dataNodeCount = computed(
-    () =>
-      nodes.value.filter((node) => node.roles.some((role) => role === 'data' || role.startsWith('data_')) || node.shardCount > 0)
-        .length
-  )
+  const unassignedCount = computed(() => health.value?.unassigned_shards ?? 0)
+  const relocatingCount = computed(() => health.value?.relocating_shards ?? 0)
+  const dataNodeCount = computed(() => health.value?.number_of_data_nodes ?? 0)
   const excludedNodeIds = computed(() =>
     parseCommaSeparated(effectiveSetting<string>(settings.value, 'cluster.routing.allocation.exclude._id', '').effectiveValue)
   )
@@ -111,13 +122,15 @@ export const useClusterTools = () => {
 
   const loadSettings = async () => {
     try {
-      settings.value = await settingsApi.callElasticsearch((es) => es.clusterGetSettings(SETTINGS_PARAMS))
+      const body = await settingsApi.callElasticsearch((es) => es.clusterGetSettings(TOOL_SETTINGS_PARAMS))
+      settings.value = flatClusterSettings(body)
     } catch (_error) {
       settings.value = null
     }
   }
 
   const loadShards = async () => {
+    shardsRequested = true
     try {
       shards.value = (await shardsApi.callElasticsearch((es) => es.catShards(SHARD_PARAMS))) || []
     } catch (_error) {
@@ -133,43 +146,27 @@ export const useClusterTools = () => {
     }
   }
 
-  const loadNodes = async () => {
+  const loadAllocations = async () => {
     try {
-      const [nodeBody, statsBody] = await Promise.all([
-        nodesApi.callElasticsearch((es) => es.nodes()),
-        nodesApi.callElasticsearch((es) => es.nodesStats('fs'))
-      ])
-      const stats = (statsBody || {}) as NodesStatsBody
-      const shardsByNode = new Map<string, ToolShard[]>()
-      for (const shard of shards.value) {
-        const name = shardNodeName(shard)
-        if (!name) continue
-        shardsByNode.set(name, [...(shardsByNode.get(name) || []), shard])
-      }
-
-      nodes.value = Object.entries(nodeBody?.nodes || {}).map(([id, raw]) => {
-        const node = raw as { name?: string; roles?: string[]; attributes?: Record<string, string> }
-        const nodeShards = shardsByNode.get(node.name || '') || []
-        const fs = stats.nodes?.[id]?.fs?.total
-        const total = fs?.total_in_bytes
-        const available = fs?.available_in_bytes ?? fs?.free_in_bytes
-        const relocating = nodeShards.filter((shard) => shard.state === 'RELOCATING').length
-        return {
-          id,
-          name: node.name || id,
-          roles: node.roles || [],
-          attributes: node.attributes || {},
-          shardCount: nodeShards.length - relocating,
-          initialShardCount: nodeShards.length,
-          relocatingShards: relocating,
-          diskUsedPercent: total && available != null ? Math.round(((total - available) / total) * 1000) / 10 : null,
-          diskAvailableBytes: available ?? null
-        }
-      })
+      allocations.value = parseNodeAllocations(await allocationApi.callElasticsearch((es) => es.catAllocation(ALLOCATION_PARAMS)))
     } catch (_error) {
-      nodes.value = []
+      allocations.value = {}
     }
   }
+
+  const loadNodes = async () => {
+    nodesRequested = true
+    const allocationsLoaded = loadAllocations()
+    try {
+      nodeInfos.value = parseToolNodeInfos(await nodesApi.callElasticsearch((es) => es.nodes(TOOL_NODES_PARAMS)))
+    } catch (_error) {
+      nodeInfos.value = []
+    }
+    await allocationsLoaded
+  }
+
+  const reloadShards = () => (shardsRequested ? loadShards() : Promise.resolve())
+  const reloadNodes = () => (nodesRequested ? loadNodes() : Promise.resolve())
 
   const loadIndices = async () => {
     let backingIndices = new Set<string>()
@@ -182,13 +179,13 @@ export const useClusterTools = () => {
           )
         )
       } catch (_error) {
-        // Data stream metadata is optional. Index settings remain useful.
+        backingIndices = new Set()
       }
     }
 
     try {
-      const params: Record<string, string> = { flat_settings: 'true' }
-      if (capabilities.expandWildcardsAll) params.expand_wildcards = 'all'
+      const params: Record<string, string> = { ...TOOL_INDEX_SETTINGS_PARAMS }
+      if (indexCapabilities.expandWildcardsAll) params.expand_wildcards = 'all'
       const body = await indicesApi.callElasticsearch((es) => es.indexGetAllSettings(params))
       indices.value = parseIndexToolStates(body, backingIndices)
     } catch (_error) {
@@ -207,8 +204,7 @@ export const useClusterTools = () => {
   }
 
   const refresh = async () => {
-    await Promise.allSettled([loadSettings(), loadShards(), loadHealth(), loadIndices(), loadVotingExclusions()])
-    await loadNodes()
+    await Promise.allSettled([loadSettings(), loadHealth(), loadIndices(), loadVotingExclusions(), reloadShards(), reloadNodes()])
   }
 
   const mutate = async (action: () => Promise<unknown>, success: string) => {
@@ -224,10 +220,7 @@ export const useClusterTools = () => {
 
   const putClusterSettings = (values: Record<string, SettingValue>) =>
     mutationApi.callElasticsearch((es) =>
-      es.clusterPutSettings({
-        persistent: values,
-        transient: Object.fromEntries(Object.keys(values).map((key) => [key, null]))
-      })
+      es.clusterPutSettings(clusterSettingsUpdate(values, settings.value, capabilities.settingsReset))
     )
 
   const setClusterSettings = async (values: Record<string, SettingValue>, success: string) => {
@@ -241,7 +234,7 @@ export const useClusterTools = () => {
       () => putClusterSettings({ 'cluster.routing.allocation.enable': value }),
       value === null ? t('tools.allocation.restored') : t('tools.allocation.updated', { value })
     )
-    if (changed) await Promise.allSettled([loadSettings(), loadShards(), loadHealth()])
+    if (changed) await Promise.allSettled([loadSettings(), reloadShards(), loadHealth()])
     return changed
   }
 
@@ -255,7 +248,7 @@ export const useClusterTools = () => {
       try {
         explanation.value = await explainApi.callElasticsearch((es) => es.clusterAllocationExplain({ body }))
       } catch (_secondError) {
-        // The error state is rendered by the explain tool
+        explanation.value = null
       }
     }
   }
@@ -265,7 +258,7 @@ export const useClusterTools = () => {
       () => mutationApi.callElasticsearch((es) => es.clusterRetryFailedAllocations()),
       t('tools.retry.done')
     )
-    if (changed) await Promise.allSettled([loadShards(), loadHealth()])
+    if (changed) await Promise.allSettled([reloadShards(), loadHealth()])
     return changed
   }
 
@@ -281,10 +274,7 @@ export const useClusterTools = () => {
       () => putClusterSettings({ [key]: value }),
       draining ? t('tools.drain.started') : t('tools.drain.stopped')
     )
-    if (changed) {
-      await Promise.allSettled([loadSettings(), loadShards()])
-      await loadNodes()
-    }
+    if (changed) await Promise.allSettled([loadSettings(), loadAllocations(), loadHealth()])
     return changed
   }
 
@@ -293,7 +283,7 @@ export const useClusterTools = () => {
       () => mutationApi.callElasticsearch((es) => es.indexPutSettings({ indices: selected, body })),
       success
     )
-    if (changed) await Promise.allSettled([loadIndices(), loadShards(), loadHealth()])
+    if (changed) await Promise.allSettled([loadIndices(), reloadShards(), loadHealth()])
     return changed
   }
 
@@ -382,6 +372,8 @@ export const useClusterTools = () => {
     watermarksCustom,
     clusterWriteMode,
     unassignedShards,
+    unassignedCount,
+    relocatingCount,
     dataNodeCount,
     excludedNodeIds,
     userIndices,
@@ -401,6 +393,8 @@ export const useClusterTools = () => {
     loadSettings,
     loadShards,
     loadNodes,
+    loadAllocations,
+    loadHealth,
     loadIndices,
     loadVotingExclusions,
     refresh,

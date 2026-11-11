@@ -16,11 +16,6 @@ export const readFromClipboard = () => {
   return navigator.clipboard.readText()
 }
 
-/**
- * Route navigator.clipboard through the Tauri plugin (same IPC as writeToClipboard).
- * Needed for code that calls the Web Clipboard API directly (e.g. codemirror-vim "+ register).
- * WebView2 often does not expose a working async clipboard the same way a normal browser does.
- */
 export function installTauriNavigatorClipboardShim() {
   if (!buildConfig.tauri) return
   try {
@@ -38,7 +33,5 @@ export function installTauriNavigatorClipboardShim() {
       enumerable: true,
       writable: true
     })
-  } catch {
-    /* clipboard object may be sealed in some WebView builds */
-  }
+  } catch {}
 }

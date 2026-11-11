@@ -6,8 +6,10 @@ import { createPinia, setActivePinia } from 'pinia'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import { AuthType, BuildFlavor, ElasticsearchClusterAuth, SecretStorage, useConnectionStore } from '../../../src/store/connection'
 import { needsCredentials, useSessionCredentials, withSessionCredentials } from '../../../src/store/sessionCredentials'
+import { removeClusterStorage } from '../../../src/helpers/clusterStorage'
 
 vi.mock('../../../src/helpers/fetch', () => ({ fetchMethod: vi.fn() }))
+vi.mock('../../../src/helpers/clusterStorage', () => ({ removeClusterStorage: vi.fn() }))
 
 const memoryStorage = () => {
   let data: Record<string, string> = {}
@@ -169,7 +171,7 @@ describe('connection store secrets', () => {
     expect(JSON.stringify(await persisted('connection', localStorage))).not.toContain('direct-secret')
   })
 
-  it('forgets session secrets of removed clusters', () => {
+  it('forgets session secrets and stored data of removed clusters', () => {
     const store = useConnectionStore()
     const id = store.addCluster(
       cluster({ authType: AuthType.apiKey, authData: { apiKey: 'key' }, secretStorage: SecretStorage.session })
@@ -177,6 +179,7 @@ describe('connection store secrets', () => {
     store.removeCluster(id)
 
     expect(useSessionCredentials().byId).toEqual({})
+    expect(removeClusterStorage).toHaveBeenCalledWith(id)
   })
 })
 

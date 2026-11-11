@@ -25,7 +25,7 @@
         <q-item v-for="(decision, index) in summary.decisions" :key="`${decision.decider}-${index}`">
           <q-item-section>
             <q-item-label>
-              {{ decision.decider }}<span v-if="decision.nodeName" class="text-muted"> · {{ decision.nodeName }}</span>
+              {{ decision.decider }}<span v-if="decision.nodeName" class="text-muted">, {{ decision.nodeName }}</span>
             </q-item-label>
             <q-item-label caption>{{ decision.explanation || t('tools.explain.no_explanation') }}</q-item-label>
           </q-item-section>

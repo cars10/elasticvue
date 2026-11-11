@@ -61,7 +61,7 @@ const current = computed(() => {
   const values = new Set(
     userIndices.value.filter((index) => selected.value.includes(index.name)).map((index) => intervalLabel(index.refreshInterval))
   )
-  if (!values.size) return '—'
+  if (!values.size) return '-'
   return values.size === 1 ? [...values][0] : t('tools.mixed')
 })
 const valid = computed(() => draft.value !== 'custom' || /^\d+(?:\.\d+)?(?:ms|s|m|h)$/.test(custom.value))

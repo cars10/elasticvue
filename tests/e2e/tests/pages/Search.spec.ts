@@ -36,6 +36,30 @@ test.describe('Search', () => {
     expect(lastSearch(requests).body).not.toHaveProperty('track_total_hits')
   })
 
+  test('cancels a running search when a new one starts', async ({ page }) => {
+    await setup(page)
+    await openSearch(page)
+
+    let delayed = false
+    await page.route(/localhost:9200\/.*_search/, async (route) => {
+      const body = route.request().postDataJSON()
+      if (!delayed && body?.query?.bool) {
+        delayed = true
+        await new Promise((resolve) => setTimeout(resolve, 3000))
+      }
+      await route.fallback().catch(() => {})
+    })
+    const aborted = page.waitForEvent('requestfailed', (request) => request.url().includes('/_search'))
+
+    await queryInput(page).fill('title:alien')
+    await page.getByTestId('search-submit').click()
+    await queryInput(page).fill('*')
+    await page.getByTestId('search-submit').click()
+
+    expect((await aborted).failure()?.errorText).toContain('ABORTED')
+    await expect(rows(page)).toHaveCount(10)
+  })
+
   test('selects indices, aliases, data streams and patterns with multi-term matching', async ({ page }) => {
     const requests = await setup(page)
     await openSearch(page)

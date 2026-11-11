@@ -14,12 +14,12 @@
     <td>
       <div class="row items-center no-wrap q-gutter-x-sm">
         <div>
-          <div>{{ recovery.sourceNode || '—' }}</div>
+          <div>{{ recovery.sourceNode || '-' }}</div>
           <div class="text-muted font-13">{{ recovery.sourceHost }}</div>
         </div>
         <q-icon name="arrow_forward" class="text-muted" />
         <div>
-          <div>{{ recovery.targetNode || '—' }}</div>
+          <div>{{ recovery.targetNode || '-' }}</div>
           <div class="text-muted font-13">{{ recovery.targetHost }}</div>
         </div>
       </div>
@@ -35,16 +35,16 @@
       <div>{{ formatPercent(recovery.translogPercent) }}</div>
       <div class="text-muted font-13">{{ countDetail(recovery.translogRecovered, recovery.translogTotal) }}</div>
     </td>
-    <td class="text-right">{{ recovery.durationMs == null ? '—' : formatTime(recovery.durationMs) }}</td>
+    <td class="text-right">{{ recovery.durationMs == null ? '-' : formatTime(recovery.durationMs) }}</td>
     <td :title="recovery.stopTime ? `finished ${new Date(recovery.stopTime).toLocaleString()}` : undefined">
       <template v-if="recovery.startTime">
         <div>{{ new Date(recovery.startTime).toLocaleDateString() }}</div>
         <div class="text-muted font-13">{{ new Date(recovery.startTime).toLocaleTimeString() }}</div>
       </template>
-      <template v-else>—</template>
+      <template v-else>-</template>
     </td>
     <td class="text-right" :class="{ 'health--yellow': recovery.active && recovery.throttleMs > 0 }">
-      {{ recovery.throttleMs > 0 ? formatTime(recovery.throttleMs) : '—' }}
+      {{ recovery.throttleMs > 0 ? formatTime(recovery.throttleMs) : '-' }}
     </td>
   </tr>
 </template>

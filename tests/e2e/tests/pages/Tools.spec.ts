@@ -72,20 +72,15 @@ const mockTools = async (page: Page, options: { settingsForbidden?: boolean; ver
       ]
     })
   })
-  await page.route('**/_nodes/stats/fs', async (route) => {
+  await page.route('**/_cat/allocation**', async (route) => {
     await route.fulfill({
-      json: {
-        nodes: {
-          'node-1': {
-            name: 'es-8-node-1',
-            roles: ['data'],
-            fs: { total: { total_in_bytes: 1000, available_in_bytes: 400 } }
-          }
-        }
-      }
+      json: [
+        { node: 'es-8-node-1', shards: '1', 'disk.avail': '400', 'disk.percent': '60' },
+        { node: 'UNASSIGNED', shards: '1' }
+      ]
     })
   })
-  await page.route('**/_nodes', async (route) => {
+  await page.route('**/_nodes?**', async (route) => {
     await route.fulfill({
       json: { nodes: { 'node-1': { name: 'es-8-node-1', roles: ['data'] } } }
     })
@@ -145,7 +140,7 @@ test.describe('Tools', () => {
     await expect(page).toHaveURL(/tool=allocation/)
     await page.getByText('Elasticsearch APIs used', { exact: true }).click()
     await expect(page.getByText('PUT /_cluster/settings', { exact: true })).toBeVisible()
-    await page.getByLabel('Disabled — no new allocations').click()
+    await page.getByLabel('Disabled - no new allocations').click()
     page.once('dialog', (dialog) => dialog.accept())
     await page.getByRole('button', { name: 'Disable allocation' }).click()
     await expect
@@ -160,7 +155,6 @@ test.describe('Tools', () => {
     page.once('dialog', (dialog) => dialog.accept())
     await page.getByRole('button', { name: 'Retry allocations' }).click()
     await expect.poll(() => state.retriedFailed()).toBe(true)
-    await expect.poll(() => state.shardRequests()).toBeGreaterThanOrEqual(2)
 
     await page.getByLabel('Close Retry failed allocations').click()
     await page.getByText('Drain node', { exact: true }).click()
@@ -186,6 +180,18 @@ test.describe('Tools', () => {
         transient: { 'action.destructive_requires_name': null }
       })
     await expect(page.getByTestId('tools-page')).toContainText('Index write blocks')
+  })
+
+  test('loads shards only when a tool needs them', async ({ page }) => {
+    const state = await mockTools(page)
+    await setupClusterConnection(page)
+    await page.locator('#tools').click()
+
+    await expect(page.getByTestId('tool-explain').getByTestId('tool-status')).toContainText('2 unassigned shards')
+    expect(state.shardRequests()).toBe(0)
+
+    await page.getByTestId('tool-explain').click()
+    await expect.poll(() => state.shardRequests()).toBe(1)
   })
 
   test('shows the raw allocation explanation in a code viewer', async ({ page }) => {
@@ -234,6 +240,7 @@ test.describe('Tools', () => {
     await mockTools(page, { settingsForbidden: true })
     await setupClusterConnection(page)
     await page.locator('#tools').click()
+    await expect(page.getByTestId('tools-page')).toBeVisible()
 
     await page.getByText('Shard allocation', { exact: true }).click()
     await expect(page.getByText('Your user is not allowed to read cluster settings.')).toBeVisible()

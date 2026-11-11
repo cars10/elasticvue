@@ -25,7 +25,7 @@
       <div v-if="usage?.mappings" class="text-muted font-13">
         {{ usage.mappings }} {{ usage.mappings === 1 ? 'mapping' : 'mappings' }}
       </div>
-      <span v-if="!usage?.users.length && !usage?.mappings" class="text-muted">—</span>
+      <span v-if="!usage?.users.length && !usage?.mappings" class="text-muted">-</span>
     </td>
     <td>
       <div class="row q-gutter-xs">

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { defaultSqlQuery, sqlApi, sqlBody, sqlPage } from '../../../src/helpers/search/sql'
+import { defaultSqlQuery, sqlBody, sqlPage } from '../../../src/helpers/search/sql'
 import {
   sameSearch,
   searchEntry,
@@ -7,35 +7,14 @@ import {
   type SearchEntryState
 } from '../../../src/helpers/search/searchLibrary'
 
-describe('sqlApi', () => {
-  it('picks the sql endpoint per version and distribution', () => {
-    expect(sqlApi('sql', '6.2.4', true)).toBeNull()
-    expect(sqlApi('sql', '6.5.0', true)).toEqual({ path: '_xpack/sql', format: 'json' })
-    expect(sqlApi('sql', '6.8.0', true)).toEqual({
-      path: '_xpack/sql',
-      format: 'json',
-      params: { field_multi_value_leniency: true }
-    })
-    expect(sqlApi('sql', '7.17.0', true)).toEqual({ path: '_sql', format: 'json', params: { field_multi_value_leniency: true } })
-    expect(sqlApi('sql', '2.11.0', false)).toEqual({ path: '_plugins/_sql', format: 'jdbc' })
-  })
-
-  it('only offers ES|QL on elasticsearch 8.11+', () => {
-    expect(sqlApi('esql', '8.10.4', true)).toBeNull()
-    expect(sqlApi('esql', '8.11.0', true)).toEqual({ path: '_query', format: 'json' })
-    expect(sqlApi('esql', '9.0.0', true)).toEqual({ path: '_query', format: 'json' })
-    expect(sqlApi('esql', '2.11.0', false)).toBeNull()
-  })
-})
-
 describe('sqlBody', () => {
   it('pages sql with fetch_size and cursors', () => {
-    const xpack = sqlApi('sql', '6.5.0', true)!
-    const sql = sqlApi('sql', '8.15.0', true)!
+    const xpack = { path: '_xpack/sql', format: 'json' }
+    const sql = { path: '_sql', format: 'json', params: { field_multi_value_leniency: true } }
     expect(sqlBody(xpack, 'sql', 'SELECT 1')).toEqual({ query: 'SELECT 1', fetch_size: 100 })
     expect(sqlBody(sql, 'sql', 'SELECT 1')).toEqual({ query: 'SELECT 1', fetch_size: 100, field_multi_value_leniency: true })
     expect(sqlBody(sql, 'sql', 'SELECT 1', 'abc')).toEqual({ cursor: 'abc' })
-    expect(sqlBody(sqlApi('esql', '8.15.0', true)!, 'esql', 'FROM a')).toEqual({ query: 'FROM a' })
+    expect(sqlBody({ path: '_query', format: 'json' }, 'esql', 'FROM a')).toEqual({ query: 'FROM a' })
   })
 })
 

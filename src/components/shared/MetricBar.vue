@@ -16,7 +16,6 @@ import { formatPercent, pressureBarColor, pressureLevel, pressureTextClass, type
 
 const props = defineProps<{
   value?: number | null
-  /** Omit to render a neutral bar without warning colors. */
   thresholds?: Thresholds
   detail?: string | null
 }>()

@@ -37,13 +37,10 @@ export const useEditRepositorySnapshotPolicy = (emit: any, repository: string, p
       let policyData = null
 
       if (response[policyId.value]?.policy) {
-        // Structure: { policyId: { policy: {...} } }
         policyData = response[policyId.value].policy
       } else if (response.policy) {
-        // Structure: { policy: {...} }
         policyData = response.policy
       } else if (response[policyId.value]) {
-        // Structure: { policyId: {...} }
         policyData = response[policyId.value]
       }
 

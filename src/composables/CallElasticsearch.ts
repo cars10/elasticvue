@@ -1,6 +1,6 @@
 import { computed, Ref, ref } from 'vue'
 import ElasticsearchAdapter, { ElasticsearchRequest } from '../services/ElasticsearchAdapter'
-import { EsApiError, EsNetworkError } from '../services/errors.ts'
+import { EsAbortError, EsApiError, EsNetworkError } from '../services/errors.ts'
 import { useClusterSession } from '../store/clusterSession.ts'
 import { askConfirm } from '../helpers/dialogs'
 import { SnackbarOptions, useSnackbar } from './Snackbar'
@@ -40,6 +40,7 @@ export function useElasticsearchAdapter() {
       requestState.value = { loading: false, networkError: false, apiError: false, apiErrorMessage: '', status: 200 }
       return body
     } catch (error) {
+      if (error instanceof EsAbortError) throw error
       requestState.value = errorState(error)
       console.error(error)
       throw error

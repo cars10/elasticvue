@@ -36,7 +36,6 @@ type SearchState = {
   documentFieldMaxLength: number
 } & ReloadIntervalStorePartial
 
-// Index names like constructor must not resolve to Object.prototype members
 const ownValue = <T>(map: Record<string, T>, key: string) => (hasOwn(map, key) ? map[key] : undefined)
 
 export const useSearchStore = () => {

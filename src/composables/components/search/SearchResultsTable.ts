@@ -7,13 +7,13 @@ import { stringifyJson } from '../../../helpers/json/stringify.ts'
 import { documentFields, formatFieldValue, getFieldValue, hasOwn, toCsv } from '../../../helpers/search/documentValues.ts'
 import { columnOptions, defaultColumns, SOURCE_COLUMN } from '../../../helpers/search/columns.ts'
 import type { FieldCatalog } from '../../../types/search.ts'
+import { useClusterSession } from '../../../store/clusterSession.ts'
 import type { EsSearchHit, EsSearchResult } from './SearchDocuments.ts'
 
 export type SearchResultsTableProps = {
   results: EsSearchResult
   catalog: FieldCatalog
   catalogSkipped: boolean
-  majorVersion: number
   loading: boolean
 }
 
@@ -30,6 +30,7 @@ export const hitKey = (hit: EsSearchHit) => [hit._index, hit._type || '_doc', hi
 export const useSearchResultsTable = (props: SearchResultsTableProps, emit: any) => {
   const t = useTranslation()
   const searchStore = useSearchStore()
+  const searchCapabilities = useClusterSession().capabilities.search
   const resizeStore = useResizeStore()
   const activeTab = ref('hits')
 
@@ -44,12 +45,12 @@ export const useSearchResultsTable = (props: SearchResultsTableProps, emit: any)
   }
 
   const seenFields = computed(() => documentFields(hits.value.map(hitSource), (path) => !!props.catalog[path]))
-  const options = computed(() => columnOptions(props.catalog, seenFields.value, props.majorVersion))
+  const options = computed(() => columnOptions(props.catalog, seenFields.value, searchCapabilities.typeColumn))
   const columns = computed(() => searchStore.savedColumns ?? defaultColumns(seenFields.value))
 
   const isSortable = (name: string) => {
     if (name === SOURCE_COLUMN) return false
-    if (name === '_id') return props.majorVersion > 0 && props.majorVersion < 8 && props.majorVersion !== 5
+    if (name === '_id') return searchCapabilities.sortableId
     if (name.startsWith('_')) return true
     return !!props.catalog[name]?.sortField
   }

@@ -8,7 +8,7 @@
 
       <div class="metric-value">
         <slot name="value">
-          <span :class="valueClass">{{ value ?? '—' }}</span>
+          <span :class="valueClass">{{ value ?? '-' }}</span>
           <span v-if="unit" class="text-muted font-13 text-weight-regular q-ml-xs">{{ unit }}</span>
         </slot>
       </div>
@@ -26,11 +26,9 @@ import LineChart from './LineChart.vue'
 defineProps<{
   title: string
   icon: string
-  /** Headline value; use the `value` slot for custom markup. */
   value?: string | number | null
   unit?: string
   valueClass?: string
-  /** Sparkline below the value, shown once there are at least two samples. */
   history?: number[]
   testId?: string
 }>()

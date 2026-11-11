@@ -1,7 +1,6 @@
 import { computed, onMounted, shallowRef } from 'vue'
 import { useClusterSession } from '../../../store/clusterSession.ts'
 import { useElasticsearchAdapter } from '../../CallElasticsearch.ts'
-import { versionAtLeast } from '../../../helpers/minClusterVersion.ts'
 import { matchesAllTerms } from '../../../helpers/filters.ts'
 
 export type IndexTargetKind = 'index' | 'alias' | 'data_stream'
@@ -49,8 +48,7 @@ export const useSearchIndexSelect = () => {
   const kinds = computed(() => new Map(options.value.map((option) => [option.name, option.kind])))
 
   const fetchOptions = async (): Promise<IndexTargetOption[]> => {
-    const version = session.capabilities.version
-    if (versionAtLeast(version, '7.9')) {
+    if (session.capabilities.search.resolveIndex) {
       try {
         return resolveOptions(
           await callElasticsearch((es) => es.resolveIndex({ name: '*', params: { expand_wildcards: 'all' } }))

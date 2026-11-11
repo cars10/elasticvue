@@ -25,7 +25,7 @@ export const useShardRecoveryTable = (props: ShardRecoveryTableProps) => {
 
   const stageOptions = computed(() => [...new Set(results.value.map((r) => r.stage))].sort())
 
-  const filterStateProps = setupFilterState(results, filteredResults)
+  const { resultsCount, filteredResultsCount } = setupFilterState(results, filteredResults)
 
   const columns = genColumns([
     { label: t('shard_recovery_table.columns.index'), field: 'index' },
@@ -41,7 +41,8 @@ export const useShardRecoveryTable = (props: ShardRecoveryTableProps) => {
   ])
 
   return {
-    filterStateProps,
+    resultsCount,
+    filteredResultsCount,
     filteredResults,
     stageOptions,
     columns

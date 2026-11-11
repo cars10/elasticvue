@@ -9,7 +9,7 @@
       @keydown.enter.space.prevent="expanded = !expanded"
     >
       <div class="col row items-center q-gutter-sm" style="min-width: 0">
-        <q-icon :name="headerIcon" :color="headerColor" size="sm" class="col-auto" />
+        <q-icon :name="header.icon" :color="header.color" size="sm" class="col-auto" />
         <div class="col" style="min-width: 0">
           <div class="text-subtitle1 text-weight-medium">{{ heading }}</div>
           <div v-if="issueCount" class="text-caption text-muted ellipsis">{{ summary }}</div>
@@ -17,7 +17,7 @@
       </div>
 
       <div class="col-auto row items-center q-gutter-sm no-wrap">
-        <q-badge v-if="issueCount" :color="headerColor" :text-color="headerColor === 'warning' ? 'black' : 'white'" rounded>{{
+        <q-badge v-if="issueCount" :color="header.color" :text-color="header.color === 'warning' ? 'black' : 'white'" rounded>{{
           issueCount
         }}</q-badge>
         <span v-if="!issueCount && checkCount" class="text-caption text-muted" data-testid="attention-all-passed">
@@ -40,7 +40,7 @@
                   {{ appearance[check.severity].label }}
                 </span>
               </div>
-              <template v-if="check.severity !== 'ok'">
+              <template v-if="isIssue(check)">
                 <div v-for="(line, i) in check.summary" :key="i" class="font-13 q-mt-xs">{{ line }}</div>
                 <div v-if="check.detail.length" class="text-muted font-13 q-mt-xs">{{ check.detail.join(' ') }}</div>
                 <router-link
@@ -61,7 +61,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { computed, ref } from 'vue'
 import { useConnectionStore } from '../../store/connection.ts'
 import { useTranslation } from '../../composables/i18n.ts'
 import type { AttentionCheck } from '../../types/homeDashboard.ts'
@@ -77,10 +77,12 @@ const appearance = computed(() => ({
   critical: { textClass: 'health--red', label: t('home.attention.severity.critical'), icon: 'error', color: 'negative' },
   warning: { textClass: 'health--yellow', label: t('home.attention.severity.warning'), icon: 'warning', color: 'warning' },
   info: { textClass: 'text-muted', label: t('home.attention.severity.info'), icon: 'info', color: 'info' },
-  ok: { textClass: 'text-muted', label: t('home.attention.severity.ok'), icon: 'check_circle', color: 'positive' }
+  ok: { textClass: 'text-muted', label: t('home.attention.severity.ok'), icon: 'check_circle', color: 'positive' },
+  unknown: { textClass: 'text-muted', label: t('home.attention.severity.unknown'), icon: 'hourglass_empty', color: 'grey' }
 }))
 
-/** Left: cluster/data; right: resources/pressure. */
+const isIssue = (check: AttentionCheck) => check.severity !== 'ok' && check.severity !== 'unknown'
+
 const LEFT_IDS = ['shards', 'index-blocks', 'allocation', 'pending-tasks', 'versions']
 const RIGHT_IDS = ['disk', 'rejections', 'breakers', 'jvm', 'file-descriptors', 'monitoring']
 
@@ -90,33 +92,27 @@ const columns = computed(() => {
   return [pick(LEFT_IDS), pick(RIGHT_IDS)]
 })
 
-const issues = computed(() => props.checks.filter((check) => check.severity !== 'ok'))
+const issues = computed(() => props.checks.filter(isIssue))
 const criticalCount = computed(() => issues.value.filter((c) => c.severity === 'critical').length)
 const warningCount = computed(() => issues.value.filter((c) => c.severity === 'warning').length)
 const noticeCount = computed(() => issues.value.filter((c) => c.severity === 'info').length)
 const issueCount = computed(() => issues.value.length)
 const checkCount = computed(() => props.checks.length)
+const pendingCount = computed(() => props.checks.filter((check) => check.severity === 'unknown').length)
 
-const allPassedLabel = computed(() => t('home.attention.all_passed', { count: checkCount.value }))
+const allPassedLabel = computed(() =>
+  pendingCount.value
+    ? t('home.attention.checks_pending', { passed: checkCount.value - pendingCount.value, pending: pendingCount.value })
+    : t('home.attention.all_passed', { count: checkCount.value })
+)
 
-const expanded = ref(issueCount.value > 0)
+const expanded = ref(false)
 
-watch(issueCount, (count, prev) => {
-  if (count > 0 && prev === 0) expanded.value = true
-})
-
-const headerColor = computed(() => {
-  if (criticalCount.value) return 'negative'
-  if (warningCount.value) return 'warning'
-  if (noticeCount.value) return 'info'
-  return 'positive'
-})
-
-const headerIcon = computed(() => {
-  if (criticalCount.value) return 'error'
-  if (warningCount.value) return 'warning'
-  if (noticeCount.value) return 'info'
-  return 'check_circle'
+const header = computed(() => {
+  if (criticalCount.value) return appearance.value.critical
+  if (warningCount.value) return appearance.value.warning
+  if (noticeCount.value) return appearance.value.info
+  return appearance.value.ok
 })
 
 const heading = computed(() => (issueCount.value ? t('home.attention.issues') : t('home.attention.no_issues')))

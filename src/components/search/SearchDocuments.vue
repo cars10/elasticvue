@@ -157,7 +157,6 @@
         :results="results"
         :catalog="catalog"
         :catalog-skipped="catalogSkipped"
-        :major-version="majorVersion"
         :total="totalHits"
         :loading="requestState.loading"
         @request="onRequest"
@@ -227,7 +226,6 @@ const {
   loadValues,
   catalogSkipped,
   matchedIndices,
-  majorVersion,
   timeFields,
   timeField,
   showHistogram,

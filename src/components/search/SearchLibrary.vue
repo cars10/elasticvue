@@ -155,7 +155,7 @@ const caption = (entry: IdbSearchEntry) =>
     entry.date && new Date(entry.date).toLocaleString()
   ]
     .filter(Boolean)
-    .join(' · ')
+    .join(', ')
 
 const saveCurrent = (name: string) => {
   const entry = props.currentEntry()

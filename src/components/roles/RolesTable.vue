@@ -4,8 +4,8 @@
       <new-role @reload="emit('reload')" />
       <filter-state
         v-model="rolesStore.filter"
-        :results-count="filterStateProps.resultsCount"
-        :filtered-results-count="filterStateProps.filteredResultsCount"
+        :results-count="resultsCount"
+        :filtered-results-count="filteredResultsCount"
         class="q-ml-md"
       />
     </div>
@@ -57,7 +57,7 @@ import EditRole from './EditRole.vue'
 const rolesStore = useRolesStore()
 const props = defineProps<RolesTableProps>()
 const emit = defineEmits(['reload'])
-const { columns, filteredResults, filterStateProps, showDescription } = useRolesTable(props)
+const { columns, filteredResults, resultsCount, filteredResultsCount, showDescription } = useRolesTable(props)
 const filterColumns = showDescription ? ['name', 'description', 'cluster'] : ['name', 'cluster']
 
 const router = useRouter()

@@ -39,13 +39,12 @@ export const CAT_NODES_PARAMS = {
     'disk.used_percent',
     'disk.used',
     'disk.total',
-    'shards' // es >= 8
+    'shards'
   ],
   bytes: 'b',
   full_id: true
 }
 
-/** Nodes whose JVM started more recently than this count as restarted. */
 export const NODE_DETAILS_STATS = {
   metrics: 'jvm,indices/docs,store',
   params: {
@@ -57,7 +56,6 @@ export const NODE_ATTRIBUTES_PARAMS = { filter_path: 'nodes.*.settings.node.attr
 
 export const RECENT_RESTART_MS = 60 * 60 * 1000
 
-/** Display order and short labels for role letters. `r` (remote cluster client) is on almost every node, so it only shows in the tooltip. */
 const ROLE_LABELS: [string, string][] = [
   ['m', 'master'],
   ['v', 'voting-only'],
@@ -72,7 +70,6 @@ const ROLE_LABELS: [string, string][] = [
   ['t', 'transform']
 ]
 
-/** Tier roles are implied by the generic data role `d`. */
 const DATA_TIER_ROLES = ['s', 'h', 'w', 'c', 'f']
 
 const OPENSEARCH_ROLE_LABELS: [string, string][] = [
@@ -196,7 +193,6 @@ export const summarizeNodes = (nodes: NodeRow[], watermarks: DiskWatermarks, dis
           : null
       )
     },
-    // Watermarks only apply to data nodes; fall back to all nodes when roles are unknown
     disk: summarizeDisk(dataNodes.length > 0 ? dataNodes : nodes, watermarks),
     shards: nodeSpread(
       dataNodes.filter((node) => node.shards != null).map((node) => ({ name: node.name, count: node.shards as number }))
@@ -205,7 +201,7 @@ export const summarizeNodes = (nodes: NodeRow[], watermarks: DiskWatermarks, dis
 }
 
 export const formatUptime = (ms?: number | null): string => {
-  if (ms == null) return '—'
+  if (ms == null) return '-'
 
   const minutes = Math.floor(ms / 60_000)
   const hours = Math.floor(minutes / 60)
@@ -218,4 +214,4 @@ export const formatUptime = (ms?: number | null): string => {
 
 const compactNumber = new Intl.NumberFormat('en', { notation: 'compact', maximumFractionDigits: 1 })
 
-export const formatCount = (value?: number | null): string => (value == null ? '—' : compactNumber.format(value))
+export const formatCount = (value?: number | null): string => (value == null ? '-' : compactNumber.format(value))

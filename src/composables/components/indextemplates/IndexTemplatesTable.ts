@@ -18,7 +18,7 @@ export const useIndexTemplatesTable = (props: IndexTemplatesTableProps) => {
 
   const results = computed(() => props.indexTemplates)
   const filteredItems = computed(() => filterItems(results.value, indexTemplatesStore.filter, FILTER_COLUMNS))
-  const filterStateProps = setupFilterState(results, filteredItems)
+  const { resultsCount, filteredResultsCount } = setupFilterState(results, filteredItems)
 
   const columns = genColumns([
     { label: '' },
@@ -31,7 +31,8 @@ export const useIndexTemplatesTable = (props: IndexTemplatesTableProps) => {
 
   return {
     filteredItems,
-    filterStateProps,
+    resultsCount,
+    filteredResultsCount,
     columns
   }
 }

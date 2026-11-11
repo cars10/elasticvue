@@ -398,7 +398,8 @@
         "critical": "Critico",
         "warning": "Avviso",
         "info": "Nota",
-        "ok": "OK"
+        "ok": "OK",
+        "unknown": "Raccolta dati"
       },
       "actions": {
         "view_shards": "Vedi shard",
@@ -539,7 +540,8 @@
           "summary_partial": "Statistiche mancanti per alcuni nodi ({observed} di {expected})",
           "detail": "Il tuo utente potrebbe non avere il privilegio monitor, oppure l’API nodes stats non è disponibile."
         }
-      }
+      },
+      "checks_pending": "{passed} controlli superati, {pending} in raccolta dati"
     }
   },
   "mixins": {
@@ -1251,7 +1253,9 @@
     "table_bottom": {
       "rows_per_page": {
         "confirm": "ATTENZIONE: Sei sicuro? Mostrare {value} voci alla volta potrebbe causare problemi o blocchi. Si consiglia di utilizzare la funzionalità di ricerca/filtro per limitare i risultati."
-      }
+      },
+      "records_per_page": "Righe per pagina",
+      "range": "{from}-{to} di {total}"
     },
     "code_editor": {
       "actions": {
@@ -1273,7 +1277,8 @@
     },
     "loader": {
       "copy_error": "Copia errore",
-      "network_error": "Errore di rete, impossibile accedere al tuo cluster."
+      "network_error": "Errore di rete, impossibile accedere al tuo cluster.",
+      "error": "Errore: {message}"
     },
     "reload_button": {
       "reload": "Ricarica"
@@ -1306,6 +1311,10 @@
       "help": "Risoluzione dei problemi di connessione",
       "heading_cors": "{name} blocca le richieste di elasticvue",
       "cors_hint": "Il cluster è raggiungibile, ma le impostazioni CORS non consentono richieste da questa pagina."
+    },
+    "filter_state": {
+      "filter": "Filtro: '{filter}'",
+      "matches": "{filtered} / {total} risultati corrispondenti"
     }
   },
   "snapshots": {

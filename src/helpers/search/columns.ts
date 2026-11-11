@@ -13,13 +13,7 @@ export type ColumnOption = {
   indices: number | null
 }
 
-export const metaColumns = (majorVersion: number) => [
-  '_index',
-  ...(majorVersion > 0 && majorVersion < 7 ? ['_type'] : []),
-  '_id',
-  '_score',
-  SOURCE_COLUMN
-]
+export const metaColumns = (typeColumn: boolean) => ['_index', ...(typeColumn ? ['_type'] : []), '_id', '_score', SOURCE_COLUMN]
 
 export const targetKey = (targets: string[]) =>
   targets
@@ -44,8 +38,8 @@ export const rememberColumns = <T>(
   return Object.fromEntries(entries.slice(-limit))
 }
 
-export const columnOptions = (catalog: FieldCatalog, seenFields: string[], majorVersion: number): ColumnOption[] => {
-  const meta = metaColumns(majorVersion).map((name): ColumnOption => ({ name, group: 'meta', indices: null }))
+export const columnOptions = (catalog: FieldCatalog, seenFields: string[], typeColumn: boolean): ColumnOption[] => {
+  const meta = metaColumns(typeColumn).map((name): ColumnOption => ({ name, group: 'meta', indices: null }))
   const mapped = Object.values(catalog)
     .filter((field) => !field.subField)
     .sort((a, b) => a.name.localeCompare(b.name))

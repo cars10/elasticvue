@@ -2,8 +2,15 @@ import { invoke } from '@tauri-apps/api/core'
 import { buildConfig } from '../buildConfig.ts'
 import { parseJson } from './json/parse.ts'
 
-export const fetchReqwest = async (resource: any, init: any) => {
-  const r: Response = await invoke('fetch_reqwest', { resource, init })
+const rejectOnAbort = (signal: AbortSignal) =>
+  new Promise<never>((_resolve, reject) => {
+    if (signal.aborted) return reject(signal.reason)
+    signal.addEventListener('abort', () => reject(signal.reason), { once: true })
+  })
+
+export const fetchReqwest = async (resource: any, { signal, ...init }: any = {}) => {
+  const request: Promise<Response> = invoke('fetch_reqwest', { resource, init })
+  const r = await (signal ? Promise.race([request, rejectOnAbort(signal)]) : request)
   return new FetchReqwestResponse(r)
 }
 export type FetchResponse = {

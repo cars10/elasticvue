@@ -86,7 +86,7 @@ describe('filters', () => {
     expect(filterLabel({ field: 'level', op: 'is', value: 'error' })).toBe('level: error')
     expect(filterLabel({ field: 'level', op: 'is', value: 'error', negate: true })).toBe('NOT level: error')
     expect(filterLabel({ field: 'user', op: 'exists' })).toBe('user exists')
-    expect(filterLabel({ field: 'bytes', op: 'between', value: '10' })).toBe('bytes: 10 – …')
+    expect(filterLabel({ field: 'bytes', op: 'between', value: '10' })).toBe('bytes: 10 - …')
   })
 
   it('parses filters from the url and drops invalid ones', () => {

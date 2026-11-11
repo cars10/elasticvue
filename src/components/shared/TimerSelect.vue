@@ -37,8 +37,9 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, ref, watch } from 'vue'
 import { useTranslation } from '../../composables/i18n'
+import { visibleInterval } from '../../helpers/visibleInterval.ts'
 
-const props = defineProps<{ action: any; modelValue?: number | null }>()
+const props = defineProps<{ action: () => void; modelValue?: number | null }>()
 const emit = defineEmits<{ 'update:modelValue': [value: number | null]; cycle: [] }>()
 const t = useTranslation()
 
@@ -59,21 +60,22 @@ const timerSettings: Timer[] = [
 ]
 
 const timer = ref<Timer>(timerSettings.find((option) => option.value === props.modelValue) ?? timerSettings[0])
-let intervalID = 0
+let stopInterval: (() => void) | undefined
 
 const optionLabel = (option: Timer) => (option.value == null ? t('shared.timer.off') : `${option.value}s`)
 const label = computed(() => optionLabel(timer.value))
 const isSelected = (option: Timer) => timer.value.value === option.value
 
 const destroyInterval = () => {
-  window.clearInterval(intervalID)
+  stopInterval?.()
+  stopInterval = undefined
 }
 
 const createInterval = () => {
   if (!timer.value.value) return
   const seconds = timer.value.value
-  intervalID = window.setInterval(() => {
-    props.action.call()
+  stopInterval = visibleInterval(() => {
+    props.action()
     emit('cycle')
   }, seconds * 1000)
 }

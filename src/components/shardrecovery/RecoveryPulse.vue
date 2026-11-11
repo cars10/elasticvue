@@ -48,7 +48,7 @@
           <span class="font-mono"
             >{{ summary.longest.index }} {{ summary.longest.primary ? 'p' : 'r' }}{{ summary.longest.shard }}</span
           >
-          → {{ summary.longest.targetNode || '—' }}
+          → {{ summary.longest.targetNode || '-' }}
         </div>
       </pulse-metric-card>
     </div>

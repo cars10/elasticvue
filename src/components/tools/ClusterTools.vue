@@ -62,7 +62,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useTranslation } from '../../composables/i18n.ts'
 import { provideClusterTools } from '../../composables/components/tools/ClusterTools.ts'
@@ -96,7 +96,6 @@ const groups = computed(() => {
 const selectedTool = computed(() => definitions.value.find((tool) => tool.id === route.query.tool) || null)
 
 const open = (tool: ToolDefinition) => {
-  tool.onOpen?.()
   router.replace({ query: { ...route.query, tool: tool.id } })
 }
 
@@ -104,6 +103,12 @@ const close = () => {
   const { tool: _tool, ...query } = route.query
   router.replace({ query })
 }
+
+watch(
+  () => selectedTool.value?.id,
+  () => selectedTool.value?.onOpen?.(),
+  { immediate: true }
+)
 
 onMounted(tools.refresh)
 </script>

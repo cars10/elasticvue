@@ -17,7 +17,6 @@ import { useConnectionStore } from '../../store/connection.ts'
 const props = defineProps<{
   roles: string
   version?: string
-  /** Elected master; its master badge is filled, master-eligible nodes stay outlined. */
   master: boolean
 }>()
 

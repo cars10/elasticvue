@@ -9,18 +9,13 @@ export type AttentionFinding = {
   title: string
   summary: string
   detail?: string
-  entity?: {
-    type: 'index' | 'node' | 'shard' | 'cluster'
-    name: string
-  }
   action?: AttentionAction
 }
 
-/** Always-rendered expanded checklist row — OK or a folded finding. */
 export type AttentionCheck = {
   id: string
   title: string
-  severity: 'critical' | 'warning' | 'info' | 'ok'
+  severity: 'critical' | 'warning' | 'info' | 'ok' | 'unknown'
   summary: string[]
   detail: string[]
   action?: AttentionAction
@@ -76,7 +71,6 @@ export type ClusterHealth = {
   relocating_shards: number
   initializing_shards: number
   unassigned_shards: number
-  /** Present on Elasticsearch 8.16+ / recent OpenSearch; unassigned primaries ⇒ red health */
   unassigned_primary_shards?: number
   number_of_pending_tasks?: number
   active_shards_percent_as_number?: number
@@ -188,13 +182,11 @@ export type CatIndexRow = {
 
 export type IndexBlock = {
   index: string
-  /** e.g. write, read_only_allow_delete, read_only */
   kinds: string[]
 }
 
 export type PendingTaskInfo = {
   count: number
-  /** Oldest task age in ms when available */
   oldestAgeMs: number | null
 }
 
@@ -210,5 +202,4 @@ export type HeapSample = {
   heapPercent: number
 }
 
-/** cluster.routing.allocation.enable — defaults to "all" */
 export type AllocationEnable = 'all' | 'primaries' | 'new_primaries' | 'none' | string

@@ -6,9 +6,11 @@ import { checkHealth } from '../composables/components/home/ClusterHealth.ts'
 import { ClusterFailure } from '../helpers/clusterFailure.ts'
 import { buildCapabilities, ClusterCapabilities } from '../helpers/capabilities.ts'
 import { needsCredentials, withSessionCredentials } from './sessionCredentials.ts'
+import { visibleInterval } from '../helpers/visibleInterval.ts'
 
 const HEALTH_INTERVAL = 30000
 let connections = 0
+let stopHealthTimer: (() => void) | undefined
 
 type ClusterSessionState = {
   clusterId: string | null
@@ -16,7 +18,6 @@ type ClusterSessionState = {
   adapter: ElasticsearchAdapter | null
   connectState: 'idle' | 'connecting' | 'credentials' | 'ready' | 'error'
   error: ClusterFailure | null
-  healthTimer: number | undefined
 }
 
 export const useClusterSession = defineStore('clusterSession', {
@@ -25,8 +26,7 @@ export const useClusterSession = defineStore('clusterSession', {
     connectionId: 0,
     adapter: null,
     connectState: 'idle',
-    error: null,
-    healthTimer: undefined
+    error: null
   }),
   getters: {
     capabilities(): ClusterCapabilities {
@@ -55,10 +55,10 @@ export const useClusterSession = defineStore('clusterSession', {
       await this.checkHealth(cluster, adapter)
       if (this.adapter !== adapter) return
 
-      this.healthTimer = window.setInterval(() => this.checkHealth(cluster, adapter), HEALTH_INTERVAL)
+      stopHealthTimer = visibleInterval(() => this.checkHealth(cluster, adapter), HEALTH_INTERVAL)
     },
     async checkHealth(cluster: ElasticsearchCluster, adapter: ElasticsearchAdapter) {
-      const { error } = await checkHealth(cluster)
+      const { error } = await checkHealth(cluster, { adapter })
       if (this.adapter !== adapter) return
 
       this.error = error
@@ -77,7 +77,8 @@ export const useClusterSession = defineStore('clusterSession', {
       if (clusterId) return this.connect(clusterId)
     },
     disconnect() {
-      window.clearInterval(this.healthTimer)
+      stopHealthTimer?.()
+      stopHealthTimer = undefined
       this.$reset()
     }
   }

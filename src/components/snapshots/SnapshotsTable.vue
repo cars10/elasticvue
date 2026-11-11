@@ -4,8 +4,8 @@
       <new-snapshot :repository="repository" @reload="emit('reload')" />
       <filter-state
         v-model="snapshotsStore.filter"
-        :results-count="filterStateProps.resultsCount"
-        :filtered-results-count="filterStateProps.filteredResultsCount"
+        :results-count="resultsCount"
+        :filtered-results-count="filteredResultsCount"
         class="q-ml-md"
       />
     </div>
@@ -42,5 +42,5 @@ const snapshotsStore = useSnapshotsStore()
 const props = defineProps<SnapshotsTableProps>()
 const emit = defineEmits(['reload'])
 
-const { columns, filteredResults, filterStateProps } = useSnapshotsTable(props)
+const { columns, filteredResults, resultsCount, filteredResultsCount } = useSnapshotsTable(props)
 </script>

@@ -64,9 +64,7 @@ export const useClusterNodes = () => {
       attributes.value = Object.fromEntries(
         Object.entries(body.nodes || {}).map(([id, node]) => [id, flattenObj(node?.settings?.node?.attr)])
       )
-    } catch {
-      // Attributes are enrichment; listing nodes should still work without them
-    }
+    } catch {}
   }
 
   const loadDiskWatermarks = async () => {

@@ -3,8 +3,8 @@
     <div class="flex items-center">
       <filter-state
         v-model="indexTemplatesStore.filter"
-        :results-count="filterStateProps.resultsCount"
-        :filtered-results-count="filterStateProps.filteredResultsCount"
+        :results-count="resultsCount"
+        :filtered-results-count="filteredResultsCount"
       />
     </div>
 
@@ -80,5 +80,5 @@ const resizeStore = useResizeStore()
 
 const t = useTranslation()
 
-const { filteredItems, filterStateProps, columns } = useIndexTemplatesTable(props)
+const { filteredItems, resultsCount, filteredResultsCount, columns } = useIndexTemplatesTable(props)
 </script>

@@ -12,6 +12,16 @@ export class EsApiError extends Error {
   }
 }
 
+export class EsAbortError extends Error {
+  constructor() {
+    super('Request aborted')
+    this.name = 'EsAbortError'
+  }
+}
+
+export const isAbortError = (error: unknown) =>
+  typeof error === 'object' && error !== null && (error as { name?: string }).name === 'AbortError'
+
 export class EsNetworkError extends Error {
   constructor(cause: unknown) {
     super(cause instanceof Error ? cause.message : String(cause))

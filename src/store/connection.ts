@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { v4 as uuidv4 } from 'uuid'
 import { normalizeAuth, pickSecrets, sessionSecrets, withoutSecrets } from '../helpers/auth.ts'
 import { useSessionCredentials } from './sessionCredentials.ts'
+import { removeClusterStorage } from '../helpers/clusterStorage.ts'
 
 export enum BuildFlavor {
   serverless = 'serverless',
@@ -94,6 +95,7 @@ export const useConnectionStore = defineStore('connection', {
     removeCluster(id: string) {
       this.clusters = this.clusters.filter((cluster) => cluster.id !== id)
       useSessionCredentials().remove(id)
+      removeClusterStorage(id)
     },
     checkAndSetActiveCluster() {
       if (this.clusters.length === 0) return

@@ -191,7 +191,7 @@ describe('summarizeNodes', () => {
 
 describe('formatters', () => {
   it('formats uptime', () => {
-    expect(formatUptime(null)).toBe('—')
+    expect(formatUptime(null)).toBe('-')
     expect(formatUptime(5 * 60_000)).toBe('5m')
     expect(formatUptime(90 * 60_000)).toBe('1h 30m')
     expect(formatUptime(26 * 3_600_000)).toBe('1d 2h')
@@ -199,7 +199,7 @@ describe('formatters', () => {
 
   it('formats counts', () => {
     expect(formatCount(1500)).toBe('1.5K')
-    expect(formatCount(null)).toBe('—')
+    expect(formatCount(null)).toBe('-')
   })
 })
 

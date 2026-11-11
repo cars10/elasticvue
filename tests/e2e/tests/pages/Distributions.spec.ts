@@ -129,6 +129,7 @@ test.describe('Version parsing', () => {
     await addCluster(page)
 
     await page.getByRole('button', { name: 'Test connection' }).click()
-    await expect(page.getByText('Cluster is reachable')).toHaveCount(0)
+    await expect(page.getByText('400 Bad Request: broken')).toBeVisible()
+    await expect(page.getByText('reachable and configured correctly')).toHaveCount(0)
   })
 })

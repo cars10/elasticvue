@@ -1,6 +1,5 @@
 import type { EsFieldCapsResponse, EsMappingProperty, FieldCatalog, FieldInfo } from '../../types/search.ts'
 
-// Null prototype, so fields named like constructor or __proto__ do not hit Object.prototype
 export const emptyCatalog = (): FieldCatalog => Object.create(null)
 
 const PARENT_TYPES = ['object', 'nested']
@@ -115,9 +114,9 @@ export const catalogFromMappings = (response: Record<string, { mappings?: Record
   return withSortFields(catalog)
 }
 
-export const unmappedTypeFor = (field: FieldInfo | undefined, majorVersion: number) => {
+export const unmappedTypeFor = (field: FieldInfo | undefined, stringFieldType: boolean) => {
   const type = field?.types[0]
   if (!type) return undefined
-  if (majorVersion < 5 && (type === 'keyword' || type === 'text')) return 'string'
+  if (stringFieldType && (type === 'keyword' || type === 'text')) return 'string'
   return type
 }

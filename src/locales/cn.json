@@ -398,7 +398,8 @@
         "critical": "严重",
         "warning": "警告",
         "info": "提示",
-        "ok": "正常"
+        "ok": "正常",
+        "unknown": "正在收集数据"
       },
       "actions": {
         "view_shards": "查看分片",
@@ -539,7 +540,8 @@
           "summary_partial": "部分节点缺少统计信息（{expected} 个中有 {observed} 个上报）",
           "detail": "你的用户可能缺少 monitor 权限，或节点统计 API 不可用。"
         }
-      }
+      },
+      "checks_pending": "{passed} 项检查通过, {pending} 项正在收集数据"
     }
   },
   "mixins": {
@@ -1251,7 +1253,9 @@
     "table_bottom": {
       "rows_per_page": {
         "confirm": "警告：您确定吗？一次性显示 {value} 条目可能会导致问题或冻结。建议使用搜索/过滤功能来限制结果。"
-      }
+      },
+      "records_per_page": "每页条数",
+      "range": "{from}-{to} / 共 {total}"
     },
     "code_editor": {
       "actions": {
@@ -1273,7 +1277,8 @@
     },
     "loader": {
       "copy_error": "复制错误",
-      "network_error": "网络错误, 无法访问你的集群"
+      "network_error": "网络错误, 无法访问你的集群",
+      "error": "错误: {message}"
     },
     "reload_button": {
       "reload": "重新加载"
@@ -1306,6 +1311,10 @@
       "help": "连接问题排查",
       "heading_cors": "{name} 阻止了来自 elasticvue 的请求",
       "cors_hint": "集群可以访问，但其 CORS 设置不允许来自此页面的请求。"
+    },
+    "filter_state": {
+      "filter": "过滤: '{filter}'",
+      "matches": "匹配 {filtered} / {total} 条结果"
     }
   },
   "snapshots": {

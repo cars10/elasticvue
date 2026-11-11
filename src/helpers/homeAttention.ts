@@ -17,32 +17,13 @@ const PRESSURE_WINDOW_MS = 5 * 60 * 1000
 const HEAP_SUSTAINED_MS = 2 * 60 * 1000
 const HEAP_PRESSURE_PERCENT = 85
 const FD_WARN_PERCENT = 90
-/** Only investigate pending-task age when health reports at least this many. */
 export const PENDING_TASKS_FETCH_THRESHOLD = 5
-/** Alert when oldest pending task exceeds this age. */
 export const PENDING_TASK_AGE_MS = 30_000
 
 const SEVERITY_RANK: Record<AttentionFinding['severity'], number> = {
   critical: 0,
   warning: 1,
   info: 2
-}
-
-/** Lower = higher priority within the same severity (availability before capacity). */
-const FINDING_PRIORITY: Record<string, number> = {
-  'unassigned-primaries': 0,
-  'index-blocks': 1,
-  'disk-flood': 2,
-  'allocation-disabled': 3,
-  'unassigned-replicas': 4,
-  'disk-watermark': 5,
-  'pending-tasks': 6,
-  rejections: 7,
-  breakers: 8,
-  'jvm-pressure': 9,
-  'file-descriptors': 10,
-  'mixed-versions': 11,
-  monitoring: 12
 }
 
 export type AttentionDetectorInput = {
@@ -115,14 +96,12 @@ export const detectShardProblems = (t: Translate, input: AttentionDetectorInput)
   if (unassigned <= 0) return []
 
   const names = [...unhealthyIndices.red, ...unhealthyIndices.yellow]
-  const entity = names.length ? { type: 'index' as const, name: names[0] } : { type: 'cluster' as const, name: 'cluster' }
   const findings: AttentionFinding[] = []
   const primary = {
     id: 'unassigned-primaries',
     severity: 'critical' as const,
     title: t('home.attention.findings.unassigned_primaries.title'),
     detail: t('home.attention.findings.unassigned_primaries.detail'),
-    entity,
     action: actions(t).shards
   }
 
@@ -147,7 +126,6 @@ export const detectShardProblems = (t: Translate, input: AttentionDetectorInput)
       detail: singleNode
         ? t('home.attention.findings.unassigned_replicas.detail_single_node')
         : t('home.attention.findings.unassigned_replicas.detail'),
-      entity,
       action: actions(t).shards
     })
   }
@@ -180,7 +158,6 @@ export const detectIndexBlocks = (t: Translate, blocks: IndexBlock[]): Attention
       detail: allowDelete
         ? t('home.attention.findings.index_blocks.detail_allow_delete')
         : t('home.attention.findings.index_blocks.detail'),
-      entity: { type: 'index', name: index },
       action: actions(t).indices
     }
   ]
@@ -194,7 +171,7 @@ export const detectDiskProblems = (t: Translate, nodes: OverviewNode[], watermar
     if (used == null) continue
 
     const params = { node: node.name, percent: Math.round(used) }
-    const base = { entity: { type: 'node' as const, name: node.name }, action: actions(t).nodes }
+    const base = { action: actions(t).nodes }
 
     if (watermarks.floodPercent != null && used >= watermarks.floodPercent) {
       findings.push({
@@ -246,7 +223,6 @@ export const detectAllocationSettings = (t: Translate, allocationEnable: Allocat
       title: t('home.attention.findings.allocation.title'),
       summary: summaries[value] || t('home.attention.findings.allocation.summary_other', { value }),
       detail: t('home.attention.findings.allocation.detail'),
-      entity: { type: 'cluster', name: 'cluster' },
       action: actions(t).shards
     }
   ]
@@ -266,8 +242,7 @@ export const detectPendingTasks = (t: Translate, pending: PendingTaskInfo | null
         count: pending.count,
         age: formatDuration(pending.oldestAgeMs)
       }),
-      detail: t('home.attention.findings.pending_tasks.detail'),
-      entity: { type: 'cluster', name: 'cluster' }
+      detail: t('home.attention.findings.pending_tasks.detail')
     }
   ]
 }
@@ -288,7 +263,6 @@ export const detectRecentRejections = (t: Translate, samples: PressureSample[], 
       title: t('home.attention.findings.rejections.title'),
       summary: t('home.attention.findings.rejections.summary', { count }, count),
       detail: t('home.attention.findings.rejections.detail'),
-      entity: { type: 'cluster', name: 'cluster' },
       action: actions(t).nodes
     }
   ]
@@ -305,7 +279,6 @@ export const detectRecentBreakerTrips = (t: Translate, samples: PressureSample[]
       title: t('home.attention.findings.breakers.title'),
       summary: t('home.attention.findings.breakers.summary', { count }, count),
       detail: t('home.attention.findings.breakers.detail'),
-      entity: { type: 'cluster', name: 'cluster' },
       action: actions(t).nodes
     }
   ]
@@ -325,7 +298,6 @@ export const detectJvmPressure = (t: Translate, samples: HeapSample[], now: numb
 
   for (const [node, nodeSamples] of byNode) {
     const sorted = [...nodeSamples].sort((a, b) => a.at - b.at)
-    // Walk backwards while heap stays above threshold
     let sustainedFrom: number | null = null
     for (let i = sorted.length - 1; i >= 0; i--) {
       if (sorted[i].heapPercent < HEAP_PRESSURE_PERCENT) break
@@ -347,7 +319,6 @@ export const detectJvmPressure = (t: Translate, samples: HeapSample[], now: numb
         duration: formatDuration(duration)
       }),
       detail: t('home.attention.findings.jvm.detail', { percent: Math.round(latest.heapPercent) }),
-      entity: { type: 'node', name: node },
       action: actions(t).nodes
     })
   }
@@ -377,7 +348,6 @@ export const detectFileDescriptorPressure = (t: Translate, nodes: OverviewNode[]
             })
           : t('home.attention.findings.file_descriptors.summary', params),
       detail: t('home.attention.findings.file_descriptors.detail'),
-      entity: { type: 'node', name: node.name },
       action: actions(t).nodes
     })
   }
@@ -396,7 +366,6 @@ export const detectVersionMismatch = (t: Translate, stats: ClusterStats | null):
       title: t('home.attention.findings.versions.title'),
       summary: t('home.attention.findings.versions.summary', { versions: versions.join(', ') }),
       detail: t('home.attention.findings.versions.detail'),
-      entity: { type: 'cluster', name: 'cluster' },
       action: actions(t).nodes
     }
   ]
@@ -419,26 +388,15 @@ export const detectMonitoringProblems = (
         expectedNodes != null && expectedNodes > 0
           ? t('home.attention.findings.monitoring.summary_partial', { observed: observedNodes, expected: expectedNodes })
           : t('home.attention.findings.monitoring.summary'),
-      detail: t('home.attention.findings.monitoring.detail'),
-      entity: { type: 'cluster', name: 'cluster' }
+      detail: t('home.attention.findings.monitoring.detail')
     }
   ]
-}
-
-const sortFindings = (findings: AttentionFinding[]): AttentionFinding[] => {
-  return [...findings].sort((a, b) => {
-    const sev = SEVERITY_RANK[a.severity] - SEVERITY_RANK[b.severity]
-    if (sev !== 0) return sev
-    const aKey = a.id.split(':')[0]
-    const bKey = b.id.split(':')[0]
-    return (FINDING_PRIORITY[aKey] ?? 99) - (FINDING_PRIORITY[bKey] ?? 99)
-  })
 }
 
 export const buildAttentionFindings = (t: Translate, input: AttentionDetectorInput): AttentionFinding[] => {
   const now = input.now ?? Date.now()
 
-  const findings = [
+  return [
     ...detectShardProblems(t, input),
     ...detectIndexBlocks(t, input.indexBlocks),
     ...detectDiskProblems(t, input.nodes, input.diskWatermarks),
@@ -456,11 +414,8 @@ export const buildAttentionFindings = (t: Translate, input: AttentionDetectorInp
       input.nodes.length
     )
   ]
-
-  return sortFindings(findings)
 }
 
-/** Stable expanded checklist — one row per concern area, OK when no finding. */
 const checkDefinitions = (t: Translate) => [
   {
     id: 'shards',
@@ -530,27 +485,33 @@ const checkDefinitions = (t: Translate) => [
   }
 ]
 
-const worstSeverity = (findings: AttentionFinding[]): AttentionFinding['severity'] => {
-  if (findings.some((f) => f.severity === 'critical')) return 'critical'
-  if (findings.some((f) => f.severity === 'warning')) return 'warning'
-  return 'info'
+const collectingCheckIds = (input: AttentionDetectorInput, now: number): string[] => {
+  const ids: string[] = []
+  if (input.pressureSamples.length === 0) ids.push('rejections', 'breakers')
+
+  const oldestHeapSample = Math.min(...input.heapSamples.map((sample) => sample.at))
+  if (now - oldestHeapSample < HEAP_SUSTAINED_MS) ids.push('jvm')
+  return ids
 }
 
-/**
- * Always returns every check row for the expanded Attention card.
- * Findings fold into their check; otherwise the row is OK.
- */
 export const buildAttentionChecks = (t: Translate, input: AttentionDetectorInput): AttentionCheck[] => {
-  const findings = buildAttentionFindings(t, input)
+  const now = input.now ?? Date.now()
+  const findings = buildAttentionFindings(t, { ...input, now })
+  const collecting = collectingCheckIds(input, now)
 
   return checkDefinitions(t).map((def) => {
-    const matched = findings.filter((f) => def.prefixes.includes(f.id.split(':')[0]))
-    if (!matched.length) return { id: def.id, title: def.title, severity: 'ok', summary: [def.ok], detail: [] }
+    const matched = findings
+      .filter((f) => def.prefixes.includes(f.id.split(':')[0]))
+      .sort((a, b) => SEVERITY_RANK[a.severity] - SEVERITY_RANK[b.severity])
+    if (!matched.length) {
+      const severity = collecting.includes(def.id) ? 'unknown' : 'ok'
+      return { id: def.id, title: def.title, severity, summary: severity === 'ok' ? [def.ok] : [], detail: [] }
+    }
 
     return {
       id: def.id,
       title: matched.length === 1 ? matched[0].title : def.title,
-      severity: worstSeverity(matched),
+      severity: matched[0].severity,
       summary: matched.map((f) => f.summary),
       detail: [...new Set(matched.map((f) => f.detail).filter((d): d is string => Boolean(d)))],
       action: matched[0].action
@@ -569,7 +530,6 @@ export const parseAllocationEnable = (settings: Parameters<typeof flatClusterSet
   return String(value)
 }
 
-/** Parse `_cluster/state/blocks` into actionable index blocks. */
 export const parseIndexBlocks = (
   body: {
     blocks?: {
@@ -634,7 +594,6 @@ export const trimPressureSamples = (samples: PressureSample[], now: number): Pre
 }
 
 export const trimHeapSamples = (samples: HeapSample[], now: number): HeapSample[] => {
-  // Keep a bit more than the sustain window so we can detect duration
   const windowStart = now - HEAP_SUSTAINED_MS * 3
   return samples.filter((s) => s.at >= windowStart)
 }

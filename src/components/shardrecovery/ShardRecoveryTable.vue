@@ -2,8 +2,8 @@
   <div class="flex justify-between q-pa-md">
     <filter-state
       v-model="shardRecoveryStore.filter"
-      :results-count="filterStateProps.resultsCount"
-      :filtered-results-count="filterStateProps.filteredResultsCount"
+      :results-count="resultsCount"
+      :filtered-results-count="filteredResultsCount"
     />
 
     <div class="flex items-center q-ml-auto">
@@ -90,5 +90,5 @@ const props = defineProps<ShardRecoveryTableProps>()
 const shardRecoveryStore = useShardRecoveryStore()
 const resizeStore = useResizeStore()
 
-const { filterStateProps, filteredResults, stageOptions, columns } = useShardRecoveryTable(props)
+const { resultsCount, filteredResultsCount, filteredResults, stageOptions, columns } = useShardRecoveryTable(props)
 </script>

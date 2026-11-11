@@ -40,7 +40,7 @@ const options = computed(() =>
 )
 const current = computed(() => {
   const values = new Set(userIndices.value.filter((index) => selected.value.includes(index.name)).map((index) => index.replicas))
-  if (!values.size) return '—'
+  if (!values.size) return '-'
   return values.size === 1 ? String([...values][0]) : t('tools.mixed')
 })
 const valid = computed(() => Number.isInteger(draft.value) && draft.value >= 0)

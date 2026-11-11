@@ -75,13 +75,11 @@ export const useImportExport = ({ confirmImport } = { confirmImport: false }) =>
       const backup = parseJson(rawData)
       if (!backup.store) return Promise.reject('Invalid backup')
 
-      // pinia store
       localStorage.clear()
       Object.entries(backup.store).forEach(([name, value]: [string, any]) => {
         localStorage.setItem(name, stringifyJson(value))
       })
 
-      // idb
       for (const clusterId of Object.keys(backup.idb)) {
         for (const [tableName, table] of Object.entries(clusterDb(clusterId))) {
           await table.clear()

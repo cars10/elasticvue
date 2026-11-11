@@ -27,9 +27,9 @@
           <td :class="stateClass(shard)">{{ shard.state }}</td>
           <td>
             <template v-if="relocationTarget(shard)"> {{ shardNodeName(shard) }} → {{ relocationTarget(shard) }} </template>
-            <template v-else>{{ shard.node || '—' }}</template>
+            <template v-else>{{ shard.node || '-' }}</template>
           </td>
-          <td class="text-muted">{{ shard['unassigned.reason'] || '—' }}</td>
+          <td class="text-muted">{{ shard['unassigned.reason'] || '-' }}</td>
         </tr>
       </tbody>
     </q-markup-table>

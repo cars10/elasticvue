@@ -7,6 +7,8 @@ import { CLUSTER_STATS_PARAMS, parseNodesFromStats } from '../../../helpers/home
 import { peakMetric } from '../../../helpers/nodeStats.ts'
 import type { ClusterHealth, ClusterStats } from '../../../types/homeDashboard.ts'
 
+const OVERVIEW_TIMEOUT_MS = 10_000
+
 const NODES_STATS = {
   metrics: 'jvm,fs,os,process',
   params: {
@@ -51,10 +53,11 @@ export const useClustersOverview = () => {
     if (needsCredentials(cluster)) return
 
     const adapter = new ElasticsearchAdapter(withSessionCredentials(cluster))
+    const options = { signal: AbortSignal.timeout(OVERVIEW_TIMEOUT_MS) }
     const [{ health }, stats, nodesBody] = await Promise.all([
-      checkHealth(cluster),
-      orNull(adapter.clusterStats(CLUSTER_STATS_PARAMS)),
-      orNull(adapter.nodesStats(NODES_STATS.metrics, NODES_STATS.params))
+      checkHealth(cluster, { adapter, timeoutMs: OVERVIEW_TIMEOUT_MS }),
+      orNull(adapter.clusterStats(CLUSTER_STATS_PARAMS, options)),
+      orNull(adapter.nodesStats(NODES_STATS.metrics, NODES_STATS.params, options))
     ])
 
     const nodes = parseNodesFromStats(nodesBody)

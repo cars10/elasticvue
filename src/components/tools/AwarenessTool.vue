@@ -5,8 +5,8 @@
     <q-item v-for="row in rows" :key="row.attribute">
       <q-item-section>
         <q-item-label>{{ row.attribute }}</q-item-label>
-        <q-item-label caption>{{ t('tools.awareness.values', { values: row.values.join(', ') || '—' }) }}</q-item-label>
-        <q-item-label caption>{{ t('tools.awareness.forced', { values: row.forced || '—' }) }}</q-item-label>
+        <q-item-label caption>{{ t('tools.awareness.values', { values: row.values.join(', ') || '-' }) }}</q-item-label>
+        <q-item-label caption>{{ t('tools.awareness.forced', { values: row.forced || '-' }) }}</q-item-label>
       </q-item-section>
     </q-item>
   </q-list>

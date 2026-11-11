@@ -10,18 +10,7 @@
 
   <q-card>
     <loader-status :request-state="requestState">
-      <shards-table :shards="shards" @reload="load">
-        <q-select
-          v-model="shardsStore.health"
-          :options="['green', 'yellow', 'red']"
-          :label="t('shards.health')"
-          clearable
-          dense
-          outlined
-          class="q-mr-md"
-          style="min-width: 140px"
-        />
-      </shards-table>
+      <shards-table :shards="shards" @reload="load" />
     </loader-status>
   </q-card>
 </template>

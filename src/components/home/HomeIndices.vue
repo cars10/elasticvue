@@ -46,7 +46,6 @@ import { useHealthLabel } from '../../composables/HealthLabel.ts'
 
 const props = defineProps<{
   indices: OverviewIndex[]
-  /** Eligible non-system indices (before top-N). */
   totalCount: number
 }>()
 

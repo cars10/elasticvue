@@ -25,7 +25,7 @@ export const useRolesTable = (props: RolesTableProps) => {
     return filterItems(results.value, rolesStore.filter, columns)
   })
 
-  const filterStateProps = setupFilterState(results, filteredResults)
+  const { resultsCount, filteredResultsCount } = setupFilterState(results, filteredResults)
 
   const columns = computed(() =>
     genColumns([
@@ -40,7 +40,8 @@ export const useRolesTable = (props: RolesTableProps) => {
 
   return {
     filteredResults,
-    filterStateProps,
+    resultsCount,
+    filteredResultsCount,
     columns,
     showDescription
   }

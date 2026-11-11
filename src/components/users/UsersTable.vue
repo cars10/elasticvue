@@ -4,8 +4,8 @@
       <new-user @reload="emit('reload')" />
       <filter-state
         v-model="usersStore.filter"
-        :results-count="filterStateProps.resultsCount"
-        :filtered-results-count="filterStateProps.filteredResultsCount"
+        :results-count="resultsCount"
+        :filtered-results-count="filteredResultsCount"
         class="q-ml-md"
       />
     </div>
@@ -50,7 +50,7 @@ import EditUser from './EditUser.vue'
 const usersStore = useUsersStore()
 const props = defineProps<UsersTableProps>()
 const emit = defineEmits(['reload'])
-const { columns, filteredResults, filterStateProps } = useUsersTable(props)
+const { columns, filteredResults, resultsCount, filteredResultsCount } = useUsersTable(props)
 const filterColumns = ['username', 'full_name', 'email', 'roles']
 
 const router = useRouter()

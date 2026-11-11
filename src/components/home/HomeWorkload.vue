@@ -60,7 +60,7 @@
           <span v-if="workload.indexingLatencyMs != null">{{
             t('home.workload.indexing_latency', { latency: formatLatency(workload.indexingLatencyMs) })
           }}</span>
-          <span v-else>—</span>
+          <span v-else>-</span>
         </div>
         <div
           class="font-13 q-mt-xs"

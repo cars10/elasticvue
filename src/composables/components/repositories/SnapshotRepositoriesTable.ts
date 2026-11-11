@@ -20,7 +20,7 @@ export const useSnapshotRepositoriesTable = (props: SnapshotRepositoriesTablePro
     filterItems(results.value, snapshotRepositoriesStore.filter, ['name', 'type', 'location'])
   )
 
-  const filterStateProps = setupFilterState(results, filteredResults)
+  const { resultsCount, filteredResultsCount } = setupFilterState(results, filteredResults)
 
   const columns = genColumns([
     { label: t('repositories.repositories_table.table.headers.name'), field: 'name' },
@@ -31,7 +31,8 @@ export const useSnapshotRepositoriesTable = (props: SnapshotRepositoriesTablePro
 
   return {
     filteredResults,
-    filterStateProps,
+    resultsCount,
+    filteredResultsCount,
     columns
   }
 }

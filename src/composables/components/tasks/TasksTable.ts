@@ -39,7 +39,7 @@ export const useTasksTable = (props: TasksTableProps) => {
   const typesLabel = computed(() => selectionLabel(visibleTypes.value.length, props.types.length))
   const categoriesLabel = computed(() => selectionLabel(visibleCategories.value.length, TASK_CATEGORIES.length))
 
-  const filterStateProps = setupFilterState(results, filteredResults)
+  const { resultsCount, filteredResultsCount } = setupFilterState(results, filteredResults)
 
   const columns = genColumns([
     { label: '' },
@@ -53,7 +53,8 @@ export const useTasksTable = (props: TasksTableProps) => {
   ])
 
   return {
-    filterStateProps,
+    resultsCount,
+    filteredResultsCount,
     filteredResults,
     visibleTypes,
     typesLabel,

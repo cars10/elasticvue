@@ -22,7 +22,7 @@
       <div class="text-muted font-13">
         {{ t('tools.drain.node_summary', { shards: selectedNode.shardCount }, selectedNode.shardCount) }}
         <template v-if="selectedNode.diskUsedPercent != null">
-          · {{ t('tools.drain.disk_used', { percent: selectedNode.diskUsedPercent }) }}
+          , {{ t('tools.drain.disk_used', { percent: selectedNode.diskUsedPercent }) }}
         </template>
       </div>
     </div>
@@ -34,7 +34,7 @@
           t('tools.drain.progress', {
             remaining: selectedNode.shardCount,
             total: initialCount,
-            relocating: selectedNode.relocatingShards
+            relocating: relocatingCount
           })
         }}
       </p>
@@ -57,19 +57,21 @@ import { useTranslation } from '../../composables/i18n.ts'
 import { useInjectedClusterTools } from '../../composables/components/tools/ClusterTools.ts'
 import { askConfirm } from '../../helpers/dialogs.ts'
 import { nodeDrainProgress } from '../../helpers/clusterTools.ts'
+import { visibleInterval } from '../../helpers/visibleInterval.ts'
 import ToolError from './ToolError.vue'
 
+const DRAIN_POLL_INTERVAL_MS = 5000
+
 const t = useTranslation()
-const { requests, nodes, allocationMode, excludedNodeIds, loadShards, loadNodes, setNodeDrain } = useInjectedClusterTools()
+const { requests, nodes, allocationMode, excludedNodeIds, relocatingCount, loadAllocations, loadHealth, setNodeDrain } =
+  useInjectedClusterTools()
 
 const selectedNodeId = ref<string | null>(null)
 const initialCounts = reactive<Record<string, number>>({})
 const selectedNode = computed(() => nodes.value.find((node) => node.id === selectedNodeId.value) || null)
 const selectedNodeExcluded = computed(() => Boolean(selectedNodeId.value && excludedNodeIds.value.includes(selectedNodeId.value)))
 const initialCount = computed(() =>
-  selectedNode.value
-    ? initialCounts[selectedNode.value.id] || Math.max(selectedNode.value.initialShardCount, selectedNode.value.shardCount)
-    : 0
+  selectedNode.value ? initialCounts[selectedNode.value.id] || selectedNode.value.shardCount : 0
 )
 const progress = computed(() => (selectedNode.value ? nodeDrainProgress(initialCount.value, selectedNode.value.shardCount) : 0))
 const nodeOptions = computed(() =>
@@ -94,14 +96,16 @@ const stop = async () => {
   await setNodeDrain(node.id, false)
 }
 
-let timer: number | undefined
+let stopPolling: (() => void) | undefined
 watch(
   selectedNodeExcluded,
   (active) => {
-    window.clearInterval(timer)
-    if (active) timer = window.setInterval(() => loadShards().then(loadNodes), 5000)
+    stopPolling?.()
+    stopPolling = active
+      ? visibleInterval(() => Promise.all([loadAllocations(), loadHealth()]), DRAIN_POLL_INTERVAL_MS)
+      : undefined
   },
   { immediate: true }
 )
-onBeforeUnmount(() => window.clearInterval(timer))
+onBeforeUnmount(() => stopPolling?.())
 </script>

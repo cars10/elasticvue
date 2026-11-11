@@ -41,7 +41,6 @@ export const toNumber = (value?: string | number | null): number | null => {
   return Number.isFinite(num) ? num : null
 }
 
-/** ES returns -1 for unknown CPU / FD values on some platforms. */
 export const positiveOrNull = (value?: number | null): number | null => {
   if (value == null || value < 0) return null
   return value
@@ -74,7 +73,6 @@ export const parseWatermarkPercent = (value?: string | number | null): number | 
     const num = parseFloat(trimmed.slice(0, -1))
     return Number.isFinite(num) ? num : null
   }
-  // Absolute byte watermarks can't map to a fixed % threshold
   return null
 }
 
@@ -95,7 +93,6 @@ export const sumBreakerTrips = (breakers?: Record<string, { tripped?: number }>)
   return Object.values(breakers).reduce((sum, breaker) => sum + (breaker.tripped || 0), 0)
 }
 
-/** Elected master id from `_cluster/state/master_node` (OpenSearch: `cluster_manager_node`). */
 export const parseElectedMasterNodeId = (
   state: {
     master_node?: string | null
@@ -120,7 +117,6 @@ export const parseDiskWatermarks = (settings: ClusterSettingsBody): DiskWatermar
     defaults['cluster.routing.allocation.disk.watermark.high'],
     DEFAULT_DISK_WATERMARKS.high
   )
-  // flood_stage added in ES 6.0 — null/missing → keep default
   const flood = pickSetting(
     transient['cluster.routing.allocation.disk.watermark.flood_stage'],
     persistent['cluster.routing.allocation.disk.watermark.flood_stage'],
@@ -140,7 +136,6 @@ export const parseDiskWatermarks = (settings: ClusterSettingsBody): DiskWatermar
 
 type NumericKey<T> = { [K in keyof T]-?: T[K] extends number | null | undefined ? K : never }[keyof T]
 
-/** Node with the highest value for `key`, e.g. the node with the fullest disk. */
 export const peakMetric = <T extends { name: string }>(
   nodes: T[],
   key: NumericKey<T>,
@@ -155,7 +150,6 @@ export const peakMetric = <T extends { name: string }>(
   return { value: peak[key] as number, node: peak.name, detail: detail?.(peak) ?? null }
 }
 
-/** Slow-changing per-node values (uptime, docs, store) keyed by node id. */
 export const parseNodeStatsDetails = (body: NodesStatsBody | null): Record<string, NodeStatsDetails> => {
   if (!body?.nodes) return {}
 

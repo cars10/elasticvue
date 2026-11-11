@@ -36,6 +36,16 @@ const baseInput = (overrides: Partial<AttentionDetectorInput> = {}): AttentionDe
   ...overrides
 })
 
+const NOW = 10_000_000
+const collectedSamples = {
+  now: NOW,
+  pressureSamples: [{ at: NOW, rejectedDelta: 0, breakerDelta: 0 }],
+  heapSamples: [
+    { at: NOW - 3 * 60 * 1000, node: 'node-1', heapPercent: 40 },
+    { at: NOW, node: 'node-1', heapPercent: 40 }
+  ]
+}
+
 const yellowHealth = (overrides: Partial<ClusterHealth> = {}): ClusterHealth => ({
   status: 'yellow',
   active_primary_shards: 1,
@@ -316,6 +326,7 @@ describe('helpers/homeAttention.ts', () => {
       const checks = buildAttentionChecks(
         t,
         baseInput({
+          ...collectedSamples,
           health: {
             status: 'green',
             active_primary_shards: 8,
@@ -335,6 +346,7 @@ describe('helpers/homeAttention.ts', () => {
       const checks = buildAttentionChecks(
         t,
         baseInput({
+          ...collectedSamples,
           health: yellowHealth({ unassigned_shards: 2 }),
           unhealthyIndices: { red: [], yellow: ['ksad'] }
         })
@@ -343,6 +355,54 @@ describe('helpers/homeAttention.ts', () => {
       expect(shards?.severity).toBe('warning')
       expect(shards?.summary[0]).toContain('ksad')
       expect(checks.filter((c) => c.severity === 'ok').length).toBe(checks.length - 1)
+    })
+    it('marks sample based checks as unknown until enough samples exist', () => {
+      const checks = buildAttentionChecks(t, baseInput({ now: NOW }))
+      const severity = (id: string) => checks.find((c) => c.id === id)?.severity
+
+      expect(severity('rejections')).toBe('unknown')
+      expect(severity('breakers')).toBe('unknown')
+      expect(severity('jvm')).toBe('unknown')
+      expect(severity('shards')).toBe('ok')
+    })
+
+    it('keeps jvm unknown while samples do not span the sustain window', () => {
+      const checks = buildAttentionChecks(
+        t,
+        baseInput({ ...collectedSamples, heapSamples: [{ at: NOW - 30_000, node: 'node-1', heapPercent: 95 }] })
+      )
+
+      expect(checks.find((c) => c.id === 'jvm')?.severity).toBe('unknown')
+      expect(checks.find((c) => c.id === 'rejections')?.severity).toBe('ok')
+    })
+
+    it('reports a finding instead of unknown once pressure is detected', () => {
+      const checks = buildAttentionChecks(
+        t,
+        baseInput({ now: NOW, pressureSamples: [{ at: NOW, rejectedDelta: 3, breakerDelta: 0 }] })
+      )
+
+      expect(checks.find((c) => c.id === 'rejections')?.severity).toBe('warning')
+    })
+
+    it('lists the most severe finding of a check first', () => {
+      const node = (name: string, diskPercent: number): OverviewNode => ({
+        name,
+        master: false,
+        heapPercent: 10,
+        heapCurrent: null,
+        heapMax: null,
+        diskPercent,
+        cpuPercent: 10,
+        fileDescriptorPercent: 1,
+        fileDescriptorsOpen: null,
+        fileDescriptorsMax: null
+      })
+      const checks = buildAttentionChecks(t, baseInput({ ...collectedSamples, nodes: [node('a', 91), node('b', 97)] }))
+      const disk = checks.find((c) => c.id === 'disk')
+
+      expect(disk?.severity).toBe('critical')
+      expect(disk?.summary[0]).toContain('"node":"b"')
     })
   })
 })

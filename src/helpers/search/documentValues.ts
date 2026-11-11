@@ -5,7 +5,6 @@ export const hasOwn = (object: object, key: string) => Object.prototype.hasOwnPr
 const isPlainObject = (value: unknown): value is Record<string, unknown> =>
   typeof value === 'object' && value !== null && !Array.isArray(value)
 
-// Null prototype, so fields named like __proto__ are stored as plain keys
 export const flattenDocument = (
   source: unknown,
   isLeaf: (path: string) => boolean = () => false,
@@ -73,7 +72,7 @@ export const summarizeDocument = (source: unknown, maxLength: number) => {
     if (length >= maxLength) break
   }
 
-  const summary = parts.join(' · ')
+  const summary = parts.join(', ')
   return summary.length > maxLength ? `${summary.slice(0, maxLength)}…` : summary
 }
 

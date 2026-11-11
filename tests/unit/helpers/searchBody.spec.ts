@@ -1,7 +1,9 @@
 import { describe, expect, it } from 'vitest'
 import { buildSearchBody, sortClause } from '../../../src/helpers/search/buildSearchBody'
 
-const base = { q: '*', page: 1, size: 10, majorVersion: 8 }
+const modern = { boolFilter: true, trackTotalHits: true }
+const legacy = { boolFilter: false, trackTotalHits: false }
+const base = { q: '*', page: 1, size: 10, capabilities: modern }
 
 describe('buildSearchBody', () => {
   it('uses match_all for empty and * queries', () => {
@@ -50,7 +52,7 @@ describe('buildSearchBody', () => {
   it('puts filters into must on elasticsearch 1.x and wraps exists in constant_score', () => {
     const body = buildSearchBody({
       ...base,
-      majorVersion: 1,
+      capabilities: legacy,
       filters: [
         { field: 'a', op: 'exists' },
         { field: 'b', op: 'exists', negate: true }
@@ -77,14 +79,14 @@ describe('buildSearchBody', () => {
 
   it('sends the time range without a date format on elasticsearch 1.x', () => {
     const time = { field: 'ts', from: '2024-01-01T00:00:00.000Z', to: 'now' }
-    expect(buildSearchBody({ ...base, majorVersion: 1, time }).query).toEqual({
+    expect(buildSearchBody({ ...base, capabilities: legacy, time }).query).toEqual({
       bool: { must: [{ range: { ts: { gte: '2024-01-01T00:00:00.000Z', lte: 'now' } } }] }
     })
   })
 
   it('only sends track_total_hits for exact totals on elasticsearch 7+', () => {
     expect(buildSearchBody({ ...base, exactTotal: true })).toHaveProperty('track_total_hits', true)
-    expect(buildSearchBody({ ...base, exactTotal: true, majorVersion: 6 })).not.toHaveProperty('track_total_hits')
+    expect(buildSearchBody({ ...base, exactTotal: true, capabilities: { boolFilter: true, trackTotalHits: false } })).not.toHaveProperty('track_total_hits')
     expect(buildSearchBody(base)).not.toHaveProperty('track_total_hits')
   })
 

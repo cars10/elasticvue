@@ -36,6 +36,6 @@ describe('diskThresholds', () => {
 describe('formatPercent', () => {
   it('rounds and handles missing values', () => {
     expect(formatPercent(42.6)).toBe('43%')
-    expect(formatPercent(null)).toBe('—')
+    expect(formatPercent(null)).toBe('-')
   })
 })

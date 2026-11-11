@@ -1,6 +1,7 @@
 import { useElasticsearchAdapter } from '../../CallElasticsearch.ts'
 import { useClusterSession } from '../../../store/clusterSession.ts'
-import type { FieldCatalog } from '../../../types/search.ts'
+import { fieldValuesBody } from '../../../helpers/search/fieldValues.ts'
+import type { FieldCatalog, SearchTimeRange } from '../../../types/search.ts'
 
 const CACHE_TTL = 60_000
 const NO_VALUE_TYPES = ['date', 'date_nanos']
@@ -17,21 +18,26 @@ export const useFieldValues = () => {
   const session = useClusterSession()
   const { callElasticsearch } = useElasticsearchAdapter()
 
-  const fetchValues = async (index: string, field: string): Promise<string[]> => {
-    const body = { size: 0, aggs: { values: { terms: { field, size: 10 } } } }
+  const fetchValues = async (index: string, field: string, time: SearchTimeRange | null): Promise<string[]> => {
+    const body = fieldValuesBody({ field, time, capabilities: session.capabilities.search })
     const result = await callElasticsearch((es) => es.search(body, index))
     const buckets: { key: unknown; key_as_string?: string }[] = result?.aggregations?.values?.buckets ?? []
     return buckets.map((bucket) => String(bucket.key_as_string ?? bucket.key))
   }
 
-  const loadValues = (index: string, field: string, catalog: FieldCatalog): Promise<string[]> => {
+  const loadValues = (
+    index: string,
+    field: string,
+    catalog: FieldCatalog,
+    time: SearchTimeRange | null = null
+  ): Promise<string[]> => {
     const valuesField = valuesFieldFor(catalog, field)
     if (!valuesField) return Promise.resolve([])
 
-    const key = `${session.connectionId}|${index}|${valuesField}`
+    const key = [session.connectionId, index, valuesField, time?.field, time?.from, time?.to].join('|')
     const cached = cache.get(key)
     if (!cached || Date.now() - cached.at > CACHE_TTL) {
-      const values = fetchValues(index, valuesField).catch(() => {
+      const values = fetchValues(index, valuesField, time).catch(() => {
         cache.delete(key)
         return []
       })

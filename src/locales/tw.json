@@ -398,7 +398,8 @@
         "critical": "嚴重",
         "warning": "警告",
         "info": "提示",
-        "ok": "正常"
+        "ok": "正常",
+        "unknown": "正在收集資料"
       },
       "actions": {
         "view_shards": "查看分片",
@@ -539,7 +540,8 @@
           "summary_partial": "部分節點缺少統計資料（{expected} 個中有 {observed} 個回報）",
           "detail": "你的使用者可能缺少 monitor 權限，或節點統計 API 無法使用。"
         }
-      }
+      },
+      "checks_pending": "{passed} 項檢查通過，{pending} 項正在收集資料"
     }
   },
   "mixins": {
@@ -1251,7 +1253,9 @@
     "table_bottom": {
       "rows_per_page": {
         "confirm": "警告：確定嗎？一次顯示 {value} 個項目可能會導致問題或凍結。建議使用搜尋/篩選功能來限制結果。"
-      }
+      },
+      "records_per_page": "每頁筆數",
+      "range": "{from}-{to} / 共 {total}"
     },
     "code_editor": {
       "actions": {
@@ -1273,7 +1277,8 @@
     },
     "loader": {
       "copy_error": "複製錯誤",
-      "network_error": "網路錯誤，無法存取您的叢集。"
+      "network_error": "網路錯誤，無法存取您的叢集。",
+      "error": "錯誤: {message}"
     },
     "reload_button": {
       "reload": "重新載入"
@@ -1306,6 +1311,10 @@
       "help": "連線問題排解",
       "heading_cors": "{name} 封鎖了來自 elasticvue 的請求",
       "cors_hint": "叢集可以連線，但其 CORS 設定不允許來自此頁面的請求。"
+    },
+    "filter_state": {
+      "filter": "篩選: '{filter}'",
+      "matches": "符合 {filtered} / {total} 筆結果"
     }
   },
   "snapshots": {

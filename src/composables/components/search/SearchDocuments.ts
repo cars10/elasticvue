@@ -1,4 +1,4 @@
-import { computed, nextTick, onMounted, ref, shallowRef, watch } from 'vue'
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, shallowRef, watch } from 'vue'
 import { useClusterSession } from '../../../store/clusterSession.ts'
 import { useRoute, useRouter } from 'vue-router'
 import { useElasticsearchAdapter } from '../../CallElasticsearch'
@@ -9,7 +9,7 @@ import { useFieldCatalog } from './FieldCatalog.ts'
 import { useSearchHistogram } from './SearchHistogram.ts'
 import { useFieldValues } from './FieldValues.ts'
 import { useSqlSearch } from './SqlSearch.ts'
-import { sqlApi, sqlBody, defaultSqlQuery, type SqlMode } from '../../../helpers/search/sql.ts'
+import { sqlBody, defaultSqlQuery, type SqlMode } from '../../../helpers/search/sql.ts'
 import { queryKeyFor, searchEntry } from '../../../helpers/search/searchLibrary.ts'
 import type { IdbSearchEntry } from '../../../db/types.ts'
 import { parseJson } from '../../../helpers/json/parse'
@@ -24,7 +24,6 @@ import { parseFilters } from '../../../helpers/search/filters.ts'
 import { buildQueryFromTableOptions, getTableOptionsToApply } from '../../../helpers/search/searchQueryTableOptions'
 import { paginationFromQuery } from '../../../helpers/search/paginationFromQuery'
 import { useTranslation } from '../../i18n.ts'
-import { versionAtLeast } from '../../../helpers/minClusterVersion.ts'
 import { allowedRowsPerPage } from '../../../consts.ts'
 import { dateFields, timeFieldFor } from '../../../helpers/search/timeRange.ts'
 import type { SearchFilter, SearchMode, SearchSort, SearchTimeBounds } from '../../../types/search.ts'
@@ -62,23 +61,25 @@ export const useSearchDocuments = () => {
   const matchedIndices = ref<number | null>(null)
   let latestTargets = 0
   let latestSearch = 0
+  let searchAbort: AbortController | null = null
 
   const histogram = useSearchHistogram()
   const sql = useSqlSearch()
   let suspendWatchers = false
-  const compatibleVersion = computed(() => session.capabilities.version)
-  const majorVersion = computed(() => parseInt(compatibleVersion.value) || 0)
+  const searchCapabilities = session.capabilities.search
   const isSqlMode = (mode: SearchMode): mode is SqlMode => mode === 'sql' || mode === 'esql'
-  const sqlApiFor = (mode: SqlMode) => sqlApi(mode, compatibleVersion.value, session.capabilities.elasticsearch)
+  const sqlApiFor = (mode: SqlMode) => searchCapabilities[mode]
   const modes = computed(() =>
     (['query', 'dsl', 'sql', 'esql'] as SearchMode[]).filter((mode) => !isSqlMode(mode) || !!sqlApiFor(mode))
   )
   const sqlText = (mode: SqlMode) => (mode === 'sql' ? searchStore.sqlQuery : searchStore.esqlQuery)
   const { loadValues: loadFieldValues } = useFieldValues()
   const catalogFields = computed(() => Object.keys(catalog.value).sort())
-  const loadValues = (field: string) => loadFieldValues(targetKey(searchStore.targets), field, catalog.value)
   const timeFields = computed(() => dateFields(catalog.value))
   const timeField = computed(() => timeFieldFor(catalog.value, searchStore.savedTimeField))
+  const activeTime = () =>
+    timeField.value && searchStore.timeRange ? { field: timeField.value, ...searchStore.timeRange } : null
+  const loadValues = (field: string) => loadFieldValues(targetKey(searchStore.targets), field, catalog.value, activeTime())
   const showHistogram = computed(() => searchStore.mode === 'query' && !!timeField.value)
   const results = shallowRef<EsSearchResult>(emptyResult())
   const openHit = shallowRef<EsSearchHit | null>(null)
@@ -95,8 +96,8 @@ export const useSearchDocuments = () => {
     return {
       field,
       descending: searchStore.pagination.descending,
-      unmappedType: versionAtLeast(compatibleVersion.value, '1.4')
-        ? unmappedTypeFor(catalog.value[field], majorVersion.value)
+      unmappedType: searchCapabilities.unmappedType
+        ? unmappedTypeFor(catalog.value[field], searchCapabilities.stringFieldType)
         : undefined
     }
   }
@@ -113,12 +114,12 @@ export const useSearchDocuments = () => {
       q: searchStore.q,
       filters: searchStore.filters,
       source: sourceFilter(),
-      time: timeField.value && searchStore.timeRange ? { field: timeField.value, ...searchStore.timeRange } : null,
+      time: activeTime(),
       sort: tableSort(),
       page: searchStore.pagination.page,
       size: searchStore.pagination.rowsPerPage,
       exactTotal: searchStore.exactTotal,
-      majorVersion: majorVersion.value
+      capabilities: searchCapabilities
     })
 
   const requestBody = (): Record<string, unknown> =>
@@ -150,7 +151,7 @@ export const useSearchDocuments = () => {
       query: queryBody().query,
       field: timeField.value!,
       range: searchStore.timeRange,
-      fixedInterval: versionAtLeast(compatibleVersion.value, '7.2')
+      fixedInterval: searchCapabilities.fixedInterval
     })
   }
 
@@ -178,7 +179,11 @@ export const useSearchDocuments = () => {
       Object.assign(searchStore.pagination, { page, rowsPerPage })
     }
 
-    const result = await callElasticsearch((es) => es.search(body, targetKey(searchStore.targets))).catch(emptyResult)
+    searchAbort?.abort()
+    const { signal } = (searchAbort = new AbortController())
+    const result = await callElasticsearch((es) => es.search(body, targetKey(searchStore.targets), undefined, { signal })).catch(
+      emptyResult
+    )
     if (request !== latestSearch) return
     results.value = result
     searchStore.pagination.rowsNumber = totalHits.value.value
@@ -368,6 +373,8 @@ export const useSearchDocuments = () => {
     if (typeof filters === 'string') searchStore.filters = parseFilters(filters)
   }
 
+  onBeforeUnmount(() => searchAbort?.abort())
+
   onMounted(() => {
     hydrateFromUrl()
     if (!modes.value.includes(searchStore.mode)) searchStore.mode = 'query'
@@ -413,7 +420,6 @@ export const useSearchDocuments = () => {
     loadValues,
     catalogSkipped,
     matchedIndices,
-    majorVersion,
     timeFields,
     timeField,
     showHistogram,

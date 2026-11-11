@@ -1,14 +1,19 @@
-import type { SearchBodyOptions, SearchFilter, SearchSort } from '../../types/search.ts'
+import type { SearchBodyOptions, SearchFilter, SearchSort, SearchTimeRange } from '../../types/search.ts'
 
-const filterClause = ({ field, op, value, to }: SearchFilter, majorVersion: number) => {
+const filterClause = ({ field, op, value, to }: SearchFilter, boolFilter: boolean) => {
   switch (op) {
     case 'exists':
-      return majorVersion >= 2 ? { exists: { field } } : { constant_score: { filter: { exists: { field } } } }
+      return boolFilter ? { exists: { field } } : { constant_score: { filter: { exists: { field } } } }
     case 'between':
       return { range: { [field]: { ...(value && { gte: value }), ...(to && { lte: to }) } } }
     default:
       return { match_phrase: { [field]: value } }
   }
+}
+
+export const timeRangeClause = ({ field, from, to }: SearchTimeRange, boolFilter: boolean) => {
+  const format = boolFilter ? { format: 'strict_date_optional_time||epoch_millis' } : {}
+  return { range: { [field]: { gte: from, lte: to, ...format } } }
 }
 
 export const sortClause = ({ field, descending, unmappedType }: SearchSort) => {
@@ -26,20 +31,17 @@ export const buildSearchBody = ({
   page,
   size,
   exactTotal,
-  majorVersion
+  capabilities: { boolFilter, trackTotalHits }
 }: SearchBodyOptions): Record<string, unknown> => {
   const query = q.trim()
   const active = filters.filter((filter) => !filter.disabled)
 
   const must: object[] = query && query !== '*' ? [{ query_string: { query } }] : []
-  const filter: object[] = active.filter((f) => !f.negate).map((f) => filterClause(f, majorVersion))
-  const mustNot: object[] = active.filter((f) => f.negate).map((f) => filterClause(f, majorVersion))
-  if (time) {
-    const format = majorVersion >= 2 ? { format: 'strict_date_optional_time||epoch_millis' } : {}
-    filter.push({ range: { [time.field]: { gte: time.from, lte: time.to, ...format } } })
-  }
+  const filter: object[] = active.filter((f) => !f.negate).map((f) => filterClause(f, boolFilter))
+  const mustNot: object[] = active.filter((f) => f.negate).map((f) => filterClause(f, boolFilter))
+  if (time) filter.push(timeRangeClause(time, boolFilter))
 
-  const clauses = majorVersion >= 2 ? { must, filter } : { must: [...must, ...filter] }
+  const clauses = boolFilter ? { must, filter } : { must: [...must, ...filter] }
   const hasClauses = must.length + filter.length + mustNot.length > 0
   const bool = Object.fromEntries(
     Object.entries({ ...clauses, must_not: mustNot }).filter(([, list]) => (list as object[]).length > 0)
@@ -51,6 +53,6 @@ export const buildSearchBody = ({
     size,
     sort: sort ? [sortClause(sort)] : [],
     ...(source != null && { _source: source }),
-    ...(exactTotal && majorVersion >= 7 && { track_total_hits: true })
+    ...(exactTotal && trackTotalHits && { track_total_hits: true })
   }
 }

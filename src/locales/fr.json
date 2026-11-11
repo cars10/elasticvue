@@ -398,7 +398,8 @@
         "critical": "Critique",
         "warning": "Avertissement",
         "info": "Remarque",
-        "ok": "OK"
+        "ok": "OK",
+        "unknown": "Collecte des données"
       },
       "actions": {
         "view_shards": "Voir les partitions",
@@ -539,7 +540,8 @@
           "summary_partial": "Statistiques manquantes pour certains nœuds ({observed} sur {expected})",
           "detail": "Votre utilisateur n’a peut-être pas le privilège monitor, ou l’API nodes stats est indisponible."
         }
-      }
+      },
+      "checks_pending": "{passed} vérifications réussies, {pending} en collecte de données"
     }
   },
   "mixins": {
@@ -1251,7 +1253,9 @@
     "table_bottom": {
       "rows_per_page": {
         "confirm": "AVERTISSEMENT : Êtes-vous sûr ? Afficher {value} entrées à la fois peut causer des problèmes ou des blocages. Il est recommandé d'utiliser la fonctionnalité de recherche/filtrage pour limiter les résultats."
-      }
+      },
+      "records_per_page": "Lignes par page",
+      "range": "{from}-{to} sur {total}"
     },
     "code_editor": {
       "actions": {
@@ -1273,7 +1277,8 @@
     },
     "loader": {
       "copy_error": "Copier l'erreur",
-      "network_error": "Erreur réseau, accès a votre cluster impossible."
+      "network_error": "Erreur réseau, accès a votre cluster impossible.",
+      "error": "Erreur : {message}"
     },
     "reload_button": {
       "reload": "Recharger"
@@ -1306,6 +1311,10 @@
       "help": "Résoudre les problèmes de connexion",
       "heading_cors": "{name} bloque les requêtes d'elasticvue",
       "cors_hint": "Le cluster est joignable, mais ses paramètres CORS n'autorisent pas les requêtes de cette page."
+    },
+    "filter_state": {
+      "filter": "Filtre : '{filter}'",
+      "matches": "{filtered} / {total} résultats correspondent"
     }
   },
   "snapshots": {

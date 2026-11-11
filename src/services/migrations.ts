@@ -6,6 +6,7 @@ import type { DbSchema } from '../db/types.ts'
 import { AuthType, BuildFlavor, ElasticsearchCluster, ElasticsearchClusterAuth } from '../store/connection.ts'
 import { allowedRowsPerPage, DEFAULT_SEARCH_QUERY } from '../consts.ts'
 import { normalizeAuth, sessionSecrets, withoutSecrets } from '../helpers/auth.ts'
+import { CLUSTER_STORE_PREFIXES, clusterDbName } from '../helpers/clusterStorage.ts'
 
 export type OldElasticsearchCluster = {
   name: string
@@ -28,20 +29,6 @@ export const migrate = async () => {
   await migrateClusterStorage()
 }
 
-const CLUSTER_STORE_PREFIXES = [
-  'rest',
-  'search',
-  'indices',
-  'nodes',
-  'shards',
-  'shardRecovery',
-  'snapshots',
-  'snapshot-repositories',
-  'users',
-  'roles',
-  'indexTemplates',
-  'home'
-]
 const CLUSTER_STORAGE_MIGRATED = 'clusterStorageMigrated'
 
 type ClusterKeys = { id: string; uuid?: string }
@@ -79,7 +66,7 @@ const migrateClusterStorage = async () => {
 }
 
 const moveClusterDb = async (uuid: string, ids: string[]) => {
-  const name = `elasticvue-${uuid}`
+  const name = clusterDbName(uuid)
   const legacy = await openDB(name)
   const tables = [...legacy.objectStoreNames] as (keyof DbSchema)[]
   const rows = await Promise.all(tables.map((table) => legacy.getAll(table)))

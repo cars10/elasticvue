@@ -59,7 +59,7 @@ test.describe('Search filters', () => {
     await page.getByTestId('search-filter-op').getByText('between', { exact: true }).click()
     await page.getByTestId('search-filter-from').fill('1980')
     await page.getByTestId('search-filter-save').click()
-    await expect(chips(page).nth(1)).toHaveText(/year: 1980 – …/)
+    await expect(chips(page).nth(1)).toHaveText(/year: 1980 - …/)
     await expect
       .poll(() => boolQuery(lastSearch(requests).body)?.filter)
       .toEqual([{ match_phrase: { 'director.name': 'Ridley Scott' } }, { range: { year: { gte: '1980' } } }])

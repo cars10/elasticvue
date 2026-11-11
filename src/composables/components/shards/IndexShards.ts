@@ -74,7 +74,6 @@ export const useIndexShards = () => {
       console.error(shardsResult.reason)
       return
     }
-    // Index health is enrichment; still show shards without it
     const { shards, indices: shardIndices } = withoutClosedIndices(
       shardsResult.value,
       indicesResult.status === 'fulfilled' ? indicesResult.value : []
@@ -84,7 +83,6 @@ export const useIndexShards = () => {
     if (nodesResult.status === 'fulfilled') {
       nodes.value = nodesResult.value
     } else {
-      // Node list is enrichment; derive names from shard assignments when missing
       nodes.value = [...new Set(shards.map(shardNodeName).filter((name): name is string => Boolean(name)))].map((name) => ({
         name
       }))

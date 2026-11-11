@@ -1,9 +1,6 @@
 export const cleanIndexName = (index: string) => {
-  // First encode % characters that are NOT part of URL-encoded sequences
-  // URL-encoded sequences are % followed by exactly 2 hex digits
   let result = index.replace(/%(?![\dA-Fa-f]{2})/g, '%25')
 
-  // Then encode characters only within datemath expressions (<...>)
   result = result.replace(/<([^>]*)>/g, (_, content) => {
     const encodedContent = content
       .replace(/</g, '%3C')

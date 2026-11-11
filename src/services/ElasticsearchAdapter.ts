@@ -8,11 +8,13 @@ import { AwsClient } from 'aws4fetch'
 import { securityBasePath } from '../helpers/capabilities.ts'
 import { elasticsearchCompatibleVersion, isSupportedDistribution, parseClusterInfo } from '../helpers/clusterInfo.ts'
 import { parseJson } from '../helpers/json/parse.ts'
-import { EsApiError, EsNetworkError } from './errors.ts'
+import { EsAbortError, EsApiError, EsNetworkError, isAbortError } from './errors.ts'
 
 interface IndexGetArgs {
   routing?: string
 }
+
+export type RequestOptions = { signal?: AbortSignal }
 
 export type ElasticsearchRequest<T = any> = (es: ElasticsearchAdapter) => Promise<T>
 
@@ -63,10 +65,8 @@ export default class ElasticsearchAdapter {
     return { acknowledged: true }
   }
 
-  /** routes always available **/
-
-  ping() {
-    return this.request('', 'GET')
+  ping(options?: RequestOptions) {
+    return this.request('', 'GET', undefined, options)
   }
 
   catIndices(params: object, filter?: string) {
@@ -234,7 +234,7 @@ export default class ElasticsearchAdapter {
     return this.request(this.securityPath(`user/${encodeURIComponent(username)}`), 'DELETE')
   }
 
-  search(params: object, searchIndex?: string | string[], queryParams?: Record<string, string>) {
+  search(params: object, searchIndex?: string | string[], queryParams?: Record<string, string>, options?: RequestOptions) {
     const index = Array.isArray(searchIndex) ? searchIndex.join(',') : searchIndex
 
     let path = index && index.length > 0 ? `${cleanIndexName(index)}/_search` : '_search'
@@ -243,7 +243,7 @@ export default class ElasticsearchAdapter {
       path += `?${new URLSearchParams(queryParams).toString()}`
     }
 
-    return this.request(path, 'POST', params)
+    return this.request(path, 'POST', params, options)
   }
 
   sqlQuery({ path, format, body }: { path: string; format: string; body: object }) {
@@ -261,23 +261,21 @@ export default class ElasticsearchAdapter {
     return this.request('_bulk?refresh=true', 'POST', body)
   }
 
-  /** routes only available in default elasticsearch, but not in serverless **/
-
-  clusterHealth() {
-    return this.request('_cluster/health', 'GET')
+  clusterHealth(options?: RequestOptions) {
+    return this.request('_cluster/health', 'GET', undefined, options)
   }
 
-  clusterStats(params?: object) {
-    return this.request('_cluster/stats', 'GET', params)
+  clusterStats(params?: object, options?: RequestOptions) {
+    return this.request('_cluster/stats', 'GET', params, options)
   }
 
   clusterPendingTasks() {
     return this.request('_cluster/pending_tasks', 'GET')
   }
 
-  nodesStats(metrics?: string, params?: object) {
+  nodesStats(metrics?: string, params?: object, options?: RequestOptions) {
     const path = metrics ? `_nodes/stats/${metrics}` : '_nodes/stats'
-    return this.request(path, 'GET', params)
+    return this.request(path, 'GET', params, options)
   }
 
   clusterReroute(commands: object) {
@@ -297,7 +295,6 @@ export default class ElasticsearchAdapter {
     return this.request('_cluster/settings', 'GET', params)
   }
 
-  /** Lightweight cluster-state slice, e.g. "blocks" for index write/read-only blocks. */
   clusterState(metrics: string) {
     return this.request(`_cluster/state/${metrics}`, 'GET')
   }
@@ -351,8 +348,12 @@ export default class ElasticsearchAdapter {
     return this.request('_cat/nodes', 'GET', params)
   }
 
-  nodes() {
-    return this.request('_nodes', 'GET')
+  nodes(params?: object) {
+    return this.request('_nodes', 'GET', params)
+  }
+
+  catAllocation(params: object) {
+    return this.request('_cat/allocation', 'GET', params)
   }
 
   nodesInfo(metrics: string, params?: object) {
@@ -423,7 +424,7 @@ export default class ElasticsearchAdapter {
     return this.request(`_slm/policy/${policy}/_execute`, 'POST')
   }
 
-  async request<T = any>(path: string, method: string, params?: any): Promise<T> {
+  async request<T = any>(path: string, method: string, params?: any, options?: RequestOptions): Promise<T> {
     const url = new URL(this.uri + path)
 
     if (method === 'GET' && typeof params === 'object') {
@@ -433,14 +434,14 @@ export default class ElasticsearchAdapter {
     let body = null
     if (method === 'PUT' || method === 'POST') body = params
 
-    const response = await this.send(url, method, body && typeof body !== 'string' ? stringifyJson(body) : body)
+    const response = await this.send(url, method, body && typeof body !== 'string' ? stringifyJson(body) : body, options)
     const text = await response.text()
     if (!response.ok) throw new EsApiError(response.status, response.statusText, parseErrorBody(text))
 
     return parseBody(text) as T
   }
 
-  async send(url: URL, method: string, body: string | null): Promise<FetchResponse> {
+  async send(url: URL, method: string, body: string | null, options?: RequestOptions): Promise<FetchResponse> {
     let headers: Record<string, string> = { ...REQUEST_DEFAULT_HEADERS }
     if (this.authHeader) {
       headers.Authorization = this.authHeader
@@ -450,8 +451,9 @@ export default class ElasticsearchAdapter {
     }
 
     try {
-      return await fetchMethod(url, { method, body, headers })
+      return await fetchMethod(url, { method, body, headers, ...(options?.signal && { signal: options.signal }) })
     } catch (e) {
+      if (isAbortError(e)) throw new EsAbortError()
       throw new EsNetworkError(e)
     }
   }

@@ -24,17 +24,20 @@ export type ToolShard = {
   'unassigned.reason'?: string
 }
 
-export type ToolNode = {
+export type ToolNodeInfo = {
   id: string
   name: string
   roles: string[]
   attributes: Record<string, string>
+}
+
+export type NodeAllocation = {
   shardCount: number
-  initialShardCount: number
-  relocatingShards: number
   diskUsedPercent: number | null
   diskAvailableBytes: number | null
 }
+
+export type ToolNode = ToolNodeInfo & NodeAllocation
 
 export type AllocationDecision = {
   decider: string

@@ -398,7 +398,8 @@
         "critical": "重大",
         "warning": "警告",
         "info": "通知",
-        "ok": "OK"
+        "ok": "OK",
+        "unknown": "データ収集中"
       },
       "actions": {
         "view_shards": "シャードを表示",
@@ -539,7 +540,8 @@
           "summary_partial": "一部のノードの統計情報がありません（{expected} 中 {observed} が応答）",
           "detail": "ユーザーに monitor 権限がないか、nodes stats API が利用できない可能性があります。"
         }
-      }
+      },
+      "checks_pending": "{passed} 件のチェックに合格、{pending} 件はデータ収集中"
     }
   },
   "mixins": {
@@ -1251,7 +1253,9 @@
     "table_bottom": {
       "rows_per_page": {
         "confirm": "警告: 本当に実行しますか？一度に {value} エントリを表示すると、問題やフリーズが発生する可能性があります。結果を制限するには、検索/フィルター機能を使用することをお勧めします。"
-      }
+      },
+      "records_per_page": "1 ページあたりの件数",
+      "range": "{total} 件中 {from}-{to}"
     },
     "code_editor": {
       "actions": {
@@ -1273,7 +1277,8 @@
     },
     "loader": {
       "copy_error": "エラーをコピー",
-      "network_error": "ネットワークエラー、クラスターにアクセスできません。"
+      "network_error": "ネットワークエラー、クラスターにアクセスできません。",
+      "error": "エラー: {message}"
     },
     "reload_button": {
       "reload": "再読み込み"
@@ -1306,6 +1311,10 @@
       "help": "接続の問題のトラブルシューティング",
       "heading_cors": "{name} が elasticvue からのリクエストをブロックしています",
       "cors_hint": "クラスタには到達できますが、CORS 設定でこのページからのリクエストが許可されていません。"
+    },
+    "filter_state": {
+      "filter": "フィルター: '{filter}'",
+      "matches": "{total} 件中 {filtered} 件が一致"
     }
   },
   "snapshots": {

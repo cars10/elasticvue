@@ -26,7 +26,6 @@ const props = withDefaults(
     value: number | null
     warnAt?: number
     dangerAt?: number
-    /** When true, low values warn/danger (e.g. shard allocation %). Default: high values warn. */
     higherIsBetter?: boolean
     size?: number
   }>(),
@@ -43,7 +42,7 @@ const root = ref<HTMLElement | null>(null)
 const canvasEl = ref<HTMLCanvasElement | null>(null)
 
 const label = computed(() => {
-  if (props.value == null || Number.isNaN(props.value)) return '—'
+  if (props.value == null || Number.isNaN(props.value)) return '-'
   return `${Math.round(props.value)}%`
 })
 
