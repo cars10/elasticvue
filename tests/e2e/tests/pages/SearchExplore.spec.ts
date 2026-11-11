@@ -251,6 +251,21 @@ test.describe('Search document panel', () => {
     await expect(panel(page)).toContainText('"title": "Alien"')
   })
 
+  test('remembers the selected tab of the document panel', async ({ page }) => {
+    await setupSearch(page)
+    await openSearch(page)
+
+    await rows(page).filter({ hasText: 'Alien' }).locator('td').nth(3).click()
+    await panel(page).getByTestId('search-panel-tab-json').click()
+    await expect(panel(page).locator('.cm-content')).toContainText('"title": "Alien"')
+    await panel(page).getByRole('button', { name: 'Close' }).first().click()
+    await expect(panel(page)).toHaveCount(0)
+
+    await rows(page).filter({ hasText: 'Alien' }).locator('td').nth(3).click()
+    await expect(panel(page).locator('.cm-content')).toContainText('"title": "Alien"')
+    await expect(panel(page).getByTestId('search-panel-field')).toHaveCount(0)
+  })
+
   test('deletes the document and edits documents with slashes and routing', async ({ page }) => {
     const requests = await setupSearch(page)
     await openSearch(page)

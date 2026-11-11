@@ -12,6 +12,8 @@ import type { ReloadIntervalStorePartial } from './shared.ts'
 
 type SearchPagination = typeof DEFAULT_PAGINATION
 
+export type DocumentPanelTab = 'fields' | 'json'
+
 type SearchState = {
   targets: string[]
   mode: SearchMode
@@ -34,6 +36,7 @@ type SearchState = {
   stickyTableHeader: boolean
   rowsPerPageAccepted: boolean
   documentFieldMaxLength: number
+  documentPanelTab: DocumentPanelTab
 } & ReloadIntervalStorePartial
 
 const ownValue = <T>(map: Record<string, T>, key: string) => (hasOwn(map, key) ? map[key] : undefined)
@@ -64,7 +67,8 @@ export const useSearchStore = () => {
       localizeTimestamp: true,
       stickyTableHeader: false,
       rowsPerPageAccepted: false,
-      documentFieldMaxLength: DEFAULT_DOCUMENT_FIELD_MAX_LENGTH
+      documentFieldMaxLength: DEFAULT_DOCUMENT_FIELD_MAX_LENGTH,
+      documentPanelTab: 'fields'
     }),
     getters: {
       savedColumns: (state): string[] | undefined => ownValue(state.columnsByTarget, targetKey(state.targets)),
@@ -156,7 +160,8 @@ export const useSearchStore = () => {
         'localizeTimestamp',
         'stickyTableHeader',
         'rowsPerPageAccepted',
-        'documentFieldMaxLength'
+        'documentFieldMaxLength',
+        'documentPanelTab'
       ],
       key: `search-${clusterId}`
     }

@@ -20,15 +20,15 @@
         </div>
       </q-card-section>
 
-      <q-tabs v-model="tab" dense no-caps align="left" class="q-px-md">
+      <q-tabs v-model="searchStore.documentPanelTab" dense no-caps align="left" class="q-px-md">
         <q-tab name="fields" :label="t('search.document_panel.fields')" data-testid="search-panel-tab-fields" />
         <q-tab name="json" label="JSON" data-testid="search-panel-tab-json" />
       </q-tabs>
       <q-separator />
 
-      <q-card-section class="col scroll q-pa-md">
-        <loader-status :request-state="requestState">
-          <template v-if="tab === 'fields'">
+      <q-card-section class="col q-pa-md" :class="jsonTab ? 'column no-wrap' : 'scroll'">
+        <loader-status :request-state="requestState" :class="{ 'col column no-wrap': jsonTab }">
+          <template v-if="!jsonTab">
             <filter-input v-model="filter" class="q-mb-md" />
 
             <q-markup-table flat dense class="table-mono">
@@ -77,13 +77,14 @@
           </template>
 
           <template v-else>
-            <resizable-container v-model="resizeStore.documentEdit">
+            <div class="col q-mb-md" style="min-height: 0">
               <code-editor v-model="draft" />
-            </resizable-container>
+            </div>
             <q-btn
               :label="t('search.edit_document.update.text')"
               :loading="updating"
               color="positive"
+              class="self-start"
               data-testid="search-panel-update"
               @click="updateDocument"
             />
@@ -99,9 +100,8 @@ import { computed, defineAsyncComponent, onMounted, ref, shallowRef, watch } fro
 import LoaderStatus from '../shared/LoaderStatus.vue'
 import FilterInput from '../shared/FilterInput.vue'
 import CopyButton from '../shared/CopyButton.vue'
-import ResizableContainer from '../shared/ResizableContainer.vue'
 import { useTranslation } from '../../composables/i18n.ts'
-import { useResizeStore } from '../../store/resize.ts'
+import { useSearchStore } from '../../store/search.ts'
 import { defineElasticsearchRequest, useElasticsearchAdapter } from '../../composables/CallElasticsearch.ts'
 import { flattenDocument, formatFieldValue } from '../../helpers/search/documentValues.ts'
 import { matchesAllTerms } from '../../helpers/filters.ts'
@@ -115,9 +115,9 @@ const CodeEditor = defineAsyncComponent(() => import('../shared/CodeEditor.vue')
 const props = defineProps<{ hit: EsSearchHit; fetchSource: boolean }>()
 const emit = defineEmits<{ close: []; reload: []; filter: [filter: SearchFilter] }>()
 const t = useTranslation()
-const resizeStore = useResizeStore()
+const searchStore = useSearchStore()
 
-const tab = ref('fields')
+const jsonTab = computed(() => searchStore.documentPanelTab === 'json')
 const filter = ref('')
 const document = shallowRef<EsSearchHit>(props.hit)
 
