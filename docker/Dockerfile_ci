@@ -1,4 +1,4 @@
-FROM node:24.15.0-bookworm
+FROM node:24.22.3-bookworm
 RUN mkdir /app
 WORKDIR /app
 
@@ -9,7 +9,7 @@ RUN apt-get update  \
     && apt-get autoremove -y \
     && rm -rf /var/lib/apt/lists/*
 
-COPY package.json ./
+COPY package.json package-lock.json ./
 
 RUN npm install -g npm
 RUN npm install

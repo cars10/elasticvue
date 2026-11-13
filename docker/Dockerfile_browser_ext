@@ -1,4 +1,4 @@
-FROM node:24.15.0-bookworm
+FROM node:24.22.3-bookworm
 ARG USERID=1000
 ENV APP_HOME=/app
 

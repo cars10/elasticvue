@@ -6,7 +6,6 @@ set -e
 
 # bump version to $VERSION
 sed -e "s/\"version\":\s\".*\"/\"version\": \"$VERSION\"/" -i package.json
-sed -e "s/\"version\":\s\".*\"/\"version\": \"$VERSION\"/" -i src-tauri/tauri.conf.json
 sed -e "s/\"version\":\s\".*\"/\"version\": \"$VERSION\"/" -i browser_extension/chrome/manifest.json
 sed -e "s/\"version\":\s\".*\"/\"version\": \"$VERSION\"/" -i browser_extension/edge/manifest.json
 sed -e "s/\"version\":\s\".*\"/\"version\": \"$VERSION\"/" -i browser_extension/firefox/manifest.json

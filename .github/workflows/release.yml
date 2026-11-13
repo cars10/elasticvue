@@ -1,8 +1,6 @@
 name: release
 
 on:
-  workflow_dispatch:
-
   push:
     tags:
       - 'v*'
@@ -33,7 +31,7 @@ jobs:
 
       - uses: actions/setup-node@v7
         with:
-          node-version: '24.15.0'
+          node-version: '24.22.3'
         if: matrix.platform == 'windows-latest'
 
       - run: npm install
@@ -78,7 +76,7 @@ jobs:
 
       - uses: actions/setup-node@v7
         with:
-          node-version: '24.15.0'
+          node-version: '24.22.3'
         if: matrix.platform == 'macos-latest'
 
       - run: npm install
@@ -256,7 +254,7 @@ jobs:
             ## Using elasticvue
             ### Desktop app
             * [Windows .msi](https://github.com/cars10/elasticvue/releases/download/${{ github.ref_name }}/elasticvue_${{ steps.package-version.outputs.current-version }}_x64_en-US.msi)
-            * [Mac x68 .dmg](https://github.com/cars10/elasticvue/releases/download/${{ github.ref_name }}/elasticvue_${{ steps.package-version.outputs.current-version }}_x64.dmg) / [Mac aarch64 .dmg](https://github.com/cars10/elasticvue/releases/download/${{ github.ref_name }}/elasticvue_${{ steps.package-version.outputs.current-version }}_aarch64.dmg)
+            * [Mac x64 .dmg](https://github.com/cars10/elasticvue/releases/download/${{ github.ref_name }}/elasticvue_${{ steps.package-version.outputs.current-version }}_x64.dmg) / [Mac aarch64 .dmg](https://github.com/cars10/elasticvue/releases/download/${{ github.ref_name }}/elasticvue_${{ steps.package-version.outputs.current-version }}_aarch64.dmg)
             * [Linux .AppImage](https://github.com/cars10/elasticvue/releases/download/${{ github.ref_name }}/elasticvue_${{ steps.package-version.outputs.current-version }}_amd64.AppImage) / [Linux .deb](https://github.com/cars10/elasticvue/releases/download/${{ github.ref_name }}/elasticvue_${{ steps.package-version.outputs.current-version }}_amd64.deb) / [Linux .rpm](https://github.com/cars10/elasticvue/releases/download/${{ github.ref_name }}/elasticvue-${{ steps.package-version.outputs.current-version }}-1.x86_64.rpm)
 
             ### Browser extension

@@ -17,7 +17,7 @@ ci: build_docker_ci
 
 # https://github.com/tauri-apps/tauri/issues/8929
 build_tauri:
-	NO_STRIP=true npm run tauri:build --verbose
+	NO_STRIP=true npm run tauri:build -- --verbose
 
 build_docker_tauri:
 	docker build -t elasticvue-linux-tauri -f docker/Dockerfile_tauri --build-arg USERID="$(UID)" .
@@ -25,7 +25,7 @@ build_docker_tauri:
 			   -e TAURI_SIGNING_PRIVATE_KEY="$(TAURI_SIGNING_PRIVATE_KEY)" \
 			   -e TAURI_SIGNING_PRIVATE_KEY_PASSWORD="$(TAURI_SIGNING_PRIVATE_KEY_PASSWORD)" \
 			   -v .:/app \
-			   elasticvue-linux-tauri bash -c "npm install && . ~/.cargo/env && rm -rf src-tauri/target/* && npm run tauri:build:prod"
+			   elasticvue-linux-tauri bash -c "npm install && . ~/.cargo/env && rm -rf src-tauri/target/* && npm run tauri:build"
 
 # Build docker image to run elasticvue served by nginx
 build_docker_nginx:
