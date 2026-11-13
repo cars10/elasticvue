@@ -1070,6 +1070,32 @@
     "cluster": {
       "heading": "Cluster '{name}'",
       "message": "These settings only apply to the current cluster."
+    },
+    "updates": {
+      "heading": "更新",
+      "current_version": "已安装版本：{version}",
+      "check": "检查更新",
+      "last_checked": "上次检查：{date}",
+      "status": {
+        "idle": "尚未检查",
+        "checking": "正在检查更新...",
+        "up_to_date": "Elasticvue 已是最新版本",
+        "available": "版本 {version} 可用",
+        "failed": "检查更新失败。请检查网络连接后重试。"
+      },
+      "available": {
+        "label": "Elasticvue {version} 可用",
+        "hint_self_update": "您可以直接在此处安装更新。",
+        "hint_package_manager": "此安装方式无法自行更新。请使用包管理器更新 elasticvue 或下载新版本。",
+        "hint_docker": "拉取最新的 docker 镜像并重新创建容器以完成更新。",
+        "hint_browser_extension": "浏览器会自动更新扩展。您也可以在浏览器的扩展页面手动触发更新。",
+        "hint_manual": "如果您使用 app.elasticvue.com，请重新加载页面。自托管部署需要手动更新。",
+        "undo_skip": "不再跳过此版本"
+      },
+      "auto_check": {
+        "label": "启动时检查更新",
+        "message": "禁用后，elasticvue 仅在您手动检查时才会连接 update.elasticvue.com。"
+      }
     }
   },
   "setup": {
@@ -1791,11 +1817,18 @@
     }
   },
   "update_check": {
+    "available": "有可用更新 {version}",
     "downloading": "下载中... {progress}%",
+    "downloading_unknown": "下载中...",
     "heading": "一个新的 elasticvue 版本可用。",
+    "install": "安装",
+    "install_failed": "无法安装更新。您可以重试或手动下载新版本。",
     "installing": "正在安装更新，请稍候...",
-    "update_info": "Elasticvue {version} 可用。您现在想安装吗？",
-    "yes": "是"
+    "later": "稍后",
+    "release_notes": "发行说明",
+    "retry": "重试",
+    "skip": "跳过此版本",
+    "update_info": "Elasticvue {version} 可用。您现在想安装吗？"
   },
   "welcome": {
     "import_backup": {

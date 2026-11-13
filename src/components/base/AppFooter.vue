@@ -7,7 +7,7 @@
       </div>
       <div>
         Elasticvue <span id="version">{{ version }}-{{ VERSION_NAME }}</span>
-        <update-check v-if="!buildConfig.tauri" class="q-ml-sm" />
+        <update-check class="q-ml-sm" />
       </div>
       <div>&copy;{{ new Date().getFullYear() }} Carsten K&ouml;nig</div>
       <a href="https://github.com/cars10/elasticvue" rel="nofollow" target="_blank" class="decoration-none">Github</a>
@@ -25,7 +25,6 @@ import { useTranslation } from '../../composables/i18n.ts'
 import { useConnectionStore } from '../../store/connection'
 import { VERSION_NAME } from '../../consts.ts'
 import UpdateCheck from './UpdateCheck.vue'
-import { buildConfig } from '../../buildConfig.ts'
 
 const t = useTranslation()
 const connectionStore = useConnectionStore()

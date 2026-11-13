@@ -1,66 +1,85 @@
-import { Ref, ref } from 'vue'
+import { invoke } from '@tauri-apps/api/core'
 import { check, Update } from '@tauri-apps/plugin-updater'
 import { relaunch } from '@tauri-apps/plugin-process'
+import { buildConfig } from '../buildConfig.ts'
+import { fetchMethod } from '../helpers/fetch.ts'
+import { updateCheckUrl, versionFromResponse } from '../helpers/updateCheck.ts'
 import { uuidHeader } from '../helpers/uuidHeader.ts'
+import { useUpdateCheckStore } from '../store/updateCheck.ts'
 
-type UpdateInfo = {
-  version: string
-}
+let pendingUpdate: Update | null = null
 
-export const useUpdateCheck = () => {
-  const dialog = ref(false)
-  const downloading = ref(false)
-  const downloadProgress = ref(0)
-  const installing = ref(false)
-  const updateInfo: Ref<UpdateInfo | null> = ref(null)
-  let update: Update | null = null
-
-  const checkUpdate = async () => {
-    const headers = uuidHeader()
-    update = await check({ headers })
-
-    if (update) {
-      updateInfo.value = { version: update.version }
-      dialog.value = true
-    } else {
-      updateInfo.value = null
-    }
+const fetchAvailableVersion = async (): Promise<string | null> => {
+  if (buildConfig.tauri) {
+    pendingUpdate = await check({ headers: uuidHeader() })
+    return pendingUpdate?.version ?? null
   }
 
-  const downloadUpdate = async () => {
-    if (!update) return
+  const url = updateCheckUrl({
+    version: __APP_VERSION__,
+    buildMode: buildConfig.buildMode,
+    variant: buildConfig.variant,
+    userAgent: navigator.userAgent
+  })
+  const response = await fetchMethod(url, { headers: uuidHeader() })
+  const body = response.status === 200 ? await response.text() : ''
+  return versionFromResponse(response.status, body)
+}
 
-    let downloaded = 0
-    let contentLength = 0
+export const checkForUpdate = async () => {
+  const store = useUpdateCheckStore()
+  if (store.status === 'checking') return
 
-    downloading.value = true
+  store.status = 'checking'
+  try {
+    const version = await fetchAvailableVersion()
+    store.availableVersion = version
+    store.status = version ? 'available' : 'up_to_date'
+    store.lastCheckedAt = Date.now()
+  } catch (_e) {
+    store.status = 'failed'
+  }
+}
 
-    await update.downloadAndInstall((event) => {
+export const startUpdateCheck = async () => {
+  const store = useUpdateCheckStore()
+  if (buildConfig.tauri) store.selfUpdateSupported = await invoke<boolean>('self_update_supported').catch(() => false)
+  if (!store.autoCheck) return
+
+  await checkForUpdate()
+  if (store.notify && store.selfUpdateSupported) store.dialog = true
+}
+
+export const installUpdate = async () => {
+  const store = useUpdateCheckStore()
+  if (!pendingUpdate || !store.selfUpdateSupported) return
+
+  let downloaded = 0
+  let contentLength = 0
+
+  store.installError = ''
+  store.downloadProgress = null
+  store.installState = 'downloading'
+
+  try {
+    await pendingUpdate.downloadAndInstall((event) => {
       switch (event.event) {
         case 'Started':
-          contentLength = event.data.contentLength || -1
+          contentLength = event.data.contentLength || 0
           break
         case 'Progress':
           downloaded += event.data.chunkLength
-          downloadProgress.value = downloaded / contentLength
+          store.downloadProgress = contentLength > 0 ? Math.min(downloaded / contentLength, 1) : null
           break
         case 'Finished':
-          downloading.value = false
-          installing.value = true
+          store.installState = 'installing'
           break
       }
     })
 
     await relaunch()
-  }
-
-  return {
-    checkUpdate,
-    downloadUpdate,
-    dialog,
-    downloading,
-    downloadProgress,
-    installing,
-    updateInfo
+  } catch (e) {
+    store.installError = e instanceof Error ? e.message : String(e)
+    store.installState = 'failed'
   }
 }

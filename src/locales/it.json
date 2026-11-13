@@ -1070,6 +1070,32 @@
     "cluster": {
       "heading": "Cluster '{name}'",
       "message": "These settings only apply to the current cluster."
+    },
+    "updates": {
+      "heading": "Aggiornamenti",
+      "current_version": "Versione installata: {version}",
+      "check": "Controlla aggiornamenti",
+      "last_checked": "Ultimo controllo: {date}",
+      "status": {
+        "idle": "Non ancora controllato",
+        "checking": "Controllo aggiornamenti in corso...",
+        "up_to_date": "Elasticvue è aggiornato",
+        "available": "La versione {version} è disponibile",
+        "failed": "Controllo aggiornamenti non riuscito. Verifica la connessione di rete e riprova."
+      },
+      "available": {
+        "label": "Elasticvue {version} è disponibile",
+        "hint_self_update": "Puoi installare l'aggiornamento direttamente da qui.",
+        "hint_package_manager": "Questa installazione non può aggiornarsi da sola. Aggiorna elasticvue con il tuo gestore di pacchetti o scarica la nuova versione.",
+        "hint_docker": "Scarica l'ultima immagine docker e ricrea il container per aggiornare.",
+        "hint_browser_extension": "Il browser aggiorna le estensioni automaticamente. Puoi anche avviare l'aggiornamento dalla pagina delle estensioni del browser.",
+        "hint_manual": "Ricarica la pagina se usi app.elasticvue.com. Le installazioni self hosted devono essere aggiornate manualmente.",
+        "undo_skip": "Non saltare più questa versione"
+      },
+      "auto_check": {
+        "label": "Controlla aggiornamenti all'avvio",
+        "message": "Se disattivato, elasticvue contatta update.elasticvue.com solo quando controlli manualmente."
+      }
     }
   },
   "setup": {
@@ -1791,11 +1817,18 @@
     }
   },
   "update_check": {
+    "available": "Aggiornamento {version} disponibile",
     "downloading": "Download in corso... {progress}%",
+    "downloading_unknown": "Download in corso...",
     "heading": "È disponibile una nuova versione di elasticvue.",
+    "install": "Installa",
+    "install_failed": "Impossibile installare l'aggiornamento. Puoi riprovare o scaricare manualmente la nuova versione.",
     "installing": "Installazione aggiornamento, attendere prego...",
-    "update_info": "Elasticvue {version} è disponibile. Vuoi installarlo ora?",
-    "yes": "Sì"
+    "later": "Più tardi",
+    "release_notes": "Note di rilascio",
+    "retry": "Riprova",
+    "skip": "Salta questa versione",
+    "update_info": "Elasticvue {version} è disponibile. Vuoi installarlo ora?"
   },
   "welcome": {
     "import_backup": {

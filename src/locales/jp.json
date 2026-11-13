@@ -1070,6 +1070,32 @@
     "cluster": {
       "heading": "Cluster '{name}'",
       "message": "These settings only apply to the current cluster."
+    },
+    "updates": {
+      "heading": "アップデート",
+      "current_version": "インストール済みバージョン: {version}",
+      "check": "アップデートを確認",
+      "last_checked": "最終確認: {date}",
+      "status": {
+        "idle": "未確認",
+        "checking": "アップデートを確認中...",
+        "up_to_date": "Elasticvue は最新です",
+        "available": "バージョン {version} が利用可能です",
+        "failed": "アップデートの確認に失敗しました。ネットワーク接続を確認して再試行してください。"
+      },
+      "available": {
+        "label": "Elasticvue {version} が利用可能です",
+        "hint_self_update": "ここから直接アップデートをインストールできます。",
+        "hint_package_manager": "このインストールは自動更新できません。パッケージマネージャーで elasticvue を更新するか、新しいバージョンをダウンロードしてください。",
+        "hint_docker": "最新の docker イメージを取得し、コンテナを再作成して更新してください。",
+        "hint_browser_extension": "ブラウザが拡張機能を自動的に更新します。ブラウザの拡張機能ページから更新を実行することもできます。",
+        "hint_manual": "app.elasticvue.com を使用している場合はページを再読み込みしてください。セルフホスト環境は手動で更新する必要があります。",
+        "undo_skip": "このバージョンのスキップを解除"
+      },
+      "auto_check": {
+        "label": "起動時にアップデートを確認",
+        "message": "無効にすると、elasticvue は手動で確認した場合にのみ update.elasticvue.com に接続します。"
+      }
     }
   },
   "setup": {
@@ -1791,11 +1817,18 @@
     }
   },
   "update_check": {
+    "available": "アップデート {version} が利用可能",
     "downloading": "ダウンロード中... {progress}%",
+    "downloading_unknown": "ダウンロード中...",
     "heading": "新しいバージョンの elasticvue が利用可能です。",
+    "install": "インストール",
+    "install_failed": "更新をインストールできませんでした。再試行するか、新しいバージョンを手動でダウンロードしてください。",
     "installing": "更新をインストール中、お待ちください...",
-    "update_info": "Elasticvue {version} が利用可能です。今すぐインストールしますか？",
-    "yes": "はい"
+    "later": "後で",
+    "release_notes": "リリースノート",
+    "retry": "再試行",
+    "skip": "このバージョンをスキップ",
+    "update_info": "Elasticvue {version} が利用可能です。今すぐインストールしますか？"
   },
   "welcome": {
     "import_backup": {

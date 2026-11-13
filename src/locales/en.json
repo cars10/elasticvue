@@ -1070,6 +1070,32 @@
     "cluster": {
       "heading": "Cluster '{name}'",
       "message": "These settings only apply to the current cluster."
+    },
+    "updates": {
+      "heading": "Updates",
+      "current_version": "Installed version: {version}",
+      "check": "Check for updates",
+      "last_checked": "Last checked: {date}",
+      "status": {
+        "idle": "Not checked yet",
+        "checking": "Checking for updates...",
+        "up_to_date": "Elasticvue is up to date",
+        "available": "Version {version} is available",
+        "failed": "Update check failed. Check your network connection and try again."
+      },
+      "available": {
+        "label": "Elasticvue {version} is available",
+        "hint_self_update": "You can install the update directly from here.",
+        "hint_package_manager": "This installation cannot update itself. Update elasticvue with your package manager or download the new version.",
+        "hint_docker": "Pull the latest docker image and recreate your container to update.",
+        "hint_browser_extension": "Your browser updates extensions automatically. You can also trigger the update on the extensions page of your browser.",
+        "hint_manual": "Reload the page if you use app.elasticvue.com. Self hosted setups need to be updated manually.",
+        "undo_skip": "Stop skipping this version"
+      },
+      "auto_check": {
+        "label": "Check for updates on startup",
+        "message": "If disabled, elasticvue only contacts update.elasticvue.com when you check manually."
+      }
     }
   },
   "setup": {
@@ -1791,11 +1817,18 @@
     }
   },
   "update_check": {
+    "available": "Update {version} available",
     "downloading": "Downloading... {progress}%",
+    "downloading_unknown": "Downloading...",
     "heading": "A new version of elasticvue is available.",
+    "install": "Install",
+    "install_failed": "The update could not be installed. You can retry or download the new version manually.",
     "installing": "Installing update, please wait...",
-    "update_info": "Elasticvue {version} is available. Do you want to install it now?",
-    "yes": "Yes"
+    "later": "Later",
+    "release_notes": "Release notes",
+    "retry": "Retry",
+    "skip": "Skip this version",
+    "update_info": "Elasticvue {version} is available. Do you want to install it now?"
   },
   "welcome": {
     "import_backup": {

@@ -16,7 +16,7 @@
 
     <modal-loader />
     <alert-snackbar />
-    <tauri-update-check v-if="buildConfig.tauri" />
+    <update-dialog v-if="buildConfig.tauri" />
 
     <app-footer />
   </q-layout>
@@ -36,8 +36,9 @@ import { useThemeStore } from './store/theme.ts'
 import { useConnectionStore } from './store/connection'
 import { useClusterSession } from './store/clusterSession.ts'
 import { setAppThemeCss, setupThemeListener } from './helpers/theme.ts'
-import TauriUpdateCheck from './components/base/TauriUpdateCheck.vue'
+import UpdateDialog from './components/base/UpdateDialog.vue'
 import { buildConfig } from './buildConfig.ts'
+import { startUpdateCheck } from './composables/UpdateCheck.ts'
 
 const themeStore = useThemeStore()
 const connectionStore = useConnectionStore()
@@ -58,5 +59,6 @@ const showClusterView = computed(() => {
 onMounted(() => {
   setAppThemeCss(themeStore.appTheme)
   setupThemeListener()
+  startUpdateCheck()
 })
 </script>

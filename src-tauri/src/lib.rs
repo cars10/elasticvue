@@ -10,6 +10,15 @@ async fn fetch_reqwest(resource: String, init: Option<FetchOptions>) -> FetchRes
     fetch_reqwest::fetch(resource, init).await
 }
 
+#[tauri::command]
+fn self_update_supported() -> bool {
+    if cfg!(target_os = "linux") {
+        std::env::var_os("APPIMAGE").is_some()
+    } else {
+        true
+    }
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     env_logger::init();
@@ -31,7 +40,7 @@ pub fn run() {
 
             Ok(())
         })
-        .invoke_handler(tauri::generate_handler![fetch_reqwest, save_file])
+        .invoke_handler(tauri::generate_handler![fetch_reqwest, save_file, self_update_supported])
         .run(ctx)
         .expect("error while running tauri application");
 }

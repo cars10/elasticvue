@@ -1070,6 +1070,32 @@
     "cluster": {
       "heading": "Cluster '{name}'",
       "message": "These settings only apply to the current cluster."
+    },
+    "updates": {
+      "heading": "Mises à jour",
+      "current_version": "Version installée : {version}",
+      "check": "Rechercher des mises à jour",
+      "last_checked": "Dernière vérification : {date}",
+      "status": {
+        "idle": "Pas encore vérifié",
+        "checking": "Recherche de mises à jour...",
+        "up_to_date": "Elasticvue est à jour",
+        "available": "La version {version} est disponible",
+        "failed": "La recherche de mises à jour a échoué. Vérifiez votre connexion réseau et réessayez."
+      },
+      "available": {
+        "label": "Elasticvue {version} est disponible",
+        "hint_self_update": "Vous pouvez installer la mise à jour directement d'ici.",
+        "hint_package_manager": "Cette installation ne peut pas se mettre à jour elle-même. Mettez à jour elasticvue avec votre gestionnaire de paquets ou téléchargez la nouvelle version.",
+        "hint_docker": "Récupérez la dernière image docker et recréez votre conteneur pour mettre à jour.",
+        "hint_browser_extension": "Votre navigateur met à jour les extensions automatiquement. Vous pouvez aussi lancer la mise à jour depuis la page des extensions de votre navigateur.",
+        "hint_manual": "Rechargez la page si vous utilisez app.elasticvue.com. Les installations auto-hébergées doivent être mises à jour manuellement.",
+        "undo_skip": "Ne plus ignorer cette version"
+      },
+      "auto_check": {
+        "label": "Rechercher des mises à jour au démarrage",
+        "message": "Si désactivé, elasticvue ne contacte update.elasticvue.com que lors d'une vérification manuelle."
+      }
     }
   },
   "setup": {
@@ -1791,11 +1817,18 @@
     }
   },
   "update_check": {
+    "available": "Mise à jour {version} disponible",
     "downloading": "Téléchargement... {progress}%",
+    "downloading_unknown": "Téléchargement...",
     "heading": "Une nouvelle version d'elasticvue est disponible.",
+    "install": "Installer",
+    "install_failed": "La mise à jour n'a pas pu être installée. Vous pouvez réessayer ou télécharger la nouvelle version manuellement.",
     "installing": "Installation de la mise à jour, veuillez patienter...",
-    "update_info": "Elasticvue {version} est disponible. Voulez-vous l'installer maintenant ?",
-    "yes": "Oui"
+    "later": "Plus tard",
+    "release_notes": "Notes de version",
+    "retry": "Réessayer",
+    "skip": "Ignorer cette version",
+    "update_info": "Elasticvue {version} est disponible. Voulez-vous l'installer maintenant ?"
   },
   "welcome": {
     "import_backup": {

@@ -5,6 +5,8 @@
         <h1 class="page-title">{{ t('settings.heading') }}</h1>
       </div>
 
+      <update-settings />
+
       <settings-section :title="t('settings.editor.heading')">
         <settings-row tag="label" :label="t('settings.editor_vim_mode.label')">
           <q-toggle
@@ -114,6 +116,7 @@ import { DEFAULT_HIDE_INDICES_REGEX, DEFAULT_HIDE_NODE_ATTRIBUTES_REGEX, DEFAULT
 import { askConfirm } from '../../helpers/dialogs'
 import { useTranslation } from '../../composables/i18n'
 import ImportExport from './ImportExport.vue'
+import UpdateSettings from './UpdateSettings.vue'
 import SettingsSection from './SettingsSection.vue'
 import SettingsRow from './SettingsRow.vue'
 import CustomInput from '../shared/CustomInput.vue'

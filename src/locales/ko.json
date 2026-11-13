@@ -1070,6 +1070,32 @@
     "cluster": {
       "heading": "Cluster '{name}'",
       "message": "These settings only apply to the current cluster."
+    },
+    "updates": {
+      "heading": "업데이트",
+      "current_version": "설치된 버전: {version}",
+      "check": "업데이트 확인",
+      "last_checked": "마지막 확인: {date}",
+      "status": {
+        "idle": "아직 확인하지 않음",
+        "checking": "업데이트 확인 중...",
+        "up_to_date": "Elasticvue가 최신 버전입니다",
+        "available": "버전 {version}을(를) 사용할 수 있습니다",
+        "failed": "업데이트 확인에 실패했습니다. 네트워크 연결을 확인한 후 다시 시도하세요."
+      },
+      "available": {
+        "label": "Elasticvue {version}을(를) 사용할 수 있습니다",
+        "hint_self_update": "여기에서 바로 업데이트를 설치할 수 있습니다.",
+        "hint_package_manager": "이 설치는 자체 업데이트를 지원하지 않습니다. 패키지 관리자로 elasticvue를 업데이트하거나 새 버전을 다운로드하세요.",
+        "hint_docker": "최신 docker 이미지를 받아 컨테이너를 다시 생성하여 업데이트하세요.",
+        "hint_browser_extension": "브라우저가 확장 프로그램을 자동으로 업데이트합니다. 브라우저의 확장 프로그램 페이지에서 직접 업데이트할 수도 있습니다.",
+        "hint_manual": "app.elasticvue.com을 사용하는 경우 페이지를 새로 고치세요. 자체 호스팅 환경은 수동으로 업데이트해야 합니다.",
+        "undo_skip": "이 버전 건너뛰기 취소"
+      },
+      "auto_check": {
+        "label": "시작 시 업데이트 확인",
+        "message": "비활성화하면 elasticvue는 수동으로 확인할 때만 update.elasticvue.com에 연결합니다."
+      }
     }
   },
   "setup": {
@@ -1791,11 +1817,18 @@
     }
   },
   "update_check": {
+    "available": "업데이트 {version} 사용 가능",
     "downloading": "다운로드 중... {progress}%",
+    "downloading_unknown": "다운로드 중...",
     "heading": "새로운 버전의 Elasticvue를 사용할 수 있습니다.",
+    "install": "설치",
+    "install_failed": "업데이트를 설치할 수 없습니다. 다시 시도하거나 새 버전을 직접 다운로드하세요.",
     "installing": "업데이트 설치 중, 잠시 기다려 주세요...",
-    "update_info": "Elasticvue {version}을(를) 사용할 수 있습니다. 지금 설치하시겠습니까?",
-    "yes": "예"
+    "later": "나중에",
+    "release_notes": "릴리스 노트",
+    "retry": "다시 시도",
+    "skip": "이 버전 건너뛰기",
+    "update_info": "Elasticvue {version}을(를) 사용할 수 있습니다. 지금 설치하시겠습니까?"
   },
   "welcome": {
     "import_backup": {
