@@ -42,7 +42,7 @@
   },
   "productName": "elasticvue",
   "mainBinaryName": "elasticvue",
-  "version": "1.16.0",
+  "version": "../package.json",
   "identifier": "com.elasticvue.app",
   "plugins": {
     "updater": {

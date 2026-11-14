@@ -1,6 +1,5 @@
 <template>
   <q-chip
-    :title="JSON.stringify(shard, null, '\t')"
     :clickable="reRoutable"
     dense
     square
@@ -10,12 +9,33 @@
     :color="outlined ? '' : 'positive'"
     :class="classes"
     @click="reRoutable ? action(shard) : null"
-  />
+  >
+    <q-tooltip class="font-13">
+      <div class="text-weight-bold">{{ shard.index }}</div>
+      <div>
+        {{
+          shard.prirep === 'p'
+            ? t('shards.shard.primary', { shard: shard.shard })
+            : t('shards.shard.replica', { shard: shard.shard })
+        }}
+      </div>
+      <div>{{ shard.state }}</div>
+      <div v-if="relocationTarget(shard)">{{ shardNodeName(shard) }} → {{ relocationTarget(shard) }}</div>
+      <div v-if="shard.docs != null">{{ t('shards.shard.docs', { count: formatCount(toNumber(shard.docs)) }) }}</div>
+      <div v-if="storeBytes != null">{{ prettyPrintByteString(storeBytes) }}</div>
+      <div v-if="shard['unassigned.reason']">{{ t('shards.shard.reason', { reason: shard['unassigned.reason'] }) }}</div>
+      <div v-if="reRoutable" class="q-mt-xs text-italic">{{ t('shards.shard.move') }}</div>
+    </q-tooltip>
+  </q-chip>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { EsShard } from '../../helpers/shards.ts'
+import { EsShard, relocationTarget, shardNodeName, shardSeverity } from '../../helpers/shards.ts'
+import { prettyPrintByteString } from '../../helpers/bytes.ts'
+import { formatCount } from '../../helpers/nodes.ts'
+import { toNumber } from '../../helpers/nodeStats.ts'
+import { useTranslation } from '../../composables/i18n.ts'
 
 const props = withDefaults(
   defineProps<{
@@ -31,19 +51,18 @@ const props = withDefaults(
   }
 )
 
-const replica = computed(() => props.shard.prirep === 'r')
+const t = useTranslation()
+const storeBytes = computed(() => toNumber(props.shard.store))
 
 const classes = computed(() => {
   const newClasses = []
-  if (replica.value) newClasses.push('outline--dashed')
+  if (props.shard.prirep === 'r') newClasses.push('outline--dashed')
 
-  if (props.shard.state === 'STARTED') {
-    newClasses.push('border-positive')
-  } else if (['INITIALIZING', 'RELOCATING'].includes(props.shard.state)) {
-    newClasses.push('border-warning')
-  } else {
-    newClasses.push('border-grey')
-  }
+  const severity = shardSeverity(props.shard)
+  if (severity === 'critical') newClasses.push('border-negative')
+  else if (severity === 'warning' || severity === 'moving') newClasses.push('border-warning')
+  else if (props.shard.state === 'STARTED') newClasses.push('border-positive')
+  else newClasses.push('border-grey')
 
   return newClasses
 })

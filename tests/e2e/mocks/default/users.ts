@@ -85,7 +85,7 @@ export const buildSecurityUsers = (version: string) => {
   }
 
   return {
-    url: `http://localhost:9200/${securityApiBase(version)}/user`,
+    url: new RegExp(`localhost:9200/${securityApiBase(version)}/user(\\?|$)`),
     json
   }
 }
@@ -118,7 +118,7 @@ export const buildSecurityRoles = (version: string) => {
   }
 
   return {
-    url: `http://localhost:9200/${securityApiBase(version)}/role`,
+    url: new RegExp(`localhost:9200/${securityApiBase(version)}/role(\\?|$)`),
     json
   }
 }

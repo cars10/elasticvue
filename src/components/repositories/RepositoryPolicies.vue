@@ -1,5 +1,14 @@
 <template>
-  <q-btn :label="t('repositories.repository_policies.text')" icon="policy" color="dark-grey" @click="dialog = true" />
+  <q-btn
+    flat
+    round
+    dense
+    icon="policy"
+    :title="t('repositories.repository_policies.text')"
+    :disable="disable"
+    data-testid="repository-policies"
+    @click="dialog = true"
+  />
 
   <q-dialog v-model="dialog" transition-duration="100">
     <q-card style="width: 800px; max-width: 90vw">
@@ -46,14 +55,25 @@
             <td>{{ row.name }}</td>
             <td>{{ row.schedule }}</td>
             <td>
-              {{ retentionFormat(row.retention) }}
+              {{ retentionFormat(row.retention) || '-' }}
             </td>
-            <td class="text-right">
-              <q-btn-group>
-                <q-btn icon="play_arrow" color="dark-grey" @click="executePolicy(row.id)" />
-                <q-btn icon="edit" color="dark-grey" @click="editPolicy(row.id)" />
-                <q-btn icon="delete" color="dark-grey" @click="deletePolicy(row.id)" />
-              </q-btn-group>
+            <td>
+              <div v-if="row.lastSuccess" :title="new Date(row.lastSuccess).toLocaleString()">
+                {{ formatTimeAgo(row.lastSuccess) }}
+              </div>
+              <div v-if="row.failing" class="health--red font-13">
+                failed {{ formatTimeAgo(row.lastFailure!) }}
+                <q-tooltip v-if="row.lastFailureDetails" class="font-mono">{{ row.lastFailureDetails }}</q-tooltip>
+              </div>
+              <span v-if="!row.lastSuccess && !row.failing" class="text-muted">-</span>
+            </td>
+            <td :title="row.nextRun ? new Date(row.nextRun).toLocaleString() : undefined">
+              {{ row.nextRun ? formatTimeIn(row.nextRun) : '-' }}
+            </td>
+            <td class="text-right text-no-wrap">
+              <q-btn flat round dense icon="play_arrow" @click="executePolicy(row.id)" />
+              <q-btn flat round dense icon="edit" @click="editPolicy(row.id)" />
+              <q-btn flat round dense icon="delete" @click="deletePolicy(row.id)" />
             </td>
           </tr>
         </template>
@@ -73,9 +93,10 @@ import { useTranslation } from '../../composables/i18n'
 import NewRepositorySnapshotPolicy from './NewRepositorySnapshotPolicy.vue'
 import EditRepositorySnapshotPolicy from './EditRepositorySnapshotPolicy.vue'
 import { type SnapshotPolicyRetention } from '../../types/snapshotPolicies'
+import { formatTimeAgo, formatTimeIn } from '../../helpers/time.ts'
 
 const t = useTranslation()
-const props = defineProps<RepositoryPoliciesProps>()
+const props = defineProps<RepositoryPoliciesProps & { disable?: boolean }>()
 const emit = defineEmits(['reload'])
 const retentionFormat = (retention: SnapshotPolicyRetention | undefined) => {
   if (!retention) return ''

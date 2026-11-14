@@ -1,4 +1,5 @@
-import { BuildFlavor, ConnectionState, ElasticsearchCluster } from '../../../store/connection.ts'
+import { BuildFlavor, ConnectionState, ElasticsearchCluster, SecretStorage } from '../../../store/connection.ts'
+import { v4 as uuidv4 } from 'uuid'
 import { buildAuth } from '../../../helpers/predefinedClusters/buildAuth.ts'
 
 export type PredefinedCluster = {
@@ -11,6 +12,7 @@ export type PredefinedCluster = {
   S3secretAccessKey?: string
   S3sessionToken?: string
   S3region?: string
+  secretStorage?: SecretStorage
 }
 
 export const importPredefinedClusters = async () => {
@@ -38,17 +40,21 @@ export const loadPredefinedClusters = async () => {
 
 export const importNewClusters = (clusters: PredefinedCluster[], remainingClusters: ElasticsearchCluster[]) => {
   const previousState = loadConnectionState()
-  const previousByUri = new Map(
-    (previousState?.clusters.filter((cluster) => cluster.predefined) ?? []).map((cluster) => [cluster.uri, cluster])
-  )
+  const unmatched = previousState?.clusters.filter((cluster) => cluster.predefined) ?? []
+  const takePrevious = (cluster: PredefinedCluster) => {
+    let index = unmatched.findIndex((previous) => previous.uri === cluster.uri && previous.name === cluster.name)
+    if (index < 0) index = unmatched.findIndex((previous) => previous.uri === cluster.uri)
+    if (index < 0) return undefined
+    return unmatched.splice(index, 1)[0]
+  }
 
-  const newClusters = clusters.map((cluster) => buildPredefinedCluster(cluster, previousByUri.get(cluster.uri)))
+  const newClusters = clusters.map((cluster) => buildPredefinedCluster(cluster, takePrevious(cluster)))
 
   localStorage.setItem(
     'connection',
     JSON.stringify({
       clusters: [...newClusters, ...remainingClusters],
-      activeClusterIndex: previousState?.activeClusterIndex ?? 0
+      activeClusterId: previousState?.activeClusterId ?? null
     } satisfies ConnectionState)
   )
 }
@@ -60,17 +66,14 @@ export const loadRemainingClusters = () => {
   return connection.clusters.filter((cluster) => !cluster.predefined)
 }
 
-const buildPredefinedCluster = (
-  cluster: PredefinedCluster,
-  previous?: ElasticsearchCluster
-): ElasticsearchCluster => ({
+const buildPredefinedCluster = (cluster: PredefinedCluster, previous?: ElasticsearchCluster): ElasticsearchCluster => ({
+  id: previous?.id || uuidv4(),
   name: cluster.name || previous?.name || 'docker cluster',
   uri: cluster.uri,
   clusterName: previous?.clusterName || '',
   version: previous?.version || '',
   majorVersion: previous?.majorVersion || '',
   distribution: previous?.distribution || '',
-  uuid: previous?.uuid || '',
   status: previous?.status || '',
   loading: false,
   predefined: true,

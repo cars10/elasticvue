@@ -2,15 +2,18 @@ import { Ref, ref, UnwrapRef, useTemplateRef } from 'vue'
 import ElasticsearchAdapter from '../services/ElasticsearchAdapter'
 import { useTranslation } from './i18n'
 import { useSnackbar } from './Snackbar'
-import { BuildFlavor, ElasticsearchClusterConnection, useConnectionStore } from '../store/connection'
-import { DISTRIBUTIONS } from '../consts.ts'
+import { ElasticsearchClusterConnection, useConnectionStore } from '../store/connection'
+import { fetchClusterStatus } from './components/home/ClusterHealth.ts'
+import { parseClusterInfo } from '../helpers/clusterInfo.ts'
 import { QForm } from 'quasar'
+import { describeFailure } from '../helpers/clusterFailure.ts'
 
 type TestConnectState = {
   success: boolean
   error: boolean
   loading: boolean
   errorMessage: string
+  cors?: boolean
 }
 
 const resetState = (state: Ref<TestConnectState>) => {
@@ -24,7 +27,7 @@ const resetState = (state: Ref<TestConnectState>) => {
 
 export const useClusterConnection = (
   formCluster: Ref<UnwrapRef<ElasticsearchClusterConnection>>,
-  connectCallback?: (idx: number) => void
+  connectCallback?: (id: string) => void
 ) => {
   const t = useTranslation()
   const connectionStore = useConnectionStore()
@@ -38,6 +41,12 @@ export const useClusterConnection = (
   const formValid = async () => {
     if (!form.value) return false
     return await form.value.validate(false)
+  }
+
+  const fail = async (state: Ref<TestConnectState>, error: unknown) => {
+    console.error(error)
+    const { message, cors } = await describeFailure(error, formCluster.value.uri)
+    state.value = { success: false, error: true, loading: false, errorMessage: message, cors }
   }
 
   const testConnection = async () => {
@@ -54,16 +63,8 @@ export const useClusterConnection = (
       testState.value.loading = false
 
       showSuccessSnackbar({ title: t('defaults.success'), body: t('mixins.test_connection.cluster_reachable') })
-    } catch (e: any) {
-      console.error(e)
-      testState.value.success = false
-      testState.value.error = true
-      testState.value.loading = false
-      if (e.status && e.statusText) {
-        testState.value.errorMessage = `${e.status} ${e.statusText}`
-      } else if (e.message) {
-        testState.value.errorMessage = e.message
-      }
+    } catch (e) {
+      await fail(testState, e)
     }
   }
 
@@ -74,51 +75,29 @@ export const useClusterConnection = (
 
     const adapter = new ElasticsearchAdapter(formCluster.value)
     try {
-      const infoResponse: any = await adapter.test()
-      const infoJson = await infoResponse.json()
+      const infoJson = await adapter.test()
 
-      const flavor = infoJson.version.build_flavor || BuildFlavor.default
+      const info = parseClusterInfo(infoJson)
 
-      let status
-      if (flavor === BuildFlavor.serverless) {
-        status = 'green'
-      } else {
-        const clusterHealthResponse: any = await adapter.clusterHealth()
-        const clusterHealthBody = await clusterHealthResponse.json()
-        status = clusterHealthBody.status
-      }
+      const { status } = await fetchClusterStatus(adapter, info)
 
       let uri = formCluster.value.uri.trim()
       if (uri.endsWith('/')) uri = uri.slice(0, -1)
-      const newIdx = connectionStore.addCluster({
+      const id = connectionStore.addCluster({
         name: formCluster.value.name.trim(),
-        clusterName: infoJson.cluster_name,
-        version: infoJson.version.number,
-        majorVersion: infoJson.version.number[0],
-        distribution: infoJson.version.distribution || DISTRIBUTIONS.elasticsearch,
-        uuid: clusterUuid(infoJson),
+        ...info,
         status,
         loading: false,
         uri,
-        flavor,
         auth: formCluster.value.auth
       })
 
       connectState.value.success = true
       connectState.value.loading = false
 
-      return newIdx
-    } catch (e: any) {
-      console.error(e)
-      connectState.value.success = false
-      connectState.value.error = true
-      connectState.value.loading = false
-      if (e.status && e.statusText) {
-        connectState.value.errorMessage = `${e.status} ${e.statusText}`
-      } else if (e.message) {
-        connectState.value.errorMessage = e.message
-      }
-
+      return id
+    } catch (e) {
+      await fail(connectState, e)
       return Promise.reject(e)
     }
   }
@@ -127,10 +106,10 @@ export const useClusterConnection = (
     if (!(await formValid())) return
 
     try {
-      const idx = await connect()
-      if (typeof idx !== 'number') return
+      const id = await connect()
+      if (!id) return
 
-      connectCallback?.(idx)
+      connectCallback?.(id)
     } catch (_e) {
       console.error(_e)
     }
@@ -144,11 +123,4 @@ export const useClusterConnection = (
     form,
     formValid
   }
-}
-
-export const clusterUuid = (infoJson: any) => {
-  if (infoJson.cluster_uuid) return infoJson.cluster_uuid
-
-  // fallback for elasticsearch < 5
-  return `${infoJson.cluster_name}-${infoJson.name}`.replaceAll(/\s/g, '')
 }

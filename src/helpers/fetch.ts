@@ -2,11 +2,28 @@ import { invoke } from '@tauri-apps/api/core'
 import { buildConfig } from '../buildConfig.ts'
 import { parseJson } from './json/parse.ts'
 
-export const fetchReqwest = async (resource: any, init: any) => {
-  const r: Response = await invoke('fetch_reqwest', { resource, init })
+const rejectOnAbort = (signal: AbortSignal) =>
+  new Promise<never>((_resolve, reject) => {
+    if (signal.aborted) return reject(signal.reason)
+    signal.addEventListener('abort', () => reject(signal.reason), { once: true })
+  })
+
+export const fetchReqwest = async (resource: any, { signal, ...init }: any = {}) => {
+  const request: Promise<Response> = invoke('fetch_reqwest', { resource, init })
+  const r = await (signal ? Promise.race([request, rejectOnAbort(signal)]) : request)
   return new FetchReqwestResponse(r)
 }
-export const fetchMethod = buildConfig.tauri ? fetchReqwest : window.fetch
+export type FetchResponse = {
+  ok: boolean
+  status: number
+  statusText: string
+  headers: { get(name: string): string | null }
+  text(): Promise<string>
+}
+
+export const fetchMethod: (input: URL | string, init?: RequestInit) => Promise<FetchResponse> = buildConfig.tauri
+  ? fetchReqwest
+  : window.fetch
 
 class FetchReqwestResponseHeaders {
   headers: Record<string, string>
@@ -16,7 +33,9 @@ class FetchReqwestResponseHeaders {
   }
 
   get(header: string) {
-    return this.headers[header].length === 1 ? this.headers[header][0] : this.headers[header]
+    const value = this.headers[header]
+    if (!value) return null
+    return value.length === 1 ? value[0] : value
   }
 }
 

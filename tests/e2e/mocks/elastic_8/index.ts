@@ -3,6 +3,7 @@ import { mockElasticHome } from './home'
 import { mockElasticNodes } from './nodes'
 import { catAliases } from '../default/indices'
 import { catIndices } from './indices'
+import { clusterDefaults } from '../default/cluster'
 import { buildSecurityUsers, buildSecurityRoles } from '../default/users'
 
 const VERSION = '8.15.0'
@@ -12,6 +13,7 @@ export const mockElastic8 = async (page: Page, { health }: { health: string } = 
   await mockElasticNodes(page)
 
   const defaultMocks = {
+    ...clusterDefaults,
     catIndices,
     catAliases,
     securityUsers: buildSecurityUsers(VERSION),

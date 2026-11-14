@@ -1,134 +1,137 @@
 <template>
   <div class="row">
-    <div class="col-md-8 offset-md-2 col-sm-12">
-      <q-card>
-        <q-card-section class="q-mt-lg">
-          <h1 class="text-h5 q-my-none">
-            {{ t('settings.heading') }}
-          </h1>
-        </q-card-section>
+    <div class="col-12 col-lg-10 col-xl-8">
+      <div class="q-mb-lg">
+        <h1 class="page-title">{{ t('settings.heading') }}</h1>
+      </div>
 
-        <q-separator />
+      <update-settings />
 
-        <q-card-section>
-          <div class="row q-mb-lg">
-            <div class="col-md-6 col-sm-12">
-              <custom-input
-                v-model="indicesStore.hideIndicesRegex"
-                autofocus
-                outlined
-                :label="t('settings.hide_indices_regex.label')"
-                :hint="t('settings.hide_indices_regex.message')"
-              >
-                <template #append>
-                  <q-btn
-                    icon="settings_backup_restore"
-                    flat
-                    round
-                    :title="t('settings.hide_indices_regex.reset', { regex: DEFAULT_HIDE_INDICES_REGEX })"
-                    @click="resetHideIndicesRegex"
-                  />
-                </template>
-              </custom-input>
-            </div>
-          </div>
+      <settings-section :title="t('settings.editor.heading')">
+        <settings-row tag="label" :label="t('settings.editor_vim_mode.label')">
+          <q-toggle
+            v-model="codeEditorStore.vimMode"
+            :aria-label="t('settings.editor_vim_mode.label')"
+            data-testid="settings-vim-mode"
+          />
+        </settings-row>
+        <settings-row tag="label" :label="t('settings.editor.wrap_lines')">
+          <q-toggle
+            v-model="codeEditorStore.wrapLines"
+            :aria-label="t('settings.editor.wrap_lines')"
+            data-testid="settings-wrap-lines"
+          />
+        </settings-row>
+      </settings-section>
 
-          <div class="row q-mb-lg">
-            <div class="col-md-6 col-sm-12">
-              <custom-input
-                v-model="nodesStore.hideAttributesRegex"
-                outlined
-                :label="t('settings.hide_nodes_attributes_regex.label')"
-                :hint="t('settings.hide_nodes_attributes_regex.message')"
-              >
-                <template #append>
-                  <q-btn
-                    icon="settings_backup_restore"
-                    flat
-                    round
-                    :title="t('settings.hide_nodes_attributes_regex.reset', { regex: DEFAULT_HIDE_NODE_ATTRIBUTES_REGEX })"
-                    @click="resetHideNodesAttributesRegex"
-                  />
-                </template>
-              </custom-input>
-            </div>
-          </div>
+      <settings-section
+        :title="t('settings.cluster.heading', { name: clusterName })"
+        :description="t('settings.cluster.message')"
+      >
+        <settings-row :label="t('settings.hide_indices_regex.label')" :description="t('settings.hide_indices_regex.message')">
+          <custom-input v-model="indicesStore.hideIndicesRegex" outlined dense class="full-width">
+            <template #append>
+              <q-btn
+                icon="settings_backup_restore"
+                flat
+                round
+                dense
+                size="sm"
+                :title="t('settings.hide_indices_regex.reset', { regex: DEFAULT_HIDE_INDICES_REGEX })"
+                @click="resetHideIndicesRegex"
+              />
+            </template>
+          </custom-input>
+        </settings-row>
 
-          <div class="row q-mb-lg">
-            <div class="col-md-6 col-sm-12">
-              <custom-input
-                v-model="searchStore.documentFieldMaxLength"
-                outlined
-                type="number"
-                :rules="[(val) => (/^\d+$/.test(val) && val >= 1 && val <= 1000) || 'Only full numbers between 1 and 1000']"
-                :label="t('settings.document_field_max_length.label')"
-                :hint="t('settings.document_field_max_length.message')"
-              >
-                <template #append>
-                  <q-btn
-                    icon="settings_backup_restore"
-                    flat
-                    round
-                    :title="t('settings.document_field_max_length.reset', { value: DEFAULT_DOCUMENT_FIELD_MAX_LENGTH })"
-                    @click="resetDocumentFieldMaxLength"
-                  />
-                </template>
-              </custom-input>
-            </div>
-          </div>
+        <settings-row
+          :label="t('settings.hide_nodes_attributes_regex.label')"
+          :description="t('settings.hide_nodes_attributes_regex.message')"
+        >
+          <custom-input v-model="nodesStore.hideAttributesRegex" outlined dense class="full-width">
+            <template #append>
+              <q-btn
+                icon="settings_backup_restore"
+                flat
+                round
+                dense
+                size="sm"
+                :title="t('settings.hide_nodes_attributes_regex.reset', { regex: DEFAULT_HIDE_NODE_ATTRIBUTES_REGEX })"
+                @click="resetHideNodesAttributesRegex"
+              />
+            </template>
+          </custom-input>
+        </settings-row>
 
-          <div class="row q-mb-lg">
-            <div class="col-md-6 col-sm-12">
-              <q-checkbox v-model="searchStore.localizeTimestamp" :label="t('settings.localize_timestamp.label')" />
-            </div>
-          </div>
+        <settings-row
+          :label="t('settings.document_field_max_length.label')"
+          :description="t('settings.document_field_max_length.message')"
+        >
+          <custom-input
+            v-model="searchStore.documentFieldMaxLength"
+            outlined
+            dense
+            type="number"
+            class="full-width"
+            :rules="[(val) => (/^\d+$/.test(val) && val >= 1 && val <= 1000) || t('settings.document_field_max_length.invalid')]"
+          >
+            <template #append>
+              <q-btn
+                icon="settings_backup_restore"
+                flat
+                round
+                dense
+                size="sm"
+                :title="t('settings.document_field_max_length.reset', { value: DEFAULT_DOCUMENT_FIELD_MAX_LENGTH })"
+                @click="resetDocumentFieldMaxLength"
+              />
+            </template>
+          </custom-input>
+        </settings-row>
 
-          <div class="row q-mb-lg">
-            <div class="col-md-6 col-sm-12">
-              <q-checkbox v-model="codeEditorStore.vimMode" :label="t('settings.editor_vim_mode.label')" />
-            </div>
-          </div>
-        </q-card-section>
-      </q-card>
+        <settings-row tag="label" :label="t('settings.localize_timestamp.label')">
+          <q-toggle
+            v-model="searchStore.localizeTimestamp"
+            :aria-label="t('settings.localize_timestamp.label')"
+            data-testid="settings-localize-timestamp"
+          />
+        </settings-row>
+      </settings-section>
 
       <import-export />
 
-      <q-card class="q-mt-lg">
-        <q-card-section>
-          <h1 class="text-h5 q-my-none">
-            {{ t('settings.disconnect_and_reset.heading') }}
-          </h1>
-        </q-card-section>
-
-        <q-separator />
-
-        <q-card-section>
-          <q-btn color="dark-grey" @click="reset">
-            <q-icon name="warning" size="xs" color="negative" class="q-mr-sm" />
-            {{ t('settings.disconnect_and_reset.button') }}
-          </q-btn>
-        </q-card-section>
-      </q-card>
+      <settings-section :title="t('settings.disconnect_and_reset.heading')">
+        <settings-row :label="t('settings.disconnect_and_reset.message')">
+          <q-btn outline color="negative" :label="t('settings.disconnect_and_reset.button')" @click="reset" />
+        </settings-row>
+      </settings-section>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import { useIndicesStore } from '../../store/indices'
 import { DEFAULT_HIDE_INDICES_REGEX, DEFAULT_HIDE_NODE_ATTRIBUTES_REGEX, DEFAULT_DOCUMENT_FIELD_MAX_LENGTH } from '../../consts'
 import { askConfirm } from '../../helpers/dialogs'
 import { useTranslation } from '../../composables/i18n'
 import ImportExport from './ImportExport.vue'
+import UpdateSettings from './UpdateSettings.vue'
+import SettingsSection from './SettingsSection.vue'
+import SettingsRow from './SettingsRow.vue'
+import CustomInput from '../shared/CustomInput.vue'
 import { useSearchStore } from '../../store/search.ts'
 import { useNodesStore } from '../../store/nodes.ts'
 import { useCodeEditorStore } from '../../store/codeEditor.ts'
-import CustomInput from '../shared/CustomInput.vue'
+import { useConnectionStore } from '../../store/connection.ts'
 
 const t = useTranslation()
 const indicesStore = useIndicesStore()
 const nodesStore = useNodesStore()
 const searchStore = useSearchStore()
 const codeEditorStore = useCodeEditorStore()
+
+const clusterName = computed(() => useConnectionStore().activeCluster?.name || '')
 
 const resetHideIndicesRegex = () => (indicesStore.hideIndicesRegex = DEFAULT_HIDE_INDICES_REGEX)
 const resetHideNodesAttributesRegex = () => (nodesStore.hideAttributesRegex = DEFAULT_HIDE_NODE_ATTRIBUTES_REGEX)

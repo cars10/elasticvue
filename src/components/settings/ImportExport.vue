@@ -1,75 +1,41 @@
 <template>
-  <q-card class="q-mt-lg">
-    <q-card-section>
-      <h2 class="text-h5 q-my-none">
-        {{ t('settings.import_export.heading') }}
-      </h2>
-    </q-card-section>
-
-    <q-separator />
-
-    <q-card-section>
+  <settings-section :title="t('settings.import_export.heading')">
+    <template #description>
       <!-- eslint-disable-next-line vue/no-v-html -->
-      <p v-html="t('settings.import_export.message')" />
+      <span v-html="t('settings.import_export.message')" />
+    </template>
 
-      <h3 class="text-h6">
-        {{ t('settings.import_export.export.heading') }}
-      </h3>
-
+    <settings-row :label="t('settings.import_export.export.heading')">
+      <template #description>
+        <i18n-t scope="global" keypath="settings.import_export.export.contents" tag="span">
+          <template #credentials>
+            <strong>{{ t('settings.import_export.export.credentials') }}</strong>
+          </template>
+        </i18n-t>
+      </template>
       <download-button
-        color="primary-dark"
-        class="q-mb-md"
+        outline
+        color="primary"
         :download="downloadFileName"
         :label="t('settings.import_export.export.download')"
         :generate-download-data="backupJsonString"
       />
+    </settings-row>
 
-      <div>
-        <q-btn flat @click="helpCollapsed = !helpCollapsed">
-          <q-icon :name="helpCollapsed ? 'expand_less' : 'expand_more'" />
-          {{ t('settings.import_export.export.included') }}
-        </q-btn>
-
-        <q-slide-transition>
-          <div v-if="helpCollapsed">
-            <ul>
-              <li>Saved clusters (including username and password <strong>in plain text</strong>)</li>
-              <li>Currently active cluster</li>
-              <li>Code Editor settings</li>
-              <li>Search settings</li>
-              <li>Theme</li>
-              <li>Language</li>
-              <li>Rest query history</li>
-            </ul>
-          </div>
-        </q-slide-transition>
-      </div>
-    </q-card-section>
-
-    <q-separator />
-
-    <q-card-section>
-      <h3 class="text-h6">
-        {{ t('settings.import_export.import.heading') }}
-      </h3>
-
-      <div class="row">
-        <div class="col-md-6 col-sm-12">
-          <import-backup-form :confirm-import="true" />
-        </div>
-      </div>
-    </q-card-section>
-  </q-card>
+    <settings-row :label="t('settings.import_export.import.heading')">
+      <import-backup-form :confirm-import="true" class="full-width" />
+    </settings-row>
+  </settings-section>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
 import DownloadButton from '../shared/DownloadButton.vue'
 import { useImportExport } from '../../composables/ImportExport'
 import ImportBackupForm from './ImportBackupForm.vue'
+import SettingsSection from './SettingsSection.vue'
+import SettingsRow from './SettingsRow.vue'
 import { useTranslation } from '../../composables/i18n'
 
 const t = useTranslation()
 const { downloadFileName, backupJsonString } = useImportExport()
-const helpCollapsed = ref(false)
 </script>

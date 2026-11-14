@@ -11,6 +11,7 @@ import {
 
 type IndicesState = {
   filter: string
+  health: string | null
   showHiddenIndices: boolean
   stickyTableHeader: boolean
   hideIndicesRegex: string
@@ -20,20 +21,22 @@ type IndicesState = {
 
 export const useIndicesStore = () => {
   const connectionStore = useConnectionStore()
-  const clusterUuid = connectionStore.activeCluster?.uuid || ''
-  return defineStore(`indices-${clusterUuid}`, {
+  const clusterId = connectionStore.activeClusterId || ''
+  return defineStore(`indices-${clusterId}`, {
     state: (): IndicesState => ({
       filter: '',
+      health: null,
       showHiddenIndices: false,
       stickyTableHeader: false,
       hideIndicesRegex: DEFAULT_HIDE_INDICES_REGEX,
       pagination: paginationStoreDefaultProps('index'),
       rowsPerPageAccepted: false,
-      reloadInterval: null
+      reloadInterval: 30
     }),
     persist: {
       pick: [
         'filter',
+        'health',
         'showHiddenIndices',
         'stickyTableHeader',
         'hideIndicesRegex',
@@ -41,7 +44,7 @@ export const useIndicesStore = () => {
         ...persistReloadIntervalProps(),
         'rowsPerPageAccepted'
       ],
-      key: `indices-${clusterUuid}`
+      key: `indices-${clusterId}`
     }
   })()
 }

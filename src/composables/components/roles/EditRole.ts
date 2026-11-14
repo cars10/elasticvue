@@ -1,7 +1,7 @@
 import { computed, ref } from 'vue'
 import { useTranslation } from '../../i18n'
 import { defineElasticsearchRequest } from '../../CallElasticsearch'
-import { ClusterRole } from './ClusterRoles'
+import type { ClusterRole } from '../../../types/security.ts'
 import { buildRoleBody, emptyRoleForm, isValidIndicesJson, roleFormFromClusterRole } from './RoleForm'
 
 export const useEditRole = (emit: any) => {
@@ -24,14 +24,15 @@ export const useEditRole = (emit: any) => {
     dialog.value = true
   }
 
-  const { run, loading } = defineElasticsearchRequest({ emit, method: 'securityRolePut' })
+  const { run, loading } = defineElasticsearchRequest({ emit })
   const updateRole = async () => {
     const name = role.value.name.trim()
     const success = await run({
-      params: {
-        name,
-        body: buildRoleBody(role.value, existingRaw.value)
-      },
+      request: (es) =>
+        es.securityRolePut({
+          name,
+          body: buildRoleBody(role.value, existingRaw.value)
+        }),
       snackbarOptions: {
         body: t('cluster_roles.edit_role.update_role.growl', { name })
       }

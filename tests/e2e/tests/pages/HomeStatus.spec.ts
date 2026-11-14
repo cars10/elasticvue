@@ -1,73 +1,72 @@
 import { test, expect } from '@playwright/test'
 import { setupClusterConnection } from '../../helpers'
 import { withElastic } from '../../mocks'
+import { mockElastic8 } from '../../mocks/elastic_8'
 
 test.describe.configure({ mode: 'parallel' })
 
-withElastic(({ mockElastic, elastic }) => {
-  test.describe(`elasticsearch ${elastic.version}`, () => {
-    test.describe('HomeStatus', () => {
-      test('status card contains yellow', async ({ page }) => {
-        await mockElastic(page, { health: 'yellow' })
-        await setupClusterConnection(page)
+test.describe('HomeStatus', () => {
+  test('shows yellow status and the unhealthy index', async ({ page }) => {
+    await mockElastic8(page, { health: 'yellow' })
+    await setupClusterConnection(page)
 
-        const card = page.getByTestId('cluster-status')
-        await expect(card).toContainText('yellow')
+    await expect(page.getByTestId('cluster-status')).toContainText('Yellow')
+    await expect(page.getByTestId('cluster-status')).toContainText('2 unassigned shards')
+    await expect(page.getByTestId('cluster-indices')).toContainText('unhealthy-index')
+  })
 
-        await page.getByTestId('cluster-unhealthy-details').click()
+  test('shows the error when cluster stats cannot be loaded', async ({ page }) => {
+    await mockElastic8(page)
+    await page.route('**/_cluster/stats**', (route) =>
+      route.fulfill({ status: 403, json: { error: { type: 'security_exception', reason: 'missing monitor privilege' } } })
+    )
+    await setupClusterConnection(page)
 
-        const list = page.getByTestId('cluster-unhealthy-indices')
-        await expect(list).toContainText('unhealthy-index')
-      })
+    await expect(page.getByText('missing monitor privilege')).toBeVisible()
+    await expect(page.getByTestId('cluster-status')).toBeHidden()
+  })
 
-      test('node card contains node count', async ({ page }) => {
-        await mockElastic(page)
-        await setupClusterConnection(page)
+  test('marks sample based checks as collecting data and loads largest indices client side', async ({ page }) => {
+    await mockElastic8(page)
+    const indexRequests: string[] = []
+    page.on('request', (request) => {
+      if (request.url().includes('/_cat/indices')) indexRequests.push(request.url())
+    })
+    await setupClusterConnection(page)
 
-        const card = page.getByTestId('cluster-nodes')
-        await expect(card).toContainText('2 nodes')
+    const attention = page.getByTestId('cluster-attention')
+    await attention.click()
+    await expect(attention).toContainText('Collecting data')
+    expect(indexRequests.some((url) => new URL(url).searchParams.has('s'))).toBe(false)
+  })
 
-        if (parseInt(elastic.version[0]) >= 5) {
-          await expect(card).toContainText('2 master')
-          await expect(card).toContainText('2 data')
-        }
-      })
+  withElastic(({ mockElastic, elastic }) => {
+    test(`shows the cluster overview on ${elastic.version}`, async ({ page }) => {
+      await mockElastic(page)
+      await setupClusterConnection(page)
 
-      test('shards card contains shard count', async ({ page }) => {
-        await mockElastic(page)
-        await setupClusterConnection(page)
+      await expect(page.getByTestId('cluster-status')).toContainText('Green')
+      await expect(page.getByText(new RegExp(`(Elasticsearch|OpenSearch) ${elastic.version}`))).toBeVisible()
 
-        const card = page.getByTestId('cluster-shards')
-        await expect(card).toContainText('16 shards')
-        await expect(card).toContainText('8 primaries')
-        await expect(card).toContainText('8 replicas')
-      })
+      const nodes = page.getByTestId('cluster-nodes-summary')
+      await expect(nodes).toContainText('2 nodes')
+      if (parseInt(elastic.version[0]) >= 5) {
+        await expect(nodes).toContainText('2 data')
+        await expect(nodes).toContainText('2 master-eligible')
+      }
 
-      test('indices card contains index information', async ({ page }) => {
-        await mockElastic(page)
-        await setupClusterConnection(page)
+      const indices = page.getByTestId('cluster-indices-summary')
+      await expect(indices).toContainText('8 indices')
+      await expect(indices).toContainText('174 documents')
+      await expect(indices).toContainText('86.1 MB on disk')
 
-        const card = page.getByTestId('cluster-indices')
-        await expect(card).toContainText('8 indices')
-        await expect(card).toContainText('174 docs')
-        await expect(card).toContainText('86.1 MB on disk')
-      })
-
-      test('cluster information card', async ({ page }) => {
-        await mockElastic(page)
-        await setupClusterConnection(page)
-
-        const card = page.getByTestId('cluster-information')
-        await expect(card).toContainText(elastic.version)
-      })
-
-      test('cluster health card', async ({ page }) => {
-        await mockElastic(page)
-        await setupClusterConnection(page)
-
-        const card = page.getByTestId('cluster-health')
-        await expect(card).toContainText('green')
-      })
+      const tasks = page.getByTestId('cluster-tasks')
+      if (elastic.node.startsWith('es-1-')) {
+        await expect(tasks).toContainText('Not supported by this cluster version')
+      } else {
+        await expect(tasks).toContainText('1 running')
+        await expect(tasks).toContainText('1 task running for more than a minute')
+      }
     })
   })
 })

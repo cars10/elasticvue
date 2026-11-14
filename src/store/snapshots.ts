@@ -4,7 +4,8 @@ import {
   type PaginationStorePartial,
   type ReloadIntervalStorePartial,
   persistReloadIntervalProps,
-  paginationStoreDefaultProps
+  paginationStoreDefaultProps,
+  DEFAULT_RELOAD_INTERVAL
 } from './shared'
 
 type SnapshotsState = {
@@ -14,16 +15,16 @@ type SnapshotsState = {
 
 export const useSnapshotsStore = () => {
   const connectionStore = useConnectionStore()
-  const clusterUuid = connectionStore.activeCluster?.uuid || ''
-  return defineStore(`snapshots-${clusterUuid}`, {
+  const clusterId = connectionStore.activeClusterId || ''
+  return defineStore(`snapshots-${clusterId}`, {
     state: (): SnapshotsState => ({
       filter: '',
-      reloadInterval: null,
-      pagination: paginationStoreDefaultProps('id')
+      reloadInterval: DEFAULT_RELOAD_INTERVAL,
+      pagination: paginationStoreDefaultProps('startTime', true)
     }),
     persist: {
       pick: ['filter', ...persistReloadIntervalProps()],
-      key: `snapshots-${clusterUuid}`
+      key: `snapshots-${clusterId}`
     }
   })()
 }

@@ -4,20 +4,20 @@
       <new-snapshot :repository="repository" @reload="emit('reload')" />
       <filter-state
         v-model="snapshotsStore.filter"
-        :results-count="filterStateProps.resultsCount"
-        :filtered-results-count="filterStateProps.filteredResultsCount"
+        :results-count="resultsCount"
+        :filtered-results-count="filteredResultsCount"
         class="q-ml-md"
       />
     </div>
 
-    <filter-input v-model="snapshotsStore.filter" />
+    <filter-input v-model="snapshotsStore.filter" :columns="['name', 'state']" />
   </div>
 
   <q-table
     flat
     class="table-mono table-hide-overflow"
     dense
-    row-key="snapshot"
+    row-key="name"
     :columns="columns"
     :rows="filteredResults"
     :rows-per-page-options="DEFAULT_ROWS_PER_PAGE"
@@ -42,5 +42,5 @@ const snapshotsStore = useSnapshotsStore()
 const props = defineProps<SnapshotsTableProps>()
 const emit = defineEmits(['reload'])
 
-const { columns, filteredResults, filterStateProps } = useSnapshotsTable(props)
+const { columns, filteredResults, resultsCount, filteredResultsCount } = useSnapshotsTable(props)
 </script>

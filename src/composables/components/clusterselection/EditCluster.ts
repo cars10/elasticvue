@@ -1,42 +1,48 @@
 import { useSnackbar } from '../../Snackbar.ts'
 import { ElasticsearchCluster, ElasticsearchClusterConnection, useConnectionStore } from '../../../store/connection.ts'
-import { ref, Ref, watch } from 'vue'
+import { ref, Ref, toRaw, watch } from 'vue'
 import { useClusterConnection } from '../../ClusterConnection.js'
+import { useClusterSession } from '../../../store/clusterSession.ts'
+import { withSessionCredentials } from '../../../store/sessionCredentials.ts'
 
 export type EditClusterProps = {
-  index: number
+  id: string
+  label?: string
 }
 
 export const useEditCluster = (props: EditClusterProps) => {
   const { showSuccessSnackbar } = useSnackbar()
 
   const connectionStore = useConnectionStore()
+  const session = useClusterSession()
 
-  const getCluster = (index: number): ElasticsearchClusterConnection => {
-    const savedCluster: ElasticsearchCluster = connectionStore.clusters[index]
-    return {
+  const getCluster = (id: string): ElasticsearchClusterConnection => {
+    const savedCluster = withSessionCredentials(connectionStore.clusterById(id) as ElasticsearchCluster)
+    return structuredClone({
       name: savedCluster.name,
       uri: savedCluster.uri,
-      auth: Object.assign({}, savedCluster.auth)
-    }
+      auth: toRaw(savedCluster.auth)
+    })
   }
-  const cluster: Ref<ElasticsearchClusterConnection> = ref(getCluster(props.index))
+  const cluster: Ref<ElasticsearchClusterConnection> = ref(getCluster(props.id))
   watch(
-    () => props.index,
-    (index) => (cluster.value = getCluster(index))
+    () => props.id,
+    (id) => (cluster.value = getCluster(id))
   )
 
   const dialog = ref(false)
-  const saveCluster = () => {
-    connectionStore.updateCluster({ cluster: cluster.value, index: props.index })
+  const saveCluster = async () => {
+    if (!(await formValid())) return
+
+    connectionStore.updateCluster({ cluster: cluster.value, id: props.id })
     showSuccessSnackbar({ title: 'Cluster saved' })
-    window.location.reload()
+    if (props.id === session.clusterId) session.reconnect()
   }
 
   watch([() => cluster.value], () => {
     testState.value = { success: false, error: false, loading: false, errorMessage: '' }
   })
-  const { testState, testConnection } = useClusterConnection(cluster)
+  const { testState, testConnection, formValid } = useClusterConnection(cluster)
 
   return {
     dialog,

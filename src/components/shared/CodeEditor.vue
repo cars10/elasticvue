@@ -4,28 +4,30 @@
 
     <div class="code-editor__actions">
       <div class="inline-block">
-        <q-btn
-          :disable="!validJson"
-          round
-          flat
-          dense
-          icon="unfold_more"
-          :title="t('shared.code_editor.actions.expand_all.title')"
-          @click="expandAll"
-        />
-        <q-btn
-          :disable="!validJson"
-          round
-          flat
-          dense
-          icon="unfold_less"
-          :title="t('shared.code_editor.actions.collapse_all.title')"
-          @click="collapseAll"
-        />
+        <template v-if="language !== 'sql'">
+          <q-btn
+            :disable="!validJson"
+            round
+            flat
+            dense
+            icon="unfold_more"
+            :title="t('shared.code_editor.actions.expand_all.title')"
+            @click="expandAll"
+          />
+          <q-btn
+            :disable="!validJson"
+            round
+            flat
+            dense
+            icon="unfold_less"
+            :title="t('shared.code_editor.actions.collapse_all.title')"
+            @click="collapseAll"
+          />
+        </template>
         <copy-button round flat dense :custom-handler="copyContent" />
       </div>
 
-      <div class="inline-block">
+      <div v-if="language !== 'sql'" class="inline-block">
         <q-btn icon="settings" round flat dense>
           <q-menu style="white-space: nowrap" dense anchor="bottom right" self="top end">
             <q-item>
@@ -67,7 +69,12 @@ import CopyButton from './CopyButton.vue'
 import { useTranslation } from '../../composables/i18n'
 import { KeyBinding } from '@codemirror/view'
 
-const props = defineProps<{ modelValue: string; commands?: KeyBinding[]; onPaste?: (data: string) => void }>()
+const props = defineProps<{
+  modelValue: string
+  commands?: KeyBinding[]
+  onPaste?: (data: string) => void
+  language?: 'json' | 'sql'
+}>()
 const emit = defineEmits(['update:modelValue'])
 const t = useTranslation()
 const codeEditorStore = useCodeEditorStore()
@@ -77,7 +84,8 @@ const { copyContent, beautifyEditorValue, collapseAll, expandAll } = useCodeEdit
   initialValue: toRef(props, 'modelValue'),
   commands: props.commands,
   emit,
-  onPaste: props.onPaste
+  onPaste: props.onPaste,
+  language: props.language
 })
 
 const validJson = computed(() => {

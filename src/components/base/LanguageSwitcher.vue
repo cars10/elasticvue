@@ -1,5 +1,13 @@
 <template>
-  <q-btn icon="translate" round color="dark-grey" :title="t('base.language_switcher.title')" data-testid="change-language-button">
+  <q-btn
+    icon="translate"
+    flat
+    round
+    :size="size"
+    class="text-muted"
+    :title="t('base.language_switcher.title')"
+    data-testid="change-language-button"
+  >
     <q-menu>
       <q-list>
         <q-item
@@ -38,6 +46,15 @@ import { useI18nStore } from '../../store/i18n'
 import { useTranslation } from '../../composables/i18n.ts'
 import { ValidLocale } from '../../consts.ts'
 import { useRouter } from 'vue-router'
+
+withDefaults(
+  defineProps<{
+    size?: string
+  }>(),
+  {
+    size: 'md'
+  }
+)
 
 const store = useI18nStore()
 const t = useTranslation()

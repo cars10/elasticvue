@@ -1,32 +1,31 @@
 import { defineStore } from 'pinia'
-import { ElasticsearchMethod } from '../services/ElasticsearchAdapter.ts'
+import { markRaw } from 'vue'
+import { ElasticsearchRequest } from '../services/ElasticsearchAdapter.ts'
 
 type ModalState = {
   show: boolean
-  method: ElasticsearchMethod
-  methodParams: any
+  title: string
+  details: object | null
+  request: ElasticsearchRequest | null
 }
 
 export const useModalStore = defineStore('modal', {
   state: (): ModalState => ({
     show: false,
-    method: 'ping',
-    methodParams: null
+    title: '',
+    details: null,
+    request: null
   }),
   actions: {
+    open(title: string, request: ElasticsearchRequest, details: object | null = null) {
+      this.title = title
+      this.details = details
+      this.request = markRaw(request)
+      this.show = true
+    },
     setShow(show: boolean) {
-      this.show = show
-
-      if (!show) {
-        this.method = 'ping'
-        this.methodParams = {}
-      }
-    },
-    setMethod(method: ElasticsearchMethod) {
-      this.method = method
-    },
-    setMethodParams(methodParams: any = null) {
-      this.methodParams = methodParams
+      if (show) this.show = true
+      else this.$reset()
     }
   }
 })

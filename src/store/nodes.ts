@@ -6,7 +6,8 @@ import {
   type PaginationStorePartial,
   type ReloadIntervalStorePartial,
   persistReloadIntervalProps,
-  paginationStoreDefaultProps
+  paginationStoreDefaultProps,
+  DEFAULT_RELOAD_INTERVAL
 } from './shared'
 
 type NodesState = {
@@ -18,18 +19,18 @@ type NodesState = {
 
 export const useNodesStore = () => {
   const connectionStore = useConnectionStore()
-  const clusterUuid = connectionStore.activeCluster?.uuid || ''
-  return defineStore(`nodes-${clusterUuid}`, {
+  const clusterId = connectionStore.activeClusterId || ''
+  return defineStore(`nodes-${clusterId}`, {
     state: (): NodesState => ({
       filter: '',
       nodeRoles: [],
       hideAttributesRegex: DEFAULT_HIDE_NODE_ATTRIBUTES_REGEX,
-      reloadInterval: null,
+      reloadInterval: DEFAULT_RELOAD_INTERVAL,
       pagination: paginationStoreDefaultProps('name')
     }),
     persist: {
       pick: ['filter', 'nodeRoles', 'hideAttributesRegex', ...persistReloadIntervalProps(), ...persistPaginationProps()],
-      key: `nodes-${clusterUuid}`
+      key: `nodes-${clusterId}`
     }
   })()
 }

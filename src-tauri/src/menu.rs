@@ -7,7 +7,7 @@ pub fn menu(app: &mut App) -> Result<Menu<Wry>, tauri::Error> {
         .authors(Some(vec![app.package_info().authors.to_string()]))
         .comments(Some(app.package_info().description))
         .website(Some("https://elasticvue.com"))
-        .icon(app.default_window_icon().map(|img| img.clone()))
+        .icon(app.default_window_icon().cloned())
         .build();
 
     let about_quit = SubmenuBuilder::new(app, app.package_info().name.clone())

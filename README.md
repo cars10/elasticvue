@@ -16,11 +16,13 @@ Contents
 
 1. [About](#about)
 2. [Usage](#usage)
-3. [Browser support](#browser-support)
-4. [Troubleshooting](#troubleshooting)
-5. [Comparing with other frontends](#comparing-with-other-frontends)
-7. [i18n](#i18n)
-8. [Contributing](#contributing)
+3. [Elasticsearch configuration](#elasticsearch-configuration)
+4. [Tips & Tricks](#tips--tricks)
+5. [Browser support](#browser-support)
+6. [Troubleshooting](#troubleshooting)
+7. [Documentation](#documentation)
+8. [i18n](#i18n)
+9. [Contributing](#contributing)
 
 ## About
 
@@ -28,16 +30,28 @@ Contents
 
 **Elasticvue** is a free and open-source gui for elasticsearch that you can use to manage the data in your cluster.
 It supports every version of elasticsearch, even those that are EOL. Check
-the [FAQ](https://github.com/cars10/elasticvue/wiki/FAQ) for more details.
+the [FAQ](docs/faq.md) for more details.
+
+### Supported versions
+
+* **Elasticsearch** 7, 8 and 9 are fully supported. Older versions (1 to 6) work, but are EOL and only receive limited support.
+* **OpenSearch** 1, 2 and 3 are supported for all features that elasticvue also offers for elasticsearch. There are no
+  OpenSearch specific features, and features that only exist in elasticsearch or work too differently in OpenSearch
+  (e.g. users, roles and snapshot policies) are disabled.
+* **Other elasticsearch compatible products** are not supported. Elasticvue will try to connect and use the latest
+  elasticsearch api, but some features may not work.
 
 ### Features
 
-* Cluster overview
-* Index & alias management
-* Shard management
-* Searching and editing documents
-* Rest queries
-* Snapshot & repository management
+* Dashboard with cluster health and an overview of all your clusters
+* Node overview and details
+* Index, alias & index template management
+* Shard overview, rerouting and recovery
+* Searching, filtering and editing documents
+* REST queries with a saved query library
+* Snapshot, repository & snapshot policy management
+* User & role management
+* Cluster tools, e.g. allocation, draining nodes, index blocks and disk watermarks
 * ... and much more
 
 ## Usage
@@ -55,7 +69,7 @@ You can use elasticvue in several ways, use whatever works best for you.
 ### Desktop App - *recommended*
 
 * [Windows .msi](https://update.elasticvue.com/download/windows/x86_64)
-* [Homebrew](https://formulae.brew.sh/cask/elasticvue) / [Mac x68 .dmg](https://update.elasticvue.com/download/darwin/x86_64) / [Mac aarch64 .dmg](https://update.elasticvue.com/download/darwin/aarch64)
+* [Homebrew](https://formulae.brew.sh/cask/elasticvue) / [Mac x86 .dmg](https://update.elasticvue.com/download/darwin/x86_64) / [Mac aarch64 .dmg](https://update.elasticvue.com/download/darwin/aarch64)
 * [Linux .AppImage](https://update.elasticvue.com/download/linux/x86_64) / [Arch AUR](https://aur.archlinux.org/packages/elasticvue-bin)
 
 ### Browser extension
@@ -66,7 +80,7 @@ You can use elasticvue in several ways, use whatever works best for you.
 
 ### Web version
 
-> **You have to configure your elasticsearch cluster if you want to use elasticvue via docker**
+> **You have to configure your elasticsearch cluster if you want to use the web version**
 
 Visit [https://app.elasticvue.com](https://app.elasticvue.com).
 
@@ -74,7 +88,7 @@ Visit [https://app.elasticvue.com](https://app.elasticvue.com).
 
 > **You have to configure your elasticsearch cluster if you want to self host elasticvue**
 
-Please check the [wiki](https://github.com/cars10/elasticvue/wiki/Building-Elasticvue) for more information.
+Please check the [docs](docs/building-elasticvue.md) for more information.
 
 ### Docker
 
@@ -122,7 +136,23 @@ clusters, looking like this:
 | S3secretAccessKey | AWS secret access key for IAM authentication | No | `"wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"` |
 | S3sessionToken | AWS session token for temporary credentials | No | `"FQoGZXIvYXdzE...example"` |
 | S3region | AWS region for IAM authentication | No | `"us-east-1"` |
+| secretStorage | `"session"` to never store secrets in the browser. Users are asked for them once per browser session | No | `"session"` |
 
+#### Clusters without stored secrets
+
+`default_clusters.json` is readable by everyone who can open elasticvue, so you might not want to put passwords or keys into it. Leave the secret out and elasticvue asks every user for it once per browser session instead. Secrets entered this way are kept in the session storage of the tab and are never written to local storage.
+
+* `username` without `password`: asks for the password (the username can be changed on login)
+* `S3accessKeyId` and `S3region` without `S3secretAccessKey`: asks for the secret access key and an optional session token
+* `"secretStorage": "session"`: never imports secrets from the config. Without `username` or `S3accessKeyId` elasticvue asks for an API key
+
+```json
+[
+  { "name": "prod (admin)", "uri": "https://prod:9200", "username": "admin" },
+  { "name": "prod (api key)", "uri": "https://prod:9200", "secretStorage": "session" },
+  { "name": "aws", "uri": "https://search-domain.eu-west-1.es.amazonaws.com", "S3accessKeyId": "AKIAIOSFODNN7EXAMPLE", "S3region": "eu-west-1" }
+]
+```
 
 
 #### Docker with default clusters in environment variable
@@ -153,7 +183,7 @@ Find your elasticsearch configuration (for example `/etc/elasticsearch/elasticse
 # enable CORS
 http.cors.enabled: true
 
-# Then set the allowed origins based on how you run elasticvue. Chose only one:
+# Then set the allowed origins based on how you run elasticvue. Choose only one:
 # for docker / running locally
 http.cors.allow-origin: "http://localhost:8080"
 # online version
@@ -183,10 +213,10 @@ services:
     ports:
       - "9200:9200"
     environment:
-      - http.cors.enabled=true
-      - http.cors.allow-origin="/.*/"
-      - http.cors.allow-headers=X-Requested-With,Content-Type,Content-Length,Authorization
-      - discovery.type=single-node
+      discovery.type: single-node
+      http.cors.enabled: "true"
+      http.cors.allow-origin: "/.*/"
+      http.cors.allow-headers: "X-Requested-With,Content-Type,Content-Length,Authorization"
 ```
 
 After configuration restart your cluster and you should be able to connect.
@@ -220,20 +250,22 @@ Before opening an issue please try to reset elasticvue to its default settings:
 This will reset all your saved filters, and you have to reconnect to your cluster. Please open
 an [issue](https://github.com/cars10/elasticvue/issues/new/choose) if your problem persists.
 
-## Comparing with other frontends
+## Documentation
 
-See the Wiki. [Comparing to other frontends](https://github.com/cars10/elasticvue/wiki/Comparing-to-other-frontends)
+See the [docs](docs/README.md), e.g. for [debugging connection issues](docs/debugging-connection-issues.md) or [accessing clusters using SSL](docs/access-clusters-using-ssl.md).
 
 ## i18n
 
 Elasticvue is available in the following languages:
 
-* english
-* chinese
-* french
-* russian
-* japanese
-* italian
+* English
+* Chinese (simplified)
+* Chinese (traditional)
+* French
+* Italian
+* Japanese
+* Korean
+* Russian
 
 ## Contributing
 

@@ -1,4 +1,5 @@
 {
+  "$schema": "../gen/schemas/desktop-schema.json",
   "identifier": "desktop-capability",
   "windows": [
     "main"
@@ -15,7 +16,6 @@
     "dialog:default",
     "clipboard-manager:allow-write-text",
     "clipboard-manager:allow-read-text",
-    "fs:default",
     "opener:default",
     "window-state:default"
   ]

@@ -42,10 +42,7 @@ export const useNewRepositorySnapshotPolicy = (emit: any, repository: string) =>
     dialog.value = false
   }
 
-  const { run, loading } = defineElasticsearchRequest({
-    emit: (event: string) => emit(event as 'reload'),
-    method: 'slmPutPolicy'
-  })
+  const { run, loading } = defineElasticsearchRequest({ emit: (event: string) => emit(event as 'reload') })
 
   const createPolicy = async () => {
     if (!formValid.value) return
@@ -78,10 +75,11 @@ export const useNewRepositorySnapshotPolicy = (emit: any, repository: string) =>
     }
 
     const success = await run({
-      params: {
-        policy: policy.value.id,
-        body: policyBody
-      },
+      request: (es) =>
+        es.slmPutPolicy({
+          policy: policy.value.id,
+          body: policyBody
+        }),
       snackbarOptions: (body: ElasticsearchResponse) => {
         return {
           title: t('snapshot_policies.new_policy.create_policy.growl', { name: policy.value.name }),

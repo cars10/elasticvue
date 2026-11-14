@@ -5,7 +5,8 @@ import {
   type ReloadIntervalStorePartial,
   persistPaginationProps,
   persistReloadIntervalProps,
-  paginationStoreDefaultProps
+  paginationStoreDefaultProps,
+  DEFAULT_RELOAD_INTERVAL
 } from './shared'
 
 type UsersState = {
@@ -15,16 +16,16 @@ type UsersState = {
 
 export const useUsersStore = () => {
   const connectionStore = useConnectionStore()
-  const clusterUuid = connectionStore.activeCluster?.uuid || ''
-  return defineStore(`users-${clusterUuid}`, {
+  const clusterId = connectionStore.activeClusterId || ''
+  return defineStore(`users-${clusterId}`, {
     state: (): UsersState => ({
       filter: '',
-      reloadInterval: null,
+      reloadInterval: DEFAULT_RELOAD_INTERVAL,
       pagination: paginationStoreDefaultProps('username')
     }),
     persist: {
       pick: ['filter', ...persistReloadIntervalProps(), ...persistPaginationProps()],
-      key: `users-${clusterUuid}`
+      key: `users-${clusterId}`
     }
   })()
 }

@@ -5,30 +5,33 @@ import {
   ReloadIntervalStorePartial,
   paginationStoreDefaultProps,
   persistPaginationProps,
-  persistReloadIntervalProps
+  persistReloadIntervalProps,
+  DEFAULT_RELOAD_INTERVAL
 } from './shared'
 
 type ShardRecoveryState = {
   filter: string
   stage: string | null
+  activeOnly: boolean
   stickyTableHeader: boolean
 } & PaginationStorePartial &
   ReloadIntervalStorePartial
 
 export const useShardRecoveryStore = () => {
   const connectionStore = useConnectionStore()
-  const clusterUuid = connectionStore.activeCluster?.uuid || ''
-  return defineStore(`shardRecovery-${clusterUuid}`, {
+  const clusterId = connectionStore.activeClusterId || ''
+  return defineStore(`shardRecovery-${clusterId}`, {
     state: (): ShardRecoveryState => ({
       filter: '',
       stage: null,
+      activeOnly: true,
       stickyTableHeader: false,
-      pagination: paginationStoreDefaultProps('start_time_in_millis'),
-      reloadInterval: null
+      pagination: paginationStoreDefaultProps(),
+      reloadInterval: DEFAULT_RELOAD_INTERVAL
     }),
     persist: {
-      pick: ['filter', 'stage', 'stickyTableHeader', ...persistPaginationProps(), ...persistReloadIntervalProps()],
-      key: `shardRecovery-${clusterUuid}`
+      pick: ['filter', 'stage', 'activeOnly', 'stickyTableHeader', ...persistPaginationProps(), ...persistReloadIntervalProps()],
+      key: `shardRecovery-${clusterId}`
     }
   })()
 }

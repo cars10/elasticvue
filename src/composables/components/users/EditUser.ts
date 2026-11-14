@@ -1,7 +1,7 @@
 import { computed, ref } from 'vue'
 import { useTranslation } from '../../i18n'
 import { defineElasticsearchRequest } from '../../CallElasticsearch'
-import { ClusterUser } from './ClusterUsers'
+import type { ClusterUser } from '../../../types/security.ts'
 import { buildUserBody, emptyUserForm, useUserRoles } from './UserForm'
 
 export const useEditUser = (emit: any) => {
@@ -36,11 +36,8 @@ export const useEditUser = (emit: any) => {
     dialog.value = true
   }
 
-  const { run: runUserPut, loading: putLoading } = defineElasticsearchRequest({ emit, method: 'securityUserPut' })
-  const { run: runPasswordPut, loading: passwordLoading } = defineElasticsearchRequest({
-    emit,
-    method: 'securityUserPutPassword'
-  })
+  const { run: runUserPut, loading: putLoading } = defineElasticsearchRequest({ emit })
+  const { run: runPasswordPut, loading: passwordLoading } = defineElasticsearchRequest({ emit })
 
   const loading = computed(() => putLoading.value || passwordLoading.value)
 
@@ -50,14 +47,15 @@ export const useEditUser = (emit: any) => {
 
     const success = reserved.value
       ? await runPasswordPut({
-          params: { username, body: { password: user.value.password } },
+          request: (es) => es.securityUserPutPassword({ username, body: { password: user.value.password } }),
           snackbarOptions
         })
       : await runUserPut({
-          params: {
-            username,
-            body: buildUserBody(user.value, { includePassword: user.value.password.length > 0 })
-          },
+          request: (es) =>
+            es.securityUserPut({
+              username,
+              body: buildUserBody(user.value, { includePassword: user.value.password.length > 0 })
+            }),
           snackbarOptions
         })
 

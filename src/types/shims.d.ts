@@ -13,10 +13,3 @@ declare module '*.vue' {
   const component: DefineComponent<object, object, never>
   export default component
 }
-
-declare interface RestQueryRequestLike {
-  id?: number
-  method: string
-  body: string
-  path: string
-}

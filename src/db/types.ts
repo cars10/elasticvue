@@ -1,9 +1,5 @@
-import { DbModel } from './indexeddb.ts'
-
-export type TableDefinition = {
-  name: string
-  indexes: string[]
-}
+import { DbTable } from './indexeddb.ts'
+import type { SearchFilter, SearchMode, SearchTimeBounds } from '../types/search.ts'
 
 export type IdbRestQueryHistory = {
   id?: number
@@ -15,6 +11,7 @@ export type IdbRestQueryHistory = {
 
 export type IdbRestQuerySavedQuery = {
   id?: number
+  name?: string
   method: string
   path: string
   body: string
@@ -23,10 +20,11 @@ export type IdbRestQuerySavedQuery = {
 export type IdbRestQueryTab = {
   id?: number
   label: string
-  name: string
   request: IdbRestQueryTabRequest
-  response: IdbRestQueryTabResponse
+  response?: IdbRestQueryTabResponse
 }
+
+export type IdbRestQueryResponse = IdbRestQueryTabResponse & { id: number }
 
 export type IdbRestQueryTabRequest = {
   method: string
@@ -38,10 +36,27 @@ export type IdbRestQueryTabResponse = {
   status: string
   ok: boolean
   bodyText: string
+  duration?: number
 }
 
-export interface DbSchema {
-  restQueryHistory: DbModel<IdbRestQueryHistory>
-  restQuerySavedQueries: DbModel<IdbRestQuerySavedQuery>
-  restQueryTabs: DbModel<IdbRestQueryTab>
+export type IdbSearchEntry = {
+  id?: number
+  name?: string
+  date: Date
+  targets: string[]
+  mode: SearchMode
+  query: string
+  filters: SearchFilter[]
+  timeRange: SearchTimeBounds | null
+  timeField?: string
+  columns?: string[]
+}
+
+export type DbSchema = {
+  restQueryHistory: DbTable<IdbRestQueryHistory>
+  restQuerySavedQueries: DbTable<IdbRestQuerySavedQuery>
+  restQueryTabs: DbTable<IdbRestQueryTab>
+  restQueryResponses: DbTable<IdbRestQueryResponse>
+  searchHistory: DbTable<IdbSearchEntry>
+  savedSearches: DbTable<IdbSearchEntry>
 }

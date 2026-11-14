@@ -53,6 +53,7 @@ const readConnection = async (page: Page) => {
 }
 
 const baseCluster = (overrides: Record<string, unknown>) => ({
+  id: `id-${overrides.name}`,
   clusterName: '',
   version: '',
   majorVersion: '',
@@ -68,7 +69,7 @@ const baseCluster = (overrides: Record<string, unknown>) => ({
 })
 
 test.describe('predefined clusters', () => {
-  test('reimports config, keeps uuid and manual clusters, REST works after switch', async ({ page }) => {
+  test('reimports config, keeps ids and manual clusters, REST works after switch', async ({ page }) => {
     await mockDefaultClusters(page, [
       { name: 'pre-a', uri: 'http://localhost:9200', username: 'elastic', password: 'secret' },
       { name: 'pre-b', uri: 'http://localhost:9201' }
@@ -80,7 +81,6 @@ test.describe('predefined clusters', () => {
         baseCluster({
           name: 'pre-a',
           uri: 'http://localhost:9200',
-          uuid: 'kept-uuid-a',
           status: 'green',
           version: '8.15.0',
           majorVersion: '8',
@@ -93,14 +93,12 @@ test.describe('predefined clusters', () => {
         baseCluster({
           name: 'pre-b',
           uri: 'http://localhost:9201',
-          uuid: 'kept-uuid-b',
           status: 'green',
           predefined: true
         }),
         baseCluster({
           name: 'manual cluster',
           uri: 'http://localhost:9200',
-          uuid: 'manual-uuid',
           status: 'green',
           predefined: false
         })
@@ -113,15 +111,15 @@ test.describe('predefined clusters', () => {
 
     const connection = await readConnection(page)
     expect(connection.clusters).toHaveLength(3)
-    expect(connection.clusters[0].uuid).toBe('kept-uuid-a')
+    expect(connection.clusters[0].id).toBe('id-pre-a')
     expect(connection.clusters[0].auth).toEqual({
       authType: 'basicAuth',
       authData: { username: 'elastic', password: 'secret' }
     })
-    expect(connection.clusters[1].uuid).toBe('kept-uuid-b')
+    expect(connection.clusters[1].id).toBe('id-pre-b')
     expect(connection.clusters[2]).toMatchObject({
+      id: 'id-manual cluster',
       name: 'manual cluster',
-      uuid: 'manual-uuid',
       predefined: false
     })
 
@@ -130,17 +128,17 @@ test.describe('predefined clusters', () => {
 
     await page.getByTestId('cluster-selection').click()
     await page.getByTestId('cluster-table-row-1').click()
-    await page.waitForURL('**/cluster/1/**')
+    await page.waitForURL('**/cluster/id-pre-b/**')
 
     await expect(page.locator('#send_request')).toBeVisible()
     await expect(page.getByRole('heading', { name: 'REST' })).toBeVisible()
 
     const afterSwitch = await readConnection(page)
-    expect(afterSwitch.clusters[1].uuid).toBe('kept-uuid-b')
+    expect(afterSwitch.clusters[1].id).toBe('id-pre-b')
     expect(afterSwitch.clusters.some((c: { name: string }) => c.name === 'manual cluster')).toBe(true)
   })
 
-  test('shows REST after first health check when uuid was empty', async ({ page }) => {
+  test('shows REST after first health check of a never connected cluster', async ({ page }) => {
     await mockDefaultClusters(page, [{ name: 'pre-a', uri: 'http://localhost:9200' }])
 
     await seedConnection(page, {
@@ -149,7 +147,6 @@ test.describe('predefined clusters', () => {
         baseCluster({
           name: 'pre-a',
           uri: 'http://localhost:9200',
-          uuid: '',
           status: '',
           predefined: true
         })
@@ -162,6 +159,30 @@ test.describe('predefined clusters', () => {
     await expect(page.locator('#send_request')).toBeVisible()
 
     const connection = await readConnection(page)
-    expect(connection.clusters[0].uuid).toBe('ecdKaffmR9WkFbKDW4PUWw')
+    expect(connection.clusters[0].version).not.toBe('')
+  })
+
+  test('asks for the password of predefined clusters configured without one', async ({ page }) => {
+    await mockDefaultClusters(page, [{ name: 'secure', uri: 'http://localhost:9200', username: 'admin' }])
+    await page.route('http://localhost:9200/**', (route) => route.fulfill({ json: {} }))
+    await mockElastic8(page)
+    const expected = `Basic ${Buffer.from('admin:docker-pw').toString('base64')}`
+    await page.route('http://localhost:9200/**', (route) =>
+      route.request().headers().authorization === expected ? route.fallback() : route.fulfill({ status: 401, json: {} })
+    )
+    await page.addInitScript(() => window.localStorage.clear())
+
+    await page.goto('/')
+    await expect(page.getByTestId('cluster-credentials-username')).toHaveValue('admin')
+    await page.getByTestId('cluster-credentials-password').fill('docker-pw')
+    await page.getByTestId('cluster-credentials-submit').click()
+    await expect(page.getByTestId('cluster-status')).toBeVisible()
+
+    const connection = await readConnection(page)
+    expect(connection.clusters[0].auth).toEqual({
+      authType: 'basicAuth',
+      authData: { username: 'admin', password: '' },
+      secretStorage: 'session'
+    })
   })
 })

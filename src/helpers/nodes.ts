@@ -1,3 +1,10 @@
+import { prettyPrintByteString } from './bytes.ts'
+import { nodeSpread, peakMetric, toNumber } from './nodeStats.ts'
+import type { EsNode } from '../types/types.ts'
+import type { DiskWatermarks } from '../types/homeDashboard.ts'
+import type { NodeRow, NodesSummary, NodeStatsDetails } from '../types/nodes.ts'
+import { isOpensearch } from './clusterInfo.ts'
+
 export const nodeRoleTitle = (role: string): string => {
   let title = ''
   if (role.includes('c')) title += 'c - cold node\r\n'
@@ -16,3 +23,195 @@ export const nodeRoleTitle = (role: string): string => {
 
   return title
 }
+
+export const CAT_NODES_PARAMS = {
+  h: [
+    'ip',
+    'id',
+    'name',
+    'version',
+    'heap.percent',
+    'heap.current',
+    'heap.max',
+    'node.role',
+    'master',
+    'cpu',
+    'disk.used_percent',
+    'disk.used',
+    'disk.total',
+    'shards'
+  ],
+  bytes: 'b',
+  full_id: true
+}
+
+export const NODE_DETAILS_STATS = {
+  metrics: 'jvm,indices/docs,store',
+  params: {
+    filter_path: 'nodes.*.jvm.uptime_in_millis,nodes.*.indices.docs.count,nodes.*.indices.store.size_in_bytes'
+  }
+}
+
+export const NODE_ATTRIBUTES_PARAMS = { filter_path: 'nodes.*.settings.node.attr' }
+
+export const RECENT_RESTART_MS = 60 * 60 * 1000
+
+const ROLE_LABELS: [string, string][] = [
+  ['m', 'master'],
+  ['v', 'voting-only'],
+  ['d', 'data'],
+  ['s', 'content'],
+  ['h', 'hot'],
+  ['w', 'warm'],
+  ['c', 'cold'],
+  ['f', 'frozen'],
+  ['i', 'ingest'],
+  ['l', 'ml'],
+  ['t', 'transform']
+]
+
+const DATA_TIER_ROLES = ['s', 'h', 'w', 'c', 'f']
+
+const OPENSEARCH_ROLE_LABELS: [string, string][] = [
+  ['m', 'master'],
+  ['d', 'data'],
+  ['w', 'warm'],
+  ['s', 'search'],
+  ['i', 'ingest']
+]
+
+const usesLegacyRoles = (version?: string | null, distribution?: string): boolean =>
+  !isOpensearch(distribution) && !!version && parseInt(version) < 5
+
+export const isDataNode = (roles: string, version?: string | null, distribution?: string): boolean => {
+  if (isOpensearch(distribution)) return /[dw]/.test(roles)
+  return usesLegacyRoles(version) ? roles.includes('d') : /[dshwcf]/.test(roles)
+}
+
+const isCoordinatingNode = (roles: string, version?: string | null, distribution?: string): boolean =>
+  roles === '-' || (usesLegacyRoles(version, distribution) && roles === 'c')
+
+export const nodeRoleLabels = (
+  roles: string,
+  version?: string | null,
+  distribution?: string
+): { role: string; label: string }[] => {
+  if (isCoordinatingNode(roles, version, distribution)) return [{ role: '-', label: 'coordinating' }]
+  if (isOpensearch(distribution)) {
+    return OPENSEARCH_ROLE_LABELS.filter(([role]) => roles.includes(role)).map(([role, label]) => ({ role, label }))
+  }
+
+  const hasData = roles.includes('d')
+  return ROLE_LABELS.filter(([role]) => roles.includes(role) && !(hasData && DATA_TIER_ROLES.includes(role))).map(
+    ([role, label]) => ({ role, label })
+  )
+}
+
+const normalizedRoles = (node: EsNode, distribution?: string): string => {
+  const roles = node['node.role'] || ''
+  const eligible = node.master === '*' || node.master === 'm'
+  return usesLegacyRoles(node.version, distribution) && eligible && !roles.includes('m') ? `m${roles}` : roles
+}
+
+export const buildNodeRows = (
+  catNodes: EsNode[],
+  details: Record<string, NodeStatsDetails>,
+  attributes: Record<string, Record<string, string>>,
+  distribution?: string
+): NodeRow[] =>
+  catNodes.map((node) => ({
+    id: node.id,
+    name: node.name,
+    ip: node.ip,
+    version: node.version,
+    roles: normalizedRoles(node, distribution),
+    master: node.master === '*',
+    attributes: attributes[node.id] || {},
+    cpuPercent: toNumber(node.cpu),
+    heapPercent: toNumber(node['heap.percent']),
+    heapUsedBytes: toNumber(node['heap.current']),
+    heapMaxBytes: toNumber(node['heap.max']),
+    diskPercent: toNumber(node['disk.used_percent']),
+    diskUsedBytes: toNumber(node['disk.used']),
+    diskTotalBytes: toNumber(node['disk.total']),
+    shards: toNumber(node.shards),
+    uptimeMs: details[node.id]?.uptimeMs ?? null,
+    docs: details[node.id]?.docs ?? null,
+    storeBytes: details[node.id]?.storeBytes ?? null
+  }))
+
+const average = (values: (number | null)[]): number | null => {
+  const present = values.filter((value): value is number => value != null)
+  if (present.length === 0) return null
+  return present.reduce((sum, value) => sum + value, 0) / present.length
+}
+
+const summarizeDisk = (nodes: NodeRow[], watermarks: DiskWatermarks): NodesSummary['disk'] => {
+  let usedBytes = 0
+  let totalBytes = 0
+  let aboveLow = 0
+  let aboveHigh = 0
+  let aboveFlood = 0
+
+  for (const node of nodes) {
+    usedBytes += node.diskUsedBytes || 0
+    totalBytes += node.diskTotalBytes || 0
+
+    const percent = node.diskPercent
+    if (percent == null) continue
+    if (watermarks.floodPercent != null && percent >= watermarks.floodPercent) aboveFlood++
+    else if (watermarks.highPercent != null && percent >= watermarks.highPercent) aboveHigh++
+    else if (watermarks.lowPercent != null && percent >= watermarks.lowPercent) aboveLow++
+  }
+
+  const percent = totalBytes > 0 ? (usedBytes / totalBytes) * 100 : null
+  return { usedBytes, totalBytes, percent, aboveLow, aboveHigh, aboveFlood }
+}
+
+export const summarizeNodes = (nodes: NodeRow[], watermarks: DiskWatermarks, distribution?: string): NodesSummary => {
+  const dataNodes = nodes.filter((node) => isDataNode(node.roles, node.version, distribution))
+
+  return {
+    total: nodes.length,
+    roles: {
+      masterEligible: nodes.filter((node) => node.roles.includes('m')).length,
+      data: dataNodes.length,
+      ingest: nodes.filter((node) => node.roles.includes('i')).length,
+      ml: nodes.filter((node) => node.roles.includes('l')).length,
+      coordinating: nodes.filter((node) => isCoordinatingNode(node.roles, node.version, distribution)).length
+    },
+    versions: [...new Set(nodes.map((node) => node.version).filter(Boolean))].sort(),
+    recentlyRestarted: nodes
+      .filter((node) => node.uptimeMs != null && node.uptimeMs < RECENT_RESTART_MS)
+      .map((node) => node.name),
+    cpu: { avg: average(nodes.map((node) => node.cpuPercent)), peak: peakMetric(nodes, 'cpuPercent') },
+    heap: {
+      avg: average(nodes.map((node) => node.heapPercent)),
+      peak: peakMetric(nodes, 'heapPercent', (node) =>
+        node.heapUsedBytes != null && node.heapMaxBytes != null
+          ? `${prettyPrintByteString(node.heapUsedBytes)} / ${prettyPrintByteString(node.heapMaxBytes)}`
+          : null
+      )
+    },
+    disk: summarizeDisk(dataNodes.length > 0 ? dataNodes : nodes, watermarks),
+    shards: nodeSpread(
+      dataNodes.filter((node) => node.shards != null).map((node) => ({ name: node.name, count: node.shards as number }))
+    )
+  }
+}
+
+export const formatUptime = (ms?: number | null): string => {
+  if (ms == null) return '-'
+
+  const minutes = Math.floor(ms / 60_000)
+  const hours = Math.floor(minutes / 60)
+  const days = Math.floor(hours / 24)
+
+  if (days > 0) return `${days}d ${hours % 24}h`
+  if (hours > 0) return `${hours}h ${minutes % 60}m`
+  return `${minutes}m`
+}
+
+const compactNumber = new Intl.NumberFormat('en', { notation: 'compact', maximumFractionDigits: 1 })
+
+export const formatCount = (value?: number | null): string => (value == null ? '-' : compactNumber.format(value))

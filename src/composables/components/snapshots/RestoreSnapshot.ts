@@ -25,7 +25,7 @@ export const useRestoreSnapshot = (props: RestoreSnapshotProps, emit: any) => {
   const data: Ref<any> = ref(null)
 
   const load = () => {
-    return callElasticsearch('getSnapshot', { repository: props.repository, snapshot: props.snapshot })
+    return callElasticsearch((es) => es.getSnapshot({ repository: props.repository, snapshot: props.snapshot }))
       .then((body) => (data.value = body))
       .catch(() => (data.value = null))
   }
@@ -45,20 +45,21 @@ export const useRestoreSnapshot = (props: RestoreSnapshotProps, emit: any) => {
   }
   resetForm()
 
-  const { run, loading } = defineElasticsearchRequest({ emit, method: 'snapshotRestore' })
+  const { run, loading } = defineElasticsearchRequest({ emit })
   const restoreSnapshot = async () => {
     const success = await run({
-      params: {
-        repository: props.repository,
-        snapshot: props.snapshot,
-        body: {
-          indices: restoreOptions.value.indices,
-          ignore_unavailable: restoreOptions.value.ignoreUnavailable,
-          include_global_state: restoreOptions.value.includeGlobalState,
-          rename_pattern: restoreOptions.value.renamePattern,
-          rename_replacement: restoreOptions.value.renameReplacement
-        }
-      },
+      request: (es) =>
+        es.snapshotRestore({
+          repository: props.repository,
+          snapshot: props.snapshot,
+          body: {
+            indices: restoreOptions.value.indices,
+            ignore_unavailable: restoreOptions.value.ignoreUnavailable,
+            include_global_state: restoreOptions.value.includeGlobalState,
+            rename_pattern: restoreOptions.value.renamePattern,
+            rename_replacement: restoreOptions.value.renameReplacement
+          }
+        }),
       snackbarOptions: {
         body: t('snapshots.restore_snapshot.restore_snapshot.growl', { snapshot: props.snapshot })
       }

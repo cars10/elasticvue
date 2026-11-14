@@ -1,6 +1,5 @@
 import { EditorView, ViewPlugin } from '@codemirror/view'
 
-// qdialog closes on esc, codemirror also closes the find panel on esc
 export const quasarSearchPanelEscapeExtension = ViewPlugin.fromClass(
   class {
     private stealFollowingKeyup = false

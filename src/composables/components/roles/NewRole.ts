@@ -15,14 +15,15 @@ export const useNewRole = (emit: any) => {
     role.value = emptyRoleForm()
   }
 
-  const { run, loading } = defineElasticsearchRequest({ emit, method: 'securityRolePut' })
+  const { run, loading } = defineElasticsearchRequest({ emit })
   const createRole = async () => {
     const name = role.value.name.trim()
     const success = await run({
-      params: {
-        name,
-        body: buildRoleBody(role.value)
-      },
+      request: (es) =>
+        es.securityRolePut({
+          name,
+          body: buildRoleBody(role.value)
+        }),
       snackbarOptions: {
         body: t('cluster_roles.new_role.create_role.growl', { name })
       }

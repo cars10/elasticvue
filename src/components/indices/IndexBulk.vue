@@ -2,38 +2,35 @@
   <q-btn-dropdown ref="menu" :label="t('defaults.bulk')" color="positive" menu-anchor="top left" menu-self="bottom left">
     <q-list padding dense>
       <row-menu-action
-        v-if="clusterVersionGt(1)"
-        method="indexForcemerge"
-        :method-params="{ indices: selectedIndices }"
+        v-if="session.capabilities.indices.forcemerge"
+        :request="(es) => es.indexForcemerge({ indices: selectedIndices })"
         :text="t('indices.index_row.options.forcemerge.text', selectedIndices.length)"
         icon="call_merge"
         @done="emitAndCloseMenu('reload')"
       />
       <row-menu-action
-        method="indexRefresh"
-        :method-params="{ indices: selectedIndices }"
+        :request="(es) => es.indexRefresh({ indices: selectedIndices })"
         :text="t('indices.index_row.options.refresh.text', selectedIndices.length)"
         icon="refresh"
         @done="emitAndCloseMenu('reload')"
       />
       <row-menu-action
-        method="indexFlush"
-        :method-params="{ indices: selectedIndices }"
+        v-if="session.capabilities.indices.flush"
+        :request="(es) => es.indexFlush({ indices: selectedIndices })"
         :text="t('indices.index_row.options.flush.text', selectedIndices.length)"
         icon="archive"
         @done="emitAndCloseMenu('reload')"
       />
       <row-menu-action
-        method="indexClearCache"
-        :method-params="{ indices: selectedIndices }"
+        v-if="session.capabilities.indices.clearCache"
+        :request="(es) => es.indexClearCache({ indices: selectedIndices })"
         :text="t('indices.index_row.options.clear_cache.text', selectedIndices.length)"
         icon="clear_all"
         @done="emitAndCloseMenu('reload')"
       />
 
       <row-menu-action
-        method="indexPutSettings"
-        :method-params="{ indices: selectedIndices, body: { index: { blocks: { write: true } } } }"
+        :request="(es) => es.indexPutSettings({ indices: selectedIndices, body: { index: { blocks: { write: true } } } })"
         :text="t('indices.index_row.options.set_readonly.text')"
         :growl="t('indices.index_row.options.set_readonly.growl', { index: selectedIndices.join(', ') })"
         :confirm="t('indices.index_row.options.set_readonly.confirm', { index: selectedIndices.join(', ') })"
@@ -42,8 +39,7 @@
       />
 
       <row-menu-action
-        method="indexPutSettings"
-        :method-params="{ indices: selectedIndices, body: { index: { blocks: { write: false } } } }"
+        :request="(es) => es.indexPutSettings({ indices: selectedIndices, body: { index: { blocks: { write: false } } } })"
         :text="t('indices.index_row.options.set_writable.text')"
         :growl="t('indices.index_row.options.set_writable.growl', { index: selectedIndices.join(', ') })"
         icon="lock_open"
@@ -53,26 +49,25 @@
       <q-separator />
 
       <row-menu-action
-        method="indexClose"
+        v-if="session.capabilities.indices.openClose"
+        :request="(es) => es.indexClose({ indices: selectedIndices })"
         :disabled="selectedIndices.length === 0"
-        :method-params="{ indices: selectedIndices }"
         :text="t('indices.index_row.options.close.text', selectedIndices.length)"
         icon="lock"
         @done="emitAndCloseMenu('reload')"
       />
       <row-menu-action
-        method="indexOpen"
+        v-if="session.capabilities.indices.openClose"
+        :request="(es) => es.indexOpen({ indices: selectedIndices })"
         :disabled="selectedIndices.length === 0"
-        :method-params="{ indices: selectedIndices }"
         :text="t('indices.index_row.options.open.text', selectedIndices.length)"
         icon="lock_open"
         @done="emitAndCloseMenu('reload')"
       />
       <row-menu-action
-        method="indexDelete"
+        :request="(es) => es.indexDelete({ indices: selectedIndices })"
         :disabled="selectedIndices.length === 0"
         :confirm="t('indices.index_row.options.delete.confirm', { index: selectedIndices })"
-        :method-params="{ indices: selectedIndices }"
         :text="t('indices.index_row.options.delete.text', selectedIndices.length)"
         icon="delete"
         @done="emitAndCloseMenu('indicesDeleted')"
@@ -91,9 +86,10 @@ import { Ref, ref } from 'vue'
 import { QMenu } from 'quasar'
 import { useTranslation } from '../../composables/i18n'
 import RowMenuAction from './RowMenuAction.vue'
-import { clusterVersionGt } from '../../helpers/minClusterVersion.ts'
+import { useClusterSession } from '../../store/clusterSession.ts'
 
 const t = useTranslation()
+const session = useClusterSession()
 
 defineProps<{ selectedIndices: string[]; totalItemsCount: number; filteredItemsCount: number }>()
 const emit = defineEmits(['reload', 'indicesDeleted'])

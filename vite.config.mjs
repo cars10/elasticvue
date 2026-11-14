@@ -20,7 +20,7 @@ export default defineConfig({
       template: {
         transformAssetUrls,
         compilerOptions: {
-          nodeTransforms: prod ? [removeDataTestid] : [],
+          nodeTransforms: prod && !process.env.KEEP_TEST_IDS ? [removeDataTestid] : [],
         }
       }
     }),

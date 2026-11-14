@@ -1,23 +1,22 @@
 <template>
-  <q-layout view="hHh lpR fff" style="outline: none !important">
-    <app-header v-if="connectionStore.activeCluster" />
+  <q-layout view="hHh Lpr lff" style="outline: none !important">
+    <beta-banner />
+    <app-sidebar v-if="connectionStore.activeCluster" :key="connectionStore.activeClusterId ?? ''" />
 
     <q-page-container>
-      <div class="q-ma-md">
-        <router-view v-if="showClusterView || route.name === 'settings'" />
-        <div v-else-if="connectionStore.activeCluster?.status === 'unknown'" class="q-pa-lg">
-          <div class="row">
-            <div class="col-6 offset-3">
-              <network-error />
-            </div>
-          </div>
+      <div class="app-content">
+        <router-view v-if="showClusterView" />
+        <cluster-credentials v-else-if="session.connectState === 'credentials'" :key="session.clusterId ?? ''" />
+        <div v-else-if="session.connectState === 'connecting'" class="flex flex-center q-pa-xl">
+          <q-spinner size="lg" data-testid="cluster-connecting" />
         </div>
+        <cluster-unreachable v-else-if="session.connectState === 'error'" />
       </div>
     </q-page-container>
 
     <modal-loader />
     <alert-snackbar />
-    <tauri-update-check v-if="buildConfig.tauri" />
+    <update-dialog v-if="buildConfig.tauri" />
 
     <app-footer />
   </q-layout>
@@ -26,29 +25,40 @@
 <script setup lang="ts">
 import { computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
-import AppHeader from './components/base/AppHeader.vue'
+import AppSidebar from './components/base/AppSidebar.vue'
 import AppFooter from './components/base/AppFooter.vue'
+import BetaBanner from './components/base/BetaBanner.vue'
 import ModalLoader from './components/shared/ModalLoader.vue'
 import AlertSnackbar from './components/shared/AlertSnackbar.vue'
-import NetworkError from './components/shared/NetworkError.vue'
+import ClusterUnreachable from './components/shared/ClusterUnreachable.vue'
+import ClusterCredentials from './components/setup/ClusterCredentials.vue'
 import { useThemeStore } from './store/theme.ts'
 import { useConnectionStore } from './store/connection'
+import { useClusterSession } from './store/clusterSession.ts'
 import { setAppThemeCss, setupThemeListener } from './helpers/theme.ts'
-import TauriUpdateCheck from './components/base/TauriUpdateCheck.vue'
+import UpdateDialog from './components/base/UpdateDialog.vue'
 import { buildConfig } from './buildConfig.ts'
+import { startUpdateCheck } from './composables/UpdateCheck.ts'
 
 const themeStore = useThemeStore()
 const connectionStore = useConnectionStore()
+const session = useClusterSession()
 const route = useRoute()
 
-// Wait for uuid so per-cluster IndexedDB is ready (mainly first paint of docker predefined clusters)
-const showClusterView = computed(() => {
+const knownCluster = computed(() => {
   const cluster = connectionStore.activeCluster
-  return Boolean(cluster?.uuid && cluster.status !== 'unknown')
+  return Boolean(cluster?.version && cluster.status !== 'unknown')
+})
+
+const showClusterView = computed(() => {
+  if (typeof route.params.clusterId === 'undefined' || route.name === 'settings' || route.name === 'clusters') return true
+  if (session.connectState === 'connecting') return knownCluster.value
+  return session.connectState === 'ready'
 })
 
 onMounted(() => {
   setAppThemeCss(themeStore.appTheme)
   setupThemeListener()
+  startUpdateCheck()
 })
 </script>

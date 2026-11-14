@@ -1,38 +1,25 @@
 <template>
-  <tr class="clickable" title="Double click to edit" @dblclick="edit = true">
+  <tr class="clickable" data-testid="search-result" @click="onClick">
     <td>
       <slot name="checkbox" />
     </td>
-    <td v-for="{ field: column } in resultColumns" :key="column">
-      <template v-if="column === '_type'">{{ doc[column] }}</template>
-      <template v-else>{{ renderValue(doc, column) }}</template>
+    <td v-for="column in columns" :key="column" :class="{ 'text-muted': column === SOURCE_COLUMN }">
+      {{ cellValue(column) }}
     </td>
-    <td>
-      <edit-document
-        v-model="edit"
-        :_id="doc._id"
-        :_index="doc._index"
-        :_type="doc._type"
-        :_routing="doc._routing"
-        @reload="emit('reload')"
-      />
-      <div v-intersection="onIntersection" class="inline-block" style="min-width: 134px">
-        <q-btn-group v-if="buttonsVisible">
-          <q-btn icon="edit" color="dark-grey" @click="edit = true" />
-          <q-btn icon="delete" color="dark-grey" @click="deleteDocument" />
-        </q-btn-group>
+    <td class="text-right">
+      <div v-intersection="onIntersection" class="inline-block" style="min-width: 40px">
+        <q-btn v-if="buttonsVisible" flat round dense icon="delete" data-testid="search-result-delete" @click="deleteDocument" />
       </div>
     </td>
   </tr>
 </template>
 
 <script setup lang="ts">
-import EditDocument from './EditDocument.vue'
-import { useSearchResult } from '../../composables/components/search/SearchResult.ts'
-import type { SearchResultProps } from '../../composables/components/search/SearchResult.ts'
+import { SOURCE_COLUMN } from '../../helpers/search/columns.ts'
+import { SearchResultProps, useSearchResult } from '../../composables/components/search/SearchResult.ts'
 
 const props = defineProps<SearchResultProps>()
-const emit = defineEmits<{ reload: [] }>()
+const emit = defineEmits<{ reload: []; open: [] }>()
 
-const { resultColumns, edit, deleteDocument, renderValue, buttonsVisible, onIntersection } = useSearchResult(props, emit)
+const { cellValue, deleteDocument, buttonsVisible, onIntersection, onClick } = useSearchResult(props, emit)
 </script>

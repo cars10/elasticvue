@@ -1,13 +1,23 @@
 <template>
   <div class="flex justify-between q-pa-sm q-ma-sm">
-    <new-cluster />
+    <div class="flex q-gutter-x-sm">
+      <new-cluster />
+      <q-btn
+        v-close-popup
+        flat
+        no-caps
+        :label="t('clusters.all')"
+        :to="{ name: 'clusters', params: { clusterId: connectionStore.activeClusterId } }"
+        data-testid="cluster-overview-link"
+      />
+    </div>
     <filter-input v-model="filter" data-testid="cluster-table-filter" />
   </div>
 
   <q-table
     flat
     dense
-    row-key="index"
+    row-key="id"
     data-testid="cluster-table"
     :columns="columns"
     :rows="clusters"
@@ -15,7 +25,7 @@
     :rows-per-page-options="DEFAULT_ROWS_PER_PAGE"
   >
     <template #body="{ row }: { row: ElasticsearchCluster & { index: number } }">
-      <tr class="clickable" :data-testid="`cluster-table-row-${row.index}`" @click="loadCluster(row.index)">
+      <tr class="clickable" :data-testid="`cluster-table-row-${row.index}`" @click="loadCluster(row.id)">
         <td :title="t('cluster_selection.cluster_table.row.title', { uri: row.uri })">
           <div style="flex-shrink: 0" class="flex items-center">
             <cluster-status-indicator :status="row.status" />
@@ -30,13 +40,7 @@
               </div>
             </div>
 
-            <q-chip
-              v-if="row.index === connectionStore.activeClusterIndex"
-              class="q-mx-sm"
-              color="positive"
-              text-color="white"
-              dense
-            >
+            <q-chip v-if="row.id === connectionStore.activeClusterId" class="q-mx-sm" color="positive" text-color="white" dense>
               active
             </q-chip>
           </div>
@@ -53,10 +57,7 @@
             <q-chip v-if="row.flavor === BuildFlavor.serverless" class="q-mx-sm" color="purple-7" text-color="white" dense>
               serverless
             </q-chip>
-            <unsupported-version
-              v-if="row.majorVersion && row.distribution === DISTRIBUTIONS.elasticsearch"
-              :major-version="row.majorVersion"
-            />
+            <unsupported-version :distribution="row.distribution" :version="row.version" />
           </div>
         </td>
         <td class="small-wrap">
@@ -71,7 +72,7 @@
             </q-tooltip>
           </div>
           <div v-else>
-            <edit-cluster :index="row.index" />
+            <edit-cluster :id="row.id" />
             <q-btn
               icon="delete"
               round
@@ -79,7 +80,7 @@
               size="sm"
               data-testid="cluster-delete"
               :title="t('defaults.delete')"
-              @click.stop="removeInstance(row.index)"
+              @click.stop="removeInstance(row.id)"
             />
           </div>
         </td>
@@ -93,7 +94,7 @@ import CopyButton from '../shared/CopyButton.vue'
 import EditCluster from './EditCluster.vue'
 import FilterInput from '../shared/FilterInput.vue'
 import NewCluster from './NewCluster.vue'
-import { DEFAULT_ROWS_PER_PAGE, DISTRIBUTIONS } from '../../consts'
+import { DEFAULT_ROWS_PER_PAGE } from '../../consts'
 import { useClusterTable } from '../../composables/components/clusterselection/ClusterTable'
 import { BuildFlavor, ElasticsearchCluster, useConnectionStore } from '../../store/connection'
 import { useTranslation } from '../../composables/i18n.ts'

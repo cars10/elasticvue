@@ -2,19 +2,30 @@
   <div class="flex justify-between q-pa-md">
     <div class="flex items-center">
       <new-index @reload="emit('reload')" />
-      <router-link v-if="clusterVersionGte(5)" to="index_templates" class="q-ml-md">
+      <router-link to="index_templates" class="q-ml-md">
         {{ t('index_templates.heading') }}
       </router-link>
 
       <filter-state
         v-model="indicesStore.filter"
-        :results-count="filterStateProps.resultsCount"
-        :filtered-results-count="filterStateProps.filteredResultsCount"
+        :results-count="resultsCount"
+        :filtered-results-count="filteredResultsCount"
         class="q-ml-md"
       />
     </div>
 
     <div class="flex">
+      <q-select
+        v-model="indicesStore.health"
+        :options="['green', 'yellow', 'red']"
+        :label="t('shards.health')"
+        clearable
+        dense
+        outlined
+        class="q-mr-md"
+        style="min-width: 140px"
+        data-testid="indices-health-filter"
+      />
       <filter-input v-model="indicesStore.filter" :columns="['index', 'uuid', 'aliases']" />
 
       <q-btn icon="settings" round flat class="q-ml-sm">
@@ -103,7 +114,6 @@ import ResizableContainer from '../shared/ResizableContainer.vue'
 import { useTranslation } from '../../composables/i18n'
 import { EsTableProps, useIndicesTable } from '../../composables/components/indices/IndicesTable'
 import FilterState from '../shared/FilterState.vue'
-import { clusterVersionGte } from '../../helpers/minClusterVersion.ts'
 
 const t = useTranslation()
 
@@ -115,7 +125,8 @@ const {
   indicesStore,
   resizeStore,
   items,
-  filterStateProps,
+  resultsCount,
+  filteredResultsCount,
   tableKey,
   rowsPerPage,
   selectedItems,

@@ -15,7 +15,7 @@ export const useIndexReindex = (props: IndexReindexProps, emit: any) => {
 
   const reindex = async () => {
     try {
-      await callElasticsearch('reindex', { source: props.index, dest: dest.value })
+      await callElasticsearch((es) => es.reindex({ source: props.index, dest: dest.value }))
       showSnackbar(requestState.value, { body: `Reindex into ${dest.value} started.` })
       dest.value = ''
       emit('reload')

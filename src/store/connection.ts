@@ -1,5 +1,8 @@
 import { defineStore } from 'pinia'
-import { DISTRIBUTIONS } from '../consts'
+import { v4 as uuidv4 } from 'uuid'
+import { normalizeAuth, pickSecrets, sessionSecrets, withoutSecrets } from '../helpers/auth.ts'
+import { useSessionCredentials } from './sessionCredentials.ts'
+import { removeClusterStorage } from '../helpers/clusterStorage.ts'
 
 export enum BuildFlavor {
   serverless = 'serverless',
@@ -13,12 +16,17 @@ export enum AuthType {
   awsIAM = 'awsIAM'
 }
 
+export enum SecretStorage {
+  local = 'local',
+  session = 'session'
+}
+
 export type ElasticsearchCluster = {
+  id: string
   clusterName: string
   version: string
   majorVersion: string
   distribution: string
-  uuid: string
   status: string
   loading?: boolean
   predefined?: boolean
@@ -31,7 +39,7 @@ export type ElasticsearchClusterConnection = {
   auth: ElasticsearchClusterAuth
 }
 
-export type ElasticsearchClusterAuth =
+export type ElasticsearchClusterAuth = { secretStorage?: SecretStorage } & (
   | {
       authType: AuthType.none
       authData: object
@@ -48,130 +56,94 @@ export type ElasticsearchClusterAuth =
       authType: AuthType.awsIAM
       authData: { accessKeyId: string; secretAccessKey: string; sessionToken?: string; region: string }
     }
+)
 
 export type ConnectionState = {
   clusters: ElasticsearchCluster[]
-  activeClusterIndex: number | null
+  activeClusterId: string | null
 }
 
 export const useConnectionStore = defineStore('connection', {
   state: (): ConnectionState => {
     return {
       clusters: [],
-      activeClusterIndex: null
+      activeClusterId: null
     }
   },
   getters: {
+    clusterById(): (id: string | null) => ElasticsearchCluster | undefined {
+      return (id) => this.clusters.find((cluster) => cluster.id === id)
+    },
     activeCluster(): ElasticsearchCluster | null {
-      if (typeof this.activeClusterIndex !== 'number') return null
-      return this.clusters[this.activeClusterIndex]
-    },
-    serverless(): boolean {
-      if (typeof this.activeClusterIndex !== 'number') return false
-      return this.clusters[this.activeClusterIndex].flavor === BuildFlavor.serverless
-    },
-    elasticsearch(): boolean {
-      if (typeof this.activeClusterIndex !== 'number') return false
-      return this.clusters[this.activeClusterIndex].distribution !== DISTRIBUTIONS.opensearch
+      return this.clusterById(this.activeClusterId) ?? null
     }
   },
   actions: {
-    addCluster(cluster: ElasticsearchCluster) {
-      const len = this.clusters.push(Object.assign({}, cluster))
-      this.activeClusterIndex = len - 1
-      return this.activeClusterIndex
+    addCluster(cluster: Omit<ElasticsearchCluster, 'id'>) {
+      const id = uuidv4()
+      this.clusters.push({ ...cluster, id, auth: storeAuth(id, normalizeAuth(cluster.auth)) })
+      this.activeClusterId = id
+      return id
     },
-    updateCluster({ cluster, index }: { cluster: ElasticsearchClusterConnection; index: number }) {
-      const old = this.clusters[index]
-      this.clusters[index] = cleanupClusterAuth(Object.assign({}, old, cluster))
+    updateCluster({ cluster, id }: { cluster: ElasticsearchClusterConnection; id: string }) {
+      const index = this.clusters.findIndex((c) => c.id === id)
+      if (index < 0) return
+
+      const { name, uri } = cluster
+      this.clusters[index] = { ...this.clusters[index], name, uri, auth: storeAuth(id, normalizeAuth(cluster.auth)) }
     },
-    removeCluster(index: number) {
-      this.clusters.splice(index, 1)
+    removeCluster(id: string) {
+      this.clusters = this.clusters.filter((cluster) => cluster.id !== id)
+      useSessionCredentials().remove(id)
+      removeClusterStorage(id)
     },
     checkAndSetActiveCluster() {
-      if (this.activeClusterIndex === null || this.clusters.length === 0) return
-      if (!this.clusters[this.activeClusterIndex]) this.activeClusterIndex = 0
+      if (this.clusters.length === 0) return
+      if (!this.activeCluster) this.activeClusterId = this.clusters[0].id
 
-      return this.clusters[this.activeClusterIndex]
+      return this.activeCluster
     },
-    validateAndSetClusterIndex(index: string) {
-      if (index === null || this.clusters.length === 0) return
+    setActiveCluster(id: string) {
+      if (!this.clusterById(id)) return false
 
-      let clusterIndex: number = 0
-      try {
-        clusterIndex = parseInt(index)
-      } catch (_e) {}
-
-      if (isNaN(clusterIndex) || clusterIndex + 1 > this.clusters.length || clusterIndex < 0) {
-        this.activeClusterIndex = 0
-        return false
-      } else {
-        this.activeClusterIndex = clusterIndex
-        return true
-      }
-    },
-    findClusterIndexByName(name: string) {
-      if (!name || this.clusters.length === 0) return -1
-
-      const normalizedName = name.trim().toLowerCase()
-      if (!normalizedName) return -1
-
-      return this.clusters.findIndex((cluster) => cluster.name.trim().toLowerCase() === normalizedName)
+      this.activeClusterId = id
+      return true
     },
     setActiveClusterByName(name: string) {
-      const clusterIndex = this.findClusterIndexByName(name)
-      if (clusterIndex < 0) return false
+      const normalizedName = name?.trim().toLowerCase()
+      if (!normalizedName) return false
 
-      this.activeClusterIndex = clusterIndex
+      const cluster = this.clusters.find((c) => c.name.trim().toLowerCase() === normalizedName)
+      if (!cluster) return false
+
+      this.activeClusterId = cluster.id
       return true
     }
   },
-  persist: true
+  persist: {
+    serializer: {
+      serialize: (state) => JSON.stringify(withoutSessionSecrets(state as ConnectionState)),
+      deserialize: JSON.parse
+    }
+  }
 })
 
-const cleanupClusterAuth = (cluster: ElasticsearchCluster): ElasticsearchCluster => {
-  switch (cluster.auth.authType) {
-    case AuthType.none:
-      return {
-        ...cluster,
-        auth: {
-          authType: AuthType.none,
-          authData: {}
-        }
-      }
-    case AuthType.basicAuth:
-      return {
-        ...cluster,
-        auth: {
-          authType: AuthType.basicAuth,
-          authData: {
-            username: cluster.auth.authData.username,
-            password: cluster.auth.authData.password
-          }
-        }
-      }
-    case AuthType.apiKey:
-      return {
-        ...cluster,
-        auth: {
-          authType: AuthType.apiKey,
-          authData: {
-            apiKey: cluster.auth.authData.apiKey
-          }
-        }
-      }
-    case AuthType.awsIAM:
-      return {
-        ...cluster,
-        auth: {
-          authType: AuthType.awsIAM,
-          authData: {
-            accessKeyId: cluster.auth.authData.accessKeyId,
-            secretAccessKey: cluster.auth.authData.secretAccessKey,
-            sessionToken: cluster.auth.authData.sessionToken,
-            region: cluster.auth.authData.region
-          }
-        }
-      }
+const storeAuth = (id: string, auth: ElasticsearchClusterAuth) => {
+  const credentials = useSessionCredentials()
+  if (!sessionSecrets(auth)) {
+    credentials.remove(id)
+    return auth
   }
+
+  const secrets = pickSecrets(auth)
+  if (Object.keys(secrets).length > 0) credentials.set(id, secrets)
+  else credentials.remove(id)
+  return withoutSecrets(auth)
 }
+
+const withoutSessionSecrets = (state: ConnectionState): ConnectionState => ({
+  ...state,
+  clusters: state.clusters.map((cluster) =>
+    sessionSecrets(cluster.auth) ? { ...cluster, auth: withoutSecrets(cluster.auth) } : cluster
+  )
+})

@@ -3,7 +3,7 @@ import { useRouter } from 'vue-router'
 import { useTranslation } from '../../i18n'
 import { useConnectionStore } from '../../../store/connection'
 import { askConfirm } from '../../../helpers/dialogs'
-import { reloadHomePage } from '../../../helpers/router'
+import { openCluster } from '../../../helpers/router'
 import { genColumns } from '../../../helpers/tableColumns'
 
 export const useClusterTable = () => {
@@ -26,18 +26,19 @@ export const useClusterTable = () => {
       })
   })
 
-  const removeInstance = async (index: number) => {
-    const cluster = connectionStore.clusters[index]
+  const removeInstance = async (id: string) => {
+    const cluster = connectionStore.clusterById(id)
+    if (!cluster) return
     const confirmed = await askConfirm(
       t('cluster_selection.cluster_table.row.remove_cluster.confirm', { name: cluster.name, uri: cluster.uri })
     )
     if (!confirmed) return
 
-    connectionStore.removeCluster(index)
-    router.go(0)
+    connectionStore.removeCluster(id)
+    if (id === connectionStore.activeClusterId) router.push('/')
   }
 
-  const loadCluster = (index: number) => reloadHomePage(router, index)
+  const loadCluster = (id: string) => openCluster(router, id)
   const columns = genColumns([
     { label: t('cluster_selection.cluster_table.headers.cluster'), field: 'name' },
     { label: t('cluster_selection.cluster_table.headers.uri') },

@@ -1,7 +1,7 @@
 <template>
   <div class="flex col-grow justify-end">
     <div class="q-table__control">
-      <span class="q-table__bottom-item">Records per page</span>
+      <span class="q-table__bottom-item">{{ t('shared.table_bottom.records_per_page') }}</span>
 
       <q-select
         v-model="perPage"
@@ -27,10 +27,9 @@
     </div>
 
     <div class="q-table__control">
-      <div v-if="scope.pagination.rowsPerPage !== 0" class="q-table__bottom-item">
-        {{ firstRowIndex }}-{{ lastRowIndex }} of {{ scope.pagination.rowsNumber || total }}
+      <div :class="{ 'q-table__bottom-item': scope.pagination.rowsPerPage !== 0 }">
+        {{ t('shared.table_bottom.range', { from: firstRowIndex, to: rangeEnd, total: scope.pagination.rowsNumber || total }) }}
       </div>
-      <div v-else>{{ firstRowIndex }}-{{ total }} of {{ scope.pagination.rowsNumber || total }}</div>
     </div>
 
     <div class="q-table__control">
@@ -68,6 +67,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 import { useTranslation } from '../../composables/i18n.ts'
+import { askConfirm } from '../../helpers/dialogs.ts'
 
 export type TableBottomScope = {
   pagesNumber: number
@@ -107,11 +107,11 @@ const options = ref(props.rowsPerPage || [])
 const perPage = ref(options.value.find((opt) => opt.value === props.modelValue))
 
 const emit = defineEmits(['update:modelValue', 'rowsPerPageAccepted'])
-const confirmAll = (opt: { enabled: boolean; label: string }) => {
+const confirmAll = async (opt: { enabled: boolean; label: string }) => {
   if (opt.enabled) {
     opt.enabled = false
-  } else {
-    if (confirm(t('shared.table_bottom.rows_per_page.confirm', { value: opt.label }))) opt.enabled = true
+  } else if (await askConfirm(t('shared.table_bottom.rows_per_page.confirm', { value: opt.label }))) {
+    opt.enabled = true
   }
   emit('rowsPerPageAccepted', opt.enabled)
 }
@@ -120,4 +120,5 @@ const firstRowIndex = computed(() => props.scope.pagination.rowsPerPage * (props
 const lastRowIndex = computed(() =>
   Math.min(props.scope.pagination.page * props.scope.pagination.rowsPerPage, props.scope.pagination.rowsNumber || props.total)
 )
+const rangeEnd = computed(() => (props.scope.pagination.rowsPerPage !== 0 ? lastRowIndex.value : props.total))
 </script>

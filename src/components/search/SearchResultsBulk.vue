@@ -9,8 +9,7 @@
   >
     <q-list padding dense>
       <row-menu-action
-        method="docsBulkDelete"
-        :method-params="selected"
+        :request="(es) => es.docsBulkDelete(selected)"
         :confirm="t('search.search_result.delete.confirm', selected.length)"
         :text="t('search.search_result.delete.text', selected.length)"
         :growl="t('search.search_result.delete.growl', selected.length)"
@@ -33,7 +32,7 @@ import RowMenuAction from '../indices/RowMenuAction.vue'
 
 const t = useTranslation()
 
-defineProps<{ selected: string[]; totalItemsCount: number; filteredItemsCount: number }>()
+defineProps<{ selected: string[] }>()
 const emit = defineEmits(['reload'])
 
 const menu: Ref<QMenu | null> = ref(null)

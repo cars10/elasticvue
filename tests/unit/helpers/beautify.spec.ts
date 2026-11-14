@@ -24,14 +24,14 @@ describe.concurrent('helpers/elasticsearchAdapter.ts', () => {
       expect(beautify(0 as unknown as string)).toBe(0)
     })
 
-    it('should return empty string when supplied with empty string', () => {
+    it('should keep integers bigger than Number.MAX_SAFE_INTEGER unchanged', () => {
       const text = '{"a":123456789012345678901234567890}'
 
       const normalJSONStrinigified = JSON.stringify(JSON.parse(text))
 
       expect(normalJSONStrinigified).toBe('{"a":1.2345678901234568e+29}')
 
-      expect(beautify(text)).toBe('{\n  "a": 1.2345678901234567890123456789e+29\n}')
+      expect(beautify(text)).toBe('{\n  "a": 123456789012345678901234567890\n}')
     })
 
     it('should return the input string if not parseable as JSON', () => {

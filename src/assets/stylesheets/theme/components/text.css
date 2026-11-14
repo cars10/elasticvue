@@ -33,3 +33,7 @@ body {
 .word-break-all {
   word-break: break-all;
 }
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}

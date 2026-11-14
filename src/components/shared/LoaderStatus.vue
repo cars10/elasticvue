@@ -3,7 +3,7 @@
     <template v-if="requestState.apiError">
       <div class="pa-4">
         <q-banner class="bg-dark-grey">
-          Error: {{ requestState.apiErrorMessage }}
+          {{ t('shared.loader.error', { message: requestState.apiErrorMessage }) }}
 
           <template #action>
             <q-btn color="dark" @click="copy">

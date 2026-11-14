@@ -1,12 +1,13 @@
 <template>
-  <q-form @submit="importBackupAndRedirect">
+  <q-form class="row no-wrap items-center q-gutter-sm" @submit="importBackupAndRedirect">
     <q-file
       v-model="importFile"
       accept="application/json"
       :label="t('settings.import_export.import.select_file')"
       max-files="1"
       outlined
-      class="q-mb-md"
+      dense
+      class="col"
     >
       <template #prepend>
         <q-icon name="attach_file" />
@@ -17,6 +18,7 @@
           v-if="importFile !== null"
           flat
           round
+          dense
           icon="close"
           class="cursor-pointer"
           @click.stop.prevent="importFile = null"
@@ -26,7 +28,9 @@
 
     <q-btn
       :disable="!importFile"
-      color="primary-dark"
+      outline
+      color="primary"
+      class="col-auto"
       icon="upload"
       type="submit"
       :label="t('settings.import_export.import.import')"
@@ -38,7 +42,6 @@
 import { useImportExport } from '../../composables/ImportExport'
 import { useTranslation } from '../../composables/i18n'
 import { handleError } from '../../helpers/error.ts'
-import { reloadHomePage } from '../../helpers/router.ts'
 import { useRouter } from 'vue-router'
 
 const t = useTranslation()
@@ -50,7 +53,7 @@ const { importFile, importBackup } = useImportExport({ confirmImport: props.conf
 const importBackupAndRedirect = async () => {
   try {
     const imported = await importBackup()
-    if (imported) reloadHomePage(router, 0)
+    if (imported) router.push('/').then(() => router.go(0))
   } catch (e) {
     handleError(e, true)
   }

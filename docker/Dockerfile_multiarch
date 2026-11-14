@@ -1,11 +1,11 @@
 # Build elasticvue
-FROM --platform=$BUILDPLATFORM node:24.15.0-bookworm AS builder
+FROM --platform=$BUILDPLATFORM node:24.22.3-bookworm AS builder
 RUN mkdir /app
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm install
 COPY . .
-RUN VITE_APP_BUILD_MODE=docker npm run build
+RUN VITE_APP_BUILD_MODE=docker npm run build:prod
 
 
 # Create lightweight nginx image

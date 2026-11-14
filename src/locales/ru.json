@@ -4,15 +4,23 @@
       "homepage": "Главная страница"
     },
     "app_header": {
+      "label": "Навигация",
+      "collapse": "Свернуть боковую панель",
+      "expand": "Развернуть боковую панель",
       "navigation": {
-        "home": "Главная",
+        "home": "Дашборд",
         "nodes": "Узлы",
         "indices": "Индексы",
         "shards": "Шарды",
+        "shards_overview": "Обзор",
+        "shard_recovery": "Восстановление",
         "search": "Поиск",
         "rest": "REST",
+        "tools": "Tools",
         "snapshots": "Снимки",
-        "users": "Пользователи"
+        "security": "Безопасность",
+        "settings": "Настройки",
+        "tasks": "Задачи"
       }
     },
     "language_switcher": {
@@ -46,6 +54,11 @@
     },
     "theme_switcher": {
       "title": "Изменить тему"
+    },
+    "beta_banner": {
+      "text": "Это бета-версия elasticvue 2. Всё часто меняется и может работать с ошибками.",
+      "blog": "Читать статью в блоге",
+      "discussion": "Обсудить на GitHub"
     }
   },
   "defaults": {
@@ -78,7 +91,9 @@
         "remove_cluster": {
           "confirm": "Удалить кластер '{name}' ({uri})?"
         },
-        "unsupported": "Elasticsearch {majorVersion} больше не поддерживается, и elasticvue не полностью совместим с этой версией. Возможны ошибки и ограниченная функциональность.",
+        "unsupported": "{product} {majorVersion} не поддерживается elasticvue. Поддерживаемые версии: {supportedVersions}. Возможны ошибки и ограниченная функциональность.",
+        "unsupported_distribution": "{product} не поддерживается elasticvue. elasticvue использует последнюю версию api elasticsearch, некоторые функции могут не работать.",
+        "unknown_product": "Этот продукт",
         "predefined": "Этот кластер был настроен вашим администратором. Вы не можете изменить его напрямую."
       }
     },
@@ -89,9 +104,15 @@
       "heading": "Редактировать кластер"
     },
     "new_cluster": {
-      "add_cluster": "Добавить кластер",
-      "heading": "Добавить кластер Elasticsearch"
+      "add_cluster": "Добавить кластер"
     }
+  },
+  "clusters": {
+    "heading": "Кластеры",
+    "all": "Все кластеры",
+    "unreachable": "Не удалось подключиться",
+    "stats_unavailable": "Статистика кластера недоступна",
+    "credentials_required": "Требуется вход"
   },
   "helpers": {
     "import_export": {
@@ -100,16 +121,21 @@
       }
     }
   },
-  "home": {
-    "client_information": {
-      "heading": "Информация о кластере"
-    },
-    "cluster_health": {
-      "heading": "Состояние кластера"
-    }
-  },
   "indices": {
     "heading": "Индексы",
+    "index_add_document": {
+      "text": "Добавить документ",
+      "heading": "Добавить документ в {index}",
+      "id": "ID (необязательно)",
+      "type": "Тип",
+      "submit": "Добавить документ",
+      "growl": "Документ успешно добавлен.",
+      "modes": {
+        "fields": "Поля"
+      },
+      "no_fields": "У этого индекса пока нет полей в маппинге, используйте JSON.",
+      "json_placeholder": "Значение JSON"
+    },
     "index_aliases": {
       "text": "Алиасы",
       "heading": "Управление алиасами",
@@ -252,7 +278,6 @@
   },
   "index_templates": {
     "heading": "Шаблоны индексов",
-    "endpoint": "Конечная точка",
     "index_templates_table": {
       "show_hidden_templates": {
         "label": "Показать скрытые шаблоны"
@@ -263,9 +288,260 @@
       "table": {
         "headers": {
           "name": "Имя",
-          "index_patterns": "Шаблоны индексов"
+          "index_patterns": "Шаблоны индексов",
+          "type": "Тип",
+          "priority": "Приоритет",
+          "components": "Компоненты"
         }
       }
+    },
+    "index_template_row": {
+      "used_by": "Не используется | Используется 1 шаблоном | Используется шаблонами: {count}"
+    },
+    "pulse": {
+      "templates": "Шаблоны индексов",
+      "split": "составных: {composable}, устаревших: {legacy}",
+      "components": "Шаблоны компонентов",
+      "unused_components": "Все используются | 1 не используется | Не используются: {count}",
+      "data_streams": "Потоки данных",
+      "data_streams_hint": "Шаблоны, создающие потоки данных",
+      "legacy": "Устаревшие шаблоны",
+      "legacy_hint": "Устарели, составные шаблоны имеют приоритет",
+      "no_legacy": "Не используются"
+    }
+  },
+  "home": {
+    "heading": "Дашборд",
+    "monitoring_required": "Требуется право на мониторинг",
+    "serverless": {
+      "title": "Serverless",
+      "text": "Ваш кластер работает в {link}, поэтому возможности Elasticvue ограничены: многие API недоступны.",
+      "link": "режиме serverless"
+    },
+    "status": {
+      "green": "Зелёный",
+      "yellow": "Жёлтый",
+      "red": "Красный",
+      "unknown": "Неизвестно"
+    },
+    "overview": {
+      "unassigned": "Неназначенных шардов: {count}",
+      "moving": "Перемещается шардов: {count}",
+      "all_assigned": "Все шарды назначены",
+      "nodes": "Узлов: {count}",
+      "data": "data: {count}",
+      "master_eligible": "master-eligible: {count}",
+      "indices": "Индексов: {count}",
+      "docs": "Документов: {count}",
+      "disk": "{size} на диске"
+    },
+    "metrics": {
+      "cpu": "CPU",
+      "disk": "Диск",
+      "heap": "Куча JVM",
+      "shards": "Шарды",
+      "highest": "Максимум на",
+      "watermarks": "Пороги {low} / {high} / {flood}",
+      "primaries": "Первичных: {count}",
+      "total": "Всего: {count}"
+    },
+    "workload": {
+      "search": "Поиск",
+      "indexing": "Индексация",
+      "latency": "Задержка и нагрузка",
+      "per_second": "запр/с",
+      "docs_per_second": "док/с",
+      "search_latency": "поиск",
+      "indexing_latency": "{latency} индексация",
+      "deletes": "{rate} удалений/с",
+      "pressure": "отклонено: {rejected}, срабатываний предохранителей: {trips}",
+      "collecting": "Сбор данных…",
+      "reload_off": "Включите автообновление, чтобы собирать данные для графика.",
+      "average": "Среднее за последние {seconds}с",
+      "tasks": "Задачи",
+      "tasks_running": "выполняется",
+      "tasks_unavailable": "Не поддерживается этой версией кластера",
+      "tasks_longest": "Самая долгая выполняется {time}",
+      "tasks_link": "Открыть задачи"
+    },
+    "nodes": {
+      "title": "Узлы ({count})",
+      "all": "Все узлы",
+      "name": "Имя",
+      "heap": "Куча",
+      "master": "master",
+      "unavailable": "Метрики узлов недоступны.",
+      "hint_all": "Все {count}, самые загруженные сверху.",
+      "hint_top": "Топ {shown} из {total}, самые загруженные сверху."
+    },
+    "indices": {
+      "title": "Индексы ({count})",
+      "all": "Все индексы",
+      "index": "Индекс",
+      "health": "Состояние",
+      "docs": "Документы",
+      "size": "Размер",
+      "empty": "Нет индексов для отображения.",
+      "hint_all": "Все {count}, сначала проблемные, затем по размеру.",
+      "hint_top": "Топ {shown} из {total}, сначала проблемные, затем по размеру."
+    },
+    "attention": {
+      "issues": "Проблемы",
+      "no_issues": "Проблем нет",
+      "all_passed": "Все проверки пройдены ({count})",
+      "counts": {
+        "critical": "критических: {count}",
+        "warning": "предупреждений: {count}",
+        "info": "замечаний: {count}"
+      },
+      "severity": {
+        "critical": "Критично",
+        "warning": "Предупреждение",
+        "info": "Замечание",
+        "ok": "OK",
+        "unknown": "Сбор данных"
+      },
+      "actions": {
+        "view_shards": "Открыть шарды",
+        "view_nodes": "Открыть узлы",
+        "view_indices": "Открыть индексы"
+      },
+      "checks": {
+        "shards": {
+          "title": "Шарды",
+          "ok": "Все шарды назначены"
+        },
+        "index_blocks": {
+          "title": "Блокировки индексов",
+          "ok": "Нет блокировок записи или режима только для чтения"
+        },
+        "allocation": {
+          "title": "Распределение шардов",
+          "ok": "Распределение включено"
+        },
+        "pending_tasks": {
+          "title": "Ожидающие задачи кластера",
+          "ok": "Нет зависших задач"
+        },
+        "disk": {
+          "title": "Пороги диска",
+          "ok": "Ниже порогов диска"
+        },
+        "rejections": {
+          "title": "Отклонения пулов потоков",
+          "ok": "Новых отклонений нет"
+        },
+        "breakers": {
+          "title": "Предохранители памяти",
+          "ok": "Новых срабатываний нет"
+        },
+        "jvm": {
+          "title": "Нагрузка на JVM",
+          "ok": "Нет длительной нагрузки на кучу"
+        },
+        "file_descriptors": {
+          "title": "Файловые дескрипторы",
+          "ok": "В пределах нормы"
+        },
+        "versions": {
+          "title": "Версии узлов",
+          "ok": "Все узлы одной версии"
+        },
+        "monitoring": {
+          "title": "Мониторинг узлов",
+          "ok": "Доступен"
+        }
+      },
+      "findings": {
+        "unassigned_primaries": {
+          "title": "Первичные шарды не назначены",
+          "summary": "Неназначенных первичных шардов: {count}",
+          "summary_index": "Неназначенных первичных шардов в {index}: {count}",
+          "summary_indices": "Неназначенных первичных шардов: {count}, индексов: {indices}",
+          "summary_unknown": "Есть неназначенные первичные шарды",
+          "detail": "Часть данных недоступна, пока первичные шарды не распределены."
+        },
+        "unassigned_replicas": {
+          "title": "Реплики не назначены",
+          "summary": "Неназначенных реплик: {count}",
+          "summary_index": "Неназначенных реплик в {index}: {count}",
+          "summary_indices": "Неназначенных реплик: {count}, индексов: {indices}",
+          "summary_single_node": "Нельзя распределить реплик: {count}",
+          "summary_single_node_index": "Нельзя распределить реплик в {index}: {count}",
+          "detail": "Данные доступны, но избыточность снижена.",
+          "detail_single_node": "В кластере только один узел данных, поэтому реплики нельзя распределить."
+        },
+        "index_blocks": {
+          "title_read_only": "Индекс только для чтения",
+          "title_write": "Запись заблокирована",
+          "summary_read_only": "Индекс {index} доступен только для чтения",
+          "summary_write": "Индекс {index} блокирует запись",
+          "summary_many": "Индексов с блокировкой записи: {count}, например {index}",
+          "detail": "Индексация в эти индексы не работает, пока блокировка не снята.",
+          "detail_allow_delete": "Индексация не работает, удаление работает. Обычно причина - порог flood stage диска."
+        },
+        "disk_flood": {
+          "title": "Превышен порог flood stage",
+          "summary": "{node}: занято {percent}% (flood stage {threshold})",
+          "detail": "Elasticsearch может перевести индексы на этом узле в режим только для чтения."
+        },
+        "disk_high": {
+          "title": "Превышен верхний порог диска",
+          "summary": "{node}: занято {percent}% (верхний {threshold})",
+          "detail": "Elasticsearch переносит шарды с этого узла."
+        },
+        "disk_low": {
+          "title": "Превышен нижний порог диска",
+          "summary": "{node}: занято {percent}% (нижний {threshold})",
+          "detail": "Новые шарды не размещаются на этом узле."
+        },
+        "allocation": {
+          "title": "Распределение шардов ограничено",
+          "summary_none": "Распределение шардов отключено",
+          "summary_primaries": "Распределяются только первичные шарды",
+          "summary_new_primaries": "Распределяются только первичные шарды новых индексов",
+          "summary_other": "Распределение шардов установлено в \"{value}\"",
+          "detail": "Шарды могут остаться неназначенными. Часто забывают вернуть после обслуживания."
+        },
+        "pending_tasks": {
+          "title": "Задачи кластера накапливаются",
+          "summary": "Ожидают: {count}, самая старая ждёт {age}",
+          "detail": "Обновления состояния кластера могут задерживаться."
+        },
+        "rejections": {
+          "title": "Запросы отклонены",
+          "summary": "Новых отклонений за 5 минут: {count}",
+          "detail": "Пулы потоков заполнены, запросы поиска или индексации отбрасываются."
+        },
+        "breakers": {
+          "title": "Сработал предохранитель памяти",
+          "summary": "Новых срабатываний за 5 минут: {count}",
+          "detail": "Запросы или агрегации упираются в лимиты памяти."
+        },
+        "jvm": {
+          "title": "Высокая нагрузка на память JVM",
+          "summary": "{node} выше {threshold}% уже {duration}",
+          "detail": "Сейчас {percent}%. Длительная нагрузка часто приводит к долгой сборке мусора."
+        },
+        "file_descriptors": {
+          "title": "Лимит файловых дескрипторов близок",
+          "summary": "{node}: использовано {percent}%",
+          "summary_counts": "{node}: использовано {percent}% ({open} / {max})",
+          "detail": "Нехватка файловых дескрипторов может привести к падению узла."
+        },
+        "versions": {
+          "title": "Разные версии",
+          "summary": "Узлы работают на {versions}",
+          "detail": "Ожидаемо при поэтапном обновлении. Завершите обновление, когда сможете."
+        },
+        "monitoring": {
+          "title": "Мониторинг узлов неполный",
+          "summary": "Не удалось загрузить статистику узлов",
+          "summary_partial": "Нет статистики части узлов (отвечают {observed} из {expected})",
+          "detail": "У пользователя может не быть привилегии monitor, или API nodes stats недоступен."
+        }
+      },
+      "checks_pending": "Пройдено проверок: {passed}, сбор данных: {pending}"
     }
   },
   "mixins": {
@@ -277,9 +553,6 @@
     "heading": "Узлы",
     "node_role": "Роль узла",
     "node_icons": {
-      "master": {
-        "title": "Мастер-узел"
-      },
       "master_eligible": {
         "title": "Мастер-кандидат"
       },
@@ -321,20 +594,38 @@
       }
     },
     "node_properties": {
-      "ip": "IP",
-      "id": "ID",
-      "master": "Мастер",
       "node_role": "Роль узла",
       "shards": "шарды",
       "attr": "Атрибуты",
-      "load": "Нагрузка",
       "cpu": "использование CPU",
-      "ram": "системная память",
       "heap": "куча JVM",
       "disk": "Диск",
       "name": "Имя",
-      "status": "Статус",
-      "version": "Версия"
+      "version": "Версия",
+      "docs": "документы",
+      "store": "хранилище",
+      "uptime": "аптайм"
+    },
+    "pulse": {
+      "nodes": "Узлы",
+      "version": "Версия {version}",
+      "mixed_versions": "Разные версии: {versions}",
+      "restarted": "Перезапущено за последний час: {count}",
+      "avg": "сред.",
+      "used": "занято",
+      "disk_of": "{used} из {total}",
+      "peak": "пик {value} на {node}",
+      "below_low": "Все узлы ниже нижнего порога ({low})",
+      "above_flood": "выше flood stage: {count}",
+      "above_high": "выше верхнего: {count}",
+      "above_low": "выше нижнего: {count}",
+      "roles": {
+        "master_eligible": "master-eligible: {count}",
+        "data": "data: {count}",
+        "ingest": "ingest: {count}",
+        "ml": "ml: {count}",
+        "coordinating": "coordinating: {count}"
+      }
     }
   },
   "cluster_roles": {
@@ -380,12 +671,20 @@
       "table": {
         "headers": {
           "name": "имя",
-          "description": "описание",
-          "reserved": "зарезервирован",
-          "deprecated": "устарел",
-          "cluster": "кластер"
+          "cluster": "кластер",
+          "assigned": "назначено",
+          "status": "статус"
         }
       }
+    },
+    "pulse": {
+      "roles": "Роли",
+      "cluster_admin": "Администраторы кластера",
+      "cluster_admin_hint": "all, manage или manage_security",
+      "all_indices": "Все индексы",
+      "all_indices_hint": "все привилегии на *",
+      "unused": "Не используются",
+      "unused_hint": "Свои роли без пользователей и сопоставлений ролей"
     }
   },
   "cluster_users": {
@@ -437,64 +736,73 @@
     "users_table": {
       "table": {
         "headers": {
-          "username": "имя пользователя",
+          "user": "пользователь",
           "roles": "роли",
-          "full_name": "полное имя",
-          "email": "эл. почта",
-          "enabled": "включён",
-          "reserved": "зарезервирован",
-          "deprecated": "устарел"
+          "status": "статус"
         }
       }
+    },
+    "show_role": "Показать роль {role}",
+    "no_roles": "нет ролей",
+    "pulse": {
+      "signed_in": "Вы вошли как",
+      "realm": "realm {realm}",
+      "users": "Пользователи",
+      "split": "встроенных: {builtIn}, своих: {custom}",
+      "disabled": "отключено: {count}",
+      "superusers": "Суперпользователи",
+      "without_roles": "Без ролей"
     }
   },
   "query": {
     "heading": "REST",
     "api_documentation": "Документация API",
     "rest": {
-      "history": "История",
       "form": {
         "method": {
           "label": "HTTP Метод"
         },
         "path": {
-          "label": "Путь"
+          "label": "Путь",
+          "placeholder": "напр. _cat/indices?v"
         },
         "send_request": "Отправить запрос",
         "save_request": "Сохранить",
         "download_as_json": "Скачать тело ответа",
-        "paste_kibana": "Вставить запрос из Kibana"
+        "paste_kibana": "Вставить запрос из Kibana",
+        "send_hint": "Ctrl+Enter для отправки",
+        "request": "Тело запроса",
+        "response": "Ответ",
+        "no_response": "Отправьте запрос, чтобы увидеть ответ"
       },
       "get_request_hint": {
-        "cannot_send_body": "Вы не можете отправить тело запроса с помощью {method}.<br> Пожалуйста, ",
-        "use_post": "используйте POST",
-        "query_parameters": "если вы хотите отправить тело запроса.",
-        "search_post": "Вы можете использовать POST для поиска через конечную точку _search."
+        "no_body": "Запросы {method} не могут содержать тело.",
+        "use_post": "Переключить на POST"
       }
     },
-    "rest_query_history": {
-      "table": {
-        "headers": {
-          "query": "Запрос",
-          "timestamp": "Время"
-        }
-      },
-      "body_preview": {
-        "use": "Использовать в текущей вкладке",
-        "open_new_tab": "Открыть в новой вкладке"
-      }
+    "library": {
+      "title": "Запросы",
+      "history": "История",
+      "saved": "Сохранённые",
+      "examples": "Примеры",
+      "use": "Загрузить в текущую вкладку",
+      "save": "Сохранить запрос",
+      "rename": "Переименовать",
+      "delete": "Удалить",
+      "docs": "Документация",
+      "open_new_tab": "Открыть в новой вкладке",
+      "name": "Название",
+      "clear_history": "Очистить историю",
+      "clear_history_confirm": "Удалить всю историю?",
+      "no_results": "Ничего не найдено",
+      "empty_history": "Отправленные запросы появятся здесь",
+      "empty_saved": "Сохранённые запросы появятся здесь",
+      "empty_examples": "Нет примеров"
     },
-    "rest_query_examples": {
-      "heading": "Примеры запросов",
-      "table": {
-        "headers": {
-          "query": "Запрос",
-          "description": "Описание"
-        },
-        "row": {
-          "use": "Использовать"
-        }
-      }
+    "tabs": {
+      "rename": "Переименовать вкладку",
+      "close": "Закрыть вкладку",
+      "new": "Новая вкладка"
     }
   },
   "repositories": {
@@ -550,13 +858,16 @@
       "table": {
         "headers": {
           "name": "Имя",
-          "type": "Тип",
-          "settings": "Настройки"
+          "location": "location",
+          "policies": "policies"
         }
       },
       "delete_repository": {
         "confirm": "Удалить репозиторий '{name}' и все снимки внутри?",
         "growl": "Репозиторий '{name}' успешно удален."
+      },
+      "verify_repository": {
+        "growl": "The repository '{name}' was verified on {count} nodes."
       }
     },
     "repository_policies": {
@@ -571,17 +882,33 @@
     "heading": "Поиск",
     "form": {
       "query": {
-        "label": "Поиск"
+        "label": "Запрос (синтаксис Lucene)"
       },
       "search_examples": {
         "button": "Примеры поиска",
         "hint": "Примеры поиска, см. <a tabindex='-1' target='_blank' rel='noopener' href='https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html'>запрос строки запроса</a> для подробностей"
       },
       "search": "Поиск",
-      "customize_query": {
-        "button": "Настроить поиск",
-        "reset": "Сбросить запрос"
-      }
+      "reset": "Сбросить",
+      "indices": {
+        "label": "Индексы",
+        "matched": "Нет подходящих индексов | Подходит 1 индекс | Подходит индексов: {count}",
+        "kinds": {
+          "alias": "алиас",
+          "data_stream": "поток данных"
+        }
+      },
+      "mode": {
+        "query": "Запрос",
+        "dsl": "DSL",
+        "dsl_hint": "Отредактируйте тело запроса ниже, Ctrl+Enter для поиска.",
+        "discard_dsl": "Отменить изменения DSL и вернуться к строке запроса?",
+        "sql": "SQL",
+        "esql": "ES{'|'}QL"
+      },
+      "open_in_rest": "Открыть в REST",
+      "copy_curl": "Копировать как cURL",
+      "invalid_json": "Тело запроса не является корректным JSON."
     },
     "search_result": {
       "delete": {
@@ -591,20 +918,104 @@
       }
     },
     "results_table": {
-      "settings": {
-        "columns": "Колонки"
-      },
-      "download_as_json": "Скачать как JSON",
       "tabs": {
         "hits": "Результаты",
         "aggregations": "Агрегации"
-      }
+      },
+      "total": "Нет результатов | {count} результат | Результатов: {count}",
+      "count_exactly": "посчитать точно",
+      "no_results": "Документы не найдены",
+      "document": "Документ",
+      "columns": {
+        "button": "Столбцы ({count})",
+        "all": "Все",
+        "none": "Нет",
+        "reset": "Сбросить",
+        "refine": "Уточните фильтр, чтобы увидеть больше полей",
+        "in_indices": "в 1 индексе | в индексах: {count}",
+        "groups": {
+          "meta": "Служебные поля",
+          "all": "Во всех индексах",
+          "some": "Только в некоторых индексах",
+          "unmapped": "Без маппинга"
+        },
+        "catalog_skipped": "Подходит больше {limit} индексов, поэтому показаны только поля текущей страницы."
+      },
+      "source_only_visible": "Загружать только поля видимых столбцов",
+      "download": "Скачать"
     },
     "edit_document": {
       "update": {
         "text": "Обновить документ",
         "growl": "Документ успешно обновлен."
       }
+    },
+    "time": {
+      "absolute": "Абсолютный диапазон",
+      "from": "С",
+      "to": "По",
+      "apply": "Применить",
+      "field": "Поле времени",
+      "invalid": "Формат ГГГГ-ММ-ДД ЧЧ:мм:сс",
+      "presets": {
+        "last_15m": "Последние 15 минут",
+        "last_1h": "Последний час",
+        "last_4h": "Последние 4 часа",
+        "last_24h": "Последние 24 часа",
+        "last_7d": "Последние 7 дней",
+        "last_30d": "Последние 30 дней",
+        "all": "Всё время"
+      }
+    },
+    "histogram": {
+      "title": "Гистограмма",
+      "interval": "за {interval}"
+    },
+    "filters": {
+      "add": "Добавить фильтр",
+      "field": "Поле",
+      "value": "Значение",
+      "from": "С",
+      "to": "По",
+      "negate": "Исключить подходящие документы",
+      "save": "Сохранить",
+      "edit": "Изменить",
+      "enable": "Включить",
+      "disable": "Отключить",
+      "include": "Включать результаты",
+      "exclude": "Исключать результаты",
+      "ops": {
+        "is": "равно",
+        "exists": "существует",
+        "between": "между"
+      }
+    },
+    "document_panel": {
+      "delete": "Удалить документ",
+      "fields": "Поля",
+      "filter_for": "Фильтровать по значению",
+      "filter_out": "Исключить значение",
+      "filter_exists": "Фильтровать по наличию поля"
+    },
+    "sql": {
+      "sql_label": "SQL-запрос",
+      "esql_label": "ES{'|'}QL-запрос",
+      "hint": "Ctrl+Enter для выполнения",
+      "rows": "Нет строк | 1 строка | Строк: {count}",
+      "load_more": "Загрузить ещё"
+    },
+    "library": {
+      "title": "Поиски",
+      "history": "История",
+      "saved": "Сохранённые",
+      "save": "Сохранить поиск",
+      "save_current": "Сохранить текущий поиск",
+      "rename": "Переименовать",
+      "remove": "Удалить",
+      "clear_history": "Очистить историю",
+      "clear_confirm": "Очистить всю историю поиска?",
+      "empty": "Здесь пока ничего нет",
+      "filters": "1 фильтр | Фильтров: {count}"
     }
   },
   "settings": {
@@ -622,23 +1033,26 @@
     "document_field_max_length": {
       "label": "Максимальная длина поля документа",
       "message": "Максимальная длина значений полей документа в результатах поиска, более длинные значения будут обрезаны.",
-      "reset": "Сбросить на значение по умолчанию {value}"
+      "reset": "Сбросить на значение по умолчанию {value}",
+      "invalid": "Только целые числа от 1 до 1000"
     },
     "localize_timestamp": {
-      "label": "Локализовать значение полей '{'@'}timestamp' в результатах поиска"
+      "label": "Форматировать поля дат в результатах поиска"
     },
     "disconnect_and_reset": {
       "heading": "Отключиться и сбросить все настройки",
       "button": "Отключиться и сбросить",
-      "confirm": "Вы уверены? Это удалит все данные, сохраненные elasticvue! Вам придется заново подключиться к вашему кластеру."
+      "confirm": "Вы уверены? Это удалит все данные, сохраненные elasticvue! Вам придется заново подключиться к вашему кластеру.",
+      "message": "Deletes all clusters, settings and query history saved by elasticvue."
     },
     "import_export": {
       "heading": "Импорт/Экспорт данных elasticvue",
       "message": "Вы можете импортировать и экспортировать вашу конфигурацию elasticvue в формате JSON. Это <strong>не</strong> резервная копия данных вашего кластера, используйте снимки, если вам нужно создать резервную копию ваших индексов.",
       "export": {
         "heading": "Экспорт",
-        "included": "Что включено?",
-        "download": "Скачать резервную копию"
+        "download": "Скачать резервную копию",
+        "contents": "Содержит сохранённые кластеры с именами пользователей и паролями {credentials}, активный кластер, настройки редактора и поиска, тему, язык и историю REST-запросов.",
+        "credentials": "в открытом виде"
       },
       "import": {
         "heading": "Импорт",
@@ -648,23 +1062,53 @@
     },
     "editor_vim_mode": {
       "label": "Использовать привязки клавиш Vim в редакторе"
+    },
+    "editor": {
+      "heading": "Editor",
+      "wrap_lines": "Wrap long lines in editor"
+    },
+    "cluster": {
+      "heading": "Cluster '{name}'",
+      "message": "These settings only apply to the current cluster."
+    },
+    "updates": {
+      "heading": "Обновления",
+      "current_version": "Установленная версия: {version}",
+      "check": "Проверить обновления",
+      "last_checked": "Последняя проверка: {date}",
+      "status": {
+        "idle": "Проверка еще не выполнялась",
+        "checking": "Проверка обновлений...",
+        "up_to_date": "Установлена последняя версия Elasticvue",
+        "available": "Доступна версия {version}",
+        "failed": "Не удалось проверить обновления. Проверьте сетевое подключение и повторите попытку."
+      },
+      "available": {
+        "label": "Доступен Elasticvue {version}",
+        "hint_self_update": "Вы можете установить обновление прямо отсюда.",
+        "hint_package_manager": "Эта установка не может обновляться самостоятельно. Обновите elasticvue через менеджер пакетов или скачайте новую версию.",
+        "hint_docker": "Загрузите последний docker образ и пересоздайте контейнер, чтобы обновиться.",
+        "hint_browser_extension": "Браузер обновляет расширения автоматически. Вы также можете запустить обновление на странице расширений браузера.",
+        "hint_manual": "Перезагрузите страницу, если вы используете app.elasticvue.com. Собственные установки нужно обновлять вручную.",
+        "undo_skip": "Больше не пропускать эту версию"
+      },
+      "auto_check": {
+        "label": "Проверять обновления при запуске",
+        "message": "Если отключено, elasticvue обращается к update.elasticvue.com только при ручной проверке."
+      }
     }
   },
   "setup": {
     "configure": {
-      "heading": "1. Настройка",
-      "introduction": "Вам нужно настроить CORS для использования elasticvue web. Добавьте следующие строки в ваш",
-      "allow_cors": "разрешить CORS запросы с {domain}",
-      "authorization": "и если ваш кластер использует авторизацию",
-      "restart": "Затем перезапустите ваш кластер"
+      "introduction": "Для elasticvue web на вашем кластере должен быть включён CORS.",
+      "show_help": "Показать как",
+      "hide_help": "Скрыть",
+      "restart": "Затем перезапустите ваш кластер."
     },
     "setup_instance": {
-      "heading": "Добавить кластер Elasticsearch",
-      "configure": "1. Настройка",
-      "connect": "2. Подключение"
+      "heading": "Добавить кластер Elasticsearch"
     },
     "test_and_connect": {
-      "heading": "2. Подключение",
       "form": {
         "name": {
           "label": "Имя кластера"
@@ -694,9 +1138,20 @@
           "label": "Регион AWS"
         },
         "test_connection": "Проверить подключение",
-        "connect": "Подключиться"
+        "connect": "Подключиться",
+        "save_secrets": {
+          "label": "Сохранить учётные данные на этом устройстве",
+          "saved": "Секреты сохраняются в этом браузере.",
+          "session": "Секреты не сохраняются. Они будут запрошены один раз за сеанс."
+        }
       },
       "connected": "Успешно подключено."
+    },
+    "cluster_credentials": {
+      "heading": "Вход в {name}",
+      "hint": "Учётные данные этого кластера не сохраняются. Они хранятся до закрытия этой вкладки или окна.",
+      "login": "Войти",
+      "error": "Не удалось войти"
     }
   },
   "shards": {
@@ -704,33 +1159,87 @@
     "health": "Состояние",
     "shards_table": {
       "cancel_relocation": "Отменить перемещение",
+      "rows": {
+        "nodes": "Узлы в строках"
+      },
+      "unassigned": "не назначены",
+      "index": "Индекс",
+      "node": "Узел",
+      "index_shards": "Шардов: {pri}/{rep}",
+      "pri_rep": "Первичных: {pri} / реплик: {rep}",
+      "node_shards": "Шардов: {count}",
       "reroute": {
         "confirm": "Перенаправить шард '{shard}' с узла '{fromNode}' на '{toNode}'?"
-      },
-      "allocation": {
-        "label": "Распределение шардов",
-        "enable_confirm": "Включить распределение шардов?",
-        "enable_growl": "Распределение шардов включено",
-        "disable_confirm": "Отключить распределение шардов?",
-        "disable_growl": "Распределение шардов отключено"
       }
+    },
+    "pulse": {
+      "split": "первичных: {primaries}, реплик: {replicas}",
+      "indices": "Индексов: {count}",
+      "unassigned": "Не назначены",
+      "moving": "Перемещаются",
+      "moving_split": "переносятся: {relocating}, инициализируются: {initializing}",
+      "view_recovery": "Открыть восстановление",
+      "size": "Размер шардов",
+      "avg_primary": "сред. первичный",
+      "largest": "наибольший {size}",
+      "oversized": "больше {size}: {count}",
+      "balance": "Баланс шардов",
+      "per_data_node": "на узел данных",
+      "avg": "сред. {count}",
+      "busiest": "больше всего на {node} ({skew}× от среднего)"
+    },
+    "problems": {
+      "title": "Требуют внимания ({count})",
+      "explain": "Объяснить в Tools",
+      "index": "Индекс",
+      "shard": "Шард",
+      "state": "Состояние",
+      "node": "Узел",
+      "reason": "Причина",
+      "show_less": "Показать меньше",
+      "show_all": "Показать все ({count})"
+    },
+    "shard": {
+      "primary": "первичный шард {shard}",
+      "replica": "реплика {shard}",
+      "docs": "документов: {count}",
+      "reason": "причина: {reason}",
+      "move": "Нажмите, чтобы переместить шард"
     }
   },
   "shard_recovery": {
-    "heading": "Восстановление шардов"
+    "heading": "Восстановление шардов",
+    "pulse": {
+      "active": "Активные",
+      "recoveries": "восстановлений",
+      "none_active": "Нет восстанавливающихся шардов",
+      "completed": "завершено: {count}",
+      "progress": "Прогресс",
+      "copied": "скопировано",
+      "nothing_to_copy": "Нечего копировать",
+      "longest": "Самое долгое",
+      "throttled": "Ограничено",
+      "limit_reached": "Достигнут лимит пропускной способности восстановления",
+      "adjust": "Настроить в Tools",
+      "not_throttled": "Активные восстановления не ограничены"
+    }
   },
   "shard_recovery_table": {
     "stage": "Этап",
+    "active_only": "Только активные",
+    "no_active": "Нет активных восстановлений",
+    "show_completed": "Показать завершённые",
     "columns": {
       "index": "Индекс",
+      "type": "Тип",
       "stage": "Этап",
-      "source": "Источник",
-      "target": "Цель",
+      "source_target": "Источник → Цель",
       "time": "Время",
       "duration": "Продолжительность",
       "files": "Файлы",
       "bytes": "Байты",
-      "translog_ops": "Операции Translog"
+      "translog_ops": "Операции Translog",
+      "throttle": "Ограничение"
     }
   },
   "shared": {
@@ -742,7 +1251,8 @@
         "reachable": "Ваш кластер доступен по",
         "ssl": "Ваш браузер доверяет SSL-сертификату кластера",
         "cors": "Вы включили CORS и перезапустили ваш кластер"
-      }
+      },
+      "cors_blocked": "Кластер доступен, но не разрешает запросы от elasticvue."
     },
     "index_filter": {
       "use_index_pattern": "использовать шаблон индекса",
@@ -769,13 +1279,10 @@
     "table_bottom": {
       "rows_per_page": {
         "confirm": "ВНИМАНИЕ: Вы уверены? Показ {value} записей одновременно может вызвать проблемы или зависания. Рекомендуется использовать функцию поиска/фильтрации для ограничения результатов."
-      }
+      },
+      "records_per_page": "Записей на странице",
+      "range": "{from}-{to} из {total}"
     },
-    "table_settings": {
-      "reset": "сбросить",
-      "clear": "очистить"
-    },
-    "authorization_header_hint": "Убедитесь, что \"http.cors.allow-headers\" настроен",
     "code_editor": {
       "actions": {
         "beautify": {
@@ -797,12 +1304,13 @@
     "loader": {
       "copy_error": "Копировать ошибку",
       "network_error": "Ошибка сети, невозможно получить доступ к вашему кластеру.",
-      "cluster_uri": "URI кластера:"
+      "error": "Ошибка: {message}"
     },
     "reload_button": {
       "reload": "Перезагрузить"
     },
     "timer": {
+      "off": "Автоперезагрузка выкл",
       "settings": {
         "title": "Автоперезагрузка"
       }
@@ -810,6 +1318,29 @@
     "ssl_hint": {
       "hint": "При использовании HTTPS убедитесь, что ваш браузер доверяет SSL-сертификату кластера.",
       "help": "Помощь"
+    },
+    "security_unavailable": {
+      "forbidden_users": "Нет прав на чтение пользователей",
+      "forbidden_roles": "Нет прав на чтение ролей",
+      "forbidden_text": "Для управления пользователями и ролями нужна привилегия кластера manage_security.",
+      "unavailable": "Безопасность недоступна в этом кластере",
+      "unavailable_text": "Встроенным пользователям и ролям нужны функции безопасности Elasticsearch, которые отсутствуют или отключены в этом кластере."
+    },
+    "cluster_unreachable": {
+      "heading_network": "Не удаётся подключиться к {name}",
+      "heading_auth": "{name} отклонил учётные данные",
+      "heading_api": "{name} вернул ошибку",
+      "auth_hint": "Проверьте имя пользователя, пароль или API-ключ этого кластера.",
+      "api_hint": "Кластер ответил, но проверка состояния не удалась.",
+      "auto_retry": "elasticvue автоматически повторяет попытку каждые 30 секунд.",
+      "retry": "Повторить",
+      "help": "Устранение проблем с подключением",
+      "heading_cors": "{name} блокирует запросы от elasticvue",
+      "cors_hint": "Кластер доступен, но его настройки CORS не разрешают запросы с этой страницы."
+    },
+    "filter_state": {
+      "filter": "Фильтр: '{filter}'",
+      "matches": "Совпадений: {filtered} из {total}"
     }
   },
   "snapshots": {
@@ -856,17 +1387,16 @@
     "snapshots_table": {
       "table": {
         "headers": {
-          "status": "Статус",
-          "start_time": "Время начала",
+          "snapshot": "snapshot",
+          "state": "Статус",
+          "started": "Время начала",
           "end_time": "Время окончания",
           "duration": "Длительность",
-          "indices": "Индексы",
-          "successful_shards": "Успешные шарды",
-          "failed_shards": "Неудачные шарды",
-          "total_shards": "Всего шардов"
+          "shards": "shards"
         }
       }
-    }
+    },
+    "repository": "All repositories"
   },
   "snapshot_policies": {
     "new_policy": {
@@ -917,7 +1447,9 @@
           "id": "ID",
           "name": "Название",
           "schedule": "Расписание",
-          "retention": "Хранение"
+          "retention": "Хранение",
+          "last_run": "Last run",
+          "next_run": "Next run"
         }
       },
       "delete_policy": {
@@ -935,12 +1467,368 @@
       }
     }
   },
+  "tasks": {
+    "heading": "Задачи",
+    "categories": {
+      "reindex": "Переиндексация",
+      "update_by_query": "Update by query",
+      "delete_by_query": "Delete by query",
+      "forcemerge": "Forcemerge",
+      "snapshot": "Снапшот",
+      "search": "Поиск",
+      "write": "Запись",
+      "indices": "Управление индексами",
+      "monitor": "Мониторинг",
+      "cluster": "Кластер",
+      "other": "Другое"
+    },
+    "pulse": {
+      "running": "Выполняются",
+      "tasks": "в работе",
+      "none_running": "Нет выполняющихся задач",
+      "longest": "Самая долгая",
+      "long_running": "{count} задача выполняется дольше минуты | Задач, выполняющихся дольше минуты: {count}",
+      "background": "Фоновые задачи",
+      "jobs": "в работе",
+      "background_hint": "Переиндексация, by query, forcemerge и снапшоты",
+      "searches": "Поисковые запросы",
+      "running_unit": "выполняется",
+      "slowest": "Самый медленный выполняется {time}",
+      "no_searches": "Нет выполняющихся поисковых запросов",
+      "hidden_by_filters": "{count} задача скрыта фильтрами | Скрыто фильтрами: {count}"
+    },
+    "table": {
+      "types": "Типы",
+      "categories": "Категории",
+      "all": "Все",
+      "selected": "{selected} из {total}",
+      "no_tasks": "Нет выполняющихся задач",
+      "columns": {
+        "action": "Действие",
+        "description": "Описание",
+        "node": "Узел",
+        "progress": "Прогресс",
+        "running_time": "Время выполнения",
+        "started": "Запущена"
+      }
+    },
+    "task": {
+      "cancelled": "отменена",
+      "subtasks": "{count} подзадача | Подзадач: {count}",
+      "cancel": {
+        "label": "Отменить задачу",
+        "confirm": "Отменить задачу {id} ({action})?",
+        "growl": "Запрошена отмена задачи {id}"
+      }
+    }
+  },
+  "tools": {
+    "heading": "Tools",
+    "subtitle": "Common cluster maintenance and recovery operations.",
+    "filter": "Фильтр инструментов",
+    "no_match": "Нет инструментов для \"{filter}\".",
+    "close": "Закрыть {title}",
+    "apis_used": "Используемые API Elasticsearch",
+    "read_only_tool": "Инструмент только для чтения. Настройки кластера не меняются.",
+    "apply": "Применить",
+    "restore_default": "Вернуть по умолчанию",
+    "recheck": "Проверить снова",
+    "advanced": "Дополнительно",
+    "current": "Сейчас:",
+    "mixed": "Разные",
+    "indices": "Индексы",
+    "excluded_indices": "Системные, скрытые индексы и индексы потоков данных исключены.",
+    "confirm_restore": "Вернуть \"{setting}\" к значению Elasticsearch по умолчанию?",
+    "groups": {
+      "attention": "Требуют внимания",
+      "shards": "Шарды и распределение",
+      "indices": "Индексы",
+      "disk": "Диск и восстановление",
+      "safety": "Защита",
+      "advanced": "Дополнительно"
+    },
+    "sources": {
+      "transient": "transient",
+      "persistent": "persistent",
+      "default": "по умолчанию",
+      "unavailable": "недоступно"
+    },
+    "status": {
+      "default": "По умолчанию",
+      "custom": "Своё",
+      "enabled": "Включено",
+      "disabled": "Отключено",
+      "unavailable": "Недоступно",
+      "no_user_indices": "Нет пользовательских индексов",
+      "no_unassigned": "Нет неназначенных шардов",
+      "unassigned": "Неназначенных шардов: {count}"
+    },
+    "health": {
+      "green": "Состояние кластера: зелёный",
+      "yellow": "Состояние кластера: жёлтый",
+      "red": "Состояние кластера: красный"
+    },
+    "inspect": {
+      "settings": "настройки кластера",
+      "nodes": "узлы",
+      "shards": "шарды",
+      "indices": "настройки индексов",
+      "explanation": "объяснение распределения",
+      "voting": "исключения из голосования"
+    },
+    "errors": {
+      "forbidden": "У вашего пользователя нет прав читать {what}.",
+      "network": "Не удалось загрузить {what}. Проверьте соединение с кластером.",
+      "api": "Не удалось загрузить {what}. {message}"
+    },
+    "allocation": {
+      "title": "Распределение шардов",
+      "description": "Можно ли распределять новые и неназначенные шарды.",
+      "keywords": "распределение первичный реплика обслуживание allocation primary replica",
+      "hint": "Влияет только на будущие распределения, назначенные шарды остаются на месте.",
+      "disable": "Отключить распределение",
+      "blocking": "Распределение ограничено и может оставить шарды неназначенными: {count}.",
+      "updated": "Распределение шардов: {value}.",
+      "restored": "Распределение шардов возвращено по умолчанию.",
+      "modes": {
+        "all": "Все шарды",
+        "primaries": "Только первичные",
+        "new_primaries": "Только новые первичные",
+        "none": "Отключено"
+      },
+      "option_hints": {
+        "all": "обычное распределение",
+        "primaries": "реплики не распределяются",
+        "new_primaries": "только первичные шарды новых индексов",
+        "none": "новые шарды не распределяются"
+      },
+      "confirm": {
+        "primaries": "Разрешить распределять только первичные шарды?",
+        "new_primaries": "Разрешить распределять только первичные шарды новых индексов?",
+        "none": "Отключить распределение шардов? Новые шарды не будут распределяться, пока вы его не включите."
+      }
+    },
+    "drain": {
+      "title": "Освободить узел",
+      "description": "Перенести шарды с узла перед его остановкой.",
+      "keywords": "освободить остановка обслуживание исключить перенос drain shutdown exclude",
+      "explanation": "Узел исключается из распределения, и Elasticsearch переносит его шарды на другие узлы. Сам узел продолжает работать.",
+      "allocation_disabled": "Распределение отключено, поэтому шарды не смогут переехать, пока его не включат.",
+      "node": "Узел",
+      "shards": "шардов: {count}",
+      "node_summary": "Шардов: {shards}",
+      "disk_used": "диск занят на {percent}%",
+      "progress": "Осталось {remaining} из {total} шардов, переносится: {relocating}.",
+      "done": "На узле не осталось шардов. Его можно безопасно остановить.",
+      "start": "Начать освобождение",
+      "stop": "Остановить освобождение",
+      "existing": "Исключённые ID узлов: {ids}. Другие исключения сохраняются.",
+      "status_active": "Исключено узлов: {count}",
+      "status_none": "Нет активного освобождения",
+      "confirm_start": "Освободить {name} ({id})? Его шарды будут перенесены на другие узлы.",
+      "confirm_stop": "Остановить освобождение {name} ({id})?",
+      "started": "Освобождение узла начато.",
+      "stopped": "Освобождение узла остановлено."
+    },
+    "explain": {
+      "title": "Объяснить неназначенные шарды",
+      "description": "Спросить Elasticsearch, почему шард нельзя назначить.",
+      "keywords": "распределение диагностика неназначенный explain deciders unassigned",
+      "shard": "Неназначенный шард",
+      "primary": "первичный",
+      "replica": "реплика",
+      "run": "Объяснить",
+      "raw": "Исходный ответ",
+      "no_explanation": "Объяснение не получено.",
+      "cannot_allocate_primary": "Первичный шард нельзя распределить",
+      "cannot_allocate_replica": "Реплику нельзя распределить",
+      "single_node_replica": "Реплику нельзя разместить на том же узле, что и первичный шард, а в кластере только один узел данных.",
+      "no_eligible_node": "Сейчас ни один подходящий узел не принимает этот шард."
+    },
+    "retry": {
+      "title": "Повторить неудачные распределения",
+      "description": "Повторить шарды, исчерпавшие лимит попыток распределения.",
+      "keywords": "повтор лимит ошибка reroute retry failed",
+      "explanation": "Сначала устраните причину, затем попросите Elasticsearch повторить неудачные распределения.",
+      "run": "Повторить распределения",
+      "confirm": "Повторить неудачные распределения? Неназначенных шардов: {count}.",
+      "done": "Elasticsearch повторяет неудачные распределения."
+    },
+    "rebalancing": {
+      "title": "Балансировка шардов",
+      "description": "Можно ли перемещать шарды между узлами для балансировки.",
+      "keywords": "балансировка перемещение топология rebalance",
+      "explanation": "Ограничение балансировки может оставить кластер несбалансированным.",
+      "confirm": "Ограничить балансировку шардов? Кластер может остаться несбалансированным.",
+      "updated": "Балансировка шардов обновлена.",
+      "modes": {
+        "all": "Все шарды",
+        "primaries": "Только первичные",
+        "replicas": "Только реплики",
+        "none": "Отключено"
+      }
+    },
+    "blocks": {
+      "title": "Блокировки записи индексов",
+      "description": "Найти и снять блокировки записи и режима только для чтения.",
+      "keywords": "только чтение flood запись блокировка read only write block",
+      "indices": "Заблокированные индексы",
+      "status": "Заблокировано индексов: {count}",
+      "status_none": "Нет заблокированных пользовательских индексов",
+      "flood": "Elasticsearch установил read_only_allow_delete, потому что диск достиг порога flood stage.",
+      "flood_full": "Диск всё ещё слишком заполнен, сначала освободите место.",
+      "flood_recovered": "Заполненность диска нормализовалась. Обычно Elasticsearch снимает эту блокировку сам.",
+      "flood_unknown": "Не удалось проверить заполненность диска, поэтому снять блокировку здесь нельзя.",
+      "clear": "Снять блокировки записи",
+      "clear_flood": "Снять блокировку flood stage",
+      "confirm_clear": "Снять {blocks}? Индексов: {count}.",
+      "confirm_clear_flood": "Снять блокировку flood stage? Индексов: {count}.",
+      "cleared": "Блокировки записи сняты. Индексов: {count}."
+    },
+    "replicas": {
+      "title": "Реплики",
+      "description": "Изменить число реплик выбранных индексов.",
+      "keywords": "избыточность один узел число реплик replica count",
+      "count": "Реплики",
+      "status": "Задаётся для каждого индекса",
+      "status_single_node": "Индексов с нераспределяемыми репликами: {count}",
+      "single_node": "В кластере один узел данных, поэтому реплики не назначаются. Затронуто индексов: {count}.",
+      "set_zero": "Установить 0 реплик",
+      "zero_warning": "Без реплик потеря узла может сделать данные недоступными или привести к их потере.",
+      "confirm": "Установить {replicas} реплик? Индексов: {count}.",
+      "confirm_zero": "Удалить все реплики? Индексов: {count}.",
+      "updated": "Реплики обновлены. Индексов: {count}."
+    },
+    "refresh": {
+      "title": "Интервал обновления",
+      "description": "Как быстро новые документы становятся доступны для поиска.",
+      "keywords": "обновление интервал поиск видимость индексация refresh interval bulk",
+      "interval": "Интервал обновления",
+      "custom": "Свой",
+      "custom_hint": "Значение времени, например 500ms или 2m.",
+      "status_mixed": "Разные",
+      "disabled_warning": "Новые документы не будут находиться поиском, пока индекс не обновят вручную.",
+      "confirm": "Установить интервал обновления {value}? Индексов: {count}.",
+      "updated": "Интервал обновления изменён. Индексов: {count}."
+    },
+    "watermarks": {
+      "title": "Пороги диска",
+      "description": "Пороги заполнения диска для распределения и flood stage.",
+      "keywords": "диск свободно занято flood порог запас watermark headroom",
+      "fullest": "Самый заполненный узел:",
+      "used": "занято {percent}%",
+      "available": "свободно {bytes}",
+      "low": "Нижний порог",
+      "high": "Верхний порог",
+      "flood": "Flood stage",
+      "low_hint": "Новые шарды не размещаются на узлах выше этого порога.",
+      "high_hint": "Шарды переносятся с узлов выше этого порога.",
+      "flood_hint": "Индексы на узлах выше этого порога становятся доступны только для чтения.",
+      "mode_percent": "Проценты и доли описывают занятое место на диске.",
+      "mode_bytes": "Значения в байтах описывают необходимое свободное место.",
+      "threshold_enabled": "Учитывать пороги диска при распределении",
+      "threshold_disabled_warning": "Без порогов диска Elasticsearch больше не защищает узлы от заполнения диска.",
+      "headroom_hint": "Необязательно, например 100gb.",
+      "lowering_warning": "Повышение порогов позволяет узлам заполняться сильнее и должно быть временным.",
+      "confirm": "Обновить пороги диска?",
+      "updated": "Пороги диска обновлены.",
+      "restored": "Пороги диска возвращены по умолчанию.",
+      "errors": {
+        "mixed": "Используйте проценты для всех порогов или байты для всех порогов.",
+        "percent_order": "Пороги должны расти от нижнего к верхнему и к flood stage.",
+        "bytes_order": "Свободное место должно уменьшаться от нижнего к верхнему и к flood stage.",
+        "headroom": "Используйте значения в байтах, например 100gb."
+      },
+      "low_max_headroom": "Макс. запас нижнего порога",
+      "high_max_headroom": "Макс. запас верхнего порога",
+      "flood_max_headroom": "Макс. запас flood stage"
+    },
+    "recovery": {
+      "title": "Пропускная способность восстановления",
+      "description": "Лимит трафика восстановления шардов на узел.",
+      "keywords": "восстановление пропускная способность снапшот трафик recovery bandwidth",
+      "explanation": "Не даёт трафику восстановления замедлять поиск и индексацию.",
+      "limit": "Лимит на узел",
+      "hint": "Скорость, например 40mb или 1gb.",
+      "invalid": "Введите значение, например 80mb.",
+      "updated": "Пропускная способность восстановления обновлена."
+    },
+    "destructive": {
+      "title": "Защита от разрушительных операций",
+      "description": "Требовать явные имена индексов для удаления или закрытия.",
+      "keywords": "шаблон удаление явные имена защита wildcard delete",
+      "toggle": "Требовать явные имена индексов",
+      "explanation": "Запрещает удалять или закрывать индексы по шаблонам или _all.",
+      "confirm_disable": "Разрешить разрушительные операции с шаблонами и _all? Случайное удаление станет проще.",
+      "updated": "Защита от разрушительных операций обновлена."
+    },
+    "auto_create": {
+      "title": "Автоматическое создание индексов",
+      "description": "Создаётся ли индекс при записи в несуществующий.",
+      "keywords": "автосоздание отсутствующий индекс шаблоны правила auto create",
+      "rules": "Правила",
+      "hint": "Правила проверяются по порядку.",
+      "confirm_disable": "Отключить автоматическое создание индексов? Приложения, которые на него рассчитывают, могут сломаться.",
+      "updated": "Автоматическое создание индексов обновлено.",
+      "modes": {
+        "allow": "Разрешено",
+        "disable": "Отключено",
+        "custom": "Свои правила"
+      }
+    },
+    "cluster_write": {
+      "title": "Режим записи кластера",
+      "description": "Перевести весь кластер в режим только для чтения при инцидентах или обслуживании.",
+      "keywords": "только чтение авария обслуживание блокировка кластера read only emergency",
+      "restricted": "Запись в этот кластер сейчас заблокирована.",
+      "confirm": "Заблокировать запись во весь кластер?",
+      "updated": "Режим записи кластера обновлён.",
+      "restored": "Запись в кластер снова разрешена.",
+      "modes": {
+        "normal": "Обычный",
+        "read_only": "Только чтение",
+        "allow_delete": "Только чтение, удаление разрешено"
+      }
+    },
+    "voting": {
+      "title": "Исключения из голосования",
+      "description": "Подготовить master-eligible узлы к удалению.",
+      "keywords": "голосование конфигурация исключения master eligible топология удаление voting",
+      "explanation": "Нужно только при одновременном удалении половины или более master-eligible узлов.",
+      "nodes": "Master-eligible узлы",
+      "add": "Добавить исключения",
+      "clear": "Очистить исключения",
+      "status": "Активных: {count}",
+      "status_none": "Нет",
+      "confirm_add": "Исключить узлы из голосования? Узлов: {count}.",
+      "confirm_clear": "Очистить все исключения из голосования? Elasticsearch дождётся, пока исключённые узлы покинут кластер.",
+      "added": "Исключения из голосования добавлены.",
+      "cleared": "Исключения из голосования очищены."
+    },
+    "awareness": {
+      "title": "Allocation awareness",
+      "description": "Атрибуты зоны или стойки для распределения копий шардов.",
+      "keywords": "зона стойка атрибуты домен отказа awareness rack",
+      "status": "Атрибутов: {count}",
+      "status_none": "Не настроено",
+      "values": "Значения узлов: {values}",
+      "forced": "Принудительные значения: {values}",
+      "hint": "Атрибуты задаются на каждом узле и здесь не меняются."
+    }
+  },
   "update_check": {
+    "available": "Доступно обновление {version}",
     "downloading": "Загрузка... {progress}%",
+    "downloading_unknown": "Загрузка...",
     "heading": "Доступна новая версия elasticvue.",
+    "install": "Установить",
+    "install_failed": "Не удалось установить обновление. Повторите попытку или скачайте новую версию вручную.",
     "installing": "Установка обновления, пожалуйста, подождите...",
-    "update_info": "Elasticvue {version} доступен. Хотите установить его сейчас?",
-    "yes": "Да"
+    "later": "Позже",
+    "release_notes": "Список изменений",
+    "retry": "Повторить",
+    "skip": "Пропустить эту версию",
+    "update_info": "Elasticvue {version} доступен. Хотите установить его сейчас?"
   },
   "welcome": {
     "import_backup": {

@@ -1,8 +1,79 @@
 # Changelog
 
+## 2.0.0
+
+Elasticvue 2 is a complete redesign of the interface, with a new dashboard, a new tools page and a reworked search and REST page.
+
+**New**
+
+* completely redesigned interface: new sidebar navigation, layered dark theme, reworked colors and font sizes
+* new dashboard: cluster status, shard/node/index/disk overview, cpu, disk, heap and shard metrics, search and indexing rate and latency graphs, busiest nodes and largest/unhealthy indices
+* dashboard health checks: unassigned shards, index blocks, disabled allocation, pending tasks, disk watermarks, thread pool rejections, circuit breaker trips, jvm pressure, file descriptors, mixed node versions
+* new all clusters page: health, cpu, heap, disk and shards of every configured cluster at a glance
+* new tools page for maintenance and recovery operations:
+  * shard allocation, shard rebalancing, allocation awareness
+  * drain node before shutdown, voting exclusions
+  * explain unassigned shards, retry failed allocations
+  * index write blocks, replicas, refresh interval, automatic index creation
+  * disk watermarks, recovery bandwidth, cluster write mode, destructive operation protection
+* new tasks page: running tasks with progress for reindex, update/delete by query, subtasks, filter by type and category, cancel tasks, and a running tasks card on the dashboard, related to [#338](https://github.com/cars10/elasticvue/issues/338)
+* overview headers on most pages (nodes, shards, shard recovery, index templates, users, roles) that summarize the most important metrics
+* optionally save cluster passwords only for the current session, part of [#316](https://github.com/cars10/elasticvue/issues/316)
+* switch between clusters without reloading the page
+* linux desktop app is now also available as .rpm
+* official support for OpenSearch 1, 2 and 3 for all existing features, requested in [#364](https://github.com/cars10/elasticvue/issues/364)
+* connect to other elasticsearch compatible products, e.g. when they report the version as string or have no cluster name, they are marked as unsupported and use the latest elasticsearch api, based on [#362](https://github.com/cars10/elasticvue/pull/362), thanks @ronallee
+
+**Search**
+
+* new query bar with autocomplete for fields, values and recent queries
+* switch between query bar, DSL, SQL and ES|QL, requested in [#364](https://github.com/cars10/elasticvue/issues/364)
+* search across indices, aliases and data streams, with a count of matched indices
+* time range picker with presets and absolute ranges, plus a histogram of matching documents
+* filters: is / exists / between, include or exclude, enable or disable
+* column picker that groups fields by meta fields, fields in all indices, fields in only some indices and unmapped fields
+* document panel with all fields, filter for/out value and surrounding documents
+* save searches and browse the search history
+* open the current search in the REST page or copy it as cURL
+* exact hit count on demand, download results as csv or json, option to only load visible fields
+
+**REST**
+
+* path autocomplete from history and saved queries, requested in [#364](https://github.com/cars10/elasticvue/issues/364)
+* copy requests as cURL, requested in [#364](https://github.com/cars10/elasticvue/issues/364)
+* new query library with history, saved queries and examples
+
+**Improvements**
+
+* redesigned nodes, shards, shard recovery, indices, index templates, snapshots, repositories, users, roles, settings and welcome pages
+* shard recovery: show only active recoveries, throttling status
+* shards: list of shards that need attention with a link to explain them in tools
+* shards: can rotate the shards table to show nodes as rows
+* index templates: show composable, legacy and component templates and where component templates are used
+* users and roles: clear message when security is disabled or the user lacks permissions
+* settings: restructured, new option to wrap long lines in the editor, per-cluster settings
+* table filters match multiple terms in any order, e.g. `my 2` matches `my-cluster-2`
+* clearer connection errors that distinguish network, authentication, CORS and API errors
+* features that are not available on the connected cluster (elasticsearch, opensearch or serverless) are hidden instead of failing
+* fixes for serverless elasticsearch
+* opensearch: use the correct elasticsearch api level for all features, e.g. clone, reindex and delete by query are now available and mapping types are no longer used
+* opensearch: hide disk watermark headroom settings that opensearch does not support, show search and warm node roles
+* fix parsing of two digit major versions
+* fix index templates page when a component or index template only contains a template
+* replace json-bigint with lossless-json for handling large numbers
+* dependency updates
+
+**Changed**
+
+* enabling and disabling shard allocation moved from the shards page to the tools page
+* the dashboard replaces the old home page
+* clusters, settings, REST history, saved queries and other stored data from 1.x are migrated automatically
+
 ## 1.17.0
 
 * fix REST tab when running in docker, fixes [#363](https://github.com/cars10/elasticvue/issues/363)
+* fix welcome page not shown when no cluster is configured
+* shows elasticvue 2.0 notice
 
 ## 1.16.0
 

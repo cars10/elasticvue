@@ -1,5 +1,5 @@
 <template>
-  <q-input v-bind="props" spellcheck="false" hide-bottom-space>
+  <q-input v-bind="props" spellcheck="false" autocorrect="off" autocapitalize="off" hide-bottom-space>
     <template v-if="slots.hint" #hint>
       <slot name="hint" />
     </template>

@@ -17,12 +17,6 @@ export interface SnapshotPolicy {
   retention?: SnapshotPolicyRetention
 }
 
-export interface SnapshotPolicyResponse {
-  [policyName: string]: {
-    policy: SnapshotPolicy
-  }
-}
-
 export interface SnapshotPolicyForm {
   id: string
   name: string
@@ -42,18 +36,6 @@ export interface SnapshotPolicyRequestBody {
   repository: string
   config: SnapshotPolicyConfig
   retention?: SnapshotPolicyRetention
-}
-
-export interface SnapshotRepository {
-  type: string
-  settings: {
-    location: string
-    maxRestoreBytesPerSec?: string
-    maxSnapshotBytesPerSec?: string
-    readonly?: string
-    compress?: string
-    chunkSize?: string
-  }
 }
 
 export interface ElasticsearchResponse {

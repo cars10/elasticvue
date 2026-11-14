@@ -69,6 +69,28 @@ describe.concurrent('helpers/filters.ts', () => {
     })
   })
 
+  describe.concurrent('filters.ts multi-term searches', () => {
+    it('should match all terms in any order within one column', () => {
+      const results = filterItems(items, 'sky luke', headerNames)
+      expect(results).toEqual([{ name: 'luke skywalker', type: 'person' }])
+    })
+
+    it('should match terms across columns', () => {
+      const results = filterItems(items, 'wing ship', headerNames)
+      expect(results).toEqual([{ name: 'x-wing', type: 'ship' }])
+    })
+
+    it('should return no items if one term does not match', () => {
+      const results = filterItems(items, 'luke vader', headerNames)
+      expect(results).toEqual([])
+    })
+
+    it('should match all terms in a specific column', () => {
+      const results = filterItems(items, 'name:gon qui', headerNames)
+      expect(results).toEqual([{ name: 'qui-gon jin', type: 'person' }])
+    })
+  })
+
   describe.concurrent('filters.ts column searches', () => {
     it('should return all items on empty column search', () => {
       const results = filterItems(items, 'type:', headerNames)

@@ -1,14 +1,13 @@
 import { computed } from 'vue'
 import { filterItems } from '../../../helpers/filters.ts'
-import { EsNode } from '../../../types/types.ts'
-import ElasticsearchNode from '../../../models/ElasticsearchNode.ts'
 import { setupFilterState } from '../shared/FilterState.ts'
 import { genColumns } from '../../../helpers/tableColumns.ts'
 import { useNodesStore } from '../../../store/nodes.ts'
 import { useTranslation } from '../../i18n.ts'
-import { clusterVersionGte } from '../../../helpers/minClusterVersion.ts'
+import { useClusterSession } from '../../../store/clusterSession.ts'
+import type { NodeRow } from '../../../types/nodes.ts'
 
-export type NodesTableProps = { nodes: EsNode[] }
+export type NodesTableProps = { nodes: NodeRow[]; loading: boolean }
 
 export const useNodesTable = (props: NodesTableProps) => {
   const nodesStore = useNodesStore()
@@ -17,37 +16,53 @@ export const useNodesTable = (props: NodesTableProps) => {
   const results = computed(() => props.nodes)
   const filteredResults = computed(() => {
     const list = results.value.filter(
-      (r) => nodesStore.nodeRoles.length === 0 || nodesStore.nodeRoles.some((role) => r['node.role']?.includes(role))
+      (r) => nodesStore.nodeRoles.length === 0 || nodesStore.nodeRoles.some((role) => r.roles.includes(role))
     )
-    const nodes = filterItems<EsNode>(list, nodesStore.filter, ['name', 'ip', 'id', 'version'])
-    return nodes.map((r) => new ElasticsearchNode(r))
+    return filterItems<NodeRow>(list, nodesStore.filter, ['name', 'ip', 'id', 'version'])
   })
 
-  const filterStateProps = setupFilterState(results, filteredResults)
+  const { resultsCount, filteredResultsCount } = setupFilterState(results, filteredResults)
 
-  const showNodeShards = clusterVersionGte(8)
+  const showNodeShards = useClusterSession().capabilities.nodes.shards
 
   const columns = genColumns([
-    { label: t('cluster_nodes.node_properties.status'), field: '', align: 'left' },
     { label: t('cluster_nodes.node_properties.name'), field: 'name', align: 'left' },
+    {
+      label: `${t('cluster_nodes.node_properties.node_role')} / ${t('cluster_nodes.node_properties.attr')}`,
+      align: 'left'
+    },
     { label: t('cluster_nodes.node_properties.version'), field: 'version', align: 'left' },
-    { label: t('cluster_nodes.node_properties.id'), field: 'id', align: 'left' },
-    { label: t('cluster_nodes.node_properties.ip'), field: 'ip', align: 'left' },
-    { label: t('cluster_nodes.node_properties.master'), field: 'master', align: 'left' },
-    { label: t('cluster_nodes.node_properties.node_role'), field: 'nodeRole', align: 'left' },
     showNodeShards ? { label: t('cluster_nodes.node_properties.shards'), field: 'shards', align: 'right' } : null,
-    { label: t('cluster_nodes.node_properties.attr'), align: 'left' },
-    { label: t('cluster_nodes.node_properties.load'), align: 'left' },
-    { label: t('cluster_nodes.node_properties.cpu'), field: 'cpu', align: 'left' },
-    { label: t('cluster_nodes.node_properties.ram'), field: 'ramPercent', align: 'left' },
+    { label: t('cluster_nodes.node_properties.docs'), field: 'docs', align: 'right' },
+    { label: t('cluster_nodes.node_properties.store'), field: 'storeBytes', align: 'right' },
+    { label: t('cluster_nodes.node_properties.uptime'), field: 'uptimeMs', align: 'right' },
+    { label: t('cluster_nodes.node_properties.cpu'), field: 'cpuPercent', align: 'left' },
     { label: t('cluster_nodes.node_properties.heap'), field: 'heapPercent', align: 'left' },
     { label: t('cluster_nodes.node_properties.disk'), field: 'diskPercent', align: 'left' }
   ])
 
+  const nodeRoleOptions = computed(() => [
+    { value: 'm', label: t('cluster_nodes.node_icons.master_eligible.title') },
+    { value: 'd', label: t('cluster_nodes.node_icons.data.title') },
+    { value: 'i', label: t('cluster_nodes.node_icons.ingest.title') },
+    { value: '-', label: t('cluster_nodes.node_icons.coordinating_only.title') },
+    { value: 'c', label: t('cluster_nodes.node_icons.cold.title') },
+    { value: 'f', label: t('cluster_nodes.node_icons.frozen.title') },
+    { value: 'h', label: t('cluster_nodes.node_icons.hot.title') },
+    { value: 'l', label: t('cluster_nodes.node_icons.ml.title') },
+    { value: 'r', label: t('cluster_nodes.node_icons.remote_cluster_client.title') },
+    { value: 's', label: t('cluster_nodes.node_icons.content.title') },
+    { value: 't', label: t('cluster_nodes.node_icons.transform.title') },
+    { value: 'v', label: t('cluster_nodes.node_icons.voting_only.title') },
+    { value: 'w', label: t('cluster_nodes.node_icons.warm.title') }
+  ])
+
   return {
     filteredResults,
-    filterStateProps,
+    resultsCount,
+    filteredResultsCount,
     columns,
-    showNodeShards
+    showNodeShards,
+    nodeRoleOptions
   }
 }

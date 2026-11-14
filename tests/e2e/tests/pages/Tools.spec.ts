@@ -1,0 +1,265 @@
+import { expect, Page, test } from '@playwright/test'
+import { setupClusterConnection } from '../../helpers.ts'
+import { mockElastic8 } from '../../mocks/elastic_8/index.ts'
+
+test.describe.configure({ mode: 'parallel' })
+
+const mockTools = async (page: Page, options: { settingsForbidden?: boolean; version?: string } = {}) => {
+  let allocation = 'all'
+  let lastSettingsBody: {
+    persistent?: Record<string, string | number | boolean | null>
+    transient?: Record<string, string | number | boolean | null>
+  } | null = null
+  let retriedFailed = false
+  let shardRequests = 0
+
+  await mockElastic8(page)
+  if (options.version) {
+    await page.route('http://localhost:9200/', async (route) => {
+      await route.fulfill({
+        json: {
+          name: 'version-test-node',
+          cluster_name: 'version-test',
+          version: { number: options.version, build_flavor: 'default' }
+        }
+      })
+    })
+  }
+  await page.route('**/_cluster/settings**', async (route) => {
+    if (route.request().method() === 'PUT') {
+      lastSettingsBody = route.request().postDataJSON() as typeof lastSettingsBody
+      allocation = lastSettingsBody?.persistent?.['cluster.routing.allocation.enable'] ?? allocation
+      await route.fulfill({ json: { acknowledged: true } })
+      return
+    }
+    if (options.settingsForbidden) {
+      await route.fulfill({
+        status: 403,
+        json: { error: { type: 'security_exception', reason: 'missing monitor privilege' }, status: 403 }
+      })
+      return
+    }
+    await route.fulfill({
+      json: {
+        persistent: {
+          ...(allocation === 'all' ? {} : { 'cluster.routing.allocation.enable': allocation }),
+          'cluster.routing.allocation.exclude._id': 'node-existing'
+        },
+        transient: {},
+        defaults: {
+          'cluster.routing.allocation.enable': 'all',
+          'cluster.routing.allocation.disk.threshold_enabled': 'true',
+          'cluster.routing.allocation.disk.watermark.low': '85%',
+          'cluster.routing.allocation.disk.watermark.high': '90%',
+          'cluster.routing.allocation.disk.watermark.flood_stage': '95%'
+        }
+      }
+    })
+  })
+  await page.route('**/_cat/shards/**', async (route) => {
+    shardRequests += 1
+    await route.fulfill({
+      json: [
+        { index: 'logs', shard: '0', prirep: 'p', state: 'STARTED', node: 'es-8-node-1', store: '1024' },
+        {
+          index: 'logs',
+          shard: '0',
+          prirep: 'r',
+          state: 'UNASSIGNED',
+          node: null,
+          'unassigned.reason': 'INDEX_CREATED'
+        }
+      ]
+    })
+  })
+  await page.route('**/_cat/allocation**', async (route) => {
+    await route.fulfill({
+      json: [
+        { node: 'es-8-node-1', shards: '1', 'disk.avail': '400', 'disk.percent': '60' },
+        { node: 'UNASSIGNED', shards: '1' }
+      ]
+    })
+  })
+  await page.route('**/_nodes?**', async (route) => {
+    await route.fulfill({
+      json: { nodes: { 'node-1': { name: 'es-8-node-1', roles: ['data'] } } }
+    })
+  })
+  await page.route('**/_data_stream', async (route) => route.fulfill({ json: { data_streams: [] } }))
+  await page.route('**/_all/_settings**', async (route) => {
+    await route.fulfill({
+      json: {
+        logs: { settings: { 'index.number_of_replicas': '1' } }
+      }
+    })
+  })
+  await page.route('**/_cluster/reroute?retry_failed=true', async (route) => {
+    retriedFailed = true
+    await route.fulfill({ json: { acknowledged: true } })
+  })
+  await page.route(
+    '**/_cluster/state/metadata?filter_path=metadata.cluster_coordination.voting_config_exclusions',
+    async (route) => {
+      await route.fulfill({ json: { metadata: { cluster_coordination: { voting_config_exclusions: [] } } } })
+    }
+  )
+
+  return {
+    lastSettingsBody: () => lastSettingsBody,
+    retriedFailed: () => retriedFailed,
+    shardRequests: () => shardRequests
+  }
+}
+
+test.describe('Tools', () => {
+  test('changes allocation persistently and retries failed allocations', async ({ page }) => {
+    const state = await mockTools(page)
+    await page.setViewportSize({ width: 1600, height: 1000 })
+    await setupClusterConnection(page)
+
+    await page.locator('#tools').click()
+    await expect(page).toHaveURL(/\/cluster\/default-cluster\/tools/)
+    await expect(page.getByTestId('tools-page')).toContainText('Maintenance and recovery operations for this cluster.')
+    await expect(page.getByTestId('tool-allocation').getByTestId('tool-status')).toHaveText('All shards')
+    for (const title of [
+      'Shard rebalancing',
+      'Refresh interval',
+      'Recovery bandwidth',
+      'Destructive operation protection',
+      'Automatic index creation',
+      'Cluster write mode',
+      'Voting exclusions',
+      'Allocation awareness'
+    ]) {
+      await expect(page.getByText(title, { exact: true })).toBeVisible()
+    }
+
+    await page.getByText('Shard allocation', { exact: true }).click()
+    await expect(page.locator('.q-dialog')).toHaveCount(1)
+    await expect(page.locator('.tool-panel')).toBeVisible()
+    await expect(page).toHaveURL(/tool=allocation/)
+    await page.getByText('Elasticsearch APIs used', { exact: true }).click()
+    await expect(page.getByText('PUT /_cluster/settings', { exact: true })).toBeVisible()
+    await page.getByLabel('Disabled - no new allocations').click()
+    page.once('dialog', (dialog) => dialog.accept())
+    await page.getByRole('button', { name: 'Disable allocation' }).click()
+    await expect
+      .poll(() => state.lastSettingsBody())
+      .toMatchObject({
+        persistent: { 'cluster.routing.allocation.enable': 'none' },
+        transient: { 'cluster.routing.allocation.enable': null }
+      })
+
+    await page.getByLabel('Close Shard allocation').click()
+    await page.getByText('Retry failed allocations', { exact: true }).click()
+    page.once('dialog', (dialog) => dialog.accept())
+    await page.getByRole('button', { name: 'Retry allocations' }).click()
+    await expect.poll(() => state.retriedFailed()).toBe(true)
+
+    await page.getByLabel('Close Retry failed allocations').click()
+    await page.getByText('Drain node', { exact: true }).click()
+    await page.locator('.tool-panel').getByLabel('Node', { exact: true }).click()
+    await page.getByRole('option', { name: /es-8-node-1/ }).click()
+    page.once('dialog', (dialog) => dialog.accept())
+    await page.getByRole('button', { name: 'Start drain' }).click()
+    await expect
+      .poll(() => state.lastSettingsBody())
+      .toMatchObject({
+        persistent: { 'cluster.routing.allocation.exclude._id': 'node-existing,node-1' },
+        transient: { 'cluster.routing.allocation.exclude._id': null }
+      })
+
+    await page.getByLabel('Close Drain node').click()
+    await page.getByText('Destructive operation protection', { exact: true }).click()
+    page.once('dialog', (dialog) => dialog.accept())
+    await page.getByLabel('Require explicit index names').click()
+    await expect
+      .poll(() => state.lastSettingsBody())
+      .toMatchObject({
+        persistent: { 'action.destructive_requires_name': false },
+        transient: { 'action.destructive_requires_name': null }
+      })
+    await expect(page.getByTestId('tools-page')).toContainText('Index write blocks')
+  })
+
+  test('loads shards only when a tool needs them', async ({ page }) => {
+    const state = await mockTools(page)
+    await setupClusterConnection(page)
+    await page.locator('#tools').click()
+
+    await expect(page.getByTestId('tool-explain').getByTestId('tool-status')).toContainText('2 unassigned shards')
+    expect(state.shardRequests()).toBe(0)
+
+    await page.getByTestId('tool-explain').click()
+    await expect.poll(() => state.shardRequests()).toBe(1)
+  })
+
+  test('shows the raw allocation explanation in a code viewer', async ({ page }) => {
+    await mockTools(page)
+    await page.route('**/_cluster/allocation/explain**', (route) =>
+      route.fulfill({
+        json: {
+          index: 'logs',
+          shard: 0,
+          primary: false,
+          current_state: 'unassigned',
+          can_allocate: 'no',
+          allocate_explanation: 'cannot allocate',
+          node_allocation_decisions: []
+        }
+      })
+    )
+    await setupClusterConnection(page)
+    await page.locator('#tools').click()
+    await page.getByTestId('tool-explain').click()
+
+    const panel = page.getByTestId('tool-panel-explain')
+    await panel.locator('.q-select').click()
+    await page.getByRole('option').first().click()
+    await panel.getByRole('button', { name: 'Explain', exact: true }).click()
+    await panel.getByText('Raw response').click()
+    await expect(panel.locator('.tool-json .cm-content')).toContainText('"allocate_explanation": "cannot allocate"')
+  })
+
+  test('selects and removes indices as chips', async ({ page }) => {
+    await mockTools(page)
+    await setupClusterConnection(page)
+    await page.locator('#tools').click()
+    await page.getByTestId('tool-replicas').click()
+
+    const panel = page.getByTestId('tool-panel-replicas')
+    await panel.locator('.q-select').click()
+    await page.getByRole('option').first().click()
+    await page.keyboard.press('Escape')
+    await expect(panel.locator('.q-chip')).toHaveCount(1)
+    await panel.locator('.q-chip__icon--remove').click()
+    await expect(panel.locator('.q-chip')).toHaveCount(0)
+  })
+
+  test('keeps other tools available when cluster settings are forbidden', async ({ page }) => {
+    await mockTools(page, { settingsForbidden: true })
+    await setupClusterConnection(page)
+    await page.locator('#tools').click()
+    await expect(page.getByTestId('tools-page')).toBeVisible()
+
+    await page.getByText('Shard allocation', { exact: true }).click()
+    await expect(page.getByText('Your user is not allowed to read cluster settings.')).toBeVisible()
+    await page.getByLabel('Close Shard allocation').click()
+
+    await page.getByLabel('Filter tools').fill('replica')
+    await expect(page.getByText('Replicas', { exact: true })).toBeVisible()
+    await expect(page.getByText('Explain unassigned shards', { exact: true })).toBeHidden()
+  })
+
+  test('hides tools unavailable in Elasticsearch 1.x', async ({ page }) => {
+    await mockTools(page, { version: '1.7.6' })
+    await setupClusterConnection(page)
+    await page.locator('#tools').click()
+
+    await expect(page.getByText('Shard allocation', { exact: true })).toBeVisible()
+    await expect(page.getByText('Refresh interval', { exact: true })).toBeVisible()
+    await expect(page.getByText('Explain unassigned shards', { exact: true })).toBeHidden()
+    await expect(page.getByText('Retry failed allocations', { exact: true })).toBeHidden()
+    await expect(page.getByText('Voting exclusions', { exact: true })).toBeHidden()
+  })
+})

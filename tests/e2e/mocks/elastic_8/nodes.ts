@@ -3,7 +3,7 @@ import { Page } from '@playwright/test'
 export const mockElasticNodes = async (page: Page) => {
   const mocks = {
     catNodes: {
-      url: 'http://localhost:9200/_cat/nodes?h=ip%2Cid%2Cname%2Cversion%2Cheap.percent%2Cheap.current%2Cheap.max%2Cram.percent%2Cram.current%2Cram.max%2Cnode.role%2Cmaster%2Ccpu%2Cload_1m%2Cload_5m%2Cload_15m%2Cdisk.used_percent%2Cdisk.used%2Cdisk.total%2Cshards&full_id=true',
+      url: /localhost:9200\/_cat\/nodes\?/,
       json: [
         {
           'ip': '192.168.32.2',
@@ -30,7 +30,7 @@ export const mockElasticNodes = async (page: Page) => {
       ],
     },
     nodes: {
-      url: 'http://localhost:9200/_nodes',
+      url: /localhost:9200\/_nodes\/_all\/settings/,
       json: {
         'nodes': {
           'hrFoHMcpTD-2QseKkE8W3Q': {

@@ -1,33 +1,29 @@
 type Filterable = Record<string, any>
 
 export function filterItems<T extends Filterable>(items: T[], searchQuery: string, headerNames: string[]): T[] {
-  const search = searchQuery.toString().slice().toLowerCase().trim()
+  const search = searchQuery.toString().toLowerCase().trim()
   if (search.length === 0) return items
 
   const searchSplit = search.split(':')
 
   if (filterSpecificColumn(searchSplit, headerNames)) {
     const column = searchSplit[0]
-    const query = searchSplit[1]
+    const terms = searchTerms(searchSplit.slice(1).join(':'))
 
-    if (query.trim() === '') return items
+    if (terms.length === 0) return items
     if (column.trim() === '') return items
 
-    return items.filter((item) => {
-      if (columnFilterable(item, column)) {
-        return filterColumn(item, column, query)
-      }
-    })
-  } else {
-    return items.filter((item) => {
-      return headerNames.some((headerName) => {
-        if (columnFilterable(item, headerName)) {
-          return filterColumn(item, headerName, search)
-        }
-      })
-    })
+    return items.filter((item) => terms.every((term) => matchesColumn(item, column, term)))
   }
+
+  const terms = searchTerms(search)
+  return items.filter((item) => terms.every((term) => headerNames.some((headerName) => matchesColumn(item, headerName, term))))
 }
+
+const searchTerms = (query: string) => query.split(/\s+/).filter(Boolean)
+
+const matchesColumn = (item: any, headerName: string, term: string) =>
+  columnFilterable(item, headerName) && filterColumn(item, headerName, term)
 
 const columnFilterable = (item: any, headerName: string) => {
   return Object.hasOwnProperty.bind(item)(headerName) && item[headerName] !== null
@@ -43,4 +39,13 @@ const filterColumn = (item: any, headerName: string, search: string) => {
 
 const filterSpecificColumn = (searchSplit: string[], headerNames: string[]): boolean => {
   return searchSplit.length > 1 && headerNames.includes(searchSplit[0])
+}
+
+export const matchesAllTerms = (text: string, query: string) => {
+  const haystack = text.toLowerCase()
+  return query
+    .toLowerCase()
+    .split(/\s+/)
+    .filter(Boolean)
+    .every((term) => haystack.includes(term))
 }

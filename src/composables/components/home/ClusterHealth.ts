@@ -1,74 +1,55 @@
-import {
-  BuildFlavor,
-  ElasticsearchCluster,
-  ElasticsearchClusterConnection,
-  useConnectionStore
-} from '../../../store/connection.ts'
-import ElasticsearchAdapter from '../../../services/ElasticsearchAdapter.ts'
-import { clusterUuid } from '../../ClusterConnection.ts'
-import { DISTRIBUTIONS } from '../../../consts.ts'
+import { BuildFlavor, ElasticsearchCluster } from '../../../store/connection.ts'
+import ElasticsearchAdapter, { RequestOptions } from '../../../services/ElasticsearchAdapter.ts'
+import { EsApiError } from '../../../services/errors.ts'
+import { sessionSecrets } from '../../../helpers/auth.ts'
+import { needsCredentials, useSessionCredentials, withSessionCredentials } from '../../../store/sessionCredentials.ts'
+import { ClusterInfo, isSupportedDistribution, parseClusterInfo } from '../../../helpers/clusterInfo.ts'
+import { ClusterFailure, describeFailure } from '../../../helpers/clusterFailure.ts'
 
-export const useClusterHealth = () => {
-  const connectionStore = useConnectionStore()
+const HEALTH_TIMEOUT_MS = 30_000
 
-  const setupHealthLoading = () => {
-    if (!connectionStore.activeCluster) return
-    checkHealth(connectionStore.activeCluster)
-    window.setInterval(() => {
-      if (connectionStore.activeCluster) checkHealth(connectionStore.activeCluster)
-    }, 30000)
-  }
-  setupHealthLoading()
+export const fetchClusterStatus = async (adapter: ElasticsearchAdapter, info: ClusterInfo, options?: RequestOptions) => {
+  if (info.flavor === BuildFlavor.serverless) return { status: 'green', health: null }
 
-  const checkAllClusters = () => connectionStore.clusters.forEach(checkHealth)
-
-  return {
-    checkAllClusters
+  try {
+    const health = await adapter.clusterHealth(options)
+    return { status: health?.status || '', health }
+  } catch (e) {
+    const apiError = e instanceof EsApiError && ![401, 403].includes(e.status)
+    if (!apiError || isSupportedDistribution(info.distribution)) throw e
+    return { status: '', health: null }
   }
 }
 
-export const checkHealth = async (cluster: ElasticsearchCluster) => {
+export const checkHealth = async (
+  cluster: ElasticsearchCluster,
+  { adapter: sharedAdapter, timeoutMs = HEALTH_TIMEOUT_MS }: { adapter?: ElasticsearchAdapter; timeoutMs?: number } = {}
+) => {
+  if (needsCredentials(cluster)) return { health: null, error: null }
+
   cluster.loading = true
-  const adapter = new ElasticsearchAdapter(cluster)
+  const adapter = sharedAdapter ?? new ElasticsearchAdapter(withSessionCredentials(cluster))
+  const options = { signal: AbortSignal.timeout(timeoutMs) }
+  let health: any = null
+  let error: ClusterFailure | null = null
+  let authenticated = false
 
   try {
-    const pingResponse: any = await adapter.ping()
-    const pingBody = await pingResponse.json()
-    const flavor = pingBody.version.build_flavor || BuildFlavor.default
+    const pingBody = await adapter.ping(options)
+    authenticated = true
+    const info = parseClusterInfo(pingBody)
+    const result = await fetchClusterStatus(adapter, info, options)
+    health = result.health
+    const status = result.status
 
-    let status
-    if (flavor === BuildFlavor.serverless) {
-      status = 'green'
-    } else {
-      const clusterHealthResponse: any = await adapter.clusterHealth()
-      const clusterHealthBody = await clusterHealthResponse.json()
-      status = clusterHealthBody.status
-    }
-
-    cluster.status = status
-
-    const version = pingBody.version.number
-
-    cluster.clusterName = pingBody.cluster_name
-    cluster.distribution = pingBody.version.distribution || DISTRIBUTIONS.elasticsearch
-    cluster.version = version
-    cluster.majorVersion = version[0]
-    cluster.flavor = flavor
-    if (!cluster.uuid || cluster.uuid.length === 0) cluster.uuid = clusterUuid(pingBody)
-  } catch (_e) {
+    Object.assign(cluster, info, { status })
+  } catch (e) {
     cluster.status = 'unknown'
+    error = await describeFailure(e, cluster.uri)
+    if (!authenticated && e instanceof EsApiError && [401, 403].includes(e.status) && sessionSecrets(cluster.auth)) {
+      useSessionCredentials().remove(cluster.id)
+    }
   }
   cluster.loading = false
-}
-
-export const checkClusterHealth = async (credentials: ElasticsearchClusterConnection): Promise<string> => {
-  const adapter = new ElasticsearchAdapter(credentials)
-
-  try {
-    const clusterHealthResponse: any = await adapter.clusterHealth()
-    const clusterHealthBody = await clusterHealthResponse.json()
-    return clusterHealthBody.status
-  } catch (_e) {
-    return 'unknown'
-  }
+  return { health, error }
 }

@@ -12,6 +12,7 @@ export default defineConfigWithVueTs(
   {
     rules: {
       'semi': ['error', 'never'],
+      'no-nested-ternary': 'error',
       'vue/max-attributes-per-line': 'off',
       'vue/first-attribute-linebreak': 'off',
       'vue/html-closing-bracket-newline': 'off',
@@ -38,9 +39,9 @@ export default defineConfigWithVueTs(
         'extensions': ['.js', '.vue', '.ts'],
         'enableFix': true
       }],
-      quotes: ['error', 'single'],
+      quotes: ['error', 'single', { avoidEscape: true }],
     },
-    files: ['src/**/*.{js,vue,ts,json}', 'tests/**/*.ts}'],
+    files: ['src/**/*.{js,vue,ts,json}', 'tests/**/*.ts'],
     settings: {
       'vue-i18n': {
         localeDir: {
