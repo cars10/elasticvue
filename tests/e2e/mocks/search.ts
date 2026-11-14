@@ -327,7 +327,6 @@ export const mockSearchCluster = async (page: Page, { version = 8 }: { version?:
         json: { error: { type: 'search_phase_execution_exception', reason: 'Failed to parse query [title:(]' }, status: 400 }
       })
     }
-    if (target === 'slow') await new Promise((resolve) => setTimeout(resolve, 1500))
     const indices = expandTargets(url.pathname.split('/')[1])
     const docs = searchDocs(indices, body)
     const from = body.from ?? 0

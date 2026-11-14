@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test'
+import { test, expect } from '../../fixtures'
 import {
   CLUSTER_UUID,
   chips,
@@ -9,6 +9,7 @@ import {
   rows,
   setTargets,
   setupSearch as setup,
+  sortKeys,
   targetsInput,
   toggleColumn
 } from '../../helpers/search'
@@ -40,12 +41,14 @@ test.describe('Search', () => {
     await setup(page)
     await openSearch(page)
 
-    let delayed = false
+    let release!: () => void
+    const released = new Promise<void>((resolve) => (release = resolve))
+    let held = false
     await page.route(/localhost:9200\/.*_search/, async (route) => {
       const body = route.request().postDataJSON()
-      if (!delayed && body?.query?.bool) {
-        delayed = true
-        await new Promise((resolve) => setTimeout(resolve, 3000))
+      if (!held && body?.query?.bool) {
+        held = true
+        await released
       }
       await route.fallback().catch(() => {})
     })
@@ -57,6 +60,7 @@ test.describe('Search', () => {
     await page.getByTestId('search-submit').click()
 
     expect((await aborted).failure()?.errorText).toContain('ABORTED')
+    release()
     await expect(rows(page)).toHaveCount(10)
   })
 
@@ -87,7 +91,7 @@ test.describe('Search', () => {
     await expect(page.getByTestId('search-targets-matched')).toContainText('2 indices')
     await expect(page.getByTestId('search-total')).toHaveText('27 hits')
     expect(lastSearch(requests).path).toBe('/food,mov*/_search')
-    expect(page.url()).toContain('index=food,mov*')
+    await expect(page).toHaveURL(/index=food,mov\*/)
   })
 
   test('clears the typed text after picking an index with the keyboard', async ({ page }) => {
@@ -201,9 +205,12 @@ test.describe('Search', () => {
       .toEqual([{ 'title.keyword': { order: 'asc', unmapped_type: 'keyword' } }])
     await expect(rows(page).first()).toContainText('Alien')
 
-    await expect(headers(page).filter({ hasText: 'rating' })).not.toHaveClass(/sortable/)
-    await expect(headers(page).filter({ hasText: /^_id/ })).not.toHaveClass(/sortable/)
-    await expect(headers(page).filter({ hasText: /^_index/ })).toHaveClass(/sortable/)
+    await headers(page).filter({ hasText: 'rating' }).click()
+    await headers(page).filter({ hasText: /^_id/ }).click()
+    await headers(page).filter({ hasText: /^_index/ }).click()
+    await expect.poll(() => lastSearch(requests).body.sort?.flatMap((entry) => Object.keys(entry))).toEqual(['_index'])
+    expect(sortKeys(requests)).not.toContain('rating')
+    expect(sortKeys(requests)).not.toContain('_id')
   })
 
   test('runs lucene queries, resets with escape and paginates remotely', async ({ page }) => {
@@ -213,8 +220,10 @@ test.describe('Search', () => {
     await queryInput(page).fill('title:Alien')
     await queryInput(page).press('Enter')
     await expect(rows(page)).toHaveCount(1)
-    expect(lastSearch(requests).body.query).toEqual({ bool: { must: [{ query_string: { query: 'title:Alien' } }] } })
-    expect(page.url()).toContain('q=title:Alien')
+    await expect
+      .poll(() => lastSearch(requests).body.query)
+      .toEqual({ bool: { must: [{ query_string: { query: 'title:Alien' } }] } })
+    await expect(page).toHaveURL(/q=title:Alien/)
 
     await queryInput(page).press('Escape')
     await expect(queryInput(page)).toHaveValue('*')
@@ -238,7 +247,7 @@ test.describe('Search', () => {
     await expect(page.getByTestId('search-count-exactly')).toHaveCount(0)
   })
 
-  test('edits the request in DSL mode, paginates inside the JSON and returns to query mode', async ({ page }) => {
+  test('edits the request in DSL mode, paginates inside the JSON and returns to query mode', { tag: '@cross-browser' }, async ({ page }) => {
     const requests = await setup(page)
     await openSearch(page)
     await queryInput(page).fill('title:Alien')
@@ -312,7 +321,7 @@ test.describe('Search', () => {
 
     await page.getByTestId('search-open-rest').click()
     await expect(page.getByTestId('rest-tab')).toHaveText([/Tab 1/, /Tab 2/, /Tab 3/])
-    await expect(page.getByTestId('rest-tab').nth(2)).toHaveClass(/q-tab--active/)
+    await expect(page.getByTestId('rest-tab').nth(2)).toHaveAttribute('aria-selected', 'true')
     await expect(page.getByTestId('rest-path')).toHaveValue('*/_search')
   })
 
@@ -328,7 +337,7 @@ test.describe('Search', () => {
     expect(text).toContain('"match_all"')
   })
 
-  test('edits and deletes single documents', async ({ page }) => {
+  test('shows and deletes single documents', async ({ page }) => {
     const requests = await setup(page)
     await openSearch(page)
 
@@ -412,7 +421,8 @@ test.describe('Search on elasticsearch 2', () => {
 
     await headers(page).filter({ hasText: 'title' }).click()
     await expect.poll(() => lastSearch(requests).body.sort).toEqual([{ 'title.raw': { order: 'asc', unmapped_type: 'string' } }])
-    await expect(headers(page).filter({ hasText: /^_id/ })).toHaveClass(/sortable/)
+    await headers(page).filter({ hasText: /^_id/ }).click()
+    await expect.poll(() => lastSearch(requests).body.sort?.flatMap((entry) => Object.keys(entry))).toEqual(['_id'])
 
     expect(requests.some((r) => r.path.includes('_field_caps'))).toBe(false)
     expect(requests.some((r) => r.path.includes('_resolve'))).toBe(false)

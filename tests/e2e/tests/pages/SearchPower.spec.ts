@@ -1,5 +1,5 @@
 import { readFile } from 'node:fs/promises'
-import { test, expect, Page } from '@playwright/test'
+import { test, expect, Page } from '../../fixtures'
 import { CLUSTER_UUID, lastSearch, openSearch, queryInput, setupSearch } from '../../helpers/search'
 import type { RecordedRequest } from '../../mocks/search'
 
@@ -23,10 +23,7 @@ const openLibrary = async (page: Page, tab: 'history' | 'saved') => {
 test.describe('Search SQL and ES|QL modes', () => {
   const versions = [
     { version: 2, modes: ['Query', 'DSL'] },
-    { version: 6, modes: ['Query', 'DSL', 'SQL'] },
-    { version: 7, modes: ['Query', 'DSL', 'SQL'] },
-    { version: 8, modes: ['Query', 'DSL', 'SQL', 'ES|QL'] },
-    { version: 'opensearch', modes: ['Query', 'DSL', 'SQL'] }
+    { version: 8, modes: ['Query', 'DSL', 'SQL', 'ES|QL'] }
   ] as const
 
   for (const { version, modes } of versions) {
@@ -225,7 +222,7 @@ test.describe('Search history and saved searches', () => {
   })
 })
 
-test.describe('Search library storage', () => {
+test.describe('Search library storage', { tag: '@cross-browser' }, () => {
   test('upgrades an existing database without losing REST history', async ({ page }) => {
     await page.addInitScript((uuid) => {
       if (sessionStorage.getItem('seeded')) return

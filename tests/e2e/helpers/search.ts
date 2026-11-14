@@ -1,4 +1,4 @@
-import { expect, Page } from '@playwright/test'
+import { expect, Page, Request } from '@playwright/test'
 import { setupClusterConnection } from '../helpers'
 import { mockElastic2 } from '../mocks/elastic_2'
 import { mockElastic6 } from '../mocks/elastic_6'
@@ -16,7 +16,6 @@ export const setupSearch = async (page: Page, { version = 8 }: { version?: keyof
   await CLUSTER_MOCKS[version](page)
   const requests = await mockSearchCluster(page, { version: version === 'opensearch' ? 7 : version })
   await setupClusterConnection(page)
-  await page.waitForResponse((response) => response.url().startsWith('http://localhost:9200') && response.ok())
   return requests
 }
 
@@ -53,6 +52,36 @@ export const cell = (page: Page, rowText: string, column: string) =>
     },
     { rowText, column }
   )
+
+export const expectCell = (page: Page, rowText: string, column: string) => expect.poll(() => cell(page, rowText, column))
+
+export const holdSearches = async (page: Page, target: string) => {
+  let release!: () => void
+  const released = new Promise<void>((resolve) => (release = resolve))
+  await page.route(new RegExp(`localhost:9200/${target}/_search`), async (route) => {
+    await released
+    await route.fallback().catch(() => {})
+  })
+  return release
+}
+
+export const searchSettled = (page: Page, target: string) => {
+  const matches = (request: Request) => request.url().includes(`/${target}/_search`)
+  const finished = page.waitForEvent('requestfinished', matches)
+  const failed = page.waitForEvent('requestfailed', matches)
+  finished.catch(() => {})
+  failed.catch(() => {})
+  return Promise.race([finished, failed])
+}
+
+export const waitForField = async (page: Page, name: string) => {
+  await page.getByTestId('search-columns').click()
+  await expect(page.getByTestId('search-column-option').filter({ has: page.getByText(name, { exact: true }) })).toHaveCount(1)
+  await page.keyboard.press('Escape')
+}
+
+export const sortKeys = (requests: RecordedRequest[]) =>
+  searches(requests).flatMap((r) => (r.body.sort ?? []).flatMap((entry) => Object.keys(entry)))
 
 export const setTargets = async (page: Page, targets: string[]) => {
   while ((await chips(page).count()) > 0) await chips(page).first().locator('.q-chip__icon--remove').click()

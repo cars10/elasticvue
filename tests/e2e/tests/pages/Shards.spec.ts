@@ -1,4 +1,4 @@
-import { expect, Page, test } from '@playwright/test'
+import { expect, Page, test } from '../../fixtures'
 import { setupClusterConnection } from '../../helpers.ts'
 import { mockElastic8 } from '../../mocks/elastic_8/index.ts'
 

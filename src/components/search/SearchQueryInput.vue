@@ -29,11 +29,13 @@
       self="top left"
       max-height="320px"
     >
-      <q-list dense data-testid="search-query-suggestions">
+      <q-list dense role="listbox" data-testid="search-query-suggestions">
         <q-item
           v-for="(suggestion, index) in suggestions"
           :key="`${suggestion.kind}-${suggestion.label}`"
           clickable
+          role="option"
+          :aria-selected="index === active"
           :active="index === active"
           active-class="bg-dark-grey"
           data-testid="search-query-suggestion"

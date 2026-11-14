@@ -1,4 +1,4 @@
-import { test, expect, Page } from '@playwright/test'
+import { test, expect, Page } from '../../fixtures'
 import { setupClusterConnection } from '../../helpers'
 import { mockElastic8 } from '../../mocks/elastic_8'
 
@@ -22,8 +22,31 @@ const setup = async (page: Page) => {
   await mockElastic8(page)
   await mockRestEndpoints(page)
   await setupClusterConnection(page)
-  await page.waitForResponse((response) => response.url().startsWith(ES) && response.ok())
 }
+
+type StoredTabs = { tabs: { label: string; path: string }[]; responses: string[] }
+
+const storedTabs = (page: Page) =>
+  page.evaluate(
+    (name) =>
+      new Promise<StoredTabs>((resolve) => {
+        const open = indexedDB.open(name)
+        open.onsuccess = () => {
+          const db = open.result
+          const tx = db.transaction(['restQueryTabs', 'restQueryResponses'])
+          const tabs = tx.objectStore('restQueryTabs').getAll()
+          const responses = tx.objectStore('restQueryResponses').getAll()
+          tx.oncomplete = () => {
+            resolve({
+              tabs: tabs.result.map((tab) => ({ label: tab.label, path: tab.request.path })),
+              responses: responses.result.map((response) => response.bodyText)
+            })
+            db.close()
+          }
+        }
+      }),
+    `elasticvue-${CLUSTER_ID}`
+  )
 
 const openRest = async (page: Page) => {
   await page.locator('#rest').click()
@@ -47,13 +70,16 @@ const typeBody = async (page: Page, body: string) => {
   await requestBody(page).click()
   await page.keyboard.press('ControlOrMeta+a')
   await page.keyboard.insertText(body)
+  await expect(requestBody(page)).toHaveText(body)
 }
 
 const send = async (page: Page, httpMethod: string, path: string, body?: string) => {
   await selectMethod(page, httpMethod)
   await pathInput(page).fill(path)
   if (body !== undefined) await typeBody(page, body)
-  await pathInput(page).press('Enter')
+  const response = page.waitForResponse((r) => r.url().startsWith(`${ES}/${path}`))
+  await page.locator('#send_request').click()
+  await response
   await expect(status(page)).toBeVisible()
 }
 
@@ -68,7 +94,7 @@ const openLibrary = async (page: Page, tab: 'history' | 'saved' | 'examples') =>
   await page.getByTestId(`rest-library-${tab}`).click()
 }
 
-test.describe('REST', () => {
+test.describe('REST', { tag: '@cross-browser' }, () => {
   test('sends a GET request and shows status, timing, size and body', async ({ page }) => {
     await setup(page)
     await openRest(page)
@@ -124,7 +150,7 @@ test.describe('REST', () => {
     await openRest(page)
     await send(page, 'GET', 'rest_e2e/_count')
     await send(page, 'POST', 'rest_e2e/_search', '{"size": 1}')
-    await send(page, 'POST', 'rest_e2e/_search', '{"size": 1}')
+    await send(page, 'POST', 'rest_e2e/_search')
 
     await openLibrary(page, 'history')
     await expect(libraryItems(page)).toHaveCount(2)
@@ -166,7 +192,6 @@ test.describe('REST', () => {
     await expect(page.getByTestId('rest-name-input')).toHaveValue('GET rest_e2e/_count')
     await enterName(page, 'Count docs')
     await expect(page.getByTestId('rest-name-input')).toBeHidden()
-    await expect(page.getByTestId('rest-save')).toHaveText('bookmark')
 
     await openLibrary(page, 'saved')
     await expect(libraryItems(page)).toHaveCount(1)
@@ -213,7 +238,7 @@ test.describe('REST', () => {
     await send(page, 'GET', 'rest_e2e/_count')
 
     await page.getByTestId('rest-tab-add').click()
-    await expect(tabs(page).nth(1)).toHaveClass(/q-tab--active/)
+    await expect(tabs(page).nth(1)).toHaveAttribute('aria-selected', 'true')
     await pathInput(page).pressSequentially('"size"')
     const suggestions = page.locator('.q-menu .q-item')
     await expect(suggestions).toHaveCount(1)
@@ -242,7 +267,15 @@ test.describe('REST', () => {
     await enterName(page, 'Second')
     await expect(tabs(page).nth(1)).toContainText('Second')
     await send(page, 'GET', 'rest_e2e/_count')
-    await page.waitForTimeout(500)
+    await expect
+      .poll(() => storedTabs(page))
+      .toEqual({
+        tabs: [
+          { label: expect.anything(), path: 'rest_e2e/_search' },
+          { label: 'Second', path: 'rest_e2e/_count' }
+        ],
+        responses: [expect.stringContaining('echo'), expect.stringContaining('42')]
+      })
 
     await page.reload()
     await openRest(page)

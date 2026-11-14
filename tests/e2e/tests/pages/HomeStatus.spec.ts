@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test'
+import { test, expect } from '../../fixtures'
 import { setupClusterConnection } from '../../helpers'
 import { withElastic } from '../../mocks'
 import { mockElastic8 } from '../../mocks/elastic_8'
@@ -40,7 +40,7 @@ test.describe('HomeStatus', () => {
     expect(indexRequests.some((url) => new URL(url).searchParams.has('s'))).toBe(false)
   })
 
-  withElastic(({ mockElastic, elastic }) => {
+  withElastic([1, 5, 8, 'opensearch-3'], ({ mockElastic, elastic }) => {
     test(`shows the cluster overview on ${elastic.version}`, async ({ page }) => {
       await mockElastic(page)
       await setupClusterConnection(page)

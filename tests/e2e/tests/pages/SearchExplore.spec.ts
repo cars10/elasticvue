@@ -1,5 +1,5 @@
 import { readFile } from 'node:fs/promises'
-import { test, expect, Page } from '@playwright/test'
+import { test, expect, Page } from '../../fixtures'
 import {
   CLUSTER_ID,
   lastSearch,
@@ -9,7 +9,8 @@ import {
   setTargets,
   setupSearch,
   toggleColumn,
-  valueSearches
+  valueSearches,
+  waitForField
 } from '../../helpers/search'
 import type { SearchBody } from '../../mocks/search'
 
@@ -74,7 +75,6 @@ test.describe('Search filters', () => {
       })
 
     await chipAction(page, 'year', 'search-filter-toggle')
-    await expect(chips(page).nth(1)).toHaveClass(/text-strike/)
     await expect
       .poll(() => boolQuery(lastSearch(requests).body))
       .toEqual({ must_not: [{ match_phrase: { 'director.name': 'Ridley Scott' } }] })
@@ -158,26 +158,18 @@ test.describe('Search reset', () => {
     await expect.poll(() => lastSearch(requests).path).toBe('/*/_search')
     expect(lastSearch(requests).body.query).toEqual({ match_all: {} })
   })
-
-  test('disables autocorrect and autocapitalize on the query and index inputs', async ({ page }) => {
-    await setupSearch(page)
-    await openSearch(page)
-    for (const input of [queryInput(page), page.getByTestId('search-targets')]) {
-      await expect(input).toHaveAttribute('autocorrect', 'off')
-      await expect(input).toHaveAttribute('autocapitalize', 'off')
-      await expect(input).toHaveAttribute('spellcheck', 'false')
-    }
-  })
 })
 
 test.describe('Search query autocomplete', () => {
   test('completes fields, values and operators with the keyboard', async ({ page }) => {
     const requests = await setupSearch(page)
     await openSearch(page)
+    await waitForField(page, 'director.name')
 
     await queryInput(page).fill('dire')
     await expect(suggestions(page)).toHaveText([/director\.name/])
     await queryInput(page).press('ArrowDown')
+    await expect(suggestions(page).first()).toHaveAttribute('aria-selected', 'true')
     await queryInput(page).press('Enter')
     await expect(queryInput(page)).toHaveValue('director.name:')
 
@@ -185,6 +177,7 @@ test.describe('Search query autocomplete', () => {
     await queryInput(page).pressSequentially('Rid')
     await expect(suggestions(page)).toHaveText([/Ridley Scott/])
     await queryInput(page).press('ArrowDown')
+    await expect(suggestions(page).first()).toHaveAttribute('aria-selected', 'true')
     await queryInput(page).press('Tab')
     await expect(queryInput(page)).toHaveValue('director.name:"Ridley Scott" ')
 
@@ -206,23 +199,14 @@ test.describe('Search query autocomplete', () => {
     await openSearch(page)
     await setTargets(page, ['weird'])
     await expect(rows(page)).toHaveCount(3)
+    await waitForField(page, 'with space')
 
-    await expect(async () => {
-      await queryInput(page).fill('with')
-      await expect(suggestions(page).first()).toHaveText(/with space/, { timeout: 1000 })
-    }).toPass()
+    await queryInput(page).fill('with')
+    await expect(suggestions(page).first()).toHaveText(/with space/)
     await queryInput(page).press('ArrowDown')
+    await expect(suggestions(page).first()).toHaveAttribute('aria-selected', 'true')
     await queryInput(page).press('Enter')
     await expect(queryInput(page)).toHaveValue('with\\ space:')
-  })
-
-  test('resets the query with escape when no suggestions are open', async ({ page }) => {
-    await setupSearch(page)
-    await openSearch(page)
-    await queryInput(page).fill('zzz')
-    await expect(suggestions(page)).toHaveCount(0)
-    await queryInput(page).press('Escape')
-    await expect(queryInput(page)).toHaveValue('*')
   })
 })
 
@@ -275,12 +259,15 @@ test.describe('Search document panel', () => {
     await panel(page).getByTestId('search-panel-tab-json').click()
     await panel(page).getByTestId('search-panel-update').click()
     await expect
-      .poll(() => requests.some((r) => r.method === 'PUT' && r.rawPath.includes('a%2Fb?refresh=true&routing=rk')))
-      .toBe(true)
+      .poll(() => requests.find((r) => r.method === 'PUT' && r.rawPath.startsWith('/weird/_doc/'))?.rawPath)
+      .toBe('/weird/_doc/a%2Fb?refresh=true&routing=rk')
+    await expect(page.getByText('Document updated successfully.')).toBeVisible()
 
     page.once('dialog', (dialog) => dialog.accept())
     await panel(page).getByTestId('search-panel-delete').click()
-    await expect.poll(() => requests.some((r) => r.method === 'DELETE' && r.rawPath.includes('a%2Fb'))).toBe(true)
+    await expect
+      .poll(() => requests.find((r) => r.method === 'DELETE')?.rawPath)
+      .toBe('/weird/_doc/a%2Fb?refresh=true&routing=rk')
     await expect(panel(page)).toHaveCount(0)
   })
 

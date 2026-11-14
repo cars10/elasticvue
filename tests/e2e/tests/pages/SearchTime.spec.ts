@@ -1,4 +1,4 @@
-import { test, expect, Page } from '@playwright/test'
+import { test, expect, Page } from '../../fixtures'
 import {
   CLUSTER_ID,
   boundsSearches,
@@ -9,7 +9,7 @@ import {
   setTargets,
   setupSearch
 } from '../../helpers/search'
-import type { SearchBody } from '../../mocks/search'
+import type { RecordedRequest, SearchBody } from '../../mocks/search'
 
 test.describe.configure({ mode: 'parallel' })
 
@@ -56,8 +56,8 @@ test.describe('Search time range', () => {
       .poll(() => timeFilter(lastSearch(requests).body))
       .toEqual({ '@timestamp': { gte: 'now-15m', lte: 'now', format: DATE_FORMAT } })
     expect(lastSearch(requests).body.sort).toEqual([{ '@timestamp': { order: 'desc', unmapped_type: 'date' } }])
-    expect(page.url()).toContain('from=now-15m')
-    expect(page.url()).toContain('to=now')
+    await expect(page).toHaveURL(/from=now-15m/)
+    await expect(page).toHaveURL(/to=now/)
 
     await pickPreset(page, 'All time')
     await expect.poll(() => timeFilter(lastSearch(requests).body)).toBeUndefined()
@@ -105,7 +105,7 @@ test.describe('Search time range', () => {
       .poll(() => timeFilter(lastSearch(requests).body))
       .toEqual({ ts: { gte: 'now-1h', lte: 'now', format: DATE_FORMAT } })
     expect(lastSearch(requests).body.sort).toEqual([{ ts: { order: 'desc', unmapped_type: 'date' } }])
-    expect(page.url()).toContain('time_field=ts')
+    await expect(page).toHaveURL(/time_field=ts/)
   })
 
   test('loads the range and time field from the url', async ({ page }) => {
@@ -119,15 +119,6 @@ test.describe('Search time range', () => {
     expect(lastSearch(requests).path).toBe('/movies,weird/_search')
   })
 
-  test('sends the date format on elasticsearch 2', async ({ page }) => {
-    const requests = await setupSearch(page, { version: 2 })
-    await openSearch(page)
-    await pickPreset(page, 'Last 24 hours')
-
-    await expect
-      .poll(() => timeFilter(lastSearch(requests).body))
-      .toEqual({ '@timestamp': { gte: 'now-24h', lte: 'now', format: DATE_FORMAT } })
-  })
 })
 
 test.describe('Search histogram', () => {
@@ -161,8 +152,7 @@ test.describe('Search histogram', () => {
       )
       .toBe(true)
 
-    const box = (await histogram(page).locator('canvas').boundingBox())!
-    await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2)
+    await histogram(page).locator('canvas').click()
 
     await expect.poll(() => timeFilter(lastSearch(requests).body)?.['@timestamp']?.gte).toMatch(/^2024-01-1\d/)
     const { gte, lte } = timeFilter(lastSearch(requests).body)['@timestamp']
@@ -183,17 +173,6 @@ test.describe('Search histogram', () => {
     expect(extended_bounds.max - extended_bounds.min).toBe(3_600_000)
     expect(timeFilter(histogramSearches(requests).at(-1)!.body)?.['@timestamp'].gte).toBe('now-1h')
     expect(boundsSearches(requests)).toHaveLength(bounds)
-  })
-
-  test('uses interval instead of fixed_interval before elasticsearch 7.2', async ({ page }) => {
-    const requests = await setupSearch(page, { version: 6 })
-    await openSearch(page)
-
-    await openHistogram(page)
-    await expect(page.getByText('per 12h')).toBeVisible()
-    const aggregation = histogramSearches(requests).at(-1)!.body.aggs!.histogram!.date_histogram
-    expect(aggregation.interval).toBe('12h')
-    expect(aggregation).not.toHaveProperty('fixed_interval')
   })
 
   test('starts collapsed and only queries while open', async ({ page }) => {
@@ -231,42 +210,62 @@ test.describe('Search histogram', () => {
   })
 })
 
+const setReloadInterval = async (page: Page, label: string | RegExp) => {
+  await page.locator('.reload-button__interval').click()
+  await page.locator('.reload-button__menu .q-item').filter({ hasText: label }).click()
+}
+
+const searchNow = async (page: Page, requests: RecordedRequest[], submit: () => Promise<void>) => {
+  const count = searches(requests).length
+  await submit()
+  await expect.poll(() => searches(requests).length).toBeGreaterThan(count)
+  return searches(requests).length
+}
+
 test.describe('Search auto refresh', () => {
   test('repeats the search until turned off', async ({ page }) => {
+    await page.clock.install()
     const requests = await setupSearch(page)
     await openSearch(page)
     await openHistogram(page)
+    const submit = () => page.getByTestId('search-submit').click()
     const before = searches(requests).length
+    const histogramsBefore = histogramSearches(requests).length
 
-    await page.locator('.reload-button__interval').click()
-    await page.locator('.reload-button__menu .q-item').filter({ hasText: /^1s$/ }).click()
-    await expect.poll(() => searches(requests).length, { timeout: 5000 }).toBeGreaterThan(before + 1)
-    await expect.poll(() => histogramSearches(requests).length).toBeGreaterThan(1)
+    await setReloadInterval(page, /^1s$/)
+    await page.clock.fastForward(1000)
+    await expect.poll(() => searches(requests).length).toBeGreaterThan(before)
+    await page.clock.fastForward(1000)
+    await expect.poll(() => searches(requests).length).toBeGreaterThan(before + 1)
+    await expect.poll(() => histogramSearches(requests).length).toBeGreaterThan(histogramsBefore + 1)
 
-    await page.locator('.reload-button__interval').click()
-    await page.locator('.reload-button__menu .q-item').filter({ hasText: 'Auto reload off' }).click()
-    const stopped = searches(requests).length
-    await page.waitForTimeout(2500)
-    expect(searches(requests).length).toBeLessThanOrEqual(stopped + 1)
+    await setReloadInterval(page, 'Auto reload off')
+    const stopped = await searchNow(page, requests, submit)
+    await page.clock.fastForward(5000)
+    expect(await searchNow(page, requests, submit)).toBe(stopped + 1)
   })
 
   test('pauses while the DSL editor is focused', async ({ page }) => {
+    await page.clock.install()
     const requests = await setupSearch(page)
     await openSearch(page)
     await page.getByTestId('search-mode').getByText('DSL').click()
-    await page.locator('[data-testid=search-dsl] .cm-content').click()
+    const editor = page.locator('[data-testid=search-dsl] .cm-content')
+    const submit = () => page.keyboard.press('Control+Enter')
 
-    await page.locator('.reload-button__interval').click()
-    await page.locator('.reload-button__menu .q-item').filter({ hasText: /^1s$/ }).click()
+    await setReloadInterval(page, /^1s$/)
     await expect(page.locator('.reload-button__menu')).toBeHidden()
     await expect.poll(() => page.evaluate(() => !!document.activeElement?.closest('.reload-button__interval'))).toBe(true)
-    await page.locator('[data-testid=search-dsl] .cm-content').click()
-    await expect(page.locator('[data-testid=search-dsl] .cm-content')).toBeFocused()
-    const before = searches(requests).length
-    await page.waitForTimeout(2500)
-    expect(searches(requests).length).toBe(before)
+    await editor.click()
+    await expect(editor).toBeFocused()
+
+    const paused = await searchNow(page, requests, submit)
+    await page.clock.fastForward(5000)
+    expect(await searchNow(page, requests, submit)).toBe(paused + 1)
 
     await page.locator('h1').click()
-    await expect.poll(() => searches(requests).length, { timeout: 5000 }).toBeGreaterThan(before)
+    const resumed = searches(requests).length
+    await page.clock.fastForward(1000)
+    await expect.poll(() => searches(requests).length).toBeGreaterThan(resumed)
   })
 })

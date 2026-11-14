@@ -1,4 +1,4 @@
-import { test, expect, Page } from '@playwright/test'
+import { test, expect, Page } from '../../fixtures'
 import { mockElastic8 } from '../../mocks/elastic_8'
 
 test.describe.configure({ mode: 'parallel' })
@@ -59,7 +59,7 @@ const credentialsInput = (page: Page, field: string) => page.getByTestId(`cluste
 const login = (page: Page) => page.getByTestId('cluster-credentials-submit').click()
 const clusterHome = (page: Page) => page.getByTestId('cluster-status')
 
-test.describe('credentials that are not saved', () => {
+test.describe('credentials that are not saved', { tag: '@cross-browser' }, () => {
   test('asks for the basic auth password once per session', async ({ page }) => {
     const seen = await mockSecuredElastic(page, (headers) => headers.authorization === basicHeader('admin', 'right'))
     await seedCluster(page, {
@@ -77,12 +77,14 @@ test.describe('credentials that are not saved', () => {
     await login(page)
     await expect(page.getByTestId('cluster-credentials-error')).toContainText('401')
 
+    const accepted = page.waitForRequest((request) => request.headers().authorization === basicHeader('admin', 'right'))
     await credentialsInput(page, 'password').fill('right')
-    await login(page)
+    await credentialsInput(page, 'password').press('Enter')
+    await accepted
     await expect(clusterHome(page)).toBeVisible()
 
     expect(await stored(page, 'localStorage', 'connection')).not.toContain('right')
-    expect(await stored(page, 'sessionStorage', 'sessionCredentials')).toContain('right')
+    await expect.poll(() => stored(page, 'sessionStorage', 'sessionCredentials')).toContain('right')
 
     await page.reload()
     await expect(clusterHome(page)).toBeVisible()
@@ -168,12 +170,10 @@ test.describe('credentials that are not saved', () => {
     await page.locator('#connect').click()
     await expect(clusterHome(page)).toBeVisible()
 
+    await expect
+      .poll(async () => JSON.parse(await stored(page, 'localStorage', 'connection')).clusters[0].auth)
+      .toEqual({ authType: 'basicAuth', authData: { username: 'elastic', password: '' }, secretStorage: 'session' })
     const connection = JSON.parse(await stored(page, 'localStorage', 'connection'))
-    expect(connection.clusters[0].auth).toEqual({
-      authType: 'basicAuth',
-      authData: { username: 'elastic', password: '' },
-      secretStorage: 'session'
-    })
 
     const secondTab = await context.newPage()
     await mockSecuredElastic(secondTab, (headers) => headers.authorization === basicHeader('elastic', 'secret-pw'))
@@ -193,6 +193,6 @@ test.describe('credentials that are not saved', () => {
     await page.locator('#connect').click()
     await expect(clusterHome(page)).toBeVisible()
 
-    expect(await stored(page, 'localStorage', 'connection')).toContain('saved-pw')
+    await expect.poll(() => stored(page, 'localStorage', 'connection')).toContain('saved-pw')
   })
 })

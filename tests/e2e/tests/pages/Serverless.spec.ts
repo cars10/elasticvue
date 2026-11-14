@@ -1,5 +1,5 @@
-import { test, expect, Page } from '@playwright/test'
-import { setupClusterConnection } from '../../helpers'
+import { test, expect, Page } from '../../fixtures'
+import { navigateTo, setupClusterConnection } from '../../helpers'
 import { catIndices } from '../../mocks/elastic_8/indices'
 import { buildSecurityRoles } from '../../mocks/default/users'
 
@@ -51,27 +51,15 @@ test.describe('Serverless', () => {
     expect(unavailablePaths).not.toContain('/_cluster/health')
   })
 
-  for (const path of ['nodes', 'shards', 'shards/recovery', 'tasks', 'tools', 'snapshot_repositories', 'users']) {
-    test(`redirects /${path} to home`, async ({ page }) => {
-      await connect(page)
-      await page.evaluate((target) => {
-        window.history.pushState({}, '', `/cluster/default-cluster/${target}`)
-        window.dispatchEvent(new PopStateEvent('popstate'))
-      }, path)
-
-      await expect(page).toHaveURL(/\/cluster\/default-cluster$/)
-      await expect(page.getByRole('link', { name: 'serverless mode' })).toBeVisible()
-    })
-  }
-
-  test('allows roles route', async ({ page }) => {
+  test('redirects unavailable pages to home and allows roles', async ({ page }) => {
     await connect(page)
-    await page.evaluate(() => {
-      window.history.pushState({}, '', '/cluster/default-cluster/roles')
-      window.dispatchEvent(new PopStateEvent('popstate'))
-    })
+    for (const path of ['nodes', 'shards', 'shards/recovery', 'tasks', 'tools', 'snapshot_repositories', 'users']) {
+      await navigateTo(page, '/cluster/default-cluster/roles')
+      await expect(page.getByTestId('roles-table')).toContainText('read_only')
 
-    await expect(page.getByTestId('roles-table')).toContainText('read_only')
+      await navigateTo(page, `/cluster/default-cluster/${path}`)
+      await expect(page).toHaveURL(/\/cluster\/default-cluster$/)
+    }
   })
 
   test('hides index actions that need unavailable apis', async ({ page }) => {

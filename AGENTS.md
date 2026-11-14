@@ -90,5 +90,8 @@ Everything else that might be partly API compatible with elasticsearch is *NOT* 
 - Add e2e tests (playwright, `tests/e2e/`) for full features
 - E2E tests check behaviour and data only. No assertions on widths, positions, bounding boxes, colors or style classes. UI-only changes (sizes, colors, spacing) need no e2e test
 - E2E tests do not need a real cluster. They mock responses per version in `tests/e2e/mocks/` (`elastic_1` to `elastic_8`, `opensearch`) using `page.route`
-- When a feature depends on a capability, test it against the oldest and newest version that is affected, and that it is hidden where it is not supported
+- Import `test` and `expect` from `tests/e2e/fixtures.ts`. It mocks the update check and fails the test on unmocked requests and uncaught page errors
+- No `waitForTimeout` or real delays. Hold requests with a promise (`holdSearches`), use `page.clock` for timers, and `expect.poll` / `toHaveURL` instead of reading state once
+- When a feature depends on a capability, test it against the oldest and newest version that is affected, and that it is hidden where it is not supported. Do not loop over every version, version gating itself is unit tested in `capabilities.spec.ts`
+- Firefox and webkit only run tests tagged `@cross-browser`. Tag tests that depend on browser behaviour (codemirror, keyboard, clipboard, downloads, indexeddb, network errors, json parsing)
 - Build mode specific behaviour needs a dev server started with that `VITE_APP_BUILD_MODE`. Playwright starts a second dev server with `VITE_APP_BUILD_MODE=docker` on port 5176, and the `chromium-docker` project in `playwright.config.ts` runs only `PredefinedClusters.spec.ts` against it

@@ -8,7 +8,7 @@ export const clusterDefaults = {
     json: { nodes: {} }
   },
   masterNode: {
-    url: /localhost:9200\/_cluster\/state\/master_node$/,
+    url: /localhost:9200\/_cluster\/state\/(master_node|cluster_manager_node)$/,
     json: { master_node: 'node-1' }
   },
   indexBlocks: {

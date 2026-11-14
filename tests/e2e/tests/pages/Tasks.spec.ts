@@ -1,5 +1,5 @@
-import { expect, Page, test } from '@playwright/test'
-import { setupClusterConnection } from '../../helpers.ts'
+import { expect, Page, test } from '../../fixtures'
+import { navigateTo, setupClusterConnection } from '../../helpers.ts'
 import { mockElastic1 } from '../../mocks/elastic_1/index.ts'
 import { mockElastic2 } from '../../mocks/elastic_2/index.ts'
 import { mockElastic8 } from '../../mocks/elastic_8/index.ts'
@@ -84,10 +84,7 @@ test.describe('Tasks', () => {
     await expect(page.locator('#nodes')).toBeVisible()
     await expect(page.locator('#tasks')).toHaveCount(0)
 
-    await page.evaluate(() => {
-      window.history.pushState({}, '', '/cluster/default-cluster/tasks')
-      window.dispatchEvent(new PopStateEvent('popstate'))
-    })
+    await navigateTo(page, '/cluster/default-cluster/tasks')
     await expect(page).toHaveURL(/\/cluster\/default-cluster$/)
   })
 })

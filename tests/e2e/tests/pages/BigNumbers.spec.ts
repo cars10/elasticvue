@@ -1,6 +1,6 @@
 import { readFile } from 'node:fs/promises'
-import { test, expect, Page, Route } from '@playwright/test'
-import { cell, headers, openSearch, rows, setupSearch } from '../../helpers/search'
+import { test, expect, Page, Route } from '../../fixtures'
+import { cell, expectCell, headers, openSearch, rows, setupSearch } from '../../helpers/search'
 
 test.describe.configure({ mode: 'parallel' })
 
@@ -76,15 +76,6 @@ const mockBigNumbers = async (page: Page) => {
   return requests
 }
 
-const pageErrors: string[] = []
-
-test.beforeEach(({ page }) => {
-  pageErrors.length = 0
-  page.on('pageerror', (error) => pageErrors.push(error.message))
-})
-
-test.afterEach(() => expect(pageErrors).toEqual([]))
-
 const setup = async (page: Page) => {
   await setupSearch(page)
   const requests = await mockBigNumbers(page)
@@ -98,16 +89,16 @@ const lastSearchRaw = (requests: Recorded[]) => requests.filter((r) => r.path.en
 const columnValues = (page: Page, column: string) => Promise.all(['b1', 'b2', 'b3'].map((id) => cell(page, id, column)))
 const rowIds = (page: Page) => rows(page).locator('td').filter({ hasText: /^b\d$/ }).allTextContents()
 
-test.describe('Big numbers', () => {
+test.describe('Big numbers', { tag: '@cross-browser' }, () => {
   test('shows big integers exactly in the table, the summary and the document panel', async ({ page }) => {
     await setup(page)
 
-    expect(await columnValues(page, 'id')).toEqual([BIG, UNSAFE, '10'])
-    expect(await columnValues(page, 'counter')).toEqual(['5', '9007199254740995', '-9007199254740993'])
-    expect(await columnValues(page, 'ratio')).toEqual(['83.33333333333334', '0.5', '1'])
-    expect(await cell(page, 'b1', 'nested.ids')).toBe(`[${ULONG_MAX},1]`)
-    expect(await cell(page, 'b1', 'constructor')).toBe(UNSAFE)
-    expect(await cell(page, 'b1', 'project_constructor')).toBe('x')
+    await expect.poll(() => columnValues(page, 'id')).toEqual([BIG, UNSAFE, '10'])
+    await expect.poll(() => columnValues(page, 'counter')).toEqual(['5', '9007199254740995', '-9007199254740993'])
+    await expect.poll(() => columnValues(page, 'ratio')).toEqual(['83.33333333333334', '0.5', '1'])
+    await expectCell(page, 'b1', 'nested.ids').toBe(`[${ULONG_MAX},1]`)
+    await expectCell(page, 'b1', 'constructor').toBe(UNSAFE)
+    await expectCell(page, 'b1', 'project_constructor').toBe('x')
     expect(await page.evaluate(() => ({}) as Record<string, unknown>)).not.toHaveProperty('polluted')
 
     await rows(page).filter({ hasText: 'b1' }).locator('td').nth(3).click()
@@ -132,7 +123,7 @@ test.describe('Big numbers', () => {
     await headers(page).filter({ hasText: /^id/ }).click()
     await expect.poll(() => JSON.parse(lastSearchRaw(requests)).sort).toEqual([{ id: { order: 'asc', unmapped_type: 'long' } }])
     await expect.poll(() => rowIds(page)).toEqual(['b3', 'b2', 'b1'])
-    expect(await columnValues(page, 'id')).toEqual([BIG, UNSAFE, '10'])
+    await expect.poll(() => columnValues(page, 'id')).toEqual([BIG, UNSAFE, '10'])
 
     await headers(page).filter({ hasText: /^id/ }).click()
     await expect.poll(() => rowIds(page)).toEqual(['b1', 'b2', 'b3'])
@@ -159,7 +150,7 @@ test.describe('Big numbers', () => {
     await page.keyboard.press('Control+Enter')
 
     await expect.poll(() => lastSearchRaw(requests)).toContain(`"terms":{"id":[${BIG},${ULONG_MAX}]}`)
-    expect(await columnValues(page, 'id')).toEqual([BIG, UNSAFE, '10'])
+    await expect.poll(() => columnValues(page, 'id')).toEqual([BIG, UNSAFE, '10'])
   })
 
   test('edits documents with big integers without losing precision', async ({ page }) => {

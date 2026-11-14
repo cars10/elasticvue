@@ -81,8 +81,8 @@ const mocks = {
   }
 }
 
-export const withElastic = (callback: (version: string) => void) => {
-  for (const major in mocks) {
-    callback(mocks[major])
-  }
+export type MockVersion = keyof typeof mocks
+
+export const withElastic = (versions: MockVersion[], callback: (mock: (typeof mocks)[MockVersion]) => void) => {
+  for (const version of versions) callback(mocks[version])
 }

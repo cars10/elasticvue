@@ -1,4 +1,4 @@
-import { test, expect, Page } from '@playwright/test'
+import { test, expect, Page } from '../fixtures'
 import { mockElastic8 } from '../mocks/elastic_8'
 
 test.describe.configure({ mode: 'parallel' })
@@ -109,19 +109,13 @@ test.describe('predefined clusters', () => {
     await mockElasticAt(page, 'http://localhost:9201', 'other-cluster-uuid')
     await page.goto('/cluster/0/rest')
 
-    const connection = await readConnection(page)
-    expect(connection.clusters).toHaveLength(3)
-    expect(connection.clusters[0].id).toBe('id-pre-a')
-    expect(connection.clusters[0].auth).toEqual({
-      authType: 'basicAuth',
-      authData: { username: 'elastic', password: 'secret' }
-    })
-    expect(connection.clusters[1].id).toBe('id-pre-b')
-    expect(connection.clusters[2]).toMatchObject({
-      id: 'id-manual cluster',
-      name: 'manual cluster',
-      predefined: false
-    })
+    await expect
+      .poll(async () => (await readConnection(page)).clusters)
+      .toMatchObject([
+        { id: 'id-pre-a', auth: { authType: 'basicAuth', authData: { username: 'elastic', password: 'secret' } } },
+        { id: 'id-pre-b' },
+        { id: 'id-manual cluster', name: 'manual cluster', predefined: false }
+      ])
 
     await expect(page.locator('#send_request')).toBeVisible()
     await expect(page.getByRole('heading', { name: 'REST' })).toBeVisible()
@@ -157,9 +151,7 @@ test.describe('predefined clusters', () => {
     await page.goto('/cluster/0/rest')
 
     await expect(page.locator('#send_request')).toBeVisible()
-
-    const connection = await readConnection(page)
-    expect(connection.clusters[0].version).not.toBe('')
+    await expect.poll(async () => (await readConnection(page)).clusters[0].version).toBe('8.15.0')
   })
 
   test('asks for the password of predefined clusters configured without one', async ({ page }) => {
@@ -178,8 +170,7 @@ test.describe('predefined clusters', () => {
     await page.getByTestId('cluster-credentials-submit').click()
     await expect(page.getByTestId('cluster-status')).toBeVisible()
 
-    const connection = await readConnection(page)
-    expect(connection.clusters[0].auth).toEqual({
+    await expect.poll(async () => (await readConnection(page)).clusters[0].auth).toEqual({
       authType: 'basicAuth',
       authData: { username: 'admin', password: '' },
       secretStorage: 'session'

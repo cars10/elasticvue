@@ -1,4 +1,4 @@
-import { test, expect, Page } from '@playwright/test'
+import { test, expect, Page } from '../../fixtures'
 import { setupClusterConnection } from '../../helpers'
 import { withElastic } from '../../mocks'
 import { mockElastic8 } from '../../mocks/elastic_8'
@@ -14,7 +14,7 @@ const setup = async (page: Page, mockElastic: (page: Page) => Promise<void>) => 
 }
 
 test.describe('Indices', () => {
-  withElastic(({ mockElastic, elastic }) => {
+  withElastic([1, 2, 7, 8], ({ mockElastic, elastic }) => {
     test(`shows a list of indices on ${elastic.version}`, async ({ page }) => {
       const table = await setup(page, mockElastic)
 

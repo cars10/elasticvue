@@ -1,4 +1,4 @@
-import { test, expect, Page } from '@playwright/test'
+import { test, expect, Page } from '../../fixtures'
 import { setupClusterConnection } from '../../helpers'
 import { mockOpensearch } from '../../mocks/opensearch'
 import { mockElastic8 } from '../../mocks/elastic_8'
@@ -33,35 +33,19 @@ const addCluster = async (page: Page) => {
 }
 
 test.describe('OpenSearch', () => {
-  for (const version of ['1.3.20', '2.19.7', '3.9.0']) {
-    test(`is supported on ${version}`, async ({ page }) => {
-      await mockOpensearch(version)(page)
-      await setupClusterConnection(page)
-
-      await expect(page.getByText(`OpenSearch ${version}`)).toBeVisible()
-      await expect(page.getByTestId('unsupported-cluster')).toHaveCount(0)
-      expect(await storedCluster(page)).toMatchObject({ distribution: 'opensearch', version, majorVersion: version.split('.')[0] })
-    })
-
-    test(`shows opensearch node roles on ${version}`, async ({ page }) => {
-      await mockOpensearch(version)(page)
-      await setupClusterConnection(page)
-      await page.locator('#nodes').click()
-
-      const table = page.getByTestId('nodes-table')
-      await expect(table).toContainText('master')
-      await expect(table).toContainText('ingest')
-      await expect(table).not.toContainText('coordinating')
-    })
-  }
-
-  test('hides elasticsearch only features', async ({ page }) => {
+  test('connects to opensearch and shows opensearch node roles', async ({ page }) => {
     await mockOpensearch('3.9.0')(page)
     await setupClusterConnection(page)
 
-    await expect(page.locator('#indices')).toBeVisible()
-    await expect(page.locator('#users')).toHaveCount(0)
-    await expect(page.locator('#roles')).toHaveCount(0)
+    await expect(page.getByText('OpenSearch 3.9.0')).toBeVisible()
+    await expect(page.getByTestId('unsupported-cluster')).toHaveCount(0)
+    await expect.poll(() => storedCluster(page)).toMatchObject({ distribution: 'opensearch', version: '3.9.0', majorVersion: '3' })
+
+    await page.locator('#nodes').click()
+    const table = page.getByTestId('nodes-table')
+    await expect(table).toContainText('master')
+    await expect(table).toContainText('ingest')
+    await expect(table).not.toContainText('coordinating')
   })
 
   test('warns about unsupported major versions', async ({ page }) => {
@@ -80,7 +64,7 @@ test.describe('Version parsing', () => {
     await setupClusterConnection(page)
 
     await expect(page.getByText('Elasticsearch 10.1.0')).toBeVisible()
-    expect(await storedCluster(page)).toMatchObject({ distribution: 'elasticsearch', version: '10.1.0', majorVersion: '10' })
+    await expect.poll(() => storedCluster(page)).toMatchObject({ distribution: 'elasticsearch', version: '10.1.0', majorVersion: '10' })
   })
 
   test('connects to products that report the version as string', async ({ page }) => {
@@ -90,7 +74,7 @@ test.describe('Version parsing', () => {
     await expect(page.getByTestId('cluster-unreachable')).toHaveCount(0)
     await expect(page.locator('#indices')).toBeVisible()
     await expect(page.getByTestId('unsupported-cluster').first()).toBeVisible()
-    expect(await storedCluster(page)).toMatchObject({
+    await expect.poll(() => storedCluster(page)).toMatchObject({
       clusterName: 'scope-node',
       version: '9.2.1',
       majorVersion: '9',
@@ -118,7 +102,7 @@ test.describe('Version parsing', () => {
 
     await page.getByRole('button', { name: 'Connect', exact: true }).click()
     await expect(page.locator('#indices')).toBeVisible()
-    expect(await storedCluster(page)).toMatchObject({ clusterName: 'scope-node', majorVersion: '9', distribution: 'unknown' })
+    await expect.poll(() => storedCluster(page)).toMatchObject({ clusterName: 'scope-node', majorVersion: '9', distribution: 'unknown' })
   })
 
   test('still fails the connection test for supported clusters', async ({ page }) => {

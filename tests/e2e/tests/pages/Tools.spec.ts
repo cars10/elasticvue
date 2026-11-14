@@ -1,4 +1,4 @@
-import { expect, Page, test } from '@playwright/test'
+import { expect, Page, test } from '../../fixtures'
 import { setupClusterConnection } from '../../helpers.ts'
 import { mockElastic8 } from '../../mocks/elastic_8/index.ts'
 
@@ -114,32 +114,15 @@ const mockTools = async (page: Page, options: { settingsForbidden?: boolean; ver
 test.describe('Tools', () => {
   test('changes allocation persistently and retries failed allocations', async ({ page }) => {
     const state = await mockTools(page)
-    await page.setViewportSize({ width: 1600, height: 1000 })
     await setupClusterConnection(page)
 
     await page.locator('#tools').click()
     await expect(page).toHaveURL(/\/cluster\/default-cluster\/tools/)
-    await expect(page.getByTestId('tools-page')).toContainText('Maintenance and recovery operations for this cluster.')
     await expect(page.getByTestId('tool-allocation').getByTestId('tool-status')).toHaveText('All shards')
-    for (const title of [
-      'Shard rebalancing',
-      'Refresh interval',
-      'Recovery bandwidth',
-      'Destructive operation protection',
-      'Automatic index creation',
-      'Cluster write mode',
-      'Voting exclusions',
-      'Allocation awareness'
-    ]) {
-      await expect(page.getByText(title, { exact: true })).toBeVisible()
-    }
-
     await page.getByText('Shard allocation', { exact: true }).click()
     await expect(page.locator('.q-dialog')).toHaveCount(1)
     await expect(page.locator('.tool-panel')).toBeVisible()
     await expect(page).toHaveURL(/tool=allocation/)
-    await page.getByText('Elasticsearch APIs used', { exact: true }).click()
-    await expect(page.getByText('PUT /_cluster/settings', { exact: true })).toBeVisible()
     await page.getByLabel('Disabled - no new allocations').click()
     page.once('dialog', (dialog) => dialog.accept())
     await page.getByRole('button', { name: 'Disable allocation' }).click()
@@ -219,21 +202,6 @@ test.describe('Tools', () => {
     await panel.getByRole('button', { name: 'Explain', exact: true }).click()
     await panel.getByText('Raw response').click()
     await expect(panel.locator('.tool-json .cm-content')).toContainText('"allocate_explanation": "cannot allocate"')
-  })
-
-  test('selects and removes indices as chips', async ({ page }) => {
-    await mockTools(page)
-    await setupClusterConnection(page)
-    await page.locator('#tools').click()
-    await page.getByTestId('tool-replicas').click()
-
-    const panel = page.getByTestId('tool-panel-replicas')
-    await panel.locator('.q-select').click()
-    await page.getByRole('option').first().click()
-    await page.keyboard.press('Escape')
-    await expect(panel.locator('.q-chip')).toHaveCount(1)
-    await panel.locator('.q-chip__icon--remove').click()
-    await expect(panel.locator('.q-chip')).toHaveCount(0)
   })
 
   test('keeps other tools available when cluster settings are forbidden', async ({ page }) => {

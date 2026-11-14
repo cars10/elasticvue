@@ -1,4 +1,4 @@
-import { test, expect, Page } from '@playwright/test'
+import { test, expect, Page } from '../../fixtures'
 import { setupClusterConnection } from '../../helpers'
 import { mockElastic8 } from '../../mocks/elastic_8'
 
@@ -13,7 +13,7 @@ const blockCors = (page: Page) =>
     route.request().headers().accept?.includes('application/json') ? route.abort('failed') : route.fulfill({ json: {} })
   )
 
-test.describe('unreachable cluster', () => {
+test.describe('unreachable cluster', { tag: '@cross-browser' }, () => {
   test('explains network errors and connects on retry', async ({ page }) => {
     await page.route(ES, (route) => route.abort('connectionrefused'))
     await setupClusterConnection(page)

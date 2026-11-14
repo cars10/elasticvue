@@ -1,4 +1,4 @@
-import { test, expect, Page } from '@playwright/test'
+import { test, expect, Page } from '../../fixtures'
 import { setupClusterConnection } from '../../helpers'
 import { mockElastic8 as mockElastic } from '../../mocks/elastic_8'
 

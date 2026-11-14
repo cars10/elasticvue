@@ -46,13 +46,15 @@ export default defineConfig({
     {
       name: 'firefox',
       use: { ...devices['Desktop Firefox'] },
-      testIgnore: '**/PredefinedClusters.spec.ts'
+      testIgnore: '**/PredefinedClusters.spec.ts',
+      grep: /@cross-browser/
     },
 
     {
       name: 'webkit',
       use: { ...devices['Desktop Safari'] },
-      testIgnore: '**/PredefinedClusters.spec.ts'
+      testIgnore: '**/PredefinedClusters.spec.ts',
+      grep: /@cross-browser/
     }
 
     /* Test against mobile viewports. */

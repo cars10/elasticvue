@@ -1,7 +1,11 @@
-import { test, expect } from '@playwright/test'
+import { test, expect } from '../../fixtures'
 import {
   cell,
   chips,
+  expectCell,
+  holdSearches,
+  searchSettled,
+  sortKeys,
   headers,
   lastSearch,
   nextPage,
@@ -23,17 +27,17 @@ test.describe('Search edge cases', () => {
     await setTargets(page, ['weird'])
 
     await expect(headers(page)).toContainText(['id.a', 'id.b', 'flat.key', 'with space', 'ümlaut', 'items', 'empty'])
-    expect(await cell(page, 'w1', 'id.a')).toBe('1')
-    expect(await cell(page, 'w1', 'id.b')).toBe('two')
-    expect(await cell(page, 'w1', 'flat.key')).toBe('dotted')
-    expect(await cell(page, 'w1', 'with space')).toBe('spaced')
-    expect(await cell(page, 'w1', 'ümlaut')).toBe('grün')
-    expect(await cell(page, 'w1', 'items')).toBe('[{"k":1},{"k":2}]')
-    expect(await cell(page, 'w1', 'empty')).toBe('{}')
-    expect(await cell(page, 'w1', 'nothing')).toBe('null')
-    expect(await cell(page, 'w1', 'flag')).toBe('false')
-    expect(await cell(page, 'w1', 'zero')).toBe('0')
-    expect(await cell(page, 'w1', 'tags')).toBe('["a, b","c"]')
+    await expectCell(page, 'w1', 'id.a').toBe('1')
+    await expectCell(page, 'w1', 'id.b').toBe('two')
+    await expectCell(page, 'w1', 'flat.key').toBe('dotted')
+    await expectCell(page, 'w1', 'with space').toBe('spaced')
+    await expectCell(page, 'w1', 'ümlaut').toBe('grün')
+    await expectCell(page, 'w1', 'items').toBe('[{"k":1},{"k":2}]')
+    await expectCell(page, 'w1', 'empty').toBe('{}')
+    await expectCell(page, 'w1', 'nothing').toBe('null')
+    await expectCell(page, 'w1', 'flag').toBe('false')
+    await expectCell(page, 'w1', 'zero').toBe('0')
+    await expectCell(page, 'w1', 'tags').toBe('["a, b","c"]')
   })
 
   test('truncates long values to the configured length', async ({ page }) => {
@@ -42,9 +46,8 @@ test.describe('Search edge cases', () => {
     await setTargets(page, ['weird'])
     await expect(page.getByTestId('search-result')).toHaveCount(3)
 
-    const value = await cell(page, 'w1', 'long')
-    expect(value!.length).toBeLessThanOrEqual(203)
-    expect(value!.startsWith('xxxx')).toBe(true)
+    await expectCell(page, 'w1', 'long').toMatch(/^x{4}/)
+    expect((await cell(page, 'w1', 'long'))!.length).toBeLessThanOrEqual(203)
   })
 
   test('formats date fields including epoch millis and can show raw values', async ({ page }) => {
@@ -53,16 +56,13 @@ test.describe('Search edge cases', () => {
     await setTargets(page, ['weird'])
     await toggleColumn(page, 'ts')
 
-    const localized = await cell(page, 'w1', 'ts')
-    expect(localized).not.toBe('1705312800000')
-    expect(localized).toMatch(/2024/)
-    expect(await cell(page, 'w1', 'zero')).toBe('0')
+    await expectCell(page, 'w1', 'ts').toMatch(/2024/)
+    await expectCell(page, 'w1', 'zero').toBe('0')
 
     await page.locator('#settings').click()
     await page.getByText('Format date fields in search results').click()
     await page.locator('#search').click()
-    await expect(rows(page).first()).toBeVisible()
-    expect(await cell(page, 'w1', 'ts')).toBe('1705312800000')
+    await expectCell(page, 'w1', 'ts').toBe('1705312800000')
   })
 
   test('shows hits that only have fields instead of _source', async ({ page }) => {
@@ -71,8 +71,8 @@ test.describe('Search edge cases', () => {
     await setTargets(page, ['weird'])
     await expect(page.getByTestId('search-result')).toHaveCount(3)
 
-    expect(await cell(page, 'f1', 'with space')).toBe('["from fields"]')
-    expect(await cell(page, 'f1', '_id')).toBe('f1')
+    await expectCell(page, 'f1', 'with space').toBe('["from fields"]')
+    await expectCell(page, 'f1', '_id').toBe('f1')
   })
 
   test('keeps mapped object fields and nested arrays as a single column', async ({ page }) => {
@@ -92,8 +92,8 @@ test.describe('Search edge cases', () => {
     await page.keyboard.press('Escape')
 
     await toggleColumn(page, 'attrs')
-    expect(await cell(page, 'a/b', 'attrs')).toBe('{"size":"L"}')
-    expect(await cell(page, 'a/b', 'items')).toBe('{"k":3}')
+    await expectCell(page, 'a/b', 'attrs').toBe('{"size":"L"}')
+    await expectCell(page, 'a/b', 'items').toBe('{"k":3}')
   })
 
   test('selects and sorts fields with spaces, dots and unicode in their names', async ({ page }) => {
@@ -101,6 +101,12 @@ test.describe('Search edge cases', () => {
     await openSearch(page)
     await setTargets(page, ['weird'])
 
+    await headers(page)
+      .filter({ hasText: /^items/ })
+      .click()
+    await headers(page)
+      .filter({ hasText: /^long/ })
+      .click()
     await headers(page)
       .filter({ hasText: /^with space/ })
       .click()
@@ -112,33 +118,8 @@ test.describe('Search edge cases', () => {
       .filter({ hasText: /^ümlaut/ })
       .click()
     await expect.poll(() => lastSearch(requests).body.sort).toEqual([{ ümlaut: { order: 'asc', unmapped_type: 'keyword' } }])
-
-    await expect(headers(page).filter({ hasText: /^items/ })).not.toHaveClass(/sortable/)
-    await expect(headers(page).filter({ hasText: /^long/ })).not.toHaveClass(/sortable/)
-  })
-
-  test('edits and deletes documents with routing and slashes in their id', async ({ page }) => {
-    const requests = await setupSearch(page)
-    await openSearch(page)
-    await setTargets(page, ['weird'])
-
-    const row = rows(page).filter({ hasText: 'a/b' })
-    await row.locator('td').nth(2).click()
-    await page.getByTestId('search-document-panel').getByTestId('search-panel-tab-json').click()
-    await page.getByTestId('search-document-panel').getByTestId('search-panel-update').click()
-    await expect
-      .poll(() => requests.find((r) => r.method === 'PUT' && r.rawPath.startsWith('/weird/_doc/'))?.rawPath)
-      .toBe('/weird/_doc/a%2Fb?refresh=true&routing=rk')
-    await expect(page.getByText('Document updated successfully.')).toBeVisible()
-    await page.getByTestId('search-document-panel').getByRole('button', { name: 'Close' }).click()
-    await expect(page.locator('.q-dialog')).toHaveCount(0)
-
-    page.once('dialog', (dialog) => dialog.accept())
-    await row.locator('td').last().scrollIntoViewIfNeeded()
-    await row.getByTestId('search-result-delete').click()
-    await expect
-      .poll(() => requests.find((r) => r.method === 'DELETE')?.rawPath)
-      .toBe('/weird/_doc/a%2Fb?refresh=true&routing=rk')
+    expect(sortKeys(requests)).not.toContain('items')
+    expect(sortKeys(requests)).not.toContain('long')
   })
 
   test('encodes special characters and date math in index names', async ({ page }) => {
@@ -170,10 +151,13 @@ test.describe('Search edge cases', () => {
     await setupSearch(page)
     await openSearch(page)
 
+    const release = await holdSearches(page, 'slow')
     await setTargets(page, ['slow'])
     await expect(page.locator('.q-linear-progress').first()).toBeVisible()
     await expect(page.getByTestId('search-no-results')).toHaveCount(0)
-    await expect(page.getByTestId('search-no-results')).toBeVisible({ timeout: 5000 })
+
+    release()
+    await expect(page.getByTestId('search-no-results')).toBeVisible()
   })
 
   test('keeps a manual multi sort in DSL mode while paginating', async ({ page }) => {
@@ -242,7 +226,6 @@ test.describe('Search edge cases', () => {
     await page.getByRole('option', { name: '1000' }).getByText('1000', { exact: true }).click()
 
     await expect.poll(() => lastSearch(requests).body.size).toBe(1000)
-    await expect(page.locator('.table--sticky-header')).toBeVisible()
   })
 
   test('opens search for a single index from the indices page', async ({ page }) => {
@@ -255,32 +238,20 @@ test.describe('Search edge cases', () => {
     expect(lastSearch(requests).path).toBe('/movies/_search')
   })
 
-  test('shows query string examples', async ({ page }) => {
-    await setupSearch(page)
-    await openSearch(page)
-
-    await page.getByText('Search examples').click()
-    await expect(page.getByText('first_name:(John OR Pete)')).toBeVisible()
-  })
-
-  test('toggles the sticky table header', async ({ page }) => {
-    await setupSearch(page)
-    await openSearch(page)
-
-    await page.getByTestId('search-table-settings').click()
-    await page.getByText('Sticky table header').click()
-    await expect(page.locator('.table--sticky-header')).toBeVisible()
-  })
-
   test('ignores a slow response that arrives after a newer search', async ({ page }) => {
     await setupSearch(page)
     await openSearch(page)
 
+    const release = await holdSearches(page, 'slow')
+    const slowSettled = searchSettled(page, 'slow')
     await setTargets(page, ['slow'])
     await setTargets(page, ['recipes'])
     await expect(rows(page)).toHaveCount(2)
-    await page.waitForTimeout(2000)
+
+    release()
+    await slowSettled
     await expect(rows(page)).toHaveCount(2)
+    await expect(page.getByTestId('search-total')).toHaveText('2 hits')
   })
 
   test('does not carry a large DSL size over to the query mode', async ({ page }) => {
