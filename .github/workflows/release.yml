@@ -361,3 +361,45 @@ jobs:
           git commit -m "Update to v${NEW_VER}"
           git push
           EOF
+
+  update-flathub:
+    name: Open flathub pull request
+    needs: publish
+    if: vars.FLATHUB_ENABLED == 'true'
+    runs-on: ubuntu-24.04
+    container:
+      image: ghcr.io/flathub-infra/flatpak-github-actions:gnome-51
+    env:
+      APP_ID: com.elasticvue.Elasticvue
+      TAG: ${{ github.ref_name }}
+      COMMIT: ${{ github.sha }}
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Generate flatpak sources
+        shell: bash
+        run: scripts/flatpak_sources.sh flatpak/build
+
+      - name: Open pull request
+        shell: bash
+        env:
+          FLATHUB_TOKEN: ${{ secrets.FLATHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          git clone "https://x-access-token:${FLATHUB_TOKEN}@github.com/flathub/${APP_ID}.git" flathub
+          cd flathub
+
+          git config user.name "Github Actions"
+          git config user.email "actions@github.com"
+          git checkout -b "update-${TAG}"
+
+          cp ../flatpak/build/* .
+          git add .
+          git commit -m "Update to ${TAG}"
+          git push origin "update-${TAG}"
+
+          curl --fail-with-body -X POST "https://api.github.com/repos/flathub/${APP_ID}/pulls" \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${FLATHUB_TOKEN}" \
+            -d "{\"title\": \"Update to ${TAG}\", \"head\": \"update-${TAG}\", \"base\": \"master\", \"body\": \"https://github.com/cars10/elasticvue/releases/tag/${TAG}\"}"

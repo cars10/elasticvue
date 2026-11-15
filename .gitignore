@@ -32,5 +32,6 @@ browser_extension/*/*
 !browser_extension/firefox/manifest.json
 tmp
 src-tauri/target
+flatpak/build
 scripts/screenshots/*
 scripts/showcase/output

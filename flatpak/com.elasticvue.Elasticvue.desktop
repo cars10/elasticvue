@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Elasticvue
+Comment=Elasticsearch gui
+Exec=elasticvue
+Icon=com.elasticvue.Elasticvue
+Terminal=false
+Categories=Development;Database;
+Keywords=elasticsearch;opensearch;database;search;

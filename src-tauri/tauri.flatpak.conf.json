@@ -1,0 +1,9 @@
+{
+  "identifier": "com.elasticvue.Elasticvue",
+  "build": {
+    "beforeBuildCommand": "VITE_APP_BUILD_MODE=tauri npm run build"
+  },
+  "bundle": {
+    "createUpdaterArtifacts": false
+  }
+}

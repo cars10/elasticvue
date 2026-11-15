@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.elasticvue.Elasticvue</id>
+  <launchable type="desktop-id">com.elasticvue.Elasticvue.desktop</launchable>
+  <name>Elasticvue</name>
+  <summary>Manage your elasticsearch clusters</summary>
+  <developer id="com.elasticvue">
+    <name>Carsten König</name>
+  </developer>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <url type="homepage">https://elasticvue.com</url>
+  <url type="bugtracker">https://github.com/cars10/elasticvue/issues</url>
+  <url type="vcs-browser">https://github.com/cars10/elasticvue</url>
+  <url type="help">https://github.com/cars10/elasticvue/tree/master/docs</url>
+  <content_rating type="oars-1.1"/>
+  <categories>
+    <category>Development</category>
+    <category>Database</category>
+  </categories>
+  <keywords>
+    <keyword>elasticsearch</keyword>
+    <keyword>opensearch</keyword>
+    <keyword>database</keyword>
+    <keyword>search</keyword>
+  </keywords>
+  <branding>
+    <color type="primary" scheme_preference="light">#90caf9</color>
+    <color type="primary" scheme_preference="dark">#1461b8</color>
+  </branding>
+  <requires>
+    <display_length compare="ge">768</display_length>
+  </requires>
+  <supports>
+    <control>pointing</control>
+    <control>keyboard</control>
+  </supports>
+  <description>
+    <p>
+      Elasticvue is a free and open source gui for elasticsearch. It connects directly to your clusters and works with every
+      elasticsearch version from 1 to 9 and with opensearch.
+    </p>
+    <ul>
+      <li>Dashboard with cluster health, node metrics and health checks</li>
+      <li>Manage nodes, shards, indices, aliases and index templates</li>
+      <li>Search and edit documents with a query bar, DSL, SQL and ES|QL</li>
+      <li>REST interface to run any request against your cluster</li>
+      <li>Maintenance tools, running tasks, snapshots and repositories</li>
+      <li>Manage users, roles and api keys</li>
+    </ul>
+    <p>
+      Elasticsearch is a trademark of Elasticsearch BV, registered in the U.S. and in other countries. Elasticvue is not
+      affiliated with Elasticsearch BV.
+    </p>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/cars10/elasticvue/master/flatpak/screenshots/home.png</image>
+      <caption>Dashboard with cluster health and metrics</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/cars10/elasticvue/master/flatpak/screenshots/indices.png</image>
+      <caption>Index management</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/cars10/elasticvue/master/flatpak/screenshots/search.png</image>
+      <caption>Search your documents</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/cars10/elasticvue/master/flatpak/screenshots/rest.png</image>
+      <caption>REST interface</caption>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="1.17.0" date="2026-10-28">
+      <url type="details">https://github.com/cars10/elasticvue/releases/tag/v1.17.0</url>
+    </release>
+  </releases>
+</component>

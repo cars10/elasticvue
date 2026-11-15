@@ -81,3 +81,26 @@ Elasticvue uses [tauri](https://tauri.app/) to create the desktop application.
 4. Build for prod: `make build_tauri`
 
 Find the build artifacts in `src-tauri/target/release/bundle`
+
+### Flatpak
+
+The flatpak is built from source without network access, the same way [flathub](https://flathub.org) builds it. Everything lives in `flatpak/`:
+
+* `com.elasticvue.Elasticvue.yml`: the flatpak manifest
+* `com.elasticvue.Elasticvue.metainfo.xml` and `com.elasticvue.Elasticvue.desktop`: app store metadata and desktop entry
+* `src-tauri/tauri.flatpak.conf.json`: tauri config overrides for the flatpak build
+
+Build the working tree into `flatpak/build/elasticvue.flatpak` and run the flathub linter:
+
+```bash
+make build_flatpak
+```
+
+Install and run it:
+
+```bash
+flatpak install --user flatpak/build/elasticvue.flatpak
+flatpak run com.elasticvue.Elasticvue
+```
+
+`make flatpak_sources TAG=v1.2.3` only generates the files that are submitted to flathub (manifest, `elasticvue-source.json`, `cargo-sources.json`, `node-sources.json`) into `flatpak/build`. The release workflow does this for every tag and opens a pull request on the flathub repository when the repository variable `FLATHUB_ENABLED` is `true` and the secret `FLATHUB_TOKEN` is set.
