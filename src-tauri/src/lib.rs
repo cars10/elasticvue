@@ -40,7 +40,11 @@ pub fn run() {
 
             Ok(())
         })
-        .invoke_handler(tauri::generate_handler![fetch_reqwest, save_file, self_update_supported])
+        .invoke_handler(tauri::generate_handler![
+            fetch_reqwest,
+            save_file,
+            self_update_supported
+        ])
         .run(ctx)
         .expect("error while running tauri application");
 }

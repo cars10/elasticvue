@@ -63,7 +63,8 @@
         "width": 1300,
         "height": 700,
         "resizable": true,
-        "fullscreen": false
+        "fullscreen": false,
+        "zoomHotkeysEnabled": true
       }
     ]
   }

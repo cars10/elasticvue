@@ -10,10 +10,18 @@ pub fn menu(app: &mut App) -> Result<Menu<Wry>, tauri::Error> {
         .icon(app.default_window_icon().cloned())
         .build();
 
-    let about_quit = SubmenuBuilder::new(app, app.package_info().name.clone())
-        .about(metadata.into())
-        .quit()
-        .build()?;
+    let mut app_menu =
+        SubmenuBuilder::new(app, app.package_info().name.clone()).about(metadata.into());
+    if cfg!(target_os = "macos") {
+        app_menu = app_menu
+            .separator()
+            .services()
+            .separator()
+            .hide()
+            .hide_others()
+            .show_all();
+    }
+    let app_menu = app_menu.separator().quit().build()?;
 
     let edit = SubmenuBuilder::new(app, "Edit")
         .copy()
@@ -27,7 +35,22 @@ pub fn menu(app: &mut App) -> Result<Menu<Wry>, tauri::Error> {
 
     let menu = MenuBuilder::new(app).build()?;
 
-    menu.append(&about_quit)?;
+    menu.append(&app_menu)?;
     menu.append(&edit)?;
+
+    #[cfg(target_os = "macos")]
+    {
+        let window = SubmenuBuilder::new(app, "Window")
+            .minimize()
+            .maximize()
+            .separator()
+            .fullscreen()
+            .separator()
+            .close_window()
+            .build()?;
+        menu.append(&window)?;
+        window.set_as_windows_menu_for_nsapp()?;
+    }
+
     Ok(menu)
 }
