@@ -1191,7 +1191,6 @@
     },
     "problems": {
       "title": "Требуют внимания ({count})",
-      "explain": "Объяснить в Tools",
       "index": "Индекс",
       "shard": "Шард",
       "state": "Состояние",

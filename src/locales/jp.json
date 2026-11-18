@@ -1191,7 +1191,6 @@
     },
     "problems": {
       "title": "要確認（{count}）",
-      "explain": "Tools で説明を見る",
       "index": "インデックス",
       "shard": "シャード",
       "state": "状態",

@@ -1,5 +1,6 @@
 import { exact, open, settle, t, waitWithProgress } from './browser.mjs'
 import { ensureTasks } from './tasks.mjs'
+import { CLUSTERS, es, waitForGreen } from './elasticsearch.mjs'
 
 export const indexRow = (page, name) => page.getByTestId('indices-table').getByRole('row').filter({ has: exact(page, name) })
 export const elasticsearchResponse = (page) => page.waitForResponse((response) => response.url().startsWith('http://es-'))
@@ -110,17 +111,7 @@ const shards = {
     await user.click(page.getByTestId('shards-rows'))
     await settle(page, 2500)
     await user.click(page.getByTestId('shards-rows'))
-    await settle(page, 1200)
-
-    await user.click(page.getByRole('link', { name: t('shards.problems.explain') }))
-    const panel = page.getByTestId('tool-panel-explain')
-    await panel.waitFor()
-    await user.pause(1200)
-    await user.click(panel.getByRole('button', { name: t('tools.explain.run'), exact: true }))
-    await panel.getByText(t('tools.explain.raw')).waitFor()
-    await user.pause(1500)
-    await user.hover([panel.locator('.q-list .q-item').first(), panel.locator('.q-list .q-item').nth(1)], 1500)
-    await user.pause(1500)
+    await settle(page, 2000)
   }
 }
 
@@ -130,46 +121,42 @@ const pickOption = async (page, user, field, name) => {
   await user.click(page.getByRole('option').filter({ hasText: name }).first())
 }
 
+const archiveReplicas = (count) =>
+  es(CLUSTERS.production.nodes[0], 'archive-2024/_settings', { method: 'PUT', body: { index: { number_of_replicas: count } } })
+
 const tools = {
   prepare: async (page) => {
+    await archiveReplicas(1)
+    await waitForGreen('production')
     await open(page, 'tools')
-    await page.getByTestId('tool-explain').waitFor()
+    await page.getByTestId('tool-remove-node').waitFor()
     await settle(page)
   },
   act: async (page, user) => {
     await user.pause(1500)
-    await user.hover([page.getByTestId('tool-explain'), page.getByTestId('tool-blocks'), page.getByTestId('tool-drain')], 900)
+    for (const id of ['unassigned', 'remove-node', 'restart']) await user.hover([page.getByTestId(`tool-${id}`)], 900)
 
-    await user.click(page.getByTestId('tool-replicas'))
-    const replicas = page.getByTestId('tool-panel-replicas')
-    await replicas.waitFor()
-    await user.pause(800)
-    await pickOption(page, user, replicas.getByLabel(t('tools.indices'), { exact: true }), 'archive-2024')
-    await user.click(replicas.locator('.text-h6'))
-    const count = replicas.getByLabel(t('tools.replicas.count'), { exact: true })
-    await user.click(count)
-    await page.keyboard.press('ControlOrMeta+a')
-    await count.pressSequentially('1', { delay: 120 })
-    await user.pause(600)
-    await user.click(replicas.getByRole('button', { name: t('tools.apply'), exact: true }))
-    await settle(page, 2000)
-    await page.keyboard.press('Escape')
-    await settle(page, 2500)
-
-    await user.click(page.getByTestId('tool-drain'))
-    const drain = page.getByTestId('tool-panel-drain')
-    await drain.waitFor()
-    await user.pause(800)
-    await pickOption(page, user, drain.getByLabel(t('tools.drain.node'), { exact: true }), 'production-3')
-    await user.pause(1000)
-    await user.click(drain.getByRole('button', { name: t('tools.drain.start'), exact: true }))
-    await user.move(drain.locator('.q-linear-progress'))
-    await drain.getByText(t('tools.drain.done')).waitFor({ timeout: 40000 }).catch(() => {})
+    await user.click(page.getByTestId('tool-remove-node'))
+    const panel = page.getByTestId('tool-panel-remove_node')
+    await panel.waitFor()
+    await settle(page, 1000)
+    await pickOption(page, user, panel.getByLabel(t('tools.drain.node'), { exact: true }), 'production-3')
+    await user.pause(2000)
+    await user.click(panel.getByRole('button', { name: t('tools.steps.continue'), exact: true }))
+    await user.pause(1500)
+    await user.click(panel.getByRole('button', { name: t('tools.drain.start'), exact: true }))
+    await user.move(panel.locator('.q-linear-progress'))
+    await panel.getByText(t('tools.drain.done')).waitFor({ timeout: 180000 })
     await user.pause(2500)
-    await user.click(drain.getByRole('button', { name: t('tools.drain.stop'), exact: true }))
+
+    await user.click(panel.getByRole('button', { name: t('tools.drain.voting_add'), exact: true }))
+    await panel.getByText(t('tools.drain.voting_done')).waitFor()
+    await user.pause(2500)
+    await user.click(panel.getByRole('button', { name: t('tools.drain.cleanup'), exact: true }))
     await settle(page, 1500)
     await page.keyboard.press('Escape')
     await user.pause(2000)
+    await archiveReplicas(3)
   }
 }
 
@@ -255,9 +242,12 @@ const search = {
     await settle(page, 1500)
     await user.click(sql)
     await page.keyboard.press('ControlOrMeta+a')
-    await sql.pressSequentially('SELECT service, COUNT(*) AS requests, AVG(duration_ms) AS avg_ms FROM "logs-*" GROUP BY service', {
-      delay: 35
-    })
+    await sql.pressSequentially(
+      'SELECT service, COUNT(*) AS requests, AVG(duration_ms) AS avg_ms FROM "logs-*" GROUP BY service',
+      {
+        delay: 35
+      }
+    )
     await user.pause(500)
     await page.keyboard.press('ControlOrMeta+Enter')
     await page.getByTestId('search-sql-results').waitFor()

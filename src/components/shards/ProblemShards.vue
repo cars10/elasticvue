@@ -5,9 +5,6 @@
         <q-icon name="warning" size="18px" class="q-mr-sm" :class="hasCritical ? 'health--red' : 'health--yellow'" />
         {{ t('shards.problems.title', { count: shards.length }) }}
       </div>
-      <router-link :to="{ name: 'tools', params: { clusterId }, query: { tool: 'explain' } }" class="font-13">
-        {{ t('shards.problems.explain') }}
-      </router-link>
     </q-card-section>
 
     <q-markup-table flat dense wrap-cells class="table-mono">
@@ -45,7 +42,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { EsShard, relocationTarget, shardNodeName, shardSeverity } from '../../helpers/shards.ts'
-import { useConnectionStore } from '../../store/connection.ts'
 import { useTranslation } from '../../composables/i18n.ts'
 
 const props = defineProps<{ shards: EsShard[] }>()
@@ -53,7 +49,6 @@ const props = defineProps<{ shards: EsShard[] }>()
 const t = useTranslation()
 const limit = 10
 const expanded = ref(false)
-const clusterId = useConnectionStore().activeClusterId
 
 const visible = computed(() => (expanded.value ? props.shards : props.shards.slice(0, limit)))
 const hasCritical = computed(() => props.shards.some((shard) => shardSeverity(shard) === 'critical'))

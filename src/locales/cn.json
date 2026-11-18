@@ -1191,7 +1191,6 @@
     },
     "problems": {
       "title": "需要关注（{count}）",
-      "explain": "在工具中解释",
       "index": "索引",
       "shard": "分片",
       "state": "状态",

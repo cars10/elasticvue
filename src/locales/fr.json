@@ -1191,7 +1191,6 @@
     },
     "problems": {
       "title": "À vérifier ({count})",
-      "explain": "Expliquer dans Tools",
       "index": "Index",
       "shard": "Partition",
       "state": "État",

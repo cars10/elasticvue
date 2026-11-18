@@ -1191,7 +1191,6 @@
     },
     "problems": {
       "title": "需要注意（{count}）",
-      "explain": "在工具中說明",
       "index": "索引",
       "shard": "分片",
       "state": "狀態",

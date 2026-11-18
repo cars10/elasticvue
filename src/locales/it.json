@@ -1191,7 +1191,6 @@
     },
     "problems": {
       "title": "Da controllare ({count})",
-      "explain": "Spiega in Tools",
       "index": "Indice",
       "shard": "Shard",
       "state": "Stato",

@@ -1191,7 +1191,6 @@
     },
     "problems": {
       "title": "Needs attention ({count})",
-      "explain": "Explain in Tools",
       "index": "Index",
       "shard": "Shard",
       "state": "State",

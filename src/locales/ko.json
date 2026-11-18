@@ -1191,7 +1191,6 @@
     },
     "problems": {
       "title": "확인 필요 ({count})",
-      "explain": "Tools에서 설명 보기",
       "index": "인덱스",
       "shard": "샤드",
       "state": "상태",
