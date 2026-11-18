@@ -6,7 +6,7 @@
   <template v-else>
     <q-select v-model="selectedKey" outlined emit-value map-options :label="t('tools.explain.shard')" :options="shardOptions" />
     <q-btn
-      color="primary"
+      color="primary-dark"
       class="q-mt-md"
       :label="t('tools.explain.run')"
       :loading="requests.explain.value.loading"

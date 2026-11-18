@@ -404,7 +404,8 @@
       "actions": {
         "view_shards": "Voir les partitions",
         "view_nodes": "Voir les nœuds",
-        "view_indices": "Voir les index"
+        "view_indices": "Voir les index",
+        "open_tool": "Ouvrir dans les outils"
       },
       "checks": {
         "shards": {
@@ -1540,12 +1541,8 @@
     "excluded_indices": "Les index système, cachés et de flux de données sont exclus.",
     "confirm_restore": "Rétablir « {setting} » à la valeur par défaut d’Elasticsearch ?",
     "groups": {
-      "attention": "À vérifier",
-      "shards": "Partitions et allocation",
-      "indices": "Index",
-      "disk": "Disque et récupération",
-      "safety": "Sécurité",
-      "advanced": "Avancé"
+      "maintenance": "Réparation et maintenance",
+      "settings": "Paramètres du cluster"
     },
     "sources": {
       "transient": "transitoire",
@@ -1559,7 +1556,6 @@
       "enabled": "Activé",
       "disabled": "Désactivé",
       "unavailable": "Indisponible",
-      "no_user_indices": "Aucun index utilisateur",
       "no_unassigned": "Aucune partition non assignée",
       "unassigned": "{count} partition non assignée | {count} partitions non assignées"
     },
@@ -1574,7 +1570,8 @@
       "shards": "les partitions",
       "indices": "les réglages des index",
       "explanation": "l’explication d’allocation",
-      "voting": "les exclusions de vote"
+      "voting": "les exclusions de vote",
+      "health": "l'état du cluster"
     },
     "errors": {
       "forbidden": "Votre utilisateur n’a pas le droit de lire {what}.",
@@ -1609,8 +1606,8 @@
       }
     },
     "drain": {
-      "title": "Vider un nœud",
-      "description": "Déplacer les partitions d’un nœud avant de l’arrêter.",
+      "title": "Retirer un nœud",
+      "description": "Déplacer tous les shards d'un nœud pour pouvoir l'arrêter ou le remplacer.",
       "keywords": "vider arrêt maintenance exclure relocalisation drain shutdown exclude",
       "explanation": "Le nœud est exclu de l’allocation, Elasticsearch déplace donc ses partitions vers d’autres nœuds. Le nœud continue de tourner.",
       "allocation_disabled": "L’allocation est désactivée, les partitions ne peuvent pas bouger avant sa réactivation.",
@@ -1628,12 +1625,25 @@
       "confirm_start": "Vider {name} ({id}) ? Ses partitions seront déplacées vers d’autres nœuds.",
       "confirm_stop": "Arrêter de vider {name} ({id}) ?",
       "started": "Vidage du nœud démarré.",
-      "stopped": "Vidage du nœud arrêté."
+      "stopped": "Vidage du nœud arrêté.",
+      "steps": {
+        "node": "Choisir un nœud",
+        "exclude": "L'exclure de l'allocation",
+        "monitor": "Attendre le déplacement des shards",
+        "done": "Le nœud est vide"
+      },
+      "no_targets": "Aucun autre nœud de données ne peut recevoir les shards de ce nœud.",
+      "not_enough_disk": "Les shards de ce nœud occupent {required}, mais les autres nœuds n'ont que {free} d'espace disque libre.",
+      "health_red": "Le cluster est rouge. Corrigez les shards primaires manquants avant de déplacer des données.",
+      "exclude_explanation": "Elasticsearch déplacera tous les shards de ce nœud vers d'autres nœuds. Les recherches et écritures continuent pendant le déplacement.",
+      "done_next": "Arrêtez le nœud maintenant. Gardez les exclusions tant qu'il est arrêté et supprimez-les lorsque le nœud est de retour, remplacé ou définitivement retiré.",
+      "voting_explanation": "Ce nœud est éligible comme maître. Retirez-le de la configuration de vote avant de l'arrêter, afin que le cluster garde un maître stable.",
+      "voting_add": "Retirer de la configuration de vote",
+      "voting_done": "Le nœud est exclu de la configuration de vote.",
+      "confirm_voting": "Retirer {name} de la configuration de vote ?",
+      "cleanup": "Supprimer les exclusions"
     },
     "explain": {
-      "title": "Expliquer les partitions non assignées",
-      "description": "Demander à Elasticsearch pourquoi une partition ne peut pas être assignée.",
-      "keywords": "allocation diagnostic décideurs non assignée explain deciders unassigned",
       "shard": "Partition non assignée",
       "primary": "primaire",
       "replica": "réplique",
@@ -1647,8 +1657,6 @@
     },
     "retry": {
       "title": "Relancer les allocations échouées",
-      "description": "Relancer les partitions qui ont atteint la limite de tentatives d’allocation.",
-      "keywords": "relancer réessayer limite échec reroute retry failed",
       "explanation": "Corrigez d’abord la cause, puis demandez à Elasticsearch de relancer les allocations échouées.",
       "run": "Relancer les allocations",
       "confirm": "Relancer les allocations échouées ? {count} partition n’est pas assignée. | Relancer les allocations échouées ? {count} partitions ne sont pas assignées.",
@@ -1670,8 +1678,6 @@
     },
     "blocks": {
       "title": "Blocages d’écriture des index",
-      "description": "Trouver et lever les blocages en lecture seule ou en écriture.",
-      "keywords": "lecture seule inondation écriture blocage read only flood write block",
       "indices": "Index bloqués",
       "status": "{count} index bloqué | {count} index bloqués",
       "status_none": "Aucun index utilisateur bloqué",
@@ -1687,10 +1693,7 @@
     },
     "replicas": {
       "title": "Répliques",
-      "description": "Modifier le nombre de répliques des index sélectionnés.",
-      "keywords": "redondance nœud unique nombre de répliques replica count",
       "count": "Répliques",
-      "status": "Défini par index",
       "status_single_node": "{count} index avec des répliques non assignables | {count} index avec des répliques non assignables",
       "single_node": "Ce cluster n’a qu’un nœud de données, les répliques de {count} index ne peuvent donc pas être assignées. | Ce cluster n’a qu’un nœud de données, les répliques de {count} index ne peuvent donc pas être assignées.",
       "set_zero": "Passer à 0 réplique",
@@ -1701,12 +1704,9 @@
     },
     "refresh": {
       "title": "Intervalle de rafraîchissement",
-      "description": "Délai avant que les nouveaux documents soient recherchables.",
-      "keywords": "rafraîchissement intervalle recherche visibilité indexation refresh interval bulk",
       "interval": "Intervalle de rafraîchissement",
       "custom": "Personnalisé",
       "custom_hint": "Une durée comme 500ms ou 2m.",
-      "status_mixed": "Mixte",
       "disabled_warning": "Les nouveaux documents ne seront recherchables qu’après un rafraîchissement manuel de l’index.",
       "confirm": "Régler l’intervalle de rafraîchissement de {count} index sur {value} ? | Régler l’intervalle de rafraîchissement de {count} index sur {value} ?",
       "updated": "Intervalle de rafraîchissement mis à jour sur {count} index. | Intervalle de rafraîchissement mis à jour sur {count} index."
@@ -1791,29 +1791,101 @@
       }
     },
     "voting": {
-      "title": "Exclusions de vote",
-      "description": "Préparer le retrait de nœuds éligibles master.",
-      "keywords": "vote configuration exclusions master éligible topologie retrait voting",
-      "explanation": "Nécessaire uniquement pour retirer la moitié ou plus des nœuds éligibles master en une fois.",
-      "nodes": "Nœuds éligibles master",
-      "add": "Ajouter des exclusions",
-      "clear": "Supprimer les exclusions",
-      "status": "{count} actives",
-      "status_none": "Aucune",
-      "confirm_add": "Exclure {count} nœud du vote ? | Exclure {count} nœuds du vote ?",
-      "confirm_clear": "Supprimer toutes les exclusions de vote ? Elasticsearch attend que les nœuds exclus aient quitté le cluster.",
       "added": "Exclusion de vote ajoutée. | Exclusions de vote ajoutées.",
       "cleared": "Exclusions de vote supprimées."
     },
-    "awareness": {
-      "title": "Allocation awareness",
-      "description": "Attributs de zone ou de baie utilisés pour répartir les copies des partitions.",
-      "keywords": "zone baie attributs domaine de panne awareness rack",
-      "status": "{count} attribut | {count} attributs",
-      "status_none": "Non configuré",
-      "values": "Valeurs des nœuds : {values}",
-      "forced": "Valeurs forcées : {values}",
-      "hint": "Les attributs sont configurés sur chaque nœud et ne peuvent pas être modifiés ici."
+    "awareness": {},
+    "steps": {
+      "continue": "Continuer",
+      "back": "Retour",
+      "skip": "Ignorer",
+      "verify": "Vérifier le résultat"
+    },
+    "unassigned": {
+      "title": "Corriger les shards non assignés",
+      "description": "Trouver pourquoi des shards ne sont pas assignés, corriger la cause et attendre qu'ils récupèrent.",
+      "keywords": "non assigné expliquer allocation réessayer jaune rouge réplicas",
+      "found": "Shards non assignés : {count}, dont {primaries} primaires.",
+      "allocation_limited": "L'allocation des shards est réglée sur « {mode} ». C'est la cause la plus probable.",
+      "single_node": "Ce cluster n'a qu'un seul nœud de données, les réplicas ne peuvent donc jamais être assignés.",
+      "recommended": "Recommandé",
+      "no_fix": "Aucune correction n'est disponible ici pour cette cause. Consultez les décisions de l'explication, les causes fréquentes sont les seuils disque, les filtres d'allocation ou des nœuds manquants.",
+      "resolved": "Tous les shards sont assignés. {before} étaient non assignés auparavant.",
+      "remaining": "Shards non assignés : {now} (avant : {before}). En initialisation : {initializing}. Nouvelle vérification toutes les quelques secondes.",
+      "investigate_again": "Analyser à nouveau",
+      "steps": {
+        "check": "Vérifier le cluster",
+        "explain": "Expliquer un shard",
+        "fix": "Corriger la cause",
+        "verify": "Attendre la récupération"
+      },
+      "remedies": {
+        "enable_allocation": {
+          "title": "Activer l'allocation des shards",
+          "text": "Permettre à Elasticsearch d'assigner à nouveau tous les shards.",
+          "action": "Activer"
+        },
+        "zero_replicas": {
+          "title": "Supprimer les réplicas"
+        }
+      }
+    },
+    "restart": {
+      "title": "Redémarrage progressif",
+      "description": "Redémarrer les nœuds un par un sans déplacer les shards.",
+      "keywords": "redémarrage mise à jour maintenance flush allocation primaires",
+      "status": "Un nœud à la fois",
+      "status_paused": "Allocation des réplicas en pause",
+      "explanation": "Redémarrez les nœuds un par un, par exemple pour une mise à jour ou un changement de configuration. Répétez ces étapes pour chaque nœud.",
+      "not_green": "Le cluster n'est pas vert. Redémarrer un nœud maintenant peut rendre des données indisponibles.",
+      "disable_explanation": "Seuls les shards primaires seront alloués. Elasticsearch ne copiera pas les réplicas vers d'autres nœuds pendant l'arrêt d'un nœud.",
+      "disable": "Mettre en pause l'allocation des réplicas",
+      "confirm_disable": "Mettre en pause l'allocation des réplicas ? Pensez à la réactiver après le redémarrage.",
+      "flush_explanation": "Le flush écrit toutes les données indexées sur le disque, les shards récupèrent donc plus vite après le redémarrage.",
+      "flush": "Flush de tous les index",
+      "flushed": "Flush de tous les index effectué.",
+      "restart_explanation": "Redémarrez un nœud maintenant. Continuez lorsqu'il a rejoint le cluster.",
+      "nodes": "Nœuds dans le cluster : {now} sur {expected}.",
+      "waiting_for_node": "En attente du retour du nœud dans le cluster.",
+      "node_back": "Le nœud est de retour",
+      "enable_explanation": "Permettre à Elasticsearch d'allouer à nouveau les réplicas, pour que le nœud redémarré récupère ses shards.",
+      "enable": "Activer l'allocation",
+      "done": "Le cluster est vert. Vous pouvez redémarrer le nœud suivant.",
+      "recovering": "État du cluster : {status}. En initialisation : {initializing}, non assignés : {unassigned}. Nouvelle vérification toutes les quelques secondes.",
+      "next_node": "Redémarrer le nœud suivant",
+      "steps": {
+        "check": "Vérifier l'état du cluster",
+        "disable": "Mettre en pause l'allocation des réplicas",
+        "flush": "Flush des index (optionnel)",
+        "restart": "Redémarrer le nœud",
+        "enable": "Réactiver l'allocation",
+        "verify": "Attendre le vert"
+      }
+    },
+    "writes": {
+      "title": "Rétablir l'écriture des index",
+      "description": "Trouver et supprimer les blocages qui refusent les écritures sur le cluster ou les index.",
+      "keywords": "lecture seule bloqué écriture seuil disque blocs cluster",
+      "status": "Blocages : {count}",
+      "none": "Aucun blocage d'écriture",
+      "cluster_blocked": "Tout le cluster est en « {mode} ».",
+      "cluster_explanation": "Un blocage du cluster refuse les écritures sur tous les index, quels que soient leurs paramètres.",
+      "clear_cluster": "Rendre le cluster accessible en écriture",
+      "confirm_clear_cluster": "Supprimer le blocage d'écriture du cluster ?",
+      "resolved": "Le cluster et tous les index utilisateur acceptent à nouveau les écritures.",
+      "remaining": "Ces blocages sont toujours actifs :",
+      "steps": {
+        "check": "Trouver les blocages d'écriture",
+        "clear": "Supprimer les blocages",
+        "verify": "Vérifier que l'écriture fonctionne"
+      }
+    },
+    "index_settings": {
+      "title": "Paramètres d'index",
+      "description": "Modifier les réplicas ou l'intervalle de rafraîchissement de plusieurs index.",
+      "keywords": "réplicas intervalle rafraîchissement redondance indexation nœud unique",
+      "status": "Réplicas et intervalle de rafraîchissement",
+      "steps": {}
     }
   },
   "update_check": {

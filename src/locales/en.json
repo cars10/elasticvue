@@ -404,7 +404,8 @@
       "actions": {
         "view_shards": "View shards",
         "view_nodes": "View nodes",
-        "view_indices": "View indices"
+        "view_indices": "View indices",
+        "open_tool": "Open in tools"
       },
       "checks": {
         "shards": {
@@ -1540,12 +1541,8 @@
     "excluded_indices": "System, hidden and data stream backing indices are excluded.",
     "confirm_restore": "Restore \"{setting}\" to the Elasticsearch default?",
     "groups": {
-      "attention": "Needs attention",
-      "shards": "Shards and allocation",
-      "indices": "Indices",
-      "disk": "Disk and recovery",
-      "safety": "Safety",
-      "advanced": "Advanced"
+      "maintenance": "Repair and maintenance",
+      "settings": "Cluster settings"
     },
     "sources": {
       "transient": "transient",
@@ -1559,7 +1556,6 @@
       "enabled": "Enabled",
       "disabled": "Disabled",
       "unavailable": "Unavailable",
-      "no_user_indices": "No user indices",
       "no_unassigned": "No unassigned shards",
       "unassigned": "{count} unassigned shard | {count} unassigned shards"
     },
@@ -1574,7 +1570,8 @@
       "shards": "shards",
       "indices": "index settings",
       "explanation": "the allocation explanation",
-      "voting": "voting configuration exclusions"
+      "voting": "voting configuration exclusions",
+      "health": "cluster health"
     },
     "errors": {
       "forbidden": "Your user is not allowed to read {what}.",
@@ -1609,8 +1606,8 @@
       }
     },
     "drain": {
-      "title": "Drain node",
-      "description": "Move shards away from a node before shutting it down.",
+      "title": "Remove a node",
+      "description": "Move all shards away from a node so it can be shut down or replaced.",
       "keywords": "shutdown remove maintenance exclude relocation",
       "explanation": "Draining excludes the node from allocation, so Elasticsearch moves its shards to other nodes. The node keeps running.",
       "allocation_disabled": "Allocation is disabled, so shards cannot move until it is enabled again.",
@@ -1628,12 +1625,25 @@
       "confirm_start": "Start draining {name} ({id})? Its shards will be moved to other nodes.",
       "confirm_stop": "Stop draining {name} ({id})?",
       "started": "Node drain started.",
-      "stopped": "Node drain stopped."
+      "stopped": "Node drain stopped.",
+      "steps": {
+        "node": "Choose a node",
+        "exclude": "Exclude it from allocation",
+        "monitor": "Wait for shards to move",
+        "done": "Node is empty"
+      },
+      "no_targets": "There is no other data node that could take the shards of this node.",
+      "not_enough_disk": "The shards on this node use {required}, but the other nodes only have {free} free disk space.",
+      "health_red": "The cluster is red. Fix missing primary shards before moving data around.",
+      "exclude_explanation": "Elasticsearch will move all shards of this node to other nodes. Searches and writes keep working while shards relocate.",
+      "done_next": "Shut down the node now. Keep the exclusions while it is down, and remove them when the node is back, replaced or gone for good.",
+      "voting_explanation": "This node is master-eligible. Remove it from the voting configuration before shutting it down, so the cluster keeps a stable master.",
+      "voting_add": "Remove from voting configuration",
+      "voting_done": "The node is excluded from the voting configuration.",
+      "confirm_voting": "Remove {name} from the voting configuration?",
+      "cleanup": "Remove exclusions"
     },
     "explain": {
-      "title": "Explain unassigned shards",
-      "description": "Ask Elasticsearch why a shard cannot be assigned.",
-      "keywords": "allocation diagnostic deciders unassigned",
       "shard": "Unassigned shard",
       "primary": "primary",
       "replica": "replica",
@@ -1647,8 +1657,6 @@
     },
     "retry": {
       "title": "Retry failed allocations",
-      "description": "Retry shards that hit the allocation retry limit.",
-      "keywords": "reroute retry limit failed",
       "explanation": "Fix the underlying problem first, then ask Elasticsearch to retry the failed allocations.",
       "run": "Retry allocations",
       "confirm": "Retry failed allocations? {count} shard is unassigned. | Retry failed allocations? {count} shards are unassigned.",
@@ -1670,8 +1678,6 @@
     },
     "blocks": {
       "title": "Index write blocks",
-      "description": "Find and clear read-only or write-blocked indices.",
-      "keywords": "read only flood stage writable",
       "indices": "Blocked indices",
       "status": "{count} index blocked | {count} indices blocked",
       "status_none": "No blocked user indices",
@@ -1687,10 +1693,7 @@
     },
     "replicas": {
       "title": "Replicas",
-      "description": "Change the number of replicas of selected indices.",
-      "keywords": "redundancy single node replica count",
       "count": "Replicas",
-      "status": "Configured per index",
       "status_single_node": "{count} index with unassignable replicas | {count} indices with unassignable replicas",
       "single_node": "This cluster has one data node, so replicas of {count} index cannot be assigned. | This cluster has one data node, so replicas of {count} indices cannot be assigned.",
       "set_zero": "Set to 0 replicas",
@@ -1701,12 +1704,9 @@
     },
     "refresh": {
       "title": "Refresh interval",
-      "description": "How quickly new documents become searchable.",
-      "keywords": "refresh interval search visibility bulk indexing",
       "interval": "Refresh interval",
       "custom": "Custom",
       "custom_hint": "A time value such as 500ms or 2m.",
-      "status_mixed": "Mixed",
       "disabled_warning": "New documents will not be searchable until the index is refreshed manually.",
       "confirm": "Set the refresh interval of {count} index to {value}? | Set the refresh interval of {count} indices to {value}?",
       "updated": "Refresh interval updated on {count} index. | Refresh interval updated on {count} indices."
@@ -1791,29 +1791,103 @@
       }
     },
     "voting": {
-      "title": "Voting exclusions",
-      "description": "Prepare master-eligible nodes for removal.",
-      "keywords": "voting configuration exclusions master eligible topology removal",
-      "explanation": "Only needed when removing half or more of the master-eligible nodes at once.",
-      "nodes": "Master-eligible nodes",
-      "add": "Add exclusions",
-      "clear": "Clear exclusions",
-      "status": "{count} active",
-      "status_none": "None",
-      "confirm_add": "Exclude {count} node from voting? | Exclude {count} nodes from voting?",
-      "confirm_clear": "Clear all voting exclusions? Elasticsearch waits until excluded nodes have left the cluster.",
       "added": "Voting exclusion added. | Voting exclusions added.",
       "cleared": "Voting exclusions cleared."
     },
     "awareness": {
-      "title": "Allocation awareness",
-      "description": "Zone or rack attributes used to spread shard copies.",
-      "keywords": "zone rack attributes failure domain awareness",
-      "status": "{count} attribute | {count} attributes",
-      "status_none": "Not configured",
-      "values": "Node values: {values}",
-      "forced": "Forced values: {values}",
-      "hint": "Attributes are configured on each node and cannot be changed here."
+    },
+    "steps": {
+      "continue": "Continue",
+      "back": "Back",
+      "skip": "Skip",
+      "verify": "Check result"
+    },
+    "unassigned": {
+      "title": "Fix unassigned shards",
+      "description": "Find out why shards are not assigned, fix the cause and wait until they recover.",
+      "keywords": "unassigned explain allocation retry yellow red replicas",
+      "found": "{count} shard is unassigned, {primaries} of them primaries. | {count} shards are unassigned, {primaries} of them primaries.",
+      "allocation_limited": "Shard allocation is set to \"{mode}\". This is the most likely cause.",
+      "single_node": "This cluster has only one data node, so replica shards can never be assigned.",
+      "recommended": "Recommended",
+      "no_fix": "There is no fix for this cause here. Check the decisions from the explanation, common causes are disk watermarks, allocation filters or missing nodes.",
+      "resolved": "All shards are assigned. {before} were unassigned before.",
+      "remaining": "Unassigned shards: {now} (before: {before}). Initializing: {initializing}. Checking again every few seconds.",
+      "investigate_again": "Investigate again",
+      "steps": {
+        "check": "Check the cluster",
+        "explain": "Explain a shard",
+        "fix": "Fix the cause",
+        "verify": "Wait for recovery"
+      },
+      "remedies": {
+        "enable_allocation": {
+          "title": "Enable shard allocation",
+          "text": "Allow Elasticsearch to assign all shards again.",
+          "action": "Enable"
+        },
+        "zero_replicas": {
+          "title": "Remove replicas"
+        }
+      }
+    },
+    "restart": {
+      "title": "Rolling restart",
+      "description": "Restart nodes one at a time without moving shards around.",
+      "keywords": "restart upgrade maintenance flush allocation primaries",
+      "status": "One node at a time",
+      "status_paused": "Replica allocation paused",
+      "explanation": "Restart nodes one by one, for example for an upgrade or a configuration change. Repeat these steps for every node.",
+      "not_green": "The cluster is not green. Restarting a node now can make data unavailable.",
+      "disable_explanation": "Only primary shards will be allocated. This stops Elasticsearch from copying replicas to other nodes while a node is down.",
+      "disable": "Pause replica allocation",
+      "confirm_disable": "Pause replica allocation? Remember to enable it again after the restart.",
+      "flush_explanation": "Flushing writes all indexed data to disk, so shards recover faster after the restart.",
+      "flush": "Flush all indices",
+      "flushed": "All indices flushed.",
+      "restart_explanation": "Restart one node now. Continue when it has joined the cluster again.",
+      "nodes": "Nodes in the cluster: {now} of {expected}.",
+      "waiting_for_node": "Waiting for the node to join the cluster again.",
+      "node_back": "The node is back",
+      "enable_explanation": "Allow Elasticsearch to allocate replicas again, so the restarted node gets its shards back.",
+      "enable": "Enable allocation",
+      "done": "The cluster is green. You can restart the next node.",
+      "recovering": "Cluster health: {status}. Initializing: {initializing}, unassigned: {unassigned}. Checking again every few seconds.",
+      "next_node": "Restart the next node",
+      "steps": {
+        "check": "Check cluster health",
+        "disable": "Pause replica allocation",
+        "flush": "Flush indices (optional)",
+        "restart": "Restart the node",
+        "enable": "Enable allocation again",
+        "verify": "Wait for green"
+      }
+    },
+    "writes": {
+      "title": "Restore index writes",
+      "description": "Find and clear blocks that reject writes to the cluster or to indices.",
+      "keywords": "read only blocked write flood stage cluster blocks",
+      "status": "{count} block | {count} blocks",
+      "none": "No write blocks",
+      "cluster_blocked": "The whole cluster is \"{mode}\".",
+      "cluster_explanation": "A cluster block rejects writes to every index, no matter what the index settings say.",
+      "clear_cluster": "Make the cluster writable",
+      "confirm_clear_cluster": "Remove the cluster write block?",
+      "resolved": "The cluster and all user indices accept writes again.",
+      "remaining": "These blocks are still active:",
+      "steps": {
+        "check": "Find write blocks",
+        "clear": "Clear the blocks",
+        "verify": "Check that writes work"
+      }
+    },
+    "index_settings": {
+      "title": "Index settings",
+      "description": "Change replicas or the refresh interval of several indices.",
+      "keywords": "replicas refresh interval redundancy bulk indexing single node",
+      "status": "Replicas and refresh interval",
+      "steps": {
+      }
     }
   },
   "update_check": {

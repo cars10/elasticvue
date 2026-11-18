@@ -2,6 +2,8 @@ import { describe, expect, it } from 'vitest'
 import {
   addAllocationExclusion,
   clusterSettingsUpdate,
+  drainCapacity,
+  floodStageDiskSafe,
   effectiveSetting,
   indicesNeedingZeroReplicaHelper,
   mergeNodeAllocations,
@@ -12,6 +14,7 @@ import {
   removeAllocationExclusion,
   settingMode,
   summarizeAllocationExplanation,
+  unassignedRemedies,
   userManagedIndices,
   validateWatermarks
 } from '../../../src/helpers/clusterTools.ts'
@@ -234,6 +237,70 @@ describe('helpers/clusterTools.ts', () => {
         persistent: { [key]: 'none' },
         transient: { [key]: 'none' }
       })
+    })
+  })
+  describe('playbooks', () => {
+    const node = (id: string, diskAvailableBytes: number | null, diskUsedPercent: number | null = 50) => ({
+      id,
+      name: `name-${id}`,
+      roles: [],
+      attributes: {},
+      shardCount: 1,
+      diskUsedPercent,
+      diskAvailableBytes
+    })
+
+    it('checks if the remaining nodes can take the shards of a drained node', () => {
+      const shards = [
+        { index: 'a', shard: '0', prirep: 'p', state: 'STARTED', node: 'name-1', store: '600' },
+        { index: 'a', shard: '0', prirep: 'r', state: 'STARTED', node: 'name-2', store: '600' },
+        { index: 'b', shard: '0', prirep: 'p', state: 'STARTED', node: 'name-1', store: '500' }
+      ]
+      expect(drainCapacity(node('1', 100), [node('1', 100), node('2', 1000), node('3', null)], shards)).toEqual({
+        targetCount: 1,
+        requiredBytes: 1100,
+        freeBytes: 1000,
+        enough: false
+      })
+      expect(drainCapacity(node('1', 100), [node('1', 100), node('2', 5000)], shards).enough).toBe(true)
+      expect(drainCapacity(node('1', 100), [node('1', 100)], shards)).toMatchObject({ targetCount: 0, enough: null })
+    })
+
+    it('checks disk usage against the flood stage watermark', () => {
+      expect(floodStageDiskSafe([], '95%')).toBeNull()
+      expect(floodStageDiskSafe([node('1', 10, 80)], '95%')).toBe(true)
+      expect(floodStageDiskSafe([node('1', 10, 96)], '95%')).toBe(false)
+      expect(floodStageDiskSafe([node('1', 10, null)], '95%')).toBeNull()
+      expect(floodStageDiskSafe([node('1', 2048)], '1kb')).toBe(true)
+      expect(floodStageDiskSafe([node('1', 512)], '1kb')).toBe(false)
+    })
+
+    it('suggests remedies for unassigned shards', () => {
+      const summary = { primary: false, reason: null, decisions: [], singleNodeReplica: true }
+      expect(
+        unassignedRemedies({ allocationMode: 'none', summary, explanation: null, singleNodeReplicaCount: 2, canRetry: false })
+      ).toEqual([
+        { id: 'enable_allocation', recommended: true },
+        { id: 'zero_replicas', recommended: true }
+      ])
+      expect(
+        unassignedRemedies({
+          allocationMode: 'all',
+          summary: null,
+          explanation: { unassigned_info: { reason: 'ALLOCATION_FAILED' } },
+          singleNodeReplicaCount: 0,
+          canRetry: true
+        })
+      ).toEqual([{ id: 'retry', recommended: true }])
+      expect(
+        unassignedRemedies({
+          allocationMode: 'all',
+          summary: { ...summary, singleNodeReplica: false },
+          explanation: {},
+          singleNodeReplicaCount: 0,
+          canRetry: true
+        })
+      ).toEqual([{ id: 'retry', recommended: false }])
     })
   })
 })

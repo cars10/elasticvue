@@ -6,27 +6,15 @@
         <div class="text-muted q-mt-xs">{{ t('tools.subtitle') }}</div>
       </div>
       <div class="col-12 col-md-auto row items-center no-wrap q-gutter-sm">
-        <q-input
-          v-model="filter"
-          outlined
-          dense
-          clearable
-          class="tools-filter"
-          :aria-label="t('tools.filter')"
-          :placeholder="t('tools.filter')"
-        >
-          <template #prepend>
-            <q-icon name="search" size="18px" />
-          </template>
-        </q-input>
+        <filter-input v-model="filter" :label="t('tools.filter')" class="tools-filter" />
         <reload-button :action="tools.refresh" />
       </div>
     </div>
 
+    <filter-state v-model="filter" :results-count="definitions.length" :filtered-results-count="filteredCount" class="q-mb-md" />
+
     <section v-for="group in groups" :key="group.id" class="q-mb-lg" :aria-labelledby="`tools-${group.id}`">
-      <h2 :id="`tools-${group.id}`" class="section-title" :class="{ 'text-warning-strong': group.id === 'attention' }">
-        {{ labels.group(group.id) }}
-      </h2>
+      <h2 :id="`tools-${group.id}`" class="section-title">{{ labels.group(group.id) }}</h2>
       <q-card>
         <q-list separator>
           <q-item
@@ -69,6 +57,8 @@ import { provideClusterTools } from '../../composables/components/tools/ClusterT
 import { useToolLabels } from '../../composables/components/tools/ToolLabels.ts'
 import { TOOL_GROUPS, ToolDefinition, useToolDefinitions } from './toolDefinitions.ts'
 import ReloadButton from '../shared/ReloadButton.vue'
+import FilterInput from '../shared/FilterInput.vue'
+import FilterState from '../shared/FilterState.vue'
 import ToolPanel from './ToolPanel.vue'
 
 const t = useTranslation()
@@ -77,21 +67,22 @@ const route = useRoute()
 const router = useRouter()
 const tools = provideClusterTools()
 const definitions = useToolDefinitions(tools)
-const filter = ref<string | null>('')
+const filter = ref('')
 
 const matches = (tool: ToolDefinition) => {
-  const terms = (filter.value || '').trim().toLowerCase().split(/\s+/).filter(Boolean)
+  const terms = filter.value.trim().toLowerCase().split(/\s+/).filter(Boolean)
   const text = [tool.title, tool.description, tool.keywords, ...tool.endpoints].join(' ').toLowerCase()
   return terms.every((term) => text.includes(term))
 }
 
 const groups = computed(() => {
   const visible = definitions.value.filter(matches)
-  return [
-    { id: 'attention', tools: visible.filter((tool) => tool.attention) },
-    ...TOOL_GROUPS.map((id) => ({ id, tools: visible.filter((tool) => tool.group === id && !tool.attention) }))
-  ].filter((group) => group.tools.length)
+  return TOOL_GROUPS.map((id) => ({ id, tools: visible.filter((tool) => tool.group === id) })).filter(
+    (group) => group.tools.length
+  )
 })
+
+const filteredCount = computed(() => groups.value.reduce((count, group) => count + group.tools.length, 0))
 
 const selectedTool = computed(() => definitions.value.find((tool) => tool.id === route.query.tool) || null)
 
@@ -136,9 +127,5 @@ onMounted(tools.refresh)
 .tool-row__status--attention {
   color: var(--theme-warning-text);
   font-weight: 500;
-}
-
-.text-warning-strong {
-  color: var(--theme-warning-text);
 }
 </style>

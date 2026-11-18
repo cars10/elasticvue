@@ -81,7 +81,8 @@ export const useToolLabels = () => {
           shards: t('tools.inspect.shards'),
           indices: t('tools.inspect.indices'),
           explanation: t('tools.inspect.explanation'),
-          voting: t('tools.inspect.voting')
+          voting: t('tools.inspect.voting'),
+          health: t('tools.inspect.health')
         },
         what
       ),
@@ -97,12 +98,8 @@ export const useToolLabels = () => {
     group: (group: string) =>
       pick(
         {
-          attention: t('tools.groups.attention'),
-          shards: t('tools.groups.shards'),
-          indices: t('tools.groups.indices'),
-          disk: t('tools.groups.disk'),
-          safety: t('tools.groups.safety'),
-          advanced: t('tools.groups.advanced')
+          maintenance: t('tools.groups.maintenance'),
+          settings: t('tools.groups.settings')
         },
         group
       ),

@@ -404,7 +404,8 @@
       "actions": {
         "view_shards": "シャードを表示",
         "view_nodes": "ノードを表示",
-        "view_indices": "インデックスを表示"
+        "view_indices": "インデックスを表示",
+        "open_tool": "ツールで開く"
       },
       "checks": {
         "shards": {
@@ -1540,12 +1541,8 @@
     "excluded_indices": "システム、非表示、データストリームのバッキングインデックスは除外されます。",
     "confirm_restore": "「{setting}」を Elasticsearch のデフォルトに戻しますか？",
     "groups": {
-      "attention": "要確認",
-      "shards": "シャードと割り当て",
-      "indices": "インデックス",
-      "disk": "ディスクとリカバリ",
-      "safety": "安全対策",
-      "advanced": "詳細"
+      "maintenance": "修復とメンテナンス",
+      "settings": "クラスタ設定"
     },
     "sources": {
       "transient": "transient",
@@ -1559,7 +1556,6 @@
       "enabled": "有効",
       "disabled": "無効",
       "unavailable": "利用不可",
-      "no_user_indices": "ユーザーインデックスなし",
       "no_unassigned": "未割り当てシャードなし",
       "unassigned": "未割り当てシャード {count} 件"
     },
@@ -1574,7 +1570,8 @@
       "shards": "シャード",
       "indices": "インデックス設定",
       "explanation": "割り当ての説明",
-      "voting": "投票除外"
+      "voting": "投票除外",
+      "health": "クラスタの状態"
     },
     "errors": {
       "forbidden": "このユーザーには{what}を読み取る権限がありません。",
@@ -1609,8 +1606,8 @@
       }
     },
     "drain": {
-      "title": "ノードを空にする",
-      "description": "ノードを停止する前にシャードを移動します。",
+      "title": "ノードを取り外す",
+      "description": "ノードのすべてのシャードを移動し、停止または交換できるようにします。",
       "keywords": "退避 停止 メンテナンス 除外 再配置 drain shutdown exclude",
       "explanation": "ノードを割り当てから除外し、Elasticsearch がそのシャードを他のノードへ移動します。ノード自体は稼働したままです。",
       "allocation_disabled": "割り当てが無効のため、有効に戻すまでシャードは移動できません。",
@@ -1628,12 +1625,25 @@
       "confirm_start": "{name}（{id}）を空にしますか？シャードは他のノードへ移動されます。",
       "confirm_stop": "{name}（{id}）の退避を停止しますか？",
       "started": "ノードの退避を開始しました。",
-      "stopped": "ノードの退避を停止しました。"
+      "stopped": "ノードの退避を停止しました。",
+      "steps": {
+        "node": "ノードを選択",
+        "exclude": "割り当てから除外",
+        "monitor": "シャードの移動を待つ",
+        "done": "ノードは空です"
+      },
+      "no_targets": "このノードのシャードを受け入れられる他のデータノードがありません。",
+      "not_enough_disk": "このノードのシャードは {required} を使用していますが、他のノードの空き容量は {free} しかありません。",
+      "health_red": "クラスタが赤です。データを移動する前に、欠けているプライマリシャードを修復してください。",
+      "exclude_explanation": "Elasticsearch はこのノードのすべてのシャードを他のノードに移動します。移動中も検索と書き込みは動作します。",
+      "done_next": "今ノードを停止してください。停止中は除外を維持し、ノードが復帰、交換、または完全に削除されたら除外を解除してください。",
+      "voting_explanation": "このノードはマスター候補です。クラスタが安定したマスターを維持できるよう、停止する前に投票構成から除外してください。",
+      "voting_add": "投票構成から除外",
+      "voting_done": "ノードは投票構成から除外されています。",
+      "confirm_voting": "{name} を投票構成から除外しますか？",
+      "cleanup": "除外を解除"
     },
     "explain": {
-      "title": "未割り当てシャードの説明",
-      "description": "シャードを割り当てられない理由を Elasticsearch に問い合わせます。",
-      "keywords": "割り当て 診断 決定 未割り当て explain deciders unassigned",
       "shard": "未割り当てシャード",
       "primary": "プライマリ",
       "replica": "レプリカ",
@@ -1647,8 +1657,6 @@
     },
     "retry": {
       "title": "失敗した割り当てを再試行",
-      "description": "割り当ての再試行上限に達したシャードを再試行します。",
-      "keywords": "再試行 上限 失敗 reroute retry failed",
       "explanation": "まず根本原因を解決してから、失敗した割り当ての再試行を Elasticsearch に依頼してください。",
       "run": "割り当てを再試行",
       "confirm": "失敗した割り当てを再試行しますか？未割り当てのシャードは {count} 件です。",
@@ -1670,8 +1678,6 @@
     },
     "blocks": {
       "title": "インデックスの書き込みブロック",
-      "description": "読み取り専用や書き込みブロックを見つけて解除します。",
-      "keywords": "読み取り専用 フラッド 書き込み ブロック read only flood write block",
       "indices": "ブロック中のインデックス",
       "status": "{count} インデックスがブロック中",
       "status_none": "ブロック中のユーザーインデックスなし",
@@ -1687,10 +1693,7 @@
     },
     "replicas": {
       "title": "レプリカ",
-      "description": "選択したインデックスのレプリカ数を変更します。",
-      "keywords": "冗長性 単一ノード レプリカ数 replica count",
       "count": "レプリカ数",
-      "status": "インデックスごとに設定",
       "status_single_node": "{count} 個のインデックスでレプリカを割り当てられません",
       "single_node": "このクラスタにはデータノードが 1 つしかないため、{count} 個のインデックスのレプリカを割り当てられません。",
       "set_zero": "レプリカを 0 にする",
@@ -1701,12 +1704,9 @@
     },
     "refresh": {
       "title": "リフレッシュ間隔",
-      "description": "新しいドキュメントが検索可能になるまでの時間。",
-      "keywords": "リフレッシュ 間隔 検索 可視性 インデックス作成 refresh interval bulk",
       "interval": "リフレッシュ間隔",
       "custom": "カスタム",
       "custom_hint": "500ms や 2m などの時間値。",
-      "status_mixed": "混在",
       "disabled_warning": "インデックスを手動でリフレッシュするまで、新しいドキュメントは検索できません。",
       "confirm": "{count} 個のインデックスのリフレッシュ間隔を {value} にしますか？",
       "updated": "{count} 個のインデックスのリフレッシュ間隔を更新しました。"
@@ -1791,29 +1791,101 @@
       }
     },
     "voting": {
-      "title": "投票除外",
-      "description": "マスター候補ノードの削除に備えます。",
-      "keywords": "投票 構成 除外 マスター候補 トポロジ 削除 voting",
-      "explanation": "マスター候補ノードの半数以上を一度に削除する場合にのみ必要です。",
-      "nodes": "マスター候補ノード",
-      "add": "除外を追加",
-      "clear": "除外をクリア",
-      "status": "有効 {count}",
-      "status_none": "なし",
-      "confirm_add": "{count} ノードを投票から除外しますか？",
-      "confirm_clear": "すべての投票除外をクリアしますか？Elasticsearch は除外したノードがクラスタから離脱するまで待機します。",
       "added": "投票除外を追加しました。",
       "cleared": "投票除外をクリアしました。"
     },
-    "awareness": {
-      "title": "割り当てアウェアネス",
-      "description": "シャードのコピーを分散させるためのゾーンやラックの属性。",
-      "keywords": "ゾーン ラック 属性 障害ドメイン awareness zone rack",
-      "status": "{count} 個の属性",
-      "status_none": "未設定",
-      "values": "ノードの値: {values}",
-      "forced": "強制値: {values}",
-      "hint": "属性は各ノードで設定するため、ここでは変更できません。"
+    "awareness": {},
+    "steps": {
+      "continue": "続ける",
+      "back": "戻る",
+      "skip": "スキップ",
+      "verify": "結果を確認"
+    },
+    "unassigned": {
+      "title": "未割り当てシャードを修正",
+      "description": "シャードが割り当てられない理由を調べ、原因を修正して回復を待ちます。",
+      "keywords": "未割り当て 説明 割り当て 再試行 黄色 赤 レプリカ",
+      "found": "未割り当てシャード: {count}（うちプライマリ {primaries}）。",
+      "allocation_limited": "シャード割り当てが「{mode}」に設定されています。これが最も可能性の高い原因です。",
+      "single_node": "このクラスタにはデータノードが 1 つしかないため、レプリカは割り当てられません。",
+      "recommended": "推奨",
+      "no_fix": "この原因に対する修正はここにはありません。説明の判定を確認してください。よくある原因はディスクのウォーターマーク、割り当てフィルタ、ノードの不足です。",
+      "resolved": "すべてのシャードが割り当てられました。以前の未割り当て数: {before}。",
+      "remaining": "未割り当てシャード: {now}（以前: {before}）。初期化中: {initializing}。数秒ごとに再確認します。",
+      "investigate_again": "もう一度調査",
+      "steps": {
+        "check": "クラスタを確認",
+        "explain": "シャードを説明",
+        "fix": "原因を修正",
+        "verify": "回復を待つ"
+      },
+      "remedies": {
+        "enable_allocation": {
+          "title": "シャード割り当てを有効化",
+          "text": "Elasticsearch がすべてのシャードを再び割り当てられるようにします。",
+          "action": "有効化"
+        },
+        "zero_replicas": {
+          "title": "レプリカを削除"
+        }
+      }
+    },
+    "restart": {
+      "title": "ローリング再起動",
+      "description": "シャードを移動せずにノードを 1 つずつ再起動します。",
+      "keywords": "再起動 アップグレード メンテナンス flush 割り当て プライマリ",
+      "status": "1 ノードずつ",
+      "status_paused": "レプリカ割り当て一時停止中",
+      "explanation": "アップグレードや設定変更などのために、ノードを 1 つずつ再起動します。各ノードでこの手順を繰り返してください。",
+      "not_green": "クラスタが緑ではありません。今ノードを再起動するとデータが利用できなくなる可能性があります。",
+      "disable_explanation": "プライマリシャードのみが割り当てられます。ノードの停止中に Elasticsearch がレプリカを他のノードにコピーしなくなります。",
+      "disable": "レプリカ割り当てを一時停止",
+      "confirm_disable": "レプリカ割り当てを一時停止しますか？再起動後に必ず再度有効にしてください。",
+      "flush_explanation": "Flush はインデックスされたすべてのデータをディスクに書き込むため、再起動後のシャード回復が速くなります。",
+      "flush": "すべてのインデックスを flush",
+      "flushed": "すべてのインデックスを flush しました。",
+      "restart_explanation": "今 1 つのノードを再起動してください。クラスタに再参加したら続けてください。",
+      "nodes": "クラスタ内のノード: {now} / {expected}。",
+      "waiting_for_node": "ノードがクラスタに再参加するのを待っています。",
+      "node_back": "ノードが復帰しました",
+      "enable_explanation": "Elasticsearch がレプリカを再び割り当てられるようにし、再起動したノードがシャードを取り戻せるようにします。",
+      "enable": "割り当てを有効化",
+      "done": "クラスタは緑です。次のノードを再起動できます。",
+      "recovering": "クラスタの状態: {status}。初期化中: {initializing}、未割り当て: {unassigned}。数秒ごとに再確認します。",
+      "next_node": "次のノードを再起動",
+      "steps": {
+        "check": "クラスタの状態を確認",
+        "disable": "レプリカ割り当てを一時停止",
+        "flush": "インデックスを flush（任意）",
+        "restart": "ノードを再起動",
+        "enable": "割り当てを再度有効化",
+        "verify": "緑になるのを待つ"
+      }
+    },
+    "writes": {
+      "title": "インデックスへの書き込みを復旧",
+      "description": "クラスタやインデックスへの書き込みを拒否するブロックを見つけて解除します。",
+      "keywords": "読み取り専用 ブロック 書き込み フラッドステージ クラスタブロック",
+      "status": "ブロック: {count}",
+      "none": "書き込みブロックなし",
+      "cluster_blocked": "クラスタ全体が「{mode}」です。",
+      "cluster_explanation": "クラスタブロックは、インデックスの設定に関係なく、すべてのインデックスへの書き込みを拒否します。",
+      "clear_cluster": "クラスタを書き込み可能にする",
+      "confirm_clear_cluster": "クラスタの書き込みブロックを解除しますか？",
+      "resolved": "クラスタとすべてのユーザーインデックスが再び書き込みを受け付けています。",
+      "remaining": "次のブロックがまだ有効です:",
+      "steps": {
+        "check": "書き込みブロックを探す",
+        "clear": "ブロックを解除",
+        "verify": "書き込みできるか確認"
+      }
+    },
+    "index_settings": {
+      "title": "インデックス設定",
+      "description": "複数のインデックスのレプリカ数またはリフレッシュ間隔を変更します。",
+      "keywords": "レプリカ リフレッシュ間隔 冗長性 一括インデックス 単一ノード",
+      "status": "レプリカとリフレッシュ間隔",
+      "steps": {}
     }
   },
   "update_check": {

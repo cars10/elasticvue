@@ -51,6 +51,19 @@
                 >
                   {{ check.action.label }}
                 </router-link>
+                <router-link
+                  v-if="toolFor(check)"
+                  :to="{
+                    name: 'tools',
+                    params: { clusterId: connectionStore.activeClusterId },
+                    query: { tool: toolFor(check) }
+                  }"
+                  class="font-13 q-mt-xs q-ml-md inline-block"
+                  :data-testid="`attention-tool-${check.id}`"
+                  @click.stop
+                >
+                  {{ t('home.attention.actions.open_tool') }}
+                </router-link>
               </template>
             </div>
           </div>
@@ -63,6 +76,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { useConnectionStore } from '../../store/connection.ts'
+import { useClusterSession } from '../../store/clusterSession.ts'
 import { useTranslation } from '../../composables/i18n.ts'
 import type { AttentionCheck } from '../../types/homeDashboard.ts'
 
@@ -82,6 +96,10 @@ const appearance = computed(() => ({
 }))
 
 const isIssue = (check: AttentionCheck) => check.severity !== 'ok' && check.severity !== 'unknown'
+
+const ATTENTION_TOOLS: Record<string, string> = { shards: 'unassigned', 'index-blocks': 'writes', allocation: 'allocation' }
+const session = useClusterSession()
+const toolFor = (check: AttentionCheck) => (session.capabilities.serverless ? null : ATTENTION_TOOLS[check.id])
 
 const LEFT_IDS = ['shards', 'index-blocks', 'allocation', 'pending-tasks', 'versions']
 const RIGHT_IDS = ['disk', 'rejections', 'breakers', 'jvm', 'file-descriptors', 'monitoring']

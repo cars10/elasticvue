@@ -404,7 +404,8 @@
       "actions": {
         "view_shards": "Vedi shard",
         "view_nodes": "Vedi nodi",
-        "view_indices": "Vedi indici"
+        "view_indices": "Vedi indici",
+        "open_tool": "Apri negli strumenti"
       },
       "checks": {
         "shards": {
@@ -1540,12 +1541,8 @@
     "excluded_indices": "Gli indici di sistema, nascosti e dei data stream sono esclusi.",
     "confirm_restore": "Ripristinare \"{setting}\" al valore predefinito di Elasticsearch?",
     "groups": {
-      "attention": "Da controllare",
-      "shards": "Shard e allocazione",
-      "indices": "Indici",
-      "disk": "Disco e recovery",
-      "safety": "Sicurezza",
-      "advanced": "Avanzate"
+      "maintenance": "Riparazione e manutenzione",
+      "settings": "Impostazioni del cluster"
     },
     "sources": {
       "transient": "transitorio",
@@ -1559,7 +1556,6 @@
       "enabled": "Attivo",
       "disabled": "Disattivato",
       "unavailable": "Non disponibile",
-      "no_user_indices": "Nessun indice utente",
       "no_unassigned": "Nessuno shard non assegnato",
       "unassigned": "{count} shard non assegnato | {count} shard non assegnati"
     },
@@ -1574,7 +1570,8 @@
       "shards": "gli shard",
       "indices": "le impostazioni degli indici",
       "explanation": "la spiegazione dell’allocazione",
-      "voting": "le esclusioni dal voto"
+      "voting": "le esclusioni dal voto",
+      "health": "lo stato del cluster"
     },
     "errors": {
       "forbidden": "Il tuo utente non può leggere {what}.",
@@ -1609,8 +1606,8 @@
       }
     },
     "drain": {
-      "title": "Svuota nodo",
-      "description": "Sposta gli shard da un nodo prima di spegnerlo.",
+      "title": "Rimuovi un nodo",
+      "description": "Sposta tutti gli shard da un nodo per poterlo spegnere o sostituire.",
       "keywords": "svuotare spegnimento manutenzione escludere rilocazione drain shutdown exclude",
       "explanation": "Il nodo viene escluso dall’allocazione, quindi Elasticsearch sposta i suoi shard su altri nodi. Il nodo resta in esecuzione.",
       "allocation_disabled": "L’allocazione è disattivata, quindi gli shard non possono spostarsi finché non viene riattivata.",
@@ -1628,12 +1625,25 @@
       "confirm_start": "Svuotare {name} ({id})? I suoi shard verranno spostati su altri nodi.",
       "confirm_stop": "Interrompere lo svuotamento di {name} ({id})?",
       "started": "Svuotamento del nodo avviato.",
-      "stopped": "Svuotamento del nodo interrotto."
+      "stopped": "Svuotamento del nodo interrotto.",
+      "steps": {
+        "node": "Scegli un nodo",
+        "exclude": "Escludilo dall'allocazione",
+        "monitor": "Attendi lo spostamento degli shard",
+        "done": "Il nodo è vuoto"
+      },
+      "no_targets": "Non esiste un altro nodo dati che possa ricevere gli shard di questo nodo.",
+      "not_enough_disk": "Gli shard su questo nodo occupano {required}, ma gli altri nodi hanno solo {free} di spazio libero.",
+      "health_red": "Il cluster è rosso. Risolvi gli shard primari mancanti prima di spostare i dati.",
+      "exclude_explanation": "Elasticsearch sposterà tutti gli shard di questo nodo su altri nodi. Ricerche e scritture continuano a funzionare durante lo spostamento.",
+      "done_next": "Spegni il nodo ora. Mantieni le esclusioni mentre è spento e rimuovile quando il nodo torna, viene sostituito o è rimosso definitivamente.",
+      "voting_explanation": "Questo nodo è idoneo come master. Rimuovilo dalla configurazione di voto prima di spegnerlo, così il cluster mantiene un master stabile.",
+      "voting_add": "Rimuovi dalla configurazione di voto",
+      "voting_done": "Il nodo è escluso dalla configurazione di voto.",
+      "confirm_voting": "Rimuovere {name} dalla configurazione di voto?",
+      "cleanup": "Rimuovi le esclusioni"
     },
     "explain": {
-      "title": "Spiega shard non assegnati",
-      "description": "Chiedi a Elasticsearch perché uno shard non può essere assegnato.",
-      "keywords": "allocazione diagnostica decisori non assegnato explain deciders unassigned",
       "shard": "Shard non assegnato",
       "primary": "primario",
       "replica": "replica",
@@ -1647,8 +1657,6 @@
     },
     "retry": {
       "title": "Riprova allocazioni fallite",
-      "description": "Riprova gli shard che hanno raggiunto il limite di tentativi di allocazione.",
-      "keywords": "riprovare limite fallito reroute retry failed",
       "explanation": "Risolvi prima la causa, poi chiedi a Elasticsearch di riprovare le allocazioni fallite.",
       "run": "Riprova allocazioni",
       "confirm": "Riprovare le allocazioni fallite? {count} shard non è assegnato. | Riprovare le allocazioni fallite? {count} shard non sono assegnati.",
@@ -1670,8 +1678,6 @@
     },
     "blocks": {
       "title": "Blocchi di scrittura degli indici",
-      "description": "Trova e rimuovi blocchi di sola lettura o di scrittura.",
-      "keywords": "sola lettura flood scrittura blocco read only write block",
       "indices": "Indici bloccati",
       "status": "{count} indice bloccato | {count} indici bloccati",
       "status_none": "Nessun indice utente bloccato",
@@ -1687,10 +1693,7 @@
     },
     "replicas": {
       "title": "Repliche",
-      "description": "Modifica il numero di repliche degli indici selezionati.",
-      "keywords": "ridondanza nodo singolo numero repliche replica count",
       "count": "Repliche",
-      "status": "Impostato per indice",
       "status_single_node": "{count} indice con repliche non assegnabili | {count} indici con repliche non assegnabili",
       "single_node": "Questo cluster ha un solo nodo dati, quindi le repliche di {count} indice non possono essere assegnate. | Questo cluster ha un solo nodo dati, quindi le repliche di {count} indici non possono essere assegnate.",
       "set_zero": "Imposta a 0 repliche",
@@ -1701,12 +1704,9 @@
     },
     "refresh": {
       "title": "Intervallo di refresh",
-      "description": "Quanto presto i nuovi documenti diventano ricercabili.",
-      "keywords": "refresh intervallo ricerca visibilità indicizzazione bulk",
       "interval": "Intervallo di refresh",
       "custom": "Personalizzato",
       "custom_hint": "Un valore di tempo come 500ms o 2m.",
-      "status_mixed": "Misto",
       "disabled_warning": "I nuovi documenti non saranno ricercabili finché l’indice non viene aggiornato manualmente.",
       "confirm": "Impostare l’intervallo di refresh di {count} indice a {value}? | Impostare l’intervallo di refresh di {count} indici a {value}?",
       "updated": "Intervallo di refresh aggiornato su {count} indice. | Intervallo di refresh aggiornato su {count} indici."
@@ -1791,29 +1791,101 @@
       }
     },
     "voting": {
-      "title": "Esclusioni dal voto",
-      "description": "Prepara i nodi master-eligible alla rimozione.",
-      "keywords": "voto configurazione esclusioni master eligible topologia rimozione voting",
-      "explanation": "Serve solo quando rimuovi metà o più dei nodi master-eligible in una volta.",
-      "nodes": "Nodi master-eligible",
-      "add": "Aggiungi esclusioni",
-      "clear": "Rimuovi esclusioni",
-      "status": "{count} attive",
-      "status_none": "Nessuna",
-      "confirm_add": "Escludere {count} nodo dal voto? | Escludere {count} nodi dal voto?",
-      "confirm_clear": "Rimuovere tutte le esclusioni dal voto? Elasticsearch attende che i nodi esclusi abbiano lasciato il cluster.",
       "added": "Esclusione dal voto aggiunta. | Esclusioni dal voto aggiunte.",
       "cleared": "Esclusioni dal voto rimosse."
     },
-    "awareness": {
-      "title": "Allocation awareness",
-      "description": "Attributi di zona o rack usati per distribuire le copie degli shard.",
-      "keywords": "zona rack attributi dominio di guasto awareness",
-      "status": "{count} attributo | {count} attributi",
-      "status_none": "Non configurato",
-      "values": "Valori dei nodi: {values}",
-      "forced": "Valori forzati: {values}",
-      "hint": "Gli attributi si configurano su ogni nodo e non possono essere modificati qui."
+    "awareness": {},
+    "steps": {
+      "continue": "Continua",
+      "back": "Indietro",
+      "skip": "Salta",
+      "verify": "Controlla il risultato"
+    },
+    "unassigned": {
+      "title": "Risolvi gli shard non assegnati",
+      "description": "Scopri perché gli shard non sono assegnati, risolvi la causa e attendi il ripristino.",
+      "keywords": "non assegnati spiegazione allocazione riprova giallo rosso repliche",
+      "found": "Shard non assegnati: {count}, di cui {primaries} primari.",
+      "allocation_limited": "L'allocazione degli shard è impostata su \"{mode}\". Questa è la causa più probabile.",
+      "single_node": "Questo cluster ha un solo nodo dati, quindi le repliche non possono mai essere assegnate.",
+      "recommended": "Consigliato",
+      "no_fix": "Qui non c'è una soluzione per questa causa. Controlla le decisioni della spiegazione, le cause comuni sono le soglie del disco, i filtri di allocazione o nodi mancanti.",
+      "resolved": "Tutti gli shard sono assegnati. Prima ne erano non assegnati {before}.",
+      "remaining": "Shard non assegnati: {now} (prima: {before}). In inizializzazione: {initializing}. Nuovo controllo ogni pochi secondi.",
+      "investigate_again": "Analizza di nuovo",
+      "steps": {
+        "check": "Controlla il cluster",
+        "explain": "Spiega uno shard",
+        "fix": "Risolvi la causa",
+        "verify": "Attendi il ripristino"
+      },
+      "remedies": {
+        "enable_allocation": {
+          "title": "Abilita l'allocazione degli shard",
+          "text": "Permetti a Elasticsearch di assegnare di nuovo tutti gli shard.",
+          "action": "Abilita"
+        },
+        "zero_replicas": {
+          "title": "Rimuovi le repliche"
+        }
+      }
+    },
+    "restart": {
+      "title": "Riavvio progressivo",
+      "description": "Riavvia i nodi uno alla volta senza spostare gli shard.",
+      "keywords": "riavvio aggiornamento manutenzione flush allocazione primari",
+      "status": "Un nodo alla volta",
+      "status_paused": "Allocazione delle repliche in pausa",
+      "explanation": "Riavvia i nodi uno alla volta, ad esempio per un aggiornamento o una modifica della configurazione. Ripeti questi passaggi per ogni nodo.",
+      "not_green": "Il cluster non è verde. Riavviare un nodo ora può rendere i dati non disponibili.",
+      "disable_explanation": "Verranno allocati solo gli shard primari. Elasticsearch non copierà le repliche su altri nodi mentre un nodo è spento.",
+      "disable": "Metti in pausa l'allocazione delle repliche",
+      "confirm_disable": "Mettere in pausa l'allocazione delle repliche? Ricordati di riabilitarla dopo il riavvio.",
+      "flush_explanation": "Il flush scrive su disco tutti i dati indicizzati, così gli shard si ripristinano più velocemente dopo il riavvio.",
+      "flush": "Flush di tutti gli indici",
+      "flushed": "Flush di tutti gli indici completato.",
+      "restart_explanation": "Riavvia un nodo ora. Continua quando è rientrato nel cluster.",
+      "nodes": "Nodi nel cluster: {now} di {expected}.",
+      "waiting_for_node": "In attesa che il nodo rientri nel cluster.",
+      "node_back": "Il nodo è tornato",
+      "enable_explanation": "Permetti a Elasticsearch di allocare di nuovo le repliche, così il nodo riavviato riottiene i suoi shard.",
+      "enable": "Abilita l'allocazione",
+      "done": "Il cluster è verde. Puoi riavviare il nodo successivo.",
+      "recovering": "Stato del cluster: {status}. In inizializzazione: {initializing}, non assegnati: {unassigned}. Nuovo controllo ogni pochi secondi.",
+      "next_node": "Riavvia il nodo successivo",
+      "steps": {
+        "check": "Controlla lo stato del cluster",
+        "disable": "Metti in pausa l'allocazione delle repliche",
+        "flush": "Flush degli indici (opzionale)",
+        "restart": "Riavvia il nodo",
+        "enable": "Riabilita l'allocazione",
+        "verify": "Attendi il verde"
+      }
+    },
+    "writes": {
+      "title": "Ripristina la scrittura degli indici",
+      "description": "Trova e rimuovi i blocchi che rifiutano le scritture sul cluster o sugli indici.",
+      "keywords": "sola lettura bloccato scrittura soglia disco blocchi cluster",
+      "status": "Blocchi: {count}",
+      "none": "Nessun blocco di scrittura",
+      "cluster_blocked": "L'intero cluster è \"{mode}\".",
+      "cluster_explanation": "Un blocco del cluster rifiuta le scritture su tutti gli indici, indipendentemente dalle loro impostazioni.",
+      "clear_cluster": "Rendi il cluster scrivibile",
+      "confirm_clear_cluster": "Rimuovere il blocco di scrittura del cluster?",
+      "resolved": "Il cluster e tutti gli indici utente accettano di nuovo le scritture.",
+      "remaining": "Questi blocchi sono ancora attivi:",
+      "steps": {
+        "check": "Trova i blocchi di scrittura",
+        "clear": "Rimuovi i blocchi",
+        "verify": "Verifica che la scrittura funzioni"
+      }
+    },
+    "index_settings": {
+      "title": "Impostazioni degli indici",
+      "description": "Modifica le repliche o l'intervallo di refresh di più indici.",
+      "keywords": "repliche intervallo refresh ridondanza indicizzazione nodo singolo",
+      "status": "Repliche e intervallo di refresh",
+      "steps": {}
     }
   },
   "update_check": {

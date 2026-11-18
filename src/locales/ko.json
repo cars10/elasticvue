@@ -404,7 +404,8 @@
       "actions": {
         "view_shards": "샤드 보기",
         "view_nodes": "노드 보기",
-        "view_indices": "인덱스 보기"
+        "view_indices": "인덱스 보기",
+        "open_tool": "도구에서 열기"
       },
       "checks": {
         "shards": {
@@ -1540,12 +1541,8 @@
     "excluded_indices": "시스템, 숨김, 데이터 스트림 백킹 인덱스는 제외됩니다.",
     "confirm_restore": "\"{setting}\"을(를) Elasticsearch 기본값으로 복원할까요?",
     "groups": {
-      "attention": "확인 필요",
-      "shards": "샤드와 할당",
-      "indices": "인덱스",
-      "disk": "디스크와 복구",
-      "safety": "안전",
-      "advanced": "고급"
+      "maintenance": "복구 및 유지보수",
+      "settings": "클러스터 설정"
     },
     "sources": {
       "transient": "transient",
@@ -1559,7 +1556,6 @@
       "enabled": "사용",
       "disabled": "사용 안 함",
       "unavailable": "사용 불가",
-      "no_user_indices": "사용자 인덱스 없음",
       "no_unassigned": "할당되지 않은 샤드 없음",
       "unassigned": "할당되지 않은 샤드 {count}개"
     },
@@ -1574,7 +1570,8 @@
       "shards": "샤드",
       "indices": "인덱스 설정",
       "explanation": "할당 설명",
-      "voting": "투표 제외"
+      "voting": "투표 제외",
+      "health": "클러스터 상태"
     },
     "errors": {
       "forbidden": "사용자에게 {what}을(를) 읽을 권한이 없습니다.",
@@ -1609,8 +1606,8 @@
       }
     },
     "drain": {
-      "title": "노드 비우기",
-      "description": "노드를 종료하기 전에 샤드를 옮깁니다.",
+      "title": "노드 제거",
+      "description": "노드의 모든 샤드를 옮겨 노드를 종료하거나 교체할 수 있게 합니다.",
       "keywords": "비우기 종료 유지보수 제외 재배치 drain shutdown exclude",
       "explanation": "노드를 할당에서 제외하면 Elasticsearch가 해당 샤드를 다른 노드로 옮깁니다. 노드는 계속 실행됩니다.",
       "allocation_disabled": "할당이 비활성화되어 다시 활성화할 때까지 샤드를 옮길 수 없습니다.",
@@ -1628,12 +1625,25 @@
       "confirm_start": "{name} ({id})을(를) 비울까요? 샤드가 다른 노드로 옮겨집니다.",
       "confirm_stop": "{name} ({id}) 비우기를 중지할까요?",
       "started": "노드 비우기를 시작했습니다.",
-      "stopped": "노드 비우기를 중지했습니다."
+      "stopped": "노드 비우기를 중지했습니다.",
+      "steps": {
+        "node": "노드 선택",
+        "exclude": "할당에서 제외",
+        "monitor": "샤드 이동 대기",
+        "done": "노드가 비었습니다"
+      },
+      "no_targets": "이 노드의 샤드를 받을 수 있는 다른 데이터 노드가 없습니다.",
+      "not_enough_disk": "이 노드의 샤드는 {required}를 사용하지만 다른 노드의 여유 디스크 공간은 {free}뿐입니다.",
+      "health_red": "클러스터가 빨간색입니다. 데이터를 이동하기 전에 누락된 프라이머리 샤드를 먼저 해결하세요.",
+      "exclude_explanation": "Elasticsearch가 이 노드의 모든 샤드를 다른 노드로 이동합니다. 이동 중에도 검색과 쓰기는 계속 동작합니다.",
+      "done_next": "지금 노드를 종료하세요. 종료된 동안에는 제외를 유지하고, 노드가 돌아오거나 교체되거나 완전히 제거되면 제외를 해제하세요.",
+      "voting_explanation": "이 노드는 마스터 후보입니다. 클러스터가 안정적인 마스터를 유지하도록 종료하기 전에 투표 구성에서 제외하세요.",
+      "voting_add": "투표 구성에서 제외",
+      "voting_done": "노드가 투표 구성에서 제외되었습니다.",
+      "confirm_voting": "{name}을(를) 투표 구성에서 제외할까요?",
+      "cleanup": "제외 해제"
     },
     "explain": {
-      "title": "미할당 샤드 설명",
-      "description": "샤드를 할당할 수 없는 이유를 Elasticsearch에 묻습니다.",
-      "keywords": "할당 진단 결정자 미할당 explain deciders unassigned",
       "shard": "할당되지 않은 샤드",
       "primary": "프라이머리",
       "replica": "레플리카",
@@ -1647,8 +1657,6 @@
     },
     "retry": {
       "title": "실패한 할당 재시도",
-      "description": "할당 재시도 한도에 도달한 샤드를 다시 시도합니다.",
-      "keywords": "재시도 한도 실패 reroute retry failed",
       "explanation": "먼저 근본 원인을 해결한 다음, 실패한 할당을 다시 시도하도록 Elasticsearch에 요청하세요.",
       "run": "할당 재시도",
       "confirm": "실패한 할당을 재시도할까요? 할당되지 않은 샤드가 {count}개 있습니다.",
@@ -1670,8 +1678,6 @@
     },
     "blocks": {
       "title": "인덱스 쓰기 블록",
-      "description": "읽기 전용 또는 쓰기 블록을 찾아 해제합니다.",
-      "keywords": "읽기 전용 플러드 쓰기 블록 read only flood write block",
       "indices": "차단된 인덱스",
       "status": "인덱스 {count}개 차단됨",
       "status_none": "차단된 사용자 인덱스 없음",
@@ -1687,10 +1693,7 @@
     },
     "replicas": {
       "title": "레플리카",
-      "description": "선택한 인덱스의 레플리카 수를 변경합니다.",
-      "keywords": "중복성 단일 노드 레플리카 수 replica count",
       "count": "레플리카 수",
-      "status": "인덱스별로 설정",
       "status_single_node": "레플리카를 할당할 수 없는 인덱스 {count}개",
       "single_node": "이 클러스터에는 데이터 노드가 하나뿐이라 인덱스 {count}개의 레플리카를 할당할 수 없습니다.",
       "set_zero": "레플리카 0으로 설정",
@@ -1701,12 +1704,9 @@
     },
     "refresh": {
       "title": "새로고침 간격",
-      "description": "새 문서가 검색 가능해지기까지의 시간.",
-      "keywords": "새로고침 간격 검색 가시성 인덱싱 refresh interval bulk",
       "interval": "새로고침 간격",
       "custom": "사용자 정의",
       "custom_hint": "500ms나 2m 같은 시간 값.",
-      "status_mixed": "혼합",
       "disabled_warning": "인덱스를 수동으로 새로고침하기 전까지 새 문서를 검색할 수 없습니다.",
       "confirm": "인덱스 {count}개의 새로고침 간격을 {value}(으)로 설정할까요?",
       "updated": "인덱스 {count}개의 새로고침 간격을 업데이트했습니다."
@@ -1791,29 +1791,101 @@
       }
     },
     "voting": {
-      "title": "투표 제외",
-      "description": "마스터 후보 노드 제거를 준비합니다.",
-      "keywords": "투표 구성 제외 마스터 후보 토폴로지 제거 voting",
-      "explanation": "마스터 후보 노드의 절반 이상을 한 번에 제거할 때만 필요합니다.",
-      "nodes": "마스터 후보 노드",
-      "add": "제외 추가",
-      "clear": "제외 지우기",
-      "status": "활성 {count}",
-      "status_none": "없음",
-      "confirm_add": "노드 {count}개를 투표에서 제외할까요?",
-      "confirm_clear": "모든 투표 제외를 지울까요? Elasticsearch는 제외된 노드가 클러스터를 떠날 때까지 기다립니다.",
       "added": "투표 제외를 추가했습니다.",
       "cleared": "투표 제외를 지웠습니다."
     },
-    "awareness": {
-      "title": "할당 인식",
-      "description": "샤드 복사본을 분산하는 데 쓰는 영역 또는 랙 속성.",
-      "keywords": "영역 랙 속성 장애 도메인 awareness zone rack",
-      "status": "속성 {count}개",
-      "status_none": "설정 안 됨",
-      "values": "노드 값: {values}",
-      "forced": "강제 값: {values}",
-      "hint": "속성은 각 노드에서 설정하므로 여기서 변경할 수 없습니다."
+    "awareness": {},
+    "steps": {
+      "continue": "계속",
+      "back": "뒤로",
+      "skip": "건너뛰기",
+      "verify": "결과 확인"
+    },
+    "unassigned": {
+      "title": "할당되지 않은 샤드 해결",
+      "description": "샤드가 할당되지 않은 이유를 찾고, 원인을 해결한 뒤 복구를 기다립니다.",
+      "keywords": "미할당 설명 할당 재시도 노란색 빨간색 레플리카",
+      "found": "할당되지 않은 샤드: {count}개, 그중 프라이머리 {primaries}개.",
+      "allocation_limited": "샤드 할당이 \"{mode}\"(으)로 설정되어 있습니다. 이것이 가장 유력한 원인입니다.",
+      "single_node": "이 클러스터에는 데이터 노드가 하나뿐이라 레플리카 샤드는 절대 할당될 수 없습니다.",
+      "recommended": "권장",
+      "no_fix": "이 원인에 대한 해결책이 여기에는 없습니다. 설명의 결정을 확인하세요. 흔한 원인은 디스크 워터마크, 할당 필터 또는 누락된 노드입니다.",
+      "resolved": "모든 샤드가 할당되었습니다. 이전에 할당되지 않은 샤드: {before}개.",
+      "remaining": "할당되지 않은 샤드: {now}개 (이전: {before}개). 초기화 중: {initializing}개. 몇 초마다 다시 확인합니다.",
+      "investigate_again": "다시 조사",
+      "steps": {
+        "check": "클러스터 확인",
+        "explain": "샤드 설명",
+        "fix": "원인 해결",
+        "verify": "복구 대기"
+      },
+      "remedies": {
+        "enable_allocation": {
+          "title": "샤드 할당 활성화",
+          "text": "Elasticsearch가 모든 샤드를 다시 할당하도록 허용합니다.",
+          "action": "활성화"
+        },
+        "zero_replicas": {
+          "title": "레플리카 제거"
+        }
+      }
+    },
+    "restart": {
+      "title": "롤링 재시작",
+      "description": "샤드를 이동하지 않고 노드를 하나씩 재시작합니다.",
+      "keywords": "재시작 업그레이드 유지보수 flush 할당 프라이머리",
+      "status": "한 번에 한 노드",
+      "status_paused": "레플리카 할당 일시 중지됨",
+      "explanation": "업그레이드나 설정 변경 등을 위해 노드를 하나씩 재시작합니다. 모든 노드에 대해 이 단계를 반복하세요.",
+      "not_green": "클러스터가 초록색이 아닙니다. 지금 노드를 재시작하면 데이터를 사용할 수 없게 될 수 있습니다.",
+      "disable_explanation": "프라이머리 샤드만 할당됩니다. 노드가 중지된 동안 Elasticsearch가 레플리카를 다른 노드로 복사하지 않습니다.",
+      "disable": "레플리카 할당 일시 중지",
+      "confirm_disable": "레플리카 할당을 일시 중지할까요? 재시작 후 다시 활성화하는 것을 잊지 마세요.",
+      "flush_explanation": "Flush는 인덱싱된 모든 데이터를 디스크에 기록하므로 재시작 후 샤드가 더 빨리 복구됩니다.",
+      "flush": "모든 인덱스 flush",
+      "flushed": "모든 인덱스를 flush했습니다.",
+      "restart_explanation": "지금 노드 하나를 재시작하세요. 클러스터에 다시 합류하면 계속하세요.",
+      "nodes": "클러스터의 노드: {now} / {expected}.",
+      "waiting_for_node": "노드가 클러스터에 다시 합류하기를 기다리는 중입니다.",
+      "node_back": "노드가 돌아왔습니다",
+      "enable_explanation": "Elasticsearch가 레플리카를 다시 할당하도록 허용하여 재시작한 노드가 샤드를 되찾게 합니다.",
+      "enable": "할당 활성화",
+      "done": "클러스터가 초록색입니다. 다음 노드를 재시작할 수 있습니다.",
+      "recovering": "클러스터 상태: {status}. 초기화 중: {initializing}, 미할당: {unassigned}. 몇 초마다 다시 확인합니다.",
+      "next_node": "다음 노드 재시작",
+      "steps": {
+        "check": "클러스터 상태 확인",
+        "disable": "레플리카 할당 일시 중지",
+        "flush": "인덱스 flush (선택)",
+        "restart": "노드 재시작",
+        "enable": "할당 다시 활성화",
+        "verify": "초록색 대기"
+      }
+    },
+    "writes": {
+      "title": "인덱스 쓰기 복구",
+      "description": "클러스터나 인덱스에 대한 쓰기를 거부하는 블록을 찾아 해제합니다.",
+      "keywords": "읽기 전용 차단 쓰기 플러드 스테이지 클러스터 블록",
+      "status": "블록: {count}",
+      "none": "쓰기 블록 없음",
+      "cluster_blocked": "전체 클러스터가 \"{mode}\" 상태입니다.",
+      "cluster_explanation": "클러스터 블록은 인덱스 설정과 관계없이 모든 인덱스에 대한 쓰기를 거부합니다.",
+      "clear_cluster": "클러스터를 쓰기 가능으로 설정",
+      "confirm_clear_cluster": "클러스터 쓰기 블록을 제거할까요?",
+      "resolved": "클러스터와 모든 사용자 인덱스가 다시 쓰기를 허용합니다.",
+      "remaining": "다음 블록이 아직 활성 상태입니다:",
+      "steps": {
+        "check": "쓰기 블록 찾기",
+        "clear": "블록 해제",
+        "verify": "쓰기 동작 확인"
+      }
+    },
+    "index_settings": {
+      "title": "인덱스 설정",
+      "description": "여러 인덱스의 레플리카 수나 새로고침 간격을 변경합니다.",
+      "keywords": "레플리카 새로고침 간격 중복성 대량 인덱싱 단일 노드",
+      "status": "레플리카와 새로고침 간격",
+      "steps": {}
     }
   },
   "update_check": {

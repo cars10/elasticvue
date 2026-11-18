@@ -10,6 +10,7 @@ import type {
   NodeAllocation,
   ToolNode,
   ToolNodeInfo,
+  ToolShard,
   WatermarkValidation,
   WatermarkValues
 } from '../types/clusterTools.ts'
@@ -19,7 +20,6 @@ export const TOOL_SETTINGS_PARAMS = {
   filter_path: [
     'cluster.routing.allocation.enable',
     'cluster.routing.allocation.exclude',
-    'cluster.routing.allocation.awareness',
     'cluster.routing.allocation.disk',
     'cluster.routing.rebalance.enable',
     'cluster.blocks',
@@ -253,4 +253,64 @@ export const validateWatermarks = ({ low, high, flood }: WatermarkValues): Water
     return { valid: false, mode: 'bytes', error: 'bytes_order' }
   }
   return { valid: true, mode: 'bytes', error: '' }
+}
+
+export const floodStageDiskSafe = (nodes: ToolNode[], flood: string): boolean | null => {
+  if (!nodes.length) return null
+  if (flood.endsWith('%')) {
+    const threshold = Number(flood.slice(0, -1))
+    if (!Number.isFinite(threshold) || nodes.some((node) => node.diskUsedPercent == null)) return null
+    return nodes.every((node) => (node.diskUsedPercent || 0) < threshold)
+  }
+  const requiredFree = parseByteValue(flood)
+  if (requiredFree == null || nodes.some((node) => node.diskAvailableBytes == null)) return null
+  return nodes.every((node) => (node.diskAvailableBytes || 0) > requiredFree)
+}
+
+export type DrainCapacity = {
+  targetCount: number
+  requiredBytes: number
+  freeBytes: number | null
+  enough: boolean | null
+}
+
+export const drainCapacity = (node: ToolNode, nodes: ToolNode[], shards: ToolShard[]): DrainCapacity => {
+  const targets = nodes.filter((other) => other.id !== node.id && other.diskAvailableBytes != null)
+  const requiredBytes = shards
+    .filter((shard) => shard.node === node.name)
+    .reduce((sum, shard) => sum + (Number(shard.store) || 0), 0)
+  const freeBytes = targets.length ? targets.reduce((sum, other) => sum + (other.diskAvailableBytes || 0), 0) : null
+  return {
+    targetCount: targets.length,
+    requiredBytes,
+    freeBytes,
+    enough: freeBytes == null ? null : freeBytes > requiredBytes
+  }
+}
+
+export type UnassignedRemedy = { id: 'enable_allocation' | 'zero_replicas' | 'retry'; recommended: boolean }
+
+export const unassignedRemedies = ({
+  allocationMode,
+  summary,
+  explanation,
+  singleNodeReplicaCount,
+  canRetry
+}: {
+  allocationMode: string
+  summary: AllocationSummary | null
+  explanation: AllocationExplanation | null
+  singleNodeReplicaCount: number
+  canRetry: boolean
+}): UnassignedRemedy[] => {
+  const remedies: UnassignedRemedy[] = []
+  if (allocationMode !== 'all') remedies.push({ id: 'enable_allocation', recommended: true })
+  if (singleNodeReplicaCount > 0) remedies.push({ id: 'zero_replicas', recommended: Boolean(summary?.singleNodeReplica) })
+  if (canRetry) {
+    const failed =
+      explanation?.unassigned_info?.reason === 'ALLOCATION_FAILED' ||
+      Boolean(summary?.decisions.some((decision) => decision.decider === 'max_retry'))
+    remedies.push({ id: 'retry', recommended: failed })
+  }
+  return remedies
 }

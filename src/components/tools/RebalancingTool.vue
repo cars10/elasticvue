@@ -5,7 +5,7 @@
   <q-option-group v-model="draft" :options="options" type="radio" color="primary" />
   <tool-setting-hint :settings="['cluster.routing.rebalance.enable']" />
   <div class="row q-gutter-sm">
-    <q-btn color="primary" :label="t('tools.apply')" :disable="draft === rebalancingMode" @click="apply" />
+    <q-btn color="primary-dark" :label="t('tools.apply')" :disable="draft === rebalancingMode" @click="apply" />
     <q-btn v-if="canRestore" flat :label="t('tools.restore_default')" @click="restore" />
   </div>
 </template>

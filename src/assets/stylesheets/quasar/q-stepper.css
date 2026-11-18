@@ -1,0 +1,21 @@
+.q-stepper {
+  color: var(--theme-color);
+  background: transparent;
+}
+
+.q-stepper__tab--disabled {
+  color: var(--theme-muted-color);
+}
+
+.q-stepper__tab--disabled .q-stepper__dot {
+  background: var(--theme-border-color);
+}
+
+.q-stepper__tab--disabled .q-stepper__label {
+  color: var(--theme-muted-color);
+}
+
+.q-stepper--vertical .q-stepper__dot::before,
+.q-stepper--vertical .q-stepper__dot::after {
+  background: var(--theme-separator-background);
+}

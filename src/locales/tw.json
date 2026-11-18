@@ -404,7 +404,8 @@
       "actions": {
         "view_shards": "查看分片",
         "view_nodes": "查看節點",
-        "view_indices": "查看索引"
+        "view_indices": "查看索引",
+        "open_tool": "在工具中開啟"
       },
       "checks": {
         "shards": {
@@ -1540,12 +1541,8 @@
     "excluded_indices": "系統索引、隱藏索引與資料串流後備索引已排除。",
     "confirm_restore": "將「{setting}」還原為 Elasticsearch 預設值？",
     "groups": {
-      "attention": "需要注意",
-      "shards": "分片與分配",
-      "indices": "索引",
-      "disk": "磁碟與復原",
-      "safety": "安全防護",
-      "advanced": "進階"
+      "maintenance": "修復與維護",
+      "settings": "叢集設定"
     },
     "sources": {
       "transient": "暫時",
@@ -1559,7 +1556,6 @@
       "enabled": "已啟用",
       "disabled": "已停用",
       "unavailable": "無法使用",
-      "no_user_indices": "沒有使用者索引",
       "no_unassigned": "沒有未分配的分片",
       "unassigned": "{count} 個未分配分片"
     },
@@ -1574,7 +1570,8 @@
       "shards": "分片",
       "indices": "索引設定",
       "explanation": "分配說明",
-      "voting": "投票排除項目"
+      "voting": "投票排除項目",
+      "health": "叢集健康狀態"
     },
     "errors": {
       "forbidden": "你的使用者無權讀取{what}。",
@@ -1609,8 +1606,8 @@
       }
     },
     "drain": {
-      "title": "清空節點",
-      "description": "在關閉節點前將分片搬走。",
+      "title": "移除節點",
+      "description": "將節點上的所有分片遷走，以便關閉或替換該節點。",
       "keywords": "清空 關閉 維護 排除 搬移 drain shutdown exclude",
       "explanation": "節點會被排除在分配之外，Elasticsearch 會將它的分片搬到其他節點。節點本身會繼續執行。",
       "allocation_disabled": "分配已停用，在重新啟用前分片無法搬移。",
@@ -1628,12 +1625,25 @@
       "confirm_start": "清空 {name}（{id}）？它的分片會被搬到其他節點。",
       "confirm_stop": "停止清空 {name}（{id}）？",
       "started": "已開始清空節點。",
-      "stopped": "已停止清空節點。"
+      "stopped": "已停止清空節點。",
+      "steps": {
+        "node": "選擇節點",
+        "exclude": "將其排除在分配之外",
+        "monitor": "等待分片遷移",
+        "done": "節點已清空"
+      },
+      "no_targets": "沒有其他資料節點可以接收此節點的分片。",
+      "not_enough_disk": "此節點上的分片佔用 {required}，但其他節點只有 {free} 可用磁碟空間。",
+      "health_red": "叢集為紅色。請先修復缺失的主分片，再遷移資料。",
+      "exclude_explanation": "Elasticsearch 會將此節點的所有分片遷移到其他節點。遷移期間搜尋和寫入仍可正常進行。",
+      "done_next": "現在關閉節點。節點停機期間請保留排除設定，在節點恢復、被替換或永久移除後再將其移除。",
+      "voting_explanation": "此節點可成為主節點。關閉前請將其從投票設定中移除，以便叢集保持穩定的主節點。",
+      "voting_add": "從投票設定中移除",
+      "voting_done": "該節點已從投票設定中排除。",
+      "confirm_voting": "將 {name} 從投票設定中移除？",
+      "cleanup": "移除排除設定"
     },
     "explain": {
-      "title": "說明未分配分片",
-      "description": "詢問 Elasticsearch 分片為何無法分配。",
-      "keywords": "分配 診斷 決策器 未分配 explain deciders unassigned",
       "shard": "未分配分片",
       "primary": "主分片",
       "replica": "副本",
@@ -1647,8 +1657,6 @@
     },
     "retry": {
       "title": "重試失敗的分配",
-      "description": "重試已達分配重試上限的分片。",
-      "keywords": "重試 上限 失敗 reroute retry failed",
       "explanation": "請先解決根本問題，再讓 Elasticsearch 重試失敗的分配。",
       "run": "重試分配",
       "confirm": "重試失敗的分配？目前有 {count} 個分片未分配。",
@@ -1670,8 +1678,6 @@
     },
     "blocks": {
       "title": "索引寫入封鎖",
-      "description": "找出並解除唯讀或寫入封鎖。",
-      "keywords": "唯讀 洪水 寫入 封鎖 read only flood write block",
       "indices": "被封鎖的索引",
       "status": "{count} 個索引被封鎖",
       "status_none": "沒有被封鎖的使用者索引",
@@ -1687,10 +1693,7 @@
     },
     "replicas": {
       "title": "副本",
-      "description": "變更所選索引的副本數量。",
-      "keywords": "備援 單一節點 副本數 replica count",
       "count": "副本數",
-      "status": "依索引設定",
       "status_single_node": "{count} 個索引的副本無法分配",
       "single_node": "此叢集只有一個資料節點，因此 {count} 個索引的副本無法分配。",
       "set_zero": "設為 0 個副本",
@@ -1701,12 +1704,9 @@
     },
     "refresh": {
       "title": "重新整理間隔",
-      "description": "新文件多快可以被搜尋到。",
-      "keywords": "重新整理 間隔 搜尋 可見性 批次寫入 refresh interval bulk",
       "interval": "重新整理間隔",
       "custom": "自訂",
       "custom_hint": "時間值，例如 500ms 或 2m。",
-      "status_mixed": "不一致",
       "disabled_warning": "在手動重新整理索引前，新文件將無法被搜尋到。",
       "confirm": "將 {count} 個索引的重新整理間隔設為 {value}？",
       "updated": "已更新 {count} 個索引的重新整理間隔。"
@@ -1791,29 +1791,101 @@
       }
     },
     "voting": {
-      "title": "投票排除",
-      "description": "為移除具備主節點資格的節點做準備。",
-      "keywords": "投票 設定 排除 主節點資格 拓撲 移除 voting",
-      "explanation": "僅在一次移除一半以上具備主節點資格的節點時需要。",
-      "nodes": "具備主節點資格的節點",
-      "add": "新增排除",
-      "clear": "清除排除",
-      "status": "{count} 個生效中",
-      "status_none": "無",
-      "confirm_add": "將 {count} 個節點排除在投票之外？",
-      "confirm_clear": "清除所有投票排除？Elasticsearch 會等待被排除的節點離開叢集。",
       "added": "已新增投票排除。",
       "cleared": "已清除投票排除。"
     },
-    "awareness": {
-      "title": "分配感知",
-      "description": "用於分散分片複本的可用區或機櫃屬性。",
-      "keywords": "可用區 機櫃 屬性 故障網域 awareness zone rack",
-      "status": "{count} 個屬性",
-      "status_none": "未設定",
-      "values": "節點值：{values}",
-      "forced": "強制值：{values}",
-      "hint": "屬性在每個節點上設定，無法在此修改。"
+    "awareness": {},
+    "steps": {
+      "continue": "繼續",
+      "back": "返回",
+      "skip": "略過",
+      "verify": "檢查結果"
+    },
+    "unassigned": {
+      "title": "修復未分配分片",
+      "description": "找出分片未分配的原因，修復後等待其恢復。",
+      "keywords": "未分配 解釋 分配 重試 黃色 紅色 副本",
+      "found": "未分配分片：{count}，其中主分片 {primaries} 個。",
+      "allocation_limited": "分片分配被設定為「{mode}」。這很可能就是原因。",
+      "single_node": "此叢集只有一個資料節點，因此副本分片永遠無法分配。",
+      "recommended": "建議",
+      "no_fix": "此處無法修復這個原因。請查看解釋中的決策，常見原因包括磁碟水位線、分配篩選器或缺失的節點。",
+      "resolved": "所有分片均已分配。之前未分配的數量：{before}。",
+      "remaining": "未分配分片：{now}（之前：{before}）。初始化中：{initializing}。每隔幾秒重新檢查一次。",
+      "investigate_again": "重新排查",
+      "steps": {
+        "check": "檢查叢集",
+        "explain": "解釋分片",
+        "fix": "修復原因",
+        "verify": "等待恢復"
+      },
+      "remedies": {
+        "enable_allocation": {
+          "title": "啟用分片分配",
+          "text": "允許 Elasticsearch 重新分配所有分片。",
+          "action": "啟用"
+        },
+        "zero_replicas": {
+          "title": "移除副本"
+        }
+      }
+    },
+    "restart": {
+      "title": "滾動重啟",
+      "description": "逐一重啟節點，而不遷移分片。",
+      "keywords": "重啟 升級 維護 flush 分配 主分片",
+      "status": "每次一個節點",
+      "status_paused": "副本分配已暫停",
+      "explanation": "逐一重啟節點，例如用於升級或設定變更。對每個節點重複這些步驟。",
+      "not_green": "叢集不是綠色。現在重啟節點可能導致資料無法使用。",
+      "disable_explanation": "只會分配主分片。節點停機期間，Elasticsearch 不會將副本複製到其他節點。",
+      "disable": "暫停副本分配",
+      "confirm_disable": "暫停副本分配？重啟後請記得重新啟用。",
+      "flush_explanation": "Flush 會把所有已索引的資料寫入磁碟，使分片在重啟後更快恢復。",
+      "flush": "Flush 所有索引",
+      "flushed": "所有索引已 flush。",
+      "restart_explanation": "現在重啟一個節點。待其重新加入叢集後繼續。",
+      "nodes": "叢集中的節點：{now} / {expected}。",
+      "waiting_for_node": "正在等待節點重新加入叢集。",
+      "node_back": "節點已恢復",
+      "enable_explanation": "允許 Elasticsearch 重新分配副本，使重啟的節點取回其分片。",
+      "enable": "啟用分配",
+      "done": "叢集為綠色。可以重啟下一個節點。",
+      "recovering": "叢集健康狀態：{status}。初始化中：{initializing}，未分配：{unassigned}。每隔幾秒重新檢查一次。",
+      "next_node": "重啟下一個節點",
+      "steps": {
+        "check": "檢查叢集健康狀態",
+        "disable": "暫停副本分配",
+        "flush": "Flush 索引（選用）",
+        "restart": "重啟節點",
+        "enable": "重新啟用分配",
+        "verify": "等待變為綠色"
+      }
+    },
+    "writes": {
+      "title": "恢復索引寫入",
+      "description": "尋找並清除拒絕寫入叢集或索引的封鎖。",
+      "keywords": "唯讀 封鎖 寫入 洪水水位 叢集封鎖",
+      "status": "封鎖：{count}",
+      "none": "沒有寫入封鎖",
+      "cluster_blocked": "整個叢集處於「{mode}」。",
+      "cluster_explanation": "叢集封鎖會拒絕對所有索引的寫入，無論索引設定如何。",
+      "clear_cluster": "使叢集可寫入",
+      "confirm_clear_cluster": "移除叢集寫入封鎖？",
+      "resolved": "叢集和所有使用者索引已重新接受寫入。",
+      "remaining": "以下封鎖仍然有效：",
+      "steps": {
+        "check": "尋找寫入封鎖",
+        "clear": "清除封鎖",
+        "verify": "檢查寫入是否正常"
+      }
+    },
+    "index_settings": {
+      "title": "索引設定",
+      "description": "修改多個索引的副本數或重新整理間隔。",
+      "keywords": "副本 重新整理間隔 冗餘 批次索引 單節點",
+      "status": "副本和重新整理間隔",
+      "steps": {}
     }
   },
   "update_check": {

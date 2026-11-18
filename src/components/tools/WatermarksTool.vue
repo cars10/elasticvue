@@ -53,7 +53,7 @@
 
   <tool-setting-hint :settings="['cluster.routing.allocation.disk.watermark.*']" :text="t('tools.watermarks.lowering_warning')" />
   <div class="row q-gutter-sm">
-    <q-btn color="primary" :label="t('tools.apply')" :disable="!validation.valid || headroomInvalid" @click="apply" />
+    <q-btn color="primary-dark" :label="t('tools.apply')" :disable="!validation.valid || headroomInvalid" @click="apply" />
     <q-btn v-if="watermarksCustom && capabilities.settingsReset" flat :label="t('tools.restore_default')" @click="restore" />
   </div>
 </template>

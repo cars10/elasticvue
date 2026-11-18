@@ -312,7 +312,7 @@ export default class ElasticsearchAdapter {
   }
 
   clusterClearVotingExclusions() {
-    return this.request('_cluster/voting_config_exclusions?wait_for_removal=true', 'DELETE')
+    return this.request('_cluster/voting_config_exclusions?wait_for_removal=false', 'DELETE')
   }
 
   catShards(params: object, filter?: string) {

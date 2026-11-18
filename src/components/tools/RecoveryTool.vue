@@ -6,7 +6,7 @@
   <div v-if="draft && !valid" class="text-negative font-13 q-mt-sm">{{ t('tools.recovery.invalid') }}</div>
   <tool-setting-hint :settings="[KEY]" />
   <div class="row q-gutter-sm">
-    <q-btn color="primary" :label="t('tools.apply')" :disable="!valid" @click="apply" />
+    <q-btn color="primary-dark" :label="t('tools.apply')" :disable="!valid" @click="apply" />
     <q-btn v-if="canRestore" flat :label="t('tools.restore_default')" @click="restore" />
   </div>
 </template>

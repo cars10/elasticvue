@@ -1,4 +1,4 @@
-import { computed, inject, InjectionKey, provide, ref } from 'vue'
+import { computed, inject, InjectionKey, onBeforeUnmount, provide, ref, watch } from 'vue'
 import { useElasticsearchAdapter } from '../../CallElasticsearch.ts'
 import { useSnackbar } from '../../Snackbar.ts'
 import { useTranslation } from '../../i18n.ts'
@@ -33,6 +33,7 @@ import type {
 } from '../../../types/clusterTools.ts'
 import type { ClusterHealth } from '../../../types/homeDashboard.ts'
 import { useClusterSession } from '../../../store/clusterSession.ts'
+import { visibleInterval } from '../../../helpers/visibleInterval.ts'
 
 const SHARD_PARAMS = {
   format: 'json',
@@ -79,7 +80,6 @@ export const useClusterTools = () => {
   const rebalancingMode = computed(() => settingMode(rebalancingSetting.value))
   const recoverySetting = setting('indices.recovery.max_bytes_per_sec')
   const autoCreateSetting = setting<string | boolean>('action.auto_create_index')
-  const awarenessSetting = setting('cluster.routing.allocation.awareness.attributes', '')
   const destructiveSetting = computed(() => {
     return effectiveSetting<string | boolean>(settings.value, 'action.destructive_requires_name', destructiveRequiresNameDefault)
   })
@@ -118,7 +118,6 @@ export const useClusterTools = () => {
   const userIndices = computed(() => userManagedIndices(indices.value))
   const blockedUserIndices = computed(() => userIndices.value.filter((index) => index.blocks.length))
   const singleNodeReplicaIndices = computed(() => indicesNeedingZeroReplicaHelper(indices.value, dataNodeCount.value))
-  const awarenessAttributes = computed(() => parseCommaSeparated(awarenessSetting.value.effectiveValue))
 
   const loadSettings = async () => {
     try {
@@ -204,7 +203,7 @@ export const useClusterTools = () => {
   }
 
   const refresh = async () => {
-    await Promise.allSettled([loadSettings(), loadHealth(), loadIndices(), loadVotingExclusions(), reloadShards(), reloadNodes()])
+    await Promise.allSettled([loadSettings(), loadHealth(), loadIndices(), reloadShards(), reloadNodes()])
   }
 
   const mutate = async (action: () => Promise<unknown>, success: string) => {
@@ -308,6 +307,9 @@ export const useClusterTools = () => {
       t('tools.refresh.updated', { count: selected.length }, selected.length)
     )
 
+  const flushAll = () =>
+    mutate(() => mutationApi.callElasticsearch((es) => es.indexFlush({ indices: ['_all'] })), t('tools.restart.flushed'))
+
   const addVotingExclusions = async (nodeIds: string[]) => {
     const changed = await mutate(
       () => mutationApi.callElasticsearch((es) => es.clusterAddVotingExclusions({ nodeIds })),
@@ -379,7 +381,6 @@ export const useClusterTools = () => {
     userIndices,
     blockedUserIndices,
     singleNodeReplicaIndices,
-    awarenessAttributes,
     requests: {
       settings: settingsApi.requestState,
       shards: shardsApi.requestState,
@@ -406,6 +407,7 @@ export const useClusterTools = () => {
     clearIndexBlocks,
     setReplicas,
     setRefreshInterval,
+    flushAll,
     addVotingExclusions,
     clearVotingExclusions,
     setWatermarks,
@@ -424,3 +426,18 @@ export const provideClusterTools = () => {
 }
 
 export const useInjectedClusterTools = () => inject(clusterToolsKey) as ClusterTools
+
+export const POLL_INTERVAL_MS = 5000
+
+export const usePolling = (active: () => boolean, action: () => unknown) => {
+  let stop: (() => void) | undefined
+  watch(
+    active,
+    (running) => {
+      stop?.()
+      stop = running ? visibleInterval(action, POLL_INTERVAL_MS) : undefined
+    },
+    { immediate: true }
+  )
+  onBeforeUnmount(() => stop?.())
+}

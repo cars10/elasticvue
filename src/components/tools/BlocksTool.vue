@@ -26,11 +26,11 @@
         {{ labels.floodState(floodState) }}
       </q-banner>
       <div class="row q-gutter-sm q-mt-md">
-        <q-btn color="primary" :label="t('tools.blocks.clear')" :disable="!userBlockNames.length" @click="clearUserBlocks" />
+        <q-btn color="primary-dark" :label="t('tools.blocks.clear')" :disable="!userBlockNames.length" @click="clearUserBlocks" />
         <q-btn
           v-if="hasFloodBlock && diskSafe === true"
           outline
-          color="primary"
+          color="primary-dark"
           :label="t('tools.blocks.clear_flood')"
           @click="clearFloodBlock"
         />
@@ -47,7 +47,7 @@ import { useTranslation } from '../../composables/i18n.ts'
 import { useInjectedClusterTools } from '../../composables/components/tools/ClusterTools.ts'
 import { useToolLabels } from '../../composables/components/tools/ToolLabels.ts'
 import { askConfirm } from '../../helpers/dialogs.ts'
-import { parseByteValue } from '../../helpers/clusterTools.ts'
+import { floodStageDiskSafe } from '../../helpers/clusterTools.ts'
 import ToolError from './ToolError.vue'
 
 const t = useTranslation()
@@ -64,18 +64,7 @@ const userBlockNames = computed<string[]>(() => [
 ])
 const hasFloodBlock = computed(() => selectedStates.value.some((index) => index.blocks.includes('read_only_allow_delete')))
 
-const diskSafe = computed<boolean | null>(() => {
-  const flood = String(watermarkSettings.flood.value.effectiveValue || '')
-  if (!nodes.value.length) return null
-  if (flood.endsWith('%')) {
-    const threshold = Number(flood.slice(0, -1))
-    if (!Number.isFinite(threshold) || nodes.value.some((node) => node.diskUsedPercent == null)) return null
-    return nodes.value.every((node) => (node.diskUsedPercent || 0) < threshold)
-  }
-  const requiredFree = parseByteValue(flood)
-  if (requiredFree == null || nodes.value.some((node) => node.diskAvailableBytes == null)) return null
-  return nodes.value.every((node) => (node.diskAvailableBytes || 0) > requiredFree)
-})
+const diskSafe = computed(() => floodStageDiskSafe(nodes.value, String(watermarkSettings.flood.value.effectiveValue || '')))
 const floodState = computed(() => {
   if (diskSafe.value === null) return 'unknown'
   return diskSafe.value ? 'recovered' : 'full'

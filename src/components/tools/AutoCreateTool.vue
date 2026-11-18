@@ -12,7 +12,7 @@
     class="q-mt-md"
   />
   <tool-setting-hint :settings="[KEY]" :text="t('tools.auto_create.hint')" />
-  <q-btn color="primary" :label="t('tools.apply')" @click="apply" />
+  <q-btn color="primary-dark" :label="t('tools.apply')" @click="apply" />
 </template>
 
 <script setup lang="ts">

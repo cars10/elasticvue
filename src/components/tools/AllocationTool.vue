@@ -9,7 +9,7 @@
     <tool-setting-hint :settings="['cluster.routing.allocation.enable']" :text="t('tools.allocation.hint')" />
     <div class="row q-gutter-sm">
       <q-btn
-        color="primary"
+        color="primary-dark"
         :label="draft === 'none' ? t('tools.allocation.disable') : t('tools.apply')"
         :loading="requests.mutation.value.loading"
         :disable="draft === allocationMode"

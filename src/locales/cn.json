@@ -404,7 +404,8 @@
       "actions": {
         "view_shards": "查看分片",
         "view_nodes": "查看节点",
-        "view_indices": "查看索引"
+        "view_indices": "查看索引",
+        "open_tool": "在工具中打开"
       },
       "checks": {
         "shards": {
@@ -1540,12 +1541,8 @@
     "excluded_indices": "系统索引、隐藏索引和数据流后备索引已排除。",
     "confirm_restore": "将「{setting}」恢复为 Elasticsearch 默认值？",
     "groups": {
-      "attention": "需要关注",
-      "shards": "分片与分配",
-      "indices": "索引",
-      "disk": "磁盘与恢复",
-      "safety": "安全防护",
-      "advanced": "高级"
+      "maintenance": "修复与维护",
+      "settings": "集群设置"
     },
     "sources": {
       "transient": "临时",
@@ -1559,7 +1556,6 @@
       "enabled": "已启用",
       "disabled": "已禁用",
       "unavailable": "不可用",
-      "no_user_indices": "没有用户索引",
       "no_unassigned": "没有未分配的分片",
       "unassigned": "{count} 个未分配分片"
     },
@@ -1574,7 +1570,8 @@
       "shards": "分片",
       "indices": "索引设置",
       "explanation": "分配解释",
-      "voting": "投票排除项"
+      "voting": "投票排除项",
+      "health": "集群健康状态"
     },
     "errors": {
       "forbidden": "你的用户无权读取{what}。",
@@ -1609,8 +1606,8 @@
       }
     },
     "drain": {
-      "title": "清空节点",
-      "description": "在关闭节点前把分片迁走。",
+      "title": "移除节点",
+      "description": "将节点上的所有分片迁走，以便关闭或替换该节点。",
       "keywords": "清空 关闭 维护 排除 迁移 drain shutdown exclude",
       "explanation": "节点会被排除在分配之外，Elasticsearch 会把它的分片迁移到其他节点。节点本身继续运行。",
       "allocation_disabled": "分配已禁用，在重新启用之前分片无法迁移。",
@@ -1628,12 +1625,25 @@
       "confirm_start": "清空 {name}（{id}）？它的分片会被迁移到其他节点。",
       "confirm_stop": "停止清空 {name}（{id}）？",
       "started": "已开始清空节点。",
-      "stopped": "已停止清空节点。"
+      "stopped": "已停止清空节点。",
+      "steps": {
+        "node": "选择节点",
+        "exclude": "将其排除在分配之外",
+        "monitor": "等待分片迁移",
+        "done": "节点已清空"
+      },
+      "no_targets": "没有其他数据节点可以接收此节点的分片。",
+      "not_enough_disk": "此节点上的分片占用 {required}，但其他节点只有 {free} 可用磁盘空间。",
+      "health_red": "集群为红色。请先修复缺失的主分片，再迁移数据。",
+      "exclude_explanation": "Elasticsearch 会将此节点的所有分片迁移到其他节点。迁移期间搜索和写入仍可正常进行。",
+      "done_next": "现在关闭节点。节点停机期间请保留排除设置，在节点恢复、被替换或永久移除后再将其移除。",
+      "voting_explanation": "此节点可成为主节点。关闭前请将其从投票配置中移除，以便集群保持稳定的主节点。",
+      "voting_add": "从投票配置中移除",
+      "voting_done": "该节点已从投票配置中排除。",
+      "confirm_voting": "将 {name} 从投票配置中移除？",
+      "cleanup": "移除排除设置"
     },
     "explain": {
-      "title": "解释未分配分片",
-      "description": "询问 Elasticsearch 分片为何无法分配。",
-      "keywords": "分配 诊断 决策器 未分配 explain deciders unassigned",
       "shard": "未分配分片",
       "primary": "主分片",
       "replica": "副本",
@@ -1647,8 +1657,6 @@
     },
     "retry": {
       "title": "重试失败的分配",
-      "description": "重试达到分配重试上限的分片。",
-      "keywords": "重试 上限 失败 reroute retry failed",
       "explanation": "先解决根本问题，再让 Elasticsearch 重试失败的分配。",
       "run": "重试分配",
       "confirm": "重试失败的分配？当前有 {count} 个分片未分配。",
@@ -1670,8 +1678,6 @@
     },
     "blocks": {
       "title": "索引写入阻塞",
-      "description": "查找并解除只读或写入阻塞。",
-      "keywords": "只读 洪水 写入 阻塞 read only flood write block",
       "indices": "被阻塞的索引",
       "status": "{count} 个索引被阻塞",
       "status_none": "没有被阻塞的用户索引",
@@ -1687,10 +1693,7 @@
     },
     "replicas": {
       "title": "副本",
-      "description": "修改所选索引的副本数量。",
-      "keywords": "冗余 单节点 副本数 replica count",
       "count": "副本数",
-      "status": "按索引配置",
       "status_single_node": "{count} 个索引的副本无法分配",
       "single_node": "该集群只有一个数据节点，因此 {count} 个索引的副本无法分配。",
       "set_zero": "设为 0 个副本",
@@ -1701,12 +1704,9 @@
     },
     "refresh": {
       "title": "刷新间隔",
-      "description": "新文档多快可以被搜索到。",
-      "keywords": "刷新 间隔 搜索 可见性 批量写入 refresh interval bulk",
       "interval": "刷新间隔",
       "custom": "自定义",
       "custom_hint": "时间值，例如 500ms 或 2m。",
-      "status_mixed": "不一致",
       "disabled_warning": "在手动刷新索引之前，新文档无法被搜索到。",
       "confirm": "将 {count} 个索引的刷新间隔设为 {value}？",
       "updated": "已更新 {count} 个索引的刷新间隔。"
@@ -1791,29 +1791,101 @@
       }
     },
     "voting": {
-      "title": "投票排除",
-      "description": "为移除可选主节点做准备。",
-      "keywords": "投票 配置 排除 可选主节点 拓扑 移除 voting",
-      "explanation": "仅在一次移除一半或更多可选主节点时才需要。",
-      "nodes": "可选主节点",
-      "add": "添加排除",
-      "clear": "清除排除",
-      "status": "{count} 个生效中",
-      "status_none": "无",
-      "confirm_add": "将 {count} 个节点排除在投票之外？",
-      "confirm_clear": "清除所有投票排除？Elasticsearch 会等待被排除的节点离开集群。",
       "added": "已添加投票排除。",
       "cleared": "已清除投票排除。"
     },
-    "awareness": {
-      "title": "分配感知",
-      "description": "用于分散分片副本的可用区或机架属性。",
-      "keywords": "可用区 机架 属性 故障域 awareness zone rack",
-      "status": "{count} 个属性",
-      "status_none": "未配置",
-      "values": "节点取值：{values}",
-      "forced": "强制取值：{values}",
-      "hint": "属性在每个节点上配置，无法在此修改。"
+    "awareness": {},
+    "steps": {
+      "continue": "继续",
+      "back": "返回",
+      "skip": "跳过",
+      "verify": "检查结果"
+    },
+    "unassigned": {
+      "title": "修复未分配分片",
+      "description": "找出分片未分配的原因，修复后等待其恢复。",
+      "keywords": "未分配 解释 分配 重试 黄色 红色 副本",
+      "found": "未分配分片：{count}，其中主分片 {primaries} 个。",
+      "allocation_limited": "分片分配被设置为“{mode}”。这很可能就是原因。",
+      "single_node": "此集群只有一个数据节点，因此副本分片永远无法分配。",
+      "recommended": "推荐",
+      "no_fix": "此处无法修复这个原因。请查看解释中的决策，常见原因包括磁盘水位线、分配过滤器或缺失的节点。",
+      "resolved": "所有分片均已分配。之前未分配的数量：{before}。",
+      "remaining": "未分配分片：{now}（之前：{before}）。初始化中：{initializing}。每隔几秒重新检查一次。",
+      "investigate_again": "重新排查",
+      "steps": {
+        "check": "检查集群",
+        "explain": "解释分片",
+        "fix": "修复原因",
+        "verify": "等待恢复"
+      },
+      "remedies": {
+        "enable_allocation": {
+          "title": "启用分片分配",
+          "text": "允许 Elasticsearch 重新分配所有分片。",
+          "action": "启用"
+        },
+        "zero_replicas": {
+          "title": "移除副本"
+        }
+      }
+    },
+    "restart": {
+      "title": "滚动重启",
+      "description": "逐个重启节点，而不迁移分片。",
+      "keywords": "重启 升级 维护 flush 分配 主分片",
+      "status": "每次一个节点",
+      "status_paused": "副本分配已暂停",
+      "explanation": "逐个重启节点，例如用于升级或配置变更。对每个节点重复这些步骤。",
+      "not_green": "集群不是绿色。现在重启节点可能导致数据不可用。",
+      "disable_explanation": "只会分配主分片。节点停机期间，Elasticsearch 不会将副本复制到其他节点。",
+      "disable": "暂停副本分配",
+      "confirm_disable": "暂停副本分配？重启后请记得重新启用。",
+      "flush_explanation": "Flush 会把所有已索引的数据写入磁盘，使分片在重启后更快恢复。",
+      "flush": "Flush 所有索引",
+      "flushed": "所有索引已 flush。",
+      "restart_explanation": "现在重启一个节点。待其重新加入集群后继续。",
+      "nodes": "集群中的节点：{now} / {expected}。",
+      "waiting_for_node": "正在等待节点重新加入集群。",
+      "node_back": "节点已恢复",
+      "enable_explanation": "允许 Elasticsearch 重新分配副本，使重启的节点取回其分片。",
+      "enable": "启用分配",
+      "done": "集群为绿色。可以重启下一个节点。",
+      "recovering": "集群健康状态：{status}。初始化中：{initializing}，未分配：{unassigned}。每隔几秒重新检查一次。",
+      "next_node": "重启下一个节点",
+      "steps": {
+        "check": "检查集群健康状态",
+        "disable": "暂停副本分配",
+        "flush": "Flush 索引（可选）",
+        "restart": "重启节点",
+        "enable": "重新启用分配",
+        "verify": "等待变为绿色"
+      }
+    },
+    "writes": {
+      "title": "恢复索引写入",
+      "description": "查找并清除拒绝写入集群或索引的阻塞。",
+      "keywords": "只读 阻塞 写入 洪水水位 集群阻塞",
+      "status": "阻塞：{count}",
+      "none": "没有写入阻塞",
+      "cluster_blocked": "整个集群处于“{mode}”。",
+      "cluster_explanation": "集群阻塞会拒绝对所有索引的写入，无论索引设置如何。",
+      "clear_cluster": "使集群可写",
+      "confirm_clear_cluster": "移除集群写入阻塞？",
+      "resolved": "集群和所有用户索引已重新接受写入。",
+      "remaining": "以下阻塞仍然有效：",
+      "steps": {
+        "check": "查找写入阻塞",
+        "clear": "清除阻塞",
+        "verify": "检查写入是否正常"
+      }
+    },
+    "index_settings": {
+      "title": "索引设置",
+      "description": "修改多个索引的副本数或刷新间隔。",
+      "keywords": "副本 刷新间隔 冗余 批量索引 单节点",
+      "status": "副本和刷新间隔",
+      "steps": {}
     }
   },
   "update_check": {

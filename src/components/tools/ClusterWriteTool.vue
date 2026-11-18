@@ -5,7 +5,7 @@
   </q-banner>
   <q-option-group v-model="draft" type="radio" color="primary" :options="options" />
   <tool-setting-hint :settings="['cluster.blocks.read_only', 'cluster.blocks.read_only_allow_delete']" />
-  <q-btn color="primary" :label="t('tools.apply')" :disable="draft === clusterWriteMode" @click="apply" />
+  <q-btn color="primary-dark" :label="t('tools.apply')" :disable="draft === clusterWriteMode" @click="apply" />
 </template>
 
 <script setup lang="ts">

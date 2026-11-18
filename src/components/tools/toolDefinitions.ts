@@ -3,22 +3,19 @@ import { useTranslation } from '../../composables/i18n.ts'
 import type { ClusterTools } from '../../composables/components/tools/ClusterTools.ts'
 import { useToolLabels } from '../../composables/components/tools/ToolLabels.ts'
 import AllocationTool from './AllocationTool.vue'
-import DrainTool from './DrainTool.vue'
-import ExplainTool from './ExplainTool.vue'
-import RetryTool from './RetryTool.vue'
 import RebalancingTool from './RebalancingTool.vue'
-import BlocksTool from './BlocksTool.vue'
-import ReplicasTool from './ReplicasTool.vue'
-import RefreshTool from './RefreshTool.vue'
 import WatermarksTool from './WatermarksTool.vue'
 import RecoveryTool from './RecoveryTool.vue'
 import DestructiveTool from './DestructiveTool.vue'
 import AutoCreateTool from './AutoCreateTool.vue'
 import ClusterWriteTool from './ClusterWriteTool.vue'
-import VotingTool from './VotingTool.vue'
-import AwarenessTool from './AwarenessTool.vue'
+import UnassignedTool from './UnassignedTool.vue'
+import RemoveNodeTool from './RemoveNodeTool.vue'
+import RestartTool from './RestartTool.vue'
+import WritesTool from './WritesTool.vue'
+import IndexSettingsTool from './IndexSettingsTool.vue'
 
-export const TOOL_GROUPS = ['shards', 'indices', 'disk', 'safety', 'advanced'] as const
+export const TOOL_GROUPS = ['maintenance', 'settings'] as const
 
 export type ToolDefinition = {
   id: string
@@ -46,14 +43,6 @@ export const useToolDefinitions = (tools: ClusterTools) => {
     return count ? t('tools.status.unassigned', { count }, count) : t('tools.status.no_unassigned')
   }
 
-  const refreshStatus = () => {
-    const values = new Set(tools.userIndices.value.map((index) => index.refreshInterval || 'default'))
-    if (!values.size) return t('tools.status.no_user_indices')
-    if (values.size > 1) return t('tools.refresh.status_mixed')
-    const [value] = values
-    return value === 'default' ? t('tools.status.default') : value
-  }
-
   const autoCreateStatus = () => {
     const { source, effectiveValue } = tools.autoCreateSetting.value
     if (source === 'default') return t('tools.status.default')
@@ -63,118 +52,97 @@ export const useToolDefinitions = (tools: ClusterTools) => {
   }
 
   return computed<ToolDefinition[]>(() => {
+    const excludedCount = tools.excludedNodeIds.value.length
+    const blockedCount = tools.blockedUserIndices.value.length + (tools.clusterWriteMode.value === 'normal' ? 0 : 1)
+    const singleNodeCount = tools.singleNodeReplicaIndices.value.length
     const definitions: ToolDefinition[] = [
+      {
+        id: 'unassigned',
+        title: t('tools.unassigned.title'),
+        description: t('tools.unassigned.description'),
+        keywords: t('tools.unassigned.keywords'),
+        group: 'maintenance',
+        component: UnassignedTool,
+        endpoints: [
+          ...(tools.capabilities.allocationExplain ? ['GET /_cluster/allocation/explain'] : []),
+          ...CLUSTER_SETTINGS,
+          ...INDEX_SETTINGS,
+          ...(tools.capabilities.retryFailed ? ['POST /_cluster/reroute?retry_failed=true'] : [])
+        ],
+        status: unassignedStatus(),
+        attention: tools.unassignedCount.value > 0,
+        onOpen: tools.loadShards
+      },
+      {
+        id: 'remove_node',
+        title: t('tools.drain.title'),
+        description: t('tools.drain.description'),
+        keywords: t('tools.drain.keywords'),
+        group: 'maintenance',
+        component: RemoveNodeTool,
+        endpoints: [
+          ...CLUSTER_SETTINGS,
+          ...(tools.capabilities.votingExclusions
+            ? ['POST /_cluster/voting_config_exclusions', 'DELETE /_cluster/voting_config_exclusions']
+            : [])
+        ],
+        status: excludedCount
+          ? t('tools.drain.status_active', { count: excludedCount }, excludedCount)
+          : t('tools.drain.status_none'),
+        attention: excludedCount > 0,
+        onOpen: () => Promise.all([tools.loadNodes(), tools.loadShards(), tools.loadVotingExclusions()])
+      },
+      {
+        id: 'restart',
+        title: t('tools.restart.title'),
+        description: t('tools.restart.description'),
+        keywords: t('tools.restart.keywords'),
+        group: 'maintenance',
+        component: RestartTool,
+        endpoints: [...CLUSTER_SETTINGS, 'POST /_all/_flush'],
+        status: tools.allocationMode.value === 'primaries' ? t('tools.restart.status_paused') : t('tools.restart.status'),
+        attention: false
+      },
+      {
+        id: 'writes',
+        title: t('tools.writes.title'),
+        description: t('tools.writes.description'),
+        keywords: t('tools.writes.keywords'),
+        group: 'maintenance',
+        component: WritesTool,
+        endpoints: [...CLUSTER_SETTINGS, ...INDEX_SETTINGS],
+        status: blockedCount ? t('tools.writes.status', { count: blockedCount }, blockedCount) : t('tools.writes.none'),
+        attention: blockedCount > 0,
+        onOpen: tools.loadNodes
+      },
       {
         id: 'allocation',
         title: t('tools.allocation.title'),
         description: t('tools.allocation.description'),
         keywords: t('tools.allocation.keywords'),
-        group: 'shards',
+        group: 'settings',
         component: AllocationTool,
         endpoints: CLUSTER_SETTINGS,
         status: labels.allocationMode(tools.allocationMode.value),
         attention: tools.allocationMode.value !== 'all'
       },
       {
-        id: 'drain',
-        title: t('tools.drain.title'),
-        description: t('tools.drain.description'),
-        keywords: t('tools.drain.keywords'),
-        group: 'shards',
-        component: DrainTool,
-        endpoints: CLUSTER_SETTINGS,
-        status: tools.excludedNodeIds.value.length
-          ? t('tools.drain.status_active', { count: tools.excludedNodeIds.value.length }, tools.excludedNodeIds.value.length)
-          : t('tools.drain.status_none'),
-        attention: tools.excludedNodeIds.value.length > 0,
-        onOpen: tools.loadNodes
-      },
-      {
-        id: 'explain',
-        title: t('tools.explain.title'),
-        description: t('tools.explain.description'),
-        keywords: t('tools.explain.keywords'),
-        group: 'shards',
-        component: ExplainTool,
-        endpoints: [],
-        status: unassignedStatus(),
-        attention: tools.unassignedCount.value > 0,
-        available: tools.capabilities.allocationExplain,
-        onOpen: tools.loadShards
-      },
-      {
-        id: 'retry',
-        title: t('tools.retry.title'),
-        description: t('tools.retry.description'),
-        keywords: t('tools.retry.keywords'),
-        group: 'shards',
-        component: RetryTool,
-        endpoints: ['POST /_cluster/reroute?retry_failed=true'],
-        status: unassignedStatus(),
-        attention: false,
-        available: tools.capabilities.retryFailed
-      },
-      {
         id: 'rebalancing',
         title: t('tools.rebalancing.title'),
         description: t('tools.rebalancing.description'),
         keywords: t('tools.rebalancing.keywords'),
-        group: 'shards',
+        group: 'settings',
         component: RebalancingTool,
         endpoints: CLUSTER_SETTINGS,
         status: labels.rebalancingMode(tools.rebalancingMode.value),
         attention: tools.rebalancingMode.value !== 'all'
       },
       {
-        id: 'blocks',
-        title: t('tools.blocks.title'),
-        description: t('tools.blocks.description'),
-        keywords: t('tools.blocks.keywords'),
-        group: 'indices',
-        component: BlocksTool,
-        endpoints: INDEX_SETTINGS,
-        status: tools.blockedUserIndices.value.length
-          ? t('tools.blocks.status', { count: tools.blockedUserIndices.value.length }, tools.blockedUserIndices.value.length)
-          : t('tools.blocks.status_none'),
-        attention: tools.blockedUserIndices.value.length > 0,
-        onOpen: () => Promise.all([tools.loadIndices(), tools.loadNodes()])
-      },
-      {
-        id: 'replicas',
-        title: t('tools.replicas.title'),
-        description: t('tools.replicas.description'),
-        keywords: t('tools.replicas.keywords'),
-        group: 'indices',
-        component: ReplicasTool,
-        endpoints: INDEX_SETTINGS,
-        status: tools.singleNodeReplicaIndices.value.length
-          ? t(
-              'tools.replicas.status_single_node',
-              { count: tools.singleNodeReplicaIndices.value.length },
-              tools.singleNodeReplicaIndices.value.length
-            )
-          : t('tools.replicas.status'),
-        attention: tools.singleNodeReplicaIndices.value.length > 0,
-        onOpen: tools.loadIndices
-      },
-      {
-        id: 'refresh',
-        title: t('tools.refresh.title'),
-        description: t('tools.refresh.description'),
-        keywords: t('tools.refresh.keywords'),
-        group: 'indices',
-        component: RefreshTool,
-        endpoints: INDEX_SETTINGS,
-        status: refreshStatus(),
-        attention: tools.userIndices.value.some((index) => index.refreshInterval === '-1'),
-        onOpen: tools.loadIndices
-      },
-      {
         id: 'watermarks',
         title: t('tools.watermarks.title'),
         description: t('tools.watermarks.description'),
         keywords: t('tools.watermarks.keywords'),
-        group: 'disk',
+        group: 'settings',
         component: WatermarksTool,
         endpoints: CLUSTER_SETTINGS,
         status: tools.watermarksCustom.value ? t('tools.status.custom') : t('tools.status.default'),
@@ -186,18 +154,31 @@ export const useToolDefinitions = (tools: ClusterTools) => {
         title: t('tools.recovery.title'),
         description: t('tools.recovery.description'),
         keywords: t('tools.recovery.keywords'),
-        group: 'disk',
+        group: 'settings',
         component: RecoveryTool,
         endpoints: CLUSTER_SETTINGS,
         status: tools.recoverySetting.value.effectiveValue || t('tools.status.unavailable'),
         attention: false
       },
       {
+        id: 'index_settings',
+        title: t('tools.index_settings.title'),
+        description: t('tools.index_settings.description'),
+        keywords: t('tools.index_settings.keywords'),
+        group: 'settings',
+        component: IndexSettingsTool,
+        endpoints: INDEX_SETTINGS,
+        status: singleNodeCount
+          ? t('tools.replicas.status_single_node', { count: singleNodeCount }, singleNodeCount)
+          : t('tools.index_settings.status'),
+        attention: singleNodeCount > 0 || tools.userIndices.value.some((index) => index.refreshInterval === '-1')
+      },
+      {
         id: 'destructive',
         title: t('tools.destructive.title'),
         description: t('tools.destructive.description'),
         keywords: t('tools.destructive.keywords'),
-        group: 'safety',
+        group: 'settings',
         component: DestructiveTool,
         endpoints: CLUSTER_SETTINGS,
         status: tools.destructiveEnabled.value ? t('tools.status.enabled') : t('tools.status.disabled'),
@@ -208,7 +189,7 @@ export const useToolDefinitions = (tools: ClusterTools) => {
         title: t('tools.auto_create.title'),
         description: t('tools.auto_create.description'),
         keywords: t('tools.auto_create.keywords'),
-        group: 'safety',
+        group: 'settings',
         component: AutoCreateTool,
         endpoints: CLUSTER_SETTINGS,
         status: autoCreateStatus(),
@@ -219,40 +200,11 @@ export const useToolDefinitions = (tools: ClusterTools) => {
         title: t('tools.cluster_write.title'),
         description: t('tools.cluster_write.description'),
         keywords: t('tools.cluster_write.keywords'),
-        group: 'advanced',
+        group: 'settings',
         component: ClusterWriteTool,
         endpoints: CLUSTER_SETTINGS,
         status: labels.clusterWriteMode(tools.clusterWriteMode.value),
         attention: tools.clusterWriteMode.value !== 'normal'
-      },
-      {
-        id: 'voting',
-        title: t('tools.voting.title'),
-        description: t('tools.voting.description'),
-        keywords: t('tools.voting.keywords'),
-        group: 'advanced',
-        component: VotingTool,
-        endpoints: ['POST /_cluster/voting_config_exclusions', 'DELETE /_cluster/voting_config_exclusions'],
-        status: tools.votingExclusions.value.length
-          ? t('tools.voting.status', { count: tools.votingExclusions.value.length })
-          : t('tools.voting.status_none'),
-        attention: tools.votingExclusions.value.length > 0,
-        available: tools.capabilities.votingExclusions,
-        onOpen: () => Promise.all([tools.loadVotingExclusions(), tools.loadNodes()])
-      },
-      {
-        id: 'awareness',
-        title: t('tools.awareness.title'),
-        description: t('tools.awareness.description'),
-        keywords: t('tools.awareness.keywords'),
-        group: 'advanced',
-        component: AwarenessTool,
-        endpoints: [],
-        status: tools.awarenessAttributes.value.length
-          ? t('tools.awareness.status', { count: tools.awarenessAttributes.value.length }, tools.awarenessAttributes.value.length)
-          : t('tools.awareness.status_none'),
-        attention: false,
-        onOpen: tools.loadNodes
       }
     ]
 
