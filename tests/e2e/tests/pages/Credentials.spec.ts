@@ -91,6 +91,31 @@ test.describe('credentials that are not saved', { tag: '@cross-browser' }, () =>
     await expect(credentialsCard(page)).toHaveCount(0)
   })
 
+  test('helps to open the cluster when it is unreachable, for example because of an untrusted certificate', async ({ page }) => {
+    await page.route(`${ES}/**`, (route) => route.abort('connectionrefused'))
+    await seedCluster(page, { authType: 'basicAuth', authData: { username: 'admin', password: '' }, secretStorage: 'session' })
+
+    await page.goto(`${APP}/cluster/secure`)
+    await credentialsInput(page, 'password').fill('pw')
+    await login(page)
+
+    await expect(credentialsCard(page).getByRole('link', { name: ES })).toHaveAttribute('href', ES)
+    await expect(page.getByTestId('cluster-connection-cors')).toHaveCount(0)
+  })
+
+  test('explains cors errors', async ({ page }) => {
+    await page.route(`${ES}/**`, (route) =>
+      route.request().headers().accept?.includes('application/json') ? route.abort('failed') : route.fulfill({ json: {} })
+    )
+    await seedCluster(page, { authType: 'basicAuth', authData: { username: 'admin', password: '' }, secretStorage: 'session' })
+
+    await page.goto(`${APP}/cluster/secure`)
+    await credentialsInput(page, 'password').fill('pw')
+    await login(page)
+
+    await expect(page.getByTestId('cluster-connection-cors')).toBeVisible()
+  })
+
   test('can log in with another username for the session only', async ({ page }) => {
     await mockSecuredElastic(page, (headers) => headers.authorization === basicHeader('admin', 'pw'))
     await seedCluster(page, {

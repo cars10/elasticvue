@@ -27,7 +27,15 @@
             </template>
           </custom-input>
 
-          <p v-if="errorMessage" class="q-mb-none text-negative" data-testid="cluster-credentials-error">{{ errorMessage }}</p>
+          <cluster-connection-errors
+            v-if="networkError"
+            :cluster="cluster"
+            :error-message="errorMessage"
+            :cors="networkError.cors"
+          />
+          <p v-else-if="errorMessage" class="q-mb-none text-negative" data-testid="cluster-credentials-error">
+            {{ errorMessage }}
+          </p>
         </q-card-section>
 
         <q-separator />
@@ -55,7 +63,9 @@ import { useClusterSession } from '../../store/clusterSession.ts'
 import { useSessionCredentials } from '../../store/sessionCredentials.ts'
 import { AuthFields, IDENTITY_FIELDS, pickFields, SECRET_FIELDS, withFields } from '../../helpers/auth.ts'
 import ElasticsearchAdapter from '../../services/ElasticsearchAdapter.ts'
+import { ClusterFailure, describeFailure } from '../../helpers/clusterFailure.ts'
 import CustomInput from '../shared/CustomInput.vue'
+import ClusterConnectionErrors from './ClusterConnectionErrors.vue'
 
 const t = useTranslation()
 const connectionStore = useConnectionStore()
@@ -89,6 +99,7 @@ const values = ref<AuthFields>(cluster.value ? pickFields(cluster.value.auth, ID
 const visible = ref(false)
 const loading = ref(false)
 const errorMessage = ref('')
+const networkError = ref<ClusterFailure | null>(null)
 
 const required = (val: string) => !!val || 'required'
 
@@ -99,10 +110,13 @@ const login = async () => {
   const entered = Object.fromEntries(fields.value.map(({ name }) => [name, values.value[name] || '']))
   loading.value = true
   errorMessage.value = ''
+  networkError.value = null
 
   try {
     await new ElasticsearchAdapter({ ...cluster.value, auth: withFields(cluster.value.auth, entered) }).test()
   } catch (e: any) {
+    const failure = await describeFailure(e, cluster.value.uri)
+    if (failure.status === 0) networkError.value = failure
     errorMessage.value = e.status ? `${e.status} ${e.statusText ?? ''}`.trim() : e.message || t('setup.cluster_credentials.error')
     return
   } finally {
