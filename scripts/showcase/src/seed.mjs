@@ -110,6 +110,52 @@ const seedProblems = async () => {
   await es(uri, 'orders-2025/_settings', { method: 'PUT', body: { 'index.blocks.write': true } })
 }
 
+const seedSnapshots = async () => {
+  const uri = CLUSTERS.staging.nodes[0]
+  console.log('  adding snapshots and a snapshot policy to staging')
+  await es(uri, '_snapshot/backups', { method: 'PUT', body: { type: 'fs', settings: { location: '/tmp/snapshots' } } })
+  for (const [name, indices] of [
+    ['nightly-1', 'movies,orders'],
+    ['nightly-2', 'logs-*'],
+    ['nightly-3', '*']
+  ]) {
+    await es(uri, `_snapshot/backups/${name}?wait_for_completion=true`, { method: 'PUT', body: { indices } })
+  }
+  await es(uri, '_slm/policy/nightly', {
+    method: 'PUT',
+    body: {
+      schedule: '0 30 1 * * ?',
+      name: '<nightly-{now/d}>',
+      repository: 'backups',
+      config: { indices: ['*'] },
+      retention: { expire_after: '30d', min_count: 5, max_count: 50 }
+    }
+  })
+}
+
+const ROLES = {
+  logs_reader: { indices: [{ names: ['logs-*'], privileges: ['read', 'view_index_metadata'] }] },
+  logs_writer: { cluster: ['monitor'], indices: [{ names: ['logs-*'], privileges: ['create_doc', 'auto_configure'] }] },
+  ops_admin: { cluster: ['monitor', 'manage'], indices: [{ names: ['*'], privileges: ['monitor', 'manage'] }] }
+}
+
+const USERS = {
+  'ava.berg': { full_name: 'Ava Berg', roles: ['ops_admin'] },
+  'noah.sato': { full_name: 'Noah Sato', roles: ['logs_reader', 'kibana_admin'] },
+  'mia.costa': { full_name: 'Mia Costa', roles: ['logs_reader'] },
+  'log-shipper': { roles: ['logs_writer'] },
+  grafana: { roles: ['logs_reader', 'monitoring_user'] }
+}
+
+const seedSecurity = async () => {
+  const uri = CLUSTERS.logging.nodes[0]
+  console.log('  adding users and roles to logging')
+  for (const [name, body] of Object.entries(ROLES)) await es(uri, `_security/role/${name}`, { method: 'PUT', body })
+  for (const [name, body] of Object.entries(USERS)) {
+    await es(uri, `_security/user/${name}`, { method: 'PUT', body: { password: 'showcase-password', ...body } })
+  }
+}
+
 export const seed = async () => {
   console.log('> seeding data')
   await Promise.all([
@@ -121,4 +167,6 @@ export const seed = async () => {
   await waitForGreen('production')
 
   await seedProblems()
+  await seedSnapshots()
+  await seedSecurity()
 }

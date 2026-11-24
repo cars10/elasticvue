@@ -1,15 +1,21 @@
 export const CLUSTERS = {
   production: { index: 0, nodes: ['http://es-production:9200', 'http://es-production-2:9200', 'http://es-production-3:9200'] },
   staging: { index: 1, nodes: ['http://es-staging:9200'] },
-  logging: { index: 2, nodes: ['http://es-logging:9200'] }
+  logging: { index: 2, nodes: ['http://es-logging:9200'], auth: { username: 'elastic', password: 'showcase' } }
 }
+
+const AUTHORIZATION = Object.fromEntries(
+  Object.values(CLUSTERS)
+    .filter(({ auth }) => auth)
+    .map(({ nodes, auth }) => [nodes[0], `Basic ${btoa(`${auth.username}:${auth.password}`)}`])
+)
 
 export const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
 export const es = async (uri, path, { method = 'GET', body, ndjson = false } = {}) => {
   const response = await fetch(`${uri}/${path}`, {
     method,
-    headers: { 'Content-Type': ndjson ? 'application/x-ndjson' : 'application/json' },
+    headers: { 'Content-Type': ndjson ? 'application/x-ndjson' : 'application/json', ...(AUTHORIZATION[uri] && { Authorization: AUTHORIZATION[uri] }) },
     body: ndjson || body === undefined ? body : JSON.stringify(body)
   })
   const json = await response.json()

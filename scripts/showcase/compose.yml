@@ -51,11 +51,21 @@ services:
       cluster.name: staging
       node.name: staging-1
       discovery.type: single-node
+      path.repo: /tmp/snapshots
 
   es-logging:
     <<: *elasticsearch
+    healthcheck:
+      test: curl -fs -u elastic:showcase "localhost:9200/_cluster/health?wait_for_status=green&timeout=1s"
+      interval: 5s
+      timeout: 5s
+      retries: 60
     environment:
       <<: *elasticsearch-env
+      ELASTIC_PASSWORD: showcase
+      xpack.security.enabled: "true"
+      xpack.security.http.ssl.enabled: "false"
+      xpack.security.transport.ssl.enabled: "false"
       cluster.name: logging
       node.name: logging-1
       discovery.type: single-node
@@ -70,7 +80,7 @@ services:
       ELASTICVUE_CLUSTERS: >-
         [{"name": "production", "uri": "http://es-production:9200"},
          {"name": "staging", "uri": "http://es-staging:9200"},
-         {"name": "logging", "uri": "http://es-logging:9200"}]
+         {"name": "logging", "uri": "http://es-logging:9200", "username": "elastic", "password": "showcase"}]
 
   recorder:
     build: .

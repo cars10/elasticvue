@@ -15,8 +15,20 @@ const PAGES = {
   },
   nodes: (page) => open(page, 'nodes'),
   shards: (page) => open(page, 'shards'),
-  indices: async (page) => {
+  'shard-recovery': async (page) => {
+    await open(page, 'shards/recovery')
+    await page.getByTestId('shard-recovery-table').locator('tbody tr').first().waitFor()
+  },
+  tasks: async (page) => {
+    await open(page, 'tasks')
+    await page.getByTestId('task-row').first().waitFor()
+  },
+  'indices-plain': async (page) => {
     await open(page, 'indices')
+    await indexRow(page, 'movies').waitFor()
+  },
+  indices: async (page) => {
+    await PAGES['indices-plain'](page)
     await settle(page)
     await indexRow(page, 'movies').getByTestId('index-row-menu').click()
   },
@@ -27,6 +39,19 @@ const PAGES = {
   },
   search: async (page) => {
     await open(page, 'search')
+    await page.getByTestId('search-result').first().waitFor()
+  },
+  'search-logs': async (page) => {
+    await open(page, 'search')
+    await page.evaluate((state) => localStorage.setItem('search-production', JSON.stringify(state)), {
+      targets: ['logs-*'],
+      q: '*',
+      timeRange: { from: 'now-24h', to: 'now-15m' },
+      pagination: { sortBy: '@timestamp', descending: true },
+      histogramCollapsed: false,
+      columnsByTarget: { 'logs-*': ['@timestamp', 'level', 'service', 'message', 'http.status', 'duration_ms'] }
+    })
+    await page.reload()
     await page.getByTestId('search-result').first().waitFor()
   },
   document: async (page) => {
@@ -45,11 +70,50 @@ const PAGES = {
     await page.getByRole('button', { name: t('query.rest.form.send_request') }).click()
     await response
   },
+  'index-templates': async (page) => {
+    await open(page, 'index_templates')
+    await page.getByTestId('index-templates-table').waitFor()
+  },
+  'snapshot-repositories': async (page) => {
+    await open(page, 'snapshot_repositories', 'staging')
+    await page.getByTestId('repository-policies').first().waitFor()
+  },
+  snapshots: async (page) => {
+    await open(page, 'snapshot_repositories/backups', 'staging')
+    await page.getByTestId('snapshots-pulse').waitFor()
+  },
+  users: async (page) => {
+    await open(page, 'users', 'logging')
+    await page.getByTestId('users-table').waitFor()
+  },
+  roles: async (page) => {
+    await open(page, 'roles', 'logging')
+    await page.getByTestId('roles-table').waitFor()
+  },
   tools: (page) => open(page, 'tools'),
   settings: (page) => open(page, 'settings')
 }
 
-const WEBSITE_PAGES = ['home', 'clusters', 'nodes', 'shards', 'indices', 'index-aliases', 'search', 'document', 'rest', 'tools', 'settings']
+const WEBSITE_PAGES = [
+  'home',
+  'clusters',
+  'nodes',
+  'shards',
+  'shard-recovery',
+  'indices',
+  'index-aliases',
+  'index-templates',
+  'search',
+  'document',
+  'rest',
+  'tasks',
+  'tools',
+  'snapshot-repositories',
+  'snapshots',
+  'users',
+  'roles',
+  'settings'
+]
 const website = (theme) => ({
   dir: 'website',
   viewport: { width: 1920, height: 1080 },
@@ -64,9 +128,9 @@ export const SCREENSHOTS = {
       viewport: { width: 1280, height: 800 },
       shots: [
         ['home', 'light'],
-        ['shards', 'dark'],
-        ['indices', 'dark'],
-        ['search', 'dark'],
+        ['search-logs', 'dark'],
+        ['tasks', 'dark'],
+        ['indices-plain', 'dark'],
         ['rest', 'dark']
       ].map(([name, theme], i) => ({ name, theme, file: `ext-${i + 1}-${name}.png` }))
     }
